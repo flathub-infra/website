@@ -198,14 +198,18 @@ def update_apps():
 
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
 @app.get("/v1/apps")
-def list_apps_summary(index="apps:index", appids=None):
+def list_apps_summary(index="apps:index", appids=None, sort=True):
     if not appids:
         appids = redis_conn.smembers(index)
         if not appids:
             return []
 
     apps = redis_conn.mget(appids)
-    ret = [get_app_summary(json.loads(app)) for app in sorted(apps)]
+
+    if sort:
+        apps.sort()
+
+    ret = [get_app_summary(json.loads(app)) for app in apps]
 
     return ret
 
