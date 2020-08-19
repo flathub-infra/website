@@ -1,0 +1,14 @@
+version: "2"
+services:
+  redis:
+    image: redislabs/redisearch:1.6.13
+    ports:
+      - "6379"
+
+  backend:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8080"
+    links:
+      - redis:redis
