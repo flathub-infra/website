@@ -92,12 +92,20 @@ def load_appstream():
         for appid in apps:
             redis_key = f"apps:{appid}"
 
+            search_description = cleanhtml(apps[appid]["description"])
+
+            if search_keywords := apps[appid].get("keywords"):
+                search_keywords = " ".join(search_keywords)
+            else:
+                search_keywords = ""
+
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
             redis_search.add_document(
                 f"fts:{appid}",
                 name=apps[appid]["name"],
                 summary=apps[appid]["summary"],
-                description=cleanhtml(apps[appid]["description"]),
+                description=search_description,
+                keywords=search_keywords,
                 replace=True,
             )
 
@@ -170,7 +178,8 @@ def startup_event():
                 [
                     redisearch.TextField("name"),
                     redisearch.TextField("summary"),
-                    redisearch.TextField("description"),
+                    redisearch.TextField("description", 0.2),
+                    redisearch.TextField("keywords"),
                 ]
             )
         except:
