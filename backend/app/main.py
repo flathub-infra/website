@@ -1,11 +1,16 @@
 import re
 import json
 from datetime import datetime
+import struct
 import time
 
 import redis
 import redisearch
-from fastapi import BackgroundTasks, FastAPI
+from fastapi import FastAPI
+
+import gi
+gi.require_version('OSTree', '1.0')
+from gi.repository import OSTree, Gio, GLib
 
 import utils
 
@@ -19,6 +24,12 @@ def cleanhtml(text):
     cleantext = re.sub(clean_re, '', text)
     return cleantext
 
+
+def get_json_key(key):
+    if key := redis_conn.get(key):
+        return json.loads(key)
+
+    return None
 
 def get_icon_path(app):
     appid = app["id"]
@@ -67,20 +78,7 @@ def get_app_summary(app):
     return short_app
 
 
-@app.on_event("startup")
-def startup_event():
-    apps = redis_conn.smembers("apps:index")
-    if not apps:
-        try:
-            redis_search.create_index([redisearch.TextField('name'), redisearch.TextField('summary'), redisearch.TextField('description')])
-        except:
-            pass
-
-        load_appstream()
-
-
-@app.post("/v1/apps/update")
-def load_appstream(background_tasks: BackgroundTasks):
+def load_appstream():
     apps = utils.appstream2dict("repo")
 
     current_apps = redis_conn.smembers("apps:index")
@@ -109,9 +107,62 @@ def load_appstream(background_tasks: BackgroundTasks):
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
 
-    background_tasks.add_task(populate_build_dates, list(apps.keys()))
+    return list(apps.keys())
 
-    return len(apps)
+
+def populate_build_dates(appids):
+    recently_updated = {}
+
+    repo_file = Gio.File.new_for_path("/var/home/bpiotrowski/.local/share/flatpak/repo/")
+    repo = OSTree.Repo.new(repo_file)
+    repo.open(None)
+
+    status, summary, signatures = repo.remote_fetch_summary("flathub", None)
+    data = GLib.Variant.new_from_bytes(GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary, True)
+
+    refs, summmary_info = data.unpack()
+
+    for ref, (_, _, info) in refs:
+        if not ref.startswith("app/"):
+            continue
+
+        reftype, appid, arch, branch = ref.split('/')
+
+        if appid not in appids:
+            continue
+
+        if arch != 'x86_64' or branch != 'stable':
+            continue
+
+        timestamp = struct.pack('<Q', info['ostree.commit.timestamp'])
+        timestamp = struct.unpack('>Q', timestamp)[0]
+
+        recently_updated[appid] = timestamp
+
+    redis_conn.zadd("recently_updated_zset", recently_updated)
+    redis_conn.mset({f"recently_updated:{appid}": recently_updated[appid] for appid in recently_updated})
+
+    return len(recently_updated)
+
+
+@app.on_event("startup")
+def startup_event():
+    apps = redis_conn.smembers("apps:index")
+    if not apps:
+        try:
+            redis_search.create_index([redisearch.TextField('name'), redisearch.TextField('summary'), redisearch.TextField('description')])
+        except:
+            pass
+
+        update_apps()
+
+
+@app.post("/v1/apps/update")
+def update_apps():
+    appids = load_appstream()
+    populate_build_dates(appids)
+
+    return len(appids)
 
 
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
@@ -135,7 +186,7 @@ def list_apps_in_category(category: str):
 
 @app.get("/v1/apps/{appid}")
 def get_app(appid: str):
-    app = redis_conn.get(f"apps:{appid}")
+    app = get_json_key(f"apps:{appid}")
     if not app:
         return []
 
@@ -182,6 +233,7 @@ def get_app(appid: str):
         "iconDesktopUrl": icon_path,
         "iconMobileUrl": icon_path,
         "screenshots": screenshots,
+        "updatedAt": redis_conn.get(f"recently_updated:{appid}"),
     }
 
     return legacy_app
@@ -189,7 +241,7 @@ def get_app(appid: str):
 
 @app.get("/v1/appstream/{appid}")
 def get_appid_appstream(appid: str, repo: str = "stable"):
-    app = redis_conn.get(f"apps:{appid}")
+    app = get_json_key(f"apps:{appid}")
     if not app:
         return []
 
@@ -206,45 +258,9 @@ def search(userquery: str):
     return ret
 
 
-@app.get("/v1/flatpak/info/{appid}")
-def flatpak_info(appid: str):
-    flatpak = utils.Flatpak()
-    return flatpak.remote_info(appid)
-
-
 @app.get("/v1/apps/collection/recently-updated")
 @app.get("/v1/apps/collection/recently-updated/{limit}")
 def get_recently_updated(limit=100):
-    apps = redis_conn.zrevrange("recently_updated", 0, limit)
+    apps = redis_conn.zrevrange("recently_updated_zset", 0, limit)
     ret = list_apps_summary(appids=[f"apps:{appid}" for appid in apps])
     return ret
-
-
-# TODO: rework to celery/redis queue?
-# single remote-info fetch takes between 0.8-1.2s, it might be too long for
-# fastapi's background tasks
-# TODO: locking
-def populate_build_dates(appids: list):
-    flatpak = utils.Flatpak()
-    appids = [appid.split(':')[1] for appid in redis_conn.smembers("apps:index")]
-
-    recently_updated = {}
-
-    for appid in appids:
-        date_key = f"flatpak:{appid}:date"
-        commit_key = f"flatpak:{appid}:commit"
-
-        if stored_commit := redis_conn.get(commit_key):
-            remote_commit = flatpak.show_commit(appid)
-
-            if stored_commit == remote_commit:
-                continue
-
-        remote_info = flatpak.remote_info(appid)
-        date = datetime.strptime(remote_info["Date"], "%Y-%m-%d %H:%M:%S %z")
-        timestamp = int(time.mktime(date.timetuple()))
-        redis_conn.mset({date_key: timestamp, commit_key: remote_info["Commit"]})
-
-        recently_updated[appid] = timestamp
-
-    redis_conn.zadd("recently_updated", recently_updated)
