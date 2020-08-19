@@ -4,13 +4,31 @@ import xml.etree.ElementTree as ET
 
 import requests
 
+
 class Flatpak:
     def __init__(self):
-        remote_add_cmd = ['flatpak', '--user', 'remote-add', '--if-not-exists', 'flathub', 'https://flathub.org/repo/flathub.flatpakrepo']
-        subprocess.run(remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        remote_add_cmd = [
+            "flatpak",
+            "--user",
+            "remote-add",
+            "--if-not-exists",
+            "flathub",
+            "https://flathub.org/repo/flathub.flatpakrepo",
+        ]
+        subprocess.run(
+            remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
 
-        update_cache_cmd = ["flatpak", "--user", "remote-info", "flathub", "org.freedesktop.Sdk//19.08"]
-        subprocess.run(update_cache_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        update_cache_cmd = [
+            "flatpak",
+            "--user",
+            "remote-info",
+            "flathub",
+            "org.freedesktop.Sdk//19.08",
+        ]
+        subprocess.run(
+            update_cache_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
 
     def remote_info(self, appid):
         command = ["flatpak", "remote-info", "--user", "flathub", appid]
@@ -19,28 +37,38 @@ class Flatpak:
         if remote_info.returncode != 0:
             return None
 
-        output = remote_info.stdout.decode('utf-8').replace('\xa0', ' ')
+        output = remote_info.stdout.decode("utf-8").replace("\xa0", " ")
 
         info = {}
-        for line in output.split('\n'):
-            if ': ' in line:
-                key, value = line.split(': ', 1)
+        for line in output.split("\n"):
+            if ": " in line:
+                key, value = line.split(": ", 1)
                 info[key.lstrip()] = value.rstrip()
 
         return info
 
     def show_commit(self, appid):
-        command = ["flatpak", "--user", "remote-info", "--cached", "--show-commit", "flathub", appid]
+        command = [
+            "flatpak",
+            "--user",
+            "remote-info",
+            "--cached",
+            "--show-commit",
+            "flathub",
+            appid,
+        ]
         show_commit = subprocess.run(command, stdout=subprocess.PIPE)
 
         if show_commit.returncode != 0:
             return None
 
-        return show_commit.stdout.decode('utf-8').rstrip()
+        return show_commit.stdout.decode("utf-8").rstrip()
 
 
 def appstream2dict(reponame: str):
-    appstream_url = f"https://hub.flathub.org/{reponame}/appstream/x86_64/appstream.xml.gz"
+    appstream_url = (
+        f"https://hub.flathub.org/{reponame}/appstream/x86_64/appstream.xml.gz"
+    )
     r = requests.get(appstream_url, stream=True)
 
     appstream = gzip.decompress(r.raw.data)

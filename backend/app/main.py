@@ -9,7 +9,8 @@ import redisearch
 from fastapi import FastAPI
 
 import gi
-gi.require_version('OSTree', '1.0')
+
+gi.require_version("OSTree", "1.0")
 from gi.repository import OSTree, Gio, GLib
 
 import utils
@@ -20,8 +21,8 @@ redis_search = redisearch.Client("apps_search", conn=redis_conn)
 
 
 def cleanhtml(text):
-    clean_re = re.compile('<.*?>')
-    cleantext = re.sub(clean_re, '', text)
+    clean_re = re.compile("<.*?>")
+    cleantext = re.sub(clean_re, "", text)
     return cleantext
 
 
@@ -30,6 +31,7 @@ def get_json_key(key):
         return json.loads(key)
 
     return None
+
 
 def get_icon_path(app):
     appid = app["id"]
@@ -66,13 +68,13 @@ def get_app_summary(app):
     icon_path = get_icon_path(app)
 
     short_app = {
-                "flatpakAppId": appid,
-                "name": app["name"],
-                "summary": app["summary"],
-                "currentReleaseVersion": release.get("version"),
-                "currentReleaseDate:": release.get("timestamp"),
-                "iconDesktopUrl": icon_path,
-                "iconMobileUrl": icon_path,
+        "flatpakAppId": appid,
+        "name": app["name"],
+        "summary": app["summary"],
+        "currentReleaseVersion": release.get("version"),
+        "currentReleaseDate:": release.get("timestamp"),
+        "iconDesktopUrl": icon_path,
+        "iconMobileUrl": icon_path,
     }
 
     return short_app
@@ -91,13 +93,18 @@ def load_appstream():
             redis_key = f"apps:{appid}"
 
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
-            redis_search.add_document(f"fts:{appid}", name=apps[appid]["name"], summary=apps[appid]["summary"], description=cleanhtml(apps[appid]["description"]), replace=True)
+            redis_search.add_document(
+                f"fts:{appid}",
+                name=apps[appid]["name"],
+                summary=apps[appid]["summary"],
+                description=cleanhtml(apps[appid]["description"]),
+                replace=True,
+            )
 
             if categories := apps[appid].get("categories"):
                 for category in categories:
                     p.sadd("categories:index", category)
                     p.sadd(f"categories:{category}", redis_key)
-
 
         for appid in current_apps - set(apps):
             p.delete(f"apps:{appid}", f"fts:{appid}")
@@ -113,12 +120,16 @@ def load_appstream():
 def populate_build_dates(appids):
     recently_updated = {}
 
-    repo_file = Gio.File.new_for_path("/var/home/bpiotrowski/.local/share/flatpak/repo/")
+    repo_file = Gio.File.new_for_path(
+        "/var/home/bpiotrowski/.local/share/flatpak/repo/"
+    )
     repo = OSTree.Repo.new(repo_file)
     repo.open(None)
 
     status, summary, signatures = repo.remote_fetch_summary("flathub", None)
-    data = GLib.Variant.new_from_bytes(GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary, True)
+    data = GLib.Variant.new_from_bytes(
+        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary, True
+    )
 
     refs, summmary_info = data.unpack()
 
@@ -126,21 +137,26 @@ def populate_build_dates(appids):
         if not ref.startswith("app/"):
             continue
 
-        reftype, appid, arch, branch = ref.split('/')
+        reftype, appid, arch, branch = ref.split("/")
 
         if appid not in appids:
             continue
 
-        if arch != 'x86_64' or branch != 'stable':
+        if arch != "x86_64" or branch != "stable":
             continue
 
-        timestamp = struct.pack('<Q', info['ostree.commit.timestamp'])
-        timestamp = struct.unpack('>Q', timestamp)[0]
+        timestamp = struct.pack("<Q", info["ostree.commit.timestamp"])
+        timestamp = struct.unpack(">Q", timestamp)[0]
 
         recently_updated[appid] = timestamp
 
     redis_conn.zadd("recently_updated_zset", recently_updated)
-    redis_conn.mset({f"recently_updated:{appid}": recently_updated[appid] for appid in recently_updated})
+    redis_conn.mset(
+        {
+            f"recently_updated:{appid}": recently_updated[appid]
+            for appid in recently_updated
+        }
+    )
 
     return len(recently_updated)
 
@@ -150,7 +166,13 @@ def startup_event():
     apps = redis_conn.smembers("apps:index")
     if not apps:
         try:
-            redis_search.create_index([redisearch.TextField('name'), redisearch.TextField('summary'), redisearch.TextField('description')])
+            redis_search.create_index(
+                [
+                    redisearch.TextField("name"),
+                    redisearch.TextField("summary"),
+                    redisearch.TextField("description"),
+                ]
+            )
         except:
             pass
 
@@ -191,18 +213,18 @@ def get_app(appid: str):
         return []
 
     screenshot_sizes = {
-            "desktop": "752x423",
-            "mobile": "624x351",
-            "thumbnail": "224x126",
+        "desktop": "752x423",
+        "mobile": "624x351",
+        "thumbnail": "224x126",
     }
     screenshots = []
     for screenshot in app["screenshots"]:
         screenshots.append(
-                {
-                    "thumbUrl": screenshot[screenshot_sizes["thumbnail"]],
-                    "imgMobileUrl": screenshot[screenshot_sizes["mobile"]],
-                    "imgDesktopUrl": screenshot[screenshot_sizes["desktop"]],
-                }
+            {
+                "thumbUrl": screenshot[screenshot_sizes["thumbnail"]],
+                "imgMobileUrl": screenshot[screenshot_sizes["mobile"]],
+                "imgDesktopUrl": screenshot[screenshot_sizes["desktop"]],
+            }
         )
 
     icon_path = get_icon_path(app)
