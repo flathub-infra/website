@@ -290,18 +290,27 @@ def get_appid_appstream(appid: str, repo: str = "stable"):
     return app
 
 
-# TODO: search separately in the name field for direct hits
 @app.get("/v1/apps/search/{userquery}")
 def search(userquery: str):
     # TODO: figure out how to escape dashes
     # "D-Feet" seems to be interpreted as "d and not feet"
     userquery = userquery.replace("-", " ")
 
-    # TODO: should input be sanitized here?
-    query = redisearch.Query(userquery).no_content()
+    results = set()
 
-    results = redis_search.search(query)
-    appids = (doc.id.replace("fts", "apps") for doc in results.docs)
+    # TODO: should input be sanitized here?
+    name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
+    generic_query = redisearch.Query(userquery).no_content()
+
+    search_results = redis_search.search(name_query)
+    for doc in search_results.docs:
+        results.add(doc.id)
+
+    search_results = redis_search.search(generic_query)
+    for doc in search_results.docs:
+        results.add(doc.id)
+
+    appids = (doc_id.replace("fts", "apps") for doc_id in results)
 
     ret = list_apps_summary(appids=appids, sort=False)
     return ret
