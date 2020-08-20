@@ -197,6 +197,7 @@ def startup_event():
 def update_apps():
     appids = load_appstream()
     populate_build_dates(appids)
+    list_apps_summary.cache_clear()
 
     return len(appids)
 
