@@ -1,8 +1,9 @@
-import re
 import json
-from datetime import datetime
+import re
 import struct
 import time
+from datetime import datetime
+from functools import lru_cache
 
 import redis
 import redisearch
@@ -201,6 +202,7 @@ def update_apps():
 
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
 @app.get("/v1/apps")
+@lru_cache()
 def list_apps_summary(index="apps:index", appids=None, sort=True):
     if not appids:
         appids = redis_conn.smembers(index)
