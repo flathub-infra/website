@@ -9,6 +9,8 @@ services:
     build:
       dockerfile: Dockerfile
     ports:
-      - "8080"
+      - "8000"
     links:
       - redis:redis
+    volumes:
+      - /var/lib/flatpak

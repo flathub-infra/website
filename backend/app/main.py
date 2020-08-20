@@ -13,10 +13,15 @@ import gi
 gi.require_version("OSTree", "1.0")
 from gi.repository import OSTree, Gio, GLib
 
+import config
 import utils
 
 app = FastAPI()
-redis_conn = redis.Redis(decode_responses=True)
+redis_conn = redis.Redis(
+    host=config.settings.redis_host,
+    port=config.settings.redis_port,
+    decode_responses=True,
+)
 redis_search = redisearch.Client("apps_search", conn=redis_conn)
 
 
@@ -128,9 +133,7 @@ def load_appstream():
 def populate_build_dates(appids):
     recently_updated = {}
 
-    repo_file = Gio.File.new_for_path(
-        "/var/home/bpiotrowski/.local/share/flatpak/repo/"
-    )
+    repo_file = Gio.File.new_for_path(config.settings.ostree_repo)
     repo = OSTree.Repo.new(repo_file)
     repo.open(None)
 
