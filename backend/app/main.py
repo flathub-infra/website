@@ -4,6 +4,7 @@ import struct
 import time
 from datetime import datetime
 from functools import lru_cache
+from typing import Tuple
 
 import redis
 import redisearch
@@ -203,7 +204,7 @@ def update_apps():
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
 @app.get("/v1/apps")
 @lru_cache()
-def list_apps_summary(index="apps:index", appids=None, sort=True):
+def list_apps_summary(index: str = "apps:index", appids: Tuple[str, ...] = None, sort: bool = True):
     if not appids:
         appids = redis_conn.smembers(index)
         if not appids:
@@ -299,7 +300,7 @@ def search(userquery: str):
     query = redisearch.Query(userquery).no_content()
 
     results = redis_search.search(query)
-    appids = [doc.id.replace("fts", "apps") for doc in results.docs]
+    appids = (doc.id.replace("fts", "apps") for doc in results.docs)
 
     ret = list_apps_summary(appids=appids, sort=False)
     return ret
@@ -309,5 +310,6 @@ def search(userquery: str):
 @app.get("/v1/apps/collection/recently-updated/{limit}")
 def get_recently_updated(limit=100):
     apps = redis_conn.zrevrange("recently_updated_zset", 0, limit)
-    ret = list_apps_summary(appids=[f"apps:{appid}" for appid in apps])
+    keys = (f"apps:{appid}" for appid in apps)
+    ret = list_apps_summary(appids=keys)
     return ret
