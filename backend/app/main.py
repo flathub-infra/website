@@ -1,6 +1,7 @@
 import json
 import re
 import struct
+import subprocess
 import time
 from datetime import datetime
 from functools import lru_cache
@@ -176,6 +177,18 @@ def populate_build_dates(appids):
 
 @app.on_event("startup")
 def startup_event():
+    remote_add_cmd = [
+        "flatpak",
+        "--user",
+        "remote-add",
+        "--if-not-exists",
+        "flathub",
+        "https://flathub.org/repo/flathub.flatpakrepo",
+    ]
+    subprocess.run(
+        remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+
     apps = redis_conn.smembers("apps:index")
     if not apps:
         try:
