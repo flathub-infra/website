@@ -296,7 +296,7 @@ def get_app(appid: str):
         "translateUrl": app.get("urls").get("translate"),
         "bugtrackerUrl": app.get("urls").get("bugtracker"),
         "categories": categories,
-        "downloadFlatpakRefUrl": f"/repo/appstream/{appid}.flatpakref",
+        "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{appid}.flatpakref",
         "currentReleaseVersion": release.get("version"),
         "currentReleaseDescription": release.get("description"),
         "iconDesktopUrl": icon_path,
