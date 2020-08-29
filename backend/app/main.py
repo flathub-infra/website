@@ -42,13 +42,14 @@ def get_json_key(key):
 
 
 def get_icon_path(app):
+    cdn_baseurl = "https://dl.flathub.org"
     appid = app["id"]
 
     if icons := app.get("icon"):
         if isinstance(icons, dict):
             if icons["type"] == "cached":
                 size = icons["height"]
-                icon_path = f"/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
+                icon_path = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
                 return icon_path
             else:
                 icon_path = icons["value"]
@@ -58,7 +59,7 @@ def get_icon_path(app):
         if cached_icons:
             cached_icons.sort()
             size = cached_icons[0]
-            icon_path = f"/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
+            icon_path = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
             return icon_path
 
         remote_icons = [icon for icon in icons if icon["type"] == "remote"]
