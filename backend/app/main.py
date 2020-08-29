@@ -70,18 +70,31 @@ def get_icon_path(app):
     return None
 
 
+def get_current_release_date(appid: str):
+    # The v1 API uses currentReleaseDate field to describe when the app
+    # has been updated in the Flathub repo. It's not related to appdata
+    # releases section.
+    if updated_at := redis_conn.get(f"recently_updated:{appid}"):
+        updated_at_ts = int(updated_at)
+    else:
+        return None
+
+    return datetime.utcfromtimestamp(updated_at_ts).strftime('%Y-%m-%d')
+
+
 def get_app_summary(app):
     appid = app["id"]
     release = app["releases"][0] if app.get("releases") else {}
 
     icon_path = get_icon_path(app)
+    updated_at = get_current_release_date(appid)
 
     short_app = {
         "flatpakAppId": appid,
         "name": app["name"],
         "summary": app["summary"],
         "currentReleaseVersion": release.get("version"),
-        "currentReleaseDate:": release.get("timestamp"),
+        "currentReleaseDate": updated_at,
         "iconDesktopUrl": icon_path,
         "iconMobileUrl": icon_path,
     }
@@ -269,6 +282,7 @@ def get_app(appid: str):
         categories = None
 
     release = app["releases"][0] if len(app["releases"]) else {}
+    updated_at = get_current_release_date(appid)
 
     legacy_app = {
         "flatpakAppId": appid,
@@ -288,7 +302,7 @@ def get_app(appid: str):
         "iconDesktopUrl": icon_path,
         "iconMobileUrl": icon_path,
         "screenshots": screenshots,
-        "currentReleaseDate": redis_conn.get(f"recently_updated:{appid}"),
+        "currentReleaseDate": updated_at,
     }
 
     return legacy_app
