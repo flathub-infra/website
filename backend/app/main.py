@@ -283,12 +283,11 @@ def get_app(appid: str):
         "categories": categories,
         "downloadFlatpakRefUrl": f"/repo/appstream/{appid}.flatpakref",
         "currentReleaseVersion": release.get("version"),
-        "currentReleaseDate:": release.get("timestamp"),
         "currentReleaseDescription": release.get("description"),
         "iconDesktopUrl": icon_path,
         "iconMobileUrl": icon_path,
         "screenshots": screenshots,
-        "updatedAt": redis_conn.get(f"recently_updated:{appid}"),
+        "currentReleaseDate": redis_conn.get(f"recently_updated:{appid}"),
     }
 
     return legacy_app
