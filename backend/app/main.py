@@ -225,6 +225,7 @@ def update_apps():
     appids = load_appstream()
     populate_build_dates(appids)
     list_apps_summary.cache_clear()
+    get_recently_updated.cache_clear()
 
     return len(appids)
 
