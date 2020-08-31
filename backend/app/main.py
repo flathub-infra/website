@@ -241,10 +241,10 @@ def list_apps_summary(index: str = "apps:index", appids: Tuple[str, ...] = None,
 
     apps = redis_conn.mget(appids)
 
-    if sort:
-        apps.sort()
-
     ret = [get_app_summary(json.loads(app)) for app in apps]
+
+    if sort:
+        ret = sorted(ret, key=lambda x: x['name'])
 
     return ret
 
