@@ -1,6 +1,6 @@
 import gzip
 import subprocess
-import xml.etree.ElementTree as ET
+from lxml import etree
 
 import requests
 
@@ -73,7 +73,7 @@ def appstream2dict(reponame: str):
 
     appstream = gzip.decompress(r.raw.data)
 
-    root = ET.fromstring(appstream)
+    root = etree.fromstring(appstream)
 
     apps = {}
 
@@ -90,7 +90,9 @@ def appstream2dict(reponame: str):
                 if len(desc.attrib) > 0:
                     continue
 
-                description = [ET.tostring(tag, encoding=("unicode")) for tag in desc]
+                description = [
+                    etree.tostring(tag, encoding=("unicode")) for tag in desc
+                ]
                 app["description"] = "".join(description)
                 break
 
@@ -120,7 +122,7 @@ def appstream2dict(reponame: str):
                 desc = rel.find("description")
                 if desc is not None:
                     description = [
-                        ET.tostring(tag, encoding=("unicode")) for tag in desc
+                        etree.tostring(tag, encoding=("unicode")) for tag in desc
                     ]
                     attrs["description"] = "".join(description)
 
