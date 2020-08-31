@@ -59,7 +59,9 @@ def get_icon_path(app):
         if cached_icons:
             cached_icons.sort()
             size = cached_icons[0]
-            icon_path = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
+            icon_path = (
+                f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
+            )
             return icon_path
 
         remote_icons = [icon for icon in icons if icon["type"] == "remote"]
@@ -79,7 +81,7 @@ def get_current_release_date(appid: str):
     else:
         return None
 
-    return datetime.utcfromtimestamp(updated_at_ts).strftime('%Y-%m-%d')
+    return datetime.utcfromtimestamp(updated_at_ts).strftime("%Y-%m-%d")
 
 
 def get_app_summary(app):
@@ -199,9 +201,7 @@ def startup_event():
         "flathub",
         "https://flathub.org/repo/flathub.flatpakrepo",
     ]
-    subprocess.run(
-        remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-    )
+    subprocess.run(remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     apps = redis_conn.smembers("apps:index")
     if not apps:
@@ -233,7 +233,9 @@ def update_apps():
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
 @app.get("/v1/apps")
 @lru_cache()
-def list_apps_summary(index: str = "apps:index", appids: Tuple[str, ...] = None, sort: bool = True):
+def list_apps_summary(
+    index: str = "apps:index", appids: Tuple[str, ...] = None, sort: bool = True
+):
     if not appids:
         appids = redis_conn.smembers(index)
         if not appids:
@@ -244,7 +246,7 @@ def list_apps_summary(index: str = "apps:index", appids: Tuple[str, ...] = None,
     ret = [get_app_summary(json.loads(app)) for app in apps]
 
     if sort:
-        ret = sorted(ret, key=lambda x: x['name'])
+        ret = sorted(ret, key=lambda x: x["name"])
 
     return ret
 
