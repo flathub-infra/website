@@ -323,7 +323,7 @@ def search(userquery: str):
     # "D-Feet" seems to be interpreted as "d and not feet"
     userquery = userquery.replace("-", " ")
 
-    results = set()
+    results = []
 
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
@@ -331,13 +331,14 @@ def search(userquery: str):
 
     search_results = redis_search.search(name_query)
     for doc in search_results.docs:
-        results.add(doc.id)
+        results.append(doc.id)
 
     search_results = redis_search.search(generic_query)
     for doc in search_results.docs:
-        results.add(doc.id)
+        results.append(doc.id)
 
-    appids = (doc_id.replace("fts", "apps") for doc_id in results)
+    results = list(dict.fromkeys(results))
+    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
 
     ret = list_apps_summary(appids=appids, sort=False)
     return ret
