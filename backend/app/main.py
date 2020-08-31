@@ -273,9 +273,9 @@ def get_app(appid: str):
         for screenshot in app_screenshots:
             screenshots.append(
                 {
-                    "thumbUrl": screenshot[screenshot_sizes["thumbnail"]],
-                    "imgMobileUrl": screenshot[screenshot_sizes["mobile"]],
-                    "imgDesktopUrl": screenshot[screenshot_sizes["desktop"]],
+                    "thumbUrl": screenshot.get(screenshot_sizes["thumbnail"]),
+                    "imgMobileUrl": screenshot.get(screenshot_sizes["mobile"]),
+                    "imgDesktopUrl": screenshot.get(screenshot_sizes["desktop"]),
                 }
             )
 
