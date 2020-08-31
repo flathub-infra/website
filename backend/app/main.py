@@ -265,15 +265,17 @@ def get_app(appid: str):
         "mobile": "624x351",
         "thumbnail": "224x126",
     }
+
     screenshots = []
-    for screenshot in app["screenshots"]:
-        screenshots.append(
-            {
-                "thumbUrl": screenshot[screenshot_sizes["thumbnail"]],
-                "imgMobileUrl": screenshot[screenshot_sizes["mobile"]],
-                "imgDesktopUrl": screenshot[screenshot_sizes["desktop"]],
-            }
-        )
+    if app_screenshots := app.get("screenshots"):
+        for screenshot in app_screenshots:
+            screenshots.append(
+                {
+                    "thumbUrl": screenshot[screenshot_sizes["thumbnail"]],
+                    "imgMobileUrl": screenshot[screenshot_sizes["mobile"]],
+                    "imgDesktopUrl": screenshot[screenshot_sizes["desktop"]],
+                }
+            )
 
     icon_path = get_icon_path(app)
 
