@@ -286,7 +286,10 @@ def get_app(appid: str):
     else:
         categories = None
 
-    release = app["releases"][0] if len(app["releases"]) else {}
+    release = {}
+    if app_releases := app.get("releases"):
+        release = app_releases[0] if len(app_releases) else {}
+
     updated_at = get_current_release_date(appid)
 
     legacy_app = {
