@@ -348,5 +348,5 @@ def search(userquery: str):
 def get_recently_updated(limit=100):
     apps = redis_conn.zrevrange("recently_updated_zset", 0, limit)
     keys = (f"apps:{appid}" for appid in apps)
-    ret = list_apps_summary(appids=keys)
+    ret = list_apps_summary(appids=keys, sort=False)
     return ret
