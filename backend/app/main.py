@@ -9,7 +9,8 @@ from typing import Tuple
 
 import redis
 import redisearch
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
+from feedgen.feed import FeedGenerator
 
 import gi
 
@@ -360,3 +361,57 @@ def get_recently_updated(limit: int = 100):
     keys = (f"apps:{appid}" for appid in apps)
     ret = list_apps_summary(appids=keys, sort=False)
     return ret
+
+
+@app.get("/v1/feed/recently-updated")
+def get_recently_updated_feed():
+    feed = FeedGenerator()
+    feed.title("Flathub – recently updated applications")
+    feed.description("Recently updated applications published on Flathub")
+    feed.link(href="https://flathub.org/apps/collection/recently-updated")
+    feed.language("en")
+
+    appids = redis_conn.zrevrange("recently_updated_zset", 0, 5)
+
+    apps = [get_json_key(f"apps:{appid}") for appid in appids]
+
+    for app in apps:
+        entry = feed.add_entry()
+        entry.title(app["name"])
+        entry.link(href=f"https://flathub.org/apps/details/{app['id']}")
+        entry.pubDate()
+
+        entry_date = get_current_release_date(app["id"], "%a, %d %b %Y %H:%M:%S")
+        entry.pubDate(f"{entry_date} UTC")
+
+        description = [
+            '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.png">'.format(
+                app["id"]
+            ),
+            f"<p>{app['summary']}</p>",
+            f"<p>{app['description']}</p>",
+            "<h3>Additional information:</h3>",
+            "<ul>",
+        ]
+
+        if developer_name := app.get("developer_name"):
+            description.append(f"<li>Developer: {developer_name}</li>")
+
+        if license := app.get("license"):
+            description.append(f"<li>License: {license}")
+
+        if app_releases := app.get("releases"):
+            release = app_releases[0] if len(app_releases) else None
+            if release:
+                description.append(f"<li>Version: {release['version']}")
+
+        description.append("</ul>")
+
+        for screenshot in app["screenshots"][0:3]:
+            if image := screenshot.get("624x351"):
+                description.append('<img src="{}">'.format(image))
+
+        entry.description("".join(description))
+
+    data = feed.rss_str()
+    return Response(content=data, media_type="application/rss+xml")
