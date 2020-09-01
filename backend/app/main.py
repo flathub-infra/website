@@ -72,7 +72,7 @@ def get_icon_path(app):
     return None
 
 
-def get_current_release_date(appid: str):
+def get_current_release_date(appid: str, template: str = "%Y-%m-%d"):
     # The v1 API uses currentReleaseDate field to describe when the app
     # has been updated in the Flathub repo. It's not related to appdata
     # releases section.
@@ -81,7 +81,7 @@ def get_current_release_date(appid: str):
     else:
         return None
 
-    return datetime.utcfromtimestamp(updated_at_ts).strftime("%Y-%m-%d")
+    return datetime.utcfromtimestamp(updated_at_ts).strftime(template)
 
 
 def get_app_summary(app):
