@@ -355,7 +355,7 @@ def search(userquery: str):
 @app.get("/v1/apps/collection/recently-updated")
 @app.get("/v1/apps/collection/recently-updated/{limit}")
 @lru_cache()
-def get_recently_updated(limit=100):
+def get_recently_updated(limit: int = 100):
     apps = redis_conn.zrevrange("recently_updated_zset", 0, limit)
     keys = (f"apps:{appid}" for appid in apps)
     ret = list_apps_summary(appids=keys, sort=False)
