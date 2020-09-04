@@ -7,6 +7,7 @@ from datetime import datetime
 from functools import lru_cache
 from typing import Tuple
 
+import requests
 import redis
 import redisearch
 from fastapi import FastAPI, Response
@@ -190,6 +191,60 @@ def populate_build_dates(appids):
     )
 
     return len(recently_updated)
+
+
+def run_query(variables):
+    headers = {}
+
+    query = """
+query getRepos($cursor: String) {
+  search(query: "org:flathub", type: REPOSITORY, first: 100, after: $cursor) {
+    edges {
+      node {
+        ... on Repository {
+          name
+          createdAt
+        }
+      }
+    }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+  }
+}
+"""
+
+    request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables': variables}, headers=headers)
+    if request.status_code == 200:
+        return request.json()
+    else:
+        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+
+
+def populate_creation_dates():
+    created_at = {}
+    variables = {"cursor": None}
+
+    while True:
+        ret = run_query(variables)
+        for repo in ret['data']['search']['edges']:
+            repo_name = repo['node']['name']
+            repo_created_at = repo['node']['createdAt']
+
+            if redis_conn.exists(f"apps:{repo_name}"):
+                dt = datetime.strptime(repo_created_at, "%Y-%m-%dT%H:%M:%SZ")
+                timestamp = int(datetime.timestamp(dt))
+                created_at[repo_name] = timestamp
+
+        pageinfo = ret['data']['search']['pageInfo']
+        if pageinfo['hasNextPage']:
+            variables = {"cursor": pageinfo['endCursor']}
+        else:
+            break
+
+    redis_conn.zadd("created_at_zset", created_at)
+    return len(created_at)
 
 
 @app.on_event("startup")
