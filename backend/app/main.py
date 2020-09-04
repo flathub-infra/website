@@ -418,16 +418,14 @@ def get_recently_updated(limit: int = 100):
     return ret
 
 
-@app.get("/v1/feed/recently-updated")
-def get_recently_updated_feed():
+def generate_feed(key: str, title: str, description: str, link: str):
     feed = FeedGenerator()
-    feed.title("Flathub – recently updated applications")
-    feed.description("Recently updated applications published on Flathub")
-    feed.link(href="https://flathub.org/apps/collection/recently-updated")
+    feed.title(title)
+    feed.description(description)
+    feed.link(href=link)
     feed.language("en")
 
-    appids = redis_conn.zrevrange("recently_updated_zset", 0, 5)
-
+    appids = redis_conn.zrevrange(key, 0, 10)
     apps = [get_json_key(f"apps:{appid}") for appid in appids]
 
     for app in apps:
@@ -439,7 +437,7 @@ def get_recently_updated_feed():
         entry_date = get_current_release_date(app["id"], "%a, %d %b %Y %H:%M:%S")
         entry.pubDate(f"{entry_date} UTC")
 
-        description = [
+        content = [
             '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.png">'.format(
                 app["id"]
             ),
@@ -450,23 +448,22 @@ def get_recently_updated_feed():
         ]
 
         if developer_name := app.get("developer_name"):
-            description.append(f"<li>Developer: {developer_name}</li>")
+            content.append(f"<li>Developer: {developer_name}</li>")
 
         if license := app.get("license"):
-            description.append(f"<li>License: {license}")
+            content.append(f"<li>License: {license}")
 
         if app_releases := app.get("releases"):
             release = app_releases[0] if len(app_releases) else None
             if release:
-                description.append(f"<li>Version: {release['version']}")
+                content.append(f"<li>Version: {release['version']}")
 
-        description.append("</ul>")
+        content.append("</ul>")
 
         for screenshot in app["screenshots"][0:3]:
             if image := screenshot.get("624x351"):
-                description.append('<img src="{}">'.format(image))
+                content.append('<img src="{}">'.format(image))
 
-        entry.description("".join(description))
+        entry.description("".join(content))
 
-    data = feed.rss_str()
-    return Response(content=data, media_type="application/rss+xml")
+    return feed.rss_str()
