@@ -467,3 +467,15 @@ def generate_feed(key: str, title: str, description: str, link: str):
         entry.description("".join(content))
 
     return feed.rss_str()
+
+
+@app.get("/v1/feed/recently-updated")
+def get_recently_updated_apps_feed():
+    feed = generate_feed("recently_updated_zset", "Flathub – recently updated applications", "Recently updated applications published on Flathub", "https://flathub.org/apps/collection/recently-updated")
+    return Response(content=feed, media_type="application/rss+xml")
+
+
+@app.get("/v1/feed/new")
+def get_new_apps_feed():
+    feed = generate_feed("created_at_zset", "Flathub – recently added applications", "Applications recently published on Flathub", "https://flathub.org/apps/collection/new")
+    return Response(content=feed, media_type="application/rss+xml")
