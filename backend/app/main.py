@@ -194,7 +194,7 @@ def populate_build_dates(appids):
 
 
 def run_query(variables):
-    headers = {}
+    headers = {"Authorization": f"token {config.settings.github_token}"}
 
     query = """
 query getRepos($cursor: String) {
