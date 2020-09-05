@@ -431,7 +431,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
     appids = redis_conn.zrevrange(key, 0, 10, withscores=True)
     apps = [(get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
 
-    for app, timestamp in apps:
+    for app, timestamp in reversed(apps):
         entry = feed.add_entry()
         entry.title(app["name"])
         entry.link(href=f"https://flathub.org/apps/details/{app['id']}")
