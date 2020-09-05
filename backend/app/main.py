@@ -428,16 +428,16 @@ def generate_feed(key: str, title: str, description: str, link: str):
     feed.link(href=link)
     feed.language("en")
 
-    appids = redis_conn.zrevrange(key, 0, 10)
-    apps = [get_json_key(f"apps:{appid}") for appid in appids]
+    appids = redis_conn.zrevrange(key, 0, 10, withscores=True)
+    apps = [(get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
 
-    for app in apps:
+    for app, timestamp in apps:
         entry = feed.add_entry()
         entry.title(app["name"])
         entry.link(href=f"https://flathub.org/apps/details/{app['id']}")
-        entry.pubDate()
 
-        entry_date = get_current_release_date(app["id"], "%a, %d %b %Y %H:%M:%S")
+        timestamp = int(timestamp)
+        entry_date = datetime.utcfromtimestamp(timestamp).strftime("%a, %d %b %Y %H:%M:%S")
         entry.pubDate(f"{entry_date} UTC")
 
         content = [
