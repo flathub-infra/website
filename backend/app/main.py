@@ -215,11 +215,19 @@ query getRepos($cursor: String) {
 }
 """
 
-    request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables': variables}, headers=headers)
+    request = requests.post(
+        "https://api.github.com/graphql",
+        json={"query": query, "variables": variables},
+        headers=headers,
+    )
     if request.status_code == 200:
         return request.json()
     else:
-        raise Exception("Query failed to run by returning code of {}. {}".format(request.status_code, query))
+        raise Exception(
+            "Query failed to run by returning code of {}. {}".format(
+                request.status_code, query
+            )
+        )
 
 
 def populate_creation_dates():
@@ -228,18 +236,18 @@ def populate_creation_dates():
 
     while True:
         ret = run_query(variables)
-        for repo in ret['data']['search']['edges']:
-            repo_name = repo['node']['name']
-            repo_created_at = repo['node']['createdAt']
+        for repo in ret["data"]["search"]["edges"]:
+            repo_name = repo["node"]["name"]
+            repo_created_at = repo["node"]["createdAt"]
 
             if redis_conn.exists(f"apps:{repo_name}"):
                 dt = datetime.strptime(repo_created_at, "%Y-%m-%dT%H:%M:%SZ")
                 timestamp = int(datetime.timestamp(dt))
                 created_at[repo_name] = timestamp
 
-        pageinfo = ret['data']['search']['pageInfo']
-        if pageinfo['hasNextPage']:
-            variables = {"cursor": pageinfo['endCursor']}
+        pageinfo = ret["data"]["search"]["pageInfo"]
+        if pageinfo["hasNextPage"]:
+            variables = {"cursor": pageinfo["endCursor"]}
         else:
             break
 
@@ -436,7 +444,9 @@ def generate_feed(key: str, title: str, description: str, link: str):
         entry.link(href=f"https://flathub.org/apps/details/{app['id']}")
 
         timestamp = int(timestamp)
-        entry_date = datetime.utcfromtimestamp(timestamp).strftime("%a, %d %b %Y %H:%M:%S")
+        entry_date = datetime.utcfromtimestamp(timestamp).strftime(
+            "%a, %d %b %Y %H:%M:%S"
+        )
         entry.pubDate(f"{entry_date} UTC")
 
         content = [
@@ -473,11 +483,21 @@ def generate_feed(key: str, title: str, description: str, link: str):
 
 @app.get("/v1/feed/recently-updated")
 def get_recently_updated_apps_feed():
-    feed = generate_feed("recently_updated_zset", "Flathub – recently updated applications", "Recently updated applications published on Flathub", "https://flathub.org/apps/collection/recently-updated")
+    feed = generate_feed(
+        "recently_updated_zset",
+        "Flathub – recently updated applications",
+        "Recently updated applications published on Flathub",
+        "https://flathub.org/apps/collection/recently-updated",
+    )
     return Response(content=feed, media_type="application/rss+xml")
 
 
 @app.get("/v1/feed/new")
 def get_new_apps_feed():
-    feed = generate_feed("created_at_zset", "Flathub – recently added applications", "Applications recently published on Flathub", "https://flathub.org/apps/collection/new")
+    feed = generate_feed(
+        "created_at_zset",
+        "Flathub – recently added applications",
+        "Applications recently published on Flathub",
+        "https://flathub.org/apps/collection/new",
+    )
     return Response(content=feed, media_type="application/rss+xml")
