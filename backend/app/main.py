@@ -10,7 +10,7 @@ from typing import Tuple
 import requests
 import redis
 import redisearch
-from fastapi import Response, BackgroundTasks, FastAPI
+from fastapi import status, Response, BackgroundTasks, FastAPI
 from feedgen.feed import FeedGenerator
 
 import gi
@@ -501,3 +501,13 @@ def get_new_apps_feed():
         "https://flathub.org/apps/collection/new",
     )
     return Response(content=feed, media_type="application/rss+xml")
+
+
+@app.get("/status", status_code=200)
+def healthcheck(response: Response):
+    # redis_status = redis_conn.ping()
+    # if not redis_status:
+    #     response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+    #     return {"status": "REDIS_DOWN"}
+
+    return {"status": "OK"}
