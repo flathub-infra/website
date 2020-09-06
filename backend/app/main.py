@@ -10,7 +10,7 @@ from typing import Tuple
 import requests
 import redis
 import redisearch
-from fastapi import FastAPI, Response, BackgroundTasks
+from fastapi import Response, FastAPI
 from feedgen.feed import FeedGenerator
 
 import gi
@@ -277,14 +277,13 @@ def startup_event():
 
 
 @app.post("/v1/apps/update")
-def update_apps(background_tasks: BackgroundTasks):
+def update_apps():
     appids = load_appstream()
     populate_build_dates(appids)
+    populate_creation_dates()
 
     list_apps_summary.cache_clear()
     get_recently_updated.cache_clear()
-
-    background_tasks.add_task(populate_creation_dates)
 
     return len(appids)
 
