@@ -281,8 +281,6 @@ def startup_event():
         except:
             pass
 
-        update_apps()
-
 
 @app.post("/v1/apps/update")
 def update_apps(background_tasks: BackgroundTasks):
