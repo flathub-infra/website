@@ -320,10 +320,11 @@ def list_apps_in_category(category: str):
     return list_apps_summary(f"categories:{category}")
 
 
-@app.get("/v1/apps/{appid}")
-def get_app(appid: str):
+@app.get("/v1/apps/{appid}", status_code=status.HTTP_200_OK)
+def get_app(appid: str, response: Response):
     app = get_json_key(f"apps:{appid}")
     if not app:
+        response.status_code = status.HTTP_204_NO_CONTENT
         return []
 
     screenshot_sizes = {
