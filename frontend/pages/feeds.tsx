@@ -1,4 +1,4 @@
-import Main from './../components/layout/Main'
+import Main from './../src/components/layout/Main'
 
 export default function Feeds() {
   return (

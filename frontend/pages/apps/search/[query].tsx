@@ -1,6 +1,7 @@
-import Collection from '../../../components/application/Collection'
 import { useRouter } from 'next/router'
-import { BASE_URI } from './../../../env'
+
+import Collection from '../../../src/components/application/Collection'
+import { BASE_URI } from '../../../src/env'
 
 export default function Search() {
   const router = useRouter()

@@ -1,5 +1,5 @@
-import ApplicationCollection from '../../../components/application/Collection'
-import { BASE_URI } from './../../../env'
+import ApplicationCollection from '../../../src/components/application/Collection'
+import { BASE_URI } from '../../../src/env'
 
 export default function PopularApps() {
   return (

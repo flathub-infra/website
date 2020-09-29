@@ -1,9 +1,11 @@
 import Head from 'next/head'
-import Main from './../components/layout/Main'
-import ApplicationSection from './../components/application/Section'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { BASE_URI } from './../env'
+
+import Main from './../src/components/layout/Main'
+import ApplicationSection from './../src/components/application/Section'
+
+import { BASE_URI } from '../src/env'
 
 export default function Home() {
   const [updatedApps, setUpdatedApps] = useState([])

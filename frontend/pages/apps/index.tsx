@@ -1,9 +1,10 @@
 import Head from 'next/head'
-import Main from './../../components/layout/Main'
-import ApplicationSection from './../../components/application/Section'
 import { useEffect, useState } from 'react'
-import Sidebar from '../../components/layout/Sidebar'
-import { BASE_URI } from './../../env'
+
+import Main from './../../src/components/layout/Main'
+import ApplicationSection from './../../src/components/application/Section'
+import Sidebar from '../../src/components/layout/Sidebar'
+import { BASE_URI } from '../../src/env'
 
 export default function Apps() {
   const [updatedApps, setUpdatedApps] = useState([])

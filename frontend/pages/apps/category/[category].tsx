@@ -1,7 +1,8 @@
-import Collection from '../../../components/application/Collection'
-import Category from '../../../types/Category'
 import { useRouter } from 'next/router'
-import { BASE_URI } from './../../../env'
+
+import Collection from '../../../src/components/application/Collection'
+import Category from '../../../src/types/Category'
+import { BASE_URI } from '../../../src/env'
 
 const ApplicationCategory = () => {
   const router = useRouter()

@@ -1,9 +1,10 @@
-import Main from '../../../components/layout/Main'
-import Application from './../../../components/application/Application'
 import { useEffect, useState } from 'react'
-import { BASE_URI } from './../../../env'
 import { useRouter } from 'next/router'
-import Appstream from '../../../types/Appstream'
+
+import Main from '../../../src/components/layout/Main'
+import Application from './../../../src/components/application/Application'
+import Appstream from '../../../src/types/Appstream'
+import { BASE_URI } from '../../../src/env'
 
 export default function Details() {
   const [appAppstream, setAppAppstream] = useState(null)
