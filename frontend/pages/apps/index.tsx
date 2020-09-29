@@ -1,10 +1,10 @@
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import Head from "next/head"
+import { useEffect, useState } from "react"
 
-import Main from './../../src/components/layout/Main'
-import ApplicationSection from './../../src/components/application/Section'
-import Sidebar from '../../src/components/layout/Sidebar'
-import { BASE_URI } from '../../src/env'
+import Main from "./../../src/components/layout/Main"
+import ApplicationSection from "./../../src/components/application/Section"
+import Sidebar from "../../src/components/layout/Sidebar"
+import { BASE_URI } from "../../src/env"
 
 export default function Apps() {
   const [updatedApps, setUpdatedApps] = useState([])
@@ -26,15 +26,36 @@ export default function Apps() {
       <Head>
         <title>Flathub—An app store and build service for Linux</title>
       </Head>
-      <div className='apps-collection'>
+      <div className="apps-collection">
         <Sidebar />
 
-        <div className='collection'>
+        <div className="collection">
           <ApplicationSection
-            key='updated'
-            title='New & Updated Apps'
+            key="updated"
+            title="New & Updated Apps"
             applications={updatedApps}
-            href='apps/collection/recently-updated'
+            href="/apps/collection/recently-updated"
+          />
+
+          <ApplicationSection
+            key="popular"
+            title="Popular Apps"
+            applications={updatedApps}
+            href="/apps/collection/popular"
+          />
+
+          <ApplicationSection
+            key="editor_choice"
+            title="Editor's Choice Apps"
+            applications={updatedApps}
+            href="/apps/collection/editors-choice-apps"
+          />
+
+          <ApplicationSection
+            key="editor_choice_games"
+            title="Editor's Choice Games"
+            applications={updatedApps}
+            href="/apps/collection/editors-choice-games"
           />
         </div>
       </div>
