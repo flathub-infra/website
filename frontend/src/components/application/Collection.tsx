@@ -18,7 +18,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({ apiURI, title }) => {
     fetch(apiURI)
       .then((r) => {
         r.json().then((data) => {
-          setApps(data as Array<Application>)
+          setApps(data as Application[])
         })
       })
       .catch((e) => {

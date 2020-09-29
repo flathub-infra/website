@@ -1,12 +1,12 @@
-import { FunctionComponent } from 'react';
-import ApplicationCard from './Card';
-import Application from './../../types/Application';
-import Link from 'next/link';
+import { FunctionComponent } from 'react'
+import ApplicationCard from './Card'
+import Application from '../../types/Application'
+import Link from 'next/link'
 
 interface Props {
-  title: string;
-  href: string;
-  applications: Array<Application>;
+  title: string,
+  href: string,
+  applications: Application[],
 }
 
 const ApplicationSection: FunctionComponent<Props> = ({
@@ -29,7 +29,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApplicationSection;
+export default ApplicationSection

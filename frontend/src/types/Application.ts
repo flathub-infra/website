@@ -1,4 +1,4 @@
-type Application {
+type Application = {
     flatpakAppId: string,
     name: string,
     summary: string,
