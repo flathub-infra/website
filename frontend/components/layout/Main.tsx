@@ -1,21 +1,18 @@
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from './Header'
+import Footer from './Footer'
 import { FunctionComponent } from 'react'
-interface Props {
-};
-
+interface Props {}
 
 const Main: FunctionComponent<Props> = ({ children }) => {
-    return <main id="wrapper">
-        <Header />
+  return (
+    <main id='wrapper'>
+      <Header />
 
-        <div>
-            {children}
-        </div>
+      <div>{children}</div>
 
-        <Footer />
-
+      <Footer />
     </main>
+  )
 }
 
-export default Main;
+export default Main

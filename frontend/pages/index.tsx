@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { BASE_URI } from './../env'
 
-
 export default function Home() {
   const [updatedApps, setUpdatedApps] = useState([])
 
@@ -21,36 +20,61 @@ export default function Home() {
       })
   }, [])
 
-  console.log(`${BASE_URI}/apps/collection/recently-updated/5`)
-
-  /*
-          <ApplicationSection key="popular" title="Popular Apps" applications={["Firefox", "Spotify", "GNU Octave", "GIMP", "VLC", "Steam"]} />
-
-        <ApplicationSection key="editor_choice" title="Editor's Choice Apps" applications={["Firefox", "Spotify", "GNU Octave", "GIMP", "VLC", "Steam"]} />
-
-        <ApplicationSection key="editor_choice_games" title="Editor's Choice Games" applications={["Firefox", "Spotify", "GNU Octave", "GIMP", "VLC", "Steam"]} />
-*/
-
   return (
     <Main>
       <Head>
         <title>Flathub—An app store and build service for Linux</title>
-        <meta name="description" content="Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!" />
-        <base href="/" />
+        <meta
+          name='description'
+          content='Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!'
+        />
+        <base href='/' />
 
-        <link rel="icon" type="image/png" href="./favicon.png" />
+        <link rel='icon' type='image/png' href='./favicon.png' />
       </Head>
-      <div className="container">
-        <header id="main-header">
+      <div className='container'>
+        <header id='main-header'>
           <h2>Apps for Linux, right here</h2>
-          <p> Welcome to Flathub, the home of hundreds of apps which can be easily installed on any Linux distribution. <br />
-          Browse the apps online, from your app center or the command line. </p>
-          <a href="https://flatpak.org/setup/"><button className="primary-button">Quick Setup</button></a> <Link href="/apps"><button className="primary-button">Browse the apps</button></Link>
+          <p>
+            {' '}
+            Welcome to Flathub, the home of hundreds of apps which can be easily
+            installed on any Linux distribution. <br />
+            Browse the apps online, from your app center or the command line.{' '}
+          </p>
+          <a href='https://flatpak.org/setup/'>
+            <button className='primary-button'>Quick Setup</button>
+          </a>{' '}
+          <Link href='/apps'>
+            <button className='primary-button'>Browse the apps</button>
+          </Link>
         </header>
 
+        <ApplicationSection
+          key='updated'
+          title='New & Updated Apps'
+          applications={updatedApps}
+          href='/apps/collection/recently-updated'
+        />
+        <ApplicationSection
+          key='popular'
+          title='Popular Apps'
+          applications={updatedApps}
+          href='/apps/collection/popular'
+        />
 
-        <ApplicationSection key="updated" title="New & Updated Apps" applications={updatedApps} href="apps/collection/recently-updated" />
+        <ApplicationSection
+          key='editor_choice'
+          title="Editor's Choice Apps"
+          applications={updatedApps}
+          href='/apps/collection/editors-choice-apps'
+        />
 
+        <ApplicationSection
+          key='editor_choice_games'
+          title="Editor's Choice Games"
+          applications={updatedApps}
+          href='/apps/collection/editors-choice-games'
+        />
       </div>
     </Main>
   )
