@@ -15,5 +15,9 @@ jobs:
         with:
           node-version: "12"
       - run: yarn install
-      - run: tslint --project ./
+      - name: Lint
+        uses: mooyoul/tslint-actions@v1.1.1
+        with:
+          pattern: '*.ts'
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: yarn build
