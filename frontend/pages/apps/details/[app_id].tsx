@@ -15,7 +15,6 @@ export default function Details() {
       r.json().then((appstream) => {
         if (appstream.screenshots) {
           appstream.screenshots = appstream.screenshots.map((screenshot) => {
-            console.log(screenshot)
             return {
               small: screenshot['112x63'],
               medium: screenshot['224x126'],

@@ -16,7 +16,7 @@ export default function Apps() {
         })
       })
       .catch((e) => {
-        console.log(e)
+        console.warn(e)
       })
   }, [])
 

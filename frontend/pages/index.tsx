@@ -16,7 +16,7 @@ export default function Home() {
         })
       })
       .catch((e) => {
-        console.log(e)
+        console.warn(e)
       })
   }, [])
 

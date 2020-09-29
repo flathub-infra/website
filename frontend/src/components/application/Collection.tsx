@@ -22,7 +22,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({ apiURI, title }) => {
         })
       })
       .catch((e) => {
-        console.log(e)
+        console.warn(e)
       })
   }, [apiURI])
 
