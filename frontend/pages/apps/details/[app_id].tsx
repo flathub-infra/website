@@ -1,39 +1,43 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { GetStaticPaths, GetStaticProps } from 'next'
 
 import Main from '../../../src/components/layout/Main'
-import Application from './../../../src/components/application/Application'
+import ApplicationDetails from '../../../src/components/application/Details'
 import Appstream from '../../../src/types/Appstream'
 import { BASE_URI } from '../../../src/env'
+import Application from '../../../src/types/Application'
 
-export default function Details() {
-  const [appAppstream, setAppAppstream] = useState(null)
-  const router = useRouter()
-  const appID = router.query.app_id
-
-  useEffect(() => {
-    fetch(`${BASE_URI}/appstream/${appID}`).then((r) => {
-      r.json().then((appstream) => {
-        if (appstream.screenshots) {
-          appstream.screenshots = appstream.screenshots.map((screenshot) => {
-            return {
-              small: screenshot['112x63'],
-              medium: screenshot['224x126'],
-              default: screenshot['624x351'],
-              large: screenshot['752x423']
-            }
-          })
-        }
-        setAppAppstream(appstream as Appstream)
-      })
-    })
-  }, [appID])
-
+export default function Details({ appstream }) {
   return (
     <Main>
       <div className='container'>
-        <Application appstream={appAppstream} />
+        <ApplicationDetails appstream={appstream} />
       </div>
     </Main>
   )
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const res = await fetch(`${BASE_URI}/appstream/${params.app_id}`)
+  const appstream: Appstream = await res.json()
+  return {
+    props: {
+      appstream
+    }
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch(`${BASE_URI}/apps`)
+  const apps: Application[] = await res.json()
+
+  const paths = apps.map((app) => ({
+    params: {
+      app_id: app.flatpakAppId
+    }
+  }))
+
+  return {
+    paths,
+    fallback: false
+  }
 }

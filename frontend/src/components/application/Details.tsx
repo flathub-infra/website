@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react'
-import Appstream from './../../types/Appstream'
+import Appstream from '../../types/Appstream'
 import { Carousel } from 'react-responsive-carousel'
 interface Props {
   appstream: Appstream
 }
 
-const Application: FunctionComponent<Props> = ({ appstream }) => {
+const Details: FunctionComponent<Props> = ({ appstream }) => {
   if (appstream) {
     const latestRelease = appstream.releases ? appstream.releases[0] : null
     const moreThan1Screenshot = appstream.screenshots
