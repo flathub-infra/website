@@ -1,25 +1,13 @@
 import Head from "next/head"
-import { useEffect, useState } from "react"
 
 import Main from "./../../src/components/layout/Main"
 import ApplicationSection from "./../../src/components/application/Section"
 import Sidebar from "../../src/components/layout/Sidebar"
 import { BASE_URI } from "../../src/env"
+import { GetStaticProps } from 'next'
+import Application from '../../src/types/Application'
 
-export default function Apps() {
-  const [updatedApps, setUpdatedApps] = useState([])
-
-  useEffect(() => {
-    fetch(`${BASE_URI}/apps/collection/recently-updated/6`)
-      .then((r) => {
-        r.json().then((data) => {
-          setUpdatedApps(data)
-        })
-      })
-      .catch((e) => {
-        console.warn(e)
-      })
-  }, [])
+export default function Apps({ recentlyUpdated }) {
 
   return (
     <Main>
@@ -33,32 +21,43 @@ export default function Apps() {
           <ApplicationSection
             key="updated"
             title="New & Updated Apps"
-            applications={updatedApps}
+            applications={recentlyUpdated}
             href="/apps/collection/recently-updated"
           />
 
           <ApplicationSection
             key="popular"
             title="Popular Apps"
-            applications={updatedApps}
+            applications={recentlyUpdated}
             href="/apps/collection/popular"
           />
 
           <ApplicationSection
             key="editor_choice"
             title="Editor's Choice Apps"
-            applications={updatedApps}
+            applications={recentlyUpdated}
             href="/apps/collection/editors-choice-apps"
           />
 
           <ApplicationSection
             key="editor_choice_games"
             title="Editor's Choice Games"
-            applications={updatedApps}
+            applications={recentlyUpdated}
             href="/apps/collection/editors-choice-games"
           />
         </div>
       </div>
     </Main>
   )
+}
+
+
+export const getStaticProps: GetStaticProps = async () => {
+  const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/5`)
+  const recentlyUpdated: Application[] = await res.json()
+  return {
+    props: {
+      recentlyUpdated
+    }
+  }
 }

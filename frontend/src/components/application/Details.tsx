@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import Appstream from '../../types/Appstream'
 import { Carousel } from 'react-responsive-carousel'
+
 interface Props {
   appstream: Appstream
 }
@@ -160,4 +161,4 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
   }
 }
 
-export default Application
+export default Details

@@ -1,31 +1,16 @@
 import Head from 'next/head'
 import Main from './../layout/Main'
-import { useEffect, useState } from 'react'
 import ApplicationCard from './../application/Card'
 import Sidebar from './../layout/Sidebar'
 import { FunctionComponent } from 'react'
 import Application from '../../types/Application'
 
 interface Props {
-  apiURI: string
+  applications: Application[],
   title: string
 }
 
-const ApplicationCollection: FunctionComponent<Props> = ({ apiURI, title }) => {
-  const [apps, setApps] = useState([])
-
-  useEffect(() => {
-    fetch(apiURI)
-      .then((r) => {
-        r.json().then((data) => {
-          setApps(data as Application[])
-        })
-      })
-      .catch((e) => {
-        console.warn(e)
-      })
-  }, [apiURI])
-
+const ApplicationCollection: FunctionComponent<Props> = ({ applications, title }) => {
   return (
     <Main>
       <Head>
@@ -37,10 +22,10 @@ const ApplicationCollection: FunctionComponent<Props> = ({ apiURI, title }) => {
 
         <div className='collection'>
           <h2>{title}</h2>
-          <p>{apps.length} results</p>
+          <p>{applications.length} results</p>
 
           <div className='apps'>
-            {apps.map((app) => (
+            {applications.map((app) => (
               <ApplicationCard key={app.flatpakAppId} application={app} />
             ))}
           </div>
