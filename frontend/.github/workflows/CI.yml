@@ -20,4 +20,4 @@ jobs:
         with:
           pattern: '*.ts'
           token: ${{ secrets.GITHUB_TOKEN }}
-      - run: yarn build
+      #- run: yarn build
