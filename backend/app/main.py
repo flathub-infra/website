@@ -471,9 +471,12 @@ def generate_feed(key: str, title: str, description: str, link: str):
 
         content.append("</ul>")
 
-        for screenshot in app["screenshots"][0:3]:
-            if image := screenshot.get("624x351"):
-                content.append('<img src="{}">'.format(image))
+        if screenshots := app.get("screenshots"):
+            screenshots = screenshots[0:3]
+
+            for screenshot in screenshots:
+                if image := screenshot.get("624x351"):
+                    content.append('<img src="{}">'.format(image))
 
         entry.description("".join(content))
 
