@@ -1,5 +1,6 @@
 import json
 import re
+import string
 import struct
 import subprocess
 import time
@@ -41,6 +42,13 @@ def get_json_key(key):
         return json.loads(key)
 
     return None
+
+
+def contains_whitespace(s: str):
+    for char in s:
+        if char in string.whitespace:
+            return True
+    return False
 
 
 def get_icon_path(app):
@@ -393,15 +401,20 @@ def get_appid_appstream(appid: str, repo: str = "stable"):
 
 @app.get("/v1/apps/search/{userquery}")
 def search(userquery: str):
+    results = []
+
     # TODO: figure out how to escape dashes
     # "D-Feet" seems to be interpreted as "d and not feet"
     userquery = userquery.replace("-", " ")
 
-    results = []
-
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
-    generic_query = redisearch.Query(f"%{userquery}%").no_content()
+
+    # redisearch does not support fuzzy search for strings with whitespace
+    if contains_whitespace(userquery):
+        generic_query = redisearch.Query(userquery).no_content()
+    else:
+        generic_query = redisearch.Query(f"%{userquery}%").no_content()
 
     search_results = redis_search.search(name_query)
     for doc in search_results.docs:
