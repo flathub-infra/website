@@ -307,7 +307,7 @@ def list_apps_summary(
 
     apps = redis_conn.mget(appids)
 
-    ret = [get_app_summary(json.loads(app)) for app in apps]
+    ret = [get_app_summary(json.loads(app)) for app in apps if isinstance(app, str)]
 
     if sort:
         ret = sorted(ret, key=lambda x: x["name"])
@@ -368,6 +368,7 @@ def get_app(appid: str, response: Response):
         "donationUrl": app.get("urls").get("donation"),
         "translateUrl": app.get("urls").get("translate"),
         "bugtrackerUrl": app.get("urls").get("bugtracker"),
+        "helpUrl": app.get("urls").get("help"),
         "categories": categories,
         "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{appid}.flatpakref",
         "currentReleaseVersion": release.get("version"),
