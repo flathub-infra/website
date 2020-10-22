@@ -412,9 +412,12 @@ def search(userquery: str):
         results.append(doc.id)
 
     results = list(dict.fromkeys(results))
-    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
+    if not len(results):
+        return []
 
+    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
     ret = list_apps_summary(appids=appids, sort=False)
+
     return ret
 
 
