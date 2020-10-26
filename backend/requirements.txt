@@ -15,6 +15,7 @@ redis==3.5.3
 redisearch==2.0.0
 requests==2.24.0
 rmtest==0.7.0
+sentry-sdk==0.19.1
 six==1.15.0
 starlette==0.13.6
 urllib3==1.25.11

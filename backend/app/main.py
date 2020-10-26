@@ -8,11 +8,13 @@ from datetime import datetime
 from functools import lru_cache
 from typing import Tuple
 
+import sentry_sdk
 import requests
 import redis
 import redisearch
 from fastapi import status, Response, BackgroundTasks, FastAPI
 from feedgen.feed import FeedGenerator
+from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 import gi
 
@@ -23,6 +25,10 @@ import config
 import utils
 
 app = FastAPI()
+if config.settings.sentry_dsn:
+    sentry_sdk.init(dsn=config.Settings.sentry_dsn)
+    app = SentryAsgiMiddleware(app)
+
 redis_conn = redis.Redis(
     host=config.settings.redis_host,
     port=config.settings.redis_port,

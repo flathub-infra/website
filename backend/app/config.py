@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
     github_token: Optional[str] = None
+    sentry_dsn: Optional[str] = None
 
 
 settings = Settings()
