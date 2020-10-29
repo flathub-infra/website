@@ -142,6 +142,7 @@ def load_appstream():
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
             redis_search.add_document(
                 f"fts:{appid}",
+                appid=appid,
                 name=apps[appid]["name"],
                 summary=apps[appid]["summary"],
                 description=search_description,
@@ -286,6 +287,7 @@ def startup_event():
         try:
             redis_search.create_index(
                 [
+                    redisearch.TextField("appid"),
                     redisearch.TextField("name"),
                     redisearch.TextField("summary"),
                     redisearch.TextField("description", 0.2),
