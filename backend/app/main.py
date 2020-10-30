@@ -419,7 +419,7 @@ def search(userquery: str):
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
 
     # redisearch does not support fuzzy search for strings with whitespace
-    if contains_whitespace(userquery):
+    if contains_whitespace(userquery) or '.' in userquery:
         generic_query = redisearch.Query(userquery).no_content()
     else:
         generic_query = redisearch.Query(f"%{userquery}%").no_content()
