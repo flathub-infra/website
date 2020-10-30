@@ -341,7 +341,7 @@ def get_app(appid: str, response: Response):
     app = get_json_key(f"apps:{appid}")
     if not app:
         response.status_code = status.HTTP_204_NO_CONTENT
-        return []
+        return response
 
     screenshot_sizes = {
         "desktop": "752x423",
