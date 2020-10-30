@@ -424,6 +424,11 @@ def search(userquery: str):
     else:
         generic_query = redisearch.Query(f"%{userquery}%").no_content()
 
+    # TODO: Backend API doesn't support paging so bring fifty results
+    # instead of just 10, which is the redisearch default
+    name_query.paging(0, 50)
+    generic_query.paging(0, 50)
+
     search_results = redis_search.search(name_query)
     for doc in search_results.docs:
         results.append(doc.id)
