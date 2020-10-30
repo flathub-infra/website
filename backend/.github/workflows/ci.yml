@@ -2,8 +2,7 @@ name: ci
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: master
   pull_request:
     branches: master
 
@@ -18,16 +17,8 @@ jobs:
         id: prep
         run: |
           IMAGE=ghcr.io/flathub/backend
-          VERSION=master
-
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/v}
-          fi
-
-          TAGS="${IMAGE}:${VERSION}"
-          if [[ $VERSION =~ ^[0-9]{1,3}$ ]]; then
-            TAGS="$TAGS,${IMAGE}:latest"
-          fi
+          VERSION=${GITHUB_SHA:7}
+          TAGS="${IMAGE}:${VERSION},${IMAGE}:latest"
 
           echo ::set-output name=tags::${TAGS}
 
