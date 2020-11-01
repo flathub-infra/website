@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     redis_port: int = 6379
     github_token: Optional[str] = None
     sentry_dsn: Optional[str] = None
+    appstream_repos: Optional[str] = None
 
 
 settings = Settings()

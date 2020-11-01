@@ -1,8 +1,11 @@
+import os
 import gzip
 import subprocess
 from lxml import etree
 
 import requests
+
+from . import config
 
 
 class Flatpak:
@@ -66,12 +69,21 @@ class Flatpak:
 
 
 def appstream2dict(reponame: str):
-    appstream_url = (
-        f"https://hub.flathub.org/{reponame}/appstream/x86_64/appstream.xml.gz"
-    )
-    r = requests.get(appstream_url, stream=True)
-
-    appstream = gzip.decompress(r.raw.data)
+    if config.settings.appstream_repos is not None:
+        appstream_path = os.path.join(
+            config.settings.appstream_repos,
+            reponame,
+            "appstream",
+            "x86_64",
+            "appstream.xml.gz")
+        with open(appstream_path, "rb") as file:
+            appstream = gzip.decompress(file.read())
+    else:
+        appstream_url = (
+            f"https://hub.flathub.org/{reponame}/appstream/x86_64/appstream.xml.gz"
+        )
+        r = requests.get(appstream_url, stream=True)
+        appstream = gzip.decompress(r.raw.data)
 
     root = etree.fromstring(appstream)
 
