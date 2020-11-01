@@ -13,7 +13,6 @@ RUN python -m venv /venv && \
 FROM python:3.8-slim
 
 EXPOSE 8000
-ENV PYTHONPATH=/app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -23,4 +22,4 @@ RUN apt-get update && \
 COPY ./app /app
 COPY --from=builder /venv /venv
 
-CMD ["/venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/venv/bin/uvicorn", "--app-dir", "/", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

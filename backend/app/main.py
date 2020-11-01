@@ -21,8 +21,8 @@ import gi
 gi.require_version("OSTree", "1.0")
 from gi.repository import OSTree, Gio, GLib
 
-import config
-import utils
+from . import config
+from . import utils
 
 app = FastAPI()
 if config.settings.sentry_dsn:
