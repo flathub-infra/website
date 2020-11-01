@@ -1,0 +1,11 @@
+[
+    {
+        "currentReleaseDate": "2020-05-11",
+        "currentReleaseVersion": "30",
+        "flatpakAppId": "org.sugarlabs.Maze",
+        "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+        "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+        "name": "Maze",
+        "summary": "A simple maze game"
+    }
+]

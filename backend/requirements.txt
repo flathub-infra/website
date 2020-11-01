@@ -21,3 +21,4 @@ starlette==0.13.6
 urllib3==1.25.11
 uvicorn==0.12.2
 httptools==0.1.1
+pytest==6.1.2
