@@ -302,7 +302,9 @@ def startup_event():
 def update_apps(background_tasks: BackgroundTasks):
     appids = load_appstream()
     populate_build_dates(appids)
-    background_tasks.add_task(populate_creation_dates)
+
+    if config.settings.github_token is not None:
+        background_tasks.add_task(populate_creation_dates)
 
     list_apps_summary.cache_clear()
     get_recently_updated.cache_clear()
