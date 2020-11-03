@@ -1,4 +1,5 @@
 import os
+import json
 import gzip
 import subprocess
 from lxml import etree
@@ -6,6 +7,7 @@ from lxml import etree
 import requests
 
 from . import config
+from . import db
 
 
 class Flatpak:
@@ -218,3 +220,10 @@ def appstream2dict(reponame: str):
         apps[appid] = app
 
     return apps
+
+
+def get_json_key(key):
+    if key := db.redis_conn.get(key):
+        return json.loads(key)
+
+    return None
