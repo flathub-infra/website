@@ -7,11 +7,51 @@ on:
     branches: master
 
 jobs:
+  smoketests:
+    runs-on: ubuntu-latest
+
+    services:
+      redisearch:
+        image: redislabs/redisearch:1.6.13
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential flatpak gir1.2-ostree-1.0 libcairo2-dev libgirepository1.0-dev
+
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run smoke tests
+        run: |
+          uvicorn app.main:app --host 0.0.0.0 &
+          python -m pytest -s tests/main.py
+
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Prepare
         id: prep
