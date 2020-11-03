@@ -75,7 +75,8 @@ def appstream2dict(reponame: str):
             reponame,
             "appstream",
             "x86_64",
-            "appstream.xml.gz")
+            "appstream.xml.gz",
+        )
         with open(appstream_path, "rb") as file:
             appstream = gzip.decompress(file.read())
     else:

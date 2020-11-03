@@ -26,7 +26,7 @@ def get_expected_json_result(test_name):
 def get_expected_xml_result(test_name):
     path = os.path.join("tests", "results", f"{test_name}.xml")
     with open(path) as result:
-         return etree.fromstring(result.read().encode('utf-8'))
+        return etree.fromstring(result.read().encode("utf-8"))
 
 
 def setup_module():
@@ -45,10 +45,12 @@ def setup_module():
     repo.create(OSTree.RepoMode.BARE, None)
 
     from app import config
+
     config.settings.ostree_repo = repo_path
     config.settings.appstream_repos = "tests/appstream"
 
     from app import main
+
     with TestClient(main.app) as client_:
         client = client_
 
@@ -95,14 +97,16 @@ def test_search_query_by_appid():
 def test_collection_by_recently_updated():
     response = client.get("/v1/apps/collection/recently-updated/1")
     assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_collection_by_recently_updated")
+    assert response.json() == get_expected_json_result(
+        "test_collection_by_recently_updated"
+    )
 
 
 def test_feed_by_recently_updated():
     response = client.get("/v1/feed/recently-updated")
     assert response.status_code == 200
 
-    feed = etree.fromstring(response.text.encode('utf-8'))
+    feed = etree.fromstring(response.text.encode("utf-8"))
     expected = get_expected_xml_result("test_feed_by_recently_updated")
 
     # Remove runtime-generated dates
@@ -118,7 +122,7 @@ def test_feed_by_new():
     response = client.get("/v1/feed/new")
     assert response.status_code == 200
 
-    feed = etree.fromstring(response.text.encode('utf-8'))
+    feed = etree.fromstring(response.text.encode("utf-8"))
     expected = get_expected_xml_result("test_feed_by_new")
 
     # Remove runtime-generated dates
