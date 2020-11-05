@@ -2,7 +2,6 @@ import Head from "next/head"
 
 import Main from "./../../src/components/layout/Main"
 import ApplicationSection from "./../../src/components/application/Section"
-import Sidebar from "../../src/components/layout/Sidebar"
 import { BASE_URI } from "../../src/env"
 import { GetStaticProps } from 'next'
 import Application from '../../src/types/Application'
@@ -15,7 +14,6 @@ export default function Apps({ recentlyUpdated }) {
         <title>Flathub—An app store and build service for Linux</title>
       </Head>
       <div className="applications-collection">
-        <Sidebar />
 
         <div className="collection">
           <ApplicationSection
