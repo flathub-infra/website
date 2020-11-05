@@ -26,7 +26,7 @@ from . import utils
 
 app = FastAPI()
 if config.settings.sentry_dsn:
-    sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.1)
+    sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.01)
     app.add_middleware(SentryAsgiMiddleware)
 
 redis_conn = redis.Redis(
