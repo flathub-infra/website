@@ -1,0 +1,136 @@
+@import "colors";
+
+
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+
+
+  .main-container {
+    width: 100%;
+    margin: 10px;
+  }
+
+  footer#footer {
+    flex-direction: column;
+  }
+
+  header nav #navbar {
+    display: none;
+  }
+
+  #search {
+    display: none;
+  }
+
+  .application-card {
+
+    .logo {
+      width: 80px;
+    }
+  }
+
+  #application {
+    .container {
+      width: 95%;
+      margin: 10px;
+    }
+
+
+    header {
+      grid-template-columns: 0.2fr 1.7fr 0.1fr;
+
+      div.details {
+        margin-left: 0;
+        margin-top: 15px;
+
+        h2 {
+          font-size: 1.6rem;
+        }
+      }
+
+      .logo img {
+        width: 64px;
+        align-self: center;
+      }
+    }
+
+    .install-button {
+      width: 80px !important;
+      height: 40px !important;
+    }
+
+    div.urls {
+      grid-template-columns: 1fr;
+
+      .url {}
+    }
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  #application {
+    .container {
+      width: 80% !important;
+    }
+
+    div.urls {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .applications,
+  .categories-section .categories {
+    grid-template-columns: 1fr;
+
+
+    .application-card {
+      margin: 0px;
+
+      border-bottom-width: 0;
+      border-radius: 0;
+
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+
+      &:last-child {
+
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-bottom-width: 1px;
+      }
+    }
+  }
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .applications {
+    justify-content: space-around;
+  }
+
+  .main-container {
+    width: 95% !important;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1240px) {
+  .main-container {
+    width: 80%;
+  }
+
+  .applications {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #application {
+    .container {
+      width: 60%;
+    }
+  }
+}

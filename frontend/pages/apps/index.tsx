@@ -14,7 +14,7 @@ export default function Apps({ recentlyUpdated }) {
       <Head>
         <title>Flathub—An app store and build service for Linux</title>
       </Head>
-      <div className="apps-collection">
+      <div className="applications-collection">
         <Sidebar />
 
         <div className="collection">

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="15.999999"
+   height="15.999999"
+   viewBox="0 0 4.233333 4.2333332"
+   version="1.1"
+   id="svg59656"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="external-link-symbolic.svg">
+  <defs
+     id="defs59650" />
+  <sodipodi:namedview
+     inkscape:snap-midpoints="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-paths="true"
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="9.466419"
+     inkscape:cx="20.719427"
+     inkscape:cy="8.1779351"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid59669"
+       originx="-414.0729"
+       originy="-67.204172" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata59653">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-414.07291,-67.20417)">
+    <g
+       id="g11496-6"
+       style="fill:#241f31;fill-opacity:1"
+       transform="matrix(0.26458333,0,0,0.26458333,-1962.1773,-501.98004)">
+      <path
+         sodipodi:nodetypes="cscccccsscscccsc"
+         d="m 8988.453,2154.2416 0.7071,0.7071 c 0.1825,0.1824 0.4667,0.2829 0.7305,0.2878 h 1.8102 l -5.0762,5.0762 1.4142,1.4142 5.0769,-5.0769 v 1.813 c 0,0.2631 0.1047,0.5473 0.2864,0.7291 l 0.7064,0.7064 0.7071,-0.7071 c 0.2192,-0.2192 0.3267,-0.454 0.3316,-0.7291 l -0.044,-5.2149 -5.2142,-0.044 c -0.2744,0.01 -0.5098,0.1124 -0.729,0.3316 z"
+         style="line-height:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;white-space:normal;fill:#241f31;fill-opacity:1"
+         color="#000000"
+         font-weight="400"
+         font-family="sans-serif"
+         overflow="visible"
+         fill="#2e3436"
+         id="path11473-6" />
+      <path
+         sodipodi:nodetypes="ccccccccccc"
+         id="path11492-4"
+         d="m 8983.1032,2154.248 v 10.9994 h 11.0003 v -3.9994 h -2 v 1.9994 h -7.0003 v -6.9994 h 2.0003 v -2 z"
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#241f31;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000;stop-opacity:1" />
+    </g>
+  </g>
+</svg>

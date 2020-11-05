@@ -9,9 +9,7 @@ import Application from '../../../src/types/Application'
 export default function Details({ appstream }) {
   return (
     <Main>
-      <div className='container'>
-        <ApplicationDetails appstream={appstream} />
-      </div>
+      <ApplicationDetails appstream={appstream} />
     </Main>
   )
 }

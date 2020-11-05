@@ -20,7 +20,13 @@ const ApplicationSection: FunctionComponent<Props> = ({
         <h3>{title}</h3>
 
         <Link href={href}>
-          <button className='primary-button'>See More</button>
+          <button className='show-all-button'>
+            <div>Show All</div>
+          <img
+              src='/go-next.svg'
+              alt='Next'
+            />
+          </button>
         </Link>
       </header>
       <div className='applications'>
