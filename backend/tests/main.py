@@ -76,10 +76,23 @@ def test_apps_by_category():
     assert response.json() == get_expected_json_result("test_apps_by_category")
 
 
+def test_apps_by_non_existent_category():
+    response = client.get("/v1/apps/category/NonExistent")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result(
+        "test_apps_by_non_existent_category"
+    )
+
+
 def test_apps_by_appid():
     response = client.get("/v1/apps/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_apps_by_appid")
+
+
+def test_apps_by_non_existent_appid():
+    response = client.get("/v1/apps/NonExistent")
+    assert response.status_code == 204
 
 
 def test_appstream_by_appid():
@@ -88,13 +101,55 @@ def test_appstream_by_appid():
     assert response.json() == get_expected_json_result("test_appstream_by_appid")
 
 
+def test_appstream_by_non_existent_appid():
+    response = client.get("/v1/appstream/NonExistent")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result(
+        "test_appstream_by_non_existent_appid"
+    )
+
+
 def test_search_query_by_appid():
     response = client.get("/v1/apps/search/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
-def test_collection_by_recently_updated():
+def test_search_query_by_name():
+    response = client.get("/v1/apps/search/Maze")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_search_query_by_appid")
+
+
+def test_search_query_by_summary():
+    response = client.get("/v1/apps/search/maze%20game")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_search_query_by_appid")
+
+
+def test_search_query_by_description():
+    response = client.get("/v1/apps/search/finding%20your%20way%20out")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_search_query_by_appid")
+
+
+def test_search_query_by_non_existent():
+    response = client.get("/v1/apps/search/NonExistent")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result(
+        "test_search_query_by_non_existent"
+    )
+
+
+def test_collection_by_all_recently_updated():
+    response = client.get("/v1/apps/collection/recently-updated")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result(
+        "test_collection_by_recently_updated"
+    )
+
+
+def test_collection_by_one_recently_updated():
     response = client.get("/v1/apps/collection/recently-updated/1")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
