@@ -8,6 +8,7 @@ services:
   backend:
     build:
       dockerfile: Dockerfile
+      context: .
     ports:
       - "8000"
     links:
