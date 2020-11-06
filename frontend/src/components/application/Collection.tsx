@@ -1,10 +1,12 @@
 import Head from 'next/head'
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
+import Pagination from './../Pagination'
 
 import Main from './../layout/Main'
 import ApplicationCard from './../application/Card'
 import Application from '../../types/Application'
+
 
 interface Props {
   applications: Application[]
@@ -19,7 +21,6 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }) => {
   const router = useRouter()
   const page = parseInt(router.query.page as string) || 1
-
   const totalPages = Math.ceil(applications.length / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -44,28 +45,8 @@ const ApplicationCollection: FunctionComponent<Props> = ({
                 <ApplicationCard key={app.flatpakAppId} application={app} />
               ))}
             </div>
-            {pages.length > 1 && (
-              <div className='pagination'>
-                {pages.map((p) => {
-                  const isActive = p === page
-                  const className = isActive ? 'page-active' : ''
-                  return (
-                    <a
-                      onClick={() => {
-                        router.push({
-                          pathname: router.pathname,
-                          query: {
-                            page: p.toString(),
-                          },
-                        })
-                      }}
-                    >
-                      <div className={`${className} page-link`}>{p}</div>
-                    </a>
-                  )
-                })}
-              </div>
-            )}
+
+            <Pagination pages={pages} currentPage={page} />
           </div>
         </div>
       </div>
@@ -74,3 +55,5 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }
 
 export default ApplicationCollection
+
+
