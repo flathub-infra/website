@@ -1,11 +1,11 @@
-import Main from './../src/components/layout/Main'
+import Main from '../src/components/layout/Main'
 
-export default function About() {
-  return (
-    <Main>
-      <div className='container'>
-        <h2>About</h2>
-      </div>
-    </Main>
-  )
-}
+const About = () => (
+  <Main>
+    <div className='container'>
+      <h2>About</h2>
+    </div>
+  </Main>
+)
+
+export default About

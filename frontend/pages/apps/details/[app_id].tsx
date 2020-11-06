@@ -1,10 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-
-import Main from '../../../src/components/layout/Main'
 import ApplicationDetails from '../../../src/components/application/Details'
-import Appstream from '../../../src/types/Appstream'
+import Main from '../../../src/components/layout/Main'
 import { BASE_URI } from '../../../src/env'
 import Application from '../../../src/types/Application'
+import Appstream from '../../../src/types/Appstream'
 
 export default function Details({ appstream }) {
   return (
@@ -15,8 +14,9 @@ export default function Details({ appstream }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(`${BASE_URI}/appstream/${params.app_id}`)
+  const res = await fetch(`${BASE_URI}/appstream/${String(params.app_id)}`)
   const appstream: Appstream = await res.json()
+
   return {
     props: {
       appstream,

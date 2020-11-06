@@ -1,7 +1,9 @@
 import { FunctionComponent } from 'react'
-import Appstream from '../../types/Appstream'
 import { Carousel } from 'react-responsive-carousel'
+
+import Appstream from '../../types/Appstream'
 import ProjectUrl from '../../types/ProjectUrl'
+
 import ProjectUrlWidget from './ProjectUrl'
 
 interface Props {
@@ -14,9 +16,7 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
     const moreThan1Screenshot = appstream.screenshots
       ? appstream.screenshots.length > 1
       : false
-    const moreThan1Release = appstream.releases
-      ? appstream.releases.length > 1
-      : false
+
     return (
       <div id='application'>
         <header className='container'>

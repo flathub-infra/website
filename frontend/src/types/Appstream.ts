@@ -1,38 +1,38 @@
-type Appstream = {
-  id: string
-  name: string
-  summary: string
-  description: string
+interface Appstream {
   categories: string[]
+  description: string
+  developer_name: string
+  id: string
   keywords: string[]
   kudos: string[]
-  provides: string[]
-  project_license: string
+  name: string
   project_group: string
-  developer_name: string
+  project_license: string
+  provides: string[]
   releases: Release[]
   screenshots: Screenshot[]
+  summary: string
   urls: Urls
 }
 
-type Urls = {
+interface Urls {
   bugtracker: string
   donation: string
   homepage: string
   translate: string
 }
 
-type Screenshot = {
-  small: string
-  medium: string
+interface Screenshot {
   default: string
   large: string
+  medium: string
+  small: string
 }
 
-type Release = {
+interface Release {
+  description: string
   timestamp: number
   version: string
-  description: string
 }
 
 export default Appstream

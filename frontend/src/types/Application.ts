@@ -1,11 +1,11 @@
-type Application = {
+interface Application {
+  currentReleaseDate: Date
+  currentReleaseVersion: string
   flatpakAppId: string
+  iconDesktopUrl: string
+  iconMobileUrl: string
   name: string
   summary: string
-  iconMobileUrl: string
-  iconDesktopUrl: string
-  currentReleaseVersion: string
-  currentReleaseDate: Date
 }
 
 export default Application

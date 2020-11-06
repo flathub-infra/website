@@ -1,13 +1,15 @@
 import Link from 'next/link'
-import { useState, ChangeEvent, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { ChangeEvent, useEffect, useState } from 'react'
 
-export default function Header() {
+const Header = () => {
   const router = useRouter()
   const [query, setQuery] = useState('')
   useEffect(() => {
     const q = router.query.query as string
-    if (q) setQuery(q)
+    if (q) {
+      setQuery(q)
+    }
   }, [])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +19,9 @@ export default function Header() {
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (query !== '') router.push(`/apps/search/${query}`)
+    if (query !== '') {
+      router.push(`/apps/search/${query}`)
+    }
   }
 
   return (
@@ -63,3 +67,5 @@ export default function Header() {
     </header>
   )
 }
+
+export default Header

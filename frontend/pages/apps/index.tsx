@@ -1,10 +1,9 @@
-import Head from 'next/head'
-
-import Main from './../../src/components/layout/Main'
-import ApplicationSection from './../../src/components/application/Section'
-import { BASE_URI } from '../../src/env'
 import { GetStaticProps } from 'next'
+import Head from 'next/head'
+import { BASE_URI } from '../../src/env'
 import Application from '../../src/types/Application'
+import ApplicationSection from '../../src/components/application/Section'
+import Main from '../../src/components/layout/Main'
 
 export default function Apps({ recentlyUpdated }) {
   return (
@@ -50,6 +49,7 @@ export default function Apps({ recentlyUpdated }) {
 export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/5`)
   const recentlyUpdated: Application[] = await res.json()
+
   return {
     props: {
       recentlyUpdated,

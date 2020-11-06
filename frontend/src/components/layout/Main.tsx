@@ -1,17 +1,16 @@
-import Header from './Header'
-import Footer from './Footer'
 import { FunctionComponent } from 'react'
 
-const Main: FunctionComponent<{}> = ({ children }) => {
-  return (
-    <main id='wrapper'>
-      <Header />
+import Footer from './Footer'
+import Header from './Header'
 
-      <div>{children}</div>
+const Main: FunctionComponent = ({ children }) => (
+  <main id='wrapper'>
+    <Header />
 
-      <Footer />
-    </main>
-  )
-}
+    <div>{children}</div>
+
+    <Footer />
+  </main>
+)
 
 export default Main

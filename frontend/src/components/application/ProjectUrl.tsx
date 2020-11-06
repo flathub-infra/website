@@ -1,6 +1,6 @@
-import ProjectUrl from './../../types/ProjectUrl'
+import ProjectUrl from '../../types/ProjectUrl'
 
-export default function ProjectUrlWidget({ url, type }) {
+const ProjectUrlWidget = ({ url, type }) => {
   let label = ''
   let icon = ''
   switch (type) {
@@ -19,7 +19,6 @@ export default function ProjectUrlWidget({ url, type }) {
     case ProjectUrl.Translate:
       label = 'Contribute translations'
       icon = 'translations'
-      break
   }
 
   return (
@@ -39,3 +38,5 @@ export default function ProjectUrlWidget({ url, type }) {
     </div>
   )
 }
+
+export default ProjectUrlWidget

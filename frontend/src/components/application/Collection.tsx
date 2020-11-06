@@ -1,17 +1,17 @@
 import Head from 'next/head'
-import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
-import Pagination from './../Pagination'
+import { FunctionComponent } from 'react'
 
-import Main from './../layout/Main'
-import ApplicationCard from './../application/Card'
 import Application from '../../types/Application'
 
+import ApplicationCard from '../application/Card'
+import Main from '../layout/Main'
+import Pagination from '../Pagination'
 
 interface Props {
   applications: Application[]
-  title: string
   perPage?: number
+  title: string
 }
 
 const ApplicationCollection: FunctionComponent<Props> = ({
@@ -20,7 +20,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   perPage = 32,
 }) => {
   const router = useRouter()
-  const page = parseInt(router.query.page as string) || 1
+  const page = parseInt(router.query.page as string, 2) || 1
   const totalPages = Math.ceil(applications.length / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -55,5 +55,3 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }
 
 export default ApplicationCollection
-
-
