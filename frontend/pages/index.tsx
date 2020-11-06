@@ -47,7 +47,7 @@ export default function Home({ recentlyUpdated }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/5`)
+  const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/7`)
   const recentlyUpdated: Application[] = await res.json()
   return {
     props: {

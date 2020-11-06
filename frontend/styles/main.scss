@@ -27,6 +27,8 @@ header nav {
   }
 
   #search {
+    display: none;
+
     input {
       background-color: white;
       padding: 8px;
@@ -60,7 +62,6 @@ header nav {
 }
 
 .main-container {
-  width: 62%;
   margin: 0 auto;
 }
 
@@ -122,17 +123,11 @@ header#main-header {
       font-weight: 900;
     }
 
-    .applications {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      max-width: 100%;
-
-    }
   }
 }
 
 .applications-section,
-.applicaions-collection,
+.applications-collection,
 .categories-section {
   header {
     margin-top: 40px;
@@ -151,9 +146,8 @@ header#main-header {
 
   .applications,
   .categories {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr;
     justify-content: space-around;
   }
 }
@@ -177,7 +171,7 @@ header#main-header {
   background-color: white;
   max-width: 360px;
   margin: 4px;
-  height: 80px;
+  height: 90px;
   border-radius: 8px;
 
   border: 1px solid $border;
@@ -342,7 +336,7 @@ header#main-header {
 
 
     .url {
-
+      min-width: 360px;
       padding: 12px;
       background-color: white;
       border: 1px solid $border;
@@ -498,7 +492,7 @@ footer#footer {
   background-color: black;
   color: white;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 48px;
   margin-top: 60px;
   justify-content: center;
@@ -559,24 +553,34 @@ footer#footer {
   height: 30px;
   background-color: white;
   border: 1px solid $border;
-  margin: 12px;
-  border-radius: 8px;
+  border-radius: 4px;
+  width: min-content;
+  margin: 0 auto;
+  margin-top: 60px;
+
+  a:not(:last-child) {
+    .page-link {
+      border-right: 1px solid $border;
+    }
+  }
 
   .page-link {
-    width: 24px;
+    width: 36px;
     align-self: center;
     margin: 2px;
     text-align: center;
-    border-right: 1px solid $border;
 
     &:hover {
       cursor: pointer;
-      color: red;
+      color: $main-color;
     }
 
     &.page-active {
       font-weight: 700;
+      color: $main-color;
     }
+
+
   }
 }
 

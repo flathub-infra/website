@@ -13,7 +13,7 @@ interface Props {
   perPage?: number,
 }
 
-const ApplicationCollection: FunctionComponent<Props> = ({ applications, title, perPage = 21 }) => {
+const ApplicationCollection: FunctionComponent<Props> = ({ applications, title, perPage = 20 }) => {
   const router = useRouter()
   const page = parseInt(router.query.page as string) || 1
 
