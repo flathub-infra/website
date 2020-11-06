@@ -9,6 +9,10 @@ export default function CategoriesList() {
       </header>
       <div className='categories'>
         <CategoryCard
+          name='All'
+          href={`/apps/category/All`}
+        />
+        <CategoryCard
           name='Audio & Video'
           href={`/apps/category/${Category.AudioVideo}`}
         />
