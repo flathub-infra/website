@@ -153,7 +153,7 @@ header#main-header {
 .category-card {
   background-color: white;
   border: 1px solid $border;
-  max-width: 380px;
+  max-width: 360px;
   width: 100%;
   border-radius: 12px;
   margin: 6px;
@@ -197,7 +197,6 @@ header#main-header {
 
   .summary {
     color: $dark;
-    padding: 8px 12px;
     width: calc(100% - 100px);
     display: flex;
     flex-direction: column;
