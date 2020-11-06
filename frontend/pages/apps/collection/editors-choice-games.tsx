@@ -4,7 +4,7 @@ import Application from './../../../src/types/Application'
 import ApplicationCollection from '../../../src/components/application/Collection'
 import { BASE_URI } from '../../../src/env'
 
-export default function EditorChoiceGames({applications}) {
+export default function EditorChoiceGames({ applications }) {
   return (
     <ApplicationCollection
       title="Editor's Choice Games"
@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const applications: Application[] = await res.json()
   return {
     props: {
-      applications
-    }
+      applications,
+    },
   }
 }

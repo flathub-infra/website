@@ -4,7 +4,7 @@ import Collection from '../../../src/components/application/Collection'
 import { BASE_URI } from '../../../src/env'
 import Application from '../../../src/types/Application'
 
-const AllCategory = ({applications}) => {
+const AllCategory = ({ applications }) => {
   return <Collection title='All' applications={applications} />
 }
 
@@ -13,10 +13,9 @@ export const getStaticProps: GetStaticProps = async () => {
   const applications: Application[] = await res.json()
   return {
     props: {
-      applications
-    }
+      applications,
+    },
   }
 }
-
 
 export default AllCategory

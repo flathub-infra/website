@@ -4,13 +4,8 @@ import Application from './../../../src/types/Application'
 import ApplicationCollection from '../../../src/components/application/Collection'
 import { BASE_URI } from '../../../src/env'
 
-export default function PopularApps({applications}) {
-  return (
-    <ApplicationCollection
-      title="Popular"
-      applications={applications}
-    />
-  )
+export default function PopularApps({ applications }) {
+  return <ApplicationCollection title='Popular' applications={applications} />
 }
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -18,8 +13,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const applications: Application[] = await res.json()
   return {
     props: {
-      applications
-    }
+      applications,
+    },
   }
 }
-

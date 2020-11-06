@@ -26,9 +26,8 @@ jobs:
       - name: Lint
         uses: mooyoul/tslint-actions@v1.1.1
         with:
-          pattern: '*.ts'
+          pattern: "*.ts"
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: yarn build
         env:
-            CI: true
-
+          CI: true

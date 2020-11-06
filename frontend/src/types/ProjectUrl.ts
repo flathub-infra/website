@@ -1,4 +1,4 @@
- enum ProjectUrl {
+enum ProjectUrl {
   Contact,
   Translate,
   Bugtracker,
@@ -8,4 +8,4 @@
   Homepage,
 }
 
-export default ProjectUrl;
+export default ProjectUrl

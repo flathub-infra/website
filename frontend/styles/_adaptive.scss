@@ -1,15 +1,11 @@
-@import "colors";
-
-
+@import 'colors';
 
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
-
 }
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
-
   .applications-section,
   .applications-collection,
   .categories-section {
@@ -24,12 +20,10 @@
       display: block;
     }
   }
-
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
-
   .applications-section,
   .applications-collection,
   .categories-section {
@@ -59,10 +53,9 @@
   }
 
   #application {
-    .container  {
+    .container {
       width: 70%;
       margin: 0 auto;
     }
   }
-
 }

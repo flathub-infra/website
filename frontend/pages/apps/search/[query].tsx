@@ -4,10 +4,8 @@ import Collection from '../../../src/components/application/Collection'
 import Application from './../../../src/types/Application'
 import { BASE_URI } from '../../../src/env'
 
-export default function Search({applications}) {
-  return (
-    <Collection title='Search' applications={applications} />
-  )
+export default function Search({ applications }) {
+  return <Collection title='Search' applications={applications} />
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -17,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const applications: Application[] = await res.json()
   return {
     props: {
-      applications
-    }
+      applications,
+    },
   }
 }

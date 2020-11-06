@@ -4,15 +4,15 @@ import Application from '../../types/Application'
 import Link from 'next/link'
 
 interface Props {
-  title: string,
-  href: string,
-  applications: Application[],
+  title: string
+  href: string
+  applications: Application[]
 }
 
 const ApplicationSection: FunctionComponent<Props> = ({
   href,
   title,
-  applications
+  applications,
 }) => {
   return (
     <div className='applications-section'>
@@ -22,10 +22,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
         <Link href={href}>
           <button className='show-all-button'>
             <div>Show All</div>
-          <img
-              src='/go-next.svg'
-              alt='Next'
-            />
+            <img src='/go-next.svg' alt='Next' />
           </button>
         </Link>
       </header>

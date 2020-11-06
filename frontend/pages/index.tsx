@@ -1,10 +1,10 @@
-import Head from "next/head"
+import Head from 'next/head'
 
-import Main from "./../src/components/layout/Main"
-import ApplicationSection from "./../src/components/application/Section"
-import CategoriesList from "../src/components/categories/List"
+import Main from './../src/components/layout/Main'
+import ApplicationSection from './../src/components/application/Section'
+import CategoriesList from '../src/components/categories/List'
 
-import { BASE_URI } from "../src/env"
+import { BASE_URI } from '../src/env'
 import { GetStaticProps } from 'next'
 import Application from '../src/types/Application'
 
@@ -14,31 +14,31 @@ export default function Home({ recentlyUpdated }) {
       <Head>
         <title>Flathub—An app store and build service for Linux</title>
         <meta
-          name="description"
-          content="Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!"
+          name='description'
+          content='Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!'
         />
-        <base href="/" />
+        <base href='/' />
 
-        <link rel="icon" type="image/png" href="./favicon.png" />
+        <link rel='icon' type='image/png' href='./favicon.png' />
       </Head>
-      <div className="main-container">
+      <div className='main-container'>
         <ApplicationSection
-          key="editor_choice"
+          key='editor_choice'
           title="Editor's Picks"
           applications={recentlyUpdated}
-          href="/apps/collection/editors-choice-apps"
+          href='/apps/collection/editors-choice-apps'
         />
         <ApplicationSection
-          key="updated"
-          title="Recently Updated"
+          key='updated'
+          title='Recently Updated'
           applications={recentlyUpdated}
-          href="/apps/collection/recently-updated"
+          href='/apps/collection/recently-updated'
         />
         <ApplicationSection
-          key="popular"
-          title="Most Popular"
+          key='popular'
+          title='Most Popular'
           applications={recentlyUpdated}
-          href="/apps/collection/popular"
+          href='/apps/collection/popular'
         />
         <CategoriesList />
       </div>
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const recentlyUpdated: Application[] = await res.json()
   return {
     props: {
-      recentlyUpdated
-    }
+      recentlyUpdated,
+    },
   }
 }

@@ -9,6 +9,6 @@ enum Category {
   Science = 'Science',
   Settings = 'Settings',
   System = 'System',
-  Utility = 'Utility'
+  Utility = 'Utility',
 }
-export default Category;
+export default Category

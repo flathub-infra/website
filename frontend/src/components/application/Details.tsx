@@ -19,7 +19,7 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
       : false
     return (
       <div id='application'>
-        <header className="container">
+        <header className='container'>
           <div className='logo'>
             <img
               src={`https://flathub.org//repo/appstream/x86_64/icons/128x128/${appstream.id}.png`}
@@ -27,12 +27,12 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
             />
           </div>
 
-          <div className="details">
+          <div className='details'>
             <h2>{appstream.name}</h2>
-            <div className="developer">{appstream.developer_name || '-'}</div>
+            <div className='developer'>{appstream.developer_name || '-'}</div>
           </div>
 
-          <div className="install">
+          <div className='install'>
             <button className='primary-button install-button'>Install</button>
           </div>
         </header>
@@ -49,17 +49,26 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
           showStatus={false}
           renderArrowNext={(handler, hasNext, label) =>
             hasNext ? (
-              <div onClick={handler} className="control-arrow control-next">
+              <div onClick={handler} className='control-arrow control-next'>
                 <img src='/go-next.svg' />
               </div>
-            ) : <></>
+            ) : (
+              <></>
+            )
           }
           renderArrowPrev={(handler, hasPrev, label) =>
             hasPrev ? (
-              <div onClick={handler} className="control-arrow control-prev" style={{ transform: 'rotateY(180deg)' }}>
+              <div
+                onClick={handler}
+                className='control-arrow control-prev'
+                style={{ transform: 'rotateY(180deg)' }}
+              >
                 <img src='/go-next.svg' />
               </div>
-            ) : (<></>)}
+            ) : (
+              <></>
+            )
+          }
         >
           {appstream.screenshots &&
             appstream.screenshots.map((screenshot, index) => (
@@ -70,61 +79,72 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
               />
             ))}
         </Carousel>
-        <div className="container">
-          <h3 className="summary">{appstream.summary}</h3>
+        <div className='container'>
+          <h3 className='summary'>{appstream.summary}</h3>
           <p
             className='description'
             dangerouslySetInnerHTML={{ __html: appstream.description }}
           />
           {appstream.releases && appstream.releases.length > 0 && (
-            <div className="releases">
+            <div className='releases'>
               {latestRelease && (
                 <div className='release-details'>
                   <header>
                     <h3>Changes in version {latestRelease.version}</h3>
-                    <div>{(new Date(latestRelease.timestamp * 1000)).toDateString()}</div>
+                    <div>
+                      {new Date(latestRelease.timestamp * 1000).toDateString()}
+                    </div>
                   </header>
-                  <p className="description"
-                    dangerouslySetInnerHTML={{ __html: latestRelease.description }}
+                  <p
+                    className='description'
+                    dangerouslySetInnerHTML={{
+                      __html: latestRelease.description,
+                    }}
                   />
                 </div>
               )}
               {appstream.releases.length > 1 && (
-                <div className="history">
-                  Version History
-                </div>
+                <div className='history'>Version History</div>
               )}
             </div>
           )}
 
-          <div className="urls">
+          <div className='urls'>
             {appstream.urls && (
               <>
                 <div>
-                  {
-                    appstream.urls.homepage && (
-                      <ProjectUrlWidget url={appstream.urls.homepage} type={ProjectUrl.Homepage} />
-                    )
-                  }
+                  {appstream.urls.homepage && (
+                    <ProjectUrlWidget
+                      url={appstream.urls.homepage}
+                      type={ProjectUrl.Homepage}
+                    />
+                  )}
 
                   {appstream.urls.donation && (
-                    <ProjectUrlWidget url={appstream.urls.donation} type={ProjectUrl.Donate} />
+                    <ProjectUrlWidget
+                      url={appstream.urls.donation}
+                      type={ProjectUrl.Donate}
+                    />
                   )}
 
                   {appstream.urls.translate && (
-                    <ProjectUrlWidget url={appstream.urls.translate} type={ProjectUrl.Translate} />
+                    <ProjectUrlWidget
+                      url={appstream.urls.translate}
+                      type={ProjectUrl.Translate}
+                    />
                   )}
                 </div>
                 <div>
-
                   {appstream.urls.bugtracker && (
-                    <ProjectUrlWidget url={appstream.urls.bugtracker} type={ProjectUrl.Bugtracker} />
+                    <ProjectUrlWidget
+                      url={appstream.urls.bugtracker}
+                      type={ProjectUrl.Bugtracker}
+                    />
                   )}
                 </div>
               </>
             )}
           </div>
-
         </div>
       </div>
     )

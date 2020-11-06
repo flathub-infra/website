@@ -19,8 +19,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const appstream: Appstream = await res.json()
   return {
     props: {
-      appstream
-    }
+      appstream,
+    },
   }
 }
 
@@ -30,12 +30,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   const paths = apps.map((app) => ({
     params: {
-      app_id: app.flatpakAppId
-    }
+      app_id: app.flatpakAppId,
+    },
   }))
 
   return {
     paths,
-    fallback: false
+    fallback: false,
   }
 }

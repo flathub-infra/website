@@ -1,6 +1,5 @@
 @import 'colors';
 
-
 main#wrapper {
   background-color: $bg-color;
   min-height: 100vh;
@@ -122,7 +121,6 @@ header#main-header {
       margin-bottom: 0;
       font-weight: 900;
     }
-
   }
 }
 
@@ -187,13 +185,13 @@ header#main-header {
     display: flex;
 
     img {
-      filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25)) drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
+      filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25))
+        drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
       width: 64px;
       height: 64px;
       display: block;
       margin: 0 auto;
       align-self: center;
-
     }
   }
 
@@ -251,10 +249,10 @@ header#main-header {
         margin-top: 0;
         align-items: center;
         text-align: center;
-        filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25)) drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
+        filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25))
+          drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
       }
     }
-
 
     div.details {
       margin-left: 10px;
@@ -334,7 +332,6 @@ header#main-header {
     grid-template-columns: 1fr 1fr;
     gap: 6px 6px;
 
-
     .url {
       min-width: 360px;
       padding: 12px;
@@ -387,8 +384,6 @@ header#main-header {
         filter: opacity(0.6);
         text-align: center;
       }
-
-
     }
   }
 
@@ -460,7 +455,7 @@ header#main-header {
         margin-bottom: 12px;
       }
 
-      .app-info-value>span,
+      .app-info-value > span,
       .app-info-value {
         font-size: 13px;
         line-height: 16px;
@@ -470,7 +465,6 @@ header#main-header {
       padding-bottom: 20px;
     }
   }
-
 }
 
 pre {
@@ -546,7 +540,6 @@ footer#footer {
   text-transform: capitalize;
 }
 
-
 .pagination {
   display: flex;
   flex-direction: row;
@@ -579,19 +572,16 @@ footer#footer {
       font-weight: 700;
       color: $main-color;
     }
-
-
   }
 }
 
-
 .show-all-button {
   border-radius: 9999px;
-  background-color: #F8F7F7;
+  background-color: #f8f7f7;
   padding: 0px 18px;
   margin: 4px;
   font-size: 0.9rem;
-  border: 1px solid #D3D1CF;
+  border: 1px solid #d3d1cf;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -606,7 +596,6 @@ footer#footer {
     margin: auto;
   }
 }
-
 
 .carousel {
   outline: none;
@@ -643,7 +632,6 @@ footer#footer {
         border: 0;
         display: none;
       }
-
     }
 
     img {
@@ -682,6 +670,5 @@ footer#footer {
     }
   }
 }
-
 
 @import 'adaptive';
