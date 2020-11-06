@@ -11,6 +11,7 @@ export default function PopularApps({ applications }) {
 export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(`${BASE_URI}/apps/collection/recently-updated`)
   const applications: Application[] = await res.json()
+  applications.sort((a, b) => a.name.localeCompare(b.name))
   return {
     props: {
       applications,

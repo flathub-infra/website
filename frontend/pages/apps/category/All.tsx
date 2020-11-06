@@ -11,6 +11,7 @@ const AllCategory = ({ applications }) => {
 export const getStaticProps: GetStaticProps = async () => {
   const res = await fetch(`${BASE_URI}/apps`)
   const applications: Application[] = await res.json()
+  applications.sort((a, b) => a.name.localeCompare(b.name))
   return {
     props: {
       applications,
