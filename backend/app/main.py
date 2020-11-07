@@ -12,6 +12,7 @@ from . import feeds
 from . import apps
 from . import flatpak
 from . import schemas
+from . import picks
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -27,7 +28,9 @@ def startup_event():
 
 @app.post("/v1/apps/update")
 def update_apps(background_tasks: BackgroundTasks):
-    return apps.update_apps(background_tasks)
+    ret = apps.update_apps(background_tasks)
+    picks.update()
+    return ret
 
 
 # TODO: should be optimized/cached, it's fairly slow at 23 req/s
@@ -71,6 +74,11 @@ def search(userquery: str):
 @lru_cache()
 def get_recently_updated(limit: int = 100):
     return apps.get_recently_updated(limit)
+
+
+@app.get("/v2/picks/{pick}")
+def get_picks(pick: str):
+    return picks.get_pick(pick)
 
 
 @app.get("/v1/feed/recently-updated")

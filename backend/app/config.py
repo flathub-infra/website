@@ -1,7 +1,9 @@
-from os.path import expanduser
-from typing import Optional
+import os
 
+from typing import Optional
 from pydantic import BaseSettings
+
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Settings(BaseSettings):
@@ -12,6 +14,7 @@ class Settings(BaseSettings):
     github_token: Optional[str] = None
     sentry_dsn: Optional[str] = None
     appstream_repos: Optional[str] = None
+    datadir: str = os.path.join(ROOT_DIR, "data")
 
 
 settings = Settings()

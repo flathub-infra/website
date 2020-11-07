@@ -48,6 +48,7 @@ def setup_module():
 
     config.settings.ostree_repo = repo_path
     config.settings.appstream_repos = "tests/appstream"
+    config.settings.datadir = "tests/data"
 
     from app import main
 
@@ -184,6 +185,24 @@ def test_feed_by_new():
         channel.remove(date)
 
     assert etree.tostring(feed) == etree.tostring(expected)
+
+
+def test_picked_apps():
+    response = client.get("/v2/picks/apps")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_picked_apps")
+
+
+def test_picked_games():
+    response = client.get("/v2/picks/games")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_picked_games")
+
+
+def test_picked_non_existent():
+    response = client.get("/v2/picks/NonExistent")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_picked_non_existent")
 
 
 def test_status():
