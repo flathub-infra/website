@@ -397,7 +397,7 @@ def search(userquery: str):
 
 
 def get_recently_updated(limit: int = 100):
-    apps = db.redis_conn.zrevrange("recently_updated_zset", 0, limit)
+    apps = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
     keys = (f"apps:{appid}" for appid in apps)
     ret = list_apps_summary(appids=keys, sort=False)
     return ret
