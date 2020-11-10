@@ -11,6 +11,7 @@ from . import utils
 from . import feeds
 from . import apps
 from . import flatpak
+from . import schemas
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -42,7 +43,7 @@ def list_apps_summary(
 
 
 @app.get("/v1/apps/category/{category}")
-def list_apps_in_category(category: str):
+def list_apps_in_category(category: schemas.Category):
     return list_apps_summary(f"categories:{category}")
 
 

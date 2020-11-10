@@ -78,10 +78,7 @@ def test_apps_by_category():
 
 def test_apps_by_non_existent_category():
     response = client.get("/v1/apps/category/NonExistent")
-    assert response.status_code == 200
-    assert response.json() == get_expected_json_result(
-        "test_apps_by_non_existent_category"
-    )
+    assert response.status_code == 422
 
 
 def test_apps_by_appid():
