@@ -5,8 +5,6 @@ from enum import Enum
 
 class Category(str, Enum):
     AudioVideo = "AudioVideo"
-    Audio = "Audio"
-    Video = "Video"
     Development = "Development"
     Education = "Education"
     Game = "Game"
@@ -14,6 +12,5 @@ class Category(str, Enum):
     Network = "Network"
     Office = "Office"
     Science = "Science"
-    Settings = "Settings"
     System = "System"
     Utility = "Utility"
