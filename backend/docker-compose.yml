@@ -1,7 +1,7 @@
 version: "2"
 services:
   redis:
-    image: redislabs/redisearch:1.6.13
+    image: redislabs/redisearch:1.8.3
     ports:
       - "6379"
 
