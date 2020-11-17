@@ -212,6 +212,12 @@ def appstream2dict(reponame: str):
                     if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                         continue
 
+        # Settings seems to be a lonely, forgotten category with just 3 apps,
+        # add them to more popular System
+        if "categories" in app:
+            if "Settings" in app["categories"]:
+                app["categories"].append("System")
+
         # Some apps keep .desktop suffix for legacy reasons, fall back to what
         # Flatpak put into bundle component for actual ID
         appid = app["bundle"]["value"].split("/")[1]
