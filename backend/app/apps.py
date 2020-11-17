@@ -280,7 +280,7 @@ def list_apps_summary(index="apps:index", appids=None, sort=False):
     ret = [get_app_summary(json.loads(app)) for app in apps if isinstance(app, str)]
 
     if sort:
-        ret = sorted(ret, key=lambda x: x["name"])
+        ret = sorted(ret, key=lambda x: x["name"].casefold())
 
     return ret
 

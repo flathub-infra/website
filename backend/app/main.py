@@ -44,7 +44,7 @@ def list_apps_summary(
 
 @app.get("/v1/apps/category/{category}")
 def list_apps_in_category(category: schemas.Category):
-    return list_apps_summary(f"categories:{category}")
+    return list_apps_summary(f"categories:{category}", appids=None, sort=True)
 
 
 @app.get("/v1/apps/{appid}", status_code=status.HTTP_200_OK)
