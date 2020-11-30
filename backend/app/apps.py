@@ -367,11 +367,11 @@ def search(userquery: str):
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
 
-    # redisearch does not support fuzzy search for strings with whitespace
-    if contains_whitespace(userquery) or "." in userquery:
-        generic_query = redisearch.Query(userquery).no_content()
-    else:
+    # redisearch does not support fuzzy search for non-alphabet strings
+    if userquery.isalpha():
         generic_query = redisearch.Query(f"%{userquery}%").no_content()
+    else:
+        generic_query = redisearch.Query(userquery).no_content()
 
     # TODO: Backend API doesn't support paging so bring fifty results
     # instead of just 10, which is the redisearch default
