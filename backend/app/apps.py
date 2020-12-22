@@ -29,39 +29,6 @@ def contains_whitespace(s: str):
     return False
 
 
-def get_icon_path(app):
-    cdn_baseurl = "https://dl.flathub.org"
-    appid = app["id"]
-
-    if icons := app.get("icon"):
-        if isinstance(icons, dict):
-            if icons["type"] == "cached":
-                size = icons["height"]
-                icon_path = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{appid}.png"
-                return icon_path
-            else:
-                icon_path = icons["value"]
-                return icon_path
-
-        cached_icons = [icon["height"] for icon in icons if icon["type"] == "cached"]
-        if cached_icons:
-            cached_icons.sort()
-            size = cached_icons[0]
-            name = icons[0]["value"]
-
-            icon_path = (
-                f"{cdn_baseurl}/repo/appstream/x86_64/icons/{size}x{size}/{name}"
-            )
-            return icon_path
-
-        remote_icons = [icon for icon in icons if icon["type"] == "remote"]
-        if remote_icons:
-            icon_path = remote_icons[0]["value"]
-            return icon_path
-
-    return None
-
-
 def get_current_release_date(appid: str, template: str = "%Y-%m-%d"):
     # The v1 API uses currentReleaseDate field to describe when the app
     # has been updated in the Flathub repo. It's not related to appdata
@@ -78,7 +45,6 @@ def get_app_summary(app):
     appid = app["id"]
     release = app["releases"][0] if app.get("releases") else {}
 
-    icon_path = get_icon_path(app)
     updated_at = get_current_release_date(appid)
 
     short_app = {
@@ -87,8 +53,8 @@ def get_app_summary(app):
         "summary": app["summary"],
         "currentReleaseVersion": release.get("version"),
         "currentReleaseDate": updated_at,
-        "iconDesktopUrl": icon_path,
-        "iconMobileUrl": icon_path,
+        "iconDesktopUrl": app["icon"],
+        "iconMobileUrl": app["icon"],
     }
 
     return short_app
@@ -313,8 +279,6 @@ def get_app(appid: str):
                 }
             )
 
-    icon_path = get_icon_path(app)
-
     if "categories" in app:
         categories = [{"name": category} for category in app["categories"]]
     else:
@@ -342,8 +306,8 @@ def get_app(appid: str):
         "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{appid}.flatpakref",
         "currentReleaseVersion": release.get("version"),
         "currentReleaseDescription": release.get("description"),
-        "iconDesktopUrl": icon_path,
-        "iconMobileUrl": icon_path,
+        "iconDesktopUrl": app["icon"],
+        "iconMobileUrl": app["icon"],
         "screenshots": screenshots,
         "currentReleaseDate": updated_at,
     }
