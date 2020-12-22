@@ -178,6 +178,35 @@ def appstream2dict(reponame: str):
                 if url_type:
                     app["urls"][url_type] = url.text
 
+        icons = component.findall("icon")
+        if len(icons):
+            has_cached_icon = False
+            has_remote_icon = False
+            cached_icon_size = 0
+
+            for icon in icons:
+                component.remove(icon)
+                if icon.attrib.get("type") == "cached":
+                    has_cached_icon = True
+                    icon_size = int(icon.attrib.get("width"))
+                    icon_name = icon.text
+                    if icon_size > cached_icon_size:
+                        cached_icon_size = icon_size
+                    continue
+
+                if icon.attrib.get("type") == "remote":
+                    has_remote_icon = True
+                    icon_url = icon.text
+                    continue
+
+            if has_cached_icon:
+                cdn_baseurl = "https://dl.flathub.org"
+                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
+            elif has_remote_icon:
+                app["icon"] = icon_url
+            else:
+                app["icon"] = None
+
         for elem in component:
             # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
