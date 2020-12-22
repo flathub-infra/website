@@ -1,0 +1,11 @@
+[
+  {
+    "flatpakAppId": "com.anydesk.Anydesk",
+    "name": "AnyDesk",
+    "summary": "Connect to a computer remotely",
+    "currentReleaseVersion": "6.0.1",
+    "currentReleaseDate": "2020-11-25",
+    "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+    "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png"
+  }
+]

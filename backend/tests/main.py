@@ -139,7 +139,7 @@ def test_search_query_by_non_existent():
     )
 
 
-def test_collection_by_all_recently_updated():
+def test_collection_by_recently_updated():
     response = client.get("/v1/apps/collection/recently-updated")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
@@ -151,7 +151,7 @@ def test_collection_by_one_recently_updated():
     response = client.get("/v1/apps/collection/recently-updated/1")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
-        "test_collection_by_recently_updated"
+        "test_collection_by_one_recently_updated"
     )
 
 
