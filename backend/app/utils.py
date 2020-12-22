@@ -77,10 +77,13 @@ def appstream2dict(reponame: str):
             reponame,
             "appstream",
             "x86_64",
-            "appstream.xml.gz",
+            "appstream.xml",
         )
         with open(appstream_path, "rb") as file:
-            appstream = gzip.decompress(file.read())
+            if appstream_path.endswith('.gz'):
+                appstream = gzip.decompress(file.read())
+            else:
+                appstream = file.read()
     else:
         appstream_url = (
             f"https://hub.flathub.org/{reponame}/appstream/x86_64/appstream.xml.gz"
