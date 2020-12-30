@@ -63,7 +63,7 @@ def get_app_summary(app):
 def load_appstream():
     apps = utils.appstream2dict("repo")
 
-    current_apps = db.redis_conn.smembers("apps:index")
+    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_categories = db.redis_conn.smembers("categories:index")
 
     with db.redis_conn.pipeline() as p:
