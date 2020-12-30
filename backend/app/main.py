@@ -84,9 +84,4 @@ def get_new_apps_feed():
 
 @app.get("/status", status_code=200)
 def healthcheck(response: Response):
-    # redis_status = redis_conn.ping()
-    # if not redis_status:
-    #     response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
-    #     return {"status": "REDIS_DOWN"}
-
     return {"status": "OK"}
