@@ -53,8 +53,8 @@ def get_app_summary(app):
         "summary": app["summary"],
         "currentReleaseVersion": release.get("version"),
         "currentReleaseDate": updated_at,
-        "iconDesktopUrl": app["icon"],
-        "iconMobileUrl": app["icon"],
+        "iconDesktopUrl": app.get("icon"),
+        "iconMobileUrl": app.get("icon"),
     }
 
     return short_app
@@ -306,8 +306,8 @@ def get_app(appid: str):
         "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{appid}.flatpakref",
         "currentReleaseVersion": release.get("version"),
         "currentReleaseDescription": release.get("description"),
-        "iconDesktopUrl": app["icon"],
-        "iconMobileUrl": app["icon"],
+        "iconDesktopUrl": app.get("icon"),
+        "iconMobileUrl": app.get("icon"),
         "screenshots": screenshots,
         "currentReleaseDate": updated_at,
     }
