@@ -58,8 +58,8 @@ def search(userquery: str):
     return apps.search(userquery)
 
 
-@app.get("/recently-updated")
-@app.get("/recently-updated/{limit}")
+@app.get("/collection/recently-updated")
+@app.get("/collection/recently-updated/{limit}")
 @lru_cache()
 def get_recently_updated(limit: int = 100):
     return apps.get_recently_updated(limit)

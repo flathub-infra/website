@@ -61,36 +61,19 @@ def teardown_module():
 
 
 def test_update():
-    response = client.post("/apps/update")
+    response = client.post("/update")
     assert response.status_code == 200
-
-
-def test_apps():
-    response = client.get("/apps")
-    assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_apps")
 
 
 def test_apps_by_category():
-    response = client.get("/apps/category/Game")
+    response = client.get("/category/Game")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_apps_by_category")
 
 
 def test_apps_by_non_existent_category():
-    response = client.get("/apps/category/NonExistent")
+    response = client.get("/category/NonExistent")
     assert response.status_code == 422
-
-
-def test_apps_by_appid():
-    response = client.get("/apps/org.sugarlabs.Maze")
-    assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_apps_by_appid")
-
-
-def test_apps_by_non_existent_appid():
-    response = client.get("/apps/NonExistent")
-    assert response.status_code == 204
 
 
 def test_appstream_by_appid():
@@ -108,31 +91,31 @@ def test_appstream_by_non_existent_appid():
 
 
 def test_search_query_by_appid():
-    response = client.get("/apps/search/org.sugarlabs.Maze")
+    response = client.get("/search/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_name():
-    response = client.get("/apps/search/Maze")
+    response = client.get("/search/Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_summary():
-    response = client.get("/apps/search/maze%20game")
+    response = client.get("/search/maze%20game")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_description():
-    response = client.get("/apps/search/finding%20your%20way%20out")
+    response = client.get("/search/finding%20your%20way%20out")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_non_existent():
-    response = client.get("/apps/search/NonExistent")
+    response = client.get("/search/NonExistent")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_search_query_by_non_existent"
@@ -140,7 +123,7 @@ def test_search_query_by_non_existent():
 
 
 def test_collection_by_recently_updated():
-    response = client.get("/apps/collection/recently-updated")
+    response = client.get("/collection/recently-updated")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_collection_by_recently_updated"
@@ -148,7 +131,7 @@ def test_collection_by_recently_updated():
 
 
 def test_collection_by_one_recently_updated():
-    response = client.get("/apps/collection/recently-updated/1")
+    response = client.get("/collection/recently-updated/1")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_collection_by_one_recently_updated"
