@@ -61,46 +61,46 @@ def teardown_module():
 
 
 def test_update():
-    response = client.post("/v1/apps/update")
+    response = client.post("/apps/update")
     assert response.status_code == 200
 
 
 def test_apps():
-    response = client.get("/v1/apps")
+    response = client.get("/apps")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_apps")
 
 
 def test_apps_by_category():
-    response = client.get("/v1/apps/category/Game")
+    response = client.get("/apps/category/Game")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_apps_by_category")
 
 
 def test_apps_by_non_existent_category():
-    response = client.get("/v1/apps/category/NonExistent")
+    response = client.get("/apps/category/NonExistent")
     assert response.status_code == 422
 
 
 def test_apps_by_appid():
-    response = client.get("/v1/apps/org.sugarlabs.Maze")
+    response = client.get("/apps/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_apps_by_appid")
 
 
 def test_apps_by_non_existent_appid():
-    response = client.get("/v1/apps/NonExistent")
+    response = client.get("/apps/NonExistent")
     assert response.status_code == 204
 
 
 def test_appstream_by_appid():
-    response = client.get("/v1/appstream/org.sugarlabs.Maze")
+    response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_appstream_by_appid")
 
 
 def test_appstream_by_non_existent_appid():
-    response = client.get("/v1/appstream/NonExistent")
+    response = client.get("/appstream/NonExistent")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_appstream_by_non_existent_appid"
@@ -108,31 +108,31 @@ def test_appstream_by_non_existent_appid():
 
 
 def test_search_query_by_appid():
-    response = client.get("/v1/apps/search/org.sugarlabs.Maze")
+    response = client.get("/apps/search/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_name():
-    response = client.get("/v1/apps/search/Maze")
+    response = client.get("/apps/search/Maze")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_summary():
-    response = client.get("/v1/apps/search/maze%20game")
+    response = client.get("/apps/search/maze%20game")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_description():
-    response = client.get("/v1/apps/search/finding%20your%20way%20out")
+    response = client.get("/apps/search/finding%20your%20way%20out")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_search_query_by_appid")
 
 
 def test_search_query_by_non_existent():
-    response = client.get("/v1/apps/search/NonExistent")
+    response = client.get("/apps/search/NonExistent")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_search_query_by_non_existent"
@@ -140,7 +140,7 @@ def test_search_query_by_non_existent():
 
 
 def test_collection_by_recently_updated():
-    response = client.get("/v1/apps/collection/recently-updated")
+    response = client.get("/apps/collection/recently-updated")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_collection_by_recently_updated"
@@ -148,7 +148,7 @@ def test_collection_by_recently_updated():
 
 
 def test_collection_by_one_recently_updated():
-    response = client.get("/v1/apps/collection/recently-updated/1")
+    response = client.get("/apps/collection/recently-updated/1")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result(
         "test_collection_by_one_recently_updated"
@@ -156,7 +156,7 @@ def test_collection_by_one_recently_updated():
 
 
 def test_feed_by_recently_updated():
-    response = client.get("/v1/feed/recently-updated")
+    response = client.get("/feed/recently-updated")
     assert response.status_code == 200
 
     feed = etree.fromstring(response.text.encode("utf-8"))
@@ -172,7 +172,7 @@ def test_feed_by_recently_updated():
 
 
 def test_feed_by_new():
-    response = client.get("/v1/feed/new")
+    response = client.get("/feed/new")
     assert response.status_code == 200
 
     feed = etree.fromstring(response.text.encode("utf-8"))
@@ -188,19 +188,19 @@ def test_feed_by_new():
 
 
 def test_picked_apps():
-    response = client.get("/v2/picks/apps")
+    response = client.get("/picks/apps")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_picked_apps")
 
 
 def test_picked_games():
-    response = client.get("/v2/picks/games")
+    response = client.get("/picks/games")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_picked_games")
 
 
 def test_picked_non_existent():
-    response = client.get("/v2/picks/NonExistent")
+    response = client.get("/picks/NonExistent")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_picked_non_existent")
 
