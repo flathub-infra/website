@@ -5,6 +5,7 @@
         "flatpakAppId": "org.sugarlabs.Maze",
         "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
         "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+        "inStoreSinceDate": null,
         "name": "Maze",
         "summary": "A simple maze game"
     }

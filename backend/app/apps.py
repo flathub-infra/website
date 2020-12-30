@@ -46,6 +46,7 @@ def get_app_summary(app):
     release = app["releases"][0] if app.get("releases") else {}
 
     updated_at = get_current_release_date(appid)
+    created_at = db.redis_conn.get(f"created_at:{appid}")
 
     short_app = {
         "flatpakAppId": appid,
@@ -55,6 +56,7 @@ def get_app_summary(app):
         "currentReleaseDate": updated_at,
         "iconDesktopUrl": app.get("icon"),
         "iconMobileUrl": app.get("icon"),
+        "inStoreSinceDate": created_at
     }
 
     return short_app
@@ -186,8 +188,11 @@ query getRepos($cursor: String) {
 
 
 def populate_creation_dates():
+    created_at_zset = {}
     created_at = {}
     variables = {"cursor": None}
+
+    apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
     while True:
         ret = run_query(variables)
@@ -195,10 +200,12 @@ def populate_creation_dates():
             repo_name = repo["node"]["name"]
             repo_created_at = repo["node"]["createdAt"]
 
-            if db.redis_conn.exists(f"apps:{repo_name}"):
+            if repo_name in apps:
                 dt = datetime.strptime(repo_created_at, "%Y-%m-%dT%H:%M:%SZ")
                 timestamp = int(datetime.timestamp(dt))
-                created_at[repo_name] = timestamp
+
+                created_at_zset[repo_name] = timestamp
+                created_at[f"created_at:{repo_name}"] = repo_created_at
 
         pageinfo = ret["data"]["search"]["pageInfo"]
         if pageinfo["hasNextPage"]:
@@ -206,7 +213,9 @@ def populate_creation_dates():
         else:
             break
 
-    db.redis_conn.zadd("created_at_zset", created_at)
+    db.redis_conn.zadd("created_at_zset", created_at_zset)
+    db.redis_conn.mset(created_at)
+
     return len(created_at)
 
 
@@ -289,6 +298,7 @@ def get_app(appid: str):
         release = app_releases[0] if len(app_releases) else {}
 
     updated_at = get_current_release_date(appid)
+    created_at = db.redis_conn.get(f"created_at:{appid}")
 
     legacy_app = {
         "flatpakAppId": appid,
@@ -310,6 +320,7 @@ def get_app(appid: str):
         "iconMobileUrl": app.get("icon"),
         "screenshots": screenshots,
         "currentReleaseDate": updated_at,
+        "inStoreSinceDate": created_at
     }
 
     return legacy_app

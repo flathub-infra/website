@@ -17,6 +17,7 @@
     "homepageUrl": "https://github.com/sugarlabs/maze-activity",
     "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
     "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+    "inStoreSinceDate": null,
     "name": "Maze",
     "projectLicense": "GPL-3.0-or-later",
     "screenshots": [

@@ -1,6 +1,7 @@
 [
   {
     "flatpakAppId": "com.anydesk.Anydesk",
+    "inStoreSinceDate": null,
     "name": "AnyDesk",
     "summary": "Connect to a computer remotely",
     "currentReleaseVersion": "6.0.1",
@@ -10,6 +11,7 @@
   },
   {
     "flatpakAppId": "com.wps.Office",
+    "inStoreSinceDate": null,
     "name": "WPS Office",
     "summary": "WPS Office Suite",
     "currentReleaseVersion": "11.1.0.9719",
@@ -19,6 +21,7 @@
   },
   {
     "flatpakAppId": "org.sugarlabs.Maze",
+    "inStoreSinceDate": null,
     "name": "Maze",
     "summary": "A simple maze game",
     "currentReleaseVersion": "30",

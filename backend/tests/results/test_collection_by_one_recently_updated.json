@@ -1,6 +1,8 @@
 [
   {
     "flatpakAppId": "com.anydesk.Anydesk",
+    "inStoreSinceDate": null,
+    "inStoreSinceDate": null,
     "name": "AnyDesk",
     "summary": "Connect to a computer remotely",
     "currentReleaseVersion": "6.0.1",
