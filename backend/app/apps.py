@@ -102,7 +102,7 @@ def load_appstream():
     return list(apps.keys())
 
 
-def populate_build_dates(appids):
+def populate_build_dates():
     recently_updated = {}
 
     repo_file = Gio.File.new_for_path(config.settings.ostree_repo)
@@ -121,9 +121,6 @@ def populate_build_dates(appids):
             continue
 
         reftype, appid, arch, branch = ref.split("/")
-
-        if appid not in appids:
-            continue
 
         if arch != "x86_64" or branch != "stable":
             continue
@@ -162,8 +159,8 @@ def initialize():
 
 
 def update_apps(background_tasks):
-    appids = load_appstream()
-    populate_build_dates(appids)
+    populate_build_dates()
+    return load_appstream()
 
 
 def list_apps_summary(index="apps:index", appids=None, sort=False):
