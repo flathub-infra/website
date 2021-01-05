@@ -33,7 +33,7 @@ def get_current_release_date(appid: str, template: str = "%Y-%m-%d"):
     # The v1 API uses currentReleaseDate field to describe when the app
     # has been updated in the Flathub repo. It's not related to appdata
     # releases section.
-    if updated_at := db.redis_conn.get(f"recently_updated:{appid}"):
+    if updated_at := db.redis_conn.get(f"updated_at:{appid}"):
         updated_at_ts = int(updated_at)
     else:
         return None
@@ -132,7 +132,7 @@ def populate_build_dates(appids):
     db.redis_conn.zadd("recently_updated_zset", recently_updated)
     db.redis_conn.mset(
         {
-            f"recently_updated:{appid}": recently_updated[appid]
+            f"updated_at:{appid}": recently_updated[appid]
             for appid in recently_updated
         }
     )
