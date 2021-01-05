@@ -1,32 +1,20 @@
 [
   {
-    "flatpakAppId": "com.anydesk.Anydesk",
-    "inStoreSinceDate": null,
+    "id": "com.anydesk.Anydesk",
     "name": "AnyDesk",
     "summary": "Connect to a computer remotely",
-    "currentReleaseVersion": "6.0.1",
-    "currentReleaseDate": "2020-11-25",
-    "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-    "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png"
+    "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png"
   },
   {
-    "flatpakAppId": "com.wps.Office",
-    "inStoreSinceDate": null,
+    "id": "com.wps.Office",
     "name": "WPS Office",
     "summary": "WPS Office Suite",
-    "currentReleaseVersion": "11.1.0.9719",
-    "currentReleaseDate": "2020-10-28",
-    "iconDesktopUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
-    "iconMobileUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png"
+    "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png"
   },
   {
-    "flatpakAppId": "org.sugarlabs.Maze",
-    "inStoreSinceDate": null,
+    "id": "org.sugarlabs.Maze",
     "name": "Maze",
     "summary": "A simple maze game",
-    "currentReleaseVersion": "30",
-    "currentReleaseDate": "2020-05-11",
-    "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-    "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png"
+    "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png"
   }
 ]

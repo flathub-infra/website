@@ -42,21 +42,11 @@ def get_current_release_date(appid: str, template: str = "%Y-%m-%d"):
 
 
 def get_app_summary(app):
-    appid = app["id"]
-    release = app["releases"][0] if app.get("releases") else {}
-
-    updated_at = get_current_release_date(appid)
-    created_at = db.redis_conn.get(f"created_at:{appid}")
-
     short_app = {
-        "flatpakAppId": appid,
+        "id": app["id"],
         "name": app["name"],
         "summary": app["summary"],
-        "currentReleaseVersion": release.get("version"),
-        "currentReleaseDate": updated_at,
-        "iconDesktopUrl": app.get("icon"),
-        "iconMobileUrl": app.get("icon"),
-        "inStoreSinceDate": created_at
+        "icon": app.get("icon"),
     }
 
     return short_app
