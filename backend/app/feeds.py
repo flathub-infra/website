@@ -72,7 +72,7 @@ def get_recently_updated_apps_feed():
 
 def get_new_apps_feed():
     return generate_feed(
-        "created_at_zset",
+        "new_apps_zset",
         "Flathub – recently added applications",
         "Applications recently published on Flathub",
         "https://flathub.org/apps/collection/new",

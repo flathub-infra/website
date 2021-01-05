@@ -91,6 +91,10 @@ def load_appstream():
             p.delete(f"apps:{appid}", f"fts:{appid}")
             db.redis_search.delete_document(f"fts:{appid}")
 
+        new_apps_zset = {appid: db.redis_conn.get(f"updated_at:{appid}") for appid in set(apps) - current_apps}
+        if len(new_apps_zset) != len(apps) and len(new_apps_zset) > 0:
+            db.redis_conn.zadd("new_apps_zset", new_apps_zset)
+
         p.delete("apps:index")
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
