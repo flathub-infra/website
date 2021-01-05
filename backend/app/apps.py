@@ -99,7 +99,7 @@ def load_appstream():
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
 
-    return list(apps.keys())
+    return len(apps)
 
 
 def populate_build_dates():
