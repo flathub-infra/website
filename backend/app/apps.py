@@ -150,75 +150,6 @@ def populate_build_dates(appids):
     return len(recently_updated)
 
 
-def run_query(variables):
-    headers = {"Authorization": f"token {config.settings.github_token}"}
-
-    query = """
-query getRepos($cursor: String) {
-  search(query: "org:flathub", type: REPOSITORY, first: 100, after: $cursor) {
-    edges {
-      node {
-        ... on Repository {
-          name
-          createdAt
-        }
-      }
-    }
-    pageInfo {
-      endCursor
-      hasNextPage
-    }
-  }
-}
-"""
-
-    request = requests.post(
-        "https://api.github.com/graphql",
-        json={"query": query, "variables": variables},
-        headers=headers,
-    )
-    if request.status_code == 200:
-        return request.json()
-    else:
-        raise Exception(
-            "Query failed to run by returning code of {}. {}".format(
-                request.status_code, query
-            )
-        )
-
-
-def populate_creation_dates():
-    created_at_zset = {}
-    created_at = {}
-    variables = {"cursor": None}
-
-    apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
-
-    while True:
-        ret = run_query(variables)
-        for repo in ret["data"]["search"]["edges"]:
-            repo_name = repo["node"]["name"]
-            repo_created_at = repo["node"]["createdAt"]
-
-            if repo_name in apps:
-                dt = datetime.strptime(repo_created_at, "%Y-%m-%dT%H:%M:%SZ")
-                timestamp = int(datetime.timestamp(dt))
-
-                created_at_zset[repo_name] = timestamp
-                created_at[f"created_at:{repo_name}"] = repo_created_at
-
-        pageinfo = ret["data"]["search"]["pageInfo"]
-        if pageinfo["hasNextPage"]:
-            variables = {"cursor": pageinfo["endCursor"]}
-        else:
-            break
-
-    db.redis_conn.zadd("created_at_zset", created_at_zset)
-    db.redis_conn.mset(created_at)
-
-    return len(created_at)
-
-
 def initialize():
     apps = db.redis_conn.smembers("apps:index")
     if not apps:
@@ -239,11 +170,6 @@ def initialize():
 def update_apps(background_tasks):
     appids = load_appstream()
     populate_build_dates(appids)
-
-    if config.settings.github_token is not None:
-        background_tasks.add_task(populate_creation_dates)
-
-    return len(appids)
 
 
 def list_apps_summary(index="apps:index", appids=None, sort=False):
