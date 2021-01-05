@@ -89,9 +89,9 @@ def load_appstream():
 
         for appid in current_apps - set(apps):
             p.delete(f"apps:{appid}", f"fts:{appid}")
-            db.redis_search.delete_document(f"fts:appid")
+            db.redis_search.delete_document(f"fts:{appid}")
 
-        p.delete(f"apps:index")
+        p.delete("apps:index")
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
 
