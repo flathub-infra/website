@@ -7,7 +7,6 @@ from fastapi import status, Response, BackgroundTasks, FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from . import config
-from . import utils
 from . import feeds
 from . import apps
 from . import flatpak
