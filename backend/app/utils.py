@@ -201,7 +201,7 @@ def appstream2dict(reponame: str):
 
             if has_cached_icon:
                 cdn_baseurl = "https://dl.flathub.org"
-                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
+                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{cached_icon_size}x{cached_icon_size}/{icon_name}"
             elif has_remote_icon:
                 app["icon"] = icon_url
             else:
