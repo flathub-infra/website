@@ -180,32 +180,32 @@ def appstream2dict(reponame: str):
 
         icons = component.findall("icon")
         if len(icons):
-            has_cached_icon = False
-            has_remote_icon = False
-            cached_icon_size = 0
+            icons_dict = {}
 
             for icon in icons:
+                icon_type = icon.attrib.get("type")
+                icon_name = icon.text
+
+                icon_size = icon.attrib.get("width")
+                if icon_size:
+                    icon_size = int(icon_size)
+                else:
+                    icon_size = 0
+
+                icons_dict[icon_type] = {}
+                icons_dict[icon_type][icon_size] = icon_name
                 component.remove(icon)
-                if icon.attrib.get("type") == "cached":
-                    has_cached_icon = True
-                    icon_size = int(icon.attrib.get("width"))
-                    icon_name = icon.text
-                    if icon_size > cached_icon_size:
-                        cached_icon_size = icon_size
-                    continue
 
-                if icon.attrib.get("type") == "remote":
-                    has_remote_icon = True
-                    icon_url = icon.text
-                    continue
-
-            if has_cached_icon:
+            if icons_data := icons_dict.get("cached"):
                 cdn_baseurl = "https://dl.flathub.org"
-                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{cached_icon_size}x{cached_icon_size}/{icon_name}"
-            elif has_remote_icon:
-                app["icon"] = icon_url
-            else:
-                app["icon"] = None
+                icon_size = max(icons_data)
+                icon_name = icons_data[icon_size]
+                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
+            elif icons_data := icons_dict.get("remote"):
+                icon_size = max(icons_data)
+                app["icon"] = icons_data[icon_size]
+        else:
+            app["icon"] = None
 
         for elem in component:
             # TODO: support translations
