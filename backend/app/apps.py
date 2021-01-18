@@ -16,12 +16,6 @@ from . import utils
 from . import db
 
 
-def cleanhtml(text):
-    clean_re = re.compile("<.*?>")
-    cleantext = re.sub(clean_re, "", text)
-    return cleantext
-
-
 def contains_whitespace(s: str):
     for char in s:
         if char in string.whitespace:
@@ -64,7 +58,8 @@ def load_appstream():
         for appid in apps:
             redis_key = f"apps:{appid}"
 
-            search_description = cleanhtml(apps[appid]["description"])
+            clean_html_re = re.compile("<.*?>")
+            search_description = re.sub(clean_html_re, "", apps[appid]["description"])
 
             if search_keywords := apps[appid].get("keywords"):
                 search_keywords = " ".join(search_keywords)
