@@ -1,0 +1,7 @@
+{
+  "id" : "@APPID@",
+  "branch": "stable",
+  "runtime" : "org.freedesktop.Platform",
+  "sdk" : "org.freedesktop.Sdk",
+  "runtime-version" : "20.08"
+}

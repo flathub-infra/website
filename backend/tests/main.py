@@ -43,6 +43,8 @@ def setup_module():
     file = Gio.File.new_for_path(repo_path)
     repo = OSTree.Repo.new(file)
     repo.create(OSTree.RepoMode.BARE, None)
+    remote_path = os.path.join(os.getcwd(), "tests/ostree/repo")
+    repo.remote_add("flathub", f"file://{remote_path}")
 
     from app import config
 
