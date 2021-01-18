@@ -23,18 +23,6 @@ def contains_whitespace(s: str):
     return False
 
 
-def get_current_release_date(appid: str, template: str = "%Y-%m-%d"):
-    # The v1 API uses currentReleaseDate field to describe when the app
-    # has been updated in the Flathub repo. It's not related to appdata
-    # releases section.
-    if updated_at := db.redis_conn.get(f"updated_at:{appid}"):
-        updated_at_ts = int(updated_at)
-    else:
-        return None
-
-    return datetime.utcfromtimestamp(updated_at_ts).strftime(template)
-
-
 def get_app_summary(app):
     short_app = {
         "id": app["id"],
@@ -226,3 +214,12 @@ def get_recently_updated(limit: int = 100):
     keys = (f"apps:{appid}" for appid in apps)
     ret = list_apps_summary(appids=keys, sort=False)
     return ret
+
+
+def get_updated_at(appid: str):
+    if updated_at := db.redis_conn.get(f"updated_at:{appid}"):
+        updated_at_ts = int(updated_at)
+    else:
+        updated_at_ts = None
+
+    return updated_at_ts
