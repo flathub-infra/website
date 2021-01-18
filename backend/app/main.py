@@ -29,6 +29,10 @@ def startup_event():
 def update_apps(background_tasks: BackgroundTasks):
     ret = apps.update_apps(background_tasks)
     picks.update()
+
+    list_apps_summary.cache_clear()
+    get_recently_updated.cache_clear()
+
     return ret
 
 
@@ -37,8 +41,6 @@ def list_apps_summary(
     index: str = "apps:index", appids: Tuple[str, ...] = None, sort: bool = True
 ):
     ret = apps.list_apps_summary(index, appids, sort)
-    list_apps_summary.cache_clear()
-    get_recently_updated.cache_clear()
     return ret
 
 
