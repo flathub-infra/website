@@ -192,7 +192,9 @@ def appstream2dict(reponame: str):
                 else:
                     icon_size = 0
 
-                icons_dict[icon_type] = {}
+                if icon_type not in icons_dict:
+                    icons_dict[icon_type] = {}
+
                 icons_dict[icon_type][icon_size] = icon_name
                 component.remove(icon)
 
