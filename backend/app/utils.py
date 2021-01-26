@@ -12,28 +12,26 @@ from . import db
 
 class Flatpak:
     def __init__(self):
-        remote_add_cmd = [
-            "flatpak",
-            "--user",
-            "remote-add",
-            "--if-not-exists",
-            "flathub",
-            "https://flathub.org/repo/flathub.flatpakrepo",
-        ]
-        subprocess.run(
-            remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-        )
+        self.run_command("remote-add", "--if-not-exists", "flathub", "https://flathub.org/repo/flathub.flatpakrepo")
+        self.remote_info("org.freedesktop.Platform//20.08")
 
-        _ = self.remote_info("org.freedesktop.Platform//20.08")
+    def run_command(self, *args):
+        base_command = ["flatpak", "--user"]
 
-    def remote_info(self, appid):
-        command = ["flatpak", "remote-info", "--user", "flathub", appid]
-        remote_info = subprocess.run(command, stdout=subprocess.PIPE)
+        args = list(args)
+        command = base_command + args
 
-        if remote_info.returncode != 0:
+        ret = subprocess.run(command, stdout=subprocess.PIPE)
+        if ret.returncode != 0:
             return None
 
-        output = remote_info.stdout.decode("utf-8").replace("\xa0", " ")
+        return ret.stdout.decode("utf-8")
+
+    def remote_info(self, appid):
+        command = ["remote-info", "--user", "flathub", appid]
+
+        output = self.run_command(*command)
+        output = output.replace("\xa0", " ")
 
         info = {}
         for line in output.split("\n"):
@@ -44,38 +42,21 @@ class Flatpak:
         return info
 
     def show_commit(self, appid):
-        command = [
-            "flatpak",
-            "--user",
-            "remote-info",
-            "--cached",
-            "--show-commit",
-            "flathub",
-            appid,
-        ]
-        show_commit = subprocess.run(command, stdout=subprocess.PIPE)
+        command = ["remote-info", "--cached", "--show-commit", "flathub", appid]
+        output = self.run_command(*command)
 
-        if show_commit.returncode != 0:
-            return None
-
-        return show_commit.stdout.decode("utf-8").rstrip()
+        return output.rstrip()
 
     def list_refs(self):
         command = [
-                "flatpak",
                 "remote-ls",
-                "--user",
                 "--arch=*",
                 "--app",
                 "--columns=ref",
                 "flathub",
                 ]
-
-        list_refs = subprocess.run(command, stdout=subprocess.PIPE)
-        if list_refs.returncode != 0:
-            return None
-
-        return list_refs.stdout.decode("utf-8")
+        output = self.run_command(*command)
+        return output.splitlines()
 
 
 def appstream2dict(reponame: str):
