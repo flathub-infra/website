@@ -88,7 +88,8 @@ def load_appstream():
 def populate_build_dates():
     recently_updated = {}
 
-    repo_file = Gio.File.new_for_path(config.settings.ostree_repo)
+    ostree_repo = f"{config.settings.flatpak_user_dir}/repo"
+    repo_file = Gio.File.new_for_path(ostree_repo)
     repo = OSTree.Repo.new(repo_file)
     repo.open(None)
 

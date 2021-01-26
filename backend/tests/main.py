@@ -48,7 +48,6 @@ def setup_module():
 
     from app import config
 
-    config.settings.ostree_repo = repo_path
     config.settings.appstream_repos = "tests/appstream"
     config.settings.datadir = "tests/data"
 

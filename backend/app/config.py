@@ -8,7 +8,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Settings(BaseSettings):
     app_name: str = "Flathub API"
-    ostree_repo: str = "/root/.local/share/flatpak/repo"
+    flatpak_user_dir: str = "/root/.local/share/flatpak"
     redis_host: str = "localhost"
     redis_port: int = 6379
     sentry_dsn: Optional[str] = None
