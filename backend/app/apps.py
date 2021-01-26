@@ -177,6 +177,14 @@ def search(userquery: str):
     # "D-Feet" seems to be interpreted as "d and not feet"
     userquery = userquery.replace("-", " ")
 
+    # This seems to confuse redisearch too
+    userquery = userquery.replace(".*", "*")
+
+    # Remove reserved characters
+    reserved_chars = ["@", "!", "{", "}", "(", ")", "|", "-", "=", ">", "[", "]", ":", ";"]
+    for char in reserved_chars:
+        userquery = userquery.replace(char, "")
+
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
 
