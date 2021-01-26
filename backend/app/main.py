@@ -1,7 +1,6 @@
 import sentry_sdk
 
 from functools import lru_cache
-from typing import Tuple
 
 from fastapi import status, Response, BackgroundTasks, FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
@@ -31,23 +30,17 @@ def update_apps(background_tasks: BackgroundTasks):
     ret = apps.update_apps(background_tasks)
     picks.update()
 
-    list_apps_summary.cache_clear()
+    list_apps_in_category.cache_clear()
     get_recently_updated.cache_clear()
 
     return ret
 
 
+# TODO: should be paginated
 @lru_cache()
-def list_apps_summary(
-    index: str = "apps:index", appids: Tuple[str, ...] = None, sort: bool = True
-):
-    ret = apps.list_apps_summary(index, appids, sort)
-    return ret
-
-
 @app.get("/category/{category}")
 def list_apps_in_category(category: schemas.Category):
-    return list_apps_summary(f"categories:{category}", appids=None, sort=True)
+    return apps.list_apps_summary(f"categories:{category}", appids=None, sort=True)
 
 
 @app.get("/appstream/{appid}")
