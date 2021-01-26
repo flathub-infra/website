@@ -24,16 +24,7 @@ class Flatpak:
             remote_add_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
 
-        update_cache_cmd = [
-            "flatpak",
-            "--user",
-            "remote-info",
-            "flathub",
-            "org.freedesktop.Sdk//19.08",
-        ]
-        subprocess.run(
-            update_cache_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-        )
+        _ = self.remote_info("org.freedesktop.Platform//20.08")
 
     def remote_info(self, appid):
         command = ["flatpak", "remote-info", "--user", "flathub", appid]
