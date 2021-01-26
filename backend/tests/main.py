@@ -173,19 +173,17 @@ def test_feed_by_new():
 def test_picked_apps():
     response = client.get("/picks/apps")
     assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_picked_apps")
 
 
 def test_picked_games():
     response = client.get("/picks/games")
     assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_picked_games")
 
 
 def test_picked_non_existent():
     response = client.get("/picks/NonExistent")
-    assert response.status_code == 200
-    assert response.json() == get_expected_json_result("test_picked_non_existent")
+    assert response.status_code == 404
+    assert response.json() == None
 
 
 def test_status():

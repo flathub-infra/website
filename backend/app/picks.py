@@ -1,6 +1,8 @@
 import os
 import json
 
+import requests
+
 from . import db
 from . import config
 
@@ -16,6 +18,17 @@ def _get_appids(path):
 
 
 def update():
+    with db.redis_conn.pipeline() as p:
+        for pick in ["games", "apps"]:
+            r = requests.get(f"https://raw.githubusercontent.com/flathub/backend/master/data/picks/{pick}.json")
+            if r.status_code == 200:
+                # Decode JSON to ensure it's not malformed
+                content = r.json()
+
+                p.set(f"picks:{pick}", json.dumps(content))
+
+
+def initialize():
     picks_dir = os.path.join(config.settings.datadir, "picks")
     with db.redis_conn.pipeline() as p:
         for pick_json in os.listdir(picks_dir):
@@ -27,4 +40,4 @@ def update():
 def get_pick(pick):
     if value := db.redis_conn.get(f"picks:{pick}"):
         return json.loads(value)
-    return []
+    return None

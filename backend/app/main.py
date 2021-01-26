@@ -80,8 +80,11 @@ def get_recently_updated(limit: int = 100):
 
 
 @app.get("/picks/{pick}")
-def get_picks(pick: str):
-    return picks.get_pick(pick)
+def get_picks(pick: str, response: Response):
+    if picks_ids := picks.get_pick(pick):
+        return picks_ids
+
+    response.status_code = 404
 
 
 @app.get("/feed/recently-updated")
