@@ -31,15 +31,18 @@ class Flatpak:
         command = ["remote-info", "--user", "flathub", appid]
 
         output = self.run_command(*command)
-        output = output.replace("\xa0", " ")
+        if output:
+            output = output.replace("\xa0", " ")
 
-        info = {}
-        for line in output.split("\n"):
-            if ": " in line:
-                key, value = line.split(": ", 1)
-                info[key.lstrip()] = value.rstrip()
+            info = {}
+            for line in output.split("\n"):
+                if ": " in line:
+                    key, value = line.split(": ", 1)
+                    info[key.lstrip()] = value.rstrip()
 
-        return info
+            return info
+        else:
+            return None
 
     def show_commit(self, appid):
         command = ["remote-info", "--cached", "--show-commit", "flathub", appid]
