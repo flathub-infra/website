@@ -9,9 +9,9 @@ from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from . import config
 from . import feeds
 from . import apps
-from . import flatpak
 from . import schemas
 from . import picks
+from . import utils
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -21,7 +21,7 @@ if config.settings.sentry_dsn:
 
 @app.on_event("startup")
 def startup_event():
-    flatpak.initialize()
+    utils.Flatpak()
     apps.initialize()
 
 
