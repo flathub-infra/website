@@ -60,6 +60,23 @@ class Flatpak:
 
         return show_commit.stdout.decode("utf-8").rstrip()
 
+    def list_refs(self):
+        command = [
+                "flatpak",
+                "remote-ls",
+                "--user",
+                "--arch=*",
+                "--app",
+                "--columns=ref",
+                "flathub",
+                ]
+
+        list_refs = subprocess.run(command, stdout=subprocess.PIPE)
+        if list_refs.returncode != 0:
+            return None
+
+        return list_refs.stdout.decode("utf-8")
+
 
 def appstream2dict(reponame: str):
     if config.settings.appstream_repos is not None:
