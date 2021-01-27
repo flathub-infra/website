@@ -22,7 +22,6 @@ if config.settings.sentry_dsn:
 
 @app.on_event("startup")
 def startup_event():
-    flatpak.Flatpak()
     db.initialize()
 
 
