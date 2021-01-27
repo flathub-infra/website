@@ -60,11 +60,6 @@ def get_appid_appstream(appid: str, repo: str = "stable"):
     return apps.get_appid_appstream(appid, repo)
 
 
-@app.get("/updated_at/{appid}")
-def get_updated_at(appid: str):
-    return apps.get_updated_at(appid)
-
-
 @app.get("/search/{userquery}")
 def search(userquery: str):
     results = db.search(userquery)
