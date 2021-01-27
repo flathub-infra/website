@@ -16,13 +16,6 @@ from . import utils
 from . import db
 
 
-def contains_whitespace(s: str):
-    for char in s:
-        if char in string.whitespace:
-            return True
-    return False
-
-
 def get_app_summary(app):
     short_app = {
         "id": app["id"],
