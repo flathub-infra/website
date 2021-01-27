@@ -67,46 +67,6 @@ def load_appstream():
     return len(apps)
 
 
-def populate_build_dates():
-    recently_updated = {}
-
-    ostree_repo = f"{config.settings.flatpak_user_dir}/repo"
-    repo_file = Gio.File.new_for_path(ostree_repo)
-    repo = OSTree.Repo.new(repo_file)
-    repo.open(None)
-
-    status, summary, signatures = repo.remote_fetch_summary("flathub", None)
-    data = GLib.Variant.new_from_bytes(
-        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary, True
-    )
-
-    refs, summmary_info = data.unpack()
-
-    for ref, (_, _, info) in refs:
-        if not ref.startswith("app/"):
-            continue
-
-        reftype, appid, arch, branch = ref.split("/")
-
-        if arch != "x86_64" or branch != "stable":
-            continue
-
-        timestamp = struct.pack("<Q", info["ostree.commit.timestamp"])
-        timestamp = struct.unpack(">Q", timestamp)[0]
-
-        recently_updated[appid] = timestamp
-
-    db.redis_conn.zadd("recently_updated_zset", recently_updated)
-    db.redis_conn.mset(
-        {
-            f"updated_at:{appid}": recently_updated[appid]
-            for appid in recently_updated
-        }
-    )
-
-    return len(recently_updated)
-
-
 def list_apps_summary(index="apps:index", appids=None, sort=False):
     if not appids:
         appids = db.redis_conn.smembers(index)
