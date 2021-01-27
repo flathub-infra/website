@@ -1,5 +1,6 @@
 import redis
 import redisearch
+import json
 
 from . import config
 
@@ -70,3 +71,10 @@ def search(userquery: str):
         return None
 
     return list(dict.fromkeys(results))
+
+
+def get_json_key(key: str):
+    if value := redis_conn.get(key):
+        return json.loads(value)
+
+    return None

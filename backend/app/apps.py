@@ -84,7 +84,7 @@ def list_apps_summary(index="apps:index", appids=None, sort=False):
 
 
 def get_appid_appstream(appid: str, repo: str = "stable"):
-    app = utils.get_json_key(f"apps:{appid}")
+    app = db.get_json_key(f"apps:{appid}")
     if not app:
         return []
 

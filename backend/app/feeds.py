@@ -13,7 +13,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
     feed.language("en")
 
     appids = db.redis_conn.zrevrange(key, 0, 10, withscores=True)
-    apps = [(utils.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
+    apps = [(db.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
 
     for app, timestamp in reversed(apps):
         if not app.get("name"):
