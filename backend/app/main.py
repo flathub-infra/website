@@ -12,6 +12,7 @@ from . import schemas
 from . import picks
 from . import utils
 from . import flatpak
+from . import db
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -22,7 +23,7 @@ if config.settings.sentry_dsn:
 @app.on_event("startup")
 def startup_event():
     flatpak.Flatpak()
-    apps.initialize()
+    db.initialize()
 
 
 @app.post("/update")
@@ -55,7 +56,11 @@ def get_updated_at(appid: str):
 
 @app.get("/search/{userquery}")
 def search(userquery: str):
-    return apps.search(userquery)
+    results = db.search(userquery)
+    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
+    ret = apps.list_apps_summary(appids=appids, sort=False)
+
+    return ret
 
 
 @app.get("/collection/recently-updated")

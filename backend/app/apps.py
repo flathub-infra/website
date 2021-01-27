@@ -118,23 +118,6 @@ def populate_build_dates():
     return len(recently_updated)
 
 
-def initialize():
-    apps = db.redis_conn.smembers("apps:index")
-    if not apps:
-        try:
-            db.redis_search.create_index(
-                [
-                    redisearch.TextField("appid"),
-                    redisearch.TextField("name"),
-                    redisearch.TextField("summary"),
-                    redisearch.TextField("description", 0.2),
-                    redisearch.TextField("keywords"),
-                ]
-            )
-        except:
-            pass
-
-
 def update_apps(background_tasks):
     populate_build_dates()
     return load_appstream()
@@ -162,53 +145,6 @@ def get_appid_appstream(appid: str, repo: str = "stable"):
         return []
 
     return app
-
-
-def search(userquery: str):
-    results = []
-
-    # TODO: figure out how to escape dashes
-    # "D-Feet" seems to be interpreted as "d and not feet"
-    userquery = userquery.replace("-", " ")
-
-    # This seems to confuse redisearch too
-    userquery = userquery.replace(".*", "*")
-
-    # Remove reserved characters
-    reserved_chars = ["@", "!", "{", "}", "(", ")", "|", "-", "=", ">", "[", "]", ":", ";"]
-    for char in reserved_chars:
-        userquery = userquery.replace(char, "")
-
-    # TODO: should input be sanitized here?
-    name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
-
-    # redisearch does not support fuzzy search for non-alphabet strings
-    if userquery.isalpha():
-        generic_query = redisearch.Query(f"%{userquery}%").no_content()
-    else:
-        generic_query = redisearch.Query(userquery).no_content()
-
-    # TODO: Backend API doesn't support paging so bring fifty results
-    # instead of just 10, which is the redisearch default
-    name_query.paging(0, 50)
-    generic_query.paging(0, 50)
-
-    search_results = db.redis_search.search(name_query)
-    for doc in search_results.docs:
-        results.append(doc.id)
-
-    search_results = db.redis_search.search(generic_query)
-    for doc in search_results.docs:
-        results.append(doc.id)
-
-    results = list(dict.fromkeys(results))
-    if not len(results):
-        return []
-
-    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
-    ret = list_apps_summary(appids=appids, sort=False)
-
-    return ret
 
 
 def get_recently_updated(limit: int = 100):
