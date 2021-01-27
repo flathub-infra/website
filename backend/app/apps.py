@@ -22,6 +22,7 @@ def load_appstream():
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_categories = db.redis_conn.smembers("categories:index")
 
+    db.initialize()
     with db.redis_conn.pipeline() as p:
         p.delete("categories:index", *current_categories)
 
