@@ -101,3 +101,12 @@ def get_new_apps_feed():
 @app.get("/status", status_code=200)
 def healthcheck(response: Response):
     return {"status": "OK"}
+
+
+@app.get("/summary/{appid}", status_code=200)
+def get_summary(appid: str, response: Response):
+    if value := db.get_json_key(f"summary:{appid}"):
+        return value
+
+    response.status_code = 404
+    return None
