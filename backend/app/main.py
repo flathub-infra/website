@@ -13,6 +13,7 @@ from . import picks
 from . import utils
 from . import flatpak
 from . import db
+from . import summary
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -26,15 +27,20 @@ def startup_event():
 
 
 @app.post("/update")
-def update_apps(background_tasks: BackgroundTasks):
-    ret = apps.load_appstream()
-    apps.populate_build_dates()
+def update(background_tasks: BackgroundTasks):
+    new_apps = apps.load_appstream()
+    summary.update()
     picks.update()
+
+    if new_apps:
+        new_apps_zset = {}
+        for appid in new_apps:
+            if metadata := db.get_json_key(f"summary:{appid}"):
+                new_apps_zset[appid] = metadata.get("timestamp", 0)
+        db.redis_conn.zadd("new_apps_zset", new_apps_zset)
 
     list_apps_in_category.cache_clear()
     get_recently_updated.cache_clear()
-
-    return ret
 
 
 # TODO: should be paginated
