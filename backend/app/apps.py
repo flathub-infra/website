@@ -84,14 +84,6 @@ def list_apps_summary(index="apps:index", appids=None, sort=False):
     return ret
 
 
-def get_appid_appstream(appid: str, repo: str = "stable"):
-    app = db.get_json_key(f"apps:{appid}")
-    if not app:
-        return []
-
-    return app
-
-
 def list_appstream(repo: str = "stable"):
     apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     return sorted(apps)

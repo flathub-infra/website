@@ -55,9 +55,13 @@ def list_appstream():
     return apps.list_appstream()
 
 
-@app.get("/appstream/{appid}")
-def get_appid_appstream(appid: str, repo: str = "stable"):
-    return apps.get_appid_appstream(appid, repo)
+@app.get("/appstream/{appid}", status_code=200)
+def get_appstream(appid: str, response: Response):
+    if value  := db.get_json_key(f"apps:{appid}"):
+        return value
+
+    response.status_code = 404
+    return None
 
 
 @app.get("/search/{userquery}")
