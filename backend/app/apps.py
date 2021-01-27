@@ -53,18 +53,18 @@ def load_appstream():
                     p.sadd(f"categories:{category}", redis_key)
 
         for appid in current_apps - set(apps):
-            p.delete(f"apps:{appid}", f"fts:{appid}")
+            p.delete(f"apps:{appid}", f"fts:{appid}", f"summary:{appid}")
             db.redis_search.delete_document(f"fts:{appid}")
 
-        new_apps_zset = {appid: db.redis_conn.get(f"updated_at:{appid}") for appid in set(apps) - current_apps}
-        if len(new_apps_zset) != len(apps) and len(new_apps_zset) > 0:
-            db.redis_conn.zadd("new_apps_zset", new_apps_zset)
+        new_apps = set(apps) - current_apps
+        if not (len(new_apps) != len(apps) and len(new_apps)):
+            new_apps = None
 
         p.delete("apps:index")
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
 
-    return len(apps)
+    return new_apps
 
 
 def list_apps_summary(index="apps:index", appids=None, sort=False):
