@@ -12,6 +12,7 @@ from . import apps
 from . import schemas
 from . import picks
 from . import utils
+from . import flatpak
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -21,7 +22,7 @@ if config.settings.sentry_dsn:
 
 @app.on_event("startup")
 def startup_event():
-    utils.Flatpak()
+    flatpak.Flatpak()
     apps.initialize()
 
 
