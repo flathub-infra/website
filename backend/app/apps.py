@@ -58,7 +58,7 @@ def load_appstream():
             db.redis_search.delete_document(f"fts:{appid}")
 
         new_apps = set(apps) - current_apps
-        if not (len(new_apps) != len(apps) and len(new_apps)):
+        if not len(new_apps):
             new_apps = None
 
         p.delete("apps:index")
