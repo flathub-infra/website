@@ -193,3 +193,9 @@ def test_status():
     response = client.get("/status")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_status")
+
+
+def test_list_appstream():
+    response = client.get("/appstream")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_list_appstream")

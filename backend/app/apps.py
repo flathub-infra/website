@@ -142,6 +142,11 @@ def get_appid_appstream(appid: str, repo: str = "stable"):
     return app
 
 
+def list_appstream(repo: str = "stable"):
+    apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+    return sorted(apps)
+
+
 def get_recently_updated(limit: int = 100):
     apps = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
     keys = (f"apps:{appid}" for appid in apps)
