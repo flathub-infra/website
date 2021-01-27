@@ -101,12 +101,3 @@ def get_recently_updated(limit: int = 100):
     keys = (f"apps:{appid}" for appid in apps)
     ret = list_apps_summary(appids=keys, sort=False)
     return ret
-
-
-def get_updated_at(appid: str):
-    if updated_at := db.redis_conn.get(f"updated_at:{appid}"):
-        updated_at_ts = int(updated_at)
-    else:
-        updated_at_ts = None
-
-    return updated_at_ts
