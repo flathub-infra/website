@@ -118,11 +118,6 @@ def populate_build_dates():
     return len(recently_updated)
 
 
-def update_apps(background_tasks):
-    populate_build_dates()
-    return load_appstream()
-
-
 def list_apps_summary(index="apps:index", appids=None, sort=False):
     if not appids:
         appids = db.redis_conn.smembers(index)

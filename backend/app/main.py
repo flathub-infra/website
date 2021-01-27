@@ -28,7 +28,8 @@ def startup_event():
 
 @app.post("/update")
 def update_apps(background_tasks: BackgroundTasks):
-    ret = apps.update_apps(background_tasks)
+    ret = apps.load_appstream()
+    apps.populate_build_dates()
     picks.update()
 
     list_apps_in_category.cache_clear()
@@ -57,10 +58,11 @@ def get_updated_at(appid: str):
 @app.get("/search/{userquery}")
 def search(userquery: str):
     results = db.search(userquery)
-    appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
-    ret = apps.list_apps_summary(appids=appids, sort=False)
-
-    return ret
+    if results:
+        appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
+        return apps.list_apps_summary(appids=appids, sort=False)
+    else:
+        return []
 
 
 @app.get("/collection/recently-updated")
