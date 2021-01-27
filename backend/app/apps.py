@@ -1,17 +1,6 @@
 import re
 import json
-import requests
-import struct
-import string
-import gi
-import redisearch
 
-gi.require_version("OSTree", "1.0")
-
-from gi.repository import OSTree, Gio, GLib
-from datetime import datetime
-
-from . import config
 from . import utils
 from . import db
 
