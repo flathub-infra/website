@@ -2,7 +2,6 @@ from datetime import datetime
 from feedgen.feed import FeedGenerator
 
 from . import db
-from . import utils
 
 
 def generate_feed(key: str, title: str, description: str, link: str):

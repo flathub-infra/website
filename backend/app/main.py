@@ -2,7 +2,7 @@ import sentry_sdk
 
 from functools import lru_cache
 
-from fastapi import status, Response, BackgroundTasks, FastAPI
+from fastapi import Response, BackgroundTasks, FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from . import config
@@ -10,8 +10,6 @@ from . import feeds
 from . import apps
 from . import schemas
 from . import picks
-from . import utils
-from . import flatpak
 from . import db
 from . import summary
 

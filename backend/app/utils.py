@@ -1,13 +1,10 @@
 import os
-import json
 import gzip
-import subprocess
 from lxml import etree
 
 import requests
 
 from . import config
-from . import db
 
 
 def appstream2dict(reponame: str):
