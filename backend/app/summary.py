@@ -31,6 +31,63 @@ def validate_ref(ref: str, enforce_arch=True):
     return True
 
 
+def parse_metadata(ini: str):
+    parser = configparser.RawConfigParser()
+    parser.read_string(ini)
+
+    metadata = dict(parser["Application"])
+
+    if "tags" in metadata:
+        tags = [x for x in metadata["tags"].split(';') if x]
+        metadata["tags"] = tags
+
+    permissions = {}
+
+    if "Context" in parser:
+        for key in parser["Context"]:
+            permissions[key] = [x for x in parser["Context"][key].split(";") if x]
+        parser.remove_section("Context")
+
+    if "Session Bus Policy" in parser:
+        bus_metadata = parser["Session Bus Policy"]
+        bus = defaultdict(list)
+
+        for busname in bus_metadata:
+            bus_permission = bus_metadata[busname]
+            bus[bus_permission].append(busname)
+
+        permissions["session-bus"] = bus
+
+    if "System Bus Policy" in parser:
+        bus_metadata = parser["System Bus Policy"]
+        bus = defaultdict(list)
+
+        for busname in bus_metadata:
+            bus_permission = bus_metadata[busname]
+            bus[bus_permission].append(busname)
+
+        permissions["system-bus"] = bus
+
+    metadata["permissions"] = permissions
+
+    extensions = {}
+    for section in parser:
+        if section.startswith("Extension "):
+            extname = section[10:]
+            extensions[extname] = dict(parser[section])
+
+    if extensions:
+        metadata["extensions"] = extensions
+
+    if "Build" in parser:
+        metadata["built-extensions"] = [x for x in parser.get("Build", "built-extensions").split(";") if x]
+
+    if "Extra Data" in parser:
+        metadata["extra-data"] = dict(parser["Extra Data"])
+
+    return metadata
+
+
 def update():
     summary_dict = defaultdict(lambda: {"arches": []})
     recently_updated_zset = {}
@@ -73,10 +130,7 @@ def update():
 
         summary_dict[appid]["download_size"] = download_size
         summary_dict[appid]["installed_size"] = installed_size
-
-        ref_metadata = configparser.ConfigParser()
-        ref_metadata.read_string(xa_cache[ref][2])
-        summary_dict[appid]["metadata"] = ref_metadata._sections
+        summary_dict[appid]["metadata"] = parse_metadata(xa_cache[ref][2])
 
     for ref in xa_cache.keys():
         if not validate_ref(ref, enforce_arch=False):
