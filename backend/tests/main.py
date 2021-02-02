@@ -198,3 +198,15 @@ def test_list_appstream():
     response = client.get("/appstream")
     assert response.status_code == 200
     assert response.json() == get_expected_json_result("test_list_appstream")
+
+
+def test_summary_by_id():
+    response = client.get("/summary/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_summary_by_appid")
+
+
+def test_summary_by_non_existent_id():
+    response = client.get("/summary/does.not.exist")
+    assert response.status_code == 404
+    assert response.json() == None
