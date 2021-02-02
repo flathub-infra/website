@@ -1,13 +1,14 @@
-import gi
+import json
 import os
 import sys
-import json
 import tempfile
+
+import gi
 
 gi.require_version("OSTree", "1.0")
 
-from gi.repository import OSTree, Gio
 from fastapi.testclient import TestClient
+from gi.repository import Gio, OSTree
 from lxml import etree
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -85,10 +86,8 @@ def test_appstream_by_appid():
 
 def test_appstream_by_non_existent_appid():
     response = client.get("/appstream/NonExistent")
-    assert response.status_code == 200
-    assert response.json() == get_expected_json_result(
-        "test_appstream_by_non_existent_appid"
-    )
+    assert response.status_code == 404
+    assert response.json() == None
 
 
 def test_search_query_by_appid():
