@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     sentry_dsn: Optional[str] = None
     appstream_repos: Optional[str] = None
     datadir: str = os.path.join(ROOT_DIR, "data")
+    stats_baseurl = "https://flathub.org/stats"
 
 
 settings = Settings()
