@@ -1,10 +1,11 @@
+import datetime
 from functools import lru_cache
 
 import sentry_sdk
 from fastapi import BackgroundTasks, FastAPI, Response
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-from . import apps, config, db, feeds, picks, schemas, summary
+from . import apps, config, db, feeds, picks, stats, schemas, summary
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -79,6 +80,21 @@ def get_picks(pick: str, response: Response):
         return picks_ids
 
     response.status_code = 404
+
+
+@app.get("/popular")
+def get_popular():
+    return stats.get_popular(None, None)
+
+
+@app.get("/popular/{sdate}")
+def get_popular_since(sdate: datetime.date):
+    return stats.get_popular(sdate, None)
+
+
+@app.get("/popular/{sdate}/{edate}")
+def get_popular_since_until(sdate: datetime.date, edate: datetime.date):
+    return stats.get_popular(sdate, edate)
 
 
 @app.get("/feed/recently-updated")
