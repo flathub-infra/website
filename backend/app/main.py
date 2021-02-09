@@ -84,17 +84,12 @@ def get_picks(pick: str, response: Response):
 
 @app.get("/popular")
 def get_popular():
-    return stats.get_popular(None, None)
+    return stats.get_popular(None)
 
 
-@app.get("/popular/{sdate}")
-def get_popular_since(sdate: datetime.date):
-    return stats.get_popular(sdate, None)
-
-
-@app.get("/popular/{sdate}/{edate}")
-def get_popular_since_until(sdate: datetime.date, edate: datetime.date):
-    return stats.get_popular(sdate, edate)
+@app.get("/popular/{days}")
+def get_popular_days(days: int):
+    return stats.get_popular(days)
 
 
 @app.get("/feed/recently-updated")

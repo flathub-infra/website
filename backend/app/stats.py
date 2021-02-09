@@ -66,11 +66,11 @@ def _is_app(app_id: str) -> bool:
     return "/" not in app_id
 
 
-def get_popular(sdate: Optional[datetime.date], edate: Optional[datetime.date]):
-    if sdate is None:
-        sdate = datetime.date.today() - datetime.timedelta(days=POPULAR_DAYS_NUM-1)
-    if edate is None:
-        edate = datetime.date.today()
+def get_popular(days: Optional[int]):
+    if days is None:
+        days = POPULAR_DAYS_NUM
+    edate = datetime.date.today()
+    sdate = edate - datetime.timedelta(days=days-1)
     stats = get_stats_for_period(sdate, edate)
     sorted_apps = sorted(
         filter(lambda a: _is_app(a[0]), stats.items()),
