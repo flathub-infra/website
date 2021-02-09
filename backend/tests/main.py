@@ -1,5 +1,8 @@
 import json
 import os
+import shutil
+import glob
+import datetime
 import sys
 import tempfile
 
@@ -47,10 +50,18 @@ def setup_module():
     remote_path = os.path.join(os.getcwd(), "tests/ostree/repo")
     repo.remote_add("flathub", f"file://{remote_path}")
 
+    for i, test_stats_json in enumerate(sorted(glob.glob("tests/stats/*.json"), reverse=True)):
+        date = datetime.date.today() - datetime.timedelta(days=i)
+        stats_file = os.path.join(workspace.name, date.strftime("%Y/%m/%d.json"))
+        os.makedirs(os.path.dirname(stats_file), exist_ok=True)
+        print(f"Copy {test_stats_json} to {stats_file}")
+        shutil.copy(test_stats_json, stats_file)
+
     from app import config
 
     config.settings.appstream_repos = "tests/appstream"
     config.settings.datadir = "tests/data"
+    config.settings.stats_baseurl = "file://" + workspace.name
 
     from app import main
 
@@ -184,6 +195,12 @@ def test_picked_non_existent():
     response = client.get("/picks/NonExistent")
     assert response.status_code == 404
     assert response.json() == None
+
+
+def test_stats():
+    response = client.get("/popular")
+    assert response.status_code == 200
+    assert response.json() == get_expected_json_result("test_popular")
 
 
 def test_status():
