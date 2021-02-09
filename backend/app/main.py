@@ -1,17 +1,10 @@
-import sentry_sdk
-
 from functools import lru_cache
 
-from fastapi import Response, BackgroundTasks, FastAPI
+import sentry_sdk
+from fastapi import BackgroundTasks, FastAPI, Response
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-from . import config
-from . import feeds
-from . import apps
-from . import schemas
-from . import picks
-from . import db
-from . import summary
+from . import apps, config, db, feeds, picks, schemas, summary
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -22,6 +15,7 @@ if config.settings.sentry_dsn:
 @app.on_event("startup")
 def startup_event():
     db.initialize()
+    picks.initialize()
 
 
 @app.post("/update")
@@ -55,7 +49,7 @@ def list_appstream():
 
 @app.get("/appstream/{appid}", status_code=200)
 def get_appstream(appid: str, response: Response):
-    if value  := db.get_json_key(f"apps:{appid}"):
+    if value := db.get_json_key(f"apps:{appid}"):
         return value
 
     response.status_code = 404
