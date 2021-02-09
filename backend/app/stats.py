@@ -1,5 +1,6 @@
 import datetime
 import json
+from urllib.parse import urlparse, urlunparse
 from typing import Dict, List, Optional
 
 import requests
@@ -14,11 +15,18 @@ POPULAR_DAYS_NUM = 7
 
 
 def get_stats_for_date(date: datetime.date, session: requests.Session) -> Optional[StatsType]:
-    stats_json_url = config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
+    stats_json_url = urlparse(config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json"))
+    if stats_json_url.scheme == "file":
+        try:
+            with open(stats_json_url.path, 'r') as stats_file:
+                stats = json.load(stats_file)
+        except FileNotFoundError:
+            return None
+        return stats["refs"]
     redis_key = f"stats:date:{date.isoformat()}"
     stats_txt = db.redis_conn.get(redis_key)
     if stats_txt is None:
-        response = session.get(stats_json_url)
+        response = session.get(urlunparse(stats_json_url))
         if response.status_code == 404:
             return None
         response.raise_for_status()
