@@ -77,12 +77,21 @@ def _is_app(app_id: str) -> bool:
 def get_popular(days: Optional[int]):
     if days is None:
         days = POPULAR_DAYS_NUM
+
     edate = datetime.date.today()
-    sdate = edate - datetime.timedelta(days=days-1)
+    sdate = edate - datetime.timedelta(days=days - 1)
+    redis_key = f"popular:{sdate}-{edate}"
+
+    if popular := db.get_json_key(redis_key):
+        return popular
+
     stats = get_stats_for_period(sdate, edate)
     sorted_apps = sorted(
         filter(lambda a: _is_app(a[0]), stats.items()),
         key=lambda a: _sort_key(a[1]),
         reverse=True
     )
-    return [k for k, v in sorted_apps[:POPULAR_ITEMS_NUM]]
+
+    popular = [k for k, v in sorted_apps[:POPULAR_ITEMS_NUM]]
+    db.redis_conn.set(redis_key, json.dumps(popular), ex=60 * 60)
+    return popular
