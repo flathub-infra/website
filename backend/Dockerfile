@@ -1,4 +1,4 @@
-FROM python:3.8 as builder
+FROM python:3.9 as builder
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -10,7 +10,7 @@ RUN python -m venv /venv && \
     /venv/bin/pip install -r requirements.txt \
     && rm -f /requirements.txt
 
-FROM python:3.8-slim
+FROM python:3.9-slim
 
 EXPOSE 8000
 
