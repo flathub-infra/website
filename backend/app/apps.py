@@ -37,16 +37,16 @@ def load_appstream():
             else:
                 search_keywords = ""
 
+            fts = {
+                "id": appid,
+                "name": apps[appid]["name"],
+                "summary": apps[appid]["summary"],
+                "description": search_description,
+                "keywords": search_keywords,
+            }
+
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
-            db.redis_search.add_document(
-                f"fts:{appid}",
-                appid=appid,
-                name=apps[appid]["name"],
-                summary=apps[appid]["summary"],
-                description=search_description,
-                keywords=search_keywords,
-                replace=True,
-            )
+            p.hset(f"fts:{appid}", mapping=fts)
 
             if categories := apps[appid].get("categories"):
                 for category in categories:

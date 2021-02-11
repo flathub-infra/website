@@ -17,14 +17,16 @@ def initialize():
     apps = redis_conn.smembers("apps:index")
     if not apps:
         try:
+            definition = redisearch.IndexDefinition(prefix=["fts:"])
             redis_search.create_index(
-                [
-                    redisearch.TextField("appid"),
+                (
+                    redisearch.TextField("id"),
                     redisearch.TextField("name"),
                     redisearch.TextField("summary"),
                     redisearch.TextField("description", 0.2),
                     redisearch.TextField("keywords"),
-                ]
+                ),
+                definition=definition,
             )
         except:
             pass

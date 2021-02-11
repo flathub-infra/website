@@ -12,7 +12,7 @@ jobs:
 
     services:
       redisearch:
-        image: redislabs/redisearch:1.6.13
+        image: redislabs/redisearch:2.0.6_geo-llapi
         ports:
           - 6379:6379
         options: >-
