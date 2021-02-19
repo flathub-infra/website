@@ -32,15 +32,12 @@ def update(background_tasks: BackgroundTasks):
                 new_apps_zset[appid] = metadata.get("timestamp", 0)
         db.redis_conn.zadd("new_apps_zset", new_apps_zset)
 
-    list_apps_in_category.cache_clear()
     get_recently_updated.cache_clear()
 
 
-# TODO: should be paginated
-@lru_cache()
 @app.get("/category/{category}")
-def list_apps_in_category(category: schemas.Category):
-    return apps.list_apps_summary(f"categories:{category}", appids=None, sort=True)
+def get_category(category: schemas.Category):
+    return apps.get_category(category)
 
 
 @app.get("/appstream")
@@ -59,12 +56,7 @@ def get_appstream(appid: str, response: Response):
 
 @app.get("/search/{userquery}")
 def search(userquery: str):
-    results = db.search(userquery)
-    if results:
-        appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
-        return apps.list_apps_summary(appids=appids, sort=False)
-    else:
-        return []
+    return apps.search(userquery)
 
 
 @app.get("/collection/recently-updated")

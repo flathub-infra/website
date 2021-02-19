@@ -1,8 +1,3 @@
 [
-    {
-        "id": "org.sugarlabs.Maze",
-        "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-        "name": "Maze",
-        "summary": "A simple maze game"
-    }
+    "org.sugarlabs.Maze"
 ]

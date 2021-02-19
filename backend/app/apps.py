@@ -5,17 +5,6 @@ from . import utils
 from . import db
 
 
-def get_app_summary(app):
-    short_app = {
-        "id": app["id"],
-        "name": app["name"],
-        "summary": app["summary"],
-        "icon": app.get("icon"),
-    }
-
-    return short_app
-
-
 def load_appstream():
     apps = utils.appstream2dict("repo")
 
@@ -68,29 +57,43 @@ def load_appstream():
     return new_apps
 
 
-def list_apps_summary(index="apps:index", appids=None, sort=False):
-    if not appids:
-        appids = db.redis_conn.smembers(index)
-        if not appids:
-            return []
-
-    apps = db.redis_conn.mget(appids)
-
-    ret = [get_app_summary(json.loads(app)) for app in apps if isinstance(app, str)]
-
-    if sort:
-        ret = sorted(ret, key=lambda x: x["name"].casefold())
-
-    return ret
-
-
 def list_appstream(repo: str = "stable"):
     apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     return sorted(apps)
 
 
 def get_recently_updated(limit: int = 100):
-    apps = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
-    keys = (f"apps:{appid}" for appid in apps)
-    ret = list_apps_summary(appids=keys, sort=False)
-    return ret
+    zset = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
+    return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
+
+
+def get_category(category: str):
+    if index := db.redis_conn.smembers(f"categories:{category}"):
+        json_appdata = db.redis_conn.mget(index)
+        appdata = [json.loads(app) for app in json_appdata]
+
+        # We want to sort the list by application name
+        name_id = [(app["name"], app["id"]) for app in appdata]
+        return [x[1] for x in sorted(name_id, key=lambda x: x[0].casefold())]
+    else:
+        return []
+
+
+def search(query: str):
+    if results := db.search(query):
+        appids = tuple(doc_id.replace("fts", "apps") for doc_id in results)
+        apps = [json.loads(x) for x in db.redis_conn.mget(appids)]
+
+        ret = []
+        for app in apps:
+            entry = {
+                "id": app["id"],
+                "name": app["name"],
+                "summary": app["summary"],
+                "icon": app.get("icon"),
+            }
+            ret.append(entry)
+
+        return ret
+
+    return []
