@@ -49,12 +49,7 @@ def search(userquery: str):
 
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
-
-    # redisearch does not support fuzzy search for non-alphabet strings
-    if userquery.isalpha():
-        generic_query = redisearch.Query(f"%{userquery}%").no_content()
-    else:
-        generic_query = redisearch.Query(userquery).no_content()
+    generic_query = redisearch.Query(userquery).no_content()
 
     # TODO: Backend API doesn't support paging so bring fifty results
     # instead of just 10, which is the redisearch default
@@ -69,8 +64,16 @@ def search(userquery: str):
     for doc in search_results.docs:
         results.append(doc.id)
 
+    # redisearch does not support fuzzy search for non-alphabet strings
     if not len(results):
-        return None
+        if userquery.isalpha():
+            query = redisearch.Query(f"%{userquery}%").no_content()
+            search_results = redis_search.search(query)
+
+            for doc in search_results.docs:
+                results.append(doc.id)
+        else:
+            return None
 
     return list(dict.fromkeys(results))
 
