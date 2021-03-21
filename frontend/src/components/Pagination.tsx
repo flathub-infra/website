@@ -15,7 +15,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
 
   return (
     <div className='pagination'>
-      {pages.map((p) => {
+      {pages.map((p, index) => {
         const isActive = p === currentPage
         const className = isActive ? 'page-active' : ''
 
@@ -29,6 +29,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                 },
               })
             }}
+            key={`pagination-${index}`}
           >
             <div className={`${className} page-link`}>{p}</div>
           </a>

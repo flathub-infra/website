@@ -1,17 +1,17 @@
 import Link from 'next/link'
 import { FunctionComponent } from 'react'
 
-import Application from '../../types/Application'
+import Appstream from '../../types/Appstream'
 
 interface Props {
-  application: Application
+  application: Appstream
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
-  <Link href={`/apps/details/${application.flatpakAppId}`}>
+  <Link href={`/apps/details/${application.id}`}>
     <div className='application-card'>
       <div className='logo'>
-        <img src={application.iconDesktopUrl} alt={application.name} />
+        <img src={application.icon} alt={application.name} />
       </div>
       <div className='summary'>
         <h5>{application.name}</h5>

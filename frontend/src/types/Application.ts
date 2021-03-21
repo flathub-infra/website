@@ -1,7 +1,7 @@
 interface Application {
   currentReleaseDate: Date
   currentReleaseVersion: string
-  flatpakAppId: string
+  id: string
   iconDesktopUrl: string
   iconMobileUrl: string
   name: string

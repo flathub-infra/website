@@ -1,12 +1,13 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import CategoriesList from '../src/components/categories/List'
-import { BASE_URI } from '../src/env'
-import Application from '../src/types/Application'
+import Collections from '../src/types/Collection'
 import ApplicationSection from '../src/components/application/Section'
 import Main from '../src/components/layout/Main'
 
-export default function Home({ recentlyUpdated }) {
+import fetchCollection from '../src/fetchers';
+
+export default function Home({ recentlyUpdated, editorsChoiceApps, editorsChoiceGames, popular }) {
   return (
     <Main>
       <Head>
@@ -23,8 +24,14 @@ export default function Home({ recentlyUpdated }) {
         <ApplicationSection
           key='editor_choice'
           title="Editor's Picks"
-          applications={recentlyUpdated}
+          applications={editorsChoiceApps}
           href='/apps/collection/editors-choice-apps'
+        />
+        <ApplicationSection
+          key='editor_choice'
+          title="Editor's Picks"
+          applications={editorsChoiceGames}
+          href='/apps/collection/editors-choice-games'
         />
         <ApplicationSection
           key='updated'
@@ -35,7 +42,7 @@ export default function Home({ recentlyUpdated }) {
         <ApplicationSection
           key='popular'
           title='Most Popular'
-          applications={recentlyUpdated}
+          applications={popular}
           href='/apps/collection/popular'
         />
         <CategoriesList />
@@ -45,12 +52,17 @@ export default function Home({ recentlyUpdated }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/7`)
-  const recentlyUpdated: Application[] = await res.json()
+  const recentlyUpdated = await fetchCollection(Collections.recenltyUpdated, 6)
+  const editorsChoiceApps = await fetchCollection(Collections.editorsApps, 6)
+  const editorsChoiceGames = await fetchCollection(Collections.editorsGames, 6)
+  const popular = await fetchCollection(Collections.popular, 6)
 
   return {
     props: {
       recentlyUpdated,
+      editorsChoiceApps,
+      editorsChoiceGames,
+      popular
     },
   }
 }

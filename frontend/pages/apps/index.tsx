@@ -1,11 +1,11 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
-import { BASE_URI } from '../../src/env'
-import Application from '../../src/types/Application'
+import Collections from '../../src/types/Collection'
+import fetchCollection from '../../src/fetchers'
 import ApplicationSection from '../../src/components/application/Section'
 import Main from '../../src/components/layout/Main'
 
-export default function Apps({ recentlyUpdated }) {
+export default function Apps({ recentlyUpdated, editorsChoiceApps, editorsChoiceGames, popular }) {
   return (
     <Main>
       <Head>
@@ -23,21 +23,21 @@ export default function Apps({ recentlyUpdated }) {
           <ApplicationSection
             key='popular'
             title='Popular Apps'
-            applications={recentlyUpdated}
+            applications={popular}
             href='/apps/collection/popular'
           />
 
           <ApplicationSection
             key='editor_choice'
             title="Editor's Choice Apps"
-            applications={recentlyUpdated}
+            applications={editorsChoiceApps}
             href='/apps/collection/editors-choice-apps'
           />
 
           <ApplicationSection
             key='editor_choice_games'
             title="Editor's Choice Games"
-            applications={recentlyUpdated}
+            applications={editorsChoiceGames}
             href='/apps/collection/editors-choice-games'
           />
         </div>
@@ -47,12 +47,17 @@ export default function Apps({ recentlyUpdated }) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await fetch(`${BASE_URI}/apps/collection/recently-updated/5`)
-  const recentlyUpdated: Application[] = await res.json()
+  const recentlyUpdated = await fetchCollection(Collections.recenltyUpdated, 6)
+  const editorsChoiceApps = await fetchCollection(Collections.editorsApps, 6)
+  const editorsChoiceGames = await fetchCollection(Collections.editorsGames, 6)
+  const popular = await fetchCollection(Collections.popular, 6)
 
   return {
     props: {
       recentlyUpdated,
+      editorsChoiceApps,
+      editorsChoiceGames,
+      popular
     },
   }
 }

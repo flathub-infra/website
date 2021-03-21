@@ -1,18 +1,29 @@
 interface Appstream {
-  categories: string[]
   description: string
-  developer_name: string
+  screenshots: Screenshot[]
+  releases: Release[]
+  content_rating: string
+  urls: Urls
+  icon: string
   id: string
-  keywords: string[]
-  kudos: string[]
   name: string
-  project_group: string
+  summary: string
+  developer_name: string
+  categories: string[]
+  kudos: string[]
+  mimetypes: string[]
   project_license: string
   provides: string[]
-  releases: Release[]
-  screenshots: Screenshot[]
-  summary: string
-  urls: Urls
+  launchable: {
+    value: string
+    type: string
+  }
+  bundle: {
+    value: string
+    type: string
+    runtime: string
+    sdk: string
+  }
 }
 
 interface Urls {
@@ -23,14 +34,16 @@ interface Urls {
 }
 
 interface Screenshot {
-  default: string
-  large: string
-  medium: string
-  small: string
+  "624x351"?: string
+  "1248x702"?: string
+  "112x63"?: string
+  "224x126"?: string
+  "752x423"?: string
+  "1504x846"?: string
 }
 
 interface Release {
-  description: string
+  description?: string
   timestamp: number
   version: string
 }
