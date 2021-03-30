@@ -4,11 +4,11 @@ import Category from './types/Category'
 
 import {POPULAR_URL, APP_DETAILS, RECENTLY_UPDATED_URL, EDITORS_PICKS_APPS_URL, EDITORS_PICKS_GAMES_URL, APPSTREAM_URL, CATEGORY_URL, SEARCH_APP} from './env'
 
-const fetchEntry = async (entry: string): Promise<Appstream | {}> => {
-  let entryJson: Appstream | {};
+export async function fetchEntry(entry: string): Promise<Appstream | {}> {
+  let entryJson: Appstream | {}
   try {
-    const entryData = await fetch(`${APP_DETAILS(entry)}`);
-    entryJson = await entryData.json();
+    const entryData = await fetch(`${APP_DETAILS(entry)}`)
+    entryJson = await entryData.json()
   } catch(error) {
     console.log(error)
     entryJson = {}
@@ -19,70 +19,70 @@ const fetchEntry = async (entry: string): Promise<Appstream | {}> => {
 }
 
 export default async function fetchCollection (collection: Collection, count?: number): Promise<Appstream[]> {
-  let collectionURL: string = '';
+  let collectionURL: string = ''
   switch(collection) {
     case Collections.popular:
-      collectionURL = POPULAR_URL;
-      break;
+      collectionURL = POPULAR_URL
+      break
     case Collections.recenltyUpdated:
-      collectionURL = RECENTLY_UPDATED_URL;
-      break;
+      collectionURL = RECENTLY_UPDATED_URL
+      break
     case Collections.editorsApps:
-      collectionURL = EDITORS_PICKS_APPS_URL;
-      break;
+      collectionURL = EDITORS_PICKS_APPS_URL
+      break
     case Collections.editorsGames:
-      collectionURL = EDITORS_PICKS_GAMES_URL;
-      break;
-    default: collectionURL = '';
+      collectionURL = EDITORS_PICKS_GAMES_URL
+      break
+    default: collectionURL = ''
   }
   if (collectionURL === '') {
     console.log("Wrong collection parameter. Check your function call!")
-    return;
+    return
   }
 
-  const collectionListRes = await fetch(collectionURL);
-  const collectionList = await collectionListRes.json();
+  const collectionListRes = await fetch(collectionURL)
+  const collectionList = await collectionListRes.json()
 
-  const limit = count ? count : collectionList.length;
+  const limit = count ? count : collectionList.length
 
-  const limitedList = collectionList.slice(0, limit);
+  const limitedList = collectionList.slice(0, limit)
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchEntry))
 
-  console.log("Collection ", collection, " fetched");
+  console.log("Collection ", collection, " fetched")
 
-  return items.filter(item => Boolean(item));
+  return items.filter(item => Boolean(item))
 }
 
 export async function fetchApps() {
-  const appListRes = await fetch(APPSTREAM_URL);
-  const appList = await appListRes.json();
+  const appListRes = await fetch(APPSTREAM_URL)
+  const appList = await appListRes.json()
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Apps fetched");
+  console.log("Apps fetched")
 
-  return items.filter(item => Boolean(item));
+  return items.filter(item => Boolean(item))
 }
 
 export async function fetchCategory(category: keyof typeof Category) {
-  const appListRes = await fetch(CATEGORY_URL(category));
-  const appList = await appListRes.json();
+  const appListRes = await fetch(CATEGORY_URL(category))
+  const appList = await appListRes.json()
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Category", category, " fetched");
+  console.log("Category", category, " fetched")
 
-  return items.filter(item => Boolean(item));
+  return items.filter(item => Boolean(item))
 }
 
 export async function fetchSearchQuery(query:string) {
-  const appListRes = await fetch(SEARCH_APP(query));
-  const appList = await appListRes.json();
+  const appListRes = await fetch(SEARCH_APP(query))
+  const appList = await appListRes.json()
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Search for query: '", query, "' fetched");
+  console.log("Search for query: '", query, "' fetched")
 
-  return items.filter(item => Boolean(item));
+  return items.filter(item => Boolean(item))
 }
