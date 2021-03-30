@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { FunctionComponent } from 'react'
 
-import Application from '../../types/Application'
+import Appstream from '../../types/Appstream'
 
 import ApplicationCard from './Card'
 
 interface Props {
-  applications: Application[]
+  applications: Appstream[]
   href: string
   title: string
 }
@@ -29,7 +29,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
     </header>
     <div className='applications'>
       {applications.map((app) => (
-        <ApplicationCard key={app.flatpakAppId} application={app} />
+        <ApplicationCard key={app.id} application={app} />
       ))}
     </div>
   </div>

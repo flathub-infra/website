@@ -7,14 +7,14 @@ import ProjectUrl from '../../types/ProjectUrl'
 import ProjectUrlWidget from './ProjectUrl'
 
 interface Props {
-  appstream: Appstream
+  data: Appstream
 }
 
-const Details: FunctionComponent<Props> = ({ appstream }) => {
-  if (appstream) {
-    const latestRelease = appstream.releases ? appstream.releases[0] : null
-    const moreThan1Screenshot = appstream.screenshots
-      ? appstream.screenshots.length > 1
+const Details: FunctionComponent<Props> = ({ data }) => {
+  if (data) {
+    const latestRelease = data.releases ? data.releases[0] : null
+    const moreThan1Screenshot = data.screenshots
+      ? data.screenshots.length > 1
       : false
 
     return (
@@ -22,14 +22,14 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
         <header className='container'>
           <div className='logo'>
             <img
-              src={`https://flathub.org//repo/appstream/x86_64/icons/128x128/${appstream.id}.png`}
+              src={`https://flathub.org//repo/appstream/x86_64/icons/128x128/${data.id}.png`}
               alt='Logo'
             />
           </div>
 
           <div className='details'>
-            <h2>{appstream.name}</h2>
-            <div className='developer'>{appstream.developer_name || '-'}</div>
+            <h2>{data.name}</h2>
+            <div className='developer'>{data.developer_name || '-'}</div>
           </div>
 
           <div className='install'>
@@ -70,8 +70,8 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
             )
           }
         >
-          {appstream.screenshots &&
-            appstream.screenshots.map((screenshot, index) => (
+          {data.screenshots &&
+            data.screenshots.map((screenshot, index) => (
               <img
                 key={index}
                 src={screenshot['752x423']}
@@ -80,12 +80,12 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
             ))}
         </Carousel>
         <div className='container'>
-          <h3 className='summary'>{appstream.summary}</h3>
+          <h3 className='summary'>{data.summary}</h3>
           <p
             className='description'
-            dangerouslySetInnerHTML={{ __html: appstream.description }}
+            dangerouslySetInnerHTML={{ __html: data.description }}
           />
-          {appstream.releases && appstream.releases.length > 0 && (
+          {data.releases && data.releases.length > 0 && (
             <div className='releases'>
               {latestRelease && (
                 <div className='release-details'>
@@ -103,41 +103,41 @@ const Details: FunctionComponent<Props> = ({ appstream }) => {
                   />
                 </div>
               )}
-              {appstream.releases.length > 1 && (
+              {data.releases.length > 1 && (
                 <div className='history'>Version History</div>
               )}
             </div>
           )}
 
           <div className='urls'>
-            {appstream.urls && (
+            {data.urls && (
               <>
                 <div>
-                  {appstream.urls.homepage && (
+                  {data.urls.homepage && (
                     <ProjectUrlWidget
-                      url={appstream.urls.homepage}
+                      url={data.urls.homepage}
                       type={ProjectUrl.Homepage}
                     />
                   )}
 
-                  {appstream.urls.donation && (
+                  {data.urls.donation && (
                     <ProjectUrlWidget
-                      url={appstream.urls.donation}
+                      url={data.urls.donation}
                       type={ProjectUrl.Donate}
                     />
                   )}
 
-                  {appstream.urls.translate && (
+                  {data.urls.translate && (
                     <ProjectUrlWidget
-                      url={appstream.urls.translate}
+                      url={data.urls.translate}
                       type={ProjectUrl.Translate}
                     />
                   )}
                 </div>
                 <div>
-                  {appstream.urls.bugtracker && (
+                  {data.urls.bugtracker && (
                     <ProjectUrlWidget
-                      url={appstream.urls.bugtracker}
+                      url={data.urls.bugtracker}
                       type={ProjectUrl.Bugtracker}
                     />
                   )}

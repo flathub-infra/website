@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Collection from '../../../src/components/application/Collection'
-import { BASE_URI } from '../../../src/env'
-import Application from '../../../src/types/Application'
+import { fetchCategory } from '../../../src/fetchers'
+import Appstream from '../../../src/types/Appstream'
 import Category from '../../../src/types/Category'
 
 const ApplicationCategory = ({ applications }) => {
@@ -16,7 +16,7 @@ const ApplicationCategory = ({ applications }) => {
     case Category.Development:
       title = 'Developer Tools'
       break
-    case Category.Games:
+    case Category.Game:
       title = 'Games'
       break
     case Category.Graphics:
@@ -39,10 +39,7 @@ const ApplicationCategory = ({ applications }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const res = await fetch(
-    `${BASE_URI}/apps/category/${String(params.category)}`
-  )
-  const applications: Application[] = await res.json()
+  const applications: Appstream[] = await fetchCategory(params.category as keyof typeof Category)
 
   return {
     props: {

@@ -2,14 +2,14 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { FunctionComponent } from 'react'
 
-import Application from '../../types/Application'
+import Appstream from '../../types/Appstream'
 
 import ApplicationCard from '../application/Card'
 import Main from '../layout/Main'
 import Pagination from '../Pagination'
 
 interface Props {
-  applications: Application[]
+  applications: Appstream[]
   perPage?: number
   title: string
 }
@@ -42,7 +42,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
             <div className='applications'>
               {pagedApplications.map((app) => (
-                <ApplicationCard key={app.flatpakAppId} application={app} />
+                <ApplicationCard key={app.id} application={app} />
               ))}
             </div>
 
