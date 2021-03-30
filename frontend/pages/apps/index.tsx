@@ -4,6 +4,7 @@ import Collections from '../../src/types/Collection'
 import fetchCollection from '../../src/fetchers'
 import ApplicationSection from '../../src/components/application/Section'
 import Main from '../../src/components/layout/Main'
+import { APPS_IN_PREVIEW_COUNT } from '../../src/env'
 
 export default function Apps({ recentlyUpdated, editorsChoiceApps, editorsChoiceGames, popular }) {
   return (
@@ -47,10 +48,10 @@ export default function Apps({ recentlyUpdated, editorsChoiceApps, editorsChoice
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const recentlyUpdated = await fetchCollection(Collections.recenltyUpdated, 6)
-  const editorsChoiceApps = await fetchCollection(Collections.editorsApps, 6)
-  const editorsChoiceGames = await fetchCollection(Collections.editorsGames, 6)
-  const popular = await fetchCollection(Collections.popular, 6)
+  const recentlyUpdated = await fetchCollection(Collections.recenltyUpdated, APPS_IN_PREVIEW_COUNT)
+  const editorsChoiceApps = await fetchCollection(Collections.editorsApps, APPS_IN_PREVIEW_COUNT)
+  const editorsChoiceGames = await fetchCollection(Collections.editorsGames, APPS_IN_PREVIEW_COUNT)
+  const popular = await fetchCollection(Collections.popular, APPS_IN_PREVIEW_COUNT)
 
   return {
     props: {

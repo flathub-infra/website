@@ -11,3 +11,5 @@ export const EDITORS_PICKS_GAMES_URL: string = `${BASE_URI}/picks/games`
 export const EDITORS_PICKS_APPS_URL: string = `${BASE_URI}/picks/apps`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
 export const CATEGORY_URL = (category: keyof typeof Category): string => `${BASE_URI}/category/${category}`
+
+export const APPS_IN_PREVIEW_COUNT: number = 6;

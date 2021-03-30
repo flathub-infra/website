@@ -49,7 +49,7 @@ export default async function fetchCollection (collection: Collection, count?: n
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchEntry))
 
-  console.log("Collection ", collection, " fetched")
+  console.log("\nCollection ", collection, " fetched")
 
   return items.filter(item => Boolean(item))
 }
@@ -60,7 +60,7 @@ export async function fetchApps() {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Apps fetched")
+  console.log("\nApps fetched")
 
   return items.filter(item => Boolean(item))
 }
@@ -71,7 +71,7 @@ export async function fetchCategory(category: keyof typeof Category) {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Category", category, " fetched")
+  console.log("\nCategory", category, " fetched")
 
   return items.filter(item => Boolean(item))
 }
@@ -82,7 +82,7 @@ export async function fetchSearchQuery(query:string) {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("Search for query: '", query, "' fetched")
+  console.log("\nSearch for query: '", query, "' fetched")
 
   return items.filter(item => Boolean(item))
 }
