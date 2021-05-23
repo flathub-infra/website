@@ -1,11 +1,10 @@
-import datetime
 from functools import lru_cache
 
 import sentry_sdk
-from fastapi import BackgroundTasks, FastAPI, Response
+from fastapi import FastAPI, Response
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-from . import apps, config, db, feeds, picks, stats, schemas, summary
+from . import apps, config, db, feeds, picks, schemas, stats, summary
 
 app = FastAPI()
 if config.settings.sentry_dsn:
@@ -20,7 +19,7 @@ def startup_event():
 
 
 @app.post("/update")
-def update(background_tasks: BackgroundTasks):
+def update():
     new_apps = apps.load_appstream()
     summary.update()
     picks.update()
@@ -97,7 +96,7 @@ def get_new_apps_feed():
 
 
 @app.get("/status", status_code=200)
-def healthcheck(response: Response):
+def healthcheck():
     return {"status": "OK"}
 
 
