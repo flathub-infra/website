@@ -1,6 +1,10 @@
+import json
+import random
+import sys
+import time
+
 import redis
 import redisearch
-import json
 
 from . import config
 
@@ -11,6 +15,24 @@ redis_conn = redis.Redis(
 )
 
 redis_search = redisearch.Client("apps_search", conn=redis_conn)
+
+
+def wait_for_redis():
+    retries = 5
+    retry_no = 0
+
+    while retries != 0:
+        try:
+            redis_conn.ping()
+        except redis.exceptions.ConnectionError:
+            retry_no += 1
+            sleep = 5 * retry_no
+            time.sleep(sleep)
+            retries -= 1
+
+    if retries == 0:
+        sys.exit(1)
+
 
 
 def initialize():

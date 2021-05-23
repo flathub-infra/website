@@ -9,6 +9,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    restart: on-failure
     ports:
       - "8000"
     links:

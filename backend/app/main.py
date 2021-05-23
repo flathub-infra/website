@@ -14,6 +14,8 @@ if config.settings.sentry_dsn:
 
 @app.on_event("startup")
 def startup_event():
+    db.wait_for_redis()
+
     db.initialize()
     picks.initialize()
 
