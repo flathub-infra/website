@@ -13,7 +13,7 @@ services:
     environment:
       - REDIS_HOST=redis
     ports:
-      - "8000"
+      - "8000:8000"
     links:
       - redis:redis
     volumes:
