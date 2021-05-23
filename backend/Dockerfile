@@ -17,7 +17,8 @@ EXPOSE 8000
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         libcairo2 gir1.2-ostree-1.0 flatpak && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 
 COPY ./app /app
 COPY ./data /data
