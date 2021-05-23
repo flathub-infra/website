@@ -1,6 +1,4 @@
 import json
-import random
-import sys
 import time
 
 import redis
@@ -23,7 +21,10 @@ def wait_for_redis():
 
     while retries != 0:
         try:
-            redis_conn.ping()
+            if redis_conn.ping():
+                break
+            else:
+                raise redis.exceptions.ConnectionError
         except redis.exceptions.ConnectionError:
             retry_no += 1
             sleep = 5 * retry_no
@@ -31,7 +32,7 @@ def wait_for_redis():
             retries -= 1
 
     if retries == 0:
-        sys.exit(1)
+        raise redis.exceptions.ConnectionError
 
 
 def initialize():

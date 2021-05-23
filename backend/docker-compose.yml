@@ -9,7 +9,9 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    restart: on-failure
+    restart: unless-stopped
+    environment:
+      - REDIS_HOST=redis
     ports:
       - "8000"
     links:
