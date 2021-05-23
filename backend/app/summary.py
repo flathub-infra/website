@@ -38,7 +38,7 @@ def parse_metadata(ini: str):
     metadata = dict(parser["Application"])
 
     if "tags" in metadata:
-        tags = [x for x in metadata["tags"].split(';') if x]
+        tags = [x for x in metadata["tags"].split(";") if x]
         metadata["tags"] = tags
 
     permissions = {}
@@ -80,7 +80,9 @@ def parse_metadata(ini: str):
         metadata["extensions"] = extensions
 
     if "Build" in parser:
-        metadata["built-extensions"] = [x for x in parser.get("Build", "built-extensions").split(";") if x]
+        metadata["built-extensions"] = [
+            x for x in parser.get("Build", "built-extensions").split(";") if x
+        ]
 
     if "Extra Data" in parser:
         metadata["extra-data"] = dict(parser["Extra Data"])
@@ -108,7 +110,7 @@ def update():
         if not validate_ref(ref):
             continue
 
-        appid = ref.split('/')[1]
+        appid = ref.split("/")[1]
 
         timestamp_be_uint = struct.pack("<Q", info["ostree.commit.timestamp"])
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
@@ -120,7 +122,7 @@ def update():
         if not validate_ref(ref):
             continue
 
-        appid = ref.split('/')[1]
+        appid = ref.split("/")[1]
 
         download_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         download_size = struct.unpack(">Q", download_size_be_uint)[0]
@@ -136,17 +138,14 @@ def update():
         if not validate_ref(ref, enforce_arch=False):
             continue
 
-        appid = ref.split('/')[1]
-        arch = ref.split('/')[2]
+        appid = ref.split("/")[1]
+        arch = ref.split("/")[2]
 
         summary_dict[appid]["arches"].append(arch)
 
     db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
     db.redis_conn.mset(
-        {
-            f"summary:{appid}": json.dumps(summary_dict[appid])
-            for appid in summary_dict
-        }
+        {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )
 
     return len(recently_updated_zset)

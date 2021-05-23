@@ -17,7 +17,7 @@ def appstream2dict(reponame: str):
             "appstream.xml",
         )
         with open(appstream_path, "rb") as file:
-            if appstream_path.endswith('.gz'):
+            if appstream_path.endswith(".gz"):
                 appstream = gzip.decompress(file.read())
             else:
                 appstream = file.read()
@@ -139,7 +139,9 @@ def appstream2dict(reponame: str):
                 cdn_baseurl = "https://dl.flathub.org"
                 icon_size = max(icons_data)
                 icon_name = icons_data[icon_size]
-                app["icon"] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
+                app[
+                    "icon"
+                ] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
             elif icons_data := icons_dict.get("remote"):
                 icon_size = max(icons_data)
                 app["icon"] = icons_data[icon_size]

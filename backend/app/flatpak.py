@@ -3,7 +3,12 @@ import subprocess
 
 class Flatpak:
     def __init__(self):
-        self.run_command("remote-add", "--if-not-exists", "flathub", "https://flathub.org/repo/flathub.flatpakrepo")
+        self.run_command(
+            "remote-add",
+            "--if-not-exists",
+            "flathub",
+            "https://flathub.org/repo/flathub.flatpakrepo",
+        )
         self.remote_info("org.freedesktop.Platform//20.08")
 
     def run_command(self, *args):

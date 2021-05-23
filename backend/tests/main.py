@@ -50,7 +50,9 @@ def setup_module():
     remote_path = os.path.join(os.getcwd(), "tests/ostree/repo")
     repo.remote_add("flathub", f"file://{remote_path}")
 
-    for i, test_stats_json in enumerate(sorted(glob.glob("tests/stats/*.json"), reverse=True)):
+    for i, test_stats_json in enumerate(
+        sorted(glob.glob("tests/stats/*.json"), reverse=True)
+    ):
         date = datetime.date.today() - datetime.timedelta(days=i)
         stats_file = os.path.join(workspace.name, date.strftime("%Y/%m/%d.json"))
         os.makedirs(os.path.dirname(stats_file), exist_ok=True)

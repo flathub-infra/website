@@ -14,11 +14,15 @@ POPULAR_ITEMS_NUM = 30
 POPULAR_DAYS_NUM = 7
 
 
-def get_stats_for_date(date: datetime.date, session: requests.Session) -> Optional[StatsType]:
-    stats_json_url = urlparse(config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json"))
+def get_stats_for_date(
+    date: datetime.date, session: requests.Session
+) -> Optional[StatsType]:
+    stats_json_url = urlparse(
+        config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
+    )
     if stats_json_url.scheme == "file":
         try:
-            with open(stats_json_url.path, 'r') as stats_file:
+            with open(stats_json_url.path, "r") as stats_file:
                 stats = json.load(stats_file)
         except FileNotFoundError:
             return None
@@ -32,9 +36,9 @@ def get_stats_for_date(date: datetime.date, session: requests.Session) -> Option
         response.raise_for_status()
         stats = response.json()
         if date == datetime.date.today():
-            expire = 60*60
+            expire = 60 * 60
         else:
-            expire = 24*60*60
+            expire = 24 * 60 * 60
         db.redis_conn.set(redis_key, json.dumps(stats), ex=expire)
     else:
         stats = json.loads(stats_txt)
@@ -61,12 +65,14 @@ def get_stats_for_period(sdate: datetime.date, edate: datetime.date) -> StatsTyp
     return totals
 
 
-def _sort_key(app_stats: Dict[str, List[int]], for_arches:  Optional[List[str]] = None) -> int:
+def _sort_key(
+    app_stats: Dict[str, List[int]], for_arches: Optional[List[str]] = None
+) -> int:
     new_dls = 0
     for arch, dls in app_stats.items():
         if for_arches is not None and arch not in for_arches:
             continue
-        new_dls += (dls[0] - dls[1])
+        new_dls += dls[0] - dls[1]
     return new_dls
 
 
@@ -89,7 +95,7 @@ def get_popular(days: Optional[int]):
     sorted_apps = sorted(
         filter(lambda a: _is_app(a[0]), stats.items()),
         key=lambda a: _sort_key(a[1]),
-        reverse=True
+        reverse=True,
     )
 
     popular = [k for k, v in sorted_apps[:POPULAR_ITEMS_NUM]]

@@ -21,7 +21,9 @@ def update():
     with db.redis_conn.pipeline() as p:
         with requests.Session() as session:
             for pick in ["games", "apps"]:
-                r = session.get(f"https://raw.githubusercontent.com/flathub/backend/master/data/picks/{pick}.json")
+                r = session.get(
+                    f"https://raw.githubusercontent.com/flathub/backend/master/data/picks/{pick}.json"
+                )
                 if r.status_code == 200:
                     # Decode JSON to ensure it's not malformed
                     content = r.json()

@@ -34,7 +34,6 @@ def wait_for_redis():
         sys.exit(1)
 
 
-
 def initialize():
     apps = redis_conn.smembers("apps:index")
     if not apps:
@@ -65,7 +64,22 @@ def search(userquery: str):
     userquery = userquery.replace(".*", "*")
 
     # Remove reserved characters
-    reserved_chars = ["@", "!", "{", "}", "(", ")", "|", "-", "=", ">", "[", "]", ":", ";"]
+    reserved_chars = [
+        "@",
+        "!",
+        "{",
+        "}",
+        "(",
+        ")",
+        "|",
+        "-",
+        "=",
+        ">",
+        "[",
+        "]",
+        ":",
+        ";",
+    ]
     for char in reserved_chars:
         userquery = userquery.replace(char, "")
 
