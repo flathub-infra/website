@@ -1,7 +1,7 @@
 version: "2"
 services:
   redis:
-    image: redislabs/redisearch:2.0.6_geo-llapi
+    image: redislabs/redisearch:2.0.9
     ports:
       - "6379"
 
