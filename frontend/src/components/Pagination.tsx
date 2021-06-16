@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
 import { FunctionComponent } from 'react'
+import { useRouter } from 'next/router'
 
 interface Props {
   currentPage: number

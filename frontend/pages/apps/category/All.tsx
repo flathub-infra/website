@@ -1,8 +1,8 @@
 import { GetStaticProps } from 'next'
+
 import Collection from '../../../src/components/application/Collection'
 import Appstream from '../../../src/types/Appstream'
-
-import { fetchApps } from '../../../src/fetchers';
+import { fetchApps } from '../../../src/fetchers'
 
 const AllCategory = ({ applications }) => (
   <Collection title='All' applications={applications} />

@@ -1,6 +1,6 @@
+import { FunctionComponent } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { FunctionComponent } from 'react'
 
 import Appstream from '../../types/Appstream'
 
