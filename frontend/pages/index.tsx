@@ -1,14 +1,20 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
+
 import CategoriesList from '../src/components/categories/List'
 import Collections from '../src/types/Collection'
 import ApplicationSection from '../src/components/application/Section'
 import Main from '../src/components/layout/Main'
 
-import fetchCollection from '../src/fetchers';
+import fetchCollection from '../src/fetchers'
 import { APPS_IN_PREVIEW_COUNT } from '../src/env'
 
-export default function Home({ recentlyUpdated, editorsChoiceApps, editorsChoiceGames, popular }) {
+export default function Home({
+  recentlyUpdated,
+  editorsChoiceApps,
+  editorsChoiceGames,
+  popular,
+}) {
   return (
     <Main>
       <Head>
@@ -53,17 +59,29 @@ export default function Home({ recentlyUpdated, editorsChoiceApps, editorsChoice
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const recentlyUpdated = await fetchCollection(Collections.recenltyUpdated, APPS_IN_PREVIEW_COUNT)
-  const editorsChoiceApps = await fetchCollection(Collections.editorsApps, APPS_IN_PREVIEW_COUNT)
-  const editorsChoiceGames = await fetchCollection(Collections.editorsGames, APPS_IN_PREVIEW_COUNT)
-  const popular = await fetchCollection(Collections.popular, APPS_IN_PREVIEW_COUNT)
+  const recentlyUpdated = await fetchCollection(
+    Collections.recenltyUpdated,
+    APPS_IN_PREVIEW_COUNT
+  )
+  const editorsChoiceApps = await fetchCollection(
+    Collections.editorsApps,
+    APPS_IN_PREVIEW_COUNT
+  )
+  const editorsChoiceGames = await fetchCollection(
+    Collections.editorsGames,
+    APPS_IN_PREVIEW_COUNT
+  )
+  const popular = await fetchCollection(
+    Collections.popular,
+    APPS_IN_PREVIEW_COUNT
+  )
 
   return {
     props: {
       recentlyUpdated,
       editorsChoiceApps,
       editorsChoiceGames,
-      popular
+      popular,
     },
   }
 }

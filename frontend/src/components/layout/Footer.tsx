@@ -13,12 +13,12 @@ const Footer = () => (
         </div>
         <div className='footer-item'>
           <Link href='/apps/collection/editors-choice-apps'>
-            Editor's Choice
+            Editor&apos;s Choice
           </Link>
         </div>
         <div className='footer-item'>
           <Link href='/apps/collection/editors-choice-games'>
-            Editor's Choice Games
+            Editor&apos;s Choice Games
           </Link>
         </div>
         <div className='footer-item'>
