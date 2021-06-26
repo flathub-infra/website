@@ -10,7 +10,8 @@ jobs:
     name: Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
       - name: Cache
         uses: actions/cache@v2
@@ -19,15 +20,18 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - uses: actions/setup-node@v1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: '12'
-      - run: yarn install --frozen-lockfile
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: Lint
-        uses: mooyoul/tslint-actions@v1.1.1
-        with:
-          pattern: '*.ts'
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: yarn build
+        run: yarn lint
+
+      - name: Build application
+        run: yarn build
         env:
           CI: true
