@@ -16,7 +16,7 @@ const CategoriesList = () => (
         name='Productivity'
         href={`/apps/category/${Category.Office}`}
       />
-      <CategoryCard name='Games' href={`/apps/category/${Category.Games}`} />
+      <CategoryCard name='Games' href={`/apps/category/${Category.Game}`} />
       <CategoryCard
         name='Graphics'
         href={`/apps/category/${Category.Graphics}`}
