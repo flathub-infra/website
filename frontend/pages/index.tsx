@@ -35,8 +35,8 @@ export default function Home({
           href='/apps/collection/editors-choice-apps'
         />
         <ApplicationSection
-          key='editor_choice'
-          title="Editor's Picks"
+          key='editor_choice_games'
+          title="Editor's Picks Games"
           applications={editorsChoiceGames}
           href='/apps/collection/editors-choice-games'
         />
