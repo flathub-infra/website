@@ -6,7 +6,7 @@ from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from . import apps, config, db, feeds, picks, schemas, stats, summary
 
-app = FastAPI()
+app = FastAPI(title=config.settings.app_name)
 if config.settings.sentry_dsn:
     sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.01)
     app.add_middleware(SentryAsgiMiddleware)
