@@ -458,57 +458,6 @@ div#wrapper {
   }
 }
 
-pre {
-  display: block;
-  position: relative;
-  padding: 9.5px 40px 9.5px 9.5px;
-  margin: 0 0 10px;
-  font-size: 13px !important;
-  line-height: 1.42857143;
-  color: #333;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: auto;
-  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace !important;
-}
-
-footer#footer {
-  background-color: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 48px;
-  margin-top: 60px;
-  justify-content: center;
-
-  a {
-    color: inherit;
-  }
-
-  .footer-section {
-    margin: 12px;
-    min-width: 200px;
-
-    .footer-title {
-      color: #eeebebd2;
-      font-weight: bold;
-      font-size: 12pt;
-    }
-
-    .footer-items {
-      display: flex;
-      flex-direction: column;
-
-      .footer-item {
-        font-size: 11pt;
-        color: grey;
-        line-height: 1.4;
-      }
-    }
-  }
-}
-
 .primary-button,
 .secondary-button {
   background-color: $main-color;
@@ -533,63 +482,6 @@ footer#footer {
   text-align: center;
 
   text-transform: capitalize;
-}
-
-.pagination {
-  display: flex;
-  flex-direction: row;
-  height: 30px;
-  background-color: white;
-  border: 1px solid $border;
-  border-radius: 4px;
-  width: min-content;
-  margin: 0 auto;
-  margin-top: 60px;
-
-  a:not(:last-child) {
-    .page-link {
-      border-right: 1px solid $border;
-    }
-  }
-
-  .page-link {
-    width: 36px;
-    align-self: center;
-    margin: 2px;
-    text-align: center;
-
-    &:hover {
-      cursor: pointer;
-      color: $main-color;
-    }
-
-    &.page-active {
-      font-weight: 700;
-      color: $main-color;
-    }
-  }
-}
-
-.show-all-button {
-  border-radius: 9999px;
-  background-color: #f8f7f7;
-  padding: 0px 18px;
-  margin: 4px;
-  font-size: 0.9rem;
-  border: 1px solid #d3d1cf;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
-  div {
-    align-self: center;
-
-    margin-right: 4px;
-  }
-
-  img {
-    margin: auto;
-  }
 }
 
 .carousel {
@@ -677,35 +569,6 @@ footer#footer {
 
     .title {
       grid-column: 1 / 3;
-    }
-  }
-}
-
-div.pre {
-  display: block;
-  position: relative;
-  padding: 9.5px;
-  padding-right: 40px;
-  margin: 0 0 10px;
-  font-size: 13px !important;
-  line-height: 1.42857143;
-  color: #333333;
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: auto;
-  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace !important;
-
-  button.copy {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    border: 0px none;
-    background-color: transparent;
-    font-size: 24px;
-
-    &:active {
-      color: #ccc;
     }
   }
 }

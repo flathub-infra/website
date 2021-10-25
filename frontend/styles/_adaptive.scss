@@ -26,9 +26,6 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
-  footer#footer {
-    flex-direction: row;
-  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
