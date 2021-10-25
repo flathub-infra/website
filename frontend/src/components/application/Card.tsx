@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
-  <Link href={`/apps/details/${application.id}`}>
+  <Link href={`/apps/details/${application.id}`} passHref>
     <div className='application-card'>
       <div className='logo'>
         <img src={application.icon} alt={application.name} />

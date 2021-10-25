@@ -4,10 +4,25 @@ import ApplicationDetails from '../../../src/components/application/Details'
 import Main from '../../../src/components/layout/Main'
 import { fetchEntry } from '../../../src/fetchers'
 import { APPSTREAM_URL } from '../../../src/env'
+import { NextSeo } from 'next-seo'
 
 export default function Details({ data }) {
   return (
     <Main>
+      <NextSeo
+        title={data.name}
+        description={data.summary}
+        openGraph={{
+          images: [
+            {
+              url: data.icon,
+            },
+            ...data.screenshots.map((screenshot: string) => ({
+              url: screenshot['752x423'],
+            })),
+          ],
+        }}
+      />
       <ApplicationDetails data={data} />
     </Main>
   )

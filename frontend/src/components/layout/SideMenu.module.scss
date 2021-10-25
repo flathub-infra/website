@@ -1,0 +1,16 @@
+aside {
+  display: flex;
+  flex-direction: column;
+
+  .sideMenuSection {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      font-size: 110%;
+      line-height: 1;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+  }
+}

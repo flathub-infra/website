@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 
 import Collection from '../../../src/components/application/Collection'
@@ -36,7 +37,12 @@ const ApplicationCategory = ({ applications }) => {
       title = category as string
   }
 
-  return <Collection title={title} applications={applications} />
+  return (
+    <>
+      <NextSeo title={title} />
+      <Collection title={title} applications={applications} />
+    </>
+  )
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {

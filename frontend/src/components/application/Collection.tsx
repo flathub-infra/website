@@ -1,5 +1,4 @@
 import { FunctionComponent } from 'react'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import Appstream from '../../types/Appstream'
@@ -20,7 +19,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   perPage = 32,
 }) => {
   const router = useRouter()
-  const page = parseInt(router.query.page as string, 2) || 1
+  const page = parseInt((router.query.page ?? '1') as string)
   const totalPages = Math.ceil(applications.length / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -31,11 +30,8 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <Main>
-      <Head>
-        <title>{title}</title>
-      </Head>
-      <div className='main-container'>
-        <div className='applications-collection'>
+      <div className='collection-wrapper'>
+        <section className='applications-collection'>
           <div className='collection'>
             <h2>{title}</h2>
             <p>{applications.length} results</p>
@@ -48,7 +44,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
             <Pagination pages={pages} currentPage={page} />
           </div>
-        </div>
+        </section>
       </div>
     </Main>
   )

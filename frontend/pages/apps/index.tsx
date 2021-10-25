@@ -1,11 +1,10 @@
 import { GetStaticProps } from 'next'
-import Head from 'next/head'
-
 import Collections from '../../src/types/Collection'
 import fetchCollection from '../../src/fetchers'
 import ApplicationSection from '../../src/components/application/Section'
 import Main from '../../src/components/layout/Main'
 import { APPS_IN_PREVIEW_COUNT } from '../../src/env'
+import { NextSeo } from 'next-seo'
 
 export default function Apps({
   recentlyUpdated,
@@ -15,32 +14,30 @@ export default function Apps({
 }) {
   return (
     <Main>
-      <Head>
-        <title>Flathub—An app store and build service for Linux</title>
-      </Head>
-      <div className='applications-collection'>
+      <NextSeo
+        title='Applications'
+        description='An app store and build service for Linux'
+      />
+      <div className='applications-collection main-container'>
         <div className='collection'>
-          <ApplicationSection
-            key='updated'
-            title='New & Updated Apps'
-            applications={recentlyUpdated}
-            href='/apps/collection/recently-updated'
-          />
-
           <ApplicationSection
             key='popular'
             title='Popular Apps'
             applications={popular}
             href='/apps/collection/popular'
           />
-
+          <ApplicationSection
+            key='updated'
+            title='New & Updated Apps'
+            applications={recentlyUpdated}
+            href='/apps/collection/recently-updated'
+          />
           <ApplicationSection
             key='editor_choice'
             title="Editor's Choice Apps"
             applications={editorsChoiceApps}
             href='/apps/collection/editors-choice-apps'
           />
-
           <ApplicationSection
             key='editor_choice_games'
             title="Editor's Choice Games"
@@ -55,7 +52,7 @@ export default function Apps({
 
 export const getStaticProps: GetStaticProps = async () => {
   const recentlyUpdated = await fetchCollection(
-    Collections.recenltyUpdated,
+    Collections.recentlyUpdated,
     APPS_IN_PREVIEW_COUNT
   )
   const editorsChoiceApps = await fetchCollection(

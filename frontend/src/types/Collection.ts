@@ -1,11 +1,11 @@
 enum Collections {
   popular = "Popular",
-  recenltyUpdated = "Recenlty Updated",
+  recentlyUpdated = "Recently Updated",
   editorsApps = "Editors Picks Apps",
   editorsGames = "Editors Picks Games"
 }
 export type Collection = Collections.popular
-  | Collections.recenltyUpdated
+  | Collections.recentlyUpdated
   | Collections.editorsApps
   | Collections.editorsGames;
 

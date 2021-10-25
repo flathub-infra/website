@@ -22,18 +22,22 @@ const Details: FunctionComponent<Props> = ({ data }) => {
         <header className='container'>
           <div className='logo'>
             <img
-              src={`https://flathub.org//repo/appstream/x86_64/icons/128x128/${data.id}.png`}
+              src={`https://flathub.org/repo/appstream/x86_64/icons/128x128/${data.id}.png`}
               alt='Logo'
             />
           </div>
 
           <div className='details'>
             <h2>{data.name}</h2>
-            <div className='developer'>{data.developer_name || '-'}</div>
+            <div className='app-summary'>{data.summary}</div>
           </div>
 
           <div className='install'>
-            <button className='primary-button install-button'>Install</button>
+            <a
+              href={`https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`}
+            >
+              <button className='primary-button install-button'>Install</button>
+            </a>
           </div>
         </header>
         <Carousel
@@ -80,7 +84,6 @@ const Details: FunctionComponent<Props> = ({ data }) => {
             ))}
         </Carousel>
         <div className='container'>
-          <h3 className='summary'>{data.summary}</h3>
           <p
             className='description'
             dangerouslySetInnerHTML={{ __html: data.description }}

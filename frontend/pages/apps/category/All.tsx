@@ -3,9 +3,13 @@ import { GetStaticProps } from 'next'
 import Collection from '../../../src/components/application/Collection'
 import Appstream from '../../../src/types/Appstream'
 import { fetchApps } from '../../../src/fetchers'
+import { NextSeo } from 'next-seo'
 
 const AllCategory = ({ applications }) => (
-  <Collection title='All' applications={applications} />
+  <>
+    <NextSeo title='All' />
+    <Collection title='All' applications={applications} />
+  </>
 )
 
 export const getStaticProps: GetStaticProps = async () => {

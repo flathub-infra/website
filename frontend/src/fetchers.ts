@@ -24,7 +24,7 @@ export default async function fetchCollection (collection: Collection, count?: n
     case Collections.popular:
       collectionURL = POPULAR_URL
       break
-    case Collections.recenltyUpdated:
+    case Collections.recentlyUpdated:
       collectionURL = RECENTLY_UPDATED_URL
       break
     case Collections.editorsApps:
@@ -80,9 +80,7 @@ export async function fetchSearchQuery(query:string) {
   const appListRes = await fetch(SEARCH_APP(query))
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
-
   console.log("\nSearch for query: '", query, "' fetched")
 
-  return items.filter(item => Boolean(item))
+  return appList.filter(item => Boolean(item))
 }

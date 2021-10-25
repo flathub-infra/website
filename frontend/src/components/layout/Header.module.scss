@@ -1,0 +1,159 @@
+@import '../../../styles/colors';
+
+.header {
+  background-color: $main-color;
+  display: flex;
+  flex-direction: row;
+
+  height: 64px;
+
+  div,
+  span {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  #brand {
+    background-image: url('/img/logo/flathub-logo-toolbar.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: auto 12px;
+    padding: 0 12px;
+    border-radius: 3px;
+    max-width: 150px;
+    height: 34px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $main-color-dark;
+    }
+
+    &:active {
+      background-color: $glassGrey;
+    }
+  }
+
+  .brandContainer {
+    min-width: 112px;
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 26px;
+    margin-right: auto;
+    justify-content: start;
+  }
+
+  #search {
+    display: block;
+
+    input {
+      padding: 8px;
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      background-color: $main-color-dark;
+      color: #fff;
+      border-radius: 3px;
+      box-sizing: border-box;
+    }
+
+    width: 520px;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .navbarContainer {
+    @media screen and (max-width: 768px) {
+      min-width: unset;
+    }
+
+    min-width: 400px;
+    height: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+
+    #navbar {
+      @media screen and (min-width: 768px) {
+        margin: auto 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+
+      display: none;
+      margin-left: auto;
+
+      &.responsive {
+        display: block;
+        position: absolute;
+        background-color: $main-color;
+        float: inherit;
+        top: 64px;
+        width: 100%;
+        left: 0px;
+        text-align: center;
+        z-index: 1;
+
+        & .navItem {
+          width: 100%;
+          max-width: none;
+          height: 48px;
+          margin: auto 0;
+        }
+      }
+
+      .navItem {
+        padding: 8px 20px;
+        margin: 0 6px;
+        border-radius: 3px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        text-transform: uppercase;
+        max-width: 100px;
+        align-items: center;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $main-color-dark;
+        }
+
+        &:active {
+          background-color: $glassGrey;
+        }
+      }
+    }
+
+    .toggleContainer {
+      justify-content: end;
+      .navbarToggle {
+        cursor: pointer;
+        color: white;
+        font-size: 24px;
+        max-width: 64px;
+        align-items: center;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $main-color-dark;
+        }
+
+        &:active {
+          background-color: $glassGrey;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+  }
+}

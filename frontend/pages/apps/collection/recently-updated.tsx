@@ -4,19 +4,23 @@ import ApplicationCollection from '../../../src/components/application/Collectio
 import fetchCollection from '../../../src/fetchers'
 import Collections from '../../../src/types/Collection'
 import Appstream from '../../../src/types/Appstream'
+import { NextSeo } from 'next-seo'
 
 export default function RecentlyUpdatedApps({ applications }) {
   return (
-    <ApplicationCollection
-      title='Recently Updated Apps'
-      applications={applications}
-    />
+    <>
+      <NextSeo title='Recently Updated Apps' />
+      <ApplicationCollection
+        title='Recently Updated Apps'
+        applications={applications}
+      />
+    </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const applications: Appstream[] = await fetchCollection(
-    Collections.recenltyUpdated
+    Collections.recentlyUpdated
   )
   applications.sort((a, b) => a.name.localeCompare(b.name))
 

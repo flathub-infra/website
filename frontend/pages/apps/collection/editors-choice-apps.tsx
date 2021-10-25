@@ -4,13 +4,17 @@ import ApplicationCollection from '../../../src/components/application/Collectio
 import fetchCollection from '../../../src/fetchers'
 import Collections from '../../../src/types/Collection'
 import Appstream from '../../../src/types/Appstream'
+import { NextSeo } from 'next-seo'
 
 export default function EditorChoiceApps({ applications }) {
   return (
-    <ApplicationCollection
-      title="Editor's Choice Apps"
-      applications={applications}
-    />
+    <>
+      <NextSeo title="Editor's Choice Apps" />
+      <ApplicationCollection
+        title="Editor's Choice Apps"
+        applications={applications}
+      />
+    </>
   )
 }
 
