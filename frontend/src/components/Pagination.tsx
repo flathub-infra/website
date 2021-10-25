@@ -25,6 +25,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
               router.push({
                 pathname: router.pathname,
                 query: {
+                  ...router.query,
                   page: p.toString(),
                 },
               })
