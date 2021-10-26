@@ -1,0 +1,36 @@
+@import '../../styles/colors';
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  background-color: white;
+  border: 1px solid $border;
+  border-radius: 4px;
+  width: min-content;
+  margin: 0 auto;
+  margin-top: 60px;
+
+  a:not(:last-child) {
+    .pageLink {
+      border-right: 1px solid $border;
+    }
+  }
+
+  .pageLink {
+    width: 36px;
+    align-self: center;
+    margin: 2px;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      color: $main-color;
+    }
+
+    &.pageActive {
+      font-weight: 700;
+      color: $main-color;
+    }
+  }
+}

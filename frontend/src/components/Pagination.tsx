@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
+import styles from './Pagination.module.scss'
 
 interface Props {
   currentPage: number
@@ -14,10 +15,10 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   }
 
   return (
-    <div className='pagination'>
+    <div className={styles.pagination}>
       {pages.map((p, index) => {
         const isActive = p === currentPage
-        const className = isActive ? 'page-active' : ''
+        const className = isActive ? `${styles.pageActive}` : ''
 
         return (
           <a
@@ -32,7 +33,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
             }}
             key={`pagination-${index}`}
           >
-            <div className={`${className} page-link`}>{p}</div>
+            <div className={`${className} ${styles.pageLink}`}>{p}</div>
           </a>
         )
       })}

@@ -1,0 +1,42 @@
+@import '../../../styles/colors';
+
+#footer {
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+  margin-top: 60px;
+  justify-content: center;
+
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) {
+    flex-direction: row;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .footerSection {
+    margin: 12px;
+    min-width: 200px;
+
+    .footerTitle {
+      color: #eeebebd2;
+      font-weight: bold;
+      font-size: 12pt;
+    }
+
+    .footerItems {
+      display: flex;
+      flex-direction: column;
+
+      .footerItem {
+        font-size: 11pt;
+        color: grey;
+        line-height: 1.4;
+      }
+    }
+  }
+}

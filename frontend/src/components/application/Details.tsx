@@ -76,11 +76,7 @@ const Details: FunctionComponent<Props> = ({ data }) => {
         >
           {data.screenshots &&
             data.screenshots.map((screenshot, index) => (
-              <img
-                key={index}
-                src={screenshot['752x423']}
-                className='carousel-image'
-              />
+              <img key={index} src={screenshot['752x423']} />
             ))}
         </Carousel>
         <div className='container'>
