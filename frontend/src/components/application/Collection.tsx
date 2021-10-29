@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
 
-import Appstream from '../../types/Appstream'
+import { Appstream } from '../../types/Appstream'
 
 import ApplicationCard from '../application/Card'
 import Main from '../layout/Main'

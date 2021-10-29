@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import Collections from '../../src/types/Collection'
+import { Collections } from '../../src/types/Collection'
 import fetchCollection from '../../src/fetchers'
 import ApplicationSection from '../../src/components/application/Section'
 import Main from '../../src/components/layout/Main'

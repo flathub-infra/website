@@ -4,8 +4,8 @@ import { useRouter } from 'next/router'
 
 import Collection from '../../../src/components/application/Collection'
 import { fetchCategory } from '../../../src/fetchers'
-import Appstream from '../../../src/types/Appstream'
-import Category from '../../../src/types/Category'
+import { Appstream } from '../../../src/types/Appstream'
+import { Category } from '../../../src/types/Category'
 
 const ApplicationCategory = ({ applications }) => {
   const router = useRouter()

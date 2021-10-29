@@ -1,4 +1,4 @@
-import ProjectUrl from '../../types/ProjectUrl'
+import { ProjectUrl } from '../../types/ProjectUrl'
 
 const ProjectUrlWidget = ({ url, type }) => {
   let label = ''

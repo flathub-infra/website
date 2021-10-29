@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import Category from '../../types/Category'
+import { Category } from '../../types/Category'
 
 import styles from './SideMenu.module.scss'
 

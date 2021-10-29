@@ -1,4 +1,4 @@
-import Category from '../../types/Category'
+import { Category } from '../../types/Category'
 import CategoryCard from './Card'
 
 const CategoriesList = () => (

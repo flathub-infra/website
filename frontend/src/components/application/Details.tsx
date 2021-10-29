@@ -1,16 +1,17 @@
 import { FunctionComponent } from 'react'
 import { Carousel } from 'react-responsive-carousel'
+import { Appstream } from '../../types/Appstream'
+import { ProjectUrl } from '../../types/ProjectUrl'
 
-import Appstream from '../../types/Appstream'
-import ProjectUrl from '../../types/ProjectUrl'
-
+import { Summary } from '../../types/Summary'
 import ProjectUrlWidget from './ProjectUrl'
 
 interface Props {
   data: Appstream
+  summary: Summary
 }
 
-const Details: FunctionComponent<Props> = ({ data }) => {
+const Details: FunctionComponent<Props> = ({ data, summary }) => {
   if (data) {
     const latestRelease = data.releases ? data.releases[0] : null
     const moreThan1Screenshot = data.screenshots

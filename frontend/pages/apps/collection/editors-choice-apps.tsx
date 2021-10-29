@@ -2,8 +2,8 @@ import { GetStaticProps } from 'next'
 
 import ApplicationCollection from '../../../src/components/application/Collection'
 import fetchCollection from '../../../src/fetchers'
-import Collections from '../../../src/types/Collection'
-import Appstream from '../../../src/types/Appstream'
+import { Collections } from '../../../src/types/Collection'
+import { Appstream } from '../../../src/types/Appstream'
 import { NextSeo } from 'next-seo'
 
 export default function EditorChoiceApps({ applications }) {
