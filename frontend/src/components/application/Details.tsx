@@ -1,10 +1,10 @@
+import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { FunctionComponent } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import { Appstream } from '../../types/Appstream'
-import { ProjectUrl } from '../../types/ProjectUrl'
 
 import { Summary } from '../../types/Summary'
-import ProjectUrlWidget from './ProjectUrl'
+
 import Releases from './Releases'
 import styles from './Details.module.scss'
 import ProjectUrls from './ProjectUrls'
@@ -15,6 +15,14 @@ interface Props {
 }
 
 const Details: FunctionComponent<Props> = ({ data, summary }) => {
+  const { trackEvent } = useMatomo()
+
+  const installClicked = (e) => {
+    e.preventDefault()
+    trackEvent({ category: 'App', action: 'Install', name: data.id })
+    window.location.href = `https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`
+  }
+
   if (data) {
     const moreThan1Screenshot = data.screenshots
       ? data.screenshots.length > 1
@@ -36,13 +44,12 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
           </div>
 
           <div className={styles.install}>
-            <a
-              href={`https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`}
+            <button
+              onClick={installClicked}
+              className={`primary-button ${styles.installButton}`}
             >
-              <button className={`primary-button ${styles.installButton}`}>
-                Install
-              </button>
-            </a>
+              Install
+            </button>
           </div>
         </header>
         <Carousel
@@ -91,7 +98,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
           />
           <Releases releases={data.releases}></Releases>
 
-          <ProjectUrls urls={data.urls}></ProjectUrls>
+          <ProjectUrls urls={data.urls} appId={data.id}></ProjectUrls>
         </div>
       </div>
     )

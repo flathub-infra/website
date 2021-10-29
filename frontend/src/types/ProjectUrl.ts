@@ -1,9 +1,8 @@
-export enum ProjectUrl {
-  Contact,
-  Translate,
-  Bugtracker,
-  Donate,
-  Help,
-  Faq,
-  Homepage,
-}
+export type ProjectUrl =
+  | 'Contact'
+  | 'Translate'
+  | 'Bugtracker'
+  | 'Donate'
+  | 'Help'
+  | 'Faq'
+  | 'Homepage'

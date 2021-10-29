@@ -29,6 +29,9 @@ const Header = () => {
       },
       false
     )
+    return () => {
+      window.removeEventListener('resize', () => {}, false)
+    }
   }, [isMobile])
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -26,7 +26,7 @@ export interface Appstream {
   }
 }
 
-interface Urls {
+export interface Urls {
   bugtracker: string
   donation: string
   homepage: string

@@ -1,28 +1,22 @@
-import { NextSeo } from 'next-seo'
-import Head from 'next/head'
 import { FunctionComponent } from 'react'
 
-import Footer from './Footer'
-import Header from './Header'
+import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
+import { MATOMO_WEBSITE_ID } from '../../env'
+import PageContent from './PageContent'
 
-const Main: FunctionComponent = ({ children }) => (
-  <div id='wrapper'>
-    <NextSeo
-      titleTemplate='%s—Flathub'
-      defaultTitle='Flathub'
-      twitter={{ site: '@FlatpakApps' }}
-    ></NextSeo>
-    <Head>
-      <base href='/' />
+const instance = createInstance({
+  urlBase: process.env.BASE_URI ?? 'https://www.flathub.org',
+  siteId: MATOMO_WEBSITE_ID,
+  trackerUrl: 'https://webstats.gnome.org/matomo.php',
+  srcUrl: 'https://webstats.gnome.org/matomo.js',
+})
 
-      <link rel='icon' type='image/png' href='./favicon.png' />
-    </Head>
-    <Header />
-
-    <main>{children}</main>
-
-    <Footer />
-  </div>
-)
+const Main: FunctionComponent = ({ children }) => {
+  return (
+    <MatomoProvider value={instance}>
+      <PageContent>{children}</PageContent>
+    </MatomoProvider>
+  )
+}
 
 export default Main

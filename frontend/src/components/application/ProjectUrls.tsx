@@ -1,8 +1,8 @@
-import { ProjectUrl } from '../../types/ProjectUrl'
+import { Urls } from '../../types/Appstream'
 import ProjectUrlWidget from './ProjectUrl'
 import styles from './ProjectUrls.module.scss'
 
-const ProjectUrls = ({ urls }) => {
+const ProjectUrls = ({ urls, appId }: { urls: Urls; appId: string }) => {
   return (
     <div className={styles.urls}>
       {urls && (
@@ -10,27 +10,34 @@ const ProjectUrls = ({ urls }) => {
           <div>
             {urls.homepage && (
               <ProjectUrlWidget
+                id={appId}
                 url={urls.homepage}
-                type={ProjectUrl.Homepage}
+                type={'Homepage'}
               />
             )}
 
             {urls.donation && (
-              <ProjectUrlWidget url={urls.donation} type={ProjectUrl.Donate} />
+              <ProjectUrlWidget
+                id={appId}
+                url={urls.donation}
+                type={'Donate'}
+              />
             )}
 
             {urls.translate && (
               <ProjectUrlWidget
+                id={appId}
                 url={urls.translate}
-                type={ProjectUrl.Translate}
+                type={'Translate'}
               />
             )}
           </div>
           <div>
             {urls.bugtracker && (
               <ProjectUrlWidget
+                id={appId}
                 url={urls.bugtracker}
-                type={ProjectUrl.Bugtracker}
+                type={'Bugtracker'}
               />
             )}
           </div>
