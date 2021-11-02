@@ -1,4 +1,5 @@
 import { ProjectUrl } from '../../types/ProjectUrl'
+import styles from './ProjectUrl.module.scss'
 
 const ProjectUrlWidget = ({ url, type }) => {
   let label = ''
@@ -22,15 +23,15 @@ const ProjectUrlWidget = ({ url, type }) => {
   }
 
   return (
-    <div className='url'>
-      <div className='icon'>
+    <div className={styles.url}>
+      <div className={styles.icon}>
         <img src={`/img/${icon}.svg`} />
       </div>
-      <div className='details'>
+      <div className={styles.details}>
         {label} <br />
         <a href={url}>{url}</a>
       </div>
-      <div className='external-link '>
+      <div className={styles.externalLink}>
         <a href={url}>
           <img src='/img/external-link.svg' />
         </a>
