@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 
 import Collection from '../../../src/components/application/Collection'
-import Appstream from '../../../src/types/Appstream'
+import { Appstream } from '../../../src/types/Appstream'
 import { fetchApps } from '../../../src/fetchers'
 import { NextSeo } from 'next-seo'
 

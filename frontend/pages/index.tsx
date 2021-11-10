@@ -1,13 +1,13 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 
-import Collections from '../src/types/Collection'
 import ApplicationSection from '../src/components/application/Section'
 import Main from '../src/components/layout/Main'
 
 import fetchCollection from '../src/fetchers'
 import { APPS_IN_PREVIEW_COUNT } from '../src/env'
 import { NextSeo } from 'next-seo'
+import { Collections } from '../src/types/Collection'
 
 export default function Home({
   recentlyUpdated,

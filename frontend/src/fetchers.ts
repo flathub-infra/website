@@ -1,26 +1,58 @@
-import Appstream from './types/Appstream'
-import Collections, {Collection} from './types/Collection'
-import Category from './types/Category'
+import { Appstream } from './types/Appstream'
+import { Collection, Collections } from './types/Collection'
+import { Category } from './types/Category'
 
-import {POPULAR_URL, APP_DETAILS, RECENTLY_UPDATED_URL, EDITORS_PICKS_APPS_URL, EDITORS_PICKS_GAMES_URL, APPSTREAM_URL, CATEGORY_URL, SEARCH_APP} from './env'
+import {
+  POPULAR_URL,
+  APP_DETAILS,
+  RECENTLY_UPDATED_URL,
+  EDITORS_PICKS_APPS_URL,
+  EDITORS_PICKS_GAMES_URL,
+  APPSTREAM_URL,
+  CATEGORY_URL,
+  SEARCH_APP,
+  SUMMARY_DETAILS,
+} from './env'
+import { Summary } from './types/Summary'
 
 export async function fetchEntry(entry: string): Promise<Appstream | {}> {
   let entryJson: Appstream | {}
   try {
     const entryData = await fetch(`${APP_DETAILS(entry)}`)
     entryJson = await entryData.json()
-  } catch(error) {
+  } catch (error) {
     console.log(error)
     entryJson = {}
   }
 
-  if(!entryJson) {console.log("No data for ", entry)}
-  return entryJson;
+  if (!entryJson) {
+    console.log('No data for ', entry)
+  }
+  return entryJson
 }
 
-export default async function fetchCollection (collection: Collection, count?: number): Promise<Appstream[]> {
+export async function fetchSummary(entry: string): Promise<Summary | {}> {
+  let summaryJson: Summary | {}
+  try {
+    const summaryData = await fetch(`${SUMMARY_DETAILS(entry)}`)
+    summaryJson = await summaryData.json()
+  } catch (error) {
+    console.log(error)
+    summaryJson = {}
+  }
+
+  if (!summaryJson) {
+    console.log('No data for ', entry)
+  }
+  return summaryJson
+}
+
+export default async function fetchCollection(
+  collection: Collection,
+  count?: number
+): Promise<Appstream[]> {
   let collectionURL: string = ''
-  switch(collection) {
+  switch (collection) {
     case Collections.popular:
       collectionURL = POPULAR_URL
       break
@@ -33,10 +65,11 @@ export default async function fetchCollection (collection: Collection, count?: n
     case Collections.editorsGames:
       collectionURL = EDITORS_PICKS_GAMES_URL
       break
-    default: collectionURL = ''
+    default:
+      collectionURL = ''
   }
   if (collectionURL === '') {
-    console.log("Wrong collection parameter. Check your function call!")
+    console.log('Wrong collection parameter. Check your function call!')
     return
   }
 
@@ -49,9 +82,9 @@ export default async function fetchCollection (collection: Collection, count?: n
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchEntry))
 
-  console.log("\nCollection ", collection, " fetched")
+  console.log('\nCollection ', collection, ' fetched')
 
-  return items.filter(item => Boolean(item))
+  return items.filter((item) => Boolean(item))
 }
 
 export async function fetchApps() {
@@ -60,9 +93,9 @@ export async function fetchApps() {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("\nApps fetched")
+  console.log('\nApps fetched')
 
-  return items.filter(item => Boolean(item))
+  return items.filter((item) => Boolean(item))
 }
 
 export async function fetchCategory(category: keyof typeof Category) {
@@ -71,16 +104,16 @@ export async function fetchCategory(category: keyof typeof Category) {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
 
-  console.log("\nCategory", category, " fetched")
+  console.log('\nCategory', category, ' fetched')
 
-  return items.filter(item => Boolean(item))
+  return items.filter((item) => Boolean(item))
 }
 
-export async function fetchSearchQuery(query:string) {
+export async function fetchSearchQuery(query: string) {
   const appListRes = await fetch(SEARCH_APP(query))
   const appList = await appListRes.json()
 
   console.log("\nSearch for query: '", query, "' fetched")
 
-  return appList.filter(item => Boolean(item))
+  return appList.filter((item) => Boolean(item))
 }

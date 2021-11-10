@@ -1,4 +1,4 @@
-interface Appstream {
+export interface Appstream {
   description: string
   screenshots: Screenshot[]
   releases: Release[]
@@ -33,13 +33,13 @@ interface Urls {
   translate: string
 }
 
-interface Screenshot {
-  "624x351"?: string
-  "1248x702"?: string
-  "112x63"?: string
-  "224x126"?: string
-  "752x423"?: string
-  "1504x846"?: string
+export interface Screenshot {
+  '624x351'?: string
+  '1248x702'?: string
+  '112x63'?: string
+  '224x126'?: string
+  '752x423'?: string
+  '1504x846'?: string
 }
 
 interface Release {
@@ -47,5 +47,3 @@ interface Release {
   timestamp: number
   version: string
 }
-
-export default Appstream

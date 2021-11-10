@@ -1,4 +1,4 @@
-import Category from './types/Category'
+import { Category } from './types/Category'
 
 const BASE_URI: string =
   process.env.API_BASE_URI ||

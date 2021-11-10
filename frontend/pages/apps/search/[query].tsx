@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
 import Collection from '../../../src/components/application/Collection'
 import { fetchSearchQuery } from '../../../src/fetchers'
-import Appstream from '../../../src/types/Appstream'
+import { Appstream } from '../../../src/types/Appstream'
 
 export default function Search({ applications }) {
   return (
