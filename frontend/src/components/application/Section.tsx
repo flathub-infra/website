@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { Appstream } from '../../types/Appstream'
 
 import ApplicationCard from './Card'
+import styles from './Section.module.scss'
 
 interface Props {
-  applications: Appstream[]
   href: string
   title: string
+  applications: Appstream[]
 }
 
 const ApplicationSection: FunctionComponent<Props> = ({
@@ -16,7 +17,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
   title,
   applications,
 }) => (
-  <div className='applications-section'>
+  <div className={styles.applicationsSection}>
     <header>
       <h3>{title}</h3>
 
@@ -26,7 +27,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
         </button>
       </Link>
     </header>
-    <div className='applications'>
+    <div className={styles.applications}>
       {applications.map((app) => (
         <ApplicationCard key={app.id} application={app} />
       ))}

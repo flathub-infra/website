@@ -1,4 +1,4 @@
-import { Category } from '../../types/Category'
+import { Category, categoryToName } from '../../types/Category'
 import CategoryCard from './Card'
 
 const CategoriesList = () => (
@@ -9,24 +9,27 @@ const CategoriesList = () => (
     <div className='categories'>
       <CategoryCard name='All' href='/apps/category/All' />
       <CategoryCard
-        name='Audio & Video'
+        name={categoryToName(Category.AudioVideo)}
         href={`/apps/category/${Category.AudioVideo}`}
       />
       <CategoryCard
-        name='Productivity'
+        name={categoryToName(Category.Office)}
         href={`/apps/category/${Category.Office}`}
       />
-      <CategoryCard name='Games' href={`/apps/category/${Category.Game}`} />
       <CategoryCard
-        name='Graphics'
+        name={categoryToName(Category.Game)}
+        href={`/apps/category/${Category.Game}`}
+      />
+      <CategoryCard
+        name={categoryToName(Category.Graphics)}
         href={`/apps/category/${Category.Graphics}`}
       />
       <CategoryCard
-        name='Social Networking'
+        name={categoryToName(Category.Network)}
         href={`/apps/category/${Category.Network}`}
       />
       <CategoryCard
-        name='Education'
+        name={categoryToName(Category.Education)}
         href={`/apps/category/${Category.Education}`}
       />
     </div>

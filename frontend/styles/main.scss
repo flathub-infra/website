@@ -15,25 +15,9 @@ div#wrapper {
     max-width: 600px;
   }
 
-  h1 {
-    margin-top: 100px;
-    font-weight: 300;
-    font-size: 250%;
-  }
-
-  h3 {
-    font-weight: 300;
-    font-size: 120%;
-  }
-
-  h6 {
-    font-weight: 400;
-    font-size: 70%;
-  }
-
   .hint {
     margin-top: 0.5em !important;
-    color: grey;
+    color: $text-grey;
   }
 
   p.introduction {
@@ -86,33 +70,6 @@ div#wrapper {
   }
 }
 
-.applications-collection {
-  margin-top: 60px;
-
-  width: 100%;
-  min-height: 750px;
-
-  .collection {
-    width: 100%;
-
-    h2 {
-      font-size: 180%;
-      line-height: 1.1;
-      font-weight: 300;
-      line-height: 2;
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-}
-
-.collection-wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
-.applications-section,
-.applications-collection,
 .categories-section {
   header {
     margin-top: 40px;
@@ -131,7 +88,6 @@ div#wrapper {
     }
   }
 
-  .applications,
   .categories {
     display: grid;
     gap: 16px;
@@ -145,7 +101,7 @@ div#wrapper {
   border: 1px solid $border;
   max-width: 360px;
   width: 100%;
-  border-radius: 12px;
+  border-radius: $border-radius;
   margin: 6px;
   font-size: 1rem;
   padding: 12px 18px;
@@ -192,7 +148,6 @@ div#wrapper {
         margin-top: 0;
         font-size: 2rem;
         font-weight: 300;
-        color: $dark;
         margin-bottom: 10px;
       }
 
@@ -221,7 +176,7 @@ div#wrapper {
   div.releases {
     background-color: white;
     border: 1px solid $border;
-    border-radius: 8px;
+    border-radius: $border-radius;
     margin-top: 18px;
     margin-bottom: 18px;
 
@@ -361,35 +316,6 @@ div#wrapper {
       margin-top: 18px;
     }
   }
-
-  .app-info {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    div.app-info-item {
-      flex-shrink: 0;
-      flex-basis: 200px;
-
-      .app-info-title {
-        color: rgba(0, 0, 0, 0.54);
-        font-size: 13px;
-        line-height: 16px;
-        margin-bottom: 12px;
-      }
-
-      .app-info-value > span,
-      .app-info-value {
-        font-size: 13px;
-        line-height: 16px;
-        color: $dark;
-      }
-
-      padding-bottom: 20px;
-    }
-  }
 }
 
 .primary-button,
@@ -400,7 +326,7 @@ div#wrapper {
   font-size: 10pt;
   height: 36px;
   padding: 8px 20px;
-  border-radius: 6px;
+  border-radius: $border-radius;
 
   &:hover {
     cursor: pointer;
@@ -543,21 +469,6 @@ div#wrapper {
     margin-bottom: 1.5em;
     line-height: 1.5;
     margin: 0 0 10px;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'Source Sans Pro', 'Source Sans', sans-serif;
-    font-weight: 300;
-    color: inherit;
-  }
-
-  h1 {
-    margin: 0.67em 0;
   }
 }
 

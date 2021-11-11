@@ -6,6 +6,7 @@ import { Appstream } from '../../types/Appstream'
 import ApplicationCard from '../application/Card'
 import Main from '../layout/Main'
 import Pagination from '../Pagination'
+import styles from './Collection.module.scss'
 
 interface Props {
   applications: Appstream[]
@@ -30,13 +31,13 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <Main>
-      <div className='collection-wrapper'>
-        <section className='applications-collection'>
-          <div className='collection'>
+      <div className={styles.collectionWrapper}>
+        <section className={styles.applicationsCollection}>
+          <div className={styles.collection}>
             <h2>{title}</h2>
             <p>{applications.length} results</p>
 
-            <div className='applications'>
+            <div className={styles.applications}>
               {pagedApplications.map((app) => (
                 <ApplicationCard key={app.id} application={app} />
               ))}

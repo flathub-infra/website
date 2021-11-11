@@ -1,13 +1,13 @@
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 
-import ApplicationSection from '../src/components/application/Section'
 import Main from '../src/components/layout/Main'
 
 import fetchCollection from '../src/fetchers'
 import { APPS_IN_PREVIEW_COUNT } from '../src/env'
 import { NextSeo } from 'next-seo'
 import { Collections } from '../src/types/Collection'
+import ApplicationSections from '../src/components/application/Sections'
 
 export default function Home({
   recentlyUpdated,
@@ -36,30 +36,12 @@ export default function Home({
             <div className='primary-button'>Browse the apps</div>
           </Link>
         </div>
-        <ApplicationSection
-          key='popular'
-          title='Most Popular'
-          applications={popular}
-          href='/apps/collection/popular'
-        />
-        <ApplicationSection
-          key='updated'
-          title='Recently Updated'
-          applications={recentlyUpdated}
-          href='/apps/collection/recently-updated'
-        />
-        <ApplicationSection
-          key='editor_choice'
-          title="Editor's Choice Apps"
-          applications={editorsChoiceApps}
-          href='/apps/collection/editors-choice-apps'
-        />
-        <ApplicationSection
-          key='editor_choice_games'
-          title="Editor's Choice Games"
-          applications={editorsChoiceGames}
-          href='/apps/collection/editors-choice-games'
-        />
+        <ApplicationSections
+          popular={popular}
+          recentlyUpdated={recentlyUpdated}
+          editorsChoiceApps={editorsChoiceApps}
+          editorsChoiceGames={editorsChoiceGames}
+        ></ApplicationSections>
       </div>
     </Main>
   )

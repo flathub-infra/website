@@ -1,17 +1,21 @@
 @import '../../../styles/colors';
 
 .applicationCard {
-  background-color: white;
+  background-color: $bg-color;
   grid-column: span 1 / span 1;
 
   border: 1px solid $border;
   display: flex;
   flex-direction: column;
 
+  border-radius: $border-radius;
+
   &:hover {
     cursor: pointer;
 
     .logo {
+      border-top-left-radius: $border-radius;
+      border-top-right-radius: $border-radius;
       background-color: $glassGrey;
     }
 
@@ -46,6 +50,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
 
     h5 {
       margin: 0;

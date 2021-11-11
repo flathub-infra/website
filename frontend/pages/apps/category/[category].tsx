@@ -5,37 +5,12 @@ import { useRouter } from 'next/router'
 import Collection from '../../../src/components/application/Collection'
 import { fetchCategory } from '../../../src/fetchers'
 import { Appstream } from '../../../src/types/Appstream'
-import { Category } from '../../../src/types/Category'
+import { Category, categoryToName } from '../../../src/types/Category'
 
 const ApplicationCategory = ({ applications }) => {
   const router = useRouter()
   const category = router.query.category as Category
-  let title = ''
-  switch (category) {
-    case Category.AudioVideo:
-      title = 'Audio & Video'
-      break
-    case Category.Development:
-      title = 'Developer Tools'
-      break
-    case Category.Game:
-      title = 'Games'
-      break
-    case Category.Graphics:
-      title = 'Graphics & Photography'
-      break
-    case Category.Network:
-      title = 'Communication & News'
-      break
-    case Category.Office:
-      title = 'Productivity'
-      break
-    case Category.Utility:
-      title = 'Utilities'
-      break
-    default:
-      title = category as string
-  }
+  let title = categoryToName(category)
 
   return (
     <>

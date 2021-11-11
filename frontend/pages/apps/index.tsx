@@ -1,10 +1,14 @@
 import { GetStaticProps } from 'next'
 import { Collections } from '../../src/types/Collection'
 import fetchCollection from '../../src/fetchers'
-import ApplicationSection from '../../src/components/application/Section'
 import Main from '../../src/components/layout/Main'
 import { APPS_IN_PREVIEW_COUNT } from '../../src/env'
 import { NextSeo } from 'next-seo'
+import ApplicationSections from '../../src/components/application/Sections'
+import Link from 'next/link'
+import Tile from '../../src/components/Tile'
+import { Category, categoryToName } from '../../src/types/Category'
+import styles from './index.module.scss'
 
 export default function Apps({
   recentlyUpdated,
@@ -18,33 +22,27 @@ export default function Apps({
         title='Applications'
         description='An app store and build service for Linux'
       />
-      <div className='applications-collection main-container'>
-        <div className='collection'>
-          <ApplicationSection
-            key='popular'
-            title='Popular Apps'
-            applications={popular}
-            href='/apps/collection/popular'
-          />
-          <ApplicationSection
-            key='updated'
-            title='New & Updated Apps'
-            applications={recentlyUpdated}
-            href='/apps/collection/recently-updated'
-          />
-          <ApplicationSection
-            key='editor_choice'
-            title="Editor's Choice Apps"
-            applications={editorsChoiceApps}
-            href='/apps/collection/editors-choice-apps'
-          />
-          <ApplicationSection
-            key='editor_choice_games'
-            title="Editor's Choice Games"
-            applications={editorsChoiceGames}
-            href='/apps/collection/editors-choice-games'
-          />
+      <div className='main-container'>
+        <header className={styles.header}>
+          <h3>Categories</h3>
+        </header>
+        <div className={styles.flex}>
+          {Object.keys(Category).map((category: Category) => (
+            <Link
+              key={category}
+              href={`/apps/category/${encodeURIComponent(category)}`}
+              passHref
+            >
+              <Tile>{categoryToName(category)}</Tile>
+            </Link>
+          ))}
         </div>
+        <ApplicationSections
+          popular={popular}
+          recentlyUpdated={recentlyUpdated}
+          editorsChoiceApps={editorsChoiceApps}
+          editorsChoiceGames={editorsChoiceGames}
+        ></ApplicationSections>
       </div>
     </Main>
   )

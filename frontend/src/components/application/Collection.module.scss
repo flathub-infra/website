@@ -1,0 +1,69 @@
+.collectionWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.applicationsCollection {
+  margin-top: 60px;
+
+  width: 100%;
+  min-height: 750px;
+
+  .collection {
+    width: 100%;
+
+    h2 {
+      font-size: 180%;
+      line-height: 1.1;
+      font-weight: 300;
+      line-height: 2;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.applicationsCollection {
+  header {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .applications {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    justify-content: space-around;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .applicationsCollection {
+    .applications {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .applicationsCollection {
+    .applications {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1400px) {
+  .applicationsCollection {
+    .applications {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+}

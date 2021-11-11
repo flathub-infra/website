@@ -1,0 +1,21 @@
+@import '../../styles/colors';
+
+.tile {
+  padding: 12px;
+  border: 1px solid $border;
+  border-radius: $border-radius;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: $glassGrey;
+    border-radius: $border-radius;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  color: inherit;
+  text-decoration: none;
+}

@@ -6,8 +6,6 @@
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
-  .applications-section,
-  .applications-collection,
   .categories-section {
     .applications,
     .categories {
@@ -18,8 +16,6 @@
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
-  .applications-section,
-  .applications-collection,
   .categories-section {
     .applications,
     .categories {
@@ -34,8 +30,6 @@
     width: 80%;
   }
 
-  .applications-section,
-  .applications-collection,
   .categories-section {
     .applications,
     .categories {
