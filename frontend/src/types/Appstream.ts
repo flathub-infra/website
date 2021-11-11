@@ -42,7 +42,7 @@ export interface Screenshot {
   '1504x846'?: string
 }
 
-interface Release {
+export interface Release {
   description?: string
   timestamp: number
   version: string

@@ -5,6 +5,9 @@ import { ProjectUrl } from '../../types/ProjectUrl'
 
 import { Summary } from '../../types/Summary'
 import ProjectUrlWidget from './ProjectUrl'
+import Releases from './Releases'
+import styles from './Details.module.scss'
+import ProjectUrls from './ProjectUrls'
 
 interface Props {
   data: Appstream
@@ -13,31 +16,32 @@ interface Props {
 
 const Details: FunctionComponent<Props> = ({ data, summary }) => {
   if (data) {
-    const latestRelease = data.releases ? data.releases[0] : null
     const moreThan1Screenshot = data.screenshots
       ? data.screenshots.length > 1
       : false
 
     return (
-      <div id='application'>
-        <header className='container'>
-          <div className='logo'>
+      <div id={styles.application}>
+        <header className={styles.container}>
+          <div className={styles.logo}>
             <img
               src={`https://flathub.org/repo/appstream/x86_64/icons/128x128/${data.id}.png`}
               alt='Logo'
             />
           </div>
 
-          <div className='details'>
+          <div className={styles.details}>
             <h2>{data.name}</h2>
-            <div className='app-summary'>{data.summary}</div>
+            <div className={styles.appSummary}>{data.summary}</div>
           </div>
 
-          <div className='install'>
+          <div className={styles.install}>
             <a
               href={`https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`}
             >
-              <button className='primary-button install-button'>Install</button>
+              <button className={`primary-button ${styles.installButton}`}>
+                Install
+              </button>
             </a>
           </div>
         </header>
@@ -82,69 +86,12 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
         </Carousel>
         <div className='container'>
           <p
-            className='description'
+            className={styles.description}
             dangerouslySetInnerHTML={{ __html: data.description }}
           />
-          {data.releases && data.releases.length > 0 && (
-            <div className='releases'>
-              {latestRelease && (
-                <div className='release-details'>
-                  <header>
-                    <h3>Changes in version {latestRelease.version}</h3>
-                    <div>
-                      {new Date(latestRelease.timestamp * 1000).toDateString()}
-                    </div>
-                  </header>
-                  <p
-                    className='description'
-                    dangerouslySetInnerHTML={{
-                      __html: latestRelease.description,
-                    }}
-                  />
-                </div>
-              )}
-              {data.releases.length > 1 && (
-                <div className='history'>Version History</div>
-              )}
-            </div>
-          )}
+          <Releases releases={data.releases}></Releases>
 
-          <div className='urls'>
-            {data.urls && (
-              <>
-                <div>
-                  {data.urls.homepage && (
-                    <ProjectUrlWidget
-                      url={data.urls.homepage}
-                      type={ProjectUrl.Homepage}
-                    />
-                  )}
-
-                  {data.urls.donation && (
-                    <ProjectUrlWidget
-                      url={data.urls.donation}
-                      type={ProjectUrl.Donate}
-                    />
-                  )}
-
-                  {data.urls.translate && (
-                    <ProjectUrlWidget
-                      url={data.urls.translate}
-                      type={ProjectUrl.Translate}
-                    />
-                  )}
-                </div>
-                <div>
-                  {data.urls.bugtracker && (
-                    <ProjectUrlWidget
-                      url={data.urls.bugtracker}
-                      type={ProjectUrl.Bugtracker}
-                    />
-                  )}
-                </div>
-              </>
-            )}
-          </div>
+          <ProjectUrls urls={data.urls}></ProjectUrls>
         </div>
       </div>
     )
