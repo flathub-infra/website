@@ -8,6 +8,7 @@ import { Summary } from '../../types/Summary'
 import Releases from './Releases'
 import styles from './Details.module.scss'
 import ProjectUrls from './ProjectUrls'
+import Button from '../Button'
 
 interface Props {
   data: Appstream
@@ -44,54 +45,52 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
           </div>
 
           <div className={styles.install}>
-            <button
-              onClick={installClicked}
-              className={`primary-button ${styles.installButton}`}
-            >
-              Install
-            </button>
+            <Button onClick={installClicked}>Install</Button>
           </div>
         </header>
-        <Carousel
-          showThumbs={false}
-          infiniteLoop={false}
-          autoPlay={false}
-          showArrows={true}
-          showIndicators={moreThan1Screenshot}
-          swipeable={true}
-          emulateTouch={true}
-          useKeyboardArrows={true}
-          dynamicHeight={false}
-          showStatus={false}
-          renderArrowNext={(handler, hasNext, label) =>
-            hasNext ? (
-              <div onClick={handler} className='control-arrow control-next'>
-                <img src='/go-next.svg' />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-          renderArrowPrev={(handler, hasPrev, label) =>
-            hasPrev ? (
-              <div
-                onClick={handler}
-                className='control-arrow control-prev'
-                style={{ transform: 'rotateY(180deg)' }}
-              >
-                <img src='/go-next.svg' />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-        >
-          {data.screenshots &&
-            data.screenshots.map((screenshot, index) => (
-              <img key={index} src={screenshot['752x423']} />
-            ))}
-        </Carousel>
-        <div className='container'>
+        <div className={`${styles.carousel}`}>
+          <Carousel
+            className={styles.container}
+            showThumbs={false}
+            infiniteLoop={true}
+            autoPlay={true}
+            showArrows={true}
+            showIndicators={moreThan1Screenshot}
+            swipeable={true}
+            emulateTouch={true}
+            useKeyboardArrows={true}
+            dynamicHeight={false}
+            showStatus={false}
+            renderArrowNext={(handler, hasNext, label) =>
+              hasNext ? (
+                <div onClick={handler} className='control-arrow control-next'>
+                  <img src='/go-next.svg' />
+                </div>
+              ) : (
+                <></>
+              )
+            }
+            renderArrowPrev={(handler, hasPrev, label) =>
+              hasPrev ? (
+                <div
+                  onClick={handler}
+                  className='control-arrow control-prev'
+                  style={{ transform: 'rotateY(180deg)' }}
+                >
+                  <img src='/go-next.svg' />
+                </div>
+              ) : (
+                <></>
+              )
+            }
+          >
+            {data.screenshots &&
+              data.screenshots.map((screenshot, index) => (
+                <img key={index} src={screenshot['752x423']} />
+              ))}
+          </Carousel>
+        </div>
+        <div className={styles.container}>
           <p
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data.description }}
@@ -103,7 +102,11 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
       </div>
     )
   } else {
-    return <div>Loading...</div>
+    return (
+      <div className='main-container'>
+        <div>Loading...</div>
+      </div>
+    )
   }
 }
 

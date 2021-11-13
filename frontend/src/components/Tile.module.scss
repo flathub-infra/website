@@ -9,8 +9,11 @@
   align-items: center;
   justify-content: center;
 
+  background-color: white;
+  color: $main-color-dark;
+
   &:hover {
-    background-color: $glassGrey;
+    background-color: $bg-color;
     border-radius: $border-radius;
     color: inherit;
     text-decoration: none;

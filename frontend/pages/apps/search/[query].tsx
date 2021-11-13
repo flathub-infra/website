@@ -19,6 +19,7 @@ export default function Search({ applications, query }) {
   return (
     <>
       <NextSeo title={`Search for ${query}`} />
+
       <Collection title={`Search for '${query}'`} applications={applications} />
     </>
   )

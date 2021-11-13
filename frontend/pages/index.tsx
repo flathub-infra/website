@@ -8,6 +8,7 @@ import { APPS_IN_PREVIEW_COUNT } from '../src/env'
 import { NextSeo } from 'next-seo'
 import { Collections } from '../src/types/Collection'
 import ApplicationSections from '../src/components/application/Sections'
+import Button from '../src/components/Button'
 
 export default function Home({
   recentlyUpdated,
@@ -29,12 +30,9 @@ export default function Home({
           app center or the command line.
         </p>
         <div className='intro-links'>
-          <a href='https://flatpak.org/setup/' className='primary-button'>
-            Quick setup
+          <a href='https://flatpak.org/setup/'>
+            <Button type='secondary'>Quick setup</Button>
           </a>
-          <Link href='/apps' passHref>
-            <div className='primary-button'>Browse the apps</div>
-          </Link>
         </div>
         <ApplicationSections
           popular={popular}

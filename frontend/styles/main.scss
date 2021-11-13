@@ -30,10 +30,7 @@ div#wrapper {
   .intro-links {
     display: flex;
     flex-direction: row;
-
-    .primary-button:last-child {
-      margin-left: 10px;
-    }
+    gap: 10px;
   }
 }
 
@@ -111,39 +108,11 @@ div#wrapper {
   }
 }
 
-.primary-button,
-.secondary-button {
-  background-color: $main-color;
-  color: white;
-  border: 1px solid #4577b4;
-  font-size: 10pt;
-  height: 36px;
-  padding: 8px 20px;
-  border-radius: $border-radius;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.secondary-button {
-  background-color: white;
-  color: $main-color;
-
-  font-weight: 400;
-  white-space: nowrap;
-  text-align: center;
-
-  text-transform: capitalize;
-}
-
 .carousel {
   outline: none;
   min-height: 350px;
   background: white;
   width: 100%;
-  border-top: 1px solid $border;
-  border-bottom: 1px solid $border;
 
   .control-arrow {
     background-color: black !important;

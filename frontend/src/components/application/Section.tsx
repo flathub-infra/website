@@ -5,6 +5,7 @@ import { Appstream } from '../../types/Appstream'
 
 import ApplicationCard from './Card'
 import styles from './Section.module.scss'
+import Button from '../Button'
 
 interface Props {
   href: string
@@ -22,9 +23,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
       <h3>{title}</h3>
 
       <Link href={href} passHref>
-        <button className='primary-button'>
-          <div>Show All</div>
-        </button>
+        <Button>Show All</Button>
       </Link>
     </header>
     <div className={styles.applications}>

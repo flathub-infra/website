@@ -31,21 +31,23 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <Main>
-      <div className={styles.collectionWrapper}>
-        <section className={styles.applicationsCollection}>
-          <div className={styles.collection}>
-            <h2>{title}</h2>
-            <p>{applications.length} results</p>
+      <div className='main-container'>
+        <div className={styles.collectionWrapper}>
+          <section className={styles.applicationsCollection}>
+            <div className={styles.collection}>
+              <h2>{title}</h2>
+              <p>{applications.length} results</p>
 
-            <div className={styles.applications}>
-              {pagedApplications.map((app) => (
-                <ApplicationCard key={app.id} application={app} />
-              ))}
+              <div className={styles.applications}>
+                {pagedApplications.map((app) => (
+                  <ApplicationCard key={app.id} application={app} />
+                ))}
+              </div>
+
+              <Pagination pages={pages} currentPage={page} />
             </div>
-
-            <Pagination pages={pages} currentPage={page} />
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </Main>
   )

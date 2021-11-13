@@ -6,6 +6,7 @@ import {
   IMAGE_BASE_URL,
 } from '../src/env'
 import { NextSeo } from 'next-seo'
+import Button from '../src/components/Button'
 
 const Feeds = () => (
   <Main>
@@ -30,14 +31,14 @@ const Feeds = () => (
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <p>Applications published in Flathub in the last 30 days</p>
         <a href={FEED_NEW_URL}>
-          <button className='primary-button'>Subscribe</button>
+          <Button>Subscribe</Button>
         </a>
       </div>
       <h3>New & Updated Apps</h3>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <p>Applications published or updated in Flathub in the last 7 days</p>
         <a href={FEED_RECENTLY_UPDATED_URL}>
-          <button className='primary-button'>Subscribe</button>
+          <Button>Subscribe</Button>
         </a>
       </div>
       <h6 className='hint'>

@@ -16,7 +16,7 @@
       display: flex;
       margin: 10px;
       align-self: center;
-      height: 224px;
+      height: 128px;
 
       img {
         max-width: 128px;
@@ -44,21 +44,12 @@
         font-size: 14px;
         line-height: 1.4;
         font-weight: 300;
-        color: grey;
       }
     }
 
     .install {
       justify-self: end;
       padding-top: 10px;
-
-      .installButton {
-        background-color: $main-color;
-        border-color: $main-color-dark;
-        height: 42px;
-        width: 100px;
-        font-size: 1rem;
-      }
     }
   }
 
@@ -90,5 +81,20 @@
     ul {
       padding-left: 24px;
     }
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 90%;
+  }
+
+  @media (min-width: 1400px) {
+    .container {
+      width: 80%;
+    }
+  }
+
+  .carousel {
+    background-color: white;
   }
 }
