@@ -2,6 +2,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { ProjectUrl } from '../../types/ProjectUrl'
 import styles from './ProjectUrl.module.scss'
 import Image from 'next/image'
+import { MdOpenInNew } from 'react-icons/md'
 
 const ProjectUrlWidget = ({
   url,
@@ -25,10 +26,6 @@ const ProjectUrlWidget = ({
       label = 'Project Website'
       icon = 'website'
       break
-    case 'Donate':
-      label = 'Donate'
-      icon = 'donate'
-      break
     case 'Bugtracker':
       label = 'Report an Issue'
       icon = 'bugtracker'
@@ -51,12 +48,7 @@ const ProjectUrlWidget = ({
       </div>
       <div className={styles.externalLink}>
         <a href={url} target='_blank' rel='noreferrer' onClick={linkClicked}>
-          <Image
-            width={16}
-            height={16}
-            src='/img/external-link.svg'
-            alt='external link'
-          />
+          <MdOpenInNew />
         </a>
       </div>
     </div>

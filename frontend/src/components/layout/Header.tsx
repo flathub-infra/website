@@ -76,7 +76,7 @@ const Header = () => {
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
             <Link href='/apps' passHref>
-              <div className={styles.navItem}>Applications</div>
+              <div className={styles.navItem}>Explore</div>
             </Link>
 
             <div className={styles.navItem}>

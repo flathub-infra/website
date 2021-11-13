@@ -1,9 +1,9 @@
 @import './../../../styles/colors';
 
 .urls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 6px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
 
   .url {
     min-width: 360px;
@@ -48,14 +48,8 @@
     }
 
     .icon,
-    .details,
-    .externalLink {
+    .details {
       align-self: center;
-    }
-
-    .externalLink {
-      filter: opacity(0.6);
-      text-align: center;
     }
   }
 }

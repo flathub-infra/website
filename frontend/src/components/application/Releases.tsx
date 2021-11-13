@@ -1,3 +1,4 @@
+import { formatDistance } from 'date-fns'
 import { FunctionComponent } from 'react'
 
 import { Release } from '../../types/Appstream'
@@ -19,7 +20,11 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
               <header>
                 <h3>Changes in version {latestRelease.version}</h3>
                 <div>
-                  {new Date(latestRelease.timestamp * 1000).toDateString()}
+                  {formatDistance(
+                    new Date(latestRelease.timestamp * 1000),
+                    new Date(),
+                    { addSuffix: true }
+                  )}
                 </div>
               </header>
               <p
@@ -29,9 +34,6 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
                 }}
               />
             </div>
-          )}
-          {releases.length > 1 && (
-            <div className={styles.history}>Version History</div>
           )}
         </div>
       )}

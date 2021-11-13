@@ -23,7 +23,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
       <h3>{title}</h3>
 
       <Link href={href} passHref>
-        <Button>Show All</Button>
+        <Button>Show more</Button>
       </Link>
     </header>
     <div className={styles.applications}>

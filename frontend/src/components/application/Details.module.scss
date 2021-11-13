@@ -1,22 +1,24 @@
 @import './../../../styles/colors';
 
 #application {
-  margin-top: 30px;
   min-height: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   & > header {
+    padding-top: 30px;
+    padding-bottom: 30px;
     display: grid;
-    grid-template-columns: 0.3fr 1.5fr 0.2fr;
-    margin-bottom: 18px;
+    width: 100%;
+    grid-template-columns: 148px 1fr 86px;
 
     .logo {
       display: flex;
       margin: 10px;
       align-self: center;
       height: 128px;
+      width: 128px;
 
       img {
         max-width: 128px;
@@ -31,6 +33,7 @@
 
     div.details {
       margin-left: 10px;
+      margin-right: 10px;
       margin-top: 10px;
 
       h2 {
@@ -49,22 +52,15 @@
 
     .install {
       justify-self: end;
-      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
   }
 
   h3 {
     font-weight: 300;
     font-size: 1.3rem;
-    margin-top: 1.5em;
-    margin-bottom: 16px;
-  }
-
-  h5 {
-    font-weight: 400;
-    font-size: 10.79pt;
-    margin-top: 1.5em;
-    margin-bottom: 12px;
   }
 
   hr {
@@ -75,8 +71,8 @@
   }
 
   .description {
-    margin-top: 0;
-    margin-bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     ul {
       padding-left: 24px;

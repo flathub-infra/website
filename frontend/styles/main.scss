@@ -115,21 +115,28 @@ div#wrapper {
   width: 100%;
 
   .control-arrow {
-    background-color: black !important;
-    opacity: 0.7 !important;
     top: calc(50% - 30px) !important;
 
-    height: 50px;
-    width: 50px;
-    border-radius: 9999px;
     justify-content: center;
     display: inline-flex;
+
+    height: 48px !important;
+    padding: 8px 20px !important;
+    border-radius: $border-radius !important;
+
+    background-color: white !important;
+    color: $main-color-dark !important;
+    border: 1px solid $border !important;
+
+    &:hover {
+      background-color: $main-color !important;
+      color: white !important;
+    }
 
     &.control-prev {
       left: 12px !important;
 
       &::before {
-        border: 0;
         display: none;
       }
     }
@@ -138,16 +145,8 @@ div#wrapper {
       right: 12px !important;
 
       &::before {
-        border: 0;
         display: none;
       }
-    }
-
-    img {
-      width: 24px;
-      margin: 2px;
-      filter: opacity(1) contrast(0);
-      align-self: center;
     }
   }
 
@@ -155,11 +154,6 @@ div#wrapper {
     margin-bottom: 60px;
     margin-top: 20px;
     background-color: white;
-
-    img {
-      width: auto;
-      height: 100%;
-    }
   }
 
   .control-dots {

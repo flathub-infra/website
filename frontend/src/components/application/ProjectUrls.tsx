@@ -16,14 +16,6 @@ const ProjectUrls = ({ urls, appId }: { urls: Urls; appId: string }) => {
               />
             )}
 
-            {urls.donation && (
-              <ProjectUrlWidget
-                id={appId}
-                url={urls.donation}
-                type={'Donate'}
-              />
-            )}
-
             {urls.translate && (
               <ProjectUrlWidget
                 id={appId}

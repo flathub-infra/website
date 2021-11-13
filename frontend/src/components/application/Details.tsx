@@ -9,6 +9,8 @@ import Releases from './Releases'
 import styles from './Details.module.scss'
 import ProjectUrls from './ProjectUrls'
 import Button from '../Button'
+import Image from 'next/image'
+import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 
 interface Props {
   data: Appstream
@@ -33,10 +35,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
       <div id={styles.application}>
         <header className={styles.container}>
           <div className={styles.logo}>
-            <img
-              src={`https://flathub.org/repo/appstream/x86_64/icons/128x128/${data.id}.png`}
-              alt='Logo'
-            />
+            <img src={data.icon} alt='Logo' />
           </div>
 
           <div className={styles.details}>
@@ -46,6 +45,11 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
 
           <div className={styles.install}>
             <Button onClick={installClicked}>Install</Button>
+            {data.urls.donation && (
+              <a href={data.urls.donation} target='_blank' rel='noreferrer'>
+                <Button type='secondary'>Donate</Button>
+              </a>
+            )}
           </div>
         </header>
         <div className={`${styles.carousel}`}>
@@ -53,7 +57,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
             className={styles.container}
             showThumbs={false}
             infiniteLoop={true}
-            autoPlay={true}
+            autoPlay={false}
             showArrows={true}
             showIndicators={moreThan1Screenshot}
             swipeable={true}
@@ -63,8 +67,8 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
             showStatus={false}
             renderArrowNext={(handler, hasNext, label) =>
               hasNext ? (
-                <div onClick={handler} className='control-arrow control-next'>
-                  <img src='/go-next.svg' />
+                <div className='control-arrow control-next' onClick={handler}>
+                  <MdChevronRight />
                 </div>
               ) : (
                 <></>
@@ -72,12 +76,8 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
             }
             renderArrowPrev={(handler, hasPrev, label) =>
               hasPrev ? (
-                <div
-                  onClick={handler}
-                  className='control-arrow control-prev'
-                  style={{ transform: 'rotateY(180deg)' }}
-                >
-                  <img src='/go-next.svg' />
+                <div className='control-arrow control-prev' onClick={handler}>
+                  <MdChevronLeft />
                 </div>
               ) : (
                 <></>
@@ -86,7 +86,14 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
           >
             {data.screenshots &&
               data.screenshots.map((screenshot, index) => (
-                <img key={index} src={screenshot['752x423']} />
+                <Image
+                  key={index}
+                  src={screenshot['752x423']}
+                  width={752}
+                  height={423}
+                  alt='Screenshot'
+                  loading='eager'
+                />
               ))}
           </Carousel>
         </div>
