@@ -30,6 +30,8 @@ def update():
 
                     p.set(f"picks:{pick}", json.dumps(content))
 
+        p.execute()
+
 
 def initialize():
     picks_dir = os.path.join(config.settings.datadir, "picks")
