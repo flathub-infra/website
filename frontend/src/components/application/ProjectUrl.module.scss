@@ -3,7 +3,7 @@
 .url {
   min-width: 360px;
   padding: 12px;
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   border: 1px solid $border;
   border-bottom-width: 0;
 
@@ -29,7 +29,7 @@
 
     a {
       font-size: 0.8rem;
-      color: grey;
+      color: var(--text-secondary);
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
@@ -39,7 +39,9 @@
   }
 
   .icon {
+    color: var(--text-secondary);
     justify-self: center;
+    font-size: 1.5rem;
   }
 
   .icon,

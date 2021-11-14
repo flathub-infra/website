@@ -1,7 +1,7 @@
 @import '../../../styles/colors';
 
 .header {
-  background-color: $bg-color;
+  background-color: var(--bg-color-primary);
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid $main-color;
@@ -61,7 +61,8 @@
       height: 100%;
       border: none;
       outline: none;
-      background-color: white;
+      color: var(--text-secondary);
+      background-color: var(--bg-color-secondary);
       border-radius: $border-radius;
       box-sizing: border-box;
     }
@@ -96,7 +97,7 @@
       &.responsive {
         display: block;
         position: absolute;
-        background-color: $bg-color;
+        background-color: var(--bg-color-primary);
         float: inherit;
         top: 64px;
         width: 100%;

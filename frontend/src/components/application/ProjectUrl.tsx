@@ -1,8 +1,15 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { ProjectUrl } from '../../types/ProjectUrl'
 import styles from './ProjectUrl.module.scss'
-import Image from 'next/image'
-import { MdOpenInNew } from 'react-icons/md'
+import {
+  MdOpenInNew,
+  MdTranslate,
+  MdOutlineBugReport,
+  MdWeb,
+  MdContactPage,
+  MdHelp,
+  MdQuestionAnswer,
+} from 'react-icons/md'
 
 const ProjectUrlWidget = ({
   url,
@@ -20,26 +27,37 @@ const ProjectUrlWidget = ({
   }
 
   let label = ''
-  let icon = ''
+  let icon: string | JSX.Element
   switch (type) {
     case 'Homepage':
       label = 'Project Website'
-      icon = 'website'
+      icon = <MdWeb />
       break
     case 'Bugtracker':
       label = 'Report an Issue'
-      icon = 'bugtracker'
+      icon = <MdOutlineBugReport />
       break
     case 'Translate':
       label = 'Contribute translations'
-      icon = 'translations'
+      icon = <MdTranslate />
+      break
+    case 'Faq':
+      label = 'Frequently Asked Questions'
+      icon = <MdQuestionAnswer />
+      break
+    case 'Help':
+      label = 'Help'
+      icon = <MdHelp />
+      break
+    case 'Contact':
+      label = 'Contact'
+      icon = <MdContactPage />
+      break
   }
 
   return (
     <div className={styles.url}>
-      <div className={styles.icon}>
-        <Image width={16} height={16} src={`/img/${icon}.svg`} alt={icon} />
-      </div>
+      <div className={styles.icon}>{icon}</div>
       <div className={styles.details}>
         {label} <br />
         <a href={url} target='_blank' rel='noreferrer' onClick={linkClicked}>

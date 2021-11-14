@@ -15,7 +15,7 @@ const Header = () => {
     if (q) {
       setQuery(q)
     }
-  }, [])
+  }, [router.query.query])
 
   const mobileSize = 768
   const [isMobile, setIsMobile] = useState(true)
@@ -29,6 +29,7 @@ const Header = () => {
       },
       false
     )
+
     return () => {
       window.removeEventListener('resize', () => {}, false)
     }

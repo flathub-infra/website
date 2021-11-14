@@ -16,12 +16,20 @@ const ProjectUrls = ({ urls, appId }: { urls: Urls; appId: string }) => {
               />
             )}
 
-            {urls.translate && (
+            {urls.contact && (
               <ProjectUrlWidget
                 id={appId}
-                url={urls.translate}
-                type={'Translate'}
+                url={urls.contact}
+                type={'Contact'}
               />
+            )}
+
+            {urls.help && (
+              <ProjectUrlWidget id={appId} url={urls.help} type={'Help'} />
+            )}
+
+            {urls.faq && (
+              <ProjectUrlWidget id={appId} url={urls.faq} type={'Faq'} />
             )}
           </div>
           <div>
@@ -30,6 +38,14 @@ const ProjectUrls = ({ urls, appId }: { urls: Urls; appId: string }) => {
                 id={appId}
                 url={urls.bugtracker}
                 type={'Bugtracker'}
+              />
+            )}
+
+            {urls.translate && (
+              <ProjectUrlWidget
+                id={appId}
+                url={urls.translate}
+                type={'Translate'}
               />
             )}
           </div>

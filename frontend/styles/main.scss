@@ -1,7 +1,7 @@
 @import 'colors';
 
 div#wrapper {
-  background-color: $bg-color;
+  background-color: var(--bg-color-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@ div#wrapper {
 
   .hint {
     margin-top: 0.5em !important;
-    color: $text-grey;
+    color: var(--text-secondary);
   }
 
   p.introduction {
@@ -94,7 +94,7 @@ div#wrapper {
 }
 
 .category-card {
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   border: 1px solid $border;
   max-width: 360px;
   width: 100%;
@@ -111,10 +111,12 @@ div#wrapper {
 .carousel {
   outline: none;
   min-height: 350px;
-  background: white;
+  background: var(--bg-color-secondary);
   width: 100%;
 
   .control-arrow {
+    font-size: 32px !important;
+    opacity: 0.9 !important;
     top: calc(50% - 30px) !important;
 
     justify-content: center;
@@ -124,13 +126,13 @@ div#wrapper {
     padding: 8px 20px !important;
     border-radius: $border-radius !important;
 
-    background-color: white !important;
+    background-color: var(--bg-color-secondary) !important;
     color: $main-color-dark !important;
     border: 1px solid $border !important;
 
     &:hover {
       background-color: $main-color !important;
-      color: white !important;
+      color: var(--bg-color-secondary) !important;
     }
 
     &.control-prev {
@@ -153,14 +155,14 @@ div#wrapper {
   .slide {
     margin-bottom: 60px;
     margin-top: 20px;
-    background-color: white;
+    background-color: var(--bg-color-secondary);
   }
 
   .control-dots {
     margin-bottom: 20px;
 
     .dot {
-      background-color: black;
+      background-color: var(--text-primary);
       opacity: 0.4;
       box-shadow: none;
       transform: scale(1);
@@ -192,8 +194,8 @@ div#wrapper {
 .about,
 .badges {
   .header-container {
-    background: $main-color url('/img/tiles.svg') no-repeat top left;
-    color: white;
+    background: $main-color url('/img/about.svg') no-repeat top left;
+    color: var(--text-secondary);
     padding-top: 100px;
   }
 
@@ -210,7 +212,7 @@ div#wrapper {
   }
 
   header .header-content a {
-    color: white;
+    color: var(--text-secondary);
     font-weight: bold;
     transition: all 200ms;
     opacity: 0.8;

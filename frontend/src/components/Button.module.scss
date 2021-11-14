@@ -30,7 +30,7 @@
 }
 
 .secondaryButton {
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   color: $main-color-dark;
   background-image: unset;
   border: 1px solid $border;

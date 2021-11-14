@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: row;
   height: 30px;
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   border: 1px solid $border;
   border-radius: $border-radius;
   width: min-content;
@@ -20,7 +20,7 @@
   .pageLink {
     width: 36px;
     align-self: center;
-    margin: 2px;
+    margin: 1px;
     text-align: center;
 
     &:hover {

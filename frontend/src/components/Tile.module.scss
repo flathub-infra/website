@@ -9,11 +9,11 @@
   align-items: center;
   justify-content: center;
 
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   color: $main-color-dark;
 
   &:hover {
-    background-color: $bg-color;
+    background-color: var(--bg-color-primary);
     border-radius: $border-radius;
     color: inherit;
     text-decoration: none;

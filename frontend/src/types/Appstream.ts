@@ -31,6 +31,9 @@ export interface Urls {
   donation: string
   homepage: string
   translate: string
+  help: string
+  faq: string
+  contact: string
 }
 
 export interface Screenshot {

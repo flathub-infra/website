@@ -1,7 +1,7 @@
 @import './../../../styles/colors';
 
 .releases {
-  background-color: white;
+  background-color: var(--bg-color-secondary);
   border: 1px solid $border;
   border-radius: 8px;
   margin-top: 18px;
