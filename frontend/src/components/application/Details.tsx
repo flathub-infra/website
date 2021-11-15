@@ -41,7 +41,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
 
           <div className={styles.details}>
             <h2>{data.name}</h2>
-            <div className={styles.devName}>{data.developer_name}</div>
+            <div className={styles.devName}>by {data.developer_name}</div>
           </div>
 
           <div className={styles.install}>

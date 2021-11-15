@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdMenu, MdMenuOpen } from 'react-icons/md'
+import { MdMenu, MdMenuOpen, MdSearch } from 'react-icons/md'
 
 import styles from './Header.module.scss'
 
@@ -62,12 +62,14 @@ const Header = () => {
 
         <div id={styles.search}>
           <form onSubmit={onSubmit}>
+            <MdSearch className={styles.searchIcon} />
             <input
               type='search'
               name='q'
               placeholder='Search apps'
               onChange={onChange}
               value={query}
+              aria-label='Search apps'
             />
           </form>
         </div>

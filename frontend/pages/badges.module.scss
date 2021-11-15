@@ -1,0 +1,25 @@
+@import './../styles/colors';
+
+.badges {
+  .gridContainer {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 240px;
+    grid-gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    .title {
+      grid-column: 1 / 3;
+    }
+  }
+
+  h3 {
+    margin-top: 0px;
+  }
+
+  p {
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+}

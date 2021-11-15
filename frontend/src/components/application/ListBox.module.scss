@@ -4,7 +4,7 @@
   width: 100%;
 
   @media (min-width: 768px) {
-    width: calc(50% - 8px);
+    width: calc(50% - 4px);
   }
 
   @media (min-width: 1400px) {
@@ -55,7 +55,6 @@
 
     .icon {
       color: var(--text-secondary);
-      justify-self: center;
       font-size: 1.5rem;
     }
 
@@ -67,7 +66,7 @@
 
     .externalLink {
       filter: opacity(0.6);
-      text-align: center;
+      text-align: end;
     }
   }
 }

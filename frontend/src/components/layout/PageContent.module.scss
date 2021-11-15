@@ -1,0 +1,8 @@
+@import '../../../styles/colors';
+
+#wrapper {
+  background-color: var(--bg-color-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

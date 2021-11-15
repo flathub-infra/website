@@ -3,6 +3,7 @@ import { Summary } from '../../types/Summary'
 import ListBox from './ListBox'
 import styles from './AdditionalInfo.module.scss'
 import {
+  MdCloudDownload,
   MdContactPage,
   MdDownload,
   MdHelp,
@@ -24,9 +25,7 @@ const AdditionalInfo = ({
   summary: Summary
   appId: string
 }) => {
-  const license =
-    spdxLicenseList[data.project_license]?.name ??
-    data.project_license.replace(/LicenseRef-proprietary=/, '')
+  const license = getLicense(data.project_license)
 
   const licenseIsLink = data.project_license.startsWith(
     'LicenseRef-proprietary='
@@ -113,24 +112,28 @@ const AdditionalInfo = ({
         <ListBox
           appId={appId}
           items={[
-            {
-              icon: <MdOutlineBugReport />,
-              header: 'Report an issue',
-              content: {
-                type: 'url',
-                text: data.urls.bugtracker,
-                trackAsEvent: 'Bugtracker',
-              },
-            },
-            {
-              icon: <MdTranslate />,
-              header: 'Contribute translations',
-              content: {
-                type: 'url',
-                text: data.urls.translate,
-                trackAsEvent: 'Translate',
-              },
-            },
+            data.urls.bugtracker
+              ? {
+                  icon: <MdOutlineBugReport />,
+                  header: 'Report an issue',
+                  content: {
+                    type: 'url',
+                    text: data.urls.bugtracker,
+                    trackAsEvent: 'Bugtracker',
+                  },
+                }
+              : undefined,
+            data.urls.translate
+              ? {
+                  icon: <MdTranslate />,
+                  header: 'Contribute translations',
+                  content: {
+                    type: 'url',
+                    text: data.urls.translate,
+                    trackAsEvent: 'Translate',
+                  },
+                }
+              : undefined,
           ]}
         />
       )}
@@ -159,8 +162,32 @@ const AdditionalInfo = ({
           },
         ]}
       ></ListBox>
+      <ListBox
+        appId={appId}
+        items={[
+          {
+            icon: <MdCloudDownload />,
+            header: 'Downloads last month',
+            content: {
+              type: 'text',
+              text: summary.downloads_last_month.toLocaleString(),
+            },
+          },
+        ]}
+      ></ListBox>
     </div>
   )
+}
+
+function getLicense(project_license: string): string {
+  if (project_license.startsWith('LicenseRef-proprietary=')) {
+    return project_license.replace(/LicenseRef-proprietary=/, '')
+  }
+  if (project_license.startsWith('LicenseRef-proprietary')) {
+    return 'Proprietary'
+  }
+
+  return spdxLicenseList[project_license]?.name ?? project_license
 }
 
 export default AdditionalInfo
