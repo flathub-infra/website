@@ -41,7 +41,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
 
           <div className={styles.details}>
             <h2>{data.name}</h2>
-            <div className={styles.appSummary}>{data.summary}</div>
+            <div className={styles.devName}>{data.developer_name}</div>
           </div>
 
           <div className={styles.install}>
@@ -98,15 +98,22 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
               ))}
           </Carousel>
         </div>
-        <div className={styles.bla}>
-          <p
-            className={styles.description}
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
+        <div className={styles.additionalInfo}>
+          <div>
+            <h3>{data.summary}</h3>
+            <p
+              className={styles.description}
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
+          </div>
 
           <Releases releases={data.releases}></Releases>
 
-          <ProjectUrls urls={data.urls} appId={data.id}></ProjectUrls>
+          <ProjectUrls
+            data={data}
+            summary={summary}
+            appId={data.id}
+          ></ProjectUrls>
 
           <CmdInstructions appId={data.id}></CmdInstructions>
         </div>

@@ -2,7 +2,7 @@ export interface Appstream {
   description: string
   screenshots: Screenshot[]
   releases: Release[]
-  content_rating: string
+  content_rating: ContentRating
   urls: Urls
   icon: string
   id: string
@@ -14,17 +14,42 @@ export interface Appstream {
   mimetypes: string[]
   project_license: string
   provides: string[]
-  launchable: {
-    value: string
-    type: string
-  }
-  bundle: {
-    value: string
-    type: string
-    runtime: string
-    sdk: string
-  }
+  launchable: Launchable
+  bundle: Bundle
 }
+
+interface ContentRating {
+  type: string
+  'violence-cartoon': ContentRatingLevel
+  'violence-fantasy': ContentRatingLevel
+  'violence-realistic': ContentRatingLevel
+  'violence-bloodshed': ContentRatingLevel
+  'violence-sexual': ContentRatingLevel
+  'violence-desecration': ContentRatingLevel
+  'violence-slavery': ContentRatingLevel
+  'violence-worship': ContentRatingLevel
+  'drugs-alcohol': ContentRatingLevel
+  'drugs-narcotics': ContentRatingLevel
+  'drugs-tobacco': ContentRatingLevel
+  'sex-nudity': ContentRatingLevel
+  'sex-themes': ContentRatingLevel
+  'sex-homosexuality': ContentRatingLevel
+  'sex-prostitution': ContentRatingLevel
+  'sex-adultery': ContentRatingLevel
+  'sex-appearance': ContentRatingLevel
+  'language-profanity': ContentRatingLevel
+  'language-humor': ContentRatingLevel
+  'language-discrimination': ContentRatingLevel
+  'social-chat': ContentRatingLevel
+  'social-info': ContentRatingLevel
+  'social-audio': ContentRatingLevel
+  'social-location': ContentRatingLevel
+  'social-contacts': ContentRatingLevel
+  'money-purchasing': ContentRatingLevel
+  'money-gambling': ContentRatingLevel
+}
+
+type ContentRatingLevel = 'none' | 'mild' | 'moderate' | 'intense'
 
 export interface Urls {
   bugtracker: string
@@ -49,4 +74,16 @@ export interface Release {
   description?: string
   timestamp: number
   version: string
+}
+
+export interface Launchable {
+  value: string
+  type: string
+}
+
+export interface Bundle {
+  value: string
+  type: string
+  runtime: string
+  sdk: string
 }
