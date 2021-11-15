@@ -11,6 +11,7 @@ import ProjectUrls from './ProjectUrls'
 import Button from '../Button'
 import Image from 'next/image'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
+import CmdInstructions from './CmdInstructions'
 
 interface Props {
   data: Appstream
@@ -97,14 +98,17 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
               ))}
           </Carousel>
         </div>
-        <div className={styles.container}>
+        <div className={styles.bla}>
           <p
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data.description }}
           />
+
           <Releases releases={data.releases}></Releases>
 
           <ProjectUrls urls={data.urls} appId={data.id}></ProjectUrls>
+
+          <CmdInstructions appId={data.id}></CmdInstructions>
         </div>
       </div>
     )

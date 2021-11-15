@@ -15,6 +15,12 @@ export default function Details({
   data: Appstream
   summary: Summary
 }) {
+  const screenshots = data.screenshots
+    ? data.screenshots.map((screenshot: Screenshot) => ({
+        url: screenshot['752x423'],
+      }))
+    : []
+
   return (
     <Main>
       <NextSeo
@@ -25,9 +31,7 @@ export default function Details({
             {
               url: data.icon,
             },
-            ...data.screenshots.map((screenshot: Screenshot) => ({
-              url: screenshot['752x423'],
-            })),
+            ...screenshots,
           ],
         }}
       />

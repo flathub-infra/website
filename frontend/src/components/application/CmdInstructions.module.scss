@@ -1,0 +1,10 @@
+@import './../../../styles/colors';
+
+.instructions {
+  background-color: var(--bg-color-secondary);
+  border: 1px solid $border;
+  border-radius: $border-radius;
+  padding-left: 18px;
+  padding-right: 18px;
+  padding-bottom: 18px;
+}

@@ -3,9 +3,7 @@
 .releases {
   background-color: var(--bg-color-secondary);
   border: 1px solid $border;
-  border-radius: 8px;
-  margin-top: 18px;
-  margin-bottom: 18px;
+  border-radius: $border-radius;
 
   .releaseDetails {
     padding: 8px 24px;
@@ -21,11 +19,5 @@
         font-size: 0.9rem;
       }
     }
-  }
-
-  .history {
-    border-top: 1px solid $border;
-    text-align: center;
-    padding: 8px 24px;
   }
 }

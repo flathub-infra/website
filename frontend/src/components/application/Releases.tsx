@@ -28,7 +28,6 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
                 </div>
               </header>
               <p
-                className={styles.description}
                 dangerouslySetInnerHTML={{
                   __html: latestRelease.description ?? 'No changelog provided',
                 }}
