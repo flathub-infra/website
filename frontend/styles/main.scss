@@ -34,39 +34,6 @@ div#wrapper {
   }
 }
 
-.categories-sidebar {
-  width: 210px;
-  background-color: rgba(0, 0, 0, 0.03);
-  margin-right: 54px;
-  height: 100%;
-  padding: 24px;
-  color: rgba(0, 0, 0, 0.87);
-
-  h4 {
-    text-transform: uppercase;
-    font-weight: 300;
-    font-size: 14pt;
-    margin-bottom: 18px;
-    margin-top: 18px;
-  }
-
-  hr {
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-  }
-
-  .item {
-    font-size: 10pt;
-    line-height: 1.6;
-    color: rgba(0, 0, 0, 0.54);
-
-    &:hover {
-      color: #4a86cf;
-      cursor: pointer;
-    }
-  }
-}
-
 .categories-section {
   header {
     margin-top: 40px;
@@ -90,21 +57,6 @@ div#wrapper {
     gap: 16px;
     grid-template-columns: 1fr;
     justify-content: space-around;
-  }
-}
-
-.category-card {
-  background-color: var(--bg-color-secondary);
-  border: 1px solid $border;
-  max-width: 360px;
-  width: 100%;
-  border-radius: $border-radius;
-  margin: 6px;
-  font-size: 1rem;
-  padding: 12px 18px;
-
-  &:hover {
-    cursor: pointer;
   }
 }
 

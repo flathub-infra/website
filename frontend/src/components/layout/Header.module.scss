@@ -61,7 +61,7 @@
       height: 100%;
       border: none;
       outline: none;
-      color: var(--text-secondary);
+      color: var(--text-primary);
       background-color: var(--bg-color-secondary);
       border-radius: $border-radius;
       box-sizing: border-box;
@@ -143,6 +143,7 @@
         font-size: 24px;
         max-width: 64px;
         align-items: center;
+        transition: 0.5s;
 
         &:hover {
           cursor: pointer;

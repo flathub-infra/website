@@ -7,11 +7,11 @@ import { Summary } from '../../types/Summary'
 
 import Releases from './Releases'
 import styles from './Details.module.scss'
-import ProjectUrls from './ProjectUrls'
 import Button from '../Button'
 import Image from 'next/image'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 import CmdInstructions from './CmdInstructions'
+import AdditionalInfo from './AdditionalInfo'
 
 interface Props {
   data: Appstream
@@ -109,11 +109,11 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
 
           <Releases releases={data.releases}></Releases>
 
-          <ProjectUrls
+          <AdditionalInfo
             data={data}
             summary={summary}
             appId={data.id}
-          ></ProjectUrls>
+          ></AdditionalInfo>
 
           <CmdInstructions appId={data.id}></CmdInstructions>
         </div>

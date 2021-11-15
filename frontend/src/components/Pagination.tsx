@@ -32,8 +32,9 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
               })
             }}
             key={`pagination-${index}`}
+            className={`${className} ${styles.pageLink}`}
           >
-            <div className={`${className} ${styles.pageLink}`}>{p}</div>
+            {p}
           </a>
         )
       })}

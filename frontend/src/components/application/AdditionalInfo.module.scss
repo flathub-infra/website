@@ -1,7 +1,8 @@
 @import './../../../styles/colors';
 
-.urls {
+.additionalInfo {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  position: relative;
 }

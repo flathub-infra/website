@@ -1,0 +1,73 @@
+@import './../../../styles/colors';
+
+.list {
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: calc(50% - 8px);
+  }
+
+  @media (min-width: 1400px) {
+    width: calc(25% - 6px);
+  }
+
+  .item {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--bg-color-secondary);
+    border: 1px solid $border;
+    border-bottom-width: 0;
+
+    display: grid;
+    grid-template-columns: 36px calc(100% - 36px - 36px) 36px;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+
+    &.noLink {
+      grid-template-columns: 36px calc(100% - 36px);
+    }
+
+    &:first-child {
+      border-top-right-radius: 8px;
+      border-top-left-radius: 8px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border-bottom-width: 1px;
+    }
+
+    .details {
+      font-size: 1rem;
+
+      a,
+      span {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: 100%;
+        display: inline-block;
+      }
+    }
+
+    .icon {
+      color: var(--text-secondary);
+      justify-self: center;
+      font-size: 1.5rem;
+    }
+
+    .icon,
+    .details,
+    .externalLink {
+      align-self: center;
+    }
+
+    .externalLink {
+      filter: opacity(0.6);
+      text-align: center;
+    }
+  }
+}
