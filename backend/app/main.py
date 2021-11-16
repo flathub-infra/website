@@ -25,6 +25,7 @@ def update():
     new_apps = apps.load_appstream()
     summary.update()
     picks.update()
+    stats.update()
 
     if new_apps:
         new_apps_zset = {}
@@ -101,6 +102,13 @@ def get_new_apps_feed():
 def healthcheck():
     return {"status": "OK"}
 
+
+@app.get("/stats/{appid}", status_code=200)
+def get_stats_for_app(appid: str, response: Response):
+    if value := db.get_json_key(f"app_stats:{appid}"):
+        return value
+
+    return { "downloads_last_month": 0 }
 
 @app.get("/summary/{appid}", status_code=200)
 def get_summary(appid: str, response: Response):

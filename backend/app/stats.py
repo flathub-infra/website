@@ -1,5 +1,6 @@
 import datetime
 import json
+from collections import defaultdict
 from urllib.parse import urlparse, urlunparse
 from typing import Dict, List, Optional
 
@@ -101,3 +102,22 @@ def get_popular(days: Optional[int]):
     popular = [k for k, v in sorted_apps[:POPULAR_ITEMS_NUM]]
     db.redis_conn.set(redis_key, json.dumps(popular), ex=60 * 60)
     return popular
+
+
+def update():
+    stats_dict = defaultdict(lambda: {})
+
+    days = 30
+
+    edate = datetime.date.today()
+    sdate = edate - datetime.timedelta(days=days - 1)
+
+    stats = get_stats_for_period(sdate, edate)
+
+    for appid, dict in stats.items():
+        # Index 0 is install and update count index 1 would be the update count
+        stats_dict[appid]["downloads_last_month"] = sum([i[0] for i in dict.values()])
+
+    db.redis_conn.mset(
+        {f"app_stats:{appid}": json.dumps(stats_dict[appid]) for appid in stats_dict}
+    )
