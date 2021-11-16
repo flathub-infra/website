@@ -3,7 +3,7 @@ services:
   redis:
     image: redislabs/redisearch:2.2.1
     ports:
-      - "6379"
+      - "6379:6379"
 
   backend:
     build:
@@ -18,3 +18,5 @@ services:
       - redis:redis
     volumes:
       - /var/lib/flatpak
+      - ./app:/app
+      - ./data:/data

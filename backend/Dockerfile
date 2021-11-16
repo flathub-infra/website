@@ -24,4 +24,4 @@ COPY ./app /app
 COPY ./data /data
 COPY --from=builder /venv /venv
 
-ENTRYPOINT ["/venv/bin/uvicorn", "--app-dir", "/", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["/venv/bin/uvicorn", "--app-dir", "/", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
