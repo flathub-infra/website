@@ -2,18 +2,21 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 
 import ApplicationDetails from '../../../src/components/application/Details'
 import Main from '../../../src/components/layout/Main'
-import { fetchEntry, fetchSummary } from '../../../src/fetchers'
+import { fetchEntry, fetchStats, fetchSummary } from '../../../src/fetchers'
 import { APPSTREAM_URL } from '../../../src/env'
 import { NextSeo } from 'next-seo'
 import { Appstream, Screenshot } from '../../../src/types/Appstream'
 import { Summary } from '../../../src/types/Summary'
+import { AppStats } from '../../../src/types/AppStats'
 
 export default function Details({
   data,
   summary,
+  stats,
 }: {
   data: Appstream
   summary: Summary
+  stats: AppStats
 }) {
   const screenshots = data.screenshots
     ? data.screenshots.map((screenshot: Screenshot) => ({
@@ -35,7 +38,7 @@ export default function Details({
           ],
         }}
       />
-      <ApplicationDetails data={data} summary={summary} />
+      <ApplicationDetails data={data} summary={summary} stats={stats} />
     </Main>
   )
 }
@@ -46,11 +49,13 @@ export const getStaticProps: GetStaticProps = async ({
   console.log('Fetching data for app details: ', appDetails)
   const data = await fetchEntry(appDetails as string)
   const summary = await fetchSummary(appDetails as string)
+  const stats = await fetchStats(appDetails as string)
 
   return {
     props: {
       data,
       summary,
+      stats,
     },
   }
 }

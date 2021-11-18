@@ -43,7 +43,6 @@ interface Metadata {
 export interface Summary {
   arches: string[]
   timestamp: number
-  downloads_last_month: number
   download_size: number
   installed_size: number
   metadata: Metadata

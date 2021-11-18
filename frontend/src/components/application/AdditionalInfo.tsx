@@ -14,16 +14,19 @@ import {
 } from 'react-icons/md'
 import { BsHddFill, BsTextParagraph } from 'react-icons/bs'
 import { MdLaptop } from 'react-icons/md'
+import { AppStats } from '../../types/AppStats'
 const spdxLicenseList = require('spdx-license-list/full')
 
 const AdditionalInfo = ({
   data,
   summary,
   appId,
+  stats,
 }: {
   data: Appstream
   summary: Summary
   appId: string
+  stats: AppStats
 }) => {
   const license = getLicense(data.project_license)
 
@@ -167,10 +170,10 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <MdCloudDownload />,
-            header: 'Downloads last month',
+            header: 'Downloads',
             content: {
               type: 'text',
-              text: summary.downloads_last_month.toLocaleString(),
+              text: stats.downloads_total.toLocaleString(),
             },
           },
         ]}

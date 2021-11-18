@@ -12,13 +12,15 @@ import Image from 'next/image'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 import CmdInstructions from './CmdInstructions'
 import AdditionalInfo from './AdditionalInfo'
+import { AppStats } from '../../types/AppStats'
 
 interface Props {
   data: Appstream
   summary: Summary
+  stats: AppStats
 }
 
-const Details: FunctionComponent<Props> = ({ data, summary }) => {
+const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
   const { trackEvent } = useMatomo()
 
   const installClicked = (e) => {
@@ -113,6 +115,7 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
             data={data}
             summary={summary}
             appId={data.id}
+            stats={stats}
           ></AdditionalInfo>
 
           <CmdInstructions appId={data.id}></CmdInstructions>
