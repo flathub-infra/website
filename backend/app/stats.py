@@ -107,14 +107,19 @@ def get_popular(days: Optional[int]):
 def update():
     stats_dict = defaultdict(lambda: {})
 
-    days = 30
-
     edate = datetime.date.today()
-    sdate = edate - datetime.timedelta(days=days - 1)
+    sdate = datetime.date(2018, 4, 29)
 
-    stats = get_stats_for_period(sdate, edate)
+    stats_total = get_stats_for_period(sdate, edate)
 
-    for appid, dict in stats.items():
+    sdate_30_days = edate - datetime.timedelta(days=30 - 1)
+    stats_30_days = get_stats_for_period(sdate_30_days, edate)
+
+    for appid, dict in stats_total.items():
+        # Index 0 is install and update count index 1 would be the update count
+        stats_dict[appid]["downloads_total"] = sum([i[0] for i in dict.values()])
+
+    for appid, dict in stats_30_days.items():
         # Index 0 is install and update count index 1 would be the update count
         stats_dict[appid]["downloads_last_month"] = sum([i[0] for i in dict.values()])
 
