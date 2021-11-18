@@ -56,7 +56,7 @@ const Header = () => {
       <nav className={styles.header}>
         <span className={styles.brandContainer}>
           <Link href='/' passHref>
-            <div id={styles.brand}></div>
+            <a id={styles.brand}></a>
           </Link>
         </span>
 
@@ -79,7 +79,7 @@ const Header = () => {
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
             <Link href='/apps' passHref>
-              <div className={styles.navItem}>Explore</div>
+              <a className={styles.navItem}>Explore</a>
             </Link>
 
             <div className={styles.navItem}>
@@ -93,7 +93,7 @@ const Header = () => {
             </div>
 
             <Link href='/about' passHref>
-              <div className={styles.navItem}>About</div>
+              <a className={styles.navItem}>About</a>
             </Link>
           </div>
           <div className={styles.toggleContainer}>
