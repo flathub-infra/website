@@ -112,16 +112,25 @@ def update():
 
     stats_total = get_stats_for_period(sdate, edate)
 
-    sdate_30_days = edate - datetime.timedelta(days=30 - 1)
-    stats_30_days = get_stats_for_period(sdate_30_days, edate)
-
     for appid, dict in stats_total.items():
         # Index 0 is install and update count index 1 would be the update count
         stats_dict[appid]["downloads_total"] = sum([i[0] for i in dict.values()])
 
+
+    sdate_30_days = edate - datetime.timedelta(days=30 - 1)
+    stats_30_days = get_stats_for_period(sdate_30_days, edate)
+
     for appid, dict in stats_30_days.items():
         # Index 0 is install and update count index 1 would be the update count
         stats_dict[appid]["downloads_last_month"] = sum([i[0] for i in dict.values()])
+
+
+    sdate_7_days = edate - datetime.timedelta(days=7 - 1)
+    stats_7_days = get_stats_for_period(sdate_7_days, edate)
+
+    for appid, dict in stats_7_days.items():
+        # Index 0 is install and update count index 1 would be the update count
+        stats_dict[appid]["downloads_last_7_days"] = sum([i[0] for i in dict.values()])
 
     db.redis_conn.mset(
         {f"app_stats:{appid}": json.dumps(stats_dict[appid]) for appid in stats_dict}

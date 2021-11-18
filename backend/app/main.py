@@ -108,7 +108,8 @@ def get_stats_for_app(appid: str, response: Response):
     if value := db.get_json_key(f"app_stats:{appid}"):
         return value
 
-    return { "downloads_last_month": 0, "downloads_total": 0 }
+    response.status_code = 404
+    return None
 
 @app.get("/summary/{appid}", status_code=200)
 def get_summary(appid: str, response: Response):
