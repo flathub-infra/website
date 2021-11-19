@@ -12,13 +12,15 @@ import {
   CATEGORY_URL,
   SEARCH_APP,
   SUMMARY_DETAILS,
+  STATS_DETAILS,
 } from './env'
 import { Summary } from './types/Summary'
+import { AppStats } from './types/AppStats'
 
-export async function fetchEntry(entry: string): Promise<Appstream | {}> {
+export async function fetchEntry(appId: string): Promise<Appstream | {}> {
   let entryJson: Appstream | {}
   try {
-    const entryData = await fetch(`${APP_DETAILS(entry)}`)
+    const entryData = await fetch(`${APP_DETAILS(appId)}`)
     entryJson = await entryData.json()
   } catch (error) {
     console.log(error)
@@ -26,15 +28,15 @@ export async function fetchEntry(entry: string): Promise<Appstream | {}> {
   }
 
   if (!entryJson) {
-    console.log('No data for ', entry)
+    console.log('No appstream data for ', appId)
   }
   return entryJson
 }
 
-export async function fetchSummary(entry: string): Promise<Summary | {}> {
+export async function fetchSummary(appId: string): Promise<Summary | {}> {
   let summaryJson: Summary | {}
   try {
-    const summaryData = await fetch(`${SUMMARY_DETAILS(entry)}`)
+    const summaryData = await fetch(`${SUMMARY_DETAILS(appId)}`)
     summaryJson = await summaryData.json()
   } catch (error) {
     console.log(error)
@@ -42,9 +44,29 @@ export async function fetchSummary(entry: string): Promise<Summary | {}> {
   }
 
   if (!summaryJson) {
-    console.log('No data for ', entry)
+    console.log('No summary data for ', appId)
   }
   return summaryJson
+}
+
+export async function fetchStats(appId: string): Promise<AppStats> {
+  let statsJson: AppStats
+  try {
+    const statsData = await fetch(`${STATS_DETAILS(appId)}`)
+    statsJson = await statsData.json()
+  } catch (error) {
+    console.log(error)
+    statsJson = {
+      downloads_last_7_days: 0,
+      downloads_last_month: 0,
+      downloads_total: 0,
+    }
+  }
+
+  if (!statsJson) {
+    console.log('No stats data for ', appId)
+  }
+  return statsJson
 }
 
 export default async function fetchCollection(

@@ -7,14 +7,20 @@ import { Summary } from '../../types/Summary'
 
 import Releases from './Releases'
 import styles from './Details.module.scss'
-import ProjectUrls from './ProjectUrls'
+import Button from '../Button'
+import Image from 'next/image'
+import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
+import CmdInstructions from './CmdInstructions'
+import AdditionalInfo from './AdditionalInfo'
+import { AppStats } from '../../types/AppStats'
 
 interface Props {
   data: Appstream
   summary: Summary
+  stats: AppStats
 }
 
-const Details: FunctionComponent<Props> = ({ data, summary }) => {
+const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
   const { trackEvent } = useMatomo()
 
   const installClicked = (e) => {
@@ -32,78 +38,96 @@ const Details: FunctionComponent<Props> = ({ data, summary }) => {
       <div id={styles.application}>
         <header className={styles.container}>
           <div className={styles.logo}>
-            <img
-              src={`https://flathub.org/repo/appstream/x86_64/icons/128x128/${data.id}.png`}
-              alt='Logo'
-            />
+            <img src={data.icon} alt='Logo' />
           </div>
 
           <div className={styles.details}>
             <h2>{data.name}</h2>
-            <div className={styles.appSummary}>{data.summary}</div>
+            <div className={styles.devName}>by {data.developer_name}</div>
           </div>
 
           <div className={styles.install}>
-            <button
-              onClick={installClicked}
-              className={`primary-button ${styles.installButton}`}
-            >
-              Install
-            </button>
+            <Button onClick={installClicked}>Install</Button>
+            {data.urls.donation && (
+              <a href={data.urls.donation} target='_blank' rel='noreferrer'>
+                <Button type='secondary'>Donate</Button>
+              </a>
+            )}
           </div>
         </header>
-        <Carousel
-          showThumbs={false}
-          infiniteLoop={false}
-          autoPlay={false}
-          showArrows={true}
-          showIndicators={moreThan1Screenshot}
-          swipeable={true}
-          emulateTouch={true}
-          useKeyboardArrows={true}
-          dynamicHeight={false}
-          showStatus={false}
-          renderArrowNext={(handler, hasNext, label) =>
-            hasNext ? (
-              <div onClick={handler} className='control-arrow control-next'>
-                <img src='/go-next.svg' />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-          renderArrowPrev={(handler, hasPrev, label) =>
-            hasPrev ? (
-              <div
-                onClick={handler}
-                className='control-arrow control-prev'
-                style={{ transform: 'rotateY(180deg)' }}
-              >
-                <img src='/go-next.svg' />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-        >
-          {data.screenshots &&
-            data.screenshots.map((screenshot, index) => (
-              <img key={index} src={screenshot['752x423']} />
-            ))}
-        </Carousel>
-        <div className='container'>
-          <p
-            className={styles.description}
-            dangerouslySetInnerHTML={{ __html: data.description }}
-          />
+        <div className={`${styles.carousel}`}>
+          <Carousel
+            className={styles.container}
+            showThumbs={false}
+            infiniteLoop={true}
+            autoPlay={false}
+            showArrows={true}
+            showIndicators={moreThan1Screenshot}
+            swipeable={true}
+            emulateTouch={true}
+            useKeyboardArrows={true}
+            dynamicHeight={false}
+            showStatus={false}
+            renderArrowNext={(handler, hasNext, label) =>
+              hasNext ? (
+                <div className='control-arrow control-next' onClick={handler}>
+                  <MdChevronRight />
+                </div>
+              ) : (
+                <></>
+              )
+            }
+            renderArrowPrev={(handler, hasPrev, label) =>
+              hasPrev ? (
+                <div className='control-arrow control-prev' onClick={handler}>
+                  <MdChevronLeft />
+                </div>
+              ) : (
+                <></>
+              )
+            }
+          >
+            {data.screenshots &&
+              data.screenshots.map((screenshot, index) => (
+                <Image
+                  key={index}
+                  src={screenshot['752x423']}
+                  width={752}
+                  height={423}
+                  alt='Screenshot'
+                  loading='eager'
+                />
+              ))}
+          </Carousel>
+        </div>
+        <div className={styles.additionalInfo}>
+          <div>
+            <h3>{data.summary}</h3>
+            <p
+              className={styles.description}
+              dangerouslySetInnerHTML={{ __html: data.description }}
+            />
+          </div>
+
           <Releases releases={data.releases}></Releases>
 
-          <ProjectUrls urls={data.urls} appId={data.id}></ProjectUrls>
+          <AdditionalInfo
+            data={data}
+            summary={summary}
+            appId={data.id}
+            stats={stats}
+          ></AdditionalInfo>
+
+          <CmdInstructions appId={data.id}></CmdInstructions>
         </div>
       </div>
     )
   } else {
-    return <div>Loading...</div>
+    return (
+      <div className='main-container'>
+        <div>Loading...</div>
+      </div>
+    )
   }
 }
 

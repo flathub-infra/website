@@ -5,6 +5,7 @@ import { FunctionComponent, useEffect } from 'react'
 import Footer from './Footer'
 import Header from './Header'
 import { useMatomo } from '@datapunt/matomo-tracker-react'
+import styles from './PageContent.module.scss'
 
 const PageContent: FunctionComponent = ({ children }) => {
   const { trackPageView } = useMatomo()
@@ -15,7 +16,7 @@ const PageContent: FunctionComponent = ({ children }) => {
   }, [trackPageView])
 
   return (
-    <div id='wrapper'>
+    <div id={styles.wrapper}>
       <NextSeo
         titleTemplate='%s—Flathub'
         defaultTitle='Flathub'

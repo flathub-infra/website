@@ -1,0 +1,43 @@
+@import '../../styles/colors';
+
+.primaryButton,
+.secondaryButton {
+  background-color: $main-color;
+  color: white;
+  border: none;
+  height: 48px;
+  padding: 8px 20px;
+  border-radius: $border-radius;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $main-color-dark;
+    background-position: right center;
+  }
+
+  background-image: linear-gradient(
+    to right,
+    $main-color 0%,
+    $main-color-dark 50%,
+    $main-color 100%
+  );
+
+  transition: 0.5s;
+  background-size: 200% auto;
+}
+
+.secondaryButton {
+  background-color: var(--bg-color-secondary);
+  color: $main-color-dark;
+  background-image: unset;
+  border: 1px solid $border;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $main-color;
+    color: white;
+  }
+}

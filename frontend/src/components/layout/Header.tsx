@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { MdMenu, MdMenuOpen } from 'react-icons/md'
+import { MdMenu, MdMenuOpen, MdSearch } from 'react-icons/md'
 
 import styles from './Header.module.scss'
 
@@ -15,7 +15,7 @@ const Header = () => {
     if (q) {
       setQuery(q)
     }
-  }, [])
+  }, [router.query.query])
 
   const mobileSize = 768
   const [isMobile, setIsMobile] = useState(true)
@@ -29,6 +29,7 @@ const Header = () => {
       },
       false
     )
+
     return () => {
       window.removeEventListener('resize', () => {}, false)
     }
@@ -55,18 +56,20 @@ const Header = () => {
       <nav className={styles.header}>
         <span className={styles.brandContainer}>
           <Link href='/' passHref>
-            <div id={styles.brand}></div>
+            <a id={styles.brand}></a>
           </Link>
         </span>
 
         <div id={styles.search}>
           <form onSubmit={onSubmit}>
+            <MdSearch className={styles.searchIcon} />
             <input
               type='search'
               name='q'
               placeholder='Search apps'
               onChange={onChange}
               value={query}
+              aria-label='Search apps'
             />
           </form>
         </div>
@@ -76,7 +79,7 @@ const Header = () => {
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
             <Link href='/apps' passHref>
-              <div className={styles.navItem}>Applications</div>
+              <a className={styles.navItem}>Explore</a>
             </Link>
 
             <div className={styles.navItem}>
@@ -90,7 +93,7 @@ const Header = () => {
             </div>
 
             <Link href='/about' passHref>
-              <div className={styles.navItem}>About</div>
+              <a className={styles.navItem}>About</a>
             </Link>
           </div>
           <div className={styles.toggleContainer}>

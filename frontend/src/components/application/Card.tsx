@@ -10,7 +10,7 @@ interface Props {
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
   <Link href={`/apps/details/${application.id}`} passHref>
-    <div className={styles.applicationCard}>
+    <a className={styles.applicationCard}>
       <div className={styles.logo}>
         <img src={application.icon} alt={application.name} />
       </div>
@@ -18,7 +18,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
         <h5>{application.name}</h5>
         <p>{application.summary}</p>
       </div>
-    </div>
+    </a>
   </Link>
 )
 

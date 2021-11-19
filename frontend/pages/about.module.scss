@@ -1,0 +1,37 @@
+@import './../styles/colors';
+
+.about {
+  .headerContainer {
+    background: $main-color url('/img/about.svg') no-repeat top left;
+
+    @media (max-width: 992px) {
+      background-image: unset;
+    }
+
+    background-size: contain;
+    color: var(--text-secondary);
+    padding-top: 100px;
+  }
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .headerContent p {
+    margin-bottom: 50px;
+    font-size: 110%;
+  }
+
+  .headerContent a {
+    color: var(--text-secondary);
+    font-weight: bold;
+    transition: all 200ms;
+    opacity: 0.8;
+  }
+
+  p {
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+}

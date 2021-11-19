@@ -1,7 +1,7 @@
 @import '../../../styles/colors';
 
 .applicationCard {
-  background-color: $bg-color;
+  background-color: var(--bg-color-secondary);
   grid-column: span 1 / span 1;
 
   border: 1px solid $border;
@@ -9,18 +9,16 @@
   flex-direction: column;
 
   border-radius: $border-radius;
+  transition: 0.5s;
 
   &:hover {
     cursor: pointer;
+    background-color: var(--bg-color-primary);
+    text-decoration: none;
 
-    .logo {
-      border-top-left-radius: $border-radius;
-      border-top-right-radius: $border-radius;
-      background-color: $glassGrey;
-    }
-
-    .summary {
-      background-color: $hoverGlassGrey;
+    img {
+      filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25))
+        drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
     }
   }
 
@@ -31,8 +29,6 @@
     height: 224px;
 
     img {
-      filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.25))
-        drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.14));
       display: block;
       margin: 2rem auto;
       align-self: center;

@@ -2,35 +2,47 @@
 
 .pagination {
   display: flex;
-  flex-direction: row;
-  height: 30px;
-  background-color: white;
+  height: 42px;
+  background-color: var(--bg-color-secondary);
   border: 1px solid $border;
   border-radius: $border-radius;
   width: min-content;
   margin: 0 auto;
   margin-top: 60px;
+  color: $main-color-dark;
+  font-size: 1.2rem;
+  align-items: center;
 
   a:not(:last-child) {
-    .pageLink {
+    &.pageLink {
       border-right: 1px solid $border;
     }
   }
 
+  a:first-child {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+
+  a:last-child {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
   .pageLink {
     width: 36px;
-    align-self: center;
-    margin: 2px;
     text-align: center;
+    transition: 0.5s;
+    line-height: 42px;
 
     &:hover {
       cursor: pointer;
-      color: $main-color;
+      background-color: $main-color;
+      text-decoration: none;
     }
 
     &.pageActive {
       font-weight: 700;
-      color: $main-color;
     }
   }
 }

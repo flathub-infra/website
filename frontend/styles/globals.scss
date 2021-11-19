@@ -1,6 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700;900&display=swap');
 @import 'colors';
 
+:root {
+  --bg-color-primary: #f6f5f4;
+  --bg-color-secondary: white;
+
+  --text-primary: #2e3436;
+  --text-secondary: #727272;
+}
+
+[data-theme='dark'] {
+  --bg-color-primary: #121212;
+  --bg-color-secondary: #202020;
+
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+
+  a {
+    color: $main-color-dark;
+  }
+}
+
 html,
 body {
   padding: 0;
@@ -8,7 +28,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  color: $text-primary;
+  color: var(--text-primary);
 }
 
 a {
@@ -21,10 +41,6 @@ a:hover {
 
 * {
   box-sizing: border-box;
-}
-
-button:hover {
-  cursor: pointer;
 }
 
 h1 {
@@ -43,8 +59,6 @@ h3 {
   font-size: 180%;
   line-height: 1.1;
   font-weight: 300;
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 h4 {

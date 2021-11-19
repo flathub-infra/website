@@ -1,22 +1,31 @@
 @import './../../../styles/colors';
 
-.urls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px 6px;
+.list {
+  width: 100%;
 
-  .url {
-    min-width: 360px;
+  @media (min-width: 768px) {
+    width: calc(50% - 4px);
+  }
+
+  @media (min-width: 1400px) {
+    width: calc(25% - 6px);
+  }
+
+  .item {
+    width: 100%;
     padding: 12px;
-    background-color: white;
+    background-color: var(--bg-color-secondary);
     border: 1px solid $border;
     border-bottom-width: 0;
 
-    max-width: 400px;
     display: grid;
-    grid-template-columns: 0.3fr 1.7fr 0.1fr;
+    grid-template-columns: 36px calc(100% - 36px - 36px) 36px;
     grid-template-rows: 1fr;
     gap: 0px 0px;
+
+    &.noLink {
+      grid-template-columns: 36px calc(100% - 36px);
+    }
 
     &:first-child {
       border-top-right-radius: 8px;
@@ -32,19 +41,21 @@
     .details {
       font-size: 1rem;
 
-      a {
+      a,
+      span {
         font-size: 0.8rem;
-        color: grey;
+        color: var(--text-secondary);
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
-        width: 250px;
+        width: 100%;
         display: inline-block;
       }
     }
 
     .icon {
-      justify-self: center;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
     }
 
     .icon,
@@ -55,7 +66,7 @@
 
     .externalLink {
       filter: opacity(0.6);
-      text-align: center;
+      text-align: end;
     }
   }
 }

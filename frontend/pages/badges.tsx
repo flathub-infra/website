@@ -3,6 +3,7 @@ import Image from 'next/image'
 import CodeCopy from '../src/components/application/CodeCopy'
 import { IMAGE_BASE_URL } from '../src/env'
 import { NextSeo } from 'next-seo'
+import styles from './badges.module.scss'
 
 const badgeExampleCode =
   "<a href='https://flathub.org/apps/details/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>"
@@ -28,7 +29,7 @@ const Badges = () => (
         flexDirection: 'column',
         alignItems: 'start',
       }}
-      className='store-content-container-narrow badges'
+      className={`store-content-container-narrow ${styles.badges}`}
     >
       <h1>Flathub official badges</h1>
       <p>You can use these badges to promote your application on Flathub</p>
@@ -41,7 +42,7 @@ const Badges = () => (
         alt='Download on Flathub'
         src='/img/badges/flathub-badge-en.png'
       />
-      <h6 className='badge-info-svg'>
+      <h6>
         Also available in{' '}
         <a href='/img/badges/flathub-badge-en.svg'>svg format</a>
       </h6>
@@ -54,7 +55,7 @@ const Badges = () => (
         alt='Download on Flathub'
         src='/img/badges/flathub-badge-i-en.png'
       />
-      <h6 className='badge-info-svg'>
+      <h6>
         Also available in{' '}
         <a href='/img/badges/flathub-badge-i-en.svg'>svg format</a>
       </h6>
@@ -70,11 +71,7 @@ const Badges = () => (
           rel='license'
           href='http://creativecommons.org/publicdomain/zero/1.0/'
         >
-          <img
-            src='http://i.creativecommons.org/p/zero/1.0/88x31.png'
-            style={{ borderStyle: 'none' }}
-            alt='CC0'
-          />
+          <Image src='/img/CC0.png' alt='CC0' width={88} height={31} />
         </a>
         <br />
         To the extent possible under law,
@@ -88,24 +85,26 @@ const Badges = () => (
       </p>
 
       <h2>Code examples</h2>
-      <div className='grid-container'>
-        <h3 className='title'>HTML</h3>
+      <div className={styles.gridContainer}>
+        <h3 className={styles.title}>HTML</h3>
         <CodeCopy text={badgeExampleCode}></CodeCopy>
         <div>
           <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
-            <img
-              width='240'
+            <Image
+              width={240}
+              height={80}
               alt='Download on Flathub'
               src='/img/badges/flathub-badge-en.png'
             />
           </a>
         </div>
-        <h3 className='title'>MoinMoin Wiki</h3>
+        <h3 className={styles.title}>MoinMoin Wiki</h3>
         <CodeCopy text={badgeExampleCodeMoinMoin}></CodeCopy>
         <div>
           <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
-            <img
-              width='240'
+            <Image
+              width={240}
+              height={80}
               alt='Download on Flathub'
               src='/img/badges/flathub-badge-en.png'
             />

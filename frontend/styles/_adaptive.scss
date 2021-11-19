@@ -6,35 +6,16 @@
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
-  .categories-section {
-    .applications,
-    .categories {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
-  .categories-section {
-    .applications,
-    .categories {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
 }
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1400px) {
   .main-container {
     width: 80%;
-  }
-
-  .categories-section {
-    .applications,
-    .categories {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-    }
   }
 
   #application {

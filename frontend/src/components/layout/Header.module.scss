@@ -1,13 +1,15 @@
 @import '../../../styles/colors';
 
 .header {
-  background-color: $main-color;
+  background-color: var(--bg-color-primary);
   display: flex;
   flex-direction: row;
+  border-bottom: 1px solid $main-color;
 
   height: 64px;
 
   div,
+  a,
   span {
     flex: 1;
     display: flex;
@@ -21,13 +23,19 @@
 
   #brand {
     background-image: url('/img/logo/flathub-logo-toolbar.svg');
+    @media (max-width: 570px) {
+      background-image: url('/img/flathub-logo.png');
+      background-size: contain;
+    }
     background-repeat: no-repeat;
     background-position: center;
+    background-color: $main-color;
     margin: auto 12px;
     padding: 0 12px;
     border-radius: $border-radius;
     max-width: 150px;
     height: 34px;
+    transition: 0.5s;
 
     &:hover {
       cursor: pointer;
@@ -50,23 +58,29 @@
   }
 
   #search {
-    display: block;
-
-    input {
-      padding: 8px;
-      width: 100%;
-      height: 100%;
-      border: none;
-      outline: none;
-      background-color: $main-color-dark;
-      color: #fff;
-      border-radius: $border-radius;
-      box-sizing: border-box;
-    }
-
+    position: relative;
     width: 520px;
     margin-top: auto;
     margin-bottom: auto;
+
+    .searchIcon {
+      position: absolute;
+      font-size: 1.3rem;
+      margin-top: 8px;
+      margin-left: 8px;
+    }
+
+    input {
+      padding: 8px;
+      padding-left: 38px;
+      height: 100%;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      background-color: var(--bg-color-secondary);
+      border-radius: $border-radius;
+      box-sizing: border-box;
+    }
   }
 
   .navbarContainer {
@@ -94,7 +108,7 @@
       &.responsive {
         display: block;
         position: absolute;
-        background-color: $main-color;
+        background-color: var(--bg-color-primary);
         float: inherit;
         top: 64px;
         width: 100%;
@@ -107,23 +121,24 @@
           max-width: none;
           height: 48px;
           margin: auto 0;
+          border-radius: unset;
         }
+        border-bottom: 1px solid $main-color;
       }
 
       .navItem {
         padding: 8px 20px;
         margin: 0 6px;
         border-radius: $border-radius;
-        color: white;
-        font-size: 14px;
         font-weight: 500;
-        text-transform: uppercase;
-        max-width: 100px;
+        max-width: 110px;
         align-items: center;
+        transition: 0.5s;
 
         &:hover {
           cursor: pointer;
-          background-color: $main-color-dark;
+          color: white;
+          background-color: $main-color;
         }
 
         &:active {
@@ -136,14 +151,15 @@
       justify-content: end;
       .navbarToggle {
         cursor: pointer;
-        color: white;
         font-size: 24px;
         max-width: 64px;
         align-items: center;
+        transition: 0.5s;
 
         &:hover {
           cursor: pointer;
-          background-color: $main-color-dark;
+          background-color: $main-color;
+          color: white;
         }
 
         &:active {

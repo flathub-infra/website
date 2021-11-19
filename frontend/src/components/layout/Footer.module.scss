@@ -1,8 +1,7 @@
 @import '../../../styles/colors';
 
 #footer {
-  background-color: black;
-  color: white;
+  border-top: 1px solid $main-color;
   display: flex;
   flex-direction: column;
   padding: 48px;
@@ -23,9 +22,7 @@
     min-width: 200px;
 
     .footerTitle {
-      color: #eeebebd2;
       font-weight: bold;
-      font-size: 12pt;
     }
 
     .footerItems {
@@ -34,7 +31,7 @@
 
       .footerItem {
         font-size: 11pt;
-        color: grey;
+        color: var(--text-secondary);
         line-height: 1.4;
       }
     }
