@@ -1,8 +1,6 @@
 import { Category } from './types/Category'
 
-const BASE_URI: string =
-  process.env.API_BASE_URI ||
-  'https://flathub-backend.openshift.gnome.org/master'
+const BASE_URI: string = process.env.API_BASE_URI || 'localhost:8000'
 
 export const APPSTREAM_URL: string = `${BASE_URI}/appstream`
 export const APP_DETAILS = (id: string): string => `${APPSTREAM_URL}/${id}`
