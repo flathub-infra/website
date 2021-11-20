@@ -62,12 +62,30 @@ export interface Urls {
 }
 
 export interface Screenshot {
-  '624x351'?: string
-  '1248x702'?: string
   '112x63'?: string
   '224x126'?: string
+  '624x351'?: string
   '752x423'?: string
+  '1248x702'?: string
   '1504x846'?: string
+}
+
+export function pickScreenshot(screenshot: Screenshot) {
+  if (screenshot['1504x846']) {
+    return screenshot['1504x846']
+  } else if (screenshot['1248x702']) {
+    return screenshot['1248x702']
+  } else if (screenshot['752x423']) {
+    return screenshot['752x423']
+  } else if (screenshot['624x351']) {
+    return screenshot['624x351']
+  } else if (screenshot['224x126']) {
+    return screenshot['224x126']
+  } else if (screenshot['112x63']) {
+    return screenshot['112x63']
+  } else {
+    return undefined
+  }
 }
 
 export interface Release {

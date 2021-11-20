@@ -1,7 +1,7 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { FunctionComponent } from 'react'
 import { Carousel } from 'react-responsive-carousel'
-import { Appstream } from '../../types/Appstream'
+import { Appstream, pickScreenshot } from '../../types/Appstream'
 
 import { Summary } from '../../types/Summary'
 
@@ -30,9 +30,8 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
   }
 
   if (data) {
-    const moreThan1Screenshot = data.screenshots
-      ? data.screenshots.length > 1
-      : false
+    const moreThan1Screenshot =
+      data.screenshots.filter(pickScreenshot).length > 1
 
     return (
       <div id={styles.application}>
@@ -87,11 +86,12 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
               )
             }
           >
-            {data.screenshots &&
-              data.screenshots.map((screenshot, index) => (
+            {data.screenshots
+              .filter(pickScreenshot)
+              .map((screenshot, index) => (
                 <Image
                   key={index}
-                  src={screenshot['752x423']}
+                  src={pickScreenshot(screenshot)}
                   width={752}
                   height={423}
                   alt='Screenshot'

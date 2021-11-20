@@ -56,15 +56,15 @@ export async function fetchStats(appId: string): Promise<AppStats> {
     statsJson = await statsData.json()
   } catch (error) {
     console.log(error)
+  }
+
+  if (!statsJson) {
+    console.log('No stats data for ', appId)
     statsJson = {
       downloads_last_7_days: 0,
       downloads_last_month: 0,
       downloads_total: 0,
     }
-  }
-
-  if (!statsJson) {
-    console.log('No stats data for ', appId)
   }
   return statsJson
 }
