@@ -31,7 +31,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
 
   if (data) {
     const moreThan1Screenshot =
-      data.screenshots.filter(pickScreenshot).length > 1
+      data.screenshots?.filter(pickScreenshot).length > 1
 
     return (
       <div id={styles.application}>
@@ -87,7 +87,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
             }
           >
             {data.screenshots
-              .filter(pickScreenshot)
+              ?.filter(pickScreenshot)
               .map((screenshot, index) => (
                 <Image
                   key={index}

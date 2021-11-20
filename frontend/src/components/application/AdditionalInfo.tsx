@@ -30,7 +30,7 @@ const AdditionalInfo = ({
 }) => {
   const license = getLicense(data.project_license)
 
-  const licenseIsLink = data.project_license.startsWith(
+  const licenseIsLink = data.project_license?.startsWith(
     'LicenseRef-proprietary='
   )
 
@@ -182,15 +182,15 @@ const AdditionalInfo = ({
   )
 }
 
-function getLicense(project_license: string): string {
-  if (project_license.startsWith('LicenseRef-proprietary=')) {
-    return project_license.replace(/LicenseRef-proprietary=/, '')
+function getLicense(project_license: string | undefined): string {
+  if (project_license?.startsWith('LicenseRef-proprietary=')) {
+    return project_license?.replace(/LicenseRef-proprietary=/, '')
   }
-  if (project_license.startsWith('LicenseRef-proprietary')) {
+  if (project_license?.startsWith('LicenseRef-proprietary')) {
     return 'Proprietary'
   }
 
-  return spdxLicenseList[project_license]?.name ?? project_license
+  return spdxLicenseList[project_license]?.name ?? project_license ?? 'Unknown'
 }
 
 export default AdditionalInfo
