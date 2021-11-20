@@ -22,7 +22,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const applications: Appstream[] = await fetchCollection(
     Collections.recentlyUpdated
   )
-  applications.sort((a, b) => a.name.localeCompare(b.name))
 
   return {
     props: {
