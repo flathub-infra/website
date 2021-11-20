@@ -5,7 +5,11 @@ import Main from '../../../src/components/layout/Main'
 import { fetchEntry, fetchStats, fetchSummary } from '../../../src/fetchers'
 import { APPSTREAM_URL } from '../../../src/env'
 import { NextSeo } from 'next-seo'
-import { Appstream, Screenshot } from '../../../src/types/Appstream'
+import {
+  Appstream,
+  pickScreenshot,
+  Screenshot,
+} from '../../../src/types/Appstream'
 import { Summary } from '../../../src/types/Summary'
 import { AppStats } from '../../../src/types/AppStats'
 
@@ -19,8 +23,8 @@ export default function Details({
   stats: AppStats
 }) {
   const screenshots = data.screenshots
-    ? data.screenshots.map((screenshot: Screenshot) => ({
-        url: screenshot['752x423'],
+    ? data.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
+        url: pickScreenshot(screenshot),
       }))
     : []
 
