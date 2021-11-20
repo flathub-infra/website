@@ -1,7 +1,6 @@
 import Main from '../src/components/layout/Main'
 import Image from 'next/image'
 import CodeCopy from '../src/components/application/CodeCopy'
-import { IMAGE_BASE_URL } from '../src/env'
 import { NextSeo } from 'next-seo'
 import styles from './badges.module.scss'
 
@@ -15,13 +14,6 @@ const Badges = () => (
     <NextSeo
       title='Flathub Official Badges'
       description='Official badges to promote your application on Flathub'
-      openGraph={{
-        images: [
-          {
-            url: `${IMAGE_BASE_URL}badges/flathub-badge-en.png`,
-          },
-        ],
-      }}
     />
     <section
       style={{

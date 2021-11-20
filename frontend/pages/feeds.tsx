@@ -1,26 +1,12 @@
 import Main from '../src/components/layout/Main'
 import Link from 'next/link'
-import {
-  FEED_NEW_URL,
-  FEED_RECENTLY_UPDATED_URL,
-  IMAGE_BASE_URL,
-} from '../src/env'
+import { FEED_NEW_URL, FEED_RECENTLY_UPDATED_URL } from '../src/env'
 import { NextSeo } from 'next-seo'
 import Button from '../src/components/Button'
 
 const Feeds = () => (
   <Main>
-    <NextSeo
-      title='RSS'
-      description='Subscribe to RSS feeds from Flathub'
-      openGraph={{
-        images: [
-          {
-            url: `${IMAGE_BASE_URL}badges/flathub-badge-en.png`,
-          },
-        ],
-      }}
-    />
+    <NextSeo title='RSS' description='Subscribe to RSS feeds from Flathub' />
     <div className='main-container center'>
       <h1>Flathub RSS feeds</h1>
       <p>
