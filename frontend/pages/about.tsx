@@ -1,4 +1,3 @@
-import { IMAGE_BASE_URL } from '../src/env'
 import { NextSeo } from 'next-seo'
 import Main from '../src/components/layout/Main'
 import styles from './about.module.scss'
@@ -9,13 +8,6 @@ const About = () => {
       <NextSeo
         title='About'
         description='Flathub aims to be the place to get and distribute apps for Linux. It is powered by Flatpak which allows Flathub apps to run on almost any Linux distribution.'
-        openGraph={{
-          images: [
-            {
-              url: `${IMAGE_BASE_URL}logo/flathub-logo.png`,
-            },
-          ],
-        }}
       />
       <div
         className={styles.about}

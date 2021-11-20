@@ -1,6 +1,6 @@
 import { Category } from './types/Category'
 
-const BASE_URI: string = process.env.API_BASE_URI || 'localhost:8000'
+const BASE_URI: string = process.env.API_BASE_URI
 
 export const APPSTREAM_URL: string = `${BASE_URI}/appstream`
 export const APP_DETAILS = (id: string): string => `${APPSTREAM_URL}/${id}`
@@ -20,7 +20,7 @@ export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 
 export const APPS_IN_PREVIEW_COUNT: number = 6
 
-export const IMAGE_BASE_URL: string = `${BASE_URI}/img/`
+export const IMAGE_BASE_URL: string = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/`
 
 export const MATOMO_WEBSITE_ID: number =
   Number(process.env.MATOMO_WEBSITE_ID) || 38

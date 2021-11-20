@@ -6,6 +6,7 @@ import Footer from './Footer'
 import Header from './Header'
 import { useMatomo } from '@datapunt/matomo-tracker-react'
 import styles from './PageContent.module.scss'
+import { IMAGE_BASE_URL } from '../../env'
 
 const PageContent: FunctionComponent = ({ children }) => {
   const { trackPageView } = useMatomo()
@@ -21,6 +22,13 @@ const PageContent: FunctionComponent = ({ children }) => {
         titleTemplate='%s—Flathub'
         defaultTitle='Flathub'
         twitter={{ site: '@FlatpakApps' }}
+        openGraph={{
+          images: [
+            {
+              url: `${IMAGE_BASE_URL}flathub-logo.png`,
+            },
+          ],
+        }}
       ></NextSeo>
       <Head>
         <base href='/' />
