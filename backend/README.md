@@ -21,7 +21,11 @@ You need to seed the database:
 curl -X POST localhost:8000/update
 ```
 
-If you change any files, the server should restart and you should be able to proceed.
+If you change any files, the server should restart and you should be able to see the changes.
+
+If you want to explore the endpoints, you can use the UI:
+https://localhost:8000/docs
+
 
 ### Accessing redis
 You can use a redis tool of your choice to interact with the database.
