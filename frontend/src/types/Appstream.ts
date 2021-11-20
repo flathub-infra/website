@@ -1,6 +1,6 @@
 export interface Appstream {
   description: string
-  screenshots: Screenshot[]
+  screenshots?: Screenshot[]
   releases: Release[]
   content_rating: ContentRating
   urls: Urls
@@ -12,7 +12,7 @@ export interface Appstream {
   categories: string[]
   kudos: string[]
   mimetypes: string[]
-  project_license: string
+  project_license?: string
   provides: string[]
   launchable: Launchable
   bundle: Bundle
@@ -90,7 +90,7 @@ export function pickScreenshot(screenshot: Screenshot) {
 
 export interface Release {
   description?: string
-  timestamp: number
+  timestamp?: number
   version: string
 }
 

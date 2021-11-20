@@ -20,11 +20,12 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
               <header>
                 <h3>Changes in version {latestRelease.version}</h3>
                 <div>
-                  {formatDistance(
-                    new Date(latestRelease.timestamp * 1000),
-                    new Date(),
-                    { addSuffix: true }
-                  )}
+                  {latestRelease.timestamp &&
+                    formatDistance(
+                      new Date(latestRelease.timestamp * 1000),
+                      new Date(),
+                      { addSuffix: true }
+                    )}
                 </div>
               </header>
               <p
