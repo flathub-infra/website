@@ -80,9 +80,13 @@ def search(userquery: str):
         "]",
         ":",
         ";",
+        "*",
     ]
     for char in reserved_chars:
         userquery = userquery.replace(char, "")
+
+    if len(userquery.strip()) == 0:
+        return None
 
     # TODO: should input be sanitized here?
     name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
