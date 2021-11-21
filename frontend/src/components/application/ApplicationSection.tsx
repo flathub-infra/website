@@ -3,8 +3,8 @@ import Link from 'next/link'
 
 import { Appstream } from '../../types/Appstream'
 
-import ApplicationCard from './Card'
-import styles from './Section.module.scss'
+import ApplicationCard from './ApplicationCard'
+import styles from './ApplicationSection.module.scss'
 import Button from '../Button'
 
 interface Props {

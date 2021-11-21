@@ -1,6 +1,7 @@
 @import '../../../styles/colors';
 
 .applicationCard {
+  min-width: 0;
   background-color: var(--bg-color-secondary);
   grid-column: span 1 / span 1;
 
