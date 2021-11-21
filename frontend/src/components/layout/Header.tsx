@@ -52,8 +52,8 @@ const Header = () => {
   }
 
   return (
-    <header>
-      <nav className={styles.header}>
+    <header className={styles.header}>
+      <nav className={styles.navHeader}>
         <span className={styles.brandContainer}>
           <Link href='/' passHref>
             <a id={styles.brand}></a>
