@@ -2,7 +2,11 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 
 import ApplicationDetails from '../../../src/components/application/Details'
 import Main from '../../../src/components/layout/Main'
-import { fetchEntry, fetchStats, fetchSummary } from '../../../src/fetchers'
+import {
+  fetchAppstream,
+  fetchAppStats,
+  fetchSummary,
+} from '../../../src/fetchers'
 import { APPSTREAM_URL } from '../../../src/env'
 import { NextSeo } from 'next-seo'
 import {
@@ -51,9 +55,9 @@ export const getStaticProps: GetStaticProps = async ({
   params: { appDetails },
 }) => {
   console.log('Fetching data for app details: ', appDetails)
-  const data = await fetchEntry(appDetails as string)
+  const data = await fetchAppstream(appDetails as string)
   const summary = await fetchSummary(appDetails as string)
-  const stats = await fetchStats(appDetails as string)
+  const stats = await fetchAppStats(appDetails as string)
 
   return {
     props: {

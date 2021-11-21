@@ -1,0 +1,13 @@
+@import './../../../styles/colors';
+
+.downloads {
+  height: 300px;
+  padding-bottom: 50px;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  background-color: var(--bg-color-secondary);
+
+  border-radius: $border-radius;
+  border: 1px solid $border;
+}

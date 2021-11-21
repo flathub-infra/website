@@ -13,6 +13,7 @@ import { MdChevronRight, MdChevronLeft } from 'react-icons/md'
 import CmdInstructions from './CmdInstructions'
 import AdditionalInfo from './AdditionalInfo'
 import { AppStats } from '../../types/AppStats'
+import AppStatistics from './AppStats'
 
 interface Props {
   data: Appstream
@@ -117,6 +118,8 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
             appId={data.id}
             stats={stats}
           ></AdditionalInfo>
+
+          <AppStatistics stats={stats}></AppStatistics>
 
           <CmdInstructions appId={data.id}></CmdInstructions>
         </div>

@@ -13,11 +13,13 @@ import {
   SEARCH_APP,
   SUMMARY_DETAILS,
   STATS_DETAILS,
+  STATS,
 } from './env'
 import { Summary } from './types/Summary'
 import { AppStats } from './types/AppStats'
+import { Stats } from './types/Stats'
 
-export async function fetchEntry(appId: string): Promise<Appstream | {}> {
+export async function fetchAppstream(appId: string): Promise<Appstream | {}> {
   let entryJson: Appstream | {}
   try {
     const entryData = await fetch(`${APP_DETAILS(appId)}`)
@@ -49,7 +51,22 @@ export async function fetchSummary(appId: string): Promise<Summary | {}> {
   return summaryJson
 }
 
-export async function fetchStats(appId: string): Promise<AppStats> {
+export async function fetchStats(): Promise<Stats> {
+  let statsJson: Stats
+  try {
+    const statsData = await fetch(`${STATS}`)
+    statsJson = await statsData.json()
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!statsJson) {
+    console.log('No stats data')
+  }
+  return statsJson
+}
+
+export async function fetchAppStats(appId: string): Promise<AppStats> {
   let statsJson: AppStats
   try {
     const statsData = await fetch(`${STATS_DETAILS(appId)}`)
@@ -61,6 +78,7 @@ export async function fetchStats(appId: string): Promise<AppStats> {
   if (!statsJson) {
     console.log('No stats data for ', appId)
     statsJson = {
+      downloads_per_day: {},
       downloads_last_7_days: 0,
       downloads_last_month: 0,
       downloads_total: 0,
@@ -102,7 +120,7 @@ export default async function fetchCollection(
 
   const limitedList = collectionList.slice(0, limit)
 
-  const items: Appstream[] = await Promise.all(limitedList.map(fetchEntry))
+  const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
 
   console.log('\nCollection ', collection, ' fetched')
 
@@ -113,7 +131,7 @@ export async function fetchApps() {
   const appListRes = await fetch(APPSTREAM_URL)
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
+  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
   console.log('\nApps fetched')
 
@@ -124,7 +142,7 @@ export async function fetchCategory(category: keyof typeof Category) {
   const appListRes = await fetch(CATEGORY_URL(category))
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchEntry))
+  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
   console.log('\nCategory', category, ' fetched')
 
