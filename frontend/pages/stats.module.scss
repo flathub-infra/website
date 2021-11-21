@@ -1,0 +1,24 @@
+@import './../styles/colors';
+
+.map {
+  display: flex;
+  justify-content: center;
+
+  figure {
+    margin: 0px;
+    border: 1px solid $border;
+    border-radius: $border-radius;
+    width: fit-content;
+  }
+}
+
+.downloadsOverTime {
+  height: 500px;
+  padding-left: 16px;
+  padding-right: 16px;
+
+  background-color: var(--bg-color-secondary);
+  border: 1px solid $border;
+
+  border-radius: $border-radius;
+}
