@@ -1,16 +1,17 @@
 {
-    "refs": {
-        "com.anydesk.Anydesk": {
-            "x86_64": [
-                760,
-                743
-            ]
-        },
-        "com.wps.Office": {
-            "x86_64": [
-                59,
-                29
-            ]
-        }
+  "countries": {
+    "AD": 10,
+    "BR": 20
+  },
+  "delta_downloads": 15,
+  "downloads": 10,
+  "updates": 5,
+  "refs": {
+    "com.anydesk.Anydesk": {
+      "x86_64": [760, 743]
+    },
+    "com.wps.Office": {
+      "x86_64": [59, 29]
     }
+  }
 }

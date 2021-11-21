@@ -103,6 +103,15 @@ def healthcheck():
     return {"status": "OK"}
 
 
+@app.get("/stats", status_code=200)
+def get_stats(response: Response):
+    if value := db.get_json_key(f"stats"):
+        return value
+
+    response.status_code = 404
+    return None
+
+
 @app.get("/stats/{appid}", status_code=200)
 def get_stats_for_app(appid: str, response: Response):
     if value := db.get_json_key(f"app_stats:{appid}"):
