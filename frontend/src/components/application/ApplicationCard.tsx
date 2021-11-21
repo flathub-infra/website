@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import Link from 'next/link'
 
 import { Appstream } from '../../types/Appstream'
-import styles from './Card.module.scss'
+import styles from './ApplicationCard.module.scss'
 
 interface Props {
   application: Appstream

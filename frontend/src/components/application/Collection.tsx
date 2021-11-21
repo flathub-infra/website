@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { Appstream } from '../../types/Appstream'
 
-import ApplicationCard from '../application/Card'
+import ApplicationCard from './ApplicationCard'
 import Main from '../layout/Main'
 import Pagination from '../Pagination'
 import styles from './Collection.module.scss'
