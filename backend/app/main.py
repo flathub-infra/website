@@ -120,6 +120,7 @@ def get_stats_for_app(appid: str, response: Response):
     response.status_code = 404
     return None
 
+
 @app.get("/summary/{appid}", status_code=200)
 def get_summary(appid: str, response: Response):
     if value := db.get_json_key(f"summary:{appid}"):

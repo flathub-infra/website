@@ -17,9 +17,7 @@ POPULAR_DAYS_NUM = 7
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
 
 
-def _get_stats_for_date(
-    date: datetime.date, session: requests.Session
-):
+def _get_stats_for_date(date: datetime.date, session: requests.Session):
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
     )
@@ -55,7 +53,7 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)
 
-            if stats is None or 'refs' not in stats or stats["refs"] is None:
+            if stats is None or "refs" not in stats or stats["refs"] is None:
                 continue
             for app_id, app_stats in stats["refs"].items():
                 if app_id not in totals:
@@ -80,12 +78,14 @@ def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)
 
-            if stats is not None and 'refs' in stats and stats["refs"] is not None:
+            if stats is not None and "refs" in stats and stats["refs"] is not None:
                 for app_id, app_stats in stats["refs"].items():
                     if _is_app(app_id):
                         if app_id not in app_stats_per_day:
                             app_stats_per_day[app_id] = {}
-                        app_stats_per_day[app_id][date.isoformat()] = sum([i[0] for i in app_stats.values()])
+                        app_stats_per_day[app_id][date.isoformat()] = sum(
+                            [i[0] for i in app_stats.values()]
+                        )
     return app_stats_per_day
 
 
@@ -102,24 +102,42 @@ def _get_stats() -> Dict[str, Dict[str, int]]:
             date = sdate + datetime.timedelta(days=i)
             stats = _get_stats_for_date(date, session)
 
-            if stats is not None and 'downloads' in stats and stats["downloads"] is not None:
+            if (
+                stats is not None
+                and "downloads" in stats
+                and stats["downloads"] is not None
+            ):
                 downloads_per_day[date.isoformat()] = stats["downloads"]
 
-            if stats is not None and 'updates' in stats and stats["updates"] is not None:
+            if (
+                stats is not None
+                and "updates" in stats
+                and stats["updates"] is not None
+            ):
                 updates_per_day[date.isoformat()] = stats["updates"]
 
-            if stats is not None and 'delta_downloads' in stats and stats["delta_downloads"] is not None:
+            if (
+                stats is not None
+                and "delta_downloads" in stats
+                and stats["delta_downloads"] is not None
+            ):
                 delta_downloads_per_day[date.isoformat()] = stats["delta_downloads"]
 
-            if stats is not None and 'countries' in stats and stats["countries"] is not None:
+            if (
+                stats is not None
+                and "countries" in stats
+                and stats["countries"] is not None
+            ):
                 for country, downloads in stats["countries"].items():
                     if country not in totals_country:
                         totals_country[country] = 0
                     totals_country[country] = totals_country[country] + downloads
-    return {"countries": totals_country,
-            "downloads": downloads_per_day,
-            "updates": updates_per_day,
-            "delta_downloads": delta_downloads_per_day}
+    return {
+        "countries": totals_country,
+        "downloads": downloads_per_day,
+        "updates": updates_per_day,
+        "delta_downloads": delta_downloads_per_day,
+    }
 
 
 def _sort_key(
@@ -174,7 +192,9 @@ def update():
     for appid, dict in stats_total.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
-            stats_apps_dict[appid]["downloads_total"] = sum([i[0] for i in dict.values()])
+            stats_apps_dict[appid]["downloads_total"] = sum(
+                [i[0] for i in dict.values()]
+            )
             stats_apps_dict[appid]["downloads_per_day"] = app_stats_per_day[appid]
 
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
@@ -183,7 +203,9 @@ def update():
     for appid, dict in stats_30_days.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
-            stats_apps_dict[appid]["downloads_last_month"] = sum([i[0] for i in dict.values()])
+            stats_apps_dict[appid]["downloads_last_month"] = sum(
+                [i[0] for i in dict.values()]
+            )
 
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
@@ -191,11 +213,14 @@ def update():
     for appid, dict in stats_7_days.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
-            stats_apps_dict[appid]["downloads_last_7_days"] = sum([i[0] for i in dict.values()])
+            stats_apps_dict[appid]["downloads_last_7_days"] = sum(
+                [i[0] for i in dict.values()]
+            )
 
-    db.redis_conn.set(
-        "stats", json.dumps(stats_dict)
-    )
+    db.redis_conn.set("stats", json.dumps(stats_dict))
     db.redis_conn.mset(
-        {f"app_stats:{appid}": json.dumps(stats_apps_dict[appid]) for appid in stats_apps_dict}
+        {
+            f"app_stats:{appid}": json.dumps(stats_apps_dict[appid])
+            for appid in stats_apps_dict
+        }
     )

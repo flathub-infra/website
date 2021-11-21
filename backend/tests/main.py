@@ -198,6 +198,7 @@ def test_picked_non_existent():
     assert response.status_code == 404
     assert response.json() == None
 
+
 def test_popular():
     response = client.get("/popular")
     assert response.status_code == 200
@@ -227,13 +228,11 @@ def test_summary_by_non_existent_id():
     assert response.status_code == 404
     assert response.json() == None
 
+
 def test_stats():
     response = client.get("/stats")
     expected = {}
-    expected["countries"] = {
-            "AD": 30,
-            "BR": 60
-    }
+    expected["countries"] = {"AD": 30, "BR": 60}
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
