@@ -37,7 +37,7 @@ const PageContent: FunctionComponent = ({ children }) => {
       </Head>
       <Header />
 
-      <main>{children}</main>
+      <main className={styles.main}>{children}</main>
 
       <Footer />
     </div>
