@@ -1,5 +1,11 @@
 @import './../styles/colors';
 
+.stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .map {
   display: flex;
   justify-content: center;

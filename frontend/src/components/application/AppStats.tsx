@@ -5,6 +5,7 @@ import { AppStats as AppStatistics, AppStats } from '../../types/AppStats'
 import 'chartjs-adapter-date-fns'
 
 import styles from './AppStats.module.scss'
+import { useTheme } from 'next-themes'
 
 interface Props {
   stats: AppStats
@@ -24,9 +25,11 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, 'Downloads')
+  const { resolvedTheme } = useTheme()
 
-  const options = chartOptions()
+  const data = chartStyle(downloads_labels, downloads_data, 'Downloads')
+  const gridColor = resolvedTheme === 'dark' ? '#3d3d3d' : '#e5e5e5'
+  const options = chartOptions(gridColor)
 
   return (
     <div className={styles.downloads}>
