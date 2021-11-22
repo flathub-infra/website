@@ -231,23 +231,25 @@ def test_summary_by_non_existent_id():
 
 def test_stats():
     response = client.get("/stats")
-    expected = {}
-    expected["countries"] = {"AD": 30, "BR": 60}
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
-    expected["delta_downloads"] = {}
-    expected["delta_downloads"][day_before_yesterday.isoformat()] = 15
-    expected["delta_downloads"][yesterday.isoformat()] = 15
-    expected["delta_downloads"][today.isoformat()] = 15
-    expected["downloads"] = {}
-    expected["downloads"][day_before_yesterday.isoformat()] = 10
-    expected["downloads"][yesterday.isoformat()] = 10
-    expected["downloads"][today.isoformat()] = 10
-    expected["updates"] = {}
-    expected["updates"][day_before_yesterday.isoformat()] = 5
-    expected["updates"][yesterday.isoformat()] = 5
-    expected["updates"][today.isoformat()] = 5
+    expected = {
+        "countries": {"AD": 30, "BR": 60},
+        "downloads_per_day": {},
+        "delta_downloads_per_day": {},
+        "updates_per_day": {},
+        "downloads": 3486,
+    }
+    expected["delta_downloads_per_day"][day_before_yesterday.isoformat()] = 15
+    expected["delta_downloads_per_day"][yesterday.isoformat()] = 15
+    expected["delta_downloads_per_day"][today.isoformat()] = 15
+    expected["downloads_per_day"][day_before_yesterday.isoformat()] = 703
+    expected["downloads_per_day"][yesterday.isoformat()] = 1964
+    expected["downloads_per_day"][today.isoformat()] = 819
+    expected["updates_per_day"][day_before_yesterday.isoformat()] = 5
+    expected["updates_per_day"][yesterday.isoformat()] = 5
+    expected["updates_per_day"][today.isoformat()] = 5
 
     assert response.status_code == 200
     assert response.json() == expected
@@ -255,8 +257,22 @@ def test_stats():
 
 def test_app_stats_by_id():
     response = client.get("/stats/org.sugarlabs.Maze")
+
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=1)
+    day_before_yesterday = today - datetime.timedelta(days=2)
+    expected = {
+        "downloads_total": 7,
+        "downloads_per_day": {
+            day_before_yesterday.isoformat(): 6,
+            yesterday.isoformat(): 1,
+        },
+        "downloads_last_month": 7,
+        "downloads_last_7_days": 7,
+    }
+
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_app_stats")
+    assert response.json() == expected
 
 
 def test_app_stats_by_non_existent_id():

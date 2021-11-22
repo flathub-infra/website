@@ -134,9 +134,10 @@ def _get_stats() -> Dict[str, Dict[str, int]]:
                     totals_country[country] = totals_country[country] + downloads
     return {
         "countries": totals_country,
-        "downloads": downloads_per_day,
-        "updates": updates_per_day,
-        "delta_downloads": delta_downloads_per_day,
+        "downloads_per_day": downloads_per_day,
+        "updates_per_day": updates_per_day,
+        "delta_downloads_per_day": delta_downloads_per_day,
+        "downloads": sum(downloads_per_day.values()),
     }
 
 
