@@ -1,6 +1,7 @@
 export interface Stats {
   countries: { [key: string]: number }
-  downloads: { [key: string]: number }
-  updates: { [key: string]: number }
-  delta_downloads: { [key: string]: number }
+  downloads_per_day: { [key: string]: number }
+  updates_per_day: { [key: string]: number }
+  delta_downloads_per_day: { [key: string]: number }
+  downloads: number
 }

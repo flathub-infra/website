@@ -9,6 +9,8 @@ import styles from './stats.module.scss'
 import { Line } from 'react-chartjs-2'
 import { chartOptions, chartStyle } from '../src/chartHelper'
 import 'chartjs-adapter-date-fns'
+import { MdCloudDownload, MdCalendarToday } from 'react-icons/md'
+import ListBox from '../src/components/application/ListBox'
 
 const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
   let country_data: { country: string; value: number }[] = []
@@ -21,12 +23,13 @@ const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
   const { resolvedTheme } = useTheme()
 
   const borderColor = resolvedTheme === 'dark' ? '#FFFFFF' : '#000000'
+  const gridColor = resolvedTheme === 'dark' ? '#3d3d3d' : '#e5e5e5'
   const backgroundColor = resolvedTheme === 'dark' ? '#202020' : 'white'
 
   let downloads_labels: string[] = []
   let downloads_data: number[] = []
-  if (stats.downloads) {
-    for (const [key, value] of Object.entries(stats.downloads)) {
+  if (stats.downloads_per_day) {
+    for (const [key, value] of Object.entries(stats.downloads_per_day)) {
       downloads_labels.push(key)
       downloads_data.push(value)
     }
@@ -38,14 +41,40 @@ const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
 
   const data = chartStyle(downloads_labels, downloads_data, 'Downloads')
 
-  const options = chartOptions()
+  const options = chartOptions(gridColor)
 
   return (
     <Main>
       <NextSeo title='Stats' description='Flathub Stats' />
       <div className='main-container'>
         <h1>Flathub Stats</h1>
-        <p></p>
+        <div className={styles.stats}>
+          <ListBox
+            items={[
+              {
+                icon: <MdCloudDownload />,
+                header: 'Total downloads',
+                content: {
+                  type: 'text',
+                  text: stats.downloads.toLocaleString(),
+                },
+              },
+            ]}
+          />
+          <ListBox
+            items={[
+              {
+                icon: <MdCalendarToday />,
+                header: 'Since',
+                content: {
+                  type: 'text',
+                  text: new Date(2018, 3, 29).toDateString(),
+                },
+              },
+            ]}
+          />
+        </div>
+        <div className={styles.downloadStats}>{}</div>
         <h3>Downloads per country</h3>
         <div className={styles.map}>
           <WorldMap

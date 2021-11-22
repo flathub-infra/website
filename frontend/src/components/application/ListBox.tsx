@@ -4,7 +4,7 @@ import { MdOpenInNew } from 'react-icons/md'
 import styles from './ListBox.module.scss'
 
 interface Props {
-  appId: string
+  appId?: string
   items: {
     icon: string | JSX.Element
     header: string
@@ -28,7 +28,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                 category: 'App',
                 action:
                   item.content.type === 'url' ? item.content.trackAsEvent : '',
-                name: appId,
+                name: appId ?? 'unknown',
               })
             }
             return (

@@ -1,4 +1,4 @@
-import { ChartData, ChartOptions, ScatterDataPoint } from 'chart.js'
+import { ChartData, ChartOptions, TooltipItem, TooltipModel } from 'chart.js'
 
 export function chartStyle(
   labels: (string | Date)[],
@@ -31,7 +31,7 @@ export function chartStyle(
   }
 }
 
-export function chartOptions(): ChartOptions<'line'> {
+export function chartOptions(gridColor: string): ChartOptions<'line'> {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -40,6 +40,24 @@ export function chartOptions(): ChartOptions<'line'> {
         type: 'time',
         title: {
           display: true,
+        },
+        grid: {
+          color: gridColor,
+        },
+      },
+      y: {
+        grid: {
+          color: gridColor,
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        displayColors: false,
+        callbacks: {
+          title: function (tooltipItems) {
+            return tooltipItems[0].label.replace(/, \d+:\d+:\d+ a.m./, '')
+          },
         },
       },
     },
