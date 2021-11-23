@@ -124,3 +124,7 @@ def get_json_key(key: str):
         return json.loads(value)
 
     return None
+
+
+def get_app_count():
+    return redis_conn.scard("apps:index")

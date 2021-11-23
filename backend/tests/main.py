@@ -240,6 +240,7 @@ def test_stats():
         "delta_downloads_per_day": {},
         "updates_per_day": {},
         "downloads": 3486,
+        "number_of_apps": 3,
     }
     expected["delta_downloads_per_day"][day_before_yesterday.isoformat()] = 15
     expected["delta_downloads_per_day"][yesterday.isoformat()] = 15

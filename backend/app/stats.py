@@ -138,6 +138,7 @@ def _get_stats() -> Dict[str, Dict[str, int]]:
         "updates_per_day": updates_per_day,
         "delta_downloads_per_day": delta_downloads_per_day,
         "downloads": sum(downloads_per_day.values()),
+        "number_of_apps": db.get_app_count(),
     }
 
 
