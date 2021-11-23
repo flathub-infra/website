@@ -1,32 +1,30 @@
-@import '../../styles/colors';
-
 .pagination {
   display: flex;
   height: 42px;
   background-color: var(--bg-color-secondary);
-  border: 1px solid $border;
-  border-radius: $border-radius;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
   width: min-content;
   margin: 0 auto;
   margin-top: 60px;
-  color: $main-color-dark;
+  color: var(--main-color-dark);
   font-size: 1.2rem;
   align-items: center;
 
   a:not(:last-child) {
     &.pageLink {
-      border-right: 1px solid $border;
+      border-right: 1px solid var(--border);
     }
   }
 
   a:first-child {
-    border-top-left-radius: $border-radius;
-    border-bottom-left-radius: $border-radius;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
   }
 
   a:last-child {
-    border-top-right-radius: $border-radius;
-    border-bottom-right-radius: $border-radius;
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
   }
 
   .pageLink {
@@ -37,7 +35,7 @@
 
     &:hover {
       cursor: pointer;
-      background-color: $main-color;
+      background-color: var(--main-color);
       text-decoration: none;
     }
 

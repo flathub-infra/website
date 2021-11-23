@@ -1,5 +1,3 @@
-@import '../../../styles/colors';
-
 .header {
   position: fixed;
   top: 0;
@@ -11,9 +9,9 @@
     background-color: var(--bg-color-primary);
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid $main-color;
+    border-bottom: 1px solid var(--main-color);
 
-    height: $header-height;
+    height: var(--header-height);
 
     div,
     a,
@@ -36,21 +34,21 @@
       }
       background-repeat: no-repeat;
       background-position: center;
-      background-color: $main-color;
+      background-color: var(--main-color);
       margin: auto 12px;
       padding: 0 12px;
-      border-radius: $border-radius;
+      border-radius: var(--border-radius);
       max-width: 150px;
       height: 34px;
       transition: 0.5s;
 
       &:hover {
         cursor: pointer;
-        background-color: $main-color-dark;
+        background-color: var(--main-color-dark);
       }
 
       &:active {
-        background-color: $glassGrey;
+        background-color: var(--glassGrey);
       }
     }
 
@@ -85,7 +83,7 @@
         outline: none;
         color: var(--text-primary);
         background-color: var(--bg-color-secondary);
-        border-radius: $border-radius;
+        border-radius: var(--border-radius);
         box-sizing: border-box;
       }
     }
@@ -130,13 +128,13 @@
             margin: auto 0;
             border-radius: unset;
           }
-          border-bottom: 1px solid $main-color;
+          border-bottom: 1px solid var(--main-color);
         }
 
         .navItem {
           padding: 8px 20px;
           margin: 0 6px;
-          border-radius: $border-radius;
+          border-radius: var(--border-radius);
           font-weight: 500;
           max-width: 110px;
           align-items: center;
@@ -145,11 +143,11 @@
           &:hover {
             cursor: pointer;
             color: white;
-            background-color: $main-color;
+            background-color: var(--main-color);
           }
 
           &:active {
-            background-color: $glassGrey;
+            background-color: var(--glassGrey);
           }
         }
       }
@@ -165,12 +163,12 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $main-color;
+            background-color: var(--main-color);
             color: white;
           }
 
           &:active {
-            background-color: $glassGrey;
+            background-color: var(--glassGrey);
           }
         }
 

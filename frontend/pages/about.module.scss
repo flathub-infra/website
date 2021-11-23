@@ -1,8 +1,6 @@
-@import './../styles/colors';
-
 .about {
   .headerContainer {
-    background: $main-color url('/img/about.svg') no-repeat top left;
+    background: var(--main-color) url('/img/about.svg') no-repeat top left;
 
     @media (max-width: 992px) {
       background-image: unset;

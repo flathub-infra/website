@@ -1,4 +1,4 @@
-@import 'colors';
+@use 'adaptive';
 
 .main-container {
   margin: 0 auto;
@@ -43,14 +43,14 @@
 
     height: 48px !important;
     padding: 8px 20px !important;
-    border-radius: $border-radius !important;
+    border-radius: var(--border-radius) !important;
 
     background-color: var(--bg-color-secondary) !important;
-    color: $main-color-dark !important;
-    border: 1px solid $border !important;
+    color: var(--main-color-dark) !important;
+    border: 1px solid var(--border) !important;
 
     &:hover {
-      background-color: $main-color !important;
+      background-color: var(--main-color) !important;
       color: var(--bg-color-secondary) !important;
     }
 
@@ -140,5 +140,3 @@
 main {
   flex-grow: 1;
 }
-
-@import 'adaptive';
