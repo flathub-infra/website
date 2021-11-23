@@ -24,16 +24,23 @@ export default function Home({
       />
       <div className='main-container'>
         <h1>Apps for Linux, right here</h1>
-        <p className='introduction'>
+
+        <p
+          className='introduction'
+          style={{
+            marginBottom: '40px',
+            fontSize: '110%',
+            fontWeight: 300,
+            maxWidth: '700px',
+          }}
+        >
           Welcome to Flathub, the home of hundreds of apps which can be easily
           installed on any Linux distribution. Browse the apps online, from your
           app center or the command line.
         </p>
-        <div className='intro-links'>
-          <a href='https://flatpak.org/setup/'>
-            <Button type='secondary'>Quick setup</Button>
-          </a>
-        </div>
+        <a href='https://flatpak.org/setup/'>
+          <Button type='secondary'>Quick setup</Button>
+        </a>
         <ApplicationSections
           popular={popular}
           recentlyUpdated={recentlyUpdated}

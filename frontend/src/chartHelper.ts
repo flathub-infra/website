@@ -1,4 +1,4 @@
-import { ChartData, ChartOptions, TooltipItem, TooltipModel } from 'chart.js'
+import { ChartData, ChartOptions } from 'chart.js'
 
 export function chartStyle(
   labels: (string | Date)[],

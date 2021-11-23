@@ -4,4 +4,5 @@ export interface Stats {
   updates_per_day: { [key: string]: number }
   delta_downloads_per_day: { [key: string]: number }
   downloads: number
+  number_of_apps: number
 }
