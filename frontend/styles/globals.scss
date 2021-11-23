@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700;900&display=swap');
-@import 'colors';
 
 :root {
   --bg-color-primary: #f6f5f4;
@@ -7,6 +6,15 @@
 
   --text-primary: #2e3436;
   --text-secondary: #727272;
+
+  --main-color: #52006a;
+  --main-color-dark: #cd113b;
+
+  --border: var(--main-color);
+  --glassGrey: rgba(0, 0, 0, 0.38);
+
+  --border-radius: 8px;
+  --header-height: 64px;
 }
 
 [data-theme='dark'] {
@@ -17,7 +25,7 @@
   --text-secondary: rgba(255, 255, 255, 0.6);
 
   a {
-    color: $main-color-dark;
+    color: var(--main-color-dark);
   }
 }
 

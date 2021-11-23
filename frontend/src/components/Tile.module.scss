@@ -1,22 +1,20 @@
-@import '../../styles/colors';
-
 .tile {
   padding: 12px;
-  border: 1px solid $border;
-  border-radius: $border-radius;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   background-color: var(--bg-color-secondary);
-  color: $main-color-dark;
+  color: var(--main-color-dark);
 
   transition: 0.5s;
 
   &:hover {
     background-color: var(--bg-color-primary);
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     color: inherit;
     text-decoration: none;
   }

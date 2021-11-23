@@ -1,5 +1,3 @@
-@import './../../../styles/colors';
-
 .pre {
   display: block;
   position: relative;
@@ -10,8 +8,8 @@
   line-height: 1.42857143;
   color: var(--text-secondary);
   background-color: var(--bg-color-secondary);
-  border: 1px solid $border;
-  border-radius: $border-radius;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
   overflow: auto;
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace !important;
 

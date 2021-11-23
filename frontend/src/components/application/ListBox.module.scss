@@ -1,5 +1,3 @@
-@import './../../../styles/colors';
-
 .list {
   width: 100%;
 
@@ -15,7 +13,7 @@
     width: 100%;
     padding: 12px;
     background-color: var(--bg-color-secondary);
-    border: 1px solid $border;
+    border: 1px solid var(--border);
     border-bottom-width: 0;
 
     display: grid;

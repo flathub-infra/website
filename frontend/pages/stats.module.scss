@@ -1,5 +1,3 @@
-@import './../styles/colors';
-
 .stats {
   display: flex;
   gap: 8px;
@@ -12,8 +10,8 @@
 
   figure {
     margin: 0px;
-    border: 1px solid $border;
-    border-radius: $border-radius;
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
     width: fit-content;
   }
 }
@@ -24,7 +22,7 @@
   padding-right: 16px;
 
   background-color: var(--bg-color-secondary);
-  border: 1px solid $border;
+  border: 1px solid var(--border);
 
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
 }
