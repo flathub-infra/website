@@ -9,7 +9,11 @@ import styles from './stats.module.scss'
 import { Line } from 'react-chartjs-2'
 import { chartOptions, chartStyle } from '../src/chartHelper'
 import 'chartjs-adapter-date-fns'
-import { MdCloudDownload, MdCalendarToday } from 'react-icons/md'
+import {
+  MdCloudDownload,
+  MdCalendarToday,
+  MdFormatListNumbered,
+} from 'react-icons/md'
 import ListBox from '../src/components/application/ListBox'
 
 const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
@@ -57,6 +61,18 @@ const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
                 content: {
                   type: 'text',
                   text: stats.downloads.toLocaleString(),
+                },
+              },
+            ]}
+          />
+          <ListBox
+            items={[
+              {
+                icon: <MdFormatListNumbered />,
+                header: 'Total applications',
+                content: {
+                  type: 'text',
+                  text: stats.number_of_apps.toLocaleString(),
                 },
               },
             ]}

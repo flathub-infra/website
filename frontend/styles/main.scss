@@ -1,29 +1,96 @@
-@use 'adaptive';
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700;900&display=swap');
+
+:root {
+  --bg-color-primary: #f6f5f4;
+  --bg-color-secondary: white;
+
+  --text-primary: #2e3436;
+  --text-secondary: #727272;
+
+  --main-color: #52006a;
+  --main-color-dark: #cd113b;
+
+  --border: var(--main-color);
+  --glassGrey: rgba(0, 0, 0, 0.38);
+
+  --border-radius: 8px;
+  --header-height: 64px;
+}
+
+[data-theme='dark'] {
+  --bg-color-primary: #121212;
+  --bg-color-secondary: #202020;
+
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+
+  a {
+    color: var(--main-color-dark);
+  }
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--text-primary);
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  margin: 0.67em 0;
+  font-weight: 300;
+  font-size: 250%;
+}
+
+h2 {
+  margin: 0.67em 0;
+  font-weight: 300;
+  font-size: 200%;
+}
+
+h3 {
+  font-size: 180%;
+  line-height: 1.1;
+  font-weight: 300;
+}
+
+h4 {
+  font-weight: 400;
+  font-size: 100%;
+}
+
+h5 {
+  font-weight: 400;
+  font-size: 90%;
+}
+
+h6 {
+  font-weight: 400;
+  font-size: 70%;
+}
 
 .main-container {
   margin: 0 auto;
   max-width: 90%;
 
-  &.center {
-    max-width: 600px;
-  }
-
-  .hint {
-    margin-top: 0.5em !important;
-    color: var(--text-secondary);
-  }
-
-  p.introduction {
-    margin-bottom: 40px;
-    font-size: 110%;
-    font-weight: 300;
-    max-width: 700px;
-  }
-
-  .intro-links {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1400px) {
+    width: 1400px;
   }
 }
 
@@ -98,40 +165,29 @@
 .store-content-container-narrow {
   padding-left: 5%;
   padding-right: 5%;
-}
-
-/* desktop-medium */
-@media all and (min-width: 841px) and (max-width: 1280px) {
-  .store-content-container-narrow {
+  /* desktop-medium */
+  @media all and (min-width: 841px) and (max-width: 1280px) {
     padding-left: 20%;
     padding-right: 20%;
   }
-}
-/* desktop-large */
-@media all and (min-width: 1281px) and (max-width: 1440px) {
-  .store-content-container-narrow {
+  /* desktop-large */
+  @media all and (min-width: 1281px) and (max-width: 1440px) {
     padding-left: 22%;
     padding-right: 22%;
   }
-}
-/* desktop-large-2 */
-@media all and (min-width: 1441px) and (max-width: 1600px) {
-  .store-content-container-narrow {
+  /* desktop-large-2 */
+  @media all and (min-width: 1441px) and (max-width: 1600px) {
     padding-left: 24%;
     padding-right: 24%;
   }
-}
-/* desktop-large-3 */
-@media all and (min-width: 1601px) and (max-width: 1920px) {
-  .store-content-container-narrow {
+  /* desktop-large-3 */
+  @media all and (min-width: 1601px) and (max-width: 1920px) {
     padding-left: 30%;
     padding-right: 30%;
   }
-}
 
-/* desktop-xlarge */
-@media all and (min-width: 1920px) {
-  .store-content-container-narrow {
+  /* desktop-xlarge */
+  @media all and (min-width: 1920px) {
     padding-left: 32%;
     padding-right: 32%;
   }
