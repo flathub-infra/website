@@ -73,7 +73,7 @@ const Footer = () => (
           <Link href='/about'>About Flathub</Link>
         </div>
         <div className={styles.footerItem}>
-          <Link href='/stats'>Statistics</Link>
+          <Link href='/statistics'>Statistics</Link>
         </div>
         <div className={styles.footerItem}>
           <a href='https://status.flathub.org/'>Flathub Status</a>
