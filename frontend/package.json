@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@datapunt/matomo-tracker-react": "^0.5.1",
@@ -31,6 +32,7 @@
     "@types/react": "^17.0.36",
     "eslint": "^7.32.0",
     "eslint-config-next": "^12.0.4",
+    "next-sitemap": "^1.6.192",
     "tslint": "^6.1.3",
     "typescript": "^4.5.2"
   }
