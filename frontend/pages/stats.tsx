@@ -61,7 +61,7 @@ const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
                 header: 'Total downloads',
                 content: {
                   type: 'text',
-                  text: stats.downloads.toLocaleString(),
+                  text: stats.downloads?.toLocaleString(),
                 },
               },
             ]}
@@ -73,7 +73,7 @@ const Stats = ({ stats }: { stats: Stats }): JSX.Element => {
                 header: 'Total applications',
                 content: {
                   type: 'text',
-                  text: stats.number_of_apps.toLocaleString(),
+                  text: stats.number_of_apps?.toLocaleString(),
                 },
               },
             ]}
