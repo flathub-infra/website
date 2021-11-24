@@ -17,7 +17,7 @@ export function chartStyle(
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
         pointBorderColor: '#52006a',
-        pointBackgroundColor: '52006a',
+        pointBackgroundColor: '#52006a',
         pointBorderWidth: 1,
         pointHoverRadius: 5,
         pointHoverBackgroundColor: '#52006a',
