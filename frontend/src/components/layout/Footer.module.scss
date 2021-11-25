@@ -1,18 +1,30 @@
 #footer {
   border-top: 1px solid var(--main-color);
-  display: flex;
-  flex-direction: column;
   padding: 48px;
   margin-top: 60px;
-  justify-content: center;
 
-  // Large devices (desktops, 992px and up)
-  @media (min-width: 992px) {
-    flex-direction: row;
+  .footerContainer {
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    justify-items: center;
+    max-width: 900px;
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   a {
     color: inherit;
+  }
+
+  .fullWidth {
+    grid-column: 1 / -1;
   }
 
   .footerSection {
