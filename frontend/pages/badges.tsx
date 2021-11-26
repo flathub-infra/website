@@ -21,7 +21,7 @@ const Badges = () => (
         flexDirection: 'column',
         alignItems: 'start',
       }}
-      className={`store-content-container-narrow ${styles.badges}`}
+      className={`main-container ${styles.badges}`}
     >
       <h1>Flathub official badges</h1>
       <p>You can use these badges to promote your application on Flathub</p>
