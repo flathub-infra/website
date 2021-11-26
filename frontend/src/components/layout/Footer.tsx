@@ -71,28 +71,24 @@ const Footer = () => (
         <div className={styles.footerTitle}>Flathub</div>
         <div className={styles.footerItems}>
           <div className={styles.footerItem}>
-            <Link href='/about'>About Flathub</Link>
+            <Link href='/about'>About</Link>
           </div>
           <div className={styles.footerItem}>
             <Link href='/statistics'>Statistics</Link>
           </div>
           <div className={styles.footerItem}>
-            <a href='https://status.flathub.org/'>Flathub Status</a>
+            <a
+              href='https://github.com/flathub/frontend'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Source code
+            </a>
+          </div>
+          <div className={styles.footerItem}>
+            <a href='https://status.flathub.org/'>Status</a>
           </div>
         </div>
-      </div>
-
-      <div
-        className={styles.fullWidth}
-        style={{ display: 'flex', justifyContent: 'center' }}
-      >
-        <a
-          href='https://github.com/flathub/frontend'
-          target='_blank'
-          rel='noreferrer'
-        >
-          Find the source code here
-        </a>
       </div>
     </div>
   </footer>
