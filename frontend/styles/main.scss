@@ -84,16 +84,6 @@ h6 {
   font-size: 70%;
 }
 
-.main-container {
-  margin: 0 auto;
-  max-width: 90%;
-
-  // Extra large devices (large desktops, 1200px and up)
-  @media (min-width: 1400px) {
-    width: 1400px;
-  }
-}
-
 .carousel {
   outline: none;
   min-height: 350px;
@@ -162,34 +152,13 @@ h6 {
   }
 }
 
-.store-content-container-narrow {
-  padding-left: 5%;
-  padding-right: 5%;
-  /* desktop-medium */
-  @media all and (min-width: 841px) and (max-width: 1280px) {
-    padding-left: 20%;
-    padding-right: 20%;
-  }
-  /* desktop-large */
-  @media all and (min-width: 1281px) and (max-width: 1440px) {
-    padding-left: 22%;
-    padding-right: 22%;
-  }
-  /* desktop-large-2 */
-  @media all and (min-width: 1441px) and (max-width: 1600px) {
-    padding-left: 24%;
-    padding-right: 24%;
-  }
-  /* desktop-large-3 */
-  @media all and (min-width: 1601px) and (max-width: 1920px) {
-    padding-left: 30%;
-    padding-right: 30%;
-  }
+.main-container {
+  margin: 0 auto;
+  max-width: 90%;
 
-  /* desktop-xlarge */
-  @media all and (min-width: 1920px) {
-    padding-left: 32%;
-    padding-right: 32%;
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1400px) {
+    max-width: 1400px;
   }
 }
 

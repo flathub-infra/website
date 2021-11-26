@@ -63,8 +63,7 @@
     }
 
     #search {
-      position: relative;
-      width: 520px;
+      display: unset;
       margin-top: auto;
       margin-bottom: auto;
 
@@ -85,6 +84,7 @@
         background-color: var(--bg-color-secondary);
         border-radius: var(--border-radius);
         box-sizing: border-box;
+        width: 100%;
       }
     }
 

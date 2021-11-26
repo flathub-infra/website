@@ -5,7 +5,7 @@ function Error({ statusCode }) {
   return (
     <Main>
       <NextSeo title={`${statusCode}`} />
-      <div className='store-content-container-narrow'>
+      <div className='main-container'>
         <h1>Whoops</h1>
         <p>
           {statusCode

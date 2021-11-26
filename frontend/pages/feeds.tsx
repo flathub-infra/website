@@ -7,7 +7,7 @@ import Button from '../src/components/Button'
 const Feeds = () => (
   <Main>
     <NextSeo title='RSS' description='Subscribe to RSS feeds from Flathub' />
-    <div className='store-content-container-narrow'>
+    <div className='main-container'>
       <h1>Flathub RSS feeds</h1>
       <p>
         You can now subscribe to our RSS feeds to get the latest Flathub goodies

@@ -19,7 +19,7 @@ const About = () => {
         {/* <!-- header --> */}
         <header
           style={{ display: 'flex' }}
-          className={`${styles.headerContainer} store-content-container-narrow`}
+          className={`${styles.headerContainer} ${styles.storeContentContainerNarrow}`}
         >
           <div className={styles.headerContent}>
             <h1>About Flathub</h1>
@@ -42,7 +42,7 @@ const About = () => {
         {/* <!-- main content --> */}
         <section
           style={{ display: 'flex', flexDirection: 'column' }}
-          className='store-content-container-narrow'
+          className={styles.storeContentContainerNarrow}
         >
           <h2>Submitting apps</h2>
           <p>
