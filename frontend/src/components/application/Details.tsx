@@ -87,7 +87,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
             }
           />
         )}
-        <header className={styles.container}>
+        <header>
           <div className={styles.logo}>
             <img src={data.icon} alt='Logo' />
           </div>
@@ -108,7 +108,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
         </header>
         <div className={`${styles.carousel}`}>
           <Carousel
-            className={styles.container}
+            className={styles.centerArrows}
             showThumbs={false}
             infiniteLoop={true}
             autoPlay={false}
