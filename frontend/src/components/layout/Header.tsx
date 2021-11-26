@@ -58,7 +58,7 @@ const Header = () => {
       <nav className={styles.navHeader}>
         <span className={styles.brandContainer}>
           <LogoJsonLd
-            logo={`${env.API_URL}/img/logo/flathub-logo-toolbar.svg`}
+            logo={`${env.NEXT_PUBLIC_BASE_URL}/img/logo/flathub-logo-toolbar.svg`}
             url={`${env.NEXT_PUBLIC_BASE_URL}`}
           />
           <Link href='/' passHref>
