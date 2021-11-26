@@ -80,7 +80,6 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
         {data.categories?.includes('Game') && (
           <VideoGameJsonLd
             name={data.name}
-            description={data.description}
             authorName={data.developer_name}
             operatingSystemName={'LINUX'}
             storageRequirements={
