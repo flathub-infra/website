@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import { MdMenu, MdMenuOpen, MdSearch } from 'react-icons/md'
 
 import styles from './Header.module.scss'
+import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from 'next-seo'
+import { env } from 'process'
 
 const Header = () => {
   const router = useRouter()
@@ -55,12 +57,25 @@ const Header = () => {
     <header className={styles.header}>
       <nav className={styles.navHeader}>
         <span className={styles.brandContainer}>
+          <LogoJsonLd
+            logo={`${env.API_URL}/img/logo/flathub-logo-toolbar.svg`}
+            url={`${env.NEXT_PUBLIC_BASE_URL}`}
+          />
           <Link href='/' passHref>
             <a id={styles.brand}></a>
           </Link>
         </span>
 
         <div id={styles.search}>
+          <SiteLinksSearchBoxJsonLd
+            url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
+            potentialActions={[
+              {
+                target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/{search_term_string}`,
+                queryInput: 'search_term_string',
+              },
+            ]}
+          />
           <form onSubmit={onSubmit}>
             <MdSearch className={styles.searchIcon} />
             <input

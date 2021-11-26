@@ -14,11 +14,45 @@ import CmdInstructions from './CmdInstructions'
 import AdditionalInfo from './AdditionalInfo'
 import { AppStats } from '../../types/AppStats'
 import AppStatistics from './AppStats'
+import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
 
 interface Props {
   data: Appstream
   summary: Summary
   stats: AppStats
+}
+
+function categoryToSeoCategories(categories: string[]) {
+  if (!categories) {
+    return ''
+  }
+
+  return categories.map(categoryToSeoCategory).join(' ')
+}
+function categoryToSeoCategory(category) {
+  switch (category) {
+    case 'AudioVideo':
+      return 'MultimediaApplication'
+    case 'Development':
+      return 'DeveloperApplication'
+    case 'Education':
+      return 'EducationalApplication'
+    case 'Game':
+      return 'GameApplication'
+    case 'Graphics':
+      return 'DesignApplication'
+    case 'Network':
+      return 'SocialNetworkingApplication'
+    case 'Office':
+      return 'BusinessApplication'
+    case 'Science':
+      // Unsure what else we could map this to
+      return 'EducationalApplication'
+    case 'System':
+      return 'DesktopEnhancementApplication'
+    case 'Utility':
+      return 'UtilitiesApplication'
+  }
 }
 
 const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
@@ -36,6 +70,24 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
 
     return (
       <div id={styles.application}>
+        <SoftwareAppJsonLd
+          name={data.name}
+          price='0'
+          priceCurrency=''
+          operatingSystem='LINUX'
+          applicationCategory={categoryToSeoCategories(data.categories)}
+        />
+        {data.categories?.includes('Game') && (
+          <VideoGameJsonLd
+            name={data.name}
+            description={data.description}
+            authorName={data.developer_name}
+            operatingSystemName={'LINUX'}
+            storageRequirements={
+              Math.round(summary.installed_size / 1_000_000) + ' MB'
+            }
+          />
+        )}
         <header className={styles.container}>
           <div className={styles.logo}>
             <img src={data.icon} alt='Logo' />
