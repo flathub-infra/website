@@ -7,8 +7,12 @@
       background-image: unset;
     }
 
-    color: var(--text-secondary);
-    padding-top: 100px;
+    color: var(--white);
+
+    a:visited {
+      color: var(--white-10);
+    }
+    padding-top: 1rem;
   }
 
   h1 {

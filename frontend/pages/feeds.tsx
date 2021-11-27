@@ -7,8 +7,8 @@ import Button from '../src/components/Button'
 const Feeds = () => (
   <Main>
     <NextSeo title='RSS' description='Subscribe to RSS feeds from Flathub' />
-    <div className='main-container'>
-      <h1>Flathub RSS feeds</h1>
+    <div className='main-container' style={{ maxWidth: 600 }}>
+      <h1>RSS feeds</h1>
       <p>
         You can now subscribe to our RSS feeds to get the latest Flathub goodies
         in your feed reader!
@@ -17,8 +17,8 @@ const Feeds = () => (
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
+          paddingBottom: '1rem',
         }}
       >
         <p>Applications published in Flathub in the last 30 days</p>
@@ -30,8 +30,8 @@ const Feeds = () => (
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
+          paddingBottom: '1rem',
         }}
       >
         <p>Applications published or updated in Flathub in the last 7 days</p>
