@@ -19,14 +19,14 @@
     <url type="bugtracker">https://github.com/sugarlabs/maze-activity</url>
     <url type="homepage">https://github.com/sugarlabs/maze-activity</url>
     <screenshots>
-      <screenshot type="default">
+      <screenshot>
         <image type="source">https://i.imgur.com/imoTbzP.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
       </screenshot>
-      <screenshot>
+      <screenshot type="default">
         <image type="source">https://i.imgur.com/GO11pbh.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
