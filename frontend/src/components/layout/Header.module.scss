@@ -66,6 +66,8 @@
       display: unset;
       margin-top: auto;
       margin-bottom: auto;
+      border: var(--main-color) solid 1px;
+      border-radius: var(--border-radius);
 
       .searchIcon {
         position: absolute;

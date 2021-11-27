@@ -5,19 +5,18 @@ import styles from './CodeCopy.module.scss'
 
 interface Props {
   text: string
+  className?: string
 }
 
-const CodeCopy: FunctionComponent<Props> = ({ text }) => (
-  <>
-    <div className={styles.pre}>
-      {text}
-      <CopyToClipboard text={text}>
-        <button className={styles.copy}>
-          <MdContentCopy></MdContentCopy>
-        </button>
-      </CopyToClipboard>
-    </div>
-  </>
+const CodeCopy: FunctionComponent<Props> = ({ text, className }) => (
+  <div className={`${styles.pre} ${className}`}>
+    {text}
+    <CopyToClipboard text={text}>
+      <button className={styles.copy}>
+        <MdContentCopy></MdContentCopy>
+      </button>
+    </CopyToClipboard>
+  </div>
 )
 
 export default CodeCopy

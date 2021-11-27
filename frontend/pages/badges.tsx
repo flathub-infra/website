@@ -15,42 +15,41 @@ const Badges = () => (
       title='Flathub Official Badges'
       description='Official badges to promote your application on Flathub'
     />
-    <section
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'start',
-      }}
-      className={`main-container ${styles.badges}`}
-    >
+    <section className={`main-container ${styles.badges}`}>
       <h1>Flathub official badges</h1>
       <p>You can use these badges to promote your application on Flathub</p>
 
-      <h3>Preferred badge</h3>
-      <Image
-        width='240'
-        height='80'
-        objectFit='contain'
-        alt='Download on Flathub'
-        src='/assets/badges/flathub-badge-en.png'
-      />
-      <h6>
-        Also available in{' '}
-        <a href='/assets/badges/flathub-badge-en.svg'>svg format</a>
-      </h6>
+      <div className={styles.badgeFlex}>
+        <div>
+          <h3>Preferred badge</h3>
+          <Image
+            width='240'
+            height='80'
+            objectFit='contain'
+            alt='Download on Flathub'
+            src='/assets/badges/flathub-badge-en.png'
+          />
+          <h6>
+            Also available in{' '}
+            <a href='/assets/badges/flathub-badge-en.svg'>svg format</a>
+          </h6>
+        </div>
 
-      <h3>Alternative badge</h3>
-      <Image
-        width='240'
-        height='80'
-        objectFit='contain'
-        alt='Download on Flathub'
-        src='/assets/badges/flathub-badge-i-en.png'
-      />
-      <h6>
-        Also available in{' '}
-        <a href='/assets/badges/flathub-badge-i-en.svg'>svg format</a>
-      </h6>
+        <div>
+          <h3>Alternative badge</h3>
+          <Image
+            width='240'
+            height='80'
+            objectFit='contain'
+            alt='Download on Flathub'
+            src='/assets/badges/flathub-badge-i-en.png'
+          />
+          <h6>
+            Also available in{' '}
+            <a href='/assets/badges/flathub-badge-i-en.svg'>svg format</a>
+          </h6>
+        </div>
+      </div>
 
       <p
         // this is a workaround for react not supporting it: https://github.com/facebook/react/issues/16563
@@ -77,34 +76,37 @@ const Badges = () => (
       </p>
 
       <h2>Code examples</h2>
-      <div className={styles.gridContainer}>
-        <h3 className={styles.title}>HTML</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <CodeCopy text={badgeExampleCode}></CodeCopy>
-          <div>
-            <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
-              <Image
-                width={240}
-                height={80}
-                alt='Download on Flathub'
-                src='/assets/badges/flathub-badge-en.png'
-              />
-            </a>
-          </div>
+
+      <div className={styles.badgeFlex}>
+        <div>
+          <h3>HTML</h3>
+          <CodeCopy
+            className={styles.copyCode}
+            text={badgeExampleCode}
+          ></CodeCopy>
+          <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
+            <Image
+              width={240}
+              height={80}
+              alt='Download on Flathub'
+              src='/assets/badges/flathub-badge-en.png'
+            />
+          </a>
         </div>
-        <h3 className={styles.title}>MoinMoin Wiki</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <CodeCopy text={badgeExampleCodeMoinMoin}></CodeCopy>
-          <div>
-            <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
-              <Image
-                width={240}
-                height={80}
-                alt='Download on Flathub'
-                src='/assets/badges/flathub-badge-en.png'
-              />
-            </a>
-          </div>
+        <div>
+          <h3>MoinMoin Wiki</h3>
+          <CodeCopy
+            className={styles.copyCode}
+            text={badgeExampleCodeMoinMoin}
+          ></CodeCopy>
+          <a href='https://flathub.org/apps/details/org.gimp.GIMP'>
+            <Image
+              width={240}
+              height={80}
+              alt='Download on Flathub'
+              src='/assets/badges/flathub-badge-en.png'
+            />
+          </a>
         </div>
       </div>
     </section>
