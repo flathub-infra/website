@@ -15,7 +15,7 @@ import {
 import { BsHddFill, BsTextParagraph } from 'react-icons/bs'
 import { MdLaptop } from 'react-icons/md'
 import { AppStats } from '../../types/AppStats'
-const spdxLicenseList = require('spdx-license-list/full')
+import spdxLicenseList from 'spdx-license-list/full'
 
 const AdditionalInfo = ({
   data,
@@ -86,20 +86,22 @@ const AdditionalInfo = ({
           },
         ]}
       ></ListBox>
-      <ListBox
-        appId={appId}
-        items={[
-          {
-            icon: <BsTextParagraph />,
-            header: 'License',
-            content: {
-              type: licenseIsLink ? 'url' : 'text',
-              text: license,
-              trackAsEvent: 'License',
+      {license && (
+        <ListBox
+          appId={appId}
+          items={[
+            {
+              icon: <BsTextParagraph />,
+              header: 'License',
+              content: {
+                type: licenseIsLink ? 'url' : 'text',
+                text: license,
+                trackAsEvent: 'License',
+              },
             },
-          },
-        ]}
-      ></ListBox>
+          ]}
+        ></ListBox>
+      )}
       {data.urls.homepage && (
         <ListBox
           appId={appId}
@@ -212,7 +214,11 @@ const AdditionalInfo = ({
   )
 }
 
-function getLicense(project_license: string | undefined): string {
+function getLicense(project_license: string | undefined): string | undefined {
+  if (!project_license) {
+    return undefined
+  }
+
   if (project_license?.startsWith('LicenseRef-proprietary=')) {
     return project_license?.replace(/LicenseRef-proprietary=/, '')
   }
@@ -220,7 +226,20 @@ function getLicense(project_license: string | undefined): string {
     return 'Proprietary'
   }
 
-  return spdxLicenseList[project_license]?.name ?? project_license ?? 'Unknown'
+  const splitLicense = project_license.split(' ')
+  if (splitLicense.length <= 1) {
+    return (
+      spdxLicenseList[project_license]?.name ?? project_license ?? 'Unknown'
+    )
+  }
+
+  return splitLicense
+    .map((license) => {
+      if (spdxLicenseList[license]) {
+        return spdxLicenseList[license].name
+      }
+    })
+    .join(', ')
 }
 
 export default AdditionalInfo
