@@ -98,13 +98,23 @@ const Header = () => {
             </Link>
 
             <div className={styles.navItem}>
-              <a href='https://github.com/flathub/flathub/wiki/App-Submission'>
+              <a
+                href='https://github.com/flathub/flathub/wiki/App-Submission'
+                target='_blank'
+                rel='noreferrer'
+              >
                 Publish
               </a>
             </div>
 
             <div className={styles.navItem}>
-              <a href='https://discourse.flathub.org/'>Forum</a>
+              <a
+                href='https://discourse.flathub.org/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                Forum
+              </a>
             </div>
 
             <Link href='/about' passHref>
