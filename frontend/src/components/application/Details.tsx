@@ -70,6 +70,10 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
     window.location.href = `https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`
   }
 
+  const donateClicked = (e) => {
+    trackEvent({ category: 'App', action: 'Donate', name: data.id })
+  }
+
   if (data) {
     const moreThan1Screenshot =
       data.screenshots?.filter(pickScreenshot).length > 1
@@ -106,7 +110,12 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
           <div className={styles.install}>
             <Button onClick={installClicked}>Install</Button>
             {data.urls.donation && (
-              <a href={data.urls.donation} target='_blank' rel='noreferrer'>
+              <a
+                href={data.urls.donation}
+                target='_blank'
+                rel='noreferrer'
+                onClick={donateClicked}
+              >
                 <Button type='secondary'>Donate</Button>
               </a>
             )}

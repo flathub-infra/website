@@ -1,20 +1,20 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { GetServerSideProps } from 'next'
 import { NextSeo } from 'next-seo'
+import { useEffect } from 'react'
 import Collection from '../../../src/components/application/Collection'
 import { fetchSearchQuery } from '../../../src/fetchers'
 import { Appstream } from '../../../src/types/Appstream'
 
 export default function Search({ applications, query }) {
   const { trackSiteSearch } = useMatomo()
-  const trackSearch = () => {
+
+  useEffect(() => {
     trackSiteSearch({
       keyword: query,
       count: applications.length,
     })
-  }
-
-  trackSearch()
+  }, [trackSiteSearch, query, applications])
 
   return (
     <>

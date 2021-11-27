@@ -36,13 +36,31 @@ const Footer = () => (
         <div className={styles.footerTitle}>Community</div>
         <div className={styles.footerItems}>
           <div className={styles.footerItem}>
-            <a href='https://flatpak.org/about/'>Get involved</a>
+            <a
+              href='https://flatpak.org/about/'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Get involved
+            </a>
           </div>
           <div className={styles.footerItem}>
-            <a href='https://discourse.flathub.org/'>Forum</a>
+            <a
+              href='https://discourse.flathub.org/'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Forum
+            </a>
           </div>
           <div className={styles.footerItem}>
-            <a href='https://twitter.com/FlatpakApps'>Follow us</a>
+            <a
+              href='https://twitter.com/FlatpakApps'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Follow us
+            </a>
           </div>
         </div>
       </div>
@@ -86,7 +104,13 @@ const Footer = () => (
             </a>
           </div>
           <div className={styles.footerItem}>
-            <a href='https://status.flathub.org/'>Status</a>
+            <a
+              href='https://status.flathub.org/'
+              target='_blank'
+              rel='noreferrer'
+            >
+              Status
+            </a>
           </div>
         </div>
       </div>
