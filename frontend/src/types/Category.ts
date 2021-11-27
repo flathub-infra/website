@@ -22,7 +22,7 @@ export function categoryToName(category: Category): string {
     case Category.Graphics:
       return 'Graphics & Photography'
     case Category.Network:
-      return 'Social Networking'
+      return 'Networking'
     case Category.Office:
       return 'Productivity'
     case Category.Utility:

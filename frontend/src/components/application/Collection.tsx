@@ -17,7 +17,7 @@ interface Props {
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
   title,
-  perPage = 32,
+  perPage = 30,
 }) => {
   const router = useRouter()
   const page = parseInt((router.query.page ?? '1') as string)
