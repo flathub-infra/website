@@ -104,10 +104,12 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
 
           <div className={styles.details}>
             <h2>{data.name}</h2>
-            <div className={styles.devName}>by {data.developer_name}</div>
+            {data.developer_name?.trim().length > 0 && (
+              <div className={styles.devName}>by {data.developer_name}</div>
+            )}
           </div>
 
-          <div className={styles.install}>
+          <div className={styles.actions}>
             <Button onClick={installClicked}>Install</Button>
             {data.urls.donation && (
               <a
