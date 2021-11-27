@@ -5,23 +5,25 @@ export function chartStyle(
   data: number[],
   label: string
 ): ChartData<'line', number[]> {
+  const color = '#52006a'
+
   return {
     labels: labels,
     datasets: [
       {
         label: label,
         fill: false,
-        borderColor: '#52006a',
+        borderColor: color,
         borderCapStyle: 'butt',
         borderDash: [],
         borderDashOffset: 0.0,
         borderJoinStyle: 'miter',
-        pointBorderColor: '#52006a',
-        pointBackgroundColor: '#52006a',
+        pointBorderColor: color,
+        pointBackgroundColor: color,
         pointBorderWidth: 1,
         pointHoverRadius: 5,
-        pointHoverBackgroundColor: '#52006a',
-        pointHoverBorderColor: '#52006a',
+        pointHoverBackgroundColor: color,
+        pointHoverBorderColor: color,
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
