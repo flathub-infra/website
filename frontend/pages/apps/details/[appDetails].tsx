@@ -70,8 +70,10 @@ export const getStaticProps: GetStaticProps = async ({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const apps = await fetch(APPSTREAM_URL)
-  const appsData = await apps.json()
-  const paths = appsData.map((app) => ({ params: { appDetails: app } }))
+  const appsData: string[] = await apps.json()
+  const paths = appsData.map((app) => ({
+    params: { appDetails: app },
+  }))
 
   return {
     paths,
