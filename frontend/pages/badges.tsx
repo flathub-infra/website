@@ -62,7 +62,7 @@ const Badges = () => (
           rel='license'
           href='http://creativecommons.org/publicdomain/zero/1.0/'
         >
-          <Image src='/assets/CC0.png' alt='CC0' width={88} height={31} />
+          <Image src='/img/CC0.png' alt='CC0' width={88} height={31} />
         </a>
         <br />
         To the extent possible under law,
