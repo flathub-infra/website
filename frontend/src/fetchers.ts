@@ -8,7 +8,6 @@ import {
   RECENTLY_UPDATED_URL,
   EDITORS_PICKS_APPS_URL,
   EDITORS_PICKS_GAMES_URL,
-  APPSTREAM_URL,
   CATEGORY_URL,
   SEARCH_APP,
   SUMMARY_DETAILS,
@@ -19,14 +18,13 @@ import { Summary } from './types/Summary'
 import { AppStats } from './types/AppStats'
 import { Stats } from './types/Stats'
 
-export async function fetchAppstream(appId: string): Promise<Appstream | {}> {
-  let entryJson: Appstream | {}
+export async function fetchAppstream(appId: string): Promise<Appstream> {
+  let entryJson: Appstream
   try {
     const entryData = await fetch(`${APP_DETAILS(appId)}`)
     entryJson = await entryData.json()
   } catch (error) {
     console.log(error)
-    entryJson = {}
   }
 
   if (!entryJson) {
@@ -35,14 +33,13 @@ export async function fetchAppstream(appId: string): Promise<Appstream | {}> {
   return entryJson
 }
 
-export async function fetchSummary(appId: string): Promise<Summary | {}> {
-  let summaryJson: Summary | {}
+export async function fetchSummary(appId: string): Promise<Summary> {
+  let summaryJson: Summary
   try {
     const summaryData = await fetch(`${SUMMARY_DETAILS(appId)}`)
     summaryJson = await summaryData.json()
   } catch (error) {
     console.log(error)
-    summaryJson = {}
   }
 
   if (!summaryJson) {
@@ -123,17 +120,6 @@ export default async function fetchCollection(
   const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
 
   console.log('\nCollection ', collection, ' fetched')
-
-  return items.filter((item) => Boolean(item))
-}
-
-export async function fetchApps() {
-  const appListRes = await fetch(APPSTREAM_URL)
-  const appList = await appListRes.json()
-
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
-
-  console.log('\nApps fetched')
 
   return items.filter((item) => Boolean(item))
 }
