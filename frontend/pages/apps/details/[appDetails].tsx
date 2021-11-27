@@ -28,7 +28,7 @@ export default function Details({
 }) {
   const screenshots = data.screenshots
     ? data.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
-        url: pickScreenshot(screenshot),
+        url: pickScreenshot(screenshot).url,
       }))
     : []
 

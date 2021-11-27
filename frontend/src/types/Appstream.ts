@@ -72,17 +72,17 @@ export interface Screenshot {
 
 export function pickScreenshot(screenshot: Screenshot) {
   if (screenshot['1504x846']) {
-    return screenshot['1504x846']
+    return { url: screenshot['1504x846'], width: 1504, height: 846 }
   } else if (screenshot['1248x702']) {
-    return screenshot['1248x702']
+    return { url: screenshot['1248x702'], width: 1248, height: 702 }
   } else if (screenshot['752x423']) {
-    return screenshot['752x423']
+    return { url: screenshot['752x423'], width: 752, height: 423 }
   } else if (screenshot['624x351']) {
-    return screenshot['624x351']
+    return { url: screenshot['624x351'], width: 624, height: 351 }
   } else if (screenshot['224x126']) {
-    return screenshot['224x126']
+    return { url: screenshot['224x126'], width: 224, height: 126 }
   } else if (screenshot['112x63']) {
-    return screenshot['112x63']
+    return { url: screenshot['112x63'], width: 112, height: 63 }
   } else {
     return undefined
   }
