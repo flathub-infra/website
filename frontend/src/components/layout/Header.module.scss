@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 50;
 
   .navHeader {
     background-color: var(--bg-color-primary);
@@ -119,7 +119,7 @@
           width: 100%;
           left: 0px;
           text-align: center;
-          z-index: 1;
+          z-index: 50;
 
           & .navItem {
             width: 100%;

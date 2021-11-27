@@ -47,109 +47,17 @@ const AdditionalInfo = ({
               text: Math.round(summary.installed_size / 1_000_000) + ' MB',
             },
           },
+        ]}
+      ></ListBox>
+      <ListBox
+        appId={appId}
+        items={[
           {
             icon: <MdDownload />,
             header: 'Download size',
             content: {
               type: 'text',
               text: Math.round(summary.download_size / 1_000_000) + ' MB',
-            },
-          },
-        ]}
-      ></ListBox>
-      {(data.urls.homepage ||
-        data.urls.contact ||
-        data.urls.help ||
-        data.urls.faq) && (
-        <ListBox
-          appId={appId}
-          items={[
-            data.urls.homepage
-              ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.homepage,
-                    trackAsEvent: 'Homepage',
-                  },
-                  icon: <MdWeb />,
-                  header: 'Project website',
-                }
-              : undefined,
-            data.urls.contact
-              ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.contact,
-                    trackAsEvent: 'Contact',
-                  },
-                  icon: <MdContactPage />,
-                  header: 'Contact',
-                }
-              : undefined,
-            data.urls.help
-              ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.help,
-                    trackAsEvent: 'Help',
-                  },
-                  icon: <MdHelp />,
-                  header: 'Help',
-                }
-              : undefined,
-            data.urls.faq
-              ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.faq,
-                    trackAsEvent: 'Faq',
-                  },
-                  icon: <MdQuestionAnswer />,
-                  header: 'Frequently Asked Questions',
-                }
-              : undefined,
-          ]}
-        />
-      )}
-      {(data.urls.bugtracker || data.urls.translate) && (
-        <ListBox
-          appId={appId}
-          items={[
-            data.urls.bugtracker
-              ? {
-                  icon: <MdOutlineBugReport />,
-                  header: 'Report an issue',
-                  content: {
-                    type: 'url',
-                    text: data.urls.bugtracker,
-                    trackAsEvent: 'Bugtracker',
-                  },
-                }
-              : undefined,
-            data.urls.translate
-              ? {
-                  icon: <MdTranslate />,
-                  header: 'Contribute translations',
-                  content: {
-                    type: 'url',
-                    text: data.urls.translate,
-                    trackAsEvent: 'Translate',
-                  },
-                }
-              : undefined,
-          ]}
-        />
-      )}
-      <ListBox
-        appId={appId}
-        items={[
-          {
-            icon: <BsTextParagraph />,
-            header: 'License',
-            content: {
-              type: licenseIsLink ? 'url' : 'text',
-              text: license,
-              trackAsEvent: 'License',
             },
           },
         ]}
@@ -178,6 +86,128 @@ const AdditionalInfo = ({
           },
         ]}
       ></ListBox>
+      <ListBox
+        appId={appId}
+        items={[
+          {
+            icon: <BsTextParagraph />,
+            header: 'License',
+            content: {
+              type: licenseIsLink ? 'url' : 'text',
+              text: license,
+              trackAsEvent: 'License',
+            },
+          },
+        ]}
+      ></ListBox>
+      {data.urls.homepage && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.homepage
+              ? {
+                  content: {
+                    type: 'url',
+                    text: data.urls.homepage,
+                    trackAsEvent: 'Homepage',
+                  },
+                  icon: <MdWeb />,
+                  header: 'Project website',
+                }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls.contact && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.contact
+              ? {
+                  content: {
+                    type: 'url',
+                    text: data.urls.contact,
+                    trackAsEvent: 'Contact',
+                  },
+                  icon: <MdContactPage />,
+                  header: 'Contact',
+                }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls.help && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.help
+              ? {
+                  content: {
+                    type: 'url',
+                    text: data.urls.help,
+                    trackAsEvent: 'Help',
+                  },
+                  icon: <MdHelp />,
+                  header: 'Help',
+                }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls.faq && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.faq
+              ? {
+                  content: {
+                    type: 'url',
+                    text: data.urls.faq,
+                    trackAsEvent: 'Faq',
+                  },
+                  icon: <MdQuestionAnswer />,
+                  header: 'Frequently Asked Questions',
+                }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls.translate && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.translate
+              ? {
+                  icon: <MdTranslate />,
+                  header: 'Contribute translations',
+                  content: {
+                    type: 'url',
+                    text: data.urls.translate,
+                    trackAsEvent: 'Translate',
+                  },
+                }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls.bugtracker && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.bugtracker
+              ? {
+                  icon: <MdOutlineBugReport />,
+                  header: 'Report an issue',
+                  content: {
+                    type: 'url',
+                    text: data.urls.bugtracker,
+                    trackAsEvent: 'Bugtracker',
+                  },
+                }
+              : undefined,
+          ]}
+        />
+      )}
     </div>
   )
 }

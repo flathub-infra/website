@@ -74,13 +74,37 @@
     }
   }
 
-  .centerArrows {
+  .carouselWrapper {
     margin: 0 auto;
     max-width: 90%;
+    position: relative;
 
     // Extra large devices (large desktops, 1200px and up)
     @media (min-width: 1400px) {
       max-width: 1400px;
+    }
+
+    .zoom {
+      position: absolute;
+      z-index: 5;
+      right: 12px;
+      bottom: 12px;
+
+      width: 48px;
+      height: 48px;
+
+      font-size: 24px;
+      padding: 12px;
+
+      background-color: var(--bg-color-secondary);
+      color: var(--main-color-dark);
+      border: 1px solid var(--border);
+
+      &:hover {
+        background-color: var(--main-color);
+        color: var(--bg-color-secondary);
+        cursor: pointer;
+      }
     }
   }
 
