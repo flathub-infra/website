@@ -1,21 +1,32 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 
-import { MatomoProvider, createInstance } from '@datapunt/matomo-tracker-react'
-import { MATOMO_WEBSITE_ID } from '../../env'
-import PageContent from './PageContent'
-
-const instance = createInstance({
-  urlBase: process.env.BASE_URI ?? 'https://www.flathub.org',
-  siteId: MATOMO_WEBSITE_ID,
-  trackerUrl: 'https://webstats.gnome.org/matomo.php',
-  srcUrl: 'https://webstats.gnome.org/matomo.js',
-})
+import { useMatomo } from '@datapunt/matomo-tracker-react'
+import Header from './Header'
+import Head from 'next/head'
+import Footer from './Footer'
+import styles from './Main.module.scss'
 
 const Main: FunctionComponent = ({ children }) => {
+  const { trackPageView } = useMatomo()
+
+  // Track page view
+  useEffect(() => {
+    trackPageView({})
+  }, [trackPageView])
+
   return (
-    <MatomoProvider value={instance}>
-      <PageContent>{children}</PageContent>
-    </MatomoProvider>
+    <div id={styles.wrapper}>
+      <Head>
+        <base href='/' />
+
+        <link rel='icon' type='image/png' href='./favicon.png' />
+      </Head>
+      <Header />
+
+      <main className={styles.main}>{children}</main>
+
+      <Footer />
+    </div>
   )
 }
 
