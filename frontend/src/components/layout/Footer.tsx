@@ -103,15 +103,6 @@ const Footer = () => (
               Source code
             </a>
           </div>
-          <div className={styles.footerItem}>
-            <a
-              href='https://status.flathub.org/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              Status
-            </a>
-          </div>
         </div>
       </div>
     </div>
