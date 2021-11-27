@@ -39,7 +39,18 @@ def update():
 
 @app.get("/category/{category}")
 def get_category(category: schemas.Category):
-    return apps.get_category(category)
+    ids = apps.get_category(category)
+
+    downloads = stats.get_downloads_by_ids(ids)
+    sorted_ids = sorted(
+        ids,
+        key=lambda appid: downloads.get(appid, {"downloads_last_month": 0}).get(
+            "downloads_last_month", 0
+        ),
+        reverse=True,
+    )
+
+    return sorted_ids
 
 
 @app.get("/appstream")
@@ -114,7 +125,7 @@ def get_stats(response: Response):
 
 @app.get("/stats/{appid}", status_code=200)
 def get_stats_for_app(appid: str, response: Response):
-    if value := db.get_json_key(f"app_stats:{appid}"):
+    if value := stats.get_downloads_by_ids([appid]).get(appid, None):
         return value
 
     response.status_code = 404

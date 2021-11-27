@@ -72,9 +72,7 @@ def get_category(category: str):
         json_appdata = db.redis_conn.mget(index)
         appdata = [json.loads(app) for app in json_appdata]
 
-        # We want to sort the list by application name
-        name_id = [(app["name"], app["id"]) for app in appdata]
-        return [x[1] for x in sorted(name_id, key=lambda x: x[0].casefold())]
+        return [(app["id"]) for app in appdata]
     else:
         return []
 
