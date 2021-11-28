@@ -43,7 +43,12 @@ def load_appstream():
                     p.sadd(f"categories:{category}", redis_key)
 
         for appid in current_apps - set(apps):
-            p.delete(f"apps:{appid}", f"fts:{appid}", f"summary:{appid}")
+            p.delete(
+                f"apps:{appid}",
+                f"fts:{appid}",
+                f"summary:{appid}",
+                f"app_stats:{appid}",
+            )
             db.redis_search.delete_document(f"fts:{appid}")
 
         new_apps = set(apps) - current_apps
