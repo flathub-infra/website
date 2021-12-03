@@ -20,3 +20,12 @@ services:
       - /var/lib/flatpak
       - ./app:/app
       - ./data:/data
+
+  smoketests:
+    build:
+      dockerfile: Dockerfile.smoketests
+      context: .
+    environment:
+      - REDIS_HOST=redis
+    links:
+      - redis:redis

@@ -30,3 +30,10 @@ https://localhost:8000/docs
 ### Accessing redis
 You can use a redis tool of your choice to interact with the database.
 Just connect to localhost:6379.
+
+### Running the smoketests locally
+If you want to run the smoketests locally, you can use the following commands:
+```bash
+docker-compose run smoketests
+```
+You might need to flush your redis database before running the tests. As it assumes that the database is empty.
