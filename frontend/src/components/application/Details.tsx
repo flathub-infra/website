@@ -188,6 +188,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
                       height={423}
                       alt='Screenshot'
                       loading='eager'
+                      priority={index === 0}
                     />
                   )
                 })}

@@ -3,6 +3,9 @@ import Image from 'next/image'
 import CodeCopy from '../src/components/application/CodeCopy'
 import { NextSeo } from 'next-seo'
 import styles from './badges.module.scss'
+import flathubBadge from '/public/assets/badges/flathub-badge-en.png'
+import flathubBadgeInverted from '/public/assets/badges/flathub-badge-i-en.png'
+import cc0 from '/public/img/CC0.png'
 
 const badgeExampleCode =
   "<a href='https://flathub.org/apps/details/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>"
@@ -25,9 +28,8 @@ const Badges = () => (
           <Image
             width='240'
             height='80'
-            objectFit='contain'
             alt='Download on Flathub'
-            src='/assets/badges/flathub-badge-en.png'
+            src={flathubBadge}
           />
           <h6>
             Also available in{' '}
@@ -40,9 +42,8 @@ const Badges = () => (
           <Image
             width='240'
             height='80'
-            objectFit='contain'
             alt='Download on Flathub'
-            src='/assets/badges/flathub-badge-i-en.png'
+            src={flathubBadgeInverted}
           />
           <h6>
             Also available in{' '}
@@ -62,7 +63,7 @@ const Badges = () => (
           rel='license'
           href='http://creativecommons.org/publicdomain/zero/1.0/'
         >
-          <Image src='/img/CC0.png' alt='CC0' width={88} height={31} />
+          <Image src={cc0} alt='CC0' />
         </a>
         <br />
         To the extent possible under law,
@@ -89,7 +90,7 @@ const Badges = () => (
               width={240}
               height={80}
               alt='Download on Flathub'
-              src='/assets/badges/flathub-badge-en.png'
+              src={flathubBadge}
             />
           </a>
         </div>
@@ -104,7 +105,7 @@ const Badges = () => (
               width={240}
               height={80}
               alt='Download on Flathub'
-              src='/assets/badges/flathub-badge-en.png'
+              src={flathubBadge}
             />
           </a>
         </div>
