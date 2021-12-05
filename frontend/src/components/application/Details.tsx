@@ -16,13 +16,15 @@ import { AppStats } from '../../types/AppStats'
 import AppStatistics from './AppStats'
 import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
 import Lightbox from 'react-image-lightbox'
+import ApplicationSection from './ApplicationSection'
 
 import 'react-image-lightbox/style.css' // This only needs to be imported once in your app
 
 interface Props {
-  data: Appstream
+  app: Appstream
   summary: Summary
   stats: AppStats
+  developerApps: Appstream[]
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -58,7 +60,7 @@ function categoryToSeoCategory(category) {
   }
 }
 
-const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
+const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps }) => {
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
 
@@ -66,54 +68,55 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
 
   const installClicked = (e) => {
     e.preventDefault()
-    trackEvent({ category: 'App', action: 'Install', name: data.id })
-    window.location.href = `https://dl.flathub.org/repo/appstream/${data.id}.flatpakref`
+    trackEvent({ category: 'App', action: 'Install', name: app.id })
+    window.location.href = `https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`
   }
 
   const donateClicked = (e) => {
-    trackEvent({ category: 'App', action: 'Donate', name: data.id })
+    trackEvent({ category: 'App', action: 'Donate', name: app.id })
   }
 
-  if (data) {
+  if (app) {
     const moreThan1Screenshot =
-      data.screenshots?.filter(pickScreenshot).length > 1
+      app.screenshots?.filter(pickScreenshot).length > 1
 
     return (
       <div id={styles.application}>
         <SoftwareAppJsonLd
-          name={data.name}
+          name={app.name}
           price='0'
           priceCurrency=''
           operatingSystem='LINUX'
-          applicationCategory={categoryToSeoCategories(data.categories)}
+          applicationCategory={categoryToSeoCategories(app.categories)}
         />
-        {data.categories?.includes('Game') && (
+        {app.categories?.includes('Game') && (
           <VideoGameJsonLd
-            name={data.name}
-            authorName={data.developer_name}
+            name={app.name}
+            authorName={app.developer_name}
             operatingSystemName={'LINUX'}
             storageRequirements={
               Math.round(summary.installed_size / 1_000_000) + ' MB'
             }
           />
-        )}
-        <header>
-          <div className={styles.logo}>
-            <img src={data.icon} alt='Logo' />
-          </div>
+        )
+        }
+        < header >
+          {app.icon && (<div className={styles.logo}>
+            <img src={app.icon} alt={`${app.name} logo`} />
+          </div>)}
 
           <div className={styles.details}>
-            <h2>{data.name}</h2>
-            {data.developer_name?.trim().length > 0 && (
-              <div className={styles.devName}>by {data.developer_name}</div>
+            <h2>{app.name}</h2>
+            {app.developer_name?.trim().length > 0 && (
+              <div className={styles.devName}>by {app.developer_name}</div>
             )}
           </div>
 
           <div className={styles.actions}>
             <Button onClick={installClicked}>Install</Button>
-            {data.urls.donation && (
+            {app.urls.donation && (
               <a
-                href={data.urls.donation}
+                href={app.urls.donation}
                 target='_blank'
                 rel='noreferrer'
                 onClick={donateClicked}
@@ -128,14 +131,14 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
             <Lightbox
               mainSrc={
                 pickScreenshot(
-                  data.screenshots?.filter(pickScreenshot)[currentScreenshot]
+                  app.screenshots?.filter(pickScreenshot)[currentScreenshot]
                 ).url
               }
               onCloseRequest={() => setShowLightbox(false)}
             />
           )}
           <div className={styles.carouselWrapper}>
-            {data.screenshots && (
+            {app.screenshots && (
               <div
                 className={styles.zoom}
                 onClick={() => setShowLightbox(true)}
@@ -176,7 +179,7 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
                 )
               }
             >
-              {data.screenshots
+              {app.screenshots
                 ?.filter(pickScreenshot)
                 .map((screenshot, index) => {
                   const pickedScreenshot = pickScreenshot(screenshot)
@@ -197,25 +200,29 @@ const Details: FunctionComponent<Props> = ({ data, summary, stats }) => {
         </div>
         <div className={styles.additionalInfo}>
           <div>
-            <h3>{data.summary}</h3>
+            <h3>{app.summary}</h3>
             <p
               className={styles.description}
-              dangerouslySetInnerHTML={{ __html: data.description }}
+              dangerouslySetInnerHTML={{ __html: app.description }}
             />
           </div>
 
-          <Releases releases={data.releases}></Releases>
+          <Releases releases={app.releases}></Releases>
 
           <AdditionalInfo
-            data={data}
+            data={app}
             summary={summary}
-            appId={data.id}
+            appId={app.id}
             stats={stats}
           ></AdditionalInfo>
 
+          {developerApps && developerApps.length > 0 && (
+            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={`Other apps by ${app.developer_name}`} applications={developerApps.slice(0, 6)} />
+          )}
+
           <AppStatistics stats={stats}></AppStatistics>
 
-          <CmdInstructions appId={data.id}></CmdInstructions>
+          <CmdInstructions appId={app.id}></CmdInstructions>
         </div>
       </div>
     )
