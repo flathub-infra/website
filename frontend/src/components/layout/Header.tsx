@@ -33,7 +33,7 @@ const Header = () => {
     )
 
     return () => {
-      window.removeEventListener('resize', () => {}, false)
+      window.removeEventListener('resize', () => { }, false)
     }
   }, [isMobile])
 
@@ -79,6 +79,7 @@ const Header = () => {
           <form onSubmit={onSubmit}>
             <MdSearch className={styles.searchIcon} />
             <input
+              autoFocus
               type='search'
               name='q'
               placeholder='Search apps'
