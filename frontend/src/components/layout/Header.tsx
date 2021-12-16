@@ -62,7 +62,7 @@ const Header = () => {
             url={`${env.NEXT_PUBLIC_BASE_URL}`}
           />
           <Link href='/' passHref>
-            <a id={styles.brand}></a>
+            <a id={styles.brand} title='Go Home'></a>
           </Link>
         </span>
 

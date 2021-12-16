@@ -9,8 +9,8 @@ interface Props {
     icon: string | JSX.Element
     header: string
     content:
-      | { type: 'url'; text: string; trackAsEvent: string }
-      | { type: 'text'; text: string }
+    | { type: 'url'; text: string; trackAsEvent: string }
+    | { type: 'text'; text: string }
   }[]
 }
 
@@ -33,9 +33,8 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`${styles.item} ${
-                  item.content.type === 'text' ? styles.noLink : ''
-                }`}
+                className={`${styles.item} ${item.content.type === 'text' ? styles.noLink : ''
+                  }`}
                 key={index}
               >
                 <div className={styles.icon}>{item.icon}</div>
@@ -62,6 +61,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target='_blank'
                       rel='noreferrer'
                       onClick={linkClicked}
+                      title='Open in new tab'
                     >
                       <MdOpenInNew />
                     </a>

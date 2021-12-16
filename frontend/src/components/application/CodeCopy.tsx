@@ -12,7 +12,7 @@ const CodeCopy: FunctionComponent<Props> = ({ text, className }) => (
   <div className={`${styles.pre} ${className}`}>
     {text}
     <CopyToClipboard text={text}>
-      <button className={styles.copy}>
+      <button className={styles.copy} title='Copy text'>
         <MdContentCopy></MdContentCopy>
       </button>
     </CopyToClipboard>
