@@ -11,7 +11,6 @@ from . import db
 
 
 StatsType = Dict[str, Dict[str, List[int]]]
-POPULAR_ITEMS_NUM = 30
 POPULAR_DAYS_NUM = 7
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
@@ -170,11 +169,13 @@ def get_downloads_by_ids(ids: List[str]):
 
 
 def get_popular(days: Optional[int]):
-    if days is None:
-        days = POPULAR_DAYS_NUM
-
     edate = datetime.date.today()
-    sdate = edate - datetime.timedelta(days=days - 1)
+
+    if days is None:
+        sdate = FIRST_STATS_DATE
+    else:
+        sdate = edate - datetime.timedelta(days=days - 1)
+
     redis_key = f"popular:{sdate}-{edate}"
 
     if popular := db.get_json_key(redis_key):
@@ -187,7 +188,7 @@ def get_popular(days: Optional[int]):
         reverse=True,
     )
 
-    popular = [k for k, v in sorted_apps[:POPULAR_ITEMS_NUM]]
+    popular = [k for k, v in sorted_apps]
     db.redis_conn.set(redis_key, json.dumps(popular), ex=60 * 60)
     return popular
 
