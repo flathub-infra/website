@@ -11,6 +11,7 @@
   font-size: 1.2rem;
   align-items: center;
 
+  div,
   a:not(:last-child) {
     &.pageLink {
       border-right: 1px solid var(--border);
@@ -33,7 +34,7 @@
     transition: 0.5s;
     line-height: 42px;
 
-    &:hover {
+    &:hover:not(.ellipsis) {
       cursor: pointer;
       background-color: var(--main-color);
       text-decoration: none;
