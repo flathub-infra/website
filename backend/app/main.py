@@ -38,8 +38,38 @@ def update():
 
 
 @app.get("/category/{category}")
-def get_category(category: schemas.Category):
+def get_category(
+    category: schemas.Category,
+):
     ids = apps.get_category(category)
+
+    downloads = stats.get_downloads_by_ids(ids)
+    sorted_ids = sorted(
+        ids,
+        key=lambda appid: downloads.get(appid, {"downloads_last_month": 0}).get(
+            "downloads_last_month", 0
+        ),
+        reverse=True,
+    )
+
+    return sorted_ids
+
+
+@app.get("/developer/")
+def get_developers():
+    return db.get_developers()
+
+
+@app.get("/developer/{developer}")
+def get_developer(
+    developer: str,
+    response: Response,
+):
+    ids = apps.get_developer(developer)
+
+    if not ids:
+        response.status_code = 404
+        return response
 
     downloads = stats.get_downloads_by_ids(ids)
     sorted_ids = sorted(

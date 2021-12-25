@@ -91,6 +91,17 @@ def test_apps_by_non_existent_category():
     assert response.status_code == 422
 
 
+def test_apps_by_developer():
+    response = client.get("/developer/Sugar Labs Community")
+    assert response.status_code == 200
+    assert response.json() == _get_expected_json_result("test_apps_by_developer")
+
+
+def test_apps_by_non_existent_developer():
+    response = client.get("/developer/NonExistent")
+    assert response.status_code == 404
+
+
 def test_appstream_by_appid():
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
