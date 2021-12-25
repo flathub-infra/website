@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import Link from 'next/link'
+import LogoImage from '../LogoImage'
 
 import { Appstream } from '../../types/Appstream'
 import styles from './ApplicationCard.module.scss'
@@ -12,7 +13,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
   <Link href={`/apps/details/${application.id}`} passHref>
     <a className={styles.applicationCard}>
       <div className={styles.logo}>
-        <img src={application.icon} alt={application.name} />
+        <LogoImage iconUrl={application.icon} appName={application.name} />
       </div>
       <div className={styles.summary}>
         <h5>{application.name}</h5>

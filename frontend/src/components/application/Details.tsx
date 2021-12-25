@@ -17,6 +17,7 @@ import AppStatistics from './AppStats'
 import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
 import Lightbox from 'react-image-lightbox'
 import ApplicationSection from './ApplicationSection'
+import LogoImage from '../LogoImage'
 
 import 'react-image-lightbox/style.css' // This only needs to be imported once in your app
 
@@ -102,7 +103,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
         }
         < header >
           {app.icon && (<div className={styles.logo}>
-            <img src={app.icon} alt={`${app.name} logo`} />
+            <LogoImage iconUrl={app.icon} appName={app.name} />
           </div>)}
 
           <div className={styles.details}>
