@@ -1,7 +1,7 @@
 .primaryButton,
 .secondaryButton {
   background-color: var(--main-color);
-  color: white;
+  color: var(--white-10);
   border: none;
   height: 48px;
   padding: 8px 20px;
@@ -9,6 +9,8 @@
   white-space: nowrap;
   text-align: center;
   font-size: 1rem;
+  text-transform: uppercase;
+  font-weight: 500;
 
   &:hover {
     cursor: pointer;
