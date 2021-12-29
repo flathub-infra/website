@@ -85,7 +85,7 @@ def get_category(category: str):
 
         return [(app["id"]) for app in appdata]
     else:
-        return None
+        return []
 
 
 def get_developer(developer: str, repo: str = "stable"):
@@ -95,7 +95,7 @@ def get_developer(developer: str, repo: str = "stable"):
 
         return [(app["id"]) for app in appdata]
     else:
-        return None
+        return []
 
 
 def search(query: str):
