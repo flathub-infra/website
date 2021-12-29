@@ -7,7 +7,7 @@
   width: min-content;
   margin: 0 auto;
   margin-top: 60px;
-  color: var(--main-color-dark);
+  color: var(--color-secondary);
   font-size: 1.2rem;
   align-items: center;
 
@@ -36,7 +36,7 @@
 
     &:hover:not(.ellipsis) {
       cursor: pointer;
-      background-color: var(--main-color);
+      background-color: var(--color-primary);
       text-decoration: none;
     }
 

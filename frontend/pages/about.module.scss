@@ -1,6 +1,6 @@
 .about {
   .headerContainer {
-    background: var(--main-color) url('/img/about.svg') no-repeat top left;
+    background: var(--color-primary) url('/img/about.svg') no-repeat top left;
     background-size: contain;
 
     @media (max-width: 992px) {

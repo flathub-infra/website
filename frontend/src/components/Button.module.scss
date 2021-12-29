@@ -1,6 +1,6 @@
 .primaryButton,
 .secondaryButton {
-  background-color: var(--main-color);
+  background-color: var(--color-primary);
   color: var(--white-10);
   border: none;
   height: 48px;
@@ -14,15 +14,15 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--main-color-dark);
+    background-color: var(--color-secondary);
     background-position: right center;
   }
 
   background-image: linear-gradient(
     to right,
-    var(--main-color) 0%,
-    var(--main-color-dark) 50%,
-    var(--main-color) 100%
+    var(--color-primary) 0%,
+    var(--color-secondary) 50%,
+    var(--color-primary) 100%
   );
 
   transition: 0.5s;
@@ -31,13 +31,13 @@
 
 .secondaryButton {
   background-color: var(--bg-color-secondary);
-  color: var(--main-color-dark);
+  color: var(--color-secondary);
   background-image: unset;
   border: 1px solid var(--border);
 
   &:hover {
     cursor: pointer;
-    background-color: var(--main-color);
+    background-color: var(--color-primary);
     color: white;
   }
 }

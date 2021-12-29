@@ -5,7 +5,7 @@ export function chartStyle(
   data: number[],
   label: string
 ): ChartData<'line', number[]> {
-  const color = '#52006a'
+  const color = '#4a86cf'
 
   return {
     labels: labels,

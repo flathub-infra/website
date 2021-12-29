@@ -6,10 +6,10 @@
   z-index: 50;
 
   .navHeader {
-    background-color: var(--bg-color-primary);
+    background-color: var(--color-primary);
     display: flex;
     flex-direction: row;
-    border-bottom: 1px solid var(--main-color);
+    border-bottom: 1px solid var(--color-primary);
 
     height: var(--header-height);
 
@@ -34,7 +34,7 @@
       }
       background-repeat: no-repeat;
       background-position: center;
-      background-color: var(--main-color);
+      background-color: var(--color-primary);
       margin: auto 12px;
       padding: 0 12px;
       border-radius: var(--border-radius);
@@ -44,7 +44,7 @@
 
       &:hover {
         cursor: pointer;
-        background-color: var(--main-color-dark);
+        background-color: var(--color-secondary);
       }
 
       &:active {
@@ -66,7 +66,7 @@
       display: unset;
       margin-top: auto;
       margin-bottom: auto;
-      border: var(--main-color) solid 1px;
+      border: var(--color-primary) solid 1px;
       border-radius: var(--border-radius);
 
       .searchIcon {
@@ -115,7 +115,7 @@
         &.responsive {
           display: block;
           position: absolute;
-          background-color: var(--bg-color-primary);
+          background-color: var(--color-primary);
           float: inherit;
           top: 64px;
           width: 100%;
@@ -130,7 +130,7 @@
             margin: auto 0;
             border-radius: unset;
           }
-          border-bottom: 1px solid var(--main-color);
+          border-bottom: 1px solid var(--color-primary);
         }
 
         .navItem {
@@ -141,11 +141,12 @@
           max-width: 110px;
           align-items: center;
           transition: 0.5s;
+          color: var(--white-10);
 
           &:hover {
             cursor: pointer;
-            color: white;
-            background-color: var(--main-color);
+            color: var(--white-10);
+            background-color: var(--color-secondary);
           }
 
           &:active {
@@ -165,7 +166,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--main-color);
+            background-color: var(--color-primary);
             color: white;
           }
 

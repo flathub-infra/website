@@ -89,11 +89,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             ]}
           />
         </div>
-        <div className={styles.downloadStats}>{}</div>
+        <div className={styles.downloadStats}>{ }</div>
         <h3>Downloads per country</h3>
         <div className={styles.map}>
           <WorldMap
-            color='var(--main-color)'
+            color='var(--color-primary)'
             backgroundColor='var(--bg-color-secondary)'
             borderColor='var(--text-primary)'
             valueSuffix='downloads'

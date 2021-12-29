@@ -81,12 +81,12 @@
       border-radius: var(--border-radius);
 
       background-color: var(--bg-color-secondary);
-      color: var(--main-color-dark);
+      color: var(--color-secondary);
       border: 1px solid var(--border);
       line-height: 1em;
 
       &:hover {
-        background-color: var(--main-color);
+        background-color: var(--color-primary);
         color: var(--bg-color-secondary);
         cursor: pointer;
       }
