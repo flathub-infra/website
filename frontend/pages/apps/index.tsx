@@ -23,7 +23,7 @@ export default function Apps({
         description='An app store and build service for Linux'
       />
       <div className='main-container'>
-        <header className={styles.header}>
+        <header>
           <h3>Categories</h3>
         </header>
         <div className={styles.flex}>
