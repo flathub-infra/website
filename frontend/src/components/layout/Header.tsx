@@ -79,7 +79,6 @@ const Header = () => {
           <form onSubmit={onSubmit}>
             <MdSearch className={styles.searchIcon} />
             <input
-              autoFocus
               type='search'
               name='q'
               placeholder='Search apps'
