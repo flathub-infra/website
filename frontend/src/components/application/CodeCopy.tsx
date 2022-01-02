@@ -6,10 +6,11 @@ import styles from './CodeCopy.module.scss'
 interface Props {
   text: string
   className?: string
+  nested?: boolean
 }
 
-const CodeCopy: FunctionComponent<Props> = ({ text, className }) => (
-  <div className={`${styles.pre} ${className}`}>
+const CodeCopy: FunctionComponent<Props> = ({ text, className, nested }) => (
+  <div className={`${styles.pre} ${className} ${nested ? styles.nested : ''}`}>
     {text}
     <CopyToClipboard text={text}>
       <button className={styles.copy} title='Copy text'>

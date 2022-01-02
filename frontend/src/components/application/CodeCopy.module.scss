@@ -13,6 +13,10 @@
   overflow: auto;
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace !important;
 
+  &.nested {
+    background-color: var(--bg-color-primary);
+  }
+
   .copy {
     position: absolute;
     right: 4px;

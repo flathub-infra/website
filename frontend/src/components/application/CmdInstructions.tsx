@@ -12,9 +12,9 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
         </a>{' '}
         before installing
       </p>
-      <CodeCopy text={`flatpak install flathub ${appId}`}></CodeCopy>
+      <CodeCopy text={`flatpak install flathub ${appId}`} nested />
       <h3>Run</h3>
-      <CodeCopy text={`flatpak run ${appId}`}></CodeCopy>
+      <CodeCopy text={`flatpak run ${appId}`} nested />
     </div>
   )
 }
