@@ -12,7 +12,7 @@
   --color-primary: #4a86cf;
   --color-secondary: #00a8e2;
 
-  --border: var(--color-primary);
+  --color-border: var(--color-primary);
   --glassGrey: rgba(0, 0, 0, 0.719);
 
   --border-radius: 8px;
@@ -112,7 +112,7 @@ h6 {
 
     background-color: var(--bg-color-secondary) !important;
     color: var(--color-secondary) !important;
-    border: 1px solid var(--border) !important;
+    border: 1px solid var(--color-primary) !important;
 
     &:hover {
       background-color: var(--color-primary) !important;

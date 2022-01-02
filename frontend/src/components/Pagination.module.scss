@@ -2,7 +2,7 @@
   display: flex;
   height: 42px;
   background-color: var(--bg-color-secondary);
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   width: min-content;
   margin: 0 auto;
@@ -14,7 +14,7 @@
   div,
   a:not(:last-child) {
     &.pageLink {
-      border-right: 1px solid var(--border);
+      border-right: 1px solid var(--color-border);
     }
   }
 
