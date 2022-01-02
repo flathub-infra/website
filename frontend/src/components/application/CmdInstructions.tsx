@@ -4,7 +4,7 @@ import CodeCopy from './CodeCopy'
 const CmdInstructions = ({ appId }: { appId: string }) => {
   return (
     <div className={styles.instructions}>
-      <h3>Install</h3>
+      <h3>Manual install</h3>
       <p>
         Make sure to follow the{' '}
         <a href='https://flatpak.org/setup/' target='_blank' rel='noreferrer'>
