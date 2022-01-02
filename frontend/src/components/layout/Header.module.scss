@@ -7,8 +7,14 @@
 
   .navHeader {
     background-color: var(--color-primary);
-    display: flex;
-    flex-direction: row;
+    @media (max-width: 768px) {
+      display: grid;
+      grid-template-columns: minmax(64px, 1fr) auto minmax(64px, 1fr);
+    }
+    @media (min-width: 768px) {
+      display: flex;
+      flex-direction: row;
+    }
     border-bottom: 1px solid var(--color-primary);
 
     height: var(--header-height);
@@ -53,12 +59,7 @@
     }
 
     .brandContainer {
-      min-width: 112px;
       height: 100%;
-      margin-top: auto;
-      margin-bottom: auto;
-      margin-left: 26px;
-      margin-right: auto;
       justify-content: start;
     }
 
@@ -160,7 +161,7 @@
         .navbarToggle {
           cursor: pointer;
           font-size: 24px;
-          max-width: 64px;
+          width: 64px;
           align-items: center;
           transition: 0.5s;
 
