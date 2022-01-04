@@ -18,18 +18,6 @@ const ApplicationSections: FunctionComponent<Props> = ({
 }) => (
   <>
     <ApplicationSection
-      key='popular'
-      title='Most Popular'
-      applications={popular}
-      href='/apps/collection/popular'
-    />
-    <ApplicationSection
-      key='updated'
-      title='New & Updated Apps'
-      applications={recentlyUpdated}
-      href='/apps/collection/recently-updated'
-    />
-    <ApplicationSection
       key='editor_choice_apps'
       title="Editor's Choice Apps"
       applications={editorsChoiceApps}
@@ -40,6 +28,18 @@ const ApplicationSections: FunctionComponent<Props> = ({
       title="Editor's Choice Games"
       applications={editorsChoiceGames}
       href='/apps/collection/editors-choice-games'
+    />
+    <ApplicationSection
+      key='updated'
+      title='New & Updated Apps'
+      applications={recentlyUpdated}
+      href='/apps/collection/recently-updated'
+    />
+    <ApplicationSection
+      key='popular'
+      title='Most Popular'
+      applications={popular}
+      href='/apps/collection/popular'
     />
   </>
 )
