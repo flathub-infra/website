@@ -164,11 +164,11 @@
           width: 64px;
           align-items: center;
           transition: 0.5s;
+          color: var(--white-10);
 
           &:hover {
             cursor: pointer;
             background-color: var(--color-primary);
-            color: white;
           }
 
           &:active {
