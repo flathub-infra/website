@@ -12,19 +12,21 @@
   --color-primary: #4a86cf;
   --color-secondary: #00a8e2;
 
-  --color-border: var(--bg-color-secondary);
-  --glassGrey: rgba(0, 0, 0, 0.719);
+  --color-border: none;
+  --glassGrey: rgba(0, 0, 0, 0.1);
 
   --border-radius: 8px;
   --header-height: 64px;
 }
 
 [data-theme='dark'] {
-  --bg-color-primary: #121212;
-  --bg-color-secondary: #202020;
+  --bg-color-primary: #202020;
+  --bg-color-secondary: #161616;
 
   --text-primary: var(--white);
   --text-secondary: rgba(255, 255, 255, 0.6);
+
+  --glassGrey: rgba(255, 255, 255, 0.1);
 
   a {
     color: var(--color-secondary);

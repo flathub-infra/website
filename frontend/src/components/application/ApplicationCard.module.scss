@@ -9,10 +9,12 @@
 
   border-radius: var(--border-radius);
   transition: 0.5s;
+  color: var(--color-secondary);
 
   &:hover {
     cursor: pointer;
-    background-color: var(--bg-color-primary);
+    background-color: var(--color-primary);
+    color: var(--white-10);
     text-decoration: none;
   }
 
@@ -24,7 +26,6 @@
   }
 
   .summary {
-    color: var(--white-10);
     background-color: var(--glassGrey);
     padding: 0 16px;
     width: 100%;
