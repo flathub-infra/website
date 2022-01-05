@@ -20,7 +20,8 @@
       align-self: center;
       max-height: 128px;
       max-width: 128px;
-      filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4));
+      filter: drop-shadow(0 0.08rem 0.1rem rgba(0, 0, 0, 0.35))
+        drop-shadow(0 0.4rem 0.7rem rgba(0, 0, 0, 0.18));
     }
 
     div.details {
