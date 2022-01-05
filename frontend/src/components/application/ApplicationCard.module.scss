@@ -14,7 +14,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--color-primary);
+    background-color: var(--color-highlight);
     color: var(--white-10);
     text-decoration: none;
   }
@@ -27,7 +27,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 148px;
+    height: 168px;
+    filter: drop-shadow(3px 3px 3px rgb(0 0 0 / 0.4));
   }
 
   .summary {

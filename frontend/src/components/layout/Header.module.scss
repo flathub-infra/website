@@ -50,7 +50,7 @@
 
       &:hover {
         cursor: pointer;
-        background-color: var(--color-secondary);
+        background-color: var(--color-highlight);
       }
 
       &:active {
@@ -147,7 +147,7 @@
           &:hover {
             cursor: pointer;
             color: var(--white-10);
-            background-color: var(--color-secondary);
+            background-color: var(--color-highlight);
           }
 
           &:active {
@@ -168,7 +168,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: var(--color-primary);
+            background-color: var(--color-highlight);
           }
 
           &:active {
