@@ -1,4 +1,7 @@
 .applicationCard {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07),
+    0 2px 6px 2px rgba(0, 0, 0, 0.03);
+
   min-width: 0;
   background-color: var(--bg-color-secondary);
   grid-column: span 1 / span 1;
@@ -9,7 +12,7 @@
 
   border-radius: var(--border-radius);
   transition: 0.5s;
-  color: var(--color-secondary);
+  color: var(--text-primary) !important;
 
   &:hover {
     cursor: pointer;
@@ -18,15 +21,19 @@
     text-decoration: none;
   }
 
+  &:active {
+    background-color: var(--bg-color-primary);
+  }
+
   .logo {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 224px;
+    height: 148px;
   }
 
   .summary {
-    background-color: var(--glassGrey);
+    text-align: center;
     padding: 0 16px;
     width: 100%;
     height: 60px;

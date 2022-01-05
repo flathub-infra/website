@@ -15,18 +15,13 @@
   &:hover {
     cursor: pointer;
     background-color: var(--color-secondary);
-    background-position: right center;
   }
 
-  background-image: linear-gradient(
-    to right,
-    var(--color-primary) 0%,
-    var(--color-secondary) 50%,
-    var(--color-primary) 100%
-  );
+  &:active {
+    background-color: var(--bg-color-primary);
+  }
 
   transition: 0.5s;
-  background-size: 200% auto;
 }
 
 .secondaryButton {
@@ -39,5 +34,9 @@
     cursor: pointer;
     background-color: var(--color-primary);
     color: var(--white-10);
+  }
+
+  &:active {
+    background-color: var(--bg-color-primary);
   }
 }

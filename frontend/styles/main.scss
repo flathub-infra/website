@@ -13,20 +13,17 @@
   --color-secondary: #00a8e2;
 
   --color-border: none;
-  --glassGrey: rgba(0, 0, 0, 0.1);
 
   --border-radius: 8px;
   --header-height: 64px;
 }
 
 [data-theme='dark'] {
-  --bg-color-primary: #202020;
-  --bg-color-secondary: #161616;
+  --bg-color-primary: #161616;
+  --bg-color-secondary: #202020;
 
   --text-primary: var(--white);
   --text-secondary: rgba(255, 255, 255, 0.6);
-
-  --glassGrey: rgba(255, 255, 255, 0.1);
 
   a {
     color: var(--color-secondary);
