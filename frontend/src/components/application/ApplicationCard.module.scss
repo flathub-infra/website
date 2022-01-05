@@ -43,10 +43,9 @@
     border-bottom-left-radius: calc(var(--border-radius) - 1px);
     border-bottom-right-radius: calc(var(--border-radius) - 1px);
 
-    h5 {
+    h4 {
       margin: 0;
-      font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden;

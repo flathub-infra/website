@@ -12,7 +12,7 @@
 
   --color-highlight: rgba(0, 0, 0, 0.1);
 
-  --border-radius: 8px;
+  --border-radius: 12px;
   --header-height: 64px;
 }
 
@@ -106,7 +106,7 @@ h6 {
     display: inline-flex;
 
     height: 48px !important;
-    padding: 8px 20px !important;
+    padding: 8px 7px !important;
     border-radius: var(--border-radius) !important;
 
     background-color: var(--bg-color-secondary) !important;
