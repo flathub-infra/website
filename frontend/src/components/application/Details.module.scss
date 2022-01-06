@@ -28,6 +28,7 @@
       margin-left: 10px;
       margin-right: 10px;
       margin-top: 10px;
+      margin: auto 12px auto 12px;
 
       h2 {
         margin-top: 0;
@@ -45,6 +46,7 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      justify-content: center;
     }
   }
 
