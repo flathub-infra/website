@@ -1,7 +1,6 @@
 import Main from '../src/components/layout/Main'
 import { NextSeo } from 'next-seo'
 import WorldMap from 'react-svg-worldmap'
-import { useTheme } from 'next-themes'
 import { GetStaticProps } from 'next'
 import { fetchStats } from '../src/fetchers'
 import { Stats as Statistics } from '../src/types/Stats'
@@ -25,10 +24,6 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
     }
   }
 
-  const { resolvedTheme } = useTheme()
-
-  const gridColor = resolvedTheme === 'dark' ? '#3d3d3d' : '#e5e5e5'
-
   let downloads_labels: string[] = []
   let downloads_data: number[] = []
   if (stats.downloads_per_day) {
@@ -44,7 +39,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
 
   const data = chartStyle(downloads_labels, downloads_data, 'Downloads')
 
-  const options = chartOptions(gridColor)
+  const options = chartOptions()
 
   return (
     <Main>

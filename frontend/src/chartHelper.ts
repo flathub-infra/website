@@ -33,24 +33,32 @@ export function chartStyle(
   }
 }
 
-export function chartOptions(gridColor: string): ChartOptions<'line'> {
+export function chartOptions(): ChartOptions<'line'> {
   return {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
+
         type: 'time',
         title: {
           display: true,
         },
         grid: {
-          color: gridColor,
+          display: false,
+        },
+        ticks: {
+          autoSkip: true,
+          autoSkipPadding: 10,
         },
       },
       y: {
         grid: {
-          color: gridColor,
+          display: false,
         },
+        ticks: {
+          count: 5,
+        }
       },
     },
     plugins: {
@@ -61,6 +69,9 @@ export function chartOptions(gridColor: string): ChartOptions<'line'> {
             return tooltipItems[0].label.replace(/, \d+:\d+:\d+ a.m./, '')
           },
         },
+      },
+      legend: {
+        display: false,
       },
     },
   }
