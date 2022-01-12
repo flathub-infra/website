@@ -1,8 +1,8 @@
-import os
 import gzip
-from lxml import etree
+import os
 
 import requests
+from lxml import etree
 
 from . import config
 
