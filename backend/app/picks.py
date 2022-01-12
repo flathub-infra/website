@@ -1,10 +1,9 @@
-import os
 import json
+import os
 
 import requests
 
-from . import db
-from . import config
+from . import config, db
 
 
 def _get_appids(path):
