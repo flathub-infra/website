@@ -16,13 +16,13 @@ redis = "^3.5.3"
 redisearch = "^2.1.1"
 feedgen = "^0.9.0"
 PyGObject = "^3.42.0"
+watchgod = "^0.7"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
 pytest = "^6.2.5"
 isort = "^5.10.1"
 pyflakes = "^2.4.0"
-watchgod = "^0.7"
 pylint = "^2.12.2"
 
 [build-system]
