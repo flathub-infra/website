@@ -19,7 +19,7 @@ jobs:
 
       - name: Setup Poetry
         run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | /usr/local/bin/python -
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 
       - uses: actions/cache@v2
         with:
