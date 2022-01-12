@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from feedgen.feed import FeedGenerator
 
 from . import db
