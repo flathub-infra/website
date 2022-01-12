@@ -1,6 +1,6 @@
 import os
-
 from typing import Optional
+
 from pydantic import BaseSettings
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
