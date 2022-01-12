@@ -27,8 +27,7 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
-        run: |
-          poetry install
+        run: $HOME/.poetry/bin/poetry install
 
       - name: Check module sort order
         run: poetry run isort --check-only app
