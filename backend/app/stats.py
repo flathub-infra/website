@@ -1,14 +1,12 @@
 import datetime
 import json
 from collections import defaultdict
-from urllib.parse import urlparse, urlunparse
 from typing import Dict, List, Optional
+from urllib.parse import urlparse, urlunparse
 
 import requests
 
-from . import config
-from . import db
-
+from . import config, db
 
 StatsType = Dict[str, Dict[str, List[int]]]
 POPULAR_DAYS_NUM = 7
