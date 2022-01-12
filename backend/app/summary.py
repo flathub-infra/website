@@ -1,15 +1,16 @@
 import configparser
+import json
 import struct
 from collections import defaultdict
-import json
+
 import gi
 
 gi.require_version("OSTree", "1.0")
 
-from gi.repository import OSTree, Gio, GLib
+from gi.repository import Gio, GLib, OSTree
 
-from . import db
-from . import config
+from . import config, db
+
 
 # "valid" here means it would be displayed on flathub.org
 def validate_ref(ref: str, enforce_arch=True):
