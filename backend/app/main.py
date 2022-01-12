@@ -146,7 +146,7 @@ def healthcheck():
 
 @app.get("/stats", status_code=200)
 def get_stats(response: Response):
-    if value := db.get_json_key(f"stats"):
+    if value := db.get_json_key("stats"):
         return value
 
     response.status_code = 404
