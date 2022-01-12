@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "flathub-backend"
+version = "0.1.0"
+description = "Backend for Flathub website"
+authors = ["Bartłomiej Piotrowski <bpiotrowski@gnome.org>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.71.0"
+uvicorn = "^0.16.0"
+sentry-sdk = "^1.5.2"
+lxml = "^4.7.1"
+requests = "^2.27.1"
+redis = "^3.5.3"
+redisearch = "^2.1.1"
+feedgen = "^0.9.0"
+PyGObject = "^3.42.0"
+
+[tool.poetry.dev-dependencies]
+black = "^21.12b0"
+pytest = "^6.2.5"
+isort = "^5.10.1"
+pyflakes = "^2.4.0"
+watchgod = "^0.7"
+pylint = "^2.12.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
