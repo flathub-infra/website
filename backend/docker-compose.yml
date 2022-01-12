@@ -18,5 +18,4 @@ services:
       - redis:redis
     volumes:
       - /var/lib/flatpak
-      - ./app:/app
-      - ./data:/data
+      - .:/app

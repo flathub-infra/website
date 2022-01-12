@@ -27,8 +27,8 @@ RUN apt-get update && \
 RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
     flatpak --user remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 
-COPY ./app /app
-COPY ./data /data
 COPY --from=builder /venv /venv
+ADD . /app
+WORKDIR /app
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
