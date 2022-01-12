@@ -1,8 +1,7 @@
-import re
 import json
+import re
 
-from . import utils
-from . import db
+from . import db, utils
 
 
 def load_appstream():
