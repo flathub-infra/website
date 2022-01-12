@@ -41,77 +41,23 @@ jobs:
 
   smoketests:
     runs-on: ubuntu-latest
-
-    services:
-      redisearch:
-        image: redislabs/redisearch:2.2.1
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential flatpak gir1.2-ostree-1.0 libcairo2-dev libgirepository1.0-dev
-
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run smoke tests
-        run: |
-          uvicorn app.main:app --host 0.0.0.0 &
-          python -m pytest -s tests/main.py
-
-  docker:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Prepare
-        id: prep
-        run: |
-          IMAGE=ghcr.io/flathub/backend
-          VERSION=${GITHUB_SHA:7}
-          TAGS="${IMAGE}:${VERSION},${IMAGE}:latest"
-
-          echo ::set-output name=tags::${TAGS}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Login to ghcr.io
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: flathubbot
-          password: ${{ secrets.REGISTRY_TOKEN }}
-
-      - name: Build and push
-        id: docker_build
+      - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.prep.outputs.tags }}
+          tags: backend
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Execute smoke tests
+        run: |
+          docker compose up -d
+          docker exec backend-web-1 pip3 install pytest
+          docker exec backend-web-1 python3 -m pytest tests/main.py
