@@ -4,7 +4,7 @@ import sentry_sdk
 from fastapi import FastAPI, Response
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-from . import apps, config, db, feeds, picks, schemas, stats, summary
+from . import apps, config, db, feeds, picks, schemas, stats, summary, verification
 
 app = FastAPI(title=config.settings.app_name)
 if config.settings.sentry_dsn:
@@ -18,6 +18,7 @@ def startup_event():
 
     db.initialize()
     picks.initialize()
+    verification.initialize()
 
 
 @app.post("/update")
@@ -26,6 +27,7 @@ def update():
     summary.update()
     picks.update()
     stats.update()
+    verification.update()
 
     if new_apps:
         new_apps_zset = {}
@@ -180,3 +182,13 @@ def get_summary(appid: str, response: Response):
 
     response.status_code = 404
     return None
+
+
+@app.get("/verification/{appid}/status", status_code=200)
+def get_verification_status(appid: str):
+    return verification.get_verification_status(appid)
+
+
+@app.get("/verification/{appid}/available-methods", status_code=200)
+def get_verification_methods(appid: str):
+    return verification.get_verification_methods(appid)

@@ -1,4 +1,5 @@
 import gzip
+import json
 import os
 
 import requests
@@ -202,3 +203,13 @@ def appstream2dict(reponame: str):
         apps[appid] = app
 
     return apps
+
+
+def get_appids(path):
+    try:
+        with open(
+            path,
+        ) as file_:
+            return json.load(file_)
+    except IOError:
+        return []

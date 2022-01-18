@@ -3,17 +3,7 @@ import os
 
 import requests
 
-from . import config, db
-
-
-def _get_appids(path):
-    try:
-        with open(
-            path,
-        ) as file_:
-            return json.load(file_)
-    except IOError:
-        return []
+from . import config, db, utils
 
 
 def update():
@@ -36,7 +26,7 @@ def initialize():
     picks_dir = os.path.join(config.settings.datadir, "picks")
     with db.redis_conn.pipeline() as p:
         for pick_json in os.listdir(picks_dir):
-            value = _get_appids(os.path.join(picks_dir, pick_json))
+            value = utils.get_appids(os.path.join(picks_dir, pick_json))
             p.set(f"picks:{pick_json[:-5]}", json.dumps(value))
         p.execute()
 

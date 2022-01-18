@@ -314,3 +314,38 @@ def test_app_stats_by_non_existent_id():
     response = client.get("/stats/does.not.exist")
     assert response.status_code == 404
     assert response.json() == None
+
+
+def test_verification_status():
+    response = client.get("/verification/some.app.id/status")
+    expected = {
+        "verified": False,
+        "method": "none",
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+def test_verification_available_method_website():
+    response = client.get("/verification/some.app.id/available-methods")
+    expected = {
+        "methods": [{
+            "method": "website",
+            "website": "app.some",
+        }]
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+def test_verification_available_method_website():
+    response = client.get("/verification/com.github.flathub.ExampleApp/available-methods")
+    expected = {
+        "methods": [{
+            "method": "login_provider",
+            "login_provider": "GitHub",
+            "login_name": "flathub",
+        }]
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
