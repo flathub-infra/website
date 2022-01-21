@@ -16,6 +16,8 @@ class Settings(BaseSettings):
     appstream_repos: Optional[str] = None
     datadir: str = os.path.join(ROOT_DIR, "data")
     stats_baseurl = "https://flathub.org/stats"
+    enable_login_support: bool = False
+    session_secret_key: str = "change-me-for-production"
 
 
 settings = Settings()

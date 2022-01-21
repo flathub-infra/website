@@ -19,6 +19,11 @@ app.add_middleware(
     allow_origins=origins,
 )
 
+if config.settings.enable_login_support:
+    from starlette.middleware.sessions import SessionMiddleware
+
+    app.add_middleware(SessionMiddleware, secret_key=config.settings.session_secret_key)
+
 
 @app.on_event("startup")
 def startup_event():
