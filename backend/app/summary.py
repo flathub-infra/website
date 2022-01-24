@@ -125,10 +125,10 @@ def update():
 
         appid = ref.split("/")[1]
 
-        download_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
+        download_size_be_uint = struct.pack("<Q", xa_cache[ref][1])
         download_size = struct.unpack(">Q", download_size_be_uint)[0]
 
-        installed_size_be_uint = struct.pack("<Q", xa_cache[ref][1])
+        installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
         summary_dict[appid]["download_size"] = download_size

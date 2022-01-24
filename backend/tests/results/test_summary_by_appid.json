@@ -3,8 +3,8 @@
     "x86_64"
   ],
   "timestamp": 1610973680,
-  "download_size": 1024,
-  "installed_size": 371,
+  "download_size": 371,
+  "installed_size": 1024,
   "metadata": {
     "name": "org.sugarlabs.Maze",
     "runtime": "org.freedesktop.Platform/x86_64/20.08",
