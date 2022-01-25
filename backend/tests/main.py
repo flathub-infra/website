@@ -315,35 +315,61 @@ def test_app_stats_by_non_existent_id():
 
 
 def test_verification_status():
-    response = client.get("/verification/some.app.id/status")
+    response = client.get("/verification/com.github.flathub.ExampleApp/status")
     expected = {
         "verified": False,
         "method": "none",
+        "detail": "repo_does_not_exist",
     }
     assert response.status_code == 200
     assert response.json() == expected
 
 
 def test_verification_available_method_website():
-    response = client.get("/verification/some.app.id/available-methods")
+    response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
-        "methods": [{
-            "method": "website",
-            "website": "app.some",
-        }]
+        "methods": [
+            {
+                "method": "website",
+                "website": "gnome.org",
+            }
+        ]
     }
     assert response.status_code == 200
     assert response.json() == expected
 
 
-def test_verification_available_method_website():
-    response = client.get("/verification/com.github.flathub.ExampleApp/available-methods")
+def test_verification_available_method_github():
+    response = client.get(
+        "/verification/com.github.bilelmoussaoui.Authenticator/available-methods"
+    )
     expected = {
-        "methods": [{
-            "method": "login_provider",
-            "login_provider": "GitHub",
-            "login_name": "flathub",
-        }]
+        "methods": [
+            {
+                "method": "login_provider",
+                "login_provider": "GitHub",
+                "login_name": "bilelmoussaoui",
+            }
+        ]
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+def test_verification_available_method_multiple():
+    response = client.get("/verification/io.github.lainsce.Notejot/available-methods")
+    expected = {
+        "methods": [
+            {
+                "method": "website",
+                "website": "lainsce.github.io",
+            },
+            {
+                "method": "login_provider",
+                "login_provider": "GitHub",
+                "login_name": "lainsce",
+            },
+        ]
     }
     assert response.status_code == 200
     assert response.json() == expected

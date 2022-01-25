@@ -218,3 +218,8 @@ def get_verification_status(appid: str):
 @app.get("/verification/{appid}/available-methods", status_code=200)
 def get_verification_methods(appid: str):
     return verification.get_verification_methods(appid)
+
+
+@app.get("/verification/{appid}/website", status_code=200)
+def get_website_verification(appid: str):
+    return verification.get_website_verification(appid)
