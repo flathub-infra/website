@@ -1,4 +1,5 @@
-version: "2"
+version: "3"
+
 services:
   redis:
     image: redislabs/redisearch:2.2.1
@@ -20,3 +21,32 @@ services:
     volumes:
       - /var/lib/flatpak
       - .:/app
+
+  db:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=test_db
+  web:
+    build: .
+    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8080 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
