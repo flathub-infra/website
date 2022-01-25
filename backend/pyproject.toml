@@ -17,6 +17,9 @@ redisearch = "^2.1.1"
 feedgen = "^0.9.0"
 PyGObject = "^3.42.0"
 watchgod = "^0.7"
+FastAPI-SQLAlchemy = "^0.2.1"
+alembic = "^1.7.5"
+psycopg2-binary = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
