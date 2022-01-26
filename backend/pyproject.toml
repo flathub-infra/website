@@ -20,6 +20,8 @@ watchgod = "^0.7"
 FastAPI-SQLAlchemy = "^0.2.1"
 alembic = "^1.7.5"
 psycopg2-binary = "^2.9.3"
+itsdangerous = "^2.0"
+PyGithub = "^1.55"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
