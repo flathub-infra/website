@@ -194,7 +194,6 @@ def test_feed_by_recently_updated():
         title = channel.find("title")
         channel.remove(title)
 
-
     assert etree.tostring(feed) == etree.tostring(expected)
 
 

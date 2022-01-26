@@ -11,7 +11,7 @@ from app import config as app_config
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option('sqlalchemy.url', app_config.settings.database_url)
+config.set_main_option("sqlalchemy.url", app_config.settings.database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -21,7 +21,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-import models
+from app import models
 
 target_metadata = models.Base.metadata
 # other values from the config, defined by the needs of env.py,
@@ -56,7 +56,7 @@ def run_migrations_online():
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    connectable = config.attributes.get('connection', None)
+    connectable = config.attributes.get("connection", None)
 
     if connectable is None:
         connectable = engine_from_config(
