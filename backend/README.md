@@ -50,13 +50,13 @@ Once you have made your `models.py` change:
 
 1. Prepare your migration with:
    ```bash
-   docker-compose run web alembic revision --autogenerate -m "Title of migration"
+   docker-compose run backend alembic revision --autogenerate -m "Title of migration"
    ``` 
    If the command ran successfully, a new file will be created under `alembic/versions`.
 
 2. Run the migration after the file has been created via
    ```bash
-   docker-compose run web alembic upgrade head
+   docker-compose run backend alembic upgrade head
    ```
    This will update your local database.
 

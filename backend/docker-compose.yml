@@ -11,13 +11,14 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     environment:
       - REDIS_HOST=redis
     ports:
       - "8000:8000"
     depends_on:
       - redis
+      - db
     volumes:
       - /var/lib/flatpak
       - .:/app
@@ -30,15 +31,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=test_db
-  web:
-    build: .
-    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8080 --reload"
-    volumes:
-      - .:/app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
 
   pgadmin:
     container_name: pgadmin
