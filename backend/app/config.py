@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     stats_baseurl = "https://flathub.org/stats"
     enable_login_support: bool = False
     session_secret_key: str = "change-me-for-production"
+    database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
+    github_client_id: str = "71dbddbdb4288fe96a58"
+    github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
+    github_return_url: str = "http://localhost:3000/login/github"
 
 
 settings = Settings()

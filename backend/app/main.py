@@ -5,7 +5,18 @@ from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
-from . import apps, config, db, feeds, picks, schemas, stats, summary, verification
+from . import (
+    apps,
+    config,
+    db,
+    feeds,
+    logins,
+    picks,
+    schemas,
+    stats,
+    summary,
+    verification,
+)
 
 app = FastAPI(title=config.settings.app_name)
 if config.settings.sentry_dsn:
@@ -20,9 +31,7 @@ app.add_middleware(
 )
 
 if config.settings.enable_login_support:
-    from starlette.middleware.sessions import SessionMiddleware
-
-    app.add_middleware(SessionMiddleware, secret_key=config.settings.session_secret_key)
+    logins.register_to_app(app)
 
 
 @app.on_event("startup")
