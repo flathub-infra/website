@@ -218,7 +218,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
           ></AdditionalInfo>
 
           {developerApps && developerApps.length > 0 && (
-            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={`Other apps by ${app.developer_name}`} applications={developerApps.slice(0, 6)} />
+            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={`Other apps by ${app.developer_name}`} applications={developerApps.slice(0, 6)} showMore={developerApps.length > 6} />
           )}
 
           <AppStatistics stats={stats}></AppStatistics>

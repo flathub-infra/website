@@ -11,22 +11,24 @@ interface Props {
   href: string
   title: string
   applications: Appstream[]
+  showMore?: boolean
 }
 
 const ApplicationSection: FunctionComponent<Props> = ({
   href,
   title,
   applications,
+  showMore = true,
 }) => (
   <div className={styles.applicationsSection}>
     <header>
       <h3>{title}</h3>
 
-      <Link href={href} passHref>
+      {showMore && <Link href={href} passHref>
         <a>
           <Button>Show more</Button>
         </a>
-      </Link>
+      </Link>}
     </header>
     <div className={styles.applications}>
       {applications.map((app) => (
