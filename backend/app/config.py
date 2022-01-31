@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     github_client_id: str = "71dbddbdb4288fe96a58"
     github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
     github_return_url: str = "http://localhost:3000/login/github"
+    cors_origins: str = "http://localhost:3000"
 
 
 settings = Settings()

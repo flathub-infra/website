@@ -23,11 +23,14 @@ if config.settings.sentry_dsn:
     sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.01)
     app.add_middleware(SentryAsgiMiddleware)
 
-origins = ["http://localhost:3000"]
+origins = config.settings.cors_origins.split(" ")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 if config.settings.enable_login_support:
