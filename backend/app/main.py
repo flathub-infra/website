@@ -36,6 +36,8 @@ app.add_middleware(
 if config.settings.enable_login_support:
     logins.register_to_app(app)
 
+verification.register_to_app(app)
+
 
 @app.on_event("startup")
 def startup_event():
@@ -195,21 +197,6 @@ def get_summary(appid: str, response: Response):
 
     response.status_code = 404
     return None
-
-
-@app.get("/verification/{appid}/status", status_code=200)
-def get_verification_status(appid: str):
-    return verification.get_verification_status(appid)
-
-
-@app.get("/verification/{appid}/available-methods", status_code=200)
-def get_verification_methods(appid: str):
-    return verification.get_verification_methods(appid)
-
-
-@app.get("/verification/{appid}/website", status_code=200)
-def get_website_verification(appid: str):
-    return verification.get_website_verification(appid)
 
 
 def sort_ids_by_downloads(ids):

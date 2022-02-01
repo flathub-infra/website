@@ -3,8 +3,10 @@ import re
 import urllib.parse
 
 import requests
+from fastapi_sqlalchemy import DBSessionMiddleware, db as sqldb
+from fastapi import FastAPI, APIRouter
 
-from . import config, db, utils
+from . import config, db, utils, models
 
 
 def update():
@@ -33,6 +35,7 @@ def initialize():
                 p.sadd(f"verification:{verdict}", *value)
         p.execute()
 
+# Utility functions
 
 def _matches_prefixes(appid: str, *prefixes) -> bool:
     for prefix in prefixes:
@@ -91,6 +94,10 @@ def _check_app_id_error(appid: str) -> str:
     return None
 
 
+# Routes
+router = APIRouter(prefix="/verification")
+
+
 def _check_website_verification(appid: str):
     domain = _get_domain_name(appid)
     if domain is None:
@@ -127,6 +134,7 @@ def _check_website_verification(appid: str):
         }
 
 
+@router.get("/{appid}/available-methods", status_code=200)
 def get_verification_methods(appid: str):
     """
     Gets a list of all available verification methods for an app.
@@ -175,6 +183,7 @@ def get_verification_methods(appid: str):
     }
 
 
+@router.get("/{appid}/status", status_code=200)
 def get_verification_status(appid: str):
     """
     Gets the verification status of an app ID.
@@ -183,6 +192,8 @@ def get_verification_status(appid: str):
     - "verified": True or False
     - "method": "none", "manual", or "website"
     - "website": For "website" method, the domain name of the website that verified the app (e.g. "gnome.org").
+    - "login_provider": For "login_provider" method, the login provider the app was verified through.
+    - "login_name": For "login_provider" method, the username of the user who verified the app.
     - "detail": Error detail. See docs for _check_app_id_error().
     """
     if detail := _check_app_id_error(appid):
@@ -211,12 +222,23 @@ def get_verification_status(appid: str):
             "website": _get_domain_name(appid),
         }
 
+    if github_username := _get_github_username(appid):
+        verified_app = sqldb.session.get(models.UserVerifiedApp, appid)
+        if verified_app is not None:
+            return {
+                "verified": True,
+                "method": "login_provider",
+                "login_provider": "GitHub",
+                "login_name": github_username,
+            }
+
     return {
         "verified": False,
         "method": "none",
     }
 
 
+@router.get("/{appid}/website", status_code=200)
 def get_website_verification(appid: str):
     """
     Returns information helpful for debugging the website verification process, such as what error occurred (if any)
@@ -234,3 +256,14 @@ def get_website_verification(appid: str):
         }
 
     return _check_website_verification(appid)
+
+
+def register_to_app(app: FastAPI):
+    """
+    Register the login and authentication flows with the FastAPI application
+
+    This also enables session middleware and the database middleware
+    """
+    app.add_middleware(DBSessionMiddleware,
+                       db_url=config.settings.database_url)
+    app.include_router(router)

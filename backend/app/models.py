@@ -284,3 +284,13 @@ class GoogleAccount(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(GoogleAccount)
+
+
+class UserVerifiedApp(Base):
+    __tablename__ = "userverifiedapp"
+
+    app_id = Column(String, primary_key=True, nullable=False)
+    account = Column(
+        Integer, ForeignKey(FlathubUser.id, ondelete="CASCADE"), nullable=False
+    )
+    created = Column(DateTime, nullable=False)
