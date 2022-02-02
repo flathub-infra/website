@@ -4,9 +4,12 @@ import urllib.parse
 
 import requests
 from fastapi_sqlalchemy import DBSessionMiddleware, db as sqldb
-from fastapi import FastAPI, APIRouter
+from sqlalchemy.sql import func
+from fastapi import Depends, FastAPI, APIRouter, HTTPException
+from fastapi.responses import JSONResponse
 
 from . import config, db, utils, models
+from .logins import login_state
 
 
 def update():
@@ -72,10 +75,12 @@ def _check_app_id_error(appid: str) -> str:
     - "repo_does_not_exist": The app ID does not refer to an existing flathub repository.
     - "error_connecting_to_github": The server could not connect to GitHub.
     - "invalid_domain": Website verification was requested, but the app ID is not eligible for website verification.
+    - "invalid_username": Login verification was requested, but the app ID is not eligible for it.
     - "failed_to_connect": The server could not connect to the website.
     - "server_returned_error": The server got a non-200 status code from the website.
     - "app_not_listed": The app ID is not listed in /.well-known/org.flathub.VerifiedApps.txt on the website.
     - "blocked_by_admins": The app cannot be verified because the flathub administrators manually blocked it.
+    - "not_logged_in": The operation requires you to be logged in.
     """
     if len(appid.split(".")) < 3:
         return "malformed_app_id"
@@ -256,6 +261,43 @@ def get_website_verification(appid: str):
         }
 
     return _check_website_verification(appid)
+
+
+@router.post("/{appid}/verify", status_code=200)
+def verify_app(appid: str, login=Depends(login_state)):
+    """ Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
+    with the correct username, as specified by the app ID.
+
+    Returns: Same as get_verification_status(). """
+
+    if not login["state"].logged_in():
+        raise HTTPException(status_code=403, detail="not_logged_in")
+
+    if detail := _check_app_id_error(appid):
+        return {
+            "verified": False,
+            "method": "none",
+            "detail": detail,
+        }
+
+    username = _get_github_username(appid)
+    if username is None:
+        raise HTTPException(status_code=400, detail="invalid_username")
+
+    accounts = sqldb.session.query(models.GithubAccount).filter_by(user=login["user"].id)
+    for account in accounts:
+        if account.login == username:
+            verification = models.UserVerifiedApp(app_id = appid, account=login["user"].id, created=func.now())
+            sqldb.session.add(verification)
+            sqldb.session.commit()
+            return JSONResponse({
+                "verified": True,
+                "method": "login_provider",
+                "login_provider": "GitHub",
+                "login_name": account.login,
+            })
+    else:
+        raise HTTPException(status_code=403, detail="username_does_not_match")
 
 
 def register_to_app(app: FastAPI):
