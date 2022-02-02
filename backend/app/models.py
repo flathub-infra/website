@@ -1,6 +1,7 @@
+from datetime import datetime, timedelta
 from typing import List
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, delete
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -33,12 +34,29 @@ class GithubAccount(Base):
         return db.session.query(GithubAccount).filter_by(github_userid=ghid).first()
 
 
+DEFAULT_HOUSEKEEPING_MINUTES = 20
+
+
 class GithubFlowToken(Base):
     __tablename__ = "githubflowtoken"
 
     id = Column(Integer, primary_key=True)
     state = Column(String, nullable=False)
     created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
+        """
+        Clear out any tokens which are more than the specified age.
+
+        The login flow will also discard flow tokens younger than this, so over-all
+        the flow tokens table should be kept pretty clean.
+        """
+        too_old = datetime.now() - timedelta(minutes=minutes)
+        db.session.execute(
+            delete(GithubFlowToken).where(GithubFlowToken.created < too_old)
+        )
+        db.session.flush()
 
 
 class GithubRepository(Base):

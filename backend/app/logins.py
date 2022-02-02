@@ -148,16 +148,11 @@ def start_github_flow(request: Request, login=Depends(login_state)):
             )
     # Okay, we're preparing a login, step one, do we already have an
     # intermediate we're using?
+    models.GithubFlowToken.housekeeping(db)
     intermediate = login["method_intermediate"]
     if intermediate is not None:
         # Yes, retrieve it from the db
         intermediate = db.session.get(models.GithubFlowToken, intermediate)
-        created = intermediate.created
-        now = datetime.now()
-        if (now - created).seconds > (10 * 60):
-            # More than 10 minutes have passed, cancel this
-            db.session.delete(intermediate)
-            intermediate = None
     if intermediate is None:
         # No, let's create one
         randomtoken = uuid4().hex
@@ -214,9 +209,20 @@ def continue_github_flow(
         return JSONResponse(
             {"state": "error", "error": "Not mid-github login flow"}, status_code=400
         )
+    models.GithubFlowToken.housekeeping(db)
     flowtokens = db.session.get(models.GithubFlowToken, login["method_intermediate"])
     del request.session["active-login-flow"]
     del request.session["active-login-flow-intermediate"]
+
+    if flowtokens is None:
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": "Login token has expired, please try again",
+            },
+            status_code=400,
+        )
+
     if flowtokens.state != data.state:
         return JSONResponse(
             {
@@ -225,17 +231,8 @@ def continue_github_flow(
             },
             status_code=400,
         )
-    if (datetime.now() - flowtokens.created).seconds > 10 * 60:
-        db.session.delete(flowtokens)
-        db.session.commit()
-        return JSONResponse(
-            {
-                "state": "error",
-                "error": "Github authentication flow token too old",
-            },
-            status_code=400,
-        )
-    # Token is good, age is good, let's clean up the flowtokens
+
+    # Token is present and good, let's clean up the flowtokens
     db.session.delete(flowtokens)
     # And acquire the bearer info from Github
     args = {
