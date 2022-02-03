@@ -21,12 +21,10 @@ const ProviderLink: FunctionComponent<Props> = ({
         cache: 'no-store', // Redirects are unique each time
       })
 
+      // TODO something with bad responses
       if (res.ok) {
         const data: LoginRedirect = await res.json()
         window.location.href = data.redirect
-      } else {
-        // TODO: redirect to user page if logged in, or show feedback
-        window.location.href = '/'
       }
     }
 
