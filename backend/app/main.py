@@ -40,7 +40,16 @@ def update():
 @app.get("/category/{category}")
 def get_category(
     category: schemas.Category,
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
 ):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
     ids = apps.get_category(category)
 
     downloads = stats.get_downloads_by_ids(ids)
@@ -51,8 +60,10 @@ def get_category(
         ),
         reverse=True,
     )
-
-    return sorted_ids
+    if page is None:
+        return sorted_ids
+    else:
+        return sorted_ids.__getitem__(slice(per_page * (page - 1), per_page * page))
 
 
 @app.get("/developer/")

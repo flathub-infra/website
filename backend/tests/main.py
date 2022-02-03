@@ -86,9 +86,24 @@ def test_apps_by_category():
     assert response.json() == _get_expected_json_result("test_apps_by_category")
 
 
+def test_apps_by_category():
+    response = client.get("/category/Game?page=1&per_page=10")
+    assert response.status_code == 200
+
+
 def test_apps_by_non_existent_category():
     response = client.get("/category/NonExistent")
     assert response.status_code == 422
+
+
+def test_apps_by_category_with_too_few_page_params():
+    response = client.get("/category/Game?page=2")
+    assert response.status_code == 400
+
+
+def test_apps_by_category_with_too_few_per_page_params():
+    response = client.get("/category/Game?per_page=20")
+    assert response.status_code == 400
 
 
 def test_apps_by_developer():
