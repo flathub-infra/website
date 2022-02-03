@@ -1,11 +1,10 @@
-import { GetStaticProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Main from '../../src/components/layout/Main';
 import { LOGIN_PROVIDERS_URL } from '../../src/env';
 import Error from '../_error';
 
-export default function AuthReturnPage({ endpoint }) {
+export default function AuthReturnPage() {
   // Must access query params to POST to backend for verification with GitHub
   const router = useRouter()
 
@@ -49,9 +48,9 @@ export default function AuthReturnPage({ endpoint }) {
     }
 
     // Catches any unexpected network errors
-    postRequest(`${endpoint}/github`)
+    postRequest(`${LOGIN_PROVIDERS_URL}/github`)
       .catch(() => setFeedback('Network error, please try again'))
-  }, [router, endpoint])
+  }, [router])
 
   if (status) {
     return <Error statusCode={status}></Error>
@@ -63,14 +62,4 @@ export default function AuthReturnPage({ endpoint }) {
       <p>{feedback}</p>
     </Main>
   )
-}
-
-export const getStaticProps: GetStaticProps = () => {
-  // Get envrionment variable driven value at build time for client use
-  // NOTE: May want to just use NEXT_PUBLIC prefix for API URL
-  return {
-    props: {
-      endpoint: LOGIN_PROVIDERS_URL
-    }
-  }
 }
