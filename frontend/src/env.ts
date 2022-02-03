@@ -14,8 +14,14 @@ export const POPULAR_URL: string = `${BASE_URI}/popular`
 export const EDITORS_PICKS_GAMES_URL: string = `${BASE_URI}/picks/games`
 export const EDITORS_PICKS_APPS_URL: string = `${BASE_URI}/picks/apps`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
-export const CATEGORY_URL = (category: keyof typeof Category): string =>
-  `${BASE_URI}/category/${category}`
+export const CATEGORY_URL = (category: keyof typeof Category, page?: number, per_page?: number): string => {
+  if (page && per_page) {
+    return `${BASE_URI}/category/${category}?page=${page}&per_page=${per_page}`
+  }
+  else {
+    return `${BASE_URI}/category/${category}`
+  }
+}
 export const DEVELOPERS_URL = `${BASE_URI}/developer`
 export const DEVELOPER_URL = (developer: string): string =>
   `${BASE_URI}/developer/${encodeURIComponent(developer)}`

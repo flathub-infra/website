@@ -1,20 +1,17 @@
 import { GetStaticProps } from 'next'
-import { Collections } from '../../src/types/Collection'
-import fetchCollection from '../../src/fetchers'
+import { Appstream } from '../../src/types/Appstream'
+import { fetchCategory } from '../../src/fetchers'
 import Main from '../../src/components/layout/Main'
 import { APPS_IN_PREVIEW_COUNT } from '../../src/env'
 import { NextSeo } from 'next-seo'
-import ApplicationSections from '../../src/components/application/Sections'
 import Link from 'next/link'
 import Tile from '../../src/components/Tile'
 import { Category, categoryToName } from '../../src/types/Category'
 import styles from './index.module.scss'
+import ApplicationSection from '../../src/components/application/ApplicationSection'
 
 export default function Apps({
-  recentlyUpdated,
-  editorsChoiceApps,
-  editorsChoiceGames,
-  popular,
+  topAppsByCategory,
 }) {
   return (
     <Main>
@@ -37,41 +34,25 @@ export default function Apps({
             </Link>
           ))}
         </div>
-        <ApplicationSections
-          popular={popular}
-          recentlyUpdated={recentlyUpdated}
-          editorsChoiceApps={editorsChoiceApps}
-          editorsChoiceGames={editorsChoiceGames}
-        ></ApplicationSections>
+        {topAppsByCategory.map((sectionData, i) => (
+          <ApplicationSection key={`categorySection${i}`} href={`/apps/category/${encodeURIComponent(sectionData.category)}`} applications={sectionData.apps} title={categoryToName(sectionData.category)}></ApplicationSection>
+        ))}
       </div>
-    </Main>
+    </Main >
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const recentlyUpdated = await fetchCollection(
-    Collections.recentlyUpdated,
-    APPS_IN_PREVIEW_COUNT
-  )
-  const editorsChoiceApps = await fetchCollection(
-    Collections.editorsApps,
-    APPS_IN_PREVIEW_COUNT
-  )
-  const editorsChoiceGames = await fetchCollection(
-    Collections.editorsGames,
-    APPS_IN_PREVIEW_COUNT
-  )
-  const popular = await fetchCollection(
-    Collections.popular,
-    APPS_IN_PREVIEW_COUNT
-  )
+  let topAppsByCategory: { category: string, apps: Appstream[] }[] = [];
 
+  const categoryPromise = Object.keys(Category).map(async (category: Category) => {
+    return { category, apps: await (await fetchCategory(category, 1, APPS_IN_PREVIEW_COUNT)) }
+  })
+
+  topAppsByCategory = await Promise.all(categoryPromise);
   return {
     props: {
-      recentlyUpdated,
-      editorsChoiceApps,
-      editorsChoiceGames,
-      popular,
+      topAppsByCategory,
     },
   }
 }

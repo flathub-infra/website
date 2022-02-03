@@ -126,8 +126,8 @@ export default async function fetchCollection(
   return items.filter((item) => Boolean(item))
 }
 
-export async function fetchCategory(category: keyof typeof Category) {
-  const appListRes = await fetch(CATEGORY_URL(category))
+export async function fetchCategory(category: keyof typeof Category, page?: number, per_page?: number): Promise<Appstream[]> {
+  const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
   const appList = await appListRes.json()
 
   const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
