@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Main from '../../src/components/layout/Main';
+import { getUserData } from '../../src/context/actions';
+import { useUserDispatch } from '../../src/context/user-info';
 import { LOGIN_PROVIDERS_URL } from '../../src/env';
 import Error from '../_error';
 
@@ -11,6 +13,8 @@ export default function AuthReturnPage() {
   // Use state to rerender when request resolves
   const [status, setStatus] = useState(null)
   const [feedback, setFeedback] = useState('Awaiting server')
+
+  const dispatch = useUserDispatch()
 
   useEffect(() => {
     // Router must be ready to access query parameters
@@ -36,9 +40,9 @@ export default function AuthReturnPage() {
         })
       })
 
-      // TODO store logged-in user info client-side
       if (res.ok) {
         // May just want to redirect on successful login
+        getUserData(dispatch)
         setFeedback('Success')
       } else {
         // Bad response codes
