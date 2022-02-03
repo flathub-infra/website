@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from "querystring";
 import { Dispatch } from "react";
-import { LOGIN_PROVIDERS_URL, USER_INFO_URL } from "../env";
+import { LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_INFO_URL } from "../env";
 import { UserStateAction } from "../types/Login";
 
 export async function login(dispatch: Dispatch<UserStateAction>, query: ParsedUrlQuery) {
@@ -45,6 +45,15 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
   }
 }
 
-export function logout(dispatch: Dispatch<UserStateAction>) {
-  dispatch({type: 'logout'})
+export async function logout(dispatch: Dispatch<UserStateAction>) {
+  dispatch({type: 'loading'})
+
+  const res = await fetch(LOGOUT_URL, {
+    method: 'POST',
+    credentials: 'include',
+  })
+
+  if (res.ok) {
+    dispatch({type: 'logout'})
+  }
 }
