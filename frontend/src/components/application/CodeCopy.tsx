@@ -5,7 +5,6 @@ import styles from './CodeCopy.module.scss'
 
 interface Props {
   text: string
-  copied: boolean
   className?: string
   nested?: boolean
 }
