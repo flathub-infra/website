@@ -9,6 +9,7 @@ And we present the full /auth/ sub-namespace
 
 from datetime import datetime
 from enum import Enum
+from typing import Optional, Union
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -42,9 +43,19 @@ class LoginState(str, Enum):
         return self == LoginState.LOGGING_IN or self == LoginState.LOGGING_IN_AGAIN
 
 
-class GithubLoginResponse(BaseModel):
-    state: str
+class GithubLoginResponseSuccess(BaseModel):
     code: str
+    state: str
+
+
+class GithubLoginResponseFailure(BaseModel):
+    state: str
+    error: str
+    error_description: Optional[str]
+    error_uri: Optional[str]
+
+
+GithubLoginResponse = Union[GithubLoginResponseSuccess, GithubLoginResponseFailure]
 
 
 # Routers etc.
@@ -193,7 +204,7 @@ def continue_github_flow(
     """
     Process the result of the Github oauth flow
 
-    This expects to have some JSON posted to it which contains:
+    This expects to have some JSON posted to it which (on success) contains:
 
     ```
     {
@@ -202,8 +213,19 @@ def continue_github_flow(
     }
     ```
 
-    This will either return an error if something went wrong, or else
-    will return a redirect to the userinfo endpoint.
+    On failure, the frontend should pass through the state and error so that
+    the backend can clear the flow tokens
+
+    ```
+    {
+        "state": "the state code",
+        "error": "the error code returned from github",
+    }
+    ```
+
+    This endpoint will either return an error, if something was wrong in the
+    backend state machines; or it will return a success code with an indication
+    of whether or not the login sequence completed OK.
     """
     if login["method"] != "github":
         return JSONResponse(
@@ -234,6 +256,15 @@ def continue_github_flow(
 
     # Token is present and good, let's clean up the flowtokens
     db.session.delete(flowtokens)
+    if isinstance(data, GithubLoginResponseFailure):
+        # We are dealing with a login failure, we've cleared the flow out of
+        # the session cookie, and we're ready to clear from the database session
+        # so just return a 'successfully not logged in' return
+        db.session.commit()
+        return {
+            "status": "ok",
+            "result": "flow_abandoned",
+        }
     # And acquire the bearer info from Github
     args = {
         "client_id": config.settings.github_client_id,
@@ -304,7 +335,10 @@ def continue_github_flow(
     models.GithubRepository.unify_repolist(db, gha, repos)
     # The session is now ready
     db.session.commit()
-    return Response(status_code=302, headers={"Location": "/auth/userinfo"})
+    return {
+        "status": "ok",
+        "result": "logged_in",
+    }
 
 
 @router.get("/userinfo")
