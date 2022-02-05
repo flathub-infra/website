@@ -26,7 +26,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
 
       {showMore && <Link href={href} passHref>
         <a>
-          <Button>Show more</Button>
+          <Button>More</Button>
         </a>
       </Link>}
     </header>
