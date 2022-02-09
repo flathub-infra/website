@@ -3,57 +3,113 @@ import { Dispatch } from "react";
 import { LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_INFO_URL } from "../env";
 import { UserStateAction } from "../types/Login";
 
-export async function login(dispatch: Dispatch<UserStateAction>, query: ParsedUrlQuery) {
+/**
+ * Performs the callback POST request to check 3rd partyauthentication
+ * was successful. Fetches user data on success.
+ * @param dispatch Reducer dispatch function used to update user context
+ * @param error Function for displaying errors (usually component state)
+ * @param query URL query object with code and state to POST to backend
+ */
+export async function login(
+  dispatch: Dispatch<UserStateAction>,
+  error: (msg: string) => void,
+  query: ParsedUrlQuery
+) {
   dispatch({type: 'loading'})
 
-  const res = await fetch(`${LOGIN_PROVIDERS_URL}/github`, {
-    method: 'POST',
-    credentials: 'include', // Must use the session cookie
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      code: query.code,
-      state: query.state,
+  let res: Response
+  try {
+    res = await fetch(`${LOGIN_PROVIDERS_URL}/github`, {
+      method: 'POST',
+      credentials: 'include', // Must use the session cookie
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code: query.code,
+        state: query.state,
+      })
     })
-  })
+  } catch {
+    dispatch({type: 'interrupt'})
+    error('Login failed due to a network error. Refresh and try again.')
+    return
+  }
 
   if (res.ok) {
     getUserData(dispatch)
   } else {
-    // Note: Some of these come with an error message from backend we could display
-    dispatch({type: 'logout'})
+    dispatch({type: 'interrupt'})
+
+    // Some errors come with an explanation from backend, any others are unexpected
+    const data = await res.json()
+    if (data.state == 'error') {
+      error(`The following error occured: "${data.error}". Reinitiate login to try again.`)
+    } else {
+      error(`An unexpected error occured: ${res.status} ${res.statusText}. Refresh and try again.`)
+    }
   }
 }
 
+/**
+ * Retrieved the currently logged in user's data. On error the state of
+ * current data is assumed to be unchanged.
+ * @param dispatch Reducer dispatch function used to update user context
+ */
 export async function getUserData(dispatch: Dispatch<UserStateAction>) {
   // Indicate the user data is being fetched
   dispatch({type: 'loading'})
 
-  // Gets data for user with current session cookie
-  const res = await fetch(USER_INFO_URL, { credentials: 'include' })
+  // On network error just assume user state is unchanged
+  let res: Response
+  try {
+    // Gets data for user with current session cookie
+    res = await fetch(USER_INFO_URL, { credentials: 'include' })
+  } catch {
+    dispatch({type: 'interrupt'})
+    return
+  }
 
-  // 403 indicates not currently logged in
-  if (res.status === 403) {
-    dispatch({type: 'logout'})
-  } else {
+  // Assuming a bad status indicates unchanged user state
+  if (res.ok) {
     const info = await res.json()
     dispatch({
       type: 'login',
       info
     })
+  } else {
+    // 403 specifically indicates not currently logged in
+    dispatch({type: res.status === 403 ? 'logout' : 'interrupt'})
   }
 }
 
-export async function logout(dispatch: Dispatch<UserStateAction>) {
+/**
+ * Performs the logout API action and updates the client-side context
+ * @param dispatch Reducer dispatch function used to update user context
+ * @param error Function for displaying errors (usually component state)
+ */
+export async function logout(
+  dispatch: Dispatch<UserStateAction>,
+  error: (msg: string) => void
+) {
   dispatch({type: 'loading'})
 
-  const res = await fetch(LOGOUT_URL, {
-    method: 'POST',
-    credentials: 'include',
-  })
+  let res: Response
+  try {
+    res = await fetch(LOGOUT_URL, {
+      method: 'POST',
+      credentials: 'include',
+    })
+  } catch {
+    dispatch({type: 'interrupt'})
+    error('A network error occured during logout. Refresh and try again.')
+    return
+  }
 
   if (res.ok) {
     dispatch({type: 'logout'})
+  } else {
+    dispatch({type: 'interrupt'})
+    error('A network error occured during logout. Refresh and try again.')
   }
 }

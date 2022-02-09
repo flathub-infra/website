@@ -1,18 +1,24 @@
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { logout } from '../../context/actions'
 import { useUserDispatch } from '../../context/user-info'
 import Button from '../Button'
+import FeedbackMessage from '../FeedbackMessage'
 
 const LogoutButton: FunctionComponent = () => {
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
-
+  const [error, setError] = useState('')
   const dispatch = useUserDispatch()
 
   // Only make a request on first click
   useEffect(() => {
-    if (clicked) { logout(dispatch) }
+    if (clicked) { logout(dispatch, setError) }
   }, [dispatch, clicked])
+
+  // There may have been a network error
+  if (error) {
+    return <FeedbackMessage success={false} message={error} />
+  }
 
   return (
     <Button onClick={() => setClicked(true)} type='primary'>

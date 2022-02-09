@@ -8,6 +8,11 @@ export function contextReducer(state: UserState, action: UserStateAction): UserS
         ...state,
         loading: true
       }
+    case 'interrupt':
+      return {
+        ...state,
+        loading: false
+      }
     case 'login':
       return {
         loading: false,

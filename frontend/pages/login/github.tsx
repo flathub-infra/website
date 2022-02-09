@@ -1,6 +1,7 @@
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import FeedbackMessage from '../../src/components/FeedbackMessage';
 import Main from '../../src/components/layout/Main';
 import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
@@ -11,6 +12,7 @@ export default function AuthReturnPage() {
 
   // Send only one request, prevent infinite loops
   const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
 
   const user = useUserContext()
   const dispatch = useUserDispatch()
@@ -33,13 +35,14 @@ export default function AuthReturnPage() {
 
     if (!sent) {
       setSent(true)
-      login(dispatch, router.query)
+      login(dispatch, setError, router.query)
     }
   }, [router, dispatch, user, sent])
 
   return (
     <Main>
       <NextSeo title='Login' noindex={true}></NextSeo>
+      {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>
   )
 }
