@@ -8,6 +8,9 @@ COPY . .
 CMD ["yarn", "dev"]
 
 FROM node:16-slim AS production
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
 COPY --from=devel /app /app
 
 WORKDIR /app
