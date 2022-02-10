@@ -31,4 +31,4 @@ COPY --from=builder /venv /venv
 ADD . /app
 WORKDIR /app
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/app/docker-entrypoint.sh"]
