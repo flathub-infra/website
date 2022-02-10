@@ -7,6 +7,7 @@ And we present the full /auth/ sub-namespace
 """
 
 
+import base64
 from datetime import datetime
 from enum import Enum
 from typing import Optional, Union
@@ -24,6 +25,9 @@ from starlette.middleware.sessions import SessionMiddleware
 from . import config, models
 
 # Utility bits
+
+with open("data/images/github-icon.png", "rb") as ghfile:
+    GITHUB_IMAGE_B64 = base64.b64encode(ghfile.read()).decode("ASCII")
 
 
 class LoginState(str, Enum):
@@ -118,8 +122,8 @@ def get_login_kinds():
     return [
         {
             "method": "github",
-            "button": "https://login-with-github-icon.png",
-            "text": "Log in with Github",
+            "button": "data:image/png;base64," + GITHUB_IMAGE_B64,
+            "text": "Log in with GitHub",
         }
     ]
 
