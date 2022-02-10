@@ -1,8 +1,9 @@
 import { NextSeo } from 'next-seo'
 import Router from 'next/router'
-import { useEffect } from 'react'
+import { ReactElement, useEffect } from 'react'
 import Main from '../src/components/layout/Main'
 import LogoutButton from '../src/components/login/LogoutButton'
+import Spinner from '../src/components/Spinner'
 import UserDetails from '../src/components/user/Details'
 import { useUserContext } from '../src/context/user-info'
 import styles from './userpage.module.scss'
@@ -17,14 +18,21 @@ export default function Userpage() {
     }
   }, [user])
 
+  let content: ReactElement
+  if (user.loading || !user.info) {
+    content = <Spinner size={150} />
+  } else {
+    content = <div className={styles.userArea}>
+      <UserDetails />
+      {/* TODO: Flatpaks here */}
+      <div><LogoutButton /></div>
+    </div>
+  }
+
   return (
     <Main>
       <NextSeo title='User page' noindex={true} />
-      <div className={styles.userArea}>
-        <UserDetails />
-        {/* TODO: Flatpaks here */}
-        <div><LogoutButton /></div>
-      </div>
+      {content}
     </Main>
   )
 }

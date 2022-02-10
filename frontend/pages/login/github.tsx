@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import FeedbackMessage from '../../src/components/FeedbackMessage';
 import Main from '../../src/components/layout/Main';
+import Spinner from '../../src/components/Spinner';
 import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
 
@@ -42,6 +43,7 @@ export default function AuthReturnPage() {
   return (
     <Main>
       <NextSeo title='Login' noindex={true}></NextSeo>
+      {user.loading ? <Spinner size={200} /> : <></>}
       {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>
   )
