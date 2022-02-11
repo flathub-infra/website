@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import Image from 'next/image'
+import Image from '../components/Image'
 
 interface Props {
     iconUrl: string

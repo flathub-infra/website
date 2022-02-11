@@ -1,5 +1,5 @@
 import Main from '../src/components/layout/Main'
-import Image from 'next/image'
+import Image from '../src/components/Image'
 import CodeCopy from '../src/components/application/CodeCopy'
 import { NextSeo } from 'next-seo'
 import styles from './badges.module.scss'
