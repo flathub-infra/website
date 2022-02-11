@@ -14,5 +14,5 @@ ENV NEXT_TELEMETRY_DISABLED 1
 COPY --from=devel /app /app
 
 WORKDIR /app
-RUN yarn build
-CMD ["yarn", "start"]
+
+CMD ["/app/docker-entrypoint.sh"]
