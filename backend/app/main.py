@@ -2,6 +2,7 @@ from functools import lru_cache
 
 import sentry_sdk
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from . import apps, config, db, feeds, picks, schemas, stats, summary, verification
@@ -10,6 +11,13 @@ app = FastAPI(title=config.settings.app_name)
 if config.settings.sentry_dsn:
     sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.01)
     app.add_middleware(SentryAsgiMiddleware)
+
+origins = ["http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+)
 
 
 @app.on_event("startup")
