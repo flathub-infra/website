@@ -123,10 +123,23 @@ export default async function fetchCollection(
 
   console.log('\nCollection ', collection, ' fetched')
 
-  return items.filter((item) => Boolean(item))
+  if (
+    collection === Collections.editorsApps ||
+    collection == Collections.editorsGames
+  ) {
+    return items
+      .filter((item) => Boolean(item))
+      .sort((a, b) => 0.5 - Math.random())
+  } else {
+    return items.filter((item) => Boolean(item))
+  }
 }
 
-export async function fetchCategory(category: keyof typeof Category, page?: number, per_page?: number): Promise<Appstream[]> {
+export async function fetchCategory(
+  category: keyof typeof Category,
+  page?: number,
+  per_page?: number
+): Promise<Appstream[]> {
   const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
   const appList = await appListRes.json()
 
