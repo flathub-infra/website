@@ -32,9 +32,10 @@ jobs:
           node-version: '16'
           cache: 'yarn'
 
-      - name: Export static website
+      - name: Export static website to staging
         run: |
           yarn install --frozen-lockfile
+          cp .env.staging .env.production
           yarn build
           yarn export
 
