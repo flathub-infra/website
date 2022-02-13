@@ -144,7 +144,8 @@ def update():
 
         summary_dict[appid]["arches"].append(arch)
 
-    db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
+    if recently_updated_zset:
+        db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
     db.redis_conn.mset(
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )
