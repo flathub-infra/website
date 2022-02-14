@@ -67,7 +67,7 @@ def load_appstream():
     return new_apps
 
 
-def list_appstream(repo: str = "stable"):
+def list_appstream():
     apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     return sorted(apps)
 
@@ -84,7 +84,7 @@ def get_category(category: str):
         return []
 
 
-def get_developer(developer: str, repo: str = "stable"):
+def get_developer(developer: str):
     if index := db.redis_conn.smembers(f"developers:{developer}"):
         return [appid.removeprefix("apps:") for appid in index]
     else:
