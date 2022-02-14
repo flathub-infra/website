@@ -319,6 +319,18 @@ def test_app_stats_by_non_existent_id():
 
 
 @vcr.use_cassette()
+def test_verification_status():
+    response = client.get("/verification/com.github.flathub.ExampleApp/status")
+    expected = {
+        "verified": False,
+        "method": "none",
+        "detail": "repo_does_not_exist",
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+@vcr.use_cassette()
 def test_verification_available_method_website():
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
