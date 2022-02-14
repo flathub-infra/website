@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.github.com/repos/flathub/com.github.bilelmoussaoui.Authenticator
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+1ZbW/bNhD+L/o6x/Jb28RA0Q3oVnRAFmDogK7DYFASbTGmRIGk7DlC/nufoyRL
+        9oD4peC3fGiaGLzn4R3vjsfHVSCSYD6evLl9N3n7bjIIcpXwBX0W3H/8dfsgf5fxp7sn9vXPTZyv
+        /7t//Gv2x9PnCf69D7CYZRwrY5UNV8KmZTSMhOQyU6UxTJVi+EtpU55bETOrNAyWpZSLxmopGZmE
+        51sXWmyYBeOSScMHgdrmXAfzKpBqJXJspIEEEXkwgUu3t9PbI6d2D+u73bfJbyX7WqTJJ7mJHj9P
+        7x//nj18vJ/BlIGD6UWpJRBTawszD8P6Q9O4WRquY5VbuDbE9sMybLk+bN4Txko3KC6S+OAIrRBt
+        wJw54EzYbT61mTzib8JLq7t1SyWl2sL2eLMvwId7IzoOByDy1eUAMKpChdNFpLD9Z3JaGHvRVpxB
+        FdJ/SDmCMIi85skl22lMsBnKhucq1LxQDquMTKxFYYXKL9rWgSGAlF6xXDyxi4FgaGBPG7poA84A
+        hnyDBLvIsraoQlcp8Y7CoHnMxQYxvRztyBRgdldQwT/0IkKRFpYvWJJRDbrSfB6gcM7I4QtqP+H7
+        wwzmOdoIZa9e73vBiwXmAtoWzgWkxHAi/ldBowgBjMit+c4LPuFWIX42dRWj0FmkNLVhL4QHBBVC
+        3PFRElrOMi+8DhgEqVJ+TsoBg0AYU/Kzaui6jHD4JmwLOC+zqO6q55TtdZQ1MnxjxohVzrmXE9qD
+        V+6eo2yINMvj1A9di12F9W8u+9jKi2uES+5IFXnBx6UfOvAqNCmrr1i78OUNsRH2AZnmS2+uEfae
+        zGpP+efcIvA9FSYGi1T04leLHVbNiUmWr0q28sO2B0cW0hy0Yk8np8HrekWHDioafbWISn+XSYdP
+        ntWDHPqhnyPr4DsyNzW+PIZeGcjeVOpCmWXi1Ix3HVMDfVDOHumozo4p6e/TI+z17hF2FXZ3ZX1J
+        N6w+Tq+5pVu/+tzNe9BLirbYYfVTgUcz3QTYQsE09+FkAx1WEcMoPxwOq5Qz9zzLuPbUyWpkUDAd
+        p3iu+PCrarExfWfMuqfiktxK8HSUiiVezm4PDqI6fXz4ViP387HAG8mLQw64z5RB8zFW5X7uuA69
+        z5krK5YkK51+3F/XXg4Iqg9G5DEfMDw7UXXQswTqEBIIZQ8eVtxPpGtkuA2ZjZg0lxwl6eVUW+wq
+        rJWYhBdS7bx17x48NTPNoeslC2YhLkxG49ub0fRmfPdlPJvPxvPR7BvWlEXSXzMZ34wmN6Pxl/F4
+        jmWjt7SmKE3awRwsmc6n72gJrqmm/vAbhL3/C2vn6gOk4AHQmLQD/LmDm1+obzZwsUQhHXWIH9/j
+        5niWuR4SLqcq4wVm2p4+2jg7hOQVsqIwYcItE9KcG0wKpHgC4pvpwSgbqzJHUkwGwZZZvBkxAnYf
+        teNvKwilzCzqRhjMrS6hENMnhVaPPLZmLxXRh11X7q3cirU4sKS5fW9Wi0EN+wiXodBaNTpxLUg1
+        9wsk35o9EYZFkuPvVrAueN7ssHVjjAYiYp4b+N6gkCa7IDY0mBZKmIXlWQHJvJO/rSpEjP398+8g
+        2AgjoL0Lu8OhFGUETIS0lpnm2KzqmCH3d9F0oU34kpXSLuoXMwAyZiyUddJtsmJRp6RVaw59r95j
+        XxJ9FeBPvUsO9P1XAd59n/LSVxSvAnzz1diPCPA5t1v0kLbPoAf039FNG5s+fwcqe7mPARwAAA==
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '1309'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 11 Feb 2022 17:58:21 GMT
+      ETag:
+      - W/"ff4d4d98c4b09b9c5793380d76c04d981b8b0eee7845a98ae5052378c9cdc712"
+      Last-Modified:
+      - Mon, 01 Feb 2021 11:14:06 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Vary:
+      - Accept, Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - E04C:0D67:263486E:4D7DA5B:6206A3BD
+      X-RateLimit-Limit:
+      - '60'
+      X-RateLimit-Remaining:
+      - '49'
+      X-RateLimit-Reset:
+      - '1644605629'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '11'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1

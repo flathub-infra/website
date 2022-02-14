@@ -13,12 +13,16 @@ gi.require_version("OSTree", "1.0")
 from fastapi.testclient import TestClient
 from gi.repository import Gio, OSTree
 from lxml import etree
+import vcr
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 workspace = None
 client = None
+
+
+vcr = vcr.VCR(cassette_library_dir="tests/cassettes")
 
 
 def _get_expected_json_result(test_name):
@@ -314,6 +318,7 @@ def test_app_stats_by_non_existent_id():
     assert response.json() == None
 
 
+@vcr.use_cassette()
 def test_verification_status():
     response = client.get("/verification/com.github.flathub.ExampleApp/status")
     expected = {
@@ -325,6 +330,7 @@ def test_verification_status():
     assert response.json() == expected
 
 
+@vcr.use_cassette()
 def test_verification_available_method_website():
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
@@ -339,6 +345,7 @@ def test_verification_available_method_website():
     assert response.json() == expected
 
 
+@vcr.use_cassette()
 def test_verification_available_method_github():
     response = client.get(
         "/verification/com.github.bilelmoussaoui.Authenticator/available-methods"
@@ -356,6 +363,7 @@ def test_verification_available_method_github():
     assert response.json() == expected
 
 
+@vcr.use_cassette()
 def test_verification_available_method_multiple():
     response = client.get("/verification/io.github.lainsce.Notejot/available-methods")
     expected = {

@@ -1,0 +1,98 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://api.github.com/repos/flathub/org.gnome.Maps
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA+2YTW/jNhCG/4uu9Zr+WDeJgMX2kO2iBbwBihy2WxQGJdEWY0oUSMquI+S/70tR
+        smSnkGPwmktiy5yHw+HMaGaqgCdBOJ3c3S7mk8V0FOQyYSv7LFjef9k/iD9F/PXumX7/axfn2/+W
+        99uP3x6X+2+PXz4FWEwzhpVSbcabXGZsvKSFxvN1KcSq+XEtqEnLiLxaVCi+owbyayo0GwVynzMV
+        hFUg5IbnwDaS4Fl9ZjezX29v57dnKh4etneHH7PfS/q9SJOvYhc9/TFfPv398eF++RGiFHtQtSqV
+        ADE1ptAhIe6hHm+4Va3UTMUyNyw341hmpCTtXp93nyxjoxpKbRc8OKMVvCE5ceA06ZRPTSbO9nf7
+        1qu7dWsphNxD9lzZATw5Clmr1wCeb64HQKgi0qQMloL6L/bQXJurVKkFKmL/wYEsQsPyiiXXqNOI
+        QBnrDS8VUayQNauMdKx4YbjMr1LrRBAg+CHN+TO9GgRB69tWoasUqAUgyHZwsKsknURF6kiJD9YM
+        isWM72DT62lnooCZQ2HD96FnEWtpbtiKJpmNwTo0X0YInDf48OsQT9jxzoIwR1KwTqq2x5AfjKPa
+        bm18vGZb0AVrDhEQOZDHcbfs4IOx4hXB38bnYwQhjaSiRl6K5EH1TjgV6X+1fmAYzXzUruXBSaX0
+        smItDw7XumRvcsrBU9cYTVrHz8ssctnoLe4+SHYAaEq15pucMR/rHRkVadNlpGgep17UFlER96m+
+        Z7rxUdSKgxIJGflg8L4iNaMiOqXu7WBWnrpZqEWcMBVb+ypqEUemUX43XStpGUci3lAGl+6jZYsg
+        VWNNQfNNSTde0CPDpnC8eDf0+WItMRgxHQREWx8pHpXeWa3DWD3dSx0x7mXOjtIx60JhuPIYPn2v
+        3qjPn2X80tt7ENgQTrzdn2r985xsv18uNS4qaxEV6VKwS/EN3MOyTY5vtexv0VThPs7QIkj1S4HG
+        w+Yq7FRQxTxUbgikiijKofF4XKWM1iVuxpRf2DoASFTFKSo7Dy2rFoHSJqOmLp7XVskExbSQNPGx
+        65EBnrtBD00doH/zBYpDH/Vq+T4w44JpI3OvnNpB+uhcGr7m8Vs6iMEgO+FUnzXPYzaiKJLhrYbH
+        HP6LvsxeICpK5mUeB8Ah0LC7NkIwuLKPxRVziIq4Zi9hhZAH38TTo9jIVQwTgmRFDdqU2WR682E6
+        /TC5eZwuwtksnMx/YE1ZJP01s2m9ZvaIBVg2mdo1RanTDjOb4XesepxOwvlNuLixS5BIG4fGJ4wI
+        XrfoZy2Ibfkhp3Xayf3WSYX/P/dopGIBzzwLoDfvuDt/r12UhJ4pxjMFSozeFKTRcIzGltCi0CRh
+        hnKhX/damj9DcLE4qSxiWea4l9ko2FOD0hfv8O5RW420bV9K9cpFfRAaVWLcY58USj6x2OhjQ2gf
+        dpmmt3LPt/xklT1LJ+eawWZ7qJlxpWQz9XF9Z5MbMcBpxk0J1zQSrHsgC5Y3OvYPwmOWa5y+wdgR
+        y8puh9Bsj8L1yrCswKCrm2YZWfAYCv7z7yjYcc0jLrg5wPpFGQke40ZcAxpC297OJ/asvyRsTUth
+        Vq4nACCj2mBQZnvArFg5TzJyy9CuOx37E473edql0tI2cN2Y4X2eZsejQxPH93laM9D2maflzOyR
+        Q9o8YxNrrxVq8tj85SehO7WinhcAAA==
+    headers:
+      Accept-Ranges:
+      - bytes
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '1276'
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 11 Feb 2022 17:58:21 GMT
+      ETag:
+      - W/"6d687564288cb41a21e34e7d8c96428ef3004c993c6f3efd7c0fa58549f4f631"
+      Last-Modified:
+      - Tue, 02 Nov 2021 22:15:01 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Vary:
+      - Accept, Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - E04A:1F9B:2FCEA3F:712294C:6206A3BD
+      X-RateLimit-Limit:
+      - '60'
+      X-RateLimit-Remaining:
+      - '50'
+      X-RateLimit-Reset:
+      - '1644605629'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '10'
+      X-XSS-Protection:
+      - '0'
+    status:
+      code: 200
+      message: OK
+version: 1
