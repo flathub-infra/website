@@ -79,20 +79,14 @@ def get_recently_updated(limit: int = 100):
 
 def get_category(category: str):
     if index := db.redis_conn.smembers(f"categories:{category}"):
-        json_appdata = db.redis_conn.mget(index)
-        appdata = [json.loads(app) for app in json_appdata]
-
-        return [(app["id"]) for app in appdata]
+        return [appid.removeprefix("apps:") for appid in index]
     else:
         return []
 
 
 def get_developer(developer: str, repo: str = "stable"):
     if index := db.redis_conn.smembers(f"developers:{developer}"):
-        json_appdata = db.redis_conn.mget(index)
-        appdata = [json.loads(app) for app in json_appdata]
-
-        return [(app["id"]) for app in appdata]
+        return [appid.removeprefix("apps:") for appid in index]
     else:
         return []
 
