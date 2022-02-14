@@ -79,20 +79,53 @@ interactions:
       X-GitHub-Media-Type:
       - github.v3; format=json
       X-GitHub-Request-Id:
-      - 996E:7F5F:65D0B5:FAA9C3:620A8648
+      - 8F34:2D7B:BBF4AF:1925F52:620A864A
       X-RateLimit-Limit:
       - '60'
       X-RateLimit-Remaining:
-      - '59'
+      - '54'
       X-RateLimit-Reset:
       - '1644860505'
       X-RateLimit-Resource:
       - core
       X-RateLimit-Used:
-      - '1'
+      - '6'
       X-XSS-Protection:
       - '0'
     status:
       code: 200
       message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.27.1
+    method: GET
+    uri: https://gnome.org/.well-known/org.flathub.VerifiedApps.txt
+  response:
+    body:
+      string: 'org.gnome.Maps'
+    headers:
+      Content-Type:
+      - text/html; charset=UTF-8
+      Date:
+      - Mon, 14 Feb 2022 16:41:46 GMT
+      Server:
+      - nginx/1.18.0
+      Set-Cookie:
+      - 0235448947997ebd73869bdcdc930c7f=4aa7854b61011c78007aee2a1b227d9d; path=/;
+        HttpOnly; Secure; SameSite=None
+      Transfer-Encoding:
+      - chunked
+      X-Powered-By:
+      - PHP/7.4.27
+    status:
+      code: 200
+      message: Found
 version: 1

@@ -61,6 +61,11 @@ def _get_domain_name(appid: str) -> str:
 
 
 def _check_app_id_error(appid: str) -> str:
+    if len(appid.split(".")) < 3:
+        return "malformed_app_id"
+    elif not re.match("[_\w\.]+$", appid):
+        return "malformed_app_id"
+
     try:
         r = requests.get(
             f"https://api.github.com/repos/flathub/{urllib.parse.quote(appid, safe='')}"
@@ -69,11 +74,6 @@ def _check_app_id_error(appid: str) -> str:
             return "repo_does_not_exist"
     except:
         return "error_connecting_to_github"
-
-    if len(appid.split(".")) < 3:
-        return "malformed_app_id"
-    elif not re.match("[_\w\.]+$", appid):
-        return "malformed_app_id"
 
     return None
 

@@ -319,18 +319,6 @@ def test_app_stats_by_non_existent_id():
 
 
 @vcr.use_cassette()
-def test_verification_status():
-    response = client.get("/verification/com.github.flathub.ExampleApp/status")
-    expected = {
-        "verified": False,
-        "method": "none",
-        "detail": "repo_does_not_exist",
-    }
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-@vcr.use_cassette()
 def test_verification_available_method_website():
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
@@ -378,6 +366,53 @@ def test_verification_available_method_multiple():
                 "login_name": "lainsce",
             },
         ]
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+@vcr.use_cassette()
+def test_verification_status_dne():
+    response = client.get("/verification/com.github.flathub.ExampleApp/status")
+    expected = {
+        "verified": False,
+        "method": "none",
+        "detail": "repo_does_not_exist",
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+@vcr.use_cassette()
+def test_verification_status_invalid():
+    response = client.get("/verification/com.github/status")
+    expected = {
+        "verified": False,
+        "method": "none",
+        "detail": "malformed_app_id",
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+@vcr.use_cassette()
+def test_verification_status_website():
+    response = client.get("/verification/org.gnome.Maps/status")
+    expected = {
+        "verified": True,
+        "method": "website",
+        "website": "gnome.org",
+    }
+    assert response.status_code == 200
+    assert response.json() == expected
+
+
+@vcr.use_cassette()
+def test_verification_status_not_verified():
+    response = client.get("/verification/org.gnome.Calendar/status")
+    expected = {
+        "verified": False,
+        "method": "none",
     }
     assert response.status_code == 200
     assert response.json() == expected
