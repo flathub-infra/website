@@ -16,7 +16,12 @@ def generate_feed(key: str, title: str, description: str, link: str):
     apps = [(db.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
 
     for app, timestamp in reversed(apps):
-        if not app or not app.get("name"):
+        # sanity check: if index includes an app, but apps:ID is null, skip it
+        if not app:
+            continue
+
+        # sanity check: if application doesn't have the name field, skip it
+        if not app.get("name"):
             continue
 
         entry = feed.add_entry()
