@@ -9,7 +9,7 @@ export default function Document() {
 
                 <link rel='icon' type='image/png' href='./favicon.png' />
                 <link
-                    href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
+                    href="https://dl.flathub.org/repo/assets/Inter-3.19/inter.css"
                     rel="stylesheet"
                 />
             </Head>
