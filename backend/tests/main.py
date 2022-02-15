@@ -294,13 +294,11 @@ def test_app_stats_by_id():
     response = client.get("/stats/org.sugarlabs.Maze")
 
     today = datetime.date.today()
-    yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
     expected = {
         "downloads_total": 7,
         "downloads_per_day": {
-            day_before_yesterday.isoformat(): 6,
-            yesterday.isoformat(): 1,
+            day_before_yesterday.isoformat(): 6
         },
         "downloads_last_month": 7,
         "downloads_last_7_days": 7,
