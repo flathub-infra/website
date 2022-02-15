@@ -66,7 +66,8 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
 
 
 def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
-    edate = datetime.date.today()
+    # Skip last two days as flathub-stats publishes partial statistics
+    edate = datetime.date.today() - datetime.timedelta(days=2)
     sdate = FIRST_STATS_DATE
 
     app_stats_per_day: Dict[str, Dict[str, int]] = {}
@@ -210,7 +211,9 @@ def update():
             stats_apps_dict[appid]["downloads_total"] = sum(
                 [i[2] for i in dict.values()]
             )
-            stats_apps_dict[appid]["downloads_per_day"] = app_stats_per_day[appid]
+
+            if appid in app_stats_per_day:
+                stats_apps_dict[appid]["downloads_per_day"] = app_stats_per_day[appid]
 
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
