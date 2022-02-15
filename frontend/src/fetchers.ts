@@ -117,22 +117,24 @@ export default async function fetchCollection(
 
   const limit = count ? count : collectionList.length
 
-  const limitedList = collectionList.slice(0, limit)
+  const limitedList = collectionList
+    .sort((a, b) => {
+      if (
+        collection === Collections.editorsApps ||
+        collection == Collections.editorsGames
+      ) {
+        return 0.5 - Math.random()
+      }
+      // don't change sorting for all others
+      return
+    })
+    .slice(0, limit)
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
 
   console.log('\nCollection ', collection, ' fetched')
 
-  if (
-    collection === Collections.editorsApps ||
-    collection == Collections.editorsGames
-  ) {
-    return items
-      .filter((item) => Boolean(item))
-      .sort((a, b) => 0.5 - Math.random())
-  } else {
-    return items.filter((item) => Boolean(item))
-  }
+  return items.filter((item) => Boolean(item))
 }
 
 export async function fetchCategory(
