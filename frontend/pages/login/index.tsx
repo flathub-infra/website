@@ -30,7 +30,9 @@ export default function DeveloperLoginPortal({ providers }) {
 export const getStaticProps: GetStaticProps = async () => {
   const providers: LoginProvider[] = await fetchLoginProviders()
 
+  // If request failed at build time, this page becomes a 404
   return {
+    notFound: !providers,
     props: {
       providers,
     }
