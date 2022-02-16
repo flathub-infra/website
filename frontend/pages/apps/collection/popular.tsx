@@ -1,17 +1,18 @@
 import { GetStaticProps } from 'next'
-
-import ApplicationCollection from '../../../src/components/application/Collection'
-import fetchCollection from '../../../src/fetchers'
-import { Collections } from '../../../src/types/Collection'
-import { Appstream } from '../../../src/types/Appstream'
 import { NextSeo } from 'next-seo'
+import ApplicationCollection from '../../../src/components/application/Collection'
+import Main from '../../../src/components/layout/Main'
+import fetchCollection from '../../../src/fetchers'
+import { Appstream } from '../../../src/types/Appstream'
+import { Collections } from '../../../src/types/Collection'
+
 
 export default function PopularApps({ applications }) {
   return (
-    <>
+    <Main>
       <NextSeo title='Popular Apps' />
       <ApplicationCollection title='Popular Apps' applications={applications} />
-    </>
+    </Main>
   )
 }
 
