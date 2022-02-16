@@ -5,6 +5,7 @@ import Main from '../src/components/layout/Main'
 import LogoutButton from '../src/components/login/LogoutButton'
 import Spinner from '../src/components/Spinner'
 import UserDetails from '../src/components/user/Details'
+import UserApps from '../src/components/user/UserApps'
 import { useUserContext } from '../src/context/user-info'
 import styles from './userpage.module.scss'
 
@@ -22,10 +23,11 @@ export default function Userpage() {
   if (user.loading || !user.info) {
     content = <Spinner size={150} />
   } else {
+    // Buttons above apps so they're on screen when page loads (for action visibility)
     content = <div className={styles.userArea}>
       <UserDetails />
-      {/* TODO: Flatpaks here */}
       <div><LogoutButton /></div>
+      <UserApps />
     </div>
   }
 
