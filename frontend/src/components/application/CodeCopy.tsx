@@ -5,11 +5,12 @@ import styles from './CodeCopy.module.scss'
 
 interface Props {
   text: string
+  onCopy?: () => void
   className?: string
   nested?: boolean
 }
 
-const CodeCopy: FunctionComponent<Props> = ({ text, className, nested }) => {
+const CodeCopy: FunctionComponent<Props> = ({ text, onCopy, className, nested }) => {
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -23,7 +24,10 @@ const CodeCopy: FunctionComponent<Props> = ({ text, className, nested }) => {
 
   return (< div className={`${styles.pre} ${className} ${nested ? styles.nested : ''}`}>
     {text}
-    < CopyToClipboard text={text} onCopy={() => setCopied(true)}>
+    <CopyToClipboard text={text} onCopy={() => {
+      setCopied(true)
+      onCopy()
+    }}>
       <button className={styles.copy} title='Copy text'>
         {!copied && <MdContentCopy></MdContentCopy>}
         {copied && <MdCheck style={{ 'color': "green" }}></MdCheck>}
