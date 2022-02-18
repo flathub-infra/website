@@ -1,6 +1,7 @@
 import os
 import re
 import urllib.parse
+from enum import Enum
 
 import requests
 from fastapi_sqlalchemy import DBSessionMiddleware, db as sqldb
@@ -10,6 +11,31 @@ from fastapi.responses import JSONResponse
 
 from . import config, db, utils, models
 from .logins import login_state
+
+
+class ErrorDetail(str, Enum):
+    # The app ID is not syntactically correct
+    MALFORMED_APP_ID = "malformed_app_id"
+    # The app ID does not refer to an existing flathub repository.
+    REPO_DOES_NOT_EXIST = "repo_does_not_exist"
+    # The server could not connect to GitHub.
+    ERROR_CONNECTING_TO_GITHUB = "error_connecting_to_github"
+    # Website verification was requested, but the app ID is not eligible for website verification.
+    INVALID_DOMAIN = "invalid_domain"
+    # Login verification was requested, but the app ID is not eligible for it.
+    INVALID_USERNAME = "invalid_username"
+    # The server could not connect to the website.
+    FAILED_TO_CONNECT = "failed_to_connect"
+    # The server got a non-200 status code from the website.
+    SERVER_RETURNED_ERROR = "server_returned_error"
+    # The app ID is not listed in /.well-known/org.flathub.VerifiedApps.txt on the website.
+    APP_NOT_LISTED = "app_not_listed"
+    # The app cannot be verified because the flathub administrators manually blocked it.
+    BLOCKED_BY_ADMINS = "blocked_by_admins"
+    # The operation requires you to be logged in.
+    NOT_LOGGED_IN = "not_logged_in"
+    # The operation requires a different user to be logged in.
+    USERNAME_DOES_NOT_MATCH = "username_does_not_match"
 
 
 def update():
@@ -38,7 +64,9 @@ def initialize():
                 p.sadd(f"verification:{verdict}", *value)
         p.execute()
 
+
 # Utility functions
+
 
 def _matches_prefixes(appid: str, *prefixes) -> bool:
     for prefix in prefixes:
@@ -68,33 +96,21 @@ def _get_domain_name(appid: str) -> str:
 
 def _check_app_id_error(appid: str) -> str:
     """
-    Returns an error detail if the app ID is invalid, or None if it is valid.
-
-    All error details, from this function and others:
-    - "malformed_app_id": The app ID is not syntactically correct
-    - "repo_does_not_exist": The app ID does not refer to an existing flathub repository.
-    - "error_connecting_to_github": The server could not connect to GitHub.
-    - "invalid_domain": Website verification was requested, but the app ID is not eligible for website verification.
-    - "invalid_username": Login verification was requested, but the app ID is not eligible for it.
-    - "failed_to_connect": The server could not connect to the website.
-    - "server_returned_error": The server got a non-200 status code from the website.
-    - "app_not_listed": The app ID is not listed in /.well-known/org.flathub.VerifiedApps.txt on the website.
-    - "blocked_by_admins": The app cannot be verified because the flathub administrators manually blocked it.
-    - "not_logged_in": The operation requires you to be logged in.
+    Returns an ErrorDetail if the app ID is invalid, or None if it is valid.
     """
     if len(appid.split(".")) < 3:
-        return "malformed_app_id"
+        return ErrorDetail.MALFORMED_APP_ID
     elif not re.match("[_\w\.]+$", appid):
-        return "malformed_app_id"
+        return ErrorDetail.MALFORMED_APP_ID
 
     try:
         r = requests.get(
             f"https://api.github.com/repos/flathub/{urllib.parse.quote(appid, safe='')}"
         )
         if r.status_code != 200:
-            return "repo_does_not_exist"
+            return ErrorDetail.REPO_DOES_NOT_EXIST
     except:
-        return "error_connecting_to_github"
+        return ErrorDetail.ERROR_CONNECTING_TO_GITHUB
 
     return None
 
@@ -108,7 +124,7 @@ def _check_website_verification(appid: str):
     if domain is None:
         return {
             "verified": False,
-            "detail": "invalid_domain",
+            "detail": ErrorDetail.INVALID_DOMAIN,
         }
 
     try:
@@ -118,13 +134,13 @@ def _check_website_verification(appid: str):
     except:
         return {
             "verified": False,
-            "detail": "failed_to_connect",
+            "detail": ErrorDetail.FAILED_TO_CONNECT,
         }
 
     if r.status_code != 200:
         return {
             "verified": False,
-            "detail": "server_returned_error",
+            "detail": ErrorDetail.SERVER_RETURNED_ERROR,
             "status_code": r.status_code,
         }
 
@@ -135,7 +151,7 @@ def _check_website_verification(appid: str):
     else:
         return {
             "verified": False,
-            "detail": "app_not_listed",
+            "detail": ErrorDetail.APP_NOT_LISTED,
         }
 
 
@@ -161,7 +177,7 @@ def get_verification_methods(appid: str):
     if db.redis_conn.sismember("verification:blocked", appid):
         return {
             "methods": [],
-            "detail": "blocked_by_admins",
+            "detail": ErrorDetail.BLOCKED_BY_ADMINS,
         }
 
     methods = []
@@ -265,10 +281,10 @@ def get_website_verification(appid: str):
 
 @router.post("/{appid}/verify", status_code=200)
 def verify_app(appid: str, login=Depends(login_state)):
-    """ Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
+    """Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
     with the correct username, as specified by the app ID.
 
-    Returns: Same as get_verification_status(). """
+    Returns: Same as get_verification_status()."""
 
     if not login["state"].logged_in():
         raise HTTPException(status_code=403, detail="not_logged_in")
@@ -282,22 +298,28 @@ def verify_app(appid: str, login=Depends(login_state)):
 
     username = _get_github_username(appid)
     if username is None:
-        raise HTTPException(status_code=400, detail="invalid_username")
+        raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_USERNAME)
 
-    accounts = sqldb.session.query(models.GithubAccount).filter_by(user=login["user"].id)
+    accounts = sqldb.session.query(models.GithubAccount).filter_by(
+        user=login["user"].id
+    )
     for account in accounts:
         if account.login == username:
-            verification = models.UserVerifiedApp(app_id = appid, account=login["user"].id, created=func.now())
+            verification = models.UserVerifiedApp(
+                app_id=appid, account=login["user"].id, created=func.now()
+            )
             sqldb.session.add(verification)
             sqldb.session.commit()
-            return JSONResponse({
-                "verified": True,
-                "method": "login_provider",
-                "login_provider": "GitHub",
-                "login_name": account.login,
-            })
+            return JSONResponse(
+                {
+                    "verified": True,
+                    "method": "login_provider",
+                    "login_provider": "GitHub",
+                    "login_name": account.login,
+                }
+            )
     else:
-        raise HTTPException(status_code=403, detail="username_does_not_match")
+        raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
 
 
 def register_to_app(app: FastAPI):
@@ -306,6 +328,5 @@ def register_to_app(app: FastAPI):
 
     This also enables session middleware and the database middleware
     """
-    app.add_middleware(DBSessionMiddleware,
-                       db_url=config.settings.database_url)
+    app.add_middleware(DBSessionMiddleware, db_url=config.settings.database_url)
     app.include_router(router)
