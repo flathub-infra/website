@@ -1,6 +1,7 @@
 module.exports = {
   images: {
-    loader: "custom",
+    loader: 'custom',
     domains: ['flathub.org', 'dl.flathub.org'],
+    swcMinify: true,
   },
 }
