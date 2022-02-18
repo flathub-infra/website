@@ -2,7 +2,6 @@ import { NextSeo } from 'next-seo'
 import Router from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import Main from '../src/components/layout/Main'
-import LogoutButton from '../src/components/login/LogoutButton'
 import Spinner from '../src/components/Spinner'
 import UserDetails from '../src/components/user/Details'
 import UserApps from '../src/components/user/UserApps'
@@ -24,11 +23,11 @@ export default function Userpage() {
     content = <Spinner size={150} />
   } else {
     // Buttons above apps so they're on screen when page loads (for action visibility)
-    content = <div className={styles.userArea}>
-      <UserDetails />
-      <div><LogoutButton /></div>
-      <UserApps />
-    </div>
+    content =
+      <div className={styles.userArea}>
+        <UserDetails />
+        <UserApps />
+      </div>
   }
 
   return (

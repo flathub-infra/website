@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
+import LogoutButton from '../login/LogoutButton'
 import styles from './Details.module.scss'
 
 const UserDetails: FunctionComponent = () => {
@@ -18,16 +19,25 @@ const UserDetails: FunctionComponent = () => {
   } = user.info
 
   return (
-    <div className={styles.details}>
-      <img
-        src={github_avatar}
-        className={styles.avatar}
-      />
-      <div className={styles.textDetails}>
-        <h2>{displayname}</h2>
-        <p>GitHub Account: <a href={`https://github.com/${github_login}`}>@{github_login}</a></p>
+    <div className='main-container'>
+      <div className={styles.details}>
+        <img
+          src={github_avatar}
+          className={styles.avatar}
+          alt={`${github_login}'s avatar`}
+        />
+        <div className={styles.textDetails}>
+          <h2>{displayname}</h2>
+          <p>GitHub Account: <a href={`https://github.com/${github_login}`}
+            target='_blank'
+            rel='noreferrer'
+            title='Open in new tab'>@{github_login}</a></p>
+        </div>
+        <div className='actions'>
+          <LogoutButton />
+        </div>
       </div>
-    </div>
+    </div >
   )
 }
 
