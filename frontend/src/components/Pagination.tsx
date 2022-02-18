@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import { useRouter } from 'next/router'
 import styles from './Pagination.module.scss'
 
@@ -28,7 +28,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
           const className = isActive ? `${styles.pageActive}` : ''
 
           return (
-            <>
+            <React.Fragment key={`pagination-${index}`}>
               {index > 0 && array[index - 1] + 1 !== curr && (
                 <div className={`${styles.pageLink} ${styles.ellipsis}`}>
                   ...
@@ -44,12 +44,11 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                     },
                   })
                 }}
-                key={`pagination-${index}`}
                 className={`${className} ${styles.pageLink}`}
               >
                 {curr}
               </a>
-            </>
+            </React.Fragment>
           )
         })}
     </div>
