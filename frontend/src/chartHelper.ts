@@ -41,6 +41,9 @@ export function chartOptions(): ChartOptions<'line'> {
       x: {
 
         type: 'time',
+        time: {
+          minUnit: 'day',
+        },
         title: {
           display: true,
         },
