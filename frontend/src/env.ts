@@ -31,3 +31,7 @@ export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 export const APPS_IN_PREVIEW_COUNT: number = 6
 
 export const IMAGE_BASE_URL: string = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/`
+
+export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
+export const USER_INFO_URL: string = `${BASE_URI}/auth/userinfo`
+export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import styles from './Footer.module.scss'
+import LoginStatus from '../login/Status'
 
 const Footer = () => (
   <footer id={styles.footer}>
@@ -104,6 +105,10 @@ const Footer = () => (
             </a>
           </div>
         </div>
+      </div>
+
+      <div className={styles.footerSection}>
+        <LoginStatus />
       </div>
     </div>
   </footer>

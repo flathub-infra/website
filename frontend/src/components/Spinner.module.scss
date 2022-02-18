@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .spinner {
+    .back {
+      fill: var(--bg-color-secondary)
+    }
+
+    .front {
+      fill: var(--color-primary)
+    }
+
+    .center {
+      fill: var(--bg-color-primary)
+    }
+
+    transform-origin: 50% 50%;
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg)
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

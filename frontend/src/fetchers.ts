@@ -1,6 +1,7 @@
 import { Appstream } from './types/Appstream'
 import { Collection, Collections } from './types/Collection'
 import { Category } from './types/Category'
+import { LoginProvider } from './types/Login'
 
 import {
   POPULAR_URL,
@@ -15,6 +16,7 @@ import {
   STATS,
   DEVELOPER_URL,
   DEVELOPERS_URL,
+  LOGIN_PROVIDERS_URL,
 } from './env'
 import { Summary } from './types/Summary'
 import { AppStats } from './types/AppStats'
@@ -185,4 +187,28 @@ export async function fetchSearchQuery(query: string) {
   console.log("\nSearch for query: '", query, "' fetched")
 
   return appList.filter((item) => Boolean(item))
+}
+
+export async function fetchLoginProviders(): Promise<LoginProvider[]> {
+  // Ensure problem is visible in logs if fetch fails at build
+  let providersRes: Response
+  try {
+    providersRes = await fetch(LOGIN_PROVIDERS_URL)
+
+    if (!providersRes.ok) {
+      console.log(`No login providers data fetched, status ${providersRes.status}`)
+      return null
+    }
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+
+  const providers = await providersRes.json()
+
+  // Creating full URL here since env variable not available client-side
+  return providers.map((p: LoginProvider) => {
+    p.method = `${LOGIN_PROVIDERS_URL}/${p.method}`
+    return p
+  })
 }

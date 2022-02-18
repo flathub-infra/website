@@ -1,6 +1,7 @@
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import Collection from '../../../src/components/application/Collection'
+import Main from '../../../src/components/layout/Main'
 import { useSearchQuery } from '../../../src/hooks/useSearchQuery'
 
 export default function Search() {
@@ -10,7 +11,7 @@ export default function Search() {
   const searchResult = useSearchQuery(query as string)
 
   return (
-    <>
+    <Main>
       <NextSeo title={`Search for ${query}`} />
 
       {searchResult && (
@@ -19,6 +20,6 @@ export default function Search() {
           applications={searchResult}
         />
       )}
-    </>
+    </Main>
   )
 }

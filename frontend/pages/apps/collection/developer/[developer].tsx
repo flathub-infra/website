@@ -1,9 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-
-import { fetchDeveloperApps, fetchDevelopers } from '../../../../src/fetchers'
-import ApplicationCollection from '../../../../src/components/application/Collection'
-import { Appstream } from '../../../../src/types/Appstream'
 import { NextSeo } from 'next-seo'
+import ApplicationCollection from '../../../../src/components/application/Collection'
+import Main from '../../../../src/components/layout/Main'
+import { fetchDeveloperApps, fetchDevelopers } from '../../../../src/fetchers'
+import { Appstream } from '../../../../src/types/Appstream'
+
 
 export default function Developer({
     developerApps,
@@ -13,13 +14,13 @@ export default function Developer({
     developer: string
 }) {
     return (
-        <>
+        <Main>
             <NextSeo title={`Applications by ${developer}`} />
             <ApplicationCollection
                 title={`Applications by ${developer}`}
                 applications={developerApps}
             />
-        </>
+        </Main>
     )
 }
 

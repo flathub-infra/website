@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // Requires a loader
+import { UserInfoProvider } from '../src/context/user-info'
 import { IMAGE_BASE_URL } from '../src/env'
 
 import '../styles/main.scss'
@@ -38,7 +39,9 @@ const App = ({ Component, pageProps }: AppProps) => {
             ],
           }}
         />
-        <Component {...pageProps} />
+        <UserInfoProvider>
+          <Component {...pageProps} />
+        </UserInfoProvider>
       </ThemeProvider>
     </MatomoProvider>
   )
