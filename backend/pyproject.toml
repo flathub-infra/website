@@ -25,7 +25,7 @@ PyGithub = "^1.55"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
-pytest = "^6.2.5"
+pytest = "^7.0.1"
 isort = "^5.10.1"
 pyflakes = "^2.4.0"
 pylint = "^2.12.2"
