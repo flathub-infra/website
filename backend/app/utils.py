@@ -1,4 +1,5 @@
 import gzip
+import hashlib
 import json
 import os
 
@@ -6,6 +7,23 @@ import requests
 from lxml import etree
 
 from . import config
+
+
+class Hasher:
+    def __init__(self):
+        self.hasher = hashlib.sha256()
+
+    def add_bytes(self, bytes):
+        self.hasher.update(bytes)
+
+    def add_string(self, string):
+        self.add_bytes(string.encode("utf-8"))
+
+    def add_number(self, num):
+        self.add_string(f"{num}")
+
+    def hash(self):
+        return self.hasher.hexdigest()
 
 
 def appstream2dict(reponame: str):
