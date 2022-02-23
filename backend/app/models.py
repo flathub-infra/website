@@ -75,7 +75,7 @@ class GithubAccount(Base):
         return db.session.query(GithubAccount).filter_by(user=user.id).first()
 
     @staticmethod
-    def by_gh_id(db, ghid):
+    def by_provider_id(db, ghid):
         return db.session.query(GithubAccount).filter_by(github_userid=ghid).first()
 
     @staticmethod

@@ -8,9 +8,9 @@ And we present the full /auth/ sub-namespace
 
 
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from enum import Enum
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -47,19 +47,19 @@ class LoginState(str, Enum):
         return self == LoginState.LOGGING_IN or self == LoginState.LOGGING_IN_AGAIN
 
 
-class GithubLoginResponseSuccess(BaseModel):
+class OauthLoginResponseSuccess(BaseModel):
     code: str
     state: str
 
 
-class GithubLoginResponseFailure(BaseModel):
+class OauthLoginResponseFailure(BaseModel):
     state: str
     error: str
     error_description: Optional[str]
     error_uri: Optional[str]
 
 
-GithubLoginResponse = Union[GithubLoginResponseSuccess, GithubLoginResponseFailure]
+OauthLoginResponse = Union[OauthLoginResponseSuccess, OauthLoginResponseFailure]
 
 
 class UserDeleteRequest(BaseModel):
@@ -149,10 +149,41 @@ def start_github_flow(request: Request, login=Depends(login_state)):
     If the user is already logged in, and has a valid github token stored,
     then this will return an error instead.
     """
+    return start_oauth_flow(
+        request,
+        login,
+        "github",
+        models.GithubAccount,
+        models.GithubFlowToken,
+        "https://github.com/login/oauth/authorize",
+        {
+            "client_id": config.settings.github_client_id,
+            "redirect_uri": config.settings.github_return_url,
+            "allow_signup": "false",
+            "scope": "read:user read:org",
+        },
+    )
+
+
+def start_oauth_flow(
+    request: Request,
+    login: dict,
+    method: str,
+    account_model: models.Base,
+    flowtoken_model: models.Base,
+    oauth_endpoint: str,
+    oauth_args: dict,
+):
+    """
+    Start an oauth login flow.  This uses the database flow tokens, the login
+    state, and handles getting logins started assuming they follow a basic oauth model.
+
+    Examples of oauth flows include Github and Gitlab.
+    """
     if login["state"].logging_in():
         # Already logging in to something
-        if login["method"] == "github":
-            # Already logging into github, so assume something went squiffy
+        if login["method"] == method:
+            # Already logging into correct method, so assume something went squiffy
             # and send them back with the same in-progress login
             pass
         else:
@@ -163,55 +194,43 @@ def start_github_flow(request: Request, login=Depends(login_state)):
             )
     user = login["user"]
     if user is not None:
-        gha = models.GithubAccount.by_user(db, user)
-        if gha is not None and gha.token is not None:
+        account = account_model.by_user(db, user)
+        if account is not None and account.token is not None:
             return JSONResponse(
-                {"state": "error", "error": "User already logged into github"},
+                {"state": "error", "error": f"User already logged into {method}"},
                 status_code=400,
             )
     # Okay, we're preparing a login, step one, do we already have an
     # intermediate we're using?
-    models.GithubFlowToken.housekeeping(db)
+    flowtoken_model.housekeeping(db)
     intermediate = login["method_intermediate"]
     if intermediate is not None:
         # Yes, retrieve it from the db
-        intermediate = db.session.get(models.GithubFlowToken, intermediate)
+        intermediate = db.session.get(flowtoken_model, intermediate)
     if intermediate is None:
         # No, let's create one
         randomtoken = uuid4().hex
-        intermediate = models.GithubFlowToken(
+        intermediate = flowtoken_model(
             state=randomtoken,
             created=datetime.now(),
         )
         db.session.add(intermediate)
         db.session.commit()
-    # We have reached the point of wanting to return the redirect.
-    # Github OAUTH endpoint is:
-    # https://github.com/login/oauth/authorize
-    # It expects parameters of client_id, redirect_uri, state, and allow_signup
-    # state is our intermediate's state
-    # redirect_uri must point at our frontend's accept point and is part of the
-    # client whose client_id we must provide.
-    # By default we use a client registered to work with the dev backend/frontend
-    args = {
-        "client_id": config.settings.github_client_id,
-        "state": intermediate.state,
-        "redirect_uri": config.settings.github_return_url,
-        "allow_signup": "false",
-        "scope": "read:user read:org",
-    }
+    # Copy the oauth arguments so we can add our state to them
+    args = oauth_args.copy()
+    args["state"] = intermediate.state
     args = urlencode(args)
-    request.session["active-login-flow"] = "github"
+    request.session["active-login-flow"] = method
     request.session["active-login-flow-intermediate"] = intermediate.id
     return {
         "state": "ok",
-        "redirect": f"https://github.com/login/oauth/authorize?{args}",
+        "redirect": f"{oauth_endpoint}?{args}",
     }
 
 
 @router.post("/login/github")
 def continue_github_flow(
-    data: GithubLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login=Depends(login_state)
 ):
     """
     Process the result of the Github oauth flow
@@ -239,12 +258,69 @@ def continue_github_flow(
     backend state machines; or it will return a success code with an indication
     of whether or not the login sequence completed OK.
     """
-    if login["method"] != "github":
+
+    def github_userdata(tokens):
+        gh = Github(tokens["access_token"])
+        ghuser = gh.get_user()
+        return {
+            "id": ghuser.id,
+            "login": ghuser.login,
+            "name": ghuser.name,
+            "avatar_url": ghuser.avatar_url,
+        }
+
+    def github_postlogin(tokens, account):
+        gh = Github(tokens["access_token"])
+        ghuser = gh.get_user()
+        repos = [
+            repo.full_name.removeprefix("flathub/")
+            for repo in ghuser.get_repos(affiliation="collaborator")
+            if repo.full_name.startswith("flathub/") and repo.permissions.push
+        ]
+        models.GithubRepository.unify_repolist(db, account, repos)
+
+    return continue_oauth_flow(
+        request,
+        login,
+        data,
+        "github",
+        models.GithubFlowToken,
+        "https://github.com/login/oauth/access_token",
+        {
+            "client_id": config.settings.github_client_id,
+            "client_secret": config.settings.github_client_secret,
+        },
+        github_userdata,
+        models.GithubAccount,
+        github_postlogin,
+    )
+
+
+def continue_oauth_flow(
+    request: Request,
+    login: dict,
+    data: OauthLoginResponse,
+    method: str,
+    flowtoken_model: models.Base,
+    token_endpoint: str,
+    oauth_args: dict,
+    token_to_data: Callable,
+    account_model: models.Base,
+    postlogin_handler: Callable,
+):
+    """
+    Continue an oauth login flow.  This will complete the user's login using the
+    ongoing authentication flow.  Upon completion the user will be logged in successfully.
+    If any error occurs, we return that as a JSONResponse.  If the caller wishes to
+    perform additional work post-login (e.g. retrieving github/gitlab user information)
+    then they can do so if the return type of this function is simply `dict`.
+    """
+    if login["method"] != method:
         return JSONResponse(
-            {"state": "error", "error": "Not mid-github login flow"}, status_code=400
+            {"state": "error", "error": f"Not mid-{method} login flow"}, status_code=400
         )
-    models.GithubFlowToken.housekeeping(db)
-    flowtokens = db.session.get(models.GithubFlowToken, login["method_intermediate"])
+    flowtoken_model.housekeeping(db)
+    flowtokens = db.session.get(flowtoken_model, login["method_intermediate"])
     del request.session["active-login-flow"]
     del request.session["active-login-flow-intermediate"]
 
@@ -261,14 +337,14 @@ def continue_github_flow(
         return JSONResponse(
             {
                 "state": "error",
-                "error": "Github authentication flow token does not match",
+                "error": f"{method} authentication flow token does not match",
             },
             status_code=400,
         )
 
     # Token is present and good, let's clean up the flowtokens
     db.session.delete(flowtokens)
-    if isinstance(data, GithubLoginResponseFailure):
+    if isinstance(data, OauthLoginResponseFailure):
         # We are dealing with a login failure, we've cleared the flow out of
         # the session cookie, and we're ready to clear from the database session
         # so just return a 'successfully not logged in' return
@@ -277,52 +353,63 @@ def continue_github_flow(
             "status": "ok",
             "result": "flow_abandoned",
         }
-    # And acquire the bearer info from Github
-    args = {
-        "client_id": config.settings.github_client_id,
-        "client_secret": config.settings.github_client_secret,
-        "code": data.code,
-    }
+    # And acquire the bearer info from the oauth provider
+    args = oauth_args.copy()
+    args["code"] = data.code
     args = urlencode(args)
     login_result = requests.post(
-        "https://github.com/login/oauth/access_token",
+        token_endpoint,
         data=args,
         headers={"Accept": "application/json"},
     ).json()
+    if "error" in login_result:
+        return JSONResponse(
+            {
+                "state": "error",
+                "error": f"{method} login flow had an error: "
+                + login_result.get("error_description", login_result["error"]),
+            },
+            status_code=500,
+        )
     if login_result["token_type"] != "bearer":
         return JSONResponse(
             {
                 "state": "error",
-                "error": "Github did not return a bearer token",
+                "error": f"{method} login flow did not return a bearer token",
             },
             status_code=500,
         )
     # We now have a logged in user, so let's do our best to do something useful
-    token = login_result["access_token"]
-    github = Github(token)
-    ghuser = github.get_user()
-    # Do we have a github user noted with this ID already?
-    gha = models.GithubAccount.by_gh_id(db, ghuser.id)
-    if gha is None:
-        # We've never seen this github user before, if we're not already logged
+    provider_data = token_to_data(login_result)
+    # Do we have a provider's user noted with this ID already?
+    account = account_model.by_provider_id(db, provider_data["id"])
+    if account is None:
+        # We've never seen this provider's user before, if we're not already logged
         # in then create a user
         user = login["user"]
         if user is None:
-            user = models.FlathubUser(display_name=ghuser.name)
+            user = models.FlathubUser(display_name=provider_data["name"])
             db.session.add(user)
             db.session.flush()
-        # Now we have a user, create the github account for it
-        gha = models.GithubAccount(
+        # Now we have a user, create the local account model for it
+        userid = {}
+        userid[f"{method}_userid"] = provider_data["id"]
+        account = account_model(
             user=user.id,
-            github_userid=ghuser.id,
-            token=token,
-            login=ghuser.login,
-            avatar_url=ghuser.avatar_url,
+            token=login_result["access_token"],
+            login=provider_data["login"],
+            avatar_url=provider_data["avatar_url"],
             last_used=datetime.now(),
+            **userid,
         )
-        db.session.add(gha)
+        if "refresh_token" in login_result:
+            account.refresh_token = login_result["token"]
+            account.access_token_expires = datetime.now() + timedelta(
+                seconds=int(login_result["expires_in"])
+            )
+        db.session.add(account)
     else:
-        # The github user has been seen before, if we're logged in already and
+        # The provider's user has been seen before, if we're logged in already and
         # things don't match then abort now
         user = login["user"]
         if user is not None:
@@ -331,20 +418,20 @@ def continue_github_flow(
             return JSONResponse(
                 {"status": "error", "error": "User already logged in?"}, status_code=500
             )
-        gha.login = ghuser.login
-        gha.avatar_url = ghuser.avatar_url
-        gha.token = token
-        gha.last_used = datetime.now()
-        db.session.add(gha)
-    request.session["user-id"] = gha.user
+        account.login = provider_data["login"]
+        account.avatar_url = provider_data["avatar_url"]
+        account.token = login_result["access_token"]
+        account.last_used = datetime.now()
+        if "refresh_token" in login_result:
+            account.refresh_token = login_result["token"]
+            account.access_token_expires = datetime.now() + timedelta(
+                seconds=int(login_result["expires_in"])
+            )
+        db.session.add(account)
+    request.session["user-id"] = account.user
     # Let's find the set of repos the user has write access to in the flathub
     # org since we have a functional token
-    repos = [
-        repo.full_name.removeprefix("flathub/")
-        for repo in ghuser.get_repos(affiliation="collaborator")
-        if repo.full_name.startswith("flathub/") and repo.permissions.push
-    ]
-    models.GithubRepository.unify_repolist(db, gha, repos)
+    postlogin_handler(login_result, account)
     # The session is now ready
     db.session.commit()
     return {
