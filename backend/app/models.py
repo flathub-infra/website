@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 from typing import List
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, delete
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, delete
 from sqlalchemy.ext.declarative import declarative_base
+
+from . import utils
 
 Base = declarative_base()
 
@@ -12,6 +14,42 @@ class FlathubUser(Base):
 
     id = Column(Integer, primary_key=True)
     display_name = Column(String)
+    deleted = Column(Boolean, nullable=False, default=False)
+    TABLES_FOR_DELETE = []
+
+    @staticmethod
+    def generate_token(db, user) -> str:
+        """
+        Generate a token which represents this user's state.  This token will be needed
+        when attempting to delete the user.
+        """
+        hasher = utils.Hasher()
+        # Add user info to be hashed
+        hasher.add_number(user.id)
+        hasher.add_string(user.display_name)
+        # Delete hash
+        for table in user.TABLES_FOR_DELETE:
+            table.delete_hash(hasher, db, user)
+        return hasher.hash()
+
+    @staticmethod
+    def delete_user(db, user, token: str) -> dict:
+        """
+        Attempt to delete the given user, we expect the user's token to match, otherwise
+        we will return an error.
+        """
+        current_token = FlathubUser.generate_token(db, user)
+        if token != current_token:
+            return {"status": "error", "error": "token mismatch"}
+
+        for table in user.TABLES_FOR_DELETE:
+            table.delete_user(db, user)
+
+        # And we're done
+        return {
+            "status": "ok",
+            "message": "deleted",
+        }
 
 
 class GithubAccount(Base):
@@ -33,6 +71,33 @@ class GithubAccount(Base):
     def by_gh_id(db, ghid):
         return db.session.query(GithubAccount).filter_by(github_userid=ghid).first()
 
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user):
+        account = GithubAccount.by_user(db, user)
+        hasher.add_number(account.github_userid)
+        hasher.add_string(account.login)
+        repos = [repo.reponame for repo in GithubRepository.all_by_account(db, account)]
+        repos.sort()
+        for repo in repos:
+            hasher.add_string(repo)
+
+    @staticmethod
+    def delete_user(db, user):
+        gha = GithubAccount.by_user(db, user)
+        db.session.execute(
+            delete(GithubRepository).where(GithubRepository.github_account == gha.id)
+        )
+        db.session.delete(gha)
+        # Clear the user's details
+        user.display_name = None
+        # Mark the user as deleted
+        user.deleted = True
+        # Ensure the DB is updated
+        db.session.add(user)
+        db.session.commit()
+
+
+FlathubUser.TABLES_FOR_DELETE.append(GithubAccount)
 
 DEFAULT_HOUSEKEEPING_MINUTES = 20
 
