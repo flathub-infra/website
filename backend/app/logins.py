@@ -62,6 +62,10 @@ class GithubLoginResponseFailure(BaseModel):
 GithubLoginResponse = Union[GithubLoginResponseSuccess, GithubLoginResponseFailure]
 
 
+class UserDeleteRequest(BaseModel):
+    token: str
+
+
 # Routers etc.
 
 
@@ -93,6 +97,10 @@ def login_state(request: Request):
     user = request.session.get("user-id", None)
     if user is not None:
         user = db.session.get(models.FlathubUser, user)
+    if user is not None:
+        if user.deleted:
+            user = None
+            del request.session["user-id"]
     if user is not None:
         ret["state"] = LoginState.LOGGED_IN
         ret["user"] = user
@@ -396,6 +404,53 @@ def do_logout(request: Request, login=Depends(login_state)):
         del request.session["active-login-flow"]
         del request.session["active-login-flow-intermediate"]
     return {}
+
+
+@router.get("/deleteuser")
+def get_deleteuser(login=Depends(login_state)):
+    """
+    Delete a user's login information.
+    If they're not logged in, they'll get a `403` return.
+    Otherwise they will get an option to delete their account
+    and data.
+    """
+    if not login["state"].logged_in():
+        return Response(status_code=403)
+    user = login["user"]
+
+    token = models.FlathubUser.generate_token(db, user)
+    return {
+        "status": "ok",
+        "token": token,
+    }
+
+
+@router.post("/deleteuser")
+def do_deleteuser(
+    request: Request, data: UserDeleteRequest, login=Depends(login_state)
+):
+    """
+    Clear the login state. This will then delete the user's account
+    and associated data. Unless there is an error.
+
+    The input to this should be of the form:
+
+    ```json
+    {
+        "token": "...",
+    }
+    ```
+    """
+    if not login["state"].logged_in():
+        return Response(status_code=403)
+    user = login["user"]
+
+    ret = models.FlathubUser.delete_user(db, user, data.token)
+
+    if ret["status"] == "ok":
+        request.session.clear()
+
+    return ret
 
 
 def register_to_app(app: FastAPI):
