@@ -1,38 +1,42 @@
 .dialog {
-  // Want to show dialog on top of main page, centered on screen
+  // Dialog appears over page, to right hand side of screen
   position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: calc(var(--header-height) + 20px);
+  right: 20px;
   margin: auto;
   z-index: 20;
 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 2fr 1fr;
+  // Drive the dialog size by its content
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  // Want dialog to occupy the screen, height should be upper bound for
-  // portrait devices and lower bound if the browser window is shrunk
-  width: 50vw;
-  height: max(200px, min(30vh, 300px));
+  padding: 10px;
 
   border: 3px solid var(--text-secondary);
   border-radius: var(--border-radius);
 
   background-color: var(--bg-color-primary);
 
-  p {
-    margin: 10px;
-    font-size: 20pt;
-    grid-row: 1;
-    grid-column-start: 1;
-    grid-column-end: 3;
+  input {
+    border: 3px solid var(--text-secondary);
+    border-radius: var(--border-radius);
+    line-height: 1.7;
+    width: 100%;
+    padding: 10px;
   }
 
-  button {
-    grid-row: 2;
-    margin: 10px;
-    align-self: end;
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+
+    .confirm {
+      grid-column: 1;
+    }
+    .cancel {
+      grid-column: 2;
+    }
   }
 }

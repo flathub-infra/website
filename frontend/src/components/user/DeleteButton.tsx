@@ -64,6 +64,7 @@ const DeleteButton: FunctionComponent = () => {
     // Callbacks must clear the token to hide the dialog
     return <ConfirmDialog
       prompt='Delete your account?'
+      entry='I wish to delete my account'
       action='Delete Account'
       onConfirmed={() => {
         deleteAccount(dispatch, setWaiting, setError, token)
