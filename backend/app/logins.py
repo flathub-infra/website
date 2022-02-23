@@ -141,6 +141,11 @@ def get_login_kinds():
             "button": "data:image/svg+xml;base64," + GITLAB_IMAGE_B64,
             "text": "Log in with Gitlab",
         },
+        {
+            "method": "google",
+            "button": "http://meh",
+            "text": "Log in with Google",
+        },
     ]
 
 
@@ -197,6 +202,35 @@ def start_gitlab_flow(request: Request, login=Depends(login_state)):
             "client_id": config.settings.gitlab_client_id,
             "redirect_uri": config.settings.gitlab_return_url,
             "scope": "read_user",
+            "response_type": "code",
+        },
+    )
+
+
+@router.get("/login/google")
+def start_google_flow(request: Request, login=Depends(login_state)):
+    """
+    Starts a google login flow.  This will set session cookie values and
+    will return a redirect.  The frontend is expected to save the cookie
+    for use later, and follow the redirect to Google
+
+    Upon return from Google to the frontend, the frontend should POST to this
+    endpoint with the relevant data from Google
+
+    If the user is already logged in, and has a valid google token stored,
+    then this will return an error instead.
+    """
+    return start_oauth_flow(
+        request,
+        login,
+        "google",
+        models.GoogleAccount,
+        models.GoogleFlowToken,
+        "https://accounts.google.com/o/oauth2/v2/auth",
+        {
+            "client_id": config.settings.google_client_id,
+            "redirect_uri": config.settings.google_return_url,
+            "scope": "openid email",
             "response_type": "code",
         },
     )
@@ -397,6 +431,74 @@ def continue_gitlab_flow(
     )
 
 
+@router.post("/login/google")
+def continue_google_flow(
+    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+):
+    """
+    Process the result of the Google oauth flow
+
+    This expects to have some JSON posted to it which (on success) contains:
+
+    ```
+    {
+        "state": "the state code",
+        "code": "the google oauth code",
+    }
+    ```
+
+    On failure, the frontend should pass through the state and error so that
+    the backend can clear the flow tokens
+
+    ```
+    {
+        "state": "the state code",
+        "error": "the error code returned from google",
+    }
+    ```
+
+    This endpoint will either return an error, if something was wrong in the
+    backend state machines; or it will return a success code with an indication
+    of whether or not the login sequence completed OK.
+    """
+
+    def google_userdata(tokens):
+        userinfo_endpoint = "https://www.googleapis.com/oauth2/v3/userinfo"
+        access_token = tokens["access_token"]
+        gguser = requests.get(
+            userinfo_endpoint, headers={"Authorization": f"Bearer {access_token}"}
+        ).json()
+        sub = gguser["sub"]
+        login = gguser.get("email", sub)
+        return {
+            "id": sub,
+            "login": login,
+            "name": gguser.get("name", login),
+            "avatar_url": gguser.get("picture"),
+        }
+
+    def google_postlogin(tokens, account):
+        pass
+
+    return continue_oauth_flow(
+        request,
+        login,
+        data,
+        "google",
+        models.GoogleFlowToken,
+        "https://www.googleapis.com/oauth2/v4/token",
+        {
+            "client_id": config.settings.google_client_id,
+            "client_secret": config.settings.google_client_secret,
+            "grant_type": "authorization_code",
+            "redirect_uri": config.settings.google_return_url,
+        },
+        google_userdata,
+        models.GoogleAccount,
+        google_postlogin,
+    )
+
+
 def continue_oauth_flow(
     request: Request,
     login: dict,
@@ -461,15 +563,20 @@ def continue_oauth_flow(
     login_result = requests.post(
         token_endpoint,
         data=args,
-        headers={"Accept": "application/json"},
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+        },
     ).json()
     print("TOKENS: " + repr(login_result))
     if "error" in login_result:
         return JSONResponse(
             {
                 "state": "error",
-                "error": f"{method} login flow had an error: "
-                + login_result.get("error_description", login_result["error"]),
+                "error": (
+                    f"{method} login flow had an error: "
+                    + repr(login_result.get("error_description", login_result["error"]))
+                ),
             },
             status_code=500,
         )
@@ -580,6 +687,13 @@ def get_userinfo(login=Depends(login_state)):
             ret["gitlab_login"] = gla.login
         if gla.avatar_url:
             ret["gitlab_avatar"] = gla.avatar_url
+
+    gga = models.GoogleAccount.by_user(db, user)
+    if gga is not None:
+        if gga.login:
+            ret["google_login"] = gga.login
+        if gga.avatar_url:
+            ret["google_avatar"] = gga.avatar_url
 
     return ret
 

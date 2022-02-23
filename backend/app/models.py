@@ -202,3 +202,47 @@ class GitlabAccount(Base):
     @staticmethod
     def by_provider_id(db, glid):
         return db.session.query(GitlabAccount).filter_by(gitlab_userid=glid).first()
+
+
+class GoogleFlowToken(Base):
+    __tablename__ = "googleflowtoken"
+
+    id = Column(Integer, primary_key=True)
+    state = Column(String, nullable=False)
+    created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
+        """
+        Clear out any tokens which are more than the specified age.
+
+        The login flow will also discard flow tokens younger than this, so over-all
+        the flow tokens table should be kept pretty clean.
+        """
+        too_old = datetime.now() - timedelta(minutes=minutes)
+        db.session.execute(
+            delete(GoogleFlowToken).where(GoogleFlowToken.created < too_old)
+        )
+        db.session.flush()
+
+
+class GoogleAccount(Base):
+    __tablename__ = "googleaccount"
+
+    id = Column(Integer, primary_key=True)
+    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    google_userid = Column(String, nullable=False)
+    login = Column(String)
+    avatar_url = Column(String)
+    token = Column(String, nullable=True, default=None)
+    token_expiry = Column(DateTime, nullable=True, default=None)
+    refresh_token = Column(String, nullable=True, default=None)
+    last_used = Column(DateTime, nullable=True, default=None)
+
+    @staticmethod
+    def by_user(db, user: FlathubUser):
+        return db.session.query(GoogleAccount).filter_by(user=user.id).first()
+
+    @staticmethod
+    def by_provider_id(db, ggid):
+        return db.session.query(GoogleAccount).filter_by(google_userid=ggid).first()

@@ -30,6 +30,11 @@ class Settings(BaseSettings):
         "fe364dd63c43ba8ebab5bd488df5946adfcc14366edf81c3814f6a021c61e953"
     )
     gitlab_return_url: str = "http://localhost:3000/login/gitlab"
+    google_client_id: str = (
+        "29861222915-aj1mcmdcutk00a5u5n8egcvpqv27lpvq.apps.googleusercontent.com"
+    )
+    google_client_secret: str = "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"
+    google_return_url: str = "http://localhost:3000/login/google"
     cors_origins: str = "http://localhost:3000"
 
 
