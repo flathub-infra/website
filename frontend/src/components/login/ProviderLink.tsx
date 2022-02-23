@@ -1,4 +1,5 @@
 import { FunctionComponent, useState, useEffect } from 'react'
+import { LOGIN_PROVIDERS_URL } from '../../env'
 import { LoginProvider, LoginRedirect } from '../../types/Login'
 import FeedbackMessage from '../FeedbackMessage'
 import styles from './Providers.module.scss'
@@ -43,7 +44,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
     if (clicked) {
       setError('')
-      redirect(provider.method)
+      redirect(`${LOGIN_PROVIDERS_URL}/${provider.method}`)
     }
   }, [clicked, provider.method])
 
