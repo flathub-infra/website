@@ -4,12 +4,15 @@ import urllib.parse
 from enum import Enum
 
 import requests
-from fastapi_sqlalchemy import DBSessionMiddleware, db as sqldb
-from sqlalchemy.sql import func
-from fastapi import Depends, FastAPI, APIRouter, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi_sqlalchemy import DBSessionMiddleware
+from fastapi_sqlalchemy import db as sqldb
+from sqlalchemy import delete
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import func
 
-from . import config, db, utils, models
+from . import config, db, models, utils
 from .logins import login_state
 
 
@@ -36,6 +39,8 @@ class ErrorDetail(str, Enum):
     NOT_LOGGED_IN = "not_logged_in"
     # The operation requires a different user to be logged in.
     USERNAME_DOES_NOT_MATCH = "username_does_not_match"
+    # The app can't be verified because it is already verified
+    APP_ALREADY_VERIFIED = "app_already_verified"
 
 
 def update():
@@ -279,8 +284,7 @@ def get_website_verification(appid: str):
     return _check_website_verification(appid)
 
 
-@router.post("/{appid}/verify", status_code=200)
-def verify_app(appid: str, login=Depends(login_state)):
+def _verify_app(appid: str, login, verified: bool):
     """Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
     with the correct username, as specified by the app ID.
 
@@ -305,21 +309,50 @@ def verify_app(appid: str, login=Depends(login_state)):
     )
     for account in accounts:
         if account.login == username:
-            verification = models.UserVerifiedApp(
-                app_id=appid, account=login["user"].id, created=func.now()
-            )
-            sqldb.session.add(verification)
-            sqldb.session.commit()
-            return JSONResponse(
-                {
-                    "verified": True,
-                    "method": "login_provider",
-                    "login_provider": "GitHub",
-                    "login_name": account.login,
-                }
-            )
+            if verified:
+                verification = models.UserVerifiedApp(
+                    app_id=appid, account=login["user"].id, created=func.now()
+                )
+                try:
+                    sqldb.session.add(verification)
+                    sqldb.session.commit()
+                    return JSONResponse(
+                        {
+                            "verified": True,
+                            "method": "login_provider",
+                            "login_provider": "GitHub",
+                            "login_name": account.login,
+                        }
+                    )
+                except IntegrityError:
+                    raise HTTPException(
+                        status_code=400, detail=ErrorDetail.APP_ALREADY_VERIFIED
+                    )
+            else:
+                sqldb.session.execute(
+                    delete(models.UserVerifiedApp).where(
+                        models.UserVerifiedApp.app_id == appid
+                    )
+                )
+                sqldb.session.commit()
+                return JSONResponse(
+                    {
+                        "verified": False,
+                        "method": "none",
+                    }
+                )
     else:
         raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
+
+
+@router.post("/{appid}/verify", status_code=200)
+def verify_app(appid: str, login=Depends(login_state)):
+    return _verify_app(appid, login, True)
+
+
+@router.post("/{appid}/unverify", status_code=200)
+def unverify_app(appid: str, login=Depends(login_state)):
+    return _verify_app(appid, login, False)
 
 
 def register_to_app(app: FastAPI):
