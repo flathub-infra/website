@@ -38,6 +38,7 @@ export const IMAGE_BASE_URL: string = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 export const USER_INFO_URL: string = `${BASE_URI}/auth/userinfo`
 export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
+export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true'
