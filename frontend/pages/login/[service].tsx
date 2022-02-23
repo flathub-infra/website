@@ -1,3 +1,4 @@
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -6,9 +7,10 @@ import Main from '../../src/components/layout/Main';
 import Spinner from '../../src/components/Spinner';
 import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
+import { fetchLoginProviders } from '../../src/fetchers';
 
 export default function AuthReturnPage() {
-  // Must access query params to POST to backend for verification with GitHub
+  // Must access query params to POST to backend for oauth verification
   const router = useRouter()
 
   // Send only one request, prevent infinite loops
@@ -25,7 +27,6 @@ export default function AuthReturnPage() {
     }
 
     // Router must be ready to access query parameters
-    // This must be a dependency to ensure only runs once
     if (!router.isReady) { return }
 
     // Redirect to home if user tries some kind of directory traversal
@@ -47,4 +48,28 @@ export default function AuthReturnPage() {
       {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>
   )
+}
+
+// Don't actually need static props to render the page, but must exist
+// for use of getStaticPaths
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {},
+  }
+}
+
+// Only want to have routes for login providers that exist
+export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await fetchLoginProviders()
+
+  const paths = data.map(d => ({
+    params: {
+      service: d.method,
+    },
+  }))
+
+  return {
+    paths,
+    fallback: false
+  }
 }
