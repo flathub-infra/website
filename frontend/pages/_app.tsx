@@ -5,7 +5,7 @@ import type { AppProps } from 'next/app'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // Requires a loader
 import { UserInfoProvider } from '../src/context/user-info'
-import { IMAGE_BASE_URL } from '../src/env'
+import { IMAGE_BASE_URL, IS_PRODUCTION } from '../src/env'
 
 import '../styles/main.scss'
 
@@ -21,6 +21,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <MatomoProvider value={instance}>
       <ThemeProvider>
         <DefaultSeo
+          dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
           titleTemplate='%s | Flathub'
           defaultTitle='Flathub'
           twitter={{

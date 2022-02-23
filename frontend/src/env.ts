@@ -14,11 +14,14 @@ export const POPULAR_URL: string = `${BASE_URI}/popular`
 export const EDITORS_PICKS_GAMES_URL: string = `${BASE_URI}/picks/games`
 export const EDITORS_PICKS_APPS_URL: string = `${BASE_URI}/picks/apps`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
-export const CATEGORY_URL = (category: keyof typeof Category, page?: number, per_page?: number): string => {
+export const CATEGORY_URL = (
+  category: keyof typeof Category,
+  page?: number,
+  per_page?: number
+): string => {
   if (page && per_page) {
     return `${BASE_URI}/category/${category}?page=${page}&per_page=${per_page}`
-  }
-  else {
+  } else {
     return `${BASE_URI}/category/${category}`
   }
 }
@@ -35,3 +38,6 @@ export const IMAGE_BASE_URL: string = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 export const USER_INFO_URL: string = `${BASE_URI}/auth/userinfo`
 export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
+
+export const IS_PRODUCTION: boolean =
+  process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true'
