@@ -200,5 +200,5 @@ class GitlabAccount(Base):
         return db.session.query(GitlabAccount).filter_by(user=user.id).first()
 
     @staticmethod
-    def by_provider_id(db, ghid):
-        return db.session.query(GithubAccount).filter_by(github_userid=ghid).first()
+    def by_provider_id(db, glid):
+        return db.session.query(GitlabAccount).filter_by(gitlab_userid=glid).first()

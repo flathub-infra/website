@@ -19,6 +19,7 @@ from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
+from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -28,6 +29,8 @@ from . import config, models
 
 with open("data/images/github-icon.png", "rb") as ghfile:
     GITHUB_IMAGE_B64 = base64.b64encode(ghfile.read()).decode("ASCII")
+with open("data/images/gitlab-logo.svg", "rb") as glfile:
+    GITLAB_IMAGE_B64 = base64.b64encode(glfile.read()).decode("ASCII")
 
 
 class LoginState(str, Enum):
@@ -132,7 +135,12 @@ def get_login_kinds():
             "method": "github",
             "button": "data:image/png;base64," + GITHUB_IMAGE_B64,
             "text": "Log in with GitHub",
-        }
+        },
+        {
+            "method": "gitlab",
+            "button": "data:image/svg+xml;base64," + GITLAB_IMAGE_B64,
+            "text": "Log in with Gitlab",
+        },
     ]
 
 
@@ -161,6 +169,35 @@ def start_github_flow(request: Request, login=Depends(login_state)):
             "redirect_uri": config.settings.github_return_url,
             "allow_signup": "false",
             "scope": "read:user read:org",
+        },
+    )
+
+
+@router.get("/login/gitlab")
+def start_gitlab_flow(request: Request, login=Depends(login_state)):
+    """
+    Starts a gitlab login flow.  This will set session cookie values and
+    will return a redirect.  The frontend is expected to save the cookie
+    for use later, and follow the redirect to Gitlab
+
+    Upon return from Gitlab to the frontend, the frontend should POST to this
+    endpoint with the relevant data from Gitlab
+
+    If the user is already logged in, and has a valid gitlab token stored,
+    then this will return an error instead.
+    """
+    return start_oauth_flow(
+        request,
+        login,
+        "gitlab",
+        models.GitlabAccount,
+        models.GitlabFlowToken,
+        "https://gitlab.com/oauth/authorize",
+        {
+            "client_id": config.settings.gitlab_client_id,
+            "redirect_uri": config.settings.gitlab_return_url,
+            "scope": "read_user",
+            "response_type": "code",
         },
     )
 
@@ -296,6 +333,70 @@ def continue_github_flow(
     )
 
 
+@router.post("/login/gitlab")
+def continue_gitlab_flow(
+    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+):
+    """
+    Process the result of the Gitlab oauth flow
+
+    This expects to have some JSON posted to it which (on success) contains:
+
+    ```
+    {
+        "state": "the state code",
+        "code": "the gitlab oauth code",
+    }
+    ```
+
+    On failure, the frontend should pass through the state and error so that
+    the backend can clear the flow tokens
+
+    ```
+    {
+        "state": "the state code",
+        "error": "the error code returned from gitlab",
+    }
+    ```
+
+    This endpoint will either return an error, if something was wrong in the
+    backend state machines; or it will return a success code with an indication
+    of whether or not the login sequence completed OK.
+    """
+
+    def gitlab_userdata(tokens):
+        gh = Gitlab("https://gitlab.com", oauth_token=tokens["access_token"])
+        gh.auth()
+        gluser = gh.user
+        return {
+            "id": gluser.id,
+            "login": gluser.username,
+            "name": gluser.name,
+            "avatar_url": gluser.avatar_url,
+        }
+
+    def gitlab_postlogin(tokens, account):
+        pass
+
+    return continue_oauth_flow(
+        request,
+        login,
+        data,
+        "gitlab",
+        models.GitlabFlowToken,
+        "https://gitlab.com/oauth/token",
+        {
+            "client_id": config.settings.gitlab_client_id,
+            "client_secret": config.settings.gitlab_client_secret,
+            "grant_type": "authorization_code",
+            "redirect_uri": config.settings.gitlab_return_url,
+        },
+        gitlab_userdata,
+        models.GitlabAccount,
+        gitlab_postlogin,
+    )
+
+
 def continue_oauth_flow(
     request: Request,
     login: dict,
@@ -362,6 +463,7 @@ def continue_oauth_flow(
         data=args,
         headers={"Accept": "application/json"},
     ).json()
+    print("TOKENS: " + repr(login_result))
     if "error" in login_result:
         return JSONResponse(
             {
@@ -371,7 +473,7 @@ def continue_oauth_flow(
             },
             status_code=500,
         )
-    if login_result["token_type"] != "bearer":
+    if login_result["token_type"].lower() != "bearer":
         return JSONResponse(
             {
                 "state": "error",
@@ -403,9 +505,9 @@ def continue_oauth_flow(
             **userid,
         )
         if "refresh_token" in login_result:
-            account.refresh_token = login_result["token"]
+            account.refresh_token = login_result["refresh_token"]
             account.access_token_expires = datetime.now() + timedelta(
-                seconds=int(login_result["expires_in"])
+                seconds=int(login_result.get("expires_in", "7200"))
             )
         db.session.add(account)
     else:
@@ -423,9 +525,9 @@ def continue_oauth_flow(
         account.token = login_result["access_token"]
         account.last_used = datetime.now()
         if "refresh_token" in login_result:
-            account.refresh_token = login_result["token"]
+            account.refresh_token = login_result["refresh_token"]
             account.access_token_expires = datetime.now() + timedelta(
-                seconds=int(login_result["expires_in"])
+                seconds=int(login_result.get("expires_in", "7200"))
             )
         db.session.add(account)
     request.session["user-id"] = account.user
@@ -471,6 +573,13 @@ def get_userinfo(login=Depends(login_state)):
             ret["github_avatar"] = gha.avatar_url
         for repo in models.GithubRepository.all_by_account(db, gha):
             ret["dev-flatpaks"].add(repo.reponame)
+
+    gla = models.GitlabAccount.by_user(db, user)
+    if gla is not None:
+        if gla.login:
+            ret["gitlab_login"] = gla.login
+        if gla.avatar_url:
+            ret["gitlab_avatar"] = gla.avatar_url
 
     return ret
 

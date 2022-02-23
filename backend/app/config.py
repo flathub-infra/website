@@ -23,6 +23,13 @@ class Settings(BaseSettings):
     github_client_id: str = "71dbddbdb4288fe96a58"
     github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
     github_return_url: str = "http://localhost:3000/login/github"
+    gitlab_client_id: str = (
+        "9aa48d0d5ebe1e7f60f3a0c25036a74aab7a9b766c88844de46afd1e53b0ad2d"
+    )
+    gitlab_client_secret: str = (
+        "fe364dd63c43ba8ebab5bd488df5946adfcc14366edf81c3814f6a021c61e953"
+    )
+    gitlab_return_url: str = "http://localhost:3000/login/gitlab"
     cors_origins: str = "http://localhost:3000"
 
 
