@@ -12,27 +12,29 @@ const UserDetails: FunctionComponent = () => {
     return <></>
   }
 
-  const {
-    github_avatar,
-    github_login,
-    displayname,
-    "dev-flatpaks": flatpaks
-  } = user.info
+  // Accounts may or may not be present in user information
+  const linkedAccounts = Object.keys(user.info.auths).map(name => {
+    const authData = user.info.auths[name]
+
+    return (<div key={name} className={styles.linked}>
+      <img
+        src={authData.avatar}
+        className={styles.avatar}
+        alt={`${authData.login}'s avatar`}
+      />
+      <p><b>{name}</b><br/>{authData.login}</p>
+    </div>)
+  })
 
   return (
     <div className='main-container'>
       <div className={styles.details}>
-        <img
-          src={github_avatar}
-          className={styles.avatar}
-          alt={`${github_login}'s avatar`}
-        />
-        <div className={styles.textDetails}>
-          <h2>{displayname}</h2>
-          <p>GitHub Account: <a href={`https://github.com/${github_login}`}
-            target='_blank'
-            rel='noreferrer'
-            title='Open in new tab'>@{github_login}</a></p>
+        <h2 className={styles.displayname}>{user.info.displayname}</h2>
+        <div className={styles.subsection}>
+          <h3>Linked Accounts</h3>
+          <div className={styles.authList}>
+            {linkedAccounts}
+          </div>
         </div>
         <div className={styles.actions}>
           <LogoutButton />

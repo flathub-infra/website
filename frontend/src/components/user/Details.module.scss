@@ -1,6 +1,7 @@
 .details {
   display: grid;
-  grid-template-columns: 140px auto 120px;
+  grid-template-columns: auto 120px;
+  grid-template-rows: auto auto;
 
   padding: 16px 8px 16px 16px;
 
@@ -11,25 +12,56 @@
   background-color: var(--bg-color-secondary);
   border-radius: var(--border-radius);
 
-  .avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 70px;
+  .displayname {
+    grid-row: 1;
+    grid-column: 1;
+
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 
-  .textDetails {
-    display: flex;
-    flex-direction: column;
 
+  .subsection {
     margin: auto 16px auto 16px;
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 10px;
+    h3 {
+      font-size: 18pt;
+      margin-top: 16px;
+    }
+
+    .authList {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+
+      .linked {
+        display: flex;
+        align-items: center;
+        background-color: var(--bg-color-primary);
+        border-radius: var(--border-radius);
+
+        color: var(--text-primary);
+
+        gap: 10px;
+        padding: 0 10px;
+
+        p b {
+          text-transform: capitalize;
+        }
+
+        .avatar {
+          width: 50px;
+          height: 50px;
+          border-radius: 25px;
+        }
+      }
     }
   }
 
   .actions {
+    grid-row-start: 1;
+    grid-row-end: 3;
+
     margin-left: auto;
     display: flex;
     flex-direction: column;
