@@ -10,6 +10,11 @@ from . import config
 
 
 class Hasher:
+    """
+    Wrapper around the hashlib library to provide an ergonomic API
+    for hashing a combination of data types
+    """
+
     def __init__(self):
         self.hasher = hashlib.sha256()
 
