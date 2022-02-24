@@ -38,7 +38,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         window.location.href = data.redirect
       } else {
         setError(`${res.status} ${res.statusText}`)
-        setClicked(true)
+        setClicked(false)
       }
     }
 
