@@ -2,9 +2,15 @@ import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
 import LogoutButton from '../login/LogoutButton'
 import DeleteButton from './DeleteButton'
+import { LoginProvider } from '../../types/Login'
 import styles from './Details.module.scss'
+import ProviderLink from '../login/ProviderLink'
 
-const UserDetails: FunctionComponent = () => {
+interface Props {
+  logins: LoginProvider[]
+}
+
+const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
 
   // Nothing to show if not logged in
@@ -26,20 +32,39 @@ const UserDetails: FunctionComponent = () => {
     </div>)
   })
 
+  // The user may have further sign in options available
+  const linkOptions = logins
+    .filter(provider => !user.info.auths[provider.method])
+    .map(provider => <ProviderLink key={provider.method} provider={provider} />)
+
+  const loginSection = linkOptions.length
+  ?  <div className={styles.subsection}>
+      <h3>Link More Accounts</h3>
+      <div className={styles.authList}>
+        {linkOptions}
+      </div>
+    </div>
+  : <></>
+
   return (
     <div className='main-container'>
       <div className={styles.details}>
         <h2 className={styles.displayname}>{user.info.displayname}</h2>
+
         <div className={styles.subsection}>
           <h3>Linked Accounts</h3>
           <div className={styles.authList}>
             {linkedAccounts}
           </div>
         </div>
+
+        {loginSection}
+
         <div className={styles.actions}>
           <LogoutButton />
           <DeleteButton />
         </div>
+
       </div>
     </div >
   )
