@@ -41,9 +41,16 @@ class FlathubUser(Base):
         current_token = FlathubUser.generate_token(db, user)
         if token != current_token:
             return {"status": "error", "error": "token mismatch"}
-
         for table in user.TABLES_FOR_DELETE:
             table.delete_user(db, user)
+
+        # Clear the user's details
+        user.display_name = None
+        # Mark the user as deleted
+        user.deleted = True
+        # Ensure the DB is updated
+        db.session.add(user)
+        db.session.commit()
 
         # And we're done
         return {
@@ -73,6 +80,9 @@ class GithubAccount(Base):
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user):
+        """
+        Add a user's information from Github to the hasher for token generation
+        """
         account = GithubAccount.by_user(db, user)
         hasher.add_number(account.github_userid)
         hasher.add_string(account.login)
@@ -83,18 +93,14 @@ class GithubAccount(Base):
 
     @staticmethod
     def delete_user(db, user):
+        """
+        Delete a user's account and information related to Github
+        """
         gha = GithubAccount.by_user(db, user)
         db.session.execute(
             delete(GithubRepository).where(GithubRepository.github_account == gha.id)
         )
         db.session.delete(gha)
-        # Clear the user's details
-        user.display_name = None
-        # Mark the user as deleted
-        user.deleted = True
-        # Ensure the DB is updated
-        db.session.add(user)
-        db.session.commit()
 
 
 FlathubUser.TABLES_FOR_DELETE.append(GithubAccount)
