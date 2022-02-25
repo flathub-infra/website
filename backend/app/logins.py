@@ -671,29 +671,33 @@ def get_userinfo(login=Depends(login_state)):
         return Response(status_code=403)
     user = login["user"]
     ret = {"displayname": user.display_name, "dev-flatpaks": set()}
+    ret["auths"] = {}
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:
+        ret["auths"]["github"] = {}
         if gha.login:
-            ret["github_login"] = gha.login
+            ret["auths"]["github"]["login"] = gha.login
         if gha.avatar_url:
-            ret["github_avatar"] = gha.avatar_url
+            ret["auths"]["github"]["avatar"] = gha.avatar_url
         for repo in models.GithubRepository.all_by_account(db, gha):
             ret["dev-flatpaks"].add(repo.reponame)
 
     gla = models.GitlabAccount.by_user(db, user)
     if gla is not None:
+        ret["auths"]["gitlab"] = {}
         if gla.login:
-            ret["gitlab_login"] = gla.login
+            ret["auths"]["gitlab"]["login"] = gla.login
         if gla.avatar_url:
-            ret["gitlab_avatar"] = gla.avatar_url
+            ret["auths"]["gitlab"]["avatar"] = gla.avatar_url
 
     gga = models.GoogleAccount.by_user(db, user)
     if gga is not None:
+        ret["auths"]["google"] = {}
         if gga.login:
-            ret["google_login"] = gga.login
+            ret["auths"]["google"]["login"] = gga.login
         if gga.avatar_url:
-            ret["google_avatar"] = gga.avatar_url
+            ret["auths"]["google"]["avatar"] = gga.avatar_url
 
     return ret
 
