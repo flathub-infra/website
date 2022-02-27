@@ -10,37 +10,46 @@ def load_appstream():
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_categories = db.redis_conn.smembers("categories:index")
     current_developers = db.redis_conn.smembers("developers:index")
+    current_types = db.redis_conn.smembers("types:index")
 
     db.initialize()
     with db.redis_conn.pipeline() as p:
         p.delete("categories:index", *current_categories)
         p.delete("developers:index", *current_developers)
+        p.delete("types:index", *current_types)
 
         for appid in apps:
             redis_key = f"apps:{appid}"
 
-            clean_html_re = re.compile("<.*?>")
-            search_description = re.sub(clean_html_re, "", apps[appid]["description"])
+            if apps[appid].get("type") == "desktop":
+                clean_html_re = re.compile("<.*?>")
+                search_description = re.sub(
+                    clean_html_re, "", apps[appid]["description"]
+                )
 
-            if search_keywords := apps[appid].get("keywords"):
-                search_keywords = " ".join(search_keywords)
-            else:
-                search_keywords = ""
+                if search_keywords := apps[appid].get("keywords"):
+                    search_keywords = " ".join(search_keywords)
+                else:
+                    search_keywords = ""
 
-            fts = {
-                "id": appid,
-                "name": apps[appid]["name"],
-                "summary": apps[appid]["summary"],
-                "description": search_description,
-                "keywords": search_keywords,
-            }
+                fts = {
+                    "id": appid,
+                    "name": apps[appid]["name"],
+                    "summary": apps[appid]["summary"],
+                    "description": search_description,
+                    "keywords": search_keywords,
+                }
+                p.hset(f"fts:{appid}", mapping=fts)
 
             if developer_name := apps[appid].get("developer_name"):
                 p.sadd("developers:index", developer_name)
                 p.sadd(f"developers:{developer_name}", redis_key)
 
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
-            p.hset(f"fts:{appid}", mapping=fts)
+
+            if type := apps[appid].get("type"):
+                p.sadd("types:index", type)
+                p.sadd(f"types:{type}", redis_key)
 
             if categories := apps[appid].get("categories"):
                 for category in categories:
@@ -67,8 +76,11 @@ def load_appstream():
     return new_apps
 
 
-def list_appstream():
-    apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+def list_appstream(type: str = "desktop"):
+    if type == "all":
+        apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+    else:
+        apps = {app[5:] for app in db.redis_conn.smembers(f"types:{type}")}
     return sorted(apps)
 
 

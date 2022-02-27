@@ -123,8 +123,8 @@ def get_developer(
 
 
 @app.get("/appstream")
-def list_appstream():
-    return apps.list_appstream()
+def list_appstream(type: schemas.Type = schemas.Type.Desktop):
+    return apps.list_appstream(type)
 
 
 @app.get("/appstream/{appid}", status_code=200)
