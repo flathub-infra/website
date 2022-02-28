@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
 import LogoutButton from '../login/LogoutButton'
+import DeleteButton from './DeleteButton'
 import styles from './Details.module.scss'
 
 const UserDetails: FunctionComponent = () => {
@@ -33,8 +34,9 @@ const UserDetails: FunctionComponent = () => {
             rel='noreferrer'
             title='Open in new tab'>@{github_login}</a></p>
         </div>
-        <div className='actions'>
+        <div className={styles.actions}>
           <LogoutButton />
+          <DeleteButton />
         </div>
       </div>
     </div >

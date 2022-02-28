@@ -23,7 +23,7 @@ const Spinner: FunctionComponent<Props> = ({ size, text='Loading...' }) => {
         <path className={styles.front} d='M50,50l0,50a50,50 0 0 1 -50,-50z' />
         <circle cx='50' cy='50' r='45' className={styles.center} />
       </svg>
-      <p>{text}</p>
+      {text ? <p>{text}</p> : <></>}
     </div>
   )
 }

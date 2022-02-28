@@ -1,0 +1,42 @@
+.dialog {
+  // Dialog appears over page, to right hand side of screen
+  position: fixed;
+  top: calc(var(--header-height) + 20px);
+  right: 20px;
+  margin: auto;
+  z-index: 20;
+
+  // Drive the dialog size by its content
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 10px;
+
+  border: 3px solid var(--text-secondary);
+  border-radius: var(--border-radius);
+
+  background-color: var(--bg-color-primary);
+
+  input {
+    border: 3px solid var(--text-secondary);
+    border-radius: var(--border-radius);
+    line-height: 1.7;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+
+    .confirm {
+      grid-column: 1;
+    }
+    .cancel {
+      grid-column: 2;
+    }
+  }
+}

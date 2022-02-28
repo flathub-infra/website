@@ -28,4 +28,18 @@
       margin-bottom: 10px;
     }
   }
+
+  .actions {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }

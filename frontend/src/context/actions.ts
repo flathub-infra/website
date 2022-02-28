@@ -1,6 +1,8 @@
 import { ParsedUrlQuery } from "querystring";
 import { Dispatch } from "react";
-import { LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_INFO_URL } from "../env";
+import {
+  LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_DELETION_URL, USER_INFO_URL
+} from "../env";
 import { UserStateAction } from "../types/Login";
 
 /**
@@ -111,5 +113,48 @@ export async function logout(
   } else {
     dispatch({type: 'interrupt'})
     error('A network error occured during logout. Refresh and try again.')
+  }
+}
+
+
+/**
+ * Performs a POST request to the API to complete user deletion.
+ * @param dispatch Reducer dispatch function used to update user context
+ * @param waiting Function to set the async state of the component
+ * @param error Function for displaying errors (usually component state)
+ * @param token The string token returned by deletion initiation request
+ */
+export async function deleteAccount(
+  dispatch: Dispatch<UserStateAction>,
+  waiting: (a: boolean) => void,
+  error: (msg: string) => void,
+  token: string,
+) {
+  waiting(true)
+
+  let res: Response
+  try {
+    res = await fetch(USER_DELETION_URL, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ token })
+    })
+  } catch {
+    error('A network error occured during deletion. Refresh and try again.')
+    return
+  } finally {
+    waiting(false)
+  }
+
+  if (res.ok) {
+    const data = await res.json()
+    if (data.status === 'ok') {
+      dispatch({type: 'logout'})
+    } else {
+      error(data.message)
+    }
+  } else {
+    error('A network error occured during deletion. Refresh and try again.')
   }
 }
