@@ -203,6 +203,25 @@ class GitlabAccount(Base):
     def by_provider_id(db, glid):
         return db.session.query(GitlabAccount).filter_by(gitlab_userid=glid).first()
 
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user):
+        """
+        Add a user's information from Gitlab to the hasher for token generation
+        """
+        account = GitlabAccount.by_user(db, user)
+        hasher.add_number(account.gitlab_userid)
+        hasher.add_string(account.login)
+
+    @staticmethod
+    def delete_user(db, user):
+        """
+        Delete a user's account and information related to Gitlab
+        """
+        db.session.execute(delete(GitlabAccount).where(GitlabAccount.user == user.id))
+
+
+FlathubUser.TABLES_FOR_DELETE.append(GitlabAccount)
+
 
 class GoogleFlowToken(Base):
     __tablename__ = "googleflowtoken"
@@ -246,3 +265,22 @@ class GoogleAccount(Base):
     @staticmethod
     def by_provider_id(db, ggid):
         return db.session.query(GoogleAccount).filter_by(google_userid=ggid).first()
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user):
+        """
+        Add a user's information from Google to the hasher for token generation
+        """
+        account = GoogleAccount.by_user(db, user)
+        hasher.add_string(account.google_userid)
+        hasher.add_string(account.login)
+
+    @staticmethod
+    def delete_user(db, user):
+        """
+        Delete a user's account and information related to Google
+        """
+        db.session.execute(delete(GoogleAccount).where(GoogleAccount.user == user.id))
+
+
+FlathubUser.TABLES_FOR_DELETE.append(GoogleAccount)
