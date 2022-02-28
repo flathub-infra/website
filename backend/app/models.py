@@ -294,3 +294,29 @@ class UserVerifiedApp(Base):
         Integer, ForeignKey(FlathubUser.id, ondelete="CASCADE"), nullable=False
     )
     created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser):
+        return db.session.query(UserVerifiedApp).filter_by(account=user.id)
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Add a user's verified apps to the hasher for token generation
+        """
+        apps = [app.app_id for app in UserVerifiedApp.all_by_user(db, user)]
+        apps.sort()
+        for app in apps:
+            hasher.add_string(app)
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any app verifications associated with this user
+        """
+        db.session.execute(
+            delete(UserVerifiedApp).where(UserVerifiedApp.account == user.id)
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(UserVerifiedApp)
