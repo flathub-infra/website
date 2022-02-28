@@ -304,43 +304,40 @@ def _verify_app(appid: str, login, verified: bool):
     if username is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_USERNAME)
 
-    accounts = sqldb.session.query(models.GithubAccount).filter_by(
-        user=login["user"].id
-    )
-    for account in accounts:
-        if account.login == username:
-            if verified:
-                verification = models.UserVerifiedApp(
-                    app_id=appid, account=login["user"].id, created=func.now()
-                )
-                try:
-                    sqldb.session.add(verification)
-                    sqldb.session.commit()
-                    return JSONResponse(
-                        {
-                            "verified": True,
-                            "method": "login_provider",
-                            "login_provider": "GitHub",
-                            "login_name": account.login,
-                        }
-                    )
-                except IntegrityError:
-                    raise HTTPException(
-                        status_code=400, detail=ErrorDetail.APP_ALREADY_VERIFIED
-                    )
-            else:
-                sqldb.session.execute(
-                    delete(models.UserVerifiedApp).where(
-                        models.UserVerifiedApp.app_id == appid
-                    )
-                )
+    account = models.GithubAccount.by_user(sqldb, login["user"])
+    if account is not None and account.login == username:
+        if verified:
+            verification = models.UserVerifiedApp(
+                app_id=appid, account=login["user"].id, created=func.now()
+            )
+            try:
+                sqldb.session.add(verification)
                 sqldb.session.commit()
                 return JSONResponse(
                     {
-                        "verified": False,
-                        "method": "none",
+                        "verified": True,
+                        "method": "login_provider",
+                        "login_provider": "GitHub",
+                        "login_name": account.login,
                     }
                 )
+            except IntegrityError:
+                raise HTTPException(
+                    status_code=400, detail=ErrorDetail.APP_ALREADY_VERIFIED
+                )
+        else:
+            sqldb.session.execute(
+                delete(models.UserVerifiedApp).where(
+                    models.UserVerifiedApp.app_id == appid
+                )
+            )
+            sqldb.session.commit()
+            return JSONResponse(
+                {
+                    "verified": False,
+                    "method": "none",
+                }
+            )
     else:
         raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
 
