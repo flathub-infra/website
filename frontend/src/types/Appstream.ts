@@ -3,7 +3,7 @@ export interface Appstream {
   screenshots?: Screenshot[]
   releases: Release[]
   content_rating: ContentRating
-  urls: Urls
+  urls?: Urls
   icon: string
   id: string
   name: string

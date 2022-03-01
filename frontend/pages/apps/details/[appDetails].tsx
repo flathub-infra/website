@@ -25,7 +25,7 @@ export default function Details({
   developerApps,
 }: {
   app: Appstream
-  summary: Summary
+  summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
 }) {

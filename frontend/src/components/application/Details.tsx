@@ -23,7 +23,7 @@ import 'react-image-lightbox/style.css' // This only needs to be imported once i
 
 interface Props {
   app: Appstream
-  summary: Summary
+  summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
 }
@@ -115,7 +115,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
 
           <div className={styles.actions}>
             <Button onClick={installClicked}>Install</Button>
-            {app.urls.donation && (
+            {app.urls?.donation && (
               <a
                 href={app.urls.donation}
                 target='_blank'

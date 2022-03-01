@@ -24,7 +24,7 @@ const AdditionalInfo = ({
   stats,
 }: {
   data: Appstream
-  summary: Summary
+  summary?: Summary
   appId: string
   stats: AppStats
 }) => {
@@ -44,7 +44,7 @@ const AdditionalInfo = ({
             header: 'Installed size',
             content: {
               type: 'text',
-              text: Math.round(summary.installed_size / 1_000_000) + ' MB',
+              text: summary ? Math.round(summary.installed_size / 1_000_000) + ' MB' : 'Unknown',
             },
           },
         ]}
@@ -57,7 +57,7 @@ const AdditionalInfo = ({
             header: 'Download size',
             content: {
               type: 'text',
-              text: Math.round(summary.download_size / 1_000_000) + ' MB',
+              text: summary ? Math.round(summary.download_size / 1_000_000) + ' MB' : 'Unknown',
             },
           },
         ]}
@@ -69,7 +69,7 @@ const AdditionalInfo = ({
           {
             icon: <MdLaptop />,
             header: 'Available architectures',
-            content: { type: 'text', text: summary.arches.join(', ') },
+            content: { type: 'text', text: summary ? summary.arches.join(', ') : 'Unknown' },
           },
         ]}
       ></ListBox>
@@ -102,110 +102,110 @@ const AdditionalInfo = ({
           ]}
         ></ListBox>
       )}
-      {data.urls.homepage && (
+      {data.urls?.homepage && (
         <ListBox
           appId={appId}
           items={[
             data.urls.homepage
               ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.homepage,
-                    trackAsEvent: 'Homepage',
-                  },
-                  icon: <MdWeb />,
-                  header: 'Project website',
-                }
+                content: {
+                  type: 'url',
+                  text: data.urls.homepage,
+                  trackAsEvent: 'Homepage',
+                },
+                icon: <MdWeb />,
+                header: 'Project website',
+              }
               : undefined,
           ]}
         />
       )}
-      {data.urls.contact && (
+      {data.urls?.contact && (
         <ListBox
           appId={appId}
           items={[
             data.urls.contact
               ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.contact,
-                    trackAsEvent: 'Contact',
-                  },
-                  icon: <MdContactPage />,
-                  header: 'Contact',
-                }
+                content: {
+                  type: 'url',
+                  text: data.urls.contact,
+                  trackAsEvent: 'Contact',
+                },
+                icon: <MdContactPage />,
+                header: 'Contact',
+              }
               : undefined,
           ]}
         />
       )}
-      {data.urls.help && (
+      {data.urls?.help && (
         <ListBox
           appId={appId}
           items={[
             data.urls.help
               ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.help,
-                    trackAsEvent: 'Help',
-                  },
-                  icon: <MdHelp />,
-                  header: 'Help',
-                }
+                content: {
+                  type: 'url',
+                  text: data.urls.help,
+                  trackAsEvent: 'Help',
+                },
+                icon: <MdHelp />,
+                header: 'Help',
+              }
               : undefined,
           ]}
         />
       )}
-      {data.urls.faq && (
+      {data.urls?.faq && (
         <ListBox
           appId={appId}
           items={[
             data.urls.faq
               ? {
-                  content: {
-                    type: 'url',
-                    text: data.urls.faq,
-                    trackAsEvent: 'Faq',
-                  },
-                  icon: <MdQuestionAnswer />,
-                  header: 'Frequently Asked Questions',
-                }
+                content: {
+                  type: 'url',
+                  text: data.urls.faq,
+                  trackAsEvent: 'Faq',
+                },
+                icon: <MdQuestionAnswer />,
+                header: 'Frequently Asked Questions',
+              }
               : undefined,
           ]}
         />
       )}
-      {data.urls.translate && (
+      {data.urls?.translate && (
         <ListBox
           appId={appId}
           items={[
             data.urls.translate
               ? {
-                  icon: <MdTranslate />,
-                  header: 'Contribute translations',
-                  content: {
-                    type: 'url',
-                    text: data.urls.translate,
-                    trackAsEvent: 'Translate',
-                  },
-                }
+                icon: <MdTranslate />,
+                header: 'Contribute translations',
+                content: {
+                  type: 'url',
+                  text: data.urls.translate,
+                  trackAsEvent: 'Translate',
+                },
+              }
               : undefined,
           ]}
         />
       )}
-      {data.urls.bugtracker && (
+      {data.urls?.bugtracker && (
         <ListBox
           appId={appId}
           items={[
             data.urls.bugtracker
               ? {
-                  icon: <MdOutlineBugReport />,
-                  header: 'Report an issue',
-                  content: {
-                    type: 'url',
-                    text: data.urls.bugtracker,
-                    trackAsEvent: 'Bugtracker',
-                  },
-                }
+                icon: <MdOutlineBugReport />,
+                header: 'Report an issue',
+                content: {
+                  type: 'url',
+                  text: data.urls.bugtracker,
+                  trackAsEvent: 'Bugtracker',
+                },
+              }
               : undefined,
           ]}
         />
