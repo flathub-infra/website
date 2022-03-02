@@ -1,4 +1,4 @@
-name: 🚀 Deploy website
+name: 🚀 Build and push Docker image
 
 on:
   workflow_run:
@@ -7,44 +7,43 @@ on:
     branches:
       - master
     types: [completed]
-  schedule:
-    - cron: '23 * * * *'
   workflow_dispatch:
 
 jobs:
-  deploy:
+  docker:
     runs-on: ubuntu-latest
     concurrency:
-      group: deploy_website
+      group: build_push_docker
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/cache@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v1
         with:
-          path: ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v2
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          node-version: '16'
-          cache: 'yarn'
+          context: .
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/flathub/frontend:${{ github.sha }}
+            ghcr.io/flathub/frontend:latest
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
 
-      - name: Export static website to staging
-        run: |
-          yarn install --frozen-lockfile
-          cp .env.staging .env.production
-          yarn build
-          yarn export
-
-      - name: Deploy to server
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan webapps.flathub.org >> ~/.ssh/known_hosts
-          eval "$(ssh-agent -s)"
-          ssh-add - <<< "${DEPLOY_KEY}"
-          rsync -rP --delete out/ deploy@webapps.flathub.org:
+      - name: Trigger a deployment
+        uses: distributhor/workflow-webhook@6edfd7cdaf8e0551b717bab8912c8d910475b98f
         env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          webhook_url: ${{ secrets.DEPLOY_WEBHOOK_ENDPOINT }}
+          webhook_secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
