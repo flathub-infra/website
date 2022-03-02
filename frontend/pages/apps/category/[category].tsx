@@ -34,15 +34,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = Object.keys(Category).map((c) => ({
-    params: {
-      category: c,
-    },
-  }))
-
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: 'blocking',
   }
 }
 

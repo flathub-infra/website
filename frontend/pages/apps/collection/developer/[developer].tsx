@@ -38,13 +38,8 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const apps = await fetchDevelopers()
-    const paths = apps.map((developer) => ({
-        params: { developer },
-    }))
-
     return {
-        paths,
-        fallback: false,
+        paths: [],
+        fallback: 'blocking',
     }
 }
