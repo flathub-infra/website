@@ -327,3 +327,52 @@ class UserVerifiedApp(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(UserVerifiedApp)
+
+
+# Wallet related content
+
+
+class Transaction(Base):
+    __tablename__ = "transaction"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    value = Column(Integer, nullable=False)
+    currency = Column(String, nullable=False)
+    kind = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    reason = Column(String)
+    created = Column(DateTime, nullable=False)
+    updated = Column(DateTime, nullable=False)
+
+
+class TransactionRow(Base):
+    __tablename__ = "transactionrow"
+
+    id = Column(Integer, primary_key=True)
+    idx = Column(Integer, nullable=False)
+    amount = Column(Integer, nullable=False)
+    currency = Column(String, nullable=False)
+    kind = Column(String, nullable=False)
+    recipient = Column(String, nullable=False)
+
+
+# Stripe-specific wallet models
+
+
+class StripeCustomer(Base):
+    __tablename__ = "stripecustomer"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    stripe_cust = Column(String, nullable=False, index=True)
+
+
+class StripeTransaction(Base):
+    __tablename__ = "stripetransaction"
+
+    id = Column(Integer, primary_key=True)
+    transaction = Column(
+        Integer, ForeignKey(Transaction.id), nullable=False, unique=True, index=True
+    )
+    stripe_pi = Column(String, nullable=False)
