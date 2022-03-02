@@ -77,5 +77,6 @@ export const getStaticProps: GetStaticProps = async () => {
       editorsChoiceGames,
       popular,
     },
+    revalidate: 3600,
   }
 }

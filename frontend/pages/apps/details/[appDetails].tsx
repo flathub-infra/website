@@ -75,6 +75,7 @@ export const getStaticProps: GetStaticProps = async ({
       stats,
       developerApps: developerApps ?? [],
     },
+    revalidate: 3600,
   }
 }
 

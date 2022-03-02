@@ -33,6 +33,7 @@ export const getStaticProps: GetStaticProps = async ({
             developerApps: developerApps ?? [],
             developer
         },
+        revalidate: 3600,
     }
 }
 

@@ -54,5 +54,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       topAppsByCategory,
     },
+    revalidate: 3600,
   }
 }
