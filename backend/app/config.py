@@ -17,7 +17,6 @@ class Settings(BaseSettings):
     appstream_repos: Optional[str] = None
     datadir: str = os.path.join(ROOT_DIR, "data")
     stats_baseurl = "https://flathub.org/stats"
-    enable_login_support: bool = False
     session_secret_key: str = "change-me-for-production"
     database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
     github_client_id: str = "71dbddbdb4288fe96a58"
