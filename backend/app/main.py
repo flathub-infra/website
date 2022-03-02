@@ -16,6 +16,7 @@ from . import (
     stats,
     summary,
     verification,
+    wallet,
 )
 
 app = FastAPI(title=config.settings.app_name)
@@ -38,6 +39,7 @@ app.add_middleware(
 )
 
 logins.register_to_app(app)
+wallet.register_to_app(app)
 
 verification.register_to_app(app)
 
