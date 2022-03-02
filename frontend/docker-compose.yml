@@ -3,5 +3,6 @@ services:
   frontend:
     build:
       dockerfile: Dockerfile
+      target: dev
     ports:
       - "3000"
