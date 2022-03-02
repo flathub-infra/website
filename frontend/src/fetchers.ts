@@ -15,7 +15,6 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
-  DEVELOPERS_URL,
   LOGIN_PROVIDERS_URL,
 } from './env'
 import { Summary } from './types/Summary'
@@ -152,11 +151,6 @@ export async function fetchCategory(
   console.log('\nCategory', category, ' fetched')
 
   return items.filter((item) => Boolean(item))
-}
-
-export async function fetchDevelopers(): Promise<string[]> {
-  const appListRes = await fetch(DEVELOPERS_URL)
-  return await appListRes.json()
 }
 
 export async function fetchDeveloperApps(developer: string | undefined) {
