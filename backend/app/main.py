@@ -37,8 +37,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-if config.settings.enable_login_support:
-    logins.register_to_app(app)
+logins.register_to_app(app)
 
 verification.register_to_app(app)
 
