@@ -35,6 +35,9 @@ class Settings(BaseSettings):
     google_client_secret: str = "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"
     google_return_url: str = "http://localhost:3000/login/google"
     cors_origins: str = "http://localhost:3000"
+    stripe_secret_key: Optional[str] = None
+    stripe_public_key: Optional[str] = None
+    stripe_webook_key: Optional[str] = None
 
 
 settings = Settings()
