@@ -58,6 +58,7 @@
     "your-apps": "Your Apps",
     "app-logo": "{{app-name}} Logo",
     "user-page": "User Page",
+    "user-wallet": "User Wallet",
     "flathub-statistics": "Flathub Statistics",
     "count-downloads": "Total Downloads",
     "count-applications": "Total Applications",
@@ -129,5 +130,8 @@
     "languages": "Languages",
     "languages-summary": "Choose the language you want to see the website in.",
     "languages-description": "Select a language to switch to it:",
-    "switch-language": "Switch Language"
+    "switch-language": "Switch Language",
+    "card-expiry": "Expiry: {{month}} / {{year}}",
+    "loading-saved-payment-methods": "Loading saved payment methods…",
+    "saved-cards": "Saved Cards"
 }
