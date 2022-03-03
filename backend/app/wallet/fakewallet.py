@@ -8,7 +8,8 @@ they're fake.
 """
 
 from itertools import dropwhile
-from typing import Optional, Union, List
+from time import time
+from typing import Iterable, Optional, Union, List
 
 from fastapi import Request
 
@@ -16,6 +17,7 @@ from app.models import FlathubUser
 
 from .walletbase import (
     CardInfo,
+    NascentTransaction,
     Transaction,
     TransactionRow,
     TransactionSortOrder,
@@ -138,6 +140,24 @@ class FakeWallet(WalletBase):
         request.session[to_del] = True
         return None
 
+    def _get_user_transactions(self, request: Request) -> dict[str, Transaction]:
+        """
+        Retrieve the transactions cached in the request session
+        """
+        raw = request.session.get("txns", [])
+        ret = {}
+        for txn in raw:
+            txn = Transaction.parse_obj(txn)
+            ret[txn.summary.id] = txn
+        return ret
+
+    def _set_user_transactions(self, request: Request, txns: Iterable[Transaction]):
+        """
+        Set the transactions cached in the request session
+        """
+        raw = list(txn.dict() for txn in txns)
+        request.session["txns"] = raw
+
     def transactions(
         self,
         request: Request,
@@ -149,7 +169,10 @@ class FakeWallet(WalletBase):
         def txn_key(txn: Transaction):
             return txn.summary.created
 
-        txns = sorted(FAKE_TXNS, key=txn_key)
+        txns = list(FAKE_TXNS)
+        txns.extend(self._get_user_transactions(request).values())
+
+        txns = sorted(txns, key=txn_key)
 
         if sort == TransactionSortOrder.RECENT:
             txns = list(reversed(txns))
@@ -170,10 +193,38 @@ class FakeWallet(WalletBase):
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> Union[WalletError, Transaction]:
-        txdict = {str(txn.summary.id): txn for txn in FAKE_TXNS}
+        txdict = self._get_user_transactions(request)
+        txdict.update({str(txn.summary.id): txn for txn in FAKE_TXNS})
         txn = txdict.get(transaction)
 
         if txn is None:
             return WalletError(status="error", error="not found")
 
         return txn
+
+    def create_transaction(
+        self, request: Request, user: FlathubUser, transaction: NascentTransaction
+    ) -> Union[WalletError, str]:
+        err = self._check_transaction_consistency(transaction)
+        if err is not None:
+            return err
+        # Transaction is consistent, we're fairly "easy" so create it in the
+        # session
+        txns = self._get_user_transactions(request)
+        txnum = len(txns)
+        id = f"USER-TXN-{txnum}"
+        now = int(time())
+        summary = TransactionSummary(
+            id=id,
+            value=transaction.summary.value,
+            currency=transaction.summary.currency,
+            kind=transaction.summary.kind,
+            status="new",
+            reason=None,
+            created=now,
+            updated=now,
+        )
+        txn = Transaction(summary=summary, card=None, details=transaction.details)
+        txns[id] = txn
+        self._set_user_transactions(request, txns.values())
+        return id

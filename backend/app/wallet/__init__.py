@@ -16,6 +16,7 @@ from ..config import settings
 from ..logins import login_state
 from .walletbase import (
     CardInfo,
+    NascentTransaction,
     Transaction,
     TransactionSaveCard,
     TransactionSortOrder,
@@ -119,6 +120,35 @@ def get_transaction_by_id(
         return ret.as_jsonresponse()
     else:
         return ret
+
+
+@router.post("/transactions")
+def create_transaction(
+    request: Request, data: NascentTransaction, login=Depends(login_state)
+):
+    """
+    Create a new transaction, return the ID.
+
+    If the passed in nascent transaction is valid, this will create a transaction and
+    return the ID of the newly created wallet, otherwise it'll return an error
+    """
+    ret = Wallet().create_transaction(request, login["user"], data)
+    if isinstance(ret, WalletError):
+        return ret.as_jsonresponse()
+    else:
+        return {
+            "status": "ok",
+            "id": ret,
+        }
+
+
+@router.post("/clearfake")
+def clear_fake(request: Request):
+    "Clear the fake wallet details"
+    for key in ["txns", "fake-card-ok-del", "fake-card-exp-del"]:
+        if key in request.session:
+            del request.session[key]
+    return Response(None, status_code=201)
 
 
 def register_to_app(app: FastAPI):

@@ -6,7 +6,7 @@ common.  This class provides the basis for wallet operations
 """
 
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Literal, Optional, Union
 
 from fastapi import Request
 from fastapi.encoders import jsonable_encoder
@@ -25,11 +25,14 @@ class CardInfo(BaseModel):
     last4: str
 
 
+TransactionKind = Literal["donation", "purchase"]
+
+
 class TransactionSummary(BaseModel):
     id: str
     value: int
     currency: str
-    kind: str
+    kind: TransactionKind
     status: str
     reason: Optional[str]
     created: Optional[int]
@@ -40,12 +43,23 @@ class TransactionRow(BaseModel):
     recipient: str
     amount: int
     currency: str
-    kind: str
+    kind: TransactionKind
 
 
 class Transaction(BaseModel):
     summary: TransactionSummary
     card: Optional[CardInfo]
+    details: List[TransactionRow]
+
+
+class NascentTransactionSummary(BaseModel):
+    value: int
+    currency: str
+    kind: TransactionKind
+
+
+class NascentTransaction(BaseModel):
+    summary: NascentTransactionSummary
     details: List[TransactionRow]
 
 
@@ -57,7 +71,7 @@ class WalletError(BaseModel):
         if self.error == "not found":
             return JSONResponse(jsonable_encoder(self), status_code=404)
         else:
-            return JSONResponse(self, status_code=400)
+            return JSONResponse(jsonable_encoder(self), status_code=400)
 
 
 class WalletInfo(BaseModel):
@@ -122,5 +136,48 @@ class WalletBase:
     ) -> Union[WalletError, Transaction]:
         """
         Retrieve a specific transaction
+        """
+        raise NotImplementedError
+
+    def _check_transaction_consistency(
+        self, transaction: NascentTransaction
+    ) -> Optional[WalletError]:
+        """
+        Some basic consistency checks which all nascent transactions have to meet.
+
+        As we relax the transaction rules, we can relax them here first.
+
+        Meeting these checks does not guarantee that a transaction can be created.
+        """
+        if transaction.summary.kind == "donation":
+            if any(row.kind == "purchase" for row in transaction.details):
+                return WalletError(status="error", error="inconsistent details")
+        if transaction.summary.currency != "usd" or any(
+            row.currency != "usd" for row in transaction.details
+        ):
+            return WalletError(status="error", error="must be usd")
+        if transaction.summary.value < 200:
+            return WalletError(status="error", error="transaction too small")
+        if sum(row.amount for row in transaction.details) != transaction.summary.value:
+            return WalletError(status="error", error="detail sum does not match value")
+        if not any(
+            row.recipient == "org.flathub.Flathub" for row in transaction.details
+        ):
+            return WalletError(status="error", error="nothing for flathub")
+        if transaction.details[-1].recipient != "org.flathub.Flathub":
+            return WalletError(status="error", error="flathub must be last")
+        if transaction.details[-1].amount < 100:
+            return WalletError(
+                status="error", error="flathub amount less than 1 usd minimum"
+            )
+        if transaction.details[-1].kind != "donation":
+            return WalletError(status="error", error="flathub row must be donation")
+
+    def create_transaction(
+        self, request: Request, user: FlathubUser, transaction: NascentTransaction
+    ) -> Union[WalletError, str]:
+        """
+        Create a new transaction, the input is a nascent transaction and the
+        output should either be an error, or a successful creation with an ID
         """
         raise NotImplementedError
