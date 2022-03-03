@@ -430,3 +430,20 @@ def test_auth_login_github():
         "/auth/login/github", json=post_body, cookies=response.cookies
     )
     assert response.status_code == 200
+
+
+@vcr.use_cassette(record_mode="once")
+def test_auth_login_gitlab():
+    response = client.get("/auth/login/gitlab")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    post_body = {
+        "code": "af2cd03cdcc616e01969a7975b0ae780bd25125348c03f7e3803b6b166e1c8bd",
+        "state": state,
+    }
+    response = client.post(
+        "/auth/login/gitlab", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
