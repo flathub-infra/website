@@ -181,3 +181,14 @@ class WalletBase:
         output should either be an error, or a successful creation with an ID
         """
         raise NotImplementedError
+
+    def set_transaction_card(
+        self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
+    ) -> Optional[WalletError]:
+        """
+        Set the card associated with a transaction.  The card should match one
+        returned by the `info()` function otherwise it's not guaranteed to work.
+
+        Returns a WalletError on error, otherwise None.
+        """
+        raise NotImplementedError
