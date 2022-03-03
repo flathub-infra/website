@@ -9,7 +9,7 @@ import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
 import { fetchLoginProviders } from '../../src/fetchers';
 
-export default function AuthReturnPage() {
+export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
   const router = useRouter()
 
@@ -29,9 +29,13 @@ export default function AuthReturnPage() {
     // Router must be ready to access query parameters
     if (!router.isReady) { return }
 
-    // Redirect to home if user tries some kind of directory traversal
-    if (router.query.code == null || router.query.state == null) {
-      router.push('/')
+    // Redirect away if user tries some kind of directory traversal
+    if (
+      services.every((s: string) => s !== router.query.service)
+      || router.query.code == null
+      || router.query.state == null
+    ) {
+      router.push(user.info ? '/userpage' : '/')
       return
     }
 
@@ -39,7 +43,7 @@ export default function AuthReturnPage() {
       setSent(true)
       login(dispatch, setError, router.query)
     }
-  }, [router, dispatch, user, sent])
+  }, [router, dispatch, user, sent, services])
 
   return (
     <Main>
@@ -50,26 +54,22 @@ export default function AuthReturnPage() {
   )
 }
 
-// Don't actually need static props to render the page, but must exist
-// for use of getStaticPaths
 export const getStaticProps: GetStaticProps = async () => {
+  const data = await fetchLoginProviders()
+
+  const services = data.map(d => d.method)
+
   return {
-    props: {},
+    props: {
+      services
+    },
+    revalidate: 3600,
   }
 }
 
-// Only want to have routes for login providers that exist
 export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await fetchLoginProviders()
-
-  const paths = data.map(d => ({
-    params: {
-      service: d.method,
-    },
-  }))
-
   return {
-    paths,
-    fallback: false
+    paths: [],
+    fallback: 'blocking',
   }
 }
