@@ -99,9 +99,9 @@ def get_transactions(
     return ret
 
 
-@router.get("/transactions/{id}")
+@router.get("/transactions/{txn}")
 def get_transaction_by_id(
-    id: str, request: Request, login=Depends(login_state)
+    txn: str, request: Request, login=Depends(login_state)
 ) -> Transaction:
     """
     Retrieve a transaction by its ID
@@ -115,7 +115,7 @@ def get_transaction_by_id(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
 
-    ret = Wallet().transaction(request, login["user"], transaction=id)
+    ret = Wallet().transaction(request, login["user"], transaction=txn)
     if isinstance(ret, WalletError):
         return ret.as_jsonresponse()
     else:
@@ -140,6 +140,23 @@ def create_transaction(
             "status": "ok",
             "id": ret,
         }
+
+
+@router.post("/wallet/transactions/{txn}/setcard")
+def set_transaction_card(
+    txn: str, data: CardInfo, request: Request, login=Depends(login_state)
+):
+    """
+    Set the card associated with a transaction.
+
+    The posted card must exactly match one of the cards returned by the wallet
+    info endpoint or else the update may not succeed
+    """
+    ret = Wallet().set_transaction_card(request, login["user"], txn, data)
+    if isinstance(ret, WalletError):
+        return ret.as_jsonresponse()
+    else:
+        return {"status": "ok"}
 
 
 @router.post("/clearfake")

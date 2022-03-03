@@ -104,6 +104,8 @@ FAKE_TXNS = [
     ),
 ]
 
+FAKE_TXN_DICT = {txn.summary.id: txn for txn in FAKE_TXNS}
+
 
 class FakeWallet(WalletBase):
     """
@@ -212,10 +214,10 @@ class FakeWallet(WalletBase):
         # session
         txns = self._get_user_transactions(request)
         txnum = len(txns)
-        id = f"USER-TXN-{txnum}"
+        txid = f"USER-TXN-{txnum}"
         now = int(time())
         summary = TransactionSummary(
-            id=id,
+            id=txid,
             value=transaction.summary.value,
             currency=transaction.summary.currency,
             kind=transaction.summary.kind,
@@ -228,3 +230,18 @@ class FakeWallet(WalletBase):
         txns[id] = txn
         self._set_user_transactions(request, txns.values())
         return id
+
+    def set_transaction_card(
+        self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
+    ) -> Optional[WalletError]:
+        txns = self._get_user_transactions(request)
+        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if transaction is None:
+            return WalletError(status="error", error="not found")
+        if transaction.summary.status not in ["new", "retry"]:
+            return WalletError(status="error", error="transaction not changeable")
+        cards = self.info(request, user)["cards"]
+        if card not in cards:
+            return WalletError(status="error", error="bad or unknown card")
+        transaction.card = card
+        self._set_user_transactions(request, txns.values())
