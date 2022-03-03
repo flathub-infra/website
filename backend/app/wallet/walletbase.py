@@ -79,6 +79,17 @@ class WalletInfo(BaseModel):
     cards: List[CardInfo]
 
 
+class StripeKeys(BaseModel):
+    status: str
+    public_key: str
+
+
+class TransactionStripeData(BaseModel):
+    status: str
+    client_secret: str
+    card: Optional[CardInfo]
+
+
 class TransactionSortOrder(Enum):
     """
     Sorting of transactions, either most-recent first, or oldest first
@@ -190,5 +201,27 @@ class WalletBase:
         returned by the `info()` function otherwise it's not guaranteed to work.
 
         Returns a WalletError on error, otherwise None.
+        """
+        raise NotImplementedError
+
+    def stripedata(self) -> Union[WalletError, StripeKeys]:
+        """
+        Return the public/publishable keys for this wallet
+        """
+        raise NotImplementedError
+
+    def get_transaction_stripedata(
+        self, request: Request, user: FlathubUser, transaction: str
+    ) -> Union[WalletError, TransactionStripeData]:
+        """
+        Return the stripe data associated with the given transaction, if there is some.
+        """
+        raise NotImplementedError
+
+    def cancel_transaction(
+        self, request: Request, user: FlathubUser, transaction: str
+    ) -> Optional[WalletError]:
+        """
+        Cancel the named transaction if possible.
         """
         raise NotImplementedError
