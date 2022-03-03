@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     flatpak_user_dir: str = "/root/.local/share/flatpak"
     redis_host: str = "localhost"
     redis_port: int = 6379
+    redis_db: int = 0
     database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
     sentry_dsn: Optional[str] = None
     appstream_repos: Optional[str] = None

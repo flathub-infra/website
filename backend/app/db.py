@@ -7,6 +7,7 @@ import redisearch
 from . import config
 
 redis_conn = redis.Redis(
+    db=config.settings.redis_db,
     host=config.settings.redis_host,
     port=config.settings.redis_port,
     decode_responses=True,
