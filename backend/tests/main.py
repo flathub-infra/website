@@ -1,8 +1,8 @@
+import datetime
+import glob
 import json
 import os
 import shutil
-import glob
-import datetime
 import sys
 import tempfile
 
@@ -10,10 +10,12 @@ import gi
 
 gi.require_version("OSTree", "1.0")
 
+from urllib import parse
+
+import vcr
 from fastapi.testclient import TestClient
 from gi.repository import Gio, OSTree
 from lxml import etree
-import vcr
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -301,9 +303,7 @@ def test_app_stats_by_id():
     day_before_yesterday = today - datetime.timedelta(days=2)
     expected = {
         "downloads_total": 7,
-        "downloads_per_day": {
-            day_before_yesterday.isoformat(): 6
-        },
+        "downloads_per_day": {day_before_yesterday.isoformat(): 6},
         "downloads_last_month": 7,
         "downloads_last_7_days": 7,
     }
@@ -416,3 +416,17 @@ def test_verification_status_not_verified():
     }
     assert response.status_code == 200
     assert response.json() == expected
+
+
+@vcr.use_cassette(record_mode="once")
+def test_auth_login_github():
+    response = client.get("/auth/login/github")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
+    response = client.post(
+        "/auth/login/github", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
