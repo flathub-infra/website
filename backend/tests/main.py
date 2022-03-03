@@ -425,6 +425,7 @@ def test_auth_login_github():
     out = response.json()
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    print(state)
     post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
     response = client.post(
         "/auth/login/github", json=post_body, cookies=response.cookies
@@ -439,11 +440,34 @@ def test_auth_login_gitlab():
     out = response.json()
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    print(state)
     post_body = {
         "code": "af2cd03cdcc616e01969a7975b0ae780bd25125348c03f7e3803b6b166e1c8bd",
         "state": state,
     }
     response = client.post(
         "/auth/login/gitlab", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
+
+
+@vcr.use_cassette(record_mode="once")
+def test_auth_login_google():
+    response = client.get("/auth/login/google")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    print(state)
+    encodedStr = (
+        "4%2F0AX4XfWh9fGMl1g5n_RisJiN5qV2tVUnC6d3lDoWJn-1kyQ5f2FsGkyy_cFnsQFmOU2jllg"
+    )
+    code = parse.unquote(encodedStr)
+    post_body = {
+        "code": code,
+        "state": state,
+    }
+    response = client.post(
+        "/auth/login/google", json=post_body, cookies=response.cookies
     )
     assert response.status_code == 200
