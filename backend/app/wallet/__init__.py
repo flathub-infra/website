@@ -142,7 +142,7 @@ def create_transaction(
         }
 
 
-@router.post("/wallet/transactions/{txn}/setcard")
+@router.post("/transactions/{txn}/setcard")
 def set_transaction_card(
     txn: str, data: CardInfo, request: Request, login=Depends(login_state)
 ):
@@ -159,13 +159,65 @@ def set_transaction_card(
         return {"status": "ok"}
 
 
-@router.post("/clearfake")
-def clear_fake(request: Request):
-    "Clear the fake wallet details"
-    for key in ["txns", "fake-card-ok-del", "fake-card-exp-del"]:
-        if key in request.session:
-            del request.session[key]
-    return Response(None, status_code=201)
+@router.post("/transactions/{txn}/cancel")
+def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
+    """
+    Cancel a transaction in the `new` or `retry` states.
+
+    Note that this may actually not cancel if a webhook fires asynchronously
+    and updates the transaction.  This API will not attempt to prevent stripe
+    payments from completing.
+    """
+    ret = Wallet().cancel_transaction(request, login["user"], txn)
+    if isinstance(ret, WalletError):
+        return ret.as_jsonresponse()
+    else:
+        return Response(None, status_code=201)
+
+
+# Stripe specific endpoints which are necessary
+
+
+@router.get("/stripedata")
+def get_stripedata():
+    """
+    Return the stripe public key to use in the frontend.  Since this is not
+    considered secret, we don't need a login or anything for this
+    """
+    ret = Wallet().stripedata()
+    if isinstance(ret, WalletError):
+        return ret.as_jsonresponse()
+    else:
+        return ret
+
+
+@router.get("/transactions/{txn}/stripe")
+def get_txn_stripedata(txn: str, request: Request, login=Depends(login_state)):
+    """
+    Return the Stripe data associated with the given transaction.
+
+    This is only applicable to transactions in the `new` or `retry` state and
+    will only work for transactions which *are* Stripe transactions.
+    """
+
+    ret = Wallet().get_transaction_stripedata(request, login["user"], txn)
+    if isinstance(ret, WalletError):
+        return ret.as_jsonresponse()
+    else:
+        return ret
+
+
+# Finally a fake-wallet-only endpoint which is used to clean up for testing.
+
+if settings.stripe_public_key is None:
+
+    @router.post("/clearfake")
+    def clear_fake(request: Request):
+        "Clear the fake wallet details"
+        for key in ["txns", "fake-card-ok-del", "fake-card-exp-del"]:
+            if key in request.session:
+                del request.session[key]
+        return Response(None, status_code=201)
 
 
 def register_to_app(app: FastAPI):

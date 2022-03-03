@@ -18,9 +18,11 @@ from app.models import FlathubUser
 from .walletbase import (
     CardInfo,
     NascentTransaction,
+    StripeKeys,
     Transaction,
     TransactionRow,
     TransactionSortOrder,
+    TransactionStripeData,
     TransactionSummary,
     WalletBase,
     WalletError,
@@ -244,4 +246,34 @@ class FakeWallet(WalletBase):
         if card not in cards:
             return WalletError(status="error", error="bad or unknown card")
         transaction.card = card
+        self._set_user_transactions(request, txns.values())
+
+    def stripedata(self) -> Union[WalletError, StripeKeys]:
+        return WalletError(status="error", error="not found")
+
+    def get_transaction_stripedata(
+        self, request: Request, user: FlathubUser, transaction: str
+    ) -> Union[WalletError, TransactionStripeData]:
+        txns = self._get_user_transactions(request)
+        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if transaction is None:
+            return WalletError(status="error", error="not found")
+        if transaction.summary.status not in ["new", "retry"]:
+            return WalletError(status="error", error="transaction not changeable")
+        txnid = transaction.summary.id
+        return TransactionStripeData(
+            status="ok", client_secret=f"stripe-secret-{txnid}", card=transaction.card
+        )
+
+    def cancel_transaction(
+        self, request: Request, user: FlathubUser, transaction: str
+    ) -> Optional[WalletError]:
+        txns = self._get_user_transactions(request)
+        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if transaction is None:
+            return WalletError(status="error", error="not found")
+        if transaction.summary.status not in ["new", "retry"]:
+            return WalletError(status="error", error="transaction not changeable")
+        transaction.summary.status = "cancelled"
+        transaction.summary.reason = "user"
         self._set_user_transactions(request, txns.values())
