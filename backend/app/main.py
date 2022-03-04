@@ -112,7 +112,7 @@ def get_developer(
 
 
 @app.get("/appstream")
-def list_appstream(type: schemas.Type = schemas.Type.All):
+def list_appstream(type: schemas.Type = schemas.Type.Desktop):
     return apps.list_appstream(type)
 
 

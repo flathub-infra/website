@@ -1,8 +1,6 @@
 import json
 import re
 
-from app import schemas
-
 from . import db, utils
 
 
@@ -23,7 +21,6 @@ def load_appstream():
         for appid in apps:
             redis_key = f"apps:{appid}"
 
-            # only add desktop apps to the search index
             if apps[appid].get("type") == "desktop":
                 clean_html_re = re.compile("<.*?>")
                 search_description = re.sub(
@@ -79,7 +76,7 @@ def load_appstream():
     return new_apps
 
 
-def list_appstream(type: schemas.Type = schemas.Type.Desktop):
+def list_appstream(type: str = "desktop"):
     if type == "all":
         apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     else:
