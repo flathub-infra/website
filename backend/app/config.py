@@ -38,6 +38,7 @@ class Settings(BaseSettings):
     stripe_secret_key: Optional[str] = None
     stripe_public_key: Optional[str] = None
     stripe_webhook_key: Optional[str] = None
+    flat_manager_secret: str = "c2VjcmV0"
 
 
 settings = Settings()
