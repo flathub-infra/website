@@ -63,7 +63,7 @@ function categoryToSeoCategory(category) {
 }
 
 const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps }) => {
-  const { t } = useTranslation('app-details');
+  const { t } = useTranslation();
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
 

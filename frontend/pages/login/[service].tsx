@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -56,13 +57,14 @@ export default function AuthReturnPage({ services }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const data = await fetchLoginProviders()
 
   const services = data.map(d => d.method)
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       services
     },
     revalidate: 3600,

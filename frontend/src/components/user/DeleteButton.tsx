@@ -59,7 +59,7 @@ const DeleteButton: FunctionComponent = () => {
   }, [dispatch, clicked])
 
   if (waiting) {
-    return <Spinner size={30} text='' />
+    return <Spinner size={30} />
   }
 
   if (token) {

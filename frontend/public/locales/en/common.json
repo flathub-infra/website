@@ -114,5 +114,12 @@
     "manual-install-instructions": "Make sure to follow the <2>setup guide</2> before installing",
     "popular-apps": "Popular Apps",
     "recently-updated-apps": "Recently updated apps",
-    "delete-account": "Delete Account"
+    "delete-account": "Delete Account",
+    "login-with-provider": "Login with {{provider}}",
+    "by": "by {{developer}}",
+    "install": "Install",
+    "screenshot": "Screenshot",
+    "donate": "Donate",
+    "other-apps-by-developer": "Other apps by {{developer}}",
+    "loading": "Loading..."
 }

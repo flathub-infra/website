@@ -10,7 +10,6 @@ export function useSearchQuery(query: string): Appstream[] {
 
   useEffect(() => {
     const callSearch = async () => {
-      console.log(query)
       const applications = await fetchSearchQuery(query)
       setSearchResult(applications)
       trackSiteSearch({
