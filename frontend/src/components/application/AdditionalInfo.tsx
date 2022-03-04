@@ -47,7 +47,7 @@ const AdditionalInfo = ({
             header: t('installed-size'),
             content: {
               type: 'text',
-              text: summary ? Math.round(summary.installed_size / 1_000_000) + ' MB' : 'Unknown',
+              text: summary ? `~${Math.round(summary.installed_size / 1000000)} MB` : 'Unknown',
             },
           },
         ]}
