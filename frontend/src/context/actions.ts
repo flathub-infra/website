@@ -11,6 +11,7 @@ import { UserStateAction } from "../types/Login";
  * @param dispatch Reducer dispatch function used to update user context
  * @param error Function for displaying errors (usually component state)
  * @param query URL query object with code and state to POST to backend
+ * as well as login provider name to determine the API endpoint
  */
 export async function login(
   dispatch: Dispatch<UserStateAction>,
@@ -21,7 +22,7 @@ export async function login(
 
   let res: Response
   try {
-    res = await fetch(`${LOGIN_PROVIDERS_URL}/github`, {
+    res = await fetch(`${LOGIN_PROVIDERS_URL}/${query.service}`, {
       method: 'POST',
       credentials: 'include', // Must use the session cookie
       headers: {

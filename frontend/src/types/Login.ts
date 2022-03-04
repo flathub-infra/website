@@ -9,11 +9,19 @@ export interface LoginRedirect {
 }
 
 // Corresponds to body returned by `/auth/userinfo`
+export interface AuthInfo {
+  avatar?: string,
+  login?: string,
+}
+export interface UserAuths {
+  github?: AuthInfo,
+  gitlab?: AuthInfo,
+  google?: AuthInfo,
+}
 export interface UserInfo {
   displayname: string,
-  github_login: string,
-  github_avatar: string,
   'dev-flatpaks': string[],
+  auths: UserAuths,
 }
 
 // State houses user info, along with whether it's currently mid-request

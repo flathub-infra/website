@@ -1,3 +1,4 @@
+import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -6,9 +7,10 @@ import Main from '../../src/components/layout/Main';
 import Spinner from '../../src/components/Spinner';
 import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
+import { fetchLoginProviders } from '../../src/fetchers';
 
-export default function AuthReturnPage() {
-  // Must access query params to POST to backend for verification with GitHub
+export default function AuthReturnPage({ services }) {
+  // Must access query params to POST to backend for oauth verification
   const router = useRouter()
 
   // Send only one request, prevent infinite loops
@@ -25,12 +27,15 @@ export default function AuthReturnPage() {
     }
 
     // Router must be ready to access query parameters
-    // This must be a dependency to ensure only runs once
     if (!router.isReady) { return }
 
-    // Redirect to home if user tries some kind of directory traversal
-    if (router.query.code == null || router.query.state == null) {
-      router.push('/')
+    // Redirect away if user tries some kind of directory traversal
+    if (
+      services.every((s: string) => s !== router.query.service)
+      || router.query.code == null
+      || router.query.state == null
+    ) {
+      router.push(user.info ? '/userpage' : '/')
       return
     }
 
@@ -38,7 +43,7 @@ export default function AuthReturnPage() {
       setSent(true)
       login(dispatch, setError, router.query)
     }
-  }, [router, dispatch, user, sent])
+  }, [router, dispatch, user, sent, services])
 
   return (
     <Main>
@@ -47,4 +52,24 @@ export default function AuthReturnPage() {
       {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const data = await fetchLoginProviders()
+
+  const services = data.map(d => d.method)
+
+  return {
+    props: {
+      services
+    },
+    revalidate: 3600,
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
 }

@@ -2,9 +2,15 @@ import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
 import LogoutButton from '../login/LogoutButton'
 import DeleteButton from './DeleteButton'
+import { LoginProvider } from '../../types/Login'
 import styles from './Details.module.scss'
+import ProviderLink from '../login/ProviderLink'
 
-const UserDetails: FunctionComponent = () => {
+interface Props {
+  logins: LoginProvider[]
+}
+
+const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
 
   // Nothing to show if not logged in
@@ -12,32 +18,53 @@ const UserDetails: FunctionComponent = () => {
     return <></>
   }
 
-  const {
-    github_avatar,
-    github_login,
-    displayname,
-    "dev-flatpaks": flatpaks
-  } = user.info
+  // Accounts may or may not be present in user information
+  const linkedAccounts = Object.keys(user.info.auths).map(name => {
+    const authData = user.info.auths[name]
+
+    return (<div key={name} className={styles.linked}>
+      <img
+        src={authData.avatar}
+        className={styles.avatar}
+        alt={`${authData.login}'s avatar`}
+      />
+      <p><b>{name}</b><br/>{authData.login}</p>
+    </div>)
+  })
+
+  // The user may have further sign in options available
+  const linkOptions = logins
+    .filter(provider => !user.info.auths[provider.method])
+    .map(provider => <ProviderLink key={provider.method} provider={provider} />)
+
+  const loginSection = linkOptions.length
+  ?  <div className={styles.subsection}>
+      <h3>Link More Accounts</h3>
+      <div className={styles.authList}>
+        {linkOptions}
+      </div>
+    </div>
+  : <></>
 
   return (
     <div className='main-container'>
       <div className={styles.details}>
-        <img
-          src={github_avatar}
-          className={styles.avatar}
-          alt={`${github_login}'s avatar`}
-        />
-        <div className={styles.textDetails}>
-          <h2>{displayname}</h2>
-          <p>GitHub Account: <a href={`https://github.com/${github_login}`}
-            target='_blank'
-            rel='noreferrer'
-            title='Open in new tab'>@{github_login}</a></p>
+        <h2 className={styles.displayname}>{user.info.displayname}</h2>
+
+        <div className={styles.subsection}>
+          <h3>Linked Accounts</h3>
+          <div className={styles.authList}>
+            {linkedAccounts}
+          </div>
         </div>
+
+        {loginSection}
+
         <div className={styles.actions}>
           <LogoutButton />
           <DeleteButton />
         </div>
+
       </div>
     </div >
   )

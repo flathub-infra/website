@@ -198,11 +198,5 @@ export async function fetchLoginProviders(): Promise<LoginProvider[]> {
     return null
   }
 
-  const providers = await providersRes.json()
-
-  // Creating full URL here since env variable not available client-side
-  return providers.map((p: LoginProvider) => {
-    p.method = `${LOGIN_PROVIDERS_URL}/${p.method}`
-    return p
-  })
+  return await providersRes.json()
 }

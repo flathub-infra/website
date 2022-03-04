@@ -9,13 +9,17 @@ const LoginStatus: FunctionComponent = () => {
 
   let status: ReactElement;
   if (user.info) {
+    // User has multiple login options, find one with an avatar
+    const avatar = Object.values(user.info.auths)
+      .find(auth => auth.avatar).avatar
+
     status = <>
       <h4>Logged in as:</h4>
 
       <Link href="/userpage" passHref>
         <a className={styles.user}>
         <img
-          src={user.info.github_avatar}
+          src={avatar}
           className={styles.userAvatar}
         />
         {user.info.displayname}
