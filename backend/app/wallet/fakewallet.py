@@ -11,7 +11,7 @@ from itertools import dropwhile
 from time import time
 from typing import Iterable, Optional, Union, List
 
-from fastapi import Request
+from fastapi import Request, Response
 
 from app.models import FlathubUser
 
@@ -113,6 +113,10 @@ class FakeWallet(WalletBase):
     """
     A fake wallet, without using Stripe
     """
+
+    @classmethod
+    def webhook_name(cls):
+        return "fakewallet"
 
     def info(
         self, request: Request, user: FlathubUser
@@ -277,3 +281,6 @@ class FakeWallet(WalletBase):
         transaction.summary.status = "cancelled"
         transaction.summary.reason = "user"
         self._set_user_transactions(request, txns.values())
+
+    def webhook(self, request: Request) -> Response:
+        return Response(None, status_code=201)

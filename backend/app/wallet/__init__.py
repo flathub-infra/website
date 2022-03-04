@@ -220,6 +220,20 @@ if settings.stripe_public_key is None:
         return Response(None, status_code=201)
 
 
+@router.post("/webhook/" + Wallet.webhook_name())
+def webhook(request: Request):
+    """
+    This endpoint is intended to deal with webhooks coming back from payment
+    mechanisms etc.  It exists only for the deployed wallet, so its name
+    will vary with the deployed wallet kind.
+
+    The exact form of the content posted to the webhook will vary from wallet
+    kind to wallet kind.
+    """
+
+    return Wallet().webhook(request)
+
+
 def register_to_app(app: FastAPI):
     """
     Register the wallet APIs with the FastAPI application

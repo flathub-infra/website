@@ -8,7 +8,7 @@ common.  This class provides the basis for wallet operations
 from enum import Enum
 from typing import List, Literal, Optional, Union
 
-from fastapi import Request
+from fastapi import Request, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -108,6 +108,13 @@ class WalletBase:
         """
         Initialise this wallet
         """
+
+    @classmethod
+    def webhook_name(cls):
+        """
+        Retrieve the suffix for the webhooks for this wallet kind.
+        """
+        raise NotImplementedError
 
     def info(
         self, request: Request, user: FlathubUser
@@ -223,5 +230,14 @@ class WalletBase:
     ) -> Optional[WalletError]:
         """
         Cancel the named transaction if possible.
+        """
+        raise NotImplementedError
+
+    def webhook(self, request: Request) -> Response:
+        """
+        Handle an incoming webhook POST request.
+
+        Note, this **must** return something which can be directly returned
+        from the fastapi call point.
         """
         raise NotImplementedError
