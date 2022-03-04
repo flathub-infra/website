@@ -135,6 +135,12 @@ def update():
         summary_dict[appid]["installed_size"] = installed_size
         summary_dict[appid]["metadata"] = parse_metadata(xa_cache[ref][2])
 
+        # flatpak cannot know how much application will weight after
+        # apply_extra is executed, so let's estimate it by combining installed
+        # and download sizes
+        if "extra-data" in summary_dict[appid]["metadata"]:
+            summary_dict[appid]["installed_size"] += download_size
+
     for ref in xa_cache.keys():
         if not validate_ref(ref, enforce_arch=False):
             continue
