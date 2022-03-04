@@ -59,7 +59,8 @@ def appstream2dict(reponame: str):
     for component in root:
         app = {}
 
-        app["type"] = component.attrib.get("type")
+        if component.attrib.get("type") != "desktop":
+            continue
 
         descriptions = component.findall("description")
         if len(descriptions):
