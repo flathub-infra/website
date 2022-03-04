@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 
 import Collection from '../../../src/components/application/Collection'
+import Main from '../../../src/components/layout/Main';
 import { fetchCategory } from '../../../src/fetchers'
 import { Appstream } from '../../../src/types/Appstream'
 import { Category, categoryToName } from '../../../src/types/Category'
@@ -16,10 +17,10 @@ const ApplicationCategory = ({ applications }) => {
   let title = categoryToName(category, t)
 
   return (
-    <>
+    <Main>
       <NextSeo title={title} />
       <Collection title={title} applications={applications} />
-    </>
+    </Main>
   )
 }
 
