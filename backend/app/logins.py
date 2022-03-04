@@ -23,7 +23,7 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, models
+from . import apps, config, models
 
 # Utility bits
 
@@ -666,6 +666,8 @@ def get_userinfo(login=Depends(login_state)):
     If the user has an active github login, you'll also get their github login
     name, and avatar.  If they have some other login, details for that login
     will be provided.
+
+    dev-flatpaks is filtered against IDs available in AppStream
     """
     if not login["state"].logged_in():
         return Response(status_code=403)
@@ -675,13 +677,16 @@ def get_userinfo(login=Depends(login_state)):
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:
+        available_apps = apps.list_appstream()
+
         ret["auths"]["github"] = {}
         if gha.login:
             ret["auths"]["github"]["login"] = gha.login
         if gha.avatar_url:
             ret["auths"]["github"]["avatar"] = gha.avatar_url
         for repo in models.GithubRepository.all_by_account(db, gha):
-            ret["dev-flatpaks"].add(repo.reponame)
+            if repo.reponame in available_apps:
+                ret["dev-flatpaks"].add(repo.reponame)
 
     gla = models.GitlabAccount.by_user(db, user)
     if gla is not None:
