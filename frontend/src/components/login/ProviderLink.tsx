@@ -9,11 +9,27 @@ interface Props {
   provider: LoginProvider,
 }
 
+function loginMethod(provider: LoginProvider) {
+  switch (provider.method) {
+    case 'github':
+      return 'GitHub'
+
+    case 'gitlab':
+      return 'GitLab'
+
+    case 'google':
+      return 'Google'
+
+    default:
+      break;
+  }
+}
+
 const ProviderLink: FunctionComponent<Props> = ({
   provider
 }) => {
   const { t } = useTranslation()
-  // Using state to prevent user repeatedly initating fetches
+  // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
   const [error, setError] = useState('')
 
@@ -50,11 +66,13 @@ const ProviderLink: FunctionComponent<Props> = ({
     }
   }, [clicked, provider.method, t])
 
+  const loginText = t(`login-with-provider`, { provider: loginMethod(provider) })
+
   return (
     <>
       <button className={styles.provider} onClick={() => setClicked(true)}>
-        <img src={provider.button} width='60' height='60' alt={provider.text}></img>
-        {provider.text}
+        <img src={provider.button} width='60' height='60' alt={loginText}></img>
+        {loginText}
       </button>
       {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </>
