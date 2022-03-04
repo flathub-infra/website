@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useTranslation } from 'next-i18next';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -11,6 +12,7 @@ import { fetchLoginProviders } from '../../src/fetchers';
 
 export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
+  const { t } = useTranslation();
   const router = useRouter()
 
   // Send only one request, prevent infinite loops
@@ -47,7 +49,7 @@ export default function AuthReturnPage({ services }) {
 
   return (
     <Main>
-      <NextSeo title='Login' noindex={true}></NextSeo>
+      <NextSeo title={t('login')} noindex={true}></NextSeo>
       {user.loading ? <Spinner size={200} /> : <></>}
       {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>

@@ -2,6 +2,7 @@ import Main from '../src/components/layout/Main'
 import { NextSeo } from 'next-seo'
 import WorldMap from 'react-svg-worldmap'
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { fetchStats } from '../src/fetchers'
 import { Stats as Statistics } from '../src/types/Stats'
 import styles from './statistics.module.scss'
@@ -15,8 +16,10 @@ import {
   MdFormatListNumbered,
 } from 'react-icons/md'
 import ListBox from '../src/components/application/ListBox'
+import { i18n, useTranslation } from 'next-i18next';
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
+  const { t } = useTranslation()
   let country_data: { country: string; value: number }[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
@@ -37,21 +40,21 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, 'Downloads')
+  const data = chartStyle(downloads_labels, downloads_data, t('downloads'))
 
-  const options = chartOptions()
+  const options = chartOptions(i18n.language)
 
   return (
     <Main>
-      <NextSeo title='Statistics' description='Flathub Statistics' />
+      <NextSeo title={t('statistics')} description={t('flathub-statistics')} />
       <div className='main-container'>
-        <h1>Statistics</h1>
+        <h1>{t('statistics')}</h1>
         <div className={styles.stats}>
           <ListBox
             items={[
               {
                 icon: <MdCloudDownload />,
-                header: 'Total downloads',
+                header: t('count-downloads'),
                 content: {
                   type: 'text',
                   text: stats.downloads?.toLocaleString(),
@@ -63,7 +66,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             items={[
               {
                 icon: <MdFormatListNumbered />,
-                header: 'Total applications',
+                header: t('count-applications'),
                 content: {
                   type: 'text',
                   text: stats.number_of_apps?.toLocaleString(),
@@ -75,17 +78,17 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             items={[
               {
                 icon: <MdCalendarToday />,
-                header: 'Since',
+                header: t('since'),
                 content: {
                   type: 'text',
-                  text: new Date(2018, 3, 29).toDateString(),
+                  text: new Date(2018, 3, 29).toLocaleDateString(i18n.language)
                 },
               },
             ]}
           />
         </div>
         <div className={styles.downloadStats}>{ }</div>
-        <h3>Downloads per country</h3>
+        <h3>{t('downloads-per-country')}</h3>
         <div className={styles.map}>
           <WorldMap
             color='var(--color-primary)'
@@ -96,7 +99,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             data={country_data}
           />
         </div>
-        <h3>Downloads over time</h3>
+        <h3>{t('downloads-over-time')}</h3>
         <div className={styles.downloadsOverTime}>
           <Line data={data} options={options} />
         </div>
@@ -105,12 +108,13 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   console.log('Fetching data for stats')
   const stats = await fetchStats()
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       stats,
     },
     revalidate: 3600,

@@ -1,4 +1,5 @@
 import { ChartData, ChartOptions } from 'chart.js'
+import { getLocale } from './localize'
 
 export function chartStyle(
   labels: (string | Date)[],
@@ -33,16 +34,20 @@ export function chartStyle(
   }
 }
 
-export function chartOptions(): ChartOptions<'line'> {
+export function chartOptions(locale: string): ChartOptions<'line'> {
   return {
+    locale,
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
-
+        adapters: {
+          date: { locale: getLocale(locale) }
+        },
         type: 'time',
         time: {
           minUnit: 'day',
+          tooltipFormat: "P",
         },
         title: {
           display: true,
@@ -67,11 +72,6 @@ export function chartOptions(): ChartOptions<'line'> {
     plugins: {
       tooltip: {
         displayColors: false,
-        callbacks: {
-          title: function (tooltipItems) {
-            return tooltipItems[0].label.replace(/, \d+:\d+:\d+ a.m./, '')
-          },
-        },
       },
       legend: {
         display: false,

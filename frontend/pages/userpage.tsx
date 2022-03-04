@@ -1,4 +1,6 @@
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
 import Router from 'next/router'
 import { ReactElement, useEffect } from 'react'
@@ -12,6 +14,7 @@ import { LoginProvider } from '../src/types/Login'
 import styles from './userpage.module.scss'
 
 export default function Userpage({ providers }) {
+  const { t } = useTranslation()
   const user = useUserContext()
 
   // Nothing to show if not logged in, return to home
@@ -35,18 +38,19 @@ export default function Userpage({ providers }) {
 
   return (
     <Main>
-      <NextSeo title='User page' noindex={true} />
+      <NextSeo title={t('user-page')} noindex={true} />
       {content}
     </Main>
   )
 }
 
 // Need available login providers to show options on page
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const providers: LoginProvider[] = await fetchLoginProviders()
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       providers,
     }
   }

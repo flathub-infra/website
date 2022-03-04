@@ -6,8 +6,10 @@ import { MdMenu, MdMenuOpen, MdSearch } from 'react-icons/md'
 import styles from './Header.module.scss'
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from 'next-seo'
 import { env } from 'process'
+import { useTranslation } from 'next-i18next'
 
 const Header = () => {
+  const { t } = useTranslation();
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [isMenuOpen, setMenuOpen] = useState(false)
@@ -62,7 +64,7 @@ const Header = () => {
             url={`${env.NEXT_PUBLIC_BASE_URL}`}
           />
           <Link href='/' passHref>
-            <a id={styles.brand} title='Go Home'></a>
+            <a id={styles.brand} title={t('go-home')}></a>
           </Link>
         </span>
 
@@ -81,10 +83,10 @@ const Header = () => {
             <input
               type='search'
               name='q'
-              placeholder='Search apps'
+              placeholder={t('search-apps')}
               onChange={onChange}
               value={query}
-              aria-label='Search apps'
+              aria-label={t('search-apps')}
             />
           </form>
         </div>
@@ -94,7 +96,7 @@ const Header = () => {
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
             <Link href='/apps' passHref>
-              <a className={styles.navItem}>Explore</a>
+              <a className={styles.navItem}>{t('explore')}</a>
             </Link>
 
             <div className={styles.navItem}>
@@ -103,7 +105,7 @@ const Header = () => {
                 target='_blank'
                 rel='noreferrer'
               >
-                Publish
+                {t('publish')}
               </a>
             </div>
 
@@ -113,12 +115,12 @@ const Header = () => {
                 target='_blank'
                 rel='noreferrer'
               >
-                Forum
+                {t('forum')}
               </a>
             </div>
 
             <Link href='/about' passHref>
-              <a className={styles.navItem}>About</a>
+              <a className={styles.navItem}>{t('about')}</a>
             </Link>
           </div>
           <div className={styles.toggleContainer}>

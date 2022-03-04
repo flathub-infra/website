@@ -1,3 +1,5 @@
+import { TFunction } from "react-i18next"
+
 export enum Category {
   AudioVideo = 'AudioVideo',
   Development = 'Development',
@@ -11,22 +13,22 @@ export enum Category {
   Utility = 'Utility',
 }
 
-export function categoryToName(category: Category): string {
+export function categoryToName(category: Category, t: TFunction<"translation", undefined>): string {
   switch (category) {
     case Category.AudioVideo:
-      return 'Audio & Video'
+      return t('audio-and-video')
     case Category.Development:
-      return 'Developer Tools'
+      return t('developer-tools')
     case Category.Game:
-      return 'Games'
+      return t('games')
     case Category.Graphics:
-      return 'Graphics & Photography'
+      return t('graphics-and-photography')
     case Category.Network:
-      return 'Networking'
+      return t('networking')
     case Category.Office:
-      return 'Productivity'
+      return t('productivity')
     case Category.Utility:
-      return 'Utilities'
+      return t('utilities')
     default:
       return category as string
   }

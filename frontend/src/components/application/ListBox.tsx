@@ -1,4 +1,5 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react'
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent } from 'react'
 import { MdOpenInNew } from 'react-icons/md'
 import styles from './ListBox.module.scss'
@@ -16,6 +17,7 @@ interface Props {
 
 const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
   const { trackEvent } = useMatomo()
+  const { t } = useTranslation()
 
   return (
     <div className={styles.list}>
@@ -61,7 +63,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target='_blank'
                       rel='noreferrer'
                       onClick={linkClicked}
-                      title='Open in new tab'
+                      title={t('open-in-new-tab')}
                     >
                       <MdOpenInNew />
                     </a>

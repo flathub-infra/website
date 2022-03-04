@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Appstream } from '../../src/types/Appstream'
 import { fetchCategory } from '../../src/fetchers'
 import Main from '../../src/components/layout/Main'
@@ -9,19 +10,21 @@ import Tile from '../../src/components/Tile'
 import { Category, categoryToName } from '../../src/types/Category'
 import styles from './index.module.scss'
 import ApplicationSection from '../../src/components/application/ApplicationSection'
+import { useTranslation } from 'next-i18next';
 
 export default function Apps({
   topAppsByCategory,
 }) {
+  const { t } = useTranslation()
   return (
     <Main>
       <NextSeo
-        title='Applications'
-        description='An app store and build service for Linux'
+        title={t('applications')}
+        description={t('applications-description')}
       />
       <div className='main-container'>
         <header>
-          <h3>Categories</h3>
+          <h3>{t('categories')}</h3>
         </header>
         <div className={styles.flex}>
           {Object.keys(Category).map((category: Category) => (
@@ -30,19 +33,19 @@ export default function Apps({
               href={`/apps/category/${encodeURIComponent(category)}`}
               passHref
             >
-              <Tile>{categoryToName(category)}</Tile>
+              <Tile>{categoryToName(category, t)}</Tile>
             </Link>
           ))}
         </div>
         {topAppsByCategory.map((sectionData, i) => (
-          <ApplicationSection key={`categorySection${i}`} href={`/apps/category/${encodeURIComponent(sectionData.category)}`} applications={sectionData.apps} title={categoryToName(sectionData.category)}></ApplicationSection>
+          <ApplicationSection key={`categorySection${i}`} href={`/apps/category/${encodeURIComponent(sectionData.category)}`} applications={sectionData.apps} title={categoryToName(sectionData.category, t)}></ApplicationSection>
         ))}
       </div>
     </Main >
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   let topAppsByCategory: { category: string, apps: Appstream[] }[] = [];
 
   const categoryPromise = Object.keys(Category).map(async (category: Category) => {
@@ -52,6 +55,7 @@ export const getStaticProps: GetStaticProps = async () => {
   topAppsByCategory = await Promise.all(categoryPromise);
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       topAppsByCategory,
     },
     revalidate: 3600,

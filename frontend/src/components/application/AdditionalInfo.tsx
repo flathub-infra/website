@@ -16,6 +16,8 @@ import { BsHddFill, BsTextParagraph } from 'react-icons/bs'
 import { MdLaptop } from 'react-icons/md'
 import { AppStats } from '../../types/AppStats'
 import spdxLicenseList from 'spdx-license-list/full'
+import { useTranslation } from 'next-i18next'
+import { TFunction } from 'react-i18next'
 
 const AdditionalInfo = ({
   data,
@@ -28,7 +30,8 @@ const AdditionalInfo = ({
   appId: string
   stats: AppStats
 }) => {
-  const license = getLicense(data.project_license)
+  const { t } = useTranslation()
+  const license = getLicense(data.project_license, t)
 
   const licenseIsLink = data.project_license?.startsWith(
     'LicenseRef-proprietary='
@@ -41,7 +44,7 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <BsHddFill />,
-            header: 'Installed size',
+            header: t('installed-size'),
             content: {
               type: 'text',
               text: summary ? Math.round(summary.installed_size / 1_000_000) + ' MB' : 'Unknown',
@@ -54,7 +57,7 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <MdDownload />,
-            header: 'Download size',
+            header: t('download-size'),
             content: {
               type: 'text',
               text: summary ? Math.round(summary.download_size / 1_000_000) + ' MB' : 'Unknown',
@@ -68,8 +71,8 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <MdLaptop />,
-            header: 'Available architectures',
-            content: { type: 'text', text: summary ? summary.arches.join(', ') : 'Unknown' },
+            header: t('available-architectures'),
+            content: { type: 'text', text: summary ? summary.arches.join(', ') : t('unknown') },
           },
         ]}
       ></ListBox>
@@ -78,7 +81,7 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <MdCloudDownload />,
-            header: 'Downloads',
+            header: t('downloads'),
             content: {
               type: 'text',
               text: stats.downloads_total.toLocaleString(),
@@ -92,7 +95,7 @@ const AdditionalInfo = ({
           items={[
             {
               icon: <BsTextParagraph />,
-              header: 'License',
+              header: t('license'),
               content: {
                 type: licenseIsLink ? 'url' : 'text',
                 text: license,
@@ -114,7 +117,7 @@ const AdditionalInfo = ({
                   trackAsEvent: 'Homepage',
                 },
                 icon: <MdWeb />,
-                header: 'Project website',
+                header: t('project-website'),
               }
               : undefined,
           ]}
@@ -132,7 +135,7 @@ const AdditionalInfo = ({
                   trackAsEvent: 'Contact',
                 },
                 icon: <MdContactPage />,
-                header: 'Contact',
+                header: t('contact'),
               }
               : undefined,
           ]}
@@ -150,7 +153,7 @@ const AdditionalInfo = ({
                   trackAsEvent: 'Help',
                 },
                 icon: <MdHelp />,
-                header: 'Help',
+                header: t('help'),
               }
               : undefined,
           ]}
@@ -168,7 +171,7 @@ const AdditionalInfo = ({
                   trackAsEvent: 'Faq',
                 },
                 icon: <MdQuestionAnswer />,
-                header: 'Frequently Asked Questions',
+                header: t('frequently-asked-questions'),
               }
               : undefined,
           ]}
@@ -181,7 +184,7 @@ const AdditionalInfo = ({
             data.urls.translate
               ? {
                 icon: <MdTranslate />,
-                header: 'Contribute translations',
+                header: t('contribute-translations'),
                 content: {
                   type: 'url',
                   text: data.urls.translate,
@@ -199,7 +202,7 @@ const AdditionalInfo = ({
             data.urls.bugtracker
               ? {
                 icon: <MdOutlineBugReport />,
-                header: 'Report an issue',
+                header: t('report-an-issue'),
                 content: {
                   type: 'url',
                   text: data.urls.bugtracker,
@@ -214,7 +217,7 @@ const AdditionalInfo = ({
   )
 }
 
-function getLicense(project_license: string | undefined): string | undefined {
+function getLicense(project_license: string | undefined, t: TFunction<"translation", undefined>): string | undefined {
   if (!project_license) {
     return undefined
   }
@@ -223,13 +226,13 @@ function getLicense(project_license: string | undefined): string | undefined {
     return project_license?.replace(/LicenseRef-proprietary=/, '')
   }
   if (project_license?.startsWith('LicenseRef-proprietary')) {
-    return 'Proprietary'
+    return t('proprietary')
   }
 
   const splitLicense = project_license.split(' ')
   if (splitLicense.length <= 1) {
     return (
-      spdxLicenseList[project_license]?.name ?? project_license ?? 'Unknown'
+      spdxLicenseList[project_license]?.name ?? project_license ?? t('unknown')
     )
   }
 

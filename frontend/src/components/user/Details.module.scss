@@ -1,6 +1,6 @@
 .details {
   display: grid;
-  grid-template-columns: auto 120px;
+  grid-template-columns: auto 200px;
   grid-template-rows: auto auto;
 
   padding: 16px 8px 16px 16px;
@@ -19,7 +19,6 @@
     margin-top: 0;
     margin-bottom: 10px;
   }
-
 
   .subsection {
     margin: auto 16px auto 16px;

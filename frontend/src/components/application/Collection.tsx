@@ -4,9 +4,9 @@ import { useRouter } from 'next/router'
 import { Appstream } from '../../types/Appstream'
 
 import ApplicationCard from './ApplicationCard'
-import Main from '../layout/Main'
 import Pagination from '../Pagination'
 import styles from './Collection.module.scss'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
   applications: Appstream[]
@@ -19,6 +19,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   title,
   perPage = 30,
 }) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const page = parseInt((router.query.page ?? '1') as string)
   const totalPages = Math.ceil(applications.length / perPage)
@@ -35,7 +36,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         <section className={styles.applicationsCollection}>
           <div className={styles.collection}>
             <h2>{title}</h2>
-            <p>{applications.length} results</p>
+            <p>{t('number-of-results', { number: applications.length })}</p>
 
             <div className={styles.applications}>
               {pagedApplications.map((app) => (

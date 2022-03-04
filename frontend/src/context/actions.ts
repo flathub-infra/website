@@ -18,7 +18,7 @@ export async function login(
   error: (msg: string) => void,
   query: ParsedUrlQuery
 ) {
-  dispatch({type: 'loading'})
+  dispatch({ type: 'loading' })
 
   let res: Response
   try {
@@ -34,7 +34,7 @@ export async function login(
       })
     })
   } catch {
-    dispatch({type: 'interrupt'})
+    dispatch({ type: 'interrupt' })
     error('Login failed due to a network error. Refresh and try again.')
     return
   }
@@ -42,7 +42,7 @@ export async function login(
   if (res.ok) {
     getUserData(dispatch)
   } else {
-    dispatch({type: 'interrupt'})
+    dispatch({ type: 'interrupt' })
 
     // Some errors come with an explanation from backend, any others are unexpected
     const data = await res.json()
@@ -61,7 +61,7 @@ export async function login(
  */
 export async function getUserData(dispatch: Dispatch<UserStateAction>) {
   // Indicate the user data is being fetched
-  dispatch({type: 'loading'})
+  dispatch({ type: 'loading' })
 
   // On network error just assume user state is unchanged
   let res: Response
@@ -69,7 +69,7 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
     // Gets data for user with current session cookie
     res = await fetch(USER_INFO_URL, { credentials: 'include' })
   } catch {
-    dispatch({type: 'interrupt'})
+    dispatch({ type: 'interrupt' })
     return
   }
 
@@ -82,7 +82,7 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
     })
   } else {
     // 403 specifically indicates not currently logged in
-    dispatch({type: res.status === 403 ? 'logout' : 'interrupt'})
+    dispatch({ type: res.status === 403 ? 'logout' : 'interrupt' })
   }
 }
 
@@ -95,7 +95,7 @@ export async function logout(
   dispatch: Dispatch<UserStateAction>,
   error: (msg: string) => void
 ) {
-  dispatch({type: 'loading'})
+  dispatch({ type: 'loading' })
 
   let res: Response
   try {
@@ -104,16 +104,16 @@ export async function logout(
       credentials: 'include',
     })
   } catch {
-    dispatch({type: 'interrupt'})
-    error('A network error occured during logout. Refresh and try again.')
+    dispatch({ type: 'interrupt' })
+    error('A network error occurred during logout. Refresh and try again.')
     return
   }
 
   if (res.ok) {
-    dispatch({type: 'logout'})
+    dispatch({ type: 'logout' })
   } else {
-    dispatch({type: 'interrupt'})
-    error('A network error occured during logout. Refresh and try again.')
+    dispatch({ type: 'interrupt' })
+    error('A network error occurred during logout. Refresh and try again.')
   }
 }
 
@@ -138,7 +138,7 @@ export async function deleteAccount(
     res = await fetch(USER_DELETION_URL, {
       method: 'POST',
       credentials: 'include',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token })
     })
   } catch {
@@ -151,7 +151,7 @@ export async function deleteAccount(
   if (res.ok) {
     const data = await res.json()
     if (data.status === 'ok') {
-      dispatch({type: 'logout'})
+      dispatch({ type: 'logout' })
     } else {
       error(data.message)
     }

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { deleteAccount } from '../../context/actions'
 import { useUserDispatch } from '../../context/user-info'
@@ -44,6 +45,7 @@ async function requestDeletion(
 
 
 const DeleteButton: FunctionComponent = () => {
+  const { t } = useTranslation()
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
   const [waiting, setWaiting] = useState(false)
@@ -85,7 +87,7 @@ const DeleteButton: FunctionComponent = () => {
 
   return (
     <Button onClick={() => setClicked(true)} type='secondary'>
-      Delete<br/>Account
+      {t('delete-account')}
     </Button>
   )
 }

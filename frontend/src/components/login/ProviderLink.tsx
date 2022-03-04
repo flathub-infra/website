@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useState, useEffect } from 'react'
 import { LOGIN_PROVIDERS_URL } from '../../env'
 import { LoginProvider, LoginRedirect } from '../../types/Login'
@@ -11,6 +12,7 @@ interface Props {
 const ProviderLink: FunctionComponent<Props> = ({
   provider
 }) => {
+  const { t } = useTranslation()
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
   const [error, setError] = useState('')
@@ -28,7 +30,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         })
       } catch {
         // Allow the user to try again on network error
-        setError('There was a network error. Try again.')
+        setError(t('network-error-try-again'))
         setClicked(false)
         return
       }
@@ -46,15 +48,15 @@ const ProviderLink: FunctionComponent<Props> = ({
       setError('')
       redirect(`${LOGIN_PROVIDERS_URL}/${provider.method}`)
     }
-  }, [clicked, provider.method])
+  }, [clicked, provider.method, t])
 
   return (
     <>
-    <button className={styles.provider} onClick={() => setClicked(true)}>
-      <img src={provider.button} width='60' height='60' alt=''></img>
-      {provider.text}
-    </button>
-    {error ? <FeedbackMessage success={false} message={error} /> : <></>}
+      <button className={styles.provider} onClick={() => setClicked(true)}>
+        <img src={provider.button} width='60' height='60' alt={provider.text}></img>
+        {provider.text}
+      </button>
+      {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </>
   )
 }

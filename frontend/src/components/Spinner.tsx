@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent } from 'react'
 import styles from './Spinner.module.scss'
 
@@ -6,13 +7,17 @@ interface Props {
   text?: string, // Message to display underneath
 }
 
-const Spinner: FunctionComponent<Props> = ({ size, text='Loading...' }) => {
+const Spinner: FunctionComponent<Props> = ({ size, text = undefined }) => {
+  const { t } = useTranslation()
+  if (!text) {
+    text = t('loading')
+  }
 
   // SVG of a circle with a highlighted 90 degree arc on the border
   // Made to spin via CSS animation
   return (
     // Spinner will always be centered and padded relative to its size
-    <div className={styles.container} style={{ padding: `${size/2}px` }}>
+    <div className={styles.container} style={{ padding: `${size / 2}px` }}>
       <svg className={styles.spinner}
         width={size}
         height={size}

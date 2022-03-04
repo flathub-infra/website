@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import ApplicationDetails from '../../../src/components/application/Details'
 import Main from '../../../src/components/layout/Main'
@@ -59,7 +60,7 @@ export default function Details({
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({
+export const getStaticProps: GetStaticProps = async ({ locale,
   params: { appDetails: appId },
 }) => {
   console.log('Fetching data for app details: ', appId)
@@ -70,6 +71,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common', 'app-details'])),
       app,
       summary,
       stats,

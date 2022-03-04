@@ -1,4 +1,6 @@
 import { GetStaticProps } from 'next'
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo'
 import ApplicationCollection from '../../../src/components/application/Collection'
 import Main from '../../../src/components/layout/Main'
@@ -8,24 +10,26 @@ import { Collections } from '../../../src/types/Collection'
 
 
 export default function EditorChoiceGames({ applications }) {
+  const { t } = useTranslation()
   return (
     <Main>
-      <NextSeo title="Editor's Choice Games" />
+      <NextSeo title={t("editors-choice-games")} />
       <ApplicationCollection
-        title="Editor's Choice Games"
+        title={t("editors-choice-games")}
         applications={applications}
       />
     </Main>
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const applications: Appstream[] = await fetchCollection(
     Collections.editorsGames
   )
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       applications,
     },
     revalidate: 3600,

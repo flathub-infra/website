@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import Link from 'next/link'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import Main from '../src/components/layout/Main'
 
@@ -9,6 +9,7 @@ import { NextSeo } from 'next-seo'
 import { Collections } from '../src/types/Collection'
 import ApplicationSections from '../src/components/application/Sections'
 import Button from '../src/components/Button'
+import { useTranslation } from 'next-i18next';
 
 export default function Home({
   recentlyUpdated,
@@ -16,14 +17,15 @@ export default function Home({
   editorsChoiceGames,
   popular,
 }) {
+  const { t } = useTranslation();
   return (
     <Main>
       <NextSeo
-        title='Home'
-        description='Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!'
+        title={t('home')}
+        description={t('flathub-description')}
       />
       <div className='main-container'>
-        <h1>Apps for Linux, right here</h1>
+        <h1>{t('apps-for-linux-right-here')}</h1>
 
         <p
           className='introduction'
@@ -34,12 +36,10 @@ export default function Home({
             maxWidth: '700px',
           }}
         >
-          Welcome to Flathub, the home of hundreds of apps which can be easily
-          installed on any Linux distribution. Browse the apps online, from your
-          app center or the command line.
+          {t('welcome-to-flathub-index-text')}
         </p>
         <a href='https://flatpak.org/setup/'>
-          <Button type='secondary'>Quick setup</Button>
+          <Button type='secondary'>{t('quick-setup')}</Button>
         </a>
         <ApplicationSections
           popular={popular}
@@ -52,7 +52,7 @@ export default function Home({
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const recentlyUpdated = await fetchCollection(
     Collections.recentlyUpdated,
     APPS_IN_PREVIEW_COUNT
@@ -72,6 +72,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ['common'])),
       recentlyUpdated,
       editorsChoiceApps,
       editorsChoiceGames,

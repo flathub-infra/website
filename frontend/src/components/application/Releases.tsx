@@ -1,5 +1,7 @@
 import { formatDistance } from 'date-fns'
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent } from 'react'
+import { getLocale } from '../../localize'
 
 import { Release } from '../../types/Appstream'
 import styles from './Releases.module.scss'
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const Releases: FunctionComponent<Props> = ({ releases }) => {
+  const { t, i18n } = useTranslation()
   const latestRelease = releases ? releases[0] : null
 
   return (
@@ -18,19 +21,19 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
           {latestRelease && (
             <div className={styles.releaseDetails}>
               <header>
-                <h3>Changes in version {latestRelease.version}</h3>
+                <h3>{t('changes-in-version', { "version-number": latestRelease.version })}</h3>
                 <div>
                   {latestRelease.timestamp &&
                     formatDistance(
                       new Date(latestRelease.timestamp * 1000),
                       new Date(),
-                      { addSuffix: true }
+                      { addSuffix: true, locale: getLocale(i18n.language) }
                     )}
                 </div>
               </header>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: latestRelease.description ?? 'No changelog provided',
+                  __html: latestRelease.description ?? t('no-changelog-provided'),
                 }}
               />
             </div>

@@ -1,9 +1,11 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react'
+import { Trans, useTranslation } from 'next-i18next'
 import { useTheme } from 'next-themes'
 import styles from './CmdInstructions.module.scss'
 import CodeCopy from './CodeCopy'
 
 const CmdInstructions = ({ appId }: { appId: string }) => {
+  const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
   const { trackEvent } = useMatomo()
 
@@ -25,16 +27,18 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
 
   return (
     <div className={styles.instructions}>
-      <h3>Manual install</h3>
+      <h3>{t('manual-install')}</h3>
       <p>
-        Make sure to follow the{' '}
-        <a href='https://flatpak.org/setup/' target='_blank' rel='noreferrer'>
-          setup guide
-        </a>{' '}
-        before installing
+        <Trans i18nKey={"common:manual-install-instructions"}>
+          Make sure to follow the{' '}
+          <a href='https://flatpak.org/setup/' target='_blank' rel='noreferrer'>
+            setup guide
+          </a>{' '}
+          before installing
+        </Trans>
       </p>
       <CodeCopy text={`flatpak install flathub ${appId}`} nested={resolvedTheme === 'dark'} onCopy={flatpakInstallCopied} />
-      <h3>Run</h3>
+      <h3>{t('run')}</h3>
       <CodeCopy text={`flatpak run ${appId}`} nested={resolvedTheme === 'dark'} onCopy={flatpakRunCopied} />
     </div>
   )

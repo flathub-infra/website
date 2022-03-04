@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { MdCheck, MdContentCopy } from 'react-icons/md'
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const CodeCopy: FunctionComponent<Props> = ({ text, onCopy, className, nested }) => {
+  const { t } = useTranslation()
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const CodeCopy: FunctionComponent<Props> = ({ text, onCopy, className, nested })
       setCopied(true)
       onCopy()
     }}>
-      <button className={styles.copy} title='Copy text'>
+      <button className={styles.copy} title={t('copy-text')}>
         {!copied && <MdContentCopy></MdContentCopy>}
         {copied && <MdCheck style={{ 'color': "green" }}></MdCheck>}
       </button>

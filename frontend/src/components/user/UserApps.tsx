@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useUserContext } from '../../context/user-info'
 import { APP_DETAILS } from '../../env'
@@ -22,6 +23,7 @@ async function getAppsInfo(
 }
 
 const UserApps: FunctionComponent = () => {
+  const { t } = useTranslation()
   const user = useUserContext()
   const [apps, setApps] = useState([])
   const [loading, setLoading] = useState(true);
@@ -41,13 +43,13 @@ const UserApps: FunctionComponent = () => {
   if (loading) {
     return <Spinner
       size={100}
-      text='Loading user apps...'
+      text={t('loading-user-apps')}
     />
   }
 
   return (
     <ApplicationCollection
-      title='Your Apps'
+      title={t('your-apps')}
       applications={apps}
     />
   )

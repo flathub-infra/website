@@ -1,117 +1,122 @@
 import Link from 'next/link'
 import styles from './Footer.module.scss'
 import LoginStatus from '../login/Status'
+import { useTranslation } from 'next-i18next';
 
-const Footer = () => (
-  <footer id={styles.footer}>
-    <div className={styles.footerContainer}>
-      <div className={styles.footerSection}>
-        <div className={styles.footerTitle}>Applications</div>
-        <div className={styles.footerItems}>
-          <div className={styles.footerItem}>
-            <Link href='/apps/collection/popular'>Popular</Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/apps/collection/recently-updated'>New & Updated</Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/apps/collection/editors-choice-apps'>
-              Editor&apos;s Choice
-            </Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/apps/collection/editors-choice-games'>
-              Editor&apos;s Choice Games
-            </Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/apps'>Browse Apps</Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/feeds'>RSS Feeds</Link>
+const Footer = () => {
+  const { t } = useTranslation();
+
+  return (
+    <footer id={styles.footer}>
+      <div className={styles.footerContainer}>
+        <div className={styles.footerSection}>
+          <div className={styles.footerTitle}>{t('applications')}</div>
+          <div className={styles.footerItems}>
+            <div className={styles.footerItem}>
+              <Link href='/apps/collection/popular'>{t('popular')}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/apps/collection/recently-updated'>{t('new-and-updated')}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/apps/collection/editors-choice-apps'>
+                {t('editors-choice-apps')}
+              </Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/apps/collection/editors-choice-games'>
+                {t('editors-choice-games')}
+              </Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/apps'>{t('browse-apps')}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/feeds'>{t('rss-feeds')}</Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.footerSection}>
-        <div className={styles.footerTitle}>Community</div>
-        <div className={styles.footerItems}>
-          <div className={styles.footerItem}>
-            <a
-              href='https://flatpak.org/about/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              Get involved
-            </a>
-          </div>
-          <div className={styles.footerItem}>
-            <a
-              href='https://discourse.flathub.org/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              Forum
-            </a>
-          </div>
-          <div className={styles.footerItem}>
-            <a
-              href='https://twitter.com/FlatpakApps'
-              target='_blank'
-              rel='noreferrer'
-            >
-              Follow us
-            </a>
+        <div className={styles.footerSection}>
+          <div className={styles.footerTitle}>{t('community')}</div>
+          <div className={styles.footerItems}>
+            <div className={styles.footerItem}>
+              <a
+                href='https://flatpak.org/about/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                {t('get-involved')}
+              </a>
+            </div>
+            <div className={styles.footerItem}>
+              <a
+                href='https://discourse.flathub.org/'
+                target='_blank'
+                rel='noreferrer'
+              >
+                {t('forum')}
+              </a>
+            </div>
+            <div className={styles.footerItem}>
+              <a
+                href='https://twitter.com/FlatpakApps'
+                target='_blank'
+                rel='noreferrer'
+              >
+                {t('follow-us')}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.footerSection}>
-        <div className={styles.footerTitle}>Developers</div>
-        <div className={styles.footerItems}>
-          <div className={styles.footerItem}>
-            <a href='https://github.com/flathub/flathub/wiki/App-Submission'>
-              Publish your app
-            </a>
-          </div>
-          <div className={styles.footerItem}>
-            <a href='http://docs.flatpak.org/'>Documentation</a>
-          </div>
-          <div className={styles.footerItem}>
-            <a href='https://github.com/flathub/'>Example build files</a>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/badges'>Badges</Link>
+        <div className={styles.footerSection}>
+          <div className={styles.footerTitle}>{t('developers')}</div>
+          <div className={styles.footerItems}>
+            <div className={styles.footerItem}>
+              <a href='https://github.com/flathub/flathub/wiki/App-Submission'>
+                {t('publish-your-app')}
+              </a>
+            </div>
+            <div className={styles.footerItem}>
+              <a href='http://docs.flatpak.org/'>{t('documentation')}</a>
+            </div>
+            <div className={styles.footerItem}>
+              <a href='https://github.com/flathub/'>{t('example-build-files')}</a>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/badges'>{t('badges')}</Link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.footerSection}>
-        <div className={styles.footerTitle}>Flathub</div>
-        <div className={styles.footerItems}>
-          <div className={styles.footerItem}>
-            <Link href='/about'>About</Link>
-          </div>
-          <div className={styles.footerItem}>
-            <Link href='/statistics'>Statistics</Link>
-          </div>
-          <div className={styles.footerItem}>
-            <a
-              href='https://github.com/flathub/frontend'
-              target='_blank'
-              rel='noreferrer'
-            >
-              Source code
-            </a>
+        <div className={styles.footerSection}>
+          <div className={styles.footerTitle}>Flathub</div>
+          <div className={styles.footerItems}>
+            <div className={styles.footerItem}>
+              <Link href='/about'>{t('about')}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href='/statistics'>{t('statistics')}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <a
+                href='https://github.com/flathub/frontend'
+                target='_blank'
+                rel='noreferrer'
+              >
+                {t('source-code')}
+              </a>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.footerSection}>
-        <LoginStatus />
+        <div className={styles.footerSection}>
+          <LoginStatus />
+        </div>
       </div>
-    </div>
-  </footer>
-)
+    </footer>
+  )
+}
 
 export default Footer

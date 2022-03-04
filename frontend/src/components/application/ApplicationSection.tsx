@@ -6,6 +6,7 @@ import { Appstream } from '../../types/Appstream'
 import ApplicationCard from './ApplicationCard'
 import styles from './ApplicationSection.module.scss'
 import Button from '../Button'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
   href: string
@@ -19,23 +20,26 @@ const ApplicationSection: FunctionComponent<Props> = ({
   title,
   applications,
   showMore = true,
-}) => (
-  <div className={styles.applicationsSection}>
-    <header>
-      <h3>{title}</h3>
+}) => {
+  const { t } = useTranslation()
+  return (
+    <div className={styles.applicationsSection}>
+      <header>
+        <h3>{title}</h3>
 
-      {showMore && <Link href={href} passHref>
-        <a>
-          <Button>More</Button>
-        </a>
-      </Link>}
-    </header>
-    <div className={styles.applications}>
-      {applications.map((app) => (
-        <ApplicationCard key={app.id} application={app} />
-      ))}
+        {showMore && <Link href={href} passHref>
+          <a>
+            <Button>{t('more')}</Button>
+          </a>
+        </Link>}
+      </header>
+      <div className={styles.applications}>
+        {applications.map((app) => (
+          <ApplicationCard key={app.id} application={app} />
+        ))}
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default ApplicationSection

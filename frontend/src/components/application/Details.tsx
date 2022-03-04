@@ -2,6 +2,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { FunctionComponent, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import { Appstream, pickScreenshot } from '../../types/Appstream'
+import { useTranslation } from 'next-i18next';
 
 import { Summary } from '../../types/Summary'
 
@@ -62,6 +63,7 @@ function categoryToSeoCategory(category) {
 }
 
 const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps }) => {
+  const { t } = useTranslation('app-details');
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
 
@@ -109,12 +111,12 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
           <div className={styles.details}>
             <h2>{app.name}</h2>
             {app.developer_name?.trim().length > 0 && (
-              <div className={styles.devName}>by {app.developer_name}</div>
+              <div className={styles.devName}>{t('by', { developer: app.developer_name })}</div>
             )}
           </div>
 
           <div className={styles.actions}>
-            <Button onClick={installClicked}>Install</Button>
+            <Button onClick={installClicked}>{t('install')}</Button>
             {app.urls?.donation && (
               <a
                 href={app.urls.donation}
@@ -122,7 +124,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
                 rel='noreferrer'
                 onClick={donateClicked}
               >
-                <Button type='secondary'>Donate</Button>
+                <Button type='secondary'>{t('donate')}</Button>
               </a>
             )}
           </div>
@@ -190,7 +192,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
                       src={pickedScreenshot.url}
                       width={752}
                       height={423}
-                      alt='Screenshot'
+                      alt={t('screenshot')}
                       loading='eager'
                       priority={index === 0}
                     />
@@ -218,7 +220,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
           ></AdditionalInfo>
 
           {developerApps && developerApps.length > 0 && (
-            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={`Other apps by ${app.developer_name}`} applications={developerApps.slice(0, 6)} showMore={developerApps.length > 6} />
+            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={t('other-apps-by-developer', { developer: app.developer_name })} applications={developerApps.slice(0, 6)} showMore={developerApps.length > 6} />
           )}
 
           <AppStatistics stats={stats}></AppStatistics>
@@ -230,7 +232,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
   } else {
     return (
       <div className='main-container'>
-        <div>Loading...</div>
+        <div>{t('loading')}</div>
       </div>
     )
   }

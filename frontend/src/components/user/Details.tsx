@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
 import LogoutButton from '../login/LogoutButton'
@@ -12,6 +13,7 @@ interface Props {
 
 const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
+  const { t } = useTranslation();
 
   // Nothing to show if not logged in
   if (!user.info) {
@@ -28,7 +30,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         className={styles.avatar}
         alt={`${authData.login}'s avatar`}
       />
-      <p><b>{name}</b><br/>{authData.login}</p>
+      <p><b>{name}</b><br />{authData.login}</p>
     </div>)
   })
 
@@ -38,13 +40,13 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     .map(provider => <ProviderLink key={provider.method} provider={provider} />)
 
   const loginSection = linkOptions.length
-  ?  <div className={styles.subsection}>
-      <h3>Link More Accounts</h3>
+    ? <div className={styles.subsection}>
+      <h3>{t('link-more-accounts')}</h3>
       <div className={styles.authList}>
         {linkOptions}
       </div>
     </div>
-  : <></>
+    : <></>
 
   return (
     <div className='main-container'>
@@ -52,7 +54,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         <h2 className={styles.displayname}>{user.info.displayname}</h2>
 
         <div className={styles.subsection}>
-          <h3>Linked Accounts</h3>
+          <h3>{t('linked-accounts')}</h3>
           <div className={styles.authList}>
             {linkedAccounts}
           </div>
