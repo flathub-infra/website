@@ -19,6 +19,7 @@ import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
 import Lightbox from 'react-image-lightbox'
 import ApplicationSection from './ApplicationSection'
 import LogoImage from '../LogoImage'
+import { calculateHumanReadableSize } from '../../size';
 
 import 'react-image-lightbox/style.css' // This only needs to be imported once in your app
 
@@ -98,7 +99,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
             authorName={app.developer_name}
             operatingSystemName={'LINUX'}
             storageRequirements={
-              Math.round(summary.installed_size / 1_000_000) + ' MB'
+              summary ? calculateHumanReadableSize(summary.download_size) : t('unknown')
             }
           />
         )

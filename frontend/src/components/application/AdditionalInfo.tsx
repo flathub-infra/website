@@ -18,6 +18,7 @@ import { AppStats } from '../../types/AppStats'
 import spdxLicenseList from 'spdx-license-list/full'
 import { useTranslation } from 'next-i18next'
 import { TFunction } from 'react-i18next'
+import { calculateHumanReadableSize } from '../../size'
 
 const AdditionalInfo = ({
   data,
@@ -47,7 +48,7 @@ const AdditionalInfo = ({
             header: t('installed-size'),
             content: {
               type: 'text',
-              text: summary ? `~${Math.round(summary.installed_size / 1000000)} MB` : 'Unknown',
+              text: summary ? `~${calculateHumanReadableSize(summary.installed_size)}` : t('unknown'),
             },
           },
         ]}
@@ -60,7 +61,7 @@ const AdditionalInfo = ({
             header: t('download-size'),
             content: {
               type: 'text',
-              text: summary ? Math.round(summary.download_size / 1_000_000) + ' MB' : 'Unknown',
+              text: summary ? calculateHumanReadableSize(summary.download_size) : t('unknown'),
             },
           },
         ]}
