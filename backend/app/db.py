@@ -2,7 +2,7 @@ import json
 import time
 
 import redis
-from redis.commands.search.field import TextField, TagField, NumericField
+from redis.commands.search.field import TextField
 from redis.commands.search.indexDefinition import IndexDefinition
 from redis.commands.search.query import Query
 
