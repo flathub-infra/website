@@ -37,22 +37,20 @@ def wait_for_redis():
 
 
 def initialize():
-    apps = redis_conn.smembers("apps:index")
-    if not apps:
-        try:
-            definition = IndexDefinition(prefix=["fts:"])
-            redis_conn.ft().create_index(
-                (
-                    TextField("id"),
-                    TextField("name"),
-                    TextField("summary"),
-                    TextField("description", weight=0.2),
-                    TextField("keywords"),
-                ),
-                definition=definition,
-            )
-        except:
-            pass
+    try:
+        definition = IndexDefinition(prefix=["fts:"])
+        redis_conn.ft().create_index(
+            (
+                TextField("id"),
+                TextField("name"),
+                TextField("summary"),
+                TextField("description", weight=0.2),
+                TextField("keywords"),
+            ),
+            definition=definition,
+        )
+    except:
+        pass
 
 
 def search(userquery: str):
