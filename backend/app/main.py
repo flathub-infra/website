@@ -80,14 +80,8 @@ def get_category(
 
     ids = apps.get_category(category)
 
-    downloads = stats.get_downloads_by_ids(ids)
-    sorted_ids = sorted(
-        ids,
-        key=lambda appid: downloads.get(appid, {"downloads_last_month": 0}).get(
-            "downloads_last_month", 0
-        ),
-        reverse=True,
-    )
+    sorted_ids = sort_ids_by_downloads(ids)
+
     if page is None:
         return sorted_ids
     else:
@@ -110,14 +104,7 @@ def get_developer(
         response.status_code = 404
         return response
 
-    downloads = stats.get_downloads_by_ids(ids)
-    sorted_ids = sorted(
-        ids,
-        key=lambda appid: downloads.get(appid, {"downloads_last_month": 0}).get(
-            "downloads_last_month", 0
-        ),
-        reverse=True,
-    )
+    sorted_ids = sort_ids_by_downloads(ids)
 
     return sorted_ids
 
@@ -223,3 +210,19 @@ def get_verification_methods(appid: str):
 @app.get("/verification/{appid}/website", status_code=200)
 def get_website_verification(appid: str):
     return verification.get_website_verification(appid)
+
+
+def sort_ids_by_downloads(ids):
+    if len(ids) <= 1:
+        return ids
+
+    downloads = stats.get_downloads_by_ids(ids)
+    sorted_ids = sorted(
+        ids,
+        key=lambda appid: downloads.get(appid, {"downloads_last_month": 0}).get(
+            "downloads_last_month", 0
+        ),
+        reverse=True,
+    )
+
+    return sorted_ids
