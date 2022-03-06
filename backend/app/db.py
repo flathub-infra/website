@@ -2,7 +2,9 @@ import json
 import time
 
 import redis
-import redisearch
+from redis.commands.search.field import TextField, TagField, NumericField
+from redis.commands.search.indexDefinition import IndexDefinition
+from redis.commands.search.query import Query
 
 from . import config
 
@@ -12,8 +14,6 @@ redis_conn = redis.Redis(
     port=config.settings.redis_port,
     decode_responses=True,
 )
-
-redis_search = redisearch.Client("apps_search", conn=redis_conn)
 
 
 def wait_for_redis():
@@ -40,14 +40,14 @@ def initialize():
     apps = redis_conn.smembers("apps:index")
     if not apps:
         try:
-            definition = redisearch.IndexDefinition(prefix=["fts:"])
-            redis_search.create_index(
+            definition = IndexDefinition(prefix=["fts:"])
+            redis_conn.ft().create_index(
                 (
-                    redisearch.TextField("id"),
-                    redisearch.TextField("name"),
-                    redisearch.TextField("summary"),
-                    redisearch.TextField("description", 0.2),
-                    redisearch.TextField("keywords"),
+                    TextField("id"),
+                    TextField("name"),
+                    TextField("summary"),
+                    TextField("description", weight=0.2),
+                    TextField("keywords"),
                 ),
                 definition=definition,
             )
@@ -62,7 +62,7 @@ def search(userquery: str):
     # "D-Feet" seems to be interpreted as "d and not feet"
     userquery = userquery.replace("-", " ")
 
-    # This seems to confuse redisearch too
+    # This seems to confuse redis too
     userquery = userquery.replace(".*", "*")
 
     # Remove reserved characters
@@ -90,27 +90,27 @@ def search(userquery: str):
         return None
 
     # TODO: should input be sanitized here?
-    name_query = redisearch.Query(f"@name:'{userquery}'").no_content()
-    generic_query = redisearch.Query(userquery).no_content()
+    name_query = Query(f"@name:'{userquery}'").no_content()
+    generic_query = Query(userquery).no_content()
 
     # TODO: Backend API doesn't support paging so bring fifty results
-    # instead of just 10, which is the redisearch default
+    # instead of just 10, which is the redis default
     name_query.paging(0, 50)
     generic_query.paging(0, 50)
 
-    search_results = redis_search.search(name_query)
+    search_results = redis_conn.ft().search(name_query)
     for doc in search_results.docs:
         results.append(doc.id)
 
-    search_results = redis_search.search(generic_query)
+    search_results = redis_conn.ft().search(generic_query)
     for doc in search_results.docs:
         results.append(doc.id)
 
-    # redisearch does not support fuzzy search for non-alphabet strings
+    # redis does not support fuzzy search for non-alphabet strings
     if not len(results):
         if userquery.isalpha():
-            query = redisearch.Query(f"%{userquery}%").no_content()
-            search_results = redis_search.search(query)
+            query = Query(f"%{userquery}%").no_content()
+            search_results = redis_conn.ft().search(query)
 
             for doc in search_results.docs:
                 results.append(doc.id)
