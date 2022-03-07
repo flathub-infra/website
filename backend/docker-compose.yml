@@ -2,7 +2,7 @@ version: "3"
 
 services:
   redis:
-    image: redislabs/redisearch:2.4.0
+    image: docker.io/redislabs/redisearch:2.4.0
     ports:
       - "6379:6379"
 
@@ -25,7 +25,7 @@ services:
       - .:/app
 
   db:
-    image: postgres:12
+    image: docker.io/library/postgres:12
     ports:
       - "5432:5432"
     environment:
@@ -35,7 +35,7 @@ services:
 
   pgadmin:
     container_name: pgadmin
-    image: dpage/pgadmin4
+    image: docker.io/dpage/pgadmin4:latest
     environment:
       - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
       - PGADMIN_DEFAULT_PASSWORD=admin
