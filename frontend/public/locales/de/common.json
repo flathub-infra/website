@@ -56,7 +56,7 @@
     "developer-login": "Entwickler-Login",
     "loading-user-apps": "Lade Benutzer-Apps…",
     "your-apps": "Deine Apps",
-    "app-logo": "{{app-name}} Logo",
+    "app-logo": "{{app-name}}-Logo",
     "user-page": "Benutzerseite",
     "flathub-statistics": "Flathub-Statistiken",
     "count-downloads": "Gesamt-Downloads",
