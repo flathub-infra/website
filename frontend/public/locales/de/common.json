@@ -96,7 +96,7 @@
     "also-available-as-svg": "Auch als <2>SVG</2> verfügbar",
     "badge-copyright": "<1> <1>Jakub Steiner</1> </1> hat alles Copyright und verwandte oder angrenzende Rechte an <3>Flathub Abzeichen</3> abgetreten. Dieses Werk wurde erstellt in: Der tschechische Republik.",
     "rss-description": "RSS-Feeds von Flathub abonnieren",
-    "rss-applications": "Fehlt dir eine RSS-Applikation? Wir haben einige auf Flathub. Findest du <1>hier</1>",
+    "rss-applications": "Fehlt dir eine RSS-Applikation? Wir haben einige auf Flathub. Findest du <1>hier</1>.",
     "applications-by-developer": "Apps von {{developer}}",
     "search-for-query": "Suche nach '{{query}}'",
     "applications-description": "Ein Linux App-Store und Build-Service",
