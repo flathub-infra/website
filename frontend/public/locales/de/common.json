@@ -98,7 +98,7 @@
     "rss-description": "RSS-Feeds von Flathub abonnieren",
     "rss-applications": "Fehlt dir eine RSS-Applikation? Wir haben einige auf Flathub. Findest du <1>hier</1>",
     "applications-by-developer": "Apps von {{developer}}",
-    "search-for-query": "Suche nach {{query}}",
+    "search-for-query": "Suche nach '{{query}}'",
     "applications-description": "Ein Linux App-Store und Build-Service",
     "categories": "Kategorien",
     "linked-accounts": "Verknüpfte Konten",
@@ -121,5 +121,7 @@
     "screenshot": "Screenshot",
     "donate": "Spenden",
     "other-apps-by-developer": "Weitere Apps von {{developer}}",
-    "loading": "Laden…"
+    "loading": "Laden…",
+    "could-not-find-match-for-search": "Es konnten keine Treffer für die Suche gefunden werden.",
+    "request-new-app": "Falls du nach einer bestimmten Anwendung suchst, melde <1>hier</1> der Community, dass du sie auf Flathub haben möchtest."
 }

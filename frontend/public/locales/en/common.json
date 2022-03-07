@@ -121,5 +121,7 @@
     "screenshot": "Screenshot",
     "donate": "Donate",
     "other-apps-by-developer": "Other apps by {{developer}}",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "could-not-find-match-for-search": "Could not find a match for search.",
+    "request-new-app": "If you're searching for a specific application, let the community know, that you want it on flathub <1>here</1>."
 }
