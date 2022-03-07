@@ -14,7 +14,7 @@
     "editors-choice-games": "Empfohlene Spiele",
     "browse-apps": "Apps durchsuchen",
     "rss-feeds": "RSS-Feeds",
-    "retry-or-go-home": "Wiederholen oder zurück zur <1>Startseite</1>",
+    "retry-or-go-home": "Wiederholen oder zurück zur <1>Startseite</1>.",
     "community": "Forum",
     "get-involved": "Mitmachen",
     "follow-us": "Folge uns",
@@ -54,7 +54,7 @@
     "log-out": "Abmelden",
     "network-error-try-again": "Netzwerkfehler. Bitte noch einmal versuchen.",
     "developer-login": "Entwickler-Login",
-    "loading-user-apps": "Lade Benutzer-Apps...",
+    "loading-user-apps": "Lade Benutzer-Apps…",
     "your-apps": "Deine Apps",
     "app-logo": "{{app-name}} Logo",
     "user-page": "Benutzerseite",
@@ -88,7 +88,7 @@
     "acknowledgements": "Danksagungen",
     "acknowledgements-block": "<p>Flathub wäre nicht möglich ohne die großartige Unterstützung der folgenden Organisationen und Personen.</p>",
     "official-badges": "Offizielle Flathub Abzeichen",
-    "badges-block": "Du kannst diese Abzeichen verwenden, um deine App auf Flathub zu bewerben.",
+    "badges-block": "Du kannst diese Abzeichen verwenden, um deine App auf Flathub zu bewerben",
     "badges-description": "Offizielle Flathub Abzeichen, um deine App auf Flathub zu bewerben",
     "preferred-badge": "Bevorzugtes Abzeichen",
     "alternative-badge": "Alternatives Abzeichen",
@@ -121,5 +121,5 @@
     "screenshot": "Screenshot",
     "donate": "Spenden",
     "other-apps-by-developer": "Weitere Apps von {{developer}}",
-    "loading": "Laden..."
+    "loading": "Laden…"
 }
