@@ -121,5 +121,7 @@
     "screenshot": "Ekran Görüntüsü",
     "donate": "Bağış Yap",
     "other-apps-by-developer": "{{developer}} tarafından geliştirilen diğer uygulamalar",
-    "loading": "Yükleniyor…"
+    "loading": "Yükleniyor…",
+    "could-not-find-match-for-search": "Arama için bir eşleşme bulunamadı.",
+    "request-new-app": "Belirli bir uygulamayı arıyorsanız, topluluğa onu flathub'da istediğinizi <1>buradan</1> bildirin."
 }
