@@ -16,6 +16,7 @@ export interface Appstream {
   provides: string[]
   launchable: Launchable
   bundle: Bundle
+  metadata?: Metadata
 }
 
 interface ContentRating {
@@ -104,4 +105,8 @@ export interface Bundle {
   type: string
   runtime: string
   sdk: string
+}
+
+export interface Metadata {
+  'Flathub::manifest': string
 }
