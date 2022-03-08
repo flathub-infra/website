@@ -2,6 +2,7 @@ import os
 import re
 import urllib.parse
 from enum import Enum
+from typing import Tuple
 
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
@@ -80,9 +81,11 @@ def _matches_prefixes(appid: str, *prefixes) -> bool:
     return False
 
 
-def _get_github_username(appid: str) -> str:
+def _get_provider_username(appid: str) -> Tuple[str, str]:
     if _matches_prefixes(appid, "com.github", "io.github"):
-        return appid.split(".")[2]
+        return ("GitHub", appid.split(".")[2])
+    elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
+        return ("GitLab", appid.split(".")[2])
     else:
         return None
 
@@ -195,12 +198,13 @@ def get_verification_methods(appid: str):
             }
         )
 
-    if github_name := _get_github_username(appid):
+    if provider := _get_provider_username(appid):
+        provider_name, username = provider
         methods.append(
             {
                 "method": "login_provider",
-                "login_provider": "GitHub",
-                "login_name": github_name,
+                "login_provider": provider_name,
+                "login_name": username,
             }
         )
 
@@ -248,14 +252,15 @@ def get_verification_status(appid: str):
             "website": _get_domain_name(appid),
         }
 
-    if github_username := _get_github_username(appid):
+    if provider := _get_provider_username(appid):
+        provider_name, username = provider
         verified_app = sqldb.session.get(models.UserVerifiedApp, appid)
         if verified_app is not None:
             return {
                 "verified": True,
                 "method": "login_provider",
-                "login_provider": "GitHub",
-                "login_name": github_username,
+                "login_provider": provider_name,
+                "login_name": username,
             }
 
     return {
@@ -300,11 +305,18 @@ def _verify_app(appid: str, login, verified: bool):
             "detail": detail,
         }
 
-    username = _get_github_username(appid)
-    if username is None:
+    provider = _get_provider_username(appid)
+    if provider is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_USERNAME)
 
-    account = models.GithubAccount.by_user(sqldb, login["user"])
+    provider_name, username = provider
+
+    account = None
+    if provider_name == "GitHub":
+        account = models.GithubAccount.by_user(sqldb, login["user"])
+    elif provider_name == "GitLab":
+        account = models.GitlabAccount.by_user(sqldb, login["user"])
+
     if account is not None and account.login == username:
         if verified:
             verification = models.UserVerifiedApp(
@@ -317,7 +329,7 @@ def _verify_app(appid: str, login, verified: bool):
                     {
                         "verified": True,
                         "method": "login_provider",
-                        "login_provider": "GitHub",
+                        "login_provider": provider_name,
                         "login_name": account.login,
                     }
                 )
