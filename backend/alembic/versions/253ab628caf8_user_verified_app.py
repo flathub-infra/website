@@ -1,8 +1,8 @@
-"""UserVerifiedApp
+"""user_verified_app
 
-Revision ID: 4034814ed69a
-Revises: 7fdac6ecd738
-Create Date: 2022-02-01 00:56:08.476238
+Revision ID: 253ab628caf8
+Revises: 18bbc5ea44de
+Create Date: 2022-03-08 04:48:12.590882
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4034814ed69a'
-down_revision = '7fdac6ecd738'
+revision = '253ab628caf8'
+down_revision = '18bbc5ea44de'
 branch_labels = None
 depends_on = None
 
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('app_id', sa.String(), nullable=False),
     sa.Column('account', sa.Integer(), nullable=False),
     sa.Column('created', sa.DateTime(), nullable=False),
-    sa.ForeignKeyConstraint(['account'], ['flathubuser.id'], ),
+    sa.ForeignKeyConstraint(['account'], ['flathubuser.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('app_id')
     )
     # ### end Alembic commands ###
