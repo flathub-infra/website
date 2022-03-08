@@ -66,7 +66,7 @@ def load_appstream():
                 f"summary:{appid}",
                 f"app_stats:{appid}",
             )
-            db.redis_search.delete_document(f"fts:{appid}")
+            db.redis_conn.ft().delete_document(f"fts:{appid}")
 
         new_apps = set(apps) - current_apps
         if not len(new_apps):
