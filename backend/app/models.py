@@ -83,24 +83,29 @@ class GithubAccount(Base):
         """
         Add a user's information from Github to the hasher for token generation
         """
-        account = GithubAccount.by_user(db, user)
-        hasher.add_number(account.github_userid)
-        hasher.add_string(account.login)
-        repos = [repo.reponame for repo in GithubRepository.all_by_account(db, account)]
-        repos.sort()
-        for repo in repos:
-            hasher.add_string(repo)
+        if account := GithubAccount.by_user(db, user):
+            hasher.add_string("github")
+            hasher.add_number(account.github_userid)
+            hasher.add_string(account.login)
+            repos = [
+                repo.reponame for repo in GithubRepository.all_by_account(db, account)
+            ]
+            repos.sort()
+            for repo in repos:
+                hasher.add_string(repo)
 
     @staticmethod
     def delete_user(db, user):
         """
         Delete a user's account and information related to Github
         """
-        gha = GithubAccount.by_user(db, user)
-        db.session.execute(
-            delete(GithubRepository).where(GithubRepository.github_account == gha.id)
-        )
-        db.session.delete(gha)
+        if gha := GithubAccount.by_user(db, user):
+            db.session.execute(
+                delete(GithubRepository).where(
+                    GithubRepository.github_account == gha.id
+                )
+            )
+            db.session.delete(gha)
 
 
 FlathubUser.TABLES_FOR_DELETE.append(GithubAccount)
@@ -208,9 +213,10 @@ class GitlabAccount(Base):
         """
         Add a user's information from Gitlab to the hasher for token generation
         """
-        account = GitlabAccount.by_user(db, user)
-        hasher.add_number(account.gitlab_userid)
-        hasher.add_string(account.login)
+        if account := GitlabAccount.by_user(db, user):
+            hasher.add_string("gitlab")
+            hasher.add_number(account.gitlab_userid)
+            hasher.add_string(account.login)
 
     @staticmethod
     def delete_user(db, user):
@@ -271,9 +277,10 @@ class GoogleAccount(Base):
         """
         Add a user's information from Google to the hasher for token generation
         """
-        account = GoogleAccount.by_user(db, user)
-        hasher.add_string(account.google_userid)
-        hasher.add_string(account.login)
+        if account := GoogleAccount.by_user(db, user):
+            hasher.add_string("google")
+            hasher.add_string(account.google_userid)
+            hasher.add_string(account.login)
 
     @staticmethod
     def delete_user(db, user):
