@@ -222,7 +222,7 @@ const AdditionalInfo = ({
             header: t('manifest'),
             content: {
               type: 'url',
-              text: data.metadata?['Flathub::manifest'] ?? `https://github.com/flathub/${appId}`,
+              text: data.metadata ? data.metadata['Flathub::manifest'] ? data.metadata['Flathub::manifest'] : `https://github.com/flathub/${appId}` : `https://github.com/flathub/${appId}`,
               trackAsEvent: "Manifest"
             },
           },
