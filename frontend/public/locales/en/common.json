@@ -133,5 +133,6 @@
     "switch-language": "Switch Language",
     "card-expiry": "Expiry: {{month}} / {{year}}",
     "loading-saved-payment-methods": "Loading saved payment methods…",
+    "payment": "Payment",
     "saved-cards": "Saved Cards"
 }

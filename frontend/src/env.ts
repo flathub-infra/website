@@ -42,6 +42,16 @@ export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
 export const WALLET_INFO_URL: string = `${WALLET_BASE_URL}/walletinfo`
 export const TRANSACTIONS_URL: string = `${WALLET_BASE_URL}/transactions`
+export const STRIPE_DATA_URL: string = `${WALLET_BASE_URL}/stripedata`
+export const TRANSACTION_INFO_URL= (transaction: string) => {
+  return `${TRANSACTIONS_URL}/${transaction}`
+}
+export const TRANSACTION_STRIPE_INFO_URL = (transaction: string) => {
+  return `${TRANSACTION_INFO_URL(transaction)}/stripe`
+}
+export const TRANSACTION_SAVE_CARD_URL = (transaction: string) => {
+  return `${TRANSACTION_INFO_URL(transaction)}/savecard`
+}
 
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true'
