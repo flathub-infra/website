@@ -81,7 +81,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 header: t('since'),
                 content: {
                   type: 'text',
-                  text: new Date(2018, 3, 29).toLocaleDateString(i18n.language)
+                  text: new Date(2018, 3, 29).toLocaleDateString(i18n.language.substring(0, 2)),
                 },
               },
             ]}
