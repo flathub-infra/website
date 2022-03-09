@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, ReactElement } from 'react'
 import { Transaction } from '../../../types/Payment'
 import styles from './TransactionInfo.module.scss'
 
@@ -11,6 +11,14 @@ const TransactionInfo: FunctionComponent<Props> = ({ transaction }) => {
 
   // Value is stored in indivisible units (cent, pennies, etc.)
   const value = transaction.value / 100
+
+  let status: ReactElement
+  if (transaction.status === 'new' || transaction.status === 'retry') {
+    // TODO replace this ugly bare link
+    status = <a href={`/payment/${transaction.id}`}>Requires attention</a>
+  } else {
+    status = <>{transaction.status}</>
+  }
 
   // Date object expects milliseconds since epoch
   return (
@@ -25,7 +33,7 @@ const TransactionInfo: FunctionComponent<Props> = ({ transaction }) => {
           currencyDisplay: 'symbol',
         }).format(value)}
       </td>
-      <td>{transaction.status}</td>
+      <td>{status}</td>
     </tr>
   )
 }
