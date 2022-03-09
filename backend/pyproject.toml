@@ -23,6 +23,7 @@ itsdangerous = "^2.1"
 PyGithub = "^1.55"
 vcrpy = "^4.1.1"
 python-gitlab = "^3.1"
+stripe = "^2.67"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1"
