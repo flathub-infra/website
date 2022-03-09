@@ -6,10 +6,9 @@ common.  This class provides the basis for wallet operations
 """
 
 from enum import Enum
-from typing import List, Literal, Optional, Union
+from typing import List, Literal, Optional
 
 from fastapi import Request, Response
-from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -63,15 +62,24 @@ class NascentTransaction(BaseModel):
     details: List[TransactionRow]
 
 
-class WalletError(BaseModel):
-    status: str
-    error: str
+class WalletError(Exception):
+    """
+    Errors which can be yeeted out of any Wallet API.
+    """
+
+    def __init__(self, error):
+        super().__init__()
+        self.error = error
 
     def as_jsonresponse(self):
         if self.error == "not found":
-            return JSONResponse(jsonable_encoder(self), status_code=404)
+            return JSONResponse(
+                {"status": "error", "error": self.error}, status_code=404
+            )
         else:
-            return JSONResponse(jsonable_encoder(self), status_code=400)
+            return JSONResponse(
+                {"status": "error", "error": self.error}, status_code=400
+            )
 
 
 class WalletInfo(BaseModel):
@@ -88,6 +96,13 @@ class TransactionStripeData(BaseModel):
     status: str
     client_secret: str
     card: Optional[CardInfo]
+
+
+TransactionSaveCardKind = Literal["off_session", "on_session"]
+
+
+class TransactionSaveCard(BaseModel):
+    save_card: Optional[TransactionSaveCardKind]
 
 
 class TransactionSortOrder(Enum):
@@ -116,19 +131,15 @@ class WalletBase:
         """
         raise NotImplementedError
 
-    def info(
-        self, request: Request, user: FlathubUser
-    ) -> Union[WalletError, WalletInfo]:
+    def info(self, request: Request, user: FlathubUser) -> WalletInfo:
         """
         Retrieve the wallet information to be returned to the user.  If there
-        are any errors while retrieving the wallet then this returns an
+        are any errors while retrieving the wallet then this raises an
         instance of WalletError, otherwise a WalletInfo is returned.
         """
         raise NotImplementedError
 
-    def remove_card(
-        self, request: Request, user: FlathubUser, card: CardInfo
-    ) -> Optional[WalletError]:
+    def remove_card(self, request: Request, user: FlathubUser, card: CardInfo):
         """
         Attempt to remove `card` from the user's wallet.  If it's present then
         it is removed and if it's not present, or something else goes wrong then
@@ -143,7 +154,7 @@ class WalletBase:
         sort: TransactionSortOrder,
         since: Optional[str],
         limit: int,
-    ) -> Union[WalletError, List[TransactionSummary]]:
+    ) -> List[TransactionSummary]:
         """
         List the transactions this user has performed.
         """
@@ -151,15 +162,13 @@ class WalletBase:
 
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
-    ) -> Union[WalletError, Transaction]:
+    ) -> Transaction:
         """
         Retrieve a specific transaction
         """
         raise NotImplementedError
 
-    def _check_transaction_consistency(
-        self, transaction: NascentTransaction
-    ) -> Optional[WalletError]:
+    def _check_transaction_consistency(self, transaction: NascentTransaction):
         """
         Some basic consistency checks which all nascent transactions have to meet.
 
@@ -169,31 +178,29 @@ class WalletBase:
         """
         if transaction.summary.kind == "donation":
             if any(row.kind == "purchase" for row in transaction.details):
-                return WalletError(status="error", error="inconsistent details")
+                raise WalletError(error="inconsistent details")
         if transaction.summary.currency != "usd" or any(
             row.currency != "usd" for row in transaction.details
         ):
-            return WalletError(status="error", error="must be usd")
+            raise WalletError(error="must be usd")
         if transaction.summary.value < 200:
-            return WalletError(status="error", error="transaction too small")
+            raise WalletError(error="transaction too small")
         if sum(row.amount for row in transaction.details) != transaction.summary.value:
-            return WalletError(status="error", error="detail sum does not match value")
+            raise WalletError(error="detail sum does not match value")
         if not any(
             row.recipient == "org.flathub.Flathub" for row in transaction.details
         ):
-            return WalletError(status="error", error="nothing for flathub")
+            raise WalletError(error="nothing for flathub")
         if transaction.details[-1].recipient != "org.flathub.Flathub":
-            return WalletError(status="error", error="flathub must be last")
+            raise WalletError(error="flathub must be last")
         if transaction.details[-1].amount < 100:
-            return WalletError(
-                status="error", error="flathub amount less than 1 usd minimum"
-            )
+            raise WalletError(error="flathub amount less than 1 usd minimum")
         if transaction.details[-1].kind != "donation":
-            return WalletError(status="error", error="flathub row must be donation")
+            raise WalletError(error="flathub row must be donation")
 
     def create_transaction(
         self, request: Request, user: FlathubUser, transaction: NascentTransaction
-    ) -> Union[WalletError, str]:
+    ) -> str:
         """
         Create a new transaction, the input is a nascent transaction and the
         output should either be an error, or a successful creation with an ID
@@ -202,16 +209,16 @@ class WalletBase:
 
     def set_transaction_card(
         self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
-    ) -> Optional[WalletError]:
+    ):
         """
         Set the card associated with a transaction.  The card should match one
         returned by the `info()` function otherwise it's not guaranteed to work.
 
-        Returns a WalletError on error, otherwise None.
+        Raises a WalletError on error
         """
         raise NotImplementedError
 
-    def stripedata(self) -> Union[WalletError, StripeKeys]:
+    def stripedata(self) -> StripeKeys:
         """
         Return the public/publishable keys for this wallet
         """
@@ -219,25 +226,35 @@ class WalletBase:
 
     def get_transaction_stripedata(
         self, request: Request, user: FlathubUser, transaction: str
-    ) -> Union[WalletError, TransactionStripeData]:
+    ) -> TransactionStripeData:
         """
         Return the stripe data associated with the given transaction, if there is some.
         """
         raise NotImplementedError
 
-    def cancel_transaction(
-        self, request: Request, user: FlathubUser, transaction: str
-    ) -> Optional[WalletError]:
+    def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
         """
         Cancel the named transaction if possible.
         """
         raise NotImplementedError
 
-    def webhook(self, request: Request) -> Response:
+    async def webhook(self, request: Request) -> Response:
         """
         Handle an incoming webhook POST request.
 
         Note, this **must** return something which can be directly returned
         from the fastapi call point.
+        """
+        raise NotImplementedError
+
+    def set_savecard(
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
+        state: Optional[TransactionSaveCardKind],
+    ):
+        """
+        Set whether or not to save the card when completing a transaction
         """
         raise NotImplementedError
