@@ -4,12 +4,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import FeedbackMessage from '../../src/components/FeedbackMessage';
+import { toast } from 'react-toastify';
 import Main from '../../src/components/layout/Main';
 import Spinner from '../../src/components/Spinner';
 import { login } from '../../src/context/actions';
 import { useUserContext, useUserDispatch } from '../../src/context/user-info';
 import { fetchLoginProviders } from '../../src/fetchers';
+
 
 export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
@@ -18,7 +19,6 @@ export default function AuthReturnPage({ services }) {
 
   // Send only one request, prevent infinite loops
   const [sent, setSent] = useState(false)
-  const [error, setError] = useState('')
 
   const user = useUserContext()
   const dispatch = useUserDispatch()
@@ -44,7 +44,7 @@ export default function AuthReturnPage({ services }) {
 
     if (!sent) {
       setSent(true)
-      login(dispatch, setError, router.query)
+      login(dispatch, toast.error, router.query)
     }
   }, [router, dispatch, user, sent, services])
 
@@ -52,7 +52,6 @@ export default function AuthReturnPage({ services }) {
     <Main>
       <NextSeo title={t('login')} noindex={true}></NextSeo>
       {user.loading ? <Spinner size={200} /> : <></>}
-      {error ? <FeedbackMessage success={false} message={error} /> : <></>}
     </Main>
   )
 }

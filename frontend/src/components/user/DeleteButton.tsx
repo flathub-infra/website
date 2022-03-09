@@ -1,12 +1,13 @@
 import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { deleteAccount } from '../../context/actions'
 import { useUserDispatch } from '../../context/user-info'
 import { USER_DELETION_URL } from '../../env'
 import Button from '../Button'
 import ConfirmDialog from '../ConfirmDialog'
-import FeedbackMessage from '../FeedbackMessage'
 import Spinner from '../Spinner'
+
 
 /**
  * Performs a GET request to the API to initiate user deletion.
@@ -49,13 +50,12 @@ const DeleteButton: FunctionComponent = () => {
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
   const [waiting, setWaiting] = useState(false)
-  const [error, setError] = useState('')
   const [token, setToken] = useState('')
   const dispatch = useUserDispatch()
 
   // Only make a request on first click
   useEffect(() => {
-    if (clicked) { requestDeletion(setWaiting, setError, setToken) }
+    if (clicked) { requestDeletion(setWaiting, toast.error, setToken) }
   }, [dispatch, clicked])
 
   if (waiting) {
@@ -69,7 +69,7 @@ const DeleteButton: FunctionComponent = () => {
       entry='I wish to delete my account'
       action='Delete Account'
       onConfirmed={() => {
-        deleteAccount(dispatch, setWaiting, setError, token)
+        deleteAccount(dispatch, setWaiting, toast.error, token)
         setToken('')
       }}
       onCancelled={() => {
@@ -78,11 +78,6 @@ const DeleteButton: FunctionComponent = () => {
         setClicked(false)
       }}
     />
-  }
-
-  // There may have been a network error
-  if (error) {
-    return <FeedbackMessage success={false} message={error} />
   }
 
   return (

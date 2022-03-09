@@ -1,9 +1,10 @@
 import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { LOGIN_PROVIDERS_URL } from '../../env'
 import { LoginProvider, LoginRedirect } from '../../types/Login'
-import FeedbackMessage from '../FeedbackMessage'
 import styles from './ProviderLink.module.scss'
+
 
 interface Props {
   provider: LoginProvider,
@@ -31,7 +32,6 @@ const ProviderLink: FunctionComponent<Props> = ({
   const { t } = useTranslation()
   // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
-  const [error, setError] = useState('')
 
   // When user clicks a provider, a redirect is fetched to initiate login flow
   useEffect(() => {
@@ -46,7 +46,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         })
       } catch {
         // Allow the user to try again on network error
-        setError(t('network-error-try-again'))
+        toast.error(t('network-error-try-again'))
         setClicked(false)
         return
       }
@@ -55,13 +55,12 @@ const ProviderLink: FunctionComponent<Props> = ({
         const data: LoginRedirect = await res.json()
         window.location.href = data.redirect
       } else {
-        setError(`${res.status} ${res.statusText}`)
+        toast.error(`${res.status} ${res.statusText}`)
         setClicked(false)
       }
     }
 
     if (clicked) {
-      setError('')
       redirect(`${LOGIN_PROVIDERS_URL}/${provider.method}`)
     }
   }, [clicked, provider.method, t])
@@ -69,13 +68,10 @@ const ProviderLink: FunctionComponent<Props> = ({
   const loginText = t(`login-with-provider`, { provider: loginMethod(provider) })
 
   return (
-    <>
-      <button className={styles.provider} onClick={() => setClicked(true)}>
-        <img src={provider.button} width='60' height='60' alt={loginText}></img>
-        {loginText}
-      </button>
-      {error ? <FeedbackMessage success={false} message={error} /> : <></>}
-    </>
+    <button className={styles.provider} onClick={() => setClicked(true)}>
+      <img src={provider.button} width='60' height='60' alt={loginText}></img>
+      {loginText}
+    </button>
   )
 }
 

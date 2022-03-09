@@ -8,9 +8,13 @@ import { UserInfoProvider } from '../src/context/user-info'
 import { IMAGE_BASE_URL, IS_PRODUCTION } from '../src/env'
 import { appWithTranslation } from 'next-i18next';
 
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
 import '../styles/main.scss'
 import { useRouter } from 'next/router'
 import { getLocaleString } from '../src/localize'
+
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
@@ -47,6 +51,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         <UserInfoProvider>
           <Component {...pageProps} />
         </UserInfoProvider>
+        <ToastContainer
+          position="bottom-right"
+        />
       </ThemeProvider>
     </MatomoProvider>
   )
