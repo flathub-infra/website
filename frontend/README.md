@@ -1,4 +1,4 @@
-![CI](https://github.com/bilelmoussaoui/frontend/workflows/CI/badge.svg)
+![CI](https://github.com/flathub/frontend/workflows/CI/badge.svg)
 [![Translation status](https://hosted.weblate.org/widgets/flathub/-/frontend/svg-badge.svg)](https://hosted.weblate.org/engage/flathub/)
 
 # Frontend for flathub.org
