@@ -36,7 +36,7 @@ export function chartStyle(
 
 export function chartOptions(locale: string): ChartOptions<'line'> {
   return {
-    locale,
+    locale: locale.substring(0, 2),
     responsive: true,
     maintainAspectRatio: false,
     scales: {
