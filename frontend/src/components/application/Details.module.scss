@@ -43,10 +43,15 @@
 
     .actions {
       margin-left: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      justify-content: center;
+
+      & button {
+        display: block;
+        width: 100%;
+
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 
