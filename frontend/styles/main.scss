@@ -14,9 +14,15 @@
 
   --border-radius: 12px;
   --header-height: 64px;
+
+  --toastify-font-family: inherit;
 }
 
 [data-theme='dark'] {
+  // Override react-tostify variable here for easy theme adherence
+  --toastify-color-light: var(--toastify-color-dark);
+  --toastify-text-color-light: var(--text-primary);
+
   --bg-color-primary: #262626;
   --bg-color-secondary: #333;
 
@@ -28,6 +34,10 @@
   a {
     color: var(--color-secondary);
   }
+}
+
+.Toastify__toast {
+  border-radius: var(--border-radius);
 }
 
 html,
