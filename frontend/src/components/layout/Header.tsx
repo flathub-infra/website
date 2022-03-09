@@ -95,9 +95,6 @@ const Header = () => {
             id={styles.navbar}
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
-            <Link href='/apps' passHref>
-              <a className={styles.navItem}>{t('explore')}</a>
-            </Link>
 
             <div className={styles.navItem}>
               <a

@@ -10,6 +10,7 @@ import { Collections } from '../src/types/Collection'
 import ApplicationSections from '../src/components/application/Sections'
 import Button from '../src/components/Button'
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 export default function Home({
   recentlyUpdated,
@@ -38,9 +39,14 @@ export default function Home({
         >
           {t('welcome-to-flathub-index-text')}
         </p>
-        <a href='https://flatpak.org/setup/'>
-          <Button type='secondary'>{t('quick-setup')}</Button>
-        </a>
+        <div style={{ "display": "flex", "gap": "12px" }}>
+          <a href='https://flatpak.org/setup/'>
+            <Button type='secondary'>{t('quick-setup')}</Button>
+          </a>
+          <Link href='/apps' passHref>
+            <Button type='secondary'>{t('explore')}</Button>
+          </Link>
+        </div>
         <ApplicationSections
           popular={popular}
           recentlyUpdated={recentlyUpdated}
@@ -48,7 +54,7 @@ export default function Home({
           editorsChoiceGames={editorsChoiceGames}
         ></ApplicationSections>
       </div>
-    </Main>
+    </Main >
   )
 }
 
