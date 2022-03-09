@@ -41,9 +41,7 @@ const PaymentForm: FunctionComponent<Props> = ({ transactId }) => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Realistically we should redirect somewhere else so that we get rid
-        // of the form etc.  But everything is in the wallet for now.
-        return_url: window.location.href,
+        return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/success`,
       },
     })
 
