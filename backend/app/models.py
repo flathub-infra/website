@@ -345,11 +345,32 @@ class Transaction(Base):
     created = Column(DateTime, nullable=False)
     updated = Column(DateTime, nullable=False)
 
+    @classmethod
+    def by_user(cls, db, user: FlathubUser):
+        return db.session.query(Transaction).filter(Transaction.user_id == user.id)
+
+    @classmethod
+    def by_user_and_id(cls, db, user: FlathubUser, txnid: str):
+        return (
+            db.session.query(Transaction)
+            .filter(Transaction.user_id == user.id)
+            .filter(Transaction.id == int(txnid))
+            .first()
+        )
+
+    def rows(self, db):
+        return (
+            db.session.query(TransactionRow)
+            .filter(TransactionRow.txn == self.id)
+            .order_by(TransactionRow.idx)
+        )
+
 
 class TransactionRow(Base):
     __tablename__ = "transactionrow"
 
     id = Column(Integer, primary_key=True)
+    txn = Column(Integer, ForeignKey(Transaction.id), nullable=False, index=True)
     idx = Column(Integer, nullable=False)
     amount = Column(Integer, nullable=False)
     currency = Column(String, nullable=False)
@@ -367,6 +388,14 @@ class StripeCustomer(Base):
     user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
     stripe_cust = Column(String, nullable=False, index=True)
 
+    @classmethod
+    def by_user(cls, db, user: FlathubUser):
+        return (
+            db.session.query(StripeCustomer)
+            .filter(StripeCustomer.user_id == user.id)
+            .first()
+        )
+
 
 class StripeTransaction(Base):
     __tablename__ = "stripetransaction"
@@ -376,3 +405,11 @@ class StripeTransaction(Base):
         Integer, ForeignKey(Transaction.id), nullable=False, unique=True, index=True
     )
     stripe_pi = Column(String, nullable=False)
+
+    @classmethod
+    def by_transaction(cls, db, txn: Transaction):
+        return (
+            db.session.query(StripeTransaction)
+            .filter(StripeTransaction.transaction == txn.id)
+            .first()
+        )
