@@ -17,7 +17,7 @@ import Spinner from '../Spinner'
  */
 async function requestDeletion(
   waiting: (a: boolean) => void,
-  error: (msg: string) => void,
+  error: (msg_id: string) => void,
   success: (token: string) => void,
 ) {
   waiting(true)
@@ -26,7 +26,7 @@ async function requestDeletion(
   try {
     res = await fetch(USER_DELETION_URL, { credentials: 'include' })
   } catch {
-    error('A network error occured during deletion. Refresh and try again.')
+    error('network-error-try-again')
     return
   } finally {
     waiting(false)
@@ -40,7 +40,7 @@ async function requestDeletion(
       error(data.message)
     }
   } else {
-    error('A network error occured during deletion. Refresh and try again.')
+    error('network-error-try-again')
   }
 }
 
@@ -55,8 +55,17 @@ const DeleteButton: FunctionComponent = () => {
 
   // Only make a request on first click
   useEffect(() => {
-    if (clicked) { requestDeletion(setWaiting, toast.error, setToken) }
-  }, [dispatch, clicked])
+    if (clicked) {
+      requestDeletion(
+        setWaiting,
+        msg_id => {
+          toast.error(t(msg_id));
+          setClicked(false);
+        },
+        setToken
+      )
+    }
+  }, [dispatch, clicked, t])
 
   if (waiting) {
     return <Spinner size={30} />
