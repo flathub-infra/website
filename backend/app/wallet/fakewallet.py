@@ -9,7 +9,7 @@ they're fake.
 
 from itertools import dropwhile
 from time import time
-from typing import Iterable, Optional, Union, List
+from typing import Iterable, List, Optional
 
 from fastapi import Request, Response
 
@@ -118,9 +118,7 @@ class FakeWallet(WalletBase):
     def webhook_name(cls):
         return "fakewallet"
 
-    def info(
-        self, request: Request, user: FlathubUser
-    ) -> Union[WalletError, WalletInfo]:
+    def info(self, request: Request, user: FlathubUser) -> WalletInfo:
         cards = []
         if not request.session.get("fake-card-exp-del", False):
             cards.append(FAKE_CARD_EXP)
@@ -131,9 +129,7 @@ class FakeWallet(WalletBase):
             "cards": cards,
         }
 
-    def remove_card(
-        self, request: Request, user: FlathubUser, card: CardInfo
-    ) -> Optional[WalletError]:
+    def remove_card(self, request: Request, user: FlathubUser, card: CardInfo):
         to_del = None
         if card == FAKE_CARD_EXP:
             to_del = "exp"
@@ -144,7 +140,7 @@ class FakeWallet(WalletBase):
             if request.session.get(to_del, False):
                 to_del = None
         if to_del is None:
-            return WalletError(status="error", error="not found")
+            raise WalletError(error="not found")
         request.session[to_del] = True
         return None
 
@@ -173,7 +169,7 @@ class FakeWallet(WalletBase):
         sort: TransactionSortOrder,
         since: Optional[str],
         limit: int,
-    ) -> Union[WalletError, List[TransactionSummary]]:
+    ) -> List[TransactionSummary]:
         def txn_key(txn: Transaction):
             return txn.summary.created
 
@@ -200,22 +196,20 @@ class FakeWallet(WalletBase):
 
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
-    ) -> Union[WalletError, Transaction]:
+    ) -> Transaction:
         txdict = self._get_user_transactions(request)
         txdict.update({str(txn.summary.id): txn for txn in FAKE_TXNS})
         txn = txdict.get(transaction)
 
         if txn is None:
-            return WalletError(status="error", error="not found")
+            raise WalletError(error="not found")
 
         return txn
 
     def create_transaction(
         self, request: Request, user: FlathubUser, transaction: NascentTransaction
-    ) -> Union[WalletError, str]:
-        err = self._check_transaction_consistency(transaction)
-        if err is not None:
-            return err
+    ) -> str:
+        self._check_transaction_consistency(transaction)
         # Transaction is consistent, we're fairly "easy" so create it in the
         # session
         txns = self._get_user_transactions(request)
@@ -239,48 +233,46 @@ class FakeWallet(WalletBase):
 
     def set_transaction_card(
         self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
-    ) -> Optional[WalletError]:
+    ):
         txns = self._get_user_transactions(request)
         transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
         if transaction is None:
-            return WalletError(status="error", error="not found")
+            raise WalletError(error="not found")
         if transaction.summary.status not in ["new", "retry"]:
-            return WalletError(status="error", error="transaction not changeable")
+            raise WalletError(error="transaction not changeable")
         cards = self.info(request, user)["cards"]
         if card not in cards:
-            return WalletError(status="error", error="bad or unknown card")
+            raise WalletError(error="bad or unknown card")
         transaction.card = card
         self._set_user_transactions(request, txns.values())
 
-    def stripedata(self) -> Union[WalletError, StripeKeys]:
-        return WalletError(status="error", error="not found")
+    def stripedata(self) -> StripeKeys:
+        raise WalletError(error="not found")
 
     def get_transaction_stripedata(
         self, request: Request, user: FlathubUser, transaction: str
-    ) -> Union[WalletError, TransactionStripeData]:
+    ) -> TransactionStripeData:
         txns = self._get_user_transactions(request)
         transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
         if transaction is None:
-            return WalletError(status="error", error="not found")
+            raise WalletError(error="not found")
         if transaction.summary.status not in ["new", "retry"]:
-            return WalletError(status="error", error="transaction not changeable")
+            raise WalletError(error="transaction not changeable")
         txnid = transaction.summary.id
         return TransactionStripeData(
             status="ok", client_secret=f"stripe-secret-{txnid}", card=transaction.card
         )
 
-    def cancel_transaction(
-        self, request: Request, user: FlathubUser, transaction: str
-    ) -> Optional[WalletError]:
+    def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
         txns = self._get_user_transactions(request)
         transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
         if transaction is None:
-            return WalletError(status="error", error="not found")
+            raise WalletError(error="not found")
         if transaction.summary.status not in ["new", "retry"]:
-            return WalletError(status="error", error="transaction not changeable")
+            raise WalletError(error="transaction not changeable")
         transaction.summary.status = "cancelled"
         transaction.summary.reason = "user"
         self._set_user_transactions(request, txns.values())
 
-    def webhook(self, request: Request) -> Response:
+    async def webhook(self, request: Request) -> Response:
         return Response(None, status_code=201)

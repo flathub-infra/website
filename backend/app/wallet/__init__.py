@@ -10,7 +10,6 @@ from typing import List, Union
 
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
 
 from ..config import settings
 from ..logins import login_state
@@ -24,12 +23,24 @@ from .walletbase import (
     WalletError,
 )
 
-# Utilities and types
-
 try:
     from .stripewallet import StripeWallet as Wallet
 except ImportError:
     from .fakewallet import FakeWallet as Wallet
+
+# Utilities and types
+
+# @app.exception_handler(WalletError) (done in register function below)
+async def walleterror_exception_handler(_request: Request, exc: WalletError):
+    """
+    Handle functions which yeet a WalletError at FastAPI by converting them to
+    the JSONResponse needed.
+    """
+    if exc.__cause__ is not None:
+        print("Wallet Error caused by:")
+        print(exc.__cause__)
+    return exc.as_jsonresponse()
+
 
 # Routes
 
@@ -47,11 +58,7 @@ def get_walletinfo(request: Request, login=Depends(login_state)):
         return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
-    ret = Wallet().info(request, login["user"])
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return ret
+    return Wallet().info(request, login["user"])
 
 
 @router.post("/removecard")
@@ -66,9 +73,7 @@ def post_removecard(request: Request, card: CardInfo, login=Depends(login_state)
         return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
-    ret = Wallet().remove_card(request, login["user"], card)
-    if ret is not None:
-        return ret.as_jsonresponse()
+    Wallet().remove_card(request, login["user"], card)
 
     return Response(None, status_code=201)
 
@@ -93,10 +98,7 @@ def get_transactions(
         )
     limit = min(limit, 100)
 
-    ret = Wallet().transactions(request, login["user"], sort, since, limit)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    return ret
+    return Wallet().transactions(request, login["user"], sort, since, limit)
 
 
 @router.get("/transactions/{txn}")
@@ -115,11 +117,7 @@ def get_transaction_by_id(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
 
-    ret = Wallet().transaction(request, login["user"], transaction=txn)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return ret
+    return Wallet().transaction(request, login["user"], transaction=txn)
 
 
 @router.post("/transactions")
@@ -132,14 +130,15 @@ def create_transaction(
     If the passed in nascent transaction is valid, this will create a transaction and
     return the ID of the newly created wallet, otherwise it'll return an error
     """
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
     ret = Wallet().create_transaction(request, login["user"], data)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return {
-            "status": "ok",
-            "id": ret,
-        }
+    return {
+        "status": "ok",
+        "id": ret,
+    }
 
 
 @router.post("/transactions/{txn}/setcard")
@@ -152,11 +151,12 @@ def set_transaction_card(
     The posted card must exactly match one of the cards returned by the wallet
     info endpoint or else the update may not succeed
     """
-    ret = Wallet().set_transaction_card(request, login["user"], txn, data)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return {"status": "ok"}
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
+    Wallet().set_transaction_card(request, login["user"], txn, data)
+    return {"status": "ok"}
 
 
 @router.post("/transactions/{txn}/cancel")
@@ -168,11 +168,12 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
     and updates the transaction.  This API will not attempt to prevent stripe
     payments from completing.
     """
-    ret = Wallet().cancel_transaction(request, login["user"], txn)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return Response(None, status_code=201)
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
+    Wallet().cancel_transaction(request, login["user"], txn)
+    return Response(None, status_code=201)
 
 
 # Stripe specific endpoints which are necessary
@@ -184,11 +185,7 @@ def get_stripedata():
     Return the stripe public key to use in the frontend.  Since this is not
     considered secret, we don't need a login or anything for this
     """
-    ret = Wallet().stripedata()
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return ret
+    return Wallet().stripedata()
 
 
 @router.get("/transactions/{txn}/stripe")
@@ -200,16 +197,39 @@ def get_txn_stripedata(txn: str, request: Request, login=Depends(login_state)):
     will only work for transactions which *are* Stripe transactions.
     """
 
-    ret = Wallet().get_transaction_stripedata(request, login["user"], txn)
-    if isinstance(ret, WalletError):
-        return ret.as_jsonresponse()
-    else:
-        return ret
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
+    return Wallet().get_transaction_stripedata(request, login["user"], txn)
+
+
+@router.post("/transactions/{txn}/savecard")
+def set_savecard(
+    txn: str, data: TransactionSaveCard, request: Request, login=Depends(login_state)
+):
+    """
+    Set the save-card status.
+
+    This is only applicable to transactions in the `new` or `retry` state
+    and will only work for transactions which are backed by stripe or similar.
+
+    If the `save_card` parameter is null, then the card will not be saved,
+    otherwise it will be saved.  If it's set to `off_session` then an attempt
+    will be made to create a saved method which can be used without the user
+    re-authenticating
+    """
+
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
+    Wallet().set_savecard(request, login["user"], txn, data.save_card)
 
 
 # Finally a fake-wallet-only endpoint which is used to clean up for testing.
 
-if settings.stripe_public_key is None:
+if settings.stripe_public_key in [None, ""]:
 
     @router.post("/clearfake")
     def clear_fake(request: Request):
@@ -221,7 +241,7 @@ if settings.stripe_public_key is None:
 
 
 @router.post("/webhook/" + Wallet.webhook_name())
-def webhook(request: Request):
+async def webhook(request: Request):
     """
     This endpoint is intended to deal with webhooks coming back from payment
     mechanisms etc.  It exists only for the deployed wallet, so its name
@@ -231,7 +251,7 @@ def webhook(request: Request):
     kind to wallet kind.
     """
 
-    return Wallet().webhook(request)
+    return await Wallet().webhook(request)
 
 
 def register_to_app(app: FastAPI):
@@ -241,3 +261,4 @@ def register_to_app(app: FastAPI):
     This is reliant on session and DB middlewares, and the login support being registered.
     """
     app.include_router(router)
+    app.add_exception_handler(WalletError, walleterror_exception_handler)

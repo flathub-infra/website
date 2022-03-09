@@ -37,7 +37,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000"
     stripe_secret_key: Optional[str] = None
     stripe_public_key: Optional[str] = None
-    stripe_webook_key: Optional[str] = None
+    stripe_webhook_key: Optional[str] = None
 
 
 settings = Settings()
