@@ -117,19 +117,14 @@ export async function logout(
 
 /**
  * Performs a POST request to the API to complete user deletion.
+ * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param waiting Function to set the async state of the component
- * @param error Function for displaying errors (usually component state)
  * @param token The string token returned by deletion initiation request
  */
 export async function deleteAccount(
   dispatch: Dispatch<UserStateAction>,
-  waiting: (a: boolean) => void,
-  error: (msg: string) => void,
   token: string,
 ) {
-  waiting(true)
-
   let res: Response
   try {
     res = await fetch(USER_DELETION_URL, {
@@ -139,10 +134,7 @@ export async function deleteAccount(
       body: JSON.stringify({ token })
     })
   } catch {
-    error('A network error occured during deletion. Refresh and try again.')
-    return
-  } finally {
-    waiting(false)
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
@@ -150,9 +142,13 @@ export async function deleteAccount(
     if (data.status === 'ok') {
       dispatch({ type: 'logout' })
     } else {
-      error(data.message)
+      const msg = {
+        // TODO: Link backend responses to translated strings where desired
+      }[data.error]
+
+      throw msg ?? 'network-error-try-again'
     }
   } else {
-    error('A network error occured during deletion. Refresh and try again.')
+    throw 'network-error-try-again'
   }
 }

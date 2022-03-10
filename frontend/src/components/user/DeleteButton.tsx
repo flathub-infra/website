@@ -76,9 +76,19 @@ const DeleteButton: FunctionComponent = () => {
     return <ConfirmDialog
       prompt='Delete your account?'
       entry='I wish to delete my account'
-      action='Delete Account'
+      action={t('delete-account')}
       onConfirmed={() => {
-        deleteAccount(dispatch, setWaiting, toast.error, token)
+        setWaiting(true)
+
+        deleteAccount(dispatch, token)
+          .catch(err => {
+            toast.error(t(err))
+            setClicked(false)
+          })
+          .finally(() => {
+            setWaiting(false)
+          })
+
         setToken('')
       }}
       onCancelled={() => {
