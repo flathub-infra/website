@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: min-content;
+
+  background-color: var(--bg-color-secondary);
+  border-radius: var(--border-radius);
+
+  gap: 5px;
+  padding: 10px;
+
+  .amountInput {
+    label {
+      position: absolute;
+      margin-left: 8px;
+      font-size: 1.2rem;
+    }
+
+    input {
+      padding: 8px;
+      padding-left: 28px;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      background-color: var(--bg-color-primary);
+      border-radius: var(--border-radius);
+    }
+  }
+}
