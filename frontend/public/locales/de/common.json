@@ -124,5 +124,6 @@
     "loading": "Wird geladen …",
     "could-not-find-match-for-search": "Es konnten keine Treffer für die Suche gefunden werden.",
     "request-new-app": "Falls du nach einer bestimmten Anwendung suchst, melde <1>hier</1> der Community, dass du sie auf Flathub haben möchtest.",
-    "manifest": "Manifest"
+    "manifest": "Manifest",
+    "error-already-logged-in": "Das ausgewählte Konto ist bereits angemeldet."
 }
