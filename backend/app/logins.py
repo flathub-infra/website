@@ -133,18 +133,15 @@ def get_login_kinds():
     return [
         {
             "method": "github",
-            "button": "data:image/png;base64," + GITHUB_IMAGE_B64,
-            "text": "Log in with GitHub",
+            "name": "GitHub",
         },
         {
             "method": "gitlab",
-            "button": "data:image/svg+xml;base64," + GITLAB_IMAGE_B64,
-            "text": "Log in with Gitlab",
+            "name": "GitLab",
         },
         {
             "method": "google",
-            "button": "http://meh",
-            "text": "Log in with Google",
+            "name": "Google",
         },
     ]
 
