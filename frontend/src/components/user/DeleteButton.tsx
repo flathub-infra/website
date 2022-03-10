@@ -1,12 +1,13 @@
 import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { deleteAccount } from '../../context/actions'
 import { useUserDispatch } from '../../context/user-info'
 import { USER_DELETION_URL } from '../../env'
 import Button from '../Button'
 import ConfirmDialog from '../ConfirmDialog'
-import FeedbackMessage from '../FeedbackMessage'
 import Spinner from '../Spinner'
+
 
 /**
  * Performs a GET request to the API to initiate user deletion.
@@ -16,7 +17,7 @@ import Spinner from '../Spinner'
  */
 async function requestDeletion(
   waiting: (a: boolean) => void,
-  error: (msg: string) => void,
+  error: (msg_id: string) => void,
   success: (token: string) => void,
 ) {
   waiting(true)
@@ -25,7 +26,7 @@ async function requestDeletion(
   try {
     res = await fetch(USER_DELETION_URL, { credentials: 'include' })
   } catch {
-    error('A network error occured during deletion. Refresh and try again.')
+    error('network-error-try-again')
     return
   } finally {
     waiting(false)
@@ -39,7 +40,7 @@ async function requestDeletion(
       error(data.message)
     }
   } else {
-    error('A network error occured during deletion. Refresh and try again.')
+    error('network-error-try-again')
   }
 }
 
@@ -49,14 +50,22 @@ const DeleteButton: FunctionComponent = () => {
   // Using state to prevent user repeatedly initating fetches
   const [clicked, setClicked] = useState(false)
   const [waiting, setWaiting] = useState(false)
-  const [error, setError] = useState('')
   const [token, setToken] = useState('')
   const dispatch = useUserDispatch()
 
   // Only make a request on first click
   useEffect(() => {
-    if (clicked) { requestDeletion(setWaiting, setError, setToken) }
-  }, [dispatch, clicked])
+    if (clicked) {
+      requestDeletion(
+        setWaiting,
+        msg_id => {
+          toast.error(t(msg_id));
+          setClicked(false);
+        },
+        setToken
+      )
+    }
+  }, [dispatch, clicked, t])
 
   if (waiting) {
     return <Spinner size={30} />
@@ -67,9 +76,19 @@ const DeleteButton: FunctionComponent = () => {
     return <ConfirmDialog
       prompt='Delete your account?'
       entry='I wish to delete my account'
-      action='Delete Account'
+      action={t('delete-account')}
       onConfirmed={() => {
-        deleteAccount(dispatch, setWaiting, setError, token)
+        setWaiting(true)
+
+        deleteAccount(dispatch, token)
+          .catch(err => {
+            toast.error(t(err))
+            setClicked(false)
+          })
+          .finally(() => {
+            setWaiting(false)
+          })
+
         setToken('')
       }}
       onCancelled={() => {
@@ -78,11 +97,6 @@ const DeleteButton: FunctionComponent = () => {
         setClicked(false)
       }}
     />
-  }
-
-  // There may have been a network error
-  if (error) {
-    return <FeedbackMessage success={false} message={error} />
   }
 
   return (

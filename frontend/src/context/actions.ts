@@ -6,16 +6,15 @@ import {
 import { UserStateAction } from "../types/Login";
 
 /**
- * Performs the callback POST request to check 3rd partyauthentication
- * was successful. Fetches user data on success.
+ * Performs the callback POST request to check 3rd party authentication
+ * was successful. Fetches user data on success. Throws localized string
+ * ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param error Function for displaying errors (usually component state)
  * @param query URL query object with code and state to POST to backend
  * as well as login provider name to determine the API endpoint
  */
 export async function login(
   dispatch: Dispatch<UserStateAction>,
-  error: (msg: string) => void,
   query: ParsedUrlQuery
 ) {
   dispatch({ type: 'loading' })
@@ -35,8 +34,7 @@ export async function login(
     })
   } catch {
     dispatch({ type: 'interrupt' })
-    error('Login failed due to a network error. Refresh and try again.')
-    return
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
@@ -44,13 +42,14 @@ export async function login(
   } else {
     dispatch({ type: 'interrupt' })
 
-    // Some errors come with an explanation from backend, any others are unexpected
+    // Some errors come with an explanation from backend, others are unexpected
     const data = await res.json()
-    if (data.state == 'error') {
-      error(`The following error occured: "${data.error}". Reinitiate login to try again.`)
-    } else {
-      error(`An unexpected error occured: ${res.status} ${res.statusText}. Refresh and try again.`)
-    }
+
+    const msg = {
+      'User already logged in?': 'error-already-logged-in'
+    }[data.error]
+
+    throw msg ?? 'network-error-try-again'
   }
 }
 
@@ -87,13 +86,12 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
 }
 
 /**
- * Performs the logout API action and updates the client-side context
+ * Performs the logout API action and updates the client-side context.
+ * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param error Function for displaying errors (usually component state)
  */
 export async function logout(
-  dispatch: Dispatch<UserStateAction>,
-  error: (msg: string) => void
+  dispatch: Dispatch<UserStateAction>
 ) {
   dispatch({ type: 'loading' })
 
@@ -105,34 +103,28 @@ export async function logout(
     })
   } catch {
     dispatch({ type: 'interrupt' })
-    error('A network error occurred during logout. Refresh and try again.')
-    return
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
     dispatch({ type: 'logout' })
   } else {
     dispatch({ type: 'interrupt' })
-    error('A network error occurred during logout. Refresh and try again.')
+    throw 'network-error-try-again'
   }
 }
 
 
 /**
  * Performs a POST request to the API to complete user deletion.
+ * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param waiting Function to set the async state of the component
- * @param error Function for displaying errors (usually component state)
  * @param token The string token returned by deletion initiation request
  */
 export async function deleteAccount(
   dispatch: Dispatch<UserStateAction>,
-  waiting: (a: boolean) => void,
-  error: (msg: string) => void,
   token: string,
 ) {
-  waiting(true)
-
   let res: Response
   try {
     res = await fetch(USER_DELETION_URL, {
@@ -142,10 +134,7 @@ export async function deleteAccount(
       body: JSON.stringify({ token })
     })
   } catch {
-    error('A network error occured during deletion. Refresh and try again.')
-    return
-  } finally {
-    waiting(false)
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
@@ -153,9 +142,13 @@ export async function deleteAccount(
     if (data.status === 'ok') {
       dispatch({ type: 'logout' })
     } else {
-      error(data.message)
+      const msg = {
+        // TODO: Link backend responses to translated strings where desired
+      }[data.error]
+
+      throw msg ?? 'network-error-try-again'
     }
   } else {
-    error('A network error occured during deletion. Refresh and try again.')
+    throw 'network-error-try-again'
   }
 }
