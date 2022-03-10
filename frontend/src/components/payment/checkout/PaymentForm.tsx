@@ -1,5 +1,5 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { FunctionComponent, ReactElement, useRef, useState } from 'react'
+import { FunctionComponent, ReactElement, useState } from 'react'
 import { TRANSACTION_SAVE_CARD_URL } from '../../../env'
 import Button from '../../Button'
 import Spinner from '../../Spinner'
@@ -12,7 +12,7 @@ interface Props {
 const PaymentForm: FunctionComponent<Props> = ({ transactId }) => {
   const stripe = useStripe()
   const elements = useElements()
-  const saveCardRef = useRef<HTMLInputElement>()
+  const [saveCard, setSaveCard] = useState(false)
   const [processing, setProcessing] = useState(false)
 
   const handleSubmit = async (event) => {
@@ -25,9 +25,7 @@ const PaymentForm: FunctionComponent<Props> = ({ transactId }) => {
 
     setProcessing(true)
 
-    const save_card = saveCardRef.current.checked
-
-    if (save_card) {
+    if (saveCard) {
       await fetch(TRANSACTION_SAVE_CARD_URL(transactId), {
         method: 'POST',
         headers: {
@@ -59,7 +57,12 @@ const PaymentForm: FunctionComponent<Props> = ({ transactId }) => {
     controls = (
       <>
         <div>
-          <input id='save-card' type={'checkbox'} ref={saveCardRef} />
+          <input
+            id='save-card'
+            type='checkbox'
+            checked={saveCard}
+            onChange={() => setSaveCard(!saveCard)}
+          />
           <label htmlFor='save-card'>Save Card for reuse</label>
         </div>
         <Button>Submit payment</Button>
