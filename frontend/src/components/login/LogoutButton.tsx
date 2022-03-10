@@ -13,8 +13,14 @@ const LogoutButton: FunctionComponent = () => {
 
   // Only make a request on first click
   useEffect(() => {
-    if (clicked) { logout(dispatch, toast.error) }
-  }, [dispatch, clicked])
+    if (clicked) {
+      logout(dispatch)
+        .catch(err => {
+          toast.error(t(err))
+          setClicked(false)
+        })
+    }
+  }, [dispatch, clicked, t])
 
   return (
     <Button onClick={() => setClicked(true)} type='primary'>

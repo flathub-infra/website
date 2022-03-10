@@ -86,13 +86,12 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
 }
 
 /**
- * Performs the logout API action and updates the client-side context
+ * Performs the logout API action and updates the client-side context.
+ * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param error Function for displaying errors (usually component state)
  */
 export async function logout(
-  dispatch: Dispatch<UserStateAction>,
-  error: (msg: string) => void
+  dispatch: Dispatch<UserStateAction>
 ) {
   dispatch({ type: 'loading' })
 
@@ -104,15 +103,14 @@ export async function logout(
     })
   } catch {
     dispatch({ type: 'interrupt' })
-    error('A network error occurred during logout. Refresh and try again.')
-    return
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
     dispatch({ type: 'logout' })
   } else {
     dispatch({ type: 'interrupt' })
-    error('A network error occurred during logout. Refresh and try again.')
+    throw 'network-error-try-again'
   }
 }
 
