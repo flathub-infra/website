@@ -44,9 +44,10 @@ export default function AuthReturnPage({ services }) {
 
     if (!sent) {
       setSent(true)
-      login(dispatch, toast.error, router.query)
+      login(dispatch, router.query)
+        .catch(err => toast.error(t(err)))
     }
-  }, [router, dispatch, user, sent, services])
+  }, [router, dispatch, user, sent, services, t])
 
   return (
     <Main>

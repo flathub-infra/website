@@ -6,16 +6,15 @@ import {
 import { UserStateAction } from "../types/Login";
 
 /**
- * Performs the callback POST request to check 3rd partyauthentication
- * was successful. Fetches user data on success.
+ * Performs the callback POST request to check 3rd party authentication
+ * was successful. Fetches user data on success. Throws localized string
+ * ID on error.
  * @param dispatch Reducer dispatch function used to update user context
- * @param error Function for displaying errors (usually component state)
  * @param query URL query object with code and state to POST to backend
  * as well as login provider name to determine the API endpoint
  */
 export async function login(
   dispatch: Dispatch<UserStateAction>,
-  error: (msg: string) => void,
   query: ParsedUrlQuery
 ) {
   dispatch({ type: 'loading' })
@@ -35,8 +34,7 @@ export async function login(
     })
   } catch {
     dispatch({ type: 'interrupt' })
-    error('Login failed due to a network error. Refresh and try again.')
-    return
+    throw 'network-error-try-again'
   }
 
   if (res.ok) {
@@ -44,13 +42,14 @@ export async function login(
   } else {
     dispatch({ type: 'interrupt' })
 
-    // Some errors come with an explanation from backend, any others are unexpected
+    // Some errors come with an explanation from backend, others are unexpected
     const data = await res.json()
-    if (data.state == 'error') {
-      error(`The following error occured: "${data.error}". Reinitiate login to try again.`)
-    } else {
-      error(`An unexpected error occured: ${res.status} ${res.statusText}. Refresh and try again.`)
-    }
+
+    const msg = {
+      'User already logged in?': 'error-already-logged-in'
+    }[data.error]
+
+    throw msg ?? 'network-error-try-again'
   }
 }
 

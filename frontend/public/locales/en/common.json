@@ -52,6 +52,7 @@
     "proprietary": "Proprietary",
     "log-out": "Log Out",
     "network-error-try-again": "There was a network error. Try again.",
+    "error-already-logged-in": "The selected account is already logged in.",
     "developer-login": "Developer Login",
     "loading-user-apps": "Loading user apps…",
     "your-apps": "Your Apps",
