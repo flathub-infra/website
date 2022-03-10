@@ -52,6 +52,9 @@ export const TRANSACTION_STRIPE_INFO_URL = (transaction: string) => {
 export const TRANSACTION_SAVE_CARD_URL = (transaction: string) => {
   return `${TRANSACTION_INFO_URL(transaction)}/savecard`
 }
+export const TRANSACTION_SET_CARD_URL = (transaction: string) => {
+  return `${TRANSACTION_INFO_URL(transaction)}/setcard`
+}
 
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true'

@@ -42,7 +42,7 @@ async function getTransaction(tid: string) {
       await fetch(TRANSACTION_STRIPE_INFO_URL(tid), { credentials: 'include' })
     ).json()
   }
-  return { txn: txndata, client_secret: stripedata.client_secret }
+  return { txn: txndata, clientSecret: stripedata.client_secret }
 }
 
 export default function TransactionPage() {
@@ -86,11 +86,11 @@ export default function TransactionPage() {
 
   let content: ReactElement
   if (transaction) {
-    const options = { clientSecret: transaction.client_secret }
+    const options = { clientSecret: transaction.clientSecret }
 
     content = (
       <Elements stripe={stripe} options={options}>
-        <PaymentForm transactId={transaction.txn.summary.id} />
+        <PaymentForm transaction={transaction} />
       </Elements>
     )
   } else {
