@@ -44,7 +44,7 @@ def initialize():
                 TextField("id"),
                 TextField("name"),
                 TextField("summary"),
-                TextField("description", weight=0.2),
+                TextField("description"),
                 TextField("keywords"),
             ),
             definition=definition,
@@ -53,15 +53,15 @@ def initialize():
         pass
 
 
-def search(userquery: str):
+def search(search_term: str):
     results = []
 
     # TODO: figure out how to escape dashes
     # "D-Feet" seems to be interpreted as "d and not feet"
-    userquery = userquery.replace("-", " ")
+    search_term = search_term.replace("-", " ")
 
     # This seems to confuse redis too
-    userquery = userquery.replace(".*", "*")
+    search_term = search_term.replace(".*", "*")
 
     # Remove reserved characters
     reserved_chars = [
@@ -82,23 +82,17 @@ def search(userquery: str):
         "*",
     ]
     for char in reserved_chars:
-        userquery = userquery.replace(char, "")
+        search_term = search_term.replace(char, "")
 
-    if len(userquery.strip()) == 0:
+    if len(search_term.strip()) == 0:
         return None
 
     # TODO: should input be sanitized here?
-    name_query = Query(f"@name:'{userquery}'").no_content()
-    generic_query = Query(userquery).no_content()
+    generic_query = Query(build_query(f"{search_term}*")).no_content()
 
-    # TODO: Backend API doesn't support paging so bring fifty results
+    # TODO: Backend API doesn't support paging so bring twohundredfifty results
     # instead of just 10, which is the redis default
-    name_query.paging(0, 50)
-    generic_query.paging(0, 50)
-
-    search_results = redis_conn.ft().search(name_query)
-    for doc in search_results.docs:
-        results.append(doc.id)
+    generic_query.paging(0, 250)
 
     search_results = redis_conn.ft().search(generic_query)
     for doc in search_results.docs:
@@ -106,8 +100,8 @@ def search(userquery: str):
 
     # redis does not support fuzzy search for non-alphabet strings
     if not len(results):
-        if userquery.isalpha():
-            query = Query(f"%{userquery}%").no_content()
+        if search_term.isalpha():
+            query = Query(build_query(f"%{search_term}%")).no_content()
             search_results = redis_conn.ft().search(query)
 
             for doc in search_results.docs:
@@ -115,7 +109,23 @@ def search(userquery: str):
         else:
             return None
 
-    return list(dict.fromkeys(results))
+    return results
+
+
+def build_query(search_term: str):
+    return f"""
+       (
+      (@id:({search_term})) => {{ $weight: 1 }}
+      |
+      (@name:({search_term})) => {{ $weight: 2 }}
+      |
+      (@summary:({search_term})) => {{ $weight: 0.5 }}
+      |
+      (@description:({search_term})) => {{ $weight: 0.2 }}
+      |
+      (@keywords:({search_term})) => {{ $weight: 0.8 }}
+    )
+    """
 
 
 def get_json_key(key: str):
