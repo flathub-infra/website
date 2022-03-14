@@ -39,10 +39,13 @@ def generate_feed(key: str, title: str, description: str, link: str):
                 app["id"]
             ),
             f"<p>{app['summary']}</p>",
-            f"<p>{app['description']}</p>",
-            "<h3>Additional information:</h3>",
-            "<ul>",
         ]
+
+        if description := app.get("description"):
+            content.append(f"<p>{description}</p>")
+
+        content.append("<h3>Additional information:</h3>")
+        content.append("<ul>")
 
         if developer_name := app.get("developer_name"):
             content.append(f"<li>Developer: {developer_name}</li>")
