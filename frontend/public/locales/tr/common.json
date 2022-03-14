@@ -124,5 +124,6 @@
     "loading": "Yükleniyor…",
     "could-not-find-match-for-search": "Arama için bir eşleşme bulunamadı.",
     "request-new-app": "Belirli bir uygulamayı arıyorsanız, topluluğa onu flathub'da istediğinizi <1>buradan</1> bildirin.",
-    "manifest": "Bildirim"
+    "manifest": "Bildirim",
+    "error-already-logged-in": "Seçilen hesap zaten oturum açtı."
 }
