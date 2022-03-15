@@ -10,4 +10,13 @@ module.exports = {
   experimental: {
     outputStandalone: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
 }
