@@ -1,7 +1,11 @@
 import { useStripe } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/router'
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
-import { TRANSACTION_SET_CARD_URL, WALLET_INFO_URL } from '../../../env'
+import {
+  TRANSACTION_CANCEL_URL,
+  TRANSACTION_SET_CARD_URL,
+  WALLET_INFO_URL,
+} from '../../../env'
 import { PaymentCard } from '../../../types/Payment'
 import Button from '../../Button'
 import Spinner from '../../Spinner'
@@ -26,6 +30,13 @@ async function setCard(transactionId: string, card: PaymentCard) {
     body: JSON.stringify(card),
   })
   return await res.json()
+}
+
+async function cancelTransaction(transactionId: string) {
+  const res = await fetch(TRANSACTION_CANCEL_URL(transactionId), {
+    method: 'POST',
+    credentials: 'include',
+  })
 }
 
 interface TransactionData {
@@ -100,7 +111,11 @@ const Checkout: FunctionComponent<Props> = ({ transaction }) => {
   return (
     <div className='main-container'>
       {flowContent}
-      <Button type='secondary' className={styles.cancel}>
+      <Button
+        type='secondary'
+        className={styles.cancel}
+        onClick={() => cancelTransaction(transaction.txn.summary.id)}
+      >
         Cancel Transaction
       </Button>
     </div>
