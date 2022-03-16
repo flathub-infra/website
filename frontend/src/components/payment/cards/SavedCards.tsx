@@ -1,16 +1,28 @@
 import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
+import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
 import { useUserContext } from '../../../context/user-info'
-import { WALLET_INFO_URL } from '../../../env'
+import { REMOVE_CARD_URL, WALLET_INFO_URL } from '../../../env'
 import { PaymentCard } from '../../../types/Payment'
+import Button from '../../Button'
 import Spinner from '../../Spinner'
 import CardInfo from './CardInfo'
 import styles from './SavedCards.module.scss'
 
-async function getCards(setCards) {
+async function getCards() {
   const res = await fetch(WALLET_INFO_URL, { credentials: 'include' })
   const data = await res.json()
-  setCards(data.cards)
+  return data.cards
+}
+
+async function deleteCard(card: PaymentCard) {
+  fetch(REMOVE_CARD_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+    body: JSON.stringify(card),
+  })
 }
 
 const SavedCards: FunctionComponent = () => {
@@ -25,7 +37,7 @@ const SavedCards: FunctionComponent = () => {
   useEffect(() => {
     if (user.info && !fetched) {
       setFetched(true)
-      getCards(setCards)
+      getCards().then(setCards)
     }
   }, [user, fetched])
 
@@ -38,18 +50,40 @@ const SavedCards: FunctionComponent = () => {
     return <Spinner size={100} text={t('loading-saved-payment-methods')} />
   }
 
+  let content: ReactElement
+  if (cards.length) {
+    content = (
+      <>
+        {cards.map((card) => (
+          <div key={card.id}>
+            <CardInfo card={card} />
+            <Button type='secondary' onClick={() => removeCard(card)}>
+              {t('remove-saved-card')}
+            </Button>
+          </div>
+        ))}
+      </>
+    )
+  } else {
+    content = <p>{t('no-saved-payment-methods')}</p>
+  }
+
   return (
     <div className='main-container'>
       <h3>{t('saved-cards')}</h3>
-      <div className={styles.cardList}>
-        {cards.length ? (
-          cards.map((card) => <CardInfo key={card.id} card={card} />)
-        ) : (
-          <p>No saved payment methods to show.</p>
-        )}
-      </div>
+      <div className={styles.cardList}>{content}</div>
     </div>
   )
+
+  function removeCard(toRemove: PaymentCard) {
+    deleteCard(toRemove).then(() => {
+      const cardsCopy = cards.slice()
+
+      cardsCopy.splice(cards.findIndex((card) => card.id === toRemove.id))
+
+      setCards(cardsCopy)
+    })
+  }
 }
 
 export default SavedCards

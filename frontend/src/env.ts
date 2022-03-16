@@ -40,6 +40,7 @@ export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
 export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
+export const REMOVE_CARD_URL: string = `${WALLET_BASE_URL}/removecard`
 export const WALLET_INFO_URL: string = `${WALLET_BASE_URL}/walletinfo`
 export const TRANSACTIONS_URL: string = `${WALLET_BASE_URL}/transactions`
 export const STRIPE_DATA_URL: string = `${WALLET_BASE_URL}/stripedata`

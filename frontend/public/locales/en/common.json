@@ -134,5 +134,7 @@
     "card-expiry": "Expiry: {{month}} / {{year}}",
     "loading-saved-payment-methods": "Loading saved payment methods…",
     "payment": "Payment",
+    "no-saved-payment-methods": "No saved payment methods to show.",
+    "remove-saved-card": "Remove Saved Card",
     "saved-cards": "Saved Cards"
 }
