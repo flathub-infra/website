@@ -27,7 +27,7 @@ const CardSelect: FunctionComponent<Props> = ({ cards, select, skip }) => {
   // doesn't want to wait for slow network
   return (
     <div className='main-container'>
-      <h2>Saved Cards</h2>
+      <h3>Saved Cards</h3>
       {cardSection}
       <Button onClick={() => skip(true)}>Use new card</Button>
     </div>

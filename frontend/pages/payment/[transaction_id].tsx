@@ -7,7 +7,7 @@ import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import Main from '../../src/components/layout/Main'
-import PaymentForm from '../../src/components/payment/checkout/PaymentForm'
+import Checkout from '../../src/components/payment/checkout/Checkout'
 import Spinner from '../../src/components/Spinner'
 import { useUserContext } from '../../src/context/user-info'
 import {
@@ -90,7 +90,7 @@ export default function TransactionPage() {
 
     content = (
       <Elements stripe={stripe} options={options}>
-        <PaymentForm transaction={transaction} />
+        <Checkout transaction={transaction} />
       </Elements>
     )
   } else {
