@@ -415,6 +415,58 @@ class StripeTransaction(Base):
         )
 
 
+class UserOwnedApp(Base):
+    __tablename__ = "userownedapp"
+
+    app_id = Column(String, nullable=False, primary_key=True)
+    account = Column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
+    )
+    created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def user_owns_app(db, user: FlathubUser, app_id: str):
+        # If the user is trying to download "org.gnome.Clocks.Locale", permission for "org.gnome.Clocks" should suffice.
+        # Note that the authoritative check for this rule is in flat-manager, not here.
+        segments = app_id.split(".")
+        prefixes = [".".join(segments[:i]) for i in range(len(segments) + 1)]
+
+        return (
+            db.session.query(UserOwnedApp)
+            .filter_by(account=user.id)
+            .filter(UserOwnedApp.app_id.in_(prefixes))
+            .first()
+            is not None
+        )
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser):
+        return db.session.query(UserOwnedApp).filter_by(account=user.id)
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Add a user's owned apps to the hasher for token generation
+        """
+        apps = [app.app_id for app in UserOwnedApp.all_by_user(db, user)]
+        apps.sort()
+        for app in apps:
+            hasher.add_string(app)
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any app ownerships associated with this user
+        """
+        db.session.execute(delete(UserOwnedApp).where(UserOwnedApp.account == user.id))
+
+
+FlathubUser.TABLES_FOR_DELETE.append(UserOwnedApp)
+
+
 # Vending related tables, including Stripe-only stuff
 
 

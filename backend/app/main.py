@@ -5,11 +5,15 @@ from typing import Dict, List
 
 import jwt
 import sentry_sdk
-from fastapi import FastAPI, Response
+from fastapi import Depends, FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi_sqlalchemy import db as sqldb
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+
+from app import models
 
 from . import (
     apps,
@@ -228,10 +232,27 @@ def get_platforms() -> Dict[str, utils.Platform]:
 
 
 @app.post("/generate-download-token", status_code=200)
-def get_download_token(appids: List[str]):
+def get_download_token(appids: List[str], login=Depends(logins.login_state)):
     """Generates a download token for the given app IDs."""
 
-    # TODO: Check the user has rights to download the given app IDs!
+    if not login["state"].logged_in():
+        return JSONResponse({"detail": "not_logged_in"}, status_code=401)
+    user = login["user"]
+
+    unowned = [
+        app_id
+        for app_id in appids
+        if not models.UserOwnedApp.user_owns_app(sqldb, user, app_id)
+    ]
+
+    if len(unowned) != 0:
+        return JSONResponse(
+            {
+                "detail": "purchase_necessary",
+                "missing_appids": unowned,
+            },
+            status_code=403,
+        )
 
     encoded = jwt.encode(
         {
