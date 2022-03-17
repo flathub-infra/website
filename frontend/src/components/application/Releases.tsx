@@ -31,7 +31,7 @@ const Releases: FunctionComponent<Props> = ({ releases }) => {
                     )}
                 </div>
               </header>
-              <p
+              <div
                 dangerouslySetInnerHTML={{
                   __html: latestRelease.description ?? t('no-changelog-provided'),
                 }}

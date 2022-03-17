@@ -205,7 +205,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
         <div className={styles.additionalInfo}>
           <div>
             <h3>{app.summary}</h3>
-            <p
+            <div
               className={styles.description}
               dangerouslySetInnerHTML={{ __html: app.description }}
             />
