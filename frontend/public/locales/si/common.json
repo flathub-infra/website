@@ -1,1 +1,20 @@
-{}
+{
+    "developers": "සංවර්ධකයින්",
+    "statistics": "සංඛ්‍යාලේඛන",
+    "community": "ප්‍රජාව",
+    "publish": "ප්‍රකාශනය",
+    "forum": "සංසදය",
+    "about": "පිළිබඳව",
+    "about-pagename": "ෆ්ලැට්හබ් පිළිබඳව",
+    "new-and-updated": "නව හා යාවත්කාලිත",
+    "browse-apps": "යෙදුම් සොයන්න",
+    "publish-your-app": "ඔබගේ යෙදුම ප්‍රකාශනය",
+    "documentation": "ප්‍රලේඛනය",
+    "editors-choice-apps": "",
+    "go-home": "මුලට යන්න",
+    "applications": "යෙදුම්",
+    "popular": "ජනප්‍රිය",
+    "search-apps": "යෙදුම් සොයන්න",
+    "source-code": "ප්‍රභව කේතය",
+    "rss-feeds": "RSS සංග්‍රහ"
+}
