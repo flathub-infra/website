@@ -1,4 +1,4 @@
-import { de, enUS, tr, fr, nb, fi, id, pl, pt, it } from 'date-fns/locale'
+import { de, enUS, tr, fr, nb, fi, id, pl, pt, it, ru, vi } from 'date-fns/locale'
 
 export function getLocale(language: string): Locale {
   switch (language) {
@@ -22,6 +22,12 @@ export function getLocale(language: string): Locale {
       return pl
     case 'pt_BR':
       return pt
+    case 'ru':
+      return ru;
+    case 'si':
+      return enUS; // date-fns has no Sinhala locale
+    case 'vi':
+      return vi;
 
     default:
       return enUS
@@ -50,6 +56,12 @@ export function getLocaleString(language: string): string {
       return 'pl_PL'
     case 'pt_BR':
       return 'pt_BR'
+    case 'ru':
+      return 'ru_RU'
+    case 'si':
+      return 'si_LK'
+    case 'vi':
+      return 'vi_VN'
 
     default:
       return 'en_US'
