@@ -98,6 +98,9 @@ const Footer = () => {
               <Link href='/about'>{t('about')}</Link>
             </div>
             <div className={styles.footerItem}>
+              <Link href='/languages'>{t('switch-language')}</Link>
+            </div>
+            <div className={styles.footerItem}>
               <Link href='/statistics'>{t('statistics')}</Link>
             </div>
             <div className={styles.footerItem}>

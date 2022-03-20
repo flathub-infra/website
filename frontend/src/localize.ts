@@ -1,5 +1,10 @@
 import { de, enUS, tr, fr, nb, fi, id, pl, pt, it, ru, vi } from 'date-fns/locale'
 
+export type Language = 'de' | 'en' | 'fr' | 'nb_NO' | 'tr' | 'fi' | 'id' | 'pl' | 'pt_BR' | 'it' | 'ru' | 'si' | 'vi';
+
+export const languages: Language[] = [
+  'de', 'en', 'fr', 'nb_NO', 'tr', 'fi', 'id', 'pl', 'pt_BR', 'it', 'ru', 'si', 'vi']
+
 export function getLocale(language: string): Locale {
   switch (language) {
     case 'de':
@@ -66,4 +71,42 @@ export function getLocaleString(language: string): string {
     default:
       return 'en_US'
   }
+}
+
+export function getLanguageName(language: Language): string {
+  switch (language) {
+    case 'de':
+      return 'Deutsch'
+    case 'en':
+      return 'English'
+    case 'fr':
+      return 'Français'
+    case 'nb_NO':
+      return 'Norsk'
+    case 'tr':
+      return 'Türkçe'
+    case 'fi':
+      return 'Suomi'
+    case 'id':
+      return 'Bahasa Indonesia'
+    case 'it':
+      return 'Italiano'
+    case 'pl':
+      return 'Polski'
+    case 'pt_BR':
+      return 'Português'
+    case 'ru':
+      return 'Русский язык'
+    case 'si':
+      return 'සිංහල'
+    case 'vi':
+      return 'Tiếng Việt'
+
+    default:
+      return assertUnreachable(language)
+  }
+}
+
+function assertUnreachable(_x: never): never {
+  throw new Error("Didn't expect to get here");
 }
