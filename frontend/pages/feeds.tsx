@@ -1,5 +1,4 @@
 import Main from '../src/components/layout/Main'
-import Link from 'next/link'
 import { FEED_NEW_URL, FEED_RECENTLY_UPDATED_URL } from '../src/env'
 import { NextSeo } from 'next-seo'
 import Button from '../src/components/Button'
@@ -11,7 +10,7 @@ const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
   return (
     <Main>
-      <NextSeo title='RSS' description={t('rss-description')} />
+      <NextSeo title={t('rss-feeds')} description={t('rss-description')} />
       <div className='main-container' style={{ maxWidth: 600 }}>
         <h1>{t('rss-feeds')}</h1>
         <p>
