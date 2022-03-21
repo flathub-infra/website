@@ -90,5 +90,15 @@
     "loading": "Caricamento…",
     "could-not-find-match-for-search": "Impossibile trovare una corrispondenza per la ricerca.",
     "request-new-app": "Se stai cercando un'applicazione specifica, fai sapere alla comunità che la vuoi su Flathub <1>qui</1>.",
-    "manifest": "Manifesto"
+    "manifest": "Manifesto",
+    "languages": "Lingue",
+    "languages-description": "Seleziona una lingua per passare ad essa:",
+    "switch-language": "Cambia lingua",
+    "flathub-statistics": "Statistiche di Flathub",
+    "count-downloads": "Scaricamenti totali",
+    "unknown": "Sconosciuto",
+    "browse-apps": "Sfoglia le app",
+    "error-already-logged-in": "L'account selezionato è già connesso.",
+    "count-applications": "Applicazioni totali",
+    "an-error-occurred-server": "Si è verificato un errore sul server."
 }
