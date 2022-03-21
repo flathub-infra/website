@@ -117,5 +117,8 @@
     "donate": "Lahjoita",
     "loading": "Ladataan…",
     "could-not-find-match-for-search": "Haku ei tuottanut tuloksia.",
-    "request-new-app": "Jos etsit jotain tiettyä sovellusta, <1>kerro yhteisölle</1>, että haluat sen Flathubiin."
+    "request-new-app": "Jos etsit jotain tiettyä sovellusta, <1>kerro yhteisölle</1>, että haluat sen Flathubiin.",
+    "languages": "Kielet",
+    "switch-language": "Vaihda kieli",
+    "languages-description": "Valitse haluamasi kieli:"
 }
