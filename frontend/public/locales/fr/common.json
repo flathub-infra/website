@@ -125,5 +125,8 @@
     "could-not-find-match-for-search": "Impossible de trouver une correspondance pour la recherche.",
     "request-new-app": "Si vous recherchez une application spécifique, faites savoir à la communauté que vous la voulez sur Flathub <1>ici</1>.",
     "manifest": "Manifeste",
-    "error-already-logged-in": "Le compte sélectionné est déjà connecté."
+    "error-already-logged-in": "Le compte sélectionné est déjà connecté.",
+    "languages": "Langues",
+    "languages-description": "Sélectionnez une langue pour passer à celle-ci :",
+    "switch-language": "Changer de langue"
 }
