@@ -125,5 +125,8 @@
     "could-not-find-match-for-search": "Arama için bir eşleşme bulunamadı.",
     "request-new-app": "Belirli bir uygulamayı arıyorsanız, topluluğa onu flathub'da istediğinizi <1>buradan</1> bildirin.",
     "manifest": "Bildirim",
-    "error-already-logged-in": "Seçilen hesap zaten oturum açtı."
+    "error-already-logged-in": "Seçilen hesap zaten oturum açtı.",
+    "switch-language": "Dil Değiştir",
+    "languages": "Diller",
+    "languages-description": "Değiştirmek için bir dil seçin:"
 }
