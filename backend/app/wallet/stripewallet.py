@@ -108,6 +108,14 @@ class StripeWallet(WalletBase):
         if limit < len(txns):
             txns = txns[:limit]
 
+        did_update = False
+        for txn in txns:
+            if self._update_transaction(user, txn):
+                db.session.add(txn)
+                did_update = True
+        if did_update:
+            db.session.commit()
+
         return [
             TransactionSummary(
                 id=txn.id,
@@ -158,12 +166,41 @@ class StripeWallet(WalletBase):
                 error="stripe-payment-intent-build-failed"
             ) from stripe_error
 
+    def _update_transaction(self, user: FlathubUser, txn: models.Transaction) -> bool:
+        if txn.status not in ["pending", "retry"]:
+            return False
+        # Pending transactions may need tweaking based on Stripe status
+        stxn = self._get_transaction(user, txn)
+        try:
+            payment_intent = stripe.PaymentIntent.retrieve(stxn.stripe_pi)
+            pi_status = payment_intent["status"]
+            if pi_status == "succeeded":
+                txn.status = "success"
+                txn.reason = ""
+            elif pi_status == "cancelled":
+                txn.status = "cancelled"
+                txn.reason = "Cancellation noted from Stripe"
+            else:
+                print(f"TXN {txn.id} in retry because {pi_status}")
+                txn.status = "retry"
+                txn.reason = f"Stripe status: {pi_status}"
+            db.session.add(txn)
+            return True
+
+        except Exception as stripe_error:
+            raise WalletError(
+                error="stripe-payment-intent-retrieve-failed"
+            ) from stripe_error
+
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> Transaction:
         txn = models.Transaction.by_user_and_id(db, user, transaction)
         if txn is None:
             raise WalletError(error="not found")
+        if self._update_transaction(user, txn):
+            db.session.add(txn)
+            db.session.commit()
         summary = TransactionSummary(
             id=txn.id,
             value=txn.value,
@@ -344,11 +381,24 @@ class StripeWallet(WalletBase):
                 stripe_txn.transaction
             )
             transaction.status = "success"
-            transaction.updated = (datetime.now(),)
+            transaction.updated = datetime.now()
             db.session.add(transaction)
             db.session.commit()
 
         return Response(None, status_code=201)
+
+    def set_transaction_pending(
+        self, request: Request, user: FlathubUser, transaction: str
+    ):
+        txn = models.Transaction.by_user_and_id(db, user, transaction)
+        if txn is None:
+            raise WalletError(error="not found")
+        if txn.status not in ["new", "retry", "pending"]:
+            raise WalletError(error="bad transaction status")
+        txn.status = "pending"
+        txn.updated = datetime.now()
+        db.session.add(txn)
+        db.session.commit()
 
 
 # Refuse to load if stripe configuration unavailable

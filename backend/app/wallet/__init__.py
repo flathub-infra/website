@@ -225,6 +225,21 @@ def set_savecard(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     Wallet().set_savecard(request, login["user"], txn, data.save_card)
+    return Response(None, status_code=201)
+
+
+@router.post("/transactions/{txn}/setpending")
+def set_pending(txn: str, request: Request, login=Depends(login_state)):
+    """
+    Set the transaction as 'pending' so that we can recover if Stripe
+    flows don't quite work (e.g. webhook goes missing)
+    """
+    if not login["state"].logged_in():
+        return JSONResponse(
+            {"status": "error", "error": "not logged in"}, status_code=403
+        )
+    Wallet().set_transaction_pending(request, login["user"], txn)
+    return Response(None, status_code=201)
 
 
 # Finally a fake-wallet-only endpoint which is used to clean up for testing.
