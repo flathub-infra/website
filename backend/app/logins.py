@@ -7,7 +7,6 @@ And we present the full /auth/ sub-namespace
 """
 
 
-import base64
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Callable, Optional, Union
@@ -24,13 +23,6 @@ from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import apps, config, models
-
-# Utility bits
-
-with open("data/images/github-icon.png", "rb") as ghfile:
-    GITHUB_IMAGE_B64 = base64.b64encode(ghfile.read()).decode("ASCII")
-with open("data/images/gitlab-logo.svg", "rb") as glfile:
-    GITLAB_IMAGE_B64 = base64.b64encode(glfile.read()).decode("ASCII")
 
 
 class LoginState(str, Enum):
