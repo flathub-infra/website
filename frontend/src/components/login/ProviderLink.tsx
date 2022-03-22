@@ -12,14 +12,23 @@ interface Props {
 
 function loginMethod(provider: LoginProvider) {
   switch (provider.method) {
+    case provider.method:
+      return provider.name
+
+    default:
+      break;
+  }
+}
+
+function loginButton(provider: LoginProvider) {
+  const logoPath = "/img/login/"
+
+  switch (provider.method) {
     case 'github':
-      return 'GitHub'
+      return logoPath + "github-icon.png"
 
     case 'gitlab':
-      return 'GitLab'
-
-    case 'google':
-      return 'Google'
+      return logoPath + "gitlab-logo.svg"
 
     default:
       break;
@@ -69,7 +78,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
   return (
     <button className={styles.provider} onClick={() => setClicked(true)}>
-      <img src={provider.button} width='60' height='60' alt={loginText}></img>
+      <img src={ loginButton(provider) } width='60' height='60' alt={loginText}></img>
       {loginText}
     </button>
   )
