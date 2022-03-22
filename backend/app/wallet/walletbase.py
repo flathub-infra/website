@@ -258,3 +258,12 @@ class WalletBase:
         Set whether or not to save the card when completing a transaction
         """
         raise NotImplementedError
+
+    def set_transaction_pending(
+        self, request: Request, user: FlathubUser, transaction: str
+    ):
+        """
+        Set the indicated transaction as pending, this will fail if the transaction
+        is in any state other than `new` `retry` or `pending`.
+        """
+        raise NotImplementedError

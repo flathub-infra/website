@@ -21,6 +21,7 @@ from .walletbase import (
     StripeKeys,
     Transaction,
     TransactionRow,
+    TransactionSaveCardKind,
     TransactionSortOrder,
     TransactionStripeData,
     TransactionSummary,
@@ -276,3 +277,24 @@ class FakeWallet(WalletBase):
 
     async def webhook(self, request: Request) -> Response:
         return Response(None, status_code=201)
+
+    def set_savecard(
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
+        state: Optional[TransactionSaveCardKind],
+    ):
+        pass
+
+    def set_transaction_pending(
+        self, request: Request, user: FlathubUser, transaction: str
+    ):
+        txns = self._get_user_transactions(request)
+        transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))
+        if transaction is None:
+            raise WalletError(error="not found")
+        if transaction.summary.status not in ["new", "retry", "pending"]:
+            raise WalletError(error="transaction not markable pending")
+        transaction.summary.status = "pending"
+        self._set_user_transactions(request, txns.values())
