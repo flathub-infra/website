@@ -1,7 +1,6 @@
 export interface LoginProvider {
   method: string,
-  button: string,
-  text: string,
+  name: string,
 }
 
 export interface LoginRedirect {
