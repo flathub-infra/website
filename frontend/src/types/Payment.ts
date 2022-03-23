@@ -26,5 +26,18 @@ export interface Transaction {
   updated: number
 }
 
+export interface TransactionDetailed {
+  summary: Transaction,
+  card?: PaymentCard,
+  details: Payout[],
+}
+
+export interface Payout {
+  recipient: string,
+  amount: number,
+  currency: string,
+  kind: TransactionKind,
+}
+
 type TransactionKind = 'donation' | 'purchase'
 type TransactionStatus = 'new' | 'pending' | 'retry' | 'success' | 'cancelled'

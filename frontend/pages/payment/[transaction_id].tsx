@@ -15,6 +15,7 @@ import {
   TRANSACTION_INFO_URL,
   TRANSACTION_STRIPE_INFO_URL,
 } from '../../src/env'
+import { TransactionDetailed } from '../../src/types/Payment'
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
 let stripePromise: Promise<Stripe>
@@ -42,7 +43,7 @@ async function getTransaction(tid: string) {
       await fetch(TRANSACTION_STRIPE_INFO_URL(tid), { credentials: 'include' })
     ).json()
   }
-  return { txn: txndata, clientSecret: stripedata.client_secret }
+  return [txndata, stripedata.client_secret]
 }
 
 export default function TransactionPage() {
@@ -52,7 +53,8 @@ export default function TransactionPage() {
   const router = useRouter()
 
   const [stripe, setStripe] = useState<Stripe>(null)
-  const [transaction, setTransaction] = useState(null)
+  const [transaction, setTransaction] = useState<TransactionDetailed>(null)
+  const [secret, setSecret] = useState('')
 
   const user = useUserContext()
 
@@ -81,16 +83,19 @@ export default function TransactionPage() {
       return
     }
 
-    getTransaction(transaction_id).then((data) => setTransaction(data))
+    getTransaction(transaction_id).then(([transaction, secret]) => {
+      setTransaction(transaction)
+      setSecret(secret)
+    })
   }, [router, user])
 
   let content: ReactElement
-  if (transaction) {
-    const options = { clientSecret: transaction.clientSecret }
+  if (secret) {
+    const options = { clientSecret: secret }
 
     content = (
       <Elements stripe={stripe} options={options}>
-        <Checkout transaction={transaction} />
+        <Checkout transaction={transaction} clientSecret={secret} />
       </Elements>
     )
   } else {
