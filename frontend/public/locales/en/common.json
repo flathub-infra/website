@@ -135,7 +135,9 @@
     "card-expiry": "Expiry: {{month}} / {{year}}",
     "loading-saved-payment-methods": "Loading saved payment methods…",
     "payment": "Payment",
+    "make-donation": "Make Donation",
     "no-saved-payment-methods": "No saved payment methods to show.",
     "remove-saved-card": "Remove Saved Card",
-    "saved-cards": "Saved Cards"
+    "saved-cards": "Saved Cards",
+    "select-donation-amount": "Select an amount to donate"
 }

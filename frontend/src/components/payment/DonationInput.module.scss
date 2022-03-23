@@ -1,15 +1,26 @@
 .form {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  width: min-content;
+  flex-direction: column;
 
   background-color: var(--bg-color-secondary);
   border-radius: var(--border-radius);
 
-  gap: 5px;
-  padding: 10px;
+  gap: 20px;
+  padding: 20px;
+  margin: 20px 0;
+
+  h4 {
+    margin: 0;
+  }
+
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+    gap: 20px;
+  }
 
   .amountInput {
     label {

@@ -6,7 +6,6 @@ import Router from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import Main from '../src/components/layout/Main'
 import SavedCards from '../src/components/payment/cards/SavedCards'
-import DonationInput from '../src/components/payment/DonationInput'
 import TransactionHistory from '../src/components/payment/transactions/TransactionHistory'
 import Spinner from '../src/components/Spinner'
 import { useUserContext } from '../src/context/user-info'
@@ -33,7 +32,6 @@ export default function Wallet() {
       <div className={styles.userArea}>
         <SavedCards />
         <TransactionHistory />
-        <DonationInput />
       </div>
     )
   }

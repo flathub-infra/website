@@ -6,7 +6,9 @@ import Button from '../Button'
 import Spinner from '../Spinner'
 import styles from './DonationInput.module.scss'
 
-async function initiateDonation(amount: number): Promise<string> {
+const minDonation = 5
+
+async function initiateDonation(recipient, amount: number): Promise<string> {
   const res = fetch(TRANSACTIONS_URL, {
     method: 'POST',
     credentials: 'include',
@@ -21,7 +23,7 @@ async function initiateDonation(amount: number): Promise<string> {
       },
       details: [
         {
-          recipient: 'org.flathub.Flathub',
+          recipient,
           amount,
           currency: 'usd',
           kind: 'donation',
@@ -35,10 +37,14 @@ async function initiateDonation(amount: number): Promise<string> {
   return data.id
 }
 
-const DonationInput: FunctionComponent = () => {
+interface Props {
+  org: string
+}
+
+const DonationInput: FunctionComponent<Props> = ({ org }) => {
   const { t } = useTranslation()
 
-  const [amount, setAmount] = useState(5)
+  const [amount, setAmount] = useState(minDonation.toFixed(2))
   const [submit, setSubmit] = useState(false)
   const [transaction, setTransaction] = useState('')
 
@@ -46,12 +52,29 @@ const DonationInput: FunctionComponent = () => {
     event.preventDefault()
 
     setSubmit(true)
-    const transactId = await initiateDonation(amount * 100)
+    const transactId = await initiateDonation(org, Number(amount) * 100)
     setTransaction(transactId)
   }
 
+  // Prevent entering fractional cents
   function handleChange(event: FormEvent<HTMLInputElement>) {
-    setAmount(event.currentTarget.valueAsNumber)
+    const valueString = event.currentTarget.value
+
+    if (valueString.match(/^\d*(\.\d{0,2})?$/)) {
+      setAmount(valueString)
+    }
+  }
+
+  // Always show cent value for consistency (removes ambiguity)
+  function handleBlur(event: FormEvent<HTMLInputElement>) {
+    // Don't use valueAsNumber to prevent NaN
+    const value = Number(event.currentTarget.value)
+
+    if (value < minDonation) {
+      setAmount(minDonation.toFixed(2))
+    } else {
+      setAmount(value.toFixed(2))
+    }
   }
 
   useEffect(() => {
@@ -64,19 +87,39 @@ const DonationInput: FunctionComponent = () => {
     return <Spinner size={30} />
   }
 
+  const presets = [5, 10, 15, 20].map((val) => {
+    return (
+      <Button
+        key={val}
+        className={styles.amount}
+        type='secondary'
+        buttonType='button'
+        onClick={() => setAmount(val.toString())}
+      >
+        ${val}
+      </Button>
+    )
+  })
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.amountInput}>
-        <label>$</label>
-        <input
-          type='number'
-          min='5'
-          step='0.01'
-          value={amount}
-          onChange={handleChange}
-        />
+      <h4>{t('select-donation-amount')}</h4>
+      <div className={styles.options}>
+        {presets}
+
+        <div className={styles.amountInput}>
+          <label>$</label>
+          <input
+            type='text'
+            inputMode='numeric'
+            pattern='\d*(\.\d{0,2})?'
+            value={amount}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+        </div>
       </div>
-      <Button>Donate to Flathub</Button>
+      <Button>{t('make-donation')}</Button>
     </form>
   )
 }

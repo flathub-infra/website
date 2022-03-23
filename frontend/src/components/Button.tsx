@@ -5,11 +5,12 @@ interface Props {
   children: React.ReactNode
   onClick?: (e: any) => void
   type?: 'primary' | 'secondary'
+  buttonType?: 'button' | 'submit' | 'reset'
   className?: string
 }
 
 const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
-  ({ children, onClick, type, className }, ref) => {
+  ({ children, onClick, type, buttonType, className }, ref) => {
     return (
       <button
         className={
@@ -21,6 +22,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
         }
         onClick={onClick}
         ref={ref}
+        type={buttonType}
       >
         {children}
       </button>
