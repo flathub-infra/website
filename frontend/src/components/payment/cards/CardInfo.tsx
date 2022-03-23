@@ -8,6 +8,18 @@ interface Props {
   onClick?: MouseEventHandler
 }
 
+/**
+ * Converts country code to corresponding emoji flag
+ * @param code ISO-3166-1 alpha-2 code of coutnry
+ * @returns emoji flag string (two regional indicator characters)
+ */
+function countryCodeToFlag(code: string): string {
+  // Consistent 127,397 offset from capital to regional indicator
+  return code
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
+}
+
 const CardInfo: FunctionComponent<Props> = ({ card, onClick }) => {
   const { t } = useTranslation()
 
@@ -16,7 +28,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick }) => {
       className={`${styles.container} ${onClick ? styles.clickable : ''}`}
       onClick={onClick}
     >
-      <span className={styles.country}>{card.country}</span>
+      <span className={styles.country}>{countryCodeToFlag(card.country)}</span>
       <span className={styles.brand}>{card.brand}</span>
       <span className={styles.code}>{`**** **** **** ${card.last4}`}</span>
       <span className={styles.expiry}>
