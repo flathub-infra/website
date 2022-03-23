@@ -1,6 +1,9 @@
 import { useTranslation } from 'next-i18next'
+import { useTheme } from 'next-themes'
 import { FunctionComponent, MouseEventHandler } from 'react'
+import { IMAGE_BASE_URL } from '../../../env'
 import { PaymentCard } from '../../../types/Payment'
+import Image from '../../Image'
 import styles from './CardInfo.module.scss'
 
 interface Props {
@@ -20,8 +23,14 @@ function countryCodeToFlag(code: string): string {
     .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
 }
 
+function getBrandImage(brand: string, theme: string): string {
+  const dark = theme === 'dark' && brand === 'visa' ? '-dark' : ''
+  return `${IMAGE_BASE_URL}payment-methods/${brand}${dark}.svg`
+}
+
 const CardInfo: FunctionComponent<Props> = ({ card, onClick }) => {
   const { t } = useTranslation()
+  const { resolvedTheme } = useTheme()
 
   return (
     <p
@@ -29,7 +38,14 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick }) => {
       onClick={onClick}
     >
       <span className={styles.country}>{countryCodeToFlag(card.country)}</span>
-      <span className={styles.brand}>{card.brand}</span>
+      <span className={styles.brand}>
+        <Image
+          src={getBrandImage(card.brand, resolvedTheme)}
+          width={30}
+          height={24}
+          alt=''
+        />
+      </span>
       <span className={styles.code}>{`**** **** **** ${card.last4}`}</span>
       <span className={styles.expiry}>
         {t('card-expiry', { month: card.exp_month, year: card.exp_year })}
