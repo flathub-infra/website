@@ -122,6 +122,7 @@
     "install": "Install",
     "screenshot": "Screenshot",
     "donate": "Donate",
+    "donate-to": "Donate to {{project}}",
     "other-apps-by-developer": "Other apps by {{developer}}",
     "loading": "Loading…",
     "could-not-find-match-for-search": "Could not find a match for search.",
