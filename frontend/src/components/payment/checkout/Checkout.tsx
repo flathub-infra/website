@@ -27,7 +27,7 @@ interface Props {
   clientSecret: string
 }
 
-const successRedirect = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/success`
+const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
 const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const router = useRouter()
@@ -57,14 +57,19 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           transaction={transaction}
           clientSecret={clientSecret}
           cards={cards}
-          submit={() => router.push(successRedirect)}
+          submit={() => router.push(`${detailsPage}/${transaction.summary.id}`)}
           skip={() => setStage(1)}
         />
       )
       break
     // Card input stage
     case 1:
-      flowContent = <PaymentForm transactionId={transaction.summary.id} />
+      flowContent = (
+        <PaymentForm
+          transactionId={transaction.summary.id}
+          callbackPage={`${detailsPage}/${transaction.summary.id}`}
+        />
+      )
       break
     // Loading state
     default:

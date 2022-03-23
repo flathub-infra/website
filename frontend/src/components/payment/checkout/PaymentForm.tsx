@@ -1,4 +1,5 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { useTranslation } from 'next-i18next'
 import { FormEvent, FunctionComponent, useState } from 'react'
 import { TRANSACTION_SAVE_CARD_URL } from '../../../env'
 import Button from '../../Button'
@@ -18,11 +19,14 @@ async function saveCard(transactionId: string) {
 
 interface Props {
   transactionId: string
+  callbackPage: string
 }
 
-const successRedirect = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/success`
-
-const PaymentForm: FunctionComponent<Props> = ({ transactionId }) => {
+const PaymentForm: FunctionComponent<Props> = ({
+  transactionId,
+  callbackPage,
+}) => {
+  const { t } = useTranslation()
   const stripe = useStripe()
   const elements = useElements()
 
@@ -44,9 +48,9 @@ const PaymentForm: FunctionComponent<Props> = ({ transactionId }) => {
               checked={checked}
               onChange={() => setChecked(!checked)}
             />
-            <label htmlFor='save-card'>Save card for reuse</label>
+            <label htmlFor='save-card'>{t('save-card-for-reuse')}</label>
           </div>
-          <Button>Submit payment</Button>
+          <Button>{t('submit-payment')}</Button>
         </>
       )}
     </form>
@@ -69,7 +73,7 @@ const PaymentForm: FunctionComponent<Props> = ({ transactionId }) => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: successRedirect,
+        return_url: callbackPage,
       },
     })
 

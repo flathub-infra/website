@@ -1,10 +1,10 @@
+import { useTranslation } from 'next-i18next'
 import { FunctionComponent, useEffect, useState } from 'react'
 import { useUserContext } from '../../../context/user-info'
 import { TRANSACTIONS_URL } from '../../../env'
 import { Transaction } from '../../../types/Payment'
 import Spinner from '../../Spinner'
-import styles from './TransactionHistory.module.scss'
-import TransactionInfo from './TransactionInfo'
+import TransactionList from './TransactionList'
 
 async function getTransactions(
   setTransactions,
@@ -27,6 +27,7 @@ async function getTransactions(
 }
 
 const TransactionHistory: FunctionComponent = () => {
+  const { t } = useTranslation()
   const user = useUserContext()
 
   const [page, setPage] = useState(0)
@@ -46,34 +47,13 @@ const TransactionHistory: FunctionComponent = () => {
   }
 
   if (!transactions) {
-    return <Spinner size={100} text='Loading transaction history...' />
+    return <Spinner size={100} text={t('loading')} />
   }
 
   return (
     <div className='main-container'>
-      <h3>Transaction History</h3>
-      <table className={styles.transactionList}>
-        <thead>
-          <tr>
-            <td>Creation</td>
-            <td>Updated</td>
-            <td>Type</td>
-            <td>Value</td>
-            <td>Status</td>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.length ? (
-            transactions.map((transaction) => (
-              <TransactionInfo key={transaction.id} transaction={transaction} />
-            ))
-          ) : (
-            <tr>
-              <td>No transaction history to show.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <h3>{t('transaction-history')}</h3>
+      <TransactionList transactions={transactions} />
     </div>
   )
 }

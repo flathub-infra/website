@@ -137,7 +137,13 @@
     "payment": "Payment",
     "make-donation": "Make Donation",
     "no-saved-payment-methods": "No saved payment methods to show.",
+    "payment-summary": "Payment Summary",
     "remove-saved-card": "Remove Saved Card",
+    "save-card-for-reuse": "Save card for reuse",
     "saved-cards": "Saved Cards",
-    "select-donation-amount": "Select an amount to donate"
+    "select-donation-amount": "Select an amount to donate",
+    "submit-payment": "Submit payment",
+    "transaction-breakdown": "Transaction Breakdown",
+    "transaction-history": "Transaction History",
+    "transaction-summary": "Transaction Summary"
 }
