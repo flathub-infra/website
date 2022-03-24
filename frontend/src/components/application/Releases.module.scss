@@ -5,7 +5,10 @@
   border-radius: var(--border-radius);
 
   .releaseDetails {
-    padding: 8px 24px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
     header {
       display: flex;
@@ -14,6 +17,7 @@
       gap: 8px;
 
       h3 {
+        margin-top: 0px;
         margin-bottom: 0px;
       }
 

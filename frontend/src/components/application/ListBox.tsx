@@ -41,7 +41,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
               >
                 <div className={styles.icon}>{item.icon}</div>
                 <div className={styles.details}>
-                  {item.header} <br />
+                  {item.header}
                   {item.content.type === 'text' && (
                     <span className={styles.content}>{item.content.text}</span>
                   )}
