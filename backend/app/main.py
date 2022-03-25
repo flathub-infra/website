@@ -20,7 +20,11 @@ from . import (
 
 app = FastAPI(title=config.settings.app_name)
 if config.settings.sentry_dsn:
-    sentry_sdk.init(dsn=config.settings.sentry_dsn, traces_sample_rate=0.01)
+    sentry_sdk.init(
+        dsn=config.settings.sentry_dsn,
+        traces_sample_rate=0.01,
+        environment="production",
+    )
     app.add_middleware(SentryAsgiMiddleware)
 
 origins = config.settings.cors_origins.split(" ")
