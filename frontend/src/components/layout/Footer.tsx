@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import styles from './Footer.module.scss'
 import LoginStatus from '../login/Status'
-import { useTranslation } from 'next-i18next';
-import { IS_PRODUCTION } from '../../env';
+import { useTranslation } from 'next-i18next'
+import { IS_PRODUCTION } from '../../env'
 
 const Footer = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <footer id={styles.footer}>
@@ -17,7 +17,9 @@ const Footer = () => {
               <Link href='/apps/collection/popular'>{t('popular')}</Link>
             </div>
             <div className={styles.footerItem}>
-              <Link href='/apps/collection/recently-updated'>{t('new-and-updated')}</Link>
+              <Link href='/apps/collection/recently-updated'>
+                {t('new-and-updated')}
+              </Link>
             </div>
             <div className={styles.footerItem}>
               <Link href='/apps/collection/editors-choice-apps'>
@@ -83,7 +85,9 @@ const Footer = () => {
               <a href='http://docs.flatpak.org/'>{t('documentation')}</a>
             </div>
             <div className={styles.footerItem}>
-              <a href='https://github.com/flathub/'>{t('example-build-files')}</a>
+              <a href='https://github.com/flathub/'>
+                {t('example-build-files')}
+              </a>
             </div>
             <div className={styles.footerItem}>
               <Link href='/badges'>{t('badges')}</Link>
@@ -105,7 +109,7 @@ const Footer = () => {
             </div>
             <div className={styles.footerItem}>
               <a
-                href='https://github.com/flathub/frontend'
+                href='https://github.com/flathub/website'
                 target='_blank'
                 rel='noreferrer'
               >
@@ -115,9 +119,11 @@ const Footer = () => {
           </div>
         </div>
 
-        {!IS_PRODUCTION && <div className={styles.footerSection}>
-          <LoginStatus />
-        </div>}
+        {!IS_PRODUCTION && (
+          <div className={styles.footerSection}>
+            <LoginStatus />
+          </div>
+        )}
       </div>
     </footer>
   )
