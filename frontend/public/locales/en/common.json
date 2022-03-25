@@ -127,6 +127,7 @@
     "request-new-app": "If you're searching for a specific application, let the community know, that you want it on flathub <1>here</1>.",
     "manifest": "Manifest",
     "languages": "Languages",
+    "languages-summary": "Choose the language you want to see the website in.",
     "languages-description": "Select a language to switch to it:",
     "switch-language": "Switch Language"
 }
