@@ -1,11 +1,11 @@
-name: 🚀 Build and push Docker image
+name: 🚀 Deploy backend
 
 on:
   workflow_run:
     workflows:
-      - 'CI'
+      - 'Backend CI'
     branches:
-      - master
+      - main 
     types: [completed]
   workflow_dispatch:
 
@@ -13,7 +13,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     concurrency:
-      group: build_push_docker
+      group: build_push_docker_backend
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2
@@ -31,8 +31,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
+          context: backend
+          file: backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ghcr.io/flathub/backend:${{ github.sha }}

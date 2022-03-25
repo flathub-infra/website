@@ -1,14 +1,21 @@
-name: CI
+name: Backend CI
 
 on:
   push:
-    branches: master
+    branches: main
+    paths:
+      - 'backend/**'
   pull_request:
-    branches: master
+    branches: main
+    paths:
+      - 'backend/**'
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
 
     steps:
       - uses: actions/checkout@v2
@@ -44,6 +51,10 @@ jobs:
 
   smoketests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
     steps:
       - uses: actions/checkout@v2
 
@@ -54,13 +65,13 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: ./Dockerfile
+          file: Dockerfile
           tags: backend
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       - name: Execute smoke tests
         run: |
-          docker compose up -d
+          docker compose up -d -f docker-compose.yml
           docker exec backend-backend-1 pip3 install pytest
           docker exec backend-backend-1 python3 -m pytest tests/main.py
