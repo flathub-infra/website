@@ -1,7 +1,11 @@
 version: 2
 updates:
+  - package-ecosystem: "pip"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
   - package-ecosystem: 'npm'
-    directory: '/'
+    directory: '/frontend'
     schedule:
       interval: 'weekly'
   - package-ecosystem: 'github-actions'
