@@ -68,7 +68,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: backend
-          tags: backend
+          tags: backend_backend
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
