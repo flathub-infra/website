@@ -69,6 +69,7 @@ jobs:
         with:
           context: backend
           tags: backend_backend
+          load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
