@@ -49,6 +49,7 @@ class Transaction(BaseModel):
     summary: TransactionSummary
     card: Optional[CardInfo]
     details: List[TransactionRow]
+    receipt: Optional[str]
 
 
 class NascentTransactionSummary(BaseModel):

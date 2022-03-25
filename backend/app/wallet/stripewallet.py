@@ -222,16 +222,19 @@ class StripeWallet(WalletBase):
         ]
         stxn = self._get_transaction(user, txn)
         card = None
+        receipt = None
         try:
             payment_intent = stripe.PaymentIntent.retrieve(stxn.stripe_pi)
             payment_method = payment_intent.get("payment_method")
             if payment_method is not None:
                 payment_method = stripe.PaymentMethod.retrieve(payment_method)
                 card = self._cardinfo(payment_method)
+            if payment_intent["charges"]["total_count"] > 0:
+                receipt = payment_intent["charges"]["data"][0].get("receipt_url")
         except Exception as stripe_error:
             raise WalletError(error="not found") from stripe_error
 
-        return Transaction(summary=summary, card=card, details=details)
+        return Transaction(summary=summary, card=card, details=details, receipt=receipt)
 
     def create_transaction(
         self, request: Request, user: FlathubUser, transaction: NascentTransaction
@@ -382,6 +385,7 @@ class StripeWallet(WalletBase):
             )
             transaction.status = "success"
             transaction.updated = datetime.now()
+            transaction.reason = ""
             db.session.add(transaction)
             db.session.commit()
 
