@@ -1,11 +1,11 @@
-name: 🚀 Build and push Docker image
+name: 🚀 Deploy frontend
 
 on:
   workflow_run:
     workflows:
-      - 'CI'
+      - 'Frontend CI'
     branches:
-      - master
+      - main
     types: [completed]
   workflow_dispatch:
 
@@ -13,7 +13,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     concurrency:
-      group: build_push_docker
+      group: build_push_docker_frontend
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
@@ -31,8 +31,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: ./Dockerfile
+          context: frontend
+          file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ghcr.io/flathub/frontend:${{ github.sha }}
@@ -41,6 +41,8 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
       - name: Trigger a deployment
         uses: distributhor/workflow-webhook@58116e2659a0aeab1893a68f0f2638d665296527

@@ -1,14 +1,22 @@
+name: Frontend CI
+
 on:
   push:
-    branches: [master]
+    branches: main
+    paths:
+      - 'frontend/**'
   pull_request:
-
-name: CI
+    branches: main
+    paths:
+      - 'frontend/**'
 
 jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v3
@@ -16,7 +24,7 @@ jobs:
       - name: Cache
         uses: actions/cache@v2
         with:
-          path: ${{ github.workspace }}/.next/cache
+          path: ${{ github.workspace }}/frontend/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
@@ -25,6 +33,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16'
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
