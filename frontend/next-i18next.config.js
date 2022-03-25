@@ -17,6 +17,7 @@ module.exports = {
       'ru',
       'si',
       'vi',
+      'ar',
     ],
   },
   // debug: true,
