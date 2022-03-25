@@ -1,21 +1,16 @@
-![CI](https://github.com/flathub/frontend/workflows/CI/badge.svg)
+[![Backend CI](https://github.com/flathub/website/actions/workflows/backend_ci.yml/badge.svg)](https://github.com/flathub/website/actions/workflows/backend_ci.yml)
+[![Frontend CI](https://github.com/flathub/website/actions/workflows/frontend_ci.yml/badge.svg)](https://github.com/flathub/website/actions/workflows/frontend_ci.yml)
 [![Translation status](https://hosted.weblate.org/widgets/flathub/-/frontend/svg-badge.svg)](https://hosted.weblate.org/engage/flathub/)
 
-# Frontend for flathub.org
+# flathub.org
 
-This is the frontend component of what is going to be the new flathub.org
-You can find the used backend here: https://github.com/flathub/backend/ it's currently not hosted anywhere, so you'll need to run it locally.
+This is the source code for the website, both backend and frontend.
 
-## Development
+### Development
 
 You'll need git, yarn, docker and docker-compose.
 
-Go to the folder where you manage your projects and run this. It will checkout both repos you'll need.
-
-```sh
-git checkout git@github.com:flathub/backend.git
-git checkout git@github.com:flathub/frontend.git
-```
+Go to the folder where you manage your projects and checkout this project.
 
 Then start the backend:
 
@@ -25,6 +20,7 @@ docker-compose up
 ```
 
 Use another terminal session to run the following or use your browser to go to localhost:8000/docs and use the UI to run the `/update` endpoint.
+This will populate the database with the latest data from the flathub.
 
 ```sh
 curl -X POST localhost:8000/update
@@ -46,3 +42,7 @@ yarn dev
 ## Translations
 
 We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate the UI.
+
+## More backend instructions
+
+You can find more backend instructions in the readme in the backend folder.
