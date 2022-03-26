@@ -19,20 +19,14 @@
 
     height: var(--header-height);
 
-    div,
-    a,
-    span {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-
     a {
       color: inherit;
       text-decoration: none;
     }
 
     #brand {
+      flex: 1;
+      display: flex;
       background-image: url('/img/logo/flathub-logo-toolbar.svg');
       @media (max-width: 570px) {
         background-image: url('/img/flathub-logo.png');
@@ -59,12 +53,14 @@
     }
 
     .brandContainer {
+      flex: 1;
+      display: flex;
       height: 100%;
       justify-content: start;
     }
 
     #search {
-      display: unset;
+      flex: 1;
       margin-top: auto;
       margin-bottom: auto;
       border: var(--color-primary) solid 1px;
@@ -94,11 +90,12 @@
     }
 
     .navbarContainer {
+      flex: 1;
+      display: flex;
       @media screen and (max-width: 768px) {
         min-width: unset;
       }
 
-      min-width: 400px;
       height: 100%;
       margin-top: auto;
       margin-bottom: auto;
@@ -106,10 +103,9 @@
 
       #navbar {
         @media screen and (min-width: 768px) {
-          margin: auto 0;
           display: flex;
           flex-direction: row;
-          justify-content: flex-end;
+          align-items: center;
         }
 
         display: none;
@@ -141,8 +137,7 @@
           margin: 0 6px;
           border-radius: var(--border-radius);
           font-weight: 500;
-          max-width: 110px;
-          align-items: center;
+          display: block;
           transition: 0.5s;
           color: var(--white-10);
 
@@ -159,11 +154,16 @@
       }
 
       .toggleContainer {
+        flex: 1;
+        display: flex;
         justify-content: end;
         .navbarToggle {
           cursor: pointer;
-          font-size: 24px;
           width: 64px;
+          height: 64px;
+          display: flex;
+          justify-content: center;
+          font-size: 24px;
           align-items: center;
           transition: 0.5s;
           color: var(--white-10);

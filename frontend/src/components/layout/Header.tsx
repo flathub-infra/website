@@ -39,7 +39,7 @@ const Header = () => {
     )
 
     return () => {
-      window.removeEventListener('resize', () => {}, false)
+      window.removeEventListener('resize', () => { }, false)
     }
   }, [isMobile])
 
