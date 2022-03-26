@@ -124,6 +124,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
                 target='_blank'
                 rel='noreferrer'
                 onClick={donateClicked}
+                className={styles.secondaryButton}
               >
                 <Button type='secondary'>{t('donate')}</Button>
               </a>
