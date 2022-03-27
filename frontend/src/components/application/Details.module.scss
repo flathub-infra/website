@@ -44,6 +44,10 @@
     .actions {
       margin-left: auto;
 
+      & > .secondaryButton {
+        text-decoration: none;
+      }
+
       & button {
         display: block;
         width: 100%;
