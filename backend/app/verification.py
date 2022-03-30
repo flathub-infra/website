@@ -49,7 +49,7 @@ def update():
         with requests.Session() as session:
             for verdict in ["verified", "blocked"]:
                 r = session.get(
-                    f"https://raw.githubusercontent.com/flathub/backend/master/data/verification/{verdict}.json"
+                    f"https://raw.githubusercontent.com/flathub/website/master/backend/data/verification/{verdict}.json"
                 )
                 if r.status_code == 200:
                     value = r.json()
