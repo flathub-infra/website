@@ -9,6 +9,7 @@ import Spinner from '../../src/components/Spinner'
 import { login } from '../../src/context/actions'
 import { useUserContext, useUserDispatch } from '../../src/context/user-info'
 import { fetchLoginProviders } from '../../src/fetchers'
+import { usePendingTransaction } from '../../src/hooks/usePendingTransaction'
 
 export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
@@ -21,10 +22,16 @@ export default function AuthReturnPage({ services }) {
   const user = useUserContext()
   const dispatch = useUserDispatch()
 
+  const [pendingTransaction, _setPendingTransaction] = usePendingTransaction();
+
   useEffect(() => {
-    // Redirect to userpage once logged in
+    // Redirect to userpage once logged in. Or, if there's a pending transaction, redirect to the purchase page.
     if (user.info && !user.loading) {
-      router.push('/userpage')
+      if (pendingTransaction) {
+        router.push('/purchase');
+      } else {
+        router.push('/userpage');
+      }
     }
 
     // Router must be ready to access query parameters
