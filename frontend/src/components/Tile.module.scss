@@ -13,6 +13,7 @@
   color: var(--color-secondary);
 
   transition: 0.5s;
+  word-break: break-word;
 
   &:hover {
     background-color: var(--bg-color-primary);
