@@ -138,7 +138,7 @@ def appstream2dict(reponame: str):
             app["urls"] = {}
             for url in urls:
                 component.remove(url)
-                url_type = url.attrib.get("type")
+                url_type = url.attrib.get("type").replace("-", "_")
                 if url_type:
                     app["urls"][url_type] = url.text
 

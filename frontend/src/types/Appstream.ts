@@ -60,6 +60,8 @@ export interface Urls {
   help: string
   faq: string
   contact: string
+  vcs_browser: string
+  contribute: string
 }
 
 export interface Screenshot {
