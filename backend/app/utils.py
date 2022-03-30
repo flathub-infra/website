@@ -2,6 +2,7 @@ import gzip
 import hashlib
 import json
 import os
+import re
 
 import requests
 from lxml import etree
@@ -31,7 +32,15 @@ class Hasher:
         return self.hasher.hexdigest()
 
 
-def appstream2dict(reponame: str):
+def add_translation(apps_locale: dict, language: str, appid: str, key: str, value: str):
+    if language not in apps_locale:
+        apps_locale[language] = {}
+    if appid not in apps_locale[language]:
+         apps_locale[language][appid] = {}
+    apps_locale[language][appid][key] = value
+
+
+def appstream2dict(reponame: str, language: str = None):
     if config.settings.appstream_repos is not None:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
@@ -55,8 +64,12 @@ def appstream2dict(reponame: str):
     root = etree.fromstring(appstream)
 
     apps = {}
+    apps_locale = {}
+
+    remove_desktop_re = re.compile(r"\.desktop$")
 
     for component in root:
+        appid = re.sub(remove_desktop_re, "", component.find("id").text)
         app = {}
 
         if component.attrib.get("type") != "desktop":
@@ -66,14 +79,15 @@ def appstream2dict(reponame: str):
         if len(descriptions):
             for desc in descriptions:
                 component.remove(desc)
-                if len(desc.attrib) > 0:
-                    continue
 
                 description = [
                     etree.tostring(tag, encoding=("unicode")) for tag in desc
                 ]
-                app["description"] = "".join(description)
-                break
+
+                if len(desc.attrib) == 0:
+                    app["description"] = "".join(description)
+                else:
+                    add_translation(apps_locale, desc.get("{http://www.w3.org/XML/1998/namespace}lang"), appid, "description", "".join(description))
 
         screenshots = component.find("screenshots")
         if screenshots is not None:
@@ -178,6 +192,8 @@ def appstream2dict(reponame: str):
         for elem in component:
             # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                if len(elem) == 0 and len(elem.attrib) == 1:
+                    add_translation(apps_locale, elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"), appid, elem.tag, elem.text)
                 continue
             if elem.tag == "languages":
                 continue
@@ -218,14 +234,11 @@ def appstream2dict(reponame: str):
             if "Settings" in app["categories"]:
                 app["categories"].append("System")
 
-        # Some apps keep .desktop suffix for legacy reasons, fall back to what
-        # Flatpak put into bundle component for actual ID
-        appid = app["bundle"]["value"].split("/")[1]
         app["id"] = appid
 
         apps[appid] = app
 
-    return apps
+    return apps, apps_locale
 
 
 def get_appids(path):

@@ -5,7 +5,7 @@ from . import db, utils
 
 
 def load_appstream():
-    apps = utils.appstream2dict("repo")
+    apps, apps_locale = utils.appstream2dict("repo")
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_categories = db.redis_conn.smembers("categories:index")
@@ -46,6 +46,10 @@ def load_appstream():
                 for category in categories:
                     p.sadd("categories:index", category)
                     p.sadd(f"categories:{category}", redis_key)
+
+            for key, value in apps_locale.items():
+                if appid in value:
+                    p.set(f"apps_locale:{key}.{appid}", json.dumps(value[appid]))
 
         for appid in current_apps - set(apps):
             p.delete(

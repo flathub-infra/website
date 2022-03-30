@@ -122,9 +122,15 @@ def list_appstream():
 
 
 @app.get("/appstream/{appid}", status_code=200)
-def get_appstream(appid: str, response: Response):
+def get_appstream(appid: str, response: Response, lang: str = None):
     if value := db.get_json_key(f"apps:{appid}"):
-        return value
+        if lang:
+            if translation := db.get_json_key(f"apps_locale:{lang}.{appid}"):
+                return value | translation
+            else:
+                return value
+        else:
+            return value
 
     response.status_code = 404
     return None
