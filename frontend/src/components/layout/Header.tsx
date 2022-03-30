@@ -9,10 +9,14 @@ import { env } from 'process'
 import { useTranslation } from 'next-i18next'
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation()
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [isMenuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    document.dir = i18n.dir()
+  }, [i18n, i18n.language])
 
   useEffect(() => {
     const q = router.query.query as string
@@ -95,7 +99,6 @@ const Header = () => {
             id={styles.navbar}
             className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
           >
-
             <div className={styles.navItem}>
               <a
                 href='https://github.com/flathub/flathub/wiki/App-Submission'
