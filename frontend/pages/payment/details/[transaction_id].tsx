@@ -2,8 +2,10 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
+import Button from '../../../src/components/Button'
 import Main from '../../../src/components/layout/Main'
 import TransactionDetails from '../../../src/components/payment/transactions/TransactionDetails'
 import Spinner from '../../../src/components/Spinner'
@@ -60,7 +62,19 @@ export default function TransactionPage() {
 
   let content: ReactElement = <Spinner size={200} />
   if (transaction) {
-    content = <TransactionDetails transaction={transaction} />
+    const unresolved = ['new', 'retry'].includes(transaction.summary.status)
+    if (unresolved) {
+      content = (
+        <>
+          <h3>Oops! Something went wrong with this transaction.</h3>
+          <Link href={`/payment/${transaction.summary.id}`} passHref>
+            <Button>Retry checkout</Button>
+          </Link>
+        </>
+      )
+    } else {
+      content = <TransactionDetails transaction={transaction} />
+    }
   }
 
   return (
