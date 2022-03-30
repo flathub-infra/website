@@ -135,6 +135,7 @@
     "actions": "Actions",
     "card-expiry": "Expiry: {{month}} / {{year}}",
     "checkout": "Checkout",
+    "confirm-selection": "Confirm Selection",
     "created": "Created",
     "id": "ID",
     "loading-saved-payment-methods": "Loading saved payment methods…",
@@ -151,6 +152,8 @@
     "stripe-receipt": "Stripe receipt",
     "submit-payment": "Submit payment",
     "transaction-breakdown": "Transaction Breakdown",
+    "transaction-cancel": "Cancel Transaction",
+    "transaction-cancelled": "Transaction cancelled",
     "transaction-history": "Transaction History",
     "transaction-summary": "Transaction Summary",
     "transaction-summary-created": "Date created: {{date}}",
@@ -161,6 +164,7 @@
     "transaction-summary-value": "Value: {{value}}",
     "type": "Type",
     "updated": "Updated",
+    "use-new-card": "Use a new card",
     "value": "Value",
     "view": "View"
 }

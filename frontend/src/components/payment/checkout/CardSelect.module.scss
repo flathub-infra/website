@@ -1,0 +1,11 @@
+.cardList {
+  display: flex;
+  flex-direction: row;
+
+  padding: 20px;
+  gap: 20px;
+
+  .selected {
+    border: 2px solid var(--color-primary);
+  }
+}

@@ -9,6 +9,7 @@ import styles from './CardInfo.module.scss'
 interface Props {
   card: PaymentCard
   onClick?: MouseEventHandler
+  className?: string
 }
 
 /**
@@ -28,15 +29,20 @@ function getBrandImage(brand: string, theme: string): string {
   return `${IMAGE_BASE_URL}payment-methods/${brand}${dark}.svg`
 }
 
-const CardInfo: FunctionComponent<Props> = ({ card, onClick }) => {
+const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
+  const classes = [styles.container]
+  if (onClick) {
+    classes.push(styles.clickable)
+  }
+  if (className) {
+    classes.push(className)
+  }
+
   return (
-    <p
-      className={`${styles.container} ${onClick ? styles.clickable : ''}`}
-      onClick={onClick}
-    >
+    <p className={classes.join(' ')} onClick={onClick}>
       <span className={styles.country}>{countryCodeToFlag(card.country)}</span>
       <span className={styles.brand}>
         <Image
