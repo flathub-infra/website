@@ -11,7 +11,7 @@ const Languages = (): JSX.Element => {
 
     return (
         <Main>
-            <NextSeo title={t('languages')} description={t('languages-description')} />
+            <NextSeo title={t('languages')} description={t('languages-summary')} />
             <div className='main-container' style={{ maxWidth: 600 }}>
                 <h1>{t('languages')}</h1>
                 <p>
