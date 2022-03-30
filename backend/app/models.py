@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, delete
 from sqlalchemy.ext.declarative import declarative_base
@@ -411,5 +411,26 @@ class StripeTransaction(Base):
         return (
             db.session.query(StripeTransaction)
             .filter(StripeTransaction.transaction == txn.id)
+            .first()
+        )
+
+
+# Vending related tables, including Stripe-only stuff
+
+
+class StripeExpressAccount(Base):
+    __tablename__ = "stripeexpressaccount"
+
+    id = Column(Integer, primary_key=True)
+    user = Column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, unique=True, index=True
+    )
+    stripe_account = Column(String, nullable=False)
+
+    @classmethod
+    def by_user(cls, db, user: FlathubUser) -> Optional["StripeExpressAccount"]:
+        return (
+            db.session.query(StripeExpressAccount)
+            .filter(StripeExpressAccount.user == user.id)
             .first()
         )

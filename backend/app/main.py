@@ -17,6 +17,7 @@ from . import (
     schemas,
     stats,
     summary,
+    vending,
     verification,
     wallet,
 )
@@ -46,6 +47,7 @@ app.add_middleware(
 
 logins.register_to_app(app)
 wallet.register_to_app(app)
+vending.register_to_app(app)
 
 verification.register_to_app(app)
 
