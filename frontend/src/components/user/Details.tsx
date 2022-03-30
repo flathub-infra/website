@@ -1,11 +1,13 @@
 import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
 import { FunctionComponent } from 'react'
 import { useUserContext } from '../../context/user-info'
-import LogoutButton from '../login/LogoutButton'
-import DeleteButton from './DeleteButton'
 import { LoginProvider } from '../../types/Login'
-import styles from './Details.module.scss'
+import Button from '../Button'
+import LogoutButton from '../login/LogoutButton'
 import ProviderLink from '../login/ProviderLink'
+import DeleteButton from './DeleteButton'
+import styles from './Details.module.scss'
 
 interface Props {
   logins: LoginProvider[]
@@ -63,6 +65,9 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         {loginSection}
 
         <div className={styles.actions}>
+          <Link href='/wallet' passHref>
+            <Button type='primary'>View Wallet</Button>
+          </Link>
           <LogoutButton />
           <DeleteButton />
         </div>
