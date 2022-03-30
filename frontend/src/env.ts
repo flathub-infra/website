@@ -44,7 +44,7 @@ export const REMOVE_CARD_URL: string = `${WALLET_BASE_URL}/removecard`
 export const WALLET_INFO_URL: string = `${WALLET_BASE_URL}/walletinfo`
 export const TRANSACTIONS_URL: string = `${WALLET_BASE_URL}/transactions`
 export const STRIPE_DATA_URL: string = `${WALLET_BASE_URL}/stripedata`
-export const TRANSACTION_INFO_URL= (transaction: string) => {
+export const TRANSACTION_INFO_URL = (transaction: string) => {
   return `${TRANSACTIONS_URL}/${transaction}`
 }
 export const TRANSACTION_STRIPE_INFO_URL = (transaction: string) => {
@@ -55,6 +55,9 @@ export const TRANSACTION_SAVE_CARD_URL = (transaction: string) => {
 }
 export const TRANSACTION_SET_CARD_URL = (transaction: string) => {
   return `${TRANSACTION_INFO_URL(transaction)}/setcard`
+}
+export const TRANSACTION_SET_PENDING_URL = (transaction: string) => {
+  return `${TRANSACTION_INFO_URL(transaction)}/setpending`
 }
 export const TRANSACTION_CANCEL_URL = (transaction: string) => {
   return `${TRANSACTION_INFO_URL(transaction)}/cancel`

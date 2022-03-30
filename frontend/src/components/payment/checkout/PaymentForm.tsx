@@ -1,7 +1,10 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useTranslation } from 'next-i18next'
 import { FormEvent, FunctionComponent, useState } from 'react'
-import { TRANSACTION_SAVE_CARD_URL } from '../../../env'
+import {
+  TRANSACTION_SAVE_CARD_URL,
+  TRANSACTION_SET_PENDING_URL,
+} from '../../../env'
 import Button from '../../Button'
 import Spinner from '../../Spinner'
 import styles from './PaymentForm.module.scss'
@@ -14,6 +17,13 @@ async function saveCard(transactionId: string) {
     },
     credentials: 'include',
     body: JSON.stringify({ save_card: 'on_session' }),
+  })
+}
+
+async function setPending(txnId: string) {
+  await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
+    method: 'POST',
+    credentials: 'include',
   })
 }
 
@@ -67,8 +77,10 @@ const PaymentForm: FunctionComponent<Props> = ({
     setProcessing(true)
 
     if (checked) {
-      saveCard(transactionId)
+      await saveCard(transactionId)
     }
+
+    await setPending(transactionId)
 
     const result = await stripe.confirmPayment({
       elements,
