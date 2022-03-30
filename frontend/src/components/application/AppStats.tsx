@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react'
 import 'chart.js/auto'
 import { Line } from 'react-chartjs-2'
 import { chartOptions, chartStyle } from '../../chartHelper'
-import { AppStats as AppStatistics, AppStats } from '../../types/AppStats'
+import { AppStats } from '../../types/AppStats'
 import 'chartjs-adapter-date-fns'
 
 import styles from './AppStats.module.scss'
