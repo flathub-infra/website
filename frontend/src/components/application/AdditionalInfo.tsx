@@ -11,6 +11,8 @@ import {
   MdQuestionAnswer,
   MdTranslate,
   MdWeb,
+  MdCode,
+  MdEngineering,
 } from 'react-icons/md'
 import { BsHddFill, BsTextParagraph } from 'react-icons/bs'
 import { MdLaptop } from 'react-icons/md'
@@ -220,7 +222,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.vcs_browser
               ? {
-                icon: <MdWeb />,
+                icon: <MdCode />,
                 header: t('vcs_browser'),
                 content: {
                   type: 'url',
@@ -238,7 +240,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.contribute
               ? {
-                icon: <MdWeb />,
+                icon: <MdEngineering />,
                 header: t('contribute'),
                 content: {
                   type: 'url',
