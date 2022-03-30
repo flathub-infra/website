@@ -40,7 +40,7 @@ def add_translation(apps_locale: dict, language: str, appid: str, key: str, valu
     apps_locale[language][appid][key] = value
 
 
-def appstream2dict(reponame: str, language: str = None):
+def appstream2dict(reponame: str):
     if config.settings.appstream_repos is not None:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
