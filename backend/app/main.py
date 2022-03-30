@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Dict
 
 import sentry_sdk
 from fastapi import FastAPI, Response
@@ -17,6 +18,7 @@ from . import (
     schemas,
     stats,
     summary,
+    utils,
     vending,
     verification,
     wallet,
@@ -210,6 +212,16 @@ def get_summary(appid: str, response: Response):
 
     response.status_code = 404
     return None
+
+
+@app.get("/platforms", status_code=200)
+def get_platforms() -> Dict[str, utils.Platform]:
+    """
+    Return a mapping from org-name to platform aliases and dependencies which are
+    recognised by the backend.  These are used by things such as the transactions
+    and donations APIs to address amounts to the platforms.
+    """
+    return utils.PLATFORMS
 
 
 def sort_ids_by_downloads(ids):

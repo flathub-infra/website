@@ -2,9 +2,11 @@ import gzip
 import hashlib
 import json
 import os
+from typing import Any, Dict, List, Optional
 
 import requests
 from lxml import etree
+from pydantic import BaseModel
 
 from . import config
 
@@ -236,3 +238,76 @@ def get_appids(path):
             return json.load(file_)
     except IOError:
         return []
+
+
+class Platform(BaseModel):
+    """
+    A platform is an expression of dependencies which an application may have.
+    Applications nominally express a single platform key for themselves, or
+    none at all if they do not need one.  But platforms may depend on one another.
+
+    If no platform is specified for an application, it's worth getting the default
+    platform and using that.
+    """
+
+    depends: List[str]
+    aliases: List[str]
+    default: bool
+    keep: Optional[int]
+    stripe_account: Optional[str]
+
+    def dict(self, *args, **kwargs) -> Dict[str, Any]:
+        """
+        Override the dict() method to always hide the optional values if None
+        """
+        kwargs.pop("exclude_none")
+        return super().dict(*args, exclude_none=True, **kwargs)
+
+
+def _load_platforms(with_stripe: bool) -> Dict[str, Platform]:
+    """
+    Load the platform set from disk.  If something goes wrong this will return
+    the internal default platform set (flathub only).
+
+    This will do a basic integrity check to ensure that (a) all platform dependencies
+    are listed in the set, (b) no aliases overlap, and (c) only one platform is
+    marked as default.
+    """
+
+    try:
+        vending_dir = os.path.join(config.settings.datadir, "vending")
+        with open(
+            os.path.join(vending_dir, "platforms.json"), encoding="utf-8"
+        ) as file_:
+            data = json.load(file_)
+        flathub = data["org.flathub.Flathub"]
+        if not flathub["default"]:
+            raise ValueError("Flathub's default is not True")
+        aliases = set()
+        ret = {}
+        for (name, item) in data.items():
+            ret[name] = Platform(
+                depends=item["depends"],
+                aliases=item["aliases"],
+                default=item["default"],
+            )
+            for alias in ret[name].aliases:
+                if alias in aliases:
+                    raise ValueError(f"Repeated alias: {alias} in {name}")
+                aliases.add(alias)
+            for dep in ret[name].depends:
+                if data.get(dep) is None:
+                    raise ValueError(f"Unknown dependency: {dep} for {name}")
+            if ret[name].default and name != "org.flathub.Flathub":
+                raise ValueError(f"Invalid value for 'default' in {name}")
+            if with_stripe:
+                ret[name].keep = int(item.get("keep", 70))
+                ret[name].stripe_account = item.get("stripe-account")
+        return ret
+    except (AttributeError, ValueError, TypeError, json.JSONDecodeError) as error:
+        print(f"Unable to load platforms: {error}")
+        return {"org.flathub.Flathub": Platform(depends=[], aliases=[], default=True)}
+
+
+PLATFORMS = _load_platforms(False)
+PLATFORMS_WITH_STRIPE = _load_platforms(True)
