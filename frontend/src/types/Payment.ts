@@ -30,6 +30,7 @@ export interface TransactionDetailed {
   summary: Transaction,
   card?: PaymentCard,
   details: Payout[],
+  receipt?: string
 }
 
 export interface Payout {

@@ -1,0 +1,9 @@
+.container {
+  border-radius: var(--border-radius);
+  background-color: var(--bg-color-secondary);
+
+  padding: 12px;
+
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07),
+  0 2px 6px 2px rgba(0, 0, 0, 0.03);
+}
