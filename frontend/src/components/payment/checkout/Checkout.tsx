@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { TRANSACTION_CANCEL_URL, WALLET_INFO_URL } from '../../../env'
 import { PaymentCard, TransactionDetailed } from '../../../types/Payment'
 import Button from '../../Button'
@@ -48,6 +49,15 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     })
   }, [])
 
+  // If the transaction is cancelled, details page will reflect this
+  useEffect(() => {
+    if (currentStage === -2) {
+      cancelTransaction(transaction.summary.id)
+        .then(() => toast.success('Transaction cancelled'))
+        .then(() => router.push(`${detailsPage}/${transaction.summary.id}`))
+    }
+  }, [currentStage, transaction, router])
+
   let flowContent: ReactElement
   switch (currentStage) {
     // Card selection stage
@@ -82,7 +92,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
       <Button
         type='secondary'
         className={styles.cancel}
-        onClick={() => cancelTransaction(transaction.summary.id)}
+        onClick={() => setStage(-2)}
       >
         Cancel Transaction
       </Button>
