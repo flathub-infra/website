@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
 import Button from '../../../src/components/Button'
 import Main from '../../../src/components/layout/Main'
+import TransactionCancelButton from '../../../src/components/payment/transactions/TransactionCancelButton'
 import TransactionDetails from '../../../src/components/payment/transactions/TransactionDetails'
 import Spinner from '../../../src/components/Spinner'
 import { useUserContext } from '../../../src/context/user-info'
@@ -67,6 +68,10 @@ export default function TransactionPage() {
       content = (
         <>
           <h3>Oops! Something went wrong with this transaction.</h3>
+          <TransactionCancelButton
+            id={transaction.summary.id}
+            onSuccess={() => router.reload()}
+          />
           <Link href={`/payment/${transaction.summary.id}`} passHref>
             <Button>Retry checkout</Button>
           </Link>
