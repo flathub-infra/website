@@ -20,12 +20,18 @@ interface Props {
   clientSecret: string
 }
 
+enum Stage {
+  Loading,
+  CardSelect,
+  CardInput,
+}
+
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
 const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const router = useRouter()
 
-  const [currentStage, setStage] = useState(-1)
+  const [currentStage, setStage] = useState(Stage.Loading)
   const [cards, setCards] = useState<PaymentCard[]>(null)
 
   const { id: txnId } = transaction.summary
@@ -36,29 +42,27 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
       // User may have no saved cards to select from
       if (data.length) {
         setCards(data)
-        setStage(0)
+        setStage(Stage.CardSelect)
       } else {
-        setStage(1)
+        setStage(Stage.CardInput)
       }
     })
   }, [])
 
   let flowContent: ReactElement
   switch (currentStage) {
-    // Card selection stage
-    case 0:
+    case Stage.CardSelect:
       flowContent = (
         <CardSelect
           transaction={transaction}
           clientSecret={clientSecret}
           cards={cards}
           submit={() => router.push(`${detailsPage}/${txnId}`)}
-          skip={() => setStage(1)}
+          skip={() => setStage(Stage.CardInput)}
         />
       )
       break
-    // Card input stage
-    case 1:
+    case Stage.CardInput:
       flowContent = (
         <PaymentForm
           transactionId={txnId}
@@ -66,7 +70,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
         />
       )
       break
-    // Loading state
+    // Loading is a safe default rendering
     default:
       flowContent = <Spinner size={100} />
   }
