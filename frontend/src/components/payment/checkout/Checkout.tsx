@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router'
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { TRANSACTION_CANCEL_URL, WALLET_INFO_URL } from '../../../env'
+import { WALLET_INFO_URL } from '../../../env'
 import { PaymentCard, TransactionDetailed } from '../../../types/Payment'
-import Button from '../../Button'
 import Spinner from '../../Spinner'
+import TransactionCancelButton from '../transactions/TransactionCancelButton'
 import CardSelect from './CardSelect'
 import styles from './Checkout.module.scss'
 import PaymentForm from './PaymentForm'
@@ -14,13 +13,6 @@ async function getCards() {
   const res = await fetch(WALLET_INFO_URL, { credentials: 'include' })
   const data = await res.json()
   return data.cards
-}
-
-async function cancelTransaction(transactionId: string) {
-  const res = await fetch(TRANSACTION_CANCEL_URL(transactionId), {
-    method: 'POST',
-    credentials: 'include',
-  })
 }
 
 interface Props {
@@ -36,6 +28,8 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const [currentStage, setStage] = useState(-1)
   const [cards, setCards] = useState<PaymentCard[]>(null)
 
+  const { id: txnId } = transaction.summary
+
   // Cards should only be retrieved once
   useEffect(() => {
     getCards().then((data) => {
@@ -49,15 +43,6 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     })
   }, [])
 
-  // If the transaction is cancelled, details page will reflect this
-  useEffect(() => {
-    if (currentStage === -2) {
-      cancelTransaction(transaction.summary.id)
-        .then(() => toast.success('Transaction cancelled'))
-        .then(() => router.push(`${detailsPage}/${transaction.summary.id}`))
-    }
-  }, [currentStage, transaction, router])
-
   let flowContent: ReactElement
   switch (currentStage) {
     // Card selection stage
@@ -67,7 +52,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           transaction={transaction}
           clientSecret={clientSecret}
           cards={cards}
-          submit={() => router.push(`${detailsPage}/${transaction.summary.id}`)}
+          submit={() => router.push(`${detailsPage}/${txnId}`)}
           skip={() => setStage(1)}
         />
       )
@@ -76,8 +61,8 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     case 1:
       flowContent = (
         <PaymentForm
-          transactionId={transaction.summary.id}
-          callbackPage={`${detailsPage}/${transaction.summary.id}`}
+          transactionId={txnId}
+          callbackPage={`${detailsPage}/${txnId}`}
         />
       )
       break
@@ -88,14 +73,13 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
 
   return (
     <div className='main-container'>
-      {flowContent}
-      <Button
-        type='secondary'
-        className={styles.cancel}
-        onClick={() => setStage(-2)}
-      >
-        Cancel Transaction
-      </Button>
+      <div className={styles.checkout}>
+        {flowContent}
+        <TransactionCancelButton
+          id={txnId}
+          onSuccess={() => router.push(`${detailsPage}/${txnId}`)}
+        />
+      </div>
     </div>
   )
 }

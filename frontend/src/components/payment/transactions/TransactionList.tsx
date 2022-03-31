@@ -1,8 +1,9 @@
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { Transaction } from '../../../types/Payment'
 import Button from '../../Button'
+import TransactionCancelButton from './TransactionCancelButton'
 import styles from './TransactionList.module.scss'
 
 interface ListProps {
@@ -49,6 +50,9 @@ const TransactionInfo: FunctionComponent<RowProps> = ({ transaction }) => {
 
   const { id, created, updated, kind, value, status } = transaction
 
+  // Status may change through interaction
+  const [shownStatus, setStatus] = useState(status)
+
   const prettyCreated = new Date(created * 1000).toLocaleString()
   const prettyUpdated = new Date(updated * 1000).toLocaleString()
   const prettyValue = new Intl.NumberFormat(i18n.language, {
@@ -57,8 +61,7 @@ const TransactionInfo: FunctionComponent<RowProps> = ({ transaction }) => {
     currencyDisplay: 'symbol',
   }).format(value / 100)
 
-  const needsAttention =
-    transaction.status === 'new' || transaction.status === 'retry'
+  const needsAttention = ['new', 'retry'].includes(shownStatus)
 
   // Date object expects milliseconds since epoch
   return (
@@ -80,6 +83,14 @@ const TransactionInfo: FunctionComponent<RowProps> = ({ transaction }) => {
             {needsAttention ? t('checkout') : t('view')}
           </Button>
         </Link>
+        {needsAttention ? (
+          <TransactionCancelButton
+            id={transaction.id}
+            onSuccess={() => setStatus('cancelled')}
+          />
+        ) : (
+          <></>
+        )}
       </td>
     </tr>
   )
