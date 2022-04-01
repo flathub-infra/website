@@ -82,5 +82,22 @@
     "flathub-statistics": "احصائيات فلات-هوب",
     "downloads-per-country": "عدد التنزيلات حسب الدولة",
     "home": "الصفحة الرئيسة",
-    "login-with-provider": "لج عبر {{provider}}"
+    "login-with-provider": "لج عبر {{provider}}",
+    "apps-for-linux-right-here": "تطبيقات لينكس هنا",
+    "get-involved": "انضم",
+    "example-build-files": "أمثلة لملفات البناء",
+    "developer-login": "ولوج المطور",
+    "flathub-description": "ثبّت مئات تطبيقات لينكس وألعابه، مثل جِمب وغنو أوكتاف وسبوتيفاي وستيم والعديد من التطبيقات!",
+    "subscribe": "اشترك",
+    "new-apps-description": "التطبيقات المنشورة في هذا الشهر.",
+    "new-and-updated-apps-description": "التطبيقات المنشورة والمحدثة في هذا الأسبوع.",
+    "client-error": "خطأ في العميل",
+    "server-error": "خطأ في الخادم",
+    "an-error-occurred-server": "حدث خطأ في الخادم.",
+    "login": "لِج",
+    "retry-or-go-home": "أعد المحاولة أو عد <1>للقائمة الرئيسة</1>.",
+    "submitting-apps": "نشر تطبيق",
+    "welcome-to-flathub-index-text": "مرحبًا بك في فلات-هوب مستودع لمئات تطبيقات لينكس التي يمكنك تثبيتها على أي توزيعة بسهولة. يمكنك تصفح التطبيقات عبر الموقع أو مركز التطبيقات أو الطرفية.",
+    "an-error-occurred-client": "حدث خطأ في العميل.",
+    "new-and-updated-apps": "التطبيقات الجديدة والمحدثة مؤخرًا"
 }

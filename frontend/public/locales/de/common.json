@@ -121,12 +121,13 @@
     "screenshot": "Bildschirmfoto",
     "donate": "Spenden",
     "other-apps-by-developer": "Weitere Apps von {{developer}}",
-    "loading": "Wird geladen …",
+    "loading": "Wird geladen…",
     "could-not-find-match-for-search": "Es konnten keine Treffer für die Suche gefunden werden.",
     "request-new-app": "Falls du nach einer bestimmten Anwendung suchst, melde <1>hier</1> der Community, dass du sie auf Flathub haben möchtest.",
     "manifest": "Manifest",
     "error-already-logged-in": "Das ausgewählte Konto ist bereits angemeldet.",
     "languages": "Sprachen",
     "switch-language": "Sprache wechseln",
-    "languages-description": "Wählen Sie eine Sprache aus, um zu ihr zu wechseln:"
+    "languages-description": "Wähle eine Sprache aus, um zu ihr zu wechseln:",
+    "languages-summary": "Wähle die Sprache, in der du die Webseite sehen möchtest."
 }
