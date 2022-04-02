@@ -429,15 +429,9 @@ class UserOwnedApp(Base):
 
     @staticmethod
     def user_owns_app(db, user: FlathubUser, app_id: str):
-        # If the user is trying to download "org.gnome.Clocks.Locale", permission for "org.gnome.Clocks" should suffice.
-        # Note that the authoritative check for this rule is in flat-manager, not here.
-        segments = app_id.split(".")
-        prefixes = [".".join(segments[:i]) for i in range(len(segments) + 1)]
-
         return (
             db.session.query(UserOwnedApp)
-            .filter_by(account=user.id)
-            .filter(UserOwnedApp.app_id.in_(prefixes))
+            .filter_by(account=user.id, app_id=app_id)
             .first()
             is not None
         )

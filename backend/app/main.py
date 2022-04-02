@@ -239,9 +239,23 @@ def get_download_token(appids: List[str], login=Depends(logins.login_state)):
         return JSONResponse({"detail": "not_logged_in"}, status_code=401)
     user = login["user"]
 
+    def canon_app_id(app_id: str):
+        """
+        For .Locale, .Debug, etc. refs, we only check the base app ID. However, when we generate the token, we still
+        need to include the suffixed version.
+        """
+        auto_suffixes = ["Locale", "Debug"]
+
+        for suffix in auto_suffixes:
+            if app_id.endswith("." + suffix):
+                return app_id.removesuffix("." + suffix)
+        return app_id
+
+    canon_appids = list(set([canon_app_id(app_id) for app_id in appids]))
+
     unowned = [
         app_id
-        for app_id in appids
+        for app_id in canon_appids
         if not models.UserOwnedApp.user_owns_app(sqldb, user, app_id)
     ]
 
@@ -258,7 +272,7 @@ def get_download_token(appids: List[str], login=Depends(logins.login_state)):
         {
             "sub": "download",
             "exp": datetime.utcnow() + timedelta(hours=24),
-            "prefixes": appids,
+            "repos": appids,
         },
         base64.b64decode(config.settings.flat_manager_secret),
         algorithm="HS256",
