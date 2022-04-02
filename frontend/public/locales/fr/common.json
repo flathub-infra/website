@@ -128,5 +128,6 @@
     "error-already-logged-in": "Le compte sélectionné est déjà connecté.",
     "languages": "Langues",
     "languages-description": "Sélectionnez une langue pour passer à celle-ci :",
-    "switch-language": "Changer de langue"
+    "switch-language": "Changer de langue",
+    "languages-summary": "Choisissez la langue dans laquelle vous voulez voir le site web."
 }

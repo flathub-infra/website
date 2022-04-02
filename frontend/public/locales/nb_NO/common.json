@@ -121,5 +121,13 @@
     "screenshot": "Skjermavbildning",
     "donate": "Doner",
     "other-apps-by-developer": "Andre programmer av {{developer}}",
-    "loading": "Laster inn …"
+    "loading": "Laster inn …",
+    "error-already-logged-in": "Valgt konto er allerede innlogget.",
+    "manifest": "Maifest",
+    "languages": "Språk",
+    "languages-summary": "Velg et språk å vise nettsiden på.",
+    "languages-description": "Velg et språk for å bytte til det:",
+    "switch-language": "Bytt språk",
+    "could-not-find-match-for-search": "Resultatløst søk.",
+    "request-new-app": "Hvis du søker etter et spesifikt program, kan du la gemenskapen vite at du ønsker deg det på Flathub <1>her</1>."
 }
