@@ -18,6 +18,7 @@ module.exports = {
       'si',
       'vi',
       'ar',
+      'es',
     ],
   },
   // debug: true,
