@@ -29,7 +29,7 @@
     "react-svg-worldmap": "^2.0.0-alpha.0",
     "react-toastify": "^8.2.0",
     "sass": "^1.49.11",
-    "spdx-license-list": "^6.4.0"
+    "spdx-license-list": "^6.5.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
