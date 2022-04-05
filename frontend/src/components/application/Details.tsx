@@ -63,6 +63,14 @@ function categoryToSeoCategory(category) {
   }
 }
 
+function makeUrlsClickable(text) {
+  const regex = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g
+  for(let url of matches) {
+    text = text.replace(url[0], "<a href=" + url[0] + ">"+url[0] + "</a>")
+  }
+  return text
+}
+
 const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps }) => {
   const { t } = useTranslation();
   const [showLightbox, setShowLightbox] = useState(false)
@@ -208,7 +216,7 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
             <h3>{app.summary}</h3>
             <div
               className={styles.description}
-              dangerouslySetInnerHTML={{ __html: app.description }}
+              dangerouslySetInnerHTML={{ __html: makeUrlsClickable(app.description) }}
             />
           </div>
 
