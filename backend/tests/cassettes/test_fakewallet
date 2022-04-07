@@ -1,0 +1,271 @@
+interactions:
+- request:
+    body: client_id=71dbddbdb4288fe96a58&client_secret=4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5&code=04f6dff87ead3551df1d
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '111'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.27.1
+    method: POST
+    uri: https://github.com/login/oauth/access_token
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6tWSkxOTi0uji/Jz07NU7JSSs/Ijy8vtQjyLC7Nr/RJSXYNiqgy8PA2LLf08CgP
+        zyyocDU2CCtJS1XSUQJriS+pLEgF6ktKTSxKLQKKFifngwWKUhNTrPKL0nXAjNJioGQtADk3hDFu
+        AAAA
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - 'default-src ''none''; base-uri ''self''; block-all-mixed-content; child-src
+        github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/; connect-src
+        ''self'' uploads.github.com objects-origin.githubusercontent.com www.githubstatus.com
+        collector.github.com raw.githubusercontent.com api.github.com github-cloud.s3.amazonaws.com
+        github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+        github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com/v1/events
+        translator.github.com *.actions.githubusercontent.com wss://*.actions.githubusercontent.com
+        online.visualstudio.com/api/v1/locations github-production-repository-image-32fea6.s3.amazonaws.com
+        github-production-release-asset-2e65be.s3.amazonaws.com insights.github.com
+        wss://alive.github.com; font-src github.githubassets.com; form-action ''self''
+        github.com gist.github.com objects-origin.githubusercontent.com; frame-ancestors
+        ''none''; frame-src render.githubusercontent.com viewscreen.githubusercontent.com
+        notebooks.githubusercontent.com; img-src ''self'' data: github.githubassets.com
+        identicons.github.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com/
+        *.githubusercontent.com; manifest-src ''self''; media-src github.com user-images.githubusercontent.com/;
+        script-src github.githubassets.com; style-src ''unsafe-inline'' github.githubassets.com;
+        worker-src github.com/assets-cdn/worker/ gist.github.com/assets-cdn/worker/'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Apr 2022 10:30:08 GMT
+      ETag:
+      - W/"ef9823a241500549a2ad2b6442a22205"
+      Expect-CT:
+      - max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - X-PJAX, X-PJAX-Container
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Request-Id:
+      - A728:288C:1595FF:2CD61C:624EBD2F
+      X-XSS-Protection:
+      - '0'
+      permissions-policy:
+      - interest-cohort=()
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - token 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
+      Connection:
+      - keep-alive
+      User-Agent:
+      - PyGithub/Python
+    method: GET
+    uri: https://api.github.com/user
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA5VU24rbMBT8Fz0n60tujaCUQvvYQCEt3b6YY1uxlcqSkeWE1OTfO/Jl6YYt1HmJ
+        czIzZzQ6xx1TppCacUZnG+ZswWTO+Haz3YabaLtg2uQi8SX25dPX7fcfB5Wdn6PD+fl6OH6OAacL
+        ObJJaxUwpXN1w4NgKDZPhXRlm7aNsJnRTmj3lJkqaINJ/8Pl/RoahR1V+kYoPKjVclQa6JBrgslu
+        6Sr10H3o2mMn1MkoZa7gPRr9p3TwQoGf4VnqYi4dlC4wrhRICLbv/rCycTNs9PAu8F+4By/QIG8r
+        8v+3MhJg5KrhoQusqE2v1KZNZmXtpNEzLL2iQcbYgrT8TTNlQGvA9mZmNO/hoIkLxmkGb8B3QW3l
+        hbKbP74VmZAXJDlX64EIKXerBUb3G+7Y5yqdSCiv/F6dSDUCe0SVB3zMqQIAo1mTvjGuW6UWLMUO
+        DoOvTNbHOP0jKpJYrAFWSisoVdAZadJMj+4qnRuHbGg1QOo2VTJLhtB4tF6wsdKPFePhNNtYDcaj
+        vyad8Rg+0dAhIHKwF4dxuAw3yzg8RhFfv+Or3U+cpa3zV5h4Ga6W8eYYhXy945se04eOTMau6OOM
+        I5VM9dEf3PgRzd+o57L5hRWiAqffR1G08iEqRamx5Iw3D7K7muREGX4n1GLptJNTnOM11IqQbTdd
+        x8kK4e+rpszr7vBeitf7/VvaD1ajEJ/7/Q9eSW5DPwUAAA==
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Apr 2022 10:30:08 GMT
+      ETag:
+      - W/"1b0cfcd0bc297303f37af91a20cd8d4438a02d1894c99dbf6a17f2dace0c4f94"
+      Last-Modified:
+      - Fri, 25 Mar 2022 10:47:57 GMT
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - D172:67B6:4C2FB2B:4D8C958:624EBD30
+      X-OAuth-Scopes:
+      - read:org, read:user
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4993'
+      X-RateLimit-Reset:
+      - '1649330533'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '7'
+      X-XSS-Protection:
+      - '0'
+      x-oauth-client-id:
+      - 71dbddbdb4288fe96a58
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - token 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
+      Connection:
+      - keep-alive
+      User-Agent:
+      - PyGithub/Python
+    method: GET
+    uri: https://api.github.com/user/repos?affiliation=collaborator
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA62Y3W7jNhCF30W3TUz/ZeMIWGwv0i5aIDBQ7MV2FwuDkmiLMSWqJOXUEfLue0hK
+        luymkQ3lJrFlzsej4Qw5nO9VwJMgnMxm88XidnF7FeQyYSv7LHi4/+1pKf4U8ee7Z/r1r12cb/99
+        eH4YL+83s+V9/DHAYJoxjJRqM1oLagq6Hf1jEpZJ/LYuhVjVA+yPaRmRVwcWiu+oAWdNhWZXgXzK
+        mQrCKhByw3Pga2swra7p7fTDYjFbnEjdL7d3+2/T30v6tUiTz2IXPf4xe3j8e768f5jDlGIOqlal
+        EiCmxhQ6JMQ/1KMNt/JKzVQsc8NyM4plRkrSzPVp99EyNqqmOP/gwQmt4DXJmwOnSSs+NZk4md/P
+        60a349ZSCPkE21Oxb+DJwch63gF4vrkcAKOKSJMyeAryX+xLc20ukuIMKmL/IZAsQsPziiWXyKlN
+        IMZGw0tFFCukY5WRjhUvDJf5RbKODAFCLNKcP9OLQTDUsLeCLhLgDGDIdgiwiyy9RUVcpsR76wbF
+        YsZ38OnltBNTwMy+sGm87HjEepobtqJJZnPQpebLFRLnjBh+Pc0Tdli3IMyxOdhAVdtD2r+ZS853
+        TY68zrewHq/2UZBFYODVt2w/FGURFcHfOgdiJCWNpKJG9mV2r8wjVkW6X21sGEazofIdA6xUysFe
+        dQywuNYlOytgez3gUJo0iZGXWeR3q3PSoZfuIVBMteabnLGh3jxwKtJsq5GieZwOJjeYivhPbv3p
+        ZqhgiwApEjIaisIZRxynIjql/kQxq3fQaMEWc8RVbP0egi3mwDVqeAQ4sZZzoOKEMwiGoWobDKlq
+        7wqab0q6GQw+cOxRgAN8Q597a5LezGpBoNpaS/GofJcdsUVZvb5IwJ4w2L0tqeW64uPtaqbfE506
+        xvkiy3hfVdALrSlHGfE+ZBu/p3T7vb+UOUu0xVSk3cb9UVFPMNDT9VnRqO1OU1f7Q4OkwZDqlwIX
+        HbvHYbaCKjZQek0hVURRfo1Goypl1JXUGVPDU9xDQKMqTlFNDlRbNRiUURk1rmhfW7EJinghaTLU
+        zwcOmH5VByr2kG5EFChMh8p0jC4044JpI/PBe3IL6uJzafiax+fcZHqT8YhVfdI8j9kVRbGOaDY8
+        5ohv3BHtoqKaZYNd5SF4GTQS/LVGMIT60BVQzGMq4i+gCSuE3L/HZtUh2SxXDJ2LZEUNrk/T8WRx
+        Pb65ntx8GS/Cm9twMvmGMWWRdMdMp9fj2fX07stkEs4X4dyNKUqdtph2yDQcfwhv5nYINuA62PEJ
+        rYv/tg5euRbZdgRstU5b219by/D/+zK1ZSwQtSdJdtHMu9Nz8ixraE5lxgqUMZ1uTa12hAs4oUWh
+        ScIM5UK/8uL2pfkzjCfjo+ollmWOtZpcBU/UoPxGfdA+aiqe5nqaUr3yO0QQGlWiNWWfFEo+stjo
+        w8XVPmx3ps7IJ77lR5a2KjuY+ftqPfsUOzpXStYNKn89rrdT9JrqzljCNY0Eax/IguW1xO578Jjl
+        Gi9fY2w3aGWnQ+Y2erheGZYV6Mu1jTcjCx5D4PcfV8GOax5xwc0eC1CUkeAxfOrvxyHUdmY+cqf7
+        krA1LYVZ+SsJABnVBj09BDpTGVxqeze2w9ftLsADlOdY0Kbd4NOiEYxK0UWDXwi7xfrPLy8/fgJO
+        Z0olxRQAAA==
+    headers:
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining,
+        X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes,
+        X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO,
+        X-GitHub-Request-Id, Deprecation, Sunset
+      Cache-Control:
+      - private, max-age=60, s-maxage=60
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Thu, 07 Apr 2022 10:30:08 GMT
+      ETag:
+      - W/"333942306464ddd7aabe376f6f05730aafdf56b96b57dd4b81d52478adfc125f"
+      Referrer-Policy:
+      - origin-when-cross-origin, strict-origin-when-cross-origin
+      Server:
+      - GitHub.com
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept, Authorization, Cookie, X-GitHub-OTP
+      - Accept-Encoding, Accept, X-Requested-With
+      X-Accepted-OAuth-Scopes:
+      - ''
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-GitHub-Media-Type:
+      - github.v3; format=json
+      X-GitHub-Request-Id:
+      - D174:2203:1071BF4:1117084:624EBD30
+      X-OAuth-Scopes:
+      - read:org, read:user
+      X-RateLimit-Limit:
+      - '5000'
+      X-RateLimit-Remaining:
+      - '4992'
+      X-RateLimit-Reset:
+      - '1649330533'
+      X-RateLimit-Resource:
+      - core
+      X-RateLimit-Used:
+      - '8'
+      X-XSS-Protection:
+      - '0'
+      x-oauth-client-id:
+      - 71dbddbdb4288fe96a58
+    status:
+      code: 200
+      message: OK
+version: 1
