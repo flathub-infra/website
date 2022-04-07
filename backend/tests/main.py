@@ -483,3 +483,51 @@ def test_auth_login_google():
         "/auth/login/google", json=post_body, cookies=response.cookies
     )
     assert response.status_code == 200
+
+
+@vcr.use_cassette(record_mode="once")
+def test_fakewallet():
+    from app import config
+    if config.settings.stripe_public_key:
+        pytest.skip("Stripe is configured")
+    # Complete a login through Github
+    response = client.get("/auth/login/github")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    print(state)
+    post_body = {"code": "04f6dff87ead3551df1d", "state": state}
+    response = client.post(
+        "/auth/login/github", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
+
+    # Test the login was success through `auth/userinfo`
+    response = client.get("/auth/userinfo")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["displayname"] == "Adam"
+
+    # List the transactions and check the two default fakewallet ones exist
+    response = client.get("/wallet/transactions?sort=recent&limit=100")
+    assert response.status_code == 200
+    out = response.json()
+    assert out[0]["id"] == "12"
+    assert out[1]["id"] == "45"
+
+    # List a specific transactions by its ID
+    response = client.get("/wallet/transactions/45")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["summary"]["value"] == 1000
+    assert out["card"]["last4"] == "1234"
+    assert out["details"][0]["recipient"] == "org.flathub.Flathub"
+
+    # List a card inside the fakewallet
+    response = client.get("/wallet/walletinfo")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["status"] == "ok"
+    assert out["cards"][0]["id"] == "fake_card_exp"
+    assert out["cards"][1]["id"] == "fake_card_ok"
