@@ -531,3 +531,61 @@ def test_fakewallet():
     assert out["status"] == "ok"
     assert out["cards"][0]["id"] == "fake_card_exp"
     assert out["cards"][1]["id"] == "fake_card_ok"
+
+
+@vcr.use_cassette(record_mode="once")
+def test_stripewallet():
+    from app import config
+    if not config.settings.stripe_public_key:
+        pytest.skip("Stripe is not configured")
+    # Test that our Stripe data works correctly
+    response = client.get("/wallet/stripedata")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["status"] == "ok"
+
+    # Complete a login through Github
+    response = client.get("/auth/login/github")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    post_body = {"code": "7dcfd37f6ea1f0d87216", "state": state}
+    response = client.post(
+        "/auth/login/github", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
+
+    # Test the login was success through `auth/userinfo`
+    response = client.get("/auth/userinfo")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["displayname"] == "Adam"
+
+    # Write a transaction via the post /wallet/transactions
+    response = client.get("/wallet/transactions?sort=recent&limit=100")
+    post_body = {
+        "summary": {"value": 5321, "currency": "usd", "kind": "donation"},
+        "details": [
+            {
+                "recipient": "org.flathub.Flathub",
+                "amount": 5321,
+                "currency": "usd",
+                "kind": "donation",
+            }
+        ],
+    }
+    response = client.post(
+        "/wallet/transactions", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
+    out = response.json()
+    assert out["status"] == "ok"
+    txn_id = out["id"]
+
+    # View the newly created transaction
+    response = client.get(f"/wallet/transactions/{txn_id}")
+    out = response.json()
+    assert response.status_code == 200
+    assert out["summary"]["value"] == 5321
+    assert out["details"][0]["recipient"] == "org.flathub.Flathub"
