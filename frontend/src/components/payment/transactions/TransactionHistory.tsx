@@ -7,7 +7,6 @@ import Spinner from '../../Spinner'
 import TransactionList from './TransactionList'
 
 async function getTransactions(
-  setTransactions,
   sort: string = 'recent',
   limit: number = 30,
   since?: string
@@ -19,11 +18,20 @@ async function getTransactions(
     url.searchParams.append('since', since)
   }
 
-  const res = await fetch(url.href, { credentials: 'include' })
-  const data = await res.json()
+  let res: Response
+  try {
+    res = await fetch(url.href, { credentials: 'include' })
+  } catch {
+    throw 'failed-to-load-refresh'
+  }
 
-  // TODO will need to append to existing data
-  setTransactions(data)
+  if (res.ok) {
+    // Not checking status, server only complains if not logged in (which we enforce)
+    const data = await res.json()
+    return data
+  } else {
+    throw 'failed-to-load-refresh'
+  }
 }
 
 const TransactionHistory: FunctionComponent = () => {
@@ -32,12 +40,13 @@ const TransactionHistory: FunctionComponent = () => {
 
   const [page, setPage] = useState(0)
   const [transactions, setTransactions] = useState<Transaction[]>(null)
+  const [error, setError] = useState('')
 
   // More transactions should be queried when user requests
   useEffect(() => {
     if (user.info) {
       // TODO: Handle page traversal
-      getTransactions(setTransactions)
+      getTransactions().then(setTransactions).catch(setError)
     }
   }, [user, page])
 
@@ -46,14 +55,18 @@ const TransactionHistory: FunctionComponent = () => {
     return <></>
   }
 
-  if (!transactions) {
+  if (!transactions && !error) {
     return <Spinner size={100} text={t('loading')} />
   }
 
   return (
     <div className='main-container'>
       <h3>{t('transaction-history')}</h3>
-      <TransactionList transactions={transactions} />
+      {error ? (
+        <p>{t(error)}</p>
+      ) : (
+        <TransactionList transactions={transactions} />
+      )}
     </div>
   )
 }
