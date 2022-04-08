@@ -1,5 +1,6 @@
 import { useTranslation } from 'next-i18next'
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { useUserContext } from '../../../context/user-info'
 import { REMOVE_CARD_URL, WALLET_INFO_URL } from '../../../env'
 import { PaymentCard } from '../../../types/Payment'
@@ -29,15 +30,28 @@ async function getCards() {
   }
 }
 
+/**
+ * Performs API request to delete a saved payment card
+ * @param card the card to be deleted
+ */
 async function deleteCard(card: PaymentCard) {
-  fetch(REMOVE_CARD_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(card),
-  })
+  let res: Response
+  try {
+    res = await fetch(REMOVE_CARD_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(card),
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
+
+  if (!res.ok) {
+    throw 'network-error-try-again'
+  }
 }
 
 const SavedCards: FunctionComponent = () => {
@@ -91,14 +105,20 @@ const SavedCards: FunctionComponent = () => {
     </div>
   )
 
+  /**
+   * Sends API request to delete a saved card, then removes the local rendered copy
+   * @param toRemove the card to be removed
+   */
   function removeCard(toRemove: PaymentCard) {
-    deleteCard(toRemove).then(() => {
-      const cardsCopy = cards.slice()
+    deleteCard(toRemove)
+      .then(() => {
+        const cardsCopy = cards.slice()
 
-      cardsCopy.splice(cards.findIndex((card) => card.id === toRemove.id))
+        cardsCopy.splice(cards.findIndex((card) => card.id === toRemove.id))
 
-      setCards(cardsCopy)
-    })
+        setCards(cardsCopy)
+      })
+      .catch((err) => toast.error(t(err)))
   }
 }
 
