@@ -53,6 +53,7 @@
     "log-out": "Log Out",
     "network-error-try-again": "There was a network error. Try again.",
     "error-already-logged-in": "The selected account is already logged in.",
+    "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
     "developer-login": "Developer Login",
     "loading-user-apps": "Loading user apps…",
     "your-apps": "Your Apps",

@@ -8,10 +8,25 @@ import Spinner from '../../Spinner'
 import CardInfo from './CardInfo'
 import styles from './SavedCards.module.scss'
 
+/**
+ * Performs API request to retrieve details of all cards the user has saved
+ * @returns array of saved cards
+ */
 async function getCards() {
-  const res = await fetch(WALLET_INFO_URL, { credentials: 'include' })
-  const data = await res.json()
-  return data.cards
+  let res: Response
+  try {
+    res = await fetch(WALLET_INFO_URL, { credentials: 'include' })
+  } catch {
+    throw 'failed-to-load-refresh'
+  }
+
+  if (res.ok) {
+    // Not checking status, server only complains if not logged in (which we enforce)
+    const data = await res.json()
+    return data.cards
+  } else {
+    throw 'failed-to-load-refresh'
+  }
 }
 
 async function deleteCard(card: PaymentCard) {
@@ -32,12 +47,13 @@ const SavedCards: FunctionComponent = () => {
   const [fetched, setFetched] = useState(false)
   // User may have no cards saved, so unloaded state is not empty array
   const [cards, setCards] = useState<PaymentCard[]>(null)
+  const [error, setError] = useState('')
 
   // Cards should only be retrieved once, and can only be when logged in
   useEffect(() => {
     if (user.info && !fetched) {
       setFetched(true)
-      getCards().then(setCards)
+      getCards().then(setCards).catch(setError)
     }
   }, [user, fetched])
 
@@ -46,12 +62,12 @@ const SavedCards: FunctionComponent = () => {
     return <></>
   }
 
-  if (!cards) {
+  if (!cards && !error) {
     return <Spinner size={100} text={t('loading-saved-payment-methods')} />
   }
 
   let content: ReactElement
-  if (cards.length) {
+  if (!error && cards.length) {
     content = (
       <>
         {cards.map((card) => (
@@ -65,7 +81,7 @@ const SavedCards: FunctionComponent = () => {
       </>
     )
   } else {
-    content = <p>{t('no-saved-payment-methods')}</p>
+    content = <p>{error ? t(error) : t('no-saved-payment-methods')}</p>
   }
 
   return (
