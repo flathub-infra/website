@@ -167,5 +167,6 @@
     "updated": "Updated",
     "use-new-card": "Use a new card",
     "value": "Value",
-    "view": "View"
+    "view": "View",
+    "stripe-api-error": "The Stripe API encountered an error. Try again later."
 }

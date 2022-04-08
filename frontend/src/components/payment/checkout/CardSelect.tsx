@@ -1,6 +1,7 @@
 import { useStripe } from '@stripe/react-stripe-js'
 import { useTranslation } from 'next-i18next'
 import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import {
   TRANSACTION_SET_CARD_URL,
   TRANSACTION_SET_PENDING_URL,
@@ -12,22 +13,41 @@ import CardInfo from '../cards/CardInfo'
 import styles from './CardSelect.module.scss'
 
 async function setCard(transactionId: string, card: PaymentCard) {
-  const res = await fetch(TRANSACTION_SET_CARD_URL(transactionId), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(card),
-  })
-  return await res.json()
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_SET_CARD_URL(transactionId), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(card),
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
+  if (res.ok) {
+    const data = await res.json()
+    return data
+  } else {
+    throw 'network-error-try-again'
+  }
 }
 
 async function setPending(txnId: string) {
-  await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
-    method: 'POST',
-    credentials: 'include',
-  })
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
+      method: 'POST',
+      credentials: 'include',
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
+
+  if (!res.ok) {
+    throw 'network-error-try-again'
+  }
 }
 
 interface Props {
@@ -55,18 +75,33 @@ const CardSelect: FunctionComponent<Props> = ({
   useEffect(() => {
     async function onConfirm() {
       const { id } = transaction.summary
-      const data = await setCard(id, useCard)
 
-      if (data.status === 'ok') {
-        await setPending(id)
+      setCard(id, useCard)
+        .then(() => setPending(id))
+        .then(async () => {
+          const result = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: useCard.id,
+          })
 
-        // TODO: handle reuslt.error or result.paymentIntent
-        await stripe.confirmCardPayment(clientSecret, {
-          payment_method: useCard.id,
+          if (result.error) {
+            switch (result.error.type) {
+              case 'card_error':
+                // Message suitable to show to users for card errors
+                // https://stripe.com/docs/api/errors
+                toast.error(result.error.message)
+              case 'api_error':
+                throw 'stripe-api-error'
+              default:
+                throw 'network-error-try-again'
+            }
+          } else {
+            submit()
+          }
         })
-
-        submit()
-      }
+        .catch((err) => {
+          toast.error(t(err))
+          setConfirmed(false)
+        })
     }
 
     // Payment confirmation can only occur once a card is selected
@@ -77,7 +112,7 @@ const CardSelect: FunctionComponent<Props> = ({
     if (stripe && useCard && confirmed) {
       onConfirm()
     }
-  }, [transaction, confirmed, clientSecret, cards, submit, stripe, useCard])
+  }, [transaction, confirmed, clientSecret, cards, submit, stripe, useCard, t])
 
   let cardSection: ReactElement
   if (cards) {
