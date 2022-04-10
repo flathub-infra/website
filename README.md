@@ -4,7 +4,13 @@
 
 # flathub.org
 
-This is the source code for the website, both backend and frontend.
+This is the source code for the website, both backend and frontend. That's running on https://beta.flathub.org and hopefully soon https://flathub.org
+
+# Code contribution
+
+First of all thanks for considering contributing to this project!
+
+Pull request are welcome. Please, create an issue first explaining what you want to do and how.
 
 ### Development
 
@@ -39,10 +45,12 @@ Then you should be able to start the dev server and see changed to the code:
 yarn dev
 ```
 
-## Translations
-
-We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate the UI.
 
 ## More backend instructions
 
 You can find more backend instructions in the readme in the backend folder.
+
+## Translations
+
+We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate the UI. So feel free, to contribute translations over there.
+
