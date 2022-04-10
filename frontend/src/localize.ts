@@ -1,9 +1,9 @@
-import { de, enUS, tr, fr, nb, fi, id, pl, pt, it, ru, vi, ar, es } from 'date-fns/locale'
+import { de, enUS, tr, fr, nb, fi, id, pl, pt, it, ru, vi, ar, es, ja } from 'date-fns/locale'
 
-export type Language = 'de' | 'en' | 'fr' | 'nb_NO' | 'tr' | 'fi' | 'id' | 'pl' | 'pt_BR' | 'it' | 'ru' | 'si' | 'vi' | 'ar' | 'es';
+export type Language = 'de' | 'en' | 'fr' | 'nb_NO' | 'tr' | 'fi' | 'id' | 'pl' | 'pt_BR' | 'it' | 'ru' | 'si' | 'vi' | 'ar' | 'es' | 'ja';
 
 export const languages: Language[] = [
-  'de', 'en', 'fr', 'nb_NO', 'tr', 'fi', 'id', 'pl', 'pt_BR', 'it', 'ru', 'si', 'vi', 'ar', 'es']
+  'de', 'en', 'fr', 'nb_NO', 'tr', 'fi', 'id', 'pl', 'pt_BR', 'it', 'ru', 'si', 'vi', 'ar', 'es', 'ja']
 
 export function getLocale(language: string): Locale {
   switch (language) {
@@ -37,6 +37,8 @@ export function getLocale(language: string): Locale {
       return ar;
     case 'es':
       return es;
+    case 'ja':
+      return ja;
 
     default:
       return enUS
@@ -75,6 +77,8 @@ export function getLocaleString(language: string): string {
       return 'ar_AE'
     case 'es':
       return 'es_ES'
+    case 'ja':
+      return 'ja_JP'
 
     default:
       return 'en_US'
@@ -113,6 +117,8 @@ export function getLanguageName(language: Language): string {
       return 'العربية'
     case 'es':
       return 'Español'
+    case 'ja':
+      return '日本語'
 
     default:
       return assertUnreachable(language)
