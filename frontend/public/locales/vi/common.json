@@ -125,5 +125,9 @@
     "networking": "Mạng",
     "productivity": "Năng suất",
     "frequently-asked-questions": "Câu hỏi thường gặp",
-    "delete-account": "Xóa tài khoản"
+    "delete-account": "Xóa tài khoản",
+    "languages": "Ngôn ngữ",
+    "languages-summary": "Chọn ngôn ngữ hiển thị trên web.",
+    "languages-description": "Chọn ngôn ngữ để đổi:",
+    "switch-language": "Đổi ngôn ngữ"
 }

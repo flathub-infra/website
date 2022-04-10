@@ -5,7 +5,7 @@
     "publish": "Publicar",
     "forum": "Fórum",
     "about": "Sobre",
-    "about-description": "Flathub pretende ser o lugar para obter e distribuir aplicativos para Linux. Ele é distribuído por Flatpak, que permite os aplicativos do Flathub sejam executados em praticamente qualquer distribuição Linux.",
+    "about-description": "Flathub pretende ser o lugar para obter e distribuir aplicativos para Linux. Ele é distribuído via Flatpak, que permite os aplicativos do Flathub serem executados em praticamente qualquer distribuição Linux.",
     "about-pagename": "Sobre o Flathub",
     "applications": "Aplicativos",
     "popular": "Populares",
@@ -80,7 +80,7 @@
     "whoops": "Ops!",
     "login": "Entrar",
     "retry-or-go-home": "Você pode tentar novamente ou voltar para a <1>página inicial</1>.",
-    "submitting-apps": "Enviar aplicativos",
+    "submitting-apps": "Publicar aplicativos",
     "submitting-apps-block": "<0>Os desenvolvedores de apps podem <2>enviar seus aplicativos</2> para serem distribuídos para a crescente base de usuários do Flathub, fornecendo assim uma única porta de entrada para todo o ecossistema de desktop Linux.</0><p>No momento, os aplicativos devem ser legalmente redistribuíveis ou estarem disponíveis para download externo. No entanto, se você for um desenvolvedor de aplicativos proprietários e estiver interessado em usar o Flathub, adoraríamos conversar com você.</p>",
     "about-block": "<0>Flathub pretende ser o lugar para obter e distribuir aplicativos para Linux. Ele é distribuído por <1>Flatpak</1>, que permite os aplicativos do Flathub sejam executados em praticamente qualquer distribuição Linux.</0><1>Se você é um usuário do Linux, pode usar o Flathub para ter acesso a uma coleção crescente de aplicativos Flatpak. Você só precisa seguir as <2>instruções de configuração</2>.</1>",
     "get-involved-block": "<p>O Flathub é uma tentativa de transformar o ecossistema de desktops Linux para melhor, e precisamos da sua ajuda. Se você puder escrever documentação, criar sites, administrar servidores ou escrever código, adoraríamos sua ajuda.</p>",
@@ -124,9 +124,10 @@
     "other-apps-by-developer": "Outros apps de {{developer}}",
     "loading": "Carregando…",
     "could-not-find-match-for-search": "Não foi possível encontrar uma correspondência para a pesquisa.",
-    "request-new-app": "Se você estiver procurando por um aplicativo específico, informe à comunidade que você o deseja no flathub <1>aqui</1>.",
+    "request-new-app": "Se você estiver procurando por um aplicativo específico, informe à comunidade que você o quer no Flathub <1>aqui</1>.",
     "manifest": "Manifesto",
     "switch-language": "Alterar idioma",
     "languages": "Idiomas",
-    "languages-description": "Selecione um idioma para alterar para ele:"
+    "languages-description": "Selecione um idioma para alterar para ele:",
+    "languages-summary": "Escolha o idioma em que deseja ver o site."
 }
