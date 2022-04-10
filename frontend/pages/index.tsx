@@ -11,6 +11,8 @@ import ApplicationSections from '../src/components/application/Sections'
 import Button from '../src/components/Button'
 import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
+import Image from '../src/components/Image';
+import styles from './index.module.scss'
 
 export default function Home({
   recentlyUpdated,
@@ -26,27 +28,34 @@ export default function Home({
         description={t('flathub-description')}
       />
       <div className='main-container'>
-        <h1>{t('apps-for-linux-right-here')}</h1>
-
-        <p
-          className='introduction'
-          style={{
-            marginBottom: '40px',
-            fontSize: '110%',
-            fontWeight: 300,
-            maxWidth: '700px',
-          }}
-        >
-          {t('welcome-to-flathub-index-text')}
-        </p>
-        <div style={{ "display": "flex", "gap": "12px" }}>
-          <a href='https://flatpak.org/setup/'>
-            <Button type='secondary'>{t('quick-setup')}</Button>
-          </a>
-          <Link href='/apps' passHref>
-            <Button type='secondary'>{t('explore')}</Button>
-          </Link>
+        <div style={{ "display": "flex", "gap": "12px", justifyContent: 'space-between' }}>
+          <div>
+            <h1>{t('apps-for-linux-right-here')}</h1>
+            <p
+              className='introduction'
+              style={{
+                marginBottom: '40px',
+                fontSize: '110%',
+                fontWeight: 300,
+                maxWidth: '700px',
+              }}
+            >
+              {t('welcome-to-flathub-index-text')}
+            </p>
+            <div style={{ "display": "flex", "gap": "12px" }}>
+              <a href='https://flatpak.org/setup/'>
+                <Button type='secondary'>{t('quick-setup')}</Button>
+              </a>
+              <Link href='/apps' passHref>
+                <Button type='secondary'>{t('explore')}</Button>
+              </Link>
+            </div>
+          </div>
+          <div className={styles.launchImage}>
+            <Image width='400' height="300px" src="/assets/landing.svg" alt="" />
+          </div>
         </div>
+
         <ApplicationSections
           popular={popular}
           recentlyUpdated={recentlyUpdated}
