@@ -17,9 +17,11 @@ import {
 } from 'react-icons/md'
 import ListBox from '../src/components/application/ListBox'
 import { i18n, useTranslation } from 'next-i18next';
+import { useTheme } from 'next-themes';
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
+  const { resolvedTheme } = useTheme()
   let country_data: { country: string; value: number }[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
@@ -40,7 +42,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, t('downloads'))
+  const data = chartStyle(downloads_labels, downloads_data, t('downloads'), resolvedTheme)
 
   const options = chartOptions(i18n.language)
 

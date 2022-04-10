@@ -1,14 +1,14 @@
 :root {
   --white: rgba(255, 255, 255, 0.87);
-  --white-10: #f6f5f4;
+  --white-10: hsl(30, 10%, 96.1%);
   --bg-color-primary: var(--white-10);
   --bg-color-secondary: var(--white);
 
-  --text-primary: #2e3436;
-  --text-secondary: #727272;
+  --text-primary: hsl(195, 8%, 19.6%);
+  --text-secondary: hsl(0, 0%, 44.7%);
 
-  --color-primary: #4a86cf;
-  --color-secondary: #00a8e2;
+  --color-primary: hsl(212.9, 58.1%, 55.1%);
+  --color-secondary: hsl(195.4, 100%, 44.3%);
 
   --color-highlight: rgba(0, 0, 0, 0.1);
 
@@ -23,11 +23,14 @@
   --toastify-color-light: var(--toastify-color-dark);
   --toastify-text-color-light: var(--text-primary);
 
-  --bg-color-primary: #262626;
-  --bg-color-secondary: #333;
+  --bg-color-primary: hsl(0, 0%, 14.9%);
+  --bg-color-secondary: hsl(0, 0%, 20%);
 
   --text-primary: var(--white);
   --text-secondary: rgba(255, 255, 255, 0.6);
+
+  --color-primary: hsl(212.9, 58.1%, calc(55.1% - 30%));
+  --color-secondary: hsl(195.4, 100%, calc(44.3% - 5%));
 
   --color-highlight: rgba(255, 255, 255, 0.1);
 

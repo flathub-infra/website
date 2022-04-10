@@ -7,6 +7,7 @@ import 'chartjs-adapter-date-fns'
 
 import styles from './AppStats.module.scss'
 import { i18n, useTranslation } from 'next-i18next'
+import { useTheme } from 'next-themes'
 
 interface Props {
   stats: AppStats
@@ -14,6 +15,7 @@ interface Props {
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const { t } = useTranslation()
+  const { resolvedTheme } = useTheme()
   let downloads_labels: Date[] = []
   let downloads_data: number[] = []
   if (stats.downloads_per_day) {
@@ -27,7 +29,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, t('installs'))
+  const data = chartStyle(downloads_labels, downloads_data, t('installs'), resolvedTheme)
   const options = chartOptions(i18n.language)
 
   return (
