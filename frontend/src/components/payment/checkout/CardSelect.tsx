@@ -54,6 +54,7 @@ interface Props {
   transaction: TransactionDetailed
   clientSecret: string
   cards: PaymentCard[]
+  error: string
   submit: () => void
   skip: () => void
 }
@@ -62,6 +63,7 @@ const CardSelect: FunctionComponent<Props> = ({
   transaction,
   clientSecret,
   cards,
+  error,
   submit,
   skip,
 }) => {
@@ -115,7 +117,9 @@ const CardSelect: FunctionComponent<Props> = ({
   }, [transaction, confirmed, clientSecret, cards, submit, stripe, useCard, t])
 
   let cardSection: ReactElement
-  if (cards) {
+  if (error) {
+    cardSection = <p>{t(error)}</p>
+  } else if (cards) {
     const cardElems = cards.map((card) => {
       return (
         <CardInfo
