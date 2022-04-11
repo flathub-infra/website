@@ -25,7 +25,7 @@ services:
       - db
     volumes:
       - /var/lib/flatpak
-      - .:/app
+      - .:/app:z
 
   db:
     image: docker.io/library/postgres:12
