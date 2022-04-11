@@ -87,10 +87,17 @@ const CardSelect: FunctionComponent<Props> = ({
 
           if (result.error) {
             switch (result.error.type) {
+              // Card error occurs when insufficient funds, etc.
               case 'card_error':
-                // Message suitable to show to users for card errors
-                // https://stripe.com/docs/api/errors
-                toast.error(result.error.message)
+                // https://stripe.com/docs/declines/codes
+                if (result.error.decline_code) {
+                  throw `stripe-declined-${result.error.decline_code}`
+                }
+
+              // Less specific card errors fallback to the error code
+              case 'invalid_request_error':
+                // https://stripe.com/docs/error-codes
+                throw `stripe-error-${result.error.code}`
               case 'api_error':
                 throw 'stripe-api-error'
               default:

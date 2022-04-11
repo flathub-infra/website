@@ -168,5 +168,7 @@
     "use-new-card": "Use a new card",
     "value": "Value",
     "view": "View",
-    "stripe-api-error": "The Stripe API encountered an error. Try again later."
+    "stripe-api-error": "The Stripe API encountered an error. Try again later.",
+    "stripe-declined-insufficient_funds": "Your card has insufficient funds.",
+    "stripe-error-payment_intent_authentication_failure": "Failed to authenticate your payment method. Please choose a different payment method and try again."
 }
