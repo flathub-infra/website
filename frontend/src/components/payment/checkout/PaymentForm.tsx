@@ -138,6 +138,9 @@ const PaymentForm: FunctionComponent<Props> = ({
           throw `stripe-error-${result.error.code}`
         case 'api_error':
           throw 'stripe-api-error'
+        case 'validation_error':
+          // Stripe's input elements handle specific feedback for these
+          throw 'stripe-validation-error'
         default:
           throw 'network-error-try-again'
       }
