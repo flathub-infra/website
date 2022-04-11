@@ -102,10 +102,12 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     <div className='main-container'>
       <div className={styles.checkout}>
         {flowContent}
-        <TransactionCancelButton
-          id={txnId}
-          onSuccess={() => router.push(`${detailsPage}/${txnId}`)}
-        />
+        <div className='actions'>
+          <TransactionCancelButton
+            id={txnId}
+            onSuccess={() => router.push(`${detailsPage}/${txnId}`)}
+          />
+        </div>
       </div>
     </div>
   )
