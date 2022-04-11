@@ -1,4 +1,4 @@
-FROM python:3.9 as builder
+FROM python:3.10 as builder
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -14,7 +14,7 @@ COPY pyproject.toml poetry.lock /
 RUN $HOME/.poetry/bin/poetry export -o requirements.txt && \
     /venv/bin/pip install -r requirements.txt
 
-FROM python:3.9-slim
+FROM python:3.10-slim
 ENV PATH="/venv/bin:$PATH"
 
 EXPOSE 8000
