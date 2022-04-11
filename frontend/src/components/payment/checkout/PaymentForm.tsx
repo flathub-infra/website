@@ -1,6 +1,7 @@
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useTranslation } from 'next-i18next'
 import { FormEvent, FunctionComponent, useState } from 'react'
+import { toast } from 'react-toastify'
 import {
   TRANSACTION_SAVE_CARD_URL,
   TRANSACTION_SET_PENDING_URL,
@@ -10,21 +11,39 @@ import Spinner from '../../Spinner'
 import styles from './PaymentForm.module.scss'
 
 async function saveCard(transactionId: string) {
-  await fetch(TRANSACTION_SAVE_CARD_URL(transactionId), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify({ save_card: 'on_session' }),
-  })
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_SAVE_CARD_URL(transactionId), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ save_card: 'on_session' }),
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
+
+  if (!res.ok) {
+    throw 'network-error-try-again'
+  }
 }
 
 async function setPending(txnId: string) {
-  await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
-    method: 'POST',
-    credentials: 'include',
-  })
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
+      method: 'POST',
+      credentials: 'include',
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
+
+  if (!res.ok) {
+    throw 'network-error-try-again'
+  }
 }
 
 interface Props {
@@ -66,14 +85,21 @@ const PaymentForm: FunctionComponent<Props> = ({
     </form>
   )
 
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
+    // Can't submit when Stripe isn't ready
     if (!stripe || !elements) {
-      // Load hasn't completed yet
       return
     }
 
+    submit().catch((err) => {
+      toast.error(t(err))
+      setProcessing(false)
+    })
+  }
+
+  async function submit() {
     setProcessing(true)
 
     if (checked) {
@@ -91,8 +117,18 @@ const PaymentForm: FunctionComponent<Props> = ({
 
     // Redirect will have occurred otherwise
     if (result.error) {
-      // TODO
-      setProcessing(false)
+      console.log(result.error.type)
+      switch (result.error.type) {
+        case 'card_error':
+        case 'invalid_request_error':
+          // Message suitable to show to users for card errors
+          // https://stripe.com/docs/api/errors
+          throw result.error.message
+        case 'api_error':
+          throw 'stripe-api-error'
+        default:
+          throw 'network-error-try-again'
+      }
     }
   }
 }
