@@ -4,6 +4,8 @@ import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+from sentry_sdk.integrations.redis import RedisIntegration
+from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from . import (
     apps,
@@ -25,6 +27,10 @@ if config.settings.sentry_dsn:
         dsn=config.settings.sentry_dsn,
         traces_sample_rate=0.01,
         environment="production",
+        integrations=[
+            SqlalchemyIntegration(),
+            RedisIntegration(),
+        ],
     )
     app.add_middleware(SentryAsgiMiddleware)
 
