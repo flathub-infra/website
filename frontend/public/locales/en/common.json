@@ -169,6 +169,12 @@
     "value": "Value",
     "view": "View",
     "stripe-api-error": "The Stripe API encountered an error. Try again later.",
-    "stripe-declined-insufficient_funds": "Your card has insufficient funds.",
-    "stripe-error-payment_intent_authentication_failure": "Failed to authenticate your payment method. Please choose a different payment method and try again."
+    "stripe-declined-generic_decline": "The card was declined for an unknown reason.",
+    "stripe-declined-insufficient_funds": "The card has insufficient funds.",
+    "stripe-error-expired_card": "The card has expired. Check the expiration date or use a different card.",
+    "stripe-error-incorrect_cvc": "The card's security code is incorrect. Check the card's security code or use a different card.",
+    "stripe-error-incorrect_number": "The card number is incorrect. Check the card's number or use a different card.",
+    "stripe-error-payment_intent_authentication_failure": "Failed to authenticate your payment method. Please choose a different payment method and try again.",
+    "stripe-error-processing_error": "An error occurred while processing the card. Try again later or with a different payment method.",
+    "stripe-validation-error": "An invalid card detail was entered."
 }
