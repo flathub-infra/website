@@ -121,6 +121,14 @@ const PaymentForm: FunctionComponent<Props> = ({
         case 'card_error':
           // https://stripe.com/docs/declines/codes
           if (result.error.decline_code) {
+            // Lost and stolen cards should be presented as a generic decline
+            // https://stripe.com/docs/declines/codes#lost_card
+            if (
+              ['lost_card', 'stolen_card'].includes(result.error.decline_code)
+            ) {
+              throw 'stripe-declined-generic_decline'
+            }
+
             throw `stripe-declined-${result.error.decline_code}`
           }
 
