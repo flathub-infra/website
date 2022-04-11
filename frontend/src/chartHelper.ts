@@ -4,9 +4,10 @@ import { getLocale } from './localize'
 export function chartStyle(
   labels: (string | Date)[],
   data: number[],
-  label: string
+  label: string,
+  mode: 'dark' | 'light',
 ): ChartData<'line', number[]> {
-  const color = '#4a86cf'
+  const color = mode === 'light' ? 'hsl(212.9, 58.1%, 55.1%)' : 'hsl(212.9, 58.1%, calc(55.1% - 15%))'
 
   return {
     labels: labels,
