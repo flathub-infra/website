@@ -6,7 +6,7 @@ authors = ["Bartłomiej Piotrowski <bpiotrowski@gnome.org>"]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 fastapi = "^0.76.0"
 uvicorn = "^0.17.6"
 sentry-sdk = "^1.5.11"
