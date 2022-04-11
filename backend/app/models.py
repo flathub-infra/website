@@ -437,7 +437,7 @@ class UserOwnedApp(Base):
         )
 
     @staticmethod
-    def all_by_user(db, user: FlathubUser):
+    def all_owned_by_user(db, user: FlathubUser):
         return db.session.query(UserOwnedApp).filter_by(account=user.id)
 
     @staticmethod
@@ -445,7 +445,7 @@ class UserOwnedApp(Base):
         """
         Add a user's owned apps to the hasher for token generation
         """
-        apps = [app.app_id for app in UserOwnedApp.all_by_user(db, user)]
+        apps = [app.app_id for app in UserOwnedApp.all_owned_by_user(db, user)]
         apps.sort()
         for app in apps:
             hasher.add_string(app)
