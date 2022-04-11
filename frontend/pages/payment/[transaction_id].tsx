@@ -19,48 +19,77 @@ import { TransactionDetailed } from '../../src/types/Payment'
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
 let stripePromise: Promise<Stripe>
-async function getStripeObject(setStripe) {
+async function getStripeObject() {
   if (!stripePromise) {
-    // TODO: Error handling
-    const stripedata = await (await fetch(STRIPE_DATA_URL)).json()
-    if (stripedata.status == 'ok') {
-      stripePromise = loadStripe(stripedata.public_key)
-      setStripe(stripePromise)
+    let res: Response
+    try {
+      res = await fetch(STRIPE_DATA_URL)
+    } catch {
+      throw 'network-error-try-again'
+    }
+
+    if (res.ok) {
+      const stripeData = await res.json()
+      stripePromise = loadStripe(stripeData.public_key)
+      return stripePromise
+    } else {
+      throw 'network-error-try-again'
     }
   } else {
-    setStripe(stripePromise)
+    return stripePromise
   }
 }
 
-// TODO tidy and error handling
-async function getTransaction(tid: string) {
-  const txndata = await (
-    await fetch(TRANSACTION_INFO_URL(tid), { credentials: 'include' })
-  ).json()
-  let stripedata = { client_secret: null }
-  if (txndata.summary.status == 'new' || txndata.summary.status == 'retry') {
-    stripedata = await (
-      await fetch(TRANSACTION_STRIPE_INFO_URL(tid), { credentials: 'include' })
-    ).json()
+async function getTransaction(txnId: string) {
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_INFO_URL(txnId), { credentials: 'include' })
+  } catch {
+    throw 'network-error-try-again'
   }
-  return [txndata, stripedata.client_secret]
+
+  if (res.ok) {
+    const txnData = await res.json()
+    const pending = ['new', 'retry'].includes(txnData.summary.status)
+
+    let stripeData = { client_secret: null }
+
+    if (pending) {
+      try {
+        res = await fetch(TRANSACTION_STRIPE_INFO_URL(txnId), {
+          credentials: 'include',
+        })
+      } catch {
+        throw 'network-error-try-again'
+      }
+
+      if (!res.ok) {
+        throw 'network-error-try-again'
+      }
+
+      stripeData = await res.json()
+    }
+
+    return [txnData, stripeData.client_secret]
+  } else {
+    throw 'network-error-try-again'
+  }
 }
 
 export default function TransactionPage() {
   const { t } = useTranslation()
-
-  // Must access query params to POST to backend for oauth verification
   const router = useRouter()
 
   const [stripe, setStripe] = useState<Stripe>(null)
   const [transaction, setTransaction] = useState<TransactionDetailed>(null)
   const [secret, setSecret] = useState('')
+  const [error, setError] = useState('')
 
   const user = useUserContext()
 
   // Fetch the stripe object only on page mount
   useEffect(() => {
-    getStripeObject(setStripe)
+    getStripeObject().then(setStripe).catch(setError)
   }, [])
 
   // Once router is ready the transaction ID is attainable
@@ -78,19 +107,28 @@ export default function TransactionPage() {
     // Once the transaction ID is known, the client secret is fetched
     const { transaction_id } = router.query
 
+    // NOTE: Not sure when this will actually happen?
     if (Array.isArray(transaction_id)) {
-      // TODO: Handle this, guessing happens if user navigates to deep dynamic route
       return
     }
 
-    getTransaction(transaction_id).then(([transaction, secret]) => {
-      setTransaction(transaction)
-      setSecret(secret)
-    })
+    getTransaction(transaction_id)
+      .then(([transaction, secret]) => {
+        setTransaction(transaction)
+        setSecret(secret)
+      })
+      .catch(setError)
   }, [router, user])
 
   let content: ReactElement
-  if (secret) {
+  if (error) {
+    content = (
+      <>
+        <h1>{t('whoops')}</h1>
+        <p>{t(error)}</p>
+      </>
+    )
+  } else if (secret) {
     const options = { clientSecret: secret }
 
     content = (
@@ -105,7 +143,7 @@ export default function TransactionPage() {
   return (
     <Main>
       <NextSeo title={t('payment')} noindex={true}></NextSeo>
-      {content}
+      <div className='main-container'>{content}</div>
     </Main>
   )
 }

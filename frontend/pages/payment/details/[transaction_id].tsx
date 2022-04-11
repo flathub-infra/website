@@ -15,26 +15,27 @@ import { TRANSACTION_INFO_URL } from '../../../src/env'
 import { TransactionDetailed } from '../../../src/types/Payment'
 
 async function getTransaction(txnId: string) {
-  const res = await fetch(TRANSACTION_INFO_URL(txnId), {
-    credentials: 'include',
-  })
+  let res: Response
+  try {
+    res = await fetch(TRANSACTION_INFO_URL(txnId), { credentials: 'include' })
+  } catch {
+    throw 'failed-to-load-refresh'
+  }
 
   if (res.ok) {
     return await res.json()
   } else {
-    // TODO
+    throw 'failed-to-load-refresh'
   }
 }
 
 export default function TransactionPage() {
   const { t } = useTranslation()
-
-  // Must access query params to POST to backend for oauth verification
   const router = useRouter()
+  const user = useUserContext()
 
   const [transaction, setTransaction] = useState<TransactionDetailed>(null)
-
-  const user = useUserContext()
+  const [error, setError] = useState('')
 
   // Once router is ready the transaction ID is attainable
   useEffect(() => {
@@ -51,30 +52,38 @@ export default function TransactionPage() {
     // Once the transaction ID is known, the associated data can be fetched
     const { transaction_id } = router.query
 
+    // NOTE: Not sure when this will actually happen?
     if (Array.isArray(transaction_id)) {
-      // TODO: Handle this, guessing happens if user navigates to deep dynamic route
       return
     }
 
-    getTransaction(transaction_id).then((transaction) =>
-      setTransaction(transaction)
-    )
+    getTransaction(transaction_id).then(setTransaction).catch(setError)
   }, [router, user])
 
   let content: ReactElement = <Spinner size={200} />
-  if (transaction) {
+  if (error) {
+    content = (
+      <>
+        <h1>{t('whoops')}</h1>
+        <p>{t(error)}</p>
+      </>
+    )
+  } else if (transaction) {
     const unresolved = ['new', 'retry'].includes(transaction.summary.status)
     if (unresolved) {
       content = (
         <>
-          <h3>Oops! Something went wrong with this transaction.</h3>
-          <TransactionCancelButton
-            id={transaction.summary.id}
-            onSuccess={() => router.reload()}
-          />
-          <Link href={`/payment/${transaction.summary.id}`} passHref>
-            <Button>Retry checkout</Button>
-          </Link>
+          <h1>{t('whoops')}</h1>
+          <p>{t('transaction-went-wrong')}</p>
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <TransactionCancelButton
+              id={transaction.summary.id}
+              onSuccess={() => router.reload()}
+            />
+            <Link href={`/payment/${transaction.summary.id}`} passHref>
+              <Button>{t('retry-checkout')}</Button>
+            </Link>
+          </div>
         </>
       )
     } else {
