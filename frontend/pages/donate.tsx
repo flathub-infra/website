@@ -3,9 +3,10 @@ import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
 import Router from 'next/router'
-import { useEffect } from 'react'
+import { ReactElement, useEffect } from 'react'
 import Main from '../src/components/layout/Main'
 import DonationInput from '../src/components/payment/DonationInput'
+import Spinner from '../src/components/Spinner'
 import { useUserContext } from '../src/context/user-info'
 
 export default function Donate() {
@@ -19,13 +20,22 @@ export default function Donate() {
     }
   }, [user])
 
-  return (
-    <Main>
-      <NextSeo title={t('donate-to', { project: 'Flathub' })} />
+  let content: ReactElement
+  if (user.loading || !user.info) {
+    content = <Spinner size={150} />
+  } else {
+    content = (
       <div className='main-container'>
         <h2>{t('donate-to', { project: 'Flathub' })}</h2>
         <DonationInput org='org.flathub.Flathub' />
       </div>
+    )
+  }
+
+  return (
+    <Main>
+      <NextSeo title={t('donate-to', { project: 'Flathub' })} />
+      {content}
     </Main>
   )
 }
