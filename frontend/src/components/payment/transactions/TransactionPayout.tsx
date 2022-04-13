@@ -8,7 +8,7 @@ interface Props {
 }
 
 const TransactionPayout: FunctionComponent<Props> = ({ payout }) => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   return (
     <div className={styles.payout}>
@@ -19,7 +19,7 @@ const TransactionPayout: FunctionComponent<Props> = ({ payout }) => {
           currencyDisplay: 'symbol',
         }).format(payout.amount / 100)}
       </span>
-      <span>{payout.kind}</span>
+      <span>{t(`kind-${payout.kind}`)}</span>
       <span>{payout.recipient}</span>
     </div>
   )

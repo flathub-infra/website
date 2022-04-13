@@ -15,7 +15,7 @@ interface Props {
 
 const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   // Nothing to show if not logged in
   if (!user.info) {
@@ -23,32 +23,40 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   }
 
   // Accounts may or may not be present in user information
-  const linkedAccounts = Object.keys(user.info.auths).map(name => {
+  const linkedAccounts = Object.keys(user.info.auths).map((name) => {
     const authData = user.info.auths[name]
 
-    return (<div key={name} className={styles.linked}>
-      <img
-        src={authData.avatar}
-        className={styles.avatar}
-        alt={`${authData.login}'s avatar`}
-      />
-      <p><b>{name}</b><br />{authData.login}</p>
-    </div>)
+    return (
+      <div key={name} className={styles.linked}>
+        <img
+          src={authData.avatar}
+          className={styles.avatar}
+          alt={`${authData.login}'s avatar`}
+        />
+        <p>
+          <b>{name}</b>
+          <br />
+          {authData.login}
+        </p>
+      </div>
+    )
   })
 
   // The user may have further sign in options available
   const linkOptions = logins
-    .filter(provider => !user.info.auths[provider.method])
-    .map(provider => <ProviderLink key={provider.method} provider={provider} />)
+    .filter((provider) => !user.info.auths[provider.method])
+    .map((provider) => (
+      <ProviderLink key={provider.method} provider={provider} />
+    ))
 
-  const loginSection = linkOptions.length
-    ? <div className={styles.subsection}>
+  const loginSection = linkOptions.length ? (
+    <div className={styles.subsection}>
       <h3>{t('link-more-accounts')}</h3>
-      <div className={styles.authList}>
-        {linkOptions}
-      </div>
+      <div className={styles.authList}>{linkOptions}</div>
     </div>
-    : <></>
+  ) : (
+    <></>
+  )
 
   return (
     <div className='main-container'>
@@ -57,23 +65,20 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
         <div className={styles.subsection}>
           <h3>{t('linked-accounts')}</h3>
-          <div className={styles.authList}>
-            {linkedAccounts}
-          </div>
+          <div className={styles.authList}>{linkedAccounts}</div>
         </div>
 
         {loginSection}
 
         <div className={styles.actions}>
           <Link href='/wallet' passHref>
-            <Button type='primary'>View Wallet</Button>
+            <Button type='primary'>{t('view-wallet')}</Button>
           </Link>
           <LogoutButton />
           <DeleteButton />
         </div>
-
       </div>
-    </div >
+    </div>
   )
 }
 

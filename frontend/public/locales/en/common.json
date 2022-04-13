@@ -138,6 +138,8 @@
     "checkout": "Checkout",
     "confirm-selection": "Confirm Selection",
     "created": "Created",
+    "kind-donation": "Donation",
+    "kind-purchase": "Purchase",
     "loading-saved-payment-methods": "Loading saved payment methods…",
     "payment": "Payment",
     "make-donation": "Make Donation",
@@ -150,6 +152,11 @@
     "saved-cards": "Saved Cards",
     "select-donation-amount": "Select an amount to donate",
     "status": "Status",
+    "status-cancelled": "Cancelled",
+    "status-new": "New",
+    "status-pending": "Pending",
+    "status-retry": "Retry",
+    "status-success": "Success",
     "stripe-receipt": "Stripe receipt",
     "submit-payment": "Submit payment",
     "transaction-breakdown": "Transaction Breakdown",
@@ -177,5 +184,6 @@
     "stripe-error-incorrect_number": "The card number is incorrect. Check the card's number or use a different card.",
     "stripe-error-payment_intent_authentication_failure": "Failed to authenticate your payment method. Please choose a different payment method and try again.",
     "stripe-error-processing_error": "An error occurred while processing the card. Try again later or with a different payment method.",
-    "stripe-validation-error": "An invalid card detail was entered."
+    "stripe-validation-error": "An invalid card detail was entered.",
+    "view-wallet": "View Wallet"
 }

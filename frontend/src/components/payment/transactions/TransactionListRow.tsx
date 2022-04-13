@@ -33,9 +33,9 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
     <tr className={styles.row}>
       <td>{prettyCreated}</td>
       <td>{prettyUpdated}</td>
-      <td>{kind}</td>
+      <td>{t(`kind-${kind}`)}</td>
       <td>{prettyValue}</td>
-      <td>{status}</td>
+      <td>{t(`status-${status}`)}</td>
       <td className={styles.actions}>
         <Link
           href={`/payment/${
