@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import { useTheme } from 'next-themes'
 import { FunctionComponent, MouseEventHandler } from 'react'
+import ReactCountryFlag from 'react-country-flag'
 import { IMAGE_BASE_URL } from '../../../env'
 import { PaymentCard } from '../../../types/Payment'
 import Image from '../../Image'
@@ -10,18 +11,6 @@ interface Props {
   card: PaymentCard
   onClick?: MouseEventHandler
   className?: string
-}
-
-/**
- * Converts country code to corresponding emoji flag
- * @param code ISO-3166-1 alpha-2 code of coutnry
- * @returns emoji flag string (two regional indicator characters)
- */
-function countryCodeToFlag(code: string): string {
-  // Consistent 127,397 offset from capital to regional indicator
-  return code
-    .toUpperCase()
-    .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
 }
 
 function getBrandImage(brand: string, theme: string): string {
@@ -43,7 +32,9 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
 
   return (
     <p className={classes.join(' ')} onClick={onClick}>
-      <span className={styles.country}>{countryCodeToFlag(card.country)}</span>
+      <span className={styles.country}>
+        <ReactCountryFlag countryCode={card.country} />
+      </span>
       <span className={styles.brand}>
         <Image
           src={getBrandImage(card.brand, resolvedTheme)}
