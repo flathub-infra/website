@@ -7,6 +7,7 @@ import sys
 import tempfile
 
 import gi
+import pytest
 
 gi.require_version("OSTree", "1.0")
 
@@ -21,7 +22,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 workspace = None
-client = None
 
 
 vcr = vcr.VCR(cassette_library_dir="tests/cassettes")
@@ -40,7 +40,7 @@ def _get_expected_xml_result(test_name):
 
 
 def setup_module():
-    global workspace, client
+    global workspace
 
     workspace = tempfile.TemporaryDirectory()
 
@@ -71,95 +71,97 @@ def setup_module():
     config.settings.datadir = "tests/data"
     config.settings.stats_baseurl = "file://" + workspace.name
 
+@pytest.fixture
+def client():
+
     from app import main
 
     with TestClient(main.app) as client_:
-        client = client_
-
+        yield client_
 
 def teardown_module():
     workspace.cleanup()
 
 
-def test_update():
+def test_update(client):
     response = client.post("/update")
     assert response.status_code == 200
 
 
-def test_apps_by_category():
+def test_apps_by_category(client):
     response = client.get("/category/Game")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_apps_by_category")
 
 
-def test_apps_by_category():
+def test_apps_by_category(client):
     response = client.get("/category/Game?page=1&per_page=10")
     assert response.status_code == 200
 
 
-def test_apps_by_non_existent_category():
+def test_apps_by_non_existent_category(client):
     response = client.get("/category/NonExistent")
     assert response.status_code == 422
 
 
-def test_apps_by_category_with_too_few_page_params():
+def test_apps_by_category_with_too_few_page_params(client):
     response = client.get("/category/Game?page=2")
     assert response.status_code == 400
 
 
-def test_apps_by_category_with_too_few_per_page_params():
+def test_apps_by_category_with_too_few_per_page_params(client):
     response = client.get("/category/Game?per_page=20")
     assert response.status_code == 400
 
 
-def test_apps_by_developer():
+def test_apps_by_developer(client):
     response = client.get("/developer/Sugar Labs Community")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_apps_by_developer")
 
 
-def test_apps_by_non_existent_developer():
+def test_apps_by_non_existent_developer(client):
     response = client.get("/developer/NonExistent")
     assert response.status_code == 404
 
 
-def test_appstream_by_appid():
+def test_appstream_by_appid(client):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_appstream_by_appid")
 
 
-def test_appstream_by_non_existent_appid():
+def test_appstream_by_non_existent_appid(client):
     response = client.get("/appstream/NonExistent")
     assert response.status_code == 404
     assert response.json() == None
 
 
-def test_search_query_by_appid():
+def test_search_query_by_appid(client):
     response = client.get("/search/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
 
 
-def test_search_query_by_name():
+def test_search_query_by_name(client):
     response = client.get("/search/Maze")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
 
 
-def test_search_query_by_summary():
+def test_search_query_by_summary(client):
     response = client.get("/search/maze%20game")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
 
 
-def test_search_query_by_description():
+def test_search_query_by_description(client):
     response = client.get("/search/finding%20your%20way%20out")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
 
 
-def test_search_query_by_non_existent():
+def test_search_query_by_non_existent(client):
     response = client.get("/search/NonExistent")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result(
@@ -167,7 +169,7 @@ def test_search_query_by_non_existent():
     )
 
 
-def test_collection_by_recently_updated():
+def test_collection_by_recently_updated(client):
     response = client.get("/collection/recently-updated")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result(
@@ -175,7 +177,7 @@ def test_collection_by_recently_updated():
     )
 
 
-def test_collection_by_one_recently_updated():
+def test_collection_by_one_recently_updated(client):
     response = client.get("/collection/recently-updated/1")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result(
@@ -183,7 +185,7 @@ def test_collection_by_one_recently_updated():
     )
 
 
-def test_feed_by_recently_updated():
+def test_feed_by_recently_updated(client):
     response = client.get("/feed/recently-updated")
     assert response.status_code == 200
 
@@ -203,7 +205,7 @@ def test_feed_by_recently_updated():
     assert etree.tostring(feed) == etree.tostring(expected)
 
 
-def test_feed_by_new():
+def test_feed_by_new(client):
     response = client.get("/feed/new")
     assert response.status_code == 200
 
@@ -223,53 +225,53 @@ def test_feed_by_new():
     assert etree.tostring(feed) == etree.tostring(expected)
 
 
-def test_picked_apps():
+def test_picked_apps(client):
     response = client.get("/picks/apps")
     assert response.status_code == 200
 
 
-def test_picked_games():
+def test_picked_games(client):
     response = client.get("/picks/games")
     assert response.status_code == 200
 
 
-def test_picked_non_existent():
+def test_picked_non_existent(client):
     response = client.get("/picks/NonExistent")
     assert response.status_code == 404
     assert response.json() == None
 
 
-def test_popular():
+def test_popular(client):
     response = client.get("/popular")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_popular")
 
 
-def test_status():
+def test_status(client):
     response = client.get("/status")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_status")
 
 
-def test_list_appstream():
+def test_list_appstream(client):
     response = client.get("/appstream")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_list_appstream")
 
 
-def test_summary_by_id():
+def test_summary_by_id(client):
     response = client.get("/summary/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_summary_by_appid")
 
 
-def test_summary_by_non_existent_id():
+def test_summary_by_non_existent_id(client):
     response = client.get("/summary/does.not.exist")
     assert response.status_code == 404
     assert response.json() == None
 
 
-def test_stats():
+def test_stats(client):
     response = client.get("/stats")
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
@@ -296,7 +298,7 @@ def test_stats():
     assert response.json() == expected
 
 
-def test_app_stats_by_id():
+def test_app_stats_by_id(client):
     response = client.get("/stats/org.sugarlabs.Maze")
 
     today = datetime.date.today()
@@ -312,14 +314,14 @@ def test_app_stats_by_id():
     assert response.json() == expected
 
 
-def test_app_stats_by_non_existent_id():
+def test_app_stats_by_non_existent_id(client):
     response = client.get("/stats/does.not.exist")
     assert response.status_code == 404
     assert response.json() == None
 
 
 @vcr.use_cassette()
-def test_verification_status():
+def test_verification_status(client):
     response = client.get("/verification/com.github.flathub.ExampleApp/status")
     expected = {
         "verified": False,
@@ -331,7 +333,7 @@ def test_verification_status():
 
 
 @vcr.use_cassette()
-def test_verification_available_method_website():
+def test_verification_available_method_website(client):
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
         "methods": [
@@ -346,7 +348,7 @@ def test_verification_available_method_website():
 
 
 @vcr.use_cassette()
-def test_verification_available_method_github():
+def test_verification_available_method_github(client):
     response = client.get(
         "/verification/com.github.bilelmoussaoui.Authenticator/available-methods"
     )
@@ -364,7 +366,7 @@ def test_verification_available_method_github():
 
 
 @vcr.use_cassette()
-def test_verification_available_method_multiple():
+def test_verification_available_method_multiple(client):
     response = client.get("/verification/io.github.lainsce.Notejot/available-methods")
     expected = {
         "methods": [
@@ -384,7 +386,7 @@ def test_verification_available_method_multiple():
 
 
 @vcr.use_cassette()
-def test_verification_status_dne():
+def test_verification_status_dne(client):
     response = client.get("/verification/com.github.flathub.ExampleApp/status")
     expected = {
         "verified": False,
@@ -396,7 +398,7 @@ def test_verification_status_dne():
 
 
 @vcr.use_cassette()
-def test_verification_status_invalid():
+def test_verification_status_invalid(client):
     response = client.get("/verification/com.github/status")
     expected = {
         "verified": False,
@@ -408,7 +410,7 @@ def test_verification_status_invalid():
 
 
 @vcr.use_cassette()
-def test_verification_status_website():
+def test_verification_status_website(client):
     response = client.get("/verification/org.gnome.Maps/status")
     expected = {
         "verified": True,
@@ -420,7 +422,7 @@ def test_verification_status_website():
 
 
 @vcr.use_cassette()
-def test_verification_status_not_verified():
+def test_verification_status_not_verified(client):
     response = client.get("/verification/org.gnome.Calendar/status")
     expected = {
         "verified": False,
@@ -431,7 +433,7 @@ def test_verification_status_not_verified():
 
 
 @vcr.use_cassette(record_mode="once")
-def test_auth_login_github():
+def test_auth_login_github(client):
     response = client.get("/auth/login/github")
     assert response.status_code == 200
     out = response.json()
@@ -446,7 +448,7 @@ def test_auth_login_github():
 
 
 @vcr.use_cassette(record_mode="once")
-def test_auth_login_gitlab():
+def test_auth_login_gitlab(client):
     response = client.get("/auth/login/gitlab")
     assert response.status_code == 200
     out = response.json()
@@ -464,7 +466,7 @@ def test_auth_login_gitlab():
 
 
 @vcr.use_cassette(record_mode="once")
-def test_auth_login_google():
+def test_auth_login_google(client):
     response = client.get("/auth/login/google")
     assert response.status_code == 200
     out = response.json()
@@ -486,7 +488,7 @@ def test_auth_login_google():
 
 
 @vcr.use_cassette(record_mode="once")
-def test_fakewallet():
+def test_fakewallet(client):
     from app import config
     if config.settings.stripe_public_key:
         pytest.skip("Stripe is configured")
@@ -534,7 +536,7 @@ def test_fakewallet():
 
 
 @vcr.use_cassette(record_mode="once")
-def test_stripewallet():
+def test_stripewallet(client):
     from app import config
     if not config.settings.stripe_public_key:
         pytest.skip("Stripe is not configured")
