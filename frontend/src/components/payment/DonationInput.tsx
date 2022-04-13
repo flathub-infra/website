@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import Router from 'next/router'
 import React, { FormEvent, FunctionComponent, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import { TRANSACTIONS_URL } from '../../env'
 import Button from '../Button'
 import Spinner from '../Spinner'
@@ -9,32 +10,40 @@ import styles from './DonationInput.module.scss'
 const minDonation = 5
 
 async function initiateDonation(recipient, amount: number): Promise<string> {
-  const res = fetch(TRANSACTIONS_URL, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      summary: {
-        value: amount,
-        currency: 'usd',
-        kind: 'donation',
+  let res: Response
+  try {
+    res = await fetch(TRANSACTIONS_URL, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      details: [
-        {
-          recipient,
-          amount,
+      body: JSON.stringify({
+        summary: {
+          value: amount,
           currency: 'usd',
           kind: 'donation',
         },
-      ],
-    }),
-  })
+        details: [
+          {
+            recipient,
+            amount,
+            currency: 'usd',
+            kind: 'donation',
+          },
+        ],
+      }),
+    })
+  } catch {
+    throw 'network-error-try-again'
+  }
 
-  // TODO error handling
-  const data = await (await res).json()
-  return data.id
+  if (res.ok) {
+    const data = await res.json()
+    return data.id
+  } else {
+    throw 'network-error-try-again'
+  }
 }
 
 interface Props {
@@ -52,8 +61,12 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
     event.preventDefault()
 
     setSubmit(true)
-    const transactId = await initiateDonation(org, Number(amount) * 100)
-    setTransaction(transactId)
+    initiateDonation(org, Number(amount) * 100)
+      .then(setTransaction)
+      .catch((err) => {
+        toast.error(t(err))
+        setSubmit(false)
+      })
   }
 
   // Prevent entering fractional cents
