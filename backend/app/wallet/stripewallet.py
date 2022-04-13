@@ -161,6 +161,8 @@ class StripeWallet(WalletBase):
             db.session.add(stxn)
             db.session.commit()
             return stxn
+        except WalletError:
+            raise
         except Exception as stripe_error:
             raise WalletError(
                 error="stripe-payment-intent-build-failed"
@@ -295,6 +297,8 @@ class StripeWallet(WalletBase):
                 txn.stripe_pi,
                 payment_method=card.id,
             )
+        except WalletError:
+            raise
         except Exception as stripe_error:
             raise WalletError("not found") from stripe_error
 
