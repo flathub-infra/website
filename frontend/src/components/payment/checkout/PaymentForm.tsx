@@ -9,6 +9,7 @@ import {
 import Button from '../../Button'
 import Spinner from '../../Spinner'
 import styles from './PaymentForm.module.scss'
+import { handleStripeError } from './stripe'
 
 async function saveCard(transactionId: string) {
   let res: Response
@@ -117,33 +118,7 @@ const PaymentForm: FunctionComponent<Props> = ({
 
     // Redirect will have occurred otherwise
     if (result.error) {
-      switch (result.error.type) {
-        case 'card_error':
-          // https://stripe.com/docs/declines/codes
-          if (result.error.decline_code) {
-            // Lost and stolen cards should be presented as a generic decline
-            // https://stripe.com/docs/declines/codes#lost_card
-            if (
-              ['lost_card', 'stolen_card'].includes(result.error.decline_code)
-            ) {
-              throw 'stripe-declined-generic_decline'
-            }
-
-            throw `stripe-declined-${result.error.decline_code}`
-          }
-
-        // Less specific card errors fallback to the error code
-        case 'invalid_request_error':
-          // https://stripe.com/docs/error-codes
-          throw `stripe-error-${result.error.code}`
-        case 'api_error':
-          throw 'stripe-api-error'
-        case 'validation_error':
-          // Stripe's input elements handle specific feedback for these
-          throw 'stripe-validation-error'
-        default:
-          throw 'network-error-try-again'
-      }
+      handleStripeError(result.error)
     }
   }
 }
