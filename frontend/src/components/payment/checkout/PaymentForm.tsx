@@ -30,10 +30,10 @@ async function saveCard(transactionId: string) {
   }
 }
 
-async function setPending(txnId: string) {
+async function setPending(transactionId: string) {
   let res: Response
   try {
-    res = await fetch(TRANSACTION_SET_PENDING_URL(txnId), {
+    res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
       method: 'POST',
       credentials: 'include',
     })

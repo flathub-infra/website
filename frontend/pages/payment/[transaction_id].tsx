@@ -40,23 +40,25 @@ async function getStripeObject() {
   }
 }
 
-async function getTransaction(txnId: string) {
+async function getTransaction(transactionId: string) {
   let res: Response
   try {
-    res = await fetch(TRANSACTION_INFO_URL(txnId), { credentials: 'include' })
+    res = await fetch(TRANSACTION_INFO_URL(transactionId), {
+      credentials: 'include',
+    })
   } catch {
     throw 'network-error-try-again'
   }
 
   if (res.ok) {
-    const txnData = await res.json()
-    const pending = ['new', 'retry'].includes(txnData.summary.status)
+    const transactionData = await res.json()
+    const pending = ['new', 'retry'].includes(transactionData.summary.status)
 
     let stripeData = { client_secret: null }
 
     if (pending) {
       try {
-        res = await fetch(TRANSACTION_STRIPE_INFO_URL(txnId), {
+        res = await fetch(TRANSACTION_STRIPE_INFO_URL(transactionId), {
           credentials: 'include',
         })
       } catch {
@@ -70,7 +72,7 @@ async function getTransaction(txnId: string) {
       stripeData = await res.json()
     }
 
-    return [txnData, stripeData.client_secret]
+    return [transactionData, stripeData.client_secret]
   } else {
     throw 'network-error-try-again'
   }

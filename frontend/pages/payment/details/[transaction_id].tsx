@@ -14,10 +14,12 @@ import { useUserContext } from '../../../src/context/user-info'
 import { TRANSACTION_INFO_URL } from '../../../src/env'
 import { TransactionDetailed } from '../../../src/types/Payment'
 
-async function getTransaction(txnId: string) {
+async function getTransaction(transactionId: string) {
   let res: Response
   try {
-    res = await fetch(TRANSACTION_INFO_URL(txnId), { credentials: 'include' })
+    res = await fetch(TRANSACTION_INFO_URL(transactionId), {
+      credentials: 'include',
+    })
   } catch {
     throw 'failed-to-load-refresh'
   }

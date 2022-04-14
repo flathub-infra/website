@@ -51,7 +51,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const [cards, setCards] = useState<PaymentCard[]>(null)
   const [error, setError] = useState('')
 
-  const { id: txnId } = transaction.summary
+  const { id: transactionId } = transaction.summary
 
   // Cards should only be retrieved once
   useEffect(() => {
@@ -80,7 +80,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           clientSecret={clientSecret}
           cards={cards}
           error={error}
-          submit={() => router.push(`${detailsPage}/${txnId}`)}
+          submit={() => router.push(`${detailsPage}/${transactionId}`)}
           skip={() => setStage(Stage.CardInput)}
         />
       )
@@ -88,8 +88,8 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     case Stage.CardInput:
       flowContent = (
         <PaymentForm
-          transactionId={txnId}
-          callbackPage={`${detailsPage}/${txnId}`}
+          transactionId={transactionId}
+          callbackPage={`${detailsPage}/${transactionId}`}
         />
       )
       break
@@ -104,8 +104,8 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
         {flowContent}
         <div className='actions'>
           <TransactionCancelButton
-            id={txnId}
-            onSuccess={() => router.push(`${detailsPage}/${txnId}`)}
+            id={transactionId}
+            onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
           />
         </div>
       </div>
