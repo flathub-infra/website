@@ -23,12 +23,20 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
   return (
     <div className={styles.container}>
       <p style={{ margin: 0 }}>
-        {t('transaction-summary-id', { id })} <br />
-        {t('transaction-summary-created', { date: prettyCreated })} <br />
-        {t('transaction-summary-updated', { date: prettyUpdated })} <br />
-        {t('transaction-summary-type', { type: kind })} <br />
-        {t('transaction-summary-value', { value: prettyValue })} <br />
-        {t('transaction-summary-status', { status })} <br />
+        {t('transaction-summary-id', { id })}
+        <br />
+        {t('transaction-summary-created', { date: prettyCreated })}
+        <br />
+        {t('transaction-summary-updated', { date: prettyUpdated })}
+        <br />
+        {t('transaction-summary-type', { type: t(`kind-${kind}`) })}
+        <br />
+        {t('transaction-summary-value', { value: prettyValue })}
+        <br />
+        {t('transaction-summary-status', {
+          status: t(`status-${status}`),
+        })}
+        <br />
         {transaction.receipt ? (
           <a href={transaction.receipt} target='_blank' rel='noreferrer'>
             {t('stripe-receipt')}
