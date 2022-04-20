@@ -465,7 +465,7 @@ integrations = ["cryptography"]
 
 [[package]]
 name = "pygobject"
-version = "3.42.0"
+version = "3.42.1"
 description = "Python bindings for GObject Introspection"
 category = "main"
 optional = false
@@ -833,7 +833,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "60bd773c8307c192e12681ec9f89f920e2f6e33e3fa6d386c24488fb4b14152b"
+content-hash = "cc6ad56788423f2dba75ad1255c22e7e24d45057bc610e686b711f6496d261e1"
 
 [metadata.files]
 alembic = [
@@ -1411,7 +1411,7 @@ pygithub = [
     {file = "PyGithub-1.55.tar.gz", hash = "sha256:1bbfff9372047ff3f21d5cd8e07720f3dbfdaf6462fcaed9d815f528f1ba7283"},
 ]
 pygobject = [
-    {file = "PyGObject-3.42.0.tar.gz", hash = "sha256:b9803991ec0b0b4175e81fee0ad46090fa7af438fe169348a9b18ae53447afcd"},
+    {file = "PyGObject-3.42.1.tar.gz", hash = "sha256:80d6a3ad1630e9d1edf31b9e9fad9a894c57e18545a3c95ef0044ac4042b8620"},
 ]
 pyjwt = [
     {file = "PyJWT-2.3.0-py3-none-any.whl", hash = "sha256:e0c4bb8d9f0af0c7f5b1ec4c5036309617d03d56932877f2f7a0beeb5318322f"},
