@@ -1,0 +1,41 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(1fr, 4);
+  grid-template-rows: repeat(1fr, 4);
+
+  background-color: var(--bg-color-secondary);
+  border-radius: var(--border-radius);
+
+  padding: 12px;
+
+  min-width: 200px;
+
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07),
+    0 2px 6px 2px rgba(0, 0, 0, 0.03);
+
+  .brand {
+    grid-column: 2/4;
+    grid-row: 1;
+
+    justify-self: end;
+  }
+
+  .code {
+    grid-column: 1/4;
+    grid-row: 2;
+  }
+
+  .country {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .expiry {
+    grid-column: 1/4;
+    grid-row: 3;
+  }
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

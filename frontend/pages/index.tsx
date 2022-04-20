@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import Main from '../src/components/layout/Main'
 
@@ -9,9 +9,9 @@ import { NextSeo } from 'next-seo'
 import { Collections } from '../src/types/Collection'
 import ApplicationSections from '../src/components/application/Sections'
 import Button from '../src/components/Button'
-import { useTranslation } from 'next-i18next';
-import Link from 'next/link';
-import Image from '../src/components/Image';
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import Image from '../src/components/Image'
 import styles from './index.module.scss'
 
 export default function Home({
@@ -20,15 +20,18 @@ export default function Home({
   editorsChoiceGames,
   popular,
 }) {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <Main>
-      <NextSeo
-        title={t('home')}
-        description={t('flathub-description')}
-      />
+      <NextSeo title={t('home')} description={t('flathub-description')} />
       <div className='main-container'>
-        <div style={{ "display": "flex", "gap": "12px", justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '12px',
+            justifyContent: 'space-between',
+          }}
+        >
           <div>
             <h1>{t('apps-for-linux-right-here')}</h1>
             <p
@@ -42,17 +45,27 @@ export default function Home({
             >
               {t('welcome-to-flathub-index-text')}
             </p>
-            <div style={{ "display": "flex", "gap": "12px" }}>
+            <div style={{ display: 'flex', gap: '12px' }}>
               <a href='https://flatpak.org/setup/'>
                 <Button type='secondary'>{t('quick-setup')}</Button>
               </a>
               <Link href='/apps' passHref>
                 <Button type='secondary'>{t('explore')}</Button>
               </Link>
+              <Link href='/donate' passHref>
+                <Button type='secondary'>
+                  {t('donate-to', { project: 'Flathub' })}
+                </Button>
+              </Link>
             </div>
           </div>
           <div className={styles.launchImage}>
-            <Image width='400' height="300px" src="/assets/landing.svg" alt="" />
+            <Image
+              width='400'
+              height='300px'
+              src='/assets/landing.svg'
+              alt=''
+            />
           </div>
         </div>
 
@@ -63,7 +76,7 @@ export default function Home({
           editorsChoiceGames={editorsChoiceGames}
         ></ApplicationSections>
       </div>
-    </Main >
+    </Main>
   )
 }
 
