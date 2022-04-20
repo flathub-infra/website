@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@datapunt/matomo-tracker-react": "^0.5.1",
+    "@stripe/react-stripe-js": "^1.7.0",
+    "@stripe/stripe-js": "^1.24.0",
     "chart.js": "^3.7.1",
     "chartjs-adapter-date-fns": "^2.0.0",
     "date-fns": "^2.28.0",
@@ -22,13 +24,14 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^4.1.0",
     "react-copy-to-clipboard": "^5.0.4",
+    "react-country-flag": "^3.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-image-lightbox": "^5.1.4",
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "^2.0.0-alpha.0",
     "react-toastify": "^8.2.0",
-    "sass": "^1.50.0",
+    "sass": "^1.50.1",
     "spdx-license-list": "^6.5.0"
   },
   "devDependencies": {
