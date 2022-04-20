@@ -185,5 +185,9 @@
     "stripe-error-payment_intent_authentication_failure": "Failed to authenticate your payment method. Please choose a different payment method and try again.",
     "stripe-error-processing_error": "An error occurred while processing the card. Try again later or with a different payment method.",
     "stripe-validation-error": "An invalid card detail was entered.",
-    "view-wallet": "View Wallet"
+    "view-wallet": "View Wallet",
+    "no-more-transactions": "No more transactions to show.",
+    "first-page": "First Page",
+    "previous-page": "Previous Page",
+    "next-page": "Next Page"
 }
