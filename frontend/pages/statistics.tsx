@@ -2,7 +2,7 @@ import Main from '../src/components/layout/Main'
 import { NextSeo } from 'next-seo'
 import WorldMap from 'react-svg-worldmap'
 import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { fetchStats } from '../src/fetchers'
 import { Stats as Statistics } from '../src/types/Stats'
 import styles from './statistics.module.scss'
@@ -16,8 +16,8 @@ import {
   MdFormatListNumbered,
 } from 'react-icons/md'
 import ListBox from '../src/components/application/ListBox'
-import { i18n, useTranslation } from 'next-i18next';
-import { useTheme } from 'next-themes';
+import { i18n, useTranslation } from 'next-i18next'
+import { useTheme } from 'next-themes'
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
@@ -42,7 +42,12 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, t('downloads'), resolvedTheme)
+  const data = chartStyle(
+    downloads_labels,
+    downloads_data,
+    t('downloads'),
+    resolvedTheme
+  )
 
   const options = chartOptions(i18n.language)
 
@@ -59,7 +64,9 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 header: t('count-downloads'),
                 content: {
                   type: 'text',
-                  text: stats.downloads?.toLocaleString(),
+                  text: stats.downloads?.toLocaleString(
+                    i18n.language.substring(0, 2)
+                  ),
                 },
               },
             ]}
@@ -71,7 +78,9 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 header: t('count-applications'),
                 content: {
                   type: 'text',
-                  text: stats.number_of_apps?.toLocaleString(),
+                  text: stats.number_of_apps?.toLocaleString(
+                    i18n.language.substring(0, 2)
+                  ),
                 },
               },
             ]}
@@ -83,13 +92,15 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 header: t('since'),
                 content: {
                   type: 'text',
-                  text: new Date(2018, 3, 29).toLocaleDateString(i18n.language.substring(0, 2)),
+                  text: new Date(2018, 3, 29).toLocaleDateString(
+                    i18n.language.substring(0, 2)
+                  ),
                 },
               },
             ]}
           />
         </div>
-        <div className={styles.downloadStats}>{ }</div>
+        <div className={styles.downloadStats}>{}</div>
         <h3>{t('downloads-per-country')}</h3>
         <div className={styles.map}>
           <WorldMap

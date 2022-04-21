@@ -13,7 +13,7 @@ const TransactionPayout: FunctionComponent<Props> = ({ payout }) => {
   return (
     <div className={styles.payout}>
       <span>
-        {new Intl.NumberFormat(i18n.language, {
+        {new Intl.NumberFormat(i18n.language.substring(0, 2), {
           style: 'currency',
           currency: payout.currency,
           currencyDisplay: 'symbol',
