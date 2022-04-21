@@ -8,10 +8,22 @@ interface Props {
   buttonType?: 'button' | 'submit' | 'reset'
   disabled?: boolean
   className?: string
+  'aria-label'?: string
 }
 
 const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
-  ({ children, onClick, type, buttonType, disabled = false, className }, ref) => {
+  (
+    {
+      children,
+      onClick,
+      type,
+      buttonType,
+      disabled = false,
+      className,
+      'aria-label': ariaLabel,
+    },
+    ref
+  ) => {
     return (
       <button
         className={
@@ -25,6 +37,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
         ref={ref}
         type={buttonType}
         disabled={disabled}
+        aria-label={ariaLabel}
       >
         {children}
       </button>
