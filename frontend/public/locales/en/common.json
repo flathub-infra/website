@@ -187,7 +187,6 @@
     "stripe-validation-error": "An invalid card detail was entered.",
     "view-wallet": "View Wallet",
     "no-more-transactions": "No more transactions to show.",
-    "first-page": "First Page",
     "previous-page": "Previous Page",
     "next-page": "Next Page"
 }

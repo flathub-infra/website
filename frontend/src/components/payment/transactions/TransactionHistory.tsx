@@ -8,6 +8,7 @@ import Button from '../../Button'
 import Spinner from '../../Spinner'
 import TransactionList from './TransactionList'
 import styles from './TransactionHistory.module.scss'
+import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md'
 
 async function getTransactions(
   sort: string = 'recent',
@@ -87,6 +88,8 @@ const TransactionHistory: FunctionComponent = () => {
     return <Spinner size={100} text={t('loading')} />
   }
 
+  const pageSlice = transactions.slice(page * perPage, page * perPage + perPage)
+
   return (
     <div className='main-container'>
       <h3>{t('transaction-history')}</h3>
@@ -94,29 +97,23 @@ const TransactionHistory: FunctionComponent = () => {
         <p>{t(error)}</p>
       ) : (
         <>
-          <TransactionList
-            transactions={transactions.slice(
-              page * perPage,
-              page * perPage + perPage
-            )}
-          />
+          <TransactionList transactions={pageSlice} />
           <div className={styles.controlPage}>
             <Button
               type='secondary'
-              onClick={() => setPage(0)}
+              onClick={pageBack}
               disabled={page === 0}
+              aria-label={t('previous-page')}
             >
-              {t('first-page')}
-            </Button>
-            <Button type='secondary' onClick={pageBack} disabled={page === 0}>
-              {t('previous-page')}
+              <MdNavigateBefore className={styles.navButton} />
             </Button>
             <Button
               type='secondary'
               onClick={pageForward}
-              disabled={page === endPage}
+              disabled={page === endPage || perPage > pageSlice.length}
+              aria-label={t('next-page')}
             >
-              {t('next-page')}
+              <MdNavigateNext className={styles.navButton} />
             </Button>
           </div>
         </>
