@@ -12,9 +12,13 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
 
   const { id, created, updated, kind, value, status } = transaction.summary
 
-  const prettyCreated = new Date(created * 1000).toLocaleString()
-  const prettyUpdated = new Date(updated * 1000).toLocaleString()
-  const prettyValue = new Intl.NumberFormat(i18n.language, {
+  const prettyCreated = new Date(created * 1000).toLocaleString(
+    i18n.language.substring(0, 2)
+  )
+  const prettyUpdated = new Date(updated * 1000).toLocaleString(
+    i18n.language.substring(0, 2)
+  )
+  const prettyValue = new Intl.NumberFormat(i18n.language.substring(0, 2), {
     style: 'currency',
     currency: 'USD',
     currencyDisplay: 'symbol',

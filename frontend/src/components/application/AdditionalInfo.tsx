@@ -16,7 +16,7 @@ import { BsHddFill, BsTextParagraph } from 'react-icons/bs'
 import { MdLaptop } from 'react-icons/md'
 import { AppStats } from '../../types/AppStats'
 import spdxLicenseList from 'spdx-license-list/full'
-import { useTranslation } from 'next-i18next'
+import { i18n, useTranslation } from 'next-i18next'
 import { TFunction } from 'react-i18next'
 import { calculateHumanReadableSize } from '../../size'
 
@@ -48,7 +48,9 @@ const AdditionalInfo = ({
             header: t('installed-size'),
             content: {
               type: 'text',
-              text: summary ? `~${calculateHumanReadableSize(summary.installed_size)}` : t('unknown'),
+              text: summary
+                ? `~${calculateHumanReadableSize(summary.installed_size)}`
+                : t('unknown'),
             },
           },
         ]}
@@ -61,7 +63,9 @@ const AdditionalInfo = ({
             header: t('download-size'),
             content: {
               type: 'text',
-              text: summary ? calculateHumanReadableSize(summary.download_size) : t('unknown'),
+              text: summary
+                ? calculateHumanReadableSize(summary.download_size)
+                : t('unknown'),
             },
           },
         ]}
@@ -73,7 +77,10 @@ const AdditionalInfo = ({
           {
             icon: <MdLaptop />,
             header: t('available-architectures'),
-            content: { type: 'text', text: summary ? summary.arches.join(', ') : t('unknown') },
+            content: {
+              type: 'text',
+              text: summary ? summary.arches.join(', ') : t('unknown'),
+            },
           },
         ]}
       ></ListBox>
@@ -85,7 +92,9 @@ const AdditionalInfo = ({
             header: t('downloads'),
             content: {
               type: 'text',
-              text: stats.downloads_total.toLocaleString(),
+              text: stats.downloads_total.toLocaleString(
+                i18n.language.substring(0, 2)
+              ),
             },
           },
         ]}
@@ -112,14 +121,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.homepage
               ? {
-                content: {
-                  type: 'url',
-                  text: data.urls.homepage,
-                  trackAsEvent: 'Homepage',
-                },
-                icon: <MdWeb />,
-                header: t('project-website'),
-              }
+                  content: {
+                    type: 'url',
+                    text: data.urls.homepage,
+                    trackAsEvent: 'Homepage',
+                  },
+                  icon: <MdWeb />,
+                  header: t('project-website'),
+                }
               : undefined,
           ]}
         />
@@ -130,14 +139,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.contact
               ? {
-                content: {
-                  type: 'url',
-                  text: data.urls.contact,
-                  trackAsEvent: 'Contact',
-                },
-                icon: <MdContactPage />,
-                header: t('contact'),
-              }
+                  content: {
+                    type: 'url',
+                    text: data.urls.contact,
+                    trackAsEvent: 'Contact',
+                  },
+                  icon: <MdContactPage />,
+                  header: t('contact'),
+                }
               : undefined,
           ]}
         />
@@ -148,14 +157,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.help
               ? {
-                content: {
-                  type: 'url',
-                  text: data.urls.help,
-                  trackAsEvent: 'Help',
-                },
-                icon: <MdHelp />,
-                header: t('help'),
-              }
+                  content: {
+                    type: 'url',
+                    text: data.urls.help,
+                    trackAsEvent: 'Help',
+                  },
+                  icon: <MdHelp />,
+                  header: t('help'),
+                }
               : undefined,
           ]}
         />
@@ -166,14 +175,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.faq
               ? {
-                content: {
-                  type: 'url',
-                  text: data.urls.faq,
-                  trackAsEvent: 'Faq',
-                },
-                icon: <MdQuestionAnswer />,
-                header: t('frequently-asked-questions'),
-              }
+                  content: {
+                    type: 'url',
+                    text: data.urls.faq,
+                    trackAsEvent: 'Faq',
+                  },
+                  icon: <MdQuestionAnswer />,
+                  header: t('frequently-asked-questions'),
+                }
               : undefined,
           ]}
         />
@@ -184,14 +193,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.translate
               ? {
-                icon: <MdTranslate />,
-                header: t('contribute-translations'),
-                content: {
-                  type: 'url',
-                  text: data.urls.translate,
-                  trackAsEvent: 'Translate',
-                },
-              }
+                  icon: <MdTranslate />,
+                  header: t('contribute-translations'),
+                  content: {
+                    type: 'url',
+                    text: data.urls.translate,
+                    trackAsEvent: 'Translate',
+                  },
+                }
               : undefined,
           ]}
         />
@@ -202,14 +211,14 @@ const AdditionalInfo = ({
           items={[
             data.urls.bugtracker
               ? {
-                icon: <MdOutlineBugReport />,
-                header: t('report-an-issue'),
-                content: {
-                  type: 'url',
-                  text: data.urls.bugtracker,
-                  trackAsEvent: 'Bugtracker',
-                },
-              }
+                  icon: <MdOutlineBugReport />,
+                  header: t('report-an-issue'),
+                  content: {
+                    type: 'url',
+                    text: data.urls.bugtracker,
+                    trackAsEvent: 'Bugtracker',
+                  },
+                }
               : undefined,
           ]}
         />
@@ -222,8 +231,10 @@ const AdditionalInfo = ({
             header: t('manifest'),
             content: {
               type: 'url',
-              text: data.metadata?.['Flathub::manifest'] ?? `https://github.com/flathub/${appId}`,
-              trackAsEvent: "Manifest"
+              text:
+                data.metadata?.['Flathub::manifest'] ??
+                `https://github.com/flathub/${appId}`,
+              trackAsEvent: 'Manifest',
             },
           },
         ]}
@@ -232,7 +243,10 @@ const AdditionalInfo = ({
   )
 }
 
-function getLicense(project_license: string | undefined, t: TFunction<"translation", undefined>): string | undefined {
+function getLicense(
+  project_license: string | undefined,
+  t: TFunction<'translation', undefined>
+): string | undefined {
   if (!project_license) {
     return undefined
   }

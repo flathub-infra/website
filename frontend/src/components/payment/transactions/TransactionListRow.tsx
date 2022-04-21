@@ -18,9 +18,13 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
   // Status may change through interaction
   const [shownStatus, setStatus] = useState(status)
 
-  const prettyCreated = new Date(created * 1000).toLocaleString()
-  const prettyUpdated = new Date(updated * 1000).toLocaleString()
-  const prettyValue = new Intl.NumberFormat(i18n.language, {
+  const prettyCreated = new Date(created * 1000).toLocaleString(
+    i18n.language.substring(0, 2)
+  )
+  const prettyUpdated = new Date(updated * 1000).toLocaleString(
+    i18n.language.substring(0, 2)
+  )
+  const prettyValue = new Intl.NumberFormat(i18n.language.substring(0, 2), {
     style: 'currency',
     currency: 'USD',
     currencyDisplay: 'symbol',
