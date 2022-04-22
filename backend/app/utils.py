@@ -89,10 +89,11 @@ def appstream2dict(reponame: str):
                         height = image.attrib.get("height")
                         attrs[f"{width}x{height}"] = image.text
 
-                if screenshot.attrib.get("type") == "default":
-                    app["screenshots"].insert(0, attrs.copy())
-                else:
-                    app["screenshots"].append(attrs.copy())
+                if attrs:
+                    if screenshot.attrib.get("type") == "default":
+                        app["screenshots"].insert(0, attrs.copy())
+                    else:
+                        app["screenshots"].append(attrs.copy())
             component.remove(screenshots)
 
         releases = component.find("releases")
