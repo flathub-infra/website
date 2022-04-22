@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
-import Main from '../src/components/layout/Main'
 import LoginGuard from '../src/components/login/LoginGuard'
 import SavedCards from '../src/components/payment/cards/SavedCards'
 import TransactionHistory from '../src/components/payment/transactions/TransactionHistory'
@@ -14,7 +13,7 @@ export default function Wallet() {
   const { t } = useTranslation()
 
   return (
-    <Main>
+    <>
       <NextSeo title={t('user-wallet')} noindex={true} />
       <div className={styles.userArea}>
         <LoginGuard>
@@ -22,7 +21,7 @@ export default function Wallet() {
           <TransactionHistory />
         </LoginGuard>
       </div>
-    </Main>
+    </>
   )
 }
 

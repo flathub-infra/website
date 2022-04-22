@@ -1,4 +1,3 @@
-import Main from '../src/components/layout/Main'
 import { NextSeo } from 'next-seo'
 import WorldMap from 'react-svg-worldmap'
 import { GetStaticProps } from 'next'
@@ -52,7 +51,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const options = chartOptions(i18n.language)
 
   return (
-    <Main>
+    <>
       <NextSeo title={t('statistics')} description={t('flathub-statistics')} />
       <div className='main-container'>
         <h1>{t('statistics')}</h1>
@@ -117,7 +116,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           <Line data={data} options={options} />
         </div>
       </div>
-    </Main>
+    </>
   )
 }
 

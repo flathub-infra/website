@@ -1,8 +1,6 @@
 import { GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import Main from '../src/components/layout/Main'
-
 import fetchCollection from '../src/fetchers'
 import { APPS_IN_PREVIEW_COUNT } from '../src/env'
 import { NextSeo } from 'next-seo'
@@ -22,7 +20,7 @@ export default function Home({
 }) {
   const { t } = useTranslation()
   return (
-    <Main>
+    <>
       <NextSeo title={t('home')} description={t('flathub-description')} />
       <div className='main-container'>
         <div
@@ -76,7 +74,7 @@ export default function Home({
           editorsChoiceGames={editorsChoiceGames}
         ></ApplicationSections>
       </div>
-    </Main>
+    </>
   )
 }
 

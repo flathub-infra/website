@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
-import Main from '../src/components/layout/Main'
 import LoginGuard from '../src/components/login/LoginGuard'
 import UserDetails from '../src/components/user/Details'
 import UserApps from '../src/components/user/UserApps'
@@ -15,7 +14,7 @@ export default function Userpage({ providers }) {
 
   // Buttons above apps so they're on screen when page loads (for action visibility)
   return (
-    <Main>
+    <>
       <NextSeo title={t('user-page')} noindex={true} />
       <div className={styles.userArea}>
         <LoginGuard>
@@ -23,7 +22,7 @@ export default function Userpage({ providers }) {
           <UserApps />
         </LoginGuard>
       </div>
-    </Main>
+    </>
   )
 }
 
