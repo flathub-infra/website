@@ -188,5 +188,6 @@
     "view-wallet": "View Wallet",
     "no-more-transactions": "No more transactions to show.",
     "previous-page": "Previous Page",
-    "next-page": "Next Page"
+    "next-page": "Next Page",
+    "less": "Less"
 }
