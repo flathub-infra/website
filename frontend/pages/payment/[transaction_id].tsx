@@ -6,7 +6,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useState } from 'react'
-import Main from '../../src/components/layout/Main'
 import Checkout from '../../src/components/payment/checkout/Checkout'
 import Spinner from '../../src/components/Spinner'
 import { useUserContext } from '../../src/context/user-info'
@@ -143,10 +142,10 @@ export default function TransactionPage() {
   }
 
   return (
-    <Main>
+    <>
       <NextSeo title={t('payment')} noindex={true}></NextSeo>
       <div className='main-container'>{content}</div>
-    </Main>
+    </>
   )
 }
 

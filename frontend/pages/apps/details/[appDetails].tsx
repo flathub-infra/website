@@ -1,8 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import ApplicationDetails from '../../../src/components/application/Details'
-import Main from '../../../src/components/layout/Main'
 import {
   fetchAppstream,
   fetchAppStats,
@@ -32,12 +31,12 @@ export default function Details({
 }) {
   const screenshots = app.screenshots
     ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
-      url: pickScreenshot(screenshot).url,
-    }))
+        url: pickScreenshot(screenshot).url,
+      }))
     : []
 
   return (
-    <Main>
+    <>
       <NextSeo
         title={app?.name}
         description={app?.summary}
@@ -54,13 +53,14 @@ export default function Details({
         app={app}
         summary={summary}
         stats={stats}
-        developerApps={developerApps.filter(devApp => devApp.id !== app.id)}
+        developerApps={developerApps.filter((devApp) => devApp.id !== app.id)}
       />
-    </Main >
+    </>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale,
+export const getStaticProps: GetStaticProps = async ({
+  locale,
   params: { appDetails: appId },
 }) => {
   console.log('Fetching data for app details: ', appId)

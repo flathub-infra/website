@@ -6,15 +6,15 @@ import type { AppProps } from 'next/app'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // Requires a loader
 import { UserInfoProvider } from '../src/context/user-info'
 import { IMAGE_BASE_URL, IS_PRODUCTION } from '../src/env'
-import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation } from 'next-i18next'
 
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
 
 import '../styles/main.scss'
 import { useRouter } from 'next/router'
 import { getLocaleString } from '../src/localize'
-
+import Main from '../src/components/layout/Main'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
@@ -49,11 +49,11 @@ const App = ({ Component, pageProps }: AppProps) => {
           }}
         />
         <UserInfoProvider>
-          <Component {...pageProps} />
+          <Main>
+            <Component {...pageProps} />
+          </Main>
         </UserInfoProvider>
-        <ToastContainer
-          position="bottom-right"
-        />
+        <ToastContainer position='bottom-right' />
       </ThemeProvider>
     </MatomoProvider>
   )

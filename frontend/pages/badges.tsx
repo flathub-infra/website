@@ -1,4 +1,3 @@
-import Main from '../src/components/layout/Main'
 import Image from '../src/components/Image'
 import CodeCopy from '../src/components/application/CodeCopy'
 import { NextSeo } from 'next-seo'
@@ -18,7 +17,7 @@ const badgeExampleCodeMoinMoin =
 const Badges = () => {
   const { t } = useTranslation()
   return (
-    <Main>
+    <>
       <NextSeo
         title={t('official-badges')}
         description={t('badges-description')}
@@ -82,8 +81,8 @@ const Badges = () => {
               <span property='dct:title'>Jakub Steiner</span>{' '}
             </a>
             has waived all copyright and related or neighboring rights to
-            <span property='dct:title'>Flathub Badges</span>. This work is published
-            from: Czech Republic.
+            <span property='dct:title'>Flathub Badges</span>. This work is
+            published from: Czech Republic.
           </Trans>
         </p>
 
@@ -122,7 +121,7 @@ const Badges = () => {
           </div>
         </div>
       </section>
-    </Main>
+    </>
   )
 }
 
@@ -133,6 +132,5 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     },
   }
 }
-
 
 export default Badges
