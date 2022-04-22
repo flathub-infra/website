@@ -8,6 +8,7 @@ import LogoutButton from "../login/LogoutButton"
 import ProviderLink from "../login/ProviderLink"
 import DeleteButton from "./DeleteButton"
 import styles from "./Details.module.scss"
+import VendingLink from "./VendingLink"
 
 interface Props {
   logins: LoginProvider[]
@@ -69,6 +70,15 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         </div>
 
         {loginSection}
+
+        {user.info["dev-flatpaks"].length ? (
+          <div className={styles.subsection}>
+            <h3>{t("accepting-payment")}</h3>
+            <VendingLink />
+          </div>
+        ) : (
+          <></>
+        )}
 
         <div className={styles.actions}>
           <Link href="/wallet" passHref>
