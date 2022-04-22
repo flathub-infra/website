@@ -8,7 +8,6 @@ import Button from '../Button'
 import ConfirmDialog from '../ConfirmDialog'
 import Spinner from '../Spinner'
 
-
 /**
  * Performs a GET request to the API to initiate user deletion.
  * @param waiting Function to set the async state of the component
@@ -18,7 +17,7 @@ import Spinner from '../Spinner'
 async function requestDeletion(
   waiting: (a: boolean) => void,
   error: (msg_id: string) => void,
-  success: (token: string) => void,
+  success: (token: string) => void
 ) {
   waiting(true)
 
@@ -44,7 +43,6 @@ async function requestDeletion(
   }
 }
 
-
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
   // Using state to prevent user repeatedly initating fetches
@@ -58,9 +56,9 @@ const DeleteButton: FunctionComponent = () => {
     if (clicked) {
       requestDeletion(
         setWaiting,
-        msg_id => {
-          toast.error(t(msg_id));
-          setClicked(false);
+        (msg_id) => {
+          toast.error(t(msg_id))
+          setClicked(false)
         },
         setToken
       )
@@ -73,34 +71,36 @@ const DeleteButton: FunctionComponent = () => {
 
   if (token) {
     // Callbacks must clear the token to hide the dialog
-    return <ConfirmDialog
-      prompt='Delete your account?'
-      entry='I wish to delete my account'
-      action={t('delete-account')}
-      onConfirmed={() => {
-        setWaiting(true)
+    return (
+      <ConfirmDialog
+        prompt='Delete your account?'
+        entry='I wish to delete my account'
+        action={t('delete-account')}
+        onConfirmed={() => {
+          setWaiting(true)
 
-        deleteAccount(dispatch, token)
-          .catch(err => {
-            toast.error(t(err))
-            setClicked(false)
-          })
-          .finally(() => {
-            setWaiting(false)
-          })
+          deleteAccount(dispatch, token)
+            .catch((err) => {
+              toast.error(t(err))
+              setClicked(false)
+            })
+            .finally(() => {
+              setWaiting(false)
+            })
 
-        setToken('')
-      }}
-      onCancelled={() => {
-        // Hide dialog and allow reuse of button
-        setToken('')
-        setClicked(false)
-      }}
-    />
+          setToken('')
+        }}
+        onCancelled={() => {
+          // Hide dialog and allow reuse of button
+          setToken('')
+          setClicked(false)
+        }}
+      />
+    )
   }
 
   return (
-    <Button onClick={() => setClicked(true)} type='secondary'>
+    <Button onClick={() => setClicked(true)} variant='secondary'>
       {t('delete-account')}
     </Button>
   )

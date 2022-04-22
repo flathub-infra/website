@@ -87,7 +87,7 @@ const SavedCards: FunctionComponent = () => {
         {cards.map((card) => (
           <div key={card.id}>
             <CardInfo card={card} />
-            <Button type='secondary' onClick={() => removeCard(card)}>
+            <Button variant='secondary' onClick={() => removeCard(card)}>
               {t('remove-saved-card')}
             </Button>
           </div>

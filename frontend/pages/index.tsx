@@ -45,13 +45,13 @@ export default function Home({
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
               <a href='https://flatpak.org/setup/'>
-                <Button type='secondary'>{t('quick-setup')}</Button>
+                <Button variant='secondary'>{t('quick-setup')}</Button>
               </a>
               <Link href='/apps' passHref>
-                <Button type='secondary'>{t('explore')}</Button>
+                <Button variant='secondary'>{t('explore')}</Button>
               </Link>
               <Link href='/donate' passHref>
-                <Button type='secondary'>
+                <Button variant='secondary'>
                   {t('donate-to', { project: 'Flathub' })}
                 </Button>
               </Link>

@@ -105,8 +105,8 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <Button
         key={val}
         className={styles.amount}
-        type='secondary'
-        buttonType='button'
+        variant='secondary'
+        type='button'
         onClick={() => setAmount(val.toString())}
       >
         ${val}

@@ -72,7 +72,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
         <div className={styles.actions}>
           <Link href='/wallet' passHref>
-            <Button type='primary'>{t('view-wallet')}</Button>
+            <Button variant='primary'>{t('view-wallet')}</Button>
           </Link>
           <LogoutButton />
           <DeleteButton />
