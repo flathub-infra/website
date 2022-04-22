@@ -196,5 +196,9 @@
   "no-more-transactions": "No more transactions to show.",
   "previous-page": "Previous Page",
   "next-page": "Next Page",
-  "less": "Less"
+  "less": "Less",
+  "accepting-payment": "Accepting Payment",
+  "vending-dashboard": "Go to your Stripe Express account",
+  "vending-onboard": "Create a Stripe Express account",
+  "requires-attention": "Requires attention"
 }
