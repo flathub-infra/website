@@ -55,7 +55,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   }, [id, onSuccess, clicked, t])
 
   return (
-    <Button onClick={() => setClicked(true)} type='secondary'>
+    <Button onClick={() => setClicked(true)} variant='secondary'>
       {t('transaction-cancel')}
     </Button>
   )

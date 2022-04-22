@@ -100,7 +100,7 @@ const TransactionHistory: FunctionComponent = () => {
           <TransactionList transactions={pageSlice} />
           <div className={styles.controlPage}>
             <Button
-              type='secondary'
+              variant='secondary'
               onClick={pageBack}
               disabled={page === 0}
               aria-label={t('previous-page')}
@@ -108,7 +108,7 @@ const TransactionHistory: FunctionComponent = () => {
               <MdNavigateBefore className={styles.navButton} />
             </Button>
             <Button
-              type='secondary'
+              variant='secondary'
               onClick={pageForward}
               disabled={page === endPage || perPage > pageSlice.length}
               aria-label={t('next-page')}

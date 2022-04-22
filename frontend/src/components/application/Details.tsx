@@ -136,7 +136,7 @@ const Details: FunctionComponent<Props> = ({
                 onClick={donateClicked}
                 className={styles.secondaryButton}
               >
-                <Button type='secondary'>{t('donate')}</Button>
+                <Button variant='secondary'>{t('donate')}</Button>
               </a>
             )}
           </div>
@@ -153,13 +153,14 @@ const Details: FunctionComponent<Props> = ({
             />
           )}
           <div className={styles.carouselWrapper}>
-            {app.screenshots && (
-              <div
+            {app.screenshots && app.screenshots.length > 0 && (
+              <Button
                 className={styles.zoom}
                 onClick={() => setShowLightbox(true)}
+                aria-label={t('zoom')}
               >
                 <MdZoomIn />
-              </div>
+              </Button>
             )}
             <Carousel
               showThumbs={false}

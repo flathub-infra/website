@@ -3,10 +3,10 @@ import Button from './Button'
 import styles from './ConfirmDialog.module.scss'
 
 interface Props {
-  prompt: string,
-  entry?: string,
-  action: string,
-  onConfirmed: () => void,
+  prompt: string
+  entry?: string
+  action: string
+  onConfirmed: () => void
   onCancelled: () => void
 }
 
@@ -32,35 +32,42 @@ const ConfirmDialog: FunctionComponent<Props> = ({
     if (cancelled) onCancelled()
   }, [onCancelled, cancelled])
 
-  const toEnter = <div>
-    <p>{`Enter "${entry}" to continue.`}</p>
-    <input
-      value={text}
-      onInput={e => setText((e.target as HTMLInputElement).value)}
-    />
-  </div>
-
-  const confirm = <Button
-    className={styles.confirm}
-    onClick={() => setConfirmed(true)}
-    type='primary'
-  >
-    {action}
-  </Button>
-
-  return (<div className={styles.dialog}>
-    <p>{prompt}</p>
-    {entry ? toEnter : <></>}
-    <div className={styles.actions}>
-      {(entry && text === entry) ? confirm : <></>}
-      <Button
-      className={styles.cancel}
-      onClick={() => setCancelled(true)}
-      type='primary'>
-        Cancel
-      </Button>
+  const toEnter = (
+    <div>
+      <p>{`Enter "${entry}" to continue.`}</p>
+      <input
+        value={text}
+        onInput={(e) => setText((e.target as HTMLInputElement).value)}
+      />
     </div>
-  </div>)
+  )
+
+  const confirm = (
+    <Button
+      className={styles.confirm}
+      onClick={() => setConfirmed(true)}
+      variant='primary'
+    >
+      {action}
+    </Button>
+  )
+
+  return (
+    <div className={styles.dialog}>
+      <p>{prompt}</p>
+      {entry ? toEnter : <></>}
+      <div className={styles.actions}>
+        {entry && text === entry ? confirm : <></>}
+        <Button
+          className={styles.cancel}
+          onClick={() => setCancelled(true)}
+          variant='primary'
+        >
+          Cancel
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 export default ConfirmDialog

@@ -47,7 +47,7 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
           }`}
           passHref
         >
-          <Button type={needsAttention ? 'primary' : 'secondary'}>
+          <Button variant={needsAttention ? 'primary' : 'secondary'}>
             {needsAttention ? t('checkout') : t('view')}
           </Button>
         </Link>
