@@ -2,7 +2,7 @@ import { useMatomo } from '@datapunt/matomo-tracker-react'
 import { FunctionComponent, useState } from 'react'
 import { Carousel } from 'react-responsive-carousel'
 import { Appstream, pickScreenshot } from '../../types/Appstream'
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next'
 
 import { Summary } from '../../types/Summary'
 
@@ -19,7 +19,7 @@ import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
 import Lightbox from 'react-image-lightbox'
 import ApplicationSection from './ApplicationSection'
 import LogoImage from '../LogoImage'
-import { calculateHumanReadableSize } from '../../size';
+import { calculateHumanReadableSize } from '../../size'
 
 import 'react-image-lightbox/style.css' // This only needs to be imported once in your app
 
@@ -63,8 +63,13 @@ function categoryToSeoCategory(category) {
   }
 }
 
-const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps }) => {
-  const { t } = useTranslation();
+const Details: FunctionComponent<Props> = ({
+  app,
+  summary,
+  stats,
+  developerApps,
+}) => {
+  const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
 
@@ -99,20 +104,25 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
             authorName={app.developer_name}
             operatingSystemName={'LINUX'}
             storageRequirements={
-              summary ? calculateHumanReadableSize(summary.download_size) : t('unknown')
+              summary
+                ? calculateHumanReadableSize(summary.download_size)
+                : t('unknown')
             }
           />
-        )
-        }
-        < header >
-          {app.icon && (<div className={styles.logo}>
-            <LogoImage iconUrl={app.icon} appName={app.name} />
-          </div>)}
+        )}
+        <header>
+          {app.icon && (
+            <div className={styles.logo}>
+              <LogoImage iconUrl={app.icon} appName={app.name} />
+            </div>
+          )}
 
           <div className={styles.details}>
             <h2>{app.name}</h2>
             {app.developer_name?.trim().length > 0 && (
-              <div className={styles.devName}>{t('by', { developer: app.developer_name })}</div>
+              <div className={styles.devName}>
+                {t('by', { developer: app.developer_name })}
+              </div>
             )}
           </div>
 
@@ -212,7 +222,9 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
             />
           </div>
 
-          <Releases releases={app.releases}></Releases>
+          <Releases
+            latestRelease={app.releases ? app.releases[0] : null}
+          ></Releases>
 
           <AdditionalInfo
             data={app}
@@ -222,7 +234,14 @@ const Details: FunctionComponent<Props> = ({ app, summary, stats, developerApps 
           ></AdditionalInfo>
 
           {developerApps && developerApps.length > 0 && (
-            <ApplicationSection href={`/apps/collection/developer/${app.developer_name}`} title={t('other-apps-by-developer', { developer: app.developer_name })} applications={developerApps.slice(0, 6)} showMore={developerApps.length > 6} />
+            <ApplicationSection
+              href={`/apps/collection/developer/${app.developer_name}`}
+              title={t('other-apps-by-developer', {
+                developer: app.developer_name,
+              })}
+              applications={developerApps.slice(0, 6)}
+              showMore={developerApps.length > 6}
+            />
           )}
 
           <AppStatistics stats={stats}></AppStatistics>
