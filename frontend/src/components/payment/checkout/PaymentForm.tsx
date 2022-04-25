@@ -3,49 +3,13 @@ import { useTranslation } from "next-i18next"
 import { FormEvent, FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
 import {
-  TRANSACTION_SAVE_CARD_URL,
-  TRANSACTION_SET_PENDING_URL,
-} from "../../../env"
+  setTransactionPending,
+  setTransactionSaveCard,
+} from "../../../asyncs/payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import styles from "./PaymentForm.module.scss"
 import { handleStripeError } from "./stripe"
-
-async function saveCard(transactionId: string) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_SAVE_CARD_URL(transactionId), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ save_card: "on_session" }),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (!res.ok) {
-    throw "network-error-try-again"
-  }
-}
-
-async function setPending(transactionId: string) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
-      method: "POST",
-      credentials: "include",
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (!res.ok) {
-    throw "network-error-try-again"
-  }
-}
 
 interface Props {
   transactionId: string
@@ -104,10 +68,10 @@ const PaymentForm: FunctionComponent<Props> = ({
     setProcessing(true)
 
     if (checked) {
-      await saveCard(transactionId)
+      await setTransactionSaveCard(transactionId)
     }
 
-    await setPending(transactionId)
+    await setTransactionPending(transactionId)
 
     const result = await stripe.confirmPayment({
       elements,

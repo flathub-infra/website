@@ -5,9 +5,9 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
+import { generateTokens } from "../../src/asyncs/app"
 import Main from "../../src/components/layout/Main"
 import Spinner from "../../src/components/Spinner"
-import { generateTokens } from "../../src/context/actions"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 
 const PERMITTED_REDIRECTS = [

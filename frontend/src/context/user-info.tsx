@@ -5,8 +5,8 @@ import {
   useEffect,
   useReducer,
 } from "react"
+import { getUserData } from "../asyncs/login"
 import { UserState, UserStateAction } from "../types/Login"
-import { getUserData } from "./actions"
 import { contextReducer } from "./reducer"
 
 const initialState = { loading: true }

@@ -3,7 +3,6 @@ import { Dispatch } from "react"
 import {
   LOGIN_PROVIDERS_URL,
   LOGOUT_URL,
-  TOKEN_GENERATION_URL,
   USER_DELETION_URL,
   USER_INFO_URL,
 } from "../env"
@@ -150,25 +149,6 @@ export async function deleteAccount(
       throw msg ?? "network-error-try-again"
     }
   } else {
-    throw "network-error-try-again"
-  }
-}
-
-/**
- * Generates a token to download a set of apps.
- * @param appids A list of app IDs to generate tokens for
- */
-export async function generateTokens(appids: string[]) {
-  try {
-    let res = await fetch(TOKEN_GENERATION_URL, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(appids),
-    })
-
-    return await res.json()
-  } catch {
     throw "network-error-try-again"
   }
 }
