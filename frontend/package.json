@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.26",
-    "@types/react": "^17.0.43",
+    "@types/react": "^18.0.6",
     "eslint": "^8.14.0",
     "eslint-config-next": "^12.1.5",
     "next-sitemap": "^2.5.20",
