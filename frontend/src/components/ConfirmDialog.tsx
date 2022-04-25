@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from 'react'
 import Button from './Button'
 import styles from './ConfirmDialog.module.scss'
+import { useTranslation } from 'next-i18next'
 
 interface Props {
   prompt: string
@@ -20,6 +21,8 @@ const ConfirmDialog: FunctionComponent<Props> = ({
   onConfirmed,
   onCancelled,
 }) => {
+  const { t } = useTranslation()
+
   const [confirmed, setConfirmed] = useState(false)
   const [cancelled, setCancelled] = useState(false)
   const [text, setText] = useState('')
@@ -34,7 +37,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
 
   const toEnter = (
     <div>
-      <p>{`Enter "${entry}" to continue.`}</p>
+      <p>{t('entry-confirmation-prompt', { text: entry })}</p>
       <input
         value={text}
         onInput={(e) => setText((e.target as HTMLInputElement).value)}
