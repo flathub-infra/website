@@ -1,42 +1,14 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md"
 import { toast } from "react-toastify"
+import { getTransactions } from "../../../asyncs/payment"
 import { useUserContext } from "../../../context/user-info"
-import { TRANSACTIONS_URL } from "../../../env"
 import { Transaction } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
-import TransactionList from "./TransactionList"
 import styles from "./TransactionHistory.module.scss"
-import { MdNavigateBefore, MdNavigateNext } from "react-icons/md"
-
-async function getTransactions(
-  sort: string = "recent",
-  limit: number = 30,
-  since?: string,
-) {
-  const url = new URL(TRANSACTIONS_URL)
-  url.searchParams.append("sort", sort)
-  url.searchParams.append("limit", limit.toString())
-  if (since) {
-    url.searchParams.append("since", since)
-  }
-
-  let res: Response
-  try {
-    res = await fetch(url.href, { credentials: "include" })
-  } catch {
-    throw "failed-to-load-refresh"
-  }
-
-  if (res.ok) {
-    // Not checking status, server only complains if not logged in (which we enforce)
-    const data = await res.json()
-    return data
-  } else {
-    throw "failed-to-load-refresh"
-  }
-}
+import TransactionList from "./TransactionList"
 
 const perPage = 10
 

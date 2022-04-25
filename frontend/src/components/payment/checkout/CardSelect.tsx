@@ -3,53 +3,15 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import {
-  TRANSACTION_SET_CARD_URL,
-  TRANSACTION_SET_PENDING_URL,
-} from "../../../env"
+  setTransactionPending,
+  setTransactionUseCard,
+} from "../../../asyncs/payment"
 import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import styles from "./CardSelect.module.scss"
 import { handleStripeError } from "./stripe"
-
-async function setCard(transactionId: string, card: PaymentCard) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_SET_CARD_URL(transactionId), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(card),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-  if (res.ok) {
-    const data = await res.json()
-    return data
-  } else {
-    throw "network-error-try-again"
-  }
-}
-
-async function setPending(transactionId: string) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
-      method: "POST",
-      credentials: "include",
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (!res.ok) {
-    throw "network-error-try-again"
-  }
-}
 
 interface Props {
   transaction: TransactionDetailed
@@ -79,8 +41,8 @@ const CardSelect: FunctionComponent<Props> = ({
     async function onConfirm() {
       const { id } = transaction.summary
 
-      setCard(id, useCard)
-        .then(() => setPending(id))
+      setTransactionUseCard(id, useCard)
+        .then(() => setTransactionPending(id))
         .then(async () => {
           const result = await stripe.confirmCardPayment(clientSecret, {
             payment_method: useCard.id,

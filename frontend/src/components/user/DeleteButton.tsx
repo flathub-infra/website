@@ -1,36 +1,13 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { deleteAccount } from "../../context/actions"
+import { deleteAccount } from "../../asyncs/login"
+import { requestDeletion } from "../../asyncs/user"
 import { useUserDispatch } from "../../context/user-info"
-import { USER_DELETION_URL } from "../../env"
 import { useAsync } from "../../hooks/useAsync"
 import Button from "../Button"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
-
-/**
- * Performs a GET request to the API to initiate user deletion.
- */
-async function requestDeletion() {
-  let res: Response
-  try {
-    res = await fetch(USER_DELETION_URL, { credentials: "include" })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    const data = await res.json()
-    if (data.status == "ok") {
-      return data.token
-    } else {
-      throw data.message
-    }
-  } else {
-    throw "network-error-try-again"
-  }
-}
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()

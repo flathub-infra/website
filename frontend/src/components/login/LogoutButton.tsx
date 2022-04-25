@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { logout } from "../../context/actions"
+import { logout } from "../../asyncs/login"
 import { useUserDispatch } from "../../context/user-info"
 import Button from "../Button"
 

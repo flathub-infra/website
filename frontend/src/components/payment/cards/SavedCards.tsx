@@ -1,58 +1,13 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import { deletePaymentCard, getPaymentCards } from "../../../asyncs/payment"
 import { useUserContext } from "../../../context/user-info"
-import { REMOVE_CARD_URL, WALLET_INFO_URL } from "../../../env"
 import { PaymentCard } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import styles from "./SavedCards.module.scss"
-
-/**
- * Performs API request to retrieve details of all cards the user has saved
- * @returns array of saved cards
- */
-async function getCards() {
-  let res: Response
-  try {
-    res = await fetch(WALLET_INFO_URL, { credentials: "include" })
-  } catch {
-    throw "failed-to-load-refresh"
-  }
-
-  if (res.ok) {
-    // Not checking status, server only complains if not logged in (which we enforce)
-    const data = await res.json()
-    return data.cards
-  } else {
-    throw "failed-to-load-refresh"
-  }
-}
-
-/**
- * Performs API request to delete a saved payment card
- * @param card the card to be deleted
- */
-async function deleteCard(card: PaymentCard) {
-  let res: Response
-  try {
-    res = await fetch(REMOVE_CARD_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(card),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (!res.ok) {
-    throw "network-error-try-again"
-  }
-}
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -67,7 +22,7 @@ const SavedCards: FunctionComponent = () => {
   useEffect(() => {
     if (user.info && !fetched) {
       setFetched(true)
-      getCards().then(setCards).catch(setError)
+      getPaymentCards().then(setCards).catch(setError)
     }
   }, [user, fetched])
 
@@ -110,7 +65,7 @@ const SavedCards: FunctionComponent = () => {
    * @param toRemove the card to be removed
    */
   function removeCard(toRemove: PaymentCard) {
-    deleteCard(toRemove)
+    deletePaymentCard(toRemove)
       .then(() => {
         const cardsCopy = cards.slice()
 
