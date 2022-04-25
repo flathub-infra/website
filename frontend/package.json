@@ -36,7 +36,7 @@
     "spdx-license-list": "^6.5.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.25",
+    "@types/node": "^17.0.26",
     "@types/react": "^17.0.43",
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
