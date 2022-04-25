@@ -1,3 +1,5 @@
+import { APIResponseOk } from "./API"
+
 export interface LoginProvider {
   method: string
   name: string
@@ -33,4 +35,9 @@ export interface UserState {
 export interface UserStateAction {
   type: string
   info?: UserInfo
+}
+
+// GET /auth/deleteuser
+export interface UserDeletionToken extends APIResponseOk {
+  token: string
 }
