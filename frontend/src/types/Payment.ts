@@ -1,6 +1,7 @@
+import { APIResponseOk } from "./API"
+
 // Corresponds to `/wallet/walletinfo`
-export interface WalletInfo {
-  status: string
+export interface WalletInfo extends APIResponseOk {
   cards: PaymentCard[]
   account?: object
 }
@@ -15,6 +16,9 @@ export interface PaymentCard {
 }
 
 // Corresponds to objects from `/wallet/transactions`
+type TransactionKind = "donation" | "purchase"
+type TransactionStatus = "new" | "pending" | "retry" | "success" | "cancelled"
+
 export interface Transaction {
   id: string
   value: number
@@ -40,5 +44,6 @@ export interface Payout {
   kind: TransactionKind
 }
 
-type TransactionKind = "donation" | "purchase"
-type TransactionStatus = "new" | "pending" | "retry" | "success" | "cancelled"
+export interface NewTransaction extends APIResponseOk {
+  id: string
+}

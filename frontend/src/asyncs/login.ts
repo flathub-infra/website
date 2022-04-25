@@ -6,7 +6,8 @@ import {
   USER_DELETION_URL,
   USER_INFO_URL,
 } from "../env"
-import { UserStateAction } from "../types/Login"
+import { APIResponseError } from "../types/API"
+import { UserInfo, UserStateAction } from "../types/Login"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -19,7 +20,7 @@ import { UserStateAction } from "../types/Login"
 export async function login(
   dispatch: Dispatch<UserStateAction>,
   query: ParsedUrlQuery,
-) {
+): Promise<void> {
   dispatch({ type: "loading" })
 
   let res: Response
@@ -46,7 +47,7 @@ export async function login(
     dispatch({ type: "interrupt" })
 
     // Some errors come with an explanation from backend, others are unexpected
-    const data = await res.json()
+    const data: APIResponseError = await res.json()
 
     const msg = {
       "User already logged in?": "error-already-logged-in",
@@ -61,7 +62,9 @@ export async function login(
  * current data is assumed to be unchanged.
  * @param dispatch Reducer dispatch function used to update user context
  */
-export async function getUserData(dispatch: Dispatch<UserStateAction>) {
+export async function getUserData(
+  dispatch: Dispatch<UserStateAction>,
+): Promise<void> {
   // Indicate the user data is being fetched
   dispatch({ type: "loading" })
 
@@ -77,7 +80,7 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
 
   // Assuming a bad status indicates unchanged user state
   if (res.ok) {
-    const info = await res.json()
+    const info: UserInfo = await res.json()
     dispatch({
       type: "login",
       info,
@@ -93,7 +96,9 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
  * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
  */
-export async function logout(dispatch: Dispatch<UserStateAction>) {
+export async function logout(
+  dispatch: Dispatch<UserStateAction>,
+): Promise<void> {
   dispatch({ type: "loading" })
 
   let res: Response
@@ -124,7 +129,7 @@ export async function logout(dispatch: Dispatch<UserStateAction>) {
 export async function deleteAccount(
   dispatch: Dispatch<UserStateAction>,
   token: string,
-) {
+): Promise<void> {
   let res: Response
   try {
     res = await fetch(USER_DELETION_URL, {
@@ -138,17 +143,14 @@ export async function deleteAccount(
   }
 
   if (res.ok) {
-    const data = await res.json()
-    if (data.status === "ok") {
-      dispatch({ type: "logout" })
-    } else {
-      const msg = {
-        // TODO: Link backend responses to translated strings where desired
-      }[data.error]
-
-      throw msg ?? "network-error-try-again"
-    }
+    dispatch({ type: "logout" })
   } else {
-    throw "network-error-try-again"
+    const data: APIResponseError = await res.json()
+
+    const msg = {
+      "token mismatch": "account-deletion-token-mismatch",
+    }[data.error]
+
+    throw msg ?? "network-error-try-again"
   }
 }

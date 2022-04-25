@@ -7,13 +7,18 @@ import {
   TRANSACTION_SET_PENDING_URL,
   WALLET_INFO_URL,
 } from "../env"
-import { PaymentCard } from "../types/Payment"
+import {
+  NewTransaction,
+  PaymentCard,
+  Transaction,
+  WalletInfo,
+} from "../types/Payment"
 
 /**
  * Performs API request to retrieve details of all cards the user has saved
  * @returns array of saved cards
  */
-export async function getPaymentCards() {
+export async function getPaymentCards(): Promise<PaymentCard[]> {
   let res: Response
   try {
     res = await fetch(WALLET_INFO_URL, { credentials: "include" })
@@ -22,8 +27,7 @@ export async function getPaymentCards() {
   }
 
   if (res.ok) {
-    // Not checking status, log in enforced client-side
-    const data = await res.json()
+    const data: WalletInfo = await res.json()
     return data.cards
   } else {
     throw "failed-to-load-refresh"
@@ -34,7 +38,7 @@ export async function getPaymentCards() {
  * Performs API request to delete a saved payment card
  * @param card the card to be deleted
  */
-export async function deletePaymentCard(card: PaymentCard) {
+export async function deletePaymentCard(card: PaymentCard): Promise<void> {
   let res: Response
   try {
     res = await fetch(REMOVE_CARD_URL, {
@@ -55,7 +59,7 @@ export async function deletePaymentCard(card: PaymentCard) {
 }
 
 export async function initiateDonation(
-  recipient,
+  recipient: string,
   amount: number,
 ): Promise<string> {
   let res: Response
@@ -87,7 +91,7 @@ export async function initiateDonation(
   }
 
   if (res.ok) {
-    const data = await res.json()
+    const data: NewTransaction = await res.json()
     return data.id
   } else {
     throw "network-error-try-again"
@@ -98,7 +102,7 @@ export async function getTransactions(
   sort: string = "recent",
   limit: number = 30,
   since?: string,
-) {
+): Promise<Transaction[]> {
   const url = new URL(TRANSACTIONS_URL)
   url.searchParams.append("sort", sort)
   url.searchParams.append("limit", limit.toString())
@@ -114,15 +118,16 @@ export async function getTransactions(
   }
 
   if (res.ok) {
-    // Not checking status, server only complains if not logged in (which we enforce)
-    const data = await res.json()
+    const data: Transaction[] = await res.json()
     return data
   } else {
     throw "failed-to-load-refresh"
   }
 }
 
-export async function setTransactionPending(transactionId: string) {
+export async function setTransactionPending(
+  transactionId: string,
+): Promise<void> {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
@@ -138,7 +143,9 @@ export async function setTransactionPending(transactionId: string) {
   }
 }
 
-export async function setTransactionSaveCard(transactionId: string) {
+export async function setTransactionSaveCard(
+  transactionId: string,
+): Promise<void> {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SAVE_CARD_URL(transactionId), {
@@ -161,7 +168,7 @@ export async function setTransactionSaveCard(transactionId: string) {
 export async function setTransactionUseCard(
   transactionId: string,
   card: PaymentCard,
-) {
+): Promise<void> {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SET_CARD_URL(transactionId), {
@@ -175,10 +182,8 @@ export async function setTransactionUseCard(
   } catch {
     throw "network-error-try-again"
   }
-  if (res.ok) {
-    const data = await res.json()
-    return data
-  } else {
+
+  if (!res.ok) {
     throw "network-error-try-again"
   }
 }
@@ -187,7 +192,7 @@ export async function setTransactionUseCard(
  * Performs API request to cancel an active transaction
  * @param transactionId ID of the transaction to cancel
  */
-export async function cancelTransaction(transactionId: string) {
+export async function cancelTransaction(transactionId: string): Promise<void> {
   let res: Response
   try {
     res = await fetch(TRANSACTION_CANCEL_URL(transactionId), {

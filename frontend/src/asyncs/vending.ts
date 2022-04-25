@@ -9,6 +9,7 @@ import { VendingRedirect, VendingStatus } from "../types/Vending"
 const STATUS_NEW = 201
 
 const DEFAULT_STATUS: VendingStatus = {
+  status: "ok",
   can_take_payments: false,
   details_submitted: false,
   needs_attention: false,
