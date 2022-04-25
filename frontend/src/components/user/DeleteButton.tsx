@@ -65,8 +65,8 @@ const DeleteButton: FunctionComponent = () => {
   if (token) {
     return (
       <ConfirmDialog
-        prompt='Delete your account?'
-        entry='I wish to delete my account'
+        prompt={t('delete-account-prompt')}
+        entry={t('delete-account-entry')}
         action={t('delete-account')}
         onConfirmed={execute}
         onCancelled={() => setToken('')}
