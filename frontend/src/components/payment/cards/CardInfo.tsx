@@ -45,7 +45,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
       </span>
       <span className={styles.code}>{`**** **** **** ${card.last4}`}</span>
       <span className={styles.expiry}>
-        {t('card-expiry', { month: card.exp_month, year: card.exp_year })}
+        {t('expiry')} {card.exp_month} / {card.exp_year}
       </span>
     </p>
   )
