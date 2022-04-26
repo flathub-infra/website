@@ -137,7 +137,7 @@
     "languages-description": "Select a language to switch to it:",
     "switch-language": "Switch Language",
     "actions": "Actions",
-    "card-expiry": "Expiry: {{month}} / {{year}}",
+    "expiry": "Expiry:",
     "checkout": "Checkout",
     "confirm-selection": "Confirm Selection",
     "created": "Created",
