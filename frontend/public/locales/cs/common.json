@@ -12,7 +12,7 @@
     "user-avatar": "Profilový obrázek {{user}}",
     "quick-setup": "Rychlé nastavení",
     "installed-size": "Instalovaná velikost",
-    "available-architectures": "Dostupné architektury",
+    "available-architectures": "Podporované architektury",
     "contact": "Kontakt",
     "help": "Nápověda",
     "no-changelog-provided": "K této verzi nebyly přidány žádné podrobnosti.",
@@ -137,7 +137,7 @@
     "view": "Zobrazit",
     "entry-confirmation-prompt": "Pro pokračování zadejte \"{{text}}\"",
     "type": "Typ",
-    "actions": "Aktivity",
+    "actions": "Činnosti",
     "confirm-selection": "Potvrdit vybrané",
     "manifest": "Soubor manifestu"
 }
