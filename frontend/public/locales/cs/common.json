@@ -127,7 +127,7 @@
     "languages": "Jazyky",
     "languages-description": "Vyberte jazyk, na který chcete přepnout:",
     "switch-language": "Přepnout jazyk",
-    "donate-to": "Podpořit",
+    "donate-to": "Podpořit {{project}}",
     "payment": "Platba",
     "created": "Vytvořen",
     "next-page": "Další stránka",
