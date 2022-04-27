@@ -20,6 +20,7 @@ module.exports = {
       'ar',
       'es',
       'ja',
+      'cs',
     ],
   },
   // debug: true,
