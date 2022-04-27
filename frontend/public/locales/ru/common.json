@@ -126,5 +126,6 @@
     "download-size": "Размер загрузки",
     "languages": "Языки",
     "languages-description": "Выберите язык, чтобы переключиться на него:",
-    "switch-language": "Переключить язык"
+    "switch-language": "Переключить язык",
+    "languages-summary": "Выберите язык, на котором вы хотите видеть сайт."
 }
