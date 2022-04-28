@@ -191,5 +191,6 @@
   "stripe-error-processing_error": "Ocorreu um erro ao processar o cartão. Tente novamente mais tarde ou com outra forma de pagamento.",
   "delete-account-entry": "Eu gostaria de excluir minha conta",
   "entry-confirmation-prompt": "Digite \"{{text}}\" para continuar.",
-  "delete-account-prompt": "Excluir sua conta?"
+  "delete-account-prompt": "Excluir sua conta?",
+  "expiry": "Expira em:"
 }
