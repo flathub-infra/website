@@ -1,9 +1,13 @@
-import { ParsedUrlQuery } from "querystring";
-import { Dispatch } from "react";
+import { ParsedUrlQuery } from "querystring"
+import { Dispatch } from "react"
 import {
-  LOGIN_PROVIDERS_URL, LOGOUT_URL, TOKEN_GENERATION_URL, USER_DELETION_URL, USER_INFO_URL
-} from "../env";
-import { UserStateAction } from "../types/Login";
+  LOGIN_PROVIDERS_URL,
+  LOGOUT_URL,
+  TOKEN_GENERATION_URL,
+  USER_DELETION_URL,
+  USER_INFO_URL,
+} from "../env"
+import { UserStateAction } from "../types/Login"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -15,41 +19,41 @@ import { UserStateAction } from "../types/Login";
  */
 export async function login(
   dispatch: Dispatch<UserStateAction>,
-  query: ParsedUrlQuery
+  query: ParsedUrlQuery,
 ) {
-  dispatch({ type: 'loading' })
+  dispatch({ type: "loading" })
 
   let res: Response
   try {
     res = await fetch(`${LOGIN_PROVIDERS_URL}/${query.service}`, {
-      method: 'POST',
-      credentials: 'include', // Must use the session cookie
+      method: "POST",
+      credentials: "include", // Must use the session cookie
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         code: query.code,
         state: query.state,
-      })
+      }),
     })
   } catch {
-    dispatch({ type: 'interrupt' })
-    throw 'network-error-try-again'
+    dispatch({ type: "interrupt" })
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
     getUserData(dispatch)
   } else {
-    dispatch({ type: 'interrupt' })
+    dispatch({ type: "interrupt" })
 
     // Some errors come with an explanation from backend, others are unexpected
     const data = await res.json()
 
     const msg = {
-      'User already logged in?': 'error-already-logged-in'
+      "User already logged in?": "error-already-logged-in",
     }[data.error]
 
-    throw msg ?? 'network-error-try-again'
+    throw msg ?? "network-error-try-again"
   }
 }
 
@@ -60,15 +64,15 @@ export async function login(
  */
 export async function getUserData(dispatch: Dispatch<UserStateAction>) {
   // Indicate the user data is being fetched
-  dispatch({ type: 'loading' })
+  dispatch({ type: "loading" })
 
   // On network error just assume user state is unchanged
   let res: Response
   try {
     // Gets data for user with current session cookie
-    res = await fetch(USER_INFO_URL, { credentials: 'include' })
+    res = await fetch(USER_INFO_URL, { credentials: "include" })
   } catch {
-    dispatch({ type: 'interrupt' })
+    dispatch({ type: "interrupt" })
     return
   }
 
@@ -76,12 +80,12 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
   if (res.ok) {
     const info = await res.json()
     dispatch({
-      type: 'login',
-      info
+      type: "login",
+      info,
     })
   } else {
     // 403 specifically indicates not currently logged in
-    dispatch({ type: res.status === 403 ? 'logout' : 'interrupt' })
+    dispatch({ type: res.status === 403 ? "logout" : "interrupt" })
   }
 }
 
@@ -90,30 +94,27 @@ export async function getUserData(dispatch: Dispatch<UserStateAction>) {
  * Throws localized string ID on error.
  * @param dispatch Reducer dispatch function used to update user context
  */
-export async function logout(
-  dispatch: Dispatch<UserStateAction>
-) {
-  dispatch({ type: 'loading' })
+export async function logout(dispatch: Dispatch<UserStateAction>) {
+  dispatch({ type: "loading" })
 
   let res: Response
   try {
     res = await fetch(LOGOUT_URL, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     })
   } catch {
-    dispatch({ type: 'interrupt' })
-    throw 'network-error-try-again'
+    dispatch({ type: "interrupt" })
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
-    dispatch({ type: 'logout' })
+    dispatch({ type: "logout" })
   } else {
-    dispatch({ type: 'interrupt' })
-    throw 'network-error-try-again'
+    dispatch({ type: "interrupt" })
+    throw "network-error-try-again"
   }
 }
-
 
 /**
  * Performs a POST request to the API to complete user deletion.
@@ -128,31 +129,30 @@ export async function deleteAccount(
   let res: Response
   try {
     res = await fetch(USER_DELETION_URL, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token })
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
     const data = await res.json()
-    if (data.status === 'ok') {
-      dispatch({ type: 'logout' })
+    if (data.status === "ok") {
+      dispatch({ type: "logout" })
     } else {
       const msg = {
         // TODO: Link backend responses to translated strings where desired
       }[data.error]
 
-      throw msg ?? 'network-error-try-again'
+      throw msg ?? "network-error-try-again"
     }
   } else {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
-
 
 /**
  * Generates a token to download a set of apps.
@@ -161,14 +161,14 @@ export async function deleteAccount(
 export async function generateTokens(appids: string[]) {
   try {
     let res = await fetch(TOKEN_GENERATION_URL, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(appids)
-    });
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(appids),
+    })
 
-    return await res.json();
+    return await res.json()
   } catch {
-    throw 'network-error-try-again';
+    throw "network-error-try-again"
   }
 }

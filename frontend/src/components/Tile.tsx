@@ -1,5 +1,5 @@
-import { FunctionComponent, forwardRef } from 'react'
-import styles from './Tile.module.scss'
+import { FunctionComponent, forwardRef } from "react"
+import styles from "./Tile.module.scss"
 
 interface Props {
   children: React.ReactNode
@@ -20,9 +20,9 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
         {children}
       </a>
     )
-  }
+  },
 )
 
-Tile.displayName = 'Tile'
+Tile.displayName = "Tile"
 
 export default Tile

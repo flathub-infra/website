@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react'
-import { useRouter } from 'next/router'
-import styles from './Pagination.module.scss'
+import React, { FunctionComponent } from "react"
+import { useRouter } from "next/router"
+import styles from "./Pagination.module.scss"
 
 interface Props {
   currentPage: number
@@ -21,11 +21,11 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
           (page) =>
             (currentPage - 3 < page && currentPage + 3 > page) ||
             pages[0] === page ||
-            pages.length === page
+            pages.length === page,
         )
         .map((curr, index, array) => {
           const isActive = curr === currentPage
-          const className = isActive ? `${styles.pageActive}` : ''
+          const className = isActive ? `${styles.pageActive}` : ""
 
           return (
             <React.Fragment key={`pagination-${index}`}>

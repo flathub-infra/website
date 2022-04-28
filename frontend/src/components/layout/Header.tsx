@@ -1,17 +1,17 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { MdMenu, MdMenuOpen, MdSearch } from 'react-icons/md'
+import { ChangeEvent, useEffect, useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/router"
+import { MdMenu, MdMenuOpen, MdSearch } from "react-icons/md"
 
-import styles from './Header.module.scss'
-import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from 'next-seo'
-import { env } from 'process'
-import { useTranslation } from 'next-i18next'
+import styles from "./Header.module.scss"
+import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
+import { env } from "process"
+import { useTranslation } from "next-i18next"
 
 const Header = () => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("")
   const [isMenuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -30,16 +30,16 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener(
-      'resize',
+      "resize",
       () => {
         const ismobile = window.innerWidth < mobileSize
         if (ismobile !== isMobile) setIsMobile(ismobile)
       },
-      false
+      false,
     )
 
     return () => {
-      window.removeEventListener('resize', () => { }, false)
+      window.removeEventListener("resize", () => {}, false)
     }
   }, [isMobile])
 
@@ -50,7 +50,7 @@ const Header = () => {
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (query !== '') {
+    if (query !== "") {
       router.push(`/apps/search/${query}`)
     }
   }
@@ -67,8 +67,8 @@ const Header = () => {
             logo={`${env.NEXT_PUBLIC_BASE_URL}/img/logo/flathub-logo-toolbar.svg`}
             url={`${env.NEXT_PUBLIC_BASE_URL}`}
           />
-          <Link href='/' passHref>
-            <a id={styles.brand} title={t('go-home')}></a>
+          <Link href="/" passHref>
+            <a id={styles.brand} title={t("go-home")}></a>
           </Link>
         </span>
 
@@ -78,49 +78,49 @@ const Header = () => {
             potentialActions={[
               {
                 target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/{search_term_string}`,
-                queryInput: 'search_term_string',
+                queryInput: "search_term_string",
               },
             ]}
           />
           <form onSubmit={onSubmit}>
             <MdSearch className={styles.searchIcon} />
             <input
-              type='search'
-              name='q'
-              placeholder={t('search-apps')}
+              type="search"
+              name="q"
+              placeholder={t("search-apps")}
               onChange={onChange}
               value={query}
-              aria-label={t('search-apps')}
+              aria-label={t("search-apps")}
             />
           </form>
         </div>
         <span className={`${styles.navbarContainer}`}>
           <div
             id={styles.navbar}
-            className={`${isMenuOpen && isMobile ? styles.responsive : ''}`}
+            className={`${isMenuOpen && isMobile ? styles.responsive : ""}`}
           >
             <div className={styles.navItem}>
               <a
-                href='https://github.com/flathub/flathub/wiki/App-Submission'
-                target='_blank'
-                rel='noreferrer'
+                href="https://github.com/flathub/flathub/wiki/App-Submission"
+                target="_blank"
+                rel="noreferrer"
               >
-                {t('publish')}
+                {t("publish")}
               </a>
             </div>
 
             <div className={styles.navItem}>
               <a
-                href='https://discourse.flathub.org/'
-                target='_blank'
-                rel='noreferrer'
+                href="https://discourse.flathub.org/"
+                target="_blank"
+                rel="noreferrer"
               >
-                {t('forum')}
+                {t("forum")}
               </a>
             </div>
 
-            <Link href='/about' passHref>
-              <a className={styles.navItem}>{t('about')}</a>
+            <Link href="/about" passHref>
+              <a className={styles.navItem}>{t("about")}</a>
             </Link>
           </div>
           <div className={styles.toggleContainer}>

@@ -1,22 +1,22 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticPaths, GetStaticProps } from "next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import ApplicationDetails from '../../../src/components/application/Details'
+import ApplicationDetails from "../../../src/components/application/Details"
 import {
   fetchAppstream,
   fetchAppStats,
   fetchSummary,
   fetchDeveloperApps,
-} from '../../../src/fetchers'
-import { APPSTREAM_URL } from '../../../src/env'
-import { NextSeo } from 'next-seo'
+} from "../../../src/fetchers"
+import { APPSTREAM_URL } from "../../../src/env"
+import { NextSeo } from "next-seo"
 import {
   Appstream,
   pickScreenshot,
   Screenshot,
-} from '../../../src/types/Appstream'
-import { Summary } from '../../../src/types/Summary'
-import { AppStats } from '../../../src/types/AppStats'
+} from "../../../src/types/Appstream"
+import { Summary } from "../../../src/types/Summary"
+import { AppStats } from "../../../src/types/AppStats"
 
 export default function Details({
   app,
@@ -63,7 +63,7 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appDetails: appId },
 }) => {
-  console.log('Fetching data for app details: ', appId)
+  console.log("Fetching data for app details: ", appId)
   const app = await fetchAppstream(appId as string)
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)
@@ -71,7 +71,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
       app,
       summary,
       stats,
@@ -84,6 +84,6 @@ export const getStaticProps: GetStaticProps = async ({
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   }
 }

@@ -1,13 +1,13 @@
-import { FunctionComponent } from 'react'
-import 'chart.js/auto'
-import { Line } from 'react-chartjs-2'
-import { chartOptions, chartStyle } from '../../chartHelper'
-import { AppStats } from '../../types/AppStats'
-import 'chartjs-adapter-date-fns'
+import { FunctionComponent } from "react"
+import "chart.js/auto"
+import { Line } from "react-chartjs-2"
+import { chartOptions, chartStyle } from "../../chartHelper"
+import { AppStats } from "../../types/AppStats"
+import "chartjs-adapter-date-fns"
 
-import styles from './AppStats.module.scss'
-import { i18n, useTranslation } from 'next-i18next'
-import { useTheme } from 'next-themes'
+import styles from "./AppStats.module.scss"
+import { i18n, useTranslation } from "next-i18next"
+import { useTheme } from "next-themes"
 
 interface Props {
   stats: AppStats
@@ -29,12 +29,17 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   downloads_labels.pop()
   downloads_data.pop()
 
-  const data = chartStyle(downloads_labels, downloads_data, t('installs'), resolvedTheme)
+  const data = chartStyle(
+    downloads_labels,
+    downloads_data,
+    t("installs"),
+    resolvedTheme,
+  )
   const options = chartOptions(i18n.language)
 
   return (
     <div className={styles.downloads}>
-      <h3>{t('installs-over-time')}</h3>
+      <h3>{t("installs-over-time")}</h3>
       <Line data={data} options={options} />
     </div>
   )

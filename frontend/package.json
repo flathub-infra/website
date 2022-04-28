@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@datapunt/matomo-tracker-react": "^0.5.1",
@@ -40,7 +42,10 @@
     "@types/react": "^17.0.43",
     "eslint": "^8.14.0",
     "eslint-config-next": "^12.1.5",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
     "next-sitemap": "^2.5.20",
+    "prettier": "^2.6.2",
     "tslint": "^6.1.3",
     "typescript": "^4.6.3"
   }

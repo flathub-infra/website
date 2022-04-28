@@ -1,8 +1,8 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent } from 'react'
-import { Transaction } from '../../../types/Payment'
-import styles from './TransactionList.module.scss'
-import TransactionListRow from './TransactionListRow'
+import { useTranslation } from "next-i18next"
+import { FunctionComponent } from "react"
+import { Transaction } from "../../../types/Payment"
+import styles from "./TransactionList.module.scss"
+import TransactionListRow from "./TransactionListRow"
 
 interface ListProps {
   transactions: Transaction[]
@@ -15,12 +15,12 @@ const TransactionList: FunctionComponent<ListProps> = ({ transactions }) => {
     <table className={styles.transactionList}>
       <thead>
         <tr>
-          <td>{t('created')}</td>
-          <td>{t('updated')}</td>
-          <td>{t('type')}</td>
-          <td>{t('value')}</td>
-          <td>{t('status')}</td>
-          <td>{t('actions')}</td>
+          <td>{t("created")}</td>
+          <td>{t("updated")}</td>
+          <td>{t("type")}</td>
+          <td>{t("value")}</td>
+          <td>{t("status")}</td>
+          <td>{t("actions")}</td>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +33,7 @@ const TransactionList: FunctionComponent<ListProps> = ({ transactions }) => {
           ))
         ) : (
           <tr>
-            <td>{t('no-transaction-history')}</td>
+            <td>{t("no-transaction-history")}</td>
           </tr>
         )}
       </tbody>

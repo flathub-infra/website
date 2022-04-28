@@ -1,13 +1,16 @@
-import { ChartData, ChartOptions } from 'chart.js'
-import { getLocale } from './localize'
+import { ChartData, ChartOptions } from "chart.js"
+import { getLocale } from "./localize"
 
 export function chartStyle(
   labels: (string | Date)[],
   data: number[],
   label: string,
-  mode: 'dark' | 'light',
-): ChartData<'line', number[]> {
-  const color = mode === 'light' ? 'hsl(212.9, 58.1%, 55.1%)' : 'hsl(212.9, 58.1%, calc(55.1% - 15%))'
+  mode: "dark" | "light",
+): ChartData<"line", number[]> {
+  const color =
+    mode === "light"
+      ? "hsl(212.9, 58.1%, 55.1%)"
+      : "hsl(212.9, 58.1%, calc(55.1% - 15%))"
 
   return {
     labels: labels,
@@ -16,10 +19,10 @@ export function chartStyle(
         label: label,
         fill: false,
         borderColor: color,
-        borderCapStyle: 'butt',
+        borderCapStyle: "butt",
         borderDash: [],
         borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
+        borderJoinStyle: "miter",
         pointBorderColor: color,
         pointBackgroundColor: color,
         pointBorderWidth: 1,
@@ -35,7 +38,7 @@ export function chartStyle(
   }
 }
 
-export function chartOptions(locale: string): ChartOptions<'line'> {
+export function chartOptions(locale: string): ChartOptions<"line"> {
   return {
     locale: locale.substring(0, 2),
     responsive: true,
@@ -43,11 +46,11 @@ export function chartOptions(locale: string): ChartOptions<'line'> {
     scales: {
       x: {
         adapters: {
-          date: { locale: getLocale(locale) }
+          date: { locale: getLocale(locale) },
         },
-        type: 'time',
+        type: "time",
         time: {
-          minUnit: 'day',
+          minUnit: "day",
           tooltipFormat: "P",
         },
         title: {
@@ -67,7 +70,7 @@ export function chartOptions(locale: string): ChartOptions<'line'> {
         },
         ticks: {
           count: 5,
-        }
+        },
       },
     },
     plugins: {

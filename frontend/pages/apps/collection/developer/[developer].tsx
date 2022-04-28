@@ -1,10 +1,10 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { NextSeo } from 'next-seo'
-import ApplicationCollection from '../../../../src/components/application/Collection'
-import { fetchDeveloperApps } from '../../../../src/fetchers'
-import { Appstream } from '../../../../src/types/Appstream'
+import { GetStaticPaths, GetStaticProps } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { NextSeo } from "next-seo"
+import ApplicationCollection from "../../../../src/components/application/Collection"
+import { fetchDeveloperApps } from "../../../../src/fetchers"
+import { Appstream } from "../../../../src/types/Appstream"
 
 export default function Developer({
   developerApps,
@@ -16,9 +16,9 @@ export default function Developer({
   const { t } = useTranslation()
   return (
     <>
-      <NextSeo title={t('applications-by-developer', { developer })} />
+      <NextSeo title={t("applications-by-developer", { developer })} />
       <ApplicationCollection
-        title={t('applications-by-developer', { developer })}
+        title={t("applications-by-developer", { developer })}
         applications={developerApps}
       />
     </>
@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({
   const developerApps = await fetchDeveloperApps(developer as string)
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
       developerApps: developerApps ?? [],
       developer,
     },
@@ -43,6 +43,6 @@ export const getStaticProps: GetStaticProps = async ({
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   }
 }

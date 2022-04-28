@@ -1,32 +1,32 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useUserContext } from '../../../context/user-info'
-import { TRANSACTIONS_URL } from '../../../env'
-import { Transaction } from '../../../types/Payment'
-import Button from '../../Button'
-import Spinner from '../../Spinner'
-import TransactionList from './TransactionList'
-import styles from './TransactionHistory.module.scss'
-import { MdNavigateBefore, MdNavigateNext } from 'react-icons/md'
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { useUserContext } from "../../../context/user-info"
+import { TRANSACTIONS_URL } from "../../../env"
+import { Transaction } from "../../../types/Payment"
+import Button from "../../Button"
+import Spinner from "../../Spinner"
+import TransactionList from "./TransactionList"
+import styles from "./TransactionHistory.module.scss"
+import { MdNavigateBefore, MdNavigateNext } from "react-icons/md"
 
 async function getTransactions(
-  sort: string = 'recent',
+  sort: string = "recent",
   limit: number = 30,
-  since?: string
+  since?: string,
 ) {
   const url = new URL(TRANSACTIONS_URL)
-  url.searchParams.append('sort', sort)
-  url.searchParams.append('limit', limit.toString())
+  url.searchParams.append("sort", sort)
+  url.searchParams.append("limit", limit.toString())
   if (since) {
-    url.searchParams.append('since', since)
+    url.searchParams.append("since", since)
   }
 
   let res: Response
   try {
-    res = await fetch(url.href, { credentials: 'include' })
+    res = await fetch(url.href, { credentials: "include" })
   } catch {
-    throw 'failed-to-load-refresh'
+    throw "failed-to-load-refresh"
   }
 
   if (res.ok) {
@@ -34,7 +34,7 @@ async function getTransactions(
     const data = await res.json()
     return data
   } else {
-    throw 'failed-to-load-refresh'
+    throw "failed-to-load-refresh"
   }
 }
 
@@ -48,7 +48,7 @@ const TransactionHistory: FunctionComponent = () => {
   const [page, setPage] = useState(0)
   const [endPage, setEndPage] = useState<number>(null)
   const [transactions, setTransactions] = useState<Transaction[]>(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState("")
 
   useEffect(() => {
     function addNewPage(newPage: Transaction[]) {
@@ -56,7 +56,7 @@ const TransactionHistory: FunctionComponent = () => {
       if (newPage.length === 0) {
         setEndPage(page - 1)
         setPage(page - 1)
-        toast.info(t('no-more-transactions'))
+        toast.info(t("no-more-transactions"))
       } else {
         setTransactions([...(transactions ?? []), ...newPage])
       }
@@ -70,11 +70,11 @@ const TransactionHistory: FunctionComponent = () => {
     if (user.info && isNewPage()) {
       if (page > 0) {
         const since = transactions.at(-1)
-        getTransactions('recent', perPage, since.id)
+        getTransactions("recent", perPage, since.id)
           .then(addNewPage)
           .catch(setError)
       } else {
-        getTransactions('recent', perPage).then(addNewPage).catch(setError)
+        getTransactions("recent", perPage).then(addNewPage).catch(setError)
       }
     }
   }, [user, page, transactions, t])
@@ -85,14 +85,14 @@ const TransactionHistory: FunctionComponent = () => {
   }
 
   if (!transactions && !error) {
-    return <Spinner size={100} text={t('loading')} />
+    return <Spinner size={100} text={t("loading")} />
   }
 
   const pageSlice = transactions.slice(page * perPage, page * perPage + perPage)
 
   return (
-    <div className='main-container'>
-      <h3>{t('transaction-history')}</h3>
+    <div className="main-container">
+      <h3>{t("transaction-history")}</h3>
       {error ? (
         <p>{t(error)}</p>
       ) : (
@@ -100,18 +100,18 @@ const TransactionHistory: FunctionComponent = () => {
           <TransactionList transactions={pageSlice} />
           <div className={styles.controlPage}>
             <Button
-              variant='secondary'
+              variant="secondary"
               onClick={pageBack}
               disabled={page === 0}
-              aria-label={t('previous-page')}
+              aria-label={t("previous-page")}
             >
               <MdNavigateBefore className={styles.navButton} />
             </Button>
             <Button
-              variant='secondary'
+              variant="secondary"
               onClick={pageForward}
               disabled={page === endPage || perPage > pageSlice.length}
-              aria-label={t('next-page')}
+              aria-label={t("next-page")}
             >
               <MdNavigateNext className={styles.navButton} />
             </Button>

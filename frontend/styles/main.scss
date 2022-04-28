@@ -18,7 +18,7 @@
   --toastify-font-family: inherit;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   // Override react-tostify variable here for easy theme adherence
   --toastify-color-light: var(--toastify-color-dark);
   --toastify-text-color-light: var(--text-primary);
@@ -47,7 +47,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--text-primary);

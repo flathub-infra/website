@@ -1,7 +1,7 @@
-import { useRouter } from 'next/router'
-import { FunctionComponent, useEffect } from 'react'
-import { useUserContext } from '../../context/user-info'
-import Spinner from '../Spinner'
+import { useRouter } from "next/router"
+import { FunctionComponent, useEffect } from "react"
+import { useUserContext } from "../../context/user-info"
+import Spinner from "../Spinner"
 
 /**
 This is essentially a wrapper component to conditionally render the
@@ -18,7 +18,7 @@ const LoginGuard: FunctionComponent = ({ children }) => {
   // Content unsuitable if not logged in, send user to login page
   useEffect(() => {
     if (!user.info && !user.loading) {
-      router.push('/login')
+      router.push("/login")
     }
   }, [user, router])
 

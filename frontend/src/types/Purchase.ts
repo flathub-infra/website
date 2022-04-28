@@ -1,8 +1,8 @@
 export interface Purchase {
-  token?: string;
-  appids: string[];
+  token?: string
+  appids: string[]
 }
 
 export interface TransactionStateAction {
-  token: string;
+  token: string
 }

@@ -1,9 +1,9 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { logout } from '../../context/actions'
-import { useUserDispatch } from '../../context/user-info'
-import Button from '../Button'
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { logout } from "../../context/actions"
+import { useUserDispatch } from "../../context/user-info"
+import Button from "../Button"
 
 const LogoutButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -22,8 +22,8 @@ const LogoutButton: FunctionComponent = () => {
   }, [dispatch, clicked, t])
 
   return (
-    <Button onClick={() => setClicked(true)} variant='primary'>
-      {t('log-out')}
+    <Button onClick={() => setClicked(true)} variant="primary">
+      {t("log-out")}
     </Button>
   )
 }

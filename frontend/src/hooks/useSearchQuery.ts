@@ -1,8 +1,8 @@
-import { useMatomo } from '@datapunt/matomo-tracker-react'
-import { useState, useEffect } from 'react'
+import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { useState, useEffect } from "react"
 
-import { fetchSearchQuery } from '../fetchers'
-import { Appstream } from '../types/Appstream'
+import { fetchSearchQuery } from "../fetchers"
+import { Appstream } from "../types/Appstream"
 
 export function useSearchQuery(query: string): Appstream[] {
   const { trackSiteSearch } = useMatomo()

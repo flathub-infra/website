@@ -1,10 +1,10 @@
-const { i18n } = require('./next-i18next.config')
+const { i18n } = require("./next-i18next.config")
 
 module.exports = {
   i18n,
   images: {
-    loader: 'custom',
-    domains: ['flathub.org', 'dl.flathub.org'],
+    loader: "custom",
+    domains: ["flathub.org", "dl.flathub.org"],
     swcMinify: true,
   },
   experimental: {
@@ -13,8 +13,8 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: '/home',
-        destination: '/',
+        source: "/home",
+        destination: "/",
         permanent: true,
       },
     ]
