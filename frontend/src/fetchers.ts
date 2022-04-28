@@ -1,7 +1,7 @@
-import { Appstream } from './types/Appstream'
-import { Collection, Collections } from './types/Collection'
-import { Category } from './types/Category'
-import { LoginProvider } from './types/Login'
+import { Appstream } from "./types/Appstream"
+import { Collection, Collections } from "./types/Collection"
+import { Category } from "./types/Category"
+import { LoginProvider } from "./types/Login"
 
 import {
   POPULAR_URL,
@@ -16,10 +16,10 @@ import {
   STATS,
   DEVELOPER_URL,
   LOGIN_PROVIDERS_URL,
-} from './env'
-import { Summary } from './types/Summary'
-import { AppStats } from './types/AppStats'
-import { Stats } from './types/Stats'
+} from "./env"
+import { Summary } from "./types/Summary"
+import { AppStats } from "./types/AppStats"
+import { Stats } from "./types/Stats"
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
@@ -31,7 +31,7 @@ export async function fetchAppstream(appId: string): Promise<Appstream> {
   }
 
   if (!entryJson) {
-    console.log('No appstream data for ', appId)
+    console.log("No appstream data for ", appId)
   }
   return entryJson
 }
@@ -46,7 +46,7 @@ export async function fetchSummary(appId: string): Promise<Summary> {
   }
 
   if (!summaryJson) {
-    console.log('No summary data for ', appId)
+    console.log("No summary data for ", appId)
   }
   return summaryJson
 }
@@ -61,7 +61,7 @@ export async function fetchStats(): Promise<Stats> {
   }
 
   if (!statsJson) {
-    console.log('No stats data')
+    console.log("No stats data")
   }
   return statsJson
 }
@@ -76,7 +76,7 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
   }
 
   if (!statsJson) {
-    console.log('No stats data for ', appId)
+    console.log("No stats data for ", appId)
     statsJson = {
       downloads_per_day: {},
       downloads_last_7_days: 0,
@@ -89,9 +89,9 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
 
 export default async function fetchCollection(
   collection: Collection,
-  count?: number
+  count?: number,
 ): Promise<Appstream[]> {
-  let collectionURL: string = ''
+  let collectionURL: string = ""
   switch (collection) {
     case Collections.popular:
       collectionURL = POPULAR_URL
@@ -106,10 +106,10 @@ export default async function fetchCollection(
       collectionURL = EDITORS_PICKS_GAMES_URL
       break
     default:
-      collectionURL = ''
+      collectionURL = ""
   }
-  if (collectionURL === '') {
-    console.log('Wrong collection parameter. Check your function call!')
+  if (collectionURL === "") {
+    console.log("Wrong collection parameter. Check your function call!")
     return
   }
 
@@ -133,7 +133,7 @@ export default async function fetchCollection(
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
 
-  console.log('\nCollection ', collection, ' fetched')
+  console.log("\nCollection ", collection, " fetched")
 
   return items.filter((item) => Boolean(item))
 }
@@ -141,27 +141,27 @@ export default async function fetchCollection(
 export async function fetchCategory(
   category: keyof typeof Category,
   page?: number,
-  per_page?: number
+  per_page?: number,
 ): Promise<Appstream[]> {
   const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
   const appList = await appListRes.json()
 
   const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
-  console.log('\nCategory', category, ' fetched')
+  console.log("\nCategory", category, " fetched")
 
   return items.filter((item) => Boolean(item))
 }
 
 export async function fetchDeveloperApps(developer: string | undefined) {
   if (!developer) {
-    console.log('No developer specified')
+    console.log("No developer specified")
     return undefined
   }
-  console.log('\nFetching apps for developer ', developer)
+  console.log("\nFetching apps for developer ", developer)
   const appListRes = await fetch(DEVELOPER_URL(developer))
   if (!appListRes || appListRes.status === 404) {
-    console.log('No apps for developer ', developer)
+    console.log("No apps for developer ", developer)
     return undefined
   }
 
@@ -190,7 +190,9 @@ export async function fetchLoginProviders(): Promise<LoginProvider[]> {
     providersRes = await fetch(LOGIN_PROVIDERS_URL)
 
     if (!providersRes.ok) {
-      console.log(`No login providers data fetched, status ${providersRes.status}`)
+      console.log(
+        `No login providers data fetched, status ${providersRes.status}`,
+      )
       return null
     }
   } catch (error) {

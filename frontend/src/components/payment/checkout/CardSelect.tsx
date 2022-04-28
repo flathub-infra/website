@@ -1,37 +1,37 @@
-import { useStripe } from '@stripe/react-stripe-js'
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useStripe } from "@stripe/react-stripe-js"
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, ReactElement, useEffect, useState } from "react"
+import { toast } from "react-toastify"
 import {
   TRANSACTION_SET_CARD_URL,
   TRANSACTION_SET_PENDING_URL,
-} from '../../../env'
-import { PaymentCard, TransactionDetailed } from '../../../types/Payment'
-import Button from '../../Button'
-import Spinner from '../../Spinner'
-import CardInfo from '../cards/CardInfo'
-import styles from './CardSelect.module.scss'
-import { handleStripeError } from './stripe'
+} from "../../../env"
+import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
+import Button from "../../Button"
+import Spinner from "../../Spinner"
+import CardInfo from "../cards/CardInfo"
+import styles from "./CardSelect.module.scss"
+import { handleStripeError } from "./stripe"
 
 async function setCard(transactionId: string, card: PaymentCard) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SET_CARD_URL(transactionId), {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify(card),
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
   if (res.ok) {
     const data = await res.json()
     return data
   } else {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -39,15 +39,15 @@ async function setPending(transactionId: string) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (!res.ok) {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -118,7 +118,7 @@ const CardSelect: FunctionComponent<Props> = ({
           key={card.id}
           card={card}
           onClick={() => setUseCard(card)}
-          className={useCard && card.id === useCard.id ? styles.selected : ''}
+          className={useCard && card.id === useCard.id ? styles.selected : ""}
         />
       )
     })
@@ -126,20 +126,20 @@ const CardSelect: FunctionComponent<Props> = ({
     cardSection = <div className={styles.cardList}>{cardElems}</div>
   } else {
     cardSection = (
-      <Spinner size={100} text={t('loading-saved-payment-methods')} />
+      <Spinner size={100} text={t("loading-saved-payment-methods")} />
     )
   }
 
   // Should always present the option to use a new card in case user
   // doesn't want to wait for a slow network
   return (
-    <div className='main-container'>
-      <h3>{t('saved-cards')}</h3>
+    <div className="main-container">
+      <h3>{t("saved-cards")}</h3>
       {cardSection}
-      <div style={{ display: 'flex', gap: '12px' }}>
-        <Button onClick={skip}>{t('use-new-card')}</Button>
+      <div style={{ display: "flex", gap: "12px" }}>
+        <Button onClick={skip}>{t("use-new-card")}</Button>
         <Button onClick={() => setConfirmed(true)} disabled={!useCard}>
-          {t('confirm-selection')}
+          {t("confirm-selection")}
         </Button>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Category } from './types/Category'
+import { Category } from "./types/Category"
 
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
@@ -17,7 +17,7 @@ export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-upd
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,
-  per_page?: number
+  per_page?: number,
 ): string => {
   if (page && per_page) {
     return `${BASE_URI}/category/${category}?page=${page}&per_page=${per_page}`
@@ -65,4 +65,4 @@ export const TRANSACTION_CANCEL_URL = (transaction: string) => {
 }
 
 export const IS_PRODUCTION: boolean =
-  process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true'
+  process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"

@@ -1,26 +1,29 @@
 import { UserState, UserStateAction } from "../types/Login"
 
-export function contextReducer(state: UserState, action: UserStateAction): UserState {
+export function contextReducer(
+  state: UserState,
+  action: UserStateAction,
+): UserState {
   switch (action.type) {
-    case 'loading':
+    case "loading":
       // Reducers should not mutate the current state object
       return {
         ...state,
-        loading: true
+        loading: true,
       }
-    case 'interrupt':
+    case "interrupt":
       return {
         ...state,
-        loading: false
+        loading: false,
       }
-    case 'login':
+    case "login":
       return {
         loading: false,
-        info: action.info
+        info: action.info,
       }
-    case 'logout':
+    case "logout":
       return {
-        loading: false
+        loading: false,
       }
     default:
       return state

@@ -1,18 +1,15 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { LOGIN_PROVIDERS_URL } from '../../env'
-import { LoginProvider, LoginRedirect } from '../../types/Login'
-import styles from './ProviderLink.module.scss'
-
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { LOGIN_PROVIDERS_URL } from "../../env"
+import { LoginProvider, LoginRedirect } from "../../types/Login"
+import styles from "./ProviderLink.module.scss"
 
 interface Props {
-  provider: LoginProvider,
+  provider: LoginProvider
 }
 
-const ProviderLink: FunctionComponent<Props> = ({
-  provider
-}) => {
+const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
   const { t } = useTranslation()
   // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
@@ -24,13 +21,13 @@ const ProviderLink: FunctionComponent<Props> = ({
       try {
         res = await fetch(url, {
           // Must use the session cookie sent back
-          credentials: 'include',
+          credentials: "include",
           // Redirects are unique each time
-          cache: 'no-store',
+          cache: "no-store",
         })
       } catch {
         // Allow the user to try again on network error
-        toast.error(t('network-error-try-again'))
+        toast.error(t("network-error-try-again"))
         setClicked(false)
         return
       }
@@ -53,7 +50,12 @@ const ProviderLink: FunctionComponent<Props> = ({
 
   return (
     <button className={styles.provider} onClick={() => setClicked(true)}>
-      <img src={`/img/login/${provider.method}-logo.svg`} width='60' height='60' alt={loginText}></img>
+      <img
+        src={`/img/login/${provider.method}-logo.svg`}
+        width="60"
+        height="60"
+        alt={loginText}
+      ></img>
       {loginText}
     </button>
   )

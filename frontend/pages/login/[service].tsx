@@ -1,15 +1,15 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import Spinner from '../../src/components/Spinner'
-import { login } from '../../src/context/actions'
-import { useUserContext, useUserDispatch } from '../../src/context/user-info'
-import { fetchLoginProviders } from '../../src/fetchers'
-import { usePendingTransaction } from '../../src/hooks/usePendingTransaction'
+import { GetStaticPaths, GetStaticProps } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { NextSeo } from "next-seo"
+import { useRouter } from "next/router"
+import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import Spinner from "../../src/components/Spinner"
+import { login } from "../../src/context/actions"
+import { useUserContext, useUserDispatch } from "../../src/context/user-info"
+import { fetchLoginProviders } from "../../src/fetchers"
+import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 
 export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
@@ -22,15 +22,15 @@ export default function AuthReturnPage({ services }) {
   const user = useUserContext()
   const dispatch = useUserDispatch()
 
-  const [pendingTransaction, _setPendingTransaction] = usePendingTransaction();
+  const [pendingTransaction, _setPendingTransaction] = usePendingTransaction()
 
   useEffect(() => {
     // Redirect to userpage once logged in. Or, if there's a pending transaction, redirect to the purchase page.
     if (user.info && !user.loading) {
       if (pendingTransaction) {
-        router.push('/purchase');
+        router.push("/purchase")
       } else {
-        router.push('/userpage');
+        router.push("/userpage")
       }
     }
 
@@ -45,7 +45,7 @@ export default function AuthReturnPage({ services }) {
       router.query.code == null ||
       router.query.state == null
     ) {
-      router.push(user.info ? '/userpage' : '/')
+      router.push(user.info ? "/userpage" : "/")
       return
     }
 
@@ -57,7 +57,7 @@ export default function AuthReturnPage({ services }) {
 
   return (
     <>
-      <NextSeo title={t('login')} noindex={true}></NextSeo>
+      <NextSeo title={t("login")} noindex={true}></NextSeo>
       {user.loading ? <Spinner size={200} /> : <></>}
     </>
   )
@@ -70,7 +70,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
       services,
     },
     revalidate: 3600,
@@ -80,6 +80,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   }
 }

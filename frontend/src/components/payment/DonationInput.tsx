@@ -1,11 +1,11 @@
-import { useTranslation } from 'next-i18next'
-import Router from 'next/router'
-import React, { FormEvent, FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { TRANSACTIONS_URL } from '../../env'
-import Button from '../Button'
-import Spinner from '../Spinner'
-import styles from './DonationInput.module.scss'
+import { useTranslation } from "next-i18next"
+import Router from "next/router"
+import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { TRANSACTIONS_URL } from "../../env"
+import Button from "../Button"
+import Spinner from "../Spinner"
+import styles from "./DonationInput.module.scss"
 
 const minDonation = 5
 
@@ -13,36 +13,36 @@ async function initiateDonation(recipient, amount: number): Promise<string> {
   let res: Response
   try {
     res = await fetch(TRANSACTIONS_URL, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         summary: {
           value: amount,
-          currency: 'usd',
-          kind: 'donation',
+          currency: "usd",
+          kind: "donation",
         },
         details: [
           {
             recipient,
             amount,
-            currency: 'usd',
-            kind: 'donation',
+            currency: "usd",
+            kind: "donation",
           },
         ],
       }),
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
     const data = await res.json()
     return data.id
   } else {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -55,7 +55,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   const [amount, setAmount] = useState(minDonation.toFixed(2))
   const [submit, setSubmit] = useState(false)
-  const [transaction, setTransaction] = useState('')
+  const [transaction, setTransaction] = useState("")
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -105,8 +105,8 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <Button
         key={val}
         className={styles.amount}
-        variant='secondary'
-        type='button'
+        variant="secondary"
+        type="button"
         onClick={() => setAmount(val.toString())}
       >
         ${val}
@@ -116,23 +116,23 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h4>{t('select-donation-amount')}</h4>
+      <h4>{t("select-donation-amount")}</h4>
       <div className={styles.options}>
         {presets}
 
         <div className={styles.amountInput}>
           <label>$</label>
           <input
-            type='text'
-            inputMode='numeric'
-            pattern='\d*(\.\d{0,2})?'
+            type="text"
+            inputMode="numeric"
+            pattern="\d*(\.\d{0,2})?"
             value={amount}
             onChange={handleChange}
             onBlur={handleBlur}
           />
         </div>
       </div>
-      <Button>{t('make-donation')}</Button>
+      <Button>{t("make-donation")}</Button>
     </form>
   )
 }

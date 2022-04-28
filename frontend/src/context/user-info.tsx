@@ -1,12 +1,19 @@
-import { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
-import { UserState, UserStateAction } from '../types/Login'
-import { getUserData } from './actions';
-import { contextReducer } from './reducer';
+import {
+  createContext,
+  Dispatch,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react"
+import { UserState, UserStateAction } from "../types/Login"
+import { getUserData } from "./actions"
+import { contextReducer } from "./reducer"
 
 const initialState = { loading: true }
 
-export const UserContext = createContext<UserState>(initialState);
-export const UserDispatchContext = createContext<Dispatch<UserStateAction>>(null);
+export const UserContext = createContext<UserState>(initialState)
+export const UserDispatchContext =
+  createContext<Dispatch<UserStateAction>>(null)
 
 export const UserInfoProvider = ({ children }) => {
   const [user, dispatch] = useReducer(contextReducer, initialState)
@@ -14,7 +21,9 @@ export const UserInfoProvider = ({ children }) => {
   // Fetch the user data only the first time the provider is created
   // This works thanks to Next.js Link components, as soon as a new
   // session is created this will re-fetch
-  useEffect(() => { getUserData(dispatch) }, [])
+  useEffect(() => {
+    getUserData(dispatch)
+  }, [])
 
   return (
     <UserContext.Provider value={user}>

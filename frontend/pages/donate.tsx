@@ -1,20 +1,20 @@
-import { GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { NextSeo } from 'next-seo'
-import LoginGuard from '../src/components/login/LoginGuard'
-import DonationInput from '../src/components/payment/DonationInput'
+import { GetStaticProps } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { NextSeo } from "next-seo"
+import LoginGuard from "../src/components/login/LoginGuard"
+import DonationInput from "../src/components/payment/DonationInput"
 
 export default function Donate() {
   const { t } = useTranslation()
 
   return (
     <>
-      <NextSeo title={t('donate-to', { project: 'Flathub' })} />
-      <div className='main-container'>
+      <NextSeo title={t("donate-to", { project: "Flathub" })} />
+      <div className="main-container">
         <LoginGuard>
-          <h2>{t('donate-to', { project: 'Flathub' })}</h2>
-          <DonationInput org='org.flathub.Flathub' />
+          <h2>{t("donate-to", { project: "Flathub" })}</h2>
+          <DonationInput org="org.flathub.Flathub" />
         </LoginGuard>
       </div>
     </>
@@ -24,7 +24,7 @@ export default function Donate() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
     revalidate: 3600,
   }

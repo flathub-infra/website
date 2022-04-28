@@ -5,15 +5,15 @@
 
   .spinner {
     .back {
-      fill: var(--bg-color-secondary)
+      fill: var(--bg-color-secondary);
     }
 
     .front {
-      fill: var(--color-primary)
+      fill: var(--color-primary);
     }
 
     .center {
-      fill: var(--bg-color-primary)
+      fill: var(--bg-color-primary);
     }
 
     transform-origin: 50% 50%;
@@ -26,7 +26,7 @@
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   100% {
     transform: rotate(360deg);

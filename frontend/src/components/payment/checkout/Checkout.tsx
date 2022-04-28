@@ -1,13 +1,13 @@
-import { useTranslation } from 'next-i18next'
-import { useRouter } from 'next/router'
-import { FunctionComponent, ReactElement, useEffect, useState } from 'react'
-import { WALLET_INFO_URL } from '../../../env'
-import { PaymentCard, TransactionDetailed } from '../../../types/Payment'
-import Spinner from '../../Spinner'
-import TransactionCancelButton from '../transactions/TransactionCancelButton'
-import CardSelect from './CardSelect'
-import styles from './Checkout.module.scss'
-import PaymentForm from './PaymentForm'
+import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
+import { FunctionComponent, ReactElement, useEffect, useState } from "react"
+import { WALLET_INFO_URL } from "../../../env"
+import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
+import Spinner from "../../Spinner"
+import TransactionCancelButton from "../transactions/TransactionCancelButton"
+import CardSelect from "./CardSelect"
+import styles from "./Checkout.module.scss"
+import PaymentForm from "./PaymentForm"
 
 /**
  * Performs API request to retrieve details of all cards the user has saved
@@ -16,9 +16,9 @@ import PaymentForm from './PaymentForm'
 async function getCards() {
   let res: Response
   try {
-    res = await fetch(WALLET_INFO_URL, { credentials: 'include' })
+    res = await fetch(WALLET_INFO_URL, { credentials: "include" })
   } catch {
-    throw 'failed-to-load-refresh'
+    throw "failed-to-load-refresh"
   }
 
   if (res.ok) {
@@ -26,7 +26,7 @@ async function getCards() {
     const data = await res.json()
     return data.cards
   } else {
-    throw 'failed-to-load-refresh'
+    throw "failed-to-load-refresh"
   }
 }
 
@@ -49,7 +49,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
 
   const [currentStage, setStage] = useState(Stage.Loading)
   const [cards, setCards] = useState<PaymentCard[]>(null)
-  const [error, setError] = useState('')
+  const [error, setError] = useState("")
 
   const { id: transactionId } = transaction.summary
 
@@ -99,10 +99,10 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   }
 
   return (
-    <div className='main-container'>
+    <div className="main-container">
       <div className={styles.checkout}>
         {flowContent}
-        <div className='actions'>
+        <div className="actions">
           <TransactionCancelButton
             id={transactionId}
             onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}

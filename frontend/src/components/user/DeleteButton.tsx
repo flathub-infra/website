@@ -1,13 +1,13 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { deleteAccount } from '../../context/actions'
-import { useUserDispatch } from '../../context/user-info'
-import { USER_DELETION_URL } from '../../env'
-import { useAsync } from '../../hooks/useAsync'
-import Button from '../Button'
-import ConfirmDialog from '../ConfirmDialog'
-import Spinner from '../Spinner'
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { deleteAccount } from "../../context/actions"
+import { useUserDispatch } from "../../context/user-info"
+import { USER_DELETION_URL } from "../../env"
+import { useAsync } from "../../hooks/useAsync"
+import Button from "../Button"
+import ConfirmDialog from "../ConfirmDialog"
+import Spinner from "../Spinner"
 
 /**
  * Performs a GET request to the API to initiate user deletion.
@@ -15,20 +15,20 @@ import Spinner from '../Spinner'
 async function requestDeletion() {
   let res: Response
   try {
-    res = await fetch(USER_DELETION_URL, { credentials: 'include' })
+    res = await fetch(USER_DELETION_URL, { credentials: "include" })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
     const data = await res.json()
-    if (data.status == 'ok') {
+    if (data.status == "ok") {
       return data.token
     } else {
       throw data.message
     }
   } else {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -36,7 +36,7 @@ const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
   const dispatch = useUserDispatch()
 
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState("")
 
   // Get token first, then use to delete
   const nextAction = token
@@ -58,25 +58,25 @@ const DeleteButton: FunctionComponent = () => {
     }
   }, [value])
 
-  if (status === 'pending') {
+  if (status === "pending") {
     return <Spinner size={30} />
   }
 
   if (token) {
     return (
       <ConfirmDialog
-        prompt={t('delete-account-prompt')}
-        entry={t('delete-account-entry')}
-        action={t('delete-account')}
+        prompt={t("delete-account-prompt")}
+        entry={t("delete-account-entry")}
+        action={t("delete-account")}
         onConfirmed={execute}
-        onCancelled={() => setToken('')}
+        onCancelled={() => setToken("")}
       />
     )
   }
 
   return (
-    <Button onClick={execute} variant='secondary'>
-      {t('delete-account')}
+    <Button onClick={execute} variant="secondary">
+      {t("delete-account")}
     </Button>
   )
 }

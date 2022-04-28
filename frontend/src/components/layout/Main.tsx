@@ -1,9 +1,9 @@
-import { FunctionComponent, useEffect } from 'react'
+import { FunctionComponent, useEffect } from "react"
 
-import { useMatomo } from '@datapunt/matomo-tracker-react'
-import Header from './Header'
-import Footer from './Footer'
-import styles from './Main.module.scss'
+import { useMatomo } from "@datapunt/matomo-tracker-react"
+import Header from "./Header"
+import Footer from "./Footer"
+import styles from "./Main.module.scss"
 
 const Main: FunctionComponent = ({ children }) => {
   const { trackPageView } = useMatomo()

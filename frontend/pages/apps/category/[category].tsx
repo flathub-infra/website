@@ -1,13 +1,13 @@
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
+import { GetStaticPaths, GetStaticProps } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { NextSeo } from "next-seo"
+import { useRouter } from "next/router"
 
-import Collection from '../../../src/components/application/Collection'
-import { fetchCategory } from '../../../src/fetchers'
-import { Appstream } from '../../../src/types/Appstream'
-import { Category, categoryToName } from '../../../src/types/Category'
+import Collection from "../../../src/components/application/Collection"
+import { fetchCategory } from "../../../src/fetchers"
+import { Appstream } from "../../../src/types/Appstream"
+import { Category, categoryToName } from "../../../src/types/Category"
 
 const ApplicationCategory = ({ applications }) => {
   const { t } = useTranslation()
@@ -25,12 +25,12 @@ const ApplicationCategory = ({ applications }) => {
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   const applications: Appstream[] = await fetchCategory(
-    params.category as keyof typeof Category
+    params.category as keyof typeof Category,
   )
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
       applications,
     },
     revalidate: 3600,
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   }
 }
 

@@ -1,13 +1,13 @@
-import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
-import { FunctionComponent } from 'react'
-import { useUserContext } from '../../context/user-info'
-import { LoginProvider } from '../../types/Login'
-import Button from '../Button'
-import LogoutButton from '../login/LogoutButton'
-import ProviderLink from '../login/ProviderLink'
-import DeleteButton from './DeleteButton'
-import styles from './Details.module.scss'
+import { useTranslation } from "next-i18next"
+import Link from "next/link"
+import { FunctionComponent } from "react"
+import { useUserContext } from "../../context/user-info"
+import { LoginProvider } from "../../types/Login"
+import Button from "../Button"
+import LogoutButton from "../login/LogoutButton"
+import ProviderLink from "../login/ProviderLink"
+import DeleteButton from "./DeleteButton"
+import styles from "./Details.module.scss"
 
 interface Props {
   logins: LoginProvider[]
@@ -51,7 +51,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   const loginSection = linkOptions.length ? (
     <div className={styles.subsection}>
-      <h3>{t('link-more-accounts')}</h3>
+      <h3>{t("link-more-accounts")}</h3>
       <div className={styles.authList}>{linkOptions}</div>
     </div>
   ) : (
@@ -59,20 +59,20 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   )
 
   return (
-    <div className='main-container'>
+    <div className="main-container">
       <div className={styles.details}>
         <h2 className={styles.displayname}>{user.info.displayname}</h2>
 
         <div className={styles.subsection}>
-          <h3>{t('linked-accounts')}</h3>
+          <h3>{t("linked-accounts")}</h3>
           <div className={styles.authList}>{linkedAccounts}</div>
         </div>
 
         {loginSection}
 
         <div className={styles.actions}>
-          <Link href='/wallet' passHref>
-            <Button variant='primary'>{t('view-wallet')}</Button>
+          <Link href="/wallet" passHref>
+            <Button variant="primary">{t("view-wallet")}</Button>
           </Link>
           <LogoutButton />
           <DeleteButton />

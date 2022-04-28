@@ -27,9 +27,9 @@
     #brand {
       flex: 1;
       display: flex;
-      background-image: url('/img/logo/flathub-logo-toolbar.svg');
+      background-image: url("/img/logo/flathub-logo-toolbar.svg");
       @media (max-width: 570px) {
-        background-image: url('/img/flathub-logo.png');
+        background-image: url("/img/flathub-logo.png");
         background-size: contain;
       }
       background-repeat: no-repeat;

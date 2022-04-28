@@ -1,12 +1,12 @@
-import { FunctionComponent } from 'react'
-import { useRouter } from 'next/router'
+import { FunctionComponent } from "react"
+import { useRouter } from "next/router"
 
-import { Appstream } from '../../types/Appstream'
+import { Appstream } from "../../types/Appstream"
 
-import ApplicationCard from './ApplicationCard'
-import Pagination from '../Pagination'
-import styles from './Collection.module.scss'
-import { useTranslation } from 'next-i18next'
+import ApplicationCard from "./ApplicationCard"
+import Pagination from "../Pagination"
+import styles from "./Collection.module.scss"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   applications: Appstream[]
@@ -21,22 +21,22 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const page = parseInt((router.query.page ?? '1') as string)
+  const page = parseInt((router.query.page ?? "1") as string)
   const totalPages = Math.ceil(applications.length / perPage)
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
   const pagedApplications = applications.slice(
     (page - 1) * perPage,
-    page * perPage
+    page * perPage,
   )
 
   return (
-    <div className='main-container'>
+    <div className="main-container">
       <div className={styles.collectionWrapper}>
         <section className={styles.applicationsCollection}>
           <div className={styles.collection}>
             <h2>{title}</h2>
-            <p>{t('number-of-results', { number: applications.length })}</p>
+            <p>{t("number-of-results", { number: applications.length })}</p>
 
             <div className={styles.applications}>
               {pagedApplications.map((app) => (

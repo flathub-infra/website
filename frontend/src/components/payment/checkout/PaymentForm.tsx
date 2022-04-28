@@ -1,33 +1,33 @@
-import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
-import { useTranslation } from 'next-i18next'
-import { FormEvent, FunctionComponent, useState } from 'react'
-import { toast } from 'react-toastify'
+import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { useTranslation } from "next-i18next"
+import { FormEvent, FunctionComponent, useState } from "react"
+import { toast } from "react-toastify"
 import {
   TRANSACTION_SAVE_CARD_URL,
   TRANSACTION_SET_PENDING_URL,
-} from '../../../env'
-import Button from '../../Button'
-import Spinner from '../../Spinner'
-import styles from './PaymentForm.module.scss'
-import { handleStripeError } from './stripe'
+} from "../../../env"
+import Button from "../../Button"
+import Spinner from "../../Spinner"
+import styles from "./PaymentForm.module.scss"
+import { handleStripeError } from "./stripe"
 
 async function saveCard(transactionId: string) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SAVE_CARD_URL(transactionId), {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
-      body: JSON.stringify({ save_card: 'on_session' }),
+      credentials: "include",
+      body: JSON.stringify({ save_card: "on_session" }),
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (!res.ok) {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -35,15 +35,15 @@ async function setPending(transactionId: string) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_SET_PENDING_URL(transactionId), {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (!res.ok) {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -73,14 +73,14 @@ const PaymentForm: FunctionComponent<Props> = ({
         <>
           <div>
             <input
-              id='save-card'
-              type='checkbox'
+              id="save-card"
+              type="checkbox"
               checked={checked}
               onChange={() => setChecked(!checked)}
             />
-            <label htmlFor='save-card'>{t('save-card-for-reuse')}</label>
+            <label htmlFor="save-card">{t("save-card-for-reuse")}</label>
           </div>
-          <Button>{t('submit-payment')}</Button>
+          <Button>{t("submit-payment")}</Button>
         </>
       )}
     </form>

@@ -1,20 +1,20 @@
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe, Stripe } from '@stripe/stripe-js'
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { useTranslation } from 'next-i18next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { NextSeo } from 'next-seo'
-import { useRouter } from 'next/router'
-import { ReactElement, useEffect, useState } from 'react'
-import Checkout from '../../src/components/payment/checkout/Checkout'
-import Spinner from '../../src/components/Spinner'
-import { useUserContext } from '../../src/context/user-info'
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe, Stripe } from "@stripe/stripe-js"
+import { GetStaticPaths, GetStaticProps } from "next"
+import { useTranslation } from "next-i18next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { NextSeo } from "next-seo"
+import { useRouter } from "next/router"
+import { ReactElement, useEffect, useState } from "react"
+import Checkout from "../../src/components/payment/checkout/Checkout"
+import Spinner from "../../src/components/Spinner"
+import { useUserContext } from "../../src/context/user-info"
 import {
   STRIPE_DATA_URL,
   TRANSACTION_INFO_URL,
   TRANSACTION_STRIPE_INFO_URL,
-} from '../../src/env'
-import { TransactionDetailed } from '../../src/types/Payment'
+} from "../../src/env"
+import { TransactionDetailed } from "../../src/types/Payment"
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
 let stripePromise: Promise<Stripe>
@@ -24,7 +24,7 @@ async function getStripeObject() {
     try {
       res = await fetch(STRIPE_DATA_URL)
     } catch {
-      throw 'network-error-try-again'
+      throw "network-error-try-again"
     }
 
     if (res.ok) {
@@ -32,7 +32,7 @@ async function getStripeObject() {
       stripePromise = loadStripe(stripeData.public_key)
       return stripePromise
     } else {
-      throw 'network-error-try-again'
+      throw "network-error-try-again"
     }
   } else {
     return stripePromise
@@ -43,29 +43,29 @@ async function getTransaction(transactionId: string) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_INFO_URL(transactionId), {
-      credentials: 'include',
+      credentials: "include",
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (res.ok) {
     const transactionData = await res.json()
-    const pending = ['new', 'retry'].includes(transactionData.summary.status)
+    const pending = ["new", "retry"].includes(transactionData.summary.status)
 
     let stripeData = { client_secret: null }
 
     if (pending) {
       try {
         res = await fetch(TRANSACTION_STRIPE_INFO_URL(transactionId), {
-          credentials: 'include',
+          credentials: "include",
         })
       } catch {
-        throw 'network-error-try-again'
+        throw "network-error-try-again"
       }
 
       if (!res.ok) {
-        throw 'network-error-try-again'
+        throw "network-error-try-again"
       }
 
       stripeData = await res.json()
@@ -73,7 +73,7 @@ async function getTransaction(transactionId: string) {
 
     return [transactionData, stripeData.client_secret]
   } else {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -83,8 +83,8 @@ export default function TransactionPage() {
 
   const [stripe, setStripe] = useState<Stripe>(null)
   const [transaction, setTransaction] = useState<TransactionDetailed>(null)
-  const [secret, setSecret] = useState('')
-  const [error, setError] = useState('')
+  const [secret, setSecret] = useState("")
+  const [error, setError] = useState("")
 
   const user = useUserContext()
 
@@ -97,7 +97,7 @@ export default function TransactionPage() {
   useEffect(() => {
     // Must be logged in to make a payment
     if (!user.info && !user.loading) {
-      router.push('/login')
+      router.push("/login")
     }
 
     // Router must be ready to access query parameters
@@ -125,7 +125,7 @@ export default function TransactionPage() {
   if (error) {
     content = (
       <>
-        <h1>{t('whoops')}</h1>
+        <h1>{t("whoops")}</h1>
         <p>{t(error)}</p>
       </>
     )
@@ -143,8 +143,8 @@ export default function TransactionPage() {
 
   return (
     <>
-      <NextSeo title={t('payment')} noindex={true}></NextSeo>
-      <div className='main-container'>{content}</div>
+      <NextSeo title={t("payment")} noindex={true}></NextSeo>
+      <div className="main-container">{content}</div>
     </>
   )
 }
@@ -152,7 +152,7 @@ export default function TransactionPage() {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
     revalidate: 3600,
   }
@@ -161,6 +161,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: "blocking",
   }
 }

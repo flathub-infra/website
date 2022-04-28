@@ -3,12 +3,12 @@ import {
   FunctionComponent,
   DetailedHTMLProps,
   ButtonHTMLAttributes,
-} from 'react'
-import styles from './Button.module.scss'
+} from "react"
+import styles from "./Button.module.scss"
 
 type Props = {
   children: React.ReactNode
-  variant?: 'primary' | 'secondary'
+  variant?: "primary" | "secondary"
 } & DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
@@ -19,11 +19,11 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
     return (
       <button
         className={
-          (variant === 'secondary'
+          (variant === "secondary"
             ? styles.secondaryButton
             : styles.primaryButton) +
-            ' ' +
-            className ?? ''
+            " " +
+            className ?? ""
         }
         type={buttonProps.type}
         ref={ref}
@@ -32,9 +32,9 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
         {children}
       </button>
     )
-  }
+  },
 )
 
-Button.displayName = 'Button'
+Button.displayName = "Button"
 
 export default Button

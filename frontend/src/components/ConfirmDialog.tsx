@@ -1,7 +1,7 @@
-import { FunctionComponent, useEffect, useState } from 'react'
-import Button from './Button'
-import styles from './ConfirmDialog.module.scss'
-import { useTranslation } from 'next-i18next'
+import { FunctionComponent, useEffect, useState } from "react"
+import Button from "./Button"
+import styles from "./ConfirmDialog.module.scss"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   prompt: string
@@ -25,7 +25,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
 
   const [confirmed, setConfirmed] = useState(false)
   const [cancelled, setCancelled] = useState(false)
-  const [text, setText] = useState('')
+  const [text, setText] = useState("")
 
   useEffect(() => {
     if (confirmed) onConfirmed()
@@ -37,7 +37,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
 
   const toEnter = (
     <div>
-      <p>{t('entry-confirmation-prompt', { text: entry })}</p>
+      <p>{t("entry-confirmation-prompt", { text: entry })}</p>
       <input
         value={text}
         onInput={(e) => setText((e.target as HTMLInputElement).value)}
@@ -49,7 +49,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
     <Button
       className={styles.confirm}
       onClick={() => setConfirmed(true)}
-      variant='primary'
+      variant="primary"
     >
       {action}
     </Button>
@@ -64,7 +64,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
         <Button
           className={styles.cancel}
           onClick={() => setCancelled(true)}
-          variant='primary'
+          variant="primary"
         >
           Cancel
         </Button>

@@ -1,17 +1,17 @@
-import { formatDistance } from 'date-fns'
-import { useTranslation } from 'next-i18next'
+import { formatDistance } from "date-fns"
+import { useTranslation } from "next-i18next"
 import {
   FunctionComponent,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
-} from 'react'
-import { getLocale } from '../../localize'
+} from "react"
+import { getLocale } from "../../localize"
 
-import { Release } from '../../types/Appstream'
-import styles from './Releases.module.scss'
-import useCollapse from 'react-collapsed'
+import { Release } from "../../types/Appstream"
+import styles from "./Releases.module.scss"
+import useCollapse from "react-collapsed"
 
 interface Props {
   latestRelease: Release | null
@@ -32,8 +32,8 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   const { t, i18n } = useTranslation()
 
   const noChangelog = useMemo(
-    () => `<ul><li>${t('no-changelog-provided')}</li></ul>`,
-    [t]
+    () => `<ul><li>${t("no-changelog-provided")}</li></ul>`,
+    [t],
   )
 
   return (
@@ -44,8 +44,8 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
             <div className={styles.releaseDetails}>
               <header>
                 <h3>
-                  {t('changes-in-version', {
-                    'version-number': latestRelease.version,
+                  {t("changes-in-version", {
+                    "version-number": latestRelease.version,
                   })}
                 </h3>
                 <div>
@@ -53,7 +53,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     formatDistance(
                       new Date(latestRelease.timestamp * 1000),
                       new Date(),
-                      { addSuffix: true, locale: getLocale(i18n.language) }
+                      { addSuffix: true, locale: getLocale(i18n.language) },
                     )}
                 </div>
               </header>
@@ -62,7 +62,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 className={`${styles.releaseContent} ${
                   !isExpanded && scrollHeight > collapsedHeight
                     ? styles.collapsed
-                    : ''
+                    : ""
                 }`}
                 ref={ref}
                 dangerouslySetInnerHTML={{
@@ -73,9 +73,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
             {scrollHeight > collapsedHeight && (
               <button className={styles.expandButton} {...getToggleProps()}>
                 {isExpanded ? (
-                  <span className={styles.expandText}>{t('less')}</span>
+                  <span className={styles.expandText}>{t("less")}</span>
                 ) : (
-                  <span className={styles.expandText}>{t('more')}</span>
+                  <span className={styles.expandText}>{t("more")}</span>
                 )}
               </button>
             )}

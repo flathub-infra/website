@@ -1,8 +1,8 @@
-import { useTranslation } from 'next-i18next'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { TRANSACTION_CANCEL_URL } from '../../../env'
-import Button from '../../Button'
+import { useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { TRANSACTION_CANCEL_URL } from "../../../env"
+import Button from "../../Button"
 
 /**
  * Performs API request to cancel an active transaction
@@ -12,15 +12,15 @@ async function cancelTransaction(transactionId: string) {
   let res: Response
   try {
     res = await fetch(TRANSACTION_CANCEL_URL(transactionId), {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     })
   } catch {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 
   if (!res.ok) {
-    throw 'network-error-try-again'
+    throw "network-error-try-again"
   }
 }
 
@@ -42,7 +42,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
     if (clicked) {
       cancelTransaction(id)
         .then(() => {
-          toast.success(t('transaction-cancelled'))
+          toast.success(t("transaction-cancelled"))
           if (onSuccess) {
             onSuccess()
           }
@@ -55,8 +55,8 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   }, [id, onSuccess, clicked, t])
 
   return (
-    <Button onClick={() => setClicked(true)} variant='secondary'>
-      {t('transaction-cancel')}
+    <Button onClick={() => setClicked(true)} variant="secondary">
+      {t("transaction-cancel")}
     </Button>
   )
 }

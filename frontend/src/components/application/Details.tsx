@@ -1,27 +1,27 @@
-import { useMatomo } from '@datapunt/matomo-tracker-react'
-import { FunctionComponent, useState } from 'react'
-import { Carousel } from 'react-responsive-carousel'
-import { Appstream, pickScreenshot } from '../../types/Appstream'
-import { useTranslation } from 'next-i18next'
+import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { FunctionComponent, useState } from "react"
+import { Carousel } from "react-responsive-carousel"
+import { Appstream, pickScreenshot } from "../../types/Appstream"
+import { useTranslation } from "next-i18next"
 
-import { Summary } from '../../types/Summary'
+import { Summary } from "../../types/Summary"
 
-import Releases from './Releases'
-import styles from './Details.module.scss'
-import Button from '../Button'
-import Image from '../Image'
-import { MdChevronRight, MdChevronLeft, MdZoomIn } from 'react-icons/md'
-import CmdInstructions from './CmdInstructions'
-import AdditionalInfo from './AdditionalInfo'
-import { AppStats } from '../../types/AppStats'
-import AppStatistics from './AppStats'
-import { SoftwareAppJsonLd, VideoGameJsonLd } from 'next-seo'
-import Lightbox from 'react-image-lightbox'
-import ApplicationSection from './ApplicationSection'
-import LogoImage from '../LogoImage'
-import { calculateHumanReadableSize } from '../../size'
+import Releases from "./Releases"
+import styles from "./Details.module.scss"
+import Button from "../Button"
+import Image from "../Image"
+import { MdChevronRight, MdChevronLeft, MdZoomIn } from "react-icons/md"
+import CmdInstructions from "./CmdInstructions"
+import AdditionalInfo from "./AdditionalInfo"
+import { AppStats } from "../../types/AppStats"
+import AppStatistics from "./AppStats"
+import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
+import Lightbox from "react-image-lightbox"
+import ApplicationSection from "./ApplicationSection"
+import LogoImage from "../LogoImage"
+import { calculateHumanReadableSize } from "../../size"
 
-import 'react-image-lightbox/style.css' // This only needs to be imported once in your app
+import "react-image-lightbox/style.css" // This only needs to be imported once in your app
 
 interface Props {
   app: Appstream
@@ -32,34 +32,34 @@ interface Props {
 
 function categoryToSeoCategories(categories: string[]) {
   if (!categories) {
-    return ''
+    return ""
   }
 
-  return categories.map(categoryToSeoCategory).join(' ')
+  return categories.map(categoryToSeoCategory).join(" ")
 }
 function categoryToSeoCategory(category) {
   switch (category) {
-    case 'AudioVideo':
-      return 'MultimediaApplication'
-    case 'Development':
-      return 'DeveloperApplication'
-    case 'Education':
-      return 'EducationalApplication'
-    case 'Game':
-      return 'GameApplication'
-    case 'Graphics':
-      return 'DesignApplication'
-    case 'Network':
-      return 'SocialNetworkingApplication'
-    case 'Office':
-      return 'BusinessApplication'
-    case 'Science':
+    case "AudioVideo":
+      return "MultimediaApplication"
+    case "Development":
+      return "DeveloperApplication"
+    case "Education":
+      return "EducationalApplication"
+    case "Game":
+      return "GameApplication"
+    case "Graphics":
+      return "DesignApplication"
+    case "Network":
+      return "SocialNetworkingApplication"
+    case "Office":
+      return "BusinessApplication"
+    case "Science":
       // Unsure what else we could map this to
-      return 'EducationalApplication'
-    case 'System':
-      return 'DesktopEnhancementApplication'
-    case 'Utility':
-      return 'UtilitiesApplication'
+      return "EducationalApplication"
+    case "System":
+      return "DesktopEnhancementApplication"
+    case "Utility":
+      return "UtilitiesApplication"
   }
 }
 
@@ -77,12 +77,12 @@ const Details: FunctionComponent<Props> = ({
 
   const installClicked = (e) => {
     e.preventDefault()
-    trackEvent({ category: 'App', action: 'Install', name: app.id })
+    trackEvent({ category: "App", action: "Install", name: app.id })
     window.location.href = `https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`
   }
 
   const donateClicked = (e) => {
-    trackEvent({ category: 'App', action: 'Donate', name: app.id })
+    trackEvent({ category: "App", action: "Donate", name: app.id })
   }
 
   if (app) {
@@ -93,20 +93,20 @@ const Details: FunctionComponent<Props> = ({
       <div id={styles.application}>
         <SoftwareAppJsonLd
           name={app.name}
-          price='0'
-          priceCurrency=''
-          operatingSystem='LINUX'
+          price="0"
+          priceCurrency=""
+          operatingSystem="LINUX"
           applicationCategory={categoryToSeoCategories(app.categories)}
         />
-        {app.categories?.includes('Game') && (
+        {app.categories?.includes("Game") && (
           <VideoGameJsonLd
             name={app.name}
             authorName={app.developer_name}
-            operatingSystemName={'LINUX'}
+            operatingSystemName={"LINUX"}
             storageRequirements={
               summary
                 ? calculateHumanReadableSize(summary.download_size)
-                : t('unknown')
+                : t("unknown")
             }
           />
         )}
@@ -121,22 +121,22 @@ const Details: FunctionComponent<Props> = ({
             <h2>{app.name}</h2>
             {app.developer_name?.trim().length > 0 && (
               <div className={styles.devName}>
-                {t('by', { developer: app.developer_name })}
+                {t("by", { developer: app.developer_name })}
               </div>
             )}
           </div>
 
           <div className={styles.actions}>
-            <Button onClick={installClicked}>{t('install')}</Button>
+            <Button onClick={installClicked}>{t("install")}</Button>
             {app.urls?.donation && (
               <a
                 href={app.urls.donation}
-                target='_blank'
-                rel='noreferrer'
+                target="_blank"
+                rel="noreferrer"
                 onClick={donateClicked}
                 className={styles.secondaryButton}
               >
-                <Button variant='secondary'>{t('donate')}</Button>
+                <Button variant="secondary">{t("donate")}</Button>
               </a>
             )}
           </div>
@@ -146,7 +146,7 @@ const Details: FunctionComponent<Props> = ({
             <Lightbox
               mainSrc={
                 pickScreenshot(
-                  app.screenshots?.filter(pickScreenshot)[currentScreenshot]
+                  app.screenshots?.filter(pickScreenshot)[currentScreenshot],
                 ).url
               }
               onCloseRequest={() => setShowLightbox(false)}
@@ -157,7 +157,7 @@ const Details: FunctionComponent<Props> = ({
               <Button
                 className={styles.zoom}
                 onClick={() => setShowLightbox(true)}
-                aria-label={t('zoom')}
+                aria-label={t("zoom")}
               >
                 <MdZoomIn />
               </Button>
@@ -178,7 +178,7 @@ const Details: FunctionComponent<Props> = ({
               }}
               renderArrowNext={(handler, hasNext, label) =>
                 hasNext ? (
-                  <div className='control-arrow control-next' onClick={handler}>
+                  <div className="control-arrow control-next" onClick={handler}>
                     <MdChevronRight />
                   </div>
                 ) : (
@@ -187,7 +187,7 @@ const Details: FunctionComponent<Props> = ({
               }
               renderArrowPrev={(handler, hasPrev, label) =>
                 hasPrev ? (
-                  <div className='control-arrow control-prev' onClick={handler}>
+                  <div className="control-arrow control-prev" onClick={handler}>
                     <MdChevronLeft />
                   </div>
                 ) : (
@@ -205,8 +205,8 @@ const Details: FunctionComponent<Props> = ({
                       src={pickedScreenshot.url}
                       width={752}
                       height={423}
-                      alt={t('screenshot')}
-                      loading='eager'
+                      alt={t("screenshot")}
+                      loading="eager"
                       priority={index === 0}
                     />
                   )
@@ -237,7 +237,7 @@ const Details: FunctionComponent<Props> = ({
           {developerApps && developerApps.length > 0 && (
             <ApplicationSection
               href={`/apps/collection/developer/${app.developer_name}`}
-              title={t('other-apps-by-developer', {
+              title={t("other-apps-by-developer", {
                 developer: app.developer_name,
               })}
               applications={developerApps.slice(0, 6)}
@@ -253,8 +253,8 @@ const Details: FunctionComponent<Props> = ({
     )
   } else {
     return (
-      <div className='main-container'>
-        <div>{t('loading')}</div>
+      <div className="main-container">
+        <div>{t("loading")}</div>
       </div>
     )
   }

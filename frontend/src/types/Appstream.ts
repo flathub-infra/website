@@ -21,36 +21,36 @@ export interface Appstream {
 
 interface ContentRating {
   type: string
-  'violence-cartoon': ContentRatingLevel
-  'violence-fantasy': ContentRatingLevel
-  'violence-realistic': ContentRatingLevel
-  'violence-bloodshed': ContentRatingLevel
-  'violence-sexual': ContentRatingLevel
-  'violence-desecration': ContentRatingLevel
-  'violence-slavery': ContentRatingLevel
-  'violence-worship': ContentRatingLevel
-  'drugs-alcohol': ContentRatingLevel
-  'drugs-narcotics': ContentRatingLevel
-  'drugs-tobacco': ContentRatingLevel
-  'sex-nudity': ContentRatingLevel
-  'sex-themes': ContentRatingLevel
-  'sex-homosexuality': ContentRatingLevel
-  'sex-prostitution': ContentRatingLevel
-  'sex-adultery': ContentRatingLevel
-  'sex-appearance': ContentRatingLevel
-  'language-profanity': ContentRatingLevel
-  'language-humor': ContentRatingLevel
-  'language-discrimination': ContentRatingLevel
-  'social-chat': ContentRatingLevel
-  'social-info': ContentRatingLevel
-  'social-audio': ContentRatingLevel
-  'social-location': ContentRatingLevel
-  'social-contacts': ContentRatingLevel
-  'money-purchasing': ContentRatingLevel
-  'money-gambling': ContentRatingLevel
+  "violence-cartoon": ContentRatingLevel
+  "violence-fantasy": ContentRatingLevel
+  "violence-realistic": ContentRatingLevel
+  "violence-bloodshed": ContentRatingLevel
+  "violence-sexual": ContentRatingLevel
+  "violence-desecration": ContentRatingLevel
+  "violence-slavery": ContentRatingLevel
+  "violence-worship": ContentRatingLevel
+  "drugs-alcohol": ContentRatingLevel
+  "drugs-narcotics": ContentRatingLevel
+  "drugs-tobacco": ContentRatingLevel
+  "sex-nudity": ContentRatingLevel
+  "sex-themes": ContentRatingLevel
+  "sex-homosexuality": ContentRatingLevel
+  "sex-prostitution": ContentRatingLevel
+  "sex-adultery": ContentRatingLevel
+  "sex-appearance": ContentRatingLevel
+  "language-profanity": ContentRatingLevel
+  "language-humor": ContentRatingLevel
+  "language-discrimination": ContentRatingLevel
+  "social-chat": ContentRatingLevel
+  "social-info": ContentRatingLevel
+  "social-audio": ContentRatingLevel
+  "social-location": ContentRatingLevel
+  "social-contacts": ContentRatingLevel
+  "money-purchasing": ContentRatingLevel
+  "money-gambling": ContentRatingLevel
 }
 
-type ContentRatingLevel = 'none' | 'mild' | 'moderate' | 'intense'
+type ContentRatingLevel = "none" | "mild" | "moderate" | "intense"
 
 export interface Urls {
   bugtracker: string
@@ -63,27 +63,27 @@ export interface Urls {
 }
 
 export interface Screenshot {
-  '112x63'?: string
-  '224x126'?: string
-  '624x351'?: string
-  '752x423'?: string
-  '1248x702'?: string
-  '1504x846'?: string
+  "112x63"?: string
+  "224x126"?: string
+  "624x351"?: string
+  "752x423"?: string
+  "1248x702"?: string
+  "1504x846"?: string
 }
 
 export function pickScreenshot(screenshot: Screenshot) {
-  if (screenshot['1504x846']) {
-    return { url: screenshot['1504x846'], width: 1504, height: 846 }
-  } else if (screenshot['1248x702']) {
-    return { url: screenshot['1248x702'], width: 1248, height: 702 }
-  } else if (screenshot['752x423']) {
-    return { url: screenshot['752x423'], width: 752, height: 423 }
-  } else if (screenshot['624x351']) {
-    return { url: screenshot['624x351'], width: 624, height: 351 }
-  } else if (screenshot['224x126']) {
-    return { url: screenshot['224x126'], width: 224, height: 126 }
-  } else if (screenshot['112x63']) {
-    return { url: screenshot['112x63'], width: 112, height: 63 }
+  if (screenshot["1504x846"]) {
+    return { url: screenshot["1504x846"], width: 1504, height: 846 }
+  } else if (screenshot["1248x702"]) {
+    return { url: screenshot["1248x702"], width: 1248, height: 702 }
+  } else if (screenshot["752x423"]) {
+    return { url: screenshot["752x423"], width: 752, height: 423 }
+  } else if (screenshot["624x351"]) {
+    return { url: screenshot["624x351"], width: 624, height: 351 }
+  } else if (screenshot["224x126"]) {
+    return { url: screenshot["224x126"], width: 224, height: 126 }
+  } else if (screenshot["112x63"]) {
+    return { url: screenshot["112x63"], width: 112, height: 63 }
   } else {
     return undefined
   }
@@ -108,5 +108,5 @@ export interface Bundle {
 }
 
 export interface Metadata {
-  'Flathub::manifest'?: string
+  "Flathub::manifest"?: string
 }
