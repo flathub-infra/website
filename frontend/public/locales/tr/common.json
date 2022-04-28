@@ -191,5 +191,6 @@
   "less": "Daha az",
   "delete-account-prompt": "Hesabınız silinsin mi?",
   "delete-account-entry": "Hesabımı silmek istiyorum",
-  "entry-confirmation-prompt": "Devam etmek için \"{{text}}\" yazın."
+  "entry-confirmation-prompt": "Devam etmek için \"{{text}}\" yazın.",
+  "expiry": "Bitiş:"
 }

@@ -188,5 +188,9 @@
   "next-page": "Seuraava sivu",
   "no-more-transactions": "Ei enempää maksuja.",
   "previous-page": "Edellinen sivu",
-  "less": "Vähemmän"
+  "less": "Vähemmän",
+  "delete-account-prompt": "Haluatko poistaa tilisi?",
+  "delete-account-entry": "Haluan poistaa tilini",
+  "entry-confirmation-prompt": "Kirjoita \"{{text}}\" jatkaaksesi.",
+  "expiry": "Vanhenee:"
 }
