@@ -22,7 +22,7 @@ psycopg2-binary = "^2.9.3"
 itsdangerous = "^2.1"
 PyGithub = "^1.55"
 vcrpy = "^4.1.1"
-python-gitlab = "^3.3"
+python-gitlab = "^3.4"
 stripe = "^2.67"
 PyJWT = "^2.3.0"
 
