@@ -192,5 +192,9 @@
   "delete-account-entry": "Eu gostaria de excluir minha conta",
   "entry-confirmation-prompt": "Digite \"{{text}}\" para continuar.",
   "delete-account-prompt": "Excluir sua conta?",
-  "expiry": "Expira em:"
+  "expiry": "Expira em:",
+  "safe-to-close-page": "É seguro fechar esta página.",
+  "purchase-apps-title": "Comprar aplicativos",
+  "thank-you-for-your-purchase": "Obrigado pela sua compra!",
+  "app-install-error-try-again": "Não foi possível instalar o aplicativo. Tente voltar para a loja de aplicativos e instalar novamente."
 }
