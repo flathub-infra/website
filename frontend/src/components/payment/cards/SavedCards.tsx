@@ -43,7 +43,7 @@ const SavedCards: FunctionComponent = () => {
     content = (
       <div className={styles.cardList}>
         {cards.map((card) => (
-          <div key={card.id}>
+          <div key={card.id} className={styles.cardContainer}>
             <CardInfo card={card} />
             <DeleteCardButton card={card} onSuccess={removeCard} />
           </div>
