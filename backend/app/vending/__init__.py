@@ -54,6 +54,7 @@ class VendingStatus(BaseModel):
     status: str
     can_take_payments: bool
     needs_attention: bool
+    details_submitted: bool
 
 
 class VendingOnboardingRequest(BaseModel):
@@ -117,11 +118,15 @@ def status(login=Depends(login_state)) -> VendingStatus:
         needs_attention = (
             len(acc.get("requirements", {}).get("currently_due", ["..."])) > 0
         )
+        details_submitted = acc.get("details_submitted")
     except Exception as error:
         raise VendingError("stripe-account-retrieval-failed") from error
 
     return VendingStatus(
-        status="ok", can_take_payments=can_take_money, needs_attention=needs_attention
+        status="ok",
+        can_take_payments=can_take_money,
+        needs_attention=needs_attention,
+        details_submitted=details_submitted,
     )
 
 
