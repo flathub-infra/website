@@ -192,5 +192,9 @@
   "delete-account-prompt": "Hesabınız silinsin mi?",
   "delete-account-entry": "Hesabımı silmek istiyorum",
   "entry-confirmation-prompt": "Devam etmek için \"{{text}}\" yazın.",
-  "expiry": "Bitiş:"
+  "expiry": "Bitiş:",
+  "purchase-apps-title": "Uygulama Satın Al",
+  "app-install-error-try-again": "Uygulama kurulamadı. Uygulama mağazasına geri dönmeyi ve tekrar kurmayı deneyin.",
+  "thank-you-for-your-purchase": "Satın aldığınız için teşekkür ederiz!",
+  "safe-to-close-page": "Bu sayfayı kapatmak güvenlidir."
 }
