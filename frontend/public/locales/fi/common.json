@@ -192,5 +192,9 @@
   "delete-account-prompt": "Haluatko poistaa tilisi?",
   "delete-account-entry": "Haluan poistaa tilini",
   "entry-confirmation-prompt": "Kirjoita \"{{text}}\" jatkaaksesi.",
-  "expiry": "Vanhenee:"
+  "expiry": "Vanhenee:",
+  "purchase-apps-title": "Osta sovelluksia",
+  "thank-you-for-your-purchase": "Kiitos ostoksestasi!",
+  "safe-to-close-page": "Tämän sivun voi sulkea.",
+  "app-install-error-try-again": "Sovellusta ei voitu asentaa. Mene takaisin sovelluskauppaan ja yritä asennusta uudelleen."
 }
