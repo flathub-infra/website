@@ -200,5 +200,7 @@
   "accepting-payment": "Accepting Payment",
   "vending-dashboard": "Go to your Stripe Express account",
   "vending-onboard": "Create a Stripe Express account",
-  "requires-attention": "Requires attention"
+  "requires-attention": "Requires attention",
+  "cancel": "Cancel",
+  "delete": "Delete"
 }

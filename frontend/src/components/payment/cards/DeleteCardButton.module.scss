@@ -1,0 +1,9 @@
+.confirmContainer {
+  display: flex;
+  gap: 16px;
+  justify-content: space-evenly;
+
+  .mdButton {
+    font-size: 24px;
+  }
+}
