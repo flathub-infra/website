@@ -43,7 +43,7 @@ export default function Home({
             >
               {t("welcome-to-flathub-index-text")}
             </p>
-            <div style={{ display: "flex", gap: "12px" }}>
+            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <a href="https://flatpak.org/setup/">
                 <Button variant="secondary">{t("quick-setup")}</Button>
               </a>

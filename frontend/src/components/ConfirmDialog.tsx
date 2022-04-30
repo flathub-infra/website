@@ -57,7 +57,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
 
   return (
     <div className={styles.dialog}>
-      <p>{prompt}</p>
+      <span>{prompt}</span>
       {entry ? toEnter : <></>}
       <div className={styles.actions}>
         {entry && text === entry ? confirm : <></>}
