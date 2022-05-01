@@ -2,11 +2,11 @@ import { FunctionComponent } from "react"
 import Link from "next/link"
 import LogoImage from "../LogoImage"
 
-import { Appstream } from "../../types/Appstream"
+import { DesktopAppstream } from "../../types/Appstream"
 import styles from "./ApplicationCard.module.scss"
 
 interface Props {
-  application: Appstream
+  application: DesktopAppstream
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (

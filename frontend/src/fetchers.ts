@@ -1,4 +1,4 @@
-import { Appstream } from "./types/Appstream"
+import { AddonAppstream, DesktopAppstream } from "./types/Appstream"
 import { Collection, Collections } from "./types/Collection"
 import { Category } from "./types/Category"
 import { LoginProvider } from "./types/Login"
@@ -16,13 +16,14 @@ import {
   STATS,
   DEVELOPER_URL,
   LOGIN_PROVIDERS_URL,
+  ADDONS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
 
-export async function fetchAppstream(appId: string): Promise<Appstream> {
-  let entryJson: Appstream
+export async function fetchAppstream(appId: string): Promise<DesktopAppstream> {
+  let entryJson: DesktopAppstream
   try {
     const entryData = await fetch(`${APP_DETAILS(appId)}`)
     entryJson = await entryData.json()
@@ -90,7 +91,7 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
 export default async function fetchCollection(
   collection: Collection,
   count?: number,
-): Promise<Appstream[]> {
+): Promise<DesktopAppstream[]> {
   let collectionURL: string = ""
   switch (collection) {
     case Collections.popular:
@@ -131,7 +132,9 @@ export default async function fetchCollection(
     })
     .slice(0, limit)
 
-  const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
+  const items: DesktopAppstream[] = await Promise.all(
+    limitedList.map(fetchAppstream),
+  )
 
   console.log("\nCollection ", collection, " fetched")
 
@@ -142,13 +145,26 @@ export async function fetchCategory(
   category: keyof typeof Category,
   page?: number,
   per_page?: number,
-): Promise<Appstream[]> {
+): Promise<DesktopAppstream[]> {
   const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
+  const items: DesktopAppstream[] = await Promise.all(
+    appList.map(fetchAppstream),
+  )
 
   console.log("\nCategory", category, " fetched")
+
+  return items.filter((item) => Boolean(item))
+}
+
+export async function fetchAddons(appid: string) {
+  const appListRes = await fetch(ADDONS_URL(appid))
+  const appList = await appListRes.json()
+
+  const items: AddonAppstream[] = await Promise.all(appList.map(fetchAppstream))
+
+  console.log("\nAddons for ", appid, " fetched")
 
   return items.filter((item) => Boolean(item))
 }
@@ -167,7 +183,9 @@ export async function fetchDeveloperApps(developer: string | undefined) {
 
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
+  const items: DesktopAppstream[] = await Promise.all(
+    appList.map(fetchAppstream),
+  )
 
   console.log(`Developer apps for ${developer} fetched`)
 

@@ -25,6 +25,8 @@ export const CATEGORY_URL = (
     return `${BASE_URI}/category/${category}`
   }
 }
+export const ADDONS_URL = (appid: string): string =>
+  `${BASE_URI}/addon/${appid}`
 export const DEVELOPER_URL = (developer: string): string =>
   `${BASE_URI}/developer/${encodeURIComponent(developer)}`
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`

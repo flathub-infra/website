@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react"
 import Link from "next/link"
 
-import { Appstream } from "../../types/Appstream"
+import { DesktopAppstream } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
 import styles from "./ApplicationSection.module.scss"
@@ -11,7 +11,7 @@ import { useTranslation } from "next-i18next"
 interface Props {
   href: string
   title: string
-  applications: Appstream[]
+  applications: DesktopAppstream[]
   showMore?: boolean
 }
 

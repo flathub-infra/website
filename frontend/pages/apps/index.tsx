@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { Appstream } from "../../src/types/Appstream"
+import { DesktopAppstream } from "../../src/types/Appstream"
 import { fetchCategory } from "../../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT } from "../../src/env"
 import { NextSeo } from "next-seo"
@@ -48,7 +48,7 @@ export default function Apps({ topAppsByCategory }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  let topAppsByCategory: { category: string; apps: Appstream[] }[] = []
+  let topAppsByCategory: { category: string; apps: DesktopAppstream[] }[] = []
 
   const categoryPromise = Object.keys(Category).map(
     async (category: Category) => {

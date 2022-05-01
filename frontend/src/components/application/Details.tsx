@@ -1,7 +1,11 @@
 import { useMatomo } from "@datapunt/matomo-tracker-react"
 import { FunctionComponent, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
-import { Appstream, pickScreenshot } from "../../types/Appstream"
+import {
+  AddonAppstream,
+  DesktopAppstream,
+  pickScreenshot,
+} from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -22,12 +26,14 @@ import LogoImage from "../LogoImage"
 import { calculateHumanReadableSize } from "../../size"
 
 import "react-image-lightbox/style.css" // This only needs to be imported once in your app
+import Addons from "./Addons"
 
 interface Props {
-  app: Appstream
+  app: DesktopAppstream
   summary?: Summary
   stats: AppStats
-  developerApps: Appstream[]
+  developerApps: DesktopAppstream[]
+  addons: AddonAppstream[]
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -68,6 +74,7 @@ const Details: FunctionComponent<Props> = ({
   summary,
   stats,
   developerApps,
+  addons,
 }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
@@ -226,6 +233,12 @@ const Details: FunctionComponent<Props> = ({
           <Releases
             latestRelease={app.releases ? app.releases[0] : null}
           ></Releases>
+
+          {addons.length > 0 && (
+            <div>
+              <Addons addons={addons}></Addons>
+            </div>
+          )}
 
           <AdditionalInfo
             data={app}

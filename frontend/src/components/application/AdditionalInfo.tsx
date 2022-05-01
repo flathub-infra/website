@@ -1,4 +1,4 @@
-import { Appstream } from "../../types/Appstream"
+import { DesktopAppstream } from "../../types/Appstream"
 import { Summary } from "../../types/Summary"
 import ListBox from "./ListBox"
 import styles from "./AdditionalInfo.module.scss"
@@ -26,7 +26,7 @@ const AdditionalInfo = ({
   appId,
   stats,
 }: {
-  data: Appstream
+  data: DesktopAppstream
   summary?: Summary
   appId: string
   stats: AppStats

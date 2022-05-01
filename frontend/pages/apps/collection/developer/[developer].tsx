@@ -4,13 +4,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
 import { fetchDeveloperApps } from "../../../../src/fetchers"
-import { Appstream } from "../../../../src/types/Appstream"
+import { DesktopAppstream } from "../../../../src/types/Appstream"
 
 export default function Developer({
   developerApps,
   developer,
 }: {
-  developerApps: Appstream[]
+  developerApps: DesktopAppstream[]
   developer: string
 }) {
   const { t } = useTranslation()

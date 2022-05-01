@@ -1,5 +1,6 @@
 import base64
 from datetime import datetime, timedelta
+from collections import defaultdict
 from functools import lru_cache
 from typing import Dict, List
 
@@ -129,6 +130,23 @@ def get_developer(
         return response
 
     sorted_ids = sort_ids_by_downloads(ids)
+
+    return sorted_ids
+
+
+@app.get("/addon/{appid}")
+def get_addons(appid: str):
+    ids = apps.get_addons(appid)
+
+    addon_appstreams = defaultdict()
+    for addonid in ids:
+        if addon := db.get_json_key(f"apps:{addonid}"):
+            addon_appstreams[addonid] = addon
+
+    sorted_ids = sorted(
+        ids,
+        key=lambda appid: addon_appstreams.get(appid, {}).get("name", "Unknown"),
+    )
 
     return sorted_ids
 

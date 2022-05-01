@@ -2,11 +2,13 @@ import { useMatomo } from "@datapunt/matomo-tracker-react"
 import { useState, useEffect } from "react"
 
 import { fetchSearchQuery } from "../fetchers"
-import { Appstream } from "../types/Appstream"
+import { DesktopAppstream } from "../types/Appstream"
 
-export function useSearchQuery(query: string): Appstream[] {
+export function useSearchQuery(query: string): DesktopAppstream[] {
   const { trackSiteSearch } = useMatomo()
-  const [searchResult, setSearchResult] = useState<Appstream[] | null>(null)
+  const [searchResult, setSearchResult] = useState<DesktopAppstream[] | null>(
+    null,
+  )
 
   useEffect(() => {
     const callSearch = async () => {

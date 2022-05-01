@@ -1,4 +1,7 @@
-export interface Appstream {
+export type Appstream = DesktopAppstream | AddonAppstream
+
+export interface DesktopAppstream {
+  type: "desktop"
   description: string
   screenshots?: Screenshot[]
   releases: Release[]
@@ -17,6 +20,19 @@ export interface Appstream {
   launchable: Launchable
   bundle: Bundle
   metadata?: Metadata
+}
+
+export interface AddonAppstream {
+  type: "addon"
+  releases: Release[]
+  urls: Urls
+  icon?: any
+  id: string
+  name: string
+  summary: string
+  project_license?: string
+  extends: string
+  bundle: Bundle
 }
 
 interface ContentRating {

@@ -7,11 +7,12 @@ import {
   fetchAppStats,
   fetchSummary,
   fetchDeveloperApps,
+  fetchAddons,
 } from "../../../src/fetchers"
-import { APPSTREAM_URL } from "../../../src/env"
 import { NextSeo } from "next-seo"
 import {
-  Appstream,
+  AddonAppstream,
+  DesktopAppstream,
   pickScreenshot,
   Screenshot,
 } from "../../../src/types/Appstream"
@@ -23,11 +24,13 @@ export default function Details({
   summary,
   stats,
   developerApps,
+  addons,
 }: {
-  app: Appstream
+  app: DesktopAppstream
   summary?: Summary
   stats: AppStats
-  developerApps: Appstream[]
+  developerApps: DesktopAppstream[]
+  addons: AddonAppstream[]
 }) {
   const screenshots = app.screenshots
     ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
@@ -54,6 +57,7 @@ export default function Details({
         summary={summary}
         stats={stats}
         developerApps={developerApps.filter((devApp) => devApp.id !== app.id)}
+        addons={addons}
       />
     </>
   )
@@ -68,6 +72,7 @@ export const getStaticProps: GetStaticProps = async ({
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)
   const developerApps = await fetchDeveloperApps(app?.developer_name)
+  const addons = await fetchAddons(appId as string)
 
   return {
     props: {
@@ -76,6 +81,7 @@ export const getStaticProps: GetStaticProps = async ({
       summary,
       stats,
       developerApps: developerApps ?? [],
+      addons,
     },
     revalidate: 3600,
   }

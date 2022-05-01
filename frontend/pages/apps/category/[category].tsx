@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 
 import Collection from "../../../src/components/application/Collection"
 import { fetchCategory } from "../../../src/fetchers"
-import { Appstream } from "../../../src/types/Appstream"
+import { DesktopAppstream } from "../../../src/types/Appstream"
 import { Category, categoryToName } from "../../../src/types/Category"
 
 const ApplicationCategory = ({ applications }) => {
@@ -24,7 +24,7 @@ const ApplicationCategory = ({ applications }) => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
-  const applications: Appstream[] = await fetchCategory(
+  const applications: DesktopAppstream[] = await fetchCategory(
     params.category as keyof typeof Category,
   )
 

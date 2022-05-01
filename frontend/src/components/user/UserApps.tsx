@@ -2,14 +2,14 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { useUserContext } from "../../context/user-info"
 import { APP_DETAILS } from "../../env"
-import { Appstream } from "../../types/Appstream"
+import { DesktopAppstream } from "../../types/Appstream"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
 
 async function getAppsInfo(
   appIds: string[],
   setLoading: (a: boolean) => void,
-  setApps: (a: Appstream[]) => void,
+  setApps: (a: DesktopAppstream[]) => void,
 ) {
   setLoading(true)
 

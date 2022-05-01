@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react"
 import { useRouter } from "next/router"
 
-import { Appstream } from "../../types/Appstream"
+import { DesktopAppstream } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
 import Pagination from "../Pagination"
@@ -9,7 +9,7 @@ import styles from "./Collection.module.scss"
 import { useTranslation } from "next-i18next"
 
 interface Props {
-  applications: Appstream[]
+  applications: DesktopAppstream[]
   perPage?: number
   title: string
 }
