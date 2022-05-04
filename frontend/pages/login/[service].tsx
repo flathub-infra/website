@@ -9,6 +9,7 @@ import { login } from "../../src/asyncs/login"
 import Spinner from "../../src/components/Spinner"
 import { useUserContext, useUserDispatch } from "../../src/context/user-info"
 import { fetchLoginProviders } from "../../src/fetchers"
+import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 
 export default function AuthReturnPage({ services }) {
@@ -23,12 +24,16 @@ export default function AuthReturnPage({ services }) {
   const dispatch = useUserDispatch()
 
   const [pendingTransaction, _setPendingTransaction] = usePendingTransaction()
+  const [returnTo, setReturnTo] = useLocalStorage<string>("returnTo", "")
 
   useEffect(() => {
-    // Redirect to userpage once logged in. Or, if there's a pending transaction, redirect to the purchase page.
+    // Redirect back to where user was, or userpage for unprompted login
     if (user.info && !user.loading) {
       if (pendingTransaction) {
         router.push("/purchase")
+      } else if (returnTo) {
+        router.push(decodeURIComponent(returnTo))
+        setReturnTo(null)
       } else {
         router.push("/userpage")
       }
