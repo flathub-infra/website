@@ -19,4 +19,25 @@ module.exports = {
       },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "Deny",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+        ],
+      },
+    ]
+  },
 }
