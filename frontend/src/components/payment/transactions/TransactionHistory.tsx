@@ -25,7 +25,7 @@ const TransactionHistory: FunctionComponent = () => {
   useEffect(() => {
     function addNewPage(newPage: Transaction[]) {
       // Upon reaching no more transactions, stop traversing
-      if (newPage.length === 0) {
+      if (page > 0 && newPage.length === 0) {
         setEndPage(page - 1)
         setPage(page - 1)
         toast.info(t("no-more-transactions"))
