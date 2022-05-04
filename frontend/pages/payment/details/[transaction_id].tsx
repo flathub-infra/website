@@ -6,6 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
 import Button from "../../../src/components/Button"
+import RelatedLink from "../../../src/components/RelatedLink"
 import TransactionCancelButton from "../../../src/components/payment/transactions/TransactionCancelButton"
 import TransactionDetails from "../../../src/components/payment/transactions/TransactionDetails"
 import Spinner from "../../../src/components/Spinner"
@@ -95,7 +96,10 @@ export default function TransactionPage() {
   return (
     <>
       <NextSeo title={t("payment-summary")} noindex={true}></NextSeo>
-      <div className="main-container">{content}</div>
+      <div className="main-container">
+        <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
+        {content}
+      </div>
     </>
   )
 }

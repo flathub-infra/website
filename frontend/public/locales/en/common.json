@@ -202,5 +202,6 @@
   "vending-onboard": "Create a Stripe Express account",
   "requires-attention": "Requires attention",
   "cancel": "Cancel",
-  "delete": "Delete"
+  "delete": "Delete",
+  "go-to-page": "Go to {{page}}"
 }
