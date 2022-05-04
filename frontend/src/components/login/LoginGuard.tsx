@@ -7,9 +7,8 @@ import Spinner from "../Spinner"
 This is essentially a wrapper component to conditionally render the
 content within only once the user is confirmed to be logged in.
 
-If user is logged out, they will be redirected to login.
-
-TODO: Redirect back upon login completion
+If user is logged out, they will be redirected to login and then back
+upon completion (via the URL query string).
 */
 const LoginGuard: FunctionComponent = ({ children }) => {
   const user = useUserContext()
@@ -18,7 +17,7 @@ const LoginGuard: FunctionComponent = ({ children }) => {
   // Content unsuitable if not logged in, send user to login page
   useEffect(() => {
     if (!user.info && !user.loading) {
-      router.push("/login")
+      router.push(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
     }
   }, [user, router])
 

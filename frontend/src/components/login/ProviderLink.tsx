@@ -1,7 +1,9 @@
 import { useTranslation } from "next-i18next"
+import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { LOGIN_PROVIDERS_URL } from "../../env"
+import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"
 import styles from "./ProviderLink.module.scss"
 
@@ -11,8 +13,12 @@ interface Props {
 
 const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
   const { t } = useTranslation()
+  const router = useRouter()
+
   // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
+
+  const [, setReturnTo] = useLocalStorage<string>("returnTo", "")
 
   // When user clicks a provider, a redirect is fetched to initiate login flow
   useEffect(() => {
@@ -34,6 +40,7 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
 
       if (res.ok) {
         const data: LoginRedirect = await res.json()
+        setReturnTo(router.query.returnTo as string)
         window.location.href = data.redirect
       } else {
         toast.error(`${res.status} ${res.statusText}`)
@@ -44,7 +51,7 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
     if (clicked) {
       redirect(`${LOGIN_PROVIDERS_URL}/${provider.method}`)
     }
-  }, [clicked, provider.method, t])
+  }, [clicked, provider.method, router, setReturnTo, t])
 
   const loginText = t(`login-with-provider`, { provider: provider.name })
 
