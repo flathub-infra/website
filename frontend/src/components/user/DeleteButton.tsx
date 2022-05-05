@@ -20,7 +20,10 @@ const DeleteButton: FunctionComponent = () => {
     ? () => deleteAccount(dispatch, token)
     : requestDeletion
 
-  const { execute, status, value, error } = useAsync(nextAction, false)
+  const { execute, status, value, error } = useAsync<void | string>(
+    nextAction,
+    false,
+  )
 
   // Alert user to network errors preventing deletion
   useEffect(() => {
