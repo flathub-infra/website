@@ -1,6 +1,7 @@
+const { PHASE_PRODUCTION_SERVER } = require("next/constants")
 const { i18n } = require("./next-i18next.config")
 
-module.exports = {
+module.exports = (phase) => ({
   i18n,
   images: {
     loader: "custom",
@@ -36,8 +37,25 @@ module.exports = {
             key: "X-Content-Type-Options",
             value: "nosniff",
           },
+          {
+            key: "Content-Security-Policy",
+            value:
+              /**
+               * For testing adjustments use https://addons.mozilla.org/en-GB/firefox/addon/laboratory-by-mozilla/
+               * (which allows you to overwrite the Content Security Policy of a particular website).
+               *
+               * Do not add `unsafe-inline` to `script-src`, as we are using dangerouslySetInnerHTML in a few places,
+               * which makes us vulnerable to arbitrary code execution if we receive unsanitized data from the APIs.
+               *
+               * For the development environment we either need to maintain a separate CSP or disable it altogether.
+               * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
+               */
+              phase === PHASE_PRODUCTION_SERVER
+                ? "default-src 'none'; script-src 'self' https://webstats.gnome.org; style-src 'self' 'unsafe-inline' https://dl.flathub.org; font-src 'self' https://dl.flathub.org; connect-src 'self' https://flathub.org https://webstats.gnome.org; img-src 'self' https://dl.flathub.org https://webstats.gnome.org data:;"
+                : "",
+          },
         ],
       },
     ]
   },
-}
+})
