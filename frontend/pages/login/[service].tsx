@@ -11,6 +11,7 @@ import { useUserContext, useUserDispatch } from "../../src/context/user-info"
 import { fetchLoginProviders } from "../../src/fetchers"
 import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
+import { isInternalRedirect } from "../../src/utils/security"
 
 export default function AuthReturnPage({ services }) {
   // Must access query params to POST to backend for oauth verification
@@ -32,8 +33,15 @@ export default function AuthReturnPage({ services }) {
       if (pendingTransaction) {
         router.push("/purchase")
       } else if (returnTo) {
-        router.push(decodeURIComponent(returnTo))
+        const redirect = decodeURIComponent(returnTo)
         setReturnTo(null)
+
+        // Must validate the redirect to prevent open redirect and code execution
+        if (isInternalRedirect(redirect)) {
+          router.push(redirect)
+        } else {
+          router.push("/userpage")
+        }
       } else {
         router.push("/userpage")
       }
