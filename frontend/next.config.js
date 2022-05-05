@@ -1,6 +1,17 @@
 const { PHASE_PRODUCTION_SERVER } = require("next/constants")
 const { i18n } = require("./next-i18next.config")
 
+const CONTENT_SECURITY_POLICY = `
+  default-src 'none';
+  script-src 'self' https://webstats.gnome.org;
+  style-src 'self' 'unsafe-inline' https://dl.flathub.org;
+  font-src 'self' https://dl.flathub.org;
+  connect-src 'self' https://flathub.org https://webstats.gnome.org;
+  img-src 'self' https://dl.flathub.org https://webstats.gnome.org data:;
+`
+  .replace(/\s{2,}/g, " ")
+  .trim()
+
 module.exports = (phase) => ({
   i18n,
   images: {
@@ -50,9 +61,7 @@ module.exports = (phase) => ({
                * For the development environment we either need to maintain a separate CSP or disable it altogether.
                * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
                */
-              phase === PHASE_PRODUCTION_SERVER
-                ? "default-src 'none'; script-src 'self' https://webstats.gnome.org; style-src 'self' 'unsafe-inline' https://dl.flathub.org; font-src 'self' https://dl.flathub.org; connect-src 'self' https://flathub.org https://webstats.gnome.org; img-src 'self' https://dl.flathub.org https://webstats.gnome.org data:;"
-                : "",
+              phase === PHASE_PRODUCTION_SERVER ? CONTENT_SECURITY_POLICY : "",
           },
         ],
       },
