@@ -757,6 +757,8 @@ def do_deleteuser(
 
     if ret["status"] == "ok":
         request.session.clear()
+    else:
+        return JSONResponse(ret, status_code=400)
 
     return ret
 
