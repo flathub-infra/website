@@ -137,13 +137,13 @@ def test_appstream_by_non_existent_appid(client):
     assert response.json() == None
 
 
-def test_search_query_by_partial_name():
+def test_search_query_by_partial_name(client):
     response = client.get("/search/maz")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
 
 
-def test_search_query_by_partial_name_2():
+def test_search_query_by_partial_name_2(client):
     response = client.get("/search/ma")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_search_query_by_appid")
