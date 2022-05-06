@@ -2,12 +2,12 @@ version: "3"
 
 services:
   redis:
-    image: docker.io/redislabs/redisearch:2.4.0
+    image: docker.io/library/redis:6
     ports:
       - "6379:6379"
 
   meilisearch:
-    image: docker.io/getmeili/meilisearch:latest
+    image: docker.io/getmeili/meilisearch:v0.26.1
     environment:
       - MEILI_NO_ANALYTICS=true
     ports:
