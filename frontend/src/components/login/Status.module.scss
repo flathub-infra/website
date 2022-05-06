@@ -1,16 +1,22 @@
 .loginStatus {
   width: 100%;
 
+  @media screen and (min-width: 768px) {
+    .login {
+      padding-right: 20px;
+    }
+  }
+
   .user {
     @media screen and (min-width: 768px) {
       display: flex;
       align-items: center;
+      padding-right: 4px;
     }
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     border-radius: var(--border-radius);
-    padding: 4px;
     column-gap: 12px;
 
     .userAvatar {
@@ -18,9 +24,9 @@
         display: flex;
       }
       display: none;
-      width: 45px;
-      height: 45px;
-      border-radius: 22.5px;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
     }
   }
 }
