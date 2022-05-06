@@ -11,10 +11,10 @@ class Settings(BaseSettings):
     flatpak_user_dir: str = "/root/.local/share/flatpak"
     redis_host: str = "localhost"
     redis_port: int = 6379
-    meilisearch_url: str = "http://meilisearch:7700"
-    meilisearch_master_key: str = None
     redis_db: int = 0
     database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
+    meilisearch_url: str = "http://meilisearch:7700"
+    meilisearch_master_key: Optional[str] = None
     sentry_dsn: Optional[str] = None
     appstream_repos: Optional[str] = None
     datadir: str = os.path.join(ROOT_DIR, "data")
