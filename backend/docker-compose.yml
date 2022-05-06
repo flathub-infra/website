@@ -14,6 +14,7 @@ services:
       - "7700:7700"
 
   backend:
+    image: backend_backend:latest
     build:
       dockerfile: Dockerfile
       context: .
