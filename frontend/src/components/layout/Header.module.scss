@@ -137,6 +137,16 @@
         }
 
         .navItem {
+          @media screen and (min-width: 768px) {
+            &.profile {
+              padding-top: 0px;
+              padding-bottom: 0px;
+              padding-right: 0px;
+              height: 44px;
+              display: flex;
+              align-items: center;
+            }
+          }
           padding: 8px 20px;
           margin: 0 6px;
           border-radius: var(--border-radius);

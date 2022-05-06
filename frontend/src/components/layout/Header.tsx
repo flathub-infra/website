@@ -126,7 +126,7 @@ const Header = () => {
             </Link>
 
             {!IS_PRODUCTION && (
-              <div className={styles.navItem}>
+              <div className={`${styles.navItem} ${styles.profile}`}>
                 <LoginStatus />
               </div>
             )}

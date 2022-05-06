@@ -32,7 +32,7 @@ const LoginStatus: FunctionComponent = () => {
   } else {
     status = (
       <Link href="/login" passHref>
-        <a>{t("login")}</a>
+        <a className={styles.login}>{t("login")}</a>
       </Link>
     )
   }
