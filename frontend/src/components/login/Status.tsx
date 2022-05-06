@@ -17,16 +17,14 @@ const LoginStatus: FunctionComponent = () => {
 
     status = (
       <>
-        <h4>{t("logged-in-as")}:</h4>
-
         <Link href="/userpage" passHref>
           <a className={styles.user}>
+            {user.info.displayname}
             <img
               src={avatar}
               className={styles.userAvatar}
               alt={t("user-avatar", { user: user.info.displayname })}
             />
-            {user.info.displayname}
           </a>
         </Link>
       </>
@@ -34,7 +32,7 @@ const LoginStatus: FunctionComponent = () => {
   } else {
     status = (
       <Link href="/login" passHref>
-        <a>{t("developer-login")}</a>
+        <a>{t("login")}</a>
       </Link>
     )
   }

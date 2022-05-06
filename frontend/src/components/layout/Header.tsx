@@ -6,7 +6,9 @@ import { MdMenu, MdMenuOpen, MdSearch } from "react-icons/md"
 import styles from "./Header.module.scss"
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import { env } from "process"
+import LoginStatus from "../login/Status"
 import { useTranslation } from "next-i18next"
+import { IS_PRODUCTION } from "../../env"
 
 const Header = () => {
   const { t, i18n } = useTranslation()
@@ -122,6 +124,12 @@ const Header = () => {
             <Link href="/about" passHref>
               <a className={styles.navItem}>{t("about")}</a>
             </Link>
+
+            {!IS_PRODUCTION && (
+              <div className={styles.navItem}>
+                <LoginStatus />
+              </div>
+            )}
           </div>
           <div className={styles.toggleContainer}>
             <span className={`${styles.navbarToggle}`} onClick={toggleMenu}>

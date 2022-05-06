@@ -1,8 +1,6 @@
 import Link from "next/link"
 import styles from "./Footer.module.scss"
-import LoginStatus from "../login/Status"
 import { useTranslation } from "next-i18next"
-import { IS_PRODUCTION } from "../../env"
 
 const Footer = () => {
   const { t } = useTranslation()
@@ -118,12 +116,6 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
-        {!IS_PRODUCTION && (
-          <div className={styles.footerSection}>
-            <LoginStatus />
-          </div>
-        )}
       </div>
     </footer>
   )
