@@ -1,4 +1,4 @@
-const { PHASE_PRODUCTION_SERVER } = require("next/constants")
+const { PHASE_PRODUCTION_BUILD } = require("next/constants")
 const { i18n } = require("./next-i18next.config")
 
 const CONTENT_SECURITY_POLICY = `
@@ -61,7 +61,7 @@ module.exports = (phase) => ({
                * For the development environment we either need to maintain a separate CSP or disable it altogether.
                * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
                */
-              phase === PHASE_PRODUCTION_SERVER ? CONTENT_SECURITY_POLICY : "",
+              phase === PHASE_PRODUCTION_BUILD ? CONTENT_SECURITY_POLICY : "",
           },
         ],
       },
