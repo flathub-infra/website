@@ -7,7 +7,7 @@ const CONTENT_SECURITY_POLICY = `
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://webstats.gnome.org;
-  img-src 'self' https://dl.flathub.org https://webstats.gnome.org data:;
+  img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com data:;
 `
   .replace(/\s{2,}/g, " ")
   .trim()
