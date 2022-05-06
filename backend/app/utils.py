@@ -2,8 +2,8 @@ import gzip
 import hashlib
 import json
 import os
-from typing import Any, Dict, List, Optional
 import re
+from typing import Any, Dict, List, Optional
 
 import requests
 from lxml import etree
