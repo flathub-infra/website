@@ -2,12 +2,19 @@ version: "3"
 
 services:
   redis:
-    image: docker.io/redislabs/redisearch:2.4.0
+    image: docker.io/library/redis:6
     ports:
       - "6379:6379"
 
+  meilisearch:
+    image: docker.io/getmeili/meilisearch:v0.26.1
+    environment:
+      - MEILI_NO_ANALYTICS=true
+    ports:
+      - "7700:7700"
+
   backend:
-    image: backend_backend
+    image: backend_backend:latest
     build:
       dockerfile: Dockerfile
       context: .
@@ -23,6 +30,7 @@ services:
     depends_on:
       - redis
       - db
+      - meilisearch
     volumes:
       - /var/lib/flatpak
       - .:/app:z

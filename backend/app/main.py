@@ -23,6 +23,7 @@ from . import (
     logins,
     picks,
     schemas,
+    search,
     stats,
     summary,
     utils,
@@ -65,17 +66,16 @@ verification.register_to_app(app)
 def startup_event():
     db.wait_for_redis()
 
-    db.initialize()
     picks.initialize()
     verification.initialize()
 
 
 @app.post("/update")
 def update():
-    new_apps = apps.load_appstream()
+    new_apps, all_app_ids = apps.load_appstream()
     summary.update()
     picks.update()
-    stats.update()
+    stats.update(all_app_ids)
     verification.update()
 
     if new_apps:
@@ -148,8 +148,8 @@ def get_appstream(appid: str, response: Response):
 
 
 @app.get("/search/{userquery}")
-def search(userquery: str):
-    return apps.search(userquery)
+def get_search(userquery: str):
+    return search.search_apps(userquery)
 
 
 @app.get("/collection/recently-updated")

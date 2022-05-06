@@ -6,7 +6,9 @@ from urllib.parse import urlparse, urlunparse
 
 import requests
 
-from . import config, db
+from app import utils
+
+from . import config, db, search
 
 StatsType = Dict[str, Dict[str, List[int]]]
 POPULAR_DAYS_NUM = 7
@@ -88,7 +90,7 @@ def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
     return app_stats_per_day
 
 
-def _get_stats() -> Dict[str, Dict[str, int]]:
+def _get_stats(app_count: int) -> Dict[str, Dict[str, int]]:
     edate = datetime.date.today()
     sdate = FIRST_STATS_DATE
 
@@ -137,7 +139,7 @@ def _get_stats() -> Dict[str, Dict[str, int]]:
         "updates_per_day": updates_per_day,
         "delta_downloads_per_day": delta_downloads_per_day,
         "downloads": sum(downloads_per_day.values()),
-        "number_of_apps": db.get_app_count(),
+        "number_of_apps": app_count,
     }
 
 
@@ -193,14 +195,14 @@ def get_popular(days: Optional[int]):
     return popular
 
 
-def update():
+def update(all_app_ids: list):
     stats_apps_dict = defaultdict(lambda: {})
 
     edate = datetime.date.today()
     sdate = datetime.date(2018, 4, 29)
 
     stats_total = _get_stats_for_period(sdate, edate)
-    stats_dict = _get_stats()
+    stats_dict = _get_stats(len(all_app_ids))
 
     app_stats_per_day = _get_app_stats_per_day()
 
@@ -218,13 +220,21 @@ def update():
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
+    stats_downloads: List = []
     for appid, dict in stats_30_days.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
             # Index 2 is the install count
-            stats_apps_dict[appid]["downloads_last_month"] = sum(
-                [i[2] for i in dict.values()]
-            )
+            downloads_last_month = sum([i[2] for i in dict.values()])
+            stats_apps_dict[appid]["downloads_last_month"] = downloads_last_month
+            if appid in all_app_ids:
+                stats_downloads.append(
+                    {
+                        "id": utils.get_clean_app_id(appid),
+                        "downloads_last_month": downloads_last_month,
+                    }
+                )
+    search.update_apps(stats_downloads)
 
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)

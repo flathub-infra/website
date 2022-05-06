@@ -41,7 +41,7 @@ If you want to run the smoketests locally, you can use the following commands:
 ```bash
    docker-compose up -d
    docker exec backend-backend-1 pip3 install pytest
-   docker exec backend-backend-1 python3 -m pytest tests/main.py
+   docker exec backend-backend-1 python3 -m pytest -vv tests/main.py
 ```
 
 You might need to flush your redis database before running the tests. As it assumes that the database is empty.
@@ -101,3 +101,7 @@ To do this, you run:
 ```bash
 docker-compose up --build
 ```
+
+## Search
+
+If you running this locally, you can use http://localhost:7700/ to test the search.
