@@ -1,12 +1,6 @@
 import { formatDistance } from "date-fns"
 import { useTranslation } from "next-i18next"
-import {
-  FunctionComponent,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
 import { getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
@@ -22,7 +16,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   const [scrollHeight, setScrollHeight] = useState(0)
   const ref = useRef(null)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setScrollHeight(ref.current.scrollHeight)
   }, [ref])
 
