@@ -24,7 +24,6 @@
   "badges": "Emblemas",
   "statistics": "Estatísticas",
   "source-code": "Código-fonte",
-  "logged-in-as": "Conectado como",
   "open-in-new-tab": "Abrir em nova aba",
   "user-avatar": "Avatar do(a) {{user}}",
   "quick-setup": "Configuração rápida",
@@ -53,7 +52,6 @@
   "log-out": "Sair",
   "network-error-try-again": "Ocorreu um erro de rede. Tente novamente.",
   "error-already-logged-in": "A conta selecionada já está conectada.",
-  "developer-login": "Entrar como Desenvolvedor",
   "loading-user-apps": "Carregando apps do usuário…",
   "your-apps": "Seus apps",
   "app-logo": "Logo de {{app-name}}",
@@ -196,5 +194,12 @@
   "safe-to-close-page": "É seguro fechar esta página.",
   "purchase-apps-title": "Comprar aplicativos",
   "thank-you-for-your-purchase": "Obrigado pela sua compra!",
-  "app-install-error-try-again": "Não foi possível instalar o aplicativo. Tente voltar para a loja de aplicativos e instalar novamente."
+  "app-install-error-try-again": "Não foi possível instalar o aplicativo. Tente voltar para a loja de aplicativos e instalar novamente.",
+  "accepting-payment": "Aceitando pagamento",
+  "vending-dashboard": "Ir para sua conta Stripe Express",
+  "delete": "Excluir",
+  "vending-onboard": "Criar uma conta Stripe Express",
+  "requires-attention": "Requer atenção",
+  "cancel": "Cancelar",
+  "go-to-page": "Ir para {{page}}"
 }

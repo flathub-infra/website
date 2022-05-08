@@ -24,7 +24,6 @@
   "badges": "Badges",
   "statistics": "Statistiques",
   "source-code": "Code source",
-  "logged-in-as": "Connecté en tant que",
   "open-in-new-tab": "Ouvrir dans un nouvel onglet",
   "user-avatar": "Avatar de {{user}}",
   "quick-setup": "Configuration rapide",
@@ -52,7 +51,6 @@
   "proprietary": "Propriétaire",
   "log-out": "Se déconnecter",
   "network-error-try-again": "Il y a eu une erreur de réseau. Essayez à nouveau.",
-  "developer-login": "Connexion développeur",
   "loading-user-apps": "Chargement des applis utilisateur…",
   "your-apps": "Vos applis",
   "app-logo": "Logo de {{app-name}}",
@@ -184,5 +182,7 @@
   "stripe-error-payment_intent_authentication_failure": "L'authentification de votre méthode de paiement a échoué. Veuillez choisir un autre mode de paiement et réessayer.",
   "stripe-error-processing_error": "Une erreur s'est produite lors du traitement de la carte. Réessayez plus tard ou avec un autre mode de paiement.",
   "stripe-validation-error": "Un détail de carte invalide a été saisi.",
-  "view-wallet": "Voir le portefeuille"
+  "view-wallet": "Voir le portefeuille",
+  "delete-account-prompt": "Supprimer votre compte ?",
+  "delete-account-entry": "Je souhaite supprimer mon compte"
 }

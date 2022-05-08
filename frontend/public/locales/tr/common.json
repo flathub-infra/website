@@ -24,7 +24,6 @@
   "badges": "Rozetler",
   "statistics": "İstatistikler",
   "source-code": "Kaynak Kodu",
-  "logged-in-as": "Oturum açıldı",
   "open-in-new-tab": "Yeni sekmede aç",
   "user-avatar": "{{user}} kullanıcısının avatarı",
   "quick-setup": "Hızlı Kurulum",
@@ -52,7 +51,6 @@
   "proprietary": "Sahipli",
   "log-out": "Oturumu Kapat",
   "network-error-try-again": "Bir ağ hatası oluştu. Tekrar deneyin.",
-  "developer-login": "Geliştirici Oturumu Aç",
   "loading-user-apps": "Kullanıcı uygulamaları yükleniyor…",
   "your-apps": "Uygulamalarınız",
   "app-logo": "{{app-name}} Logosu",
@@ -196,5 +194,12 @@
   "purchase-apps-title": "Uygulama Satın Al",
   "app-install-error-try-again": "Uygulama kurulamadı. Uygulama mağazasına geri dönmeyi ve tekrar kurmayı deneyin.",
   "thank-you-for-your-purchase": "Satın aldığınız için teşekkür ederiz!",
-  "safe-to-close-page": "Bu sayfayı kapatmak güvenlidir."
+  "safe-to-close-page": "Bu sayfayı kapatmak güvenlidir.",
+  "accepting-payment": "Ödemeyi Kabul Et",
+  "vending-dashboard": "Stripe Express hesabınıza gidin",
+  "vending-onboard": "Stripe Express hesabı oluşturun",
+  "cancel": "İptal et",
+  "go-to-page": "{{page}} sayfasına git",
+  "requires-attention": "Dikkat gerektirir",
+  "delete": "Sil"
 }
