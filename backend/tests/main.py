@@ -310,10 +310,10 @@ def test_app_stats_by_id(client):
     today = datetime.date.today()
     day_before_yesterday = today - datetime.timedelta(days=2)
     expected = {
-        "downloads_total": 7,
-        "downloads_per_day": {day_before_yesterday.isoformat(): 6},
-        "downloads_last_month": 7,
-        "downloads_last_7_days": 7,
+        "installs_total": 7,
+        "installs_per_day": {day_before_yesterday.isoformat(): 6},
+        "installs_last_month": 7,
+        "installs_last_7_days": 7,
     }
 
     assert response.status_code == 200

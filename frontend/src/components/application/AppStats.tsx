@@ -16,29 +16,29 @@ interface Props {
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
-  let downloads_labels: Date[] = []
-  let downloads_data: number[] = []
-  if (stats.downloads_per_day) {
-    for (const [key, value] of Object.entries(stats.downloads_per_day)) {
-      downloads_labels.push(new Date(key))
-      downloads_data.push(value)
+  let installs_labels: Date[] = []
+  let installs_data: number[] = []
+  if (stats.installs_per_day) {
+    for (const [key, value] of Object.entries(stats.installs_per_day)) {
+      installs_labels.push(new Date(key))
+      installs_data.push(value)
     }
   }
 
   // Remove current day
-  downloads_labels.pop()
-  downloads_data.pop()
+  installs_labels.pop()
+  installs_data.pop()
 
   const data = chartStyle(
-    downloads_labels,
-    downloads_data,
+    installs_labels,
+    installs_data,
     t("installs"),
     resolvedTheme,
   )
   const options = chartOptions(i18n.language)
 
   return (
-    <div className={styles.downloads}>
+    <div className={styles.installs}>
       <h3>{t("installs-over-time")}</h3>
       <Line data={data} options={options} />
     </div>

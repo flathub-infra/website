@@ -78,10 +78,10 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
   if (!statsJson) {
     console.log("No stats data for ", appId)
     statsJson = {
-      downloads_per_day: {},
-      downloads_last_7_days: 0,
-      downloads_last_month: 0,
-      downloads_total: 0,
+      installs_per_day: {},
+      installs_last_7_days: 0,
+      installs_last_month: 0,
+      installs_total: 0,
     }
   }
   return statsJson
