@@ -89,10 +89,10 @@ const AdditionalInfo = ({
         items={[
           {
             icon: <MdCloudDownload />,
-            header: t("downloads"),
+            header: t("installs"),
             content: {
               type: "text",
-              text: stats.downloads_total.toLocaleString(
+              text: stats.installs_total.toLocaleString(
                 i18n.language.substring(0, 2),
               ),
             },

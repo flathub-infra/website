@@ -158,7 +158,7 @@ def _is_app(app_id: str) -> bool:
     return "/" not in app_id
 
 
-def get_downloads_by_ids(ids: List[str]):
+def get_installs_by_ids(ids: List[str]):
     result = defaultdict()
     for app_id in ids:
         if not _is_app(app_id):
@@ -210,31 +210,31 @@ def update(all_app_ids: list):
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
             # Index 2 is the install count
-            stats_apps_dict[appid]["downloads_total"] = sum(
+            stats_apps_dict[appid]["installs_total"] = sum(
                 [i[2] for i in dict.values()]
             )
 
             if appid in app_stats_per_day:
-                stats_apps_dict[appid]["downloads_per_day"] = app_stats_per_day[appid]
+                stats_apps_dict[appid]["installs_per_day"] = app_stats_per_day[appid]
 
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
-    stats_downloads: List = []
+    stats_installs: List = []
     for appid, dict in stats_30_days.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
             # Index 2 is the install count
-            downloads_last_month = sum([i[2] for i in dict.values()])
-            stats_apps_dict[appid]["downloads_last_month"] = downloads_last_month
+            installs_last_month = sum([i[2] for i in dict.values()])
+            stats_apps_dict[appid]["installs_last_month"] = installs_last_month
             if appid in all_app_ids:
-                stats_downloads.append(
+                stats_installs.append(
                     {
                         "id": utils.get_clean_app_id(appid),
-                        "downloads_last_month": downloads_last_month,
+                        "installs_last_month": installs_last_month,
                     }
                 )
-    search.update_apps(stats_downloads)
+    search.update_apps(stats_installs)
 
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
@@ -243,7 +243,7 @@ def update(all_app_ids: list):
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
             # Index 2 is the install count
-            stats_apps_dict[appid]["downloads_last_7_days"] = sum(
+            stats_apps_dict[appid]["installs_last_7_days"] = sum(
                 [i[2] for i in dict.values()]
             )
 
