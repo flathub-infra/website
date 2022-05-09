@@ -45,7 +45,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
     downloads_labels,
     downloads_data,
     t("downloads"),
-    resolvedTheme,
+    resolvedTheme as "light" | "dark",
   )
 
   const options = chartOptions(i18n.language)
