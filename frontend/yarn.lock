@@ -1714,10 +1714,10 @@ react-chartjs-2@^4.1.0:
   resolved "https://registry.npmjs.org/react-chartjs-2/-/react-chartjs-2-4.1.0.tgz"
   integrity sha512-AsUihxEp8Jm1oBhbEovE+w50m9PVNhz1sfwEIT4hZduRC0m14gHWHd0cUaxkFDb8HNkdMIGzsNlmVqKiOpU74g==
 
-react-collapsed@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.npmjs.org/react-collapsed/-/react-collapsed-3.3.0.tgz"
-  integrity sha512-2oXo9xsleo3ZwmNP7GymWbkZp2SwDZImLduy1LKgQMsqZTDldyzP2GnfvYb9vyGFDYHRYFhnWlwDmG2yWkt8eQ==
+react-collapsed@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/react-collapsed/-/react-collapsed-3.3.1.tgz#d27d52b0aec658956a04263db067f501dd982ef2"
+  integrity sha512-94i7mu1hXeJmvTz8fOvjXyS+uolREnEyhIP7lx6+C/iYjpNWWqEKkSN26ZRZNU0B9Izy97oParWwsDIZyXQu6g==
   dependencies:
     raf "^3.4.1"
     tiny-warning "^1.0.3"
