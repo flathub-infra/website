@@ -33,7 +33,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     installs_labels,
     installs_data,
     t("installs"),
-    resolvedTheme,
+    resolvedTheme as "light" | "dark",
   )
   const options = chartOptions(i18n.language)
 
