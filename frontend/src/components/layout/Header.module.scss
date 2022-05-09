@@ -196,6 +196,40 @@
           display: none;
         }
       }
+
+      .loginStatus {
+        width: 100%;
+
+        @media screen and (min-width: 768px) {
+          .login {
+            padding-right: 20px;
+          }
+        }
+
+        .user {
+          @media screen and (min-width: 768px) {
+            display: flex;
+            align-items: center;
+            padding-right: 4px;
+          }
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          border-radius: var(--border-radius);
+          column-gap: 12px;
+
+          .userAvatar {
+            @media screen and (min-width: 768px) {
+              display: flex;
+            }
+            display: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+          }
+        }
+      }
+
     }
   }
 }

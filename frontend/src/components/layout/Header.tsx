@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, ReactElement, useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { MdMenu, MdMenuOpen, MdSearch } from "react-icons/md"
@@ -6,11 +6,12 @@ import { MdMenu, MdMenuOpen, MdSearch } from "react-icons/md"
 import styles from "./Header.module.scss"
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import { env } from "process"
-import LoginStatus from "../login/Status"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
+import { useUserContext } from "../../context/user-info"
 
 const Header = () => {
+  const user = useUserContext()
   const { t, i18n } = useTranslation()
   const router = useRouter()
   const [query, setQuery] = useState("")
@@ -61,6 +62,41 @@ const Header = () => {
     setMenuOpen(!isMenuOpen)
   }
 
+  let status: ReactElement
+  if (user.info) {
+    // User has multiple login options, find one with an avatar
+    const avatar = Object.values(user.info.auths).find(
+      (auth) => auth.avatar,
+    ).avatar
+
+    status = (
+      <Link href="/userpage" passHref>
+        <div className={`${styles.navItem} ${styles.profile}`}>
+          <div className={styles.loginStatus}>
+            <a className={styles.user}>
+              {user.info.displayname}
+              <img
+                src={avatar}
+                className={styles.userAvatar}
+                alt={t("user-avatar", { user: user.info.displayname })}
+              />
+            </a>
+          </div>
+        </div>
+      </Link>
+    )
+  } else {
+    status = (
+      <Link href="/login" passHref>
+        <div className={`${styles.navItem} ${styles.profile}`}>
+          <div className={styles.loginStatus}>
+            <a className={styles.login}>{t("login")}</a>
+          </div>
+        </div>
+      </Link>
+    )
+  }
+
   return (
     <header className={styles.header}>
       <nav className={styles.navHeader}>
@@ -101,35 +137,27 @@ const Header = () => {
             id={styles.navbar}
             className={`${isMenuOpen && isMobile ? styles.responsive : ""}`}
           >
-            <div className={styles.navItem}>
-              <a
-                href="https://github.com/flathub/flathub/wiki/App-Submission"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {t("publish")}
-              </a>
-            </div>
+            <a
+              href="https://github.com/flathub/flathub/wiki/App-Submission"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className={styles.navItem}>{t("publish")}</div>
+            </a>
 
-            <div className={styles.navItem}>
-              <a
-                href="https://discourse.flathub.org/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {t("forum")}
-              </a>
-            </div>
+            <a
+              href="https://discourse.flathub.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className={styles.navItem}>{t("forum")}</div>
+            </a>
 
             <Link href="/about" passHref>
               <a className={styles.navItem}>{t("about")}</a>
             </Link>
 
-            {!IS_PRODUCTION && (
-              <div className={`${styles.navItem} ${styles.profile}`}>
-                <LoginStatus />
-              </div>
-            )}
+            {!IS_PRODUCTION && status}
           </div>
           <div className={styles.toggleContainer}>
             <span className={`${styles.navbarToggle}`} onClick={toggleMenu}>
