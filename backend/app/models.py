@@ -428,10 +428,10 @@ class UserOwnedApp(Base):
     created = Column(DateTime, nullable=False)
 
     @staticmethod
-    def user_owns_app(db, user: FlathubUser, app_id: str):
+    def user_owns_app(db, user_id: int, app_id: str):
         return (
             db.session.query(UserOwnedApp)
-            .filter_by(account=user.id, app_id=app_id)
+            .filter_by(account=user_id, app_id=app_id)
             .first()
             is not None
         )

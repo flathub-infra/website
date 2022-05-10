@@ -5,8 +5,7 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import { generateTokens } from "../../src/asyncs/app"
-import Main from "../../src/components/layout/Main"
+import { checkPurchases, generateUpdateToken } from "../../src/asyncs/app"
 import Spinner from "../../src/components/Spinner"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 
@@ -29,9 +28,7 @@ export default function Purchase() {
 
     if ("return" in router.query && "refs" in router.query) {
       redirect = router.query["return"].toString()
-      let refs = router.query["refs"].toString().split(";")
-      /* We get refs in the form app/<app ID>/<arch>/<branch>, we just want the app ID part */
-      appIDs = refs.map((ref) => ref.split("/")[1])
+      appIDs = router.query["refs"].toString().split(";")
     } else if (pendingTransaction != null) {
       ;({ redirect, appIDs } = pendingTransaction)
     } else {
@@ -44,14 +41,17 @@ export default function Purchase() {
       return
     }
 
-    generateTokens(appIDs)
+    checkPurchases(appIDs)
       .then((result) => {
-        if (result.token) {
-          fetch(
-            redirect.toString() +
-              "success?token=" +
-              encodeURIComponent(result.token),
-          )
+        if (result["status"] === "ok") {
+          generateUpdateToken()
+            .then((result) =>
+              fetch(
+                redirect.toString() +
+                  "success?token=" +
+                  encodeURIComponent(result.token),
+              ),
+            )
             .then(() => {
               setPendingTransaction(null)
               router.push("/purchase/finished")
@@ -86,12 +86,12 @@ export default function Purchase() {
   }, [router])
 
   return (
-    <Main>
+    <>
       <NextSeo title={t("purchase-apps-title")} noindex={true} />
       <div className="main-container">
         <Spinner size={150} />;
       </div>
-    </Main>
+    </>
   )
 }
 

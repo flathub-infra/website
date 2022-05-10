@@ -1,19 +1,12 @@
-import base64
-from datetime import datetime, timedelta
 from functools import lru_cache
-from typing import Dict, List
+from typing import Dict
 
-import jwt
 import sentry_sdk
-from fastapi import Depends, FastAPI, Response
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from fastapi_sqlalchemy import db as sqldb
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
-
-from app import models
 
 from . import (
     apps,
@@ -22,6 +15,7 @@ from . import (
     feeds,
     logins,
     picks,
+    purchases,
     schemas,
     search,
     stats,
@@ -60,6 +54,7 @@ wallet.register_to_app(app)
 vending.register_to_app(app)
 
 verification.register_to_app(app)
+purchases.register_to_app(app)
 
 
 @app.on_event("startup")
@@ -229,58 +224,6 @@ def get_platforms() -> Dict[str, utils.Platform]:
     and donations APIs to address amounts to the platforms.
     """
     return utils.PLATFORMS
-
-
-@app.post("/generate-download-token", status_code=200)
-def get_download_token(appids: List[str], login=Depends(logins.login_state)):
-    """Generates a download token for the given app IDs."""
-
-    if not login["state"].logged_in():
-        return JSONResponse({"detail": "not_logged_in"}, status_code=401)
-    user = login["user"]
-
-    def canon_app_id(app_id: str):
-        """
-        For .Locale, .Debug, etc. refs, we only check the base app ID. However, when we generate the token, we still
-        need to include the suffixed version.
-        """
-        auto_suffixes = ["Locale", "Debug"]
-
-        for suffix in auto_suffixes:
-            if app_id.endswith("." + suffix):
-                return app_id.removesuffix("." + suffix)
-        return app_id
-
-    canon_appids = list(set([canon_app_id(app_id) for app_id in appids]))
-
-    unowned = [
-        app_id
-        for app_id in canon_appids
-        if not models.UserOwnedApp.user_owns_app(sqldb, user, app_id)
-    ]
-
-    if len(unowned) != 0:
-        return JSONResponse(
-            {
-                "detail": "purchase_necessary",
-                "missing_appids": unowned,
-            },
-            status_code=403,
-        )
-
-    encoded = jwt.encode(
-        {
-            "sub": "download",
-            "exp": datetime.utcnow() + timedelta(hours=24),
-            "repos": appids,
-        },
-        base64.b64decode(config.settings.flat_manager_secret),
-        algorithm="HS256",
-    )
-
-    return {
-        "token": encoded,
-    }
 
 
 def sort_ids_by_installs(ids):
