@@ -25,7 +25,7 @@ vcrpy = "^4.1.1"
 python-gitlab = "^3.4"
 stripe = "^2.67"
 PyJWT = "^2.3.0"
-meilisearch = "^0.18.2"
+meilisearch = "^0.18.3"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3"
