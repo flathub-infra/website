@@ -83,7 +83,7 @@ export default function Purchase() {
         }
       })
       .catch((err) => toast.error(t(err)))
-  }, [router])
+  }, [pendingTransaction, router, setPendingTransaction, t])
 
   return (
     <>

@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next"
+import Image from "next/image"
 import Link from "next/link"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
@@ -29,8 +30,10 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
     return (
       <div key={name} className={styles.linked}>
-        <img
+        <Image
           src={authData.avatar}
+          width={50}
+          height={50}
           className={styles.avatar}
           alt={`${authData.login}'s avatar`}
         />

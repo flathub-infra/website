@@ -66,7 +66,17 @@ export default function AuthReturnPage({ services }) {
       setSent(true)
       login(dispatch, router.query).catch((err) => toast.error(t(err)))
     }
-  }, [router, dispatch, user, sent, services, t])
+  }, [
+    router,
+    dispatch,
+    user,
+    sent,
+    services,
+    t,
+    pendingTransaction,
+    returnTo,
+    setReturnTo,
+  ])
 
   return (
     <>

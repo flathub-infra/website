@@ -6,6 +6,7 @@ import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"
 import styles from "./ProviderLink.module.scss"
+import Image from "next/image"
 
 interface Props {
   provider: LoginProvider
@@ -57,12 +58,12 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
 
   return (
     <button className={styles.provider} onClick={() => setClicked(true)}>
-      <img
+      <Image
         src={`/img/login/${provider.method}-logo.svg`}
         width="60"
         height="60"
         alt={loginText}
-      ></img>
+      />
       {loginText}
     </button>
   )
