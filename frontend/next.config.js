@@ -18,8 +18,13 @@ const CONTENT_SECURITY_POLICY = `
 module.exports = (phase) => ({
   i18n,
   images: {
-    loader: "custom",
-    domains: ["flathub.org", "dl.flathub.org"],
+    domains: [
+      "flathub.org",
+      "dl.flathub.org",
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "secure.gravatar.com",
+    ],
     swcMinify: true,
   },
   experimental: {
@@ -52,8 +57,8 @@ module.exports = (phase) => ({
             value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
           },
           {
             key: "Content-Security-Policy",

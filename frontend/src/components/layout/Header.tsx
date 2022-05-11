@@ -9,6 +9,7 @@ import { env } from "process"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext } from "../../context/user-info"
+import Image from "next/image"
 
 const Header = () => {
   const user = useUserContext()
@@ -75,11 +76,17 @@ const Header = () => {
           <div className={styles.loginStatus}>
             <a className={styles.user}>
               {user.info.displayname}
-              <img
-                src={avatar}
-                className={styles.userAvatar}
-                alt={t("user-avatar", { user: user.info.displayname })}
-              />
+              <div className={styles.avatar}>
+                <Image
+                  src={avatar}
+                  width="38"
+                  height="38"
+                  layout="fixed"
+                  className={styles.userAvatar}
+                  style={{ borderRadius: "50%" }}
+                  alt={t("user-avatar", { user: user.info.displayname })}
+                />
+              </div>
             </a>
           </div>
         </div>
