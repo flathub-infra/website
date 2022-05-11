@@ -132,6 +132,10 @@ def get_login_kinds():
             "name": "GitLab",
         },
         {
+            "method": "gnome",
+            "name": "GNOME",
+        },
+        {
             "method": "google",
             "name": "Google",
         },
@@ -190,6 +194,35 @@ def start_gitlab_flow(request: Request, login=Depends(login_state)):
         {
             "client_id": config.settings.gitlab_client_id,
             "redirect_uri": config.settings.gitlab_return_url,
+            "scope": "read_user",
+            "response_type": "code",
+        },
+    )
+
+
+@router.get("/login/gnome")
+def start_gnome_flow(request: Request, login=Depends(login_state)):
+    """
+    Starts a GNOME login flow.  This will set session cookie values and
+    will return a redirect.  The frontend is expected to save the cookie
+    for use later, and follow the redirect to GNOME Gitlab
+
+    Upon return from GNOME to the frontend, the frontend should POST to this
+    endpoint with the relevant data from GNOME Gitlab
+
+    If the user is already logged in, and has a valid GNOME Gitlab token stored,
+    then this will return an error instead.
+    """
+    return start_oauth_flow(
+        request,
+        login,
+        "gnome",
+        models.GnomeAccount,
+        models.GnomeFlowToken,
+        "https://gitlab.gnome.org/oauth/authorize",
+        {
+            "client_id": config.settings.gnome_client_id,
+            "redirect_uri": config.settings.gnome_return_url,
             "scope": "read_user",
             "response_type": "code",
         },
@@ -417,6 +450,70 @@ def continue_gitlab_flow(
         gitlab_userdata,
         models.GitlabAccount,
         gitlab_postlogin,
+    )
+
+
+@router.post("/login/gnome")
+def continue_gnome_flow(
+    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+):
+    """
+    Process the result of the GNOME oauth flow
+
+    This expects to have some JSON posted to it which (on success) contains:
+
+    ```
+    {
+        "state": "the state code",
+        "code": "the gitlab oauth code",
+    }
+    ```
+
+    On failure, the frontend should pass through the state and error so that
+    the backend can clear the flow tokens
+
+    ```
+    {
+        "state": "the state code",
+        "error": "the error code returned from GNOME gitlab",
+    }
+    ```
+
+    This endpoint will either return an error, if something was wrong in the
+    backend state machines; or it will return a success code with an indication
+    of whether or not the login sequence completed OK.
+    """
+
+    def gnome_userdata(tokens):
+        gl = Gitlab("https://gitlab.gnome.org", oauth_token=tokens["access_token"])
+        gl.auth()
+        gluser = gl.user
+        return {
+            "id": gluser.id,
+            "login": gluser.username,
+            "name": gluser.name,
+            "avatar_url": gluser.avatar_url,
+        }
+
+    def gnome_postlogin(tokens, account):
+        pass
+
+    return continue_oauth_flow(
+        request,
+        login,
+        data,
+        "gnome",
+        models.GnomeFlowToken,
+        "https://gitlab.gnome.org/oauth/token",
+        {
+            "client_id": config.settings.gnome_client_id,
+            "client_secret": config.settings.gnome_client_secret,
+            "grant_type": "authorization_code",
+            "redirect_uri": config.settings.gnome_return_url,
+        },
+        gnome_userdata,
+        models.GnomeAccount,
+        gnome_postlogin,
     )
 
 
@@ -684,6 +781,14 @@ def get_userinfo(login=Depends(login_state)):
             ret["auths"]["gitlab"]["login"] = gla.login
         if gla.avatar_url:
             ret["auths"]["gitlab"]["avatar"] = gla.avatar_url
+
+    gnma = models.GnomeAccount.by_user(db, user)
+    if gnma is not None:
+        ret["auths"]["gnome"] = {}
+        if gnma.login:
+            ret["auths"]["gnome"]["login"] = gnma.login
+        if gnma.avatar_url:
+            ret["auths"]["gnome"]["avatar"] = gnma.avatar_url
 
     gga = models.GoogleAccount.by_user(db, user)
     if gga is not None:
