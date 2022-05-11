@@ -1,38 +1,22 @@
 {
-    "org.flathub.Flathub": {
-        "depends": [],
-        "aliases": [],
-        "default": true,
-        "keep": 100
-    },
     "org.freedesktop.Platform": {
-        "depends": [
-            "org.flathub.Flathub"
-        ],
         "aliases": [
             "org.freedesktop.Sdk"
         ],
-        "default": false,
-        "keep": 70
+        "keep": 100
     },
     "org.gnome.Platform": {
-        "depends": [
-            "org.freedesktop.Platform"
-        ],
+        "depends": "org.freedesktop.Platform",
         "aliases": [
             "org.gnome.Sdk"
         ],
-        "default": false,
         "keep": 70
     },
     "org.kde.Platform": {
-        "depends": [
-            "org.freedesktop.Platform"
-        ],
+        "depends": "org.freedesktop.Platform",
         "aliases": [
             "org.kde.Sdk"
         ],
-        "default": false,
         "keep": 70
     }
 }
