@@ -52,6 +52,10 @@ module.exports = (phase) => ({
             value: "nosniff",
           },
           {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
             key: "Content-Security-Policy",
             value:
               /**
