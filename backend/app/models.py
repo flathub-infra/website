@@ -544,3 +544,24 @@ class StripeExpressAccount(Base):
             .filter(StripeExpressAccount.user == user.id)
             .first()
         )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Add a user's vendor setup to the hash
+        """
+        account = StripeExpressAccount.by_user(db, user)
+        if account:
+            hasher.add_string(account.stripe_account)
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any vendor setup for the user
+        """
+        db.session.execute(
+            delete(StripeExpressAccount).where(StripeExpressAccount.user == user.id)
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(StripeExpressAccount)
