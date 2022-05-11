@@ -70,6 +70,8 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
         <PaymentForm
           transactionId={transactionId}
           callbackPage={`${detailsPage}/${transactionId}`}
+          canGoBack={cards.length > 0}
+          goBack={() => setStage(Stage.CardSelect)}
         />
       )
       break

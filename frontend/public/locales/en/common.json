@@ -179,6 +179,7 @@
   "type": "Type",
   "updated": "Updated",
   "use-new-card": "Use a new card",
+  "use-saved-card": "Use a saved card",
   "value": "Value",
   "view": "View",
   "stripe-api-error": "The Stripe API encountered an error. Try again later.",
