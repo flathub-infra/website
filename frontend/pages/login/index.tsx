@@ -22,7 +22,7 @@ export default function DeveloperLoginPortal({ providers }) {
 
   return (
     <>
-      <NextSeo title={t("developer-login")} />
+      <NextSeo title={t("login")} />
       <LoginProviders providers={providers} />
     </>
   )
