@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
 import { getPaymentCards } from "../../../asyncs/payment"
+import { useAsync } from "../../../hooks/useAsync"
 import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import TransactionCancelButton from "../transactions/TransactionCancelButton"
@@ -24,29 +25,31 @@ const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const router = useRouter()
 
-  const [currentStage, setStage] = useState(Stage.Loading)
-  const [cards, setCards] = useState<PaymentCard[]>(null)
-  const [error, setError] = useState("")
-
   const { id: transactionId } = transaction.summary
 
+  const [currentStage, setStage] = useState(Stage.Loading)
+
   // Cards should only be retrieved once
+  const {
+    value: cards,
+    status,
+    error,
+  } = useAsync<PaymentCard[]>(getPaymentCards)
+
   useEffect(() => {
-    getPaymentCards()
-      .then((data) => {
-        // User may have no saved cards to select from
-        if (data.length) {
-          setCards(data)
-          setStage(Stage.CardSelect)
-        } else {
-          setStage(Stage.CardInput)
-        }
-      })
-      .catch((err) => {
-        setError(err)
+    if (status === "success") {
+      // User may have no saved cards to select from
+      if (cards.length) {
         setStage(Stage.CardSelect)
-      })
-  }, [])
+      } else {
+        setStage(Stage.CardInput)
+      }
+    }
+
+    if (status === "error") {
+      setStage(Stage.CardSelect)
+    }
+  }, [status, cards])
 
   let flowContent: ReactElement
   switch (currentStage) {
