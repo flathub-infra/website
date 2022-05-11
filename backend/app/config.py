@@ -30,6 +30,13 @@ class Settings(BaseSettings):
         "fe364dd63c43ba8ebab5bd488df5946adfcc14366edf81c3814f6a021c61e953"
     )
     gitlab_return_url: str = "http://localhost:3000/login/gitlab"
+    gnome_client_id: str = (
+        "914fb36557a5b8403f5f4d4085b58119b505aad07c56505ed14362a388aae6a8"
+    )
+    gnome_client_secret: str = (
+        "9122d58ed56789d80db5f1ed0ec6bad5d9dae612aa9d458d89ee475e01151c43"
+    )
+    gnome_return_url: str = "http://localhost:3000/login/gnome"
     google_client_id: str = (
         "29861222915-aj1mcmdcutk00a5u5n8egcvpqv27lpvq.apps.googleusercontent.com"
     )
