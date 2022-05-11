@@ -14,11 +14,15 @@ import { handleStripeError } from "./stripe"
 interface Props {
   transactionId: string
   callbackPage: string
+  canGoBack: boolean
+  goBack: () => void
 }
 
 const PaymentForm: FunctionComponent<Props> = ({
   transactionId,
   callbackPage,
+  canGoBack,
+  goBack,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
@@ -44,7 +48,12 @@ const PaymentForm: FunctionComponent<Props> = ({
             />
             <label htmlFor="save-card">{t("save-card-for-reuse")}</label>
           </div>
-          <Button>{t("submit-payment")}</Button>
+          <div className={styles.actions}>
+            <Button type="button" onClick={goBack} disabled={!canGoBack}>
+              {t("use-saved-card")}
+            </Button>
+            <Button>{t("submit-payment")}</Button>
+          </div>
         </>
       )}
     </form>
