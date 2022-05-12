@@ -16,10 +16,32 @@ FLATHUB_CURRENCY = "usd"
 # Our flat costs are 30¢ per transaction
 FLATHUB_FIXED_COST = 30
 # Our variable costs are 5% per transaction
-FLATHUB_COST_SHARE = 0.05
+FLATHUB_COST_SHARE = 5
 # We'd prefer to receive 10% of the transaction to cover costs and provide some
 # funding to cover hosting etc.
-FLATHUB_PLATFORM_SHARE = 0.1
+FLATHUB_PLATFORM_SHARE = 10
+
+
+def flathub_fee_parameters(currency: str) -> Tuple[int, int, int]:
+    """
+    Compute the flathub fee parameters for a given currency.
+    Raises ValueError if that currency isn't US dollars
+
+    The returned tuple is of the form:
+
+    (Fixed Cost, Cost share percentage, Platform share percentage)
+
+    Where the computation of the flathub fee would be the fixed cost plus
+    the total multiplied by the cost share percentage, or the total multiplied
+    by the platform share percentage; whichever is larger.
+
+    As an example, you may get (30, 5, 10) for US dollars, to mean that the
+    fee is 30 cents plus five percent of the total; or else ten percent of the
+    total whichever is larger.
+    """
+    if currency != FLATHUB_CURRENCY:
+        raise ValueError(f"Currency '{currency}' is not supported")
+    return (FLATHUB_FIXED_COST, FLATHUB_COST_SHARE, FLATHUB_PLATFORM_SHARE)
 
 
 def flathub_fee(total: int, currency: str) -> int:
@@ -35,8 +57,8 @@ def flathub_fee(total: int, currency: str) -> int:
     if currency != FLATHUB_CURRENCY:
         raise ValueError(f"Currency '{currency}' is not supported")
 
-    flat_rate = total * FLATHUB_PLATFORM_SHARE
-    variable_rate = FLATHUB_FIXED_COST + (total * FLATHUB_COST_SHARE)
+    flat_rate = int((total * FLATHUB_PLATFORM_SHARE) / 100)
+    variable_rate = FLATHUB_FIXED_COST + int((total * FLATHUB_COST_SHARE) / 100)
 
     return int(max(flat_rate, variable_rate) + 0.5)
 

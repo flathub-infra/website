@@ -1,7 +1,16 @@
 from datetime import datetime, timedelta
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, delete
+from sqlalchemy import (
+    Boolean,
+    CheckConstraint,
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    String,
+    delete,
+)
 from sqlalchemy.ext.declarative import declarative_base
 
 from . import utils
@@ -429,6 +438,54 @@ class Transaction(Base):
             .order_by(TransactionRow.idx)
         )
 
+    @classmethod
+    def create_from_split(
+        cls,
+        db,
+        user: FlathubUser,
+        purchase: bool,
+        currency: str,
+        splits: List[Tuple[str, int]],
+    ) -> "Transaction":
+        """
+        Create a transaction, and rows, from the given input information
+        """
+        total = sum(value for (_appid, value) in splits)
+        if purchase:
+            kind = "purchase"
+        else:
+            kind = "donation"
+        now_date = datetime.now()
+        txn = Transaction(
+            user_id=user.id,
+            value=total,
+            currency=currency,
+            kind=kind,
+            status="new",
+            created=now_date,
+            updated=now_date,
+        )
+        db.session.add(txn)
+        db.session.flush()
+        for (idx, (appid, value)) in enumerate(splits):
+            if idx == 0:
+                row_kind = kind
+            elif appid == "org.flathub.FlatHub":
+                row_kind = "purchase"
+            else:
+                row_kind = "donation"
+            txn_row = TransactionRow(
+                txn=txn.id,
+                idx=idx,
+                amount=value,
+                currency=currency,
+                kind=row_kind,
+                recipient=appid,
+            )
+            db.session.add(txn_row)
+        db.session.commit()
+        return txn
+
 
 class TransactionRow(Base):
     __tablename__ = "transactionrow"
@@ -565,3 +622,71 @@ class StripeExpressAccount(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(StripeExpressAccount)
+
+
+class ApplicationVendingConfig(Base):
+    __tablename__ = "applicationvendingconfig"
+
+    id = Column(Integer, primary_key=True)
+    appid = Column(String, nullable=False, unique=True, index=True)
+    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+
+    appshare = Column(Integer, nullable=False)
+    CheckConstraint(
+        "appshare >= 10 && appshare <= 100", name="vending_appshare_in_range"
+    )
+
+    currency = Column(String, nullable=False, default="usd")
+    recommended_donation = Column(Integer, nullable=False)
+    minimum_payment = Column(Integer, nullable=False)
+    CheckConstraint("currency = 'usd'", name="currency_must_be_dollars")
+    CheckConstraint(
+        "recommended_donation >= minimum_payment", name="vending_donation_not_too_small"
+    )
+    CheckConstraint(
+        "recommended_donation > 100", name="vending_donation_at_least_one_dollar"
+    )
+    CheckConstraint("minimum_payment >= 0", name="vending_payment_not_negative")
+
+    @classmethod
+    def by_appid(cls, db, appid: str) -> Optional["ApplicationVendingConfig"]:
+        """
+        Retrieve vending configuration (if available) for a given appid
+        """
+        return (
+            db.session.query(ApplicationVendingConfig)
+            .filter(ApplicationVendingConfig.appid == appid)
+            .first()
+        )
+
+    @classmethod
+    def all_by_user(cls, db, user: FlathubUser) -> List["ApplicationVendingConfig"]:
+        """
+        Retrieve all the vending configurations for a given user
+        """
+        return db.session.query(ApplicationVendingConfig).filter(
+            ApplicationVendingConfig.user == user.id
+        )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Add a user's configured-for-vending apps to the hash
+        """
+        apps = [app.appid for app in ApplicationVendingConfig.all_by_user(db, user)]
+        for app in apps:
+            hasher.add_string(app)
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any configured-for-vending apps for the user
+        """
+        db.session.execute(
+            delete(ApplicationVendingConfig).where(
+                ApplicationVendingConfig.user == user.id
+            )
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(ApplicationVendingConfig)
