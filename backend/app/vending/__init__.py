@@ -14,6 +14,8 @@ TODO:
 """
 
 
+from typing import List, Tuple
+
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
@@ -22,7 +24,8 @@ from pydantic import BaseModel
 
 from ..config import settings
 from ..logins import login_state
-from ..models import StripeExpressAccount
+from ..models import ApplicationVendingConfig, StripeExpressAccount, Transaction
+from ..vending import prices
 
 
 class VendingError(Exception):
@@ -78,6 +81,59 @@ class VendingRedirect(BaseModel):
 
     status: str
     target_url: str
+
+
+class VendingDescriptor(BaseModel):
+    """
+    Vending descriptor for an application
+    """
+
+    status: str
+    currency: str
+    components: List[Tuple[str, int]]
+
+    fee_fixed_cost: int
+    fee_cost_percent: int
+    fee_prefer_percent: int
+
+
+class VendingSplit(BaseModel):
+    """
+    Vending split for a given app at a given amount of money
+    """
+
+    status: str
+    currency: str
+    splits: List[Tuple[str, int]]
+
+
+class VendingSetup(BaseModel):
+    """
+    Configuration for a vended application
+    """
+
+    currency: str
+    appshare: int
+    recommended_donation: int
+    minimum_payment: int
+
+
+class ProposedPayment(BaseModel):
+    """
+    Proposed payment to be made for an application
+    """
+
+    currency: str
+    amount: int
+
+
+class VendingOutput(BaseModel):
+    """
+    Result from attempting to make a proposed payment
+    """
+
+    status: str
+    transaction: str
 
 
 # @app.exception_handler(VendingError) (done in register function below)
@@ -189,6 +245,140 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
         return VendingRedirect(status="ok", target_url=link["url"])
     except Exception as error:
         raise VendingError("stripe-link-create-failed") from error
+
+
+@router.get("app/{appid}")
+def get_app_vending_status(appid: str) -> VendingDescriptor:
+    """
+    Retrieve the vending status for the given application.  Returns an error if
+    the appid is not known, or is not set up for vending.
+    """
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        raise VendingError(error="not-found")
+    try:
+        shares = prices.compute_shares(appid, vend.appshare)
+    except ValueError as val_err:
+        raise VendingError(error="bad-app-share") from val_err
+
+    (
+        fee_fixed_cost,
+        fee_cost_percent,
+        fee_prefer_percent,
+    ) = prices.flathub_fee_parameters(vend.currency)
+
+    return VendingDescriptor(
+        status="ok",
+        currency=vend.currency,
+        components=shares,
+        fee_fixed_cost=fee_fixed_cost,
+        fee_cost_percent=fee_cost_percent,
+        fee_prefer_percent=fee_prefer_percent,
+    )
+
+
+@router.post("app/{appid}/setup")
+def post_app_vending_setup(
+    appid: str, setup: VendingSetup, login=Depends(login_state)
+) -> VendingDescriptor:
+    """
+    Create/update the vending status for a given application.  Returns an error
+    if the appid is not known, or if it's already set up for vending with a
+    user other than the one calling this API.
+
+    If you do not have the right to set the vending status for this application
+    then you will also be refused.
+
+    In addition, if any of the currency or amount values constraints are violated
+    then you will get an error
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        # TODO: Check that the calling user owns the given appid
+        # TODO: Verify that the calling user is onboarded with stripe
+        vend = ApplicationVendingConfig(
+            user=login["user"].id,
+            appid=appid,
+            currency=setup.currency,
+            appshare=setup.appshare,
+            recommended_donation=setup.recommended_donation,
+            minimum_payment=setup.minimum_payment,
+        )
+    else:
+        if vend.user != login["user"]:
+            raise VendingError(error="user-mismatch")
+        vend.currency = setup.currency
+        vend.appshare = setup.appshare
+        vend.recommended_donation = setup.recommended_donation
+        vend.minimum_payment = setup.minimum_payment
+    try:
+        db.session.add(vend)
+        db.session.commit()
+    except Exception as base_exc:
+        raise VendingError(error="bad-values") from base_exc
+
+    return get_app_vending_status(appid)
+
+
+@router.get("app/{appid}/{currency}/{value}")
+def get_app_vending_split(appid: str, currency: str, value: int) -> VendingSplit:
+    """
+    Retrieve the actual split which would be invoked if the user specified that
+    they wished to spend the given amount on the given appid.  Note this is not
+    the exact shape that an invoice would have since donation vs. purchase may
+    need to be taken into account.
+    """
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        raise VendingError(error="not-found")
+    if vend.currency != currency:
+        raise VendingError(error="bad-currency")
+
+    try:
+        shares = prices.compute_app_shares(value, currency, appid, vend.appshare)
+    except ValueError as val_err:
+        raise VendingError(error="bad-app-share") from val_err
+
+    if shares[0][1] < vend.minimum_payment:
+        raise VendingError(error="bad-value")
+
+    return VendingSplit(status="ok", currency=currency, splits=shares)
+
+
+@router.post("app/{appid}")
+def post_app_vending_status(
+    appid: str, data: ProposedPayment, login=Depends(login_state)
+) -> VendingOutput:
+    """
+    Construct a transaction for the given application with the proposed payment.
+    If the proposed payment is unacceptable then an error will be returned.
+    If the user is not logged in, then an error will be returned.
+
+    Otherwise a transaction will be created and the information about it will be
+    returned in the output of the call.
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        raise VendingError(error="not-found")
+
+    split = get_app_vending_split(appid, data.currency, data.amount)
+
+    try:
+        txn = Transaction.create_from_split(
+            db, login["user"], vend.minimum_payment > 0, split.currency, split.splits
+        )
+    except Exception as base_exc:
+        raise VendingError(error="bad-transaction") from base_exc
+
+    return VendingOutput(status="ok", transaction=txn.id)
 
 
 def register_to_app(app: FastAPI):
