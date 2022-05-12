@@ -8,6 +8,7 @@ import TransactionCancelButton from "../transactions/TransactionCancelButton"
 import CardSelect from "./CardSelect"
 import styles from "./Checkout.module.scss"
 import PaymentForm from "./PaymentForm"
+import TermsAgreement from "./TermsAgreement"
 
 interface Props {
   transaction: TransactionDetailed
@@ -16,6 +17,7 @@ interface Props {
 
 enum Stage {
   Loading,
+  TermsAgreement,
   CardSelect,
   CardInput,
 }
@@ -27,7 +29,15 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
 
   const { id: transactionId } = transaction.summary
 
-  const [currentStage, setStage] = useState(Stage.Loading)
+  // For purchases the user must agree to the T&C's before continuing
+  const [currentStage, setStage] = useState(
+    transaction.summary.kind === "purchase"
+      ? Stage.TermsAgreement
+      : Stage.Loading,
+  )
+  const [termsAgreed, setTermsAgreed] = useState(
+    transaction.summary.kind === "purchase" ? false : true,
+  )
 
   // Cards should only be retrieved once
   const {
@@ -37,22 +47,23 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   } = useAsync<PaymentCard[]>(getPaymentCards)
 
   useEffect(() => {
+    if (!termsAgreed) return
+
     if (status === "success") {
       // User may have no saved cards to select from
-      if (cards.length) {
-        setStage(Stage.CardSelect)
-      } else {
-        setStage(Stage.CardInput)
-      }
+      setStage(cards.length ? Stage.CardSelect : Stage.CardInput)
     }
 
     if (status === "error") {
       setStage(Stage.CardSelect)
     }
-  }, [status, cards])
+  }, [status, cards, termsAgreed])
 
   let flowContent: ReactElement
   switch (currentStage) {
+    case Stage.TermsAgreement:
+      flowContent = <TermsAgreement onConfirm={() => setTermsAgreed(true)} />
+      break
     case Stage.CardSelect:
       flowContent = (
         <CardSelect
