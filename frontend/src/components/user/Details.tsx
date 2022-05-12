@@ -25,26 +25,28 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   }
 
   // Accounts may or may not be present in user information
-  const linkedAccounts = Object.keys(user.info.auths).map((name) => {
-    const authData = user.info.auths[name]
+  const linkedAccounts = logins
+    .filter((provider) => provider.method in user.info.auths)
+    .map((provider) => {
+      const authData = user.info.auths[provider.method]
 
-    return (
-      <div key={name} className={styles.linked}>
-        <Image
-          src={authData.avatar}
-          width={50}
-          height={50}
-          className={styles.avatar}
-          alt={`${authData.login}'s avatar`}
-        />
-        <p>
-          <b>{name}</b>
-          <br />
-          {authData.login}
-        </p>
-      </div>
-    )
-  })
+      return (
+        <div key={provider.method} className={styles.linked}>
+          <Image
+            src={authData.avatar}
+            width={50}
+            height={50}
+            className={styles.avatar}
+            alt={`${authData.login}'s avatar`}
+          />
+          <p>
+            <b>{provider.name}</b>
+            <br />
+            {authData.login}
+          </p>
+        </div>
+      )
+    })
 
   // The user may have further sign in options available
   const linkOptions = logins
