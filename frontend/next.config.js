@@ -9,7 +9,7 @@ const CONTENT_SECURITY_POLICY = `
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://webstats.gnome.org;
-  img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://secure.gravatar.com data:;
+  img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://lh3.googleusercontent.com https://secure.gravatar.com data:;
   frame-ancestors 'none';
 `
   .replace(/\s{2,}/g, " ")
@@ -22,6 +22,7 @@ module.exports = (phase) => ({
       "flathub.org",
       "dl.flathub.org",
       "avatars.githubusercontent.com",
+      "gitlab.com",
       "lh3.googleusercontent.com",
       "secure.gravatar.com",
     ],
