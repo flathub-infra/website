@@ -115,30 +115,30 @@ const Header = () => {
           <Link href="/" passHref>
             <a id={styles.brand} title={t("go-home")}></a>
           </Link>
+          <div id={styles.search}>
+            <SiteLinksSearchBoxJsonLd
+              url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
+              potentialActions={[
+                {
+                  target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/{search_term_string}`,
+                  queryInput: "search_term_string",
+                },
+              ]}
+            />
+            <form onSubmit={onSubmit}>
+              <MdSearch className={styles.searchIcon} />
+              <input
+                type="search"
+                name="q"
+                placeholder={t("search-apps")}
+                onChange={onChange}
+                value={query}
+                aria-label={t("search-apps")}
+              />
+            </form>
+          </div>
         </span>
 
-        <div id={styles.search}>
-          <SiteLinksSearchBoxJsonLd
-            url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
-            potentialActions={[
-              {
-                target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/{search_term_string}`,
-                queryInput: "search_term_string",
-              },
-            ]}
-          />
-          <form onSubmit={onSubmit}>
-            <MdSearch className={styles.searchIcon} />
-            <input
-              type="search"
-              name="q"
-              placeholder={t("search-apps")}
-              onChange={onChange}
-              value={query}
-              aria-label={t("search-apps")}
-            />
-          </form>
-        </div>
         <span className={`${styles.navbarContainer}`}>
           <div
             id={styles.navbar}
