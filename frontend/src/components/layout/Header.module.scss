@@ -25,7 +25,9 @@
     }
 
     #brand {
-      flex: 1;
+      flex-shrink: 1;
+      flex-grow: 0;
+      flex-basis: 180px;
       display: flex;
       background-image: url("/img/logo/flathub-logo-toolbar.svg");
       @media (max-width: 570px) {
@@ -60,7 +62,8 @@
     }
 
     #search {
-      flex-basis: 400px;
+      width: 300px;
+      flex-shrink: 1;
       margin-top: auto;
       margin-bottom: auto;
       border: var(--color-primary) solid 1px;
