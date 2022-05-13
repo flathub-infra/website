@@ -17,7 +17,9 @@ const Languages = (): JSX.Element => {
         <ul style={{ columns: 2 }}>
           {languages.sort().map((language) => (
             <li key={language}>
-              <Link href={`/${language}`}>{getLanguageName(language)}</Link>
+              <Link href={``} locale={`${language}`}>
+                {getLanguageName(language)}
+              </Link>
             </li>
           ))}
         </ul>
