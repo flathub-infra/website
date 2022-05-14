@@ -86,6 +86,8 @@ def _get_provider_username(appid: str) -> Tuple[str, str]:
         return ("GitHub", appid.split(".")[2])
     elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
         return ("GitLab", appid.split(".")[2])
+    elif _matches_prefixes(appid, "org.gnome.gitlab"):
+        return ("GnomeGitLab", appid.split(".")[3])
     else:
         return None
 
@@ -172,7 +174,7 @@ def get_verification_methods(appid: str):
     - "methods": An array of methods.
       - "method": "website" or "login_provider"
       - "website": For "website" method, the domain name for the website (e.g. flathub.org)
-      - "login_provider": For "login_provider" method. Currently only "GitHub".
+      - "login_provider": For "login_provider" method. Currently one of "GitHub", "GitLab", or "GnomeGitLab".
       - "login_name": For "login_provider" method. The username of the user who must verify the app.
     - "detail": Error detail.
     """
@@ -316,6 +318,8 @@ def _verify_app(appid: str, login, verified: bool):
         account = models.GithubAccount.by_user(sqldb, login["user"])
     elif provider_name == "GitLab":
         account = models.GitlabAccount.by_user(sqldb, login["user"])
+    elif provider_name == "GnomeGitLab":
+        account = models.GnomeAccount.by_user(sqldb, login["user"])
 
     if account is not None and account.login == username:
         if verified:
