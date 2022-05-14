@@ -240,12 +240,13 @@ def start_oauth_flow(
 
     Examples of oauth flows include Github and Gitlab.
     """
-    if login["state"].logging_in():
+    while login["state"].logging_in():
+        login["method"] = method
         # Already logging in to something
         if login["method"] == method:
             # Already logging into correct method, so assume something went squiffy
             # and send them back with the same in-progress login
-            pass
+            break
         else:
             # Already mid-flow to something else
             return JSONResponse(
