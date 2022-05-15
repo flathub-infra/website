@@ -201,5 +201,7 @@
   "requires-attention": "Vyžaduje pozornost",
   "cancel": "Zrušit",
   "delete": "Odstranit",
-  "go-to-page": "Přejít na {{page}}"
+  "go-to-page": "Přejít na {{page}}",
+  "account-deletion-token-mismatch": "Požadavek na smazání účtu se nepodařilo ověřit.",
+  "use-saved-card": "Použít uloženou kartu"
 }

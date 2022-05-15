@@ -64,7 +64,7 @@
   "new-and-updated-apps-description": "Viimeisen seitsemän päivän aikana julkaistut tai päivitetyt sovellukset Flathubissa.",
   "server-error": "Palvelinvirhe",
   "whoops": "Hups!",
-  "login": "Kirjadu",
+  "login": "Kirjaudu",
   "retry-or-go-home": "Yritä uudestaan tai siirry <1>etusivulle</1>.",
   "submitting-apps": "Sovellusten lähettäminen",
   "reporting-issues": "Ongelmista ilmoittaminen",
@@ -194,5 +194,13 @@
   "purchase-apps-title": "Osta sovelluksia",
   "thank-you-for-your-purchase": "Kiitos ostoksestasi!",
   "safe-to-close-page": "Tämän sivun voi sulkea.",
-  "app-install-error-try-again": "Sovellusta ei voitu asentaa. Mene takaisin sovelluskauppaan ja yritä asennusta uudelleen."
+  "app-install-error-try-again": "Sovellusta ei voitu asentaa. Mene takaisin sovelluskauppaan ja yritä asennusta uudelleen.",
+  "accepting-payment": "Maksun hyväksyminen",
+  "vending-dashboard": "Siirry Stripe Express -tilillesi",
+  "vending-onboard": "Luo Stripe Express -tili",
+  "requires-attention": "Vaatii huomiota",
+  "cancel": "Peru",
+  "delete": "Poista",
+  "go-to-page": "Siirry sivulle {{page}}",
+  "account-deletion-token-mismatch": "Tilin poistopyyntö epäonnistui tunnistautua."
 }
