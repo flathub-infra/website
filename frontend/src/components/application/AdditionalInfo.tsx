@@ -11,6 +11,8 @@ import {
   MdQuestionAnswer,
   MdTranslate,
   MdWeb,
+  MdCode,
+  MdEngineering,
 } from "react-icons/md"
 import { BsHddFill, BsTextParagraph } from "react-icons/bs"
 import { MdLaptop } from "react-icons/md"
@@ -219,6 +221,42 @@ const AdditionalInfo = ({
                     trackAsEvent: "Bugtracker",
                   },
                 }
+              : undefined,
+          ]}
+        />
+      )}
+      {data.urls?.vcs_browser && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.vcs_browser
+              ? {
+                icon: <MdCode />,
+                header: t('vcs_browser'),
+                content: {
+                  type: 'url',
+                  text: data.urls.vcs_browser,
+                  trackAsEvent: 'VCS_Browser',
+                },
+              }
+              : undefined,
+          ]}
+        />
+      )}
+       {data.urls?.contribute && (
+        <ListBox
+          appId={appId}
+          items={[
+            data.urls.contribute
+              ? {
+                icon: <MdEngineering />,
+                header: t('contribute'),
+                content: {
+                  type: 'url',
+                  text: data.urls.contribute,
+                  trackAsEvent: 'Contribute',
+                },
+              }
               : undefined,
           ]}
         />

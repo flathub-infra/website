@@ -40,6 +40,8 @@
   "help": "Help",
   "contribute-translations": "Contribute Translations",
   "report-an-issue": "Report an Issue",
+  "vcs_browser": "Browse the source code",
+  "contribute": "Contribute to the App",
   "no-changelog-provided": "No changelog provided",
   "changes-in-version": "Changes in version {{version-number}}",
   "manual-install": "Manual Install",
