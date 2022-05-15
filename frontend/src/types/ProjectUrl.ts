@@ -6,3 +6,5 @@ export type ProjectUrl =
   | "Help"
   | "Faq"
   | "Homepage"
+  | "VCS_Browser"
+  | "Contribute"

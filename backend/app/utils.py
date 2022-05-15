@@ -146,7 +146,7 @@ def appstream2dict(reponame: str):
                 component.remove(url)
                 url_type = url.attrib.get("type")
                 if url_type:
-                    app["urls"][url_type] = url.text
+                    app["urls"][url_type.replace("-", "_")] = url.text
 
         icons = component.findall("icon")
         if len(icons):
