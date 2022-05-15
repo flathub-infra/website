@@ -201,5 +201,7 @@
   "vending-onboard": "Criar uma conta Stripe Express",
   "requires-attention": "Requer atenção",
   "cancel": "Cancelar",
-  "go-to-page": "Ir para {{page}}"
+  "go-to-page": "Ir para {{page}}",
+  "account-deletion-token-mismatch": "A solicitação de exclusão da conta falhou ao autenticar.",
+  "use-saved-card": "Usar um cartão salvo"
 }

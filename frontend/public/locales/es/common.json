@@ -201,5 +201,6 @@
   "type": "Tipo",
   "stripe-api-error": "La API de Stripe ha encontrado un error. Inténtelo de nuevo más tarde.",
   "next-page": "Página siguiente",
-  "stripe-receipt": "Recibo de Stripe"
+  "stripe-receipt": "Recibo de Stripe",
+  "account-deletion-token-mismatch": "La solicitud de eliminación de la cuenta no se ha podido autenticar."
 }

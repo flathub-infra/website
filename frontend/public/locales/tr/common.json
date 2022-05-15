@@ -201,5 +201,7 @@
   "cancel": "İptal et",
   "go-to-page": "{{page}} sayfasına git",
   "requires-attention": "Dikkat gerektirir",
-  "delete": "Sil"
+  "delete": "Sil",
+  "account-deletion-token-mismatch": "Hesap silme isteğinin kimliği doğrulanamadı.",
+  "use-saved-card": "Kayıtlı bir kart kullan"
 }
