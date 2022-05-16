@@ -55,7 +55,7 @@ const DeleteButton: FunctionComponent = () => {
   }
 
   return (
-    <Button onClick={execute} variant="secondary">
+    <Button onClick={execute} variant="destructive">
       {t("delete-account")}
     </Button>
   )

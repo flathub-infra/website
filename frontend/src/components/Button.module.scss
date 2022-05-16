@@ -1,5 +1,6 @@
 .primaryButton,
-.secondaryButton {
+.secondaryButton,
+.destructiveButton {
   background-color: var(--color-primary);
   color: var(--white-10);
   border: none;
@@ -37,6 +38,28 @@
   &:hover:not(:disabled) {
     cursor: pointer;
     background-color: var(--color-primary);
+    color: var(--white-10);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--bg-color-primary);
+  }
+
+  &:disabled {
+    color: var(--white-10);
+    border: none;
+  }
+}
+
+.destructiveButton {
+  background-color: var(--bg-color-secondary);
+  color: var(--color-danger);
+  background-image: unset;
+  border: 1px solid var(--color-danger);
+
+  &:hover:not(:disabled) {
+    cursor: pointer;
+    background-color: var(--color-danger);
     color: var(--white-10);
   }
 
