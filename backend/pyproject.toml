@@ -23,7 +23,7 @@ itsdangerous = "^2.1"
 PyGithub = "^1.55"
 vcrpy = "^4.1.1"
 python-gitlab = "^3.4"
-stripe = "^2.67"
+stripe = "^3.0"
 PyJWT = "^2.4.0"
 meilisearch = "^0.18.3"
 
