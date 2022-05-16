@@ -42,7 +42,14 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     "version-number": latestRelease.version,
                   })}
                 </h3>
-                <div>
+                <div
+                  title={
+                    latestRelease.timestamp &&
+                    new Date(
+                      latestRelease.timestamp * 1000,
+                    ).toLocaleDateString()
+                  }
+                >
                   {latestRelease.timestamp &&
                     formatDistance(
                       new Date(latestRelease.timestamp * 1000),
