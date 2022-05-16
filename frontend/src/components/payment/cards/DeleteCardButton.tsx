@@ -54,7 +54,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
           <MdCancel className={styles.mdButton} />
         </Button>
         <Button
-          variant="secondary"
+          variant="destructive"
           onClick={execute}
           aria-label={t("delete")}
           title={t("delete")}
