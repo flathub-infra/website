@@ -602,6 +602,14 @@ class StripeExpressAccount(Base):
             .first()
         )
 
+    @classmethod
+    def by_userid(cls, db, user: int) -> Optional["StripeExpressAccount"]:
+        return (
+            db.session.query(StripeExpressAccount)
+            .filter(StripeExpressAccount.user == user)
+            .first()
+        )
+
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """

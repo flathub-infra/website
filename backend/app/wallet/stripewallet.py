@@ -29,6 +29,7 @@ from .walletbase import (
     WalletError,
     WalletInfo,
 )
+from ..utils import PLATFORMS_WITH_STRIPE
 
 GROUP_PREFIX = "flathub-txn-"
 
@@ -138,11 +139,33 @@ class StripeWallet(WalletBase):
             return stxn
         try:
             # First a consistency check, are we happy to make this txn.
-            # For now, we don't have any support for anything other than
-            # Flathub receiving donations, so do not permit anything else.
+            # Rows in the transaction should be for any combination of
+            # application, etc.  But if we cannot find a stripe account
+            # for anything, we error out.
+            recipients = []
+            flathub_amount = 0
             for row in txn.rows(db):
-                if row.recipient != "org.flathub.Flathub":
-                    raise WalletError(error="not found")
+                try:
+                    value = row.amount + flathub_amount
+                    flathub_amount = 0
+                    print(f"Considering: {row.recipient}")
+                    appvc = models.ApplicationVendingConfig.by_appid(db, row.recipient)
+                    if appvc is not None:
+                        acct = models.StripeExpressAccount.by_userid(db, appvc.user)
+                        if acct is not None:
+                            print("Found user account")
+                            recipients.append((acct.stripe_account, value))
+                            continue
+                    plaf_data = PLATFORMS_WITH_STRIPE.get(row.recipient)
+                    if plaf_data is not None:
+                        if (stripe_id := plaf_data.stripe_account) is not None:
+                            recipients.append((stripe_id, value))
+                            continue
+                    flathub_amount = value
+                except WalletError:
+                    raise
+                except Exception as base_exc:
+                    raise WalletError(error="not found") from base_exc
             # The transaction isn't there, so let's create a payment intent
             # and then fill it out.
             cust = self._get_customer(user)
@@ -153,8 +176,15 @@ class StripeWallet(WalletBase):
                 customer=cust.stripe_cust,
                 transfer_group=f"{GROUP_PREFIX}{txn.id}",
             )
-            # TODO: When we support other recipients, this will need amending
-            # to iterate the rows.
+            # Now iterate the recipients and add any transfers in which we need
+            for (account_id, amount) in recipients:
+                stripe.Transfer.create(
+                    amount=amount,
+                    currency=txn.currency,
+                    destination=account_id,
+                    transfer_group=f"{GROUP_PREFIX}{txn.id}",
+                )
+
             stxn = models.StripeTransaction(
                 transaction=txn.id, stripe_pi=payment_intent["id"]
             )
