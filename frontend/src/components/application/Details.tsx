@@ -223,9 +223,11 @@ const Details: FunctionComponent<Props> = ({
             />
           </div>
 
-          <Releases
-            latestRelease={app.releases ? app.releases[0] : null}
-          ></Releases>
+          {app.releases && (
+            <Releases
+              latestRelease={app.releases ? app.releases[0] : null}
+            ></Releases>
+          )}
 
           <AdditionalInfo
             data={app}
