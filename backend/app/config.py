@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     gnome_client_secret: str = (
         "9122d58ed56789d80db5f1ed0ec6bad5d9dae612aa9d458d89ee475e01151c43"
     )
-    gnome_return_url: str = "http://localhost:3000/login/gnome"
+    gnome_return_url: str = "https://beta.flathub.org/login/gnome"
     google_client_id: str = (
         "29861222915-aj1mcmdcutk00a5u5n8egcvpqv27lpvq.apps.googleusercontent.com"
     )
