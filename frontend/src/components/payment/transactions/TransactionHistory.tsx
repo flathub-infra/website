@@ -63,7 +63,7 @@ const TransactionHistory: FunctionComponent = () => {
   const pageSlice = transactions.slice(page * perPage, page * perPage + perPage)
 
   return (
-    <div className="main-container">
+    <>
       <h3>{t("transaction-history")}</h3>
       {error ? (
         <p>{t(error)}</p>
@@ -90,7 +90,7 @@ const TransactionHistory: FunctionComponent = () => {
           </div>
         </>
       )}
-    </div>
+    </>
   )
 
   function pageForward() {

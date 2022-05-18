@@ -7,7 +7,6 @@ import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
 import { fetchLoginProviders } from "../src/fetchers"
 import { LoginProvider } from "../src/types/Login"
-import styles from "./userpage.module.scss"
 
 export default function Userpage({ providers }) {
   const { t } = useTranslation()
@@ -16,7 +15,7 @@ export default function Userpage({ providers }) {
   return (
     <>
       <NextSeo title={t("user-page")} noindex={true} />
-      <div className={styles.userArea}>
+      <div className="main-container" style={{ marginTop: "20px" }}>
         <LoginGuard>
           <UserDetails logins={providers} />
           <UserApps />

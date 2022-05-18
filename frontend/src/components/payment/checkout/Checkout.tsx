@@ -81,15 +81,13 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   }
 
   return (
-    <div className="main-container">
-      <div className={styles.checkout}>
-        {flowContent}
-        <div className="actions">
-          <TransactionCancelButton
-            id={transactionId}
-            onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
-          />
-        </div>
+    <div className={styles.checkout}>
+      {flowContent}
+      <div className="actions">
+        <TransactionCancelButton
+          id={transactionId}
+          onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
+        />
       </div>
     </div>
   )

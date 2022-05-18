@@ -65,33 +65,31 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   )
 
   return (
-    <div className="main-container">
-      <div className={styles.details}>
-        <h2 className={styles.displayname}>{user.info.displayname}</h2>
+    <div className={styles.details}>
+      <h2 className={styles.displayname}>{user.info.displayname}</h2>
 
+      <div className={styles.subsection}>
+        <h3>{t("linked-accounts")}</h3>
+        <div className={styles.authList}>{linkedAccounts}</div>
+      </div>
+
+      {loginSection}
+
+      {user.info["dev-flatpaks"].length ? (
         <div className={styles.subsection}>
-          <h3>{t("linked-accounts")}</h3>
-          <div className={styles.authList}>{linkedAccounts}</div>
+          <h3>{t("accepting-payment")}</h3>
+          <VendingLink />
         </div>
+      ) : (
+        <></>
+      )}
 
-        {loginSection}
-
-        {user.info["dev-flatpaks"].length ? (
-          <div className={styles.subsection}>
-            <h3>{t("accepting-payment")}</h3>
-            <VendingLink />
-          </div>
-        ) : (
-          <></>
-        )}
-
-        <div className={styles.actions}>
-          <Link href="/wallet" passHref>
-            <Button variant="primary">{t("view-wallet")}</Button>
-          </Link>
-          <LogoutButton />
-          <DeleteButton />
-        </div>
+      <div className={styles.actions}>
+        <Link href="/wallet" passHref>
+          <Button variant="primary">{t("view-wallet")}</Button>
+        </Link>
+        <LogoutButton />
+        <DeleteButton />
       </div>
     </div>
   )

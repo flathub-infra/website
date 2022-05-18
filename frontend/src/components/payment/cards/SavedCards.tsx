@@ -53,10 +53,10 @@ const SavedCards: FunctionComponent = () => {
   }
 
   return (
-    <div className="main-container">
+    <>
       <h3>{t("saved-cards")}</h3>
       {content}
-    </div>
+    </>
   )
 }
 
