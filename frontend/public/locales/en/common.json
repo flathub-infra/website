@@ -205,5 +205,9 @@
   "cancel": "Cancel",
   "delete": "Delete",
   "go-to-page": "Go to {{page}}",
-  "account-deletion-token-mismatch": "The account deletion request failed to authenticate."
+  "account-deletion-token-mismatch": "The account deletion request failed to authenticate.",
+  "privacy-policy": "Privacy Policy",
+  "privacy-policy-description": "By using this website, you agree to the Privacy Policy.",
+  "terms-and-conditions": "Terms and conditions",
+  "terms-and-conditions-description": "By using this website, you agree to the Terms and Conditions."
 }

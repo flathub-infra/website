@@ -1,0 +1,41 @@
+.storeContentContainerNarrow {
+
+  h1, h2, h3, h4, h5, h6 {
+    padding-top: 1.5rem;
+    padding-bottom: 0.25rem;
+  }
+
+  p {
+    margin: 0;
+    text-align: justify;
+  }
+
+  padding-left: 5%;
+  padding-right: 5%;
+  /* desktop-medium */
+  @media all and (min-width: 841px) and (max-width: 1280px) {
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  /* desktop-large */
+  @media all and (min-width: 1281px) and (max-width: 1440px) {
+    padding-left: 22%;
+    padding-right: 22%;
+  }
+  /* desktop-large-2 */
+  @media all and (min-width: 1441px) and (max-width: 1600px) {
+    padding-left: 24%;
+    padding-right: 24%;
+  }
+  /* desktop-large-3 */
+  @media all and (min-width: 1601px) and (max-width: 1920px) {
+    padding-left: 30%;
+    padding-right: 30%;
+  }
+
+  /* desktop-xlarge */
+  @media all and (min-width: 1920px) {
+    padding-left: 32%;
+    padding-right: 32%;
+  }
+}

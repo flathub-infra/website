@@ -8,23 +8,23 @@ import styles from "./Button.module.scss"
 
 type Props = {
   children: React.ReactNode
-  variant?: "primary" | "secondary"
+  variant?: "primary" | "secondary" | "destructive"
 } & DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >
 
 const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
-  ({ children, variant, className, ...buttonProps }, ref) => {
+  ({ children, variant = "primary", className, ...buttonProps }, ref) => {
+    const variantClass = {
+      destructive: styles.destructiveButton,
+      secondary: styles.secondaryButton,
+      primary: styles.primaryButton,
+    }[variant]
+
     return (
       <button
-        className={
-          (variant === "secondary"
-            ? styles.secondaryButton
-            : styles.primaryButton) +
-            " " +
-            className ?? ""
-        }
+        className={`${variantClass} ${className ?? ""}`}
         type={buttonProps.type}
         ref={ref}
         {...buttonProps}

@@ -229,6 +229,70 @@ class GitlabAccount(Base):
 FlathubUser.TABLES_FOR_DELETE.append(GitlabAccount)
 
 
+class GnomeFlowToken(Base):
+    __tablename__ = "gnomeflowtoken"
+
+    id = Column(Integer, primary_key=True)
+    state = Column(String, nullable=False)
+    created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
+        """
+        Clear out any tokens which are more than the specified age.
+
+        The login flow will also discard flow tokens younger than this, so over-all
+        the flow tokens table should be kept pretty clean.
+        """
+        too_old = datetime.now() - timedelta(minutes=minutes)
+        db.session.execute(
+            delete(GnomeFlowToken).where(GnomeFlowToken.created < too_old)
+        )
+        db.session.flush()
+
+
+class GnomeAccount(Base):
+    __tablename__ = "gnomeaccount"
+
+    id = Column(Integer, primary_key=True)
+    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    gnome_userid = Column(Integer, nullable=False)
+    login = Column(String)
+    avatar_url = Column(String)
+    token = Column(String, nullable=True, default=None)
+    token_expiry = Column(DateTime, nullable=True, default=None)
+    refresh_token = Column(String, nullable=True, default=None)
+    last_used = Column(DateTime, nullable=True, default=None)
+
+    @staticmethod
+    def by_user(db, user: FlathubUser):
+        return db.session.query(GnomeAccount).filter_by(user=user.id).first()
+
+    @staticmethod
+    def by_provider_id(db, glid):
+        return db.session.query(GnomeAccount).filter_by(gnome_userid=glid).first()
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user):
+        """
+        Add a user's information from Gnome to the hasher for token generation
+        """
+        if account := GnomeAccount.by_user(db, user):
+            hasher.add_string("gnome")
+            hasher.add_number(account.gnome_userid)
+            hasher.add_string(account.login)
+
+    @staticmethod
+    def delete_user(db, user):
+        """
+        Delete a user's account and information related to Gnome
+        """
+        db.session.execute(delete(GnomeAccount).where(GnomeAccount.user == user.id))
+
+
+FlathubUser.TABLES_FOR_DELETE.append(GnomeAccount)
+
+
 class GoogleFlowToken(Base):
     __tablename__ = "googleflowtoken"
 
