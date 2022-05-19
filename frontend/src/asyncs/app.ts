@@ -1,4 +1,5 @@
-import { CHECK_PURCHASES_URL, TOKEN_GENERATION_URL } from "../env"
+import { APP_DETAILS, CHECK_PURCHASES_URL, TOKEN_GENERATION_URL } from "../env"
+import { Appstream } from "../types/Appstream"
 
 /**
  * Checks whether the logged in user owns all of the given apps.
@@ -33,4 +34,16 @@ export async function generateUpdateToken() {
   } catch {
     throw "network-error-try-again"
   }
+}
+
+/**
+ * Fetches the appstream data for a set of apps (e.g. the user's).
+ * @param appIds array of app identifiers to fetch data for
+ */
+export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
+  const responses = await Promise.all(
+    appIds.map((id) => fetch(`${APP_DETAILS(id)}`)),
+  )
+
+  return Promise.all(responses.map((res) => res.json() as Promise<Appstream>))
 }
