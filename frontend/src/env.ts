@@ -71,5 +71,20 @@ export const VENDING_STATUS_URL = `${BASE_URI}/vending/status`
 export const VENDING_ONBOARDING_URL = `${VENDING_STATUS_URL}/onboarding`
 export const VENDING_DASHBOARD_URL = `${VENDING_STATUS_URL}/dashboardlink`
 
+const APP_VENDING_BASE_URL = `${BASE_URI}/vendingapp`
+export const VENDING_APP_STATUS_URL = (appId: string) => {
+  return `${APP_VENDING_BASE_URL}/${appId}`
+}
+export const VENDING_APP_SETUP_URL = (appId: string) => {
+  return `${APP_VENDING_BASE_URL}/${appId}/setup`
+}
+export const VENDING_APP_SPLIT_URL = (
+  appId: string,
+  currency: string,
+  value: number,
+) => {
+  return `${APP_VENDING_BASE_URL}/${appId}/${currency}/${value}`
+}
+
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"
