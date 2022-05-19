@@ -16,9 +16,13 @@
     "org.armagetronad.ArmagetronAdvanced",
     "net.veloren.veloren",
     "net.minetest.Minetest",
-    "org.freeorion.FreeOrion",
     "io.github.endless_sky.endless_sky",
     "org.hedgewars.Hedgewars",
-    "io.thp.numptyphysics",
-    "tw.ddnet.ddnet"
+    "tw.ddnet.ddnet",
+    "sh.ppy.osu",
+    "com.shatteredpixel.shatteredpixeldungeon",
+    "org.kde.gcompris",
+    "info.beyondallreason.bar",
+    "com.github.Anuken.Mindustry",
+    "org.freeciv.Freeciv"
 ]
