@@ -1,46 +1,27 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useEffect } from "react"
+import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext } from "../../context/user-info"
-import { APP_DETAILS } from "../../env"
-import { Appstream } from "../../types/Appstream"
+import { useAsync } from "../../hooks/useAsync"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
-
-async function getAppsInfo(
-  appIds: string[],
-  setLoading: (a: boolean) => void,
-  setApps: (a: Appstream[]) => void,
-) {
-  setLoading(true)
-
-  const responses = await Promise.all(
-    appIds.map((id) => fetch(`${APP_DETAILS(id)}`)),
-  )
-  const apps = await Promise.all(responses.map((res) => res.json()))
-
-  setApps(apps)
-  setLoading(false)
-}
 
 const UserApps: FunctionComponent = () => {
   const { t } = useTranslation()
   const user = useUserContext()
-  const [apps, setApps] = useState([])
-  const [loading, setLoading] = useState(true)
 
+  const getApps = useCallback(
+    () => getAppsInfo(user.info["dev-flatpaks"]),
+    [user.info],
+  )
+  const { execute, status, value: apps } = useAsync(getApps, false)
+
+  // User app list not available until login context resolves
   useEffect(() => {
-    if (!user.info) return
+    if (user.info) execute()
+  }, [user.info, execute])
 
-    const { "dev-flatpaks": appIds } = user.info
-    getAppsInfo(appIds, setLoading, setApps)
-  }, [user.info])
-
-  // Nothing to show if not logged in
-  if (!user.info) {
-    return <></>
-  }
-
-  if (loading) {
+  if (["idle", "pending"].includes(status)) {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
