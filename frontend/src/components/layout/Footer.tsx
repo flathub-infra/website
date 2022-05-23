@@ -75,12 +75,22 @@ const Footer = () => {
           <div className={styles.footerTitle}>{t("developers")}</div>
           <div className={styles.footerItems}>
             <div className={styles.footerItem}>
-              <a href="https://github.com/flathub/flathub/wiki/App-Submission">
+              <a
+                href="https://github.com/flathub/flathub/wiki/App-Submission"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {t("publish-your-app")}
               </a>
             </div>
             <div className={styles.footerItem}>
-              <a href="http://docs.flatpak.org/">{t("documentation")}</a>
+              <a
+                href="http://docs.flatpak.org/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t("documentation")}
+              </a>
             </div>
             <div className={styles.footerItem}>
               <Link href="/badges">{t("badges")}</Link>
