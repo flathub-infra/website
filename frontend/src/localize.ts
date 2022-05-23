@@ -154,6 +154,49 @@ export function getLocaleString(language: string): string {
   }
 }
 
+export function getLanguageFlag(language: Language): string {
+  switch (language) {
+    case "de":
+      return "🇩🇪"
+    case "en":
+      return "🇺🇸"
+    case "fr":
+      return "🇫🇷"
+    case "nb_NO":
+      return "🇳🇴"
+    case "tr":
+      return "🇹🇷"
+    case "fi":
+      return "🇫🇮"
+    case "id":
+      return "🇮🇩"
+    case "it":
+      return "🇮🇹"
+    case "pl":
+      return "🇵🇱"
+    case "pt_BR":
+      return "🇧🇷"
+    case "ru":
+      return "🇷🇺"
+    case "si":
+      return "🇸🇮"
+    case "vi":
+      return "🇻🇳"
+    case "ar":
+      return "🇸🇦"
+    case "es":
+      return "🇪🇸"
+    case "ja":
+      return "🇯🇵"
+    case "cs":
+      return "🇨🇿"
+    case "zh_Hans":
+      return "🇨🇳"
+    case "bg":
+      return "🇧🇬"
+  }
+}
+
 export function getLanguageName(language: Language): string {
   switch (language) {
     case "de":
@@ -175,7 +218,7 @@ export function getLanguageName(language: Language): string {
     case "pl":
       return "Polski"
     case "pt_BR":
-      return "Português"
+      return "Brasileiro"
     case "ru":
       return "Русский язык"
     case "si":
