@@ -202,5 +202,14 @@
   "stripe-api-error": "La API de Stripe ha encontrado un error. Inténtelo de nuevo más tarde.",
   "next-page": "Página siguiente",
   "stripe-receipt": "Recibo de Stripe",
-  "account-deletion-token-mismatch": "La solicitud de eliminación de la cuenta no se ha podido autenticar."
+  "account-deletion-token-mismatch": "La solicitud de eliminación de la cuenta no se ha podido autenticar.",
+  "vcs_browser": "Examinar el código fuente",
+  "contribute": "Contribuir a la aplicación",
+  "privacy-policy": "Política de privacidad",
+  "privacy-policy-description": "Al utilizar este sitio web, usted acepta la política de privacidad.",
+  "use-saved-card": "Utilizar una tarjeta guardada",
+  "terms-and-conditions": "Términos y condiciones",
+  "terms-and-conditions-description": "Al utilizar este sitio web, usted acepta los Términos y Condiciones.",
+  "continue": "Continuar",
+  "purchase-terms-confirmation": "Confirmo que he leído los Términos y Condiciones de Flathub y consiento en renunciar al periodo de reflexión de 14 días asociado a esta descarga digital."
 }

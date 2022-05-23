@@ -67,7 +67,7 @@
   "open-in-new-tab": "Otevřít na nové kartě",
   "run": "Spustit",
   "project-website": "Stránky projektu",
-  "welcome-to-flathub-index-text": "Vítejte na Flathubu, sbírce stovek aplikací, které lze snadno nainstalovat na jakoukoli distribuci Linuxu. Procházejte aplikace online z centra aplikací nebo z příkazového řádku.",
+  "welcome-to-flathub-index-text": "Vítejte na Flathubu, sbírce stovek aplikací, které lze snadno nainstalovat do jakékoliv Linuxovou distribuci. Procházejte aplikace online, z centra aplikací nebo příkazového řádku.",
   "apps-for-linux-right-here": "Aplikace pro Linux, zde",
   "number-of-results": "{{number}} výsledků",
   "license": "Licence",
@@ -203,5 +203,13 @@
   "delete": "Odstranit",
   "go-to-page": "Přejít na {{page}}",
   "account-deletion-token-mismatch": "Požadavek na smazání účtu se nepodařilo ověřit.",
-  "use-saved-card": "Použít uloženou kartu"
+  "use-saved-card": "Použít uloženou kartu",
+  "contribute": "Přispět do aplikace",
+  "privacy-policy": "Zásady ochrany osobních údajů",
+  "terms-and-conditions": "Podmínky a pravidla",
+  "terms-and-conditions-description": "Používáním těchto webových stránek vyjadřujete souhlas s těmito podmínkami.",
+  "vcs_browser": "Procházet zdrojový kód",
+  "privacy-policy-description": "Používáním těchto webových stránek souhlasíte se zásadami ochrany osobních údajů.",
+  "continue": "Pokračovat",
+  "purchase-terms-confirmation": "Potvrzuji, že jsem si přečetl(a) obchodní podmínky Flathubu a souhlasím s tím, že se vzdávám 14denní lhůty na rozmyšlenou spojené s tímto digitálním stažením."
 }

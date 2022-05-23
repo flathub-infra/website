@@ -202,5 +202,12 @@
   "cancel": "Peru",
   "delete": "Poista",
   "go-to-page": "Siirry sivulle {{page}}",
-  "account-deletion-token-mismatch": "Tilin poistopyyntö epäonnistui tunnistautua."
+  "account-deletion-token-mismatch": "Tilin poistopyyntö epäonnistui tunnistautua.",
+  "use-saved-card": "Käytä tallennettua korttia",
+  "vcs_browser": "Selaa lähdekoodia",
+  "terms-and-conditions": "Käyttöehdot",
+  "terms-and-conditions-description": "Käyttämällä tätä sivustoa hyväksyt käyttöehdot.",
+  "privacy-policy-description": "Käyttämällä tätä sivustoa hyväksyt tietosuojakäytännön.",
+  "privacy-policy": "Tietosuojakäytäntö",
+  "contribute": "Osallistu kehitykseen"
 }
