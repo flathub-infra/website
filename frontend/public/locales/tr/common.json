@@ -203,5 +203,13 @@
   "requires-attention": "Dikkat gerektirir",
   "delete": "Sil",
   "account-deletion-token-mismatch": "Hesap silme isteğinin kimliği doğrulanamadı.",
-  "use-saved-card": "Kayıtlı bir kart kullan"
+  "use-saved-card": "Kayıtlı bir kart kullan",
+  "vcs_browser": "Kaynak koduna göz at",
+  "contribute": "Uygulamaya katkıda bulun",
+  "terms-and-conditions": "Şartlar ve koşullar",
+  "terms-and-conditions-description": "Bu web sitesini kullanarak, Şartlar ve Koşulları kabul etmiş olursunuz.",
+  "privacy-policy": "Gizlilik Politikası",
+  "privacy-policy-description": "Bu web sitesini kullanarak, Gizlilik Politikasını kabul etmiş olursunuz.",
+  "continue": "Devam et",
+  "purchase-terms-confirmation": "Flathub Şartlarını ve Koşullarını okuduğumu ve bu sayısal indirmeyle ilişkili 14 günlük bekleme süresinden feragat ettiğimi onaylıyorum."
 }

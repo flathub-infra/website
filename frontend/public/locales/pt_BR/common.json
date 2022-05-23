@@ -203,5 +203,13 @@
   "cancel": "Cancelar",
   "go-to-page": "Ir para {{page}}",
   "account-deletion-token-mismatch": "A solicitação de exclusão da conta falhou ao autenticar.",
-  "use-saved-card": "Usar um cartão salvo"
+  "use-saved-card": "Usar um cartão salvo",
+  "vcs_browser": "Navegar pelo código-fonte",
+  "contribute": "Contribuir para o aplicativo",
+  "privacy-policy-description": "Ao usar este site, você concorda com a Política de Privacidade.",
+  "terms-and-conditions-description": "Ao usar este site, você concorda com os Termos e Condições.",
+  "terms-and-conditions": "Termos e Condições",
+  "privacy-policy": "Política de Privacidade",
+  "continue": "Continuar",
+  "purchase-terms-confirmation": "Confirmo que li os Termos e Condições do Flathub e concordo em renunciar ao período de reflexão de 14 dias associado a este download digital."
 }
