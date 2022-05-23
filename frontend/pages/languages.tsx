@@ -2,7 +2,7 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { getLanguageName, languages } from "../src/localize"
+import { getLanguageFlag, getLanguageName, languages } from "../src/localize"
 import Link from "next/link"
 
 const Languages = (): JSX.Element => {
@@ -17,8 +17,10 @@ const Languages = (): JSX.Element => {
         <ul style={{ columns: 2 }}>
           {languages.sort().map((language) => (
             <li key={language}>
-              <Link href={``} locale={`${language}`}>
-                {getLanguageName(language)}
+              <Link href={``} locale={`${language}`} passHref>
+                <a>
+                  {getLanguageFlag(language) + " " + getLanguageName(language)}
+                </a>
               </Link>
             </li>
           ))}
