@@ -97,21 +97,21 @@ const Footer = () => {
           <div className={styles.footerTitle}>Flathub</div>
           <div className={styles.footerItems}>
             <div className={styles.footerItem}>
-              <Link href="/about">{t("about")}</Link>
-            </div>
-            <div className={styles.footerItem}>
               <Link href="/languages">{t("switch-language")}</Link>
-            </div>
-            <div className={styles.footerItem}>
-              <Link href="/statistics">{t("statistics")}</Link>
-            </div>
-            <div className={styles.footerItem}>
-              <Link href="/privacy-policy">{t("privacy-policy")}</Link>
             </div>
             <div className={styles.footerItem}>
               <Link href="/terms-and-conditions">
                 {t("terms-and-conditions")}
               </Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href="/privacy-policy">{t("privacy-policy")}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href="/statistics">{t("statistics")}</Link>
+            </div>
+            <div className={styles.footerItem}>
+              <Link href="/about">{t("about")}</Link>
             </div>
             <div className={styles.footerItem}>
               <a
