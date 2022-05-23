@@ -83,11 +83,6 @@ const Footer = () => {
               <a href="http://docs.flatpak.org/">{t("documentation")}</a>
             </div>
             <div className={styles.footerItem}>
-              <a href="https://github.com/flathub/">
-                {t("example-build-files")}
-              </a>
-            </div>
-            <div className={styles.footerItem}>
               <Link href="/badges">{t("badges")}</Link>
             </div>
           </div>
