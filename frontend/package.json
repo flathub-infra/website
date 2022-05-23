@@ -15,7 +15,7 @@
   "dependencies": {
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@stripe/react-stripe-js": "^1.7.0",
-    "@stripe/stripe-js": "^1.24.0",
+    "@stripe/stripe-js": "^1.29.0",
     "chart.js": "^3.7.1",
     "chartjs-adapter-date-fns": "^2.0.0",
     "date-fns": "^2.28.0",
