@@ -16,6 +16,7 @@ import {
   ja,
   cs,
   zhCN,
+  bg,
 } from "date-fns/locale"
 
 export type Language =
@@ -37,6 +38,7 @@ export type Language =
   | "ja"
   | "cs"
   | "zh_Hans"
+  | "bg"
 
 export const languages: Language[] = [
   "de",
@@ -57,6 +59,7 @@ export const languages: Language[] = [
   "ja",
   "cs",
   "zh_Hans",
+  "bg",
 ]
 
 export function getLocale(language: string): Locale {
@@ -97,6 +100,8 @@ export function getLocale(language: string): Locale {
       return cs
     case "zh_Hans":
       return zhCN
+    case "bg":
+      return bg
 
     default:
       return enUS
@@ -141,6 +146,8 @@ export function getLocaleString(language: string): string {
       return "cs_CZ"
     case "zh_Hans":
       return "zh_Hans"
+    case "bg":
+      return "bg_BG"
 
     default:
       return "en_US"
@@ -185,6 +192,8 @@ export function getLanguageName(language: Language): string {
       return "Čeština"
     case "zh_Hans":
       return "简体中文"
+    case "bg":
+      return "Български"
 
     default:
       return assertUnreachable(language)
