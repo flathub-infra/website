@@ -1,4 +1,4 @@
-import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { FunctionComponent, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
 import { Appstream, pickScreenshot } from "../../types/Appstream"

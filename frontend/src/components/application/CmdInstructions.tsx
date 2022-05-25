@@ -1,4 +1,4 @@
-import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { Trans, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import styles from "./CmdInstructions.module.scss"

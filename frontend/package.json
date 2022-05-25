@@ -13,7 +13,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@datapunt/matomo-tracker-react": "^0.5.1",
+    "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.29.0",
     "chart.js": "^3.7.1",

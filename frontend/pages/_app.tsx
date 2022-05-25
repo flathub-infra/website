@@ -1,4 +1,4 @@
-import { createInstance, MatomoProvider } from "@datapunt/matomo-tracker-react"
+import { createInstance, MatomoProvider } from "@jonkoops/matomo-tracker-react"
 import { DefaultSeo } from "next-seo"
 import { ThemeProvider } from "next-themes"
 import type { AppProps } from "next/app"

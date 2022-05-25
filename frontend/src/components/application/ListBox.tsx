@@ -1,4 +1,4 @@
-import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { MdOpenInNew } from "react-icons/md"
