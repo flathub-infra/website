@@ -56,7 +56,6 @@
   "popular": "Популярные",
   "follow-us": "Подписывайтесь на нас",
   "documentation": "Документация",
-  "example-build-files": "Примеры файлов сборки",
   "browse-apps": "Обзор приложений",
   "publish-your-app": "Опубликуйте свое приложение",
   "more": "Больше",
@@ -151,5 +150,11 @@
   "saved-cards": "Сохраненные карты",
   "delete-account-prompt": "Удалить учетную запись?",
   "delete-account-entry": "Я хочу удалить свою учётную запись",
-  "entry-confirmation-prompt": "Введите \"{{text}}\", чтобы продолжить."
+  "entry-confirmation-prompt": "Введите \"{{text}}\", чтобы продолжить.",
+  "status-new": "Новый",
+  "status-retry": "Повторить",
+  "vcs_browser": "Посмотреть исходный код",
+  "confirm-selection": "Подтвердить Выбор",
+  "cancel": "Отменить",
+  "delete": "Удалить"
 }
