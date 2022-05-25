@@ -46,7 +46,6 @@
   "browse-apps": "アプリを見つける",
   "contact": "問い合わせ",
   "publish-your-app": "アプリをFlathubに公開",
-  "example-build-files": "ビルドファイルの例",
   "statistics": "統計",
   "download-size": "ダウンロードサイズ",
   "project-website": "ウェブサイト",
@@ -75,7 +74,7 @@
   "subscribe": "購読",
   "user-page": "利用者ページ",
   "error-already-logged-in": "すでにこのアカウントでログインされています。",
-  "new-and-updated-apps-description": "過去7日の間に公開または更新されたアプリケーション",
+  "new-and-updated-apps-description": "過去7日の間に公開または更新されたアプリケーション。",
   "home": "ホーム",
   "new-apps-description": "過去30日の間に公開されたアプリケーション",
   "applications-by-developer": "{{developer}} のアプリケーション",
@@ -108,7 +107,7 @@
   "flathub-description": "Linux 用のアプリケーションやゲームを検索してインストールできます。GIMP、GNU Octave、Spotify、Steamなどの人気のアプリもあります！",
   "rss-feeds-description": "RSSフィードを購読すると、最新情報がフィードリーダーに届きます！",
   "badges-block": "Flathubのアプリケーションを宣伝する際には、このバッジをお使いください",
-  "whoops": "エラー",
+  "whoops": "エラー！",
   "acknowledgements-block": "<p>Flathub は、以下の団体や個人の方々の支援によって成り立っています。</p>",
   "submitting-apps": "アプリを公開する",
   "badges-description": "Flathubのアプリケーションを宣伝するための公式バッジ",
@@ -167,7 +166,7 @@
   "stripe-error-incorrect_number": "カード番号が間違っています。カード番号を確認するか、別のカードを使ってください。",
   "stripe-error-payment_intent_authentication_failure": "支払い方法の認証に失敗しました。別の支払い方法で、もう一度お試しください。",
   "thank-you-for-your-purchase": "ご購入ありがとうございます！",
-  "request-new-app": "特定のアプリケーションをお探しの場合、<1>Flathubにお知らせください。</b>",
+  "request-new-app": "特定のアプリケーションをお探しの場合、<1>Flathubにお知らせください。</1>",
   "app-install-error-try-again": "アプリをインストールできませんでした。アプリストアに戻り、もう一度インストールしてください。",
   "stripe-validation-error": "カードが無効です。",
   "go-to-page": "{{page}}へ",
@@ -209,5 +208,6 @@
   "terms-and-conditions-description": "このウェブサイトを使うことにより、諸条件に許可することになります。",
   "continue": "続ける",
   "transaction-breakdown": "取引内訳",
-  "contribute": "アプリの開発に協力"
+  "contribute": "アプリの開発に協力",
+  "vending-dashboard": "あなたのStripe Express アカウントを見る"
 }

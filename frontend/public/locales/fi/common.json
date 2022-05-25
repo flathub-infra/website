@@ -1,7 +1,6 @@
 {
   "productivity": "Tuottavuus",
   "browse-apps": "Selaa sovelluksia",
-  "example-build-files": "Build-tiedostojen esimerkkejä",
   "applications": "Sovellukset",
   "popular": "Suositut",
   "documentation": "Dokumentaatio",
@@ -209,5 +208,7 @@
   "terms-and-conditions-description": "Käyttämällä tätä sivustoa hyväksyt käyttöehdot.",
   "privacy-policy-description": "Käyttämällä tätä sivustoa hyväksyt tietosuojakäytännön.",
   "privacy-policy": "Tietosuojakäytäntö",
-  "contribute": "Osallistu kehitykseen"
+  "contribute": "Osallistu kehitykseen",
+  "continue": "Jatka",
+  "purchase-terms-confirmation": "Vahvistan, että olen lukenut Flathubin käyttöehdot ja hyväksyn, että luovun 14 päivän harkinta-ajasta tämän digitaalisen latauksen osalta."
 }
