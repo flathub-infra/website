@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react"
 
-import { useMatomo } from "@datapunt/matomo-tracker-react"
+import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import Header from "./Header"
 import Footer from "./Footer"
 import styles from "./Main.module.scss"
