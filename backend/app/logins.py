@@ -739,7 +739,7 @@ def continue_oauth_flow(
 def get_userinfo(login=Depends(login_state)):
     """
     Retrieve the current login's user information.  If the user is not logged in
-    you will get a `403` return.  Otherwise you will receive JSON describing the
+    you will get a `204` return.  Otherwise you will receive JSON describing the
     currently logged in user, for example:
 
     ```
@@ -756,7 +756,7 @@ def get_userinfo(login=Depends(login_state)):
     dev-flatpaks is filtered against IDs available in AppStream
     """
     if not login["state"].logged_in():
-        return Response(status_code=403)
+        return Response(status_code=204)
     user = login["user"]
     ret = {"displayname": user.display_name, "dev-flatpaks": set()}
     ret["auths"] = {}
