@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
+import { AppVendingControls } from "../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../src/context/user-info"
 import { fetchAppstream } from "../../../src/fetchers"
@@ -12,9 +13,10 @@ export default function AppManagementPage({ app }: { app: Appstream }) {
   const { t } = useTranslation()
   const user = useUserContext()
 
+  // User must be a developer of the app to see these controls
   let content: ReactElement
   if (user.info?.["dev-flatpaks"].includes(app.id)) {
-    content = <p>Owner</p>
+    content = <AppVendingControls app={app} />
   } else {
     content = <p>Unauthorized</p>
   }
