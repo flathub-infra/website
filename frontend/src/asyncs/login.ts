@@ -80,14 +80,18 @@ export async function getUserData(
 
   // Assuming a bad status indicates unchanged user state
   if (res.ok) {
-    const info: UserInfo = await res.json()
-    dispatch({
-      type: "login",
-      info,
-    })
+    // A no content status response indicates the user is not logged in
+    if (res.status === 204) {
+      dispatch({ type: "logout" })
+    } else {
+      const info: UserInfo = await res.json()
+      dispatch({
+        type: "login",
+        info,
+      })
+    }
   } else {
-    // 403 specifically indicates not currently logged in
-    dispatch({ type: res.status === 403 ? "logout" : "interrupt" })
+    dispatch({ type: "interrupt" })
   }
 }
 
