@@ -10,7 +10,7 @@ export interface VendingRedirect extends APIResponseOk {
   target_url: string
 }
 
-type VendingShare = [string, number]
+export type VendingShare = [string, number]
 
 export interface VendingDescriptor extends APIResponseOk {
   currency: string
@@ -20,6 +20,11 @@ export interface VendingDescriptor extends APIResponseOk {
   fee_prefer_percent: number
 }
 
+/**
+ * `appshare` is an integer representing percentage of payment going towards the app.
+ * `recommended_donation` is ...
+ * `minimum_payment` is an integer for the price of the app in cents.
+ */
 export interface VendingSetup {
   currency: string
   appshare: number

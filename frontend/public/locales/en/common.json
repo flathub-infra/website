@@ -216,5 +216,10 @@
   "contribute-languages": "All these translations have been contributed by the community. If you want to help translate Flathub, please <1>join the Flathub translation team</1>.",
   "recently-added-apps": "New Apps",
   "developer-settings": "Developer Settings",
-  "developer-settings-title": "Developer Settings: {{appname}}"
+  "developer-settings-title": "Developer Settings: {{appname}}",
+  "minimum-payment": "Minimum Payment",
+  "recommended-payment": "Recommended Payment",
+  "application-share": "Application Share",
+  "app-vending-settings-confirmed": "Application vending settings confirmed",
+  "confirm-settings": "Confirm Settings"
 }
