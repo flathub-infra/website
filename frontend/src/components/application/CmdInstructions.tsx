@@ -12,7 +12,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
   const flatpakInstallCopied = () => {
     trackEvent({
       category: "App",
-      action: "flatpakInstallCopied",
+      action: "InstallCmdCopied",
       name: appId ?? "unknown",
     })
   }
@@ -20,7 +20,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
   const flatpakRunCopied = () => {
     trackEvent({
       category: "App",
-      action: "flatpakRunCopied",
+      action: "RunCmdCopied",
       name: appId ?? "unknown",
     })
   }
