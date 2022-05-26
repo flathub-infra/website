@@ -23,6 +23,7 @@ module.exports = {
       "cs",
       "zh_Hans",
       "bg",
+      "uk",
     ],
   },
   // debug: true,
