@@ -214,5 +214,7 @@
   "continue": "Continue",
   "purchase-terms-confirmation": "I confirm that I have read the Flathub Terms & Conditions and consent to waiving the 14-day cooling off period associated with this digital download.",
   "contribute-languages": "All these translations have been contributed by the community. If you want to help translate Flathub, please <1>join the Flathub translation team</1>.",
-  "recently-added-apps": "New Apps"
+  "recently-added-apps": "New Apps",
+  "developer-settings": "Developer Settings",
+  "developer-settings-title": "Developer Settings: {{appname}}"
 }
