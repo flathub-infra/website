@@ -6,7 +6,7 @@ const CONTENT_SECURITY_POLICY = `
   prefetch-src 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   default-src 'none';
   form-action 'none';
-  script-src 'self' https://webstats.gnome.org;
+  script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org;
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://webstats.gnome.org;
