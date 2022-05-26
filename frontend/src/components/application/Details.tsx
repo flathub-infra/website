@@ -19,6 +19,8 @@ import Lightbox from "react-image-lightbox"
 import ApplicationSection from "./ApplicationSection"
 import LogoImage from "../LogoImage"
 import { calculateHumanReadableSize } from "../../size"
+import { useUserContext } from "../../context/user-info"
+import Link from "next/link"
 
 import "react-image-lightbox/style.css" // This only needs to be imported once in your app
 
@@ -71,6 +73,7 @@ const Details: FunctionComponent<Props> = ({
   projectgroupApps,
 }) => {
   const { t } = useTranslation()
+  const user = useUserContext()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
 
@@ -133,6 +136,13 @@ const Details: FunctionComponent<Props> = ({
           </div>
 
           <div className="ml-auto">
+            {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
+              <Link passHref href={`/apps/manage/${app.id}`}>
+                <Button className="mb-3 block w-full last:mb-0">
+                  {t("developer-tools")}
+                </Button>
+              </Link>
+            )}
             <Button
               className="mb-3 block w-full last:mb-0"
               onClick={installClicked}
