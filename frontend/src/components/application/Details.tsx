@@ -139,7 +139,7 @@ const Details: FunctionComponent<Props> = ({
             {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
               <Link passHref href={`/apps/manage/${app.id}`}>
                 <Button className="mb-3 block w-full last:mb-0">
-                  {t("developer-tools")}
+                  {t("developer-settings")}
                 </Button>
               </Link>
             )}
