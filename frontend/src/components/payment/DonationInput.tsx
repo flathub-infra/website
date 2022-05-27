@@ -4,6 +4,7 @@ import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { initiateDonation } from "../../asyncs/payment"
 import Button from "../Button"
+import CurrencyInput from "../CurrencyInput"
 import Spinner from "../Spinner"
 
 const minDonation = 5
@@ -31,27 +32,6 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       })
   }
 
-  // Prevent entering fractional cents
-  function handleChange(event: FormEvent<HTMLInputElement>) {
-    const valueString = event.currentTarget.value
-
-    if (valueString.match(/^\d*(\.\d{0,2})?$/)) {
-      setAmount(valueString)
-    }
-  }
-
-  // Always show cent value for consistency (removes ambiguity)
-  function handleBlur(event: FormEvent<HTMLInputElement>) {
-    // Don't use valueAsNumber to prevent NaN
-    const value = Number(event.currentTarget.value)
-
-    if (value < minDonation) {
-      setAmount(minDonation.toFixed(2))
-    } else {
-      setAmount(value.toFixed(2))
-    }
-  }
-
   useEffect(() => {
     if (transaction) {
       Router.push(`payment/${transaction}`)
@@ -68,7 +48,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         key={val}
         variant="secondary"
         type="button"
-        onClick={() => setAmount(val.toString())}
+        onClick={() => setAmount(val.toFixed(2))}
       >
         ${val}
       </Button>
@@ -84,18 +64,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <div className="flex flex-wrap items-center justify-center gap-5">
         {presets}
 
-        <div>
-          <label className="absolute mt-2 ml-2 text-xl">$</label>
-          <input
-            type="text"
-            inputMode="numeric"
-            pattern="\d*(\.\d{0,2})?"
-            value={amount}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className="rounded-xl border-none bg-bgColorPrimary p-2 pl-7 text-textPrimary outline-none"
-          />
-        </div>
+        <CurrencyInput value={amount} setValue={setAmount} minimum={5} />
       </div>
       <Button>{t("make-donation")}</Button>
     </form>
