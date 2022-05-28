@@ -6,12 +6,13 @@ const CONTENT_SECURITY_POLICY = `
   prefetch-src 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   default-src 'none';
   form-action 'none';
-  script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org;
+  script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org https://js.stripe.com;
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
-  connect-src 'self' https://flathub.org https://webstats.gnome.org;
+  connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com;
   img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com data:;
   frame-ancestors 'none';
+  frame-src 'self' https://js.stripe.com https://hooks.stripe.com;
 `
   .replace(/\s{2,}/g, " ")
   .trim()
