@@ -2,7 +2,6 @@ import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import styles from "./about.module.scss"
 
 const About = () => {
   const { t } = useTranslation()
@@ -10,43 +9,45 @@ const About = () => {
   return (
     <>
       <NextSeo title={t("about")} description={t("about-description")} />
-      <div
-        className={styles.about}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div className="flex flex-col">
         {/* <!-- header --> */}
         <header
-          style={{ display: "flex" }}
-          className={`${styles.headerContainer} ${styles.storeContentContainerNarrow}`}
+          className={`flex bg-colorPrimary bg-none bg-contain bg-no-repeat px-[5%] md:px-[20%] lg:bg-[url('/img/about.svg')] 2xl:px-[30%]`}
         >
-          <div className={styles.headerContent}>
+          <div>
             <h1>{t("about-pagename")}</h1>
             <Trans i18nKey={"common:about-block"}>
-              <p>
+              <p className="mb-12 text-lg">
                 Flathub aims to be the place to get and distribute apps for
-                Linux. It is powered by{" "}
-                <a href="https://flatpak.org">Flatpak</a> which allows Flathub
-                apps to run on almost any Linux distribution.
+                Linux. It is powered by
+                <a
+                  className="font-bold text-gray-400 opacity-80 duration-200"
+                  href="https://flatpak.org"
+                >
+                  Flatpak
+                </a>{" "}
+                which allows Flathub apps to run on almost any Linux
+                distribution.
               </p>
 
-              <p>
+              <p className="mb-12 text-lg">
                 If you are a Linux user, you can use Flathub to gain access to a
                 growing collection of Flatpak applications. You just need to
                 follow the{" "}
-                <a href="https://flatpak.org/setup/">setup instructions</a>.
+                <a
+                  className="font-bold text-gray-400 opacity-80 duration-200"
+                  href="https://flatpak.org/setup/"
+                >
+                  setup instructions
+                </a>
+                .
               </p>
             </Trans>
           </div>
         </header>
 
         {/* <!-- main content --> */}
-        <section
-          style={{ display: "flex", flexDirection: "column" }}
-          className={styles.storeContentContainerNarrow}
-        >
+        <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
           <h2>{t("submitting-apps")}</h2>
           <Trans i18nKey={"common:submitting-apps-block"}>
             <p>

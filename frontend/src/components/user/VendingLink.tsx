@@ -9,7 +9,6 @@ import {
 import { useAsync } from "../../hooks/useAsync"
 import Button from "../Button"
 import Spinner from "../Spinner"
-import styles from "./VendingLink.module.scss"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
@@ -66,11 +65,11 @@ const VendingLink: FunctionComponent = () => {
     getDashboardRequest === "pending" ||
     ["pending", "success"].includes(getOnboardingRequest)
   ) {
-    return <Spinner size={30} />
+    return <Spinner size="s" />
   }
 
   if (statusError || dashboardError) {
-    return <p>{t(statusError || dashboardError)}</p>
+    return <p className="m-0">{t(statusError || dashboardError)}</p>
   }
 
   // No status when onboarding hasn't begun
@@ -84,12 +83,12 @@ const VendingLink: FunctionComponent = () => {
   }
 
   return (
-    <div className={styles.link}>
+    <div className="flex- flex-col">
       <a target="_blank" rel="noreferrer" href={dashboardLink}>
         {t("vending-dashboard")}
       </a>
       {status.needs_attention ? (
-        <p style={{ color: "red" }}>{t("requires-attention")}</p>
+        <p className="m-0 text-red-600">{t("requires-attention")}</p>
       ) : (
         <></>
       )}

@@ -55,7 +55,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
       <NextSeo title={t("statistics")} description={t("flathub-statistics")} />
       <div className="main-container">
         <h1>{t("statistics")}</h1>
-        <div className={styles.stats}>
+        <div className="flex flex-wrap gap-8">
           <ListBox
             items={[
               {
@@ -99,9 +99,8 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             ]}
           />
         </div>
-        <div className={styles.downloadStats}>{}</div>
         <h3>{t("downloads-per-country")}</h3>
-        <div className={styles.map}>
+        <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
             color="var(--color-primary)"
             backgroundColor="var(--bg-color-secondary)"
@@ -112,7 +111,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
-        <div className={styles.downloadsOverTime}>
+        <div className="h-[500px] rounded-xl bg-bgColorSecondary px-4 pt-4 shadow-md">
           <Line data={data} options={options} />
         </div>
       </div>

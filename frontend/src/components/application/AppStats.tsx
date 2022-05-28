@@ -38,8 +38,8 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const options = chartOptions(i18n.language)
 
   return (
-    <div className={styles.installs}>
-      <h3>{t("installs-over-time")}</h3>
+    <div className="h-[300px] rounded-xl bg-bgColorSecondary px-4 pt-4 pb-12 shadow-md">
+      <h3 className="mt-0">{t("installs-over-time")}</h3>
       <Line data={data} options={options} />
     </div>
   )

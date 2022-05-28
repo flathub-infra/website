@@ -4,7 +4,6 @@ import { FunctionComponent, useState } from "react"
 import { Transaction } from "../../../types/Payment"
 import Button from "../../Button"
 import TransactionCancelButton from "./TransactionCancelButton"
-import styles from "./TransactionListRow.module.scss"
 
 interface RowProps {
   transaction: Transaction
@@ -34,13 +33,13 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
 
   // Date object expects milliseconds since epoch
   return (
-    <tr className={styles.row}>
+    <tr className="my-2 mx-0 min-w-[200px] rounded-xl bg-bgColorSecondary p-2 shadow-xl">
       <td>{prettyCreated}</td>
       <td>{prettyUpdated}</td>
       <td>{t(`kind-${kind}`)}</td>
       <td>{prettyValue}</td>
       <td>{t(`status-${status}`)}</td>
-      <td className={styles.actions}>
+      <td className="flex flex-col items-start gap-2">
         <Link
           href={`/payment/${
             needsAttention ? transaction.id : `details/${transaction.id}`

@@ -10,7 +10,6 @@ import Button from "../src/components/Button"
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import Image from "../src/components/Image"
-import styles from "./index.module.scss"
 
 export default function Home({
   recentlyUpdated,
@@ -23,27 +22,13 @@ export default function Home({
     <>
       <NextSeo title={t("home")} description={t("flathub-description")} />
       <div className="main-container">
-        <div
-          style={{
-            display: "flex",
-            gap: "12px",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="flex justify-between gap-3">
           <div>
             <h1>{t("apps-for-linux-right-here")}</h1>
-            <p
-              className="introduction"
-              style={{
-                marginBottom: "40px",
-                fontSize: "110%",
-                fontWeight: 300,
-                maxWidth: "700px",
-              }}
-            >
+            <p className="introduction mb-10 max-w-2xl text-lg font-light">
               {t("welcome-to-flathub-index-text")}
             </p>
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <div className="flex flex-wrap gap-3">
               <a href="https://flatpak.org/setup/">
                 <Button variant="secondary">{t("quick-setup")}</Button>
               </a>
@@ -57,7 +42,7 @@ export default function Home({
               </Link>
             </div>
           </div>
-          <div className={styles.launchImage}>
+          <div className="hidden md:block">
             <Image
               width="400"
               height="300px"

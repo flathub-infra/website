@@ -1,5 +1,4 @@
 import { FunctionComponent, forwardRef } from "react"
-import styles from "./Tile.module.scss"
 
 interface Props {
   children: React.ReactNode
@@ -12,7 +11,7 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
   ({ children, className, onClick, href }, ref) => {
     return (
       <a
-        className={`${styles.tile} ${className}`}
+        className={`flex items-center justify-center break-words rounded-xl bg-bgColorSecondary p-3 text-center text-colorSecondary no-underline shadow-md duration-500 hover:bg-bgColorPrimary  ${className}`}
         href={href}
         onClick={onClick}
         ref={ref}

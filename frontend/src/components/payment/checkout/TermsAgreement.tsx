@@ -14,14 +14,7 @@ const TermsAgreement: FunctionComponent<Props> = ({ onConfirm }) => {
   const invertCheck = useCallback(() => setChecked(!checked), [checked])
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "20px",
-        gap: "20px",
-      }}
-    >
+    <div className="flex flex-col gap-5 p-5">
       <div>
         <input
           id="save-card"

@@ -10,42 +10,25 @@ const Feeds = (): JSX.Element => {
   return (
     <>
       <NextSeo title={t("rss-feeds")} description={t("rss-description")} />
-      <div className="main-container" style={{ maxWidth: 600 }}>
+      <div className="main-container max-w-2xl">
         <h1>{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
         <h3>{t("new-apps")}</h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingBottom: "1rem",
-          }}
-        >
+        <div className="flex flex-col pb-4">
           <p>{t("new-apps-description")}</p>
           <a href={FEED_NEW_URL}>
             <Button>{t("subscribe")}</Button>
           </a>
         </div>
         <h3>{t("new-and-updated-apps")}</h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingBottom: "1rem",
-          }}
-        >
+        <div className="flex flex-col pb-4">
           <p>{t("new-and-updated-apps-description")}</p>
           <a href={FEED_RECENTLY_UPDATED_URL}>
             <Button>{t("subscribe")}</Button>
           </a>
         </div>
 
-        <h6
-          style={{
-            marginTop: "0.5em !important",
-            color: "var(--text-secondary)",
-          }}
-        >
+        <h6 className="mt-2">
           <Trans i18nKey={"common:rss-applications"}>
             Do you need an RSS application? We have excellent ones in Flathub.
             Find them <a href="/apps/search/rss">here</a>

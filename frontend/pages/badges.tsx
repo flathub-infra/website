@@ -1,7 +1,6 @@
 import Image from "../src/components/Image"
 import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
-import styles from "./badges.module.scss"
 import flathubBadge from "/public/assets/badges/flathub-badge-en.png"
 import flathubBadgeInverted from "/public/assets/badges/flathub-badge-i-en.png"
 import cc0 from "/public/img/CC0.png"
@@ -22,11 +21,11 @@ const Badges = () => {
         title={t("official-badges")}
         description={t("badges-description")}
       />
-      <section className={`main-container ${styles.badges}`}>
+      <section className={`main-container`}>
         <h1>{t("official-badges")}</h1>
         <p>{t("badges-block")}</p>
 
-        <div className={styles.badgeFlex}>
+        <div className="flex w-full flex-wrap justify-around">
           <div>
             <h3>{t("preferred-badge")}</h3>
             <Image
@@ -88,11 +87,11 @@ const Badges = () => {
 
         <h2>{t("code-examples")}</h2>
 
-        <div className={styles.badgeFlex}>
+        <div className="flex w-full flex-wrap justify-around">
           <div>
             <h3>HTML</h3>
             <CodeCopy
-              className={styles.copyCode}
+              className="min-h-[180px] max-w-xs"
               text={badgeExampleCode}
             ></CodeCopy>
             <a href="https://flathub.org/apps/details/org.gimp.GIMP">
@@ -107,7 +106,7 @@ const Badges = () => {
           <div>
             <h3>MoinMoin Wiki</h3>
             <CodeCopy
-              className={styles.copyCode}
+              className="min-h-[180px] max-w-xs"
               text={badgeExampleCodeMoinMoin}
             ></CodeCopy>
             <a href="https://flathub.org/apps/details/org.gimp.GIMP">

@@ -3,7 +3,6 @@ import { FunctionComponent, useEffect } from "react"
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import Header from "./Header"
 import Footer from "./Footer"
-import styles from "./Main.module.scss"
 
 const Main: FunctionComponent = ({ children }) => {
   const { trackPageView } = useMatomo()
@@ -14,10 +13,10 @@ const Main: FunctionComponent = ({ children }) => {
   }, [trackPageView])
 
   return (
-    <div id={styles.wrapper}>
+    <div className="flex min-h-screen flex-col bg-bgColorPrimary">
       <Header />
 
-      <main className={styles.main}>{children}</main>
+      <main className="pt-16">{children}</main>
 
       <Footer />
     </div>

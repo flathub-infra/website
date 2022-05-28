@@ -5,7 +5,6 @@ import ReactCountryFlag from "react-country-flag"
 import { IMAGE_BASE_URL } from "../../../env"
 import { PaymentCard } from "../../../types/Payment"
 import Image from "../../Image"
-import styles from "./CardInfo.module.scss"
 
 interface Props {
   card: PaymentCard
@@ -22,9 +21,11 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
-  const classes = [styles.container]
+  const classes = [
+    "grid grid-cols-3 grid-rows-3 shadow-md min-w-[200px] p-4 rounded-xl bg-bgColorSecondary",
+  ]
   if (onClick) {
-    classes.push(styles.clickable)
+    classes.push("hover:cursor-pointer")
   }
   if (className) {
     classes.push(className)
@@ -32,10 +33,10 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
 
   return (
     <p className={classes.join(" ")} onClick={onClick}>
-      <span className={styles.country}>
+      <span className="col-start-1 row-start-1">
         <ReactCountryFlag countryCode={card.country} />
       </span>
-      <span className={styles.brand}>
+      <span className="col-start-3 row-start-1 flex justify-center justify-self-end">
         <Image
           src={getBrandImage(card.brand, resolvedTheme)}
           width={30}
@@ -43,8 +44,8 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
           alt=""
         />
       </span>
-      <span className={styles.code}>{`**** **** **** ${card.last4}`}</span>
-      <span className={styles.expiry}>
+      <span className="col-span-3 row-start-2">{`**** **** **** ${card.last4}`}</span>
+      <span className="col-span-3 row-start-3">
         {t("expiry")} {card.exp_month} / {card.exp_year}
       </span>
     </p>

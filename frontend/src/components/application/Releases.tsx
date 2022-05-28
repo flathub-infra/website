@@ -26,8 +26,16 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   const { t, i18n } = useTranslation()
 
   const noChangelog = useMemo(
-    () => `<ul><li>${t("no-changelog-provided")}</li></ul>`,
+    () =>
+      `<ul class='list-disc my-4 pl-10'><li>${t(
+        "no-changelog-provided",
+      )}</li></ul>`,
     [t],
+  )
+
+  const releaseDescription = useMemo(
+    () => (latestRelease.description ? latestRelease.description : noChangelog),
+    [latestRelease.description, noChangelog],
   )
 
   return (
@@ -60,14 +68,14 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`${styles.releaseContent} ${
+                className={`${styles.releaseContent} prose dark:prose-invert ${
                   !isExpanded && scrollHeight > collapsedHeight
                     ? styles.collapsed
                     : ""
                 }`}
                 ref={ref}
                 dangerouslySetInnerHTML={{
-                  __html: latestRelease.description ?? noChangelog,
+                  __html: releaseDescription,
                 }}
               />
             </div>

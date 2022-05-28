@@ -5,7 +5,6 @@ import { Appstream } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
 import Pagination from "../Pagination"
-import styles from "./Collection.module.scss"
 import { useTranslation } from "next-i18next"
 
 interface Props {
@@ -32,13 +31,13 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <div className="main-container">
-      <div className={styles.collectionWrapper}>
-        <section className={styles.applicationsCollection}>
-          <div className={styles.collection}>
+      <div className="flex">
+        <section className="min-h-[750px] w-full">
+          <div className="w-full">
             <h2>{title}</h2>
             <p>{t("number-of-results", { number: applications.length })}</p>
 
-            <div className={styles.applications}>
+            <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
               {pagedApplications.map((app) => (
                 <ApplicationCard key={app.id} application={app} />
               ))}

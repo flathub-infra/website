@@ -6,7 +6,6 @@ import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import TransactionCancelButton from "../transactions/TransactionCancelButton"
 import CardSelect from "./CardSelect"
-import styles from "./Checkout.module.scss"
 import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 
@@ -88,12 +87,12 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
       break
     // Loading is a safe default rendering
     default:
-      flowContent = <Spinner size={100} />
+      flowContent = <Spinner size="m" />
   }
 
   return (
     <div className="main-container">
-      <div className={styles.checkout}>
+      <div className="flex flex-col gap-5">
         {flowContent}
         <div className="actions">
           <TransactionCancelButton

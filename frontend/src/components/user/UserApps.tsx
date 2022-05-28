@@ -41,7 +41,7 @@ const UserApps: FunctionComponent = () => {
   }
 
   if (loading) {
-    return <Spinner size={100} text={t("loading-user-apps")} />
+    return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
   return <ApplicationCollection title={t("your-apps")} applications={apps} />

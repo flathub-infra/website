@@ -39,7 +39,7 @@ const DeleteButton: FunctionComponent = () => {
   }, [value])
 
   if (status === "pending") {
-    return <Spinner size={30} />
+    return <Spinner size="s" />
   }
 
   if (token) {

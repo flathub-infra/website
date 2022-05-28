@@ -3,7 +3,6 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { fetchStats } from "../src/fetchers"
-import styles from "./terms-and-conditions.module.scss"
 
 const TermsAndConditions = (): JSX.Element => {
   const { t } = useTranslation()
@@ -14,13 +13,7 @@ const TermsAndConditions = (): JSX.Element => {
         title={t("terms-and-conditions")}
         description={t("terms-and-conditions-description")}
       />
-      <div
-        className={styles.storeContentContainerNarrow}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div className="flex flex-col px-[5%] text-justify md:px-[20%] 2xl:px-[30%]">
         <h1>Terms Of Service</h1>
         <h3>Overview</h3>
         <p>

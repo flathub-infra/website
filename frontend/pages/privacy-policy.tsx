@@ -3,7 +3,6 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { fetchStats } from "../src/fetchers"
-import styles from "./privacy-policy.module.scss"
 
 const PrivacyPolicy = (): JSX.Element => {
   const { t } = useTranslation()
@@ -14,13 +13,7 @@ const PrivacyPolicy = (): JSX.Element => {
         title={t("privacy-policy")}
         description={t("privacy-policy-description")}
       />
-      <div
-        className={styles.storeContentContainerNarrow}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
+      <div className="flex flex-col px-[5%] text-justify md:px-[20%] 2xl:px-[30%]">
         <h1>Privacy Policy for Flathub</h1>
 
         <p>
@@ -71,7 +64,7 @@ const PrivacyPolicy = (): JSX.Element => {
 
         <p>We use the information we collect in various ways, including to:</p>
 
-        <ul>
+        <ul className="list-outside list-disc py-4 pl-6">
           <li>Provide, operate, and maintain our website</li>
           <li>Improve, personalize, and expand our website</li>
           <li>Understand and analyze how you use our website</li>

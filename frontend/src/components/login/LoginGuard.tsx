@@ -21,7 +21,7 @@ const LoginGuard: FunctionComponent = ({ children }) => {
     }
   }, [user, router])
 
-  return user.loading || !user.info ? <Spinner size={150} /> : <>{children}</>
+  return user.loading || !user.info ? <Spinner size="m" /> : <>{children}</>
 }
 
 export default LoginGuard
