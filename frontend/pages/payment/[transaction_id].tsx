@@ -139,7 +139,7 @@ export default function TransactionPage() {
       </Elements>
     )
   } else {
-    content = <Spinner size={200} />
+    content = <Spinner size="l" />
   }
 
   return (

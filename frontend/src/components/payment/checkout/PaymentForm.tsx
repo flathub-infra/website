@@ -8,7 +8,6 @@ import {
 } from "../../../asyncs/payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
-import styles from "./PaymentForm.module.scss"
 import { handleStripeError } from "./stripe"
 
 interface Props {
@@ -33,10 +32,10 @@ const PaymentForm: FunctionComponent<Props> = ({
   const [processing, setProcessing] = useState(false)
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-3 p-5" onSubmit={handleSubmit}>
       <PaymentElement />
       {processing ? (
-        <Spinner size={50} />
+        <Spinner size="s" />
       ) : (
         <>
           <div>
@@ -48,7 +47,7 @@ const PaymentForm: FunctionComponent<Props> = ({
             />
             <label htmlFor="save-card">{t("save-card-for-reuse")}</label>
           </div>
-          <div className={styles.actions}>
+          <div className="flex gap-3">
             <Button type="button" onClick={goBack} disabled={!canGoBack}>
               {t("use-saved-card")}
             </Button>

@@ -1,3 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, sans-serif;
+  }
+
+  h1 {
+    @apply text-4xl;
+    @apply my-8;
+    @apply mx-0;
+    @apply font-black;
+  }
+
+  h2 {
+    @apply my-8;
+    @apply mx-0;
+    @apply text-3xl;
+    @apply font-bold;
+  }
+
+  h3 {
+    @apply my-4;
+    @apply text-2xl;
+    @apply font-medium;
+  }
+
+  h4 {
+    @apply text-base;
+    @apply font-normal;
+  }
+
+  h5 {
+    @apply font-normal;
+    @apply text-sm;
+  }
+
+  h6 {
+    @apply font-normal;
+    @apply text-xs;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  main {
+    flex-grow: 1;
+  }
+
+  button {
+    font-size: 1rem;
+    font-family: inherit;
+  }
+}
+
 :root {
   --white: rgba(255, 255, 255, 0.87);
   --white-10: hsl(30, 10%, 96.1%);
@@ -48,61 +114,14 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Inter", sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--text-primary);
   line-height: 1.7;
 }
 
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 * {
   box-sizing: border-box;
-}
-
-h1 {
-  margin: 0.67em 0;
-  font-weight: 900;
-  font-size: 2.5em;
-  line-height: 0.9;
-}
-
-h2 {
-  margin: 0.67em 0;
-  font-weight: 700;
-  line-height: 0.9;
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.8em;
-  line-height: 0.9;
-  font-weight: 500;
-}
-
-h4 {
-  font-weight: 400;
-  line-height: 0.9;
-  font-size: 1em;
-}
-
-h5 {
-  font-weight: 400;
-  line-height: 0.9;
-  font-size: 0.9em;
-}
-
-h6 {
-  font-weight: 400;
-  line-height: 0.9;
-  font-size: 0.7em;
 }
 
 .carousel {
@@ -182,13 +201,4 @@ h6 {
     max-width: 1400px;
     width: 1400px;
   }
-}
-
-main {
-  flex-grow: 1;
-}
-
-button {
-  font-size: 1rem;
-  font-family: inherit;
 }

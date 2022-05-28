@@ -3,11 +3,11 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
+import Spinner from "../src/components/Spinner"
 import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
 import { fetchLoginProviders } from "../src/fetchers"
 import { LoginProvider } from "../src/types/Login"
-import styles from "./userpage.module.scss"
 
 export default function Userpage({ providers }) {
   const { t } = useTranslation()
@@ -16,7 +16,7 @@ export default function Userpage({ providers }) {
   return (
     <>
       <NextSeo title={t("user-page")} noindex={true} />
-      <div className={styles.userArea}>
+      <div className="flex flex-col gap-y-4 p-3">
         <LoginGuard>
           <UserDetails logins={providers} />
           <UserApps />

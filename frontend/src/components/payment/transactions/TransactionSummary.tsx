@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { TransactionDetailed } from "../../../types/Payment"
-import styles from "./TransactionSummary.module.scss"
 
 interface Props {
   transaction: TransactionDetailed
@@ -25,8 +24,8 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
   }).format(value / 100)
 
   return (
-    <div className={styles.container}>
-      <p style={{ margin: 0 }}>
+    <div className="rounded-xl bg-bgColorSecondary p-3 shadow-md">
+      <p className="m-0">
         {t("transaction-summary-id", { id })}
         <br />
         {t("transaction-summary-created", { date: prettyCreated })}

@@ -15,8 +15,8 @@ const RelatedLink: FunctionComponent<Props> = ({ href, pageTitle }) => {
 
   return (
     <Link href={href} passHref>
-      <a style={{ display: "flex", alignItems: "center", marginTop: "8px" }}>
-        <MdKeyboardArrowLeft style={{ fontSize: "32px" }} />{" "}
+      <a className="mt-2 flex items-center">
+        <MdKeyboardArrowLeft className="text-4xl" />{" "}
         {t("go-to-page", { page: pageTitle })}
       </a>
     </Link>

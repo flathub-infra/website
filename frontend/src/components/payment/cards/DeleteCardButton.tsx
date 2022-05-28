@@ -7,7 +7,6 @@ import { useAsync } from "../../../hooks/useAsync"
 import { PaymentCard } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
-import styles from "./DeleteCardButton.module.scss"
 
 interface Props {
   card: PaymentCard
@@ -39,19 +38,19 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
   }, [error, t])
 
   if (status === "pending") {
-    return <Spinner size={30} />
+    return <Spinner size="s" />
   }
 
   if (confirming) {
     return (
-      <div className={styles.confirmContainer}>
+      <div className="flex justify-evenly gap-4">
         <Button
           variant="secondary"
           onClick={() => setConfirming(false)}
           aria-label={t("cancel")}
           title={t("cancel")}
         >
-          <MdCancel className={styles.mdButton} />
+          <MdCancel className="text-2xl" />
         </Button>
         <Button
           variant="destructive"
@@ -59,7 +58,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
           aria-label={t("delete")}
           title={t("delete")}
         >
-          <MdDelete className={styles.mdButton} />
+          <MdDelete className="text-2xl" />
         </Button>
       </div>
     )

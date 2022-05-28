@@ -5,7 +5,6 @@ import { toast } from "react-toastify"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"
-import styles from "./ProviderLink.module.scss"
 import Image from "next/image"
 
 interface Props {
@@ -57,7 +56,10 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
   const loginText = t(`login-with-provider`, { provider: provider.name })
 
   return (
-    <button className={styles.provider} onClick={() => setClicked(true)}>
+    <button
+      className="hover:color-gray-100 flex flex-row items-center gap-3 rounded-xl border border-colorSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:brightness-95 active:bg-bgColorPrimary"
+      onClick={() => setClicked(true)}
+    >
       <Image
         src={`/img/login/${provider.method}-logo.svg`}
         width="60"

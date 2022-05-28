@@ -7,7 +7,6 @@ import { useUserContext } from "../../../context/user-info"
 import { Transaction } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
-import styles from "./TransactionHistory.module.scss"
 import TransactionList from "./TransactionList"
 
 const perPage = 10
@@ -57,7 +56,7 @@ const TransactionHistory: FunctionComponent = () => {
   }
 
   if (!transactions && !error) {
-    return <Spinner size={100} text={t("loading")} />
+    return <Spinner size="m" text={t("loading")} />
   }
 
   const pageSlice = transactions.slice(page * perPage, page * perPage + perPage)
@@ -70,14 +69,14 @@ const TransactionHistory: FunctionComponent = () => {
       ) : (
         <>
           <TransactionList transactions={pageSlice} />
-          <div className={styles.controlPage}>
+          <div className="flex justify-center gap-5">
             <Button
               variant="secondary"
               onClick={pageBack}
               disabled={page === 0}
               aria-label={t("previous-page")}
             >
-              <MdNavigateBefore className={styles.navButton} />
+              <MdNavigateBefore className="text-2xl" />
             </Button>
             <Button
               variant="secondary"
@@ -85,7 +84,7 @@ const TransactionHistory: FunctionComponent = () => {
               disabled={page === endPage || perPage > pageSlice.length}
               aria-label={t("next-page")}
             >
-              <MdNavigateNext className={styles.navButton} />
+              <MdNavigateNext className="text-2xl" />
             </Button>
           </div>
         </>

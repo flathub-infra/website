@@ -1,5 +1,5 @@
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent, useMemo, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
 import { Appstream, pickScreenshot } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
@@ -7,7 +7,6 @@ import { useTranslation } from "next-i18next"
 import { Summary } from "../../types/Summary"
 
 import Releases from "./Releases"
-import styles from "./Details.module.scss"
 import Button from "../Button"
 import Image from "../Image"
 import { MdChevronRight, MdChevronLeft, MdZoomIn } from "react-icons/md"
@@ -24,7 +23,7 @@ import { calculateHumanReadableSize } from "../../size"
 import "react-image-lightbox/style.css" // This only needs to be imported once in your app
 
 interface Props {
-  app: Appstream
+  app?: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
@@ -85,12 +84,17 @@ const Details: FunctionComponent<Props> = ({
     trackEvent({ category: "App", action: "Donate", name: app.id })
   }
 
+  const description = useMemo(
+    () => (app.description ? app.description : ""),
+    [app.description],
+  )
+
   if (app) {
     const moreThan1Screenshot =
       app.screenshots?.filter(pickScreenshot).length > 1
 
     return (
-      <div id={styles.application}>
+      <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
           name={app.name}
           price="0"
@@ -110,38 +114,43 @@ const Details: FunctionComponent<Props> = ({
             }
           />
         )}
-        <header>
+        <header className="col-start-2 flex w-full py-7">
           {app.icon && (
-            <div className={styles.logo}>
+            <div className="m-2 flex max-h-[128px] max-w-[128px] self-center drop-shadow-md">
               <LogoImage iconUrl={app.icon} appName={app.name} />
             </div>
           )}
 
-          <div className={styles.details}>
-            <h2>{app.name}</h2>
+          <div className="mx-3 my-auto">
+            <h2 className="mt-0 mb-3">{app.name}</h2>
             {app.developer_name?.trim().length > 0 && (
-              <div className={styles.devName}>
+              <div className="text-sm font-light">
                 {t("by", { developer: app.developer_name })}
               </div>
             )}
           </div>
 
-          <div className={styles.actions}>
-            <Button onClick={installClicked}>{t("install")}</Button>
+          <div className="ml-auto">
+            <Button
+              className="mb-3 block w-full last:mb-0"
+              onClick={installClicked}
+            >
+              {t("install")}
+            </Button>
             {app.urls?.donation && (
               <a
                 href={app.urls.donation}
                 target="_blank"
                 rel="noreferrer"
                 onClick={donateClicked}
-                className={styles.secondaryButton}
+                className="mb-3 block w-full no-underline last:mb-0"
               >
                 <Button variant="secondary">{t("donate")}</Button>
               </a>
             )}
           </div>
         </header>
-        <div className={`${styles.carousel}`}>
+        <div className="col-start-1 col-end-4 bg-bgColorSecondary">
           {showLightbox && (
             <Lightbox
               mainSrc={
@@ -152,10 +161,10 @@ const Details: FunctionComponent<Props> = ({
               onCloseRequest={() => setShowLightbox(false)}
             />
           )}
-          <div className={styles.carouselWrapper}>
+          <div className="relative mx-auto my-0 max-w-[90%] 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
-                className={styles.zoom}
+                className="absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl border border-colorPrimary bg-bgColorSecondary px-3 py-3 text-2xl text-colorSecondary hover:cursor-pointer hover:bg-colorPrimary hover:text-gray-100"
                 onClick={() => setShowLightbox(true)}
                 aria-label={t("zoom")}
               >
@@ -214,12 +223,12 @@ const Details: FunctionComponent<Props> = ({
             </Carousel>
           </div>
         </div>
-        <div className={styles.additionalInfo}>
+        <div className="col-start-2 flex flex-col gap-6">
           <div>
-            <h3>{app.summary}</h3>
+            <h3 className="text-xl">{app.summary}</h3>
             <div
-              className={styles.description}
-              dangerouslySetInnerHTML={{ __html: app.description }}
+              className={`prose dark:prose-invert`}
+              dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>
 

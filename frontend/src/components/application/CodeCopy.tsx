@@ -30,19 +30,24 @@ const CodeCopy: FunctionComponent<Props> = ({
 
   return (
     <div
-      className={`${styles.pre} ${className} ${nested ? styles.nested : ""}`}
+      className={`relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl bg-bgColorSecondary p-2 pr-10 text-sm text-textSecondary shadow-md ${
+        styles.pre
+      } ${className ?? ""} ${nested ? "bg-bgColorPrimary" : ""}`}
     >
       {text}
       <CopyToClipboard
         text={text}
         onCopy={() => {
           setCopied(true)
-          onCopy()
+          if (onCopy) onCopy()
         }}
       >
-        <button className={styles.copy} title={t("copy-text")}>
+        <button
+          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-textSecondary hover:text-textPrimary"
+          title={t("copy-text")}
+        >
           {!copied && <MdContentCopy></MdContentCopy>}
-          {copied && <MdCheck style={{ color: "green" }}></MdCheck>}
+          {copied && <MdCheck className="text-green-600"></MdCheck>}
         </button>
       </CopyToClipboard>
     </div>

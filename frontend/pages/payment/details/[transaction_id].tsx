@@ -62,7 +62,7 @@ export default function TransactionPage() {
     getTransaction(transaction_id).then(setTransaction).catch(setError)
   }, [router, user])
 
-  let content: ReactElement = <Spinner size={200} />
+  let content: ReactElement = <Spinner size="l" />
   if (error) {
     content = (
       <>
@@ -77,7 +77,7 @@ export default function TransactionPage() {
         <>
           <h1>{t("whoops")}</h1>
           <p>{t("transaction-went-wrong")}</p>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div className="flex gap-3">
             <TransactionCancelButton
               id={transaction.summary.id}
               onSuccess={() => router.reload()}

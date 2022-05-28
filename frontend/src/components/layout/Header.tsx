@@ -82,8 +82,7 @@ const Header = () => {
                   width="38"
                   height="38"
                   layout="fixed"
-                  className={styles.userAvatar}
-                  style={{ borderRadius: "50%" }}
+                  className="rounded-full"
                   alt={t("user-avatar", { user: user.info.displayname })}
                 />
               </div>

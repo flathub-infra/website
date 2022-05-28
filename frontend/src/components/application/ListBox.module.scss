@@ -31,7 +31,6 @@
     &:last-child {
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
-      border-bottom-width: 1px;
     }
 
     .details {
@@ -62,7 +61,7 @@
 
     .externalLink {
       filter: opacity(0.6);
-      text-align: end;
+      justify-self: flex-end;
     }
   }
 }

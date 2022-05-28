@@ -1,7 +1,6 @@
 import { Appstream } from "../../types/Appstream"
 import { Summary } from "../../types/Summary"
 import ListBox from "./ListBox"
-import styles from "./AdditionalInfo.module.scss"
 import {
   MdCloudDownload,
   MdContactPage,
@@ -41,7 +40,7 @@ const AdditionalInfo = ({
   )
 
   return (
-    <div className={styles.additionalInfo}>
+    <div className="relative flex flex-wrap gap-2">
       <ListBox
         appId={appId}
         items={[

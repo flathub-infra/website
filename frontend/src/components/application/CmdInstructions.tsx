@@ -1,7 +1,6 @@
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { Trans, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import styles from "./CmdInstructions.module.scss"
 import CodeCopy from "./CodeCopy"
 
 const CmdInstructions = ({ appId }: { appId: string }) => {
@@ -26,7 +25,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
   }
 
   return (
-    <div className={styles.instructions}>
+    <div className="rounded-xl bg-bgColorSecondary px-4 pb-4 shadow-md">
       <h3>{t("manual-install")}</h3>
       <p>
         <Trans i18nKey={"common:manual-install-instructions"}>

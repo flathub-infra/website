@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "./ProviderLink"
-import styles from "./Providers.module.scss"
 
 interface Props {
   providers: LoginProvider[]
@@ -12,7 +11,7 @@ const LoginProviders: FunctionComponent<Props> = ({ providers }) => {
     <ProviderLink provider={p} key={p.method} />
   ))
 
-  return <div className={styles.providers}>{links}</div>
+  return <div className="flex flex-col items-center gap-5 p-5">{links}</div>
 }
 
 export default LoginProviders

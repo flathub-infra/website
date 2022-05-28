@@ -12,7 +12,6 @@ import { PaymentCard } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
-import styles from "./SavedCards.module.scss"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -33,7 +32,7 @@ const SavedCards: FunctionComponent = () => {
 
   // Component considered loading until cards fetched
   if (["idle", "pending"].includes(status)) {
-    return <Spinner size={100} text={t("loading-saved-payment-methods")} />
+    return <Spinner size="m" text={t("loading-saved-payment-methods")} />
   }
 
   let content: ReactElement
@@ -41,9 +40,9 @@ const SavedCards: FunctionComponent = () => {
     content = <p>{error ? t(error) : t("no-saved-payment-methods")}</p>
   } else {
     content = (
-      <div className={styles.cardList}>
+      <div className="flex flex-row gap-5 p-5">
         {cards.map((card) => (
-          <div key={card.id} className={styles.cardContainer}>
+          <div key={card.id} className="flex flex-col items-center">
             <CardInfo card={card} />
             <DeleteCardButton card={card} onSuccess={removeCard} />
           </div>

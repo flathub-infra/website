@@ -81,7 +81,7 @@ export default function AuthReturnPage({ services }) {
   return (
     <>
       <NextSeo title={t("login")} noindex={true}></NextSeo>
-      {user.loading ? <Spinner size={200} /> : <></>}
+      {user.loading ? <Spinner size="l" /> : <></>}
     </>
   )
 }

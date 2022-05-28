@@ -5,7 +5,6 @@ import { toast } from "react-toastify"
 import { initiateDonation } from "../../asyncs/payment"
 import Button from "../Button"
 import Spinner from "../Spinner"
-import styles from "./DonationInput.module.scss"
 
 const minDonation = 5
 
@@ -60,14 +59,13 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   }, [transaction])
 
   if (submit) {
-    return <Spinner size={30} />
+    return <Spinner size="s" />
   }
 
   const presets = [5, 10, 15, 20].map((val) => {
     return (
       <Button
         key={val}
-        className={styles.amount}
         variant="secondary"
         type="button"
         onClick={() => setAmount(val.toString())}
@@ -78,13 +76,16 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   })
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h4>{t("select-donation-amount")}</h4>
-      <div className={styles.options}>
+    <form
+      className="my-5 mx-0 flex flex-col gap-5 rounded-xl bg-bgColorSecondary p-5"
+      onSubmit={handleSubmit}
+    >
+      <h4 className="m-0">{t("select-donation-amount")}</h4>
+      <div className="flex flex-wrap items-center justify-center gap-5">
         {presets}
 
-        <div className={styles.amountInput}>
-          <label>$</label>
+        <div>
+          <label className="absolute mt-2 ml-2 text-xl">$</label>
           <input
             type="text"
             inputMode="numeric"
@@ -92,6 +93,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
             value={amount}
             onChange={handleChange}
             onBlur={handleBlur}
+            className="rounded-xl border-none bg-bgColorPrimary p-2 pl-7 text-textPrimary outline-none"
           />
         </div>
       </div>

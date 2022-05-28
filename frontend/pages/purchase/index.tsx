@@ -89,7 +89,7 @@ export default function Purchase() {
     <>
       <NextSeo title={t("purchase-apps-title")} noindex={true} />
       <div className="main-container">
-        <Spinner size={150} />;
+        <Spinner size="m" />;
       </div>
     </>
   )
