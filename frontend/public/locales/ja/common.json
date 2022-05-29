@@ -101,9 +101,9 @@
   "could-not-find-match-for-search": "検索に一致するものが見つかりませんでした。",
   "languages": "言語",
   "languages-summary": "このサイトで表示する言語を選択してください。",
-  "languages-description": "切り替える言語を選択します:",
+  "languages-description": "表示言語を選んでください:",
   "loading-user-apps": "ユーザーアプリの読み込み中…",
-  "welcome-to-flathub-index-text": "Flathubへようこそ。FlathubはLinuxのためのアプリストアです。掲載されているアプリは、お使いのアプリセンターやコマンドラインからも検索できます。",
+  "welcome-to-flathub-index-text": "Flathubへようこそ。FlathubはLinuxのためのアプリストアです。掲載されているアプリは、お使いのアプリセンターやコマンドラインからも検索できます。初めての方はクイックセットアップをしてください。",
   "flathub-description": "Linux 用のアプリケーションやゲームを検索してインストールできます。GIMP、GNU Octave、Spotify、Steamなどの人気のアプリもあります！",
   "rss-feeds-description": "RSSフィードを購読すると、最新情報がフィードリーダーに届きます！",
   "badges-block": "Flathubのアプリケーションを宣伝する際には、このバッジをお使いください",
@@ -120,7 +120,7 @@
   "badge-copyright": "法律で可能な範囲で、<1> <1>Jakub Steiner</ 1> </ 1>は、<3>FlathubBadges</3>のすべての著作権および関連する権利または隣接権を放棄しました。この作品はチェコから公開されました。",
   "about-description": "Flathubは、Flatpakにより運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。",
   "submitting-apps-block": "<0>あなたが開発したアプリを<2>Flathubに公開する</2>と、ほとんどのLinuxデスクトップにアプリをインストールすることができるようになります。</0><p>Flathubでアプリの公開をするには、再配布可能なライセンスであるか、もしくはサードパーティーのサーバーからのダウンロードが可能である必要があります。もしプロプライエタリアプリを公開したい場合は、お問い合わせください。</p>",
-  "about-block": "<0>Flathubは、<1>Flatpak</1>により運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。</0><1>Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。Linuxユーザーなら、<2>手順に従ってセットアップ</2>するだけで、たくさんのFlatpakアプリをインストールできます。</1>",
+  "about-block": "<0>Flathubは、Flatpakにより運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。</0><1>Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。Linuxユーザーなら、<2>手順に従ってセットアップ</2>するだけで、たくさんのFlatpakアプリをインストールできます。</1>",
   "get-involved-block": "<p>Flathubは、Linuxデスクトップのエコシステムをより良くするためのプロジェクトで、あなたの力が必要です。ドキュメントの執筆、ウェブサイトの制作、サーバー管理、プログラミングができる方は、ぜひご協力ください。</p>",
   "donate-to": "{{project}} に寄付",
   "manifest": "マニフェスト",
@@ -209,5 +209,6 @@
   "continue": "続ける",
   "transaction-breakdown": "取引内訳",
   "contribute": "アプリの開発に協力",
-  "vending-dashboard": "あなたのStripe Express アカウントを見る"
+  "vending-dashboard": "あなたのStripe Express アカウントを見る",
+  "purchase-terms-confirmation": "私はFlathubの利用規約を読み、このデジタルダウンロードに関連する14日間のクーリングオフ期間の放棄に同意します。"
 }
