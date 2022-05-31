@@ -27,6 +27,7 @@ interface Props {
   summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
+  projectgroupApps: Appstream[]
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -67,6 +68,7 @@ const Details: FunctionComponent<Props> = ({
   summary,
   stats,
   developerApps,
+  projectgroupApps,
 }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
@@ -253,6 +255,17 @@ const Details: FunctionComponent<Props> = ({
               })}
               applications={developerApps.slice(0, 6)}
               showMore={developerApps.length > 6}
+            />
+          )}
+
+          {projectgroupApps && projectgroupApps.length > 0 && (
+            <ApplicationSection
+              href={`/apps/collection/projectgroup/${app.project_group}`}
+              title={t("other-apps-by-projectgroup", {
+                projectgroup: app.project_group,
+              })}
+              applications={projectgroupApps.slice(0, 6)}
+              showMore={projectgroupApps.length > 6}
             />
           )}
 

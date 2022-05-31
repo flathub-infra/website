@@ -128,6 +128,27 @@ def get_developer(
     return sorted_ids
 
 
+@app.get("/projectgroup/")
+def get_project_groups():
+    return db.get_project_groups()
+
+
+@app.get("/projectgroup/{project_group}")
+def get_project_group(
+    project_group: str,
+    response: Response,
+):
+    ids = apps.get_project_group(project_group)
+
+    if not ids:
+        response.status_code = 404
+        return response
+
+    sorted_ids = sort_ids_by_installs(ids)
+
+    return sorted_ids
+
+
 @app.get("/appstream")
 def list_appstream():
     return apps.list_appstream()
