@@ -45,4 +45,6 @@ def get_developers():
 
 
 def get_project_groups():
-    return {project_group for project_group in redis_conn.smembers("projectgroups:index")}
+    return {
+        project_group for project_group in redis_conn.smembers("projectgroups:index")
+    }
