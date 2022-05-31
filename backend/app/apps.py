@@ -15,7 +15,7 @@ def load_appstream():
     with db.redis_conn.pipeline() as p:
         p.delete("categories:index", *current_categories)
         p.delete("developers:index", *current_developers)
-        p.delete("projectgroups:index", * current_projectgroups)
+        p.delete("projectgroups:index", *current_projectgroups)
 
         clean_html_re = re.compile("<.*?>")
         search_apps = []
