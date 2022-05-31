@@ -7,6 +7,7 @@ import {
   fetchAppStats,
   fetchSummary,
   fetchDeveloperApps,
+  fetchProjectgroupApps,
 } from "../../../src/fetchers"
 import { APPSTREAM_URL } from "../../../src/env"
 import { NextSeo } from "next-seo"
@@ -23,11 +24,13 @@ export default function Details({
   summary,
   stats,
   developerApps,
+  projectgroupApps,
 }: {
   app: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
+  projectgroupApps: Appstream[]
 }) {
   const screenshots = app.screenshots
     ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
@@ -54,6 +57,9 @@ export default function Details({
         summary={summary}
         stats={stats}
         developerApps={developerApps.filter((devApp) => devApp.id !== app.id)}
+        projectgroupApps={projectgroupApps.filter(
+          (devApp) => devApp.id !== app.id,
+        )}
       />
     </>
   )
@@ -68,6 +74,7 @@ export const getStaticProps: GetStaticProps = async ({
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)
   const developerApps = await fetchDeveloperApps(app?.developer_name)
+  const projectgroupApps = await fetchProjectgroupApps(app?.project_group)
 
   return {
     props: {
@@ -76,6 +83,7 @@ export const getStaticProps: GetStaticProps = async ({
       summary,
       stats,
       developerApps: developerApps ?? [],
+      projectgroupApps: projectgroupApps ?? [],
     },
     revalidate: 3600,
   }

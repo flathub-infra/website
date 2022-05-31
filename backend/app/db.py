@@ -42,3 +42,7 @@ def get_json_key(key: str):
 
 def get_developers():
     return {developer for developer in redis_conn.smembers("developers:index")}
+
+
+def get_project_groups():
+    return {project_group for project_group in redis_conn.smembers("projectgroups:index")}

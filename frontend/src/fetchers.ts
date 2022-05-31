@@ -15,6 +15,7 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
+  PROJECTGROUP_URL,
   LOGIN_PROVIDERS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
@@ -170,6 +171,27 @@ export async function fetchDeveloperApps(developer: string | undefined) {
   const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
   console.log(`Developer apps for ${developer} fetched`)
+
+  return items.filter((item) => Boolean(item))
+}
+
+export async function fetchProjectgroupApps(projectgroup: string | undefined) {
+  if (!projectgroup) {
+    console.log("No projectgroup specified")
+    return undefined
+  }
+  console.log("\nFetching apps for projectgroup", projectgroup)
+  const appListRes = await fetch(PROJECTGROUP_URL(projectgroup))
+  if (!appListRes || appListRes.status === 404) {
+    console.log("No apps for projectgroup ", projectgroup)
+    return undefined
+  }
+
+  const appList = await appListRes.json()
+
+  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
+
+  console.log(`Projectgroup apps for ${projectgroup} fetched`)
 
   return items.filter((item) => Boolean(item))
 }

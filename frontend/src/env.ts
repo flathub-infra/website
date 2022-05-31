@@ -27,6 +27,8 @@ export const CATEGORY_URL = (
 }
 export const DEVELOPER_URL = (developer: string): string =>
   `${BASE_URI}/developer/${encodeURIComponent(developer)}`
+export const PROJECTGROUP_URL = (projectgroup: string): string =>
+  `${BASE_URI}/projectgroup/${encodeURIComponent(projectgroup)}`
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
 export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 
