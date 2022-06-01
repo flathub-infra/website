@@ -7,7 +7,7 @@ const CONTENT_SECURITY_POLICY = `
   default-src 'none';
   form-action 'none';
   script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org https://js.stripe.com;
-  style-src 'self' https://dl.flathub.org;
+  style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com;
   img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com data:;
