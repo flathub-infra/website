@@ -1,6 +1,6 @@
+import random
 from functools import lru_cache
 from typing import Dict
-import random
 
 import sentry_sdk
 from fastapi import FastAPI, Response
