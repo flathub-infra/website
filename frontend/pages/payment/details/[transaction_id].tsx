@@ -96,7 +96,7 @@ export default function TransactionPage() {
   return (
     <>
       <NextSeo title={t("payment-summary")} noindex={true}></NextSeo>
-      <div className="main-container">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
         {content}
       </div>

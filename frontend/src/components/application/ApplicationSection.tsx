@@ -4,7 +4,6 @@ import Link from "next/link"
 import { Appstream } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
-import styles from "./ApplicationSection.module.scss"
 import Button from "../Button"
 import { useTranslation } from "next-i18next"
 
@@ -23,9 +22,9 @@ const ApplicationSection: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <div className={styles.applicationsSection}>
-      <header>
-        <h3>{title}</h3>
+    <div>
+      <header className="mt-10 mb-3 flex max-w-full flex-row justify-between">
+        <h3 className="my-0">{title}</h3>
 
         {showMore && (
           <Link href={href} passHref>
@@ -35,7 +34,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
           </Link>
         )}
       </header>
-      <div className={styles.applications}>
+      <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
         {applications.map((app) => (
           <ApplicationCard key={app.id} application={app} />
         ))}

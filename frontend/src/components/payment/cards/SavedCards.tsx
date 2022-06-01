@@ -52,7 +52,7 @@ const SavedCards: FunctionComponent = () => {
   }
 
   return (
-    <div className="main-container">
+    <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <h3>{t("saved-cards")}</h3>
       {content}
     </div>

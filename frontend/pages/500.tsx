@@ -8,7 +8,7 @@ export default function Custom500() {
   return (
     <>
       <NextSeo title={t("server-error")} />
-      <div className="main-container">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1>{t("whoops")}</h1>
         <p>{t("an-error-occurred-server")}</p>
         <p>

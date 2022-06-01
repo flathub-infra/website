@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react"
 import { useRouter } from "next/router"
-import styles from "./Pagination.module.scss"
 
 interface Props {
   currentPage: number
@@ -15,7 +14,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   }
 
   return (
-    <div className={styles.pagination}>
+    <div className="mx-auto mt-12 flex h-12 w-min items-center rounded-xl bg-bgColorSecondary text-xl text-colorSecondary shadow-md">
       {pages
         .filter(
           (page) =>
@@ -25,15 +24,13 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
         )
         .map((curr, index, array) => {
           const isActive = curr === currentPage
-          const className = isActive ? `${styles.pageActive}` : ""
 
           return (
             <React.Fragment key={`pagination-${index}`}>
               {index > 0 && array[index - 1] + 1 !== curr && (
-                <div className={`${styles.pageLink} ${styles.ellipsis}`}>
-                  ...
-                </div>
+                <div className={`w-12 text-center`}>...</div>
               )}
+
               <a
                 onClick={() => {
                   router.push({
@@ -44,7 +41,9 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                     },
                   })
                 }}
-                className={`${className} ${styles.pageLink}`}
+                className={`${
+                  isActive ? `font-bold` : ""
+                } h-12 w-12 py-2 text-center no-underline duration-500 first:rounded-tl-xl first:rounded-bl-xl last:rounded-tr-xl last:rounded-br-xl hover:cursor-pointer hover:bg-colorPrimary hover:text-gray-100`}
               >
                 {curr}
               </a>

@@ -8,7 +8,6 @@ import Button from "../Button"
 import LogoutButton from "../login/LogoutButton"
 import ProviderLink from "../login/ProviderLink"
 import DeleteButton from "./DeleteButton"
-import styles from "./Details.module.scss"
 import VendingLink from "./VendingLink"
 
 interface Props {
@@ -31,12 +30,15 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       const authData = user.info.auths[provider.method]
 
       return (
-        <div key={provider.method} className={styles.linked}>
+        <div
+          key={provider.method}
+          className="flex items-center gap-3 rounded-xl bg-bgColorPrimary py-2 px-6 text-textPrimary"
+        >
           <Image
             src={authData.avatar}
             width={50}
             height={50}
-            className={styles.avatar}
+            className="rounded-full"
             alt={`${authData.login}'s avatar`}
           />
           <p>
@@ -56,28 +58,30 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     ))
 
   const loginSection = linkOptions.length ? (
-    <div className={styles.subsection}>
+    <div className="mx-4 my-auto">
       <h3>{t("link-more-accounts")}</h3>
-      <div className={styles.authList}>{linkOptions}</div>
+      <div className="flex flex-row flex-wrap gap-3">{linkOptions}</div>
     </div>
   ) : (
     <></>
   )
 
   return (
-    <div className="main-container">
-      <div className={styles.details}>
-        <h2 className={styles.displayname}>{user.info.displayname}</h2>
+    <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="grid rounded-xl bg-bgColorSecondary p-4 text-textPrimary shadow-md">
+        <h2 className="col-start-1 row-start-1 mt-0 mb-3">
+          {user.info.displayname}
+        </h2>
 
-        <div className={styles.subsection}>
+        <div className="mx-4 my-auto">
           <h3>{t("linked-accounts")}</h3>
-          <div className={styles.authList}>{linkedAccounts}</div>
+          <div className="flex flex-row flex-wrap gap-3">{linkedAccounts}</div>
         </div>
 
         {loginSection}
 
         {user.info["dev-flatpaks"].length ? (
-          <div className={styles.subsection}>
+          <div className="mx-4 my-auto">
             <h3>{t("accepting-payment")}</h3>
             <VendingLink />
           </div>
@@ -85,7 +89,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
           <></>
         )}
 
-        <div className={styles.actions}>
+        <div className="row-start-1 row-end-4 ml-auto flex flex-col gap-2">
           <Link href="/wallet" passHref>
             <Button variant="primary">{t("view-wallet")}</Button>
           </Link>
