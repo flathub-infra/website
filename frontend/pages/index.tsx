@@ -15,6 +15,7 @@ export default function Home({
   recentlyUpdated,
   editorsChoiceApps,
   editorsChoiceGames,
+  randomApps,
   popular,
 }) {
   const { t } = useTranslation()
@@ -57,6 +58,7 @@ export default function Home({
           recentlyUpdated={recentlyUpdated}
           editorsChoiceApps={editorsChoiceApps}
           editorsChoiceGames={editorsChoiceGames}
+          randomApps={randomApps}
         ></ApplicationSections>
       </div>
     </>
@@ -80,6 +82,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     Collections.popular,
     APPS_IN_PREVIEW_COUNT,
   )
+  const randomApps = await fetchCollection(
+    Collections.randomApps,
+    APPS_IN_PREVIEW_COUNT,
+  )
 
   return {
     props: {
@@ -88,6 +94,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       editorsChoiceApps,
       editorsChoiceGames,
       popular,
+      randomApps,
     },
     revalidate: 3600,
   }

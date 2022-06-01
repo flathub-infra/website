@@ -9,6 +9,7 @@ interface Props {
   recentlyUpdated: Appstream[]
   editorsChoiceApps: Appstream[]
   editorsChoiceGames: Appstream[]
+  randomApps: Appstream[]
 }
 
 const ApplicationSections: FunctionComponent<Props> = ({
@@ -16,6 +17,7 @@ const ApplicationSections: FunctionComponent<Props> = ({
   recentlyUpdated,
   editorsChoiceApps,
   editorsChoiceGames,
+  randomApps,
 }) => {
   const { t } = useTranslation()
   return (
@@ -43,6 +45,12 @@ const ApplicationSections: FunctionComponent<Props> = ({
         title={t("popular-apps")}
         applications={popular}
         href="/apps/collection/popular"
+      />
+      <ApplicationSection
+        key="random"
+        title={t("random-apps")}
+        applications={randomApps}
+        href="/apps/collection/random"
       />
     </>
   )

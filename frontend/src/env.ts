@@ -14,6 +14,7 @@ export const POPULAR_URL: string = `${BASE_URI}/popular`
 export const EDITORS_PICKS_GAMES_URL: string = `${BASE_URI}/picks/games`
 export const EDITORS_PICKS_APPS_URL: string = `${BASE_URI}/picks/apps`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
+export const RANDOM_APPS_URL = `${BASE_URI}/collection/random`
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,

@@ -7,6 +7,7 @@ import {
   POPULAR_URL,
   APP_DETAILS,
   RECENTLY_UPDATED_URL,
+  RANDOM_APPS_URL,
   EDITORS_PICKS_APPS_URL,
   EDITORS_PICKS_GAMES_URL,
   CATEGORY_URL,
@@ -105,6 +106,9 @@ export default async function fetchCollection(
       break
     case Collections.editorsGames:
       collectionURL = EDITORS_PICKS_GAMES_URL
+      break
+    case Collections.randomApps:
+      collectionURL = RANDOM_APPS_URL
       break
     default:
       collectionURL = ""

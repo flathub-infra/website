@@ -3,6 +3,7 @@ export enum Collections {
   recentlyUpdated = "Recently Updated",
   editorsApps = "Editors Picks Apps",
   editorsGames = "Editors Picks Games",
+  randomApps = "Random Apps",
 }
 
 export type Collection =
@@ -10,3 +11,4 @@ export type Collection =
   | Collections.recentlyUpdated
   | Collections.editorsApps
   | Collections.editorsGames
+  | Collection.randomApps

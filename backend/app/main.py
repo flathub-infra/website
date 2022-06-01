@@ -1,5 +1,6 @@
 from functools import lru_cache
 from typing import Dict
+import random
 
 import sentry_sdk
 from fastapi import FastAPI, Response
@@ -174,6 +175,12 @@ def get_search(userquery: str):
 def get_recently_updated(limit: int = 100):
     return apps.get_recently_updated(limit)
 
+@app.get("/collection/random")
+@app.get("/collection/random/{limit}")
+def get_recently_updated(limit: int = 30):
+    app_list = apps.list_appstream()
+    random.shuffle(app_list)
+    return app_list[:limit]
 
 @app.get("/picks/{pick}")
 def get_picks(pick: str, response: Response):
