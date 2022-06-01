@@ -16,6 +16,7 @@
       <kudo>HiDpiIcon</kudo>
     </kudos>
     <project_license>GPL-3.0-or-later</project_license>
+    <project_group>SugarLabs</project_group>
     <url type="bugtracker">https://github.com/sugarlabs/maze-activity</url>
     <url type="homepage">https://github.com/sugarlabs/maze-activity</url>
     <screenshots>

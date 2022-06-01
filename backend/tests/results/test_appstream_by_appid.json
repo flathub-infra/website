@@ -45,6 +45,7 @@
   "categories": ["Game"],
   "kudos": ["HiDpiIcon"],
   "project_license": "GPL-3.0-or-later",
+  "project_group": "SugarLabs",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
     "type": "desktop-id"
