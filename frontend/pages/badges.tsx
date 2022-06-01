@@ -21,7 +21,7 @@ const Badges = () => {
         title={t("official-badges")}
         description={t("badges-description")}
       />
-      <section className={`main-container`}>
+      <section className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1>{t("official-badges")}</h1>
         <p>{t("badges-block")}</p>
 

@@ -33,7 +33,7 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
 
   // Date object expects milliseconds since epoch
   return (
-    <tr className="my-2 mx-0 min-w-[200px] rounded-xl bg-bgColorSecondary p-2 shadow-xl">
+    <tr className="my-2 mx-0 min-w-[200px] rounded-xl bg-bgColorSecondary p-2 shadow-md">
       <td>{prettyCreated}</td>
       <td>{prettyUpdated}</td>
       <td>{t(`kind-${kind}`)}</td>

@@ -7,7 +7,6 @@ import { NextSeo } from "next-seo"
 import Link from "next/link"
 import Tile from "../../src/components/Tile"
 import { Category, categoryToName } from "../../src/types/Category"
-import styles from "./index.module.scss"
 import ApplicationSection from "../../src/components/application/ApplicationSection"
 import { useTranslation } from "next-i18next"
 
@@ -19,11 +18,11 @@ export default function Apps({ topAppsByCategory }) {
         title={t("applications")}
         description={t("applications-description")}
       />
-      <div className="main-container">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <header>
           <h3>{t("categories")}</h3>
         </header>
-        <div className={styles.flex}>
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
           {Object.keys(Category).map((category: Category) => (
             <Link
               key={category}

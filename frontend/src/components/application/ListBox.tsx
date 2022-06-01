@@ -2,7 +2,6 @@ import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { MdOpenInNew } from "react-icons/md"
-import styles from "./ListBox.module.scss"
 
 interface Props {
   appId?: string
@@ -20,7 +19,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
   const { t } = useTranslation()
 
   return (
-    <div className={styles.list}>
+    <div className="w-full md:w-[calc(50%-4px)] 2xl:w-[calc(25%-6px)]">
       {items &&
         items
           .filter((a) => a)
@@ -35,16 +34,22 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`${styles.item} ${
-                  item.content.type === "text" ? styles.noLink : ""
+                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-bgColorSecondary p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl ${
+                  item.content.type === "text"
+                    ? "grid-cols-[36px_calc(100%_-_36px)]"
+                    : ""
                 }`}
                 key={index}
               >
-                <div className={styles.icon}>{item.icon}</div>
-                <div className={styles.details}>
+                <div className="self-center text-2xl text-textSecondary">
+                  {item.icon}
+                </div>
+                <div className="text-base">
                   {item.header}
                   {item.content.type === "text" && (
-                    <span className={styles.content}>{item.content.text}</span>
+                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-textSecondary">
+                      {item.content.text}
+                    </span>
                   )}
                   {item.content.type === "url" && (
                     <a
@@ -52,13 +57,14 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
+                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-textSecondary"
                     >
                       {item.content.text}
                     </a>
                   )}
                 </div>
                 {item.content.type === "url" && (
-                  <div className={styles.externalLink}>
+                  <div className="self-center justify-self-end opacity-60">
                     <a
                       href={item.content.text}
                       target="_blank"

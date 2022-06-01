@@ -4,7 +4,6 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
 import { getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
-import styles from "./Releases.module.scss"
 import useCollapse from "react-collapsed"
 
 interface Props {
@@ -41,16 +40,17 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   return (
     <>
       {latestRelease && (
-        <div className={styles.releases}>
-          <div className={styles.release}>
-            <div className={styles.releaseDetails}>
-              <header>
-                <h3>
+        <div className="rounded-xl bg-bgColorSecondary shadow-md">
+          <div>
+            <div className="flex flex-col gap-2 px-4 pt-4">
+              <header className="flex flex-row justify-between gap-2">
+                <h3 className="my-0">
                   {t("changes-in-version", {
                     "version-number": latestRelease.version,
                   })}
                 </h3>
                 <div
+                  className="self-center text-sm"
                   title={
                     latestRelease.timestamp &&
                     new Date(
@@ -68,9 +68,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`${styles.releaseContent} prose dark:prose-invert ${
+                className={`prose relative dark:prose-invert ${
                   !isExpanded && scrollHeight > collapsedHeight
-                    ? styles.collapsed
+                    ? "from-transparent to-bgColorSecondary before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
                     : ""
                 }`}
                 ref={ref}
@@ -80,11 +80,14 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               />
             </div>
             {scrollHeight > collapsedHeight && (
-              <button className={styles.expandButton} {...getToggleProps()}>
+              <button
+                className="w-full rounded-bl-xl rounded-br-xl py-3 px-0 hover:cursor-pointer hover:bg-colorHighlight hover:text-gray-100"
+                {...getToggleProps()}
+              >
                 {isExpanded ? (
-                  <span className={styles.expandText}>{t("less")}</span>
+                  <span>{t("less")}</span>
                 ) : (
-                  <span className={styles.expandText}>{t("more")}</span>
+                  <span>{t("more")}</span>
                 )}
               </button>
             )}

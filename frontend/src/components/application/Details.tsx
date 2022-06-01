@@ -163,7 +163,7 @@ const Details: FunctionComponent<Props> = ({
               onCloseRequest={() => setShowLightbox(false)}
             />
           )}
-          <div className="relative mx-auto my-0 max-w-[90%] 2xl:max-w-[1400px]">
+          <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
                 className="absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl border border-colorPrimary bg-bgColorSecondary px-3 py-3 text-2xl text-colorSecondary hover:cursor-pointer hover:bg-colorPrimary hover:text-gray-100"
@@ -277,7 +277,7 @@ const Details: FunctionComponent<Props> = ({
     )
   } else {
     return (
-      <div className="main-container">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div>{t("loading")}</div>
       </div>
     )

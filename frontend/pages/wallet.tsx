@@ -15,7 +15,7 @@ export default function Wallet() {
   return (
     <>
       <NextSeo title={t("user-wallet")} noindex={true} />
-      <div className="main-container">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <RelatedLink href="/userpage" pageTitle={t("user-page")} />
         <LoginGuard>
           <SavedCards />
