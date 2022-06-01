@@ -260,7 +260,7 @@ const Details: FunctionComponent<Props> = ({
 
           {projectgroupApps && projectgroupApps.length > 0 && (
             <ApplicationSection
-              href={`/apps/collection/projectgroup/${app.project_group}`}
+              href={`/apps/collection/project-group/${app.project_group}`}
               title={t("other-apps-by-projectgroup", {
                 projectgroup: app.project_group,
               })}
