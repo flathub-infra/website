@@ -53,9 +53,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 <div
                   title={
                     latestRelease.timestamp &&
-                    new Date(
-                      latestRelease.timestamp * 1000,
-                    ).toLocaleDateString()
+                    new Date(latestRelease.timestamp * 1000).toLocaleDateString(
+                      i18n.language.substring(0, 2),
+                    )
                   }
                 >
                   {latestRelease.timestamp &&
