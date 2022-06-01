@@ -166,7 +166,7 @@ const Details: FunctionComponent<Props> = ({
           <div className="relative mx-auto my-0 max-w-[90%] 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
-                className="absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl border border-colorPrimary bg-bgColorSecondary px-3 py-3 text-2xl text-colorSecondary hover:cursor-pointer hover:bg-colorPrimary hover:text-gray-100"
+                className="!hover:text-gray-100 absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl border border-colorPrimary bg-bgColorSecondary px-3 py-3 text-2xl !text-colorSecondary hover:cursor-pointer hover:bg-colorPrimary"
                 onClick={() => setShowLightbox(true)}
                 aria-label={t("zoom")}
               >
