@@ -26,9 +26,9 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
 
     return (
       <button
-        className={`no-wrap h-12 whitespace-nowrap rounded-xl px-5 py-2 text-center font-medium duration-500 hover:cursor-pointer active:bg-bgColorPrimary active:text-colorPrimary disabled:cursor-default ${variantClass} ${
+        className={`${
           className ?? ""
-        }`}
+        } ${variantClass} no-wrap h-12 whitespace-nowrap rounded-xl px-5 py-2 text-center font-medium duration-500 hover:cursor-pointer active:bg-bgColorPrimary active:text-colorPrimary disabled:cursor-default`}
         type={buttonProps.type}
         ref={ref}
         {...buttonProps}
