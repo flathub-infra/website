@@ -604,7 +604,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "redis"
-version = "4.3.1"
+version = "4.3.2"
 description = "Python client for Redis database and key-value store"
 category = "main"
 optional = false
@@ -852,7 +852,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "09099f0db060ca0439343ed36fd98d2682d9d4443d2875642f749900120da2cf"
+content-hash = "3a3d693b735d032a1b0bda80a0da5f7c16faa3146498c0ba89118efe03dd5bfa"
 
 [metadata.files]
 alembic = [
@@ -1508,8 +1508,8 @@ pyyaml = [
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 redis = [
-    {file = "redis-4.3.1-py3-none-any.whl", hash = "sha256:84316970995a7adb907a56754d2b92d88fc2d252963dc5ac34c88f0f1a22c25d"},
-    {file = "redis-4.3.1.tar.gz", hash = "sha256:94b617b4cd296e94991146f66fc5559756fbefe9493604f0312e4d3298ac63e9"},
+    {file = "redis-4.3.2-py3-none-any.whl", hash = "sha256:b30a2dc3f27cab69284829d6d423643beee88f279967c42e9014a2ffb7c2a84c"},
+    {file = "redis-4.3.2.tar.gz", hash = "sha256:b989406ea786a9d151066a683b32a437a48f043c3ffd3795ec5ad9d344ee9e8c"},
 ]
 requests = [
     {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
