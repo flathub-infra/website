@@ -204,11 +204,13 @@
   "terms-and-conditions": "利用規約",
   "privacy-policy": "プライバシーポリシー",
   "vending-onboard": "「Stripe Express アカウント」を作成",
-  "save-card-for-reuse": "再使用のためにカードを残す",
+  "save-card-for-reuse": "カード情報を保存",
   "terms-and-conditions-description": "このウェブサイトを使うことにより、諸条件に許可することになります。",
   "continue": "続ける",
   "transaction-breakdown": "取引内訳",
   "contribute": "アプリの開発に協力",
   "vending-dashboard": "あなたのStripe Express アカウントを見る",
-  "purchase-terms-confirmation": "私はFlathubの利用規約を読み、このデジタルダウンロードに関連する14日間のクーリングオフ期間の放棄に同意します。"
+  "purchase-terms-confirmation": "私はFlathubの利用規約を読み、このデジタルダウンロードに関連する14日間のクーリングオフ期間の放棄に同意します。",
+  "applications-by-projectgroup": "{{projectgroup}} グループのアプリ",
+  "other-apps-by-projectgroup": "{{projectgroup}} グループの他のアプリ"
 }

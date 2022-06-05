@@ -209,5 +209,7 @@
   "use-saved-card": "Eine gespeicherte Karte verwenden",
   "stripe-api-error": "Die Stripe-API hat einen Fehler festgestellt. Versuchen Sie es später erneut.",
   "transaction-summary-status": "Status: {{status}}",
-  "transaction-summary-type": "Typ: {{type}}"
+  "transaction-summary-type": "Typ: {{type}}",
+  "applications-by-projectgroup": "Anwendungen in der {{projectgroup}}-Gruppe",
+  "other-apps-by-projectgroup": "Andere Anwendungen in der {{projectgroup}}-Gruppe"
 }

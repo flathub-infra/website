@@ -78,8 +78,8 @@
   "retry-or-go-home": "Vous pouvez réessayer ou retourner à la page d'<1>accueil</1>.",
   "submitting-apps": "Soumettre des applications",
   "submitting-apps-block": "Les développeurs d'applications peuvent soumettre leurs applications afin qu'elles soient distribuées à la base croissante d'utilisateurs de Flathub, offrant ainsi une passerelle unique vers l'ensemble de l'écosystème du bureau Linux. Cependant, si vous êtes un développeur ou une développeuse d'applications propriétaires et que vous êtes intéressé(e) par l'utilisation de Flathub, nous serions ravis de discuter avec vous.</p>",
-  "about-block": "<0>Flathub vise à être l'endroit pour obtenir et distribuer des applications pour Linux. Il est alimenté par <1>Flatpak</1> qui permet aux applications Flathub de fonctionner sur presque toutes les distributions Linux.</0><1>Si vous êtes un utilisateur Linux, vous pouvez utiliser Flathub pour accéder à une collection croissante d'applications Flatpak. Il vous suffit de suivre les <2>instructions de configuration</2>.</1>",
-  "get-involved-block": "<p>Flathub est une tentative de transformer l'écosystème du bureau Linux pour le mieux, et nous avons besoin de votre aide. Si vous pouvez écrire de la documentation, créer des sites Web, administrer des serveurs ou écrire du code, nous aimerions que vous nous aidiez.</p>",
+  "about-block": "<0>Flathub est l'endroit pour obtenir et distribuer des applications pour tous les Linux de bureau. Il est alimenté par <1>Flatpak</1>, permettant aux applications Flathub de fonctionner sur presque toutes les distributions Linux.</0><1>Utilisez Flathub pour accéder à une collection croissante de Flatpaks en suivant les <2>instructions d'installation</2>.</1>",
+  "get-involved-block": "<p>Flathub unifie l'écosystème du bureau Linux, et vous pouvez y contribuer. Écrivez de la documentation ou du code, créez des sites Web ou administrez des serveurs.</p>",
   "reporting-issues": "Signaler des problèmes",
   "reporting-issues-block": "Les problèmes de sécurité ou d'ordre juridique peuvent être signalés aux <2>mainteneurs de Flathub</2>.</0>",
   "acknowledgements": "Remerciements",
@@ -210,5 +210,7 @@
   "terms-and-conditions": "Termes et conditions",
   "accepting-payment": "Acceptation du paiement",
   "go-to-page": "Aller à {{page}}",
-  "entry-confirmation-prompt": "Entrez « {{text}} » pour continuer."
+  "entry-confirmation-prompt": "Entrez « {{text}} » pour continuer.",
+  "applications-by-projectgroup": "Les applications du groupe {{projectgroup}}",
+  "other-apps-by-projectgroup": "Autres applications dans le groupe {{projectgroup}}"
 }
