@@ -210,5 +210,7 @@
   "privacy-policy": "Gizlilik Politikası",
   "privacy-policy-description": "Bu web sitesini kullanarak, Gizlilik Politikasını kabul etmiş olursunuz.",
   "continue": "Devam et",
-  "purchase-terms-confirmation": "Flathub Şartlarını ve Koşullarını okuduğumu ve bu sayısal indirmeyle ilişkili 14 günlük bekleme süresinden feragat ettiğimi onaylıyorum."
+  "purchase-terms-confirmation": "Flathub Şartlarını ve Koşullarını okuduğumu ve bu sayısal indirmeyle ilişkili 14 günlük bekleme süresinden feragat ettiğimi onaylıyorum.",
+  "applications-by-projectgroup": "{{projectgroup}} grubundaki uygulamalar",
+  "other-apps-by-projectgroup": "{{projectgroup}} grubundaki diğer uygulamalar"
 }

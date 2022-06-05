@@ -118,7 +118,7 @@
   "languages": "Kielet",
   "switch-language": "Vaihda kieli",
   "languages-description": "Valitse haluamasi kieli:",
-  "get-involved-block": "<p>Flathub on yritys muuntaa Linux-työpöydän ekosysteemi entistä paremmaksi, ja tarvitsemme apuasi. Jos kirjoitat dokumentaatiota, osaat luoda verkkosivustoja, ylläpitää palvelimia tai koodata, apusi on tervetullutta.</p>",
+  "get-involved-block": "<p>Flathub yhdistää Linux-työpöydän ekosysteemin, ja sinä voit auttaa. Jos kirjoitat dokumentaatiota, koodaat, osaat luoda verkkosivustoja tai ylläpitää palvelimia, apusi on tervetullutta.</p>",
   "badge-copyright": "Lain suomin valtuuksin<1> <1>Jakub Steiner</1> </1>on luopunut tekijänoikeudesta ja kaikista vastaavista oikeuksista <3>Flathub-merkkeihin</3>. Työ on julkaistu Tšekeistä.",
   "languages-summary": "Valitse kieli, jolla haluat sivuston näytettävän.",
   "user-avatar": "Käyttäjän {{user}} avatar",
@@ -126,7 +126,7 @@
   "reporting-issues-block": "<0>Tietoturvaan tai juridiikkaan liittyvissä asioissa ole yhteydessä <2>Flathub-ylläpitäjiin</2>.</0>",
   "about-description": "Flathubin tavoite on olla Linux-sovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa Flatpak, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.",
   "submitting-apps-block": "<0>Sovelluskehittäjät voivat <2>lähettää sovelluksensa</2> jaettavaksi Flathubin kasvavalle käyttäjäkunnalle, samalla saavuttaen yhdyskäytävän Linux-työpöydän ekosysteemille.</0><p>Tällä hetkellä sovellusten tulee olla lisenssiehtojen mukaisesti uudelleenjaeltavissa tai saatavilla kolmannen osapuolen latausmahdollisuuden kautta. Jos olet suljetun ohjelmiston sovelluskehittäjä ja olet kiinnostunut Flathubin käyttämisestä, ole yhteydessä.</p>",
-  "about-block": "<0>Flathubin tavoite on olla Linux-sovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa <1>Flatpak</1>, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.</0><1>Jos olet Linux-käyttäjä, sinulla on Flathubin kautta pääsy laajaan valikoimaan Flatpak-sovelluksia. Seuraa <2>asetusohjeita</2>.</1>",
+  "about-block": "<0>Flathub on Linux-työpöytäsovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa <1>Flatpak</1>, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.</0><1>Käytä Flathubia saadaksesi pääsyn laajaan valikoimaan Flatpak-sovelluksia. Seuraa <2>asetusohjeita</2>.</1>",
   "payment": "Maksu",
   "value": "Arvo",
   "failed-to-load-refresh": "Resurssin lataaminen epäonnistui. Yritä päivittää sivu.",
@@ -210,5 +210,7 @@
   "privacy-policy": "Tietosuojakäytäntö",
   "contribute": "Osallistu kehitykseen",
   "continue": "Jatka",
-  "purchase-terms-confirmation": "Vahvistan, että olen lukenut Flathubin käyttöehdot ja hyväksyn, että luovun 14 päivän harkinta-ajasta tämän digitaalisen latauksen osalta."
+  "purchase-terms-confirmation": "Vahvistan, että olen lukenut Flathubin käyttöehdot ja hyväksyn, että luovun 14 päivän harkinta-ajasta tämän digitaalisen latauksen osalta.",
+  "other-apps-by-projectgroup": "Muut sovellukset ryhmässä {{projectgroup}}",
+  "applications-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}"
 }
