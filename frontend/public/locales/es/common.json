@@ -76,8 +76,8 @@
   "login": "Iniciar sesión",
   "retry-or-go-home": "Puede que quiera reintentarlo o volver a <1>home</1>.",
   "submitting-apps": "Publicar aplicaciones",
-  "about-block": "<0>Flathub pretende ser el lugar donde conseguir y distribuir aplicaciones para Linux. Está impulsado por <1>Flatpak</1> que permite que las aplicaciones de Flathub se ejecuten en casi cualquier distribución de Linux.</0><1>Si es un usuario de Linux, puede usar Flathub para acceder a una creciente colección de aplicaciones Flatpak. Sólo tiene que seguir las <2>instrucciones de instalación</2>.</1>",
-  "get-involved-block": "<p>Flathub es un intento de transformar el ecosistema del escritorio Linux para mejor, y necesitamos su ayuda. Si puede escribir documentación, crear sitios web, administrar servidores o escribir código, nos encantaría su ayuda.</p>",
+  "about-block": "<0>Flathub es el lugar para obtener y distribuir aplicaciones para todo Linux de escritorio. Está impulsado por <1>Flatpak</1>, lo que permite que las aplicaciones de Flathub se ejecuten en casi cualquier distribución de Linux.</0><1>Use Flathub para acceder a una creciente colección de Flatpaks siguiendo las <2>instrucciones de configuración</2>.</1>",
+  "get-involved-block": "<p>Flathub unifica el ecosistema de escritorios Linux, y puede ayudar. Escriba documentación o código, cree sitios web o administre servidores.</p>",
   "reporting-issues": "Informar de los problemas",
   "reporting-issues-block": "<0>Los problemas de seguridad o legales pueden ser reportados a los <2>mantenedores de Flathub</2>.</0>",
   "acknowledgements": "Agradecimientos",
@@ -210,5 +210,7 @@
   "terms-and-conditions": "Términos y condiciones",
   "terms-and-conditions-description": "Al utilizar este sitio web, usted acepta los Términos y Condiciones.",
   "continue": "Continuar",
-  "purchase-terms-confirmation": "Confirmo que he leído los Términos y Condiciones de Flathub y consiento en renunciar al periodo de reflexión de 14 días asociado a esta descarga digital."
+  "purchase-terms-confirmation": "Confirmo que he leído los Términos y Condiciones de Flathub y consiento en renunciar al periodo de reflexión de 14 días asociado a esta descarga digital.",
+  "applications-by-projectgroup": "Aplicaciones del grupo {{projectgroup}}",
+  "other-apps-by-projectgroup": "Otras aplicaciones del grupo {{projectgroup}}"
 }
