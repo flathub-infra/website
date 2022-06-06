@@ -17,6 +17,7 @@ import {
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
+import { getIntlLocale } from "../src/localize"
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
@@ -64,7 +65,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 content: {
                   type: "text",
                   text: stats.downloads?.toLocaleString(
-                    i18n.language.substring(0, 2),
+                    getIntlLocale(i18n.language),
                   ),
                 },
               },
@@ -78,7 +79,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 content: {
                   type: "text",
                   text: stats.number_of_apps?.toLocaleString(
-                    i18n.language.substring(0, 2),
+                    getIntlLocale(i18n.language),
                   ),
                 },
               },
@@ -92,7 +93,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
                 content: {
                   type: "text",
                   text: new Date(2018, 3, 29).toLocaleDateString(
-                    i18n.language.substring(0, 2),
+                    getIntlLocale(i18n.language),
                   ),
                 },
               },
