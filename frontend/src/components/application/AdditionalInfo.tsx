@@ -20,6 +20,7 @@ import spdxLicenseList from "spdx-license-list/full"
 import { i18n, useTranslation } from "next-i18next"
 import { TFunction } from "react-i18next"
 import { calculateHumanReadableSize } from "../../size"
+import { getIntlLocale } from "../../localize"
 
 const AdditionalInfo = ({
   data,
@@ -94,7 +95,7 @@ const AdditionalInfo = ({
             content: {
               type: "text",
               text: stats.installs_total.toLocaleString(
-                i18n.language.substring(0, 2),
+                getIntlLocale(i18n.language),
               ),
             },
           },

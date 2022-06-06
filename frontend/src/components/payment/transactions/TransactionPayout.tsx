@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
+import { getIntlLocale } from "../../../localize"
 import { Payout } from "../../../types/Payment"
 
 interface Props {
@@ -12,7 +13,7 @@ const TransactionPayout: FunctionComponent<Props> = ({ payout }) => {
   return (
     <div className="flex flex-wrap gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
       <span>
-        {new Intl.NumberFormat(i18n.language.substring(0, 2), {
+        {new Intl.NumberFormat(getIntlLocale(i18n.language).toString(), {
           style: "currency",
           currency: payout.currency,
           currencyDisplay: "symbol",

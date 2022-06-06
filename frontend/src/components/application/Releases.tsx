@@ -1,7 +1,7 @@
 import { formatDistance } from "date-fns"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
-import { getLocale } from "../../localize"
+import { getIntlLocale, getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
 import useCollapse from "react-collapsed"
@@ -54,7 +54,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                   title={
                     latestRelease.timestamp &&
                     new Date(latestRelease.timestamp * 1000).toLocaleDateString(
-                      i18n.language.substring(0, 2),
+                      getIntlLocale(i18n.language),
                     )
                   }
                 >

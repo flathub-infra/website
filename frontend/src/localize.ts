@@ -1,6 +1,7 @@
 import {
   de,
   enUS,
+  enGB,
   tr,
   fr,
   nb,
@@ -21,8 +22,9 @@ import {
 } from "date-fns/locale"
 
 export type Language =
-  | "de"
   | "en"
+  | "en_GB"
+  | "de"
   | "fr"
   | "nb_NO"
   | "tr"
@@ -43,8 +45,9 @@ export type Language =
   | "uk"
 
 export const languages: Language[] = [
-  "de",
   "en",
+  "en_GB",
+  "de",
   "fr",
   "nb_NO",
   "tr",
@@ -67,10 +70,13 @@ export const languages: Language[] = [
 
 export function getLocale(language: string): Locale {
   switch (language) {
+    case "en":
+    case "en_US":
+      return enUS
+    case "en_GB":
+      return enGB
     case "de":
       return de
-    case "en":
-      return enUS
     case "fr":
       return fr
     case "nb_NO":
@@ -109,16 +115,19 @@ export function getLocale(language: string): Locale {
       return uk
 
     default:
-      return enUS
+      return enGB
   }
 }
 
 export function getLocaleString(language: string): string {
   switch (language) {
+    case "en":
+    case "en_US":
+      return "en_US"
     case "de":
       return "de_DE"
-    case "en":
-      return "en_US"
+    case "en_GB":
+      return "en_GB"
     case "fr":
       return "fr_FR"
     case "nb_NO":
@@ -167,6 +176,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇩🇪"
     case "en":
       return "🇺🇸"
+    case "en_GB":
+      return "🇬🇧"
     case "fr":
       return "🇫🇷"
     case "nb_NO":
@@ -208,10 +219,12 @@ export function getLanguageFlag(language: Language): string {
 
 export function getLanguageName(language: Language): string {
   switch (language) {
-    case "de":
-      return "Deutsch"
     case "en":
       return "English"
+    case "en_GB":
+      return "English (UK)"
+    case "de":
+      return "Deutsch"
     case "fr":
       return "Français"
     case "nb_NO":
@@ -251,6 +264,66 @@ export function getLanguageName(language: Language): string {
 
     default:
       return assertUnreachable(language)
+  }
+}
+
+export function getIntlLocale(language: string): Intl.Locale {
+  switch (language) {
+    case "en":
+    case "en_US":
+      return new Intl.Locale("en", {
+        region: "US",
+      })
+    case "de":
+      return new Intl.Locale("de")
+    case "en_GB":
+      return new Intl.Locale("en", {
+        region: "GB",
+      })
+    case "fr":
+      return new Intl.Locale("fr")
+    case "nb_NO":
+      return new Intl.Locale("nb", {
+        region: "NO",
+      })
+    case "tr":
+      return new Intl.Locale("tr")
+    case "fi":
+      return new Intl.Locale("fi")
+    case "id":
+      return new Intl.Locale("id")
+    case "it":
+      return new Intl.Locale("it")
+    case "pl":
+      return new Intl.Locale("pl")
+    case "pt_BR":
+      return new Intl.Locale("pt", {
+        region: "BR",
+      })
+    case "ru":
+      return new Intl.Locale("ru")
+    case "si":
+      return new Intl.Locale("si")
+    case "vi":
+      return new Intl.Locale("vi")
+    case "ar":
+      return new Intl.Locale("ar", {
+        region: "AE",
+      })
+    case "es":
+      return new Intl.Locale("es")
+    case "ja":
+      return new Intl.Locale("ja")
+    case "cs":
+      return new Intl.Locale("cs")
+    case "zh_Hans":
+      return new Intl.Locale("zh", {
+        script: "Hans",
+      })
+    case "bg":
+      return new Intl.Locale("bg")
+    case "uk":
+      return new Intl.Locale("uk")
   }
 }
 

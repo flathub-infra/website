@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import { FunctionComponent, useState } from "react"
+import { getIntlLocale } from "../../../localize"
 import { Transaction } from "../../../types/Payment"
 import Button from "../../Button"
 import TransactionCancelButton from "./TransactionCancelButton"
@@ -18,16 +19,19 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
   const [shownStatus, setStatus] = useState(status)
 
   const prettyCreated = new Date(created * 1000).toLocaleString(
-    i18n.language.substring(0, 2),
+    getIntlLocale(i18n.language),
   )
   const prettyUpdated = new Date(updated * 1000).toLocaleString(
-    i18n.language.substring(0, 2),
+    getIntlLocale(i18n.language),
   )
-  const prettyValue = new Intl.NumberFormat(i18n.language.substring(0, 2), {
-    style: "currency",
-    currency: "USD",
-    currencyDisplay: "symbol",
-  }).format(value / 100)
+  const prettyValue = new Intl.NumberFormat(
+    getIntlLocale(i18n.language).toString(),
+    {
+      style: "currency",
+      currency: "USD",
+      currencyDisplay: "symbol",
+    },
+  ).format(value / 100)
 
   const needsAttention = ["new", "retry"].includes(shownStatus)
 

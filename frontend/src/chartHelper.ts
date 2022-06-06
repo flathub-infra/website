@@ -1,5 +1,5 @@
 import { ChartData, ChartOptions } from "chart.js"
-import { getLocale } from "./localize"
+import { getIntlLocale, getLocale } from "./localize"
 
 export function chartStyle(
   labels: (string | Date)[],
@@ -40,7 +40,7 @@ export function chartStyle(
 
 export function chartOptions(locale: string): ChartOptions<"line"> {
   return {
-    locale: locale.substring(0, 2),
+    locale: getIntlLocale(locale).toString(),
     responsive: true,
     maintainAspectRatio: false,
     scales: {
