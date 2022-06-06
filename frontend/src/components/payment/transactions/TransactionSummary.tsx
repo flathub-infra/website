@@ -13,9 +13,11 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
 
   const prettyCreated = new Date(created * 1000).toLocaleString(
     i18n.language.substring(0, 2),
+    { dateStyle: 'long' },
   )
   const prettyUpdated = new Date(updated * 1000).toLocaleString(
     i18n.language.substring(0, 2),
+    { dateStyle: 'long' },
   )
   const prettyValue = new Intl.NumberFormat(i18n.language.substring(0, 2), {
     style: "currency",

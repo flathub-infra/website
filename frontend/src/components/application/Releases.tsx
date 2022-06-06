@@ -55,6 +55,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     latestRelease.timestamp &&
                     new Date(latestRelease.timestamp * 1000).toLocaleDateString(
                       i18n.language.substring(0, 2),
+                      { dateStyle: 'long' },
                     )
                   }
                 >
