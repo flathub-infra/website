@@ -105,3 +105,62 @@ docker-compose up --build
 ## Search
 
 If you running this locally, you can use http://localhost:7700/ to test the search.
+
+## Stripe
+
+If you want to use the parts of the backend which use Stripe, e.g. for testing vending
+or other aspects of the UI which might need wallet access, then you will need to
+launch the backend with Stripe credentials.  Here is how to go about setting up a
+suitable account with Stripe, and then preparing credentials for use.
+
+### Create and configure a Stripe account
+
+1. Visit <https://dashboard.stripe.com/login> and choose the "Sign-up" link.
+2. Enter an email, name, and password, and ensure that you choose the US as your
+   country.
+3. Tick the 'don't email me' box, and then submit the form
+4. Wait for the verification email, and use it to get your account verified.
+5. The first thing it'll ask you to do is activate payments - skip this.
+6. Visit the 'Connect' tab on the dashboard and hit 'Get Started' in the 'For Platforms' section
+7. Select 'Platform or Marketplace' and hit Continue
+8. Under 'Select products for your users' hit Start
+9. The two products you want are 'Connect' and 'Payments', hit 'Done'
+10. On the right, under 'Payments' hit 'Continue Setup'
+11. Choose 'Other' and press Continue
+12. Choose 'From your platform's website or app' and hit Continue
+13. Choose 'Both your platform's name and the seller/service provider's name' and hit Continue
+14. Choose 'Your platform' and hit Continue, then hit Submit
+15. Once that completes, find the 'Connect settings' link near the top and choose it
+16. Scroll down to Branding and fill it out with something reasonable
+17. Press the 'Save branding changes' button
+18. Visit 'Settings' 'Bank Accounts and Scheduling' and switch to manual payouts
+19. Visit the 'Balances' page, and, ensuring you're in test mode still, press 'Add to balance'
+20. Choose 'Connected accounts', add 100 dollars
+
+Now things should work for testing
+
+### Acquiring your Stripe keys
+
+1. Return to 'Home' of the dashboard, and then ensure test mode is turned on
+2. On the RHS there's a 'For developers' section, it should mention test mode
+3. Click on the Publishable key to copy it, paste it into your notes.
+   This is STRIPE_PUBLIC_KEY
+4. Click on the Secret key once to reveal, and a second time to copy, paste it into your notes.
+   This is STRIPE_SECRET_KEY
+
+To acquire your webhook key, you can use the stripe CLI tool.  Install it
+and then run `stripe login` - complete the login in your browser and the CLI
+should succeed.  Next run `stripe listen` and it will give you your webhook secret.
+This is STRIPE_WEBHOOK_KEY.
+
+If you want webhooks to make it from the testing into the backend then run:
+`stripe listen --forward-to localhost:8000/wallet/webhook/stripe`.
+
+### Running the website with the right keys
+
+In the backend directory you can run `env STRIPE_PUBLIC_KEY=... STRIPE_SECRET_KEY=...
+STRIPE_WEBHOOK_KEY=... docker-compose up --build`
+
+When everything has started, if you visit <http://localhost:8000/docs> you will
+see mention of Stripe if things are working properly.
+
