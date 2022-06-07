@@ -26,7 +26,7 @@ from ..config import settings
 from ..logins import login_state
 from ..models import ApplicationVendingConfig, StripeExpressAccount, Transaction
 from ..vending import prices
-from ..wallet import Wallet
+from ..wallet import Wallet, WalletError
 
 
 class VendingError(Exception):
@@ -378,6 +378,8 @@ def post_app_vending_status(
         )
         db.session.flush()
         full_txn = Wallet().transaction(request, login["user"], txn.id)
+    except WalletError:
+        raise
     except Exception as base_exc:
         raise VendingError(error="bad-transaction") from base_exc
 
