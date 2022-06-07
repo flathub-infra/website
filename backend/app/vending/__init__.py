@@ -26,6 +26,7 @@ from ..config import settings
 from ..logins import login_state
 from ..models import ApplicationVendingConfig, StripeExpressAccount, Transaction
 from ..vending import prices
+from ..wallet import Wallet
 
 
 class VendingError(Exception):
@@ -351,7 +352,7 @@ def get_app_vending_split(appid: str, currency: str, value: int) -> VendingSplit
 
 @router.post("app/{appid}")
 def post_app_vending_status(
-    appid: str, data: ProposedPayment, login=Depends(login_state)
+    request: Request, appid: str, data: ProposedPayment, login=Depends(login_state)
 ) -> VendingOutput:
     """
     Construct a transaction for the given application with the proposed payment.
@@ -375,10 +376,12 @@ def post_app_vending_status(
         txn = Transaction.create_from_split(
             db, login["user"], vend.minimum_payment > 0, split.currency, split.splits
         )
+        db.session.flush()
+        full_txn = Wallet().transaction(request, login["user"], txn.id)
     except Exception as base_exc:
         raise VendingError(error="bad-transaction") from base_exc
 
-    return VendingOutput(status="ok", transaction=txn.id)
+    return VendingOutput(status="ok", transaction=full_txn.summary.id)
 
 
 def register_to_app(app: FastAPI):
