@@ -13,6 +13,22 @@ from . import config, logins, models
 router = APIRouter(prefix="/purchases")
 
 
+@router.get("/storefront-info", status_code=200)
+def get_storefront_info(app_id: str):
+    """
+    This endpoint is used by flat-manager's storefront-info-endpoint config option. It returns the proper token-type
+    for the commit (1 if payment is requested or required, 0 if it is not), some settings to validate the appstream
+    file provided by the app, and some data to add to that appstream file.
+
+    See storefront.rs in flat-manager for the available values.
+    """
+
+    return {
+        # TODO: Find out whether the app requests payment, and if so, set this to 1
+        "token_type": 0,
+    }
+
+
 @router.post("/generate-update-token", status_code=200)
 def get_update_token(login=Depends(logins.login_state)):
     """
