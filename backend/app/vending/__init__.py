@@ -310,7 +310,7 @@ def post_app_vending_setup(
             minimum_payment=setup.minimum_payment,
         )
     else:
-        if vend.user != login["user"]:
+        if vend.user != login["user"].id:
             raise VendingError(error="user-mismatch")
         vend.currency = setup.currency
         vend.appshare = setup.appshare
