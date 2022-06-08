@@ -1,5 +1,5 @@
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
-import { FunctionComponent, useMemo, useState } from "react"
+import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
 import { Appstream, pickScreenshot } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
@@ -23,6 +23,8 @@ import { useUserContext } from "../../context/user-info"
 import Link from "next/link"
 
 import "react-image-lightbox/style.css" // This only needs to be imported once in your app
+import { useAsync } from "../../hooks/useAsync"
+import { getAppVendingSetup } from "../../asyncs/vending"
 
 interface Props {
   app?: Appstream
@@ -94,6 +96,10 @@ const Details: FunctionComponent<Props> = ({
     [app.description],
   )
 
+  const { value: vendingSetup } = useAsync(
+    useCallback(() => getAppVendingSetup(app.id), [app.id]),
+  )
+
   if (app) {
     const moreThan1Screenshot =
       app.screenshots?.filter(pickScreenshot).length > 1
@@ -159,6 +165,13 @@ const Details: FunctionComponent<Props> = ({
               >
                 <Button variant="secondary">{t("donate")}</Button>
               </a>
+            )}
+            {!!vendingSetup?.recommended_donation && (
+              <Link passHref href={`/apps/purchase/${app.id}`}>
+                <Button className="mb-3 block w-full last:mb-0">
+                  {t("kind-purchase")}
+                </Button>
+              </Link>
             )}
           </div>
         </header>
