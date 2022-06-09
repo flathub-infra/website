@@ -96,6 +96,7 @@ export interface Release {
   description?: string
   timestamp?: number
   version: string
+  url?: string
 }
 
 export interface Launchable {
