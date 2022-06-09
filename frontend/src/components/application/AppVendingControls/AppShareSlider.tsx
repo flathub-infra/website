@@ -8,8 +8,6 @@ interface Props {
 /**
  * The control elements to see and alter the app vending share a component recieves.
  *
- * TODO: Show developer a payment breakdown distribution preview
- *
  * This is expected to be used as a controlled component, the state of which is lifted to the parent component.
  */
 const AppShareSlider: FunctionComponent<Props> = ({ value, setValue }) => {

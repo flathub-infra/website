@@ -6,18 +6,26 @@ import { ReactElement } from "react"
 import { AppVendingControls } from "../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../src/context/user-info"
-import { fetchAppstream } from "../../../src/fetchers"
+import { fetchAppstream, fetchVendingConfig } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
+import { VendingConfig } from "../../../src/types/Vending"
 
-export default function AppManagementPage({ app }: { app: Appstream }) {
+export default function AppManagementPage({
+  app,
+  vendingConfig,
+}: {
+  app: Appstream
+  vendingConfig: VendingConfig
+}) {
   const { t } = useTranslation()
   const user = useUserContext()
 
   // User must be a developer of the app to see these controls
   let content: ReactElement
   if (user.info?.["dev-flatpaks"].includes(app.id)) {
-    content = <AppVendingControls app={app} />
+    content = <AppVendingControls app={app} vendingConfig={vendingConfig} />
   } else {
+    //  TODO
     content = <p>Unauthorized</p>
   }
 
@@ -34,13 +42,17 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
-  const app = await fetchAppstream(appId as string)
+  const [app, vendingConfig] = await Promise.all([
+    fetchAppstream(appId as string),
+    fetchVendingConfig(),
+  ])
 
   return {
     notFound: !app,
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       app,
+      vendingConfig,
     },
     revalidate: 3600,
   }
