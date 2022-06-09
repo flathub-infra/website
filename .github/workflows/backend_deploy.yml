@@ -43,9 +43,3 @@ jobs:
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Trigger a deployment
-        uses: distributhor/workflow-webhook@6edfd7cdaf8e0551b717bab8912c8d910475b98f
-        env:
-          webhook_url: ${{ secrets.DEPLOY_WEBHOOK_ENDPOINT }}
-          webhook_secret: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
