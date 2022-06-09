@@ -43,6 +43,7 @@
   "contribute": "Contribute to the App",
   "no-changelog-provided": "No changelog provided",
   "changes-in-version": "Changes in version {{version-number}}",
+  "release-link": "Get more Information",
   "manual-install": "Manual Install",
   "run": "Run",
   "copy-text": "Copy Text",

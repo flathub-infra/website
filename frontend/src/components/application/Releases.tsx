@@ -32,10 +32,19 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
     [t],
   )
 
-  const releaseDescription = useMemo(
+  var releaseDescription = useMemo(
     () => (latestRelease.description ? latestRelease.description : noChangelog),
     [latestRelease.description, noChangelog],
   )
+
+  if (latestRelease.url) {
+    releaseDescription +=
+      "<a href='" +
+      latestRelease.url +
+      "' class='list-disc my-4 pl-10'>" +
+      t("release-link") +
+      "</a>"
+  }
 
   return (
     <>
