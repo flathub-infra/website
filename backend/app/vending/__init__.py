@@ -13,7 +13,6 @@ TODO:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
-
 from typing import List, Tuple
 
 import stripe
@@ -275,6 +274,38 @@ def get_app_vending_status(appid: str) -> VendingDescriptor:
         fee_fixed_cost=fee_fixed_cost,
         fee_cost_percent=fee_cost_percent,
         fee_prefer_percent=fee_prefer_percent,
+    )
+
+
+@router.get("app/{appid}/setup")
+def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingDescriptor:
+    """
+    Retrieve the vending status for a given application.  Returns a no
+    content response if the appid has no vending setup.
+
+    If any of the currency or amount values constraints are violated
+    then a no content response will also be returned because the
+    configuration is invalid.
+
+    If you do not have the right to see the vending status for this application
+    then you will be refused.
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    # TODO: Check that the calling user owns the given appid
+
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        return Response(status_code=204)
+
+    return VendingSetup(
+        status="ok",
+        currency=vend.currency,
+        appshare=vend.appshare,
+        recommended_donation=vend.recommended_donation,
+        minimum_payment=vend.minimum_payment,
     )
 
 
