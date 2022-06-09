@@ -15,6 +15,7 @@ from fastapi_sqlalchemy import db
 from .. import models
 from ..config import settings
 from ..models import FlathubUser, StripeCustomer
+from ..utils import PLATFORMS_WITH_STRIPE
 from .walletbase import (
     CardInfo,
     NascentTransaction,
@@ -29,7 +30,6 @@ from .walletbase import (
     WalletError,
     WalletInfo,
 )
-from ..utils import PLATFORMS_WITH_STRIPE
 
 GROUP_PREFIX = "flathub-txn-"
 
