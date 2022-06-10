@@ -107,7 +107,7 @@ def get_category(
         return sorted_ids.__getitem__(slice(per_page * (page - 1), per_page * page))
 
 
-@app.get("/developer/")
+@app.get("/developer")
 def get_developers():
     return db.get_developers()
 
