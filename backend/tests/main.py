@@ -39,6 +39,12 @@ def _get_expected_xml_result(test_name):
         return etree.fromstring(result.read().encode("utf-8"))
 
 
+def _get_expected_text_result(test_name):
+    path = os.path.join("tests", "results", f"{test_name}.txt")
+    with open(path) as result:
+        return result.read()
+
+
 def setup_module():
     global workspace
 
@@ -341,6 +347,12 @@ def test_app_stats_by_non_existent_id(client):
     response = client.get("/stats/does.not.exist")
     assert response.status_code == 404
     assert response.json() == None
+
+
+def test_sitemap_text(client):
+    response = client.get("/sitemap/text")
+    assert response.status_code == 200
+    assert response.text == _get_expected_text_result("test_sitemap_text")
 
 
 @vcr.use_cassette()
