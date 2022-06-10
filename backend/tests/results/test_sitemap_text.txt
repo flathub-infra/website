@@ -1,0 +1,16 @@
+https://beta.flathub.org/about
+https://beta.flathub.org/apps
+https://beta.flathub.org/apps/collection/editors-choice-apps
+https://beta.flathub.org/apps/collection/editors-choice-apps
+https://beta.flathub.org/apps/collection/editors-choice-games
+https://beta.flathub.org/apps/collection/popular
+https://beta.flathub.org/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/apps/collection/recently-updated
+https://beta.flathub.org/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/apps/details/com.wps.Office
+https://beta.flathub.org/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/badges
+https://beta.flathub.org/feeds
+https://beta.flathub.org/privacy-policy
+https://beta.flathub.org/statistics
+https://beta.flathub.org/terms-and-conditions
