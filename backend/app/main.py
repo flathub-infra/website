@@ -128,7 +128,7 @@ def get_developer(
     return sorted_ids
 
 
-@app.get("/projectgroup/")
+@app.get("/projectgroup")
 def get_project_groups():
     return db.get_project_groups()
 
