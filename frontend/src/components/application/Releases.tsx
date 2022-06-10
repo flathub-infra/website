@@ -41,7 +41,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
     releaseDescription +=
       "<a href='" +
       latestRelease.url +
-      "' class='list-disc my-4 pl-10'>" +
+      "' class='list-disc my-4 pl-10' target='_blank' rel='noreferrer'>" +
       t("release-link") +
       "</a>"
   }
