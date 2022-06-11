@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "postbuild": "next-sitemap",
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
@@ -47,7 +46,6 @@
     "eslint-config-next": "^12.1.6",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "next-sitemap": "^2.5.28",
     "postcss": "^8.4.14",
     "prettier": "^2.6.2",
     "prettier-plugin-tailwindcss": "^0.1.11",
