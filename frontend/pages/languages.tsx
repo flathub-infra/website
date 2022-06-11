@@ -1,5 +1,5 @@
 import { NextSeo } from "next-seo"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { getLanguageFlag, getLanguageName, languages } from "../src/localize"
@@ -25,6 +25,20 @@ const Languages = (): JSX.Element => {
             </li>
           ))}
         </ul>
+        <p className="pt-8">
+          <Trans i18nKey={"common:contribute-languages"}>
+            All these translations have been contributed by the community. If
+            you want to help translate Flathub, please{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href="https://hosted.weblate.org/engage/flathub/"
+            >
+              join the Flathub translation team
+            </a>
+            .
+          </Trans>
+        </p>
       </div>
     </>
   )
