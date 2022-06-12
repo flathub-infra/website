@@ -32,7 +32,7 @@ export async function fetchAppstream(appId: string): Promise<Appstream> {
   }
 
   if (!entryJson) {
-    console.log("No appstream data for ", appId)
+    console.log(`No appstream data for ${appId}`)
   }
   return entryJson
 }
@@ -47,7 +47,7 @@ export async function fetchSummary(appId: string): Promise<Summary> {
   }
 
   if (!summaryJson) {
-    console.log("No summary data for ", appId)
+    console.log(`No summary data for ${appId}`)
   }
   return summaryJson
 }
@@ -77,7 +77,7 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
   }
 
   if (!statsJson) {
-    console.log("No stats data for ", appId)
+    console.log(`No stats data for ${appId}`)
     statsJson = {
       installs_per_day: {},
       installs_last_7_days: 0,
@@ -134,7 +134,11 @@ export default async function fetchCollection(
 
   const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
 
-  console.log("\nCollection ", collection, " fetched")
+  console.log(
+    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
+      items.filter((item) => Boolean(item)).length
+    }.`,
+  )
 
   return items.filter((item) => Boolean(item))
 }
@@ -149,7 +153,11 @@ export async function fetchCategory(
 
   const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
-  console.log("\nCategory", category, " fetched")
+  console.log(
+    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${
+      items.filter((item) => Boolean(item)).length
+    }.`,
+  )
 
   return items.filter((item) => Boolean(item))
 }
@@ -159,10 +167,10 @@ export async function fetchDeveloperApps(developer: string | undefined) {
     console.log("No developer specified")
     return undefined
   }
-  console.log("\nFetching apps for developer ", developer)
+  console.log(`\nFetching apps for developer ${developer}`)
   const appListRes = await fetch(DEVELOPER_URL(developer))
   if (!appListRes || appListRes.status === 404) {
-    console.log("No apps for developer ", developer)
+    console.log(`No apps for developer ${developer}`)
     return undefined
   }
 
@@ -177,13 +185,13 @@ export async function fetchDeveloperApps(developer: string | undefined) {
 
 export async function fetchProjectgroupApps(projectgroup: string | undefined) {
   if (!projectgroup) {
-    console.log("No projectgroup specified")
+    console.log("No project-group specified")
     return undefined
   }
-  console.log("\nFetching apps for projectgroup", projectgroup)
+  console.log(`\nFetching apps for project-group ${projectgroup}`)
   const appListRes = await fetch(PROJECTGROUP_URL(projectgroup))
   if (!appListRes || appListRes.status === 404) {
-    console.log("No apps for projectgroup ", projectgroup)
+    console.log("No apps for project-group ", projectgroup)
     return undefined
   }
 
@@ -191,7 +199,7 @@ export async function fetchProjectgroupApps(projectgroup: string | undefined) {
 
   const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
 
-  console.log(`Projectgroup apps for ${projectgroup} fetched`)
+  console.log(`Project-group apps for ${projectgroup} fetched.`)
 
   return items.filter((item) => Boolean(item))
 }
@@ -200,7 +208,7 @@ export async function fetchSearchQuery(query: string) {
   const appListRes = await fetch(SEARCH_APP(query))
   const appList = await appListRes.json()
 
-  console.log("\nSearch for query: '", query, "' fetched")
+  console.log(`\nSearch for query: ${query} fetched`)
 
   return appList.filter((item) => Boolean(item))
 }
