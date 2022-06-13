@@ -21,7 +21,12 @@ export default function PopularApps({ applications }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const applications: Appstream[] = await fetchCollection(Collections.popular)
+  let applications: Appstream[]
+  if (applications === undefined) {
+    applications = await fetchCollection(Collections.popular)
+  } else {
+    console.log("Using cached applications")
+  }
 
   return {
     props: {
