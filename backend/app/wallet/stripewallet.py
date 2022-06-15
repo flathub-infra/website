@@ -216,6 +216,7 @@ class StripeWallet(WalletBase):
                 print(f"TXN {txn.id} in retry because {pi_status}")
                 txn.status = "retry"
                 txn.reason = f"Stripe status: {pi_status}"
+            txn.update_app_ownership(db)
             db.session.add(txn)
             return True
 
@@ -370,6 +371,7 @@ class StripeWallet(WalletBase):
                 stripe.PaymentIntent.cancel(stripe_txn.stripe_pi)
                 txn.status = "cancelled"
             db.session.add(txn)
+            txn.update_app_ownership(db)
             db.session.commit()
         except Exception as stripe_error:
             raise WalletError("stripe error") from stripe_error
@@ -421,6 +423,7 @@ class StripeWallet(WalletBase):
             transaction.updated = datetime.now()
             transaction.reason = ""
             db.session.add(transaction)
+            transaction.update_app_ownership(db)
             db.session.commit()
 
         return Response(None, status_code=201)
