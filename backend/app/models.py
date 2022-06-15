@@ -486,6 +486,33 @@ class Transaction(Base):
         db.session.commit()
         return txn
 
+    def update_app_ownership(self, db):
+        """
+        Update application ownership based on this transaction.  If the
+        transaction status is not "success" then nothing happens.
+
+        This should be called whenever a transaction is considered complete
+        so that relevant notations can be made regarding ownership of
+        applications etc.
+
+        It is incumbent upon the caller to commit the database transaction
+        """
+        if self.status != "success":
+            return
+        row = self.rows(db)[0]
+        if row.kind != "purchase":
+            # Nothing to do, this wasn't an application purchase
+            return
+        if UserOwnedApp.user_owns_app(db, self.user_id, row.recipient):
+            # Nothing to do, the user already owns the application, so perhaps
+            # this is an additional donation
+            return
+        app = UserOwnedApp(
+            app_id=row.recipient, account=self.user_id, created=datetime.now()
+        )
+        db.session.add(app)
+        db.session.flush()
+
 
 class TransactionRow(Base):
     __tablename__ = "transactionrow"
