@@ -212,5 +212,7 @@
   "vending-onboard": "Створити обліковий запис Stripe Express",
   "purchase-terms-confirmation": "Я підтверджую прочитання загальних положень та умов Flathub і даю згоду на відмову від 14-денного періоду повернення коштів, пов’язаного з цим цифровим завантаженням.",
   "other-apps-by-projectgroup": "Інші застосунки з групи {{projectgroup}}",
-  "applications-by-projectgroup": "Застосунки в групі {{projectgroup}}"
+  "applications-by-projectgroup": "Застосунки в групі {{projectgroup}}",
+  "release-link": "Отримати більше інформації",
+  "contribute-languages": "Усі ці переклади надала спільнота. Якщо ви хочете допомогти перекласти Flathub, <1>приєднуйтеся до команди перекладачів Flathub</1>."
 }

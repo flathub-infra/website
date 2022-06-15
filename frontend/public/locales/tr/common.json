@@ -212,5 +212,7 @@
   "continue": "Devam et",
   "purchase-terms-confirmation": "Flathub Şartlarını ve Koşullarını okuduğumu ve bu sayısal indirmeyle ilişkili 14 günlük bekleme süresinden feragat ettiğimi onaylıyorum.",
   "applications-by-projectgroup": "{{projectgroup}} grubundaki uygulamalar",
-  "other-apps-by-projectgroup": "{{projectgroup}} grubundaki diğer uygulamalar"
+  "other-apps-by-projectgroup": "{{projectgroup}} grubundaki diğer uygulamalar",
+  "release-link": "Daha fazla bilgi edinin",
+  "contribute-languages": "Tüm bu çeviriler topluluk tarafından sağlanmıştır. Çevirilere yardım etmek istiyorsanız, lütfen <1>Flathub çeviri takımına katılın</1>."
 }
