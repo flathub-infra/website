@@ -105,7 +105,7 @@
   "preferred-badge": "Preferovaný odznak",
   "alternative-badge": "Alternativní odznak",
   "also-available-as-svg": "Je také dostupný ve formátu <2>SVG</2>",
-  "badge-copyright": "V rozsahu povoleném zákonem se<1> <1>Jakub Steiner</1> </1> vzdal všech autorských práv a souvisejících práv k <3>ikonám FlatHubu</3>. Tato práce je publikována z České republiky.",
+  "badge-copyright": "V rozsahu povoleném zákonem se<1> <1>Jakub Steiner</1> </1> vzdal všech autorských a souvisejících práv k <3>ikonám FlatHubu</3>. Tato práce je publikována z České republiky.",
   "applications-by-developer": "Aplikace {{developer}}",
   "categories": "Kategorie",
   "link-more-accounts": "Propojit více účtů",
@@ -212,5 +212,7 @@
   "continue": "Pokračovat",
   "purchase-terms-confirmation": "Potvrzuji, že jsem si přečetl(a) obchodní podmínky Flathubu a souhlasím s tím, že se vzdávám 14denní lhůty na rozmyšlenou spojené s tímto digitálním stažením.",
   "applications-by-projectgroup": "Aplikace ve skupině {{projectgroup}}",
-  "other-apps-by-projectgroup": "Ostatní aplikace ve skupině {{projectgroup}}"
+  "other-apps-by-projectgroup": "Ostatní aplikace ve skupině {{projectgroup}}",
+  "release-link": "Získat více informací",
+  "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k překladatelskému týmu Flathub</1>."
 }

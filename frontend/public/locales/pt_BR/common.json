@@ -79,8 +79,8 @@
   "retry-or-go-home": "Você pode tentar novamente ou voltar para a <1>página inicial</1>.",
   "submitting-apps": "Publicar aplicativos",
   "submitting-apps-block": "<0>Os desenvolvedores de apps podem <2>enviar seus aplicativos</2> para serem distribuídos para a crescente base de usuários do Flathub, fornecendo assim uma única porta de entrada para todo o ecossistema de desktop Linux.</0><p>No momento, os aplicativos devem ser legalmente redistribuíveis ou estarem disponíveis para download externo. No entanto, se você for um desenvolvedor de aplicativos proprietários e estiver interessado em usar o Flathub, adoraríamos conversar com você.</p>",
-  "about-block": "<0>Flathub pretende ser o lugar para obter e distribuir aplicativos para Linux. Ele é distribuído por <1>Flatpak</1>, que permite os aplicativos do Flathub sejam executados em praticamente qualquer distribuição Linux.</0><1>Se você é um usuário do Linux, pode usar o Flathub para ter acesso a uma coleção crescente de aplicativos Flatpak. Você só precisa seguir as <2>instruções de configuração</2>.</1>",
-  "get-involved-block": "<p>O Flathub é uma tentativa de transformar o ecossistema de desktops Linux para melhor, e precisamos da sua ajuda. Se você puder escrever documentação, criar sites, administrar servidores ou escrever código, adoraríamos sua ajuda.</p>",
+  "about-block": "<0>O Flathub é o lugar para obter e distribuir aplicativos para todos os desktops Linux. Ele usa o <1>Flatpak</1>, permitindo que aplicativos Flathub sejam executados em praticamente qualquer distribuição Linux.</0><1>Use o Flathub para obter acesso a uma coleção crescente de Flatpaks seguindo as <2>instruções de configuração </2>.</1>",
+  "get-involved-block": "<p>O Flathub unifica o ecossistema de desktop Linux e você pode ajudar. Escreva documentação ou código, crie sites ou administre servidores.</p>",
   "reporting-issues": "Relatar problemas",
   "reporting-issues-block": "<0>Problemas legais ou de segurança podem ser relatados aos <2>mantenedores do Flathub</2>.</0>",
   "acknowledgements": "Agradecimentos",
@@ -210,5 +210,9 @@
   "terms-and-conditions": "Termos e Condições",
   "privacy-policy": "Política de Privacidade",
   "continue": "Continuar",
-  "purchase-terms-confirmation": "Confirmo que li os Termos e Condições do Flathub e concordo em renunciar ao período de reflexão de 14 dias associado a este download digital."
+  "purchase-terms-confirmation": "Confirmo que li os Termos e Condições do Flathub e concordo em renunciar ao período de reflexão de 14 dias associado a este download digital.",
+  "other-apps-by-projectgroup": "Outros aplicativos no grupo {{projectgroup}}",
+  "release-link": "Obter mais informações",
+  "contribute-languages": "Todas essas traduções foram contribuídas pela comunidade. Se você quiser ajudar a traduzir o Flathub, <1>junte-se à equipe de tradução do Flathub</1>.",
+  "applications-by-projectgroup": "Aplicativos no grupo {{projectgroup}}"
 }
