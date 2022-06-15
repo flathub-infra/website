@@ -255,7 +255,7 @@ def get_app_vending_status(appid: str) -> VendingDescriptor:
     """
     vend = ApplicationVendingConfig.by_appid(db, appid)
     if not vend:
-        raise VendingError(error="not-found")
+        return Response(status_code=204)
     try:
         shares = prices.compute_shares(appid, vend.appshare)
     except ValueError as val_err:
