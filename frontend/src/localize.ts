@@ -19,6 +19,7 @@ import {
   zhCN,
   bg,
   uk,
+  et,
 } from "date-fns/locale"
 
 export type Language =
@@ -43,6 +44,7 @@ export type Language =
   | "zh_Hans"
   | "bg"
   | "uk"
+  | "et"
 
 export const languages: Language[] = [
   "en",
@@ -66,6 +68,7 @@ export const languages: Language[] = [
   "zh_Hans",
   "bg",
   "uk",
+  "et",
 ]
 
 export function getLocale(language: string): Locale {
@@ -113,6 +116,8 @@ export function getLocale(language: string): Locale {
       return bg
     case "uk":
       return uk
+    case "et":
+      return et
 
     default:
       return enGB
@@ -164,6 +169,8 @@ export function getLocaleString(language: string): string {
       return "bg_BG"
     case "uk":
       return "uk_UA"
+    case "et":
+      return "et_EE"
 
     default:
       return "en_US"
@@ -214,6 +221,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇧🇬"
     case "uk":
       return "🇺🇦"
+    case "et":
+      return "🇪🇪"
   }
 }
 
@@ -261,6 +270,8 @@ export function getLanguageName(language: Language): string {
       return "Български"
     case "uk":
       return "Українська"
+    case "et":
+      return "Eesti"
 
     default:
       return assertUnreachable(language)
@@ -324,6 +335,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("bg")
     case "uk":
       return new Intl.Locale("uk")
+    case "et":
+      return new Intl.Locale("et")
   }
 }
 
