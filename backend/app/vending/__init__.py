@@ -13,7 +13,7 @@ TODO:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
@@ -24,6 +24,7 @@ from pydantic import BaseModel
 from ..config import settings
 from ..logins import login_state
 from ..models import ApplicationVendingConfig, StripeExpressAccount, Transaction
+from ..utils import PLATFORMS, Platform
 from ..vending import prices
 from ..wallet import Wallet, WalletError
 
@@ -81,6 +82,18 @@ class VendingRedirect(BaseModel):
 
     status: str
     target_url: str
+
+
+class VendingConfig(BaseModel):
+    """
+    Global vending environment configuration values
+    """
+
+    status: str
+    platforms: Dict[str, Platform]
+    fee_fixed_cost: int
+    fee_cost_percent: int
+    fee_prefer_percent: int
 
 
 class VendingDescriptor(BaseModel):
@@ -245,6 +258,31 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
         return VendingRedirect(status="ok", target_url=link["url"])
     except Exception as error:
         raise VendingError("stripe-link-create-failed") from error
+
+
+@router.get("/config")
+def get_global_vending_config() -> VendingConfig:
+    """
+    Retrieve the configuration values needed to calculate application
+    vending splits client-side.
+
+    Configuration includes:
+    - Fee values
+    - Platform values
+    """
+    (
+        fee_fixed_cost,
+        fee_cost_percent,
+        fee_prefer_percent,
+    ) = prices.flathub_fee_parameters("usd")
+
+    return VendingConfig(
+        status="ok",
+        platforms=PLATFORMS,
+        fee_fixed_cost=fee_fixed_cost,
+        fee_cost_percent=fee_cost_percent,
+        fee_prefer_percent=fee_prefer_percent,
+    )
 
 
 @router.get("app/{appid}")
