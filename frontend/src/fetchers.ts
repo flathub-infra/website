@@ -17,10 +17,12 @@ import {
   DEVELOPER_URL,
   PROJECTGROUP_URL,
   LOGIN_PROVIDERS_URL,
+  VENDING_CONFIG_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
+import { VendingConfig, VendingShare } from "./types/Vending"
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
@@ -228,4 +230,20 @@ export async function fetchLoginProviders(): Promise<LoginProvider[]> {
   }
 
   return await providersRes.json()
+}
+
+export async function fetchVendingConfig(): Promise<VendingConfig | undefined> {
+  let res: Response
+  try {
+    res = await fetch(VENDING_CONFIG_URL)
+  } catch {
+    return undefined
+  }
+
+  if (res.ok) {
+    const data: VendingConfig = await res.json()
+    return data
+  } else {
+    return undefined
+  }
 }

@@ -67,6 +67,8 @@ export const TRANSACTION_CANCEL_URL = (transaction: string) => {
   return `${TRANSACTION_INFO_URL(transaction)}/cancel`
 }
 
+export const VENDING_CONFIG_URL = `${BASE_URI}/vending/config`
+
 export const VENDING_STATUS_URL = `${BASE_URI}/vending/status`
 export const VENDING_ONBOARDING_URL = `${VENDING_STATUS_URL}/onboarding`
 export const VENDING_DASHBOARD_URL = `${VENDING_STATUS_URL}/dashboardlink`
