@@ -40,7 +40,7 @@ const AppVendingControls: FunctionComponent<Props> = ({
   } = useAsync(useCallback(() => getAppVendingSetup(app.id), [app.id]))
 
   // State shared by controls lifted to this parent for final submission
-  const [appShare, setAppShare] = useState(0)
+  const [appShare, setAppShare] = useState(50)
   const [recommendedDonation, setRecommendedDonation] = useState("0.00")
   const [minPayment, setMinPayment] = useState("0.00")
 
@@ -135,7 +135,12 @@ const AppVendingControls: FunctionComponent<Props> = ({
           />
         </div>
         <div>
-          <Button type="submit">{t("confirm-settings")}</Button>
+          <Button
+            disabled={Number(minPayment) > Number(recommendedDonation)}
+            type="submit"
+          >
+            {t("confirm-settings")}
+          </Button>
         </div>
       </form>
     </>
