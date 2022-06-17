@@ -1,1 +1,2 @@
-export { default as AppVendingControls } from "./AppVendingControls"
+export { default as SetupControls } from "./SetupControls"
+export { default as PurchaseControls } from "./PurchaseControls"

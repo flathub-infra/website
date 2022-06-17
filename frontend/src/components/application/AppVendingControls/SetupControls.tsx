@@ -26,10 +26,7 @@ interface Props {
  * The control elements to see and alter the vending price and split for an application.
  * It is assumed that parent will check whether to render these to the logged in user.
  */
-const AppVendingControls: FunctionComponent<Props> = ({
-  app,
-  vendingConfig,
-}) => {
+const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const { t } = useTranslation()
 
   // Need existing app vending configuration to initialise controls
@@ -147,4 +144,4 @@ const AppVendingControls: FunctionComponent<Props> = ({
   )
 }
 
-export default AppVendingControls
+export default SetupControls

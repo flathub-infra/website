@@ -221,5 +221,7 @@
   "recommended-payment": "Recommended Payment",
   "application-share": "Application Share",
   "app-vending-settings-confirmed": "Application vending settings confirmed",
-  "confirm-settings": "Confirm Settings"
+  "confirm-settings": "Confirm Settings",
+  "select-purchase-amount": "Enter the amount you wish to pay",
+  "app-payment-information": "The app developer has set a minimum payment of {{minvalue}} and a preferred payment of {{recvalue}}."
 }
