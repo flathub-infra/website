@@ -67,35 +67,32 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   )
 
   return (
-    <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="grid rounded-xl bg-bgColorSecondary p-4 text-textPrimary shadow-md">
-        <h2 className="col-start-1 row-start-1 mt-0 mb-3">
-          {user.info.displayname}
-        </h2>
+    <div className="grid rounded-xl bg-bgColorSecondary p-4 text-textPrimary shadow-md">
+      <h2 className="col-start-1 row-start-1 mt-0 mb-3">
+        {user.info.displayname}
+      </h2>
 
+      <div className="mx-4 my-auto">
+        <h3>{t("linked-accounts")}</h3>
+        <div className="flex flex-row flex-wrap gap-3">{linkedAccounts}</div>
+      </div>
+
+      {loginSection}
+
+      {user.info["dev-flatpaks"].length ? (
         <div className="mx-4 my-auto">
-          <h3>{t("linked-accounts")}</h3>
-          <div className="flex flex-row flex-wrap gap-3">{linkedAccounts}</div>
+          <h3>{t("accepting-payment")}</h3>
+          <VendingLink />
         </div>
+      ) : (
+        <></>
+      )}
 
-        {loginSection}
-
-        {user.info["dev-flatpaks"].length ? (
-          <div className="mx-4 my-auto">
-            <h3>{t("accepting-payment")}</h3>
-            <VendingLink />
-          </div>
-        ) : (
-          <></>
-        )}
-
-        <div className="row-start-1 row-end-4 ml-auto flex flex-col gap-2">
-          <Link href="/wallet" passHref>
-            <Button variant="primary">{t("view-wallet")}</Button>
-          </Link>
-          <LogoutButton />
-          <DeleteButton />
-        </div>
+      <div className="row-start-1 row-end-4 ml-auto flex flex-col gap-2">
+        <Link href="/wallet" passHref>
+          <Button variant="primary">{t("view-wallet")}</Button>
+        </Link>
+        <LogoutButton />
       </div>
     </div>
   )

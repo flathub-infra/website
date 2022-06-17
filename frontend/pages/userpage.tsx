@@ -4,6 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import Spinner from "../src/components/Spinner"
+import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
 import { fetchLoginProviders } from "../src/fetchers"
@@ -16,10 +17,13 @@ export default function Userpage({ providers }) {
   return (
     <>
       <NextSeo title={t("user-page")} noindex={true} />
-      <div className="flex flex-col gap-y-4 p-3">
+      <div className="max-w-11/12 my-0 mx-auto flex w-11/12 flex-col gap-y-4 p-3 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <UserDetails logins={providers} />
           <UserApps />
+          <div className="rounded-xl bg-bgColorSecondary p-4 shadow-md">
+            <DeleteButton />
+          </div>
         </LoginGuard>
       </div>
     </>
