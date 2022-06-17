@@ -1,8 +1,10 @@
-import { FunctionComponent, useEffect, useState } from "react"
+import { Fragment, FunctionComponent, useEffect, useState } from "react"
 import Button from "./Button"
 import { useTranslation } from "next-i18next"
+import { Dialog, Transition } from "@headlessui/react"
 
 interface Props {
+  isVisible: boolean
   prompt: string
   entry?: string
   action: string
@@ -14,6 +16,7 @@ interface Props {
  * confirmation or cancellation.
  */
 const ConfirmDialog: FunctionComponent<Props> = ({
+  isVisible,
   prompt,
   entry,
   action,
@@ -36,7 +39,9 @@ const ConfirmDialog: FunctionComponent<Props> = ({
 
   const toEnter = (
     <div>
-      <p>{t("entry-confirmation-prompt", { text: entry })}</p>
+      <Dialog.Description>
+        {t("entry-confirmation-prompt", { text: entry })}
+      </Dialog.Description>
       <input
         className="w-full rounded-xl border border-textSecondary p-3"
         value={text}
@@ -45,31 +50,38 @@ const ConfirmDialog: FunctionComponent<Props> = ({
     </div>
   )
 
-  const confirm = (
-    <Button
-      className="col-start-1"
-      onClick={() => setConfirmed(true)}
-      variant="primary"
-    >
-      {action}
-    </Button>
-  )
-
   return (
-    <div className="fixed right-5 top-24 z-20 m-auto flex flex-col justify-center rounded-xl border border-textSecondary bg-bgColorPrimary p-3">
-      <span>{prompt}</span>
-      {entry ? toEnter : <></>}
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        {entry && text === entry ? confirm : <></>}
-        <Button
-          className="col-start-2"
-          onClick={() => setCancelled(true)}
-          variant="primary"
-        >
-          {t("cancel")}
-        </Button>
-      </div>
-    </div>
+    <Transition appear show={isVisible} as={Fragment}>
+      <Dialog as="div" className="z-20 " onClose={() => setCancelled(true)}>
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <Dialog.Panel className="inline-flex flex-col justify-center gap-6 rounded-xl bg-bgColorPrimary p-8 shadow-md">
+            <Dialog.Title className="mt-0">{prompt}</Dialog.Title>
+
+            {entry ? toEnter : <></>}
+
+            <div className="mt-3 grid grid-cols-2 gap-6">
+              <Button
+                className="col-start-1"
+                onClick={() => setConfirmed(true)}
+                variant="primary"
+                disabled={entry && text !== entry}
+              >
+                {action}
+              </Button>
+              <Button
+                className="col-start-2"
+                onClick={() => setCancelled(true)}
+                variant="primary"
+              >
+                {t("cancel")}
+              </Button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+    </Transition>
   )
 }
 

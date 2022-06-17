@@ -42,22 +42,21 @@ const DeleteButton: FunctionComponent = () => {
     return <Spinner size="s" />
   }
 
-  if (token) {
-    return (
+  return (
+    <>
+      <Button onClick={execute} variant="destructive">
+        {t("delete-account")}
+      </Button>
+
       <ConfirmDialog
+        isVisible={!!token}
         prompt={t("delete-account-prompt")}
         entry={t("delete-account-entry")}
         action={t("delete-account")}
         onConfirmed={execute}
         onCancelled={() => setToken("")}
       />
-    )
-  }
-
-  return (
-    <Button onClick={execute} variant="destructive">
-      {t("delete-account")}
-    </Button>
+    </>
   )
 }
 
