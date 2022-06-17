@@ -13,6 +13,7 @@
     "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.4",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@stripe/react-stripe-js": "^1.8.1",
     "@stripe/stripe-js": "^1.29.0",
