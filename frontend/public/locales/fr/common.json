@@ -212,5 +212,7 @@
   "go-to-page": "Aller à {{page}}",
   "entry-confirmation-prompt": "Entrez « {{text}} » pour continuer.",
   "applications-by-projectgroup": "Les applications du groupe {{projectgroup}}",
-  "other-apps-by-projectgroup": "Autres applications dans le groupe {{projectgroup}}"
+  "other-apps-by-projectgroup": "Autres applications dans le groupe {{projectgroup}}",
+  "release-link": "Plus d'informations",
+  "contribute-languages": "Toutes ces traductions ont été réalisées par la communauté. Si vous voulez aider à traduire Flathub, veuillez <1>rejoindre l'équipe de traduction de Flathub</1>."
 }
