@@ -20,6 +20,8 @@ import {
   bg,
   uk,
   et,
+  ca,
+  el,
 } from "date-fns/locale"
 
 export type Language =
@@ -45,6 +47,8 @@ export type Language =
   | "bg"
   | "uk"
   | "et"
+  | "ca"
+  | "el"
 
 export const languages: Language[] = [
   "en",
@@ -69,6 +73,8 @@ export const languages: Language[] = [
   "bg",
   "uk",
   "et",
+  "ca",
+  "el",
 ]
 
 export function getLocale(language: string): Locale {
@@ -118,6 +124,10 @@ export function getLocale(language: string): Locale {
       return uk
     case "et":
       return et
+    case "ca":
+      return ca
+    case "el":
+      return el
 
     default:
       return enGB
@@ -171,6 +181,10 @@ export function getLocaleString(language: string): string {
       return "uk_UA"
     case "et":
       return "et_EE"
+    case "ca":
+      return "ca_ES"
+    case "el":
+      return "el_GR"
 
     default:
       return "en_US"
@@ -223,6 +237,10 @@ export function getLanguageFlag(language: Language): string {
       return "🇺🇦"
     case "et":
       return "🇪🇪"
+    case "ca":
+      return ""
+    case "el":
+      return "🇬🇷"
   }
 }
 
@@ -272,6 +290,10 @@ export function getLanguageName(language: Language): string {
       return "Українська"
     case "et":
       return "Eesti"
+    case "ca":
+      return "Català"
+    case "el":
+      return "Ελληνικά"
 
     default:
       return assertUnreachable(language)
@@ -337,6 +359,10 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("uk")
     case "et":
       return new Intl.Locale("et")
+    case "ca":
+      return new Intl.Locale("ca")
+    case "el":
+      return new Intl.Locale("el")
   }
 }
 
