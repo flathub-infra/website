@@ -212,5 +212,7 @@
   "continue": "Jatka",
   "purchase-terms-confirmation": "Vahvistan, että olen lukenut Flathubin käyttöehdot ja hyväksyn, että luovun 14 päivän harkinta-ajasta tämän digitaalisen latauksen osalta.",
   "other-apps-by-projectgroup": "Muut sovellukset ryhmässä {{projectgroup}}",
-  "applications-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}"
+  "applications-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}",
+  "release-link": "Lisätietoja",
+  "contribute-languages": "Kaikki nämä kielikäännökset ovat yhteisön tekemiä. Jos haluat auttaa Flathubin kääntämisessä, <1>liity Flathub-käännöstiimiin</1>."
 }
