@@ -26,6 +26,8 @@ module.exports = {
       "bg",
       "uk",
       "et",
+      "ca",
+      "el",
     ],
   },
   // debug: true,
