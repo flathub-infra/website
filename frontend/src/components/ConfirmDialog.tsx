@@ -56,8 +56,8 @@ const ConfirmDialog: FunctionComponent<Props> = ({
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="inline-flex flex-col justify-center gap-6 rounded-xl bg-bgColorPrimary p-8 shadow-md">
-            <Dialog.Title className="mt-0">{prompt}</Dialog.Title>
+          <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-bgColorPrimary p-14 shadow-md">
+            <Dialog.Title className="m-0">{prompt}</Dialog.Title>
 
             {entry ? toEnter : <></>}
 
@@ -66,6 +66,8 @@ const ConfirmDialog: FunctionComponent<Props> = ({
                 className="col-start-1"
                 onClick={() => setConfirmed(true)}
                 variant="primary"
+                aria-label={action}
+                title={action}
                 disabled={entry && text !== entry}
               >
                 {action}
@@ -74,6 +76,8 @@ const ConfirmDialog: FunctionComponent<Props> = ({
                 className="col-start-2"
                 onClick={() => setCancelled(true)}
                 variant="primary"
+                aria-label={t("cancel")}
+                title={t("cancel")}
               >
                 {t("cancel")}
               </Button>
