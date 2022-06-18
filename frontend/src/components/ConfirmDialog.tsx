@@ -64,6 +64,15 @@ const ConfirmDialog: FunctionComponent<Props> = ({
             <div className="mt-3 grid grid-cols-2 gap-6">
               <Button
                 className="col-start-1"
+                onClick={() => setCancelled(true)}
+                variant="primary"
+                aria-label={t("cancel")}
+                title={t("cancel")}
+              >
+                {t("cancel")}
+              </Button>
+              <Button
+                className="col-start-2"
                 onClick={() => setConfirmed(true)}
                 variant="primary"
                 aria-label={action}
@@ -71,15 +80,6 @@ const ConfirmDialog: FunctionComponent<Props> = ({
                 disabled={entry && text !== entry}
               >
                 {action}
-              </Button>
-              <Button
-                className="col-start-2"
-                onClick={() => setCancelled(true)}
-                variant="primary"
-                aria-label={t("cancel")}
-                title={t("cancel")}
-              >
-                {t("cancel")}
               </Button>
             </div>
           </Dialog.Panel>
