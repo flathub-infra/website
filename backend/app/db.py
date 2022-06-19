@@ -40,6 +40,10 @@ def get_json_key(key: str):
     return None
 
 
+def get_categories():
+    return {category for category in redis_conn.smembers("categories:index")}
+
+
 def get_developers():
     return {developer for developer in redis_conn.smembers("developers:index")}
 

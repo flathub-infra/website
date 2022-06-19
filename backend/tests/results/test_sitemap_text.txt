@@ -1,6 +1,11 @@
 https://beta.flathub.org/about
 https://beta.flathub.org/apps
-https://beta.flathub.org/apps/collection/editors-choice-apps
+https://beta.flathub.org/apps/category/Game
+https://beta.flathub.org/apps/category/Network
+https://beta.flathub.org/apps/category/Office
+https://beta.flathub.org/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/apps/collection/developer/Sugar Labs Community
 https://beta.flathub.org/apps/collection/editors-choice-apps
 https://beta.flathub.org/apps/collection/editors-choice-games
 https://beta.flathub.org/apps/collection/popular
@@ -11,6 +16,511 @@ https://beta.flathub.org/apps/details/com.wps.Office
 https://beta.flathub.org/apps/details/org.sugarlabs.Maze
 https://beta.flathub.org/badges
 https://beta.flathub.org/feeds
+https://beta.flathub.org/languages
 https://beta.flathub.org/privacy-policy
 https://beta.flathub.org/statistics
-https://beta.flathub.org/terms-and-conditions
+https://beta.flathub.org/terms-and-conditionshttps://beta.flathub.org/en_GB/about
+https://beta.flathub.org/en_GB/apps
+https://beta.flathub.org/en_GB/apps/category/Game
+https://beta.flathub.org/en_GB/apps/category/Network
+https://beta.flathub.org/en_GB/apps/category/Office
+https://beta.flathub.org/en_GB/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/en_GB/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/en_GB/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/en_GB/apps/collection/editors-choice-apps
+https://beta.flathub.org/en_GB/apps/collection/editors-choice-games
+https://beta.flathub.org/en_GB/apps/collection/popular
+https://beta.flathub.org/en_GB/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/en_GB/apps/collection/recently-updated
+https://beta.flathub.org/en_GB/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/en_GB/apps/details/com.wps.Office
+https://beta.flathub.org/en_GB/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/en_GB/badges
+https://beta.flathub.org/en_GB/feeds
+https://beta.flathub.org/en_GB/languages
+https://beta.flathub.org/en_GB/privacy-policy
+https://beta.flathub.org/en_GB/statistics
+https://beta.flathub.org/en_GB/terms-and-conditionshttps://beta.flathub.org/en/about
+https://beta.flathub.org/en/apps
+https://beta.flathub.org/en/apps/category/Game
+https://beta.flathub.org/en/apps/category/Network
+https://beta.flathub.org/en/apps/category/Office
+https://beta.flathub.org/en/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/en/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/en/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/en/apps/collection/editors-choice-apps
+https://beta.flathub.org/en/apps/collection/editors-choice-games
+https://beta.flathub.org/en/apps/collection/popular
+https://beta.flathub.org/en/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/en/apps/collection/recently-updated
+https://beta.flathub.org/en/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/en/apps/details/com.wps.Office
+https://beta.flathub.org/en/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/en/badges
+https://beta.flathub.org/en/feeds
+https://beta.flathub.org/en/languages
+https://beta.flathub.org/en/privacy-policy
+https://beta.flathub.org/en/statistics
+https://beta.flathub.org/en/terms-and-conditionshttps://beta.flathub.org/de/about
+https://beta.flathub.org/de/apps
+https://beta.flathub.org/de/apps/category/Game
+https://beta.flathub.org/de/apps/category/Network
+https://beta.flathub.org/de/apps/category/Office
+https://beta.flathub.org/de/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/de/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/de/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/de/apps/collection/editors-choice-apps
+https://beta.flathub.org/de/apps/collection/editors-choice-games
+https://beta.flathub.org/de/apps/collection/popular
+https://beta.flathub.org/de/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/de/apps/collection/recently-updated
+https://beta.flathub.org/de/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/de/apps/details/com.wps.Office
+https://beta.flathub.org/de/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/de/badges
+https://beta.flathub.org/de/feeds
+https://beta.flathub.org/de/languages
+https://beta.flathub.org/de/privacy-policy
+https://beta.flathub.org/de/statistics
+https://beta.flathub.org/de/terms-and-conditionshttps://beta.flathub.org/fr/about
+https://beta.flathub.org/fr/apps
+https://beta.flathub.org/fr/apps/category/Game
+https://beta.flathub.org/fr/apps/category/Network
+https://beta.flathub.org/fr/apps/category/Office
+https://beta.flathub.org/fr/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/fr/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/fr/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/fr/apps/collection/editors-choice-apps
+https://beta.flathub.org/fr/apps/collection/editors-choice-games
+https://beta.flathub.org/fr/apps/collection/popular
+https://beta.flathub.org/fr/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/fr/apps/collection/recently-updated
+https://beta.flathub.org/fr/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/fr/apps/details/com.wps.Office
+https://beta.flathub.org/fr/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/fr/badges
+https://beta.flathub.org/fr/feeds
+https://beta.flathub.org/fr/languages
+https://beta.flathub.org/fr/privacy-policy
+https://beta.flathub.org/fr/statistics
+https://beta.flathub.org/fr/terms-and-conditionshttps://beta.flathub.org/nb_NO/about
+https://beta.flathub.org/nb_NO/apps
+https://beta.flathub.org/nb_NO/apps/category/Game
+https://beta.flathub.org/nb_NO/apps/category/Network
+https://beta.flathub.org/nb_NO/apps/category/Office
+https://beta.flathub.org/nb_NO/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/nb_NO/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/nb_NO/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/nb_NO/apps/collection/editors-choice-apps
+https://beta.flathub.org/nb_NO/apps/collection/editors-choice-games
+https://beta.flathub.org/nb_NO/apps/collection/popular
+https://beta.flathub.org/nb_NO/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/nb_NO/apps/collection/recently-updated
+https://beta.flathub.org/nb_NO/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/nb_NO/apps/details/com.wps.Office
+https://beta.flathub.org/nb_NO/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/nb_NO/badges
+https://beta.flathub.org/nb_NO/feeds
+https://beta.flathub.org/nb_NO/languages
+https://beta.flathub.org/nb_NO/privacy-policy
+https://beta.flathub.org/nb_NO/statistics
+https://beta.flathub.org/nb_NO/terms-and-conditionshttps://beta.flathub.org/tr/about
+https://beta.flathub.org/tr/apps
+https://beta.flathub.org/tr/apps/category/Game
+https://beta.flathub.org/tr/apps/category/Network
+https://beta.flathub.org/tr/apps/category/Office
+https://beta.flathub.org/tr/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/tr/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/tr/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/tr/apps/collection/editors-choice-apps
+https://beta.flathub.org/tr/apps/collection/editors-choice-games
+https://beta.flathub.org/tr/apps/collection/popular
+https://beta.flathub.org/tr/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/tr/apps/collection/recently-updated
+https://beta.flathub.org/tr/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/tr/apps/details/com.wps.Office
+https://beta.flathub.org/tr/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/tr/badges
+https://beta.flathub.org/tr/feeds
+https://beta.flathub.org/tr/languages
+https://beta.flathub.org/tr/privacy-policy
+https://beta.flathub.org/tr/statistics
+https://beta.flathub.org/tr/terms-and-conditionshttps://beta.flathub.org/fi/about
+https://beta.flathub.org/fi/apps
+https://beta.flathub.org/fi/apps/category/Game
+https://beta.flathub.org/fi/apps/category/Network
+https://beta.flathub.org/fi/apps/category/Office
+https://beta.flathub.org/fi/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/fi/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/fi/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/fi/apps/collection/editors-choice-apps
+https://beta.flathub.org/fi/apps/collection/editors-choice-games
+https://beta.flathub.org/fi/apps/collection/popular
+https://beta.flathub.org/fi/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/fi/apps/collection/recently-updated
+https://beta.flathub.org/fi/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/fi/apps/details/com.wps.Office
+https://beta.flathub.org/fi/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/fi/badges
+https://beta.flathub.org/fi/feeds
+https://beta.flathub.org/fi/languages
+https://beta.flathub.org/fi/privacy-policy
+https://beta.flathub.org/fi/statistics
+https://beta.flathub.org/fi/terms-and-conditionshttps://beta.flathub.org/id/about
+https://beta.flathub.org/id/apps
+https://beta.flathub.org/id/apps/category/Game
+https://beta.flathub.org/id/apps/category/Network
+https://beta.flathub.org/id/apps/category/Office
+https://beta.flathub.org/id/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/id/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/id/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/id/apps/collection/editors-choice-apps
+https://beta.flathub.org/id/apps/collection/editors-choice-games
+https://beta.flathub.org/id/apps/collection/popular
+https://beta.flathub.org/id/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/id/apps/collection/recently-updated
+https://beta.flathub.org/id/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/id/apps/details/com.wps.Office
+https://beta.flathub.org/id/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/id/badges
+https://beta.flathub.org/id/feeds
+https://beta.flathub.org/id/languages
+https://beta.flathub.org/id/privacy-policy
+https://beta.flathub.org/id/statistics
+https://beta.flathub.org/id/terms-and-conditionshttps://beta.flathub.org/it/about
+https://beta.flathub.org/it/apps
+https://beta.flathub.org/it/apps/category/Game
+https://beta.flathub.org/it/apps/category/Network
+https://beta.flathub.org/it/apps/category/Office
+https://beta.flathub.org/it/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/it/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/it/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/it/apps/collection/editors-choice-apps
+https://beta.flathub.org/it/apps/collection/editors-choice-games
+https://beta.flathub.org/it/apps/collection/popular
+https://beta.flathub.org/it/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/it/apps/collection/recently-updated
+https://beta.flathub.org/it/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/it/apps/details/com.wps.Office
+https://beta.flathub.org/it/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/it/badges
+https://beta.flathub.org/it/feeds
+https://beta.flathub.org/it/languages
+https://beta.flathub.org/it/privacy-policy
+https://beta.flathub.org/it/statistics
+https://beta.flathub.org/it/terms-and-conditionshttps://beta.flathub.org/pl/about
+https://beta.flathub.org/pl/apps
+https://beta.flathub.org/pl/apps/category/Game
+https://beta.flathub.org/pl/apps/category/Network
+https://beta.flathub.org/pl/apps/category/Office
+https://beta.flathub.org/pl/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/pl/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/pl/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/pl/apps/collection/editors-choice-apps
+https://beta.flathub.org/pl/apps/collection/editors-choice-games
+https://beta.flathub.org/pl/apps/collection/popular
+https://beta.flathub.org/pl/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/pl/apps/collection/recently-updated
+https://beta.flathub.org/pl/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/pl/apps/details/com.wps.Office
+https://beta.flathub.org/pl/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/pl/badges
+https://beta.flathub.org/pl/feeds
+https://beta.flathub.org/pl/languages
+https://beta.flathub.org/pl/privacy-policy
+https://beta.flathub.org/pl/statistics
+https://beta.flathub.org/pl/terms-and-conditionshttps://beta.flathub.org/pt_BR/about
+https://beta.flathub.org/pt_BR/apps
+https://beta.flathub.org/pt_BR/apps/category/Game
+https://beta.flathub.org/pt_BR/apps/category/Network
+https://beta.flathub.org/pt_BR/apps/category/Office
+https://beta.flathub.org/pt_BR/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/pt_BR/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/pt_BR/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/pt_BR/apps/collection/editors-choice-apps
+https://beta.flathub.org/pt_BR/apps/collection/editors-choice-games
+https://beta.flathub.org/pt_BR/apps/collection/popular
+https://beta.flathub.org/pt_BR/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/pt_BR/apps/collection/recently-updated
+https://beta.flathub.org/pt_BR/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/pt_BR/apps/details/com.wps.Office
+https://beta.flathub.org/pt_BR/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/pt_BR/badges
+https://beta.flathub.org/pt_BR/feeds
+https://beta.flathub.org/pt_BR/languages
+https://beta.flathub.org/pt_BR/privacy-policy
+https://beta.flathub.org/pt_BR/statistics
+https://beta.flathub.org/pt_BR/terms-and-conditionshttps://beta.flathub.org/ru/about
+https://beta.flathub.org/ru/apps
+https://beta.flathub.org/ru/apps/category/Game
+https://beta.flathub.org/ru/apps/category/Network
+https://beta.flathub.org/ru/apps/category/Office
+https://beta.flathub.org/ru/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/ru/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/ru/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/ru/apps/collection/editors-choice-apps
+https://beta.flathub.org/ru/apps/collection/editors-choice-games
+https://beta.flathub.org/ru/apps/collection/popular
+https://beta.flathub.org/ru/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/ru/apps/collection/recently-updated
+https://beta.flathub.org/ru/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/ru/apps/details/com.wps.Office
+https://beta.flathub.org/ru/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/ru/badges
+https://beta.flathub.org/ru/feeds
+https://beta.flathub.org/ru/languages
+https://beta.flathub.org/ru/privacy-policy
+https://beta.flathub.org/ru/statistics
+https://beta.flathub.org/ru/terms-and-conditionshttps://beta.flathub.org/si/about
+https://beta.flathub.org/si/apps
+https://beta.flathub.org/si/apps/category/Game
+https://beta.flathub.org/si/apps/category/Network
+https://beta.flathub.org/si/apps/category/Office
+https://beta.flathub.org/si/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/si/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/si/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/si/apps/collection/editors-choice-apps
+https://beta.flathub.org/si/apps/collection/editors-choice-games
+https://beta.flathub.org/si/apps/collection/popular
+https://beta.flathub.org/si/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/si/apps/collection/recently-updated
+https://beta.flathub.org/si/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/si/apps/details/com.wps.Office
+https://beta.flathub.org/si/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/si/badges
+https://beta.flathub.org/si/feeds
+https://beta.flathub.org/si/languages
+https://beta.flathub.org/si/privacy-policy
+https://beta.flathub.org/si/statistics
+https://beta.flathub.org/si/terms-and-conditionshttps://beta.flathub.org/vi/about
+https://beta.flathub.org/vi/apps
+https://beta.flathub.org/vi/apps/category/Game
+https://beta.flathub.org/vi/apps/category/Network
+https://beta.flathub.org/vi/apps/category/Office
+https://beta.flathub.org/vi/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/vi/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/vi/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/vi/apps/collection/editors-choice-apps
+https://beta.flathub.org/vi/apps/collection/editors-choice-games
+https://beta.flathub.org/vi/apps/collection/popular
+https://beta.flathub.org/vi/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/vi/apps/collection/recently-updated
+https://beta.flathub.org/vi/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/vi/apps/details/com.wps.Office
+https://beta.flathub.org/vi/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/vi/badges
+https://beta.flathub.org/vi/feeds
+https://beta.flathub.org/vi/languages
+https://beta.flathub.org/vi/privacy-policy
+https://beta.flathub.org/vi/statistics
+https://beta.flathub.org/vi/terms-and-conditionshttps://beta.flathub.org/ar/about
+https://beta.flathub.org/ar/apps
+https://beta.flathub.org/ar/apps/category/Game
+https://beta.flathub.org/ar/apps/category/Network
+https://beta.flathub.org/ar/apps/category/Office
+https://beta.flathub.org/ar/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/ar/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/ar/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/ar/apps/collection/editors-choice-apps
+https://beta.flathub.org/ar/apps/collection/editors-choice-games
+https://beta.flathub.org/ar/apps/collection/popular
+https://beta.flathub.org/ar/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/ar/apps/collection/recently-updated
+https://beta.flathub.org/ar/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/ar/apps/details/com.wps.Office
+https://beta.flathub.org/ar/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/ar/badges
+https://beta.flathub.org/ar/feeds
+https://beta.flathub.org/ar/languages
+https://beta.flathub.org/ar/privacy-policy
+https://beta.flathub.org/ar/statistics
+https://beta.flathub.org/ar/terms-and-conditionshttps://beta.flathub.org/es/about
+https://beta.flathub.org/es/apps
+https://beta.flathub.org/es/apps/category/Game
+https://beta.flathub.org/es/apps/category/Network
+https://beta.flathub.org/es/apps/category/Office
+https://beta.flathub.org/es/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/es/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/es/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/es/apps/collection/editors-choice-apps
+https://beta.flathub.org/es/apps/collection/editors-choice-games
+https://beta.flathub.org/es/apps/collection/popular
+https://beta.flathub.org/es/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/es/apps/collection/recently-updated
+https://beta.flathub.org/es/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/es/apps/details/com.wps.Office
+https://beta.flathub.org/es/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/es/badges
+https://beta.flathub.org/es/feeds
+https://beta.flathub.org/es/languages
+https://beta.flathub.org/es/privacy-policy
+https://beta.flathub.org/es/statistics
+https://beta.flathub.org/es/terms-and-conditionshttps://beta.flathub.org/ja/about
+https://beta.flathub.org/ja/apps
+https://beta.flathub.org/ja/apps/category/Game
+https://beta.flathub.org/ja/apps/category/Network
+https://beta.flathub.org/ja/apps/category/Office
+https://beta.flathub.org/ja/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/ja/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/ja/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/ja/apps/collection/editors-choice-apps
+https://beta.flathub.org/ja/apps/collection/editors-choice-games
+https://beta.flathub.org/ja/apps/collection/popular
+https://beta.flathub.org/ja/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/ja/apps/collection/recently-updated
+https://beta.flathub.org/ja/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/ja/apps/details/com.wps.Office
+https://beta.flathub.org/ja/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/ja/badges
+https://beta.flathub.org/ja/feeds
+https://beta.flathub.org/ja/languages
+https://beta.flathub.org/ja/privacy-policy
+https://beta.flathub.org/ja/statistics
+https://beta.flathub.org/ja/terms-and-conditionshttps://beta.flathub.org/cs/about
+https://beta.flathub.org/cs/apps
+https://beta.flathub.org/cs/apps/category/Game
+https://beta.flathub.org/cs/apps/category/Network
+https://beta.flathub.org/cs/apps/category/Office
+https://beta.flathub.org/cs/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/cs/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/cs/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/cs/apps/collection/editors-choice-apps
+https://beta.flathub.org/cs/apps/collection/editors-choice-games
+https://beta.flathub.org/cs/apps/collection/popular
+https://beta.flathub.org/cs/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/cs/apps/collection/recently-updated
+https://beta.flathub.org/cs/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/cs/apps/details/com.wps.Office
+https://beta.flathub.org/cs/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/cs/badges
+https://beta.flathub.org/cs/feeds
+https://beta.flathub.org/cs/languages
+https://beta.flathub.org/cs/privacy-policy
+https://beta.flathub.org/cs/statistics
+https://beta.flathub.org/cs/terms-and-conditionshttps://beta.flathub.org/zh_Hans/about
+https://beta.flathub.org/zh_Hans/apps
+https://beta.flathub.org/zh_Hans/apps/category/Game
+https://beta.flathub.org/zh_Hans/apps/category/Network
+https://beta.flathub.org/zh_Hans/apps/category/Office
+https://beta.flathub.org/zh_Hans/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/zh_Hans/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/zh_Hans/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/zh_Hans/apps/collection/editors-choice-apps
+https://beta.flathub.org/zh_Hans/apps/collection/editors-choice-games
+https://beta.flathub.org/zh_Hans/apps/collection/popular
+https://beta.flathub.org/zh_Hans/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/zh_Hans/apps/collection/recently-updated
+https://beta.flathub.org/zh_Hans/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/zh_Hans/apps/details/com.wps.Office
+https://beta.flathub.org/zh_Hans/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/zh_Hans/badges
+https://beta.flathub.org/zh_Hans/feeds
+https://beta.flathub.org/zh_Hans/languages
+https://beta.flathub.org/zh_Hans/privacy-policy
+https://beta.flathub.org/zh_Hans/statistics
+https://beta.flathub.org/zh_Hans/terms-and-conditionshttps://beta.flathub.org/bg/about
+https://beta.flathub.org/bg/apps
+https://beta.flathub.org/bg/apps/category/Game
+https://beta.flathub.org/bg/apps/category/Network
+https://beta.flathub.org/bg/apps/category/Office
+https://beta.flathub.org/bg/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/bg/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/bg/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/bg/apps/collection/editors-choice-apps
+https://beta.flathub.org/bg/apps/collection/editors-choice-games
+https://beta.flathub.org/bg/apps/collection/popular
+https://beta.flathub.org/bg/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/bg/apps/collection/recently-updated
+https://beta.flathub.org/bg/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/bg/apps/details/com.wps.Office
+https://beta.flathub.org/bg/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/bg/badges
+https://beta.flathub.org/bg/feeds
+https://beta.flathub.org/bg/languages
+https://beta.flathub.org/bg/privacy-policy
+https://beta.flathub.org/bg/statistics
+https://beta.flathub.org/bg/terms-and-conditionshttps://beta.flathub.org/uk/about
+https://beta.flathub.org/uk/apps
+https://beta.flathub.org/uk/apps/category/Game
+https://beta.flathub.org/uk/apps/category/Network
+https://beta.flathub.org/uk/apps/category/Office
+https://beta.flathub.org/uk/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/uk/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/uk/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/uk/apps/collection/editors-choice-apps
+https://beta.flathub.org/uk/apps/collection/editors-choice-games
+https://beta.flathub.org/uk/apps/collection/popular
+https://beta.flathub.org/uk/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/uk/apps/collection/recently-updated
+https://beta.flathub.org/uk/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/uk/apps/details/com.wps.Office
+https://beta.flathub.org/uk/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/uk/badges
+https://beta.flathub.org/uk/feeds
+https://beta.flathub.org/uk/languages
+https://beta.flathub.org/uk/privacy-policy
+https://beta.flathub.org/uk/statistics
+https://beta.flathub.org/uk/terms-and-conditionshttps://beta.flathub.org/et/about
+https://beta.flathub.org/et/apps
+https://beta.flathub.org/et/apps/category/Game
+https://beta.flathub.org/et/apps/category/Network
+https://beta.flathub.org/et/apps/category/Office
+https://beta.flathub.org/et/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/et/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/et/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/et/apps/collection/editors-choice-apps
+https://beta.flathub.org/et/apps/collection/editors-choice-games
+https://beta.flathub.org/et/apps/collection/popular
+https://beta.flathub.org/et/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/et/apps/collection/recently-updated
+https://beta.flathub.org/et/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/et/apps/details/com.wps.Office
+https://beta.flathub.org/et/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/et/badges
+https://beta.flathub.org/et/feeds
+https://beta.flathub.org/et/languages
+https://beta.flathub.org/et/privacy-policy
+https://beta.flathub.org/et/statistics
+https://beta.flathub.org/et/terms-and-conditionshttps://beta.flathub.org/ca/about
+https://beta.flathub.org/ca/apps
+https://beta.flathub.org/ca/apps/category/Game
+https://beta.flathub.org/ca/apps/category/Network
+https://beta.flathub.org/ca/apps/category/Office
+https://beta.flathub.org/ca/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/ca/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/ca/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/ca/apps/collection/editors-choice-apps
+https://beta.flathub.org/ca/apps/collection/editors-choice-games
+https://beta.flathub.org/ca/apps/collection/popular
+https://beta.flathub.org/ca/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/ca/apps/collection/recently-updated
+https://beta.flathub.org/ca/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/ca/apps/details/com.wps.Office
+https://beta.flathub.org/ca/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/ca/badges
+https://beta.flathub.org/ca/feeds
+https://beta.flathub.org/ca/languages
+https://beta.flathub.org/ca/privacy-policy
+https://beta.flathub.org/ca/statistics
+https://beta.flathub.org/ca/terms-and-conditionshttps://beta.flathub.org/el/about
+https://beta.flathub.org/el/apps
+https://beta.flathub.org/el/apps/category/Game
+https://beta.flathub.org/el/apps/category/Network
+https://beta.flathub.org/el/apps/category/Office
+https://beta.flathub.org/el/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/el/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/el/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/el/apps/collection/editors-choice-apps
+https://beta.flathub.org/el/apps/collection/editors-choice-games
+https://beta.flathub.org/el/apps/collection/popular
+https://beta.flathub.org/el/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/el/apps/collection/recently-updated
+https://beta.flathub.org/el/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/el/apps/details/com.wps.Office
+https://beta.flathub.org/el/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/el/badges
+https://beta.flathub.org/el/feeds
+https://beta.flathub.org/el/languages
+https://beta.flathub.org/el/privacy-policy
+https://beta.flathub.org/el/statistics
+https://beta.flathub.org/el/terms-and-conditions
