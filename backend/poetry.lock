@@ -742,7 +742,7 @@ full = ["itsdangerous", "jinja2", "python-multipart", "pyyaml", "requests"]
 
 [[package]]
 name = "stripe"
-version = "3.3.0"
+version = "3.4.0"
 description = "Python bindings for the Stripe API"
 category = "main"
 optional = false
@@ -852,7 +852,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "962b11559f4d745adb7d86acf645ba1e83a907210006760f18488fca15ccca64"
+content-hash = "18fb3df6df913b14839afe5e6c69ccdcf8168f73ba31a2b0312364f0684c4211"
 
 [metadata.files]
 alembic = [
@@ -1574,8 +1574,8 @@ starlette = [
     {file = "starlette-0.19.1.tar.gz", hash = "sha256:c6d21096774ecb9639acad41b86b7706e52ba3bf1dc13ea4ed9ad593d47e24c7"},
 ]
 stripe = [
-    {file = "stripe-3.3.0-py2.py3-none-any.whl", hash = "sha256:eb3860a8f4add4113e1e2afd35b93ec5dcecf0171b02dc157991f96fcdcf3574"},
-    {file = "stripe-3.3.0.tar.gz", hash = "sha256:dac60c102fb67a8ac9aa16569b0afd0d63b96c62be064088519e1c661b3f39fa"},
+    {file = "stripe-3.4.0-py2.py3-none-any.whl", hash = "sha256:baead81078913f170df57b2c5ffb05f0b6a1c6eaea8dd9a25922c7025916768d"},
+    {file = "stripe-3.4.0.tar.gz", hash = "sha256:5dc37defd9d65e053022dabcb659e7362b058a7af74047ee58518a2907a761f2"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
