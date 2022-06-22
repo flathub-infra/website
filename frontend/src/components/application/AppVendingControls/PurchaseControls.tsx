@@ -12,6 +12,7 @@ import { getAppVendingSetup, initiateAppPayment } from "../../../asyncs/vending"
 import { useAsync } from "../../../hooks/useAsync"
 import { getIntlLocale } from "../../../localize"
 import { Appstream } from "../../../types/Appstream"
+import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
@@ -31,7 +32,10 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const router = useRouter()
 
   // Need app vending configuration to initialise payment value
-  const [amount, setAmount] = useState("")
+  const [amount, setAmount] = useState<NumericInputValue>({
+    live: 0,
+    settled: 0,
+  })
 
   // TODO: handle error case
   const {
@@ -42,7 +46,11 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   useEffect(() => {
     if (vendingSetup) {
-      setAmount((vendingSetup.recommended_donation / 100).toFixed(2))
+      const decimalValue = vendingSetup.recommended_donation / 100
+      setAmount({
+        live: decimalValue,
+        settled: decimalValue,
+      })
     }
   }, [vendingSetup])
 
@@ -57,7 +65,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       () =>
         initiateAppPayment(app.id, {
           currency: "usd",
-          amount: Number(amount) * 100,
+          amount: amount.settled * 100,
         }),
       [app.id, amount],
     ),
@@ -126,12 +134,12 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         minimum={vendingSetup.minimum_payment / 100}
       />
       <VendingSharesPreview
-        price={Number(amount) * 100}
+        price={amount.live * 100}
         app={app}
         appShare={vendingSetup.appshare}
         vendingConfig={vendingConfig}
       />
-      <Button disabled={vendingSetup.minimum_payment > Number(amount) * 100}>
+      <Button disabled={vendingSetup.minimum_payment > amount.live * 100}>
         {t("kind-purchase")}
       </Button>
     </form>

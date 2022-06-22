@@ -223,5 +223,7 @@
   "app-vending-settings-confirmed": "Application vending settings confirmed",
   "confirm-settings": "Confirm Settings",
   "select-purchase-amount": "Enter the amount you wish to pay",
-  "app-payment-information": "The app developer has set a minimum payment of {{minvalue}} and a preferred payment of {{recvalue}}."
+  "app-payment-information": "The app developer has set a minimum payment of {{minvalue}} and a preferred payment of {{recvalue}}.",
+  "value-at-least": "You must enter a value of at least {{value}}",
+  "value-at-most": "You must enter a value of at most {{value}}"
 }
