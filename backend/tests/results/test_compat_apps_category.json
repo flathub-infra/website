@@ -1,0 +1,12 @@
+[
+    {
+        "currentReleaseDate": null,
+        "currentReleaseVersion": null,
+        "flatpakAppId": "com.anydesk.Anydesk",
+        "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+        "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+        "inStoreSinceDate": null,
+        "name": "AnyDesk",
+        "summary": "Connect to a computer remotely"
+    }
+]
