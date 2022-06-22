@@ -3,6 +3,7 @@ import Router from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { initiateDonation } from "../../asyncs/payment"
+import { NumericInputValue } from "../../types/Input"
 import Button from "../Button"
 import CurrencyInput from "../CurrencyInput"
 import Spinner from "../Spinner"
@@ -16,7 +17,10 @@ interface Props {
 const DonationInput: FunctionComponent<Props> = ({ org }) => {
   const { t } = useTranslation()
 
-  const [amount, setAmount] = useState(minDonation.toFixed(2))
+  const [amount, setAmount] = useState<NumericInputValue>({
+    live: minDonation,
+    settled: minDonation,
+  })
   const [submit, setSubmit] = useState(false)
   const [transaction, setTransaction] = useState("")
 
@@ -48,7 +52,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         key={val}
         variant="secondary"
         type="button"
-        onClick={() => setAmount(val.toFixed(2))}
+        onClick={() => setAmount({ ...amount, settled: val })}
       >
         ${val}
       </Button>

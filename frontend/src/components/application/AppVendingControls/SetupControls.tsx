@@ -10,6 +10,7 @@ import { toast } from "react-toastify"
 import { getAppVendingSetup, setAppVendingSetup } from "../../../asyncs/vending"
 import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
+import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
@@ -38,17 +39,31 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // State shared by controls lifted to this parent for final submission
   const [appShare, setAppShare] = useState(50)
-  const [recommendedDonation, setRecommendedDonation] = useState("0.00")
-  const [minPayment, setMinPayment] = useState("0.00")
+  const [recommendedDonation, setRecommendedDonation] =
+    useState<NumericInputValue>({
+      live: 0,
+      settled: 0,
+    })
+  const [minPayment, setMinPayment] = useState<NumericInputValue>({
+    live: 0,
+    settled: 0,
+  })
 
   // Controls should initialise to existing setup once known
   useEffect(() => {
     if (vendingSetup) {
+      const decimalRecommendation = vendingSetup.recommended_donation / 100
+      const decimalMinimum = vendingSetup.minimum_payment / 100
+
       setAppShare(vendingSetup.appshare)
-      setRecommendedDonation(
-        (vendingSetup.recommended_donation / 100).toFixed(2),
-      )
-      setMinPayment((vendingSetup.minimum_payment / 100).toFixed(2))
+      setRecommendedDonation({
+        live: decimalRecommendation,
+        settled: decimalRecommendation,
+      })
+      setMinPayment({
+        live: decimalMinimum,
+        settled: decimalMinimum,
+      })
     }
   }, [vendingSetup])
 
@@ -63,8 +78,8 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         setAppVendingSetup(app.id, {
           currency: "usd",
           appshare: appShare,
-          minimum_payment: Number(minPayment) * 100,
-          recommended_donation: Number(recommendedDonation) * 100,
+          minimum_payment: minPayment.settled * 100,
+          recommended_donation: recommendedDonation.settled * 100,
         }),
       [app.id, appShare, minPayment, recommendedDonation],
     ),
@@ -125,7 +140,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <VendingSharesPreview
-            price={Number(recommendedDonation) * 100}
+            price={recommendedDonation.live * 100}
             app={app}
             appShare={appShare}
             vendingConfig={vendingConfig}
@@ -133,7 +148,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <Button
-            disabled={Number(minPayment) > Number(recommendedDonation)}
+            disabled={minPayment.live > recommendedDonation.live}
             type="submit"
           >
             {t("confirm-settings")}
