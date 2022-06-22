@@ -48,12 +48,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
     rawData.push(split / 100)
   }
 
-  const data = doughnutData(
-    labels,
-    rawData,
-    t("breakdown-preview"),
-    resolvedTheme as "light" | "dark",
-  )
+  const data = doughnutData(labels, rawData, resolvedTheme as "light" | "dark")
 
   return (
     <div>
@@ -63,6 +58,11 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
         options={{
           responsive: true,
           maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
         }}
       />
     </div>
