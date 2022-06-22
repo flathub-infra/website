@@ -11,6 +11,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 
 from . import (
     apps,
+    compat,
     config,
     db,
     feeds,
@@ -57,6 +58,8 @@ vending.register_to_app(app)
 
 verification.register_to_app(app)
 purchases.register_to_app(app)
+
+compat.register_to_app(app)
 
 
 @app.on_event("startup")

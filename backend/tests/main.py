@@ -77,6 +77,7 @@ def setup_module():
     config.settings.datadir = "tests/data"
     config.settings.stats_baseurl = "file://" + workspace.name
 
+
 @pytest.fixture
 def client():
 
@@ -84,6 +85,7 @@ def client():
 
     with TestClient(main.app) as client_:
         yield client_
+
 
 def teardown_module():
     workspace.cleanup()
@@ -355,6 +357,61 @@ def test_sitemap_text(client):
     assert response.text == _get_expected_text_result("test_sitemap_text")
 
 
+def test_compat_apps(client):
+    response = client.get("/compat/apps")
+    assert response.status_code == 200
+
+    response_json = response.json()
+    for app in response_json:
+        del app["inStoreSinceDate"]
+
+    expected_json = _get_expected_json_result("test_compat_apps")
+    for app in expected_json:
+        del app["inStoreSinceDate"]
+
+    assert response_json == expected_json
+
+
+def test_compat_apps_category(client):
+    response = client.get("/compat/apps/category/Network")
+    assert response.status_code == 200
+    assert response.json() == _get_expected_json_result("test_compat_apps_category")
+
+
+def test_compat_apps_by_appid(client):
+    response = client.get("/compat/apps/org.sugarlabs.Maze")
+    assert response.status_code == 200
+
+    response_json = response.json()
+    del response_json["inStoreSinceDate"]
+
+    expected_json = _get_expected_json_result("test_compat_apps_by_appid")
+    del expected_json["inStoreSinceDate"]
+
+    assert response_json == expected_json
+
+
+def test_compat_apps_search(client):
+    response = client.get("/compat/apps/search/Maze")
+    assert response.status_code == 200
+    assert response.json() == _get_expected_json_result("test_compat_apps_search")
+
+
+def test_compat_apps_recently_updated(client):
+    response = client.get("/compat/apps/collection/recently-updated/50")
+    assert response.status_code == 200
+
+    response_json = response.json()
+    for app in response_json:
+        del app["inStoreSinceDate"]
+
+    expected_json = _get_expected_json_result("test_compat_apps_recently_updated")
+    for app in expected_json:
+        del app["inStoreSinceDate"]
+
+    assert response_json == expected_json
+
+
 @vcr.use_cassette()
 def test_verification_status(client):
     response = client.get("/verification/com.github.flathub.ExampleApp/status")
@@ -525,6 +582,7 @@ def test_auth_login_google(client):
 @vcr.use_cassette(record_mode="once")
 def test_fakewallet(client):
     from app import config
+
     if config.settings.stripe_public_key:
         pytest.skip("Stripe is configured")
     # Complete a login through Github
@@ -573,6 +631,7 @@ def test_fakewallet(client):
 @vcr.use_cassette(record_mode="once")
 def test_stripewallet(client):
     from app import config
+
     if not config.settings.stripe_public_key:
         pytest.skip("Stripe is not configured")
     # Test that our Stripe data works correctly

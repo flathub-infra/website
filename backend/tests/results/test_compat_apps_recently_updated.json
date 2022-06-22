@@ -1,0 +1,32 @@
+[
+  {
+    "flatpakAppId": "com.anydesk.Anydesk",
+    "name": "AnyDesk",
+    "summary": "Connect to a computer remotely",
+    "currentReleaseVersion": null,
+    "currentReleaseDate": null,
+    "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+    "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+    "inStoreSinceDate": null
+  },
+  {
+    "flatpakAppId": "com.wps.Office",
+    "name": "WPS Office",
+    "summary": "WPS Office Suite",
+    "currentReleaseVersion": null,
+    "currentReleaseDate": null,
+    "iconDesktopUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
+    "iconMobileUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
+    "inStoreSinceDate": null
+  },
+  {
+    "flatpakAppId": "org.sugarlabs.Maze",
+    "name": "Maze",
+    "summary": "A simple maze game",
+    "currentReleaseVersion": null,
+    "currentReleaseDate": null,
+    "iconDesktopUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+    "iconMobileUrl": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+    "inStoreSinceDate": null
+  }
+]
