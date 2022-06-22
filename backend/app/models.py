@@ -667,21 +667,29 @@ class ApplicationVendingConfig(Base):
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
 
     appshare = Column(Integer, nullable=False)
-    CheckConstraint(
-        "appshare >= 10 && appshare <= 100", name="vending_appshare_in_range"
-    )
 
     currency = Column(String, nullable=False, default="usd")
     recommended_donation = Column(Integer, nullable=False)
     minimum_payment = Column(Integer, nullable=False)
-    CheckConstraint("currency = 'usd'", name="currency_must_be_dollars")
-    CheckConstraint(
-        "recommended_donation >= minimum_payment", name="vending_donation_not_too_small"
+
+    # Note, Alembic may or may not detect changes here.  If you make changes,
+    # and generate a revision, you may need to adjust the constraint code in the
+    # revision yourself.  Take care here.
+    __table_args__ = (
+        CheckConstraint(
+            "appshare >= 10 and appshare <= 100",
+            name="vending_appshare_in_range",
+        ),
+        CheckConstraint("currency = 'usd'", name="currency_must_be_dollars"),
+        CheckConstraint(
+            "recommended_donation >= minimum_payment",
+            name="vending_donation_not_too_small",
+        ),
+        CheckConstraint(
+            "recommended_donation > 100", name="vending_donation_at_least_one_dollar"
+        ),
+        CheckConstraint("minimum_payment >= 0", name="vending_payment_not_negative"),
     )
-    CheckConstraint(
-        "recommended_donation > 100", name="vending_donation_at_least_one_dollar"
-    )
-    CheckConstraint("minimum_payment >= 0", name="vending_payment_not_negative")
 
     @classmethod
     def by_appid(cls, db, appid: str) -> Optional["ApplicationVendingConfig"]:
