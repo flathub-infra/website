@@ -16,6 +16,7 @@ import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
+import VendingSharesPreview from "./VendingSharesPreview"
 
 interface Props {
   app: Appstream
@@ -123,6 +124,12 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         value={amount}
         setValue={setAmount}
         minimum={vendingSetup.minimum_payment / 100}
+      />
+      <VendingSharesPreview
+        price={Number(amount) * 100}
+        app={app}
+        appShare={vendingSetup.appshare}
+        vendingConfig={vendingConfig}
       />
       <Button disabled={vendingSetup.minimum_payment > Number(amount) * 100}>
         {t("kind-purchase")}
