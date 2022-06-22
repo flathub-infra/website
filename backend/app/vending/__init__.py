@@ -407,14 +407,13 @@ def get_app_vending_split(appid: str, currency: str, value: int) -> VendingSplit
         raise VendingError(error="not-found")
     if vend.currency != currency:
         raise VendingError(error="bad-currency")
+    if value < vend.minimum_payment:
+        raise VendingError(error="bad-value")
 
     try:
         shares = prices.compute_app_shares(value, currency, appid, vend.appshare)
     except ValueError as val_err:
         raise VendingError(error="bad-app-share") from val_err
-
-    if shares[0][1] < vend.minimum_payment:
-        raise VendingError(error="bad-value")
 
     return VendingSplit(status="ok", currency=currency, splits=shares)
 
