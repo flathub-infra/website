@@ -285,54 +285,15 @@ def get_global_vending_config() -> VendingConfig:
     )
 
 
-@router.get("app/{appid}")
-def get_app_vending_status(appid: str) -> VendingDescriptor:
-    """
-    Retrieve the vending status for the given application.  Returns an error if
-    the appid is not known, or is not set up for vending.
-    """
-    vend = ApplicationVendingConfig.by_appid(db, appid)
-    if not vend:
-        return Response(status_code=204)
-    try:
-        shares = prices.compute_shares(appid, vend.appshare)
-    except ValueError as val_err:
-        raise VendingError(error="bad-app-share") from val_err
-
-    (
-        fee_fixed_cost,
-        fee_cost_percent,
-        fee_prefer_percent,
-    ) = prices.flathub_fee_parameters(vend.currency)
-
-    return VendingDescriptor(
-        status="ok",
-        currency=vend.currency,
-        components=shares,
-        fee_fixed_cost=fee_fixed_cost,
-        fee_cost_percent=fee_cost_percent,
-        fee_prefer_percent=fee_prefer_percent,
-    )
-
-
 @router.get("app/{appid}/setup")
 def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingDescriptor:
     """
     Retrieve the vending status for a given application.  Returns a no
     content response if the appid has no vending setup.
-
-    If any of the currency or amount values constraints are violated
-    then a no content response will also be returned because the
-    configuration is invalid.
-
-    If you do not have the right to see the vending status for this application
-    then you will be refused.
     """
 
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
-
-    # TODO: Check that the calling user owns the given appid
 
     vend = ApplicationVendingConfig.by_appid(db, appid)
     if not vend:
@@ -391,31 +352,7 @@ def post_app_vending_setup(
     except Exception as base_exc:
         raise VendingError(error="bad-values") from base_exc
 
-    return get_app_vending_status(appid)
-
-
-@router.get("app/{appid}/{currency}/{value}")
-def get_app_vending_split(appid: str, currency: str, value: int) -> VendingSplit:
-    """
-    Retrieve the actual split which would be invoked if the user specified that
-    they wished to spend the given amount on the given appid.  Note this is not
-    the exact shape that an invoice would have since donation vs. purchase may
-    need to be taken into account.
-    """
-    vend = ApplicationVendingConfig.by_appid(db, appid)
-    if not vend:
-        raise VendingError(error="not-found")
-    if vend.currency != currency:
-        raise VendingError(error="bad-currency")
-    if value < vend.minimum_payment:
-        raise VendingError(error="bad-value")
-
-    try:
-        shares = prices.compute_app_shares(value, currency, appid, vend.appshare)
-    except ValueError as val_err:
-        raise VendingError(error="bad-app-share") from val_err
-
-    return VendingSplit(status="ok", currency=currency, splits=shares)
+    return get_app_vending_setup(appid, login)
 
 
 @router.post("app/{appid}")
@@ -437,12 +374,21 @@ def post_app_vending_status(
     vend = ApplicationVendingConfig.by_appid(db, appid)
     if not vend:
         raise VendingError(error="not-found")
+    if vend.currency != data.currency:
+        raise VendingError(error="bad-currency")
+    if data.amount < vend.minimum_payment:
+        raise VendingError(error="bad-value")
 
-    split = get_app_vending_split(appid, data.currency, data.amount)
+    try:
+        shares = prices.compute_app_shares(
+            data.amount, data.currency, appid, vend.appshare
+        )
+    except ValueError as val_err:
+        raise VendingError(error="bad-app-share") from val_err
 
     try:
         txn = Transaction.create_from_split(
-            db, login["user"], vend.minimum_payment > 0, split.currency, split.splits
+            db, login["user"], vend.minimum_payment > 0, data.currency, shares
         )
         db.session.flush()
         full_txn = Wallet().transaction(request, login["user"], txn.id)
