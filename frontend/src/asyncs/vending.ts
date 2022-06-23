@@ -146,7 +146,7 @@ export async function getAppVendingSetup(appId: string): Promise<VendingSetup> {
   try {
     res = await fetch(VENDING_APP_SETUP_URL(appId), { credentials: "include" })
   } catch {
-    throw "network-error-try-again"
+    throw "failed-to-load-refresh"
   }
 
   // No content indicates there is no valid setup set
@@ -158,7 +158,7 @@ export async function getAppVendingSetup(appId: string): Promise<VendingSetup> {
     const data: VendingSetup = await res.json()
     return data
   } else {
-    throw "network-error-try-again"
+    throw "failed-to-load-refresh"
   }
 }
 
