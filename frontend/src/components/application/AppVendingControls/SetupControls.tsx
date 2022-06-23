@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next"
 import {
   FormEvent,
   FunctionComponent,
+  ReactElement,
   useCallback,
   useEffect,
   useState,
@@ -113,12 +114,11 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     return <Spinner size="m" />
   }
 
-  if (error) return <p>{t(error)}</p>
-
-  // TODO: Enforce and provide feedback if minimum > recommended
-  return (
-    <>
-      <h3>{t("accepting-payment")}</h3>
+  let content: ReactElement
+  if (error) {
+    content = <p>{t(error)}</p>
+  } else {
+    content = (
       <form
         className="flex flex-col gap-6 rounded-xl bg-bgColorSecondary p-4"
         onSubmit={handleSubmit}
@@ -155,6 +155,14 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           </Button>
         </div>
       </form>
+    )
+  }
+
+  // TODO: Enforce and provide feedback if minimum > recommended
+  return (
+    <>
+      <h3>{t("accepting-payment")}</h3>
+      {content}
     </>
   )
 }

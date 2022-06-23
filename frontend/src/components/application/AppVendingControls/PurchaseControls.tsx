@@ -37,7 +37,6 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     settled: 0,
   })
 
-  // TODO: handle error case
   const {
     status,
     value: vendingSetup,
@@ -93,6 +92,15 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     }
   }, [submitValue, router])
 
+  if (error) {
+    return (
+      <>
+        <h1>{t("whoops")}</h1>
+        <p>{t(error)}</p>
+      </>
+    )
+  }
+
   // Prevent control interaction while initalising and awaiting submission redirection
   if (
     ["pending", "idle"].includes(status) ||
@@ -139,9 +147,11 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         appShare={vendingSetup.appshare}
         vendingConfig={vendingConfig}
       />
-      <Button disabled={vendingSetup.minimum_payment > amount.live * 100}>
-        {t("kind-purchase")}
-      </Button>
+      <div>
+        <Button disabled={vendingSetup.minimum_payment > amount.live * 100}>
+          {t("kind-purchase")}
+        </Button>
+      </div>
     </form>
   )
 }
