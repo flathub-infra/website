@@ -150,7 +150,7 @@ def update():
 
         # Flathub still distributes old i386 and armhf builds but they are
         # no longer maintained, so don't show them on the website
-        if arch not in ('x86_64', 'aarch64'):
+        if arch not in ("x86_64", "aarch64"):
             continue
 
         summary_dict[appid]["arches"].append(arch)
