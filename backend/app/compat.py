@@ -115,6 +115,7 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
             "translateUrl": app.get("urls", {}).get("translate"),
             "bugtrackerUrl": app.get("urls", {}).get("bugtracker"),
             "donationUrl": app.get("urls", {}).get("donation"),
+            "developerName": app.get("developer_name"),
             "categories": [
                 {"name": category} for category in app.get("categories", [])
             ],
