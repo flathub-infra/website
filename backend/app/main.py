@@ -225,8 +225,15 @@ def get_stats(response: Response):
 
 
 @app.get("/stats/{appid}", status_code=200)
-def get_stats_for_app(appid: str, response: Response):
+def get_stats_for_app(appid: str, response: Response, all=False, days: int = 180):
     if value := stats.get_installs_by_ids([appid]).get(appid, None):
+        if all:
+            return value
+
+        per_day = value["installs_per_day"]
+        requested_dates = list(per_day.keys())[-days:]
+        requested_per_day = {date: per_day[date] for date in requested_dates}
+        value["installs_per_day"] = requested_per_day
         return value
 
     response.status_code = 404
