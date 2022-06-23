@@ -13,6 +13,7 @@ import Spinner from "../../../src/components/Spinner"
 import { useUserContext } from "../../../src/context/user-info"
 import { TRANSACTION_INFO_URL } from "../../../src/env"
 import { TransactionDetailed } from "../../../src/types/Payment"
+import LoginGuard from "../../../src/components/login/LoginGuard"
 
 async function getTransaction(transactionId: string) {
   let res: Response
@@ -41,23 +42,13 @@ export default function TransactionPage() {
 
   // Once router is ready the transaction ID is attainable
   useEffect(() => {
-    // Must be logged in to see payment confirmation
-    if (!user.info && !user.loading) {
-      router.push("/login")
-    }
-
     // Router must be ready to access query parameters
     if (!router.isReady) {
       return
     }
 
     // Once the transaction ID is known, the associated data can be fetched
-    const { transaction_id } = router.query
-
-    // NOTE: Not sure when this will actually happen?
-    if (Array.isArray(transaction_id)) {
-      return
-    }
+    const transaction_id = router.query.transaction_id as string
 
     getTransaction(transaction_id).then(setTransaction).catch(setError)
   }, [router, user])
@@ -97,8 +88,10 @@ export default function TransactionPage() {
     <>
       <NextSeo title={t("payment-summary")} noindex={true}></NextSeo>
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
-        {content}
+        <LoginGuard>
+          <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
+          {content}
+        </LoginGuard>
       </div>
     </>
   )
