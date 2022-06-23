@@ -6,6 +6,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
+import LoginGuard from "../../src/components/login/LoginGuard"
 import Checkout from "../../src/components/payment/checkout/Checkout"
 import RelatedLink from "../../src/components/RelatedLink"
 import Spinner from "../../src/components/Spinner"
@@ -96,23 +97,13 @@ export default function TransactionPage() {
 
   // Once router is ready the transaction ID is attainable
   useEffect(() => {
-    // Must be logged in to make a payment
-    if (!user.info && !user.loading) {
-      router.push("/login")
-    }
-
     // Router must be ready to access query parameters
     if (!router.isReady) {
       return
     }
 
     // Once the transaction ID is known, the client secret is fetched
-    const { transaction_id } = router.query
-
-    // NOTE: Not sure when this will actually happen?
-    if (Array.isArray(transaction_id)) {
-      return
-    }
+    const transaction_id = router.query.transaction_id as string
 
     getTransaction(transaction_id)
       .then(([transaction, secret]) => {
@@ -146,8 +137,10 @@ export default function TransactionPage() {
     <>
       <NextSeo title={t("payment")} noindex={true}></NextSeo>
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
-        {content}
+        <LoginGuard>
+          <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
+          {content}
+        </LoginGuard>
       </div>
     </>
   )
