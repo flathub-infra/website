@@ -148,6 +148,11 @@ def update():
         appid = ref.split("/")[1]
         arch = ref.split("/")[2]
 
+        # Flathub still distributes old i386 and armhf builds but they are
+        # no longer maintained, so don't show them on the website
+        if arch not in ('x86_64', 'aarch64'):
+            continue
+
         summary_dict[appid]["arches"].append(arch)
 
     if recently_updated_zset:
