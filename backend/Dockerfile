@@ -15,6 +15,7 @@ RUN $HOME/.poetry/bin/poetry export -o requirements.txt && \
     /venv/bin/pip install -r requirements.txt
 
 FROM python:3.10-slim
+ARG SENTRY_RELEASE
 ENV PATH="/venv/bin:$PATH"
 
 EXPOSE 8000
@@ -30,5 +31,7 @@ RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakre
 COPY --from=builder /venv /venv
 ADD . /app
 WORKDIR /app
+
+ENV SENTRY_RELEASE="$SENTRY_RELEASE"
 
 CMD ["/app/docker-entrypoint.sh"]
