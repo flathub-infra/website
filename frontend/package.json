@@ -34,7 +34,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "^2.0.0-alpha.0",
     "react-toastify": "^9.0.5",
-    "sass": "^1.52.2",
+    "sass": "^1.53.0",
     "spdx-license-list": "^6.6.0"
   },
   "devDependencies": {
