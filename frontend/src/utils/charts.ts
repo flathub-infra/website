@@ -1,4 +1,4 @@
-import { ChartData } from "chart.js"
+import { ChartData, ChartDataset } from "chart.js"
 
 export function doughnutData(
   labels: (string | Date)[],
@@ -22,5 +22,26 @@ export function doughnutData(
         data: data,
       },
     ],
+  }
+}
+
+export function stackedBarData(
+  labels: (string | Date)[],
+  data: number[],
+  mode: "dark" | "light",
+): ChartData<"bar", number[]> {
+  const lightness = mode === "light" ? "55.1%" : "calc(55.1% - 15%)"
+
+  const datasets = data.map((value, i) => {
+    return {
+      label: labels[i],
+      data: [value],
+      backgroundColor: `hsl(${212.9 - i * 35}, 58.1%, ${lightness})`,
+    } as ChartDataset<"bar", number[]>
+  })
+
+  return {
+    labels,
+    datasets,
   }
 }
