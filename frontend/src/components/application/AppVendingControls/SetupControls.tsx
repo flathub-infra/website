@@ -129,6 +129,11 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             value={recommendedDonation}
             setValue={setRecommendedDonation}
           />
+          {minPayment.settled > recommendedDonation.live && (
+            <p role="alert" className="my-2 text-colorDanger">
+              {t("value-at-least", { value: minPayment.settled })}
+            </p>
+          )}
         </div>
         <div>
           <label>{t("minimum-payment")}</label>
@@ -158,7 +163,6 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     )
   }
 
-  // TODO: Enforce and provide feedback if minimum > recommended
   return (
     <>
       <h3>{t("accepting-payment")}</h3>
