@@ -1,3 +1,4 @@
+import random
 from datetime import datetime
 from typing import Optional
 
@@ -88,6 +89,7 @@ def get_recently_added():
 def get_recommended_apps():
     if picks := db.get_json_key("picks:apps"):
         compat = [get_short_app(f"apps:{appid}") for appid in picks]
+        random.shuffle(compat)
         return [app for app in compat if app]
 
     return []
