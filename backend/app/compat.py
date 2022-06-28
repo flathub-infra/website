@@ -4,7 +4,7 @@ from typing import Optional
 import requests
 from fastapi import APIRouter, BackgroundTasks, FastAPI
 
-from . import apps, db, search
+from . import apps, db, search, stats
 
 router = APIRouter(prefix="/compat")
 
@@ -68,13 +68,37 @@ def get_apps_in_category(category: str):
 
 
 @router.get("/apps/collection/recently-updated")
-@router.get("/apps/collection/recently-updated/{limit}")
-def get_recently_updated(limit: int = 50):
-    if limit > 50:
-        limit = 50
-
+@router.get("/apps/collection/recently-updated/50")
+def get_recently_updated():
     recent = apps.get_recently_updated(50)
-    return [get_short_app(f"apps:{appid}") for appid in recent]
+    compat = [get_short_app(f"apps:{appid}") for appid in recent]
+    return [app for app in compat if app]
+
+
+@router.get("/apps/collection/new")
+@router.get("/apps/collection/new/50")
+def get_recently_added():
+    added = apps.get_recently_added(50)
+    compat = [get_short_app(f"apps:{appid}") for appid in added]
+    return [app for app in compat if app]
+
+
+@router.get("/apps/collection/picks")
+@router.get("/apps/collection/picks/50")
+def get_recommended_apps():
+    if picks := db.get_json_key("picks:apps"):
+        compat = [get_short_app(f"apps:{appid}") for appid in picks]
+        return [app for app in compat if app]
+
+    return []
+
+
+@router.get("/apps/collection/popular")
+@router.get("/apps/collection/popular/50")
+def get_popular_apps():
+    popular = stats.get_popular(30)
+    compat = [get_short_app(f"apps:{appid}") for appid in popular[0:50]]
+    return [app for app in compat if app]
 
 
 @router.get("/apps/search/{query}")
