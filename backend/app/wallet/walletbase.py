@@ -186,6 +186,8 @@ class WalletBase:
             raise WalletError(error="must be usd")
         if transaction.summary.value < 200:
             raise WalletError(error="transaction too small")
+        if transaction.summary.value > 99999999:
+            raise WalletError(error="transaction too large")
         if sum(row.amount for row in transaction.details) != transaction.summary.value:
             raise WalletError(error="detail sum does not match value")
         if not any(
