@@ -11,9 +11,9 @@ export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP = (query: string): string =>
   `${BASE_URI}/search/${encodeURIComponent(query)}`
 export const POPULAR_URL: string = `${BASE_URI}/popular`
-export const EDITORS_PICKS_GAMES_URL: string = `${BASE_URI}/picks/games`
 export const EDITORS_PICKS_APPS_URL: string = `${BASE_URI}/picks/apps`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
+export const RECENTLY_ADDED_URL: string = `${BASE_URI}/collection/recently-added`
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,

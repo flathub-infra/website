@@ -8,14 +8,14 @@ interface Props {
   popular: Appstream[]
   recentlyUpdated: Appstream[]
   editorsChoiceApps: Appstream[]
-  editorsChoiceGames: Appstream[]
+  recentlyAdded: Appstream[]
 }
 
 const ApplicationSections: FunctionComponent<Props> = ({
   popular,
   recentlyUpdated,
   editorsChoiceApps,
-  editorsChoiceGames,
+  recentlyAdded,
 }) => {
   const { t } = useTranslation()
   return (
@@ -27,16 +27,16 @@ const ApplicationSections: FunctionComponent<Props> = ({
         href="/apps/collection/editors-choice-apps"
       />
       <ApplicationSection
-        key="editor_choice_games"
-        title={t("editors-choice-games")}
-        applications={editorsChoiceGames}
-        href="/apps/collection/editors-choice-games"
-      />
-      <ApplicationSection
         key="updated"
         title={t("new-and-updated-apps")}
         applications={recentlyUpdated}
         href="/apps/collection/recently-updated"
+      />
+      <ApplicationSection
+        key="recently_added"
+        title={t("recently-added-apps")}
+        applications={recentlyAdded}
+        href="/apps/collection/recently-added"
       />
       <ApplicationSection
         key="popular"

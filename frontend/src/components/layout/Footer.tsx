@@ -17,6 +17,11 @@ const Footer = () => {
                 {t("popular")}
               </a>
             </Link>
+            <Link href="/apps/collection/recently-added">
+              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
+                {t("recently-added-apps")}
+              </a>
+            </Link>
             <Link href="/apps/collection/recently-updated">
               <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
                 {t("new-and-updated")}
@@ -25,11 +30,6 @@ const Footer = () => {
             <Link href="/apps/collection/editors-choice-apps">
               <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
                 {t("editors-choice-apps")}
-              </a>
-            </Link>
-            <Link href="/apps/collection/editors-choice-games">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("editors-choice-games")}
               </a>
             </Link>
             <Link href="/apps">

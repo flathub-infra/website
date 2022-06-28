@@ -11,7 +11,6 @@
   "popular": "Popular",
   "new-and-updated": "New & Updated",
   "editors-choice-apps": "Editors Choice Apps",
-  "editors-choice-games": "Editors Choice Games",
   "browse-apps": "Browse Apps",
   "rss-feeds": "RSS Feeds",
   "community": "Community",
@@ -214,5 +213,6 @@
   "terms-and-conditions-description": "By using this website, you agree to the Terms and Conditions.",
   "continue": "Continue",
   "purchase-terms-confirmation": "I confirm that I have read the Flathub Terms & Conditions and consent to waiving the 14-day cooling off period associated with this digital download.",
-  "contribute-languages": "All these translations have been contributed by the community. If you want to help translate Flathub, please <1>join the Flathub translation team</1>."
+  "contribute-languages": "All these translations have been contributed by the community. If you want to help translate Flathub, please <1>join the Flathub translation team</1>.",
+  "recently-added-apps": "Recently Added Apps"
 }

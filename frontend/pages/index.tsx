@@ -14,7 +14,7 @@ import Image from "../src/components/Image"
 export default function Home({
   recentlyUpdated,
   editorsChoiceApps,
-  editorsChoiceGames,
+  recentlyAdded,
   popular,
 }) {
   const { t } = useTranslation()
@@ -56,7 +56,7 @@ export default function Home({
           popular={popular}
           recentlyUpdated={recentlyUpdated}
           editorsChoiceApps={editorsChoiceApps}
-          editorsChoiceGames={editorsChoiceGames}
+          recentlyAdded={recentlyAdded}
         ></ApplicationSections>
       </div>
     </>
@@ -72,8 +72,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     Collections.editorsApps,
     APPS_IN_PREVIEW_COUNT,
   )
-  const editorsChoiceGames = await fetchCollection(
-    Collections.editorsGames,
+  const recentlyAdded = await fetchCollection(
+    Collections.recentlyAdded,
     APPS_IN_PREVIEW_COUNT,
   )
   const popular = await fetchCollection(
@@ -86,7 +86,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale, ["common"])),
       recentlyUpdated,
       editorsChoiceApps,
-      editorsChoiceGames,
+      recentlyAdded,
       popular,
     },
     revalidate: 3600,
