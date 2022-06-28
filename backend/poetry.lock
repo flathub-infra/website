@@ -569,7 +569,7 @@ six = ">=1.5"
 
 [[package]]
 name = "python-gitlab"
-version = "3.5.0"
+version = "3.6.0"
 description = "Interact with GitLab API"
 category = "main"
 optional = false
@@ -840,7 +840,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "4d8b9f415b1a027ff110d62b66a81b4ebd9a94568f3704f56f6202f2c9cc1671"
+content-hash = "334935f464f6c517e761628ea75514f9631300e87d567e0f162161c32cb1f13d"
 
 [metadata.files]
 alembic = [
@@ -1453,8 +1453,8 @@ python-dateutil = [
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
 ]
 python-gitlab = [
-    {file = "python-gitlab-3.5.0.tar.gz", hash = "sha256:29ae7fb9b8c9aeb2e6e19bd2fd04867e93ecd7af719978ce68fac0cf116ab30d"},
-    {file = "python_gitlab-3.5.0-py3-none-any.whl", hash = "sha256:73b5aa6502efa557ee1a51227cceb0243fac5529627da34f08c5f265bf50417c"},
+    {file = "python-gitlab-3.6.0.tar.gz", hash = "sha256:901c54ff926f10479cb591a34d65f0a3022f2bcc41074f9a192c7fa7e4c57061"},
+    {file = "python_gitlab-3.6.0-py3-none-any.whl", hash = "sha256:b855c15e106812a4ada7c4d417def61bc211976bbf2ee1c7e0cd48a83eca4e9f"},
 ]
 pyyaml = [
     {file = "PyYAML-6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d4db7c7aef085872ef65a8fd7d6d09a14ae91f691dec3e87ee5ee0539d516f53"},
