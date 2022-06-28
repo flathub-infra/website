@@ -56,6 +56,10 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
     resolvedTheme as "light" | "dark",
   )
 
+  // Corresponds to text secondary for dark and light theme
+  const textColor =
+    resolvedTheme === "light" ? "hsl(0, 0%, 44.7%)" : "rgba(255, 255, 255, 0.6)"
+
   return (
     <div>
       <Bar
@@ -75,12 +79,16 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
               stacked: true,
               ticks: {
                 callback: (value: number) => `$${value.toFixed(2)}`,
+                color: textColor,
               },
             },
           },
           plugins: {
             legend: {
               position: "bottom",
+              labels: {
+                color: textColor,
+              },
             },
             tooltip: {
               callbacks: {
