@@ -88,6 +88,11 @@ def get_recently_updated(limit: int = 100):
     return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
 
 
+def get_recently_added(limit: int = 100):
+    zset = db.redis_conn.zrevrange("new_apps_zset", 0, limit - 1)
+    return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
+
+
 def get_category(category: str):
     if index := db.redis_conn.smembers(f"categories:{category}"):
         return [appid.removeprefix("apps:") for appid in index]

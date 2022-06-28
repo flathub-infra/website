@@ -87,6 +87,7 @@ def update():
             db.redis_conn.zadd("new_apps_zset", new_apps_zset)
 
     get_recently_updated.cache_clear()
+    get_recently_added.cache_clear()
 
 
 @app.get("/category/{category}")
@@ -178,6 +179,13 @@ def get_search(userquery: str):
 @lru_cache()
 def get_recently_updated(limit: int = 100):
     return apps.get_recently_updated(limit)
+
+
+@app.get("/collection/recently-added")
+@app.get("/collection/recently-added/{limit}")
+@lru_cache()
+def get_recently_added(limit: int = 100):
+    return apps.get_recently_added(limit)
 
 
 @app.get("/picks/{pick}")
