@@ -238,11 +238,11 @@ def get_stats_for_app(appid: str, response: Response, all=False, days: int = 180
         if all:
             return value
 
-        per_day = value["installs_per_day"]
-        requested_dates = list(per_day.keys())[-days:]
-        requested_per_day = {date: per_day[date] for date in requested_dates}
-        value["installs_per_day"] = requested_per_day
-        return value
+        if per_day := value.get("installs_per_day"):
+            requested_dates = list(per_day.keys())[-days:]
+            requested_per_day = {date: per_day[date] for date in requested_dates}
+            value["installs_per_day"] = requested_per_day
+            return value
 
     response.status_code = 404
     return None
