@@ -7,13 +7,13 @@ import fetchCollection from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { Collections } from "../../../src/types/Collection"
 
-export default function EditorChoiceGames({ applications }) {
+export default function RecentlyAdded({ applications }) {
   const { t } = useTranslation()
   return (
     <>
-      <NextSeo title={t("editors-choice-games")} />
+      <NextSeo title={t("recently-added")} />
       <ApplicationCollection
-        title={t("editors-choice-games")}
+        title={t("recently-added")}
         applications={applications}
       />
     </>
@@ -22,7 +22,7 @@ export default function EditorChoiceGames({ applications }) {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const applications: Appstream[] = await fetchCollection(
-    Collections.editorsGames,
+    Collections.recentlyAdded,
   )
 
   return {

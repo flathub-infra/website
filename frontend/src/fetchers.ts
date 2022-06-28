@@ -7,8 +7,8 @@ import {
   POPULAR_URL,
   APP_DETAILS,
   RECENTLY_UPDATED_URL,
+  RECENTLY_ADDED_URL,
   EDITORS_PICKS_APPS_URL,
-  EDITORS_PICKS_GAMES_URL,
   CATEGORY_URL,
   SEARCH_APP,
   SUMMARY_DETAILS,
@@ -103,8 +103,8 @@ export default async function fetchCollection(
     case Collections.editorsApps:
       collectionURL = EDITORS_PICKS_APPS_URL
       break
-    case Collections.editorsGames:
-      collectionURL = EDITORS_PICKS_GAMES_URL
+    case Collections.recentlyAdded:
+      collectionURL = RECENTLY_ADDED_URL
       break
     default:
       collectionURL = ""
@@ -121,10 +121,7 @@ export default async function fetchCollection(
 
   const limitedList = collectionList
     .sort((a, b) => {
-      if (
-        collection === Collections.editorsApps ||
-        collection == Collections.editorsGames
-      ) {
+      if (collection === Collections.editorsApps) {
         return 0.5 - Math.random()
       }
       // don't change sorting for all others
