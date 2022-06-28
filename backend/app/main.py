@@ -197,8 +197,8 @@ def get_picks(pick: str, response: Response):
 
 
 @app.get("/popular")
-def get_popular():
-    return stats.get_popular(None)
+def get_popular(limit: int = 100):
+    return stats.get_popular(None)[0:limit]
 
 
 @app.get("/popular/{days}")
