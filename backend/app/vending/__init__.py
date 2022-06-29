@@ -5,11 +5,8 @@ The core vending behaviours are:
 
 1. Onboarding / maintaining a Stripe account capable of receiving transfers
 2. Accessing the express account onboarding/update flow and dashboard
-
-TODO:
-
 3. Configuring the donation / purchase settings for an application
-4. For purchase apps, producing grant tokens which can be redeemed by other
+4. For purchased apps, producing grant tokens which can be redeemed by other
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
@@ -327,10 +324,15 @@ def post_app_vending_setup(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
+    if appid not in login["user"].dev_flatpaks(db):
+        raise VendingError(error="permission-denied")
+
+    stripe_account = StripeExpressAccount.by_user(db, login["user"])
+    if not stripe_account:
+        raise VendingError(error="not-onboarded")
+
     vend = ApplicationVendingConfig.by_appid(db, appid)
     if not vend:
-        # TODO: Check that the calling user owns the given appid
-        # TODO: Verify that the calling user is onboarded with stripe
         vend = ApplicationVendingConfig(
             user=login["user"].id,
             appid=appid,
