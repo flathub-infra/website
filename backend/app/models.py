@@ -13,7 +13,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 
-from . import utils
+from . import apps, utils
 
 Base = declarative_base()
 
@@ -66,6 +66,21 @@ class FlathubUser(Base):
             "status": "ok",
             "message": "deleted",
         }
+
+    def dev_flatpaks(self, db):
+        """
+        Retrieve all the flatpaks this user is theoretically the developer for.
+
+        As we add sources for this information, this function will need extending.
+        """
+        flatpaks = set()
+        gha = GithubAccount.by_user(db, self)
+        if gha:
+            available_apps = apps.list_appstream()
+            for repo in GithubRepository.all_by_account(db, gha):
+                if repo.reponame in available_apps:
+                    flatpaks.add(repo.reponame)
+        return flatpaks
 
 
 class GithubAccount(Base):
