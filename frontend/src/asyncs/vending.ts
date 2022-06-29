@@ -236,6 +236,13 @@ export async function initiateAppPayment(
     const data: VendingOutput = await res.json()
     return data
   } else {
-    throw "network-error-try-again"
+    // Some errors come with an explanation from backend, others are unexpected
+    const data: APIResponseError = await res.json()
+
+    const msg = {
+      "stripe-payment-intent-build-failed": "payment-provider-error",
+    }[data.error]
+
+    throw msg ?? "network-error-try-again"
   }
 }
