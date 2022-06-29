@@ -24,7 +24,6 @@
   "popular": "Populer",
   "new-and-updated": "Baru & Dimutakhirkan",
   "editors-choice-apps": "Aplikasi Pilihan Penyunting",
-  "editors-choice-games": "Permainan Pilihan Penyunting",
   "browse-apps": "Jelajahi Aplikasi",
   "rss-feeds": "Umpan RSS",
   "community": "Komunitas",
@@ -210,5 +209,9 @@
   "vcs_browser": "Jelajahi kode sumber",
   "contribute": "Berkontribusi ke Aplikasi",
   "use-saved-card": "Gunakan kartu yang disimpan",
-  "privacy-policy": "Kebijakan Privasi"
+  "privacy-policy": "Kebijakan Privasi",
+  "release-link": "Dapatkan Informasi lebih lanjut",
+  "contribute-languages": "Semua terjemahan ini telah disumbangkan oleh komunitas. Jika Anda ingin membantu menerjemahkan Flathub, silakan <1>bergabung dengan tim terjemahan Flathub</1>.",
+  "applications-by-projectgroup": "Aplikasi dalam grup {{projectgroup}}",
+  "other-apps-by-projectgroup": "Aplikasi lain di grup {{projectgroup}}"
 }
