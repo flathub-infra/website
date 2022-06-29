@@ -305,7 +305,10 @@ class StripeWallet(WalletBase):
                     recipient=row.recipient,
                 )
             )
-        db.session.commit()
+        db.session.flush()
+
+        # This will commit for us or error if the payment intent is not created with Stripe
+        self._get_transaction(user, txn)
 
         return str(txn.id)
 
