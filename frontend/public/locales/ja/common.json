@@ -12,7 +12,6 @@
   "forum": "フォーラム",
   "follow-us": "Twitter",
   "about-pagename": "Flathubとは",
-  "editors-choice-games": "おすすめゲーム",
   "community": "コミュニティ",
   "applications": "アプリケーション",
   "open-in-new-tab": "新しいタブで開く",
@@ -120,8 +119,8 @@
   "badge-copyright": "法律で可能な範囲で、<1> <1>Jakub Steiner</ 1> </ 1>は、<3>FlathubBadges</3>のすべての著作権および関連する権利または隣接権を放棄しました。この作品はチェコから公開されました。",
   "about-description": "Flathubは、Flatpakにより運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。",
   "submitting-apps-block": "<0>あなたが開発したアプリを<2>Flathubに公開する</2>と、ほとんどのLinuxデスクトップにアプリをインストールすることができるようになります。</0><p>Flathubでアプリの公開をするには、再配布可能なライセンスであるか、もしくはサードパーティーのサーバーからのダウンロードが可能である必要があります。もしプロプライエタリアプリを公開したい場合は、お問い合わせください。</p>",
-  "about-block": "<0>Flathubは、Flatpakにより運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。</0><1>Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。Linuxユーザーなら、<2>手順に従ってセットアップ</2>するだけで、たくさんのFlatpakアプリをインストールできます。</1>",
-  "get-involved-block": "<p>Flathubは、Linuxデスクトップのエコシステムをより良くするためのプロジェクトで、あなたの力が必要です。ドキュメントの執筆、ウェブサイトの制作、サーバー管理、プログラミングができる方は、ぜひご協力ください。</p>",
+  "about-block": "<0>Flathub は、 Linux 用のアプリケーションをFlatpakパッケージで配布するサイトで、<1>Flatpak</1>によって運営されています。FlathubのアプリはほぼすべてのLinuxディストリビューションで動作します。</0><1>Flathubにあるアプリをインストールするには、<2>クイックセットアップ</2>に沿って設定してください。<1>",
+  "get-involved-block": "<p>Flathubは、Linuxデスクトップのエコシステムをより良くするためのプロジェクトです。ドキュメントの執筆、ウェブサイト作成や、サーバー管理などができる方は、ぜひご協力ください！</p>",
   "donate-to": "{{project}} に寄付",
   "manifest": "マニフェスト",
   "saved-cards": "保存されているカード",
@@ -196,7 +195,7 @@
   "less": "一部を表示",
   "no-more-transactions": "これ以上表示する取引がありません。",
   "vcs_browser": "ソースコードを閲覧する",
-  "privacy-policy-description": "このウェブサイトを使うことにより、プライバシーポリシーに受け入れます。",
+  "privacy-policy-description": "このウェブサイトを使うことにより、プライバシーポリシーを受け入れたものとします。",
   "accepting-payment": "支払いを受け入れる",
   "requires-attention": "注意が必要です",
   "use-saved-card": "保存されているカードを使用",
@@ -212,5 +211,7 @@
   "vending-dashboard": "あなたのStripe Express アカウントを見る",
   "purchase-terms-confirmation": "私はFlathubの利用規約を読み、このデジタルダウンロードに関連する14日間のクーリングオフ期間の放棄に同意します。",
   "applications-by-projectgroup": "{{projectgroup}} グループのアプリ",
-  "other-apps-by-projectgroup": "{{projectgroup}} グループの他のアプリ"
+  "other-apps-by-projectgroup": "{{projectgroup}} グループの他のアプリ",
+  "release-link": "詳細情報",
+  "contribute-languages": "このサイトはコミュニティーによって翻訳されました。Flathubの翻訳をしたい場合は、<1>Flathub翻訳チームに参加してください</1>。"
 }
