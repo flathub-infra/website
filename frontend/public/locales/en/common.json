@@ -9,7 +9,7 @@
   "about-pagename": "About Flathub",
   "applications": "Applications",
   "popular": "Popular",
-  "new-and-updated": "New & Updated",
+  "new-and-updated": "Recently Updated",
   "editors-choice-apps": "Editors Choice Apps",
   "browse-apps": "Browse Apps",
   "rss-feeds": "RSS Feeds",
@@ -69,7 +69,7 @@
   "home": "Home",
   "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!",
   "new-apps": "New Apps",
-  "new-and-updated-apps": "New & Updated Apps",
+  "new-and-updated-apps": "Recently Updated Apps",
   "subscribe": "Subscribe",
   "rss-feeds-description": "You can now subscribe to our RSS feeds to get the latest Flathub goodies in your feed reader!",
   "new-apps-description": "Applications published in Flathub in the last 30 days.",
@@ -214,5 +214,5 @@
   "continue": "Continue",
   "purchase-terms-confirmation": "I confirm that I have read the Flathub Terms & Conditions and consent to waiving the 14-day cooling off period associated with this digital download.",
   "contribute-languages": "All these translations have been contributed by the community. If you want to help translate Flathub, please <1>join the Flathub translation team</1>.",
-  "recently-added-apps": "Recently Added Apps"
+  "recently-added-apps": "New Apps"
 }
