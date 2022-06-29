@@ -28,7 +28,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
     event.preventDefault()
 
     setSubmit(true)
-    initiateDonation(org, Number(amount) * 100)
+    initiateDonation(org, amount.settled * 100)
       .then(setTransaction)
       .catch((err) => {
         toast.error(t(err))
