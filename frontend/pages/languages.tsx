@@ -28,7 +28,7 @@ const Languages = (): JSX.Element => {
         <p className="pt-8">
           <Trans i18nKey={"common:contribute-languages"}>
             All these translations have been contributed by the community. If
-            you want to help translate Flathub, please{" "}
+            you want to help translate Flathub, please
             <a
               target="_blank"
               rel="noreferrer"
