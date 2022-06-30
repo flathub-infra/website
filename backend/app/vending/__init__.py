@@ -332,7 +332,7 @@ def post_app_vending_setup(
         raise VendingError(error="not-onboarded")
 
     vend = ApplicationVendingConfig.by_appid(db, appid)
-    if not vend:
+    if not vend and setup.recommended_donation > 0:
         vend = ApplicationVendingConfig(
             user=login["user"].id,
             appid=appid,
@@ -341,7 +341,7 @@ def post_app_vending_setup(
             recommended_donation=setup.recommended_donation,
             minimum_payment=setup.minimum_payment,
         )
-    else:
+    elif setup.recommended_donation > 0:
         if vend.user != login["user"].id:
             raise VendingError(error="user-mismatch")
         vend.currency = setup.currency
@@ -349,7 +349,10 @@ def post_app_vending_setup(
         vend.recommended_donation = setup.recommended_donation
         vend.minimum_payment = setup.minimum_payment
     try:
-        db.session.add(vend)
+        if setup.recommended_donation > 0:
+            db.session.add(vend)
+        elif vend:
+            db.session.delete(vend)
         db.session.commit()
     except Exception as base_exc:
         raise VendingError(error="bad-values") from base_exc
