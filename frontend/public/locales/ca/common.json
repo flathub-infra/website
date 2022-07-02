@@ -9,7 +9,7 @@
   "about-pagename": "Quant a Flathub",
   "applications": "Aplicacions",
   "popular": "Popular",
-  "new-and-updated": "Nou i actualitzat",
+  "new-and-updated": "Actualitzades recentment",
   "editors-choice-apps": "Aplicacions escollides pels editors",
   "browse-apps": "Explorar aplicacions",
   "rss-feeds": "Fonts RSS",
@@ -55,7 +55,7 @@
   "app-logo": "Logotip de {{app-name}}",
   "downloads-over-time": "Baixades al llarg del temps",
   "new-apps": "Noves aplicacions",
-  "new-and-updated-apps": "Aplicacions noves i actualitzades",
+  "new-and-updated-apps": "Aplicacions actualitzades recentment",
   "subscribe": "Subscriure's",
   "login": "Iniciar sessió",
   "retry-or-go-home": "És possible que vulgueu tornar-ho a provar o tornar a <1>inici</1>.",
@@ -213,5 +213,6 @@
   "view-wallet": "Visualitzar la cartera",
   "previous-page": "Pàgina anterior",
   "no-more-transactions": "No hi ha més transaccions per mostrar.",
-  "purchase-terms-confirmation": "Confirmo que he llegit els Termes i condicions de Flathub i accepto renunciar al període de reflexió de 14 dies associat amb aquesta descàrrega digital."
+  "purchase-terms-confirmation": "Confirmo que he llegit els Termes i condicions de Flathub i accepto renunciar al període de reflexió de 14 dies associat amb aquesta descàrrega digital.",
+  "recently-added-apps": "Noves aplicacions"
 }

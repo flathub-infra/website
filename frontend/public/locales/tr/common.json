@@ -9,7 +9,7 @@
   "about-pagename": "Flathub Hakkında",
   "applications": "Uygulamalar",
   "popular": "Gözde",
-  "new-and-updated": "Yeni & Güncel",
+  "new-and-updated": "Son Güncellenenler",
   "editors-choice-apps": "Yayıncının Seçimi Uygulamalar",
   "browse-apps": "Uygulamalara Göz At",
   "rss-feeds": "RSS Akışları",
@@ -63,7 +63,7 @@
   "home": "Ana Sayfa",
   "flathub-description": "Linux için yüzlerce uygulama ve oyun bulun ve kurun. GIMP, GNU Octave, Spotify, Steam ve çok daha fazlasının keyfini çıkarın!",
   "new-apps": "Yeni Uygulamalar",
-  "new-and-updated-apps": "Yeni & Güncel Uygulamalar",
+  "new-and-updated-apps": "Son Güncellenen Uygulamalar",
   "subscribe": "Abone Ol",
   "rss-feeds-description": "En yeni Flathub uygulamalarını edinmek için artık akış okuyucunuzda RSS akışlarımıza abone olabilirsiniz!",
   "new-apps-description": "Flathub'da son 30 gün içinde yayınlanan uygulamalar.",
@@ -213,5 +213,6 @@
   "applications-by-projectgroup": "{{projectgroup}} grubundaki uygulamalar",
   "other-apps-by-projectgroup": "{{projectgroup}} grubundaki diğer uygulamalar",
   "release-link": "Daha fazla bilgi edinin",
-  "contribute-languages": "Tüm bu çeviriler topluluk tarafından sağlanmıştır. Çevirilere yardım etmek istiyorsanız, lütfen <1>Flathub çeviri takımına katılın</1>."
+  "contribute-languages": "Tüm bu çeviriler topluluk tarafından sağlanmıştır. Çevirilere yardım etmek istiyorsanız, lütfen <1>Flathub çeviri takımına katılın</1>.",
+  "recently-added-apps": "Yeni Uygulamalar"
 }

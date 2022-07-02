@@ -55,7 +55,7 @@
   "applications": "Приложения",
   "developers": "Разработчици",
   "popular": "Популярни",
-  "new-and-updated": "Нови и обновени",
+  "new-and-updated": "Наскоро обновени",
   "explore": "Разглеждане",
   "get-involved": "Включете се",
   "follow-us": "Последвайте ни",
@@ -92,7 +92,7 @@
   "app-logo": "Лого на „{{app-name}}“",
   "count-applications": "Общо приложения",
   "new-apps": "Нови приложения",
-  "new-and-updated-apps": "Нови и обновени приложения",
+  "new-and-updated-apps": "Наскоро обновени приложения",
   "count-downloads": "Общо изтегляния",
   "subscribe": "Абониране",
   "linked-accounts": "Свързани профили",
@@ -213,5 +213,6 @@
   "applications-by-projectgroup": "Приложения в групата „{{projectgroup}}“",
   "other-apps-by-projectgroup": "Други приложения в групата „{{projectgroup}}“",
   "contribute-languages": "Всички преводи са допринесени от общността. Ако искате да преведете „Flathub“, натиснете <1>тук</1>.",
-  "release-link": "Подробна информация"
+  "release-link": "Подробна информация",
+  "recently-added-apps": "Нови приложения"
 }

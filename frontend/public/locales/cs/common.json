@@ -4,7 +4,7 @@
   "publish": "Publikovat",
   "about": "O Flathubu",
   "go-home": "Domovská stránka",
-  "new-and-updated": "Nově přidané a aktualizované",
+  "new-and-updated": "Nedávno aktualizované",
   "editors-choice-apps": "Doporučené aplikace",
   "get-involved": "Zapojit se",
   "rss-feeds": "RSS feedy",
@@ -21,7 +21,7 @@
   "user-page": "Uživatelská stránka",
   "flathub-statistics": "Statistiky Flathubu",
   "new-apps": "Nové aplikace",
-  "new-and-updated-apps": "Nově přidané a aktualizované aplikace",
+  "new-and-updated-apps": "Nedávno aktualizované aplikace",
   "subscribe": "Odebírat",
   "rss-feeds-description": "Můžete začít odebírat naše RSS feedy a mít tak vždy nejnovější zprávy z Flathubu ve své RSS čtečce!",
   "home": "Domovská stránka",
@@ -213,5 +213,6 @@
   "applications-by-projectgroup": "Aplikace ve skupině {{projectgroup}}",
   "other-apps-by-projectgroup": "Ostatní aplikace ve skupině {{projectgroup}}",
   "release-link": "Získat více informací",
-  "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k překladatelskému týmu Flathub</1>."
+  "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k překladatelskému týmu Flathub</1>.",
+  "recently-added-apps": "Nové aplikace"
 }

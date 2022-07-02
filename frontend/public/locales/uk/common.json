@@ -6,7 +6,7 @@
   "about-pagename": "Про Flathub",
   "applications": "Застосунки",
   "popular": "Популярні",
-  "new-and-updated": "Нові й оновлені",
+  "new-and-updated": "Недавно оновлені",
   "statistics": "Статистика",
   "source-code": "Джерельний код",
   "open-in-new-tab": "Відкрити в новій вкладці",
@@ -60,7 +60,7 @@
   "log-out": "Вийти",
   "delete-account-entry": "Я хочу видалити свій обліковий запис",
   "entry-confirmation-prompt": "Введіть «{{text}}», щоб продовжити.",
-  "new-and-updated-apps": "Нові й оновлені застосунки",
+  "new-and-updated-apps": "Недавно оновлені застосунки",
   "new-apps": "Нові застосунки",
   "categories": "Категорії",
   "games": "Ігри",
@@ -213,5 +213,6 @@
   "other-apps-by-projectgroup": "Інші застосунки з групи {{projectgroup}}",
   "applications-by-projectgroup": "Застосунки в групі {{projectgroup}}",
   "release-link": "Отримати більше інформації",
-  "contribute-languages": "Усі ці переклади надала спільнота. Якщо ви хочете допомогти перекласти Flathub, <1>приєднуйтеся до команди перекладачів Flathub</1>."
+  "contribute-languages": "Усі ці переклади надала спільнота. Якщо ви хочете допомогти перекласти Flathub, <1>приєднуйтеся до команди перекладачів Flathub</1>.",
+  "recently-added-apps": "Нові застосунки"
 }
