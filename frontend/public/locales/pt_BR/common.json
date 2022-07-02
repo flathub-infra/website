@@ -9,7 +9,7 @@
   "about-pagename": "Sobre o Flathub",
   "applications": "Aplicativos",
   "popular": "Populares",
-  "new-and-updated": "Novos e atualizados",
+  "new-and-updated": "Atualizados recentemente",
   "editors-choice-apps": "Escolha dos editores",
   "browse-apps": "Navegar pelos apps",
   "rss-feeds": "Feeds RSS",
@@ -64,7 +64,7 @@
   "home": "Página Inicial",
   "flathub-description": "Encontre e instale centenas de apps e jogos para Linux. Aproveite o GIMP, GNU Octave, Spotify, Steam e muito mais!",
   "new-apps": "Novos apps",
-  "new-and-updated-apps": "Apps novos e atualizados",
+  "new-and-updated-apps": "Apps atualizados recentemente",
   "subscribe": "Inscrever-se",
   "rss-feeds-description": "Agora você pode se inscrever em nossos feeds RSS para obter as últimas novidades do Flathub em seu leitor de feeds!",
   "new-apps-description": "Aplicativos publicados no Flathub nos últimos 30 dias.",
@@ -213,5 +213,6 @@
   "other-apps-by-projectgroup": "Outros aplicativos no grupo {{projectgroup}}",
   "release-link": "Obter mais informações",
   "contribute-languages": "Todas essas traduções foram contribuídas pela comunidade. Se você quiser ajudar a traduzir o Flathub, <1>junte-se à equipe de tradução do Flathub</1>.",
-  "applications-by-projectgroup": "Aplicativos no grupo {{projectgroup}}"
+  "applications-by-projectgroup": "Aplicativos no grupo {{projectgroup}}",
+  "recently-added-apps": "Novos apps"
 }

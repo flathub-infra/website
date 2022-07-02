@@ -11,7 +11,7 @@
   "forum": "Keskustelu",
   "about": "Tietoja",
   "about-pagename": "Tietoja Flathubista",
-  "new-and-updated": "Uudet ja päivitetyt",
+  "new-and-updated": "Äskettäin päivitetty",
   "editors-choice-apps": "Toimituksen sovellusvalinnat",
   "rss-feeds": "RSS-syötteet",
   "community": "Yhteisö",
@@ -56,7 +56,7 @@
   "downloads-over-time": "Latauksia ajan myötä",
   "home": "Etusivu",
   "new-apps": "Uudet sovellukset",
-  "new-and-updated-apps": "Uudet ja päivitetyt sovellukset",
+  "new-and-updated-apps": "Äskettäin päivitetyt sovellukset",
   "subscribe": "Tilaa",
   "rss-feeds-description": "Voit tilata RSS-syötteitä saadaksesi uusimmat Flathub-kuulumiset suoraan syötteenlukijaasi!",
   "new-and-updated-apps-description": "Viimeisen seitsemän päivän aikana julkaistut tai päivitetyt sovellukset Flathubissa.",
@@ -213,5 +213,6 @@
   "other-apps-by-projectgroup": "Muut sovellukset ryhmässä {{projectgroup}}",
   "applications-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}",
   "release-link": "Lisätietoja",
-  "contribute-languages": "Kaikki nämä kielikäännökset ovat yhteisön tekemiä. Jos haluat auttaa Flathubin kääntämisessä, <1>liity Flathub-käännöstiimiin</1>."
+  "contribute-languages": "Kaikki nämä kielikäännökset ovat yhteisön tekemiä. Jos haluat auttaa Flathubin kääntämisessä, <1>liity Flathub-käännöstiimiin</1>.",
+  "recently-added-apps": "Uudet sovellukset"
 }
