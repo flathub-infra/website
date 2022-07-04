@@ -42,7 +42,7 @@
     "@types/node": "^18.0.0",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.7",
-    "eslint": "^8.18.0",
+    "eslint": "^8.19.0",
     "eslint-config-next": "^12.1.6",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
