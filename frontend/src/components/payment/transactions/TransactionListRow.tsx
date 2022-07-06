@@ -18,6 +18,7 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
   // Status may change through interaction
   const [shownStatus, setStatus] = useState(status)
 
+  // Date object expects milliseconds since epoch
   const prettyCreated = new Date(created * 1000).toLocaleString(
     getIntlLocale(i18n.language),
   )
@@ -35,14 +36,13 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
 
   const needsAttention = ["new", "retry"].includes(shownStatus)
 
-  // Date object expects milliseconds since epoch
   return (
     <tr className="my-2 mx-0 min-w-[200px] rounded-xl bg-bgColorSecondary p-2 shadow-md">
       <td>{prettyCreated}</td>
       <td>{prettyUpdated}</td>
       <td>{t(`kind-${kind}`)}</td>
       <td>{prettyValue}</td>
-      <td>{t(`status-${status}`)}</td>
+      <td>{t(`status-${shownStatus}`)}</td>
       <td className="flex flex-col items-start gap-2">
         <Link
           href={`/payment/${
