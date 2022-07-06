@@ -9,6 +9,7 @@ import {
 } from "react"
 import { toast } from "react-toastify"
 import { getAppVendingSetup, setAppVendingSetup } from "../../../asyncs/vending"
+import { STRIPE_MAX_PAYMENT } from "../../../env"
 import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
@@ -128,6 +129,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <CurrencyInput
             value={recommendedDonation}
             setValue={setRecommendedDonation}
+            maximum={STRIPE_MAX_PAYMENT}
           />
           {minPayment.settled > recommendedDonation.live && (
             <p role="alert" className="my-2 text-colorDanger">
@@ -137,7 +139,11 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <label>{t("minimum-payment")}</label>
-          <CurrencyInput value={minPayment} setValue={setMinPayment} />
+          <CurrencyInput
+            value={minPayment}
+            setValue={setMinPayment}
+            maximum={STRIPE_MAX_PAYMENT}
+          />
         </div>
         <div>
           <label>{t("application-share")}</label>

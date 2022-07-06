@@ -3,12 +3,11 @@ import Router from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { initiateDonation } from "../../asyncs/payment"
+import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
 import Button from "../Button"
 import CurrencyInput from "../CurrencyInput"
 import Spinner from "../Spinner"
-
-const minDonation = 5
 
 interface Props {
   org: string
@@ -18,8 +17,8 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   const { t } = useTranslation()
 
   const [amount, setAmount] = useState<NumericInputValue>({
-    live: minDonation,
-    settled: minDonation,
+    live: FLATHUB_MIN_PAYMENT,
+    settled: FLATHUB_MIN_PAYMENT,
   })
   const [submit, setSubmit] = useState(false)
   const [transaction, setTransaction] = useState("")
@@ -68,7 +67,12 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <div className="flex flex-wrap items-center justify-center gap-5">
         {presets}
 
-        <CurrencyInput value={amount} setValue={setAmount} minimum={5} />
+        <CurrencyInput
+          value={amount}
+          setValue={setAmount}
+          minimum={FLATHUB_MIN_PAYMENT}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
       </div>
       <Button>{t("make-donation")}</Button>
     </form>

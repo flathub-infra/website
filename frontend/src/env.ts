@@ -90,3 +90,8 @@ export const VENDING_APP_SPLIT_URL = (
 
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"
+
+// Stripe can handle at most an 8 digit single transaction
+export const STRIPE_MAX_PAYMENT = 999999.99
+// Flathub enforces a minimum payment amount of $1 to cover fees
+export const FLATHUB_MIN_PAYMENT = 1
