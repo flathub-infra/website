@@ -26,6 +26,7 @@ python-gitlab = "^3.6"
 stripe = "^3.5"
 PyJWT = "^2.4.0"
 meilisearch = "^0.18.3"
+orjson = "^3.7.6"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6"

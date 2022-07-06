@@ -1,6 +1,6 @@
-import json
 import time
 
+import orjson
 import redis
 
 from . import config
@@ -35,7 +35,7 @@ def wait_for_redis():
 
 def get_json_key(key: str):
     if value := redis_conn.get(key):
-        return json.loads(value)
+        return orjson.loads(value)
 
     return None
 

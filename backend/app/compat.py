@@ -4,10 +4,11 @@ from typing import Optional
 
 import requests
 from fastapi import APIRouter, BackgroundTasks, FastAPI
+from fastapi.responses import ORJSONResponse
 
 from . import apps, db, search, stats
 
-router = APIRouter(prefix="/compat")
+router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
 
 
 def register_to_app(app: FastAPI):
