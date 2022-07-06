@@ -39,9 +39,9 @@ const VendingLink: FunctionComponent = () => {
     error: onboardingError,
   } = useAsync(getOnboardingLink, false)
 
-  // If payments can be taken, onboarding was complete
+  // Dashboard is accessible once onboarding is submit
   useEffect(() => {
-    if (status && status.can_take_payments) {
+    if (status && status.details_submitted) {
       getDashboard()
     }
   }, [status, getDashboard])
