@@ -35,8 +35,8 @@ export interface VendingDescriptor extends APIResponseOk {
 
 /**
  * `appshare` is an integer representing percentage of payment going towards the app.
- * `recommended_donation` is ...
- * `minimum_payment` is an integer for the price of the app in cents.
+ * `recommended_donation` is an integer for suggested price in cents.
+ * `minimum_payment` is an integer for minimum price in cents.
  */
 export interface VendingSetup {
   currency: string
