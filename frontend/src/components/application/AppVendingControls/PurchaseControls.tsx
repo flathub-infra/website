@@ -9,6 +9,7 @@ import {
 } from "react"
 import { toast } from "react-toastify"
 import { getAppVendingSetup, initiateAppPayment } from "../../../asyncs/vending"
+import { STRIPE_MAX_PAYMENT } from "../../../env"
 import { useAsync } from "../../../hooks/useAsync"
 import { getIntlLocale } from "../../../localize"
 import { Appstream } from "../../../types/Appstream"
@@ -140,6 +141,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         value={amount}
         setValue={setAmount}
         minimum={vendingSetup.minimum_payment / 100}
+        maximum={STRIPE_MAX_PAYMENT}
       />
       <VendingSharesPreview
         price={amount.live * 100}
