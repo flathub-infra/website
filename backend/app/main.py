@@ -4,7 +4,7 @@ from typing import Dict
 import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import ORJSONResponse, PlainTextResponse
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
@@ -29,7 +29,8 @@ from . import (
     wallet,
 )
 
-app = FastAPI(title=config.settings.app_name)
+app = FastAPI(title=config.settings.app_name, default_response_class=ORJSONResponse)
+
 if config.settings.sentry_dsn:
     sentry_sdk.init(
         dsn=config.settings.sentry_dsn,

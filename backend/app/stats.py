@@ -4,6 +4,7 @@ from collections import defaultdict
 from typing import Dict, List, Optional
 from urllib.parse import urlparse, urlunparse
 
+import orjson
 import requests
 
 from app import utils
@@ -39,9 +40,9 @@ def _get_stats_for_date(date: datetime.date, session: requests.Session):
             expire = 60 * 60
         else:
             expire = 24 * 60 * 60
-        db.redis_conn.set(redis_key, json.dumps(stats), ex=expire)
+        db.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
-        stats = json.loads(stats_txt)
+        stats = orjson.loads(stats_txt)
     return stats
 
 
@@ -191,7 +192,7 @@ def get_popular(days: Optional[int]):
     )
 
     popular = [k for k, v in sorted_apps]
-    db.redis_conn.set(redis_key, json.dumps(popular), ex=60 * 60)
+    db.redis_conn.set(redis_key, orjson.dumps(popular), ex=60 * 60)
     return popular
 
 
@@ -247,10 +248,10 @@ def update(all_app_ids: list):
                 [i[2] for i in dict.values()]
             )
 
-    db.redis_conn.set("stats", json.dumps(stats_dict))
+    db.redis_conn.set("stats", orjson.dumps(stats_dict))
     db.redis_conn.mset(
         {
-            f"app_stats:{appid}": json.dumps(stats_apps_dict[appid])
+            f"app_stats:{appid}": orjson.dumps(stats_apps_dict[appid])
             for appid in stats_apps_dict
         }
     )
