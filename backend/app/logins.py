@@ -746,6 +746,7 @@ def get_userinfo(login=Depends(login_state)):
     {
         "displayname": "Mx Human Person",
         "dev-flatpaks": [ "org.people.human.Appname" ],
+        "owned-flatpaks": [ "org.foo.bar.Appname" ],
     }
     ```
 
@@ -758,10 +759,17 @@ def get_userinfo(login=Depends(login_state)):
     if not login["state"].logged_in():
         return Response(status_code=204)
     user = login["user"]
-    ret = {"displayname": user.display_name, "dev-flatpaks": set()}
+    ret = {
+        "displayname": user.display_name,
+        "dev-flatpaks": set(),
+        "owned-flatpaks": set(),
+    }
     ret["auths"] = {}
 
     ret["dev-flatpaks"] = ret["dev-flatpaks"].union(user.dev_flatpaks(db))
+    ret["owned-flatpaks"] = {
+        app.app_id for app in models.UserOwnedApp.all_owned_by_user(db, user)
+    }
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:
