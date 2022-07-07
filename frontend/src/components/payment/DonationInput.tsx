@@ -74,7 +74,13 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
           maximum={STRIPE_MAX_PAYMENT}
         />
       </div>
-      <Button>{t("make-donation")}</Button>
+      <Button
+        disabled={
+          amount.live < FLATHUB_MIN_PAYMENT || amount.live > STRIPE_MAX_PAYMENT
+        }
+      >
+        {t("make-donation")}
+      </Button>
     </form>
   )
 }
