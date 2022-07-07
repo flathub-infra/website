@@ -14,15 +14,11 @@ export interface AuthInfo {
   avatar?: string
   login?: string
 }
-export interface UserAuths {
-  github?: AuthInfo
-  gitlab?: AuthInfo
-  google?: AuthInfo
-}
 export interface UserInfo {
   displayname: string
   "dev-flatpaks": string[]
-  auths: UserAuths
+  "owned-flatpaks": string[]
+  auths: Record<string, AuthInfo>
 }
 
 // State houses user info, along with whether it's currently mid-request
