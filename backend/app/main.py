@@ -89,9 +89,11 @@ def update():
 
     get_recently_updated.cache_clear()
     get_recently_added.cache_clear()
+    get_category.cache_clear()
 
 
 @app.get("/category/{category}")
+@lru_cache()
 def get_category(
     category: schemas.Category,
     page: int = None,
