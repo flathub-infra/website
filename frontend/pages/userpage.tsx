@@ -20,7 +20,8 @@ export default function Userpage({ providers }) {
       <div className="max-w-11/12 my-0 mx-auto flex w-11/12 flex-col gap-y-4 p-3 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <UserDetails logins={providers} />
-          <UserApps />
+          <UserApps variant="owned" />
+          <UserApps variant="dev" />
           <div className="rounded-xl bg-bgColorSecondary p-4 shadow-md">
             <DeleteButton />
           </div>

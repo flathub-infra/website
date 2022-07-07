@@ -6,13 +6,17 @@ import { useAsync } from "../../hooks/useAsync"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
 
-const UserApps: FunctionComponent = () => {
+interface Props {
+  variant: "dev" | "owned"
+}
+
+const UserApps: FunctionComponent<Props> = ({ variant }) => {
   const { t } = useTranslation()
   const user = useUserContext()
 
   const getApps = useCallback(
-    () => getAppsInfo(user.info["dev-flatpaks"]),
-    [user.info],
+    () => getAppsInfo(user.info[`${variant}-flatpaks`]),
+    [user.info, variant],
   )
   const { execute, status, value: apps } = useAsync(getApps, false)
 
@@ -25,7 +29,18 @@ const UserApps: FunctionComponent = () => {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
-  return <ApplicationCollection title={t("your-apps")} applications={apps} />
+  const title = t(variant === "dev" ? "your-apps" : "owned-apps")
+
+  if (apps.length === 0) {
+    return (
+      <>
+        <h2>{title}</h2>
+        <p>{t("no-applications")}</p>
+      </>
+    )
+  }
+
+  return <ApplicationCollection title={title} applications={apps} />
 }
 
 export default UserApps

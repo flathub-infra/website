@@ -55,7 +55,8 @@
   "error-already-logged-in": "The selected account is already logged in.",
   "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
   "loading-user-apps": "Loading user apps…",
-  "your-apps": "Your Apps",
+  "your-apps": "Authored Apps",
+  "owned-apps": "Owned Apps",
   "app-logo": "{{app-name}} Logo",
   "user-page": "User Page",
   "user-wallet": "User Wallet",
@@ -227,5 +228,6 @@
   "value-at-least": "You must enter a value of at least {{value}}",
   "value-at-most": "You must enter a value of at most {{value}}",
   "unauthorized-to-view": "You are unauthorized to view this content.",
-  "payment-provider-error": "Our payment provider encountered an error. Try again later."
+  "payment-provider-error": "Our payment provider encountered an error. Try again later.",
+  "no-applications": "No applications to show."
 }
