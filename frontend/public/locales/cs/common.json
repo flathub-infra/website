@@ -214,5 +214,18 @@
   "other-apps-by-projectgroup": "Ostatní aplikace ve skupině {{projectgroup}}",
   "release-link": "Získat více informací",
   "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k překladatelskému týmu Flathub</1>.",
-  "recently-added-apps": "Nové aplikace"
+  "recently-added-apps": "Nové aplikace",
+  "developer-settings": "Nastavení pro vývojáře",
+  "minimum-payment": "Minimální platba",
+  "application-share": "Sdílení aplikace",
+  "app-vending-settings-confirmed": "Nastavení prodeje aplikací potvrzeno",
+  "confirm-settings": "Potvrdit nastavení",
+  "value-at-least": "Musíte zadat hodnotu alespoň {{value}}",
+  "value-at-most": "Musíte zadat hodnotu maximálně {{value}}",
+  "unauthorized-to-view": "K prohlížení tohoto obsahu nemáte oprávnění.",
+  "payment-provider-error": "U našeho poskytovatele plateb došlo k chybě. Zkuste to později.",
+  "developer-settings-title": "Vývojářské nastavení pro aplikaci: {{appname}}",
+  "recommended-payment": "Doporučená platba",
+  "select-purchase-amount": "Zadejte částku, kterou chcete zaplatit",
+  "app-payment-information": "Vývojář aplikace nastavil minimální platbu {{minvalue}} a preferovanou platbu {{recvalue}}."
 }

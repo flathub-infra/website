@@ -103,5 +103,8 @@
   "official-badges": "الشارات الرسمية لفلات-هوب",
   "badges-block": "يمكنك استخدام هذه الشارات للترويج لتطبيقك على فلات-هوب",
   "badges-description": "الشارات الرسمية للترويج لتطبيقك على فلات-هوب",
-  "also-available-as-svg": "متوفر <2>بصيغة SVG</2>"
+  "also-available-as-svg": "متوفر <2>بصيغة SVG</2>",
+  "contribute": "‌‬",
+  "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
+  "user-wallet": "User Wallet‭"
 }

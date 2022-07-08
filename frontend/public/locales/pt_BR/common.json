@@ -214,5 +214,18 @@
   "release-link": "Obter mais informações",
   "contribute-languages": "Todas essas traduções foram contribuídas pela comunidade. Se você quiser ajudar a traduzir o Flathub, <1>junte-se à equipe de tradução do Flathub</1>.",
   "applications-by-projectgroup": "Aplicativos no grupo {{projectgroup}}",
-  "recently-added-apps": "Novos apps"
+  "recently-added-apps": "Novos apps",
+  "application-share": "Compartilhamento de aplicativos",
+  "app-vending-settings-confirmed": "Configurações de venda de aplicativos confirmadas",
+  "confirm-settings": "Confirmar configurações",
+  "select-purchase-amount": "Insira o valor que deseja pagar",
+  "value-at-least": "Você deve inserir um valor de pelo menos {{value}}",
+  "value-at-most": "Você deve inserir um valor de no máximo {{value}}",
+  "unauthorized-to-view": "Você não está autorizado a visualizar este conteúdo.",
+  "payment-provider-error": "Nosso provedor de pagamento encontrou um erro. Tente mais tarde.",
+  "developer-settings": "Configurações do desenvolvedor",
+  "developer-settings-title": "Configurações do desenvolvedor: {{appname}}",
+  "minimum-payment": "Pagamento mínimo",
+  "recommended-payment": "Pagamento recomendado",
+  "app-payment-information": "O desenvolvedor do aplicativo definiu um pagamento mínimo de {{minvalue}} e um pagamento preferencial de {{recvalue}}."
 }

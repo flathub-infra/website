@@ -214,5 +214,18 @@
   "applications-by-projectgroup": "Застосунки в групі {{projectgroup}}",
   "release-link": "Отримати більше інформації",
   "contribute-languages": "Усі ці переклади надала спільнота. Якщо ви хочете допомогти перекласти Flathub, <1>приєднуйтеся до команди перекладачів Flathub</1>.",
-  "recently-added-apps": "Нові застосунки"
+  "recently-added-apps": "Нові застосунки",
+  "developer-settings": "Налаштування розробника",
+  "developer-settings-title": "Налаштування розробника: {{appname}}",
+  "minimum-payment": "Мінімальний платіж",
+  "unauthorized-to-view": "Ви не маєте прав для перегляду цього вмісту.",
+  "payment-provider-error": "Наш обробник платежів зіткнувся з помилкою. Повторіть спробу пізніше.",
+  "application-share": "Поширення застосунку",
+  "app-vending-settings-confirmed": "Налаштування продажу застосунків підтверджено",
+  "confirm-settings": "Підтвердити налаштування",
+  "recommended-payment": "Рекомендований платіж",
+  "select-purchase-amount": "Введіть суму, яку бажаєте сплатити",
+  "value-at-most": "Введіть значення до {{value}}",
+  "app-payment-information": "Розробник застосунку встановив найменший платіж {{minvalue}} і бажаний платіж {{recvalue}}.",
+  "value-at-least": "Введіть значення принаймні {{value}}"
 }
