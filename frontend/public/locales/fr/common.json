@@ -214,5 +214,18 @@
   "other-apps-by-projectgroup": "Autres applications dans le groupe {{projectgroup}}",
   "release-link": "Plus d'informations",
   "contribute-languages": "Toutes ces traductions ont été réalisées par la communauté. Si vous voulez aider à traduire Flathub, veuillez <1>rejoindre l'équipe de traduction de Flathub</1>.",
-  "recently-added-apps": "Nouvelles applis"
+  "recently-added-apps": "Nouvelles applis",
+  "confirm-settings": "Confirmer les paramètres",
+  "select-purchase-amount": "Entrez le montant que vous souhaitez payer",
+  "app-vending-settings-confirmed": "Confirmation des paramètres de vente de l'application",
+  "value-at-least": "Vous devez entrer une valeur d'au moins {{value}}",
+  "developer-settings-title": "Paramètres de développeur : {{appname}}",
+  "developer-settings": "Paramètres de développeur",
+  "recommended-payment": "Paiement recommandé",
+  "minimum-payment": "Paiement minimal",
+  "application-share": "Partage d'appli",
+  "app-payment-information": "Le concepteur de l'application a fixé un paiement minimal de {{minvalue}} et un paiement préféré de {{recvalue}}.",
+  "value-at-most": "Vous devez entrer une valeur de maximum {{value}}",
+  "unauthorized-to-view": "Vous n'avez pas l'autorisation de consulter ce contenu.",
+  "payment-provider-error": "Notre prestataire de paiement a rencontré une erreur. Essayez à nouveau plus tard."
 }

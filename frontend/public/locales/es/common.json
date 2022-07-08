@@ -8,7 +8,7 @@
   "contact": "Contacto",
   "help": "Ayuda",
   "home": "Inicio",
-  "new-and-updated-apps": "Aplicaciones nuevas y actualizadas",
+  "new-and-updated-apps": "Aplicaciones actualizadas recientemente",
   "subscribe": "Subscribirse",
   "quick-setup": "Configuración rápida",
   "number-of-results": "{{number}} resultados",
@@ -24,7 +24,7 @@
   "donate": "Donar",
   "manual-install-instructions": "Asegúrese de seguir la <2>guía de instalación</2> antes de instalar",
   "go-home": "Volver al inicio",
-  "new-and-updated": "Nuevo y actualizado",
+  "new-and-updated": "Actualizado recientemente",
   "editors-choice-apps": "Aplicaciones elegidas por los editores",
   "browse-apps": "Explorar aplicaciones",
   "community": "Comunidad",
@@ -211,5 +211,8 @@
   "continue": "Continuar",
   "purchase-terms-confirmation": "Confirmo que he leído los Términos y Condiciones de Flathub y consiento en renunciar al periodo de reflexión de 14 días asociado a esta descarga digital.",
   "applications-by-projectgroup": "Aplicaciones del grupo {{projectgroup}}",
-  "other-apps-by-projectgroup": "Otras aplicaciones del grupo {{projectgroup}}"
+  "other-apps-by-projectgroup": "Otras aplicaciones del grupo {{projectgroup}}",
+  "release-link": "Ver más información",
+  "contribute-languages": "Todas estas traducciones han sido contribuidas por la comunidad. Si quiere ayudar a traducir Flathub, por favor <1>únase al equipo de traducción de Flathub</1>.",
+  "recently-added-apps": "Aplicaciones nuevas"
 }

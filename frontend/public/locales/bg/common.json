@@ -214,5 +214,18 @@
   "other-apps-by-projectgroup": "Други приложения в групата „{{projectgroup}}“",
   "contribute-languages": "Всички преводи са допринесени от общността. Ако искате да преведете „Flathub“, натиснете <1>тук</1>.",
   "release-link": "Подробна информация",
-  "recently-added-apps": "Нови приложения"
+  "recently-added-apps": "Нови приложения",
+  "confirm-settings": "Потвърждаване",
+  "recommended-payment": "Препоръчително плащане",
+  "select-purchase-amount": "Въведете сума за плащане",
+  "value-at-most": "Трябва да въведете сума, която да не е по-голяма от {{value}}",
+  "unauthorized-to-view": "Нямате достъп до това съдържание.",
+  "payment-provider-error": "Възникна грешка в системата за плащане. Опитайте отново по-късно.",
+  "app-vending-settings-confirmed": "Настройките за продажба на приложението са потвърдени",
+  "application-share": "Дял на приложението",
+  "developer-settings": "Настройки за разработчици",
+  "developer-settings-title": "Настройки за разработчици: {{appname}}",
+  "minimum-payment": "Минимално плащане",
+  "value-at-least": "Трябва да въведете сума, която да не е по-малка от {{value}}",
+  "app-payment-information": "Разработчикът на приложението е задал минимално плащане от {{minvalue}} и препоръчително плащане от {{recvalue}}."
 }
