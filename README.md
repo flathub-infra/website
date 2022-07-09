@@ -25,6 +25,8 @@ cd backend
 docker-compose up
 ```
 
+You might need to use `--build` to rebuid the images, when dependencies change.
+
 Use another terminal session to run the following or use your browser to go to localhost:8000/docs and use the UI to run the `/update` endpoint.
 This will populate the database with the latest data from the flathub.
 
