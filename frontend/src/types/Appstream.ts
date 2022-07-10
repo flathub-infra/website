@@ -95,8 +95,12 @@ export function pickScreenshot(screenshot: Screenshot) {
 export interface Release {
   description?: string
   timestamp?: number
+  date?: Date
+  type?: "stable" | "development"
+  urgency?: "low" | "medium" | "high" | "critical"
   version: string
   url?: string
+  date_eol?: Date
 }
 
 export interface Launchable {

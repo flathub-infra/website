@@ -2,7 +2,7 @@ export enum Collections {
   popular = "Popular",
   recentlyUpdated = "Recently Updated",
   editorsApps = "Editors Picks Apps",
-  recentlyAdded = "Recently Added"
+  recentlyAdded = "Recently Added",
 }
 
 export type Collection =

@@ -84,10 +84,11 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`prose relative dark:prose-invert ${!isExpanded && scrollHeight > collapsedHeight
-                  ? "from-transparent to-bgColorSecondary before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
-                  : ""
-                  }`}
+                className={`prose relative dark:prose-invert ${
+                  !isExpanded && scrollHeight > collapsedHeight
+                    ? "from-transparent to-bgColorSecondary before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
+                    : ""
+                }`}
                 ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: releaseDescription,
