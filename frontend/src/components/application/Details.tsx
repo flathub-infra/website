@@ -104,6 +104,10 @@ const Details: FunctionComponent<Props> = ({
     const moreThan1Screenshot =
       app.screenshots?.filter(pickScreenshot).length > 1
 
+    const stableReleases = app.releases.filter(
+      (release) => release.type === undefined || release.type === "stable",
+    )
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
@@ -257,10 +261,8 @@ const Details: FunctionComponent<Props> = ({
             />
           </div>
 
-          {app.releases && (
-            <Releases
-              latestRelease={app.releases ? app.releases[0] : null}
-            ></Releases>
+          {stableReleases && stableReleases.length > 0 && (
+            <Releases latestRelease={stableReleases[0]}></Releases>
           )}
 
           <AdditionalInfo
