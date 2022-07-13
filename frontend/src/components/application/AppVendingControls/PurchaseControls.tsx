@@ -138,7 +138,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       </p>
       <h4 className="m-0">{t("select-purchase-amount")}</h4>
       <CurrencyInput
-        value={amount}
+        inputValue={amount}
         setValue={setAmount}
         minimum={vendingSetup.minimum_payment / 100}
         maximum={STRIPE_MAX_PAYMENT}

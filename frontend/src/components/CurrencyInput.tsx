@@ -1,19 +1,22 @@
 import { useTranslation } from "next-i18next"
 import {
+  DetailedHTMLProps,
   FormEvent,
+  forwardRef,
   FunctionComponent,
+  InputHTMLAttributes,
   useCallback,
   useEffect,
   useState,
 } from "react"
 import { NumericInputValue } from "../types/Input"
 
-interface Props {
-  value: NumericInputValue
+type Props = {
+  inputValue: NumericInputValue
   setValue: React.Dispatch<React.SetStateAction<NumericInputValue>>
   minimum?: number
   maximum?: number
-}
+} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 /**
  * An input for currency in a form.
@@ -24,94 +27,104 @@ interface Props {
  * This is expected to be used as a controlled component, the state of which is lifted to the parent component.
  * The parent component must apply any further constraint or feedback desired (e.g. disable form submission).
  */
-const CurrencyInput: FunctionComponent<Props> = ({
-  value,
-  setValue,
-  minimum = 0,
-  maximum = Number.MAX_VALUE,
-}) => {
-  const { t } = useTranslation()
-
-  // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
-  const [userInput, setUserInput] = useState(value.live.toFixed(2))
-
-  const [minError, setMinError] = useState(false)
-  const [maxError, setMaxError] = useState(false)
-
-  // Whenever a new value is settled the input should reflect it
-  // Using an effect enables this to be set externally too
-  useEffect(() => {
-    // Always show cent value for consistency (removes ambiguity)
-    setUserInput(value.settled.toFixed(2))
-  }, [value.settled])
-
-  const handleChange = useCallback(
-    (event: FormEvent<HTMLInputElement>) => {
-      // Prevent entering negatives or fractional cents
-      if (event.currentTarget.validity.patternMismatch) return
-
-      // Don't enforce futher validation on users input
-      const text = event.currentTarget.value
-      setUserInput(text)
-
-      // Treat lone decimal point as 0 value
-      const numeric = Number(text)
-      const live = isNaN(numeric) ? 0 : numeric
-
-      setValue({ ...value, live })
-
-      // Removing error feedback on changes helps user to correct their input
-      if (minError) {
-        setMinError(live < minimum)
-      }
-      if (maxError) {
-        setMaxError(live > maximum)
-      }
+const CurrencyInput: FunctionComponent<Props> = forwardRef<
+  HTMLInputElement,
+  Props
+>(
+  (
+    {
+      inputValue,
+      setValue,
+      minimum = 0,
+      maximum = Number.MAX_SAFE_INTEGER,
+      ...inputProps
     },
-    [minimum, maximum, value, minError, maxError, setValue],
-  )
+    ref,
+  ) => {
+    const { t } = useTranslation()
 
-  const handleBlur = useCallback(
-    (event: FormEvent<HTMLInputElement>) => {
-      const numeric = Number(event.currentTarget.value)
+    // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
+    const [userInput, setUserInput] = useState(inputValue.live.toFixed(2))
 
-      // Treat lone decimal point as 0 value
-      const settled = isNaN(numeric) ? 0 : numeric
+    const [error, setError] = useState("")
 
-      setValue({ ...value, settled })
+    // Whenever a new value is settled the input should reflect it
+    // Using an effect enables this to be set externally too
+    useEffect(() => {
+      // Always show cent value for consistency (removes ambiguity)
+      setUserInput(inputValue.settled.toFixed(2))
+    }, [inputValue.settled])
 
-      // Showing error feedback on blur avoids user annoyance during input
-      setMinError(settled < minimum)
-      setMaxError(settled > maximum)
-    },
-    [minimum, maximum, value, setValue],
-  )
+    const handleChange = useCallback(
+      (event: FormEvent<HTMLInputElement>) => {
+        // Prevent entering negatives or fractional cents
+        if (event.currentTarget.validity.patternMismatch) return
 
-  return (
-    <div>
-      <label className="absolute mt-2 ml-2 text-xl">$</label>
-      <input
-        type="text"
-        inputMode="numeric"
-        pattern="\d*(\.\d{0,2})?"
-        value={userInput}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className={`rounded-xl border-none bg-bgColorPrimary p-2 pl-7 text-textPrimary ${
-          minError || maxError
-            ? "outline outline-2 outline-colorDanger"
-            : "outline-none"
-        }`}
-      />
-      {(minError || maxError) && (
-        <p role="alert" className="my-2 text-colorDanger">
-          {t(minError ? "value-at-least" : "value-at-most", {
-            value: `$${minError ? minimum : maximum}`,
-          })}
-        </p>
-      )}
-    </div>
-  )
-}
+        // Don't enforce futher validation on users input
+        const text = event.currentTarget.value
+        setUserInput(text)
+
+        // Treat lone decimal point as 0 value
+        const numeric = Number(text)
+        const live = isNaN(numeric) ? 0 : numeric
+
+        setValue({ ...inputValue, live })
+
+        // Removing error feedback on changes helps user to correct their input
+        if (error !== "") {
+          if (live >= minimum && live <= maximum) {
+            setError("")
+          }
+        }
+      },
+      [minimum, maximum, inputValue, error, setValue],
+    )
+
+    const handleBlur = useCallback(
+      (event: FormEvent<HTMLInputElement>) => {
+        const numeric = Number(event.currentTarget.value)
+
+        // Treat lone decimal point as 0 value
+        const settled = isNaN(numeric) ? 0 : numeric
+
+        setValue({ ...inputValue, settled })
+
+        // Showing error feedback on blur avoids user annoyance during input
+        if (settled < minimum) {
+          setError(t("value-at-least", { value: minimum }))
+        } else if (settled > maximum) {
+          setError(t("value-at-most", { value: maximum }))
+        }
+      },
+      [minimum, maximum, inputValue, setValue, t],
+    )
+
+    return (
+      <div>
+        <label className="absolute mt-2 ml-2 text-xl">$</label>
+        <input
+          type="text"
+          inputMode="numeric"
+          pattern="\d*(\.\d{0,2})?"
+          value={userInput}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          ref={ref}
+          className={`rounded-xl border-none bg-bgColorPrimary p-2 pl-7 text-textPrimary ${
+            error ? "outline outline-2 outline-colorDanger" : "outline-none"
+          }`}
+          {...inputProps}
+        />
+        {error && (
+          <p role="alert" className="my-2 text-colorDanger">
+            {error}
+          </p>
+        )}
+      </div>
+    )
+  },
+)
+
+CurrencyInput.displayName = "CurrencyInput"
 
 export default CurrencyInput
