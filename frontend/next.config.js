@@ -31,9 +31,7 @@ module.exports = (phase) => ({
     ],
     swcMinify: true,
   },
-  experimental: {
-    outputStandalone: true,
-  },
+  output: 'standalone',
   async redirects() {
     return [
       {
