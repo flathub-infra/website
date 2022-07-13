@@ -5,11 +5,12 @@ import {
   ReactElement,
   useCallback,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 import { toast } from "react-toastify"
 import { getAppVendingSetup, setAppVendingSetup } from "../../../asyncs/vending"
-import { STRIPE_MAX_PAYMENT } from "../../../env"
+import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
@@ -54,8 +55,14 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   // Controls should initialise to existing setup once known
   useEffect(() => {
     if (vendingSetup) {
-      const decimalRecommendation = vendingSetup.recommended_donation / 100
-      const decimalMinimum = vendingSetup.minimum_payment / 100
+      const decimalRecommendation = Math.max(
+        vendingSetup.recommended_donation / 100,
+        FLATHUB_MIN_PAYMENT,
+      )
+      const decimalMinimum = Math.max(
+        vendingSetup.minimum_payment / 100,
+        FLATHUB_MIN_PAYMENT,
+      )
 
       setAppShare(vendingSetup.appshare)
       setRecommendedDonation({
@@ -108,6 +115,11 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     [submit],
   )
 
+  const isValidState =
+    minPayment.live <= recommendedDonation.live &&
+    minPayment.live >= FLATHUB_MIN_PAYMENT &&
+    recommendedDonation.live <= STRIPE_MAX_PAYMENT
+
   if (
     ["pending", "idle"].includes(status) ||
     ["pending"].includes(submitStatus)
@@ -129,6 +141,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <CurrencyInput
             inputValue={recommendedDonation}
             setValue={setRecommendedDonation}
+            minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
           />
           {minPayment.settled > recommendedDonation.live && (
@@ -142,6 +155,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <CurrencyInput
             inputValue={minPayment}
             setValue={setMinPayment}
+            minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
           />
         </div>
@@ -157,11 +171,8 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             vendingConfig={vendingConfig}
           />
         </div>
-        <div>
-          <Button
-            disabled={minPayment.live > recommendedDonation.live}
-            type="submit"
-          >
+        <div className="border-t border-slate-400/20 pt-3">
+          <Button disabled={!isValidState} type="submit">
             {t("confirm-settings")}
           </Button>
         </div>
