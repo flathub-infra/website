@@ -232,5 +232,6 @@
   "no-applications": "No applications to show.",
   "science": "Science",
   "education": "Education",
-  "system": "System"
+  "system": "System",
+  "enable-app-vending": "Enable Application Vending"
 }

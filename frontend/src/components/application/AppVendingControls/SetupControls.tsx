@@ -5,7 +5,6 @@ import {
   ReactElement,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from "react"
 import { toast } from "react-toastify"
@@ -18,6 +17,7 @@ import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
+import Toggle from "../../Toggle"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 
@@ -32,6 +32,8 @@ interface Props {
  */
 const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const { t } = useTranslation()
+
+  const [vendingEnabled, setVendingEnabled] = useState(false)
 
   // Need existing app vending configuration to initialise controls
   const {
@@ -73,6 +75,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         live: decimalMinimum,
         settled: decimalMinimum,
       })
+      setVendingEnabled(vendingSetup.recommended_donation > 0)
     }
   }, [vendingSetup])
 
@@ -87,10 +90,12 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         setAppVendingSetup(app.id, {
           currency: "usd",
           appshare: appShare,
-          minimum_payment: minPayment.settled * 100,
-          recommended_donation: recommendedDonation.settled * 100,
+          minimum_payment: vendingEnabled ? minPayment.settled * 100 : 0,
+          recommended_donation: vendingEnabled
+            ? recommendedDonation.settled * 100
+            : 0,
         }),
-      [app.id, appShare, minPayment, recommendedDonation],
+      [app.id, appShare, minPayment, recommendedDonation, vendingEnabled],
     ),
     false,
   )
@@ -136,6 +141,10 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         className="flex flex-col gap-6 rounded-xl bg-bgColorSecondary p-4"
         onSubmit={handleSubmit}
       >
+        <div className="flex gap-3 border-b border-slate-400/20 pb-3">
+          <label>{t("enable-app-vending")}</label>
+          <Toggle enabled={vendingEnabled} setEnabled={setVendingEnabled} />
+        </div>
         <div>
           <label>{t("recommended-payment")}</label>
           <CurrencyInput
@@ -143,6 +152,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             setValue={setRecommendedDonation}
             minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
+            disabled={!vendingEnabled}
           />
           {minPayment.settled > recommendedDonation.live && (
             <p role="alert" className="my-2 text-colorDanger">
@@ -157,20 +167,27 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             setValue={setMinPayment}
             minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
+            disabled={!vendingEnabled}
           />
         </div>
         <div>
           <label>{t("application-share")}</label>
-          <AppShareSlider value={appShare} setValue={setAppShare} />
-        </div>
-        <div>
-          <VendingSharesPreview
-            price={recommendedDonation.live * 100}
-            app={app}
-            appShare={appShare}
-            vendingConfig={vendingConfig}
+          <AppShareSlider
+            value={appShare}
+            setValue={setAppShare}
+            disabled={!vendingEnabled}
           />
         </div>
+        {vendingEnabled && (
+          <div>
+            <VendingSharesPreview
+              price={recommendedDonation.live * 100}
+              app={app}
+              appShare={appShare}
+              vendingConfig={vendingConfig}
+            />
+          </div>
+        )}
         <div className="border-t border-slate-400/20 pt-3">
           <Button disabled={!isValidState} type="submit">
             {t("confirm-settings")}
