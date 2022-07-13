@@ -127,7 +127,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         <div>
           <label>{t("recommended-payment")}</label>
           <CurrencyInput
-            value={recommendedDonation}
+            inputValue={recommendedDonation}
             setValue={setRecommendedDonation}
             maximum={STRIPE_MAX_PAYMENT}
           />
@@ -140,7 +140,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         <div>
           <label>{t("minimum-payment")}</label>
           <CurrencyInput
-            value={minPayment}
+            inputValue={minPayment}
             setValue={setMinPayment}
             maximum={STRIPE_MAX_PAYMENT}
           />
