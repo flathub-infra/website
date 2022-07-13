@@ -186,6 +186,11 @@ export async function setAppVendingSetup(
     throw "network-error-try-again"
   }
 
+  // No content indicates the setup was cleared
+  if (res.status === 204) {
+    return DEFAULT_DESCRIPTOR
+  }
+
   if (res.ok) {
     const data: VendingDescriptor = await res.json()
     return data
