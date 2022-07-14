@@ -233,5 +233,6 @@
   "science": "Science",
   "education": "Education",
   "system": "System",
-  "enable-app-vending": "Enable Application Vending"
+  "enable-app-vending": "Enable Application Vending",
+  "value-at-least-or": "You must enter a value of {{except}} or at least {{value}}"
 }
