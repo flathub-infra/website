@@ -3,6 +3,7 @@ import Link from "next/link"
 import { FunctionComponent, useState } from "react"
 import { getIntlLocale } from "../../../localize"
 import { Transaction } from "../../../types/Payment"
+import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
 import TransactionCancelButton from "./TransactionCancelButton"
 
@@ -25,14 +26,7 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
   const prettyUpdated = new Date(updated * 1000).toLocaleString(
     getIntlLocale(i18n.language),
   )
-  const prettyValue = new Intl.NumberFormat(
-    getIntlLocale(i18n.language).toString(),
-    {
-      style: "currency",
-      currency: "USD",
-      currencyDisplay: "symbol",
-    },
-  ).format(value / 100)
+  const prettyValue = formatCurrency(value / 100, i18n.language)
 
   const needsAttention = ["new", "retry"].includes(shownStatus)
 

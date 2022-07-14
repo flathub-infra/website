@@ -10,6 +10,7 @@ import {
   useState,
 } from "react"
 import { NumericInputValue } from "../types/Input"
+import { formatCurrency } from "../utils/localize"
 
 type Props = {
   inputValue: NumericInputValue
@@ -41,7 +42,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
     },
     ref,
   ) => {
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
     const [userInput, setUserInput] = useState(inputValue.live.toFixed(2))
@@ -91,12 +92,20 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
 
         // Showing error feedback on blur avoids user annoyance during input
         if (settled < minimum) {
-          setError(t("value-at-least", { value: minimum }))
+          setError(
+            t("value-at-least", {
+              value: formatCurrency(minimum, i18n.language),
+            }),
+          )
         } else if (settled > maximum) {
-          setError(t("value-at-most", { value: maximum }))
+          setError(
+            t("value-at-most", {
+              value: formatCurrency(maximum, i18n.language),
+            }),
+          )
         }
       },
-      [minimum, maximum, inputValue, setValue, t],
+      [minimum, maximum, inputValue, setValue, t, i18n.language],
     )
 
     return (

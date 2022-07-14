@@ -15,6 +15,7 @@ import { getIntlLocale } from "../../../localize"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
+import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
@@ -111,18 +112,13 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   }
 
   // Obtain currency values for display
-  const formatter = new Intl.NumberFormat(
-    getIntlLocale(i18n.language).toString(),
-    {
-      style: "currency",
-      currency: "USD",
-      currencyDisplay: "symbol",
-    },
+  const prettyMinimum = formatCurrency(
+    vendingSetup.minimum_payment / 100,
+    i18n.language,
   )
-
-  const prettyMinimum = formatter.format(vendingSetup.minimum_payment / 100)
-  const prettyRecommended = formatter.format(
+  const prettyRecommended = formatCurrency(
     vendingSetup.recommended_donation / 100,
+    i18n.language,
   )
 
   return (

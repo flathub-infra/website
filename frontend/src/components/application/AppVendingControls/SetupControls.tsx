@@ -14,6 +14,7 @@ import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
+import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
@@ -31,7 +32,7 @@ interface Props {
  * It is assumed that parent will check whether to render these to the logged in user.
  */
 const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   const [vendingEnabled, setVendingEnabled] = useState(false)
 
@@ -156,7 +157,9 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           />
           {minPayment.settled > recommendedDonation.live && (
             <p role="alert" className="my-2 text-colorDanger">
-              {t("value-at-least", { value: minPayment.settled })}
+              {t("value-at-least", {
+                value: formatCurrency(minPayment.settled, i18n.language),
+              })}
             </p>
           )}
         </div>
