@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { getIntlLocale } from "../../../localize"
 import { TransactionDetailed } from "../../../types/Payment"
+import { formatCurrency } from "../../../utils/localize"
 
 interface Props {
   transaction: TransactionDetailed
@@ -18,14 +19,7 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
   const prettyUpdated = new Date(updated * 1000).toLocaleString(
     getIntlLocale(i18n.language),
   )
-  const prettyValue = new Intl.NumberFormat(
-    getIntlLocale(i18n.language).toString(),
-    {
-      style: "currency",
-      currency: "USD",
-      currencyDisplay: "symbol",
-    },
-  ).format(value / 100)
+  const prettyValue = formatCurrency(value / 100, i18n.language)
 
   return (
     <div className="rounded-xl bg-bgColorSecondary p-3 shadow-md">
