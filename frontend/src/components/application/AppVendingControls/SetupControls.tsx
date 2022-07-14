@@ -14,12 +14,10 @@ import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
-import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
 import Toggle from "../../Toggle"
-import WithFeedback from "../../wrappers/WithFeedback"
 import WithMinMax from "../../wrappers/WithMinMax"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
@@ -34,9 +32,10 @@ interface Props {
  * It is assumed that parent will check whether to render these to the logged in user.
  */
 const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   const [vendingEnabled, setVendingEnabled] = useState(false)
+  const [requirePayment, setRequirePayment] = useState(false)
 
   // Need existing app vending configuration to initialise controls
   const {
@@ -78,6 +77,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         live: decimalMinimum,
         settled: decimalMinimum,
       })
+      setRequirePayment(vendingSetup.minimum_payment > 0)
       setVendingEnabled(vendingSetup.recommended_donation > 0)
     }
   }, [vendingSetup])
@@ -93,12 +93,20 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         setAppVendingSetup(app.id, {
           currency: "usd",
           appshare: appShare,
-          minimum_payment: vendingEnabled ? minPayment.settled * 100 : 0,
+          minimum_payment:
+            vendingEnabled && requirePayment ? minPayment.settled * 100 : 0,
           recommended_donation: vendingEnabled
             ? recommendedDonation.settled * 100
             : 0,
         }),
-      [app.id, appShare, minPayment, recommendedDonation, vendingEnabled],
+      [
+        app.id,
+        appShare,
+        minPayment,
+        recommendedDonation,
+        vendingEnabled,
+        requirePayment,
+      ],
     ),
     false,
   )
@@ -123,10 +131,14 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     [submit],
   )
 
-  const isValidState =
-    minPayment.live <= recommendedDonation.live &&
-    (minPayment.live >= FLATHUB_MIN_PAYMENT || minPayment.live === 0) &&
+  const isValidRecommended =
+    (!requirePayment || recommendedDonation.live >= minPayment.live) &&
+    recommendedDonation.live >= FLATHUB_MIN_PAYMENT &&
     recommendedDonation.live <= STRIPE_MAX_PAYMENT
+
+  const isValidState =
+    isValidRecommended &&
+    (!requirePayment || minPayment.live >= FLATHUB_MIN_PAYMENT)
 
   if (
     ["pending", "idle"].includes(status) ||
@@ -152,43 +164,18 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <label>{t("recommended-payment")}</label>
           <WithMinMax
             value={recommendedDonation}
-            minimum={FLATHUB_MIN_PAYMENT}
+            minimum={Math.max(
+              FLATHUB_MIN_PAYMENT,
+              requirePayment ? minPayment.settled : 0,
+            )}
             maximum={STRIPE_MAX_PAYMENT}
           >
-            <WithFeedback
-              condition={() => minPayment.settled > recommendedDonation.live}
-              error={t("value-at-least", {
-                value: formatCurrency(minPayment.settled, i18n.language),
-              })}
-            >
-              <CurrencyInput
-                inputValue={recommendedDonation}
-                setValue={setRecommendedDonation}
-                disabled={!vendingEnabled}
-              />
-            </WithFeedback>
+            <CurrencyInput
+              inputValue={recommendedDonation}
+              setValue={setRecommendedDonation}
+              disabled={!vendingEnabled}
+            />
           </WithMinMax>
-        </div>
-        <div>
-          <label>{t("minimum-payment")}</label>
-          <WithFeedback
-            condition={() =>
-              minPayment.settled < FLATHUB_MIN_PAYMENT &&
-              minPayment.settled !== 0
-            }
-            error={t("value-at-least-or", {
-              value: formatCurrency(FLATHUB_MIN_PAYMENT, i18n.language),
-              except: formatCurrency(0, i18n.language),
-            })}
-          >
-            <WithMinMax value={minPayment} maximum={STRIPE_MAX_PAYMENT}>
-              <CurrencyInput
-                inputValue={minPayment}
-                setValue={setMinPayment}
-                disabled={!vendingEnabled}
-              />
-            </WithMinMax>
-          </WithFeedback>
         </div>
         <div>
           <label>{t("application-share")}</label>
@@ -202,6 +189,34 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <div>
             <VendingSharesPreview
               price={recommendedDonation.live * 100}
+              app={app}
+              appShare={appShare}
+              vendingConfig={vendingConfig}
+            />
+          </div>
+        )}
+        <div className="flex gap-3 border-t border-slate-400/20 pt-3">
+          <label>{t("require-payment")}</label>
+          <Toggle enabled={requirePayment} setEnabled={setRequirePayment} />
+        </div>
+        <div>
+          <label>{t("minimum-payment")}</label>
+          <WithMinMax
+            value={minPayment}
+            minimum={FLATHUB_MIN_PAYMENT}
+            maximum={STRIPE_MAX_PAYMENT}
+          >
+            <CurrencyInput
+              inputValue={minPayment}
+              setValue={setMinPayment}
+              disabled={!vendingEnabled || !requirePayment}
+            />
+          </WithMinMax>
+        </div>
+        {vendingEnabled && requirePayment && (
+          <div>
+            <VendingSharesPreview
+              price={minPayment.live * 100}
               app={app}
               appShare={appShare}
               vendingConfig={vendingConfig}
