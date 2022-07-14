@@ -19,6 +19,8 @@ import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
 import Toggle from "../../Toggle"
+import WithFeedback from "../../wrappers/WithFeedback"
+import WithMinMax from "../../wrappers/WithMinMax"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 
@@ -123,7 +125,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   const isValidState =
     minPayment.live <= recommendedDonation.live &&
-    minPayment.live >= FLATHUB_MIN_PAYMENT &&
+    (minPayment.live >= FLATHUB_MIN_PAYMENT || minPayment.live === 0) &&
     recommendedDonation.live <= STRIPE_MAX_PAYMENT
 
   if (
@@ -148,30 +150,45 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <label>{t("recommended-payment")}</label>
-          <CurrencyInput
-            inputValue={recommendedDonation}
-            setValue={setRecommendedDonation}
+          <WithMinMax
+            value={recommendedDonation}
             minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
-            disabled={!vendingEnabled}
-          />
-          {minPayment.settled > recommendedDonation.live && (
-            <p role="alert" className="my-2 text-colorDanger">
-              {t("value-at-least", {
+          >
+            <WithFeedback
+              condition={() => minPayment.settled > recommendedDonation.live}
+              error={t("value-at-least", {
                 value: formatCurrency(minPayment.settled, i18n.language),
               })}
-            </p>
-          )}
+            >
+              <CurrencyInput
+                inputValue={recommendedDonation}
+                setValue={setRecommendedDonation}
+                disabled={!vendingEnabled}
+              />
+            </WithFeedback>
+          </WithMinMax>
         </div>
         <div>
           <label>{t("minimum-payment")}</label>
-          <CurrencyInput
-            inputValue={minPayment}
-            setValue={setMinPayment}
-            minimum={FLATHUB_MIN_PAYMENT}
-            maximum={STRIPE_MAX_PAYMENT}
-            disabled={!vendingEnabled}
-          />
+          <WithFeedback
+            condition={() =>
+              minPayment.settled < FLATHUB_MIN_PAYMENT &&
+              minPayment.settled !== 0
+            }
+            error={t("value-at-least-or", {
+              value: formatCurrency(FLATHUB_MIN_PAYMENT, i18n.language),
+              except: formatCurrency(0, i18n.language),
+            })}
+          >
+            <WithMinMax value={minPayment} maximum={STRIPE_MAX_PAYMENT}>
+              <CurrencyInput
+                inputValue={minPayment}
+                setValue={setMinPayment}
+                disabled={!vendingEnabled}
+              />
+            </WithMinMax>
+          </WithFeedback>
         </div>
         <div>
           <label>{t("application-share")}</label>
