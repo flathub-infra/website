@@ -18,7 +18,6 @@ import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
 import CurrencyInput from "../../CurrencyInput"
 import Spinner from "../../Spinner"
-import WithFeedback from "../../wrappers/WithFeedback"
 import WithMinMax from "../../wrappers/WithMinMax"
 import VendingSharesPreview from "./VendingSharesPreview"
 
@@ -124,37 +123,39 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   const canSubmit =
     amount.live * 100 >= vendingSetup.minimum_payment &&
-    (amount.live === 0 || amount.live >= FLATHUB_MIN_PAYMENT) &&
+    amount.live >= FLATHUB_MIN_PAYMENT &&
     amount.live <= STRIPE_MAX_PAYMENT
+
+  // When the minimum payment is 0, the application does not require payment
+  const isDonationOnly = vendingSetup.minimum_payment === 0
 
   return (
     <form
       className="my-5 mx-0 flex flex-col gap-5 rounded-xl bg-bgColorSecondary p-5"
       onSubmit={handleSubmit}
     >
-      <p>
-        {t("app-payment-information", {
-          minvalue: prettyMinimum,
-          recvalue: prettyRecommended,
-        })}
-      </p>
-      <h4 className="m-0">{t("select-purchase-amount")}</h4>
+      {!isDonationOnly && (
+        <p>
+          {t("app-payment-information", {
+            minvalue: prettyMinimum,
+            recvalue: prettyRecommended,
+          })}
+        </p>
+      )}
+      <h4 className="m-0">
+        {t(
+          isDonationOnly ? "select-donation-amount" : "select-purchase-amount",
+        )}
+      </h4>
       <WithMinMax
         value={amount}
-        minimum={vendingSetup.minimum_payment / 100}
+        minimum={Math.max(
+          vendingSetup.minimum_payment / 100,
+          FLATHUB_MIN_PAYMENT,
+        )}
         maximum={STRIPE_MAX_PAYMENT}
       >
-        <WithFeedback
-          condition={() =>
-            amount.settled !== 0 && amount.settled < FLATHUB_MIN_PAYMENT
-          }
-          error={t("value-at-least-or", {
-            value: formatCurrency(FLATHUB_MIN_PAYMENT, i18n.language),
-            except: formatCurrency(0, i18n.language),
-          })}
-        >
-          <CurrencyInput inputValue={amount} setValue={setAmount} />
-        </WithFeedback>
+        <CurrencyInput inputValue={amount} setValue={setAmount} />
       </WithMinMax>
       <VendingSharesPreview
         price={amount.live * 100}
@@ -163,7 +164,9 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         vendingConfig={vendingConfig}
       />
       <div>
-        <Button disabled={!canSubmit}>{t("kind-purchase")}</Button>
+        <Button disabled={!canSubmit}>
+          {t(isDonationOnly ? "make-donation" : "kind-purchase")}
+        </Button>
       </div>
     </form>
   )

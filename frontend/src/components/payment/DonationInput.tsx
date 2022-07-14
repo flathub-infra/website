@@ -68,13 +68,15 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <div className="flex flex-wrap items-center justify-center gap-5">
         {presets}
 
-        <WithMinMax
-          value={amount}
-          minimum={FLATHUB_MIN_PAYMENT}
-          maximum={STRIPE_MAX_PAYMENT}
-        >
-          <CurrencyInput inputValue={amount} setValue={setAmount} />
-        </WithMinMax>
+        <div>
+          <WithMinMax
+            value={amount}
+            minimum={FLATHUB_MIN_PAYMENT}
+            maximum={STRIPE_MAX_PAYMENT}
+          >
+            <CurrencyInput inputValue={amount} setValue={setAmount} />
+          </WithMinMax>
+        </div>
       </div>
       <Button
         disabled={
