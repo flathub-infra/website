@@ -229,5 +229,8 @@
   "value-at-most": "You must enter a value of at most {{value}}",
   "unauthorized-to-view": "You are unauthorized to view this content.",
   "payment-provider-error": "Our payment provider encountered an error. Try again later.",
-  "no-applications": "No applications to show."
+  "no-applications": "No applications to show.",
+  "science": "Science",
+  "education": "Education",
+  "system": "System"
 }
