@@ -32,7 +32,17 @@ export function categoryToName(
       return t("productivity")
     case Category.Utility:
       return t("utilities")
+    case Category.Science:
+      return t("science")
+    case Category.Education:
+      return t("education")
+    case Category.System:
+      return t("system")
     default:
-      return category as string
+      assertUnreachable(category)
   }
+}
+
+function assertUnreachable(_x: never): never {
+  throw new Error("Didn't expect to get here")
 }
