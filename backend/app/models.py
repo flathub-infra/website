@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from typing import List, Optional, Tuple
+from uuid import uuid4
 
 from sqlalchemy import (
     Boolean,
@@ -748,3 +749,114 @@ class ApplicationVendingConfig(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(ApplicationVendingConfig)
+
+
+class RedeemableAppTokenState:
+    UNREDEEMED = "unredeemed"
+    REDEEMED = "redeemed"
+    CANCELLED = "cancelled"
+
+
+class RedeemableAppToken(Base):
+    """
+    Application tokens which can be redeemed for ownership of an appid
+    """
+
+    __tablename__ = "redeemableapptoken"
+
+    id = Column(Integer, primary_key=True)
+    appid = Column(String, nullable=False, unique=False, index=True)
+    created = Column(DateTime, nullable=False)
+    token = Column(String, nullable=True)
+    name = Column(String, nullable=False)
+    state = Column(String, nullable=False)
+    changed = Column(DateTime, nullable=False)
+
+    @classmethod
+    def by_appid(cls, db, appid: str, all: bool) -> List["RedeemableAppToken"]:
+        """
+        Retrieve tokens for the given app.
+
+        If all is True, we retrieve all the tokens, otherwise only the tokens
+        which have not yet been redeemed.
+        """
+        query = db.session.query(RedeemableAppToken).filter(
+            RedeemableAppToken.appid == appid
+        )
+        if not all:
+            query = query.filter(RedeemableAppToken.token is not None)
+        return list(query)
+
+    @classmethod
+    def by_appid_and_token(
+        cls, db, appid: str, token: str
+    ) -> Optional["RedeemableAppToken"]:
+        """
+        Retrieve a specific token instance, or None if not found
+        """
+        return (
+            db.session.query(RedeemableAppToken)
+            .filter(RedeemableAppToken.appid == appid)
+            .filter(RedeemableAppToken.token == token)
+            .first()
+        )
+
+    def redeem(self, db, user: FlathubUser) -> bool:
+        """
+        Redeem the current token.  If this returns False then the user
+        already owns the app, so the token was not redeemed.
+        """
+
+        if self.state != RedeemableAppTokenState.UNREDEEMED:
+            raise ValueError("Token is not available for redemption")
+
+        if UserOwnedApp.user_owns_app(db, user.id, self.appid):
+            return False
+
+        app = UserOwnedApp(app_id=self.appid, account=user.id, created=datetime.now())
+        db.session.add(app)
+
+        self.token = None
+        self.state = RedeemableAppTokenState.REDEEMED
+        self.changed = datetime.now()
+        db.session.add(self)
+
+        db.session.flush()
+
+        return True
+
+    def cancel(self, db):
+        """
+        Cancel the current token
+        """
+
+        if self.state != RedeemableAppTokenState.UNREDEEMED:
+            raise ValueError("Token is not available for cancelling")
+        self.token = None
+        self.state = RedeemableAppTokenState.CANCELLED
+        self.changed = datetime.now()
+        db.session.add(self)
+        db.session.flush()
+
+    @classmethod
+    def create(self, db, appid: str, name: str) -> "RedeemableAppToken":
+        """
+        Create a new redeemable app token
+        """
+
+        now = datetime.now()
+        token = str(uuid4())
+        while self.by_appid_and_token(db, appid, token) is not None:
+            token = str(uuid4())
+        token = RedeemableAppToken(
+            appid=appid,
+            created=now,
+            changed=now,
+            state=RedeemableAppTokenState.UNREDEEMED,
+            token=token,
+            name=name,
+        )
+        db.session.add(token)
+        db.session.flush()
+
+        return token

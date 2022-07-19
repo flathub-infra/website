@@ -10,7 +10,7 @@ The core vending behaviours are:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
@@ -20,7 +20,13 @@ from pydantic import BaseModel
 
 from ..config import settings
 from ..logins import login_state
-from ..models import ApplicationVendingConfig, StripeExpressAccount, Transaction
+from ..models import (
+    ApplicationVendingConfig,
+    RedeemableAppToken,
+    RedeemableAppTokenState,
+    StripeExpressAccount,
+    Transaction,
+)
 from ..utils import PLATFORMS, Platform
 from ..vending import prices
 from ..wallet import Wallet, WalletError
@@ -403,6 +409,166 @@ def post_app_vending_status(
         raise VendingError(error="bad-transaction") from base_exc
 
     return VendingOutput(status="ok", transaction=full_txn.summary.id)
+
+
+# Redeemable token APIs
+
+
+class TokenModel(BaseModel):
+    id: str
+    state: str
+    name: str
+    token: Optional[str]
+    created: str
+    changed: str
+
+
+class TokenList(BaseModel):
+    status: str
+    total: int
+    tokens: List[TokenModel]
+
+
+@router.get("app/{appid}/tokens")
+def get_redeemable_tokens(
+    request: Request, appid: str, login=Depends(login_state)
+) -> TokenList:
+    """
+    Retrieve the redeemable tokens for the given application.
+
+    The caller must have control of the app at some level
+
+    For now, there is no pagination or filtering, all tokens will be returned
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    if appid not in login["user"].dev_flatpaks(db):
+        raise VendingError(error="permission-denied")
+
+    tokens = []
+    for token in RedeemableAppToken.by_appid(db, appid, True):
+        tokens.append(
+            TokenModel(
+                id=str(token.id),
+                state=token.state,
+                name=token.name,
+                created=str(token.created),
+                changed=str(token.changed),
+                token=token.token,
+            )
+        )
+
+    return TokenList(status="ok", total=len(tokens), tokens=tokens)
+
+
+@router.post("app/{appid}/tokens")
+def create_tokens(
+    request: Request, appid: str, data: List[str], login=Depends(login_state)
+) -> List[TokenModel]:
+    """
+    Create some tokens for the given appid.
+
+    The calling user must own the vending config for this application
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        raise VendingError(error="invalid-appid")
+    if vend.user != login["user"].id:
+        raise VendingError(error="permission-denied")
+
+    tokens = []
+    for name in data:
+        token = RedeemableAppToken.create(db, appid, name)
+        tokens.append(
+            TokenModel(
+                id=str(token.id),
+                state=token.state,
+                name=token.name,
+                created=str(token.created),
+                changed=str(token.changed),
+                token=token.token,
+            )
+        )
+    db.session.commit()
+    return tokens
+
+
+class TokenCancellation(BaseModel):
+    token: str
+    status: str
+
+
+@router.post("app/{appid}/tokens/cancel")
+def cancel_tokens(
+    request: Request, appid: str, data: List[str], login=Depends(login_state)
+) -> List[TokenCancellation]:
+    """
+    Cancel a set of tokens
+    """
+
+    if not login["state"].logged_in():
+        raise VendingError(error="not-logged-in")
+
+    vend = ApplicationVendingConfig.by_appid(db, appid)
+    if not vend:
+        raise VendingError(error="invalid-appid")
+    if vend.user != login["user"].id:
+        raise VendingError(error="permission-denied")
+
+    ret = []
+    for token_str in data:
+        token = RedeemableAppToken.by_appid_and_token(db, appid, token_str)
+        if token is None:
+            ret.append(TokenCancellation(token=token_str, status="invalid"))
+        else:
+            try:
+                token.cancel(db)
+                db.session.commit()
+                ret.append(TokenCancellation(token=token_str, status="cancelled"))
+            except Exception as base_exc:
+                print(f"Failure cancelling {token_str} for {appid}: {base_exc}")
+                ret.append(TokenCancellation(token=token_str, status="error"))
+
+    return ret
+
+
+class RedemptionResult(BaseModel):
+    status: str
+    reason: str
+
+
+@router.post("app/{appid}/tokens/redeem/{token}")
+def redeem_token(
+    request: Request, appid: str, token: str, login=Depends(login_state)
+) -> RedemptionResult:
+    """
+    This redeems the given token for the logged in user.
+
+    If the logged in user already owns the app then the token will not be redeemed
+    """
+
+    if not login["state"].logged_in():
+        return RedemptionResult(status="failure", reason="not-logged-in")
+
+    dbtoken = RedeemableAppToken.by_appid_and_token(db, appid, token)
+    if dbtoken is not None:
+        if dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
+            if dbtoken.redeem(db, login["user"]):
+                db.session.commit()
+                return RedemptionResult(status="success", reason="redeemed")
+            else:
+                return RedemptionResult(status="failure", reason="already-owned")
+
+    return RedemptionResult(status="failure", reason="invalid")
+
+
+# Registration
 
 
 def register_to_app(app: FastAPI):
