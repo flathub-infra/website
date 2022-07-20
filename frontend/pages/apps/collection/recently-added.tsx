@@ -11,9 +11,9 @@ export default function RecentlyAdded({ applications }) {
   const { t } = useTranslation()
   return (
     <>
-      <NextSeo title={t("recently-added")} />
+      <NextSeo title={t("recently-added-apps")} />
       <ApplicationCollection
-        title={t("recently-added")}
+        title={t("recently-added-apps")}
         applications={applications}
       />
     </>
