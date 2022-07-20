@@ -58,3 +58,27 @@ export interface ProposedPayment {
   currency: string
   amount: number
 }
+
+export interface VendingToken {
+  id: string
+  state: "unredeemed" | "redeemed" | "cancelled"
+  name: string
+  token?: string
+  created: string
+  changed: string
+}
+
+export interface VendingTokenList extends APIResponseOk {
+  total: number
+  tokens: VendingToken[]
+}
+
+export interface VendingTokenCancellation {
+  token: string
+  status: "invalid" | "cancelled" | "error"
+}
+
+export interface VendingTokenRedemption {
+  status: "success" | "failure"
+  reason: string
+}
