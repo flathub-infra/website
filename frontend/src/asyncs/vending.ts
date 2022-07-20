@@ -5,6 +5,9 @@ import {
   VENDING_DASHBOARD_URL,
   VENDING_ONBOARDING_URL,
   VENDING_STATUS_URL,
+  VENDING_TOKENS_CANCEL_URL,
+  VENDING_TOKENS_REDEEM_URL,
+  VENDING_TOKENS_URL,
 } from "../env"
 import { APIResponseError } from "../types/API"
 import {
@@ -15,6 +18,9 @@ import {
   VendingSetup,
   VendingSplit,
   VendingStatus,
+  VendingTokenCancellation,
+  VendingTokenList,
+  VendingTokenRedemption,
 } from "../types/Vending"
 
 // API responds with this status code if onboarding has not begun
@@ -246,6 +252,119 @@ export async function initiateAppPayment(
 
     const msg = {
       "stripe-payment-intent-build-failed": "payment-provider-error",
+    }[data.error]
+
+    throw msg ?? "network-error-try-again"
+  }
+}
+
+export async function getVendingTokens(
+  appId: string,
+): Promise<VendingTokenList> {
+  let res: Response
+  try {
+    res = await fetch(VENDING_TOKENS_URL(appId), {
+      method: "GET",
+      credentials: "include",
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+
+  if (res.ok) {
+    const data: VendingTokenList = await res.json()
+    return data
+  } else {
+    throw "network-error-try-again"
+  }
+}
+
+export async function createVendingTokens(
+  appId: string,
+  names: string[],
+): Promise<VendingTokenList> {
+  let res: Response
+  try {
+    res = await fetch(VENDING_TOKENS_URL(appId), {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(names),
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+
+  if (res.ok) {
+    const data: VendingTokenList = await res.json()
+    return data
+  } else {
+    const data: APIResponseError = await res.json()
+
+    const msg = {
+      "permission-denied": "permission-denied",
+    }[data.error]
+
+    throw msg ?? "network-error-try-again"
+  }
+}
+
+export async function cancelVendingTokens(
+  appId: string,
+  tokens: string[],
+): Promise<VendingTokenCancellation[]> {
+  let res: Response
+  try {
+    res = await fetch(VENDING_TOKENS_CANCEL_URL(appId), {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(tokens),
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+
+  if (res.ok) {
+    const data: VendingTokenCancellation[] = await res.json()
+    return data
+  } else {
+    const data: APIResponseError = await res.json()
+
+    const msg = {
+      "permission-denied": "permission-denied",
+    }[data.error]
+
+    throw msg ?? "network-error-try-again"
+  }
+}
+
+export async function redeemVendingToken(
+  appId: string,
+  token: string,
+): Promise<VendingTokenRedemption> {
+  let res: Response
+  try {
+    res = await fetch(VENDING_TOKENS_REDEEM_URL(appId, token), {
+      method: "POST",
+      credentials: "include",
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+
+  if (res.ok) {
+    const data: VendingTokenRedemption = await res.json()
+    return data
+  } else {
+    const data: APIResponseError = await res.json()
+
+    const msg = {
+      "already-owned": "network-error-try-again",
     }[data.error]
 
     throw msg ?? "network-error-try-again"
