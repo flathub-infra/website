@@ -6,9 +6,8 @@ import { initiateDonation } from "../../asyncs/payment"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
 import Button from "../Button"
-import CurrencyInput from "../CurrencyInput"
+import * as Currency from "../currency"
 import Spinner from "../Spinner"
-import WithMinMax from "../wrappers/WithMinMax"
 
 interface Props {
   org: string
@@ -69,13 +68,12 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         {presets}
 
         <div>
-          <WithMinMax
+          <Currency.Input inputValue={amount} setValue={setAmount} />
+          <Currency.MinMaxError
             value={amount}
             minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
-          >
-            <CurrencyInput inputValue={amount} setValue={setAmount} />
-          </WithMinMax>
+          />
         </div>
       </div>
       <Button

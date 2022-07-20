@@ -8,7 +8,7 @@ import {
   useEffect,
   useState,
 } from "react"
-import { NumericInputValue } from "../types/Input"
+import { NumericInputValue } from "../../types/Input"
 
 type Props = {
   inputValue: NumericInputValue

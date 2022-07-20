@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback } from "react"
 import { NumericInputValue } from "../../types/Input"
 import { formatCurrency } from "../../utils/localize"
-import WithFeedback from "./WithFeedback"
+import InlineError from "../InlineError"
 
 interface Props {
   value: NumericInputValue
@@ -16,7 +16,7 @@ the child components when a numeric currency input exceeds a minimum or maximum.
 
 The intended use case is for form inputs.
 */
-const WithMinMax: FunctionComponent<Props> = ({
+const MinMaxError: FunctionComponent<Props> = ({
   value,
   minimum,
   maximum,
@@ -34,22 +34,21 @@ const WithMinMax: FunctionComponent<Props> = ({
   )
 
   return (
-    <WithFeedback
-      condition={exceedsMin}
-      error={t("value-at-least", {
-        value: formatCurrency(minimum, i18n.language),
-      })}
-    >
-      <WithFeedback
-        condition={exceedsMax}
+    <>
+      <InlineError
+        shown={exceedsMin()}
+        error={t("value-at-least", {
+          value: formatCurrency(minimum, i18n.language),
+        })}
+      />
+      <InlineError
+        shown={exceedsMax()}
         error={t("value-at-most", {
           value: formatCurrency(maximum, i18n.language),
         })}
-      >
-        {children}
-      </WithFeedback>
-    </WithFeedback>
+      />
+    </>
   )
 }
 
-export default WithMinMax
+export default MinMaxError
