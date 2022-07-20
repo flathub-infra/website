@@ -16,9 +16,8 @@ import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
 import { formatCurrency } from "../../../utils/localize"
 import Button from "../../Button"
-import CurrencyInput from "../../CurrencyInput"
+import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
-import WithMinMax from "../../wrappers/WithMinMax"
 import VendingSharesPreview from "./VendingSharesPreview"
 
 interface Props {
@@ -147,16 +146,15 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           isDonationOnly ? "select-donation-amount" : "select-purchase-amount",
         )}
       </h4>
-      <WithMinMax
+      <Currency.Input inputValue={amount} setValue={setAmount} />
+      <Currency.MinMaxError
         value={amount}
         minimum={Math.max(
           vendingSetup.minimum_payment / 100,
           FLATHUB_MIN_PAYMENT,
         )}
         maximum={STRIPE_MAX_PAYMENT}
-      >
-        <CurrencyInput inputValue={amount} setValue={setAmount} />
-      </WithMinMax>
+      />
       <VendingSharesPreview
         price={amount.live * 100}
         app={app}

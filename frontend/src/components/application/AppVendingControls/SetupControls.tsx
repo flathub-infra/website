@@ -15,10 +15,9 @@ import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
-import CurrencyInput from "../../CurrencyInput"
+import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import Toggle from "../../Toggle"
-import WithMinMax from "../../wrappers/WithMinMax"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 
@@ -162,20 +161,19 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <label>{t("recommended-payment")}</label>
-          <WithMinMax
+          <Currency.Input
+            inputValue={recommendedDonation}
+            setValue={setRecommendedDonation}
+            disabled={!vendingEnabled}
+          />
+          <Currency.MinMaxError
             value={recommendedDonation}
             minimum={Math.max(
               FLATHUB_MIN_PAYMENT,
               requirePayment ? minPayment.settled : 0,
             )}
             maximum={STRIPE_MAX_PAYMENT}
-          >
-            <CurrencyInput
-              inputValue={recommendedDonation}
-              setValue={setRecommendedDonation}
-              disabled={!vendingEnabled}
-            />
-          </WithMinMax>
+          />
         </div>
         <div>
           <label>{t("application-share")}</label>
@@ -201,17 +199,16 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         </div>
         <div>
           <label>{t("minimum-payment")}</label>
-          <WithMinMax
+          <Currency.Input
+            inputValue={minPayment}
+            setValue={setMinPayment}
+            disabled={!vendingEnabled || !requirePayment}
+          />
+          <Currency.MinMaxError
             value={minPayment}
             minimum={FLATHUB_MIN_PAYMENT}
             maximum={STRIPE_MAX_PAYMENT}
-          >
-            <CurrencyInput
-              inputValue={minPayment}
-              setValue={setMinPayment}
-              disabled={!vendingEnabled || !requirePayment}
-            />
-          </WithMinMax>
+          />
         </div>
         {vendingEnabled && requirePayment && (
           <div>
