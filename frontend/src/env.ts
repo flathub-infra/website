@@ -87,6 +87,15 @@ export const VENDING_APP_SPLIT_URL = (
 ) => {
   return `${APP_VENDING_BASE_URL}/${appId}/${currency}/${value}`
 }
+export const VENDING_TOKENS_URL = (appId: string) => {
+  return `${APP_VENDING_BASE_URL}/${appId}/tokens`
+}
+export const VENDING_TOKENS_CANCEL_URL = (appId: string) => {
+  return `${VENDING_TOKENS_URL(appId)}/cancel`
+}
+export const VENDING_TOKENS_REDEEM_URL = (appId: string, token: string) => {
+  return `${VENDING_TOKENS_URL(appId)}/redeem/${token}`
+}
 
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"
