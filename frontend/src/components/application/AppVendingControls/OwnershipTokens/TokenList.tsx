@@ -5,6 +5,7 @@ import { getVendingTokens } from "../../../../asyncs/vending"
 import { useAsync } from "../../../../hooks/useAsync"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
+import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 
 interface Props {
@@ -38,6 +39,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
             {({ open }) => <TokenListItem open={open} token={token} />}
           </Disclosure>
         ))}
+        <TokenCreateDialog app={app} />
       </div>
     )
   }
