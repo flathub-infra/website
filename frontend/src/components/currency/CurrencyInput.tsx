@@ -19,7 +19,6 @@ type Props = {
  * An input for currency in a form.
  *
  * The user input will be constrained to positive values with 2 decimal places.
- * The minimum and maximum are not enforced, but visual feedback is given if they are violated.
  *
  * This is expected to be used as a controlled component, the state of which is lifted to the parent component.
  * The parent component must apply any further constraint or feedback desired (e.g. disable form submission).
