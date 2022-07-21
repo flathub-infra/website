@@ -11,26 +11,19 @@ interface Props {
 }
 
 /**
-A wrapper component to conditionally render a feedback error message below
-the child components when a numeric currency input exceeds a minimum or maximum.
-
-The intended use case is for form inputs.
+Conditionally renders errors if an associated currency input falls outside of some maximum or minimum limits.
 */
-const MinMaxError: FunctionComponent<Props> = ({
-  value,
-  minimum,
-  maximum,
-  children,
-}) => {
+const MinMaxError: FunctionComponent<Props> = ({ value, minimum, maximum }) => {
   const { t, i18n } = useTranslation()
 
+  // Conditions such that errors appear on blur and hide on change
   const exceedsMax = useCallback(
-    () => maximum && value.settled > maximum,
-    [maximum, value.settled],
+    () => maximum && value.settled > maximum && value.live > maximum,
+    [maximum, value],
   )
   const exceedsMin = useCallback(
-    () => minimum && value.settled < minimum,
-    [minimum, value.settled],
+    () => minimum && value.settled < minimum && value.live < minimum,
+    [minimum, value],
   )
 
   return (
