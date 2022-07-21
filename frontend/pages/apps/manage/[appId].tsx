@@ -30,6 +30,7 @@ export default function AppManagementPage({
           app={app}
           vendingConfig={vendingConfig}
         />
+        <AppVendingControls.OwnershipTokens app={app} />
       </>
     )
   } else {
