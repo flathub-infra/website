@@ -5,9 +5,10 @@ import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse, PlainTextResponse
-from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
     apps,
@@ -39,9 +40,10 @@ if config.settings.sentry_dsn:
         integrations=[
             SqlalchemyIntegration(),
             RedisIntegration(),
+            StarletteIntegration(),
+            FastApiIntegration(),
         ],
     )
-    app.add_middleware(SentryAsgiMiddleware)
 
 origins = config.settings.cors_origins.split(" ")
 
