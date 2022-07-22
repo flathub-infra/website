@@ -50,7 +50,7 @@
   "log-out": "Oturumu Kapat",
   "network-error-try-again": "Bir ağ hatası oluştu. Tekrar deneyin.",
   "loading-user-apps": "Kullanıcı uygulamaları yükleniyor…",
-  "your-apps": "Uygulamalarınız",
+  "your-apps": "Yazılan Uygulamalar",
   "app-logo": "{{app-name}} Logosu",
   "user-page": "Kullanıcı Sayfası",
   "flathub-statistics": "Flathub İstatistikleri",
@@ -227,5 +227,10 @@
   "application-share": "Uygulama Payı",
   "confirm-settings": "Ayarları Onayla",
   "select-purchase-amount": "Ödemek istediğiniz tutarı girin",
-  "app-payment-information": "Uygulama geliştiricisi asgari ödemeyi {{minvalue}} ve tercih edilen ödemeyi {{recvalue}} olarak ayarladı."
+  "app-payment-information": "Uygulama geliştiricisi asgari ödemeyi {{minvalue}} ve tercih edilen ödemeyi {{recvalue}} olarak ayarladı.",
+  "owned-apps": "Sahip Olunan Uygulamalar",
+  "no-applications": "Gösterilecek uygulama yok.",
+  "science": "Bilim",
+  "education": "Eğitim",
+  "system": "Sistem"
 }

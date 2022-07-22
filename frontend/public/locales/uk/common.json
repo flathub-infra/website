@@ -109,7 +109,7 @@
   "documentation": "Документація",
   "badges": "Відзнаки",
   "loading-user-apps": "Завантаження застосунків користувача…",
-  "your-apps": "Ваші застосунки",
+  "your-apps": "Авторські застосунки",
   "official-badges": "Офіційні відзнаки Flathub",
   "badges-block": "Ви можете використовувати ці відзнаки для просування вашого застосунку на Flathub",
   "badges-description": "Офіційні відзнаки для просування вашого застосунку на Flathub",
@@ -227,5 +227,10 @@
   "select-purchase-amount": "Введіть суму, яку бажаєте сплатити",
   "value-at-most": "Введіть значення до {{value}}",
   "app-payment-information": "Розробник застосунку встановив найменший платіж {{minvalue}} і бажаний платіж {{recvalue}}.",
-  "value-at-least": "Введіть значення принаймні {{value}}"
+  "value-at-least": "Введіть значення принаймні {{value}}",
+  "owned-apps": "Власні застосунки",
+  "no-applications": "Немає застосунків для показу.",
+  "science": "Наука",
+  "education": "Освіта",
+  "system": "Система"
 }
