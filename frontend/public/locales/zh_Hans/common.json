@@ -193,5 +193,9 @@
   "applications-by-projectgroup": "在 {{projectgroup}} 组中的应用程序",
   "stripe-error-payment_intent_authentication_failure": "认证您的支付方式失败。请选择不同支付方式并重试。",
   "stripe-error-processing_error": "处理该信用卡时出错。请稍后重试或使用不同支付方式。",
-  "view-wallet": "查看钱包"
+  "view-wallet": "查看钱包",
+  "cancel": "取消",
+  "delete": "删除",
+  "go-to-page": "跳转到 {{page}}",
+  "continue": "继续"
 }
