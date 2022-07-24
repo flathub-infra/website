@@ -35,7 +35,7 @@
       background-color: var(--color-primary);
       margin: auto 12px;
       padding: 0 12px;
-      border-radius: var(--border-radius);
+      border-radius: var(--base-border-radius);
       max-width: 150px;
       height: 43px;
       transition: 0.5s;
@@ -147,7 +147,7 @@
           }
           padding: 8px 20px;
           margin: 0 6px;
-          border-radius: var(--border-radius);
+          border-radius: var(--base-border-radius);
           font-weight: 500;
           display: block;
           transition: 0.5s;
@@ -213,7 +213,7 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          border-radius: var(--border-radius);
+          border-radius: var(--base-border-radius);
           column-gap: 12px;
 
           .avatar {

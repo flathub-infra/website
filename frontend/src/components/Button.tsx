@@ -28,7 +28,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
       <button
         className={`${
           className ?? ""
-        } ${variantClass} no-wrap h-12 overflow-hidden text-ellipsis whitespace-nowrap rounded-xl px-5 py-2 text-center duration-500 hover:cursor-pointer active:bg-bgColorPrimary active:text-colorPrimary disabled:cursor-default`}
+        } ${variantClass} no-wrap h-12 overflow-hidden text-ellipsis whitespace-nowrap px-5 py-2 text-center duration-500 hover:cursor-pointer active:bg-bgColorPrimary active:text-colorPrimary disabled:cursor-default`}
         type={buttonProps.type}
         ref={ref}
         {...buttonProps}
@@ -42,3 +42,4 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
 Button.displayName = "Button"
 
 export default Button
+
