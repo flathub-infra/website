@@ -42,14 +42,6 @@ export default function Home({
               </Link>
             </div>
           </div>
-          <div className="hidden md:block">
-            <Image
-              width="400"
-              height="300px"
-              src="/assets/landing.svg"
-              alt=""
-            />
-          </div>
         </div>
 
         <ApplicationSections
