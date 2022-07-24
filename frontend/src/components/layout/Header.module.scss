@@ -62,7 +62,7 @@
       margin-top: auto;
       margin-bottom: auto;
       border: var(--color-primary) solid 1px;
-      border-radius: var(--border-radius);
+      border-radius: 999px;
 
       & > form {
         height: 43px;
@@ -84,7 +84,7 @@
           outline: none;
           color: var(--text-primary);
           background-color: var(--bg-color-primary);
-          border-radius: var(--border-radius);
+          border-radius: 999px;
           box-sizing: border-box;
           width: 100%;
         }
