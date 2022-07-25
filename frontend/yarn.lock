@@ -480,10 +480,10 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
-chart.js@^3.8.0:
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.8.0.tgz#c6c14c457b9dc3ce7f1514a59e9b262afd6f1a94"
-  integrity sha512-cr8xhrXjLIXVLOBZPkBZVF6NDeiVIrPLHcMhnON7UufudL+CNeRrD+wpYanswlm8NpudMdrt3CHoLMQMxJhHRg==
+chart.js@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.8.2.tgz#e3ebb88f7072780eec4183a788a990f4a58ba7a1"
+  integrity sha512-7rqSlHWMUKFyBDOJvmFGW2lxULtcwaPLegDjX/Nu5j6QybY+GCiQkEY+6cqHw62S5tcwXMD8Y+H5OBGoR7d+ZQ==
 
 chartjs-adapter-date-fns@^2.0.0:
   version "2.0.0"
@@ -1904,10 +1904,10 @@ react-svg-worldmap@^2.0.0-alpha.0:
     d3-geo "^1.11.9"
     react-path-tooltip "^1.0.17"
 
-react-toastify@^9.0.6:
-  version "9.0.6"
-  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.6.tgz#740a37e15b00de34ad3c0d785b035c14565116ab"
-  integrity sha512-ISwZx8o+FmlT9mHuK/vJP3m3K6VOZR3i9W40xod/xxxNutIJHRBPE1AZa5lJFjzwMUURXnkHg1F1E672fJMNJA==
+react-toastify@^9.0.7:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-9.0.7.tgz#4e6c6e1ae66eb587accc4a7704fb76ff88ab23eb"
+  integrity sha512-UG5P/2F/fYdbK+v3XRWHM6xfMkWeLM+k2swKvwU8oO9DXx31GkeoH7Z6slBTkavZ0VjoQ+n/YD6xOBqEwN7HRg==
   dependencies:
     clsx "^1.1.1"
 
