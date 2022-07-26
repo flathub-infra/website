@@ -47,6 +47,14 @@ Then you should be able to start the dev server and see changed to the code:
 yarn dev
 ```
 
+### Storybook
+
+You can also start the storybook via:
+
+```sh
+yarn storybook
+```
+
 ## More backend instructions
 
 You can find more backend instructions in the readme in the backend folder.
