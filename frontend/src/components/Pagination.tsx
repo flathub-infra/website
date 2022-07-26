@@ -14,7 +14,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   }
 
   return (
-    <div className="mx-auto mt-12 flex h-12 w-min items-center rounded-xl bg-bgColorSecondary text-xl text-colorSecondary shadow-md">
+    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl text-gray-900 dark:text-gray-50">
       {pages
         .filter(
           (page) =>
@@ -41,16 +41,17 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                     },
                   })
                 }}
+                aria-current={isActive ? "page" : null}
                 className={`${
-                  isActive ? `font-bold` : ""
-                } h-12 w-12 py-2 text-center no-underline duration-500 first:rounded-tl-xl first:rounded-bl-xl last:rounded-tr-xl last:rounded-br-xl hover:cursor-pointer hover:bg-colorPrimary hover:text-gray-100`}
+                  isActive ? `bg-colorPrimary text-gray-50` : ""
+                }  h-12 w-12 rounded-full py-2 text-center no-underline duration-500 hover:cursor-pointer hover:opacity-50`}
               >
                 {curr}
               </a>
             </React.Fragment>
           )
         })}
-    </div>
+    </nav>
   )
 }
 export default Pagination
