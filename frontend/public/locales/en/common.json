@@ -239,5 +239,6 @@
   "ownership-tokens": "Ownership Tokens",
   "redeem-token": "Redeem Token",
   "status-redeemed": "Redeemed",
-  "status-unredeemed": "Unredeemed"
+  "status-unredeemed": "Unredeemed",
+  "token-cancelled": "Token successfully cancelled"
 }

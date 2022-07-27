@@ -1,5 +1,6 @@
 import { Disclosure } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
+import { useState } from "react"
 import { FunctionComponent } from "react"
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md"
 import { VendingToken } from "../../../../types/Vending"
@@ -14,13 +15,15 @@ interface Props {
 const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
   const { t } = useTranslation()
 
+  const [state, setState] = useState(token.state)
+
   return (
     <>
       <Disclosure.Button className="flex justify-between rounded-lg border p-2 hover:bg-colorHighlight focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
         <div className="grid w-full grid-cols-3 justify-items-start">
           <span>{token.id}</span>
           <span>{token.name}</span>
-          <span>{t(`status-${token.state}`)}</span>
+          <span>{t(`status-${state}`)}</span>
         </div>
         {!open ? (
           <MdArrowDropUp className="text-2xl" />
@@ -35,8 +38,8 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
             {t("transaction-summary-created", { date: token.created })}
           </span>
         </div>
-        {token.state === "unredeemed" && (
-          <TokenCancelButton token={token} appId={appId} />
+        {state === "unredeemed" && (
+          <TokenCancelButton token={token} appId={appId} setState={setState} />
         )}
       </Disclosure.Panel>
     </>
