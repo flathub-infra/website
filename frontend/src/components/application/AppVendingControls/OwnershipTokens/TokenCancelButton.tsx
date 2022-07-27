@@ -10,9 +10,14 @@ import Spinner from "../../../Spinner"
 interface Props {
   token: VendingToken
   appId: string
+  setState: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TokenCancelButton: FunctionComponent<Props> = ({ token, appId }) => {
+const TokenCancelButton: FunctionComponent<Props> = ({
+  token,
+  appId,
+  setState,
+}) => {
   const { t } = useTranslation()
 
   const {
@@ -33,6 +38,13 @@ const TokenCancelButton: FunctionComponent<Props> = ({ token, appId }) => {
       toast.error(t(error))
     }
   }, [t, error])
+
+  useEffect(() => {
+    if (value?.[0].status === "cancelled") {
+      setState("cancelled")
+      toast.success(t("token-cancelled"))
+    }
+  }, [value, setState, t])
 
   if (status === "pending") {
     return <Spinner size="s" />
