@@ -32,21 +32,21 @@ const TokenCreateDialog: FunctionComponent<Props> = ({ app }) => {
 
   return (
     <>
-      <Button onClick={() => setShown(true)}>Create tokens</Button>
+      <Button onClick={() => setShown(true)}>{t("create-tokens")}</Button>
       <Transition appear show={shown} as={Fragment}>
         <Dialog as="div" onClose={() => setShown(false)}>
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
           <div className="fixed inset-0 flex items-center justify-center p-4">
             <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-bgColorPrimary p-14 shadow-md">
-              <Dialog.Title className="m-0">Create tokens</Dialog.Title>
-              <label>Token names</label>
+              <Dialog.Title className="m-0">{t("create-tokens")}</Dialog.Title>
               <textarea
-                placeholder="Enter a list of names on separate lines, each will identify a new ownership token."
+                placeholder={t("token-creation-placeholder")}
                 value={text}
                 onChange={textUpdate}
+                className="h-40 rounded-xl p-3"
               />
-              <Button onClick={onSubmit}>Submit</Button>
+              <Button onClick={onSubmit}>{t("submit")}</Button>
             </Dialog.Panel>
           </div>
         </Dialog>

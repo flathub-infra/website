@@ -240,5 +240,8 @@
   "redeem-token": "Redeem Token",
   "status-redeemed": "Redeemed",
   "status-unredeemed": "Unredeemed",
-  "token-cancelled": "Token successfully cancelled"
+  "token-cancelled": "Token successfully cancelled",
+  "create-tokens": "Create Tokens",
+  "submit": "Submit",
+  "token-creation-placeholder": "Enter a list of names on separate lines, each will identify a new ownership token."
 }
