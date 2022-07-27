@@ -237,5 +237,7 @@
   "require-payment": "Require Payment",
   "permission-denied": "You don't have permission to do that.",
   "ownership-tokens": "Ownership Tokens",
-  "redeem-token": "Redeem Token"
+  "redeem-token": "Redeem Token",
+  "status-redeemed": "Redeemed",
+  "status-unredeemed": "Unredeemed"
 }

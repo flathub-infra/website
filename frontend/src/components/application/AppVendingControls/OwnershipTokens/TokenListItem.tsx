@@ -17,28 +17,27 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
   return (
     <>
       <Disclosure.Button className="flex justify-between rounded-lg border p-2 hover:bg-colorHighlight focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
-        <span>
-          {token.id} - {token.name}
-        </span>
+        <div className="grid w-full grid-cols-3 justify-items-start">
+          <span>{token.id}</span>
+          <span>{token.name}</span>
+          <span>{t(`status-${token.state}`)}</span>
+        </div>
         {!open ? (
           <MdArrowDropUp className="text-2xl" />
         ) : (
           <MdArrowDropDown className="text-2xl" />
         )}
       </Disclosure.Button>
-      <Disclosure.Panel className="flex justify-between pl-4 pr-4">
-        <div>
+      <Disclosure.Panel className="flex flex-wrap justify-between gap-y-4 pl-4 pr-4">
+        <div className="flex flex-col gap-4">
+          <span>{token.token}</span>
           <span>
             {t("transaction-summary-created", { date: token.created })}
           </span>
-          <br />
-          <span>
-            {t("transaction-summary-status", { status: token.state })}
-          </span>
-          <br />
-          <span>{token.token}</span>
         </div>
-        <TokenCancelButton token={token} appId={appId} />
+        {token.state === "unredeemed" && (
+          <TokenCancelButton token={token} appId={appId} />
+        )}
       </Disclosure.Panel>
     </>
   )
