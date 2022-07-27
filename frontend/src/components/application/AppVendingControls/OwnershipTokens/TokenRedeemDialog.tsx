@@ -5,6 +5,7 @@ import { redeemVendingToken } from "../../../../asyncs/vending"
 import { useAsync } from "../../../../hooks/useAsync"
 import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
+import Spinner from "../../../Spinner"
 
 interface Props {
   app: Appstream
@@ -39,19 +40,29 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
   )
 
   useEffect(() => {
+    if (error) {
+      toast.error(t(error))
+    }
+  }, [t, error])
+
+  useEffect(() => {
     if (value?.status === "failure") {
-      toast.error("Failed to redeem token")
+      toast.error(t("token-failed"))
     }
     if (value?.status === "success") {
-      toast.success("Ownership token redeemed")
+      toast.success(t("token-redeemed"))
     }
-  }, [value])
+  }, [value, t])
+
+  if (status === "pending") {
+    return <Spinner size={"s"} />
+  }
 
   return (
     <div className="inline-flex gap-2 rounded-xl bg-bgColorSecondary p-4">
       <input
         type="text"
-        placeholder="Enter an ownership token"
+        placeholder={t("token-redeem-placeholder")}
         value={text}
         onChange={textUpdate}
         className="w-80 rounded-xl bg-bgColorPrimary p-2"

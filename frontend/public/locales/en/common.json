@@ -243,5 +243,8 @@
   "token-cancelled": "Token successfully cancelled",
   "create-tokens": "Create Tokens",
   "submit": "Submit",
-  "token-creation-placeholder": "Enter a list of names on separate lines, each will identify a new ownership token."
+  "token-creation-placeholder": "Enter a list of names on separate lines, each will identify a new ownership token.",
+  "token-redeemed": "Token successfully redeemed",
+  "token-failed": "Failed to redeem token",
+  "token-redeem-placeholder": "Enter an ownership token"
 }
