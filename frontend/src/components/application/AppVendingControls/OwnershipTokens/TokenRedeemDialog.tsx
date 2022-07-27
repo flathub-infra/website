@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import { VendingTokenRedemption } from "src/types/Vending"
 import { redeemVendingToken } from "../../../../asyncs/vending"
 import { useAsync } from "../../../../hooks/useAsync"
 import { Appstream } from "../../../../types/Appstream"
@@ -25,16 +26,16 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
     value,
     status,
     error,
-  } = useAsync(
+  } = useAsync<VendingTokenRedemption>(
     useCallback(() => {
       // Strip leading and trailing whitespace characters
       const token = text.trim()
 
       setText("")
 
-      if (token.length > 0) {
-        return redeemVendingToken(app.id, token)
-      }
+      return token !== ""
+        ? redeemVendingToken(app.id, token)
+        : Promise.resolve(null)
     }, [app.id, text]),
     false,
   )
