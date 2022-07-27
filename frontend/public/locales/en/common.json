@@ -236,5 +236,6 @@
   "enable-app-vending": "Enable Application Vending",
   "require-payment": "Require Payment",
   "permission-denied": "You don't have permission to do that.",
-  "ownership-tokens": "Ownership Tokens"
+  "ownership-tokens": "Ownership Tokens",
+  "redeem-token": "Redeem Token"
 }

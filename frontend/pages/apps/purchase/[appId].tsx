@@ -22,6 +22,7 @@ export default function AppPurchasePage({
           app={app}
           vendingConfig={vendingConfig}
         />
+        <AppVendingControls.OwnershipTokenRedeemDialog app={app} />
       </LoginGuard>
     </div>
   )
