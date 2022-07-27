@@ -10,7 +10,7 @@ interface Props {
 }
 
 /**
- * The control elements to view and add/cancel ownership tokens for an app.
+ * The button to open a model dialog where application ownership tokens can be generated.
  */
 const TokenCreateDialog: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
