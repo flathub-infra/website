@@ -29,9 +29,9 @@ module.exports = (phase) => ({
       "lh3.googleusercontent.com",
       "secure.gravatar.com",
     ],
-    swcMinify: true,
   },
-  output: 'standalone',
+  swcMinify: true,
+  output: "standalone",
   async redirects() {
     return [
       {
