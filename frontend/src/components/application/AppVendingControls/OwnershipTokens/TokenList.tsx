@@ -36,7 +36,9 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
       <div className="flex flex-col gap-2 rounded-2xl bg-bgColorSecondary p-2">
         {tokens.tokens.map((token) => (
           <Disclosure key={token.id}>
-            {({ open }) => <TokenListItem open={open} token={token} />}
+            {({ open }) => (
+              <TokenListItem open={open} token={token} appId={app.id} />
+            )}
           </Disclosure>
         ))}
         <TokenCreateDialog app={app} />
