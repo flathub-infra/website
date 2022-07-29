@@ -4732,17 +4732,19 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha512-NJGVKPS81XejHcLhaLJS7plab0fK3slPh11mESeeDq2W4ZI5kUKK/LRRdVDvjJseojbPB7ZwjnyOybg3Igea/A==
 
-d3-array@1:
-  version "1.2.4"
-  resolved "https://registry.npmjs.org/d3-array/-/d3-array-1.2.4.tgz"
-  integrity sha512-KHW6M86R+FUPYGb3R5XiYjXPq7VzwxZ22buHhAEVG5ztoEcZZMLov530mmccaqA1GghZArjQV46fuc8kUqhhHw==
-
-d3-geo@^1.11.9:
-  version "1.12.1"
-  resolved "https://registry.npmjs.org/d3-geo/-/d3-geo-1.12.1.tgz"
-  integrity sha512-XG4d1c/UJSEX9NfU02KwBL6BYPj8YKHxgBEw5om2ZnTRSbIcego6dhHwcxuSR3clxh0EpE38os1DVPOmnYtTPg==
+"d3-array@2.5.0 - 3":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-3.2.0.tgz#15bf96cd9b7333e02eb8de8053d78962eafcff14"
+  integrity sha512-3yXFQo0oG3QCxbF06rMPFyGRMGJNS7NvsV1+2joOjbBE+9xvWQ8+GcMJAjRCzw06zQ3/arXeJgbPYcjUCuC+3g==
   dependencies:
-    d3-array "1"
+    internmap "1 - 2"
+
+d3-geo@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-3.0.1.tgz#4f92362fd8685d93e3b1fae0fd97dc8980b1ed7e"
+  integrity sha512-Wt23xBych5tSy9IYAM1FR2rWIBFWa52B/oF/GYe5zbdHrg08FU8+BuI6X4PvTwPDdqdAdq04fuWJpELtsaEjeA==
+  dependencies:
+    d3-array "2.5.0 - 3"
 
 damerau-levenshtein@^1.0.7:
   version "1.0.7"
@@ -6750,6 +6752,11 @@ internal-slot@^1.0.3:
     get-intrinsic "^1.1.0"
     has "^1.0.3"
     side-channel "^1.0.4"
+
+"internmap@1 - 2":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/internmap/-/internmap-2.0.3.tgz#6685f23755e43c524e251d29cbc97248e3061009"
+  integrity sha512-5Hh7Y1wQbvY5ooGgPbDaL5iYLAPzMTUrjMulskHLH6wnv/A+1q5rgEaiuqEjB+oxGXIVZs1FF+R/KPN3ZSQYYg==
 
 interpret@^2.2.0:
   version "2.2.0"
@@ -9430,12 +9437,12 @@ react-responsive-carousel@^3.2.23:
     prop-types "^15.5.8"
     react-easy-swipe "^0.0.21"
 
-react-svg-worldmap@^2.0.0-alpha.0:
-  version "2.0.0-alpha.0"
-  resolved "https://registry.npmjs.org/react-svg-worldmap/-/react-svg-worldmap-2.0.0-alpha.0.tgz"
-  integrity sha512-ZUaljKyWn44/Qh2fvMiTk58L9zFPAKnxmChGQPbP0LTLPRrUusuPxchHWHvDpmQP21RcfQ0lYTwI0iExIGA16g==
+react-svg-worldmap@^2.0.0-alpha.1:
+  version "2.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-svg-worldmap/-/react-svg-worldmap-2.0.0-alpha.1.tgz#81dbeb7fe8ba4f9a4442cab63ac25b5523cb311b"
+  integrity sha512-WzAo6PJsGCAgi8v+YKnTrKmlympdbrXEDdMXPgiyZtJ/C+Sb5zGNgaPjmSxK7SAVT+fMmPtE3uPxrtjuyxADCg==
   dependencies:
-    d3-geo "^1.11.9"
+    d3-geo "^3.0.1"
     react-path-tooltip "^1.0.17"
 
 react-syntax-highlighter@^15.4.5:

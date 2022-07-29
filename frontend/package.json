@@ -34,7 +34,7 @@
     "react-icons": "^4.4.0",
     "react-image-lightbox": "^5.1.4",
     "react-responsive-carousel": "^3.2.23",
-    "react-svg-worldmap": "^2.0.0-alpha.0",
+    "react-svg-worldmap": "^2.0.0-alpha.1",
     "react-toastify": "^9.0.7",
     "sass": "^1.54.0",
     "spdx-license-list": "^6.6.0"
