@@ -51,6 +51,6 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: prd-backend-v2
+          SENTRY_PROJECT: backend
         with:
           environment: production
