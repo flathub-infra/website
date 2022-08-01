@@ -26,7 +26,7 @@ python-gitlab = "^3.6"
 stripe = "^3.5"
 PyJWT = "^2.4.0"
 meilisearch = "^0.19.1"
-orjson = "^3.7.8"
+orjson = "^3.7.11"
 python-multipart = "^0.0.5"
 
 [tool.poetry.dev-dependencies]
