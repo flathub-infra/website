@@ -97,7 +97,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
             </div>
             {scrollHeight > collapsedHeight && (
               <button
-                className="w-full rounded-bl-xl rounded-br-xl py-3 px-0 hover:cursor-pointer hover:bg-colorHighlight hover:text-gray-100"
+                className="w-full rounded-bl-xl rounded-br-xl py-3 px-0 font-semibold hover:cursor-pointer hover:bg-colorHighlight"
                 {...getToggleProps()}
               >
                 {isExpanded ? (
