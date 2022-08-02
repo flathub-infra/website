@@ -99,6 +99,10 @@
   --header-height: 64px;
 
   --toastify-font-family: inherit;
+
+  a {
+    color: var(--color-secondary);
+  }
 }
 
 [data-theme="dark"] {
