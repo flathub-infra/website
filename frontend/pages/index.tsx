@@ -9,7 +9,6 @@ import ApplicationSections from "../src/components/application/Sections"
 import Button from "../src/components/Button"
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
-import Image from "../src/components/Image"
 
 export default function Home({
   recentlyUpdated,

@@ -32,7 +32,7 @@ export const PROJECTGROUP_URL = (projectgroup: string): string =>
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
 export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 
-export const APPS_IN_PREVIEW_COUNT: number = 6
+export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const IMAGE_BASE_URL: string = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/`
 
