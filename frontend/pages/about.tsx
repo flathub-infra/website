@@ -14,14 +14,14 @@ const About = () => {
         <header
           className={`flex bg-colorPrimary bg-none bg-contain bg-no-repeat px-[5%] md:px-[20%] lg:bg-[url('/img/about.svg')] 2xl:px-[30%]`}
         >
-          <div>
+          <div className="text-gray-50">
             <h1>{t("about-pagename")}</h1>
             <Trans i18nKey={"common:about-block"}>
               <p className="mb-12 text-lg">
                 Flathub aims to be the place to get and distribute apps for
                 Linux. It is powered by
                 <a
-                  className="font-bold text-gray-400 opacity-80 duration-200"
+                  className="font-bold text-gray-300 opacity-80 duration-200"
                   href="https://flatpak.org"
                 >
                   Flatpak
@@ -35,7 +35,7 @@ const About = () => {
                 growing collection of Flatpak applications. You just need to
                 follow the{" "}
                 <a
-                  className="font-bold text-gray-400 opacity-80 duration-200"
+                  className="font-bold text-gray-300 opacity-80 duration-200"
                   href="https://flatpak.org/setup/"
                 >
                   setup instructions
