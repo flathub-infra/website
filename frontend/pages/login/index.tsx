@@ -16,7 +16,7 @@ export default function DeveloperLoginPortal({ providers }) {
   useEffect(() => {
     // Already logged in, just redirect to userpage
     if (user.info && !user.loading) {
-      Router.push("/userpage")
+      Router.replace("/userpage")
     }
   }, [user])
 

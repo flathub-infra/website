@@ -17,7 +17,8 @@ const LoginGuard: FunctionComponent = ({ children }) => {
   // Content unsuitable if not logged in, send user to login page
   useEffect(() => {
     if (!user.info && !user.loading) {
-      router.push(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
+      // Avoid new entry in history stack to allow backward navigation
+      router.replace(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
     }
   }, [user, router])
 
