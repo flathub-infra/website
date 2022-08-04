@@ -256,7 +256,7 @@ const Details: FunctionComponent<Props> = ({
           <div>
             <h3 className="text-xl">{app.summary}</h3>
             <div
-              className={`prose dark:prose-invert`}
+              className={`prose dark:prose-invert xl:max-w-[75%]`}
               dangerouslySetInnerHTML={{ __html: description }}
             />
           </div>
