@@ -23,7 +23,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
   const { t } = useTranslation()
   return (
     <div>
-      <header className="mt-10 mb-3 flex max-w-full flex-row justify-between">
+      <header className="mt-10 mb-3 flex max-w-full flex-row content-center justify-between">
         <h3 className="my-0">{title}</h3>
 
         {showMore && (
