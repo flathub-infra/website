@@ -229,5 +229,8 @@
   "recommended-payment": "Pagamento recomendado",
   "app-payment-information": "O desenvolvedor do aplicativo definiu um pagamento mínimo de {{minvalue}} e um pagamento preferencial de {{recvalue}}.",
   "owned-apps": "Apps mantidos",
-  "no-applications": "Nenhum aplicativo para mostrar."
+  "no-applications": "Nenhum aplicativo para mostrar.",
+  "science": "Ciência",
+  "education": "Educação",
+  "system": "Sistema"
 }

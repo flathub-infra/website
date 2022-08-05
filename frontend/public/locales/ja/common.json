@@ -220,5 +220,11 @@
   "value-at-least": "{{value}} 以上の値を入力してください",
   "developer-settings": "開発者設定",
   "developer-settings-title": "開発者設定 : {{appname}}",
-  "select-purchase-amount": "お支払い金額を入力してください"
+  "select-purchase-amount": "お支払い金額を入力してください",
+  "no-applications": "表示するアプリがありません。",
+  "science": "科学",
+  "education": "教育",
+  "system": "システム",
+  "minimum-payment": "最小支払額",
+  "recommended-payment": "推奨支払額"
 }

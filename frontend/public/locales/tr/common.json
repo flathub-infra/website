@@ -232,5 +232,19 @@
   "no-applications": "Gösterilecek uygulama yok.",
   "science": "Bilim",
   "education": "Eğitim",
-  "system": "Sistem"
+  "system": "Sistem",
+  "enable-app-vending": "Uygulama Satışını Etkinleştir",
+  "require-payment": "Ödeme Gerektir",
+  "permission-denied": "Bunu yapmak için izniniz yok.",
+  "ownership-tokens": "Sahiplik Belirteçleri",
+  "redeem-token": "Belirteç Kullan",
+  "status-redeemed": "Kullanıldı",
+  "status-unredeemed": "Kullanılmadı",
+  "token-cancelled": "Belirteç başarıyla iptal edildi",
+  "token-creation-placeholder": "Her satırda bir tane olacak şekilde bir ad listesi girin, her biri yeni bir sahiplik belirtecini tanımlayacaktır.",
+  "create-tokens": "Belirteç Oluştur",
+  "submit": "Gönder",
+  "token-failed": "Belirteç kullanılamadı",
+  "token-redeem-placeholder": "Bir sahiplik belirteci girin",
+  "token-redeemed": "Belirteç başarıyla kullanıldı"
 }
