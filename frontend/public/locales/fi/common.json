@@ -232,5 +232,19 @@
   "owned-apps": "Omistetut sovellukset",
   "science": "Tiede",
   "education": "Koulutus",
-  "system": "Järjestelmä"
+  "system": "Järjestelmä",
+  "require-payment": "Vaadi maksu",
+  "enable-app-vending": "Ota käyttöön sovellusten myynti",
+  "status-unredeemed": "Lunastamatta",
+  "token-cancelled": "Poletti peruttu onnistuneesti",
+  "token-redeemed": "Poletti lunastettu onnistuneesti",
+  "token-creation-placeholder": "Kirjoita lista nimiä erillisille riveille, jokainen yksilöi omistajuuspoletin.",
+  "token-failed": "Poletin lunastaminen epäonnistui",
+  "token-redeem-placeholder": "Anna omistajuuspoletti",
+  "create-tokens": "Luo poletit",
+  "status-redeemed": "Lunastettu",
+  "ownership-tokens": "Omistajuuspoletit",
+  "permission-denied": "Oikeutesi eivät riitä tuohon.",
+  "redeem-token": "Lunasta poletti",
+  "submit": "Lähetä"
 }

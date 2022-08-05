@@ -229,5 +229,8 @@
   "unauthorized-to-view": "Vous n'avez pas l'autorisation de consulter ce contenu.",
   "payment-provider-error": "Notre prestataire de paiement a rencontré une erreur. Essayez à nouveau plus tard.",
   "owned-apps": "Applications possédées",
-  "no-applications": "Aucune application à afficher."
+  "no-applications": "Aucune application à afficher.",
+  "science": "Science",
+  "education": "Éducation",
+  "system": "Système"
 }

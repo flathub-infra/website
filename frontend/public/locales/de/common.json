@@ -214,5 +214,18 @@
   "transaction-breakdown": "Transaktions Details",
   "release-link": "Finde mehr Informationen",
   "contribute-languages": "All diese Übersetzungen wurden durch die Community ermöglicht. Falls du helfen möchstest bei der Übersetzung von Flathub, <1>tritt dem Flathub Übersetzer-Team bei</1>.",
-  "recently-added-apps": "Neue Apps"
+  "recently-added-apps": "Neue Apps",
+  "no-applications": "Keine Anwendungen.",
+  "science": "Wissenschaft",
+  "education": "Bildung",
+  "system": "System",
+  "developer-settings": "Entwicklereinstellungen",
+  "developer-settings-title": "Entwicklereinstellungen: {{appname}}",
+  "recommended-payment": "Empfohlene Summe",
+  "owned-apps": "Eigene Apps",
+  "confirm-settings": "Einstellungen bestätigen",
+  "select-purchase-amount": "Geben Sie den Betrag ein, den Sie zahlen möchten",
+  "unauthorized-to-view": "Sie sind nicht befugt, sich diesen Inhalt anzuschauen.",
+  "payment-provider-error": "Bei unserem Bezahlanbieter ist ein Fehler aufgetreten. Versuchen Sie es später wieder.",
+  "status-redeemed": "Eingelöst"
 }

@@ -232,5 +232,19 @@
   "no-applications": "Немає застосунків для показу.",
   "science": "Наука",
   "education": "Освіта",
-  "system": "Система"
+  "system": "Система",
+  "enable-app-vending": "Увімкнути продаж застосунків",
+  "require-payment": "Вимагати оплату",
+  "permission-denied": "Ви не маєте на це дозволу.",
+  "create-tokens": "Створити токени",
+  "submit": "Надіслати",
+  "token-creation-placeholder": "Введіть список імен в окремих рядках, кожен з яких визначатиме новий токен власності.",
+  "redeem-token": "Активувати токен",
+  "status-redeemed": "Активувати",
+  "token-failed": "Не вдалося активувати токен",
+  "status-unredeemed": "Випуск скасовано",
+  "token-cancelled": "Токен успішно скасовано",
+  "token-redeemed": "Токен успішно активовано",
+  "token-redeem-placeholder": "Введіть токен підтвердження власності",
+  "ownership-tokens": "Токени підтвердження придбання"
 }
