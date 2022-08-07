@@ -89,7 +89,6 @@
   --text-secondary: hsl(0, 0%, 44.7%);
 
   --color-primary: hsl(212.9, 58.1%, 55.1%);
-  --color-secondary: hsl(195.4, 100%, 44.3%);
   --color-danger: hsl(0, 100%, 44.3%);
 
   --color-highlight: rgba(0, 0, 0, 0.1);
@@ -117,7 +116,6 @@
   --text-secondary: rgba(255, 255, 255, 0.6);
 
   --color-primary: hsl(212.9, 58.1%, calc(55.1% - 30%));
-  --color-secondary: hsl(195.4, 100%, calc(44.3% - 5%));
 
   --color-highlight: rgba(255, 255, 255, 0.1);
 
@@ -145,7 +143,7 @@
 
     background-color: var(--bg-color-secondary) !important;
     color: var(--color-secondary) !important;
-    border: 1px solid var(--color-primary) !important;
+    border: 1px solid var(--text-secondary) !important;
 
     &:hover {
       background-color: var(--color-primary) !important;
