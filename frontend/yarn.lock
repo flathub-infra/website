@@ -10318,6 +10318,18 @@ storybook-addon-next@^1.6.7:
     tsconfig-paths "^4.0.0"
     tsconfig-paths-webpack-plugin "^3.5.2"
 
+storybook-i18n@^1.1.2:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/storybook-i18n/-/storybook-i18n-1.1.4.tgz#f463287fa7d8c79c8283c4e7157c8557ebaf408f"
+  integrity sha512-0xD005aEBWhuDFU9oO5Yf+33MZQa/NWa2CWjkBODhcqC+N5WJhEPGUSQs8o9AqzQoRpIBOMQ3CS0cbRGbBuTxQ==
+
+storybook-react-i18next@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/storybook-react-i18next/-/storybook-react-i18next-1.1.2.tgz#991a6cad525e4e811da44037d64f485a3c0899d5"
+  integrity sha512-7KT/wIpV0C5IfExMZ/vfEpPVdXaHNPYhl3XkaGtLfQjmqS+EsNLbR4LyKcQaB8oKtMWMdEbg9mQ4aBJWPBdK/w==
+  dependencies:
+    storybook-i18n "^1.1.2"
+
 stream-browserify@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"
