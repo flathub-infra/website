@@ -5,7 +5,6 @@ import { chartOptions, chartStyle } from "../../chartHelper"
 import { AppStats } from "../../types/AppStats"
 import "chartjs-adapter-date-fns"
 
-import styles from "./AppStats.module.scss"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 
