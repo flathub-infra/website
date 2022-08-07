@@ -23,7 +23,7 @@ export function AppHeader({
   const { t } = useTranslation()
 
   return (
-    <header className="col-start-2 flex w-full py-7">
+    <header className="col-start-2 flex w-full flex-col gap-8 py-7 md:flex-row">
       {app.icon && (
         <div className="m-2 flex max-h-[128px] max-w-[128px] self-center drop-shadow-md">
           <LogoImage iconUrl={app.icon} appName={app.name} />
@@ -41,7 +41,7 @@ export function AppHeader({
         )}
       </div>
 
-      <div className="ml-auto">
+      <div className="grid gap-4 sm:grid-cols-2 md:ml-auto">
         {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
           <Link passHref href={`/apps/manage/${app.id}`}>
             <Button className="mb-3 block w-full last:mb-0">
@@ -63,7 +63,9 @@ export function AppHeader({
             onClick={donateClicked}
             className="mb-3 block w-full no-underline last:mb-0"
           >
-            <Button variant="secondary">{t("donate")}</Button>
+            <Button variant="secondary" className="w-full">
+              {t("donate")}
+            </Button>
           </a>
         )}
         {!!vendingSetup?.recommended_donation && (
