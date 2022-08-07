@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next"
+import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import fetchCollection from "../src/fetchers"
@@ -81,5 +81,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popular,
     },
     revalidate: 3600,
+  }
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: "blocking",
   }
 }
