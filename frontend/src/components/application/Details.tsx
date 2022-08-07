@@ -1,3 +1,4 @@
+import { AppHeader } from "./AppHeader"
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { FunctionComponent, useCallback, useMemo, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
@@ -129,56 +130,13 @@ const Details: FunctionComponent<Props> = ({
             }
           />
         )}
-        <header className="col-start-2 flex w-full py-7">
-          {app.icon && (
-            <div className="m-2 flex max-h-[128px] max-w-[128px] self-center drop-shadow-md">
-              <LogoImage iconUrl={app.icon} appName={app.name} />
-            </div>
-          )}
-
-          <div className="mx-3 my-auto">
-            <h2 className="mt-0 mb-3">{app.name}</h2>
-            {app.developer_name?.trim().length > 0 && (
-              <div className="text-sm font-light">
-                {t("by", { developer: app.developer_name })}
-              </div>
-            )}
-          </div>
-
-          <div className="ml-auto">
-            {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
-              <Link passHref href={`/apps/manage/${app.id}`}>
-                <Button className="mb-3 block w-full last:mb-0">
-                  {t("developer-settings")}
-                </Button>
-              </Link>
-            )}
-            <Button
-              className="mb-3 block w-full last:mb-0"
-              onClick={installClicked}
-            >
-              {t("install")}
-            </Button>
-            {app.urls?.donation && (
-              <a
-                href={app.urls.donation}
-                target="_blank"
-                rel="noreferrer"
-                onClick={donateClicked}
-                className="mb-3 block w-full no-underline last:mb-0"
-              >
-                <Button variant="secondary">{t("donate")}</Button>
-              </a>
-            )}
-            {!!vendingSetup?.recommended_donation && (
-              <Link passHref href={`/apps/purchase/${app.id}`}>
-                <Button className="mb-3 block w-full last:mb-0">
-                  {t("kind-purchase")}
-                </Button>
-              </Link>
-            )}
-          </div>
-        </header>
+        <AppHeader
+          app={app}
+          user={user}
+          installClicked={installClicked}
+          donateClicked={donateClicked}
+          vendingSetup={vendingSetup}
+        />
         <div className="col-start-1 col-end-4 bg-bgColorSecondary">
           {showLightbox && (
             <Lightbox
