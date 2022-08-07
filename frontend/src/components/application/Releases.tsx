@@ -39,9 +39,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
 
   if (latestRelease.url) {
     releaseDescription +=
-      "<a href='" +
+      "<br><a href='" +
       latestRelease.url +
-      "' class='list-disc my-4 pl-10' target='_blank' rel='noreferrer'>" +
+      "'' target='_blank' rel='noreferrer'>" +
       t("release-link") +
       "</a>"
   }
