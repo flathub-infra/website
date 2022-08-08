@@ -47,7 +47,7 @@
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
     "@storybook/builder-webpack5": "^6.5.9",
-    "@storybook/manager-webpack5": "^6.5.9",
+    "@storybook/manager-webpack5": "^6.5.10",
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "@tailwindcss/typography": "^0.5.4",
