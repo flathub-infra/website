@@ -30,23 +30,21 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   )
 
   return (
-    <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="flex">
-        <section className="min-h-[750px] w-full">
-          <div className="w-full">
-            <h2>{title}</h2>
-            <p>{t("number-of-results", { number: applications.length })}</p>
+    <div className="flex">
+      <section className="min-h-[750px] w-full">
+        <div className="w-full">
+          <h2>{title}</h2>
+          <p>{t("number-of-results", { number: applications.length })}</p>
 
-            <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
-              {pagedApplications.map((app) => (
-                <ApplicationCard key={app.id} application={app} />
-              ))}
-            </div>
-
-            <Pagination pages={pages} currentPage={page} />
+          <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
+            {pagedApplications.map((app) => (
+              <ApplicationCard key={app.id} application={app} />
+            ))}
           </div>
-        </section>
-      </div>
+
+          <Pagination pages={pages} currentPage={page} />
+        </div>
+      </section>
     </div>
   )
 }
