@@ -99,9 +99,7 @@
 
   --toastify-font-family: inherit;
 
-  a {
-    color: var(--color-secondary);
-  }
+  --link-color: var(--color-primary);
 }
 
 [data-theme="dark"] {
@@ -119,9 +117,11 @@
 
   --color-highlight: rgba(255, 255, 255, 0.1);
 
-  a {
-    color: var(--color-secondary);
-  }
+  --link-color: hsl(212.9, 58.1%, 55.1%);
+}
+
+a {
+  color: var(--link-color);
 }
 
 .carousel {
@@ -142,7 +142,7 @@
     border-radius: var(--button-border-radius) !important;
 
     background-color: var(--bg-color-secondary) !important;
-    color: var(--color-secondary) !important;
+    color: var(--link-color) !important;
     border: 1px solid var(--text-secondary) !important;
 
     &:hover {

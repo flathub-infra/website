@@ -10,7 +10,6 @@ module.exports = {
         textPrimary: "var(--text-primary)",
         textSecondary: "var(--text-secondary)",
         colorPrimary: "var(--color-primary)",
-        colorSecondary: "var(--color-secondary)",
         colorDanger: "var(--color-danger)",
         colorHighlight: "var(--color-highlight)",
       },
