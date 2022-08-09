@@ -1,3 +1,8 @@
+export type AppstreamListItem = Pick<
+  Appstream,
+  "id" | "summary" | "icon" | "name"
+>
+
 export interface Appstream {
   description: string
   screenshots?: Screenshot[]

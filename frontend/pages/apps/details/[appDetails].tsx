@@ -9,7 +9,6 @@ import {
   fetchDeveloperApps,
   fetchProjectgroupApps,
 } from "../../../src/fetchers"
-import { APPSTREAM_URL } from "../../../src/env"
 import { NextSeo } from "next-seo"
 import {
   Appstream,

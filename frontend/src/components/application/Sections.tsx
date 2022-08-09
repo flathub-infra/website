@@ -1,14 +1,14 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
+import { AppstreamListItem } from "src/types/Appstream"
 
-import { Appstream } from "../../types/Appstream"
 import ApplicationSection from "./ApplicationSection"
 
 interface Props {
-  popular: Appstream[]
-  recentlyUpdated: Appstream[]
-  editorsChoiceApps: Appstream[]
-  recentlyAdded: Appstream[]
+  popular: AppstreamListItem[]
+  recentlyUpdated: AppstreamListItem[]
+  editorsChoiceApps: AppstreamListItem[]
+  recentlyAdded: AppstreamListItem[]
 }
 
 const ApplicationSections: FunctionComponent<Props> = ({
