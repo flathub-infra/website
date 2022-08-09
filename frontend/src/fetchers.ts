@@ -1,4 +1,4 @@
-import { Appstream } from "./types/Appstream"
+import { Appstream, AppstreamListItem } from "./types/Appstream"
 import { Collection, Collections } from "./types/Collection"
 import { Category } from "./types/Category"
 import { LoginProvider } from "./types/Login"
@@ -93,7 +93,7 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
 export default async function fetchCollection(
   collection: Collection,
   count?: number,
-): Promise<Appstream[]> {
+): Promise<AppstreamListItem[]> {
   let collectionURL: string = ""
   switch (collection) {
     case Collections.popular:
@@ -131,34 +131,30 @@ export default async function fetchCollection(
     })
     .slice(0, limit)
 
-  const items: Appstream[] = await Promise.all(limitedList.map(fetchAppstream))
-
   console.log(
     `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
-      items.filter((item) => Boolean(item)).length
+      limitedList.filter((item) => Boolean(item)).length
     }.`,
   )
 
-  return items.filter((item) => Boolean(item))
+  return limitedList.filter((item) => Boolean(item))
 }
 
 export async function fetchCategory(
   category: keyof typeof Category,
   page?: number,
   per_page?: number,
-): Promise<Appstream[]> {
+): Promise<AppstreamListItem[]> {
   const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
-
   console.log(
     `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${
-      items.filter((item) => Boolean(item)).length
+      appList.filter((item) => Boolean(item)).length
     }.`,
   )
 
-  return items.filter((item) => Boolean(item))
+  return appList.filter((item) => Boolean(item))
 }
 
 export async function fetchDeveloperApps(developer: string | undefined) {
@@ -175,11 +171,9 @@ export async function fetchDeveloperApps(developer: string | undefined) {
 
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
-
   console.log(`Developer apps for ${developer} fetched`)
 
-  return items.filter((item) => Boolean(item))
+  return appList.filter((item) => Boolean(item))
 }
 
 export async function fetchProjectgroupApps(projectgroup: string | undefined) {
@@ -196,11 +190,9 @@ export async function fetchProjectgroupApps(projectgroup: string | undefined) {
 
   const appList = await appListRes.json()
 
-  const items: Appstream[] = await Promise.all(appList.map(fetchAppstream))
-
   console.log(`Project-group apps for ${projectgroup} fetched.`)
 
-  return items.filter((item) => Boolean(item))
+  return appList.filter((item) => Boolean(item))
 }
 
 export async function fetchSearchQuery(query: string) {

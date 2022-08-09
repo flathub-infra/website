@@ -2,10 +2,10 @@ import { FunctionComponent } from "react"
 import Link from "next/link"
 import LogoImage from "../LogoImage"
 
-import { Appstream } from "../../types/Appstream"
+import { AppstreamListItem } from "../../types/Appstream"
 
 interface Props {
-  application: Appstream
+  application: AppstreamListItem
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (

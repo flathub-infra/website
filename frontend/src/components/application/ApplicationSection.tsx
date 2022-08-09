@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react"
 import Link from "next/link"
 
-import { Appstream } from "../../types/Appstream"
+import { AppstreamListItem } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
 import Button from "../Button"
@@ -10,7 +10,7 @@ import { useTranslation } from "next-i18next"
 interface Props {
   href: string
   title: string
-  applications: Appstream[]
+  applications: AppstreamListItem[]
   showMore?: boolean
 }
 
