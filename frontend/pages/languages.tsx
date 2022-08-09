@@ -14,16 +14,22 @@ const Languages = (): JSX.Element => {
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1>{t("languages")}</h1>
         <p>{t("languages-description")}</p>
-        <ul className="columns-2">
-          {languages.sort().map((language) => (
-            <li key={language}>
-              <Link href={``} locale={`${language}`} passHref>
-                <a>
-                  {getLanguageFlag(language) + " " + getLanguageName(language)}
-                </a>
-              </Link>
-            </li>
-          ))}
+        <ul className="columns-1 sm:columns-2">
+          {languages
+            .sort((a, b) =>
+              getLanguageName(a).localeCompare(getLanguageName(b)),
+            )
+            .map((language) => (
+              <li key={language}>
+                <Link href={``} locale={`${language}`} passHref>
+                  <a>
+                    {getLanguageFlag(language) +
+                      " " +
+                      getLanguageName(language)}
+                  </a>
+                </Link>
+              </li>
+            ))}
         </ul>
         <p className="pt-8">
           <Trans i18nKey={"common:contribute-languages"}>
