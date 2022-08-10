@@ -115,7 +115,7 @@ def get_category(
     else:
         category = sorted_ids.__getitem__(slice(per_page * (page - 1), per_page * page))
 
-    result = [_get_listing_app(f"apps:{appid}") for appid in category]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in category]
     return [app for app in result if app]
 
 
@@ -137,7 +137,7 @@ def get_developer(
 
     sorted_ids = sort_ids_by_installs(ids)
 
-    result = [_get_listing_app(f"apps:{appid}") for appid in sorted_ids]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
     return [app for app in result if app]
 
 
@@ -159,7 +159,7 @@ def get_project_group(
 
     sorted_ids = sort_ids_by_installs(ids)
 
-    result = [_get_listing_app(f"apps:{appid}") for appid in sorted_ids]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
     return [app for app in result if app]
 
 
@@ -187,7 +187,7 @@ def get_search(userquery: str):
 @lru_cache()
 def get_recently_updated(limit: int = 100):
     recent = apps.get_recently_updated(limit)
-    result = [_get_listing_app(f"apps:{appid}") for appid in recent]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
     return [app for app in result if app]
 
 
@@ -196,14 +196,14 @@ def get_recently_updated(limit: int = 100):
 @lru_cache()
 def get_recently_added(limit: int = 100):
     recent = apps.get_recently_added(limit)
-    result = [_get_listing_app(f"apps:{appid}") for appid in recent]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
     return [app for app in result if app]
 
 
 @app.get("/picks/{pick}")
 def get_picks(pick: str, response: Response):
     if picks_ids := picks.get_pick(pick):
-        result = [_get_listing_app(f"apps:{appid}") for appid in picks_ids]
+        result = [utils.get_listing_app(f"apps:{appid}") for appid in picks_ids]
         return [app for app in result if app]
 
     response.status_code = 404
@@ -212,14 +212,14 @@ def get_picks(pick: str, response: Response):
 @app.get("/popular")
 def get_popular(limit: int = 100):
     popular = stats.get_popular(None)[0:limit]
-    result = [_get_listing_app(f"apps:{appid}") for appid in popular]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in popular]
     return [app for app in result if app]
 
 
 @app.get("/popular/{days}")
 def get_popular_days(days: int):
     popular = stats.get_popular(days)
-    result = [_get_listing_app(f"apps:{appid}") for appid in popular]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in popular]
     return [app for app in result if app]
 
 
@@ -303,17 +303,3 @@ def sort_ids_by_installs(ids):
     )
 
     return sorted_ids
-
-
-def _get_listing_app(key: str):
-    listing_app = None
-    if app := db.get_json_key(key):
-        appid = key[5:]
-        listing_app = {
-            "id": appid,
-            "name": app.get("name"),
-            "summary": app.get("summary"),
-            "icon": app.get("icon"),
-        }
-
-    return listing_app
