@@ -248,6 +248,20 @@ def get_clean_app_id(appid: str):
     return re.sub(clean_id_re, "_", appid)
 
 
+def get_listing_app(key: str):
+    listing_app = None
+    if app := db.get_json_key(key):
+        appid = key[5:]
+        listing_app = {
+            "id": appid,
+            "name": app.get("name"),
+            "summary": app.get("summary"),
+            "icon": app.get("icon"),
+        }
+
+    return listing_app
+
+
 class Platform(BaseModel):
     """
     A platform is an expression of dependencies which an application may have.
