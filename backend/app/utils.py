@@ -9,7 +9,7 @@ import requests
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config
+from . import config, db, stats
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 
