@@ -45,7 +45,11 @@ const TransactionHistory: FunctionComponent = () => {
           .then(addNewPage)
           .catch(setError)
       } else {
-        getTransactions("recent", perPage).then(addNewPage).catch(setError)
+        // Fetch the first page only if we've not tried before, otherwise if
+        // the user has no transactions we keep re-fetching.
+        if (page == 0 && transactions === null) {
+          getTransactions("recent", perPage).then(addNewPage).catch(setError)
+        }
       }
     }
   }, [user, page, transactions, t])
