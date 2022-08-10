@@ -35,7 +35,7 @@
     "react-image-lightbox": "^5.1.4",
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "^2.0.0-alpha.0",
-    "react-toastify": "^9.0.7",
+    "react-toastify": "^9.0.8",
     "sass": "^1.54.4",
     "spdx-license-list": "^6.6.0"
   },
