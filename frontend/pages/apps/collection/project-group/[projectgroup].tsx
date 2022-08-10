@@ -17,10 +17,12 @@ export default function Projectgroup({
   return (
     <>
       <NextSeo title={t("applications-by-projectgroup", { projectgroup })} />
-      <ApplicationCollection
-        title={t("applications-by-projectgroup", { projectgroup })}
-        applications={projectgroupApps}
-      />
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <ApplicationCollection
+          title={t("applications-by-projectgroup", { projectgroup })}
+          applications={projectgroupApps}
+        />
+      </div>
     </>
   )
 }
