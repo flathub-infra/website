@@ -1,7 +1,7 @@
 import React from "react"
 import { ComponentMeta } from "@storybook/react"
 import ProviderLink from "./ProviderLink"
-import { LoginProvider } from "src/types/Login"
+import { LoginProvider } from "../../types/Login"
 
 export default {
   title: "Components/Login/ProviderLink",
