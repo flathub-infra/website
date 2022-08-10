@@ -16,33 +16,35 @@ export default function Search() {
     <>
       <NextSeo title={t("search-for-query", { query })} />
 
-      {searchResult && searchResult.length > 0 && (
-        <Collection
-          title={t("search-for-query", { query })}
-          applications={searchResult}
-        />
-      )}
-      {!searchResult ||
-        (searchResult.length === 0 && (
-          <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-            <h2>{t("search-for-query", { query })}</h2>
-            <p>{t("could-not-find-match-for-search")}</p>
-            <p>
-              <Trans i18nKey={"common:request-new-app"}>
-                If you&apos;re searching for a specific application, let the
-                community know, that you want it on flathub{" "}
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://discourse.flathub.org/t/about-the-requests-category/22"
-                >
-                  here
-                </a>
-                .
-              </Trans>
-            </p>
-          </div>
-        ))}
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        {searchResult && searchResult.length > 0 && (
+          <Collection
+            title={t("search-for-query", { query })}
+            applications={searchResult}
+          />
+        )}
+        {!searchResult ||
+          (searchResult.length === 0 && (
+            <>
+              <h2>{t("search-for-query", { query })}</h2>
+              <p>{t("could-not-find-match-for-search")}</p>
+              <p>
+                <Trans i18nKey={"common:request-new-app"}>
+                  If you&apos;re searching for a specific application, let the
+                  community know, that you want it on flathub{" "}
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href="https://discourse.flathub.org/t/about-the-requests-category/22"
+                  >
+                    here
+                  </a>
+                  .
+                </Trans>
+              </p>
+            </>
+          ))}
+      </div>
     </>
   )
 }
