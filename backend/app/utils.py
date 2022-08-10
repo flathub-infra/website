@@ -262,6 +262,22 @@ def get_listing_app(key: str):
     return listing_app
 
 
+def sort_ids_by_installs(ids):
+    if len(ids) <= 1:
+        return ids
+
+    installs = stats.get_installs_by_ids(ids)
+    sorted_ids = sorted(
+        ids,
+        key=lambda appid: installs.get(appid, {"installs_last_month": 0}).get(
+            "installs_last_month", 0
+        ),
+        reverse=True,
+    )
+
+    return sorted_ids
+
+
 class Platform(BaseModel):
     """
     A platform is an expression of dependencies which an application may have.

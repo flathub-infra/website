@@ -108,7 +108,7 @@ def get_category(
 
     ids = apps.get_category(category)
 
-    sorted_ids = sort_ids_by_installs(ids)
+    sorted_ids = utils.sort_ids_by_installs(ids)
 
     if page is None:
         category = sorted_ids
@@ -135,7 +135,7 @@ def get_developer(
         response.status_code = 404
         return response
 
-    sorted_ids = sort_ids_by_installs(ids)
+    sorted_ids = utils.sort_ids_by_installs(ids)
 
     result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
     return [app for app in result if app]
@@ -157,7 +157,7 @@ def get_project_group(
         response.status_code = 404
         return response
 
-    sorted_ids = sort_ids_by_installs(ids)
+    sorted_ids = utils.sort_ids_by_installs(ids)
 
     result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
     return [app for app in result if app]
@@ -287,19 +287,3 @@ def get_platforms() -> Dict[str, utils.Platform]:
 @app.get("/sitemap/text", response_class=PlainTextResponse)
 def get_sitemap():
     return sitemap.generate_text()
-
-
-def sort_ids_by_installs(ids):
-    if len(ids) <= 1:
-        return ids
-
-    installs = stats.get_installs_by_ids(ids)
-    sorted_ids = sorted(
-        ids,
-        key=lambda appid: installs.get(appid, {"installs_last_month": 0}).get(
-            "installs_last_month", 0
-        ),
-        reverse=True,
-    )
-
-    return sorted_ids
