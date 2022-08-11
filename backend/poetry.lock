@@ -490,10 +490,10 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-tests = ["coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)"]
-docs = ["zope.interface", "sphinx-rtd-theme", "sphinx"]
-dev = ["pre-commit", "mypy", "coverage[toml] (==5.0.4)", "pytest (>=6.0.0,<7.0.0)", "cryptography (>=3.3.1)", "zope.interface", "sphinx-rtd-theme", "sphinx"]
 crypto = ["cryptography (>=3.3.1)"]
+dev = ["sphinx", "sphinx-rtd-theme", "zope.interface", "cryptography (>=3.3.1)", "pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)", "mypy", "pre-commit"]
+docs = ["sphinx", "sphinx-rtd-theme", "zope.interface"]
+tests = ["pytest (>=6.0.0,<7.0.0)", "coverage[toml] (==5.0.4)"]
 
 [[package]]
 name = "pylint"
@@ -577,7 +577,7 @@ six = ">=1.5"
 
 [[package]]
 name = "python-gitlab"
-version = "3.8.0"
+version = "3.8.1"
 description = "Interact with GitLab API"
 category = "main"
 optional = false
@@ -1525,8 +1525,8 @@ python-dateutil = [
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
 ]
 python-gitlab = [
-    {file = "python-gitlab-3.8.0.tar.gz", hash = "sha256:08ccb2d2db6882bca76e370b0b7fee724e978b1e0de2970f1a704fa451bbcfa0"},
-    {file = "python_gitlab-3.8.0-py3-none-any.whl", hash = "sha256:a6c26e5fa9f211d711b15b7e151d8667d8dd9a6194038c3ae81160d2c2f0b25c"},
+    {file = "python-gitlab-3.8.1.tar.gz", hash = "sha256:e1db25076520e118c7c26becb0d074a7a68127439870d43b8636342206b1e091"},
+    {file = "python_gitlab-3.8.1-py3-none-any.whl", hash = "sha256:6d10de90f4fcb95ea92e301528d2442ac5094da9b7137fa1294614369679e791"},
 ]
 python-multipart = [
     {file = "python-multipart-0.0.5.tar.gz", hash = "sha256:f7bb5f611fc600d15fa47b3974c8aa16e93724513b49b5f95c81e6624c83fa43"},
