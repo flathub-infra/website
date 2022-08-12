@@ -1,13 +1,9 @@
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
-import Link from "next/link"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
-import Button from "../Button"
-import LogoutButton from "../login/LogoutButton"
 import ProviderLink from "../login/ProviderLink"
-import DeleteButton from "./DeleteButton"
 import VendingLink from "./VendingLink"
 
 interface Props {
@@ -32,7 +28,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex items-center gap-3 rounded-xl bg-bgColorPrimary py-2 px-6 text-textPrimary"
+          className="flex w-full items-center gap-3 rounded-xl bg-bgColorPrimary py-2 px-6 text-textPrimary md:w-auto"
         >
           <Image
             src={authData.avatar}
@@ -87,13 +83,6 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       ) : (
         <></>
       )}
-
-      <div className="row-start-1 row-end-4 ml-auto flex flex-col gap-2">
-        <Link href="/wallet" passHref>
-          <Button variant="primary">{t("view-wallet")}</Button>
-        </Link>
-        <LogoutButton />
-      </div>
     </div>
   )
 }
