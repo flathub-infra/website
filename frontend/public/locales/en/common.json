@@ -246,5 +246,8 @@
   "token-creation-placeholder": "Enter a list of names on separate lines, each will identify a new ownership token.",
   "token-redeemed": "Token successfully redeemed",
   "token-failed": "Failed to redeem token",
-  "token-redeem-placeholder": "Enter an ownership token"
+  "token-redeem-placeholder": "Enter an ownership token",
+  "open-menu": "Open Menu",
+  "open-user-menu": "Open User Menu",
+  "your-profile": "Your Profile"
 }

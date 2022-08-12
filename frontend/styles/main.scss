@@ -99,7 +99,7 @@
 
   --toastify-font-family: inherit;
 
-  --link-color: var(--color-primary);
+  --color-link: var(--color-primary);
 }
 
 [data-theme="dark"] {
@@ -117,11 +117,10 @@
 
   --color-highlight: rgba(255, 255, 255, 0.1);
 
-  --link-color: hsl(212.9, 58.1%, 55.1%);
+  --color-link: hsl(212.9, 58.1%, 55.1%);
 }
-
 a {
-  color: var(--link-color);
+  color: var(--color-link);
 }
 
 .carousel {
