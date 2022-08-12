@@ -92,7 +92,7 @@ const Header = () => {
           <>
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
-                <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-2">
+                <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <LogoJsonLd
                       logo={`${env.NEXT_PUBLIC_BASE_URL}/img/logo/flathub-logo-toolbar.svg`}
@@ -106,9 +106,9 @@ const Header = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
+                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-4">
                   <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
-                    <div className="w-full">
+                    <div className="w-full xl:mx-auto xl:w-[400px]">
                       <SiteLinksSearchBoxJsonLd
                         url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
                         potentialActions={[
@@ -145,7 +145,7 @@ const Header = () => {
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
                   {/* Mobile menu button */}
-                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-100 hover:text-gray-500">
+                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-colorHighlight">
                     <span className="sr-only">{t("open-menu")}</span>
                     {open ? (
                       <HiOutlineX
