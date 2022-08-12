@@ -264,105 +264,121 @@ const Header = () => {
             </div>
 
             <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
-              <div className="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
-                {navigation.map((item) => {
-                  if (item.href.startsWith("http")) {
-                    return (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-current={item.current ? "page" : undefined}
-                        className={classNames(
-                          item.current
-                            ? "bg-colorHighlight"
-                            : "hover:bg-colorHighlight",
-                          "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
-                        )}
-                      >
-                        {t(item.name)}
-                      </a>
-                    )
-                  } else {
-                    return (
-                      <Link passHref href={item.href} key={item.name}>
+              {({ close }) => (
+                <>
+                  <div className="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
+                    {navigation.map((item) => {
+                      if (item.href.startsWith("http")) {
+                        return (
+                          <a
+                            key={item.name}
+                            href={item.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-current={item.current ? "page" : undefined}
+                            className={classNames(
+                              item.current
+                                ? "bg-colorHighlight"
+                                : "hover:bg-colorHighlight",
+                              "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
+                            )}
+                          >
+                            {t(item.name)}
+                          </a>
+                        )
+                      } else {
+                        return (
+                          <Link passHref href={item.href} key={item.name}>
+                            <a
+                              key={item.name}
+                              onClick={() => {
+                                navigation.forEach((nav) => {
+                                  nav.current = nav.name === item.name
+                                })
+                                close()
+                              }}
+                              aria-current={item.current ? "page" : undefined}
+                              className={classNames(
+                                item.current
+                                  ? "bg-colorHighlight"
+                                  : "hover:bg-colorHighlight",
+                                "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
+                              )}
+                            >
+                              {t(item.name)}
+                            </a>
+                          </Link>
+                        )
+                      }
+                    })}
+                    {!IS_PRODUCTION && !user.info && (
+                      <Link passHref href="/login" key="login">
                         <a
-                          key={item.name}
-                          onClick={() => {
-                            navigation.forEach((nav) => {
-                              nav.current = nav.name === item.name
-                            })
-                          }}
-                          aria-current={item.current ? "page" : undefined}
+                          key={"login"}
                           className={classNames(
-                            item.current
-                              ? "bg-colorHighlight"
-                              : "hover:bg-colorHighlight",
-                            "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
+                            "block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary",
                           )}
+                          onClick={() => {
+                            close()
+                          }}
                         >
-                          {t(item.name)}
+                          {t("login")}
                         </a>
                       </Link>
-                    )
-                  }
-                })}
-                {!IS_PRODUCTION && !user.info && (
-                  <Link passHref href="/login" key="login">
-                    <a
-                      key={"login"}
-                      className={classNames(
-                        "block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary",
-                      )}
-                    >
-                      {t("login")}
-                    </a>
-                  </Link>
-                )}
-              </div>
-              {user.info && (
-                <div className="border-t border-gray-200 pt-4 pb-3 dark:border-zinc-600">
-                  <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
-                    <div className="flex-shrink-0">
-                      <Image
-                        className="rounded-full"
-                        src={
-                          Object.values(user.info.auths).find(
-                            (auth) => auth.avatar,
-                          ).avatar
-                        }
-                        width="38"
-                        height="38"
-                        layout="fixed"
-                        alt={t("user-avatar", {
-                          user: user.info.displayname,
-                        })}
-                      />
-                    </div>
-                    <div className="ml-3">
-                      <div className="text-base font-medium text-white dark:text-textPrimary ">
-                        {user.info.displayname}
+                    )}
+                  </div>
+                  {user.info && (
+                    <div className="border-t border-gray-200 pt-4 pb-3 dark:border-zinc-600">
+                      <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
+                        <div className="flex-shrink-0">
+                          <Image
+                            className="rounded-full"
+                            src={
+                              Object.values(user.info.auths).find(
+                                (auth) => auth.avatar,
+                              ).avatar
+                            }
+                            width="38"
+                            height="38"
+                            layout="fixed"
+                            alt={t("user-avatar", {
+                              user: user.info.displayname,
+                            })}
+                          />
+                        </div>
+                        <div className="ml-3">
+                          <div className="text-base font-medium text-white dark:text-textPrimary ">
+                            {user.info.displayname}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
+                        {userNavigation.map((item) => (
+                          <Link key={item.name} href={item.href} passHref>
+                            <a
+                              className="block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary"
+                              onClick={() => {
+                                close()
+                              }}
+                            >
+                              {t(item.name)}
+                            </a>
+                          </Link>
+                        ))}
+                        <button
+                          key={"logout"}
+                          onClick={() => {
+                            setClickedLogout(true)
+                            close()
+                          }}
+                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-white hover:bg-colorHighlight dark:text-textPrimary"
+                        >
+                          {t("log-out")}
+                        </button>
                       </div>
                     </div>
-                  </div>
-                  <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
-                    {userNavigation.map((item) => (
-                      <Link key={item.name} href={item.href} passHref>
-                        <a className="block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary">
-                          {t(item.name)}
-                        </a>
-                      </Link>
-                    ))}
-                    <button
-                      key={"logout"}
-                      onClick={() => setClickedLogout(true)}
-                      className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-white hover:bg-colorHighlight dark:text-textPrimary"
-                    >
-                      {t("log-out")}
-                    </button>
-                  </div>
-                </div>
+                  )}
+                </>
               )}
             </Popover.Panel>
           </>

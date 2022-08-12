@@ -57,7 +57,7 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
 
   return (
     <button
-      className="flex flex-row items-center gap-3 rounded-xl border border-textSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:opacity-75 active:bg-bgColorPrimary"
+      className="flex w-full flex-row items-center justify-center gap-3 rounded-xl border border-textSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:opacity-75 active:bg-bgColorPrimary md:w-auto"
       onClick={() => setClicked(true)}
     >
       <Image
