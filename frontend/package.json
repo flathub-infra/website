@@ -21,7 +21,7 @@
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.0",
     "date-fns": "^2.29.1",
-    "next": "^12.2.4",
+    "next": "^12.2.5",
     "next-i18next": "^11.3.0",
     "next-seo": "^5.5.0",
     "next-themes": "^0.2.0",
