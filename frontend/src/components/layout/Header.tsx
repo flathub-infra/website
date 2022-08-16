@@ -169,7 +169,7 @@ const Header = () => {
                           key={item.name}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline shadow-sm hover:bg-colorHighlight"
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight"
                         >
                           {t(item.name)}
                         </a>
@@ -177,7 +177,7 @@ const Header = () => {
                     } else {
                       return (
                         <Link passHref href={item.href} key={item.name}>
-                          <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline shadow-sm hover:bg-colorHighlight">
+                          <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight">
                             {t(item.name)}
                           </a>
                         </Link>
@@ -186,7 +186,7 @@ const Header = () => {
                   })}
                   {!IS_PRODUCTION && !user.info && (
                     <Link passHref href="/login" key="login">
-                      <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline shadow-sm hover:bg-colorHighlight">
+                      <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight">
                         {t("login")}
                       </a>
                     </Link>
