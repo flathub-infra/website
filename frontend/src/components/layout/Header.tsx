@@ -145,7 +145,7 @@ const Header = () => {
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
                   {/* Mobile menu button */}
-                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-colorHighlight">
+                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-colorHighlight focus:outline-none">
                     <span className="sr-only">{t("open-menu")}</span>
                     {open ? (
                       <HiOutlineX
