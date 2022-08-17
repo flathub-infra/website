@@ -218,7 +218,7 @@ export function getLanguageFlag(language: Language): string {
     case "ru":
       return "🇷🇺"
     case "si":
-      return "🇸🇮"
+      return "🇱🇰"
     case "vi":
       return "🇻🇳"
     case "ar":
