@@ -59,14 +59,14 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
         <div className="rounded-xl bg-bgColorSecondary shadow-md">
           <div>
             <div className="flex flex-col gap-2 px-4 pt-4">
-              <header className="flex flex-row justify-between gap-2">
+              <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
                 <h3 className="my-0">
                   {t("changes-in-version", {
                     "version-number": latestRelease.version,
                   })}
                 </h3>
                 <div
-                  className="self-center text-sm"
+                  className="text-sm"
                   title={
                     latestRelease.timestamp &&
                     new Date(latestRelease.timestamp * 1000).toLocaleDateString(
