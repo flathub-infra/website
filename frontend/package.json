@@ -20,7 +20,7 @@
     "@stripe/stripe-js": "^1.35.0",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.0",
-    "date-fns": "^2.29.1",
+    "date-fns": "^2.29.2",
     "next": "^12.2.5",
     "next-i18next": "^11.3.0",
     "next-seo": "^5.5.0",
