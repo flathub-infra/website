@@ -16,11 +16,11 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
-    "@stripe/react-stripe-js": "^1.9.0",
+    "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.0",
-    "date-fns": "^2.29.1",
+    "date-fns": "^2.29.2",
     "next": "^12.2.5",
     "next-i18next": "^11.3.0",
     "next-seo": "^5.5.0",
@@ -36,7 +36,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "^2.0.0-alpha.0",
     "react-toastify": "^9.0.8",
-    "sass": "^1.54.4",
+    "sass": "^1.54.5",
     "spdx-license-list": "^6.6.0"
   },
   "devDependencies": {
@@ -51,7 +51,7 @@
     "@storybook/react": "^6.5.10",
     "@storybook/testing-library": "^0.0.13",
     "@tailwindcss/typography": "^0.5.4",
-    "@types/node": "^18.7.6",
+    "@types/node": "^18.7.9",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.8",
     "eslint": "^8.22.0",
