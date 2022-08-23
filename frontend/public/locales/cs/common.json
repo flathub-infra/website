@@ -93,7 +93,7 @@
   "new-apps-description": "Aplikace publikované na Flathubu za posledních 30 dní.",
   "an-error-occurred-client": "V klientovi došlo k chybě.",
   "submitting-apps-block": "<0>Vývojáři aplikací mohou <2>vydávat své aplikace</2> k distribuci na Flathubu, čímž poskytují jedinou bránu do celého Linuxového ekosystému.</0><p>Prozatím musí být aplikace buď legálně redistribuovatelné nebo dostupné ke stažení třetími stranami. Pokud jste však vývojář proprietárních aplikací a máte zájem používat Flathub, rádi si s vámi promluvíme.</p>",
-  "about-block": "<0>Flathub si klade za cíl být místem pro získávání a distribuci aplikací pro celý desktopový Linux. Je poháněn <1>Flatpakem</1>, který umožňuje spouštět aplikace Flathubu téměř v jakékoliv Linuxové distribuci.</0><1>Jste-li uživatelem Linuxu, můžete pomocí Flathubu získat přístup k rostoucí sbírce aplikací Flatpak. Stačí, když budete postupovat podle <2>návodu k nastavení</2>.</1>",
+  "about-block": "<0>Flathub je místem pro získávání a distribuci aplikací pro celý desktopový Linux. Je poháněn <1>Flatpakem</1>, což umožňuje spouštět aplikace z Flathubu na téměř libovolné Linuxové distribuci.</0><1>Pomocí Flathubu získáte přístup k rostoucí sbírce Flatpaků podle <2>návodu k nastavení</2>.</1>",
   "official-badges": "Oficiální odznaky Flathubu",
   "get-involved-block": "<p>Flathub sjednocuje ekosystém Linuxových desktopů a vy můžete pomoci. Pište dokumentaci nebo kód, vytvářejte webové stránky nebo spravujte servery.</p>",
   "reporting-issues": "Nahlásit problémy",
@@ -213,7 +213,7 @@
   "applications-by-projectgroup": "Aplikace ve skupině {{projectgroup}}",
   "other-apps-by-projectgroup": "Ostatní aplikace ve skupině {{projectgroup}}",
   "release-link": "Získat více informací",
-  "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k překladatelskému týmu Flathub</1>.",
+  "contribute-languages": "Na všech těchto překladech se podílela komunita. Pokud chcete pomoci překládat Flathub, přidejte se k <1>překladatelskému týmu Flathub</1>.",
   "recently-added-apps": "Nové aplikace",
   "developer-settings": "Nastavení pro vývojáře",
   "minimum-payment": "Minimální platba",
@@ -246,5 +246,8 @@
   "token-failed": "Nepodařilo se vyměnit token",
   "token-redeem-placeholder": "Zadejte token vlastnictví",
   "token-redeemed": "Token úspěšně uplatněn",
-  "redeem-token": "Vyměnit token"
+  "redeem-token": "Vyměnit token",
+  "open-menu": "Otevřít nabídku",
+  "open-user-menu": "Otevřít uživatelskou nabídku",
+  "your-profile": "Váš profil"
 }

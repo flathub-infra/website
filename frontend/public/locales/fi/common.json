@@ -246,5 +246,8 @@
   "ownership-tokens": "Omistajuuspoletit",
   "permission-denied": "Oikeutesi eivät riitä tuohon.",
   "redeem-token": "Lunasta poletti",
-  "submit": "Lähetä"
+  "submit": "Lähetä",
+  "open-menu": "Avaa valikko",
+  "open-user-menu": "Avaa käyttäjävalikko",
+  "your-profile": "Profiilisi"
 }
