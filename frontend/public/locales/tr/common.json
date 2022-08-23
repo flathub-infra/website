@@ -246,5 +246,8 @@
   "submit": "Gönder",
   "token-failed": "Belirteç kullanılamadı",
   "token-redeem-placeholder": "Bir sahiplik belirteci girin",
-  "token-redeemed": "Belirteç başarıyla kullanıldı"
+  "token-redeemed": "Belirteç başarıyla kullanıldı",
+  "open-menu": "Menüyü Aç",
+  "open-user-menu": "Kullanıcı Menüsünü Aç",
+  "your-profile": "Profiliniz"
 }

@@ -29,11 +29,11 @@
   "applications-by-developer": "Приложения от {{developer}}",
   "search-for-query": "Търсене на „{{query}}“",
   "audio-and-video": "Аудио и видео",
-  "developer-tools": "Приложения за разработчици",
+  "developer-tools": "За разработчици",
   "graphics-and-photography": "Графика и фотография",
   "networking": "Работа в мрежа",
   "productivity": "Продуктивност",
-  "utilities": "Помощни приложения",
+  "utilities": "Принадлежности",
   "recently-updated-apps": "Наскоро обновени",
   "donate-to": "Дарение за „{{project}}“",
   "screenshot": "Снимка",
@@ -246,5 +246,8 @@
   "token-failed": "Неуспешно осребряване на жетона",
   "require-payment": "Изисква плащане",
   "permission-denied": "Нямате разрешение за това.",
-  "token-creation-placeholder": "Въведете списък с наименования, всеки ред ще представлява нов жетон."
+  "token-creation-placeholder": "Въведете списък с наименования, всеки ред ще представлява нов жетон.",
+  "your-profile": "Вашият профил",
+  "open-menu": "Отваряне на менюто",
+  "open-user-menu": "Отваряне на потребителското меню"
 }
