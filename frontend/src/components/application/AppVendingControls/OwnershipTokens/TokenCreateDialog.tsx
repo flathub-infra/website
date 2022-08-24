@@ -7,28 +7,33 @@ import Button from "../../../Button"
 
 interface Props {
   app: Appstream
+  updateCallback: CallableFunction
 }
 
 /**
  * The button to open a model dialog where application ownership tokens can be generated.
  */
-const TokenCreateDialog: FunctionComponent<Props> = ({ app }) => {
+const TokenCreateDialog: FunctionComponent<Props> = ({
+  app,
+  updateCallback,
+}) => {
   const { t } = useTranslation()
 
   const [shown, setShown] = useState(false)
   const [text, setText] = useState("")
 
   const textUpdate = useCallback((event) => setText(event.target.value), [])
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     setShown(false)
 
     // Strip leading and trailing whitespace characters
     const names = text.split(/\s*\n\s*/).filter((name) => name !== "")
 
     if (names.length > 0) {
-      createVendingTokens(app.id, names)
+      await createVendingTokens(app.id, names)
+      updateCallback()
     }
-  }, [app.id, text])
+  }, [app.id, text, updateCallback])
 
   return (
     <>
