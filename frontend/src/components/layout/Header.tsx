@@ -77,6 +77,27 @@ const Header = () => {
     }
   }
 
+  useEffect(() => {
+    function focusSearchBar(e: KeyboardEvent) {
+      const searchBarComponent = document.getElementById("search")
+
+      if (
+        searchBarComponent &&
+        e.key === "/" &&
+        (!document.activeElement ||
+          !["input", "textarea"].includes(document.activeElement.localName))
+      ) {
+        e.preventDefault()
+        searchBarComponent.focus()
+      }
+    }
+
+    window.addEventListener("keydown", focusSearchBar)
+    return () => {
+      window.removeEventListener("keydown", focusSearchBar)
+    }
+  }, [])
+
   return (
     <>
       <Popover
@@ -135,7 +156,7 @@ const Header = () => {
                             onChange={onChange}
                             value={query}
                             className="block w-full rounded-full bg-bgColorPrimary py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-textPrimary focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-textPrimary dark:text-textPrimary dark:focus:text-white sm:text-sm"
-                            placeholder={t("search-apps")}
+                            placeholder={"/ " + t("search-apps")}
                             type="search"
                           />
                         </form>
