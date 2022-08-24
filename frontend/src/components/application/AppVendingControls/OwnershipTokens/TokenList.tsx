@@ -1,8 +1,13 @@
 import { Disclosure } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useCallback } from "react"
+import {
+  FunctionComponent,
+  ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import { getVendingTokens } from "../../../../asyncs/vending"
-import { useAsync } from "../../../../hooks/useAsync"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
@@ -18,11 +23,26 @@ interface Props {
 const TokenList: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
 
-  const {
-    value: tokens,
-    status,
-    error,
-  } = useAsync(useCallback(() => getVendingTokens(app.id), [app.id]))
+  const [tokens, setTokens] = useState(null)
+  const [status, setStatus] = useState<
+    "idle" | "pending" | "success" | "error"
+  >("idle")
+  const [error, setError] = useState(null)
+
+  const doFetch = useCallback(async () => {
+    try {
+      const fetch = await getVendingTokens(app.id)
+      setTokens(fetch)
+      setStatus("success")
+    } catch (err) {
+      setStatus("error")
+      setError(err)
+    }
+  }, [app.id])
+
+  useEffect(() => {
+    doFetch()
+  }, [app.id, doFetch])
 
   if (["pending", "idle"].includes(status)) {
     return <Spinner size="m" />
@@ -41,7 +61,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
             )}
           </Disclosure>
         ))}
-        <TokenCreateDialog app={app} />
+        <TokenCreateDialog app={app} updateCallback={doFetch} />
       </div>
     )
   }
