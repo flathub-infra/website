@@ -32,6 +32,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     if (names.length > 0) {
       await createVendingTokens(app.id, names)
       updateCallback()
+      setText("")
     }
   }, [app.id, text, updateCallback])
 
@@ -39,7 +40,13 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     <>
       <Button onClick={() => setShown(true)}>{t("create-tokens")}</Button>
       <Transition appear show={shown} as={Fragment}>
-        <Dialog as="div" onClose={() => setShown(false)}>
+        <Dialog
+          as="div"
+          onClose={() => {
+            setShown(false)
+            setText("")
+          }}
+        >
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
           <div className="fixed inset-0 flex items-center justify-center p-4">
