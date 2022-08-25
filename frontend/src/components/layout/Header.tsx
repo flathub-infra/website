@@ -13,6 +13,7 @@ import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
+import { BsSlashSquare } from "react-icons/bs"
 
 const navigation = [
   {
@@ -149,16 +150,22 @@ const Header = () => {
                             aria-hidden="true"
                           />
                         </div>
-                        <form onSubmit={onSubmit}>
+                        <form id="search-form" onSubmit={onSubmit}>
                           <input
                             id="search"
                             name="q'"
                             onChange={onChange}
                             value={query}
                             className="block w-full rounded-full bg-bgColorPrimary py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-textPrimary focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-textPrimary dark:text-textPrimary dark:focus:text-white sm:text-sm"
-                            placeholder={"/ " + t("search-apps")}
+                            placeholder={t("search-apps")}
                             type="search"
                           />
+                          {!query && ( <div className="hidden md:flex pointer-events-none absolute inset-y-0 right-0 items-center pr-5 focus:hidden">
+                              <BsSlashSquare
+                                className="h-4 w-4 text-gray-400"
+                                aria-hidden="true"
+                              />
+                          </div>)}
                         </form>
                       </div>
                     </div>
