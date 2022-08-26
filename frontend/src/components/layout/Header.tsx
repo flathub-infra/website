@@ -160,12 +160,14 @@ const Header = () => {
                             placeholder={t("search-apps")}
                             type="search"
                           />
-                          {!query && ( <div className="hidden md:flex pointer-events-none absolute inset-y-0 right-0 items-center pr-5 focus:hidden">
+                          {!query && (
+                            <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-5 focus:hidden md:flex">
                               <BsSlashSquare
                                 className="h-4 w-4 text-gray-400"
                                 aria-hidden="true"
                               />
-                          </div>)}
+                            </div>
+                          )}
                         </form>
                       </div>
                     </div>
