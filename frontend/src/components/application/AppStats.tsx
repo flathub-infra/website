@@ -24,6 +24,11 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     }
   }
 
+  console.log(stats.installs_per_day.length)
+  if (Object.keys(stats.installs_per_day).length === 0) {
+    return null
+  }
+
   // Remove current day
   installs_labels.pop()
   installs_data.pop()
