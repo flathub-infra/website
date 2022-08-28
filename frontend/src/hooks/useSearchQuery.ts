@@ -19,6 +19,7 @@ export function useSearchQuery(query: string): Appstream[] {
     }
 
     if (query) {
+      setSearchResult(null)
       callSearch()
     }
   }, [trackSiteSearch, query])
