@@ -28,6 +28,7 @@ module.exports = {
       "et",
       "ca",
       "el",
+      "ta",
     ],
   },
   // debug: true,
