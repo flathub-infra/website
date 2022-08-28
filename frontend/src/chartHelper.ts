@@ -70,6 +70,7 @@ export function chartOptions(locale: string): ChartOptions<"line"> {
         },
         ticks: {
           count: 5,
+          precision: 0,
         },
       },
     },
