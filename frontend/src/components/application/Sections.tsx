@@ -27,16 +27,16 @@ const ApplicationSections: FunctionComponent<Props> = ({
         href="/apps/collection/editors-choice-apps"
       />
       <ApplicationSection
-        key="updated"
-        title={t("new-and-updated-apps")}
-        applications={recentlyUpdated}
-        href="/apps/collection/recently-updated"
-      />
-      <ApplicationSection
         key="recently_added"
         title={t("recently-added-apps")}
         applications={recentlyAdded}
         href="/apps/collection/recently-added"
+      />
+      <ApplicationSection
+        key="updated"
+        title={t("new-and-updated-apps")}
+        applications={recentlyUpdated}
+        href="/apps/collection/recently-updated"
       />
       <ApplicationSection
         key="popular"
