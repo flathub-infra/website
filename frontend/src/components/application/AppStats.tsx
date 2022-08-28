@@ -24,8 +24,8 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     }
   }
 
-  console.log(stats.installs_per_day.length)
-  if (Object.keys(stats.installs_per_day).length === 0) {
+  // only show graph, if we have more then ten days of data
+  if (Object.keys(stats.installs_per_day).length < 10) {
     return null
   }
 
