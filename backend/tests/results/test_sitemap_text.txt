@@ -19,7 +19,8 @@ https://beta.flathub.org/feeds
 https://beta.flathub.org/languages
 https://beta.flathub.org/privacy-policy
 https://beta.flathub.org/statistics
-https://beta.flathub.org/terms-and-conditionshttps://beta.flathub.org/en_GB/about
+https://beta.flathub.org/terms-and-conditions
+https://beta.flathub.org/en_GB/about
 https://beta.flathub.org/en_GB/apps
 https://beta.flathub.org/en_GB/apps/category/Game
 https://beta.flathub.org/en_GB/apps/category/Network
@@ -40,7 +41,8 @@ https://beta.flathub.org/en_GB/feeds
 https://beta.flathub.org/en_GB/languages
 https://beta.flathub.org/en_GB/privacy-policy
 https://beta.flathub.org/en_GB/statistics
-https://beta.flathub.org/en_GB/terms-and-conditionshttps://beta.flathub.org/en/about
+https://beta.flathub.org/en_GB/terms-and-conditions
+https://beta.flathub.org/en/about
 https://beta.flathub.org/en/apps
 https://beta.flathub.org/en/apps/category/Game
 https://beta.flathub.org/en/apps/category/Network
@@ -61,7 +63,8 @@ https://beta.flathub.org/en/feeds
 https://beta.flathub.org/en/languages
 https://beta.flathub.org/en/privacy-policy
 https://beta.flathub.org/en/statistics
-https://beta.flathub.org/en/terms-and-conditionshttps://beta.flathub.org/de/about
+https://beta.flathub.org/en/terms-and-conditions
+https://beta.flathub.org/de/about
 https://beta.flathub.org/de/apps
 https://beta.flathub.org/de/apps/category/Game
 https://beta.flathub.org/de/apps/category/Network
@@ -82,7 +85,8 @@ https://beta.flathub.org/de/feeds
 https://beta.flathub.org/de/languages
 https://beta.flathub.org/de/privacy-policy
 https://beta.flathub.org/de/statistics
-https://beta.flathub.org/de/terms-and-conditionshttps://beta.flathub.org/fr/about
+https://beta.flathub.org/de/terms-and-conditions
+https://beta.flathub.org/fr/about
 https://beta.flathub.org/fr/apps
 https://beta.flathub.org/fr/apps/category/Game
 https://beta.flathub.org/fr/apps/category/Network
@@ -103,7 +107,8 @@ https://beta.flathub.org/fr/feeds
 https://beta.flathub.org/fr/languages
 https://beta.flathub.org/fr/privacy-policy
 https://beta.flathub.org/fr/statistics
-https://beta.flathub.org/fr/terms-and-conditionshttps://beta.flathub.org/nb_NO/about
+https://beta.flathub.org/fr/terms-and-conditions
+https://beta.flathub.org/nb_NO/about
 https://beta.flathub.org/nb_NO/apps
 https://beta.flathub.org/nb_NO/apps/category/Game
 https://beta.flathub.org/nb_NO/apps/category/Network
@@ -124,7 +129,8 @@ https://beta.flathub.org/nb_NO/feeds
 https://beta.flathub.org/nb_NO/languages
 https://beta.flathub.org/nb_NO/privacy-policy
 https://beta.flathub.org/nb_NO/statistics
-https://beta.flathub.org/nb_NO/terms-and-conditionshttps://beta.flathub.org/tr/about
+https://beta.flathub.org/nb_NO/terms-and-conditions
+https://beta.flathub.org/tr/about
 https://beta.flathub.org/tr/apps
 https://beta.flathub.org/tr/apps/category/Game
 https://beta.flathub.org/tr/apps/category/Network
@@ -145,7 +151,8 @@ https://beta.flathub.org/tr/feeds
 https://beta.flathub.org/tr/languages
 https://beta.flathub.org/tr/privacy-policy
 https://beta.flathub.org/tr/statistics
-https://beta.flathub.org/tr/terms-and-conditionshttps://beta.flathub.org/fi/about
+https://beta.flathub.org/tr/terms-and-conditions
+https://beta.flathub.org/fi/about
 https://beta.flathub.org/fi/apps
 https://beta.flathub.org/fi/apps/category/Game
 https://beta.flathub.org/fi/apps/category/Network
@@ -166,7 +173,8 @@ https://beta.flathub.org/fi/feeds
 https://beta.flathub.org/fi/languages
 https://beta.flathub.org/fi/privacy-policy
 https://beta.flathub.org/fi/statistics
-https://beta.flathub.org/fi/terms-and-conditionshttps://beta.flathub.org/id/about
+https://beta.flathub.org/fi/terms-and-conditions
+https://beta.flathub.org/id/about
 https://beta.flathub.org/id/apps
 https://beta.flathub.org/id/apps/category/Game
 https://beta.flathub.org/id/apps/category/Network
@@ -187,7 +195,8 @@ https://beta.flathub.org/id/feeds
 https://beta.flathub.org/id/languages
 https://beta.flathub.org/id/privacy-policy
 https://beta.flathub.org/id/statistics
-https://beta.flathub.org/id/terms-and-conditionshttps://beta.flathub.org/it/about
+https://beta.flathub.org/id/terms-and-conditions
+https://beta.flathub.org/it/about
 https://beta.flathub.org/it/apps
 https://beta.flathub.org/it/apps/category/Game
 https://beta.flathub.org/it/apps/category/Network
@@ -208,7 +217,8 @@ https://beta.flathub.org/it/feeds
 https://beta.flathub.org/it/languages
 https://beta.flathub.org/it/privacy-policy
 https://beta.flathub.org/it/statistics
-https://beta.flathub.org/it/terms-and-conditionshttps://beta.flathub.org/pl/about
+https://beta.flathub.org/it/terms-and-conditions
+https://beta.flathub.org/pl/about
 https://beta.flathub.org/pl/apps
 https://beta.flathub.org/pl/apps/category/Game
 https://beta.flathub.org/pl/apps/category/Network
@@ -229,7 +239,8 @@ https://beta.flathub.org/pl/feeds
 https://beta.flathub.org/pl/languages
 https://beta.flathub.org/pl/privacy-policy
 https://beta.flathub.org/pl/statistics
-https://beta.flathub.org/pl/terms-and-conditionshttps://beta.flathub.org/pt_BR/about
+https://beta.flathub.org/pl/terms-and-conditions
+https://beta.flathub.org/pt_BR/about
 https://beta.flathub.org/pt_BR/apps
 https://beta.flathub.org/pt_BR/apps/category/Game
 https://beta.flathub.org/pt_BR/apps/category/Network
@@ -250,7 +261,8 @@ https://beta.flathub.org/pt_BR/feeds
 https://beta.flathub.org/pt_BR/languages
 https://beta.flathub.org/pt_BR/privacy-policy
 https://beta.flathub.org/pt_BR/statistics
-https://beta.flathub.org/pt_BR/terms-and-conditionshttps://beta.flathub.org/ru/about
+https://beta.flathub.org/pt_BR/terms-and-conditions
+https://beta.flathub.org/ru/about
 https://beta.flathub.org/ru/apps
 https://beta.flathub.org/ru/apps/category/Game
 https://beta.flathub.org/ru/apps/category/Network
@@ -271,7 +283,8 @@ https://beta.flathub.org/ru/feeds
 https://beta.flathub.org/ru/languages
 https://beta.flathub.org/ru/privacy-policy
 https://beta.flathub.org/ru/statistics
-https://beta.flathub.org/ru/terms-and-conditionshttps://beta.flathub.org/si/about
+https://beta.flathub.org/ru/terms-and-conditions
+https://beta.flathub.org/si/about
 https://beta.flathub.org/si/apps
 https://beta.flathub.org/si/apps/category/Game
 https://beta.flathub.org/si/apps/category/Network
@@ -292,7 +305,8 @@ https://beta.flathub.org/si/feeds
 https://beta.flathub.org/si/languages
 https://beta.flathub.org/si/privacy-policy
 https://beta.flathub.org/si/statistics
-https://beta.flathub.org/si/terms-and-conditionshttps://beta.flathub.org/vi/about
+https://beta.flathub.org/si/terms-and-conditions
+https://beta.flathub.org/vi/about
 https://beta.flathub.org/vi/apps
 https://beta.flathub.org/vi/apps/category/Game
 https://beta.flathub.org/vi/apps/category/Network
@@ -313,7 +327,8 @@ https://beta.flathub.org/vi/feeds
 https://beta.flathub.org/vi/languages
 https://beta.flathub.org/vi/privacy-policy
 https://beta.flathub.org/vi/statistics
-https://beta.flathub.org/vi/terms-and-conditionshttps://beta.flathub.org/ar/about
+https://beta.flathub.org/vi/terms-and-conditions
+https://beta.flathub.org/ar/about
 https://beta.flathub.org/ar/apps
 https://beta.flathub.org/ar/apps/category/Game
 https://beta.flathub.org/ar/apps/category/Network
@@ -334,7 +349,8 @@ https://beta.flathub.org/ar/feeds
 https://beta.flathub.org/ar/languages
 https://beta.flathub.org/ar/privacy-policy
 https://beta.flathub.org/ar/statistics
-https://beta.flathub.org/ar/terms-and-conditionshttps://beta.flathub.org/es/about
+https://beta.flathub.org/ar/terms-and-conditions
+https://beta.flathub.org/es/about
 https://beta.flathub.org/es/apps
 https://beta.flathub.org/es/apps/category/Game
 https://beta.flathub.org/es/apps/category/Network
@@ -355,7 +371,8 @@ https://beta.flathub.org/es/feeds
 https://beta.flathub.org/es/languages
 https://beta.flathub.org/es/privacy-policy
 https://beta.flathub.org/es/statistics
-https://beta.flathub.org/es/terms-and-conditionshttps://beta.flathub.org/ja/about
+https://beta.flathub.org/es/terms-and-conditions
+https://beta.flathub.org/ja/about
 https://beta.flathub.org/ja/apps
 https://beta.flathub.org/ja/apps/category/Game
 https://beta.flathub.org/ja/apps/category/Network
@@ -376,7 +393,8 @@ https://beta.flathub.org/ja/feeds
 https://beta.flathub.org/ja/languages
 https://beta.flathub.org/ja/privacy-policy
 https://beta.flathub.org/ja/statistics
-https://beta.flathub.org/ja/terms-and-conditionshttps://beta.flathub.org/cs/about
+https://beta.flathub.org/ja/terms-and-conditions
+https://beta.flathub.org/cs/about
 https://beta.flathub.org/cs/apps
 https://beta.flathub.org/cs/apps/category/Game
 https://beta.flathub.org/cs/apps/category/Network
@@ -397,7 +415,8 @@ https://beta.flathub.org/cs/feeds
 https://beta.flathub.org/cs/languages
 https://beta.flathub.org/cs/privacy-policy
 https://beta.flathub.org/cs/statistics
-https://beta.flathub.org/cs/terms-and-conditionshttps://beta.flathub.org/zh_Hans/about
+https://beta.flathub.org/cs/terms-and-conditions
+https://beta.flathub.org/zh_Hans/about
 https://beta.flathub.org/zh_Hans/apps
 https://beta.flathub.org/zh_Hans/apps/category/Game
 https://beta.flathub.org/zh_Hans/apps/category/Network
@@ -418,7 +437,8 @@ https://beta.flathub.org/zh_Hans/feeds
 https://beta.flathub.org/zh_Hans/languages
 https://beta.flathub.org/zh_Hans/privacy-policy
 https://beta.flathub.org/zh_Hans/statistics
-https://beta.flathub.org/zh_Hans/terms-and-conditionshttps://beta.flathub.org/bg/about
+https://beta.flathub.org/zh_Hans/terms-and-conditions
+https://beta.flathub.org/bg/about
 https://beta.flathub.org/bg/apps
 https://beta.flathub.org/bg/apps/category/Game
 https://beta.flathub.org/bg/apps/category/Network
@@ -439,7 +459,8 @@ https://beta.flathub.org/bg/feeds
 https://beta.flathub.org/bg/languages
 https://beta.flathub.org/bg/privacy-policy
 https://beta.flathub.org/bg/statistics
-https://beta.flathub.org/bg/terms-and-conditionshttps://beta.flathub.org/uk/about
+https://beta.flathub.org/bg/terms-and-conditions
+https://beta.flathub.org/uk/about
 https://beta.flathub.org/uk/apps
 https://beta.flathub.org/uk/apps/category/Game
 https://beta.flathub.org/uk/apps/category/Network
@@ -460,7 +481,8 @@ https://beta.flathub.org/uk/feeds
 https://beta.flathub.org/uk/languages
 https://beta.flathub.org/uk/privacy-policy
 https://beta.flathub.org/uk/statistics
-https://beta.flathub.org/uk/terms-and-conditionshttps://beta.flathub.org/et/about
+https://beta.flathub.org/uk/terms-and-conditions
+https://beta.flathub.org/et/about
 https://beta.flathub.org/et/apps
 https://beta.flathub.org/et/apps/category/Game
 https://beta.flathub.org/et/apps/category/Network
@@ -481,7 +503,8 @@ https://beta.flathub.org/et/feeds
 https://beta.flathub.org/et/languages
 https://beta.flathub.org/et/privacy-policy
 https://beta.flathub.org/et/statistics
-https://beta.flathub.org/et/terms-and-conditionshttps://beta.flathub.org/ca/about
+https://beta.flathub.org/et/terms-and-conditions
+https://beta.flathub.org/ca/about
 https://beta.flathub.org/ca/apps
 https://beta.flathub.org/ca/apps/category/Game
 https://beta.flathub.org/ca/apps/category/Network
@@ -502,7 +525,8 @@ https://beta.flathub.org/ca/feeds
 https://beta.flathub.org/ca/languages
 https://beta.flathub.org/ca/privacy-policy
 https://beta.flathub.org/ca/statistics
-https://beta.flathub.org/ca/terms-and-conditionshttps://beta.flathub.org/el/about
+https://beta.flathub.org/ca/terms-and-conditions
+https://beta.flathub.org/el/about
 https://beta.flathub.org/el/apps
 https://beta.flathub.org/el/apps/category/Game
 https://beta.flathub.org/el/apps/category/Network
@@ -524,6 +548,7 @@ https://beta.flathub.org/el/languages
 https://beta.flathub.org/el/privacy-policy
 https://beta.flathub.org/el/statistics
 https://beta.flathub.org/el/terms-and-conditions
+https://beta.flathub.org/ta/about
 https://beta.flathub.org/ta/apps
 https://beta.flathub.org/ta/apps/category/Game
 https://beta.flathub.org/ta/apps/category/Network
