@@ -138,6 +138,14 @@ const Footer = () => {
             </Link>
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+              href="https://status.flathub.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("status")}
+            </a>
+            <a
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
               href="https://github.com/flathub/website"
               target="_blank"
               rel="noreferrer"
