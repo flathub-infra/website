@@ -249,5 +249,7 @@
   "token-redeem-placeholder": "Enter an ownership token",
   "open-menu": "Open Menu",
   "open-user-menu": "Open User Menu",
-  "your-profile": "Your Profile"
+  "your-profile": "Your Profile",
+  "show-more":"Show More",
+  "show-less":"Show Less"
 }
