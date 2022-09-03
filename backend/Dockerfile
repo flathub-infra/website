@@ -5,13 +5,13 @@ RUN apt-get update && \
         build-essential libcairo2-dev libgirepository1.0-dev \
         gir1.2-ostree-1.0 flatpak
 
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | /usr/local/bin/python - && \
+RUN curl -sSL https://install.python-poetry.org | /usr/local/bin/python - && \
     python -m venv /venv && \
     /venv/bin/python -m pip install -U pip
 
 COPY pyproject.toml poetry.lock /
 
-RUN $HOME/.poetry/bin/poetry export -o requirements.txt && \
+RUN $HOME/.local/bin/poetry export -o requirements.txt && \
     /venv/bin/pip install -r requirements.txt
 
 FROM python:3.10-slim
