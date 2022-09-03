@@ -1,6 +1,14 @@
 import { AppHeader } from "./AppHeader"
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
-import { FunctionComponent, useCallback, useMemo, useState } from "react"
+import {
+  FunctionComponent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
+import React from "react"
 import { Carousel } from "react-responsive-carousel"
 import { Appstream, pickScreenshot } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
@@ -18,14 +26,14 @@ import AppStatistics from "./AppStats"
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import Lightbox from "react-image-lightbox"
 import ApplicationSection from "./ApplicationSection"
-import LogoImage from "../LogoImage"
 import { calculateHumanReadableSize } from "../../size"
 import { useUserContext } from "../../context/user-info"
-import Link from "next/link"
 
 import "react-image-lightbox/style.css" // This only needs to be imported once in your app
 import { useAsync } from "../../hooks/useAsync"
 import { getAppVendingSetup } from "../../asyncs/vending"
+
+import useCollapse from "react-collapsed"
 
 interface Props {
   app?: Appstream
@@ -79,7 +87,15 @@ const Details: FunctionComponent<Props> = ({
   const user = useUserContext()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
-
+  const collapsedHeight = 172
+  const ref = useRef(null)
+  const [scrollHeight, setScrollHeight] = useState(0)
+  useEffect(() => {
+    setScrollHeight(ref.current.scrollHeight)
+  }, [ref])
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
+    collapsedHeight: collapsedHeight,
+  })
   const { trackEvent } = useMatomo()
 
   const installClicked = (e) => {
@@ -213,11 +229,33 @@ const Details: FunctionComponent<Props> = ({
         <div className="col-start-2 flex flex-col gap-6">
           <div>
             <h3 className="text-xl">{app.summary}</h3>
-            <div
-              className={`prose dark:prose-invert xl:max-w-[75%]`}
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
+            {scrollHeight > collapsedHeight && (
+              <div
+                {...getCollapseProps()}
+                className={`prose dark:prose-invert xl:max-w-[75%]`}
+                ref={ref}
+                dangerouslySetInnerHTML={{
+                  __html: description,
+                }}
+              />
+            )}
+            {scrollHeight <= collapsedHeight && (
+              <div
+                className={`prose dark:prose-invert xl:max-w-[75%]`}
+                ref={ref}
+                dangerouslySetInnerHTML={{
+                  __html: description,
+                }}
+              />
+            )}
           </div>
+          {scrollHeight > collapsedHeight && (
+            <button {...getToggleProps()}>
+              <span className="m-0 w-full rounded-xl bg-bgColorSecondary py-2 px-6 font-semibold shadow-md hover:cursor-pointer hover:bg-colorHighlight">
+                {isExpanded ? t(`show-less`) : t(`show-more`)}
+              </span>
+            </button>
+          )}
 
           {stableReleases && stableReleases.length > 0 && (
             <Releases latestRelease={stableReleases[0]}></Releases>
