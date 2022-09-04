@@ -34,7 +34,10 @@ const PaymentForm: FunctionComponent<Props> = ({
   const [processing, setProcessing] = useState(false)
 
   return (
-    <form className="flex flex-col gap-3 p-5" onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col gap-3 p-5 text-textPrimary"
+      onSubmit={handleSubmit}
+    >
       <PaymentElement />
       {processing ? (
         <Spinner size="s" />
