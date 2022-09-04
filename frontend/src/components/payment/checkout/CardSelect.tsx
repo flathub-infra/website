@@ -19,6 +19,7 @@ interface Props {
   error: string
   submit: () => void
   skip: () => void
+  transactionCancelButton: ReactElement
 }
 
 const CardSelect: FunctionComponent<Props> = ({
@@ -28,6 +29,7 @@ const CardSelect: FunctionComponent<Props> = ({
   error,
   submit,
   skip,
+  transactionCancelButton,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
@@ -100,10 +102,13 @@ const CardSelect: FunctionComponent<Props> = ({
       <h3>{t("saved-cards")}</h3>
       {cardSection}
       <div className="flex gap-3">
-        <Button onClick={skip}>{t("use-new-card")}</Button>
-        <Button onClick={() => setConfirmed(true)} disabled={!useCard}>
-          {t("confirm-selection")}
-        </Button>
+        {transactionCancelButton}
+        <div className="ml-auto flex gap-3">
+          <Button onClick={skip}>{t("use-new-card")}</Button>
+          <Button onClick={() => setConfirmed(true)} disabled={!useCard}>
+            {t("confirm-selection")}
+          </Button>
+        </div>
       </div>
     </div>
   )

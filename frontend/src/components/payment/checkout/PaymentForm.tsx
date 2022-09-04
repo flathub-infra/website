@@ -1,6 +1,6 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
-import { FormEvent, FunctionComponent, useState } from "react"
+import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
 import { toast } from "react-toastify"
 import {
   setTransactionPending,
@@ -15,6 +15,7 @@ interface Props {
   callbackPage: string
   canGoBack: boolean
   goBack: () => void
+  transactionCancelButton: ReactElement
 }
 
 const PaymentForm: FunctionComponent<Props> = ({
@@ -22,6 +23,7 @@ const PaymentForm: FunctionComponent<Props> = ({
   callbackPage,
   canGoBack,
   goBack,
+  transactionCancelButton,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
@@ -38,20 +40,31 @@ const PaymentForm: FunctionComponent<Props> = ({
         <Spinner size="s" />
       ) : (
         <>
-          <div>
-            <input
-              id="save-card"
-              type="checkbox"
-              checked={checked}
-              onChange={() => setChecked(!checked)}
-            />
-            <label htmlFor="save-card">{t("save-card-for-reuse")}</label>
+          <div className="relative flex items-start">
+            <div className="flex h-5 items-center">
+              <input
+                id="save-card"
+                type="checkbox"
+                aria-describedby="card-description"
+                className="h-4 w-4"
+                checked={checked}
+                onChange={() => setChecked(!checked)}
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label htmlFor="save-card" className="font-medium text-gray-700">
+                {t("save-card-for-reuse")}
+              </label>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <Button type="button" onClick={goBack} disabled={!canGoBack}>
-              {t("use-saved-card")}
-            </Button>
-            <Button>{t("submit-payment")}</Button>
+          <div className="flex">
+            {transactionCancelButton}
+            <div className="ml-auto flex gap-3">
+              <Button type="button" onClick={goBack} disabled={!canGoBack}>
+                {t("use-saved-card")}
+              </Button>
+              <Button>{t("submit-payment")}</Button>
+            </div>
           </div>
         </>
       )}
