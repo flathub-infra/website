@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
+import Breadcrumbs from "src/components/Breadcrumbs"
 
 import Collection from "../../../src/components/application/Collection"
 import { fetchCategory } from "../../../src/fetchers"
@@ -15,10 +16,25 @@ const ApplicationCategory = ({ applications }) => {
   const category = router.query.category as Category
   let title = categoryToName(category, t)
 
+  const pages = [
+    {
+      name: t("categories"),
+      href: "/apps",
+      current: false,
+    },
+    {
+      name: title,
+      href: `/apps/category/${category}`,
+      current: true,
+    },
+  ]
+
   return (
     <>
       <NextSeo title={title} />
-      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <Breadcrumbs pages={pages} />
+
         <Collection title={title} applications={applications} />
       </div>
     </>
