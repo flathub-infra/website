@@ -74,6 +74,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
         type="text"
         inputMode="numeric"
         pattern="\d*(\.\d{0,2})?"
+        maxLength={8}
         value={userInput}
         onChange={handleChange}
         onBlur={handleBlur}
