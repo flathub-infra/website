@@ -40,9 +40,9 @@ const SavedCards: FunctionComponent = () => {
     content = <p>{error ? t(error) : t("no-saved-payment-methods")}</p>
   } else {
     content = (
-      <div className="flex flex-row gap-5 p-5">
+      <div className="flex flex-col gap-5 md:flex-row">
         {cards.map((card) => (
-          <div key={card.id} className="flex flex-col items-center">
+          <div key={card.id} className="flex flex-col items-center gap-2">
             <CardInfo card={card} />
             <DeleteCardButton card={card} onSuccess={removeCard} />
           </div>
