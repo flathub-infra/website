@@ -68,7 +68,11 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         {presets}
 
         <div>
-          <Currency.Input inputValue={amount} setValue={setAmount} />
+          <Currency.Input
+            inputValue={amount}
+            setValue={setAmount}
+            maximum={STRIPE_MAX_PAYMENT}
+          />
           <Currency.MinMaxError
             value={amount}
             minimum={FLATHUB_MIN_PAYMENT}

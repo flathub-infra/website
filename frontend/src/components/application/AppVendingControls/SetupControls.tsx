@@ -165,6 +165,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             inputValue={recommendedDonation}
             setValue={setRecommendedDonation}
             disabled={!vendingEnabled}
+            maximum={STRIPE_MAX_PAYMENT}
           />
           <Currency.MinMaxError
             value={recommendedDonation}
@@ -203,6 +204,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             inputValue={minPayment}
             setValue={setMinPayment}
             disabled={!vendingEnabled || !requirePayment}
+            maximum={STRIPE_MAX_PAYMENT}
           />
           <Currency.MinMaxError
             value={minPayment}
