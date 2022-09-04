@@ -146,7 +146,11 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           isDonationOnly ? "select-donation-amount" : "select-purchase-amount",
         )}
       </h4>
-      <Currency.Input inputValue={amount} setValue={setAmount} />
+      <Currency.Input
+        inputValue={amount}
+        setValue={setAmount}
+        maximum={STRIPE_MAX_PAYMENT}
+      />
       <Currency.MinMaxError
         value={amount}
         minimum={Math.max(

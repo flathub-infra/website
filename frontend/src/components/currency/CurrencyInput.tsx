@@ -13,6 +13,7 @@ import { NumericInputValue } from "../../types/Input"
 type Props = {
   inputValue: NumericInputValue
   setValue: React.Dispatch<React.SetStateAction<NumericInputValue>>
+  maximum: number
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
 /**
@@ -26,7 +27,7 @@ type Props = {
 const CurrencyInput: FunctionComponent<Props> = forwardRef<
   HTMLInputElement,
   Props
->(({ inputValue, setValue, ...inputProps }, ref) => {
+>(({ inputValue, setValue, maximum, ...inputProps }, ref) => {
   // String state used to allow temporary invalid numeric states (e.g. entering leading decimal)
   const [userInput, setUserInput] = useState(inputValue.live.toFixed(2))
 
@@ -74,7 +75,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
         type="text"
         inputMode="numeric"
         pattern="\d*(\.\d{0,2})?"
-        maxLength={8}
+        maxLength={maximum.toString().length}
         value={userInput}
         onChange={handleChange}
         onBlur={handleBlur}
