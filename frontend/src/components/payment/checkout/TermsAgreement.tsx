@@ -31,7 +31,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
           />
         </div>
         <div className="ml-3 text-sm">
-          <label htmlFor="save-card" className="font-medium text-gray-700">
+          <label htmlFor="save-card" className="font-medium">
             {t("purchase-terms-confirmation")}
           </label>
         </div>
