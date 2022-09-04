@@ -1,12 +1,16 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useState } from "react"
+import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import Button from "../../Button"
 
 interface Props {
   onConfirm: () => void
+  transactionCancelButton: ReactElement
 }
 
-const TermsAgreement: FunctionComponent<Props> = ({ onConfirm }) => {
+const TermsAgreement: FunctionComponent<Props> = ({
+  onConfirm,
+  transactionCancelButton,
+}) => {
   const { t } = useTranslation()
 
   const [checked, setChecked] = useState(false)
@@ -15,17 +19,26 @@ const TermsAgreement: FunctionComponent<Props> = ({ onConfirm }) => {
 
   return (
     <div className="flex flex-col gap-5 p-5">
-      <div>
-        <input
-          id="save-card"
-          type="checkbox"
-          checked={checked}
-          onChange={invertCheck}
-        />
-        <label>{t("purchase-terms-confirmation")}</label>
+      <div className="relative flex items-start">
+        <div className="flex h-5 items-center">
+          <input
+            id="save-card"
+            type="checkbox"
+            checked={checked}
+            onChange={invertCheck}
+            aria-describedby="card-description"
+            className="h-4 w-4"
+          />
+        </div>
+        <div className="ml-3 text-sm">
+          <label htmlFor="save-card" className="font-medium text-gray-700">
+            {t("purchase-terms-confirmation")}
+          </label>
+        </div>
       </div>
-      <div>
-        <Button disabled={!checked} onClick={onConfirm}>
+      <div className="flex">
+        {transactionCancelButton}
+        <Button className="ml-auto" disabled={!checked} onClick={onConfirm}>
           {t("continue")}
         </Button>
       </div>

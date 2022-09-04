@@ -58,10 +58,22 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     }
   }, [status, cards, termsAgreed])
 
+  const transactionCancelButton = (
+    <TransactionCancelButton
+      id={transactionId}
+      onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
+    />
+  )
+
   let flowContent: ReactElement
   switch (currentStage) {
     case Stage.TermsAgreement:
-      flowContent = <TermsAgreement onConfirm={() => setTermsAgreed(true)} />
+      flowContent = (
+        <TermsAgreement
+          onConfirm={() => setTermsAgreed(true)}
+          transactionCancelButton={transactionCancelButton}
+        />
+      )
       break
     case Stage.CardSelect:
       flowContent = (
@@ -72,6 +84,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           error={error}
           submit={() => router.push(`${detailsPage}/${transactionId}`)}
           skip={() => setStage(Stage.CardInput)}
+          transactionCancelButton={transactionCancelButton}
         />
       )
       break
@@ -82,6 +95,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           callbackPage={`${detailsPage}/${transactionId}`}
           canGoBack={cards.length > 0}
           goBack={() => setStage(Stage.CardSelect)}
+          transactionCancelButton={transactionCancelButton}
         />
       )
       break
@@ -92,15 +106,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
 
   return (
     <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="flex flex-col gap-5">
-        {flowContent}
-        <div className="actions">
-          <TransactionCancelButton
-            id={transactionId}
-            onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
-          />
-        </div>
-      </div>
+      <div className="flex flex-col gap-5">{flowContent}</div>
     </div>
   )
 }
