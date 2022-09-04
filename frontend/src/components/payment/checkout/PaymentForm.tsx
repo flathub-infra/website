@@ -35,7 +35,7 @@ const PaymentForm: FunctionComponent<Props> = ({
 
   return (
     <form
-      className="flex flex-col gap-3 p-5 text-textPrimary"
+      className="flex flex-col gap-4 p-5 text-textPrimary"
       onSubmit={handleSubmit}
     >
       <PaymentElement />
@@ -60,14 +60,17 @@ const PaymentForm: FunctionComponent<Props> = ({
               </label>
             </div>
           </div>
-          <div className="flex">
+          <div className="flex flex-col-reverse gap-4 sm:flex-row">
             {transactionCancelButton}
-            <div className="ml-auto flex gap-3">
-              <Button type="button" onClick={goBack} disabled={!canGoBack}>
-                {t("use-saved-card")}
-              </Button>
-              <Button>{t("submit-payment")}</Button>
-            </div>
+            <Button
+              className="ml-auto w-full sm:w-auto"
+              type="button"
+              onClick={goBack}
+              disabled={!canGoBack}
+            >
+              {t("use-saved-card")}
+            </Button>
+            <Button className="w-full sm:w-auto">{t("submit-payment")}</Button>
           </div>
         </>
       )}
