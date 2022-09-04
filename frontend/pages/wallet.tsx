@@ -3,7 +3,6 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
-import RelatedLink from "../src/components/RelatedLink"
 import SavedCards from "../src/components/payment/cards/SavedCards"
 import TransactionHistory from "../src/components/payment/transactions/TransactionHistory"
 
@@ -16,7 +15,7 @@ export default function Wallet() {
     <>
       <NextSeo title={t("user-wallet")} noindex={true} />
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <RelatedLink href="/userpage" pageTitle={t("user-page")} />
+        <h2>{t("user-wallet")}</h2>
         <LoginGuard>
           <SavedCards />
           <TransactionHistory />
