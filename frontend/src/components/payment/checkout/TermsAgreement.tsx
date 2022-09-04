@@ -36,9 +36,13 @@ const TermsAgreement: FunctionComponent<Props> = ({
           </label>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
-        <Button className="ml-auto" disabled={!checked} onClick={onConfirm}>
+        <Button
+          className="ml-auto w-full sm:w-auto"
+          disabled={!checked}
+          onClick={onConfirm}
+        >
           {t("continue")}
         </Button>
       </div>

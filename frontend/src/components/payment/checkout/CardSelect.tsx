@@ -101,14 +101,18 @@ const CardSelect: FunctionComponent<Props> = ({
     <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <h3>{t("saved-cards")}</h3>
       {cardSection}
-      <div className="flex gap-3">
+      <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
-        <div className="ml-auto flex gap-3">
-          <Button onClick={skip}>{t("use-new-card")}</Button>
-          <Button onClick={() => setConfirmed(true)} disabled={!useCard}>
-            {t("confirm-selection")}
-          </Button>
-        </div>
+        <Button className="ml-auto w-full sm:w-auto" onClick={skip}>
+          {t("use-new-card")}
+        </Button>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={() => setConfirmed(true)}
+          disabled={!useCard}
+        >
+          {t("confirm-selection")}
+        </Button>
       </div>
     </div>
   )

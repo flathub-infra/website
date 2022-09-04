@@ -61,6 +61,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   const transactionCancelButton = (
     <TransactionCancelButton
       id={transactionId}
+      className="w-full sm:w-auto"
       onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
     />
   )
