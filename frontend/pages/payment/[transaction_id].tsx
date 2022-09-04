@@ -1,5 +1,5 @@
 import { Elements } from "@stripe/react-stripe-js"
-import { loadStripe, Stripe } from "@stripe/stripe-js"
+import { loadStripe, Stripe, StripeElementsOptions } from "@stripe/stripe-js"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
@@ -17,6 +17,7 @@ import {
   TRANSACTION_STRIPE_INFO_URL,
 } from "../../src/env"
 import { TransactionDetailed } from "../../src/types/Payment"
+import { useTheme } from "next-themes"
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
 let stripePromise: Promise<Stripe>
@@ -113,6 +114,8 @@ export default function TransactionPage() {
       .catch(setError)
   }, [router, user])
 
+  const { resolvedTheme } = useTheme()
+
   let content: ReactElement
   if (error) {
     content = (
@@ -122,7 +125,10 @@ export default function TransactionPage() {
       </>
     )
   } else if (secret) {
-    const options = { clientSecret: secret }
+    const options: StripeElementsOptions = {
+      clientSecret: secret,
+      appearance: { theme: resolvedTheme === "dark" ? "night" : "stripe" },
+    }
 
     content = (
       <Elements stripe={stripe} options={options}>
