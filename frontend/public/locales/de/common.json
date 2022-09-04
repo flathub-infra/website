@@ -150,7 +150,7 @@
   "thank-you-for-your-purchase": "Danke für deinen Einkauf!",
   "safe-to-close-page": "Du kannst diese Seite jetzt schließen.",
   "app-install-error-try-again": "App konnte nicht installiert werden. Gehe zurück zum App-Store und versuche es erneut.",
-  "expiry": "Läuft ab am:",
+  "expiry": "Gültig bis",
   "remove-saved-card": "Gespeicherte Karte entfernen",
   "retry-checkout": "Erneut zur Kasse gehen",
   "status-pending": "In Bearbeitung",
@@ -183,7 +183,6 @@
   "next-page": "Nächste Seite",
   "stripe-declined-insufficient_funds": "Die Karte ist nicht ausreichend gedeckt.",
   "previous-page": "Vorige Seite",
-  "go-to-page": "Gehe zu {{page}}",
   "vcs_browser": "Den Quelltext der App ansehen",
   "contribute": "Zu der App beitragen",
   "transaction-summary-updated": "Letzte Aktualisierung: {{date}}",
@@ -249,5 +248,7 @@
   "token-redeem-placeholder": "Gebe einen Besitz-Token ein",
   "open-menu": "Menü öffnen",
   "open-user-menu": "Benutzermenü öffnen",
-  "your-profile": "Ihr Profil"
+  "your-profile": "Ihr Profil",
+  "show-less": "Weniger",
+  "show-more": "Mehr"
 }
