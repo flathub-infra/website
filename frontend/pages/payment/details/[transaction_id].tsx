@@ -6,7 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
 import Button from "../../../src/components/Button"
-import RelatedLink from "../../../src/components/RelatedLink"
+import Breadcrumbs from "../../../src/components/Breadcrumbs"
 import TransactionCancelButton from "../../../src/components/payment/transactions/TransactionCancelButton"
 import TransactionDetails from "../../../src/components/payment/transactions/TransactionDetails"
 import Spinner from "../../../src/components/Spinner"
@@ -84,12 +84,25 @@ export default function TransactionPage() {
     }
   }
 
+  const pages = [
+    {
+      href: "/wallet",
+      name: t("user-wallet"),
+      current: false,
+    },
+    {
+      href: `/payment/details/${router.query.transaction_id}`,
+      name: t("payment-summary"),
+      current: true,
+    },
+  ]
+
   return (
     <>
       <NextSeo title={t("payment-summary")} noindex={true}></NextSeo>
-      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 my-0 mx-auto w-11/12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
-          <RelatedLink href="/wallet" pageTitle={t("user-wallet")} />
+          <Breadcrumbs pages={pages} />
           {content}
         </LoginGuard>
       </div>
