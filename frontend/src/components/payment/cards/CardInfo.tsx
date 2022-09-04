@@ -22,7 +22,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   const { resolvedTheme } = useTheme()
 
   const classes = [
-    "grid grid-cols-3 grid-rows-3 shadow-md min-w-[200px] p-4 rounded-xl bg-bgColorSecondary",
+    "grid grid-cols-3 grid-rows-3 shadow-md w-[250px] min-w-[200px] p-4 rounded-xl bg-bgColorSecondary max-w-[300px]",
   ]
   if (onClick) {
     classes.push("hover:cursor-pointer")
@@ -32,23 +32,55 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   }
 
   return (
-    <p className={classes.join(" ")} onClick={onClick}>
-      <span className="col-start-1 row-start-1">
-        <ReactCountryFlag countryCode={card.country} />
+    <div className={classes.join(" ")} onClick={onClick}>
+      <span className="col-span-3 row-start-1 flex">
+        <div className="ml-auto">
+          <ReactCountryFlag countryCode={card.country} />
+        </div>
       </span>
-      <span className="col-start-3 row-start-1 flex justify-center justify-self-end">
-        <Image
-          src={getBrandImage(card.brand, resolvedTheme)}
-          width={30}
-          height={24}
-          alt=""
-        />
+      <span className="col-span-3 row-start-2 flex items-center justify-between font-bold">
+        <div className="flex flex-row">
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+        </div>
+        <div className="flex flex-row">
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+        </div>
+        <div className="flex flex-row">
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+          <span>*</span>
+        </div>
+        <div className="flex flex-row">
+          <span>{card.last4[0]}</span>
+          <span>{card.last4[1]}</span>
+          <span>{card.last4[2]}</span>
+          <span>{card.last4[3]}</span>
+        </div>
       </span>
-      <span className="col-span-3 row-start-2">{`**** **** **** ${card.last4}`}</span>
-      <span className="col-span-3 row-start-3">
-        {t("expiry")} {card.exp_month} / {card.exp_year}
+      <span className="col-span-3 row-start-3 flex">
+        <div className="flex flex-col font-bold ">
+          <div className="text-gray-400 dark:text-gray-500">{t("expiry")}</div>
+          <div className="text-textPrimary">
+            {card.exp_month} / {card.exp_year}
+          </div>
+        </div>
+        <div className="ml-auto flex flex-col justify-end font-bold">
+          <Image
+            src={getBrandImage(card.brand, resolvedTheme)}
+            width={54}
+            height={48}
+            alt={card.brand}
+          />
+        </div>
       </span>
-    </p>
+    </div>
   )
 }
 
