@@ -1,6 +1,7 @@
 import configparser
 import json
 import struct
+import subprocess
 from collections import defaultdict
 
 import gi
@@ -141,17 +142,26 @@ def update():
         if "extra-data" in summary_dict[appid]["metadata"]:
             summary_dict[appid]["installed_size"] += download_size
 
-    for ref in xa_cache.keys():
-        if not validate_ref(ref, enforce_arch=False):
-            continue
+    # THe main summary file contains only x86_64 refs due to ostree file size
+    # limitations. Since 2020, aarch64 is the only additional arch supported,
+    # so we need to enrich the data by parsing the output of "flatpak
+    # remote-ls", as ostree itself does not expose "sub-sumarries".
+    command = [
+        "flatpak",
+        "remote-ls",
+        "--user",
+        "--arch=aarch64",
+        "--columns=ref",
+        "flathub",
+    ]
+    aarch64_refs_ret = subprocess.run(command, capture_output=True, text=True)
+    if aarch64_refs_ret.returncode == 0:
+        for ref in aarch64_refs_ret.stdout.splitlines():
+            if not validate_ref(ref, enforce_arch=False):
+                continue
 
         appid = ref.split("/")[1]
         arch = ref.split("/")[2]
-
-        # Flathub still distributes old i386 and armhf builds but they are
-        # no longer maintained, so don't show them on the website
-        if arch not in ("x86_64", "aarch64"):
-            continue
 
         summary_dict[appid]["arches"].append(arch)
 
