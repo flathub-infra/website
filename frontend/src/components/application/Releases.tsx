@@ -84,7 +84,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`prose relative dark:prose-invert ${
+                className={`prose relative transition-[height] transition-all duration-700 dark:prose-invert ${
                   !isExpanded && scrollHeight > collapsedHeight
                     ? "from-transparent to-bgColorSecondary before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
                     : ""
@@ -97,7 +97,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
             </div>
             {scrollHeight > collapsedHeight && (
               <button
-                className="w-full rounded-tl-none rounded-tr-none rounded-bl-xl rounded-br-xl border-t py-3 px-0 font-semibold hover:cursor-pointer hover:bg-colorHighlight dark:border-zinc-600"
+                className="w-full rounded-tl-none rounded-tr-none rounded-bl-xl rounded-br-xl border-t py-3 px-0 font-semibold transition hover:cursor-pointer hover:bg-colorHighlight dark:border-zinc-600"
                 {...getToggleProps()}
               >
                 {isExpanded ? (
