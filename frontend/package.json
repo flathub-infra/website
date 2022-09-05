@@ -50,7 +50,7 @@
     "@storybook/manager-webpack5": "^6.5.10",
     "@storybook/react": "^6.5.10",
     "@storybook/testing-library": "^0.0.13",
-    "@tailwindcss/typography": "^0.5.4",
+    "@tailwindcss/typography": "^0.5.7",
     "@types/node": "^18.7.15",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.8",
