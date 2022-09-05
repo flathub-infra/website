@@ -148,6 +148,16 @@ def get_developer(
     return [app for app in result if app]
 
 
+@app.get("/eol/rebase")
+def get_eol_rebase():
+    return db.get_json_key(f"eol:rebase")
+
+
+@app.get("/eol/oldid")
+def get_eol_rebase():
+    return db.get_json_key(f"eol:oldid")
+
+
 @app.get("/projectgroup")
 def get_project_groups():
     return db.get_project_groups()
