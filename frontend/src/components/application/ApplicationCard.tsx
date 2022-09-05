@@ -5,12 +5,20 @@ import LogoImage from "../LogoImage"
 import { AppstreamListItem } from "../../types/Appstream"
 
 interface Props {
-  application: AppstreamListItem
+  application: Partial<AppstreamListItem>
+}
+
+function appLink(application: Partial<AppstreamListItem>) {
+  /* If the app doesn't have appstream metadata (e.g. "name"), go straight
+  to the developer page, because the store page doesn't exist yet */
+  return "name" in application
+    ? `/apps/details/${application.id}`
+    : `/apps/manage/${application.id}`
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
   <Link
-    href={`/apps/details/${application.id}`}
+    href={appLink(application)}
     passHref
     className="flex min-w-0 flex-col rounded-xl bg-bgColorSecondary shadow-md duration-500 hover:cursor-pointer hover:no-underline hover:shadow-xl hover:brightness-95 active:bg-bgColorPrimary"
   >

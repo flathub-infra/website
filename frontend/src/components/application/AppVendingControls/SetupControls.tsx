@@ -22,7 +22,8 @@ import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 
 interface Props {
-  app: Appstream
+  appId: string
+  app?: Appstream
   vendingConfig: VendingConfig
 }
 
@@ -30,7 +31,11 @@ interface Props {
  * The control elements to see and alter the vending price and split for an application.
  * It is assumed that parent will check whether to render these to the logged in user.
  */
-const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
+const SetupControls: FunctionComponent<Props> = ({
+  appId,
+  app,
+  vendingConfig,
+}) => {
   const { t } = useTranslation()
 
   const [vendingEnabled, setVendingEnabled] = useState(false)
@@ -41,7 +46,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     status,
     value: vendingSetup,
     error,
-  } = useAsync(useCallback(() => getAppVendingSetup(app.id), [app.id]))
+  } = useAsync(useCallback(() => getAppVendingSetup(appId), [appId]))
 
   // State shared by controls lifted to this parent for final submission
   const [appShare, setAppShare] = useState(50)
@@ -89,7 +94,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   } = useAsync(
     useCallback(
       () =>
-        setAppVendingSetup(app.id, {
+        setAppVendingSetup(appId, {
           currency: "usd",
           appshare: appShare,
           minimum_payment:
@@ -99,7 +104,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             : 0,
         }),
       [
-        app.id,
+        appId,
         appShare,
         minPayment,
         recommendedDonation,
@@ -188,6 +193,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <div>
             <VendingSharesPreview
               price={recommendedDonation.live * 100}
+              appId={appId}
               app={app}
               appShare={appShare}
               vendingConfig={vendingConfig}
@@ -216,6 +222,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           <div>
             <VendingSharesPreview
               price={minPayment.live * 100}
+              appId={appId}
               app={app}
               appShare={appShare}
               vendingConfig={vendingConfig}

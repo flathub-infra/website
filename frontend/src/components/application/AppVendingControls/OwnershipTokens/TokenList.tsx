@@ -8,19 +8,18 @@ import {
   useState,
 } from "react"
 import { getVendingTokens } from "../../../../asyncs/vending"
-import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 
 interface Props {
-  app: Appstream
+  appId: string
 }
 
 /**
  * The control elements to view and add/cancel ownership tokens for an app.
  */
-const TokenList: FunctionComponent<Props> = ({ app }) => {
+const TokenList: FunctionComponent<Props> = ({ appId }) => {
   const { t } = useTranslation()
 
   const [tokens, setTokens] = useState(null)
@@ -31,18 +30,18 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
 
   const doFetch = useCallback(async () => {
     try {
-      const fetch = await getVendingTokens(app.id)
+      const fetch = await getVendingTokens(appId)
       setTokens(fetch)
       setStatus("success")
     } catch (err) {
       setStatus("error")
       setError(err)
     }
-  }, [app.id])
+  }, [appId])
 
   useEffect(() => {
     doFetch()
-  }, [app.id, doFetch])
+  }, [appId, doFetch])
 
   if (["pending", "idle"].includes(status)) {
     return <Spinner size="m" />
@@ -57,11 +56,11 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
         {tokens.tokens.map((token) => (
           <Disclosure key={token.id}>
             {({ open }) => (
-              <TokenListItem open={open} token={token} appId={app.id} />
+              <TokenListItem open={open} token={token} appId={appId} />
             )}
           </Disclosure>
         ))}
-        <TokenCreateDialog app={app} updateCallback={doFetch} />
+        <TokenCreateDialog appId={appId} updateCallback={doFetch} />
       </div>
     )
   }

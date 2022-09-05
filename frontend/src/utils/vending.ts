@@ -27,15 +27,16 @@ function flathubFee(total: number, vendingConfig: VendingConfig): number {
  * @returns Percentage splits shared between app and its dependencies
  */
 export function computeShares(
-  app: Appstream,
+  appId: string,
+  runtime: string,
   appShare: number,
   vendingConfig: VendingConfig,
 ): VendingShare[] {
   let remaining = 100 - appShare
 
-  const shares: VendingShare[] = [[app.id, appShare]]
+  const shares: VendingShare[] = [[appId, appShare]]
 
-  let platform = app.bundle.runtime
+  let platform = runtime
 
   while (remaining > 0 && platform) {
     if (platform.includes("/")) {
@@ -54,7 +55,7 @@ export function computeShares(
   }
 
   if (remaining != 0) {
-    shares[0] = [app.id, appShare + remaining]
+    shares[0] = [appId, appShare + remaining]
   }
 
   return shares

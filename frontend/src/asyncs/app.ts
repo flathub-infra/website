@@ -40,10 +40,18 @@ export async function generateUpdateToken() {
  * Fetches the appstream data for a set of apps (e.g. the user's).
  * @param appIds array of app identifiers to fetch data for
  */
-export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
+export async function getAppsInfo(
+  appIds: string[],
+): Promise<Partial<Appstream>[]> {
   const responses = await Promise.all(
-    appIds.map((id) => fetch(`${APP_DETAILS(id)}`)),
+    appIds.map(async (id) => ({ id, res: await fetch(`${APP_DETAILS(id)}`) })),
   )
 
-  return Promise.all(responses.map((res) => res.json() as Promise<Appstream>))
+  /* If an app doesn't have appstream data yet, just return the ID. */
+  return Promise.all(
+    responses.map(
+      async ({ id, res }) =>
+        ((await res.json()) as Promise<Appstream>) ?? { id },
+    ),
+  )
 }

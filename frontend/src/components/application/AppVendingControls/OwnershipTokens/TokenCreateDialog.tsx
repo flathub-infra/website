@@ -2,11 +2,10 @@ import { Dialog, Transition } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { Fragment, FunctionComponent, useCallback, useState } from "react"
 import { createVendingTokens } from "../../../../asyncs/vending"
-import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
 
 interface Props {
-  app: Appstream
+  appId: string
   updateCallback: CallableFunction
 }
 
@@ -14,7 +13,7 @@ interface Props {
  * The button to open a model dialog where application ownership tokens can be generated.
  */
 const TokenCreateDialog: FunctionComponent<Props> = ({
-  app,
+  appId,
   updateCallback,
 }) => {
   const { t } = useTranslation()
@@ -30,11 +29,11 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     const names = text.split(/\s*\n\s*/).filter((name) => name !== "")
 
     if (names.length > 0) {
-      await createVendingTokens(app.id, names)
+      await createVendingTokens(appId, names)
       updateCallback()
       setText("")
     }
-  }, [app.id, text, updateCallback])
+  }, [appId, text, updateCallback])
 
   return (
     <>

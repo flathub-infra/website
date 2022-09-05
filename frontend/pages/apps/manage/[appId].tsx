@@ -11,26 +11,31 @@ import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
 
 export default function AppManagementPage({
+  appId,
   app,
   vendingConfig,
 }: {
-  app: Appstream
+  appId: string
+  app?: Appstream
   vendingConfig: VendingConfig
 }) {
   const { t } = useTranslation()
   const user = useUserContext()
 
+  const appname = app?.name ?? appId
+
   // User must be a developer of the app to see these controls
   let content: ReactElement
-  if (user.info?.["dev-flatpaks"].includes(app.id)) {
+  if (user.info?.["dev-flatpaks"].includes(appId)) {
     content = (
       <>
-        <h2>{t("developer-settings-title", { appname: app.name })}</h2>
+        <h2>{t("developer-settings-title", { appname })}</h2>
         <AppVendingControls.SetupControls
+          appId={appId}
           app={app}
           vendingConfig={vendingConfig}
         />
-        <AppVendingControls.OwnershipTokens app={app} />
+        <AppVendingControls.OwnershipTokens appId={appId} />
       </>
     )
   } else {
@@ -47,7 +52,7 @@ export default function AppManagementPage({
 
   return (
     <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t("developer-settings-title", { appname: app.name })} />
+      <NextSeo title={t("developer-settings-title", { appname })} />
       <LoginGuard>{content}</LoginGuard>
     </div>
   )
@@ -63,11 +68,11 @@ export const getStaticProps: GetStaticProps = async ({
   ])
 
   return {
-    notFound: !app,
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      appId,
       app,
-      vendingConfig,
+      vendingConfig: vendingConfig ?? null,
     },
     revalidate: 3600,
   }

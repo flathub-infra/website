@@ -18,6 +18,7 @@ from . import (
     exceptions,
     feeds,
     logins,
+    managed_apps,
     purchases,
     schemas,
     search,
@@ -59,6 +60,7 @@ wallet.register_to_app(app)
 vending.register_to_app(app)
 
 verification.register_to_app(app)
+managed_apps.register_to_app(app)
 purchases.register_to_app(app)
 
 compat.register_to_app(app)

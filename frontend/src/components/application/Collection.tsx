@@ -8,7 +8,7 @@ import Pagination from "../Pagination"
 import { useTranslation } from "next-i18next"
 
 interface Props {
-  applications: Appstream[]
+  applications: Partial<Appstream>[]
   perPage?: number
   title: string
 }

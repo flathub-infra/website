@@ -836,11 +836,11 @@ def get_deleteuser(login=Depends(login_state)):
         return Response(status_code=403)
     user = login["user"]
 
-    token = models.FlathubUser.generate_token(db, user)
-    return {
-        "status": "ok",
-        "token": token,
-    }
+    ret = models.FlathubUser.generate_token(db, user)
+    if ret["status"] == "ok":
+        return ret
+    else:
+        return JSONResponse(ret, status_code=400)
 
 
 @router.post("/deleteuser")

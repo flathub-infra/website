@@ -28,7 +28,7 @@ class FlathubUser(Base):
     TABLES_FOR_DELETE = []
 
     @staticmethod
-    def generate_token(db, user) -> str:
+    def generate_token(db, user) -> dict:
         """
         Generate a token which represents this user's state.  This token will be needed
         when attempting to delete the user.
@@ -39,8 +39,10 @@ class FlathubUser(Base):
         hasher.add_string(user.display_name)
         # Delete hash
         for table in user.TABLES_FOR_DELETE:
-            table.delete_hash(hasher, db, user)
-        return hasher.hash()
+            if error := table.delete_hash(hasher, db, user):
+                return error
+
+        return {"status": "ok", "token": hasher.hash()}
 
     @staticmethod
     def delete_user(db, user, token: str) -> dict:
@@ -48,8 +50,8 @@ class FlathubUser(Base):
         Attempt to delete the given user, we expect the user's token to match, otherwise
         we will return an error.
         """
-        current_token = FlathubUser.generate_token(db, user)
-        if token != current_token:
+        current_token = FlathubUser.generate_token(db, user).get("token")
+        if current_token is None or token != current_token:
             return {"status": "error", "error": "token mismatch"}
         for table in user.TABLES_FOR_DELETE:
             table.delete_user(db, user)
@@ -81,6 +83,9 @@ class FlathubUser(Base):
             for repo in GithubRepository.all_by_account(db, gha):
                 if repo.reponame in available_apps:
                     flatpaks.add(repo.reponame)
+
+        flatpaks.update([app.app_id for app in ManagedApp.all_by_user(db, self)])
+
         return flatpaks
 
 
@@ -416,6 +421,68 @@ class UserVerifiedApp(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(UserVerifiedApp)
+
+
+class ManagedApp(Base):
+    __tablename__ = "managedapp"
+
+    app_id = Column(String, primary_key=True, nullable=False)
+    owner = Column(
+        Integer, ForeignKey(FlathubUser.id, ondelete="CASCADE"), nullable=False
+    )
+    created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser):
+        return db.session.query(ManagedApp).filter_by(owner=user.id)
+
+    @staticmethod
+    def by_app_id(db, app_id: str):
+        return db.session.get(ManagedApp, app_id)
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        Prevent account deletion if the user has any managed apps
+        """
+        if ManagedApp.all_by_user(db, user).count() > 0:
+            return {"status": "error", "error": "have_managed_app"}
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        # You can't delete your account if you have any managed apps.
+        pass
+
+
+FlathubUser.TABLES_FOR_DELETE.append(ManagedApp)
+
+
+class BuildToken(Base):
+    __tablename__ = "buildtoken"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    app_id = Column(String, nullable=False)
+    display_name = Column(String, nullable=True)
+    scopes = Column(String, nullable=True)
+    repos = Column(String, nullable=True)
+    created = Column(DateTime, nullable=False)
+    expires = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def by_app_id(db, app_id: str):
+        return db.session.query(BuildToken).filter_by(app_id=app_id)
+
+    @staticmethod
+    def housekeeping(db):
+        """
+        Delete build tokens that expired long ago. We keep them around for a while so people can see which ones need to
+        be replaced.
+        This method is called when a new build token is created.
+        """
+        too_old = datetime.now() - timedelta(days=180)
+        db.session.execute(delete(BuildToken).where(BuildToken.expires < too_old))
+        db.session.flush()
 
 
 # Wallet related content

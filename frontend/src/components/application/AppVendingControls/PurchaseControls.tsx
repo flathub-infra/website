@@ -162,6 +162,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       <VendingSharesPreview
         price={amount.live * 100}
         app={app}
+        appId={app.id}
         appShare={vendingSetup.appshare}
         vendingConfig={vendingConfig}
       />

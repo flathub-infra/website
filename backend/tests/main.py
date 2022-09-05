@@ -417,18 +417,6 @@ def test_compat_apps_recently_updated(client):
 
 
 @vcr.use_cassette()
-def test_verification_status(client):
-    response = client.get("/verification/com.github.flathub.ExampleApp/status")
-    expected = {
-        "verified": False,
-        "method": "none",
-        "detail": "repo_does_not_exist",
-    }
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-@vcr.use_cassette()
 def test_verification_available_method_website(client):
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
@@ -476,18 +464,6 @@ def test_verification_available_method_multiple(client):
                 "login_name": "lainsce",
             },
         ]
-    }
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-@vcr.use_cassette()
-def test_verification_status_dne(client):
-    response = client.get("/verification/com.github.flathub.ExampleApp/status")
-    expected = {
-        "verified": False,
-        "method": "none",
-        "detail": "repo_does_not_exist",
     }
     assert response.status_code == 200
     assert response.json() == expected

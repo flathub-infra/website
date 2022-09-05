@@ -10,7 +10,8 @@ import { computeAppShares, computeShares } from "../../../utils/vending"
 
 interface Props {
   price: number
-  app: Appstream
+  appId: string
+  app?: Appstream
   appShare: number
   vendingConfig: VendingConfig
 }
@@ -22,6 +23,7 @@ interface Props {
  */
 const VendingSharesPreview: FunctionComponent<Props> = ({
   price,
+  appId,
   app,
   appShare,
   vendingConfig,
@@ -31,8 +33,8 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(
-    () => computeShares(app, appShare, vendingConfig),
-    [app, appShare, vendingConfig],
+    () => computeShares(appId, app?.bundle.runtime, appShare, vendingConfig),
+    [appId, app, appShare, vendingConfig],
   )
   const breakdown = useMemo(
     () => (price > 0 ? computeAppShares(price, shares, vendingConfig) : []),
@@ -45,8 +47,8 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   const labels: string[] = []
   const rawData: number[] = []
-  for (const [appId, split] of breakdown) {
-    labels.push(appId == app.id ? app.name : appId)
+  for (const [breakdownAppId, split] of breakdown) {
+    labels.push(breakdownAppId == appId ? app?.name ?? appId : breakdownAppId)
     rawData.push(split / 100)
   }
 

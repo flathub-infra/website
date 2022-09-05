@@ -2,13 +2,14 @@ import os
 import re
 import urllib.parse
 from enum import Enum
-from typing import Tuple
+from typing import Optional, Tuple
 
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
+from pydantic import BaseModel
 from sqlalchemy import delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
@@ -20,8 +21,6 @@ from .logins import login_state
 class ErrorDetail(str, Enum):
     # The app ID is not syntactically correct
     MALFORMED_APP_ID = "malformed_app_id"
-    # The app ID does not refer to an existing flathub repository.
-    REPO_DOES_NOT_EXIST = "repo_does_not_exist"
     # The server could not connect to GitHub.
     ERROR_CONNECTING_TO_GITHUB = "error_connecting_to_github"
     # Website verification was requested, but the app ID is not eligible for website verification.
@@ -104,65 +103,67 @@ def _get_domain_name(appid: str) -> str:
         return ".".join(reversed(appid.split(".")[0:2]))
 
 
-def _check_app_id_error(appid: str) -> str:
-    """
-    Returns an ErrorDetail if the app ID is invalid, or None if it is valid.
-    """
-    if len(appid.split(".")) < 3:
-        return ErrorDetail.MALFORMED_APP_ID
-    elif not re.match("[_\w\.]+$", appid):
-        return ErrorDetail.MALFORMED_APP_ID
+def is_valid_app_id(appid: str) -> bool:
+    return len(appid.split(".")) >= 3 and re.match("[_\w\.]+$", appid)
+
+
+def is_github_app(appid: str) -> bool:
+    """Determines whether the app is a repo in github.com/flathub."""
 
     try:
         r = requests.get(
             f"https://api.github.com/repos/flathub/{urllib.parse.quote(appid, safe='')}"
         )
-        if r.status_code != 200:
-            return ErrorDetail.REPO_DOES_NOT_EXIST
+        return r.status_code == 200
     except:
-        return ErrorDetail.ERROR_CONNECTING_TO_GITHUB
-
-    return None
+        raise HTTPException(
+            status_code=500, detail=ErrorDetail.ERROR_CONNECTING_TO_GITHUB
+        )
 
 
 # Routes
 router = APIRouter(prefix="/verification")
 
 
-def _check_website_verification(appid: str):
+class VerificationResult(BaseModel):
+    verified: bool
+    detail: Optional[str] = None
+    status_code: Optional[int] = None
+    user_id: Optional[int] = None
+
+
+def check_website_verification(appid: str) -> VerificationResult:
     domain = _get_domain_name(appid)
     if domain is None:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.INVALID_DOMAIN,
-        }
+        return VerificationResult(False, ErrorDetail.INVALID_DOMAIN)
 
     try:
         r = requests.get(
             f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt", timeout=5
         )
     except:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.FAILED_TO_CONNECT,
-        }
+        return VerificationResult(verified=False, detail=ErrorDetail.FAILED_TO_CONNECT)
 
     if r.status_code != 200:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.SERVER_RETURNED_ERROR,
-            "status_code": r.status_code,
-        }
+        return VerificationResult(
+            verified=False,
+            detail=ErrorDetail.SERVER_RETURNED_ERROR,
+            status_code=r.status_code,
+        )
 
-    if appid in r.text.split("\n"):
-        return {
-            "verified": True,
-        }
-    else:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.APP_NOT_LISTED,
-        }
+    lines = r.text.split("\n")
+    for line in lines:
+        if "," in line:
+            [id, user] = line.split(",", 1)
+            if id == appid:
+                try:
+                    return VerificationResult(verified=True, user_id=int(user))
+                except ValueError:
+                    pass
+        elif line == appid:
+            return VerificationResult(verified=True)
+
+    return VerificationResult(verified=False, detail=ErrorDetail.APP_NOT_LISTED)
 
 
 @router.get("/{appid}/available-methods", status_code=200)
@@ -178,10 +179,10 @@ def get_verification_methods(appid: str):
       - "login_name": For "login_provider" method. The username of the user who must verify the app.
     - "detail": Error detail.
     """
-    if detail := _check_app_id_error(appid):
+    if not is_valid_app_id(appid):
         return {
             "methods": [],
-            "detail": detail,
+            "detail": ErrorDetail.MALFORMED_APP_ID,
         }
 
     if db.redis_conn.sismember("verification:blocked", appid):
@@ -228,11 +229,11 @@ def get_verification_status(appid: str):
     - "login_name": For "login_provider" method, the username of the user who verified the app.
     - "detail": Error detail. See docs for _check_app_id_error().
     """
-    if detail := _check_app_id_error(appid):
+    if not is_valid_app_id(appid):
         return {
             "verified": False,
             "method": "none",
-            "detail": detail,
+            "detail": ErrorDetail.MALFORMED_APP_ID,
         }
 
     if db.redis_conn.sismember("verification:verified", appid):
@@ -247,7 +248,7 @@ def get_verification_status(appid: str):
             "method": "manual",
         }
 
-    if _check_website_verification(appid)["verified"]:
+    if check_website_verification(appid).verified:
         return {
             "verified": True,
             "method": "website",
@@ -282,30 +283,24 @@ def get_website_verification(appid: str):
     - "detail": Error detail. See docs for _check_app_id_error().
     - "status_code": The status code if "detail" is "server_returned_error".
     """
-    if detail := _check_app_id_error(appid):
+    if not is_valid_app_id(appid):
         return {
             "verified": False,
-            "detail": detail,
+            "detail": ErrorDetail.MALFORMED_APP_ID,
         }
 
-    return _check_website_verification(appid)
+    return check_website_verification(appid).dict(exclude_none=True)
 
 
-def _verify_app(appid: str, login, verified: bool):
-    """Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
-    with the correct username, as specified by the app ID.
+def is_verifiable_by_account(appid: str) -> bool:
+    return _get_provider_username(appid) is not None
 
-    Returns: Same as get_verification_status()."""
 
-    if not login["state"].logged_in():
-        raise HTTPException(status_code=403, detail="not_logged_in")
-
-    if detail := _check_app_id_error(appid):
-        return {
-            "verified": False,
-            "method": "none",
-            "detail": detail,
-        }
+def verify_by_account(appid: str, login):
+    """
+    Determines whether a Flathub user may currently verify an app ID through one of their associated accounts.
+    Returns (provider_name, username) if so, and raises an appropriate HTTPException if not.
+    """
 
     provider = _get_provider_username(appid)
     if provider is None:
@@ -321,41 +316,60 @@ def _verify_app(appid: str, login, verified: bool):
     elif provider_name == "GnomeGitLab":
         account = models.GnomeAccount.by_user(sqldb, login["user"])
 
-    if account is not None and account.login == username:
-        if verified:
-            verification = models.UserVerifiedApp(
-                app_id=appid, account=login["user"].id, created=func.now()
-            )
-            try:
-                sqldb.session.add(verification)
-                sqldb.session.commit()
-                return JSONResponse(
-                    {
-                        "verified": True,
-                        "method": "login_provider",
-                        "login_provider": provider_name,
-                        "login_name": account.login,
-                    }
-                )
-            except IntegrityError:
-                raise HTTPException(
-                    status_code=400, detail=ErrorDetail.APP_ALREADY_VERIFIED
-                )
-        else:
-            sqldb.session.execute(
-                delete(models.UserVerifiedApp).where(
-                    models.UserVerifiedApp.app_id == appid
-                )
-            )
+    if account is None or account.login != username:
+        raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
+    else:
+        return (provider_name, username)
+
+
+def _verify_app(appid: str, login, verified: bool):
+    """Marks a flatpak as verified. This requires the logged in user to have an account with the correct provider and
+    with the correct username, as specified by the app ID.
+
+    Returns: Same as get_verification_status()."""
+
+    if not login["state"].logged_in():
+        raise HTTPException(status_code=403, detail="not_logged_in")
+
+    if not is_valid_app_id(appid):
+        return {
+            "verified": False,
+            "method": "none",
+            "detail": ErrorDetail.MALFORMED_APP_ID,
+        }
+
+    provider_name, username = verify_by_account(appid, login)
+
+    if verified:
+        verification = models.UserVerifiedApp(
+            app_id=appid, account=login["user"].id, created=func.now()
+        )
+        try:
+            sqldb.session.add(verification)
             sqldb.session.commit()
             return JSONResponse(
                 {
-                    "verified": False,
-                    "method": "none",
+                    "verified": True,
+                    "method": "login_provider",
+                    "login_provider": provider_name,
+                    "login_name": username,
                 }
             )
+        except IntegrityError:
+            raise HTTPException(
+                status_code=400, detail=ErrorDetail.APP_ALREADY_VERIFIED
+            )
     else:
-        raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
+        sqldb.session.execute(
+            delete(models.UserVerifiedApp).where(models.UserVerifiedApp.app_id == appid)
+        )
+        sqldb.session.commit()
+        return JSONResponse(
+            {
+                "verified": False,
+                "method": "none",
+            }
+        )
 
 
 @router.post("/{appid}/verify", status_code=200)
