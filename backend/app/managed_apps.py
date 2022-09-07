@@ -195,7 +195,7 @@ def create_build_token(
         user_id=login["user"].id,
         app_id=appid,
         display_name=request.display_name,
-        scopes="build upload publish",
+        scopes="build upload download publish",
         repos="stable",
         created=created,
         expires=expires,
