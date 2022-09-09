@@ -23,9 +23,13 @@ def get_storefront_info(app_id: str):
     See storefront.rs in flat-manager for the available values.
     """
 
+    token_type = 0
+    if app := models.ApplicationVendingConfig.by_appid(sqldb, app_id):
+        if app.recommended_donation > 0:
+            token_type = 1
+
     return {
-        # TODO: Find out whether the app requests payment, and if so, set this to 1
-        "token_type": 0,
+        "token_type": token_type,
     }
 
 
