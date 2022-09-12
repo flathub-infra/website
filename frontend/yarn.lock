@@ -3556,13 +3556,13 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-autoprefixer@^10.4.8:
-  version "10.4.8"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.8.tgz#92c7a0199e1cfb2ad5d9427bd585a3d75895b9e5"
-  integrity sha512-75Jr6Q/XpTqEf6D2ltS5uMewJIx5irCU1oBYJrWjFenq/m12WRRrz6g15L1EIoYvPLXTbEry7rDOwrcYNj77xw==
+autoprefixer@^10.4.9:
+  version "10.4.9"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-10.4.9.tgz#40f932f7d0535264823882031f9254ea72c693e5"
+  integrity sha512-Uu67eduPEmOeA0vyJby5ghu1AAELCCNSsLAjK+lz6kYzNM5sqnBO36MqfsjhPjQF/BaJM5U/UuFYyl7PavY/wQ==
   dependencies:
     browserslist "^4.21.3"
-    caniuse-lite "^1.0.30001373"
+    caniuse-lite "^1.0.30001394"
     fraction.js "^4.2.0"
     normalize-range "^0.1.2"
     picocolors "^1.0.0"
@@ -4100,10 +4100,10 @@ camelcase@^6.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-6.3.0.tgz#5685b95eb209ac9c0c177467778c9c84df58ba9a"
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
-caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001332, caniuse-lite@^1.0.30001370, caniuse-lite@^1.0.30001373:
-  version "1.0.30001373"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001373.tgz#2dc3bc3bfcb5d5a929bec11300883040d7b4b4be"
-  integrity sha512-pJYArGHrPp3TUqQzFYRmP/lwJlj8RCbVe3Gd3eJQkAV8SAC6b19XS9BjMvRdvaS8RMkaTN8ZhoHP6S1y8zzwEQ==
+caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001332, caniuse-lite@^1.0.30001370, caniuse-lite@^1.0.30001394:
+  version "1.0.30001397"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001397.tgz#010d9d56e3b8abcd8df261d0a94b22426271a15f"
+  integrity sha512-SW9N2TbCdLf0eiNDRrrQXx2sOkaakNZbCjgNpPyMJJbiOrU5QzMIrXOVMRM1myBXTD5iTkdrtU/EguCrBocHlA==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -10226,10 +10226,10 @@ store2@^2.12.0:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.14.1.tgz#9942afe48c6265d26f8f0b0fc8da98270107877c"
   integrity sha512-gEguiyY2xt5xM0m6y+ps3pcxvAcqK5ZBJJ3tIYh14sO4PPM3zvwyRLjRoBuPBluf0r21wpuXun3Vm9O6le864A==
 
-storybook-addon-next@^1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/storybook-addon-next/-/storybook-addon-next-1.6.7.tgz#f4b40bc8a6014e3b20508e31fec3f2e0d48379dd"
-  integrity sha512-ltnHboGekSr6+UWv3MNl+0GaOyIWjTHN8Z5rc2te3bB1gq46W6JEML4XVNflFdANhKvVHayAxMOr7oeT3LMc2Q==
+storybook-addon-next@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/storybook-addon-next/-/storybook-addon-next-1.6.9.tgz#ee88b522fa294a5144891c8439300eb7a67b014d"
+  integrity sha512-MrzR+Zw4Dzl0mh5C8xPW4suUqh+Sh6/iEXGU5ehW9e1TMavlFbic84xTErHsKrIYNb4jpExsYob4hlhzLqxOjw==
   dependencies:
     "@storybook/addons" "^6.4.10"
     image-size "^1.0.0"
@@ -10239,7 +10239,7 @@ storybook-addon-next@^1.6.7:
     sass-loader "^12.4.0"
     semver "^7.3.5"
     tsconfig-paths "^4.0.0"
-    tsconfig-paths-webpack-plugin "^3.5.2"
+    tsconfig-paths-webpack-plugin "^4.0.0"
 
 storybook-i18n@^1.1.2:
   version "1.1.4"
@@ -10762,16 +10762,16 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
-tsconfig-paths-webpack-plugin@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-3.5.2.tgz#01aafff59130c04a8c4ebc96a3045c43c376449a"
-  integrity sha512-EhnfjHbzm5IYI9YPNVIxx1moxMI4bpHD2e0zTXeDNQcwjjRaGepP7IhTHJkyDBG0CAOoxRfe7jCG630Ou+C6Pw==
+tsconfig-paths-webpack-plugin@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-4.0.0.tgz#84008fc3e3e0658fdb0262758b07b4da6265ff1a"
+  integrity sha512-fw/7265mIWukrSHd0i+wSwx64kYUSAKPfxRDksjKIYTxSAp9W9/xcZVBF4Kl0eqQd5eBpAQ/oQrc5RyM/0c1GQ==
   dependencies:
     chalk "^4.1.0"
     enhanced-resolve "^5.7.0"
-    tsconfig-paths "^3.9.0"
+    tsconfig-paths "^4.0.0"
 
-tsconfig-paths@^3.14.1, tsconfig-paths@^3.9.0:
+tsconfig-paths@^3.14.1:
   version "3.14.1"
   resolved "https://registry.npmjs.org/tsconfig-paths/-/tsconfig-paths-3.14.1.tgz"
   integrity sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==
