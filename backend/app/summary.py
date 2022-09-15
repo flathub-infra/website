@@ -14,7 +14,7 @@ from . import config, db
 
 
 # "valid" here means it would be displayed on flathub.org
-def validate_ref(ref: str, enforce_arch=True):
+def validate_ref(ref: str):
     if not ref.startswith("app/"):
         return False
 
@@ -24,7 +24,7 @@ def validate_ref(ref: str, enforce_arch=True):
 
     kind, appid, arch, branch = fields
 
-    if enforce_arch and arch != "x86_64":
+    if arch not in ("x86_64", "aarch64"):
         return False
 
     if branch != "stable":
@@ -150,14 +150,14 @@ def update():
         "flatpak",
         "remote-ls",
         "--user",
-        "--arch=aarch64",
+        "--arch=*",
         "--columns=ref",
         "flathub",
     ]
-    aarch64_refs_ret = subprocess.run(command, capture_output=True, text=True)
-    if aarch64_refs_ret.returncode == 0:
-        for ref in aarch64_refs_ret.stdout.splitlines():
-            if not validate_ref(ref, enforce_arch=False):
+    remote_refs_ret = subprocess.run(command, capture_output=True, text=True)
+    if remote_refs_ret.returncode == 0:
+        for ref in remote_refs_ret.stdout.splitlines():
+            if not validate_ref(ref):
                 continue
 
             appid = ref.split("/")[1]
