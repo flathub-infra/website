@@ -248,5 +248,7 @@
   "submit": "Lähetä",
   "open-menu": "Avaa valikko",
   "open-user-menu": "Avaa käyttäjävalikko",
-  "your-profile": "Profiilisi"
+  "your-profile": "Profiilisi",
+  "show-more": "Näytä lisää",
+  "show-less": "Näytä vähemmän"
 }

@@ -248,5 +248,7 @@
   "token-redeemed": "Belirteç başarıyla kullanıldı",
   "open-menu": "Menüyü Aç",
   "open-user-menu": "Kullanıcı Menüsünü Aç",
-  "your-profile": "Profiliniz"
+  "your-profile": "Profiliniz",
+  "show-more": "Daha Fazla Göster",
+  "show-less": "Daha Az Göster"
 }
