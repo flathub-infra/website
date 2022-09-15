@@ -142,7 +142,7 @@ def update():
         if "extra-data" in summary_dict[appid]["metadata"]:
             summary_dict[appid]["installed_size"] += download_size
 
-    # THe main summary file contains only x86_64 refs due to ostree file size
+    # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
     # so we need to enrich the data by parsing the output of "flatpak
     # remote-ls", as ostree itself does not expose "sub-sumarries".
@@ -160,10 +160,10 @@ def update():
             if not validate_ref(ref, enforce_arch=False):
                 continue
 
-        appid = ref.split("/")[1]
-        arch = ref.split("/")[2]
+            appid = ref.split("/")[1]
+            arch = ref.split("/")[2]
 
-        summary_dict[appid]["arches"].append(arch)
+            summary_dict[appid]["arches"].append(arch)
 
     if recently_updated_zset:
         db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
