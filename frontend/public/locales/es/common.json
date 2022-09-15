@@ -245,5 +245,10 @@
   "token-redeem-placeholder": "Introduzca un testigo de propiedad",
   "create-tokens": "Crear testigos",
   "permission-denied": "No tiene permiso para hacer eso.",
-  "token-redeemed": "Testigo canjeado con éxito"
+  "token-redeemed": "Testigo canjeado con éxito",
+  "show-more": "Mostrar más",
+  "show-less": "Mostrar menos",
+  "open-menu": "Abrir menú",
+  "open-user-menu": "Abrir el menú de usuario",
+  "your-profile": "Tu perfil"
 }

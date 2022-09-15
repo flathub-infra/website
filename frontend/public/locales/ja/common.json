@@ -225,5 +225,8 @@
   "education": "教育",
   "system": "システム",
   "minimum-payment": "最小支払額",
-  "recommended-payment": "推奨支払額"
+  "recommended-payment": "推奨支払額",
+  "your-profile": "マイページ",
+  "show-more": "すべて表示",
+  "show-less": "一部を表示"
 }

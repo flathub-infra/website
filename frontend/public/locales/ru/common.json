@@ -244,5 +244,11 @@
   "your-profile": "Ваш профиль",
   "science": "Наука",
   "education": "Образование",
-  "system": "Система"
+  "system": "Система",
+  "application-share": "Доступ к приложению",
+  "value": "Стоимость",
+  "show-more": "Показать больше",
+  "show-less": "Скрыть",
+  "vending-dashboard": "Перейти к учётной записи Stripe Express",
+  "vending-onboard": "Создать учётную запись Stripe Express"
 }
