@@ -23,6 +23,7 @@ import {
   ca,
   el,
   ta,
+  faIR,
 } from "date-fns/locale"
 
 export type Language =
@@ -51,6 +52,7 @@ export type Language =
   | "ca"
   | "el"
   | "ta"
+  | "fa"
 
 export const languages: Language[] = [
   "en",
@@ -78,6 +80,7 @@ export const languages: Language[] = [
   "ca",
   "el",
   "ta",
+  "fa",
 ]
 
 export function getLocale(language: string): Locale {
@@ -133,6 +136,8 @@ export function getLocale(language: string): Locale {
       return el
     case "ta":
       return ta
+    case "fa":
+      return faIR // date-fns has no Persian locale
 
     default:
       return enGB
@@ -192,6 +197,8 @@ export function getLocaleString(language: string): string {
       return "el_GR"
     case "ta":
       return "ta_IN"
+    case "fa":
+      return "fa_IR"
 
     default:
       return "en_US"
@@ -250,6 +257,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇬🇷"
     case "ta":
       return "🇮🇳"
+    case "fa":
+      return "🇮🇷"
   }
 }
 
@@ -305,6 +314,8 @@ export function getLanguageName(language: Language): string {
       return "Ελληνικά"
     case "ta":
       return "தமிழ்"
+    case "fa":
+      return "فارسی"
 
     default:
       return assertUnreachable(language)
@@ -376,6 +387,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("el")
     case "ta":
       return new Intl.Locale("ta")
+    case "fa":
+      return new Intl.Locale("fa")
   }
 }
 

@@ -570,3 +570,25 @@ https://beta.flathub.org/ta/languages
 https://beta.flathub.org/ta/privacy-policy
 https://beta.flathub.org/ta/statistics
 https://beta.flathub.org/ta/terms-and-conditions
+https://beta.flathub.org/fa/about
+https://beta.flathub.org/fa/apps
+https://beta.flathub.org/fa/apps/category/Game
+https://beta.flathub.org/fa/apps/category/Network
+https://beta.flathub.org/fa/apps/category/Office
+https://beta.flathub.org/fa/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/fa/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/fa/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/fa/apps/collection/editors-choice-apps
+https://beta.flathub.org/fa/apps/collection/editors-choice-games
+https://beta.flathub.org/fa/apps/collection/popular
+https://beta.flathub.org/fa/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/fa/apps/collection/recently-updated
+https://beta.flathub.org/fa/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/fa/apps/details/com.wps.Office
+https://beta.flathub.org/fa/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/fa/badges
+https://beta.flathub.org/fa/feeds
+https://beta.flathub.org/fa/languages
+https://beta.flathub.org/fa/privacy-policy
+https://beta.flathub.org/fa/statistics
+https://beta.flathub.org/fa/terms-and-conditions
