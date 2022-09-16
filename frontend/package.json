@@ -14,7 +14,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.0",
+    "@headlessui/react": "^1.7.2",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.36.0",
