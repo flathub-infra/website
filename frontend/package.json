@@ -40,7 +40,7 @@
     "spdx-license-list": "^6.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
+    "@babel/core": "^7.19.1",
     "@faker-js/faker": "^7.5.0",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.10",
@@ -51,7 +51,7 @@
     "@storybook/react": "^6.5.10",
     "@storybook/testing-library": "^0.0.13",
     "@tailwindcss/typography": "^0.5.7",
-    "@types/node": "^18.7.15",
+    "@types/node": "^18.7.18",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.9",
     "eslint": "^8.23.0",
