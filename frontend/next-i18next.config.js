@@ -29,6 +29,7 @@ module.exports = {
       "ca",
       "el",
       "ta",
+      "fa",
     ],
   },
   // debug: true,
