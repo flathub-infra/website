@@ -156,7 +156,10 @@ const Header = () => {
                             name="q'"
                             onChange={onChange}
                             value={query}
-                            className="block w-full rounded-full bg-bgColorPrimary py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-textPrimary focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-textPrimary dark:text-textPrimary dark:focus:text-white sm:text-sm"
+                            className={
+                              (i18n.dir() === "rtl" ? "md:pr-10 " : "") +
+                              "block w-full rounded-full bg-bgColorPrimary py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-textPrimary focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-textPrimary dark:text-textPrimary dark:focus:text-white sm:text-sm"
+                            }
                             placeholder={t("search-apps")}
                             type="search"
                           />
