@@ -14,6 +14,7 @@ from . import (
     compat,
     config,
     db,
+    exceptions,
     feeds,
     logins,
     picks,
@@ -78,6 +79,7 @@ def update():
     picks.update()
     stats.update(all_app_ids)
     verification.update()
+    exceptions.update()
 
     if new_apps:
         new_apps_zset = {}
@@ -287,3 +289,12 @@ def get_platforms() -> Dict[str, utils.Platform]:
 @app.get("/sitemap/text", response_class=PlainTextResponse)
 def get_sitemap():
     return sitemap.generate_text()
+
+
+@app.get("/exceptions/{appid}")
+def get_exceptions(appid: str, response: Response):
+    if exc := db.get_json_key(f"exc:{appid}"):
+        return exc
+
+    response.status_code = 404
+    return None
