@@ -5,9 +5,10 @@ import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse, PlainTextResponse
-from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
     apps,
@@ -30,22 +31,22 @@ from . import (
     wallet,
 )
 
-app = FastAPI(title=config.settings.app_name, default_response_class=ORJSONResponse)
-
 if config.settings.sentry_dsn:
     sentry_sdk.init(
         dsn=config.settings.sentry_dsn,
         traces_sample_rate=0.01,
         environment="production",
         integrations=[
+            StarletteIntegration(),
+            FastApiIntegration(),
             SqlalchemyIntegration(),
             RedisIntegration(),
         ],
     )
-    app.add_middleware(SentryAsgiMiddleware)
+
+app = FastAPI(title=config.settings.app_name, default_response_class=ORJSONResponse)
 
 origins = config.settings.cors_origins.split(" ")
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
