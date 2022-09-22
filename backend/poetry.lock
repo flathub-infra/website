@@ -89,6 +89,17 @@ jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
+name = "camel-converter"
+version = "1.0.6"
+description = "Converts a string from snake case to camel case or camel case to snake case"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[package.extras]
+pydantic = ["pydantic (>=1.8.2,<2.0.0)"]
+
+[[package]]
 name = "certifi"
 version = "2022.6.15"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -317,13 +328,14 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "meilisearch"
-version = "0.19.1"
+version = "0.20.0"
 description = "The python client for Meilisearch API."
 category = "main"
 optional = false
 python-versions = ">=3"
 
 [package.dependencies]
+camel-converter = "*"
 requests = "*"
 
 [[package]]
@@ -855,7 +867,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "15e5e6a31b62f6427553253d09802255ae64730a0d01ce48bc1f4423d23c8c64"
+content-hash = "2b5e4523ca8c22e6b860828330ea671e8ed35c3011e87e6452b9daa1f32821c4"
 
 [metadata.files]
 alembic = [
@@ -902,6 +914,10 @@ black = [
     {file = "black-22.8.0-cp39-cp39-win_amd64.whl", hash = "sha256:bc4d4123830a2d190e9cc42a2e43570f82ace35c3aeb26a512a2102bce5af7ec"},
     {file = "black-22.8.0-py3-none-any.whl", hash = "sha256:d2c21d439b2baf7aa80d6dd4e3659259be64c6f49dfd0f32091063db0e006db4"},
     {file = "black-22.8.0.tar.gz", hash = "sha256:792f7eb540ba9a17e8656538701d3eb1afcb134e3b45b71f20b25c77a8db7e6e"},
+]
+camel-converter = [
+    {file = "camel-converter-1.0.6.tar.gz", hash = "sha256:e70c1f8b83b9c172270a6cd92f6cdcd8e30502923058fec07be71fb701e6ce95"},
+    {file = "camel_converter-1.0.6-py3-none-any.whl", hash = "sha256:8e752eb4c73b7cd94c45f74374fb4f6374286c80d60946002db998aae4349766"},
 ]
 certifi = [
     {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
@@ -1229,8 +1245,8 @@ mccabe = [
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
 ]
 meilisearch = [
-    {file = "meilisearch-0.19.1-py3-none-any.whl", hash = "sha256:75b1d51031bb5c4980dbc954a42180585da3970072927f6db4216ff140fd3e09"},
-    {file = "meilisearch-0.19.1.tar.gz", hash = "sha256:8273f507624b0933313632fe1e58666f87403d3fb873f6b93b94d7eee076c52f"},
+    {file = "meilisearch-0.20.0-py3-none-any.whl", hash = "sha256:9be0944e6d4629edb7c0f55ebda9057d110d97ce566283244f64edb8ef708329"},
+    {file = "meilisearch-0.20.0.tar.gz", hash = "sha256:2e80596cf1ccc594e1f4e2bd5c03028dcfb6aa8920c5745297861f39dec8b0a7"},
 ]
 multidict = [
     {file = "multidict-6.0.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:0b9e95a740109c6047602f4db4da9949e6c5945cefbad34a1299775ddc9a62e2"},
