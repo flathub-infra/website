@@ -41,6 +41,8 @@ class ErrorDetail(str, Enum):
     # The .well-known/org.flathub.VerifiedApps.txt file for website verification lists a different user ID for the
     # app than the current user's ID.
     WEBSITE_VERIFICATION_WRONG_USER_ID = "website_verification_wrong_user_id"
+    # The requested token doesn't exist
+    TOKEN_DOES_NOT_EXIST = "token_does_not_exist"
 
 
 # Routes
@@ -170,6 +172,7 @@ def list_build_tokens(appid: str, login=Depends(login_state)):
                 "repos": token.repos,
                 "created": token.created,
                 "expires": token.expires,
+                "revoked": token.revoked,
             }
             for token in tokens
         ]
@@ -221,6 +224,30 @@ def create_build_token(
 
     return {
         "token": encoded,
+    }
+
+
+@router.delete("/build-tokens/{token_id}", status_code=200)
+def revoke_build_token(
+    token_id: int, login=Depends(login_state)
+):
+    """
+    Revokes the given build token.
+    """
+
+    token = models.BuildToken.by_id(sqldb, token_id)
+    if token is None:
+        raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_DOES_NOT_EXIST)
+
+    _check_managed_app_access(token.app_id, login)
+
+    token.revoked = True
+    sqldb.session.commit()
+
+    # TODO: Notify flat-manager of the revocation
+
+    return {
+        "success": True,
     }
 
 

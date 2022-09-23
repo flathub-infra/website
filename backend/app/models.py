@@ -13,6 +13,7 @@ from sqlalchemy import (
     delete,
 )
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import expression
 
 from . import apps, utils
 
@@ -468,6 +469,11 @@ class BuildToken(Base):
     repos = Column(String, nullable=True)
     created = Column(DateTime, nullable=False)
     expires = Column(DateTime, nullable=False)
+    revoked = Column(Boolean, nullable=False, server_default=expression.false())
+
+    @staticmethod
+    def by_id(db, token_id: int) -> Optional["BuildToken"]:
+        return db.session.query(BuildToken).filter_by(id=token_id).first()
 
     @staticmethod
     def by_app_id(db, app_id: str):
