@@ -92,8 +92,12 @@ def teardown_module():
 
 
 def test_update(client):
-    response = client.post("/update")
-    assert response.status_code == 200
+    update = client.post("/update")
+    assert update.status_code == 200
+
+    update_stats = client.post("/update/stats")
+    assert update_stats.status_code == 200
+
 
 
 def test_apps_by_category(client):
