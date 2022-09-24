@@ -15,3 +15,4 @@ def update():
         db.redis_conn.mset(
             {f"exc:{appid}": json.dumps(exceptions[appid]) for appid in exceptions}
         )
+        db.redis_conn.set("exc", exceptions)

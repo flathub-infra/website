@@ -297,8 +297,13 @@ def get_sitemap():
     return sitemap.generate_text()
 
 
+@app.get("/exceptions")
+def get_exceptions():
+    return db.get_json_key("exc")
+
+
 @app.get("/exceptions/{appid}")
-def get_exceptions(appid: str, response: Response):
+def get_exceptions_for_app(appid: str, response: Response):
     if exc := db.get_json_key(f"exc:{appid}"):
         return exc
 
