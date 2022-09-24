@@ -7,7 +7,7 @@ from . import db
 
 def update():
     r = requests.get(
-        "https://raw.githubusercontent.com/barthalion/flatpak-builder-lint/master/flatpak_builder_lint/exceptions.json"
+        "https://raw.githubusercontent.com/barthalion/flatpak-builder-lint/master/flatpak_builder_lint/staticfiles/exceptions.json"
     )
 
     if r.status_code == 200:
