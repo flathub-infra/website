@@ -75,7 +75,7 @@ def load_appstream():
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
 
-    return new_apps, [appid for appid in apps]
+    return new_apps
 
 
 def list_appstream():

@@ -75,10 +75,9 @@ def startup_event():
 
 @app.post("/update")
 def update():
-    new_apps, all_app_ids = apps.load_appstream()
+    new_apps = apps.load_appstream()
     summary.update()
     picks.update()
-    stats.update(all_app_ids)
     verification.update()
     exceptions.update()
 
@@ -93,6 +92,12 @@ def update():
     get_recently_updated.cache_clear()
     get_recently_added.cache_clear()
     get_category.cache_clear()
+
+
+@app.post("/update/stats")
+def update_stats():
+    apps = [app[5:] for app in db.redis_conn.smembers("apps:index")]
+    stats.update(apps)
 
 
 @app.get("/category/{category}")
