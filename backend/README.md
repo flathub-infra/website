@@ -24,6 +24,12 @@ You need to seed the database:
 curl -X POST localhost:8000/update
 ```
 
+Additionally, you may want to update the statistics:
+
+```bash
+curl -X POST localhost:8000/update/stats
+```
+
 If you change any files, the server should restart and you should be able to see the changes.
 
 If you want to explore the endpoints, you can use the UI:
