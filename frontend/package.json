@@ -17,7 +17,7 @@
     "@headlessui/react": "^1.7.2",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@stripe/react-stripe-js": "^1.10.0",
-    "@stripe/stripe-js": "^1.36.0",
+    "@stripe/stripe-js": "^1.38.1",
     "chart.js": "^3.9.1",
     "chartjs-adapter-date-fns": "^2.0.0",
     "date-fns": "^2.29.3",
