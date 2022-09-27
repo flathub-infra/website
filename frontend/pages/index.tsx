@@ -59,10 +59,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     Collections.recentlyUpdated,
     APPS_IN_PREVIEW_COUNT,
   )
-  const editorsChoiceApps = await fetchCollection(
-    Collections.editorsApps,
-    APPS_IN_PREVIEW_COUNT,
-  )
   const recentlyAdded = await fetchCollection(
     Collections.recentlyAdded,
     APPS_IN_PREVIEW_COUNT,
@@ -76,7 +72,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       recentlyUpdated,
-      editorsChoiceApps,
       recentlyAdded,
       popular,
     },
