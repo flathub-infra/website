@@ -12,7 +12,6 @@ import Link from "next/link"
 
 export default function Home({
   recentlyUpdated,
-  editorsChoiceApps,
   recentlyAdded,
   popular,
 }) {
@@ -46,7 +45,6 @@ export default function Home({
         <ApplicationSections
           popular={popular}
           recentlyUpdated={recentlyUpdated}
-          editorsChoiceApps={editorsChoiceApps}
           recentlyAdded={recentlyAdded}
         ></ApplicationSections>
       </div>

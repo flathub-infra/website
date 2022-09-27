@@ -27,15 +27,6 @@ export const Generated = () => {
     summary: faker.commerce.productDescription(),
   }))
 
-  const editorsChoiceApps = [
-    ...Array(faker.datatype.number({ min: 1, max: 12 })),
-  ].map((item, index) => ({
-    id: index,
-    icon: faker.image.image(),
-    name: faker.commerce.product(),
-    summary: faker.commerce.productDescription(),
-  }))
-
   const recentlyAdded = [
     ...Array(faker.datatype.number({ min: 1, max: 12 })),
   ].map((item, index) => ({
@@ -49,7 +40,6 @@ export const Generated = () => {
     <Sections
       popular={popular}
       recentlyUpdated={recentlyUpdated}
-      editorsChoiceApps={editorsChoiceApps}
       recentlyAdded={recentlyAdded}
     />
   )
