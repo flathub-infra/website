@@ -1,10 +1,9 @@
 import { useTranslation } from "next-i18next"
-import Link from "next/link"
 import { FunctionComponent, useState } from "react"
+import ButtonLink from "src/components/ButtonLink"
 import { getIntlLocale } from "../../../localize"
 import { Transaction } from "../../../types/Payment"
 import { formatCurrency } from "../../../utils/localize"
-import Button from "../../Button"
 import TransactionCancelButton from "./TransactionCancelButton"
 
 interface RowProps {
@@ -38,16 +37,15 @@ const TransactionListRow: FunctionComponent<RowProps> = ({ transaction }) => {
       <td>{prettyValue}</td>
       <td>{t(`status-${shownStatus}`)}</td>
       <td className="flex flex-col items-start gap-2">
-        <Link
+        <ButtonLink
           href={`/payment/${
             needsAttention ? transaction.id : `details/${transaction.id}`
           }`}
           passHref
+          variant={needsAttention ? "primary" : "secondary"}
         >
-          <Button variant={needsAttention ? "primary" : "secondary"}>
-            {needsAttention ? t("checkout") : t("view")}
-          </Button>
-        </Link>
+          {needsAttention ? t("checkout") : t("view")}
+        </ButtonLink>
         {needsAttention ? (
           <TransactionCancelButton
             id={transaction.id}

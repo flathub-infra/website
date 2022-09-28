@@ -1,9 +1,9 @@
 import { FEED_NEW_URL, FEED_RECENTLY_UPDATED_URL } from "../src/env"
 import { NextSeo } from "next-seo"
-import Button from "../src/components/Button"
 import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import ButtonLink from "src/components/ButtonLink"
 
 const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
@@ -16,16 +16,16 @@ const Feeds = (): JSX.Element => {
         <h3>{t("new-apps")}</h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-apps-description")}</p>
-          <a href={FEED_NEW_URL}>
-            <Button>{t("subscribe")}</Button>
-          </a>
+          <ButtonLink href={FEED_NEW_URL} passHref>
+            {t("subscribe")}
+          </ButtonLink>
         </div>
         <h3>{t("new-and-updated-apps")}</h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-and-updated-apps-description")}</p>
-          <a href={FEED_RECENTLY_UPDATED_URL}>
-            <Button>{t("subscribe")}</Button>
-          </a>
+          <ButtonLink href={FEED_RECENTLY_UPDATED_URL} passHref>
+            {t("subscribe")}
+          </ButtonLink>
         </div>
 
         <h6 className="mt-2">

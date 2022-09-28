@@ -5,6 +5,7 @@ import { Appstream } from "src/types/Appstream"
 import { UserState } from "src/types/Login"
 import { VendingSetup } from "src/types/Vending"
 import Button from "../Button"
+import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 
 export function AppHeader({
@@ -43,37 +44,38 @@ export function AppHeader({
 
       <div className="grid gap-4 sm:grid-cols-2 md:ml-auto">
         {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
-          <Link passHref href={`/apps/manage/${app.id}`}>
-            <Button className="mb-3 block w-full last:mb-0">
-              {t("developer-settings")}
-            </Button>
-          </Link>
+          <ButtonLink
+            passHref
+            href={`/apps/manage/${app.id}`}
+            className="w-full"
+          >
+            {t("developer-settings")}
+          </ButtonLink>
         )}
-        <Button
-          className="mb-3 block w-full last:mb-0"
-          onClick={installClicked}
-        >
+        <Button className="w-full" onClick={installClicked}>
           {t("install")}
         </Button>
         {app.urls?.donation && (
-          <a
+          <ButtonLink
             href={app.urls.donation}
             target="_blank"
             rel="noreferrer"
             onClick={donateClicked}
-            className="mb-3 block w-full no-underline last:mb-0"
+            passHref
+            className="w-full"
+            variant="secondary"
           >
-            <Button variant="secondary" className="w-full">
-              {t("donate")}
-            </Button>
-          </a>
+            {t("donate")}
+          </ButtonLink>
         )}
         {!!vendingSetup?.recommended_donation && (
-          <Link passHref href={`/apps/purchase/${app.id}`}>
-            <Button className="mb-3 block w-full last:mb-0">
-              {t("kind-purchase")}
-            </Button>
-          </Link>
+          <ButtonLink
+            passHref
+            href={`/apps/purchase/${app.id}`}
+            className="w-full"
+          >
+            {t("kind-purchase")}
+          </ButtonLink>
         )}
       </div>
     </header>
