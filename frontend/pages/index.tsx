@@ -10,11 +10,7 @@ import Button from "../src/components/Button"
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 
-export default function Home({
-  recentlyUpdated,
-  recentlyAdded,
-  popular,
-}) {
+export default function Home({ recentlyUpdated, recentlyAdded, popular }) {
   const { t } = useTranslation()
   return (
     <>
