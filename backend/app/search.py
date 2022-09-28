@@ -1,4 +1,5 @@
 import meilisearch
+from urllib.parse import unquote
 
 from . import config
 
@@ -31,6 +32,8 @@ def delete_apps(app_id_list):
 
 
 def search_apps(query: str):
+    query = unquote(query)
+
     if results := client.index("apps").search(
         query, {"limit": 250, "sort": ["downloads_last_month:desc"]}
     ):

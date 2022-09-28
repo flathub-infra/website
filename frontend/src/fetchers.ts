@@ -196,10 +196,11 @@ export async function fetchProjectgroupApps(projectgroup: string | undefined) {
 }
 
 export async function fetchSearchQuery(query: string) {
-  const appListRes = await fetch(SEARCH_APP(query))
+  const queryEncoded = encodeURIComponent(query)
+  const appListRes = await fetch(SEARCH_APP(queryEncoded))
   const appList = await appListRes.json()
 
-  console.log(`\nSearch for query: ${query} fetched`)
+  console.log(`\nSearch for query: ${queryEncoded} fetched`)
 
   return appList.filter((item) => Boolean(item))
 }
