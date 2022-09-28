@@ -18,3 +18,11 @@ export const Secondary = () => {
 export const Destructive = () => {
   return <Button variant="destructive">Test</Button>
 }
+
+export const Disabled = () => {
+  return (
+    <Button disabled variant="primary">
+      Test
+    </Button>
+  )
+}

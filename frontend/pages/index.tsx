@@ -6,9 +6,8 @@ import { APPS_IN_PREVIEW_COUNT } from "../src/env"
 import { NextSeo } from "next-seo"
 import { Collections } from "../src/types/Collection"
 import ApplicationSections from "../src/components/application/Sections"
-import Button from "../src/components/Button"
 import { useTranslation } from "next-i18next"
-import Link from "next/link"
+import ButtonLink from "src/components/ButtonLink"
 
 export default function Home({
   recentlyUpdated,
@@ -28,17 +27,19 @@ export default function Home({
               {t("welcome-to-flathub-index-text")}
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href="https://flatpak.org/setup/">
-                <Button variant="secondary">{t("quick-setup")}</Button>
-              </a>
-              <Link href="/apps" passHref>
-                <Button variant="secondary">{t("explore")}</Button>
-              </Link>
-              <Link href="/donate" passHref>
-                <Button variant="secondary">
-                  {t("donate-to", { project: "Flathub" })}
-                </Button>
-              </Link>
+              <ButtonLink
+                variant="secondary"
+                href={"https://flatpak.org/setup/"}
+                passHref
+              >
+                {t("quick-setup")}
+              </ButtonLink>
+              <ButtonLink variant="secondary" href={"/apps"} passHref>
+                {t("explore")}
+              </ButtonLink>
+              <ButtonLink variant="secondary" href={"/donate"} passHref>
+                {t("donate-to", { project: "Flathub" })}
+              </ButtonLink>
             </div>
           </div>
         </div>

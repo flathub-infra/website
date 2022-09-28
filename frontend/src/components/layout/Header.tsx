@@ -105,8 +105,8 @@ const Header = () => {
         as="header"
         className={({ open }) =>
           classNames(
-            open ? "fixed inset-0 z-40 overflow-y-auto" : "",
-            "fixed z-50 w-full bg-colorPrimary shadow-sm lg:overflow-y-visible",
+            open ? "fixed inset-0 overflow-y-auto" : "",
+            "fixed z-40 w-full bg-colorPrimary shadow-sm lg:overflow-y-visible",
           )
         }
       >

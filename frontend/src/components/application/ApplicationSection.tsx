@@ -1,11 +1,10 @@
 import { FunctionComponent } from "react"
-import Link from "next/link"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
-import Button from "../Button"
 import { useTranslation } from "next-i18next"
+import ButtonLink from "../ButtonLink"
 
 interface Props {
   href: string
@@ -27,11 +26,9 @@ const ApplicationSection: FunctionComponent<Props> = ({
         <h3 className="my-0">{title}</h3>
 
         {showMore && (
-          <Link href={href} passHref>
-            <a>
-              <Button>{t("more")}</Button>
-            </a>
-          </Link>
+          <ButtonLink href={href} passHref>
+            {t("more")}
+          </ButtonLink>
         )}
       </header>
       <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">

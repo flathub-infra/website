@@ -2,10 +2,8 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
-import Button from "../../../src/components/Button"
 import Breadcrumbs from "../../../src/components/Breadcrumbs"
 import TransactionCancelButton from "../../../src/components/payment/transactions/TransactionCancelButton"
 import TransactionDetails from "../../../src/components/payment/transactions/TransactionDetails"
@@ -14,6 +12,7 @@ import { useUserContext } from "../../../src/context/user-info"
 import { TRANSACTION_INFO_URL } from "../../../src/env"
 import { TransactionDetailed } from "../../../src/types/Payment"
 import LoginGuard from "../../../src/components/login/LoginGuard"
+import ButtonLink from "src/components/ButtonLink"
 
 async function getTransaction(transactionId: string) {
   let res: Response
@@ -73,9 +72,9 @@ export default function TransactionPage() {
               id={transaction.summary.id}
               onSuccess={() => router.reload()}
             />
-            <Link href={`/payment/${transaction.summary.id}`} passHref>
-              <Button>{t("retry-checkout")}</Button>
-            </Link>
+            <ButtonLink href={`/payment/${transaction.summary.id}`} passHref>
+              {t("retry-checkout")}
+            </ButtonLink>
           </div>
         </>
       )
