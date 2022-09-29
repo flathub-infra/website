@@ -16,7 +16,7 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
         onClick={onClick}
         ref={ref}
       >
-        {children}
+        <span className="overflow-hidden">{children}</span>
       </a>
     )
   },
