@@ -66,10 +66,10 @@
             ]
         },
         {
-            "label": "lint frontend",
+            "label": "fix format frontend",
             "type": "shell",
             "group": "build",
-            "command": "next lint",
+            "command": "yarn format:fix",
             "problemMatcher": [
                 "$tsc-watch"
             ],
@@ -78,7 +78,7 @@
             },
         },
         {
-            "label": "fix format",
+            "label": "fix format backend",
             "type": "shell",
             "group": "build",
             "command": "poetry run black app && poetry run isort app",

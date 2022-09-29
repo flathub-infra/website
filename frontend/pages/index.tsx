@@ -9,12 +9,7 @@ import ApplicationSections from "../src/components/application/Sections"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
 
-export default function Home({
-  recentlyUpdated,
-  editorsChoiceApps,
-  recentlyAdded,
-  popular,
-}) {
+export default function Home({ recentlyUpdated, recentlyAdded, popular }) {
   const { t } = useTranslation()
   return (
     <>
@@ -47,7 +42,6 @@ export default function Home({
         <ApplicationSections
           popular={popular}
           recentlyUpdated={recentlyUpdated}
-          editorsChoiceApps={editorsChoiceApps}
           recentlyAdded={recentlyAdded}
         ></ApplicationSections>
       </div>
@@ -58,10 +52,6 @@ export default function Home({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const recentlyUpdated = await fetchCollection(
     Collections.recentlyUpdated,
-    APPS_IN_PREVIEW_COUNT,
-  )
-  const editorsChoiceApps = await fetchCollection(
-    Collections.editorsApps,
     APPS_IN_PREVIEW_COUNT,
   )
   const recentlyAdded = await fetchCollection(
@@ -77,7 +67,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       recentlyUpdated,
-      editorsChoiceApps,
       recentlyAdded,
       popular,
     },
