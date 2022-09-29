@@ -196,7 +196,7 @@ export async function fetchProjectgroupApps(projectgroup: string | undefined) {
 }
 
 export async function fetchSearchQuery(query: string) {
-  const queryEncoded = encodeURIComponent(query)
+  const queryEncoded = encodeURIComponent(query).replace(".", "%2E")
   const appListRes = await fetch(SEARCH_APP(queryEncoded))
   const appList = await appListRes.json()
 

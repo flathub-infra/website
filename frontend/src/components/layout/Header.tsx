@@ -73,8 +73,9 @@ const Header = () => {
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (query !== "") {
-      const queryEncoded = encodeURIComponent(query)
+    const disallowedQueries = ["", ".", ".."]
+    if (!disallowedQueries.includes(query)) {
+      const queryEncoded = encodeURIComponent(query).replace(".", "%2E")
       router.push(`/apps/search/${queryEncoded}`)
     }
   }
