@@ -1,5 +1,6 @@
-import meilisearch
 from urllib.parse import unquote
+
+import meilisearch
 
 from . import config
 
