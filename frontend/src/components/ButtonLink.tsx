@@ -14,6 +14,7 @@ type Props = {
   onClick?
   children: React.ReactNode
   disabled?: boolean
+  "aria-label"?: string
   variant?: "primary" | "secondary" | "destructive"
 } & DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLAnchorElement>,
@@ -33,6 +34,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
       onClick,
       children,
       disabled,
+      "aria-label": ariaLabel,
       variant = "primary",
       className,
       ...rest
@@ -59,6 +61,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
       <Link href={href} passHref={passHref}>
         <a {...rest} onClick={onClick} target={target} rel={rel} tabIndex={-1}>
           <button
+            aria-label={ariaLabel}
             className={`${
               className ?? ""
             }  ${hover} ${variantClass} no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center duration-500 active:bg-bgColorPrimary active:text-colorPrimary enabled:hover:cursor-pointer disabled:cursor-default`}
