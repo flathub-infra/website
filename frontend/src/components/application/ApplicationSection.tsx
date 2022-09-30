@@ -26,7 +26,11 @@ const ApplicationSection: FunctionComponent<Props> = ({
         <h3 className="my-0">{title}</h3>
 
         {showMore && (
-          <ButtonLink href={href} passHref>
+          <ButtonLink
+            href={href}
+            passHref
+            aria-label={t("more-type", { type: title })}
+          >
             {t("more")}
           </ButtonLink>
         )}
