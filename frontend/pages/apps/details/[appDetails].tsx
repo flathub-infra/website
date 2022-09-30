@@ -9,6 +9,7 @@ import {
   fetchDeveloperApps,
   fetchProjectgroupApps,
   fetchVerificationStatus,
+  fetchEolRebase,
 } from "../../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
@@ -37,8 +38,8 @@ export default function Details({
 }) {
   const screenshots = app.screenshots
     ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
-        url: pickScreenshot(screenshot).url,
-      }))
+      url: pickScreenshot(screenshot).url,
+    }))
     : []
 
   return (
@@ -74,6 +75,16 @@ export const getStaticProps: GetStaticProps = async ({
   params: { appDetails: appId },
 }) => {
   console.log("Fetching data for app details: ", appId)
+  const eolRebaseTo = await fetchEolRebase(appId as string)
+
+  if (eolRebaseTo) {
+    return {
+      redirect: {
+        destination: `/apps/details/${eolRebaseTo}`,
+        permanent: true,
+      },
+    }
+  }
   const app = await fetchAppstream(appId as string)
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)

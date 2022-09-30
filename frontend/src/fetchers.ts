@@ -17,6 +17,7 @@ import {
   PROJECTGROUP_URL,
   LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
+  EOL_REBASE_URL,
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
 } from "./env"
@@ -38,6 +39,23 @@ export async function fetchAppstream(appId: string): Promise<Appstream> {
 
   if (!entryJson) {
     console.log(`No appstream data for ${appId}`)
+  }
+  return entryJson
+}
+
+export async function fetchEolRebase(
+  appId: string,
+): Promise<string | undefined> {
+  let entryJson: string | undefined
+  try {
+    const entryData = await fetch(`${EOL_REBASE_URL(appId)}`)
+    entryJson = await entryData.json()
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!entryJson) {
+    console.log(`No eol rebase data`)
   }
   return entryJson
 }
@@ -124,8 +142,7 @@ export default async function fetchCollection(
   const limitedList = collectionList.slice(0, limit)
 
   console.log(
-    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
-      limitedList.filter((item) => Boolean(item)).length
+    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${limitedList.filter((item) => Boolean(item)).length
     }.`,
   )
 
@@ -141,8 +158,7 @@ export async function fetchCategory(
   const appList = await appListRes.json()
 
   console.log(
-    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${
-      appList.filter((item) => Boolean(item)).length
+    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${appList.filter((item) => Boolean(item)).length
     }.`,
   )
 
