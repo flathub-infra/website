@@ -35,7 +35,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
             width={50}
             height={50}
             className="rounded-full"
-            alt={`${authData.login}'s avatar`}
+            alt={t("user-avatar", { user: authData.login })}
           />
           <p>
             <b>{provider.name}</b>
