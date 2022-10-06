@@ -155,7 +155,7 @@ def get_download_token(appids: List[str], update_token: str = Body(None)):
         {
             "sub": "download",
             "exp": datetime.utcnow() + timedelta(hours=24),
-            "repos": appids,
+            "apps": appids,
         },
         base64.b64decode(config.settings.flat_manager_secret),
         algorithm="HS256",
