@@ -182,8 +182,6 @@ def update():
         ):
             eol_rebase[eol_dict["eolr"].split("/")[1]] = [appid]
 
-    db.redis_conn.mset(
-        {f"eol_rebase": json.dumps(eol_rebase)}
-    )
+    db.redis_conn.mset({f"eol_rebase": json.dumps(eol_rebase)})
 
     return len(recently_updated_zset)
