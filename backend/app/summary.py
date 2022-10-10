@@ -180,10 +180,10 @@ def update():
             and not appid.endswith(".Locale")
             and not appid.endswith(".Sources")
         ):
-            eol_rebase[appid] = eol_dict["eolr"].split("/")[1]
+            eol_rebase[eol_dict["eolr"].split("/")[1]] = [appid]
 
     db.redis_conn.mset(
-        {f"eol_rebase:{appid}": json.dumps(eol_rebase[appid]) for appid in eol_rebase}
+        {f"eol_rebase": json.dumps(eol_rebase)}
     )
 
     return len(recently_updated_zset)
