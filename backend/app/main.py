@@ -149,15 +149,15 @@ def get_developer(
 
 
 @app.get("/eol/rebase")
-def get_eol_rebase_appid():
-    return db.get_json_key(f"eol_rebase")
+def get_eol_rebase():
+    return db.get_json_key("eol_rebase")
 
 
 @app.get("/eol/rebase/{appid}")
 def get_eol_rebase_appid(
     appid: str,
 ):
-    for new_id, old_id_list in db.get_json_key(f"eol_rebase").items():
+    for new_id, old_id_list in db.get_json_key("eol_rebase").items():
         if appid in old_id_list:
             return new_id
 
