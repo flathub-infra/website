@@ -261,17 +261,17 @@ def test_feed_by_new(client):
 
 
 def test_picked_apps(client):
-    response = client.get("/picks/apps")
+    response = client.get("/compat/picks/apps")
     assert response.status_code == 200
 
 
 def test_picked_games(client):
-    response = client.get("/picks/games")
+    response = client.get("/compat/picks/games")
     assert response.status_code == 200
 
 
 def test_picked_non_existent(client):
-    response = client.get("/picks/NonExistent")
+    response = client.get("/compat/picks/NonExistent")
     assert response.status_code == 404
     assert response.json() == None
 
