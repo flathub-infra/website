@@ -18,7 +18,6 @@ from . import (
     exceptions,
     feeds,
     logins,
-    picks,
     purchases,
     schemas,
     search,
@@ -69,7 +68,7 @@ compat.register_to_app(app)
 def startup_event():
     db.wait_for_redis()
 
-    picks.initialize()
+    compat.initialize_picks()
     verification.initialize()
 
 
@@ -77,7 +76,7 @@ def startup_event():
 def update():
     new_apps = apps.load_appstream()
     summary.update()
-    picks.update()
+    compat.update_picks()
     verification.update()
     exceptions.update()
 
@@ -206,15 +205,6 @@ def get_recently_added(limit: int = 100):
     recent = apps.get_recently_added(limit)
     result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
     return [app for app in result if app]
-
-
-@app.get("/picks/{pick}")
-def get_picks(pick: str, response: Response):
-    if picks_ids := picks.get_pick(pick):
-        result = [utils.get_listing_app(f"apps:{appid}") for appid in picks_ids]
-        return [app for app in result if app]
-
-    response.status_code = 404
 
 
 @app.get("/popular")
