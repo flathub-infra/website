@@ -331,7 +331,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "meilisearch"
-version = "0.22.0"
+version = "0.22.1"
 description = "The python client for Meilisearch API."
 category = "main"
 optional = false
@@ -870,7 +870,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "8bf6861ea8bb61e96b752811b7bc78aef8092158da7ce6b9305f8a71c9772f9a"
+content-hash = "0ce38269c44c498d49ae55640819a6b884d6194ea20bb29050b7654693194d6e"
 
 [metadata.files]
 alembic = [
@@ -1246,8 +1246,8 @@ mccabe = [
     {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
 ]
 meilisearch = [
-    {file = "meilisearch-0.22.0-py3-none-any.whl", hash = "sha256:ba3c849cbd20d381c845cf7cc29daef062523268eba168f815f085e64bec1372"},
-    {file = "meilisearch-0.22.0.tar.gz", hash = "sha256:5f0aa41ef66d7d68aa4b542d979c762e1122fe9a1d7cc8e502ce66d3147c1172"},
+    {file = "meilisearch-0.22.1-py3-none-any.whl", hash = "sha256:868d43d5af12e57c45c59e138e63c0e3a3a1bfbce38c0ee71f1d817f2d2fc2f1"},
+    {file = "meilisearch-0.22.1.tar.gz", hash = "sha256:81b703c0525ac670153585f6f2f93fce0f99f533e530c26a11ed204fae801670"},
 ]
 multidict = [
     {file = "multidict-6.0.2-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:0b9e95a740109c6047602f4db4da9949e6c5945cefbad34a1299775ddc9a62e2"},
