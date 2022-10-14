@@ -92,7 +92,7 @@ def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
 
 
 def _get_stats(app_count: int) -> Dict[str, Dict[str, int]]:
-    edate = datetime.date.today() - datetime.timedelta(days=1)
+    edate = datetime.date.today()
     sdate = FIRST_STATS_DATE
 
     downloads_per_day: Dict[str, int] = {}

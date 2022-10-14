@@ -312,19 +312,22 @@ def test_stats(client):
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
     expected = {
-        "countries": {"AD": 20, "BR": 40},
+        "countries": {"AD": 30, "BR": 60},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},
-        "downloads": 2667,
+        "downloads": 3486,
         "number_of_apps": 3,
     }
     expected["delta_downloads_per_day"][day_before_yesterday.isoformat()] = 15
     expected["delta_downloads_per_day"][yesterday.isoformat()] = 15
+    expected["delta_downloads_per_day"][today.isoformat()] = 15
     expected["downloads_per_day"][day_before_yesterday.isoformat()] = 703
     expected["downloads_per_day"][yesterday.isoformat()] = 1964
+    expected["downloads_per_day"][today.isoformat()] = 819
     expected["updates_per_day"][day_before_yesterday.isoformat()] = 5
     expected["updates_per_day"][yesterday.isoformat()] = 5
+    expected["updates_per_day"][today.isoformat()] = 5
 
     assert response.status_code == 200
     assert response.json() == expected
