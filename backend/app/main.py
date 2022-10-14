@@ -157,11 +157,8 @@ def get_eol_rebase():
 def get_eol_rebase_appid(
     appid: str,
 ):
-    for new_id, old_id_list in db.get_json_key("eol_rebase").items():
-        if appid in old_id_list:
-            return new_id
-
-    return None
+    if value := db.get_json_key(f"eol_rebase:{appid}"):
+        return value
 
 
 @app.get("/projectgroup")

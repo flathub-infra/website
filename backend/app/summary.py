@@ -184,4 +184,8 @@ def update():
 
     db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase)})
 
+    for appid, old_id_list in eol_rebase.items():
+        for old_id in old_id_list:
+            db.redis_conn.mset({f"eol_rebase:{old_id}": json.dumps(appid)})
+
     return len(recently_updated_zset)
