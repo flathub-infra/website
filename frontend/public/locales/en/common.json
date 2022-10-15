@@ -251,5 +251,7 @@
   "your-profile": "Your Profile",
   "show-more": "Show More",
   "show-less": "Show Less",
-  "more-type": "More {{type}}"
+  "more-type": "More {{type}}",
+  "verified": "Verified",
+  "app-is-verified": "This app is verified."
 }
