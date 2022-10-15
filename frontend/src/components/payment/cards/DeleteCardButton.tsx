@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useEffect, useState } from "react"
-import { MdCancel, MdDelete } from "react-icons/md"
+import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import { deletePaymentCard } from "../../../asyncs/payment"
 import { useAsync } from "../../../hooks/useAsync"
@@ -50,7 +50,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
           aria-label={t("cancel")}
           title={t("cancel")}
         >
-          <MdCancel className="text-2xl" />
+          <HiXCircle className="text-2xl" />
         </Button>
         <Button
           variant="destructive"
@@ -58,7 +58,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
           aria-label={t("delete")}
           title={t("delete")}
         >
-          <MdDelete className="text-2xl" />
+          <HiTrash className="text-2xl" />
         </Button>
       </div>
     )

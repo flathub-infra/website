@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import { FunctionComponent } from "react"
-import { MdChevronRight, MdHome } from "react-icons/md"
+import { HiChevronRight, HiHome } from "react-icons/hi2"
 
 interface Props {
   pages: { name: string; href: string; current: boolean }[]
@@ -17,7 +17,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
         <li>
           <div>
             <a href="" className="text-zinc-400 hover:text-gray-500">
-              <MdHome className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+              <HiHome className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
               <span className="sr-only">{t("home")}</span>
             </a>
           </div>
@@ -25,7 +25,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
         {pages.map((page) => (
           <li key={page.name}>
             <div className="flex items-center">
-              <MdChevronRight
+              <HiChevronRight
                 className="h-5 w-5 flex-shrink-0 text-zinc-400"
                 aria-hidden="true"
               />

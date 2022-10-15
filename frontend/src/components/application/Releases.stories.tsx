@@ -2,8 +2,7 @@ import React from "react"
 import { ComponentMeta } from "@storybook/react"
 import Releases from "./Releases"
 import { faker } from "@faker-js/faker"
-import { MdCode } from "react-icons/md"
-import { Release } from "src/types/Appstream"
+import { Release } from "../../types/Appstream"
 
 export default {
   title: "Components/Application/Releases",

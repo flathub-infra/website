@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { HiSearch, HiOutlineX, HiOutlineMenu } from "react-icons/hi"
+import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import { env } from "process"
@@ -147,7 +147,7 @@ const Header = () => {
                       </label>
                       <div className="relative">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <HiSearch
+                          <HiMagnifyingGlass
                             className="h-5 w-5 text-gray-400"
                             aria-hidden="true"
                           />
@@ -183,15 +183,9 @@ const Header = () => {
                   <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-colorHighlight focus:outline-none">
                     <span className="sr-only">{t("open-menu")}</span>
                     {open ? (
-                      <HiOutlineX
-                        className="block h-6 w-6"
-                        aria-hidden="true"
-                      />
+                      <HiXMark className="block h-6 w-6" aria-hidden="true" />
                     ) : (
-                      <HiOutlineMenu
-                        className="block h-6 w-6"
-                        aria-hidden="true"
-                      />
+                      <HiBars3 className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Popover.Button>
                 </div>

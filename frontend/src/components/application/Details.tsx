@@ -18,7 +18,11 @@ import { Summary } from "../../types/Summary"
 import Releases from "./Releases"
 import Button from "../Button"
 import Image from "../Image"
-import { MdChevronRight, MdChevronLeft, MdZoomIn } from "react-icons/md"
+import {
+  HiChevronRight,
+  HiChevronLeft,
+  HiMagnifyingGlassPlus,
+} from "react-icons/hi2"
 import CmdInstructions from "./CmdInstructions"
 import AdditionalInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
@@ -175,7 +179,7 @@ const Details: FunctionComponent<Props> = ({
                 onClick={() => setShowLightbox(true)}
                 aria-label={t("zoom")}
               >
-                <MdZoomIn />
+                <HiMagnifyingGlassPlus />
               </Button>
             )}
             <Carousel
@@ -195,7 +199,7 @@ const Details: FunctionComponent<Props> = ({
               renderArrowNext={(handler, hasNext, label) =>
                 hasNext ? (
                   <div className="control-arrow control-next" onClick={handler}>
-                    <MdChevronRight />
+                    <HiChevronRight />
                   </div>
                 ) : (
                   <></>
@@ -204,7 +208,7 @@ const Details: FunctionComponent<Props> = ({
               renderArrowPrev={(handler, hasPrev, label) =>
                 hasPrev ? (
                   <div className="control-arrow control-prev" onClick={handler}>
-                    <MdChevronLeft />
+                    <HiChevronLeft />
                   </div>
                 ) : (
                   <></>

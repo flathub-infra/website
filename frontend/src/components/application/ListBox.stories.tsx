@@ -2,7 +2,7 @@ import React from "react"
 import { ComponentMeta } from "@storybook/react"
 import ListBox from "./ListBox"
 import { faker } from "@faker-js/faker"
-import { MdCode } from "react-icons/md"
+import { HiCodeBracket } from "react-icons/hi2"
 
 export default {
   title: "Components/Application/ListBox",
@@ -12,7 +12,7 @@ export default {
 export const singleLink = () => {
   const items = [
     {
-      icon: <MdCode />,
+      icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
         type: "url",
@@ -28,7 +28,7 @@ export const singleLink = () => {
 export const singleText = () => {
   const items = [
     {
-      icon: <MdCode />,
+      icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
         type: "text",
@@ -43,7 +43,7 @@ export const singleText = () => {
 export const stacked = () => {
   const items = [
     {
-      icon: <MdCode />,
+      icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
         type: "url",
@@ -52,7 +52,7 @@ export const stacked = () => {
       },
     },
     {
-      icon: <MdCode />,
+      icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
         type: "text",
@@ -60,7 +60,7 @@ export const stacked = () => {
       },
     },
     {
-      icon: <MdCode />,
+      icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
         type: "url",

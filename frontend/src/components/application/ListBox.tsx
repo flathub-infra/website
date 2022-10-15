@@ -1,7 +1,7 @@
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import { MdOpenInNew } from "react-icons/md"
+import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 
 interface Props {
   appId?: string
@@ -72,7 +72,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       onClick={linkClicked}
                       title={t("open-in-new-tab")}
                     >
-                      <MdOpenInNew />
+                      <HiArrowTopRightOnSquare />
                     </a>
                   </div>
                 )}

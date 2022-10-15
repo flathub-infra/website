@@ -2,19 +2,19 @@ import { Appstream } from "../../types/Appstream"
 import { Summary } from "../../types/Summary"
 import ListBox from "./ListBox"
 import {
-  MdCloudDownload,
-  MdContactPage,
-  MdDownload,
-  MdHelp,
-  MdOutlineBugReport,
-  MdQuestionAnswer,
-  MdTranslate,
-  MdWeb,
-  MdCode,
-  MdEngineering,
-} from "react-icons/md"
-import { BsHddFill, BsTextParagraph } from "react-icons/bs"
-import { MdLaptop } from "react-icons/md"
+  HiChatBubbleLeftRight,
+  HiCloudArrowDown,
+  HiCodeBracket,
+  HiFlag,
+  HiFolderArrowDown,
+  HiGlobeAlt,
+  HiInbox,
+  HiLanguage,
+  HiLifebuoy,
+  HiScale,
+  HiWrenchScrewdriver,
+} from "react-icons/hi2"
+import { BsHddFill, BsLaptop } from "react-icons/bs"
 import { AppStats } from "../../types/AppStats"
 import spdxLicenseList from "spdx-license-list/full"
 import { i18n, useTranslation } from "next-i18next"
@@ -61,7 +61,7 @@ const AdditionalInfo = ({
         appId={appId}
         items={[
           {
-            icon: <MdDownload />,
+            icon: <HiFolderArrowDown />,
             header: t("download-size"),
             content: {
               type: "text",
@@ -77,7 +77,7 @@ const AdditionalInfo = ({
         appId={appId}
         items={[
           {
-            icon: <MdLaptop />,
+            icon: <BsLaptop />,
             header: t("available-architectures"),
             content: {
               type: "text",
@@ -90,7 +90,7 @@ const AdditionalInfo = ({
         appId={appId}
         items={[
           {
-            icon: <MdCloudDownload />,
+            icon: <HiCloudArrowDown />,
             header: t("installs"),
             content: {
               type: "text",
@@ -106,7 +106,7 @@ const AdditionalInfo = ({
           appId={appId}
           items={[
             {
-              icon: <BsTextParagraph />,
+              icon: <HiScale />,
               header: t("license"),
               content: {
                 type: licenseIsLink ? "url" : "text",
@@ -128,7 +128,7 @@ const AdditionalInfo = ({
                     text: data.urls.homepage,
                     trackAsEvent: "Homepage",
                   },
-                  icon: <MdWeb />,
+                  icon: <HiGlobeAlt />,
                   header: t("project-website"),
                 }
               : undefined,
@@ -146,7 +146,7 @@ const AdditionalInfo = ({
                     text: data.urls.contact,
                     trackAsEvent: "Contact",
                   },
-                  icon: <MdContactPage />,
+                  icon: <HiInbox />,
                   header: t("contact"),
                 }
               : undefined,
@@ -164,7 +164,7 @@ const AdditionalInfo = ({
                     text: data.urls.help,
                     trackAsEvent: "Help",
                   },
-                  icon: <MdHelp />,
+                  icon: <HiLifebuoy />,
                   header: t("help"),
                 }
               : undefined,
@@ -182,7 +182,7 @@ const AdditionalInfo = ({
                     text: data.urls.faq,
                     trackAsEvent: "Faq",
                   },
-                  icon: <MdQuestionAnswer />,
+                  icon: <HiChatBubbleLeftRight />,
                   header: t("frequently-asked-questions"),
                 }
               : undefined,
@@ -195,7 +195,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.translate
               ? {
-                  icon: <MdTranslate />,
+                  icon: <HiLanguage />,
                   header: t("contribute-translations"),
                   content: {
                     type: "url",
@@ -213,7 +213,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.bugtracker
               ? {
-                  icon: <MdOutlineBugReport />,
+                  icon: <HiFlag />,
                   header: t("report-an-issue"),
                   content: {
                     type: "url",
@@ -231,7 +231,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.vcs_browser
               ? {
-                  icon: <MdCode />,
+                  icon: <HiCodeBracket />,
                   header: t("vcs_browser"),
                   content: {
                     type: "url",
@@ -249,7 +249,7 @@ const AdditionalInfo = ({
           items={[
             data.urls.contribute
               ? {
-                  icon: <MdEngineering />,
+                  icon: <HiWrenchScrewdriver />,
                   header: t("contribute"),
                   content: {
                     type: "url",
@@ -265,7 +265,7 @@ const AdditionalInfo = ({
         appId={appId}
         items={[
           {
-            icon: <MdCloudDownload />,
+            icon: <HiCloudArrowDown />,
             header: t("manifest"),
             content: {
               type: "url",
