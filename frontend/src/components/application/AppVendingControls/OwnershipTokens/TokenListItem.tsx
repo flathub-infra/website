@@ -2,7 +2,7 @@ import { Disclosure } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 import { FunctionComponent } from "react"
-import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md"
+import { HiChevronDown, HiChevronUp } from "react-icons/hi2"
 import { VendingToken } from "../../../../types/Vending"
 import TokenCancelButton from "./TokenCancelButton"
 
@@ -26,9 +26,9 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
           <span>{t(`status-${state}`)}</span>
         </div>
         {!open ? (
-          <MdArrowDropUp className="text-2xl" />
+          <HiChevronUp className="text-2xl" />
         ) : (
-          <MdArrowDropDown className="text-2xl" />
+          <HiChevronDown className="text-2xl" />
         )}
       </Disclosure.Button>
       <Disclosure.Panel className="flex flex-wrap justify-between gap-y-4 pl-4 pr-4">

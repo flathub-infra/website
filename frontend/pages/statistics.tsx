@@ -9,11 +9,8 @@ import "chart.js/auto"
 import { Line } from "react-chartjs-2"
 import { chartOptions, chartStyle } from "../src/chartHelper"
 import "chartjs-adapter-date-fns"
-import {
-  MdCloudDownload,
-  MdCalendarToday,
-  MdFormatListNumbered,
-} from "react-icons/md"
+import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
+
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
@@ -60,7 +57,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           <ListBox
             items={[
               {
-                icon: <MdCloudDownload />,
+                icon: <HiCloudArrowDown />,
                 header: t("count-downloads"),
                 content: {
                   type: "text",
@@ -74,7 +71,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           <ListBox
             items={[
               {
-                icon: <MdFormatListNumbered />,
+                icon: <HiListBullet />,
                 header: t("count-applications"),
                 content: {
                   type: "text",
@@ -88,7 +85,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           <ListBox
             items={[
               {
-                icon: <MdCalendarToday />,
+                icon: <HiCalendar />,
                 header: t("since"),
                 content: {
                   type: "text",

@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
-import { MdNavigateBefore, MdNavigateNext } from "react-icons/md"
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import { getTransactions } from "../../../asyncs/payment"
 import { useUserContext } from "../../../context/user-info"
@@ -82,7 +82,7 @@ const TransactionHistory: FunctionComponent = () => {
               disabled={page === 0}
               aria-label={t("previous-page")}
             >
-              <MdNavigateBefore className="text-2xl" />
+              <HiChevronLeft className="text-2xl" />
             </Button>
             <Button
               variant="secondary"
@@ -90,7 +90,7 @@ const TransactionHistory: FunctionComponent = () => {
               disabled={page === endPage || perPage > pageSlice.length}
               aria-label={t("next-page")}
             >
-              <MdNavigateNext className="text-2xl" />
+              <HiChevronRight className="text-2xl" />
             </Button>
           </div>
         </>

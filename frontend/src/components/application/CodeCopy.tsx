@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
-import { MdCheck, MdContentCopy } from "react-icons/md"
+import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
 import styles from "./CodeCopy.module.scss"
 
 interface Props {
@@ -46,8 +46,8 @@ const CodeCopy: FunctionComponent<Props> = ({
           className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-textSecondary hover:text-textPrimary"
           title={t("copy-text")}
         >
-          {!copied && <MdContentCopy></MdContentCopy>}
-          {copied && <MdCheck className="text-green-600"></MdCheck>}
+          {!copied && <HiSquare2Stack></HiSquare2Stack>}
+          {copied && <HiCheck className="text-green-600"></HiCheck>}
         </button>
       </CopyToClipboard>
     </div>
