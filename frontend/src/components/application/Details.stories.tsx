@@ -2,9 +2,9 @@ import React from "react"
 import { ComponentMeta } from "@storybook/react"
 import Details from "./Details"
 import { faker } from "@faker-js/faker"
-import { AppStats } from "src/types/AppStats"
-import { Appstream } from "src/types/Appstream"
-import { Summary } from "src/types/Summary"
+import { AppStats } from "../../types/AppStats"
+import { Appstream } from "../../types/Appstream"
+import { Summary } from "../../types/Summary"
 
 export default {
   title: "Components/Application/Details",
@@ -42,7 +42,7 @@ export const Generated = () => {
   }
 
   const app: Appstream = {
-    id: faker.datatype.number(),
+    id: faker.datatype.number().toString(),
     releases: [
       {
         version: faker.datatype.number().toString(),
@@ -62,6 +62,7 @@ export const Generated = () => {
       stats={stats}
       developerApps={developerApps}
       projectgroupApps={projectgroupApps}
+      verificationStatus={{ verified: true }}
     />
   )
 }

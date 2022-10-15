@@ -18,11 +18,13 @@ import {
   PROJECTGROUP_URL,
   LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
+  APP_VERIFICATION_STATUS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
-import { VendingConfig, VendingShare } from "./types/Vending"
+import { VendingConfig } from "./types/Vending"
+import { VerificationStatus } from "./types/VerificationStatus"
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
@@ -239,4 +241,19 @@ export async function fetchVendingConfig(): Promise<VendingConfig | undefined> {
   } else {
     return undefined
   }
+}
+
+export async function fetchVerificationStatus(
+  appId: string,
+): Promise<VerificationStatus | undefined> {
+  let verification: VerificationStatus
+  try {
+    const verificationResponse = await fetch(
+      `${APP_VERIFICATION_STATUS(appId)}`,
+    )
+    verification = await verificationResponse.json()
+  } catch (error) {
+    console.log(`No verification data for ${appId}`)
+  }
+  return verification
 }

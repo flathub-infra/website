@@ -8,6 +8,7 @@ import {
   fetchSummary,
   fetchDeveloperApps,
   fetchProjectgroupApps,
+  fetchVerificationStatus,
 } from "../../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
@@ -17,6 +18,7 @@ import {
 } from "../../../src/types/Appstream"
 import { Summary } from "../../../src/types/Summary"
 import { AppStats } from "../../../src/types/AppStats"
+import { VerificationStatus } from "src/types/VerificationStatus"
 
 export default function Details({
   app,
@@ -24,12 +26,14 @@ export default function Details({
   stats,
   developerApps,
   projectgroupApps,
+  verificationStatus,
 }: {
   app: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: Appstream[]
   projectgroupApps: Appstream[]
+  verificationStatus: VerificationStatus
 }) {
   const screenshots = app.screenshots
     ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
@@ -59,6 +63,7 @@ export default function Details({
         projectgroupApps={projectgroupApps.filter(
           (devApp) => devApp.id !== app.id,
         )}
+        verificationStatus={verificationStatus}
       />
     </>
   )
@@ -74,6 +79,7 @@ export const getStaticProps: GetStaticProps = async ({
   const stats = await fetchAppStats(appId as string)
   const developerApps = await fetchDeveloperApps(app?.developer_name)
   const projectgroupApps = await fetchProjectgroupApps(app?.project_group)
+  const verificationStatus = await fetchVerificationStatus(appId as string)
 
   return {
     props: {
@@ -83,6 +89,7 @@ export const getStaticProps: GetStaticProps = async ({
       stats,
       developerApps: developerApps ?? [],
       projectgroupApps: projectgroupApps ?? [],
+      verificationStatus,
     },
     revalidate: 3600,
   }

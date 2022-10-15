@@ -34,6 +34,7 @@ import { useAsync } from "../../hooks/useAsync"
 import { getAppVendingSetup } from "../../asyncs/vending"
 
 import useCollapse from "react-collapsed"
+import { VerificationStatus } from "src/types/VerificationStatus"
 
 interface Props {
   app?: Appstream
@@ -41,6 +42,7 @@ interface Props {
   stats: AppStats
   developerApps: Appstream[]
   projectgroupApps: Appstream[]
+  verificationStatus: VerificationStatus
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -82,6 +84,7 @@ const Details: FunctionComponent<Props> = ({
   stats,
   developerApps,
   projectgroupApps,
+  verificationStatus,
 }) => {
   const { t } = useTranslation()
   const user = useUserContext()
@@ -152,6 +155,7 @@ const Details: FunctionComponent<Props> = ({
           installClicked={installClicked}
           donateClicked={donateClicked}
           vendingSetup={vendingSetup}
+          verificationStatus={verificationStatus}
         />
         <div className="col-start-1 col-end-4 bg-bgColorSecondary">
           {showLightbox && (

@@ -1,12 +1,13 @@
 import { useTranslation } from "next-i18next"
-import Link from "next/link"
 import React from "react"
 import { Appstream } from "src/types/Appstream"
 import { UserState } from "src/types/Login"
 import { VendingSetup } from "src/types/Vending"
+import { VerificationStatus } from "src/types/VerificationStatus"
 import Button from "../Button"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
+import Verification from "./Verification"
 
 export function AppHeader({
   app,
@@ -14,12 +15,14 @@ export function AppHeader({
   installClicked,
   donateClicked,
   vendingSetup,
+  verificationStatus,
 }: {
   app: Appstream
   user: UserState
   installClicked: (e: any) => void
   donateClicked: (e: any) => void
   vendingSetup: VendingSetup
+  verificationStatus: VerificationStatus
 }) {
   const { t } = useTranslation()
 
@@ -32,7 +35,10 @@ export function AppHeader({
       )}
 
       <div className="mx-3 my-auto">
-        <h2 className="mt-0 mb-3">{app.name}</h2>
+        <div className="mb-3 flex space-x-4">
+          <h2 className="my-0">{app.name}</h2>
+          <Verification verificationStatus={verificationStatus}></Verification>
+        </div>
         {app.developer_name?.trim().length > 0 && (
           <div className="text-sm font-light">
             {t("by", {
