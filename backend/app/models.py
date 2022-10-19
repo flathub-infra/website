@@ -705,6 +705,13 @@ class ApplicationVendingConfig(Base):
             "recommended_donation > 100", name="vending_donation_at_least_one_dollar"
         ),
         CheckConstraint("minimum_payment >= 0", name="vending_payment_not_negative"),
+        CheckConstraint(
+            "recommended_donation <= 99999999",
+            name="recommended_donation_less_than_million",
+        ),
+        CheckConstraint(
+            "minimum_payment <= 99999999", name="minimum_payment_less_than_million"
+        ),
     )
 
     @classmethod
