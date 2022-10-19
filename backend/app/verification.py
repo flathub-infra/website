@@ -11,7 +11,7 @@ from github.GithubException import UnknownObjectException
 from pydantic import BaseModel
 from sqlalchemy.sql import func
 
-from . import config, models, utils
+from . import config, models, utils, worker
 from .logins import login_state
 
 
@@ -469,6 +469,8 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
     sqldb.session.merge(verification)
     sqldb.session.commit()
 
+    worker.republish_app.send(appid)
+
 
 class LinkResponse(BaseModel):
     link: str
@@ -551,6 +553,8 @@ def confirm_website_verification(
         verification.verified_timestamp = func.now()
         sqldb.session.commit()
 
+        worker.republish_app.send(appid)
+
     return result
 
 
@@ -565,6 +569,8 @@ def unverify(appid: str, login=Depends(login_state)):
     if verification is not None:
         sqldb.session.delete(verification)
         sqldb.session.commit()
+
+    worker.republish_app.send(appid)
 
 
 def register_to_app(app: FastAPI):

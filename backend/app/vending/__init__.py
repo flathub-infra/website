@@ -19,6 +19,7 @@ from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
+from .. import worker
 from ..config import settings
 from ..db import get_json_key
 from ..logins import login_state
@@ -51,6 +52,10 @@ class VendingError(Exception):
         if self.error == "not found":
             return JSONResponse(
                 {"status": "error", "error": self.error}, status_code=404
+            )
+        elif self.error == "republish failed":
+            return JSONResponse(
+                {"status": "error", "error": self.error}, status_code=500
             )
         else:
             return JSONResponse(
@@ -380,6 +385,9 @@ def post_app_vending_setup(
         db.session.commit()
     except Exception as base_exc:
         raise VendingError(error="bad-values") from base_exc
+
+    # Update the app metadata in the repository
+    worker.republish_app.send(appid)
 
     return get_app_vending_setup(appid, login)
 

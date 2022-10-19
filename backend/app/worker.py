@@ -1,7 +1,11 @@
+import base64
+from datetime import datetime, timedelta
 from typing import List
 
 import dramatiq
 import dramatiq.brokers.redis
+import jwt
+import requests
 
 from . import apps, compat, db, exceptions, search, stats, summary, utils
 from .config import settings
@@ -52,3 +56,44 @@ def update():
         )
 
     search.update_apps(added_at)
+
+
+@dramatiq.actor
+def republish_app(appid: str):
+    from .vending import VendingError
+
+    if not settings.flat_manager_build_secret or not settings.flat_manager_api:
+        return
+
+    repos = ["stable", "beta"]
+
+    # Create a token to use in the request
+    token = "Bearer " + jwt.encode(
+        {
+            "jti": "flathub_backend_internal_token",
+            "sub": "build",
+            "scope": ["republish"],
+            "apps": [appid],
+            "repos": repos,
+            "iat": datetime.utcnow(),
+            "exp": datetime.utcnow() + timedelta(minutes=5),
+            "name": "Backend token for internal use (republish_app)",
+        },
+        base64.b64decode(settings.flat_manager_build_secret),
+        algorithm="HS256",
+    )
+
+    with requests.Session() as session:
+        for repo in repos:
+            try:
+                response = session.post(
+                    f"{settings.flat_manager_api}/api/v1/repo/{repo}/republish",
+                    headers={"Authorization": token},
+                    json={"app": appid},
+                )
+
+                if response.status_code != 200:
+                    raise VendingError("republish failed")
+
+            except:
+                raise VendingError("republish failed")
