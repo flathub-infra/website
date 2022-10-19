@@ -46,9 +46,18 @@ class Settings(BaseSettings):
     stripe_secret_key: Optional[str] = None
     stripe_public_key: Optional[str] = None
     stripe_webhook_key: Optional[str] = None
-    flat_manager_secret: str = "c2VjcmV0"
-    update_token_secret: str = "c2VjcmV0"
     env: str = "production"
+
+    # Should match "repo-secret" in flat-manager's config
+    flat_manager_secret: str = "c2VjcmV0"
+    # Should be a unique random secret, not in flat-manager's config
+    update_token_secret: str = "c2VjcmV0"
+    # Should match "secret" in flat-manager's config
+    flat_manager_build_secret: Optional[str] = "c2VjcmV0"
+    # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
+    # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
+    # when running docker-compose.
+    flat_manager_api: Optional[str] = None
 
 
 settings = Settings()

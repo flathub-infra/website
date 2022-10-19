@@ -50,6 +50,7 @@ services:
       - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
       - APPSTREAM_REPOS=$APPSTREAM_REPOS
       - DATADIR=${DATADIR-/app/data}
+      - FLAT_MANAGER_API=$FLAT_MANAGER_API
     depends_on:
       - redis
       - db
@@ -57,6 +58,9 @@ services:
     volumes:
       - /var/lib/flatpak
       - .:/app:z
+    # The workers need access to flat-manager, which is a separate repository and usually runs on the host.
+    extra_hosts:
+      host.docker.internal: host-gateway
 
   db:
     image: docker.io/library/postgres:14
