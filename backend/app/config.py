@@ -49,6 +49,7 @@ class Settings(BaseSettings):
     flat_manager_secret: str = "c2VjcmV0"
     update_token_secret: str = "c2VjcmV0"
     flat_manager_build_secret: str = "c2VjcmV0"
+    flat_manager_api: str = "http://host.docker.internal:8080"
 
 
 settings = Settings()

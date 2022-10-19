@@ -228,9 +228,7 @@ def create_build_token(
 
 
 @router.delete("/build-tokens/{token_id}", status_code=200)
-def revoke_build_token(
-    token_id: int, login=Depends(login_state)
-):
+def revoke_build_token(token_id: int, login=Depends(login_state)):
     """
     Revokes the given build token.
     """

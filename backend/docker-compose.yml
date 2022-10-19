@@ -19,6 +19,9 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
+    # The backend needs access to flat-manager, which is a separate repository and usually runs on the host.
+    extra_hosts:
+      host.docker.internal: host-gateway
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     environment:
       - REDIS_HOST=redis

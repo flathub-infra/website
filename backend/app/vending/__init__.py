@@ -10,14 +10,19 @@ The core vending behaviours are:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
+import base64
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 
+import jwt
+import requests
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
+from .. import config
 from ..config import settings
 from ..logins import login_state
 from ..models import (
@@ -45,6 +50,10 @@ class VendingError(Exception):
         if self.error == "not found":
             return JSONResponse(
                 {"status": "error", "error": self.error}, status_code=404
+            )
+        elif self.error == "republish failed":
+            return JSONResponse(
+                {"status": "error", "error": self.error}, status_code=500
             )
         else:
             return JSONResponse(
@@ -162,6 +171,46 @@ async def vendingerror_exception_handler(_request: Request, exc: VendingError):
         print("Wallet Error caused by:")
         print(exc.__cause__)
     return exc.as_jsonresponse()
+
+
+def republish_app(appid: str):
+    if (
+        config.settings.flat_manager_build_secret is None
+        or config.settings.flat_manager_api is None
+    ):
+        return
+
+    repos = ["stable", "beta"]
+
+    # Create a token to use in the request
+    token = "Bearer " + jwt.encode(
+        {
+            "sub": "build",
+            "scope": ["republish"],
+            "apps": [appid],
+            "repos": repos,
+            "iat": datetime.utcnow(),
+            "exp": datetime.utcnow() + timedelta(minutes=5),
+            "name": "Backend token for internal use (republish_app)",
+        },
+        base64.b64decode(config.settings.flat_manager_build_secret),
+        algorithm="HS256",
+    )
+
+    with requests.Session() as session:
+        for repo in repos:
+            try:
+                response = session.post(
+                    f"{settings.flat_manager_api}/api/v1/repo/{repo}/republish",
+                    headers={"Authorization": token},
+                    json={"app": appid},
+                )
+
+                if response.status_code != 200:
+                    raise VendingError("republish failed")
+
+            except:
+                raise VendingError("republish failed")
 
 
 router = APIRouter(prefix="/vending")
@@ -362,6 +411,9 @@ def post_app_vending_setup(
         db.session.commit()
     except Exception as base_exc:
         raise VendingError(error="bad-values") from base_exc
+
+    # Update the app metadata in the repository
+    republish_app(appid)
 
     return get_app_vending_setup(appid, login)
 
