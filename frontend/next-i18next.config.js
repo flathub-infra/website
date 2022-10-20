@@ -30,6 +30,8 @@ module.exports = {
       "el",
       "ta",
       "fa",
+      "hi",
+      "bn",
     ],
   },
   // debug: true,
