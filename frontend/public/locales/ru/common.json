@@ -250,5 +250,6 @@
   "show-more": "Показать больше",
   "show-less": "Скрыть",
   "vending-dashboard": "Перейти к учётной записи Stripe Express",
-  "vending-onboard": "Создать учётную запись Stripe Express"
+  "vending-onboard": "Создать учётную запись Stripe Express",
+  "more-type": "Больше {{type}}"
 }

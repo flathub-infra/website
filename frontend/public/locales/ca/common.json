@@ -229,5 +229,17 @@
   "no-applications": "No hi ha aplicacions per mostrar.",
   "science": "Ciència",
   "education": "Educació",
-  "system": "Sistema"
+  "system": "Sistema",
+  "owned-apps": "Aplicacions pròpies",
+  "require-payment": "Requereix el pagament",
+  "enable-app-vending": "Activa la venda d'aplicacions",
+  "permission-denied": "No teniu permís per fer això.",
+  "status-redeemed": "Redimit",
+  "status-unredeemed": "Sense redimir",
+  "show-more": "Mostra més",
+  "show-less": "Mostra menys",
+  "your-profile": "El vostre perfil",
+  "open-menu": "Obre el menú",
+  "open-user-menu": "Obriu el menú d'usuari",
+  "more-type": "Més {{type}}"
 }

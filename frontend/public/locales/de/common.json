@@ -250,5 +250,6 @@
   "open-user-menu": "Benutzermenü öffnen",
   "your-profile": "Ihr Profil",
   "show-less": "Weniger",
-  "show-more": "Mehr"
+  "show-more": "Mehr",
+  "more-type": "Weitere {{type}}"
 }
