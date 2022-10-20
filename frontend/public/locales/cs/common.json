@@ -6,7 +6,7 @@
   "go-home": "Domovská stránka",
   "new-and-updated": "Nedávno aktualizované",
   "editors-choice-apps": "Doporučené aplikace",
-  "get-involved": "Zapojit se",
+  "get-involved": "Zapojte se",
   "rss-feeds": "RSS feedy",
   "user-avatar": "Profilový obrázek {{user}}",
   "quick-setup": "Rychlé nastavení",
@@ -96,7 +96,7 @@
   "about-block": "<0>Flathub je místem pro získávání a distribuci aplikací pro celý desktopový Linux. Je poháněn <1>Flatpakem</1>, což umožňuje spouštět aplikace z Flathubu na téměř libovolné Linuxové distribuci.</0><1>Pomocí Flathubu získáte přístup k rostoucí sbírce Flatpaků podle <2>návodu k nastavení</2>.</1>",
   "official-badges": "Oficiální odznaky Flathubu",
   "get-involved-block": "<p>Flathub sjednocuje ekosystém Linuxových desktopů a vy můžete pomoci. Pište dokumentaci nebo kód, vytvářejte webové stránky nebo spravujte servery.</p>",
-  "reporting-issues": "Nahlásit problémy",
+  "reporting-issues": "Nahlašování problémů",
   "reporting-issues-block": "<0>Bezpečnostní nebo právní problémy lze nahlásit <2>správcům Flathubu</2>.</0>",
   "acknowledgements": "Poděkování",
   "acknowledgements-block": "<p>Flathub by nemohl fungovat bez finanční podpory následujících organizací a jednotlivců.</p>",
@@ -250,5 +250,8 @@
   "open-user-menu": "Otevřít uživatelskou nabídku",
   "your-profile": "Váš profil",
   "show-more": "Zobrazit více",
-  "show-less": "Zobrazit méně"
+  "show-less": "Zobrazit méně",
+  "more-type": "Více {{type}}",
+  "verified": "Ověřeno",
+  "app-is-verified": "Tato aplikace je ověřená."
 }

@@ -231,5 +231,16 @@
   "no-applications": "Aucune application à afficher.",
   "science": "Science",
   "education": "Éducation",
-  "system": "Système"
+  "system": "Système",
+  "enable-app-vending": "Autoriser la vente de l'application",
+  "require-payment": "Nécessite un paiement",
+  "permission-denied": "Vous n'avez pas la permission de faire cela.",
+  "token-creation-placeholder": "Entrer une liste de noms sur des lignes séparées, chacun identifiant un nouveau jeton de propriété.",
+  "ownership-tokens": "Preuves de propriété",
+  "submit": "Soumettre",
+  "open-menu": "Ouvrir le menu",
+  "open-user-menu": "Ouvrir le menu utilisateur",
+  "your-profile": "Votre profil",
+  "show-more": "Montrer plus",
+  "show-less": "Montrer moins"
 }

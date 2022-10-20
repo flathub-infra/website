@@ -250,5 +250,6 @@
   "education": "Edukacja",
   "system": "System",
   "show-more": "Pokaż więcej",
-  "show-less": "Pokaż mniej"
+  "show-less": "Pokaż mniej",
+  "more-type": "Więcej {{type}}"
 }

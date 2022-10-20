@@ -250,5 +250,8 @@
   "open-user-menu": "Kullanıcı Menüsünü Aç",
   "your-profile": "Profiliniz",
   "show-more": "Daha Fazla Göster",
-  "show-less": "Daha Az Göster"
+  "show-less": "Daha Az Göster",
+  "more-type": "Daha fazla {{type}}",
+  "app-is-verified": "Bu uygulama doğrulandı.",
+  "verified": "Doğrulandı"
 }

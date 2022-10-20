@@ -250,5 +250,8 @@
   "open-user-menu": "Avaa käyttäjävalikko",
   "your-profile": "Profiilisi",
   "show-more": "Näytä lisää",
-  "show-less": "Näytä vähemmän"
+  "show-less": "Näytä vähemmän",
+  "more-type": "Lisää {{type}}",
+  "verified": "Vahvistettu",
+  "app-is-verified": "Tämä sovellus on vahvistettu."
 }
