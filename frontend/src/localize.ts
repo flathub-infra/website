@@ -24,6 +24,8 @@ import {
   el,
   ta,
   faIR,
+  hi,
+  bn,
 } from "date-fns/locale"
 
 export type Language =
@@ -53,6 +55,8 @@ export type Language =
   | "el"
   | "ta"
   | "fa"
+  | "hi"
+  | "bn"
 
 export const languages: Language[] = [
   "en",
@@ -81,6 +85,8 @@ export const languages: Language[] = [
   "el",
   "ta",
   "fa",
+  "hi",
+  "bn",
 ]
 
 export function getLocale(language: string): Locale {
@@ -138,6 +144,10 @@ export function getLocale(language: string): Locale {
       return ta
     case "fa":
       return faIR // date-fns has no Persian locale
+    case "hi":
+      return hi
+    case "bn":
+      return bn
 
     default:
       return enGB
@@ -199,6 +209,10 @@ export function getLocaleString(language: string): string {
       return "ta_IN"
     case "fa":
       return "fa_IR"
+    case "hi":
+      return "hi_IN"
+    case "bn":
+      return "bn_IN"
 
     default:
       return "en_US"
@@ -259,6 +273,10 @@ export function getLanguageFlag(language: Language): string {
       return "🇮🇳"
     case "fa":
       return "🇮🇷"
+    case "hi":
+      return "🇮🇳"
+    case "bn":
+      return "🇧🇩"
   }
 }
 
@@ -316,6 +334,10 @@ export function getLanguageName(language: Language): string {
       return "தமிழ்"
     case "fa":
       return "فارسی"
+    case "hi":
+      return "हिन्दी"
+    case "bn":
+      return "বাংলা"
 
     default:
       return assertUnreachable(language)
@@ -389,6 +411,10 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("ta")
     case "fa":
       return new Intl.Locale("fa")
+    case "hi":
+      return new Intl.Locale("hi")
+    case "bn":
+      return new Intl.Locale("bn")
   }
 }
 
