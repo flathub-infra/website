@@ -180,7 +180,26 @@ def update():
             and not appid.endswith(".Locale")
             and not appid.endswith(".Sources")
         ):
-            eol_rebase[eol_dict["eolr"].split("/")[1]] = [appid]
+            new_id = eol_dict["eolr"].split("/")[1]
+            if new_id in eol_rebase:
+                eol_rebase[new_id].append(appid)
+            else:
+                eol_rebase[new_id] = [appid]
+
+    # Support changing of App ID multiple times
+    while True:
+        found = False
+        remove_list = []
+        for app_id, old_id_list in eol_rebase.items():
+            for new_app_id, check_id_list in eol_rebase.items():
+                if app_id in check_id_list:
+                    eol_rebase[new_app_id] += old_id_list
+                    remove_list.append(app_id)
+                    found = True
+        for i in remove_list:
+            del eol_rebase[i]
+        if not found:
+            break
 
     db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase)})
 
