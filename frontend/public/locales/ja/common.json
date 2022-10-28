@@ -228,5 +228,8 @@
   "recommended-payment": "推奨支払額",
   "your-profile": "マイページ",
   "show-more": "すべて表示",
-  "show-less": "一部を表示"
+  "show-less": "一部を表示",
+  "app-payment-information": "このアプリの開発者が最小支払い額の{{minivalue}}に、推奨支払額の{{recvalue}}に設定されています。",
+  "value-at-most": "{{value}}以上の値を入力してください",
+  "confirm-settings": "設定事項を確定する"
 }

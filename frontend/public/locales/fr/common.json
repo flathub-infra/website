@@ -242,5 +242,9 @@
   "open-user-menu": "Ouvrir le menu utilisateur",
   "your-profile": "Votre profil",
   "show-more": "Montrer plus",
-  "show-less": "Montrer moins"
+  "show-less": "Montrer moins",
+  "verified": "Vérifié",
+  "app-is-verified": "Cette appli est vérifiée.",
+  "redeem-token": "Convertir le jeton",
+  "more-type": "Plus de {{type}}"
 }

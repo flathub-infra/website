@@ -250,5 +250,8 @@
   "show-less": "Mostrar menos",
   "open-menu": "Abrir menú",
   "open-user-menu": "Abrir el menú de usuario",
-  "your-profile": "Tu perfil"
+  "your-profile": "Tu perfil",
+  "verified": "Verificada",
+  "app-is-verified": "Esta aplicación está verificada.",
+  "more-type": "Más {{type}}"
 }
