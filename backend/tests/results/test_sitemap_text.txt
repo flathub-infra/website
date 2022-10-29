@@ -636,3 +636,47 @@ https://beta.flathub.org/bn/languages
 https://beta.flathub.org/bn/privacy-policy
 https://beta.flathub.org/bn/statistics
 https://beta.flathub.org/bn/terms-and-conditions
+https://beta.flathub.org/eo/about
+https://beta.flathub.org/eo/apps
+https://beta.flathub.org/eo/apps/category/Game
+https://beta.flathub.org/eo/apps/category/Network
+https://beta.flathub.org/eo/apps/category/Office
+https://beta.flathub.org/eo/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/eo/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/eo/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/eo/apps/collection/editors-choice-apps
+https://beta.flathub.org/eo/apps/collection/editors-choice-games
+https://beta.flathub.org/eo/apps/collection/popular
+https://beta.flathub.org/eo/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/eo/apps/collection/recently-updated
+https://beta.flathub.org/eo/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/eo/apps/details/com.wps.Office
+https://beta.flathub.org/eo/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/eo/badges
+https://beta.flathub.org/eo/feeds
+https://beta.flathub.org/eo/languages
+https://beta.flathub.org/eo/privacy-policy
+https://beta.flathub.org/eo/statistics
+https://beta.flathub.org/eo/terms-and-conditions
+https://beta.flathub.org/lt/about
+https://beta.flathub.org/lt/apps
+https://beta.flathub.org/lt/apps/category/Game
+https://beta.flathub.org/lt/apps/category/Network
+https://beta.flathub.org/lt/apps/category/Office
+https://beta.flathub.org/lt/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/lt/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/lt/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/lt/apps/collection/editors-choice-apps
+https://beta.flathub.org/lt/apps/collection/editors-choice-games
+https://beta.flathub.org/lt/apps/collection/popular
+https://beta.flathub.org/lt/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/lt/apps/collection/recently-updated
+https://beta.flathub.org/lt/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/lt/apps/details/com.wps.Office
+https://beta.flathub.org/lt/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/lt/badges
+https://beta.flathub.org/lt/feeds
+https://beta.flathub.org/lt/languages
+https://beta.flathub.org/lt/privacy-policy
+https://beta.flathub.org/lt/statistics
+https://beta.flathub.org/lt/terms-and-conditions
