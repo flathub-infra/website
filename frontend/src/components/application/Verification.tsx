@@ -16,7 +16,20 @@ const Verification: FunctionComponent<Props> = ({ verificationStatus }) => {
     return (
       <HiCheckBadge
         className="h-10 w-10 text-colorPrimary"
-        title={t("verified")}
+        title={
+          verificationStatus.method == "manual"
+            ? t("verified-manually")
+            : verificationStatus.method == "website"
+            ? t("verified-website", {
+                website: verificationStatus.website,
+              })
+            : verificationStatus.method == "login_provider"
+            ? t("verified-login-provider", {
+                login_provider: verificationStatus.login_provider,
+                login_name: verificationStatus.login_name,
+              })
+            : t("verified") // Should never happen
+        }
         aria-label={t("app-is-verified")}
       />
     )
