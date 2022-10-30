@@ -10,12 +10,7 @@ client = meilisearch.Client(
 client.create_index("apps")
 client.index("apps").update_sortable_attributes(["downloads_last_month"])
 client.index("apps").update_searchable_attributes(
-    [
-        "name",
-        "summary",
-        "keywords",
-        "description",
-    ]
+    ["name", "summary", "keywords", "description", "id"]
 )
 
 
