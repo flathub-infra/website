@@ -12,30 +12,35 @@ const Footer = () => {
             {t("applications")}
           </div>
           <div className="flex flex-col">
-            <Link href="/apps/collection/popular">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("popular")}
-              </a>
+            <Link
+              href="/apps/collection/popular"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("popular")}
             </Link>
-            <Link href="/apps/collection/recently-added">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("recently-added-apps")}
-              </a>
+            <Link
+              href="/apps/collection/recently-added"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("recently-added-apps")}
             </Link>
-            <Link href="/apps/collection/recently-updated">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("new-and-updated")}
-              </a>
+            <Link
+              href="/apps/collection/recently-updated"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("new-and-updated")}
             </Link>
-            <Link href="/apps">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("browse-apps")}
-              </a>
+            <Link
+              href="/apps"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("browse-apps")}
             </Link>
-            <Link href="/feeds">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("rss-feeds")}
-              </a>
+            <Link
+              href="/feeds"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("rss-feeds")}
             </Link>
           </div>
         </div>
@@ -93,10 +98,11 @@ const Footer = () => {
             >
               {t("documentation")}
             </a>
-            <Link href="/badges">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("badges")}
-              </a>
+            <Link
+              href="/badges"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("badges")}
             </Link>
           </div>
         </div>
@@ -106,30 +112,35 @@ const Footer = () => {
             Flathub
           </div>
           <div className="flex flex-col">
-            <Link href="/languages">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("switch-language")}
-              </a>
+            <Link
+              href="/languages"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("switch-language")}
             </Link>
-            <Link href="/terms-and-conditions">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("terms-and-conditions")}
-              </a>
+            <Link
+              href="/terms-and-conditions"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("terms-and-conditions")}
             </Link>
-            <Link href="/privacy-policy">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("privacy-policy")}
-              </a>
+            <Link
+              href="/privacy-policy"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("privacy-policy")}
             </Link>
-            <Link href="/statistics">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("statistics")}
-              </a>
+            <Link
+              href="/statistics"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("statistics")}
             </Link>
-            <Link href="/about">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("about")}
-              </a>
+            <Link
+              href="/about"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("about")}
             </Link>
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"

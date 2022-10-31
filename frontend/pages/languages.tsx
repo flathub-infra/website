@@ -22,11 +22,7 @@ const Languages = (): JSX.Element => {
             .map((language) => (
               <li key={language}>
                 <Link href={``} locale={`${language}`} passHref>
-                  <a>
-                    {getLanguageFlag(language) +
-                      " " +
-                      getLanguageName(language)}
-                  </a>
+                  {getLanguageFlag(language) + " " + getLanguageName(language)}
                 </Link>
               </li>
             ))}

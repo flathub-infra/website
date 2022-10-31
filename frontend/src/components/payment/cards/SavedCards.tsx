@@ -36,7 +36,7 @@ const SavedCards: FunctionComponent = () => {
   }
 
   let content: ReactElement
-  if (error || !cards.length) {
+  if (error || !cards?.length) {
     content = <p>{error ? t(error) : t("no-saved-payment-methods")}</p>
   } else {
     content = (

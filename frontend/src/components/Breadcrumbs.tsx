@@ -38,13 +38,13 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
                   className="h-5 w-5 flex-shrink-0 text-zinc-400"
                   aria-hidden="true"
                 />
-                <Link href={page.href} passHref>
-                  <a
-                    className="ml-4 text-sm font-medium text-zinc-400 no-underline hover:text-zinc-500"
-                    aria-current={page.current ? "page" : undefined}
-                  >
-                    {t(page.name)}
-                  </a>
+                <Link
+                  href={page.href}
+                  passHref
+                  className="ml-4 text-sm font-medium text-zinc-400 no-underline hover:text-zinc-500"
+                  aria-current={page.current ? "page" : undefined}
+                >
+                  {t(page.name)}
                 </Link>
               </div>
             </li>

@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"
-import Image from "next/image"
+import Image from "next/legacy/image"
 
 interface Props {
   provider: LoginProvider

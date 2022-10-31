@@ -8,7 +8,7 @@ import { env } from "process"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
@@ -205,19 +205,25 @@ const Header = () => {
                       )
                     } else {
                       return (
-                        <Link passHref href={item.href} key={item.name}>
-                          <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight">
-                            {t(item.name)}
-                          </a>
+                        <Link
+                          passHref
+                          href={item.href}
+                          key={item.name}
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight"
+                        >
+                          {t(item.name)}
                         </Link>
                       )
                     }
                   })}
                   {!IS_PRODUCTION && !user.info && (
-                    <Link passHref href="/login" key="login">
-                      <a className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight">
-                        {t("login")}
-                      </a>
+                    <Link
+                      passHref
+                      href="/login"
+                      key="login"
+                      className="ml-4 inline-flex items-center rounded-md border border-transparent bg-colorPrimary px-4 py-2 text-sm font-medium text-white no-underline hover:bg-colorHighlight"
+                    >
+                      {t("login")}
                     </Link>
                   )}
 
@@ -256,15 +262,15 @@ const Header = () => {
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
-                                <Link passHref href={item.href}>
-                                  <a
-                                    className={classNames(
-                                      active ? "bg-gray-100" : "",
-                                      "block py-2 px-4 text-sm text-gray-700 no-underline hover:opacity-75",
-                                    )}
-                                  >
-                                    {t(item.name)}
-                                  </a>
+                                <Link
+                                  passHref
+                                  href={item.href}
+                                  className={classNames(
+                                    active ? "bg-gray-100" : "",
+                                    "block py-2 px-4 text-sm text-gray-700 no-underline hover:opacity-75",
+                                  )}
+                                >
+                                  {t(item.name)}
                                 </Link>
                               )}
                             </Menu.Item>
@@ -317,42 +323,42 @@ const Header = () => {
                         )
                       } else {
                         return (
-                          <Link passHref href={item.href} key={item.name}>
-                            <a
-                              key={item.name}
-                              onClick={() => {
-                                navigation.forEach((nav) => {
-                                  nav.current = nav.name === item.name
-                                })
-                                close()
-                              }}
-                              aria-current={item.current ? "page" : undefined}
-                              className={classNames(
-                                item.current
-                                  ? "bg-colorHighlight"
-                                  : "hover:bg-colorHighlight",
-                                "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
-                              )}
-                            >
-                              {t(item.name)}
-                            </a>
+                          <Link
+                            passHref
+                            href={item.href}
+                            key={item.name}
+                            onClick={() => {
+                              navigation.forEach((nav) => {
+                                nav.current = nav.name === item.name
+                              })
+                              close()
+                            }}
+                            aria-current={item.current ? "page" : undefined}
+                            className={classNames(
+                              item.current
+                                ? "bg-colorHighlight"
+                                : "hover:bg-colorHighlight",
+                              "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-textPrimary",
+                            )}
+                          >
+                            {t(item.name)}
                           </Link>
                         )
                       }
                     })}
                     {!IS_PRODUCTION && !user.info && (
-                      <Link passHref href="/login" key="login">
-                        <a
-                          key={"login"}
-                          className={classNames(
-                            "block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary",
-                          )}
-                          onClick={() => {
-                            close()
-                          }}
-                        >
-                          {t("login")}
-                        </a>
+                      <Link
+                        passHref
+                        href="/login"
+                        key="login"
+                        className={classNames(
+                          "block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary",
+                        )}
+                        onClick={() => {
+                          close()
+                        }}
+                      >
+                        {t("login")}
                       </Link>
                     )}
                   </div>
@@ -383,15 +389,16 @@ const Header = () => {
                       </div>
                       <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
                         {userNavigation.map((item) => (
-                          <Link key={item.name} href={item.href} passHref>
-                            <a
-                              className="block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary"
-                              onClick={() => {
-                                close()
-                              }}
-                            >
-                              {t(item.name)}
-                            </a>
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            passHref
+                            className="block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-colorHighlight dark:text-textPrimary"
+                            onClick={() => {
+                              close()
+                            }}
+                          >
+                            {t(item.name)}
                           </Link>
                         ))}
                         <button
