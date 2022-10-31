@@ -21,7 +21,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
           item: page.href,
         }))}
       />
-      <nav className="flex" aria-label="Breadcrumb">
+      <nav className="flex">
         <ol role="list" className="flex items-center space-x-4">
           <li>
             <div>
