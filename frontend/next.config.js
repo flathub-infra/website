@@ -30,7 +30,6 @@ module.exports = (phase) => ({
       "secure.gravatar.com",
     ],
   },
-  swcMinify: true,
   output: "standalone",
   async redirects() {
     return [

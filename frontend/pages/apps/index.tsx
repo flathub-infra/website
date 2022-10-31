@@ -28,6 +28,7 @@ export default function Apps({ topAppsByCategory }) {
               key={category}
               href={`/apps/category/${encodeURIComponent(category)}`}
               passHref
+              legacyBehavior
             >
               <Tile>{categoryToName(category, t)}</Tile>
             </Link>

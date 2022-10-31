@@ -1,4 +1,4 @@
-import NextImage, { ImageProps } from "next/image"
+import NextImage, { ImageProps } from "next/legacy/image"
 
 // opt-out of image optimization, no-op
 const customLoader = ({ src }) => {
