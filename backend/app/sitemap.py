@@ -10,8 +10,6 @@ def generate_text(frontend_url="beta.flathub.org"):
     pages = [
         "/about",
         "/apps",
-        "/apps/collection/editors-choice-apps",
-        "/apps/collection/editors-choice-games",
         "/apps/collection/popular",
         "/apps/collection/recently-updated",
         "/badges",

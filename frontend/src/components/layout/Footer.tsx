@@ -27,11 +27,6 @@ const Footer = () => {
                 {t("new-and-updated")}
               </a>
             </Link>
-            <Link href="/apps/collection/editors-choice-apps">
-              <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
-                {t("editors-choice-apps")}
-              </a>
-            </Link>
             <Link href="/apps">
               <a className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm">
                 {t("browse-apps")}

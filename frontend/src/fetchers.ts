@@ -8,7 +8,6 @@ import {
   APP_DETAILS,
   RECENTLY_UPDATED_URL,
   RECENTLY_ADDED_URL,
-  EDITORS_PICKS_APPS_URL,
   CATEGORY_URL,
   SEARCH_APP,
   SUMMARY_DETAILS,
@@ -104,9 +103,6 @@ export default async function fetchCollection(
     case Collections.recentlyUpdated:
       collectionURL = RECENTLY_UPDATED_URL
       break
-    case Collections.editorsApps:
-      collectionURL = EDITORS_PICKS_APPS_URL
-      break
     case Collections.recentlyAdded:
       collectionURL = RECENTLY_ADDED_URL
       break
@@ -123,15 +119,7 @@ export default async function fetchCollection(
 
   const limit = count ? count : collectionList.length
 
-  const limitedList = collectionList
-    .sort((a, b) => {
-      if (collection === Collections.editorsApps) {
-        return 0.5 - Math.random()
-      }
-      // don't change sorting for all others
-      return
-    })
-    .slice(0, limit)
+  const limitedList = collectionList.slice(0, limit)
 
   console.log(
     `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
