@@ -6,8 +6,6 @@ https://beta.flathub.org/apps/category/Office
 https://beta.flathub.org/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/apps/collection/editors-choice-apps
-https://beta.flathub.org/apps/collection/editors-choice-games
 https://beta.flathub.org/apps/collection/popular
 https://beta.flathub.org/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/apps/collection/recently-updated
@@ -28,8 +26,6 @@ https://beta.flathub.org/en_GB/apps/category/Office
 https://beta.flathub.org/en_GB/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/en_GB/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/en_GB/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/en_GB/apps/collection/editors-choice-apps
-https://beta.flathub.org/en_GB/apps/collection/editors-choice-games
 https://beta.flathub.org/en_GB/apps/collection/popular
 https://beta.flathub.org/en_GB/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/en_GB/apps/collection/recently-updated
@@ -50,8 +46,6 @@ https://beta.flathub.org/en/apps/category/Office
 https://beta.flathub.org/en/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/en/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/en/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/en/apps/collection/editors-choice-apps
-https://beta.flathub.org/en/apps/collection/editors-choice-games
 https://beta.flathub.org/en/apps/collection/popular
 https://beta.flathub.org/en/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/en/apps/collection/recently-updated
@@ -72,8 +66,6 @@ https://beta.flathub.org/de/apps/category/Office
 https://beta.flathub.org/de/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/de/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/de/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/de/apps/collection/editors-choice-apps
-https://beta.flathub.org/de/apps/collection/editors-choice-games
 https://beta.flathub.org/de/apps/collection/popular
 https://beta.flathub.org/de/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/de/apps/collection/recently-updated
@@ -94,8 +86,6 @@ https://beta.flathub.org/fr/apps/category/Office
 https://beta.flathub.org/fr/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fr/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fr/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fr/apps/collection/editors-choice-apps
-https://beta.flathub.org/fr/apps/collection/editors-choice-games
 https://beta.flathub.org/fr/apps/collection/popular
 https://beta.flathub.org/fr/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/fr/apps/collection/recently-updated
@@ -116,8 +106,6 @@ https://beta.flathub.org/nb_NO/apps/category/Office
 https://beta.flathub.org/nb_NO/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/nb_NO/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/nb_NO/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/nb_NO/apps/collection/editors-choice-apps
-https://beta.flathub.org/nb_NO/apps/collection/editors-choice-games
 https://beta.flathub.org/nb_NO/apps/collection/popular
 https://beta.flathub.org/nb_NO/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/nb_NO/apps/collection/recently-updated
@@ -138,8 +126,6 @@ https://beta.flathub.org/tr/apps/category/Office
 https://beta.flathub.org/tr/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/tr/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/tr/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/tr/apps/collection/editors-choice-apps
-https://beta.flathub.org/tr/apps/collection/editors-choice-games
 https://beta.flathub.org/tr/apps/collection/popular
 https://beta.flathub.org/tr/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/tr/apps/collection/recently-updated
@@ -160,8 +146,6 @@ https://beta.flathub.org/fi/apps/category/Office
 https://beta.flathub.org/fi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fi/apps/collection/editors-choice-apps
-https://beta.flathub.org/fi/apps/collection/editors-choice-games
 https://beta.flathub.org/fi/apps/collection/popular
 https://beta.flathub.org/fi/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/fi/apps/collection/recently-updated
@@ -182,8 +166,6 @@ https://beta.flathub.org/id/apps/category/Office
 https://beta.flathub.org/id/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/id/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/id/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/id/apps/collection/editors-choice-apps
-https://beta.flathub.org/id/apps/collection/editors-choice-games
 https://beta.flathub.org/id/apps/collection/popular
 https://beta.flathub.org/id/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/id/apps/collection/recently-updated
@@ -204,8 +186,6 @@ https://beta.flathub.org/it/apps/category/Office
 https://beta.flathub.org/it/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/it/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/it/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/it/apps/collection/editors-choice-apps
-https://beta.flathub.org/it/apps/collection/editors-choice-games
 https://beta.flathub.org/it/apps/collection/popular
 https://beta.flathub.org/it/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/it/apps/collection/recently-updated
@@ -226,8 +206,6 @@ https://beta.flathub.org/pl/apps/category/Office
 https://beta.flathub.org/pl/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/pl/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/pl/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/pl/apps/collection/editors-choice-apps
-https://beta.flathub.org/pl/apps/collection/editors-choice-games
 https://beta.flathub.org/pl/apps/collection/popular
 https://beta.flathub.org/pl/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/pl/apps/collection/recently-updated
@@ -248,8 +226,6 @@ https://beta.flathub.org/pt_BR/apps/category/Office
 https://beta.flathub.org/pt_BR/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/pt_BR/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/pt_BR/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/pt_BR/apps/collection/editors-choice-apps
-https://beta.flathub.org/pt_BR/apps/collection/editors-choice-games
 https://beta.flathub.org/pt_BR/apps/collection/popular
 https://beta.flathub.org/pt_BR/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/pt_BR/apps/collection/recently-updated
@@ -270,8 +246,6 @@ https://beta.flathub.org/ru/apps/category/Office
 https://beta.flathub.org/ru/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ru/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ru/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ru/apps/collection/editors-choice-apps
-https://beta.flathub.org/ru/apps/collection/editors-choice-games
 https://beta.flathub.org/ru/apps/collection/popular
 https://beta.flathub.org/ru/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/ru/apps/collection/recently-updated
@@ -292,8 +266,6 @@ https://beta.flathub.org/si/apps/category/Office
 https://beta.flathub.org/si/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/si/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/si/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/si/apps/collection/editors-choice-apps
-https://beta.flathub.org/si/apps/collection/editors-choice-games
 https://beta.flathub.org/si/apps/collection/popular
 https://beta.flathub.org/si/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/si/apps/collection/recently-updated
@@ -314,8 +286,6 @@ https://beta.flathub.org/vi/apps/category/Office
 https://beta.flathub.org/vi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/vi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/vi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/vi/apps/collection/editors-choice-apps
-https://beta.flathub.org/vi/apps/collection/editors-choice-games
 https://beta.flathub.org/vi/apps/collection/popular
 https://beta.flathub.org/vi/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/vi/apps/collection/recently-updated
@@ -336,8 +306,6 @@ https://beta.flathub.org/ar/apps/category/Office
 https://beta.flathub.org/ar/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ar/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ar/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ar/apps/collection/editors-choice-apps
-https://beta.flathub.org/ar/apps/collection/editors-choice-games
 https://beta.flathub.org/ar/apps/collection/popular
 https://beta.flathub.org/ar/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/ar/apps/collection/recently-updated
@@ -358,8 +326,6 @@ https://beta.flathub.org/es/apps/category/Office
 https://beta.flathub.org/es/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/es/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/es/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/es/apps/collection/editors-choice-apps
-https://beta.flathub.org/es/apps/collection/editors-choice-games
 https://beta.flathub.org/es/apps/collection/popular
 https://beta.flathub.org/es/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/es/apps/collection/recently-updated
@@ -380,8 +346,6 @@ https://beta.flathub.org/ja/apps/category/Office
 https://beta.flathub.org/ja/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ja/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ja/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ja/apps/collection/editors-choice-apps
-https://beta.flathub.org/ja/apps/collection/editors-choice-games
 https://beta.flathub.org/ja/apps/collection/popular
 https://beta.flathub.org/ja/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/ja/apps/collection/recently-updated
@@ -402,8 +366,6 @@ https://beta.flathub.org/cs/apps/category/Office
 https://beta.flathub.org/cs/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/cs/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/cs/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/cs/apps/collection/editors-choice-apps
-https://beta.flathub.org/cs/apps/collection/editors-choice-games
 https://beta.flathub.org/cs/apps/collection/popular
 https://beta.flathub.org/cs/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/cs/apps/collection/recently-updated
@@ -424,8 +386,6 @@ https://beta.flathub.org/zh_Hans/apps/category/Office
 https://beta.flathub.org/zh_Hans/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/zh_Hans/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/zh_Hans/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/zh_Hans/apps/collection/editors-choice-apps
-https://beta.flathub.org/zh_Hans/apps/collection/editors-choice-games
 https://beta.flathub.org/zh_Hans/apps/collection/popular
 https://beta.flathub.org/zh_Hans/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/zh_Hans/apps/collection/recently-updated
@@ -446,8 +406,6 @@ https://beta.flathub.org/bg/apps/category/Office
 https://beta.flathub.org/bg/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/bg/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/bg/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/bg/apps/collection/editors-choice-apps
-https://beta.flathub.org/bg/apps/collection/editors-choice-games
 https://beta.flathub.org/bg/apps/collection/popular
 https://beta.flathub.org/bg/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/bg/apps/collection/recently-updated
@@ -468,8 +426,6 @@ https://beta.flathub.org/uk/apps/category/Office
 https://beta.flathub.org/uk/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/uk/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/uk/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/uk/apps/collection/editors-choice-apps
-https://beta.flathub.org/uk/apps/collection/editors-choice-games
 https://beta.flathub.org/uk/apps/collection/popular
 https://beta.flathub.org/uk/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/uk/apps/collection/recently-updated
@@ -490,8 +446,6 @@ https://beta.flathub.org/et/apps/category/Office
 https://beta.flathub.org/et/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/et/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/et/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/et/apps/collection/editors-choice-apps
-https://beta.flathub.org/et/apps/collection/editors-choice-games
 https://beta.flathub.org/et/apps/collection/popular
 https://beta.flathub.org/et/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/et/apps/collection/recently-updated
@@ -512,8 +466,6 @@ https://beta.flathub.org/ca/apps/category/Office
 https://beta.flathub.org/ca/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ca/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ca/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ca/apps/collection/editors-choice-apps
-https://beta.flathub.org/ca/apps/collection/editors-choice-games
 https://beta.flathub.org/ca/apps/collection/popular
 https://beta.flathub.org/ca/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/ca/apps/collection/recently-updated
@@ -534,8 +486,6 @@ https://beta.flathub.org/el/apps/category/Office
 https://beta.flathub.org/el/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/el/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/el/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/el/apps/collection/editors-choice-apps
-https://beta.flathub.org/el/apps/collection/editors-choice-games
 https://beta.flathub.org/el/apps/collection/popular
 https://beta.flathub.org/el/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/el/apps/collection/recently-updated
@@ -556,8 +506,6 @@ https://beta.flathub.org/ta/apps/category/Office
 https://beta.flathub.org/ta/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ta/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ta/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ta/apps/collection/editors-choice-apps
-https://beta.flathub.org/ta/apps/collection/editors-choice-games
 https://beta.flathub.org/ta/apps/collection/popular
 https://beta.flathub.org/ta/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/ta/apps/collection/recently-updated
@@ -578,8 +526,6 @@ https://beta.flathub.org/fa/apps/category/Office
 https://beta.flathub.org/fa/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fa/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fa/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fa/apps/collection/editors-choice-apps
-https://beta.flathub.org/fa/apps/collection/editors-choice-games
 https://beta.flathub.org/fa/apps/collection/popular
 https://beta.flathub.org/fa/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/fa/apps/collection/recently-updated
@@ -600,8 +546,6 @@ https://beta.flathub.org/hi/apps/category/Office
 https://beta.flathub.org/hi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/hi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/hi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/hi/apps/collection/editors-choice-apps
-https://beta.flathub.org/hi/apps/collection/editors-choice-games
 https://beta.flathub.org/hi/apps/collection/popular
 https://beta.flathub.org/hi/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/hi/apps/collection/recently-updated
@@ -622,8 +566,6 @@ https://beta.flathub.org/bn/apps/category/Office
 https://beta.flathub.org/bn/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/bn/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/bn/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/bn/apps/collection/editors-choice-apps
-https://beta.flathub.org/bn/apps/collection/editors-choice-games
 https://beta.flathub.org/bn/apps/collection/popular
 https://beta.flathub.org/bn/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/bn/apps/collection/recently-updated
@@ -644,8 +586,6 @@ https://beta.flathub.org/eo/apps/category/Office
 https://beta.flathub.org/eo/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/eo/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/eo/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/eo/apps/collection/editors-choice-apps
-https://beta.flathub.org/eo/apps/collection/editors-choice-games
 https://beta.flathub.org/eo/apps/collection/popular
 https://beta.flathub.org/eo/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/eo/apps/collection/recently-updated
@@ -666,8 +606,6 @@ https://beta.flathub.org/lt/apps/category/Office
 https://beta.flathub.org/lt/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/lt/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/lt/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/lt/apps/collection/editors-choice-apps
-https://beta.flathub.org/lt/apps/collection/editors-choice-games
 https://beta.flathub.org/lt/apps/collection/popular
 https://beta.flathub.org/lt/apps/collection/project-group/SugarLabs
 https://beta.flathub.org/lt/apps/collection/recently-updated
