@@ -10,15 +10,16 @@ The core vending behaviours are:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Literal, Optional, Tuple
 
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
 from ..config import settings
+from ..db import get_json_key
 from ..logins import login_state
 from ..models import (
     ApplicationVendingConfig,
@@ -150,6 +151,18 @@ class VendingOutput(BaseModel):
 
     status: str
     transaction: str
+
+
+class VendingApplicationInformation(BaseModel):
+    """
+    Information about an app, including tax code etc
+    """
+
+    appid: str
+    kind: Literal["GAME", "PRODUCTIVITY", "GENERIC"]
+    kind_reason: str
+    foss: bool
+    foss_reason: str
 
 
 # @app.exception_handler(VendingError) (done in register function below)
@@ -566,6 +579,57 @@ def redeem_token(
                 return RedemptionResult(status="failure", reason="already-owned")
 
     return RedemptionResult(status="failure", reason="invalid")
+
+
+# Tax and other real-world problems are associated with things like an
+# application's type, licence, etc.
+# This heuristic tries to tell us about the app, and why we made that decision
+@router.get("app/{appid}/info")
+def app_info(appid: str) -> VendingApplicationInformation:
+    """
+    This determines the vending info for the app and returns it
+    """
+
+    appstream = get_json_key(f"apps:{appid}")
+    if appstream is None:
+        raise HTTPException(status_code=404, detail=f"Application {appid} not found")
+    print(f"Found {appid}: {repr(appstream)}")
+
+    kind = "GENERIC"
+    kind_reason = "unknown"
+    foss = False
+    foss_reason = "unknown"
+
+    foss_licences = ["gpl-", "lgpl-", "bsd", "mit", "apache"]
+    app_licence = appstream.get("project_license", "").lower()
+    if app_licence:
+        foss_reason = f"None of {repr(foss_licences)} found in {app_licence}"
+        for licence in foss_licences:
+            if licence in app_licence:
+                foss = True
+                foss_reason = f"Found '{licence}' in '{app_licence}'"
+    else:
+        foss = False
+        foss_reason = "Application does not have licence terms in appstream"
+
+    app_cats = [cat.lower() for cat in appstream.get("categories", [])]
+    if "game" in app_cats:
+        kind = "GAME"
+        kind_reason = "Found 'Game' in application categories"
+    elif "office" in app_cats:
+        kind = "PRODUCTIVITY"
+        kind_reason = "Found 'Office' in application categories"
+    else:
+        kind = "GENERIC"
+        kind_reason = f"Unable to categorise based on {repr(app_cats)}"
+
+    return VendingApplicationInformation(
+        appid=appid,
+        kind=kind,
+        kind_reason=kind_reason,
+        foss=foss,
+        foss_reason=foss_reason,
+    )
 
 
 # Registration
