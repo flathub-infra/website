@@ -8,7 +8,7 @@ import { env } from "process"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
@@ -242,7 +242,6 @@ const Header = () => {
                             }
                             width="38"
                             height="38"
-                            layout="fixed"
                             alt={t("user-avatar", {
                               user: user.info.displayname,
                             })}
@@ -375,7 +374,6 @@ const Header = () => {
                             }
                             width="38"
                             height="38"
-                            layout="fixed"
                             alt={t("user-avatar", {
                               user: user.info.displayname,
                             })}
