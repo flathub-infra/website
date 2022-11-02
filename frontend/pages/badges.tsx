@@ -34,7 +34,7 @@ const Badges = () => {
               alt="Download on Flathub"
               src={flathubBadge}
             />
-            <h6>
+            <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
                 <a href="/assets/badges/flathub-badge-en.svg">svg format</a>
@@ -50,7 +50,7 @@ const Badges = () => {
               alt="Download on Flathub"
               src={flathubBadgeInverted}
             />
-            <h6>
+            <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
                 <a href="/assets/badges/flathub-badge-i-en.svg">svg format</a>

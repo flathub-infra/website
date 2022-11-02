@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
