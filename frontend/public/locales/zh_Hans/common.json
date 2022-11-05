@@ -102,7 +102,6 @@
   "publish": "发布",
   "about-description": "Flathub 旨在成为获取和发行 Linux 应用的地方。它由能让 Flathub 应用运行在几乎任何 Linux 发行版上的 Flatpak 强力驱动。",
   "popular": "热门",
-  "editors-choice-apps": "编辑推荐应用",
   "community": "社区",
   "proprietary": "专有",
   "changes-in-version": "在 {{version-number}} 版本中的更改",

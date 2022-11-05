@@ -47,7 +47,6 @@
   "user-wallet": "Потребителски портфейл",
   "by": "от {{developer}}",
   "about-pagename": "Относно „Flathub“",
-  "editors-choice-apps": "Препоръчани",
   "search-apps": "Търсачка",
   "forum": "Форум",
   "community": "Общност",
@@ -253,5 +252,8 @@
   "show-less": "По-малко",
   "more-type": "Повече {{type}}",
   "verified": "Проверено",
-  "app-is-verified": "Приложението е проверено."
+  "app-is-verified": "Приложението е проверено.",
+  "verified-manually": "Приложението е проверено ръчно от екипа на „Flathub“.",
+  "verified-login-provider": "Проверено от @{{login_name}} в {{login_provider}}.",
+  "verified-website": "Авторът притежава {{website}}."
 }

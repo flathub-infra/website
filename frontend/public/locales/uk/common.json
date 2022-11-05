@@ -97,7 +97,6 @@
   "explore": "Огляд",
   "publish": "Опублікувати",
   "about-description": "Flathub має на меті бути місцем для отримання та розповсюдження застосунків для Linux. Він працює з Flatpak, який дає змогу застосункам Flathub працювати майже на будь-якому дистрибутиві Linux.",
-  "editors-choice-apps": "Відібрані редакцією застосунки",
   "browse-apps": "Переглянути застосунки",
   "rss-feeds": "RSS-стрічки",
   "community": "Спільнота",
@@ -253,5 +252,8 @@
   "show-less": "Показати менше",
   "more-type": "Інші {{type}}",
   "app-is-verified": "Цей застосунок перевірено.",
-  "verified": "Перевірено"
+  "verified": "Перевірено",
+  "verified-manually": "Цей застосунок перевірений вручну співробітниками Flathub.",
+  "verified-website": "Цей видавець підтвердив право власності на {{website}}.",
+  "verified-login-provider": "Перевірено @{{login_name}} на {{login_provider}}."
 }

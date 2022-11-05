@@ -10,7 +10,6 @@
   "applications": "Uygulamalar",
   "popular": "Gözde",
   "new-and-updated": "Son Güncellenenler",
-  "editors-choice-apps": "Yayıncının Seçimi Uygulamalar",
   "browse-apps": "Uygulamalara Göz At",
   "rss-feeds": "RSS Akışları",
   "community": "Topluluk",
@@ -253,5 +252,8 @@
   "show-less": "Daha Az Göster",
   "more-type": "Daha fazla {{type}}",
   "app-is-verified": "Bu uygulama doğrulandı.",
-  "verified": "Doğrulandı"
+  "verified": "Doğrulandı",
+  "verified-manually": "Bu uygulama Flathub personeli tarafından elle doğrulandı.",
+  "verified-website": "Bu yayıncı {{website}} sitesinin sahipliğini doğruladı.",
+  "verified-login-provider": "@{{login_name}} tarafından {{login_provider}} üzerinde doğrulandı."
 }
