@@ -5,7 +5,6 @@
   "about": "O Flathubu",
   "go-home": "Domovská stránka",
   "new-and-updated": "Nedávno aktualizované",
-  "editors-choice-apps": "Doporučené aplikace",
   "get-involved": "Zapojte se",
   "rss-feeds": "RSS feedy",
   "user-avatar": "Profilový obrázek {{user}}",
@@ -253,5 +252,8 @@
   "show-less": "Zobrazit méně",
   "more-type": "Více {{type}}",
   "verified": "Ověřeno",
-  "app-is-verified": "Tato aplikace je ověřená."
+  "app-is-verified": "Tato aplikace je ověřená.",
+  "verified-manually": "Tato aplikace byla ručně ověřena pracovníky Flathubu.",
+  "verified-website": "Tento vydavatel ověřil vlastnictví {{website}}.",
+  "verified-login-provider": "Ověřeno @{{login_name}} na {{login_provider}}."
 }

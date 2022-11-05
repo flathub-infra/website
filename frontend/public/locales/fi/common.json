@@ -12,7 +12,6 @@
   "about": "Tietoja",
   "about-pagename": "Tietoja Flathubista",
   "new-and-updated": "Äskettäin päivitetty",
-  "editors-choice-apps": "Toimituksen sovellusvalinnat",
   "rss-feeds": "RSS-syötteet",
   "community": "Yhteisö",
   "get-involved": "Tule mukaan",
@@ -253,5 +252,8 @@
   "show-less": "Näytä vähemmän",
   "more-type": "Lisää {{type}}",
   "verified": "Vahvistettu",
-  "app-is-verified": "Tämä sovellus on vahvistettu."
+  "app-is-verified": "Tämä sovellus on vahvistettu.",
+  "verified-manually": "Tämä sovellus on vahvistettu Flathubin henkilöstön toimesta.",
+  "verified-website": "Tämä julkaisija on vahvistanut sivuston {{website}} omistajuuden.",
+  "verified-login-provider": "Vahvistanut @{{login_name}} palvelussa {{login_provider}}."
 }

@@ -6,7 +6,6 @@
   "popular": "Popularne",
   "explore": "Odkrywaj",
   "new-and-updated": "Ostatnio zaktualizowane",
-  "editors-choice-apps": "Wybrane aplikacje",
   "browse-apps": "Przeglądaj aplikacje",
   "rss-feeds": "Kanał RSS",
   "community": "Społeczność",
@@ -251,5 +250,10 @@
   "system": "System",
   "show-more": "Pokaż więcej",
   "show-less": "Pokaż mniej",
-  "more-type": "Więcej {{type}}"
+  "more-type": "Więcej {{type}}",
+  "verified": "Zweryfikowano",
+  "app-is-verified": "Ta aplikacja jest zweryfikowana.",
+  "verified-manually": "Ta aplikacja została ręcznie zweryfikowana przez zespół Flathubu.",
+  "verified-website": "Publikujący zweryfikował własność {{website}}.",
+  "verified-login-provider": "Zweryfikowane przez @{{login_name}} używając {{login_provider}}."
 }

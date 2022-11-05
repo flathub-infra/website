@@ -10,7 +10,6 @@
   "applications": "Anwendungen",
   "popular": "Beliebt",
   "new-and-updated": "Kürzlich aktualisiert",
-  "editors-choice-apps": "Empfohlene Apps",
   "browse-apps": "Apps durchsuchen",
   "rss-feeds": "RSS-Feeds",
   "retry-or-go-home": "Wiederholen oder zurück zur <1>Startseite</1>.",
@@ -253,5 +252,8 @@
   "show-more": "Mehr",
   "more-type": "Weitere {{type}}",
   "verified": "Verifiziert",
-  "app-is-verified": "Diese App ist verifiziert."
+  "app-is-verified": "Diese App ist verifiziert.",
+  "verified-manually": "Diese App wurde manuell von Flathub-Mitarbeitern verifiziert.",
+  "verified-website": "Dieser Herausgeber hat das Eigentum an {{website}} verifiziert.",
+  "verified-login-provider": "Verifiziert von @{{login_name}} auf {{login_provider}}."
 }
