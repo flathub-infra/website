@@ -155,7 +155,6 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
-          user={user}
           installClicked={installClicked}
           donateClicked={donateClicked}
           vendingSetup={vendingSetup}

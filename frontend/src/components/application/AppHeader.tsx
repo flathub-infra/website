@@ -11,14 +11,12 @@ import Verification from "./Verification"
 
 export function AppHeader({
   app,
-  user,
   installClicked,
   donateClicked,
   vendingSetup,
   verificationStatus,
 }: {
   app: Appstream
-  user: UserState
   installClicked: (e: any) => void
   donateClicked: (e: any) => void
   vendingSetup: VendingSetup
@@ -49,15 +47,6 @@ export function AppHeader({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 md:ml-auto">
-        {!user.loading && user.info?.["dev-flatpaks"].includes(app.id) && (
-          <ButtonLink
-            passHref
-            href={`/apps/manage/${app.id}`}
-            className="w-full"
-          >
-            {t("developer-settings")}
-          </ButtonLink>
-        )}
         <Button className="w-full" onClick={installClicked}>
           {t("install")}
         </Button>

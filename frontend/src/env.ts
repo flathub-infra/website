@@ -106,3 +106,9 @@ export const FLATHUB_MIN_PAYMENT = 1
 
 export const APP_VERIFICATION_STATUS = (id: string): string =>
   `${BASE_URI}/verification/${id}/status`
+
+export const APP_VERIFICATION_AVAILABLE_METHODS = (id: string): string =>
+  `${BASE_URI}/verification/${id}/available-methods`
+
+export const APP_VERIFICATION_VERIFY = (id: string): string =>
+  `${BASE_URI}/verification/${id}/verify`

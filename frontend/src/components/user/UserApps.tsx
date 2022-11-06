@@ -40,7 +40,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
     )
   }
 
-  return <ApplicationCollection title={title} applications={apps} />
+  return <ApplicationCollection user={user} title={title} applications={apps} />
 }
 
 export default UserApps

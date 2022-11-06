@@ -58,7 +58,7 @@ const Verification: FunctionComponent<Props> = ({ verificationStatus }) => {
       <>
         <button ref={reference} {...getReferenceProps}>
           <HiCheckBadge
-            className="h-10 w-10 text-colorPrimary"
+            className="h-10 w-10 text-colorLink"
             aria-label={t("app-is-verified")}
           />
         </button>

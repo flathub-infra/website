@@ -256,5 +256,18 @@
   "verified-manually": "This app has been manually verified by Flathub staff",
   "verified-website": "This publisher has verified ownership of {{website}}",
   "verified-login-provider": "Verified by @{{login_name}} on {{login_provider}}",
-  "x-downloads": "{{count}} downloads"
+  "x-downloads": "{{count}} downloads",
+  "website-validation-instruction": "To verify your app, we can check you have access to the website corresponding to your app id. <1>Please add a file named:</1> <2>org.flathub.VerifiedApps.txt</2> to the <4>.well-known</4> folder of your website <6>{{url}}</6> with the following contents: <8>{{id}}</8>",
+  "link-to-well-known-file": "Link to your .well-known file",
+  "setup-verification": "Setup verification",
+  "website-verification": "Website verification",
+  "login-provider-verification": "Login provider verification",
+  "login-provider-verification-instruction": "We'll try to verify your access to the app with your login <1>{{login_name}}</1> with your account on <3>{{login_provider}}</3>",
+  "error-code": "Error code: {{code}}",
+  "error": "Error",
+  "app-is-currently-not-verified": "Your app is currently not verified",
+  "app-is-currently-verified-by-login-provider": "Your app is currently verified by your login {{login_name}} with your account on {{login_provider}}",
+  "app-is-currently-verified-by-website": "Your app is currently verified by your website {{website}}",
+  "app-is-currently-verified-manually": "Your app is currently verified by Flathub staff",
+  "verify-app": "Verify app"
 }

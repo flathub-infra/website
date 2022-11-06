@@ -6,17 +6,21 @@ import { Appstream } from "../../types/Appstream"
 import ApplicationCard from "./ApplicationCard"
 import Pagination from "../Pagination"
 import { useTranslation } from "next-i18next"
+import ButtonLink from "../ButtonLink"
+import { UserState } from "src/types/Login"
 
 interface Props {
   applications: Appstream[]
   perPage?: number
   title: string
+  user?: UserState
 }
 
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
   title,
   perPage = 30,
+  user,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -38,7 +42,19 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
           <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
             {pagedApplications.map((app) => (
-              <ApplicationCard key={app.id} application={app} />
+              <div key={app.id} className={"flex flex-col gap-2"}>
+                <ApplicationCard application={app} />
+                {!user?.loading &&
+                  user?.info?.["dev-flatpaks"].includes(app.id) && (
+                    <ButtonLink
+                      passHref
+                      href={`/apps/manage/${app.id}`}
+                      className="w-full"
+                    >
+                      {t("developer-settings")}
+                    </ButtonLink>
+                  )}
+              </div>
             ))}
           </div>
 

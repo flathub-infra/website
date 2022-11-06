@@ -1,4 +1,9 @@
-import { APP_DETAILS, CHECK_PURCHASES_URL, TOKEN_GENERATION_URL } from "../env"
+import {
+  APP_DETAILS,
+  APP_VERIFICATION_VERIFY,
+  CHECK_PURCHASES_URL,
+  TOKEN_GENERATION_URL,
+} from "../env"
 import { Appstream } from "../types/Appstream"
 
 /**
@@ -26,6 +31,22 @@ export async function checkPurchases(appids: string[]) {
 export async function generateUpdateToken() {
   try {
     let res = await fetch(TOKEN_GENERATION_URL, {
+      method: "POST",
+      credentials: "include",
+    })
+
+    return await res.json()
+  } catch {
+    throw "network-error-try-again"
+  }
+}
+
+/**
+ * Tries to verify the given appId with social login.
+ */
+export async function verifyApp(appId: string): Promise<{ detail: string }> {
+  try {
+    let res = await fetch(APP_VERIFICATION_VERIFY(appId), {
       method: "POST",
       credentials: "include",
     })
