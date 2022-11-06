@@ -1,3 +1,5 @@
+import { VerificationProvider } from "src/verificationProvider"
+
 export type VerificationStatus =
   | VerificationStatusNone
   | VerificationStatusManual
@@ -26,7 +28,7 @@ export interface VerificationStatusWebsite {
 export interface VerificationStatusLoginProvider {
   verified: boolean
   method: "login_provider"
-  login_provider: string
+  login_provider: VerificationProvider
   login_name: string
   detail: string
 }

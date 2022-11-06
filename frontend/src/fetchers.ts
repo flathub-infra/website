@@ -18,12 +18,14 @@ import {
   LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
   APP_VERIFICATION_STATUS,
+  APP_VERIFICATION_AVAILABLE_METHODS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
 import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
+import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
@@ -150,13 +152,13 @@ export async function fetchCategory(
 export async function fetchDeveloperApps(developer: string | undefined) {
   if (!developer) {
     console.log("No developer specified")
-    return undefined
+    return null
   }
   console.log(`\nFetching apps for developer ${developer}`)
   const appListRes = await fetch(DEVELOPER_URL(developer))
   if (!appListRes || appListRes.status === 404) {
     console.log(`No apps for developer ${developer}`)
-    return undefined
+    return null
   }
 
   const appList = await appListRes.json()
@@ -169,13 +171,13 @@ export async function fetchDeveloperApps(developer: string | undefined) {
 export async function fetchProjectgroupApps(projectgroup: string | undefined) {
   if (!projectgroup) {
     console.log("No project-group specified")
-    return undefined
+    return null
   }
   console.log(`\nFetching apps for project-group ${projectgroup}`)
   const appListRes = await fetch(PROJECTGROUP_URL(projectgroup))
   if (!appListRes || appListRes.status === 404) {
     console.log("No apps for project-group ", projectgroup)
-    return undefined
+    return null
   }
 
   const appList = await appListRes.json()
@@ -215,19 +217,19 @@ export async function fetchLoginProviders(): Promise<LoginProvider[]> {
   return await providersRes.json()
 }
 
-export async function fetchVendingConfig(): Promise<VendingConfig | undefined> {
+export async function fetchVendingConfig(): Promise<VendingConfig | null> {
   let res: Response
   try {
     res = await fetch(VENDING_CONFIG_URL)
   } catch {
-    return undefined
+    return null
   }
 
   if (res.ok) {
     const data: VendingConfig = await res.json()
     return data
   } else {
-    return undefined
+    return null
   }
 }
 
@@ -244,4 +246,19 @@ export async function fetchVerificationStatus(
     console.log(`No verification data for ${appId}`)
   }
   return verification
+}
+
+export async function fetchVerificationAvailableMethods(
+  appId: string,
+): Promise<VerificationAvailableMethods | undefined> {
+  let verificationMethods: VerificationAvailableMethods
+  try {
+    const verificationResponse = await fetch(
+      `${APP_VERIFICATION_AVAILABLE_METHODS(appId)}`,
+    )
+    verificationMethods = await verificationResponse.json()
+  } catch (error) {
+    console.log(`No available verification methods for ${appId}`)
+  }
+  return verificationMethods
 }
