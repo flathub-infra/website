@@ -33,15 +33,15 @@ import {
 
 export type Language =
   | "en"
-  | "en_GB"
+  | "en-GB"
   | "de"
   | "fr"
-  | "nb_NO"
+  | "nb-NO"
   | "tr"
   | "fi"
   | "id"
   | "pl"
-  | "pt_BR"
+  | "pt-BR"
   | "it"
   | "ru"
   | "si"
@@ -50,7 +50,7 @@ export type Language =
   | "es"
   | "ja"
   | "cs"
-  | "zh_Hans"
+  | "zh-Hans"
   | "bg"
   | "uk"
   | "et"
@@ -66,15 +66,15 @@ export type Language =
 
 export const languages: Language[] = [
   "en",
-  "en_GB",
+  "en-GB",
   "de",
   "fr",
-  "nb_NO",
+  "nb-NO",
   "tr",
   "fi",
   "id",
   "pl",
-  "pt_BR",
+  "pt-BR",
   "it",
   "ru",
   "si",
@@ -83,7 +83,7 @@ export const languages: Language[] = [
   "es",
   "ja",
   "cs",
-  "zh_Hans",
+  "zh-Hans",
   "bg",
   "uk",
   "et",
@@ -103,13 +103,13 @@ export function getLocale(language: string): Locale {
     case "en":
     case "en_US":
       return enUS
-    case "en_GB":
+    case "en-GB":
       return enGB
     case "de":
       return de
     case "fr":
       return fr
-    case "nb_NO":
+    case "nb-NO":
       return nb
     case "tr":
       return tr
@@ -121,7 +121,7 @@ export function getLocale(language: string): Locale {
       return it
     case "pl":
       return pl
-    case "pt_BR":
+    case "pt-BR":
       return pt
     case "ru":
       return ru
@@ -137,7 +137,7 @@ export function getLocale(language: string): Locale {
       return ja
     case "cs":
       return cs
-    case "zh_Hans":
+    case "zh-Hans":
       return zhCN
     case "bg":
       return bg
@@ -176,12 +176,12 @@ export function getLocaleString(language: string): string {
       return "en_US"
     case "de":
       return "de_DE"
-    case "en_GB":
-      return "en_GB"
+    case "en-GB":
+      return "en-GB"
     case "fr":
       return "fr_FR"
-    case "nb_NO":
-      return "nb_NO"
+    case "nb-NO":
+      return "nb-NO"
     case "tr":
       return "tr_TR"
     case "fi":
@@ -192,8 +192,8 @@ export function getLocaleString(language: string): string {
       return "it_IT"
     case "pl":
       return "pl_PL"
-    case "pt_BR":
-      return "pt_BR"
+    case "pt-BR":
+      return "pt-BR"
     case "ru":
       return "ru_RU"
     case "si":
@@ -208,8 +208,8 @@ export function getLocaleString(language: string): string {
       return "ja_JP"
     case "cs":
       return "cs_CZ"
-    case "zh_Hans":
-      return "zh_Hans"
+    case "zh-Hans":
+      return "zh-Hans"
     case "bg":
       return "bg_BG"
     case "uk":
@@ -246,11 +246,11 @@ export function getLanguageFlag(language: Language): string {
       return "🇩🇪"
     case "en":
       return "🇺🇸"
-    case "en_GB":
+    case "en-GB":
       return "🇬🇧"
     case "fr":
       return "🇫🇷"
-    case "nb_NO":
+    case "nb-NO":
       return "🇳🇴"
     case "tr":
       return "🇹🇷"
@@ -262,7 +262,7 @@ export function getLanguageFlag(language: Language): string {
       return "🇮🇹"
     case "pl":
       return "🇵🇱"
-    case "pt_BR":
+    case "pt-BR":
       return "🇧🇷"
     case "ru":
       return "🇷🇺"
@@ -278,7 +278,7 @@ export function getLanguageFlag(language: Language): string {
       return "🇯🇵"
     case "cs":
       return "🇨🇿"
-    case "zh_Hans":
+    case "zh-Hans":
       return "🇨🇳"
     case "bg":
       return "🇧🇬"
@@ -311,13 +311,13 @@ export function getLanguageName(language: Language): string {
   switch (language) {
     case "en":
       return "English"
-    case "en_GB":
+    case "en-GB":
       return "English (UK)"
     case "de":
       return "Deutsch"
     case "fr":
       return "Français"
-    case "nb_NO":
+    case "nb-NO":
       return "Norsk"
     case "tr":
       return "Türkçe"
@@ -329,7 +329,7 @@ export function getLanguageName(language: Language): string {
       return "Italiano"
     case "pl":
       return "Polski"
-    case "pt_BR":
+    case "pt-BR":
       return "Brasileiro"
     case "ru":
       return "Русский язык"
@@ -345,7 +345,7 @@ export function getLanguageName(language: Language): string {
       return "日本語"
     case "cs":
       return "Čeština"
-    case "zh_Hans":
+    case "zh-Hans":
       return "简体中文"
     case "bg":
       return "Български"
@@ -386,13 +386,13 @@ export function getIntlLocale(language: string): Intl.Locale {
       })
     case "de":
       return new Intl.Locale("de")
-    case "en_GB":
+    case "en-GB":
       return new Intl.Locale("en", {
         region: "GB",
       })
     case "fr":
       return new Intl.Locale("fr")
-    case "nb_NO":
+    case "nb-NO":
       return new Intl.Locale("nb", {
         region: "NO",
       })
@@ -406,7 +406,7 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("it")
     case "pl":
       return new Intl.Locale("pl")
-    case "pt_BR":
+    case "pt-BR":
       return new Intl.Locale("pt", {
         region: "BR",
       })
@@ -426,7 +426,7 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("ja")
     case "cs":
       return new Intl.Locale("cs")
-    case "zh_Hans":
+    case "zh-Hans":
       return new Intl.Locale("zh", {
         script: "Hans",
       })
