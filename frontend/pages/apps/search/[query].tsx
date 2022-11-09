@@ -35,7 +35,7 @@ export default function Search() {
             <p>
               <Trans i18nKey={"common:request-new-app"}>
                 If you&apos;re searching for a specific application, let the
-                community know, that you want it on flathub{" "}
+                community know, that you want it on flathub
                 <a
                   target="_blank"
                   rel="noreferrer"
