@@ -34,6 +34,7 @@ module.exports = {
       "bn",
       "eo",
       "lt",
+      "hr",
     ],
   },
   // debug: true,

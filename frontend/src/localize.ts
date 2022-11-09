@@ -28,6 +28,7 @@ import {
   bn,
   eo,
   lt,
+  hr,
 } from "date-fns/locale"
 
 export type Language =
@@ -61,6 +62,7 @@ export type Language =
   | "bn"
   | "eo"
   | "lt"
+  | "hr"
 
 export const languages: Language[] = [
   "en",
@@ -93,6 +95,7 @@ export const languages: Language[] = [
   "bn",
   "eo",
   "lt",
+  "hr",
 ]
 
 export function getLocale(language: string): Locale {
@@ -158,6 +161,8 @@ export function getLocale(language: string): Locale {
       return eo
     case "lt":
       return lt
+    case "hr":
+      return hr
 
     default:
       return enGB
@@ -227,6 +232,8 @@ export function getLocaleString(language: string): string {
       return "eo"
     case "lt":
       return "lt_LT"
+    case "hr":
+      return "hr_HR"
 
     default:
       return "en_US"
@@ -295,6 +302,8 @@ export function getLanguageFlag(language: Language): string {
       return ""
     case "lt":
       return "🇱🇹"
+    case "hr":
+      return "🇭🇷"
   }
 }
 
@@ -360,6 +369,8 @@ export function getLanguageName(language: Language): string {
       return "Esperanto"
     case "lt":
       return "Lietuvių"
+    case "hr":
+      return "Hrvatski"
 
     default:
       return assertUnreachable(language)
@@ -441,6 +452,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("eo")
     case "lt":
       return new Intl.Locale("lt")
+    case "hr":
+      return new Intl.Locale("hr")
   }
 }
 
