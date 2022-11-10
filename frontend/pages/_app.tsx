@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify"
 
 import "../styles/main.scss"
 import { useRouter } from "next/router"
-import { getLocaleString } from "../src/localize"
+import { bcpToPosixLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -38,7 +38,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           }}
           openGraph={{
             type: "website",
-            locale: getLocaleString(router.locale),
+            locale: bcpToPosixLocale(router.locale),
             url: process.env.NEXT_PUBLIC_URL,
             site_name: "FlatHub",
             images: [

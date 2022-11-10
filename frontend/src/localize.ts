@@ -101,7 +101,6 @@ export const languages: Language[] = [
 export function getLocale(language: string): Locale {
   switch (language) {
     case "en":
-    case "en_US":
       return enUS
     case "en-GB":
       return enGB
@@ -169,19 +168,18 @@ export function getLocale(language: string): Locale {
   }
 }
 
-export function getLocaleString(language: string): string {
+export function bcpToPosixLocale(language: string): string {
   switch (language) {
     case "en":
-    case "en_US":
       return "en_US"
     case "de":
       return "de_DE"
     case "en-GB":
-      return "en-GB"
+      return "en_GB"
     case "fr":
       return "fr_FR"
     case "nb-NO":
-      return "nb-NO"
+      return "nb_NO"
     case "tr":
       return "tr_TR"
     case "fi":
@@ -193,7 +191,7 @@ export function getLocaleString(language: string): string {
     case "pl":
       return "pl_PL"
     case "pt-BR":
-      return "pt-BR"
+      return "pt_BR"
     case "ru":
       return "ru_RU"
     case "si":
@@ -209,7 +207,7 @@ export function getLocaleString(language: string): string {
     case "cs":
       return "cs_CZ"
     case "zh-Hans":
-      return "zh-Hans"
+      return "zh_Hans"
     case "bg":
       return "bg_BG"
     case "uk":
@@ -380,6 +378,7 @@ export function getLanguageName(language: Language): string {
 export function getIntlLocale(language: string): Intl.Locale {
   switch (language) {
     case "en":
+    case "en-US":
     case "en_US":
       return new Intl.Locale("en", {
         region: "US",
@@ -387,12 +386,14 @@ export function getIntlLocale(language: string): Intl.Locale {
     case "de":
       return new Intl.Locale("de")
     case "en-GB":
+    case "en_GB":
       return new Intl.Locale("en", {
         region: "GB",
       })
     case "fr":
       return new Intl.Locale("fr")
     case "nb-NO":
+    case "nb_NO":
       return new Intl.Locale("nb", {
         region: "NO",
       })
@@ -407,6 +408,7 @@ export function getIntlLocale(language: string): Intl.Locale {
     case "pl":
       return new Intl.Locale("pl")
     case "pt-BR":
+    case "pt_BR":
       return new Intl.Locale("pt", {
         region: "BR",
       })
@@ -427,6 +429,7 @@ export function getIntlLocale(language: string): Intl.Locale {
     case "cs":
       return new Intl.Locale("cs")
     case "zh-Hans":
+    case "zh_Hans":
       return new Intl.Locale("zh", {
         script: "Hans",
       })
