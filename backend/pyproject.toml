@@ -25,7 +25,7 @@ vcrpy = "^4.2.1"
 python-gitlab = "^3.11"
 stripe = "^4.2"
 PyJWT = "^2.6.0"
-meilisearch = "^0.22.1"
+meilisearch = "^0.22.2"
 orjson = "^3.8.1"
 python-multipart = "^0.0.5"
 
