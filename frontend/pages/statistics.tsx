@@ -1,5 +1,5 @@
 import { NextSeo } from "next-seo"
-import WorldMap from "react-svg-worldmap"
+import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { fetchStats } from "../src/fetchers"
@@ -15,6 +15,37 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
+const countries = require("i18n-iso-countries")
+countries.registerLocale(require("i18n-iso-countries/langs/ar.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/bg.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/bn.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/ca.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/cs.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/de.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/el.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
+// No translation for eo
+countries.registerLocale(require("i18n-iso-countries/langs/es.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/et.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/fa.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/fi.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/fr.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/hi.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/hr.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/id.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/it.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/ja.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/lt.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/no.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/pl.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/ru.json"))
+// No translatons for si
+countries.registerLocale(require("i18n-iso-countries/langs/ta.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/tr.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/uk.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/vi.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/zh.json"))
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
@@ -47,6 +78,27 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   )
 
   const options = chartOptions(i18n.language)
+
+  const getLocalizedText = ({
+    countryCode,
+    countryValue,
+    prefix,
+    suffix,
+  }: CountryContext) => {
+    const translatedCountryName = countries.getName(countryCode, i18n.language)
+    const translatedCountryValue = countryValue.toLocaleString(i18n.language)
+
+    //@ts-ignore
+    const downloadTranslation = t("x-downloads", {
+      count: translatedCountryValue,
+    })
+
+    return `${
+      translatedCountryName ??
+      countries.getName(countryCode, "en") ??
+      t("unknown")
+    }: ${downloadTranslation}`
+  }
 
   return (
     <>
@@ -103,9 +155,9 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             color="var(--color-primary)"
             backgroundColor="var(--bg-color-secondary)"
             borderColor="var(--text-primary)"
-            valueSuffix="downloads"
             size="responsive"
             data={country_data}
+            tooltipTextFunction={getLocalizedText}
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
