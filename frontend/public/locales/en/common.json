@@ -252,9 +252,9 @@
   "show-less": "Show Less",
   "more-type": "More {{type}}",
   "verified": "Verified",
-  "app-is-verified": "This app is verified.",
-  "verified-manually": "This app has been manually verified by Flathub staff.",
-  "verified-website": "This publisher has verified ownership of {{website}}.",
-  "verified-login-provider": "Verified by @{{login_name}} on {{login_provider}}.",
+  "app-is-verified": "This app is verified",
+  "verified-manually": "This app has been manually verified by Flathub staff",
+  "verified-website": "This publisher has verified ownership of {{website}}",
+  "verified-login-provider": "Verified by @{{login_name}} on {{login_provider}}",
   "x-downloads": "{{count}} downloads"
 }
