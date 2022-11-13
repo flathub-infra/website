@@ -1,4 +1,5 @@
 {
+  "type": "desktop",
   "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
   "screenshots": [
     {
@@ -42,8 +43,12 @@
   "name": "Maze",
   "summary": "A simple maze game",
   "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
   "project_license": "GPL-3.0-or-later",
   "project_group": "SugarLabs",
   "launchable": {
