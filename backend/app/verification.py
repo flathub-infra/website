@@ -2,13 +2,14 @@ import os
 import re
 import urllib.parse
 from enum import Enum
-from typing import Tuple
+from typing import Optional, Tuple
 
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
+from pydantic import BaseModel
 from sqlalchemy import delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
@@ -104,23 +105,34 @@ def _get_domain_name(appid: str) -> str:
         return ".".join(reversed(appid.split(".")[0:2]))
 
 
-def _check_app_id_error(appid: str) -> str:
-    """
-    Returns an ErrorDetail if the app ID is invalid, or None if it is valid.
-    """
-    if len(appid.split(".")) < 3:
-        return ErrorDetail.MALFORMED_APP_ID
-    elif not re.match("[_\w\.]+$", appid):
-        return ErrorDetail.MALFORMED_APP_ID
+def is_valid_app_id(appid: str) -> bool:
+    return len(appid.split(".")) >= 3 and re.match("[_\w\.]+$", appid)
+
+
+def is_github_app(appid: str) -> bool:
+    """Determines whether the app is a repo in github.com/flathub."""
 
     try:
         r = requests.get(
             f"https://api.github.com/repos/flathub/{urllib.parse.quote(appid, safe='')}"
         )
-        if r.status_code != 200:
-            return ErrorDetail.REPO_DOES_NOT_EXIST
+        return r.status_code == 200
     except:
-        return ErrorDetail.ERROR_CONNECTING_TO_GITHUB
+        raise HTTPException(
+            status_code=500, detail=ErrorDetail.ERROR_CONNECTING_TO_GITHUB
+        )
+
+
+def _check_app_id_error(appid: str) -> ErrorDetail:
+    """
+    Returns an ErrorDetail if the app ID is invalid, or None if it is valid.
+    """
+
+    if not is_valid_app_id(appid):
+        return ErrorDetail.MALFORMED_APP_ID
+
+    if not is_github_app(appid):
+        return ErrorDetail.REPO_DOES_NOT_EXIST
 
     return None
 
@@ -129,40 +141,41 @@ def _check_app_id_error(appid: str) -> str:
 router = APIRouter(prefix="/verification")
 
 
-def _check_website_verification(appid: str):
+class WebsiteVerificationResult(BaseModel):
+    verified: bool
+    detail: Optional[ErrorDetail] = None
+    status_code: Optional[int] = None
+
+
+def _check_website_verification(appid: str) -> WebsiteVerificationResult:
     domain = _get_domain_name(appid)
     if domain is None:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.INVALID_DOMAIN,
-        }
+        return WebsiteVerificationResult(
+            verified=False, detail=ErrorDetail.INVALID_DOMAIN
+        )
 
     try:
         r = requests.get(
             f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt", timeout=5
         )
     except:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.FAILED_TO_CONNECT,
-        }
+        return WebsiteVerificationResult(
+            verified=False, detail=ErrorDetail.FAILED_TO_CONNECT
+        )
 
     if r.status_code != 200:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.SERVER_RETURNED_ERROR,
-            "status_code": r.status_code,
-        }
+        return WebsiteVerificationResult(
+            verified=False,
+            detail=ErrorDetail.SERVER_RETURNED_ERROR,
+            status_code=r.status_code,
+        )
 
     if appid in r.text.split("\n"):
-        return {
-            "verified": True,
-        }
+        return WebsiteVerificationResult(verified=True)
     else:
-        return {
-            "verified": False,
-            "detail": ErrorDetail.APP_NOT_LISTED,
-        }
+        return WebsiteVerificationResult(
+            verified=False, detail=ErrorDetail.APP_NOT_LISTED
+        )
 
 
 @router.get("/{appid}/available-methods", status_code=200)
@@ -247,7 +260,7 @@ def get_verification_status(appid: str):
             "method": "manual",
         }
 
-    if _check_website_verification(appid)["verified"]:
+    if _check_website_verification(appid).verified:
         return {
             "verified": True,
             "method": "website",
@@ -283,10 +296,7 @@ def get_website_verification(appid: str):
     - "status_code": The status code if "detail" is "server_returned_error".
     """
     if detail := _check_app_id_error(appid):
-        return {
-            "verified": False,
-            "detail": detail,
-        }
+        return WebsiteVerificationResult(verified=False, detail=detail)
 
     return _check_website_verification(appid)
 
