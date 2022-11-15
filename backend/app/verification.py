@@ -228,8 +228,39 @@ def get_verification_methods(appid: str):
     }
 
 
-@router.get("/{appid}/status", status_code=200)
-def get_verification_status(appid: str):
+class VerificationMethod(Enum):
+    # The app is not verified.
+    NONE = "none"
+    # The app was verified (or blocked from verification) by the admins.
+    MANUAL = "manual"
+    # The app was verified via website.
+    WEBSITE = "website"
+    # The app was verified via a login provider.
+    LOGIN_PROVIDER = "login_provider"
+
+
+class LoginProvider(Enum):
+    GITHUB = "GitHub"
+    GITLAB = "GitLab"
+    GNOME_GITLAB = "GnomeGitLab"
+
+
+class VerificationStatus(BaseModel):
+    verified: bool
+    method: VerificationMethod
+    website: Optional[str]
+    login_provider: Optional[LoginProvider]
+    login_name: Optional[str]
+    detail: Optional[str]
+
+
+@router.get(
+    "/{appid}/status",
+    status_code=200,
+    response_model=VerificationStatus,
+    response_model_exclude_none=True,
+)
+def get_verification_status(appid: str) -> VerificationStatus:
     """
     Gets the verification status of an app ID.
 
@@ -242,46 +273,35 @@ def get_verification_status(appid: str):
     - "detail": Error detail. See docs for _check_app_id_error().
     """
     if detail := _check_app_id_error(appid):
-        return {
-            "verified": False,
-            "method": "none",
-            "detail": detail,
-        }
+        return VerificationStatus(
+            verified=False, method=VerificationMethod.NONE, detail=detail
+        )
 
     if db.redis_conn.sismember("verification:verified", appid):
-        return {
-            "verified": True,
-            "method": "manual",
-        }
+        return VerificationStatus(verified=True, method=VerificationMethod.MANUAL)
 
     if db.redis_conn.sismember("verification:blocked", appid):
-        return {
-            "verified": False,
-            "method": "manual",
-        }
+        return VerificationStatus(verified=False, method=VerificationMethod.MANUAL)
 
     if _check_website_verification(appid).verified:
-        return {
-            "verified": True,
-            "method": "website",
-            "website": _get_domain_name(appid),
-        }
+        return VerificationStatus(
+            verified=True,
+            method=VerificationMethod.WEBSITE,
+            website=_get_domain_name(appid),
+        )
 
     if provider := _get_provider_username(appid):
         provider_name, username = provider
         verified_app = sqldb.session.get(models.UserVerifiedApp, appid)
         if verified_app is not None:
-            return {
-                "verified": True,
-                "method": "login_provider",
-                "login_provider": provider_name,
-                "login_name": username,
-            }
+            return VerificationStatus(
+                verified=True,
+                method=VerificationMethod.LOGIN_PROVIDER,
+                login_provider=provider_name,
+                login_name=username,
+            )
 
-    return {
-        "verified": False,
-        "method": "none",
-    }
+    return VerificationStatus(verified=False, method=VerificationMethod.NONE)
 
 
 @router.get("/{appid}/website", status_code=200)
