@@ -171,4 +171,40 @@ def update():
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )
 
+    eol_rebase = {}
+    for app, eol_dict in metadata["xa.sparse-cache"].items():
+        appid = app.split("/")[1]
+        if (
+            "eolr" in eol_dict
+            and not appid.endswith(".Debug")
+            and not appid.endswith(".Locale")
+            and not appid.endswith(".Sources")
+        ):
+            new_id = eol_dict["eolr"].split("/")[1]
+            if new_id in eol_rebase:
+                eol_rebase[new_id].append(appid)
+            else:
+                eol_rebase[new_id] = [appid]
+
+    # Support changing of App ID multiple times
+    while True:
+        found = False
+        remove_list = []
+        for app_id, old_id_list in eol_rebase.items():
+            for new_app_id, check_id_list in eol_rebase.items():
+                if app_id in check_id_list:
+                    eol_rebase[new_app_id] += old_id_list
+                    remove_list.append(app_id)
+                    found = True
+        for i in remove_list:
+            del eol_rebase[i]
+        if not found:
+            break
+
+    db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase)})
+
+    for appid, old_id_list in eol_rebase.items():
+        for old_id in old_id_list:
+            db.redis_conn.mset({f"eol_rebase:{old_id}": json.dumps(appid)})
+
     return len(recently_updated_zset)
