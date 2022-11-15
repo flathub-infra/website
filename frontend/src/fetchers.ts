@@ -142,7 +142,8 @@ export default async function fetchCollection(
   const limitedList = collectionList.slice(0, limit)
 
   console.log(
-    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${limitedList.filter((item) => Boolean(item)).length
+    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
+      limitedList.filter((item) => Boolean(item)).length
     }.`,
   )
 
@@ -158,7 +159,8 @@ export async function fetchCategory(
   const appList = await appListRes.json()
 
   console.log(
-    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${appList.filter((item) => Boolean(item)).length
+    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${
+      appList.filter((item) => Boolean(item)).length
     }.`,
   )
 
