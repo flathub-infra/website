@@ -94,7 +94,8 @@ def check_purchases(appids: List[str], login=Depends(logins.login_state)):
     """
     Checks whether the logged in user is able to download all of the given app refs.
 
-    App IDs should be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable".
+    App IDs can be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable", or just the app ID, e.g.
+    "org.gnome.Maps".
     """
 
     if not login["state"].logged_in():
@@ -102,7 +103,9 @@ def check_purchases(appids: List[str], login=Depends(logins.login_state)):
 
     # We get full ref names, e.g. app/org.gnome.Maps/x86_64/master, but we just want the app ID part.
     try:
-        appids = [app_id.split("/")[1] for app_id in appids]
+        appids = [
+            app_id.split("/")[1] if "/" in app_id else app_id for app_id in appids
+        ]
     except IndexError:
         return JSONResponse(
             {
