@@ -26,7 +26,7 @@ const StatusInfo: FunctionComponent<{ status: VerificationStatus }> = ({
   const { t } = useTranslation()
 
   switch (status.method) {
-    case "none":
+    case "none" || !status.verified:
       return t("app-is-currently-not-verified")
     case "login_provider":
       return t("app-is-currently-verified-by-login-provider", {
