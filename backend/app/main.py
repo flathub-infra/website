@@ -79,6 +79,15 @@ async def update_stats():
     worker.update_stats.send()
 
 
+@app.post("/update/process-pending-transfers")
+def process_transfers():
+    """
+    Process any pending transfers which may be in the system
+    """
+    wallet.Wallet().perform_pending_transfers()
+    return Response(None, status_code=200)
+
+
 @app.get("/category/{category}")
 def get_category(
     category: schemas.Category,

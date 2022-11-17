@@ -298,3 +298,7 @@ class FakeWallet(WalletBase):
             raise WalletError(error="transaction not markable pending")
         transaction.summary.status = "pending"
         self._set_user_transactions(request, txns.values())
+
+    def perform_pending_transfers(self):
+        # Nothing to do for a fake wallet
+        pass

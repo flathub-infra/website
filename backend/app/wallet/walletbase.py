@@ -270,3 +270,10 @@ class WalletBase:
         is in any state other than `new` `retry` or `pending`.
         """
         raise NotImplementedError
+
+    def perform_pending_transfers(self):
+        """
+        Perform any pending transfers to recipients of funds - this must be called
+        periodically and non-overlapping - to permit transfers to be completed.
+        """
+        raise NotImplementedError
