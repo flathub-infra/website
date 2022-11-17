@@ -169,26 +169,24 @@ class StripeWallet(WalletBase):
             # The transaction isn't there, so let's create a payment intent
             # and then fill it out.
             cust = self._get_customer(user)
-            payment_intent = stripe.PaymentIntent.create(
+            stripe.PaymentIntent.create(
                 amount=txn.value,
                 currency=txn.currency,
                 payment_method_types=["card"],
                 customer=cust.stripe_cust,
-                transfer_group=f"{GROUP_PREFIX}{txn.id}",
-            )
-            # Now iterate the recipients and add any transfers in which we need
-            for (account_id, amount) in recipients:
-                stripe.Transfer.create(
-                    amount=amount,
-                    currency=txn.currency,
-                    destination=account_id,
-                    transfer_group=f"{GROUP_PREFIX}{txn.id}",
-                )
-
-            stxn = models.StripeTransaction(
-                transaction=txn.id, stripe_pi=payment_intent["id"]
             )
             db.session.add(stxn)
+            db.session.flush()
+
+            # Now iterate the recipients and add any transfers in which we need
+            for (account_id, amount) in recipients:
+                transfer = models.StripePendingTransfer(
+                    stripe_transaction=stxn.id,
+                    recipient=account_id,
+                    currency=txn.currency,
+                    amount=amount,
+                )
+                db.session.add(transfer)
             db.session.commit()
             return stxn
         except WalletError:
@@ -443,6 +441,60 @@ class StripeWallet(WalletBase):
         txn.updated = datetime.now()
         db.session.add(txn)
         db.session.commit()
+
+    def perform_pending_transfers(self):
+        # While this should be called in some kind of lock, we'll do our
+        # best to ensure that we do not lose any transfers, nor double-send
+        # any.
+
+        sentinel = {}
+        pending_transfers = []
+        try:
+            xfers = []
+            for transfer in models.StripePendingTransfer.all_due(db):
+                xfer = {
+                    "stripe_transaction": transfer.stripe_transaction,
+                    "currency": transfer.currency,
+                    "amount": transfer.amount,
+                    "recipient": transfer.recipient,
+                }
+                xfers.append(xfer)
+                db.session.delete(transfer)
+            db.session.commit()
+            # Having successfully retrieved them, save them, so we can restore
+            # them if anything else fails
+            pending_xfers = xfers
+            pending_xfers.append(sentinel)
+            while pending_xfers[0] is not sentinel:
+                xfer = pending_xfers.pop(0)
+                try:
+                    print(
+                        f'Setting up transfer of {xfer["amount"]/100} '
+                        + f'({xfer["currency"]}) to {xfer["recipient"]}'
+                    )
+                    stripe.Transfer.create(
+                        amount=xfer["amount"],
+                        currency=xfer["currency"],
+                        destination=xfer["recipient"],
+                    )
+                except stripe.error.StripeError as s_e:
+                    print(f"Failed, will retry later: {s_e}")
+                    pending_xfers.append(xfer)
+        finally:
+            # Remove anything which we haven't committed
+            db.session.rollback()
+            # And restore any transfer we failed to complete
+            if pending_transfers:
+                for transfer in pending_transfers:
+                    if transfer is not sentinel:
+                        xfer = models.StripePendingTransfer(
+                            stripe_transaction=transfer["stripe_transaction"],
+                            currency=transfer["currency"],
+                            amount=transfer["amount"],
+                            recipient=transfer["recipient"],
+                        )
+                        db.session.add(xfer)
+                db.session.commit()
 
 
 # Refuse to load if stripe configuration unavailable

@@ -176,6 +176,15 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
     return Response(None, status_code=201)
 
 
+@router.post("/process-pending-transfers")
+def process_transfers():
+    """
+    Process any pending transfers which may be in the system
+    """
+    Wallet().perform_pending_transfers()
+    return Response(None, status_code=200)
+
+
 # Stripe specific endpoints which are necessary
 
 

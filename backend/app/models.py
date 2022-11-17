@@ -579,6 +579,37 @@ class StripeTransaction(Base):
         )
 
 
+class StripePendingTransfer(Base):
+    __tablename__ = "stripependingtransfer"
+
+    id = Column(Integer, primary_key=True)
+    stripe_transaction = Column(
+        Integer,
+        ForeignKey(StripeTransaction.id),
+        nullable=False,
+        unique=False,
+        index=True,
+    )
+    recipient = Column(String, nullable=False)
+    currency = Column(String, nullable=False)
+    amount = Column(Integer, nullable=False)
+
+    @classmethod
+    def all_due(cls, db):
+        """
+        Return all the pending transfers which are actually due.
+
+        Transfers are considered due if the transaction they are linked to is
+        complete. (status == success)
+        """
+        return (
+            db.session.query(StripePendingTransfer)
+            .join(StripeTransaction)
+            .join(Transaction)
+            .filter(Transaction.status == "success")
+        )
+
+
 class UserOwnedApp(Base):
     __tablename__ = "userownedapp"
 
