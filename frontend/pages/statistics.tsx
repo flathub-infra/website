@@ -46,6 +46,8 @@ countries.registerLocale(require("i18n-iso-countries/langs/tr.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/uk.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/vi.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/zh.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/be.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/hu.json"))
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()

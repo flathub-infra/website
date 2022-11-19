@@ -52,6 +52,8 @@ def generate_text(frontend_url="beta.flathub.org"):
         "eo",
         "lt",
         "hr",
+        "be",
+        "hu",
     ]
 
     applications = [f"/apps/details/{appid}" for appid in apps.list_appstream()]

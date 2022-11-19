@@ -29,6 +29,8 @@ import {
   eo,
   lt,
   hr,
+  be,
+  hu,
 } from "date-fns/locale"
 
 export type Language =
@@ -63,6 +65,8 @@ export type Language =
   | "eo"
   | "lt"
   | "hr"
+  | "be"
+  | "hu"
 
 export const languages: Language[] = [
   "en",
@@ -96,6 +100,8 @@ export const languages: Language[] = [
   "eo",
   "lt",
   "hr",
+  "be",
+  "hu",
 ]
 
 export function getLocale(language: string): Locale {
@@ -162,6 +168,10 @@ export function getLocale(language: string): Locale {
       return lt
     case "hr":
       return hr
+    case "be":
+      return be
+    case "hu":
+      return hu
 
     default:
       return enGB
@@ -232,6 +242,10 @@ export function bcpToPosixLocale(language: string): string {
       return "lt_LT"
     case "hr":
       return "hr_HR"
+    case "be":
+      return "be_BY"
+    case "hu":
+      return "hu_HU"
 
     default:
       return "en_US"
@@ -302,6 +316,10 @@ export function getLanguageFlag(language: Language): string {
       return "🇱🇹"
     case "hr":
       return "🇭🇷"
+    case "be":
+      return "🇧🇾"
+    case "hu":
+      return "🇭🇺"
   }
 }
 
@@ -369,6 +387,10 @@ export function getLanguageName(language: Language): string {
       return "Lietuvių"
     case "hr":
       return "Hrvatski"
+    case "be":
+      return "Беларуская"
+    case "hu":
+      return "Magyar"
 
     default:
       return assertUnreachable(language)
@@ -457,6 +479,10 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("lt")
     case "hr":
       return new Intl.Locale("hr")
+    case "be":
+      return new Intl.Locale("be")
+    case "hu":
+      return new Intl.Locale("hu")
   }
 }
 
