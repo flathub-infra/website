@@ -638,3 +638,43 @@ https://beta.flathub.org/hr/languages
 https://beta.flathub.org/hr/privacy-policy
 https://beta.flathub.org/hr/statistics
 https://beta.flathub.org/hr/terms-and-conditions
+https://beta.flathub.org/be/about
+https://beta.flathub.org/be/apps
+https://beta.flathub.org/be/apps/category/Game
+https://beta.flathub.org/be/apps/category/Network
+https://beta.flathub.org/be/apps/category/Office
+https://beta.flathub.org/be/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/be/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/be/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/be/apps/collection/popular
+https://beta.flathub.org/be/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/be/apps/collection/recently-updated
+https://beta.flathub.org/be/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/be/apps/details/com.wps.Office
+https://beta.flathub.org/be/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/be/badges
+https://beta.flathub.org/be/feeds
+https://beta.flathub.org/be/languages
+https://beta.flathub.org/be/privacy-policy
+https://beta.flathub.org/be/statistics
+https://beta.flathub.org/be/terms-and-conditions
+https://beta.flathub.org/hu/about
+https://beta.flathub.org/hu/apps
+https://beta.flathub.org/hu/apps/category/Game
+https://beta.flathub.org/hu/apps/category/Network
+https://beta.flathub.org/hu/apps/category/Office
+https://beta.flathub.org/hu/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/hu/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/hu/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/hu/apps/collection/popular
+https://beta.flathub.org/hu/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/hu/apps/collection/recently-updated
+https://beta.flathub.org/hu/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/hu/apps/details/com.wps.Office
+https://beta.flathub.org/hu/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/hu/badges
+https://beta.flathub.org/hu/feeds
+https://beta.flathub.org/hu/languages
+https://beta.flathub.org/hu/privacy-policy
+https://beta.flathub.org/hu/statistics
+https://beta.flathub.org/hu/terms-and-conditions
