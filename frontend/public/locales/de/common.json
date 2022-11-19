@@ -255,5 +255,6 @@
   "app-is-verified": "Diese App ist verifiziert.",
   "verified-manually": "Diese App wurde manuell von Flathub-Mitarbeitern verifiziert.",
   "verified-website": "Dieser Herausgeber hat das Eigentum an {{website}} verifiziert.",
-  "verified-login-provider": "Verifiziert von @{{login_name}} auf {{login_provider}}."
+  "verified-login-provider": "Verifiziert von @{{login_name}} auf {{login_provider}}.",
+  "x-downloads": "{{count}} Downloads"
 }

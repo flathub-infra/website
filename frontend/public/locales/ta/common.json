@@ -250,5 +250,11 @@
   "app-vending-settings-confirmed": "பயன்பாடு விற்பனை அமைப்புகள் உறுதிப்படுத்தப்பட்டது",
   "show-more": "மேலும் காட்டு",
   "show-less": "குறைவாகக் காட்டு",
-  "more-type": "மேலும் {{type}}"
+  "more-type": "மேலும் {{type}}",
+  "verified": "சரிபார்க்கப்பட்டது",
+  "verified-manually": "இந்த பயன்பாடு பிளாதப் ஊழியர்களால் கைமுறையாக சரிபார்க்கப்பட்டது.",
+  "x-downloads": "{{count}} பதிவிறக்கங்கள்",
+  "verified-website": "இந்த வெளியீட்டாளர் {{website}} உரிமையை சரிபார்த்துள்ளார்.",
+  "app-is-verified": "இந்தப் பயன்பாடு சரிபார்க்கப்பட்டது.",
+  "verified-login-provider": "@{{login_name}} சரிபார்க்கப்பட்டது {{login_provider}} மூலம்."
 }
