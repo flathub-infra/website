@@ -49,7 +49,9 @@ export async function fetchEolRebase(
   let entryJson: string | undefined
   try {
     const entryData = await fetch(`${EOL_REBASE_URL(appId)}`)
-    entryJson = await entryData.json()
+    if (entryData.status === 200) {
+      entryJson = await entryData.json()
+    }
   } catch (error) {
     console.log(error)
   }
