@@ -255,5 +255,6 @@
   "verified": "Перевірено",
   "verified-manually": "Цей застосунок перевірений вручну співробітниками Flathub.",
   "verified-website": "Цей видавець підтвердив право власності на {{website}}.",
-  "verified-login-provider": "Перевірено @{{login_name}} на {{login_provider}}."
+  "verified-login-provider": "Перевірено @{{login_name}} на {{login_provider}}.",
+  "x-downloads": "Завантажень: {{count}}"
 }
