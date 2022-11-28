@@ -5,6 +5,7 @@ This will be used if the app starts with Stripe credentials available
 """
 
 from datetime import datetime
+from ipaddress import ip_address
 from itertools import dropwhile
 from typing import List, Optional
 
@@ -16,6 +17,7 @@ from .. import models
 from ..config import settings
 from ..models import FlathubUser, StripeCustomer
 from ..utils import PLATFORMS_WITH_STRIPE
+from ..vending import prices
 from .walletbase import (
     CardInfo,
     NascentTransaction,
@@ -111,7 +113,7 @@ class StripeWallet(WalletBase):
 
         did_update = False
         for txn in txns:
-            if self._update_transaction(user, txn):
+            if self._update_transaction(user, txn, request.client.host):
                 db.session.add(txn)
                 did_update = True
         if did_update:
@@ -132,7 +134,7 @@ class StripeWallet(WalletBase):
         ]
 
     def _get_transaction(
-        self, user: FlathubUser, txn: models.Transaction
+        self, user: FlathubUser, txn: models.Transaction, source_ip: str
     ) -> models.StripeTransaction:
         stxn = models.StripeTransaction.by_transaction(db, txn)
         if stxn is not None:
@@ -143,6 +145,7 @@ class StripeWallet(WalletBase):
             # application, etc.  But if we cannot find a stripe account
             # for anything, we error out.
             recipients = []
+            order_items = []
             flathub_amount = 0
             for row in txn.rows(db):
                 try:
@@ -155,25 +158,97 @@ class StripeWallet(WalletBase):
                         if acct is not None:
                             print("Found user account")
                             recipients.append((acct.stripe_account, value))
+                            order_items.append(
+                                {
+                                    "product_data": {
+                                        "id": row.recipient.replace(".", "_"),
+                                        "name": row.recipient,  # TODO: Replace with title?
+                                        "tax_code": prices.stripe_tax_code_for(row),
+                                    },
+                                    "price_data": {
+                                        "unit_amount": value,
+                                        "tax_behavior": "inclusive",
+                                    },
+                                    "quantity": 1,
+                                }
+                            )
                             continue
                     plaf_data = PLATFORMS_WITH_STRIPE.get(row.recipient)
                     if plaf_data is not None:
                         if (stripe_id := plaf_data.stripe_account) is not None:
                             recipients.append((stripe_id, value))
+                            order_items.append(
+                                {
+                                    "product_data": {
+                                        "id": row.recipient.replace(".", "_"),
+                                        "name": row.recipient,
+                                        "tax_code": prices.stripe_tax_code_for(row),
+                                    },
+                                    "price_data": {
+                                        "unit_amount": value,
+                                        "tax_behavior": "inclusive",
+                                    },
+                                    "quantity": 1,
+                                }
+                            )
                             continue
                     flathub_amount = value
                 except WalletError:
                     raise
                 except Exception as base_exc:
                     raise WalletError(error="not found") from base_exc
-            # The transaction isn't there, so let's create a payment intent
-            # and then fill it out.
+            order_items.append(
+                {
+                    "product_data": {
+                        "id": "org_flathub_Flathub",
+                        "name": "Flathub transaction fee",
+                        "tax_code": prices.stripe_tax_code_for(
+                            TransactionRow(
+                                recipient="org.flathub.Flathub",
+                                amount=flathub_amount,
+                                currency=txn.currency,
+                                kind="donation",
+                            )
+                        ),
+                    },
+                    "price_data": {
+                        "unit_amount": value,
+                        "tax_behavior": "inclusive",
+                    },
+                    "quantity": 1,
+                }
+            )
+            # The transaction isn't there, so let's create an order, and use that
+            # to acquire a payment intent
             cust = self._get_customer(user)
-            stripe.PaymentIntent.create(
-                amount=txn.value,
+
+            # If we're testing, or, for example, dealing with localhost-only
+            # operations, then for the purpose of computing tax we can use
+            # the ip address of google's DNS as that's in a reasonable USA
+            # tax area.
+            # TODO: Decide if this is acceptable outside of testing
+
+            if (
+                source_ip in ["localhost", "testclient"]
+                or ip_address(source_ip).is_private
+            ):
+                source_ip = "8.8.8.8"
+
+            order = stripe.Order.create(
                 currency=txn.currency,
-                payment_method_types=["card"],
+                line_items=order_items,
                 customer=cust.stripe_cust,
+                automatic_tax={"enabled": True},
+                ip_address=source_ip,
+            )
+
+            submitted_order = stripe.Order.submit(order, expected_total=txn.value)
+            payment_intent = stripe.PaymentIntent.retrieve(
+                submitted_order["payment"]["payment_intent"]
+            )
+
+            stxn = models.StripeTransaction(
+                transaction=txn.id, stripe_pi=payment_intent["id"]
             )
             db.session.add(stxn)
             db.session.flush()
@@ -196,11 +271,13 @@ class StripeWallet(WalletBase):
                 error="stripe-payment-intent-build-failed"
             ) from stripe_error
 
-    def _update_transaction(self, user: FlathubUser, txn: models.Transaction) -> bool:
+    def _update_transaction(
+        self, user: FlathubUser, txn: models.Transaction, source_ip: str
+    ) -> bool:
         if txn.status not in ["pending", "retry"]:
             return False
         # Pending transactions may need tweaking based on Stripe status
-        stxn = self._get_transaction(user, txn)
+        stxn = self._get_transaction(user, txn, source_ip)
         try:
             payment_intent = stripe.PaymentIntent.retrieve(stxn.stripe_pi)
             pi_status = payment_intent["status"]
@@ -224,12 +301,15 @@ class StripeWallet(WalletBase):
             ) from stripe_error
 
     def transaction(
-        self, request: Request, user: FlathubUser, transaction: str
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
     ) -> Transaction:
         txn = models.Transaction.by_user_and_id(db, user, transaction)
         if txn is None:
             raise WalletError(error="not found")
-        if self._update_transaction(user, txn):
+        if self._update_transaction(user, txn, request.client.host):
             db.session.add(txn)
             db.session.commit()
         summary = TransactionSummary(
@@ -251,7 +331,7 @@ class StripeWallet(WalletBase):
             )
             for row in txn.rows(db)
         ]
-        stxn = self._get_transaction(user, txn)
+        stxn = self._get_transaction(user, txn, request.client.host)
         card = None
         receipt = None
         try:
@@ -268,7 +348,10 @@ class StripeWallet(WalletBase):
         return Transaction(summary=summary, card=card, details=details, receipt=receipt)
 
     def create_transaction(
-        self, request: Request, user: FlathubUser, transaction: NascentTransaction
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: NascentTransaction,
     ) -> str:
         self._check_transaction_consistency(transaction)
 
@@ -306,7 +389,7 @@ class StripeWallet(WalletBase):
         db.session.flush()
 
         # This will commit for us or error if the payment intent is not created with Stripe
-        self._get_transaction(user, txn)
+        self._get_transaction(user, txn, request.client.host)
 
         return str(txn.id)
 
@@ -323,7 +406,7 @@ class StripeWallet(WalletBase):
             raise WalletError("not found")
         if txn.status not in ["new", "retry"]:
             raise WalletError(error="bad transaction status")
-        txn = self._get_transaction(user, txn)
+        txn = self._get_transaction(user, txn, request.client.host)
         try:
             stripe.PaymentIntent.modify(
                 txn.stripe_pi,
@@ -342,7 +425,7 @@ class StripeWallet(WalletBase):
             raise WalletError(error="not found")
         if txn.status not in ["new", "retry"]:
             raise WalletError(error="bad transaction status")
-        txn = self._get_transaction(user, txn)
+        txn = self._get_transaction(user, txn, request.client.host)
         card = None
         try:
             payment_intent = stripe.PaymentIntent.retrieve(txn.stripe_pi)
@@ -363,7 +446,7 @@ class StripeWallet(WalletBase):
             raise WalletError(error="not found")
         if txn.status not in ["new", "retry"]:
             raise WalletError(error="bad transaction status")
-        stripe_txn = self._get_transaction(user, txn)
+        stripe_txn = self._get_transaction(user, txn, request.client.host)
         try:
             pi_data = stripe.PaymentIntent.retrieve(stripe_txn.stripe_pi)
             if pi_data["status"] == "succeeded":
@@ -389,7 +472,7 @@ class StripeWallet(WalletBase):
             raise WalletError(error="not found")
         if txn.status not in ["new", "retry"]:
             raise WalletError(error="bad transaction status")
-        stripe_txn = self._get_transaction(user, txn)
+        stripe_txn = self._get_transaction(user, txn, request.client.host)
         try:
             stripe.PaymentIntent.modify(
                 stripe_txn.stripe_pi,
@@ -512,3 +595,4 @@ if any(
     raise ImportError("Stripe configuration is missing, refusing to load")
 else:
     stripe.api_key = settings.stripe_secret_key
+    stripe.api_version = "2020-08-27;orders_beta=v4"
