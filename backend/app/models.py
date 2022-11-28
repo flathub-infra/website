@@ -77,9 +77,8 @@ class FlathubUser(Base):
         flatpaks = set()
         gha = GithubAccount.by_user(db, self)
         if gha:
-            available_apps = apps.list_appstream()
             for repo in GithubRepository.all_by_account(db, gha):
-                if repo.reponame in available_apps:
+                if utils.is_valid_app_id(repo.reponame):
                     flatpaks.add(repo.reponame)
         return flatpaks
 
