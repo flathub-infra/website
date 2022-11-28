@@ -7,14 +7,16 @@ from sqlalchemy import (
     CheckConstraint,
     Column,
     DateTime,
+    Enum,
     ForeignKey,
+    Index,
     Integer,
     String,
     delete,
 )
 from sqlalchemy.ext.declarative import declarative_base
 
-from . import apps, utils
+from . import utils
 
 Base = declarative_base()
 
@@ -185,7 +187,7 @@ class GithubRepository(Base):
         db.session.flush()
 
     @staticmethod
-    def all_by_account(db, account: GithubAccount):
+    def all_by_account(db, account: GithubAccount) -> List["GithubRepository"]:
         return db.session.query(GithubRepository).filter_by(github_account=account.id)
 
 
@@ -381,25 +383,65 @@ class GoogleAccount(Base):
 FlathubUser.TABLES_FOR_DELETE.append(GoogleAccount)
 
 
-class UserVerifiedApp(Base):
-    __tablename__ = "userverifiedapp"
+class AppVerification(Base):
+    __tablename__ = "appverification"
 
     app_id = Column(String, primary_key=True, nullable=False)
     account = Column(
-        Integer, ForeignKey(FlathubUser.id, ondelete="CASCADE"), nullable=False
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        primary_key=True,
+        nullable=False,
     )
-    created = Column(DateTime, nullable=False)
+
+    method = Column(
+        Enum(
+            "manual",
+            "website",
+            "login_provider",
+            native_enum=False,
+            values_callable=lambda x: [e.value for e in x],
+        ),
+        nullable=False,
+    )
+    token = Column(String)
+    verified = Column(Boolean, nullable=False)
+    verified_timestamp = Column(DateTime)
+
+    __table_args__ = (
+        # An app can only have one verification
+        Index(
+            "app_verification_unique",
+            "app_id",
+            postgresql_where=Column("verified"),
+            unique=True,
+        ),
+    )
 
     @staticmethod
-    def all_by_user(db, user: FlathubUser):
-        return db.session.query(UserVerifiedApp).filter_by(account=user.id)
+    def by_app_and_user(
+        db, app_id: str, user: FlathubUser
+    ) -> Optional["AppVerification"]:
+        return (
+            db.session.query(AppVerification)
+            .filter_by(app_id=app_id, account=user.id)
+            .first()
+        )
+
+    @staticmethod
+    def all_by_app(db, app_id: str) -> List["AppVerification"]:
+        return db.session.query(AppVerification).filter_by(app_id=app_id)
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser) -> List["AppVerification"]:
+        return db.session.query(AppVerification).filter_by(account=user.id)
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """
         Add a user's verified apps to the hasher for token generation
         """
-        apps = [app.app_id for app in UserVerifiedApp.all_by_user(db, user)]
+        apps = [app.app_id for app in AppVerification.all_by_user(db, user)]
         apps.sort()
         for app in apps:
             hasher.add_string(app)
@@ -410,11 +452,11 @@ class UserVerifiedApp(Base):
         Delete any app verifications associated with this user
         """
         db.session.execute(
-            delete(UserVerifiedApp).where(UserVerifiedApp.account == user.id)
+            delete(AppVerification).where(AppVerification.account == user.id)
         )
 
 
-FlathubUser.TABLES_FOR_DELETE.append(UserVerifiedApp)
+FlathubUser.TABLES_FOR_DELETE.append(AppVerification)
 
 
 # Wallet related content

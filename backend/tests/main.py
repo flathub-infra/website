@@ -28,6 +28,29 @@ workspace = None
 vcr = vcr.VCR(cassette_library_dir="tests/cassettes", ignore_hosts=["localhost", "testserver"])
 
 
+class Override:
+    def __init__(self, dependency, replacement) -> None:
+        from app import main
+
+        self._dependency = dependency
+        if dependency in main.app.dependency_overrides:
+            self._original = main.app.dependency_overrides[dependency]
+        else:
+            self._original = None
+        main.app.dependency_overrides[dependency] = replacement
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, *args):
+        from app import main
+
+        if self._original is None:
+            del main.app.dependency_overrides[self._dependency]
+        else:
+            main.app.dependency_overrides[self._dependency] = self._replacement
+
+
 def _get_expected_json_result(test_name):
     path = os.path.join("tests", "results", f"{test_name}.json")
     with open(path) as result:
@@ -409,20 +432,34 @@ def test_verification_domain_names():
     assert _get_domain_name("org._0_example.TestApp") == "0-example.org"
 
 
-@vcr.use_cassette()
+@vcr.use_cassette("login_cassette")
+def _login(client):
+    # Complete a login through Github
+    response = client.get("/auth/login/github")
+    assert response.status_code == 200
+    out = response.json()
+    assert out["state"] == "ok"
+    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+    print(state)
+    post_body = {"code": "04f6dff87ead3551df1d", "state": state}
+    response = client.post(
+        "/auth/login/github", json=post_body, cookies=response.cookies
+    )
+    assert response.status_code == 200
+
+
 def test_verification_status(client):
-    response = client.get("/verification/com.github.flathub.ExampleApp/status")
+    response = client.get("/verification/com.github.flathub.NotVerified/status")
     expected = {
         "verified": False,
-        "method": "none",
-        "detail": "repo_does_not_exist",
     }
     assert response.status_code == 200
     assert response.json() == expected
 
 
-@vcr.use_cassette()
 def test_verification_available_method_website(client):
+    _login(client)
+
     response = client.get("/verification/org.gnome.Maps/available-methods")
     expected = {
         "methods": [
@@ -436,37 +473,22 @@ def test_verification_available_method_website(client):
     assert response.json() == expected
 
 
-@vcr.use_cassette()
-def test_verification_available_method_github(client):
+def test_verification_available_method_multiple(client):
+    _login(client)
+
     response = client.get(
-        "/verification/com.github.bilelmoussaoui.Authenticator/available-methods"
+        "/verification/io.github.ajr0d.FlathubTestApp/available-methods"
     )
     expected = {
         "methods": [
             {
-                "method": "login_provider",
-                "login_provider": "GitHub",
-                "login_name": "bilelmoussaoui",
-            }
-        ]
-    }
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-@vcr.use_cassette()
-def test_verification_available_method_multiple(client):
-    response = client.get("/verification/io.github.lainsce.Notejot/available-methods")
-    expected = {
-        "methods": [
-            {
                 "method": "website",
-                "website": "lainsce.github.io",
+                "website": "ajr0d.github.io",
             },
             {
                 "method": "login_provider",
                 "login_provider": "GitHub",
-                "login_name": "lainsce",
+                "login_name": "ajr0d",
             },
         ]
     }
@@ -474,32 +496,103 @@ def test_verification_available_method_multiple(client):
     assert response.json() == expected
 
 
-@vcr.use_cassette()
-def test_verification_status_dne(client):
-    response = client.get("/verification/com.github.flathub.ExampleApp/status")
-    expected = {
-        "verified": False,
-        "method": "none",
-        "detail": "repo_does_not_exist",
-    }
-    assert response.status_code == 200
-    assert response.json() == expected
-
-
-@vcr.use_cassette()
 def test_verification_status_invalid(client):
     response = client.get("/verification/com.github/status")
     expected = {
         "verified": False,
-        "method": "none",
-        "detail": "malformed_app_id",
     }
     assert response.status_code == 200
     assert response.json() == expected
 
 
+def test_verification_requires_login(client):
+    response = client.post("/verification/org.gnome.Maps/setup-website-verification")
+    assert response.status_code == 403
+    assert response.json()["detail"] == "not_logged_in"
+
+    response = client.post("/verification/org.gnome.Maps/verify-by-login-provider")
+    assert response.status_code == 403
+    assert response.json()["detail"] == "not_logged_in"
+
+
+def test_verification_app_id_errors(client):
+    _login(client)
+
+    # Test when the app ID is not valid
+    response = client.post("/verification/org.gnome/setup-website-verification")
+    assert response.status_code == 400
+    assert response.json()["detail"] == "malformed_app_id"
+
+    response = client.post("/verification/org.gnome/verify-by-login-provider")
+    assert response.status_code == 400
+    assert response.json()["detail"] == "malformed_app_id"
+
+    # Test when the app is not in the user's developer flatpaks
+    response = client.post(
+        "/verification/org.gnome.Calendar/setup-website-verification"
+    )
+    assert response.status_code == 401
+    assert response.json()["detail"] == "not_app_developer"
+
+    response = client.post("/verification/org.gnome.Calendar/verify-by-login-provider")
+    assert response.status_code == 401
+    assert response.json()["detail"] == "not_app_developer"
+
+
 @vcr.use_cassette()
-def test_verification_status_website(client):
+def test_verification_website_check():
+    from app.verification import CheckWebsiteVerification
+
+    # Make sure verification works
+    response = CheckWebsiteVerification()(
+        "org.gnome.Maps", "c741630f-1756-44cb-a1f9-3641fb231cad"
+    )
+    assert response.verified
+
+    # Make sure verification fails if the token isn't present
+    response = CheckWebsiteVerification()("org.gnome.Maps", "not-the-correct-token")
+    assert not response.verified
+    assert response.detail == "app_not_listed"
+
+    # Make sure the status code is reported if there is an error
+    response = CheckWebsiteVerification()("org.gnome.Maps", "404")
+    assert not response.verified
+    assert response.detail == "server_returned_error"
+    assert response.status_code == 404
+
+
+def test_verification_website(client):
+    from app.verification import CheckWebsiteVerification, WebsiteVerificationResult
+
+    _login(client)
+
+    # Begin the verification process
+    response = client.post("/verification/org.gnome.Maps/setup-website-verification")
+    assert response.status_code == 200
+
+    # Setting it up again should return the same token, not a new one
+    second_response = client.post(
+        "/verification/org.gnome.Maps/setup-website-verification"
+    )
+    assert second_response.status_code == 200
+    assert second_response.json() == response.json()
+
+    # Override the actual check so we don't have to mess with cassettes
+    class CheckWebsiteVerificationOverride:
+        def __call__(self, _appid: str, _token: str):
+            return WebsiteVerificationResult(verified=True)
+
+    with Override(CheckWebsiteVerification, CheckWebsiteVerificationOverride):
+        # Confirm verification
+        response = client.post(
+            "/verification/org.gnome.Maps/confirm-website-verification"
+        )
+        assert response.status_code == 200
+        assert response.json() == {
+            "verified": True,
+        }
+
+    # Make sure the verification worked
     response = client.get("/verification/org.gnome.Maps/status")
     expected = {
         "verified": True,
@@ -509,13 +602,72 @@ def test_verification_status_website(client):
     assert response.status_code == 200
     assert response.json() == expected
 
+    # Unverify the app
+    response = client.post("/verification/org.gnome.Maps/unverify")
+    assert response.status_code == 204
 
-@vcr.use_cassette()
+    # Make sure unverification worked
+    response = client.get("/verification/org.gnome.Maps/status")
+    assert response.status_code == 200
+    assert response.json() == {
+        "verified": False,
+    }
+
+
+def test_verification_github(client):
+    _login(client)
+
+    response = client.post(
+        "/verification/io.github.ajr0d.FlathubTestApp/verify-by-login-provider"
+    )
+    assert response.status_code == 200
+
+    response = client.get("/verification/io.github.ajr0d.FlathubTestApp/status")
+    assert response.status_code == 200
+    assert response.json() == {
+        "verified": True,
+        "method": "login_provider",
+        "login_provider": "GitHub",
+        "login_name": "ajr0d",
+    }
+
+    # Unverify the app
+    response = client.post("/verification/io.github.ajr0d.FlathubTestApp/unverify")
+    assert response.status_code == 204
+
+    # Make sure unverification worked
+    response = client.get("/verification/io.github.ajr0d.FlathubTestApp/status")
+    assert response.status_code == 200
+    assert response.json() == {
+        "verified": False,
+    }
+
+
+def test_double_verification_forbidden(client):
+    _login(client)
+
+    # Verify an app by login provider
+    response = client.post(
+        "/verification/io.github.ajr0d.FlathubTestApp/verify-by-login-provider"
+    )
+    assert response.status_code == 200
+
+    # The app shouldn't be verifiable via website
+    response = client.post(
+        "/verification/io.github.ajr0d.FlathubTestApp/setup-website-verification"
+    )
+    assert response.status_code == 403
+    assert response.json()["detail"] == "app_already_verified"
+
+    # Unverify the app to reset the database
+    response = client.post("/verification/io.github.ajr0d.FlathubTestApp/unverify")
+    assert response.status_code == 204
+
+
 def test_verification_status_not_verified(client):
     response = client.get("/verification/org.gnome.Calendar/status")
     expected = {
         "verified": False,
-        "method": "none",
     }
     assert response.status_code == 200
     assert response.json() == expected
@@ -576,24 +728,13 @@ def test_auth_login_google(client):
     assert response.status_code == 200
 
 
-@vcr.use_cassette(record_mode="once")
 def test_fakewallet(client):
     from app import config
 
     if config.settings.stripe_public_key:
         pytest.skip("Stripe is configured")
-    # Complete a login through Github
-    response = client.get("/auth/login/github")
-    assert response.status_code == 200
-    out = response.json()
-    assert out["state"] == "ok"
-    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-    print(state)
-    post_body = {"code": "04f6dff87ead3551df1d", "state": state}
-    response = client.post(
-        "/auth/login/github", json=post_body, cookies=response.cookies
-    )
-    assert response.status_code == 200
+
+    _login(client)
 
     # Test the login was success through `auth/userinfo`
     response = client.get("/auth/userinfo")

@@ -1,7 +1,7 @@
 import dramatiq
 import dramatiq.brokers.redis
 
-from . import apps, compat, db, exceptions, stats, summary, verification
+from . import apps, compat, db, exceptions, stats, summary
 from .config import settings
 
 broker = dramatiq.brokers.redis.RedisBroker(
@@ -21,7 +21,6 @@ def update():
     new_apps = apps.load_appstream()
     summary.update()
     compat.update_picks()
-    verification.update()
     exceptions.update()
 
     if new_apps:
