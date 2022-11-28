@@ -21,6 +21,24 @@ FLATHUB_COST_SHARE = 5
 # funding to cover hosting etc.
 FLATHUB_PLATFORM_SHARE = 10
 
+# Taxing is done in a number of ways, these are the tax categories we assign
+# to rows in orders
+STRIPE_TAX_CATEGORIES = {
+    # A monetary donation for a cause, in which the donee receives nothing in return.
+    "DONATION": "txcd_90000001",
+    # An online service that allows a customer to create, transform, process,
+    # or access data electronically.
+    "PROCESSING": "txcd_10701300",
+    # Electronic software documentation or user manuals
+    # For prewritten software & delivered electronically.
+    "SOFTWARE": "txcd_10504003",
+    # Video or electronic games in the common sense that are transferred electronically.
+    # These goods are downloaded to a device with permanent access granted.
+    "GAME": "txcd_10201000",
+    # General - Electronically Supplied Services
+    "GENERAL": "txcd_10000000",
+}
+
 
 def flathub_fee_parameters(currency: str) -> Tuple[int, int, int]:
     """
@@ -134,3 +152,28 @@ def compute_app_shares(
     ret.append(("org.flathub.Flathub", fh_fee))
     assert total == sum((fee for (_appid, fee) in ret))
     return ret
+
+
+def stripe_tax_code_for(row):
+    """
+    Compute the tax code for the given transaction row.
+    We mostly care about the row.recipient and row.kind as we care about
+    donation vs. purchase and who it's for.
+    """
+    from ..vending import app_info
+
+    try:
+        info = app_info(row.recipient)
+        if row.kind == "donation":
+            return STRIPE_TAX_CATEGORIES["DONATION"]
+        if info.kind == "GAME":
+            return STRIPE_TAX_CATEGORIES["GAME"]
+        return STRIPE_TAX_CATEGORIES["SOFTWARE"]
+    except:
+        # We couldn't use app info, so assume it's for a platform or for
+        # Flathub
+        if row.kind != "donation":
+            return STRIPE_TAX_CATEGORIES["GENERAL"]
+        if row.recipient == "org.flathub.Flathub":
+            return STRIPE_TAX_CATEGORIES["PROCESSING"]
+        return STRIPE_TAX_CATEGORIES["SOFTWARE"]
