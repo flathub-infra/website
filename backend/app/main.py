@@ -67,7 +67,6 @@ def startup_event():
     db.wait_for_redis()
 
     compat.initialize_picks()
-    verification.initialize()
 
 
 @app.post("/update")
