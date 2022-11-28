@@ -248,6 +248,52 @@ def update(all_app_ids: list):
                 [i[2] for i in dict.values()]
             )
 
+    # Make sure the Apps has all Keys
+    for appid in stats_apps_dict.keys():
+        stats_apps_dict[appid]["installs_total"] = stats_apps_dict[appid].get(
+            "installs_total", 0
+        )
+        stats_apps_dict[appid]["installs_last_month"] = stats_apps_dict[appid].get(
+            "installs_last_month", 0
+        )
+        stats_apps_dict[appid]["installs_last_7_days"] = stats_apps_dict[appid].get(
+            "installs_last_7_days", 0
+        )
+        stats_apps_dict[appid]["installs_per_day"] = stats_apps_dict[appid].get(
+            "installs_per_day", {}
+        )
+
+    new_id: str
+    old_id_list: list[str]
+    for new_id, old_id_list in db.get_json_key("eol_rebase").items():
+        if new_id not in stats_apps_dict:
+            stats_apps_dict[new_id] = {
+                "installs_total": 0,
+                "installs_last_month": 0,
+                "installs_last_7_days": 0,
+                "installs_per_day": {},
+            }
+
+        for old_id in old_id_list:
+            if old_id not in stats_apps_dict:
+                continue
+
+            stats_apps_dict[new_id]["installs_total"] += stats_apps_dict[old_id][
+                "installs_total"
+            ]
+            stats_apps_dict[new_id]["installs_last_month"] += stats_apps_dict[old_id][
+                "installs_last_month"
+            ]
+            stats_apps_dict[new_id]["installs_last_7_days"] += stats_apps_dict[old_id][
+                "installs_last_7_days"
+            ]
+
+            for day, count in stats_apps_dict[old_id]["installs_per_day"].items():
+                if day in stats_apps_dict[new_id]["installs_per_day"]:
+                    stats_apps_dict[new_id]["installs_per_day"][day] += count
+                else:
+                    stats_apps_dict[new_id]["installs_per_day"][day] = count
+
     db.redis_conn.set("stats", orjson.dumps(stats_dict))
     db.redis_conn.mset(
         {
