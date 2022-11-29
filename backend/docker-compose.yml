@@ -35,6 +35,23 @@ services:
       - /var/lib/flatpak
       - .:/app:z
 
+  worker:
+    image: backend_backend:latest
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    command: dramatiq app.worker --processes 1 --threads 2 --verbose --watch app
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+      - db
+      - meilisearch
+    volumes:
+      - /var/lib/flatpak
+      - .:/app:z
+
   db:
     image: docker.io/library/postgres:12
     ports:
