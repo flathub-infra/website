@@ -53,7 +53,7 @@ services:
       - .:/app:z
 
   db:
-    image: docker.io/library/postgres:12
+    image: docker.io/library/postgres:14
     ports:
       - "5432:5432"
     environment:
