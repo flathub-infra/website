@@ -25,6 +25,9 @@ services:
       - STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
       - STRIPE_PUBLIC_KEY=$STRIPE_PUBLIC_KEY
       - STRIPE_WEBHOOK_KEY=$STRIPE_WEBHOOK_KEY
+      - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
+      - APPSTREAM_REPOS=$APPSTREAM_REPOS
+      - DATADIR=${DATADIR-/app/data}
     ports:
       - "8000:8000"
     depends_on:
@@ -44,6 +47,9 @@ services:
     command: dramatiq app.worker --processes 1 --threads 2 --verbose --watch app
     environment:
       - REDIS_HOST=redis
+      - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
+      - APPSTREAM_REPOS=$APPSTREAM_REPOS
+      - DATADIR=${DATADIR-/app/data}
     depends_on:
       - redis
       - db

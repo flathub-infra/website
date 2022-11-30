@@ -5,6 +5,7 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 
 import gi
 import pytest
@@ -45,59 +46,21 @@ def _get_expected_text_result(test_name):
         return result.read()
 
 
-def setup_module():
-    global workspace
-
-    workspace = tempfile.TemporaryDirectory()
-
-    installation_path = os.path.join(workspace.name, "flatpak")
-    repo_path = os.path.join(installation_path, "repo")
-
-    os.mkdir(installation_path)
-    os.environ["FLATPAK_USER_DIR"] = installation_path
-
-    file = Gio.File.new_for_path(repo_path)
-    repo = OSTree.Repo.new(file)
-    repo.create(OSTree.RepoMode.BARE, None)
-    remote_path = os.path.join(os.getcwd(), "tests/ostree/repo")
-    repo.remote_add("flathub", f"file://{remote_path}")
-
-    for i, test_stats_json in enumerate(
-        sorted(glob.glob("tests/stats/*.json"), reverse=True)
-    ):
-        date = datetime.date.today() - datetime.timedelta(days=i)
-        stats_file = os.path.join(workspace.name, date.strftime("%Y/%m/%d.json"))
-        os.makedirs(os.path.dirname(stats_file), exist_ok=True)
-        print(f"Copy {test_stats_json} to {stats_file}")
-        shutil.copy(test_stats_json, stats_file)
-
-    from app import config
-
-    config.settings.appstream_repos = "tests/appstream"
-    config.settings.datadir = "tests/data"
-    config.settings.stats_baseurl = "file://" + workspace.name
-
-
 @pytest.fixture
 def client():
-
     from app import main
 
     with TestClient(main.app) as client_:
         yield client_
 
 
-def teardown_module():
-    workspace.cleanup()
-
-
 def test_update(client):
     update = client.post("/update")
     assert update.status_code == 200
+    time.sleep(3)
 
     update_stats = client.post("/update/stats")
     assert update_stats.status_code == 200
-
 
 
 def test_apps_by_category(client):
@@ -106,7 +69,7 @@ def test_apps_by_category(client):
     assert response.json() == _get_expected_json_result("test_apps_by_category")
 
 
-def test_apps_by_category(client):
+def test_apps_by_category_paginated(client):
     response = client.get("/category/Game?page=1&per_page=10")
     assert response.status_code == 200
 
@@ -307,6 +270,7 @@ def test_summary_by_non_existent_id(client):
 
 
 def test_stats(client):
+    time.sleep(3)
     response = client.get("/stats")
     today = datetime.date.today()
     yesterday = today - datetime.timedelta(days=1)
