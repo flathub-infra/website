@@ -240,5 +240,22 @@
   "your-profile": "El vostre perfil",
   "open-menu": "Obre el menú",
   "open-user-menu": "Obriu el menú d'usuari",
-  "more-type": "Més {{type}}"
+  "more-type": "Més {{type}}",
+  "verified": "Verificat",
+  "app-is-verified": "Aquesta aplicació està verificada",
+  "website-validation-instruction": "Per verificar la vostra aplicació, podem comprovar que teniu accés al lloc web corresponent al vostre identificador d'aplicació <1>Si us plau afegiu un fitxer anomenat:</1> <2>org.flathub.VerifiedApps.txt</2> a la carpeta <4>.well-known</4> del vostre lloc web <6>{{url}}</6> amb el contingut següent: <8>{{id}}</8>",
+  "x-downloads": "{{count}} descàrregues",
+  "verified-manually": "Aquesta aplicació ha estat verificada manualment pel personal de Flathub",
+  "verified-website": "Aquest editor ha verificat la propietat de {{website}}",
+  "verified-login-provider": "Verificat per @{{login_name}} en {{login_provider}}",
+  "link-to-well-known-file": "Enllaç al vostre fitxer .well-known",
+  "website-verification": "Verificació del lloc web",
+  "login-provider-verification": "Verificació del proveïdor d'inici de sessió",
+  "error-code": "Codi d'error: {{code}}",
+  "error": "Error",
+  "app-is-currently-not-verified": "Actualment, la vostra aplicació no està verificada",
+  "app-is-currently-verified-by-website": "La vostra aplicació està actualment verificada pel vostre lloc web {{website}}",
+  "app-is-currently-verified-manually": "La vostra aplicació està actualment verificada pel personal de Flathub",
+  "verify-app": "Verificar l'aplicació",
+  "submit": "Enviar"
 }
