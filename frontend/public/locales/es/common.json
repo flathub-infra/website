@@ -251,6 +251,12 @@
   "open-user-menu": "Abrir el menú de usuario",
   "your-profile": "Tu perfil",
   "verified": "Verificada",
-  "app-is-verified": "Esta aplicación está verificada.",
-  "more-type": "Más {{type}}"
+  "app-is-verified": "Ésta aplicación está verificada.",
+  "more-type": "Más {{type}}",
+  "x-downloads": "{{count}} descargas",
+  "verified-manually": "Ésta aplicación ha sido verificada manueal por el equipo de Flathub",
+  "verified-website": "Este publicador ha sido verificada como propiedad de {{website}}",
+  "verified-login-provider": "Verificado por @{{login_name}} en {{login_provider}}",
+  "website-validation-instruction": "Para verificar tu aplicación, podemos revisar si tienes acceso al sitio correspondiente de la ID de tu app. <1>Por favor agrega un archivo llamado:</1> <2>org.flathub.VerifiedApps.txt</2> a la <4>.well-known</4> carpeta de tu sitio web <6>{{url}}</6> con los siguientes contenidos: <8>{{id}}</8>",
+  "website-verification": "Verificación sitio web"
 }
