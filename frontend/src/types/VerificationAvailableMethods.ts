@@ -18,4 +18,5 @@ export interface VerificationMethodLoginProvider {
 export interface VerificationMethodWebsite {
   method: "website"
   website: string
+  website_token?: string
 }

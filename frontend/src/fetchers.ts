@@ -275,6 +275,7 @@ export async function fetchVerificationAvailableMethods(
   try {
     const verificationResponse = await fetch(
       `${APP_VERIFICATION_AVAILABLE_METHODS(appId)}`,
+      { credentials: "include" },
     )
     verificationMethods = await verificationResponse.json()
   } catch (error) {

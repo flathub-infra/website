@@ -3,7 +3,7 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
-import AppVerificationSetup from "src/components/application/AppVerificationSetup"
+import * as AppVerificationControls from "src/components/application/AppVerificationControls"
 import * as AppVendingControls from "../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../src/context/user-info"
@@ -27,7 +27,7 @@ export default function AppManagementPage({
     content = (
       <>
         <h2>{t("developer-settings-title", { appname: app.name })}</h2>
-        <AppVerificationSetup app={app} />
+        <AppVerificationControls.SetupControls app={app} />
         <AppVendingControls.SetupControls
           app={app}
           vendingConfig={vendingConfig}
