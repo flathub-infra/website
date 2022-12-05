@@ -112,5 +112,14 @@ export const APP_VERIFICATION_STATUS = (id: string): string =>
 export const APP_VERIFICATION_AVAILABLE_METHODS = (id: string): string =>
   `${BASE_URI}/verification/${id}/available-methods`
 
-export const APP_VERIFICATION_VERIFY = (id: string): string =>
-  `${BASE_URI}/verification/${id}/verify`
+export const APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER = (id: string): string =>
+  `${BASE_URI}/verification/${id}/verify-by-login-provider`
+
+export const APP_VERIFICATION_SETUP_WEBSITE = (id: string): string =>
+  `${BASE_URI}/verification/${id}/setup-website-verification`
+
+export const APP_VERIFICATION_CONFIRM_WEBSITE = (id: string): string =>
+  `${BASE_URI}/verification/${id}/confirm-website-verification`
+
+export const APP_VERIFICATION_UNVERIFY = (id: string): string =>
+  `${BASE_URI}/verification/${id}/unverify`

@@ -1,14 +1,13 @@
-export type VerificationProvider = "GitHub" | "GitLab" | "GnomeGitLab"
-
+export type VerificationProvider = "github" | "gitlab" | "gnome"
 export function verificationProviderToHumanReadable(
   verificationProvider: VerificationProvider,
 ) {
   switch (verificationProvider) {
-    case "GitHub":
+    case "github":
       return "GitHub"
-    case "GitLab":
+    case "gitlab":
       return "GitLab"
-    case "GnomeGitLab":
+    case "gnome":
       return "GNOME GitLab"
   }
 }
