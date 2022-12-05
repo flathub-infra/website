@@ -50,11 +50,11 @@ def _matches_prefixes(appid: str, *prefixes) -> bool:
 
 def _get_provider_username(appid: str) -> Tuple[str, str]:
     if _matches_prefixes(appid, "com.github", "io.github"):
-        return ("GitHub", appid.split(".")[2])
+        return ("github", appid.split(".")[2])
     elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
-        return ("GitLab", appid.split(".")[2])
+        return ("gitlab", appid.split(".")[2])
     elif _matches_prefixes(appid, "org.gnome.gitlab"):
-        return ("GnomeGitLab", appid.split(".")[3])
+        return ("gnome", appid.split(".")[3])
     else:
         return None
 
@@ -150,9 +150,9 @@ class VerificationMethod(Enum):
 
 
 class LoginProvider(Enum):
-    GITHUB = "GitHub"
-    GITLAB = "GitLab"
-    GNOME_GITLAB = "GnomeGitLab"
+    GITHUB = "github"
+    GITLAB = "gitlab"
+    GNOME_GITLAB = "gnome"
 
 
 class VerificationStatus(BaseModel):
@@ -251,6 +251,7 @@ class AvailableMethodType(Enum):
 class AvailableMethod(BaseModel):
     method: AvailableMethodType
     website: Optional[str]
+    website_token: Optional[str]
     login_provider: Optional[str]
     login_name: Optional[str]
 
@@ -274,8 +275,22 @@ def get_available_methods(appid: str, login=Depends(login_state)):
     methods = []
 
     if domain := _get_domain_name(appid):
+        verification = models.AppVerification.by_app_and_user(
+            sqldb, appid, login["user"]
+        )
+        if (
+            verification is not None
+            and verification.method == "website"
+            and verification.token is not None
+        ):
+            token = verification.token
+        else:
+            token = None
+
         methods.append(
-            AvailableMethod(method=AvailableMethodType.WEBSITE, website=domain)
+            AvailableMethod(
+                method=AvailableMethodType.WEBSITE, website=domain, website_token=token
+            )
         )
 
     if provider := _get_provider_username(appid):
