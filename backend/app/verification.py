@@ -48,13 +48,13 @@ def _matches_prefixes(appid: str, *prefixes) -> bool:
     return False
 
 
-def _get_provider_username(appid: str) -> Tuple[str, str]:
+def _get_provider_username(appid: str) -> Tuple["LoginProvider", str]:
     if _matches_prefixes(appid, "com.github", "io.github"):
-        return ("github", appid.split(".")[2])
+        return (LoginProvider.GITHUB, appid.split(".")[2])
     elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
-        return ("gitlab", appid.split(".")[2])
+        return (LoginProvider.GITLAB, appid.split(".")[2])
     elif _matches_prefixes(appid, "org.gnome.gitlab"):
-        return ("gnome", appid.split(".")[3])
+        return (LoginProvider.GNOME_GITLAB, appid.split(".")[3])
     else:
         return None
 
@@ -252,7 +252,7 @@ class AvailableMethod(BaseModel):
     method: AvailableMethodType
     website: Optional[str]
     website_token: Optional[str]
-    login_provider: Optional[str]
+    login_provider: Optional[LoginProvider]
     login_name: Optional[str]
 
 
@@ -320,11 +320,11 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
     (provider, username) = provider_username
 
     account = None
-    if provider == "GitHub":
+    if provider == LoginProvider.GITHUB:
         account = models.GithubAccount.by_user(sqldb, login["user"])
-    elif provider == "GitLab":
+    elif provider == LoginProvider.GITLAB:
         account = models.GitlabAccount.by_user(sqldb, login["user"])
-    elif provider == "GnomeGitLab":
+    elif provider == LoginProvider.GNOME_GITLAB:
         account = models.GnomeAccount.by_user(sqldb, login["user"])
 
     if account is None or account.login != username:
