@@ -487,7 +487,7 @@ def test_verification_available_method_multiple(client):
             },
             {
                 "method": "login_provider",
-                "login_provider": "GitHub",
+                "login_provider": "github",
                 "login_name": "ajr0d",
             },
         ]
@@ -627,7 +627,7 @@ def test_verification_github(client):
     assert response.json() == {
         "verified": True,
         "method": "login_provider",
-        "login_provider": "GitHub",
+        "login_provider": "github",
         "login_name": "ajr0d",
     }
 
