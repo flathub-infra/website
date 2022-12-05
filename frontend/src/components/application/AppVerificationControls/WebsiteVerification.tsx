@@ -91,8 +91,8 @@ const WebsiteVerification: FunctionComponent<Props> = ({
       <>
         <div>
           <Trans i18nKey={"website-validation-instruction"}>
-            Create a page at <a href={webpage}>{{ webpage }}</a>
-            containing the following token:
+            Create a page at <a href={webpage}>{{ webpage }}</a> containing the
+            following token:
             <div className="p-3 font-medium">{{ token }}</div>
             If the page already exists, add the token to it.
           </Trans>
