@@ -35,7 +35,7 @@ black = "^22.10"
 pytest = "^7.2.0"
 isort = "^5.10.1"
 pyflakes = "^2.5.0"
-pylint = "^2.15.6"
+pylint = "^2.15.8"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
