@@ -34,7 +34,7 @@ dramatiq = {extras = ["redis", "watch"], version = "^1.13.0"}
 black = "^22.10"
 pytest = "^7.2.0"
 isort = "^5.10.1"
-pyflakes = "^2.5.0"
+pyflakes = "^3.0.1"
 pylint = "^2.15.8"
 
 [build-system]
