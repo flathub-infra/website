@@ -380,6 +380,35 @@ def test_compat_apps_recently_updated(client):
     assert response_json == expected_json
 
 
+def test_valid_app_ids():
+    from app.utils import is_valid_app_id
+
+    assert is_valid_app_id("org.gnome.Maps")
+    assert is_valid_app_id("a.b.c.d.e")
+    assert is_valid_app_id("a.b-c.d")
+
+    assert not is_valid_app_id("com.example")
+    assert not is_valid_app_id("..")
+    assert not is_valid_app_id("a..c")
+    assert not is_valid_app_id("com.7zip.7zip")
+    assert not is_valid_app_id("com.example." + ("A" * 255))
+
+
+def test_verification_domain_names():
+    from app.verification import _get_domain_name
+
+    assert _get_domain_name("com.github.Example") is None
+    assert _get_domain_name("com.gitlab.Example") is None
+
+    assert _get_domain_name("io.github.example.App") == "example.github.io"
+    assert _get_domain_name("io.gitlab.example.App") == "example.gitlab.io"
+
+    assert _get_domain_name("org.flathub.TestApp") == "flathub.org"
+    assert _get_domain_name("org._0example.TestApp") == "0example.org"
+    assert _get_domain_name("org.example_website.TestApp") == "example-website.org"
+    assert _get_domain_name("org._0_example.TestApp") == "0-example.org"
+
+
 @vcr.use_cassette()
 def test_verification_status(client):
     response = client.get("/verification/com.github.flathub.ExampleApp/status")

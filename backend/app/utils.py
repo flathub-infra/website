@@ -342,3 +342,21 @@ def _load_platforms(with_stripe: bool) -> Dict[str, Platform]:
 
 PLATFORMS = _load_platforms(False)
 PLATFORMS_WITH_STRIPE = _load_platforms(True)
+
+
+def is_valid_app_id(appid: str) -> bool:
+    """Ensures that an app ID is correctly formed. The requirements are taken from the D-Bus spec for well-known bus
+    names [1], except we require at least 3 segments rather than 2.
+
+    [1] https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus"""
+
+    if len(appid) > 255:
+        return False
+
+    elements = appid.split(".")
+    if len(elements) < 3:
+        return False
+    for element in elements:
+        if not re.match(r"^[A-Za-z_][\w\-]*$", element):
+            return False
+    return True

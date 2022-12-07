@@ -102,7 +102,29 @@ def _get_domain_name(appid: str) -> str:
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
         return ".".join(reversed(appid.split(".")[0:3]))
     else:
-        return ".".join(reversed(appid.split(".")[0:2]))
+        [tld, domain] = appid.split(".")[0:2]
+
+        # Flatpak app IDs are slightly more restrictive than domain names, so some mangling is required. Fortunately,
+        # given the syntax for domain name labels [1], the prescribed mangling rules are reversible.
+        #
+        # Mangling rules [2]:
+        # - If an element starts with a digit, which is not allowed in D-Bus, prefix it with an underscore.
+        # - Replace hyphens with underscores, since hyphens are not allowed in D-Bus.
+        #
+        # Domain names may not contain underscores, so any underscore in an app ID is the result of mangling. Hyphens
+        # are not permitted as the first character of a domain name, so an underscore there is always escaping a
+        # digit. Only a digit as the first character must be escaped as such, so an underscore anywhere else is always
+        # replacing a hyphen.
+        #
+        # [1]: https://www.rfc-editor.org/rfc/rfc1035#section-2.3.1
+        # [2]: https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
+        if domain.startswith("_"):
+            # Remove the underscore, which is escaping a digit
+            domain = domain[1:]
+        # All other underscores are replacements for hyphens
+        domain = domain.replace("_", "-")
+
+        return f"{domain}.{tld}"
 
 
 def is_valid_app_id(appid: str) -> bool:
