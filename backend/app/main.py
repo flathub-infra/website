@@ -1,4 +1,3 @@
-from functools import lru_cache
 from typing import Dict
 
 import sentry_sdk
@@ -15,7 +14,6 @@ from . import (
     compat,
     config,
     db,
-    exceptions,
     feeds,
     logins,
     purchases,
@@ -23,11 +21,11 @@ from . import (
     search,
     sitemap,
     stats,
-    summary,
     utils,
     vending,
     verification,
     wallet,
+    worker,
 )
 
 if config.settings.sentry_dsn:
@@ -73,34 +71,16 @@ def startup_event():
 
 
 @app.post("/update")
-def update():
-    new_apps = apps.load_appstream()
-    summary.update()
-    compat.update_picks()
-    verification.update()
-    exceptions.update()
-
-    if new_apps:
-        new_apps_zset = {}
-        for appid in new_apps:
-            if metadata := db.get_json_key(f"summary:{appid}"):
-                new_apps_zset[appid] = metadata.get("timestamp", 0)
-        if new_apps_zset:
-            db.redis_conn.zadd("new_apps_zset", new_apps_zset)
-
-    get_recently_updated.cache_clear()
-    get_recently_added.cache_clear()
-    get_category.cache_clear()
+async def update():
+    worker.update.send()
 
 
 @app.post("/update/stats")
-def update_stats():
-    apps = [app[5:] for app in db.redis_conn.smembers("apps:index")]
-    stats.update(apps)
+async def update_stats():
+    worker.update_stats.send()
 
 
 @app.get("/category/{category}")
-@lru_cache()
 def get_category(
     category: schemas.Category,
     page: int = None,
@@ -204,7 +184,6 @@ def get_search(userquery: str):
 
 @app.get("/collection/recently-updated")
 @app.get("/collection/recently-updated/{limit}")
-@lru_cache()
 def get_recently_updated(limit: int = 100):
     recent = apps.get_recently_updated(limit)
     result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
@@ -213,7 +192,6 @@ def get_recently_updated(limit: int = 100):
 
 @app.get("/collection/recently-added")
 @app.get("/collection/recently-added/{limit}")
-@lru_cache()
 def get_recently_added(limit: int = 100):
     recent = apps.get_recently_added(limit)
     result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]

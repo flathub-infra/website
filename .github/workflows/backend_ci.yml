@@ -75,6 +75,5 @@ jobs:
 
       - name: Execute smoke tests
         run: |
-          env STRIPE_PUBLIC_KEY=pk_test_1234 STRIPE_SECRET_KEY=sk_test_1234 STRIPE_WEBHOOK_KEY=whsec_1234 docker compose up --no-build -d
-          docker compose exec backend pip3 install pytest
-          docker compose exec backend python3 -m pytest -vvvv tests/main.py
+          docker compose --env-file .env.ci up --no-build -d
+          bash tests/run_tests.sh
