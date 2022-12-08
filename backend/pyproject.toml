@@ -37,6 +37,9 @@ isort = "^5.10.1"
 pyflakes = "^3.0.1"
 pylint = "^2.15.8"
 
+[tool.poetry.group.dev.dependencies]
+httpx = "^0.23.1"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
