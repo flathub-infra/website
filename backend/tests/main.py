@@ -25,7 +25,7 @@ sys.path.append(ROOT_DIR)
 workspace = None
 
 
-vcr = vcr.VCR(cassette_library_dir="tests/cassettes")
+vcr = vcr.VCR(cassette_library_dir="tests/cassettes", ignore_hosts=["localhost", "testserver"])
 
 
 def _get_expected_json_result(test_name):
