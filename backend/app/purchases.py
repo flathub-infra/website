@@ -1,36 +1,54 @@
 import base64
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 from uuid import uuid4
 
 import jwt
 from fastapi import APIRouter, Body, Depends, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
+from pydantic import BaseModel
 
 from . import config, logins, models
+from .verification import VerificationStatus, get_verification_status
 
 router = APIRouter(prefix="/purchases")
 
 
-@router.get("/storefront-info", status_code=200)
-def get_storefront_info(app_id: str):
-    """
-    This endpoint is used by flat-manager's storefront-info-endpoint config option. It returns the proper token-type
-    for the commit (1 if payment is requested or required, 0 if it is not), some settings to validate the appstream
-    file provided by the app, and some data to add to that appstream file.
+class PricingInfo(BaseModel):
+    recommended_donation: Optional[int]
+    minimum_payment: Optional[int]
 
-    See storefront.rs in flat-manager for the available values.
+
+class StorefrontInfo(BaseModel):
+    verification: Optional[VerificationStatus]
+    pricing: Optional[PricingInfo]
+    is_free_software: Optional[bool]
+
+
+@router.get("/storefront-info", status_code=200, response_model_exclude_none=True)
+def get_storefront_info(app_id: str) -> StorefrontInfo:
+    """
+    This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
+    file and commit metadata.
     """
 
-    token_type = 0
+    result = StorefrontInfo()
+
     if app := models.ApplicationVendingConfig.by_appid(sqldb, app_id):
+        result.pricing = PricingInfo()
         if app.recommended_donation > 0:
-            token_type = 1
+            result.pricing.recommended_donation = app.recommended_donation
+        if app.minimum_payment > 0:
+            result.pricing.minimum_payment = app.minimum_payment
 
-    return {
-        "token_type": token_type,
-    }
+    verification = get_verification_status(app_id)
+    if verification.verified:
+        result.verification = verification
+
+    # TODO: Use the license heuristic in <https://github.com/flathub/website/pull/832> to set result.is_free_software
+
+    return result
 
 
 @router.post("/generate-update-token", status_code=200)
