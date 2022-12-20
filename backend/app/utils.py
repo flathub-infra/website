@@ -37,7 +37,7 @@ class Hasher:
 
 
 def appstream2dict(reponame: str):
-    if config.settings.appstream_repos is not None:
+    if config.settings.appstream_repos:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
             reponame,
