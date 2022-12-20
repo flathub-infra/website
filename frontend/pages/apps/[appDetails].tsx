@@ -75,16 +75,35 @@ export const getStaticProps: GetStaticProps = async ({
   params: { appDetails: appId },
 }) => {
   console.log("Fetching data for app details: ", appId)
+
+  const isFlatpakref = (appId as string).endsWith(".flatpakref")
+
+  appId = isFlatpakref
+    ? appId.slice(0, appId.length - ".flatpakref".length)
+    : appId
+
   const eolRebaseTo = await fetchEolRebase(appId as string)
 
   if (eolRebaseTo) {
     return {
       redirect: {
-        destination: `/apps/${eolRebaseTo}`,
+        destination: isFlatpakref
+          ? `/apps/${eolRebaseTo}.flatpakref`
+          : `/apps/${eolRebaseTo}`,
         permanent: true,
       },
     }
   }
+
+  if (isFlatpakref) {
+    return {
+      redirect: {
+        destination: `https://dl.flathub.org/repo/appstream/${appId}.flatpakref`,
+        permanent: true,
+      },
+    }
+  }
+
   const app = await fetchAppstream(appId as string)
 
   if (!app) {
