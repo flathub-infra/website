@@ -1,10 +1,7 @@
 import { Disclosure, Transition } from "@headlessui/react"
 import { FunctionComponent, ReactElement } from "react"
 import { HiChevronRight } from "react-icons/hi2"
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ")
-}
+import { classNames } from "src/styling"
 
 export const FlathubDisclosure: FunctionComponent<{
   buttonText: string
