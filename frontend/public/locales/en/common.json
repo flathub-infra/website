@@ -277,5 +277,6 @@
   "verify-app": "Verify app",
   "unverify": "Unverify",
   "unverify-app-prompt": "Unverify {{appId}}?",
-  "begin": "Begin"
+  "begin": "Begin",
+  "failed-to-find-token": "Failed to find token in response from {{domain}}."
 }

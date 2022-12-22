@@ -60,16 +60,24 @@ const WebsiteVerification: FunctionComponent<Props> = ({
       resultInfo = null
     } else if (confirmResult.detail == "server_returned_error") {
       resultInfo = (
-        <p>
+        <div className="text-textSecondary">
           {t("server-returned-status-code", {
             code: confirmResult.status_code,
           })}
-        </p>
+        </div>
       )
     } else if (confirmResult.detail == "failed_to_connect") {
       resultInfo = (
-        <div>
+        <div className="text-textSecondary">
           {t("verification-failed-to-connect", {
+            domain: method.website,
+          })}
+        </div>
+      )
+    } else if (confirmResult.detail == "app_not_listed") {
+      resultInfo = (
+        <div className="text-textSecondary">
+          {t("failed-to-find-token", {
             domain: method.website,
           })}
         </div>
@@ -88,12 +96,14 @@ const WebsiteVerification: FunctionComponent<Props> = ({
     }
 
     content = (
-      <>
+      <div className="space-y-2">
         <div>
           <Trans i18nKey={"website-validation-instruction"}>
             Create a page at <a href={webpage}>{{ webpage }}</a> containing the
             following token:
-            <div className="p-3 font-medium">{{ token }}</div>
+            <div className="p-3 font-semibold text-textSecondary">
+              {{ token }}
+            </div>
             If the page already exists, add the token to it.
           </Trans>
         </div>
@@ -102,12 +112,12 @@ const WebsiteVerification: FunctionComponent<Props> = ({
 
         {verifyAppStatus === "pending" && (
           <div className="flex flex-col items-start">
-            <Spinner size="m" text={t("verifying")} />
+            <Spinner size="s" text={t("verifying")} />
           </div>
         )}
 
         {resultInfo}
-      </>
+      </div>
     )
   } else {
     content = (
