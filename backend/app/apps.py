@@ -1,7 +1,7 @@
 import json
 import re
 
-from . import db, search, utils
+from . import db, schemas, search, utils
 
 
 def load_appstream():
@@ -93,8 +93,8 @@ def get_recently_added(limit: int = 100):
     return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
 
 
-def get_category(category: str):
-    if index := db.redis_conn.smembers(f"categories:{category}"):
+def get_category(category: schemas.Category):
+    if index := db.redis_conn.smembers(f"categories:{category.value}"):
         return [appid.removeprefix("apps:") for appid in index]
     else:
         return []
