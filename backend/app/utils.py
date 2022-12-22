@@ -205,7 +205,7 @@ def appstream2dict(reponame: str):
                         app[elem.tag] = attrs
                         continue
                 else:
-                    app[elem.tag].append(attrs.copy())
+                    app[elem.tag] = attrs.copy()
 
             if len(elem):
                 app[elem.tag] = []
