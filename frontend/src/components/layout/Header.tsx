@@ -14,6 +14,7 @@ import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
 import { BsSlashSquare } from "react-icons/bs"
+import { classNames } from "src/styling"
 
 const navigation = [
   {
@@ -29,10 +30,6 @@ const userNavigation = [
   { name: "your-profile", href: "/userpage" },
   { name: "view-wallet", href: "/wallet" },
 ]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ")
-}
 
 const Header = () => {
   const { t, i18n } = useTranslation()

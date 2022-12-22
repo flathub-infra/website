@@ -1,5 +1,6 @@
 import { Switch } from "@headlessui/react"
 import { FunctionComponent, useCallback } from "react"
+import { classNames } from "src/styling"
 
 interface Props {
   enabled: boolean
@@ -16,14 +17,16 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
     <Switch
       checked={enabled}
       onChange={toggle}
-      className={`${
-        enabled ? "bg-colorPrimary" : "bg-gray-200"
-      } relative inline-flex h-6 w-11 items-center rounded-full`}
+      className={classNames(
+        enabled ? "bg-colorPrimary" : "bg-colorHighlight",
+        `relative inline-flex h-6 w-11 items-center rounded-full`,
+      )}
     >
       <span
-        className={`${
-          enabled ? "translate-x-6" : "translate-x-1"
-        } inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ease-in-out`}
+        className={classNames(
+          enabled ? "translate-x-6" : "translate-x-1",
+          `inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ease-in-out`,
+        )}
       />
     </Switch>
   )
