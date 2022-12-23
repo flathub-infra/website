@@ -86,6 +86,13 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
   const app = await fetchAppstream(appId as string)
+
+  if (!app) {
+    return {
+      notFound: true,
+    }
+  }
+
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)
   const developerApps = await fetchDeveloperApps(app?.developer_name)
