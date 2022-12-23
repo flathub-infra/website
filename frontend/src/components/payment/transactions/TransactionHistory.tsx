@@ -71,7 +71,7 @@ const TransactionPanel = ({
         </>
       )}
       {!error && needsAttention && (
-        <>
+        <div className="flex gap-3">
           <ButtonLink
             href={`/payment/${transaction.id}`}
             passHref
@@ -83,7 +83,7 @@ const TransactionPanel = ({
             id={transaction.id}
             onSuccess={() => setStatus("cancelled")}
           />
-        </>
+        </div>
       )}
       {!error && transactionDetailed && (
         <div className="flex flex-col gap-1">
