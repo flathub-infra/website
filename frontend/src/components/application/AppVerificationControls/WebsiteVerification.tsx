@@ -121,9 +121,19 @@ const WebsiteVerification: FunctionComponent<Props> = ({
     )
   } else {
     content = (
-      <Button onClick={setup} disabled={setupStatus === "pending"}>
-        {t("begin")}
-      </Button>
+      <>
+        <p>
+          <Trans i18nKey={"website-verification-main-instruction"}>
+            Verify your right to use the app ID
+            <span className="font-semibold">{{ id: appId }}</span> by placing a
+            token at a specific page on
+            <span className="font-semibold">{{ domain: method.website }}</span>.
+          </Trans>
+        </p>
+        <Button onClick={setup} disabled={setupStatus === "pending"}>
+          {t("begin")}
+        </Button>
+      </>
     )
   }
 
@@ -132,15 +142,6 @@ const WebsiteVerification: FunctionComponent<Props> = ({
       key={method.method}
       buttonText={t("website-verification")}
     >
-      <p>
-        <Trans i18nKey={"website-verification-main-instruction"}>
-          Verify your right to use the app ID
-          <span className="font-medium">{{ id: appId }}</span> by placing a
-          token at a specific page on
-          <span className="font-medium">{{ domain: method.website }}</span>.
-        </Trans>
-      </p>
-
       {content}
     </FlathubDisclosure>
   )
