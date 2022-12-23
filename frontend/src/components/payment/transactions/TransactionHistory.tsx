@@ -61,9 +61,16 @@ const TransactionPanel = ({
     }
   }
 
+  if (transactionDetailed == null && !error) {
+    return (
+      <div className="flex flex-col gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
+        <Spinner size="m" />
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
-      {transactionDetailed == null && !error && <Spinner size="m" />}
       {error && (
         <>
           <h1>{t("whoops")}</h1>
