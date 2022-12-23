@@ -62,7 +62,8 @@ const TransactionPanel = ({
   }
 
   return (
-    <>
+    <div className="flex flex-wrap gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
+      {transactionDetailed == null && !error && <Spinner size="m" />}
       {error && (
         <>
           <h1>{t("whoops")}</h1>
@@ -85,16 +86,9 @@ const TransactionPanel = ({
         </>
       )}
       {!error && transactionDetailed && (
-        <>
+        <div className="flex flex-col gap-1">
           {transactionDetailed.details.map((entry, i) => {
-            return (
-              <div
-                key={entry.recipient}
-                className="flex flex-wrap gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md"
-              >
-                <span>{entry.recipient}</span>
-              </div>
-            )
+            return <span key={entry.recipient}>{entry.recipient}</span>
           })}
           {transactionDetailed.receipt ? (
             <a
@@ -107,9 +101,9 @@ const TransactionPanel = ({
           ) : (
             <></>
           )}
-        </>
+        </div>
       )}
-    </>
+    </div>
   )
 }
 
@@ -169,7 +163,7 @@ const TransactionHeader = ({
       <div className="flex items-center justify-between">
         <div>{t(`kind-${kind}`)}</div>
 
-        <div>
+        <div className="flex gap-2">
           {needsAttention && <HiExclamationTriangle className="text-red-500" />}
           <span
             className={classNames(status === "cancelled" && "line-through")}
