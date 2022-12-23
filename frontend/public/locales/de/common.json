@@ -252,9 +252,12 @@
   "show-more": "Mehr",
   "more-type": "Weitere {{type}}",
   "verified": "Verifiziert",
-  "app-is-verified": "Diese App ist verifiziert.",
-  "verified-manually": "Diese App wurde manuell von Flathub-Mitarbeitern verifiziert.",
-  "verified-website": "Dieser Herausgeber hat das Eigentum an {{website}} verifiziert.",
-  "verified-login-provider": "Verifiziert von @{{login_name}} auf {{login_provider}}.",
-  "x-downloads": "{{count}} Downloads"
+  "app-is-verified": "Diese App ist verifiziert",
+  "verified-manually": "Diese App wurde manuell von Flathub-Mitarbeitern verifiziert",
+  "verified-website": "Dieser Herausgeber hat das Eigentum an {{website}} verifiziert",
+  "verified-login-provider": "Verifiziert von @{{login_name}} auf {{login_provider}}",
+  "x-downloads": "{{count}} Downloads",
+  "website-verification-instruction": "Erstelle eine Seite unter <1>{{webpage}}</1>, die den folgenden Token enthält: <3>{{token}}</3> Wenn die Seite bereits existiert, füge den Token hinzu.",
+  "website-verification-main-instruction": "Überprüfe Dein Recht, die App-ID <1>{{id}}</1> zu verwenden, indem Du einen Token auf einer bestimmten Seite auf <3>{{domain}}</3> platzierst.",
+  "unverify-app-prompt": "Verifizierung von {{appId}} aufheben?"
 }
