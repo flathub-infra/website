@@ -35,6 +35,8 @@ def get_repo_creation_date(appid: str) -> Optional[str]:
 def get_short_app(key: str):
     compat_app = None
     if app := db.get_json_key(key):
+        if app.get("type") != "desktop":
+            return None
         appid = key[5:]
         compat_app = {
             "flatpakAppId": appid,
@@ -50,7 +52,7 @@ def get_short_app(key: str):
     return compat_app
 
 
-def list_apps_in_index(index="apps:index"):
+def list_apps_in_index(index="types:desktop"):
     appids = sorted(db.redis_conn.smembers(index))
     ret = []
 
@@ -161,6 +163,9 @@ def get_search(query: str):
 @router.get("/apps/{appid}")
 def get_single_app(appid: str, background_tasks: BackgroundTasks):
     if app := db.get_json_key(f"apps:{appid}"):
+        if app.get("type") != "desktop":
+            return Response(status_code=404)
+
         compat_app = {
             "flatpakAppId": appid,
             "name": app.get("name"),
