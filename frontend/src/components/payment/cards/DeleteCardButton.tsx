@@ -65,7 +65,11 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
   }
 
   return (
-    <Button variant="secondary" onClick={() => setConfirming(true)}>
+    <Button
+      className="w-full"
+      variant="secondary"
+      onClick={() => setConfirming(true)}
+    >
       {t("remove-saved-card")}
     </Button>
   )
