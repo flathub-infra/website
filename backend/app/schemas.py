@@ -14,3 +14,13 @@ class Category(str, Enum):
     Science = "Science"
     System = "System"
     Utility = "Utility"
+
+
+class Type(str, Enum):
+    All = "all"
+    Addon = "addon"
+    ConsoleApplication = "console-application"
+    Desktop = "desktop"
+    Generic = "generic"
+    Inputmethod = "inputmethod"
+    Runtime = "runtime"

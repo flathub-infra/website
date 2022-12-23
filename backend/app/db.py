@@ -3,7 +3,7 @@ import time
 import orjson
 import redis
 
-from . import config
+from . import config, schemas
 
 redis_conn = redis.Redis(
     db=config.settings.redis_db,
@@ -42,6 +42,13 @@ def get_json_key(key: str):
 
 def get_categories():
     return {category for category in redis_conn.smembers("categories:index")}
+
+
+def get_app_count(type: schemas.Type = schemas.Type.Desktop) -> int:
+    if type == schemas.Type.All:
+        return redis_conn.scard("apps:index")
+    else:
+        return redis_conn.scard(f"types:{type.value}")
 
 
 def get_developers():
