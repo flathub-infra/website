@@ -62,7 +62,7 @@ const TransactionPanel = ({
   }
 
   return (
-    <div className="flex flex-wrap gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
+    <div className="flex flex-col gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
       {transactionDetailed == null && !error && <Spinner size="m" />}
       {error && (
         <>
@@ -163,7 +163,7 @@ const TransactionHeader = ({
       <div className="flex items-center justify-between">
         <div>{t(`kind-${kind}`)}</div>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {needsAttention && <HiExclamationTriangle className="text-red-500" />}
           <span
             className={classNames(status === "cancelled" && "line-through")}
