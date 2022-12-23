@@ -37,6 +37,7 @@ module.exports = {
       "hr",
       "be",
       "hu",
+      "nl",
     ],
   },
   // debug: true,
