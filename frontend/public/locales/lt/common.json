@@ -262,11 +262,9 @@
   "app-is-currently-not-verified": "Jūsų programėlė šiuo metu nėra patvirtinta",
   "setup-verification": "Sąrankos patvirtinimas",
   "login-provider-verification": "Prisijungimo teikėjo patvirtinimas",
-  "link-to-well-known-file": "Nuoroda į jūsų .well-known failą",
   "app-is-currently-verified-by-website": "Jūsų programėlė šiuo metu patvirtinta pagal jūsų svetainę {{website}}",
   "app-is-currently-verified-manually": "Jūsų programėlė šiuo metu patvirtina „Flathub” darbuotojų",
   "verify-app": "Patvirtinti programėlę",
-  "website-validation-instruction": "Norėdami patvirtinti jūsų programėlę, galime patikrinti, ar turite prieigą prie svetainės, atitinkančios jūsų programėlės ID. <1>Prašome pridėti failą pavadinimu:</1> <2>org.flathub.VerifiedApps.txt</2> į savo svetainės <4>.well-known</4> aplanką <6>{{url}}</6> su tokiu turiniu: <8>{{id}}</8>",
   "app-is-currently-verified-by-login-provider": "Jūsų programėlė šiuo metu yra patvirtinta pagal jūsų prisijungimą {{login_name}} su jūsų paskyra {{login_provider}}",
   "login-provider-verification-instruction": "Bandysime patvirtinti jūsų prieigą prie programėlės naudodami prisijungimo vardą <1>{{login_name}}</1> su paskyra <3>{{login_provider}}</3>",
   "website-verification": "Svetainės patvirtinimas"
