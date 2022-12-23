@@ -126,7 +126,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             items={[
               {
                 icon: <HiListBullet />,
-                header: t("count-applications"),
+                header: t("count-desktop-applications"),
                 content: {
                   type: "text",
                   text: stats.number_of_apps?.toLocaleString(
