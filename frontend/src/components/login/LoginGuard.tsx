@@ -10,7 +10,7 @@ content within only once the user is confirmed to be logged in.
 If user is logged out, they will be redirected to login and then back
 upon completion (via the URL query string).
 */
-const LoginGuard: FunctionComponent = ({ children }) => {
+const LoginGuard = ({ children }: { children: React.ReactNode }) => {
   const user = useUserContext()
   const router = useRouter()
 
