@@ -254,7 +254,7 @@ const TransactionHistory: FunctionComponent = () => {
         <div className="flex flex-col gap-3">
           {transactions.length === 0 && <p>{t("no-transactions")}</p>}
 
-          {transactions.map((transaction) => {
+          {pageSlice.map((transaction) => {
             const currentYearChanged =
               currentYear !== new Date(transaction.created * 1000).getFullYear()
             currentYear = new Date(transaction.created * 1000).getFullYear()
