@@ -31,6 +31,7 @@ import {
   hr,
   be,
   hu,
+  nl,
 } from "date-fns/locale"
 
 export type Language =
@@ -67,6 +68,7 @@ export type Language =
   | "hr"
   | "be"
   | "hu"
+  | "nl"
 
 export const languages: Language[] = [
   "en",
@@ -102,6 +104,7 @@ export const languages: Language[] = [
   "hr",
   "be",
   "hu",
+  "nl",
 ]
 
 export function getLocale(language: string): Locale {
@@ -172,6 +175,8 @@ export function getLocale(language: string): Locale {
       return be
     case "hu":
       return hu
+    case "nl":
+      return nl
 
     default:
       return enGB
@@ -246,6 +251,8 @@ export function bcpToPosixLocale(language: string): string {
       return "be_BY"
     case "hu":
       return "hu_HU"
+    case "nl":
+      return "nl_NL"
 
     default:
       return "en_US"
@@ -320,6 +327,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇧🇾"
     case "hu":
       return "🇭🇺"
+    case "nl":
+      return "🇳🇱"
   }
 }
 
@@ -391,6 +400,8 @@ export function getLanguageName(language: Language): string {
       return "Беларуская"
     case "hu":
       return "Magyar"
+    case "nl":
+      return "Nederlands"
 
     default:
       return assertUnreachable(language)
@@ -483,6 +494,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("be")
     case "hu":
       return new Intl.Locale("hu")
+    case "nl":
+      return new Intl.Locale("nl")
   }
 }
 
