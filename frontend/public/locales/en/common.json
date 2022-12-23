@@ -253,6 +253,7 @@
   "more-type": "More {{type}}",
   "verified": "Verified",
   "app-is-verified": "This app is verified",
+  "website-validation-instruction": "Create a page at <1>{{ webpage }}</1> containing the following token: <3>{{token}}</3> If the page already exists, add the token to it.",
   "verified-manually": "This app has been manually verified by Flathub staff",
   "verified-website": "This publisher has verified ownership of {{website}}",
   "verified-login-provider": "Verified by @{{login_name}} on {{login_provider}}",
