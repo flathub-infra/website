@@ -17,7 +17,12 @@ export interface PaymentCard {
 
 // Corresponds to objects from `/wallet/transactions`
 type TransactionKind = "donation" | "purchase"
-type TransactionStatus = "new" | "pending" | "retry" | "success" | "cancelled"
+export type TransactionStatus =
+  | "new"
+  | "pending"
+  | "retry"
+  | "success"
+  | "cancelled"
 
 export interface Transaction {
   id: string

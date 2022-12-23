@@ -4,9 +4,9 @@ import { HiChevronRight } from "react-icons/hi2"
 import { classNames } from "src/styling"
 
 export const FlathubDisclosure: FunctionComponent<{
-  buttonText: string
+  buttonItems: ReactElement | ReactElement[]
   children: ReactElement | ReactElement[]
-}> = ({ buttonText, children }): ReactElement => {
+}> = ({ buttonItems, children }): ReactElement => {
   return (
     <Disclosure>
       {({ open }) => (
@@ -18,7 +18,7 @@ export const FlathubDisclosure: FunctionComponent<{
                 "h-6 w-6 transform text-textSecondary duration-150",
               )}
             />
-            <h4 className="text-xl font-medium">{buttonText}</h4>
+            {buttonItems}
           </Disclosure.Button>
           <Transition
             enter="transition duration-100 ease-out"
