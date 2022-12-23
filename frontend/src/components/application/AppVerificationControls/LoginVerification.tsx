@@ -8,7 +8,7 @@ import { fetchLoginProviders } from "src/fetchers"
 import { useAsync } from "src/hooks/useAsync"
 import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
-import { FlathubDisclosure } from "./Disclosure"
+import { FlathubDisclosure } from "../../Disclosure"
 
 interface Props {
   appId: string
@@ -67,7 +67,13 @@ const LoginVerification: FunctionComponent<Props> = ({
   }
 
   return (
-    <FlathubDisclosure buttonText={t("login-provider-verification")}>
+    <FlathubDisclosure
+      buttonItems={
+        <h4 className="text-xl font-medium">
+          {t("login-provider-verification")}
+        </h4>
+      }
+    >
       <p>
         <Trans i18nKey={"login-provider-verification-main-instruction"}>
           Verify your right to use the app ID

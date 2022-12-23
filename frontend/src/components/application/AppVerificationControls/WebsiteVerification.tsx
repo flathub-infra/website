@@ -9,7 +9,7 @@ import Button from "src/components/Button"
 import Spinner from "src/components/Spinner"
 import { useAsync } from "src/hooks/useAsync"
 import { VerificationMethodWebsite } from "src/types/VerificationAvailableMethods"
-import { FlathubDisclosure } from "./Disclosure"
+import { FlathubDisclosure } from "../../Disclosure"
 
 interface Props {
   appId: string
@@ -140,7 +140,9 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   return (
     <FlathubDisclosure
       key={method.method}
-      buttonText={t("website-verification")}
+      buttonItems={
+        <h4 className="text-xl font-medium">{t("website-verification")}</h4>
+      }
     >
       {content}
     </FlathubDisclosure>
