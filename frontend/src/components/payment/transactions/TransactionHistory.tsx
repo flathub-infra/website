@@ -83,12 +83,14 @@ const TransactionPanel = ({
             href={`/payment/${transaction.id}`}
             passHref
             variant="primary"
+            className="w-full md:w-auto"
           >
             {t("retry-checkout")}
           </ButtonLink>
           <TransactionCancelButton
             id={transaction.id}
             onSuccess={() => setStatus("cancelled")}
+            className="w-full md:w-auto"
           />
         </div>
       )}
