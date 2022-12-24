@@ -32,18 +32,24 @@ const Spinner: FunctionComponent<Props> = ({ size, text = undefined }) => {
     // Spinner will always be centered and padded relative to its size
     <div className={`flex flex-col items-center ${spinnerSize}`}>
       <svg
-        className="animate-spin"
         width={widthAndHeight}
         height={widthAndHeight}
-        viewBox="0 0 100 100"
+        viewBox="12 12 76 76"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="50" cy="50" r="50" className="fill-bgColorSecondary" />
         <path
           className="fill-colorPrimary"
-          d="M50,50l0,50a50,50 0 0 1 -50,-50z"
-        />
-        <circle cx="50" cy="50" r="45" className="fill-bgColorPrimary" />
+          d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50"
+        >
+          <animateTransform
+            attributeName="transform"
+            type="rotate"
+            dur="1s"
+            from="0 50 50"
+            to="360 50 50"
+            repeatCount="indefinite"
+          />
+        </path>
       </svg>
       {text ? <p>{text}</p> : <></>}
     </div>
