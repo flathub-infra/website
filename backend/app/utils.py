@@ -9,7 +9,7 @@ import requests
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config, db, schemas, stats
+from . import config, db, stats
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 
@@ -64,7 +64,8 @@ def appstream2dict(reponame: str):
     for component in root:
         app = {}
 
-        app["type"] = component.attrib.get("type")
+        if component.attrib.get("type") != "desktop":
+            continue
 
         descriptions = component.findall("description")
         if len(descriptions):
@@ -247,11 +248,9 @@ def get_clean_app_id(appid: str):
     return re.sub(clean_id_re, "_", appid)
 
 
-def get_listing_app(key: str, type: schemas.Type = schemas.Type.Desktop):
+def get_listing_app(key: str):
     listing_app = None
     if app := db.get_json_key(key):
-        if app.get("type") != type:
-            return
         appid = key[5:]
         listing_app = {
             "id": appid,

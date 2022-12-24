@@ -11,39 +11,34 @@ def load_appstream():
     current_categories = db.redis_conn.smembers("categories:index")
     current_developers = db.redis_conn.smembers("developers:index")
     current_projectgroups = db.redis_conn.smembers("developers:projectgroups")
-    current_types = db.redis_conn.smembers("types:index")
 
     with db.redis_conn.pipeline() as p:
         p.delete("categories:index", *current_categories)
         p.delete("developers:index", *current_developers)
         p.delete("projectgroups:index", *current_projectgroups)
-        p.delete("types:index", *current_types)
 
         clean_html_re = re.compile("<.*?>")
         search_apps = []
         for appid in apps:
             redis_key = f"apps:{appid}"
 
-            if apps[appid].get("type") == "desktop":
-                search_description = re.sub(
-                    clean_html_re, "", apps[appid]["description"]
-                )
+            search_description = re.sub(clean_html_re, "", apps[appid]["description"])
 
-                search_keywords = apps[appid].get("keywords")
+            search_keywords = apps[appid].get("keywords")
 
-                # order of the dict is important for attritbute ranking
-                search_apps.append(
-                    {
-                        "id": utils.get_clean_app_id(appid),
-                        "name": apps[appid]["name"],
-                        "summary": apps[appid]["summary"],
-                        "downloads_last_month": 0,
-                        "keywords": search_keywords,
-                        "app_id": appid,
-                        "description": search_description,
-                        "icon": apps[appid]["icon"],
-                    }
-                )
+            # order of the dict is important for attritbute ranking
+            search_apps.append(
+                {
+                    "id": utils.get_clean_app_id(appid),
+                    "name": apps[appid]["name"],
+                    "summary": apps[appid]["summary"],
+                    "downloads_last_month": 0,
+                    "keywords": search_keywords,
+                    "app_id": appid,
+                    "description": search_description,
+                    "icon": apps[appid]["icon"],
+                }
+            )
 
             if developer_name := apps[appid].get("developer_name"):
                 p.sadd("developers:index", developer_name)
@@ -54,10 +49,6 @@ def load_appstream():
                 p.sadd(f"projectgroups:{project_group}", redis_key)
 
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
-
-            if type := apps[appid].get("type"):
-                p.sadd("types:index", type)
-                p.sadd(f"types:{type}", redis_key)
 
             if categories := apps[appid].get("categories"):
                 for category in categories:
@@ -87,11 +78,8 @@ def load_appstream():
     return new_apps
 
 
-def list_appstream(type: schemas.Type = schemas.Type.Desktop):
-    if type == "all":
-        apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
-    else:
-        apps = {app[5:] for app in db.redis_conn.smembers(f"types:{type.value}")}
+def list_appstream():
+    apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     return sorted(apps)
 
 
