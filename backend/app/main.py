@@ -163,15 +163,14 @@ def get_project_group(
 
 
 @app.get("/appstream")
-def list_appstream(type: schemas.Type = schemas.Type.Desktop):
-    return apps.list_appstream(type)
+def list_appstream():
+    return apps.list_appstream()
 
 
 @app.get("/appstream/{appid}", status_code=200)
 def get_appstream(appid: str, response: Response):
     if value := db.get_json_key(f"apps:{appid}"):
-        if value.get("type") == "desktop":
-            return value
+        return value
 
     response.status_code = 404
     return None
