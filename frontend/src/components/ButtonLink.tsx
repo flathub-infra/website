@@ -67,6 +67,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         target={target}
         rel={rel}
         tabIndex={-1}
+        className={className}
       >
         <button
           aria-label={ariaLabel}

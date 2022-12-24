@@ -66,7 +66,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
 
   return (
     <Button
-      className="w-full"
+      className="w-[250px] min-w-[200px] max-w-[300px]"
       variant="secondary"
       onClick={() => setConfirming(true)}
     >
