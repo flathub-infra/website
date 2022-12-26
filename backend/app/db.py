@@ -3,7 +3,7 @@ import time
 import orjson
 import redis
 
-from . import config
+from . import config, schemas
 
 redis_conn = redis.Redis(
     db=config.settings.redis_db,
@@ -42,6 +42,10 @@ def get_json_key(key: str):
 
 def get_categories():
     return {category for category in redis_conn.smembers("categories:index")}
+
+
+def get_category_count(category: schemas.Category):
+    return redis_conn.scard(f"categories:{category.value}")
 
 
 def get_developers():

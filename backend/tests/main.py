@@ -299,6 +299,18 @@ def test_stats(client):
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
     expected = {
+        "category_totals": {
+            "AudioVideo": 0,
+            "Development": 0,
+            "Education": 0,
+            "Game": 1,
+            "Graphics": 0,
+            "Network": 1,
+            "Office": 1,
+            "Science": 0,
+            "System": 0,
+            "Utility": 0,
+        },
         "countries": {"AD": 30, "BR": 60},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
