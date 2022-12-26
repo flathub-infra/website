@@ -6,8 +6,8 @@ import { fetchStats } from "../src/fetchers"
 import { Stats as Statistics } from "../src/types/Stats"
 import styles from "./statistics.module.scss"
 import "chart.js/auto"
-import { Line } from "react-chartjs-2"
-import { chartOptions, chartStyle } from "../src/chartHelper"
+import { Bar, Line } from "react-chartjs-2"
+import { chartOptions, chartStyle, barChartOptions } from "../src/chartHelper"
 import "chartjs-adapter-date-fns"
 import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
 
@@ -48,6 +48,7 @@ countries.registerLocale(require("i18n-iso-countries/langs/vi.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/zh.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/be.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/hu.json"))
+countries.registerLocale(require("i18n-iso-countries/langs/nl.json"))
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
@@ -56,6 +57,13 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
       country_data.push({ country: key, value: value })
+    }
+  }
+
+  let category_data: { category: string; value: number }[] = []
+  if (stats.category_totals) {
+    for (const [key, value] of Object.entries(stats.category_totals)) {
+      category_data.push({ category: key, value: value })
     }
   }
 
@@ -79,7 +87,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
     resolvedTheme as "light" | "dark",
   )
 
-  const options = chartOptions(i18n.language)
+  const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
+  const barOptions = barChartOptions(
+    i18n.language,
+    resolvedTheme as "light" | "dark",
+  )
 
   const getLocalizedText = ({
     countryCode,
@@ -90,16 +102,18 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
     const translatedCountryName = countries.getName(countryCode, i18n.language)
     const translatedCountryValue = countryValue.toLocaleString(i18n.language)
 
-    //@ts-ignore
     const downloadTranslation = t("x-downloads", {
-      count: translatedCountryValue,
+      x: translatedCountryValue,
+      count: countryValue,
     })
 
-    return `${
+    const translation = `${
       translatedCountryName ??
       countries.getName(countryCode, "en") ??
       t("unknown")
     }: ${downloadTranslation}`
+
+    return translation
   }
 
   return (
@@ -163,8 +177,23 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
-        <div className="h-[500px] rounded-xl bg-bgColorSecondary px-4 pt-4 shadow-md">
+        <div className="h-[500px] rounded-xl bg-bgColorSecondary p-4 shadow-md">
           <Line data={data} options={options} />
+        </div>
+        <h3>{t("category-distribution")}</h3>
+        <div className="h-[500px] rounded-xl bg-bgColorSecondary p-4 shadow-md">
+          <Bar
+            data={{
+              labels: category_data.map((x) => x.category),
+              datasets: [
+                {
+                  data: category_data.map((x) => x.value),
+                  backgroundColor: ["hsl(212.9, 58.1%, 55.1%)"],
+                },
+              ],
+            }}
+            options={barOptions}
+          />
         </div>
       </div>
     </>

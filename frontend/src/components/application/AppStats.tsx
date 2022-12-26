@@ -39,10 +39,10 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     t("installs"),
     resolvedTheme as "light" | "dark",
   )
-  const options = chartOptions(i18n.language)
+  const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
 
   return (
-    <div className="h-[300px] rounded-xl bg-bgColorSecondary px-4 pt-4 pb-12 shadow-md">
+    <div className="h-[300px] rounded-xl bg-bgColorSecondary p-4 pb-16 shadow-md">
       <h3 className="mt-0">{t("installs-over-time")}</h3>
       <Line data={data} options={options} />
     </div>
