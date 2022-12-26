@@ -267,7 +267,7 @@
   "error": "Error",
   "app-is-currently-not-verified": "Your app is currently not verified",
   "app-is-currently-verified-by-login-provider": "Your app is currently verified by your login <1>@{{login_name}}</1> with your account on <3>{{login_provider}}</3>",
-  "app-is-currently-verified-by-website": "Your app is currently verified by your website <1>{{website}}</1>.",
+  "app-is-currently-verified-by-website": "Your app is currently verified by your website <1>{{website}}</1>",
   "app-is-currently-verified-manually": "Your app is currently verified by Flathub staff",
   "verify-app": "Verify app",
   "unverify": "Unverify",
