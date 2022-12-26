@@ -2,7 +2,7 @@ import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import fetchCollection from "../src/fetchers"
-import { APPS_IN_PREVIEW_COUNT } from "../src/env"
+import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
 import { Collections } from "../src/types/Collection"
 import ApplicationSections from "../src/components/application/Sections"
@@ -32,9 +32,11 @@ export default function Home({ recentlyUpdated, recentlyAdded, popular }) {
               <ButtonLink variant="secondary" href={"/apps"} passHref>
                 {t("explore")}
               </ButtonLink>
-              <ButtonLink variant="secondary" href={"/donate"} passHref>
-                {t("donate-to", { project: "Flathub" })}
-              </ButtonLink>
+              {!IS_PRODUCTION && (
+                <ButtonLink variant="secondary" href={"/donate"} passHref>
+                  {t("donate-to", { project: "Flathub" })}
+                </ButtonLink>
+              )}
             </div>
           </div>
         </div>

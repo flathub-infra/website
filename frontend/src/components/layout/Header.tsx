@@ -26,10 +26,10 @@ const navigation = [
   { name: "about", href: "/about", current: false },
 ]
 
-const userNavigation = [
-  { name: "your-profile", href: "/userpage" },
-  { name: "view-wallet", href: "/wallet" },
-]
+let userNavigation = [{ name: "your-profile", href: "/userpage" }]
+
+if (!IS_PRODUCTION)
+  userNavigation.push({ name: "view-wallet", href: "/wallet" })
 
 const Header = () => {
   const { t, i18n } = useTranslation()
@@ -213,7 +213,7 @@ const Header = () => {
                       )
                     }
                   })}
-                  {!IS_PRODUCTION && !user.info && (
+                  {!user.info && (
                     <Link
                       passHref
                       href="/login"
@@ -342,7 +342,7 @@ const Header = () => {
                         )
                       }
                     })}
-                    {!IS_PRODUCTION && !user.info && (
+                    {!user.info && (
                       <Link
                         passHref
                         href="/login"

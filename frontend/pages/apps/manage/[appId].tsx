@@ -10,6 +10,7 @@ import { useUserContext } from "../../../src/context/user-info"
 import { fetchAppstream, fetchVendingConfig } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
+import { IS_PRODUCTION } from "src/env"
 
 export default function AppManagementPage({
   app,
@@ -28,11 +29,13 @@ export default function AppManagementPage({
       <>
         <h2>{t("developer-settings-title", { appname: app.name })}</h2>
         <AppVerificationControls.SetupControls app={app} />
-        <AppVendingControls.SetupControls
-          app={app}
-          vendingConfig={vendingConfig}
-        />
-        <AppVendingControls.OwnershipTokens app={app} />
+        {!IS_PRODUCTION && (
+          <AppVendingControls.SetupControls
+            app={app}
+            vendingConfig={vendingConfig}
+          />
+        )}
+        {!IS_PRODUCTION && <AppVendingControls.OwnershipTokens app={app} />}
       </>
     )
   } else {
