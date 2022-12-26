@@ -5,6 +5,7 @@ import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "../login/ProviderLink"
 import VendingLink from "./VendingLink"
+import { IS_PRODUCTION } from "src/env"
 
 interface Props {
   logins: LoginProvider[]
@@ -75,7 +76,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
       {loginSection}
 
-      {user.info["dev-flatpaks"].length ? (
+      {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
         <div className="mx-4 my-auto">
           <h3>{t("accepting-payment")}</h3>
           <VendingLink />

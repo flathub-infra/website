@@ -8,6 +8,7 @@ import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
 import { fetchLoginProviders } from "../src/fetchers"
 import { LoginProvider } from "../src/types/Login"
+import { IS_PRODUCTION } from "src/env"
 
 export default function Userpage({
   providers,
@@ -23,7 +24,7 @@ export default function Userpage({
       <div className="max-w-11/12 my-0 mx-auto flex w-11/12 flex-col gap-y-4 p-3 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <UserDetails logins={providers} />
-          <UserApps variant="owned" />
+          {!IS_PRODUCTION && <UserApps variant="owned" />}
           <UserApps variant="dev" />
           <div className="rounded-xl bg-bgColorSecondary p-4 shadow-md">
             <DeleteButton />
