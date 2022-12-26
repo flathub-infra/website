@@ -10,7 +10,7 @@ broker = dramatiq.brokers.redis.RedisBroker(
 dramatiq.set_broker(broker)
 
 
-@dramatiq.actor
+@dramatiq.actor(time_limit=1000 * 60 * 60)
 def update_stats():
     apps = [app[5:] for app in db.redis_conn.smembers("apps:index")]
     stats.update(apps)
