@@ -116,7 +116,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
     )
   } else if (verificationStatus?.verified) {
     content = (
-      <div>
+      <div className="space-y-3">
         <StatusInfo status={verificationStatus} />
 
         <br />
