@@ -612,5 +612,15 @@
   "total": "Totalo",
   "position-short": "Poz.",
   "created": "Kreita",
-  "recipient": "Ricevanto"
+  "recipient": "Ricevanto",
+  "platform": {
+    "org-kde-platform": "",
+    "org-freedesktop-platform": "",
+    "org-gnome-platform": ""
+  },
+  "zoom": "",
+  "kind-donate-app": "",
+  "action-purchase": "",
+  "action-donate": "",
+  "kind-purchase-app": ""
 }
