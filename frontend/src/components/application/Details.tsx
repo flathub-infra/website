@@ -128,7 +128,7 @@ const Details: FunctionComponent<Props> = ({
     const moreThan1Screenshot =
       app.screenshots?.filter(pickScreenshot).length > 1
 
-    const stableReleases = app.releases.filter(
+    const stableReleases = app.releases?.filter(
       (release) => release.type === undefined || release.type === "stable",
     )
 
