@@ -71,7 +71,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           no-cache: true
           build-args: |
-            NEXT_PUBLIC_IS_PRODUCTION="true"
+            NEXT_PUBLIC_IS_PRODUCTION=true
           tags: |
             ghcr.io/flathub/frontend:${{ github.sha }}-prod
             ghcr.io/flathub/frontend:prod
