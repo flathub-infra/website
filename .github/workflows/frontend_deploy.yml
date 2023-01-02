@@ -54,7 +54,7 @@ jobs:
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION="true"
           tags: |
-            ghcr.io/flathub/frontend:${{ github.sha }}
+            ghcr.io/flathub/frontend:${{ github.sha }}-prod
             ghcr.io/flathub/frontend:prod
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
