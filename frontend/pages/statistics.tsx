@@ -15,6 +15,7 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
+import { Category, categoryToName } from "src/types/Category"
 const countries = require("i18n-iso-countries")
 countries.registerLocale(require("i18n-iso-countries/langs/ar.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/bg.json"))
@@ -184,7 +185,9 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
         <div className="h-[500px] rounded-xl bg-bgColorSecondary p-4 shadow-md">
           <Bar
             data={{
-              labels: category_data.map((x) => x.category),
+              labels: category_data.map((x) =>
+                categoryToName(x.category as Category, t),
+              ),
               datasets: [
                 {
                   data: category_data.map((x) => x.value),
