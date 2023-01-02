@@ -51,7 +51,7 @@ jobs:
           context: frontend
           file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          build-args:
+          build-args: |
             NEXT_PUBLIC_IS_PRODUCTION="true"
           tags: |
             ghcr.io/flathub/frontend:${{ github.sha }}
