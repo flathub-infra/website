@@ -8,6 +8,7 @@ COPY . .
 CMD ["yarn", "dev"]
 
 FROM node:16 as builder
+ARG NEXT_PUBLIC_IS_PRODUCTION=false
 
 WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
@@ -16,6 +17,7 @@ COPY . .
 RUN yarn build
 
 FROM node:16-slim as prod
+ARG NEXT_PUBLIC_IS_PRODUCTION=false
 
 ENV NODE_ENV production
 ENV PORT 3000
