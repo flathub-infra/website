@@ -28,7 +28,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push beta image
         uses: docker/build-push-action@v3
         with:
           context: frontend
@@ -44,3 +44,19 @@ jobs:
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Build and push production image
+        uses: docker/build-push-action@v3
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          build-args: |
+            NEXT_PUBLIC_IS_PRODUCTION="true"
+          tags: |
+            ghcr.io/flathub/frontend:${{ github.sha }}-prod
+            ghcr.io/flathub/frontend:prod
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
