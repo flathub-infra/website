@@ -1,5 +1,6 @@
 const { PHASE_PRODUCTION_BUILD } = require("next/constants")
 const { i18n } = require("./next-i18next.config")
+const { withSentryConfig } = require("@sentry/nextjs")
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
@@ -17,67 +18,91 @@ const CONTENT_SECURITY_POLICY = `
   .replace(/\s{2,}/g, " ")
   .trim()
 
-module.exports = (phase) => ({
-  i18n,
-  images: {
-    domains: [
-      "flathub.org",
-      "dl.flathub.org",
-      "avatars.githubusercontent.com",
-      "gitlab.com",
-      "gitlab.gnome.org",
-      "lh3.googleusercontent.com",
-      "secure.gravatar.com",
-    ],
-  },
-  output: "standalone",
-  async redirects() {
-    return [
-      {
-        source: "/home",
-        destination: "/",
-        permanent: true,
-      },
-    ]
-  },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "X-Frame-Options",
-            value: "Deny",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
-          },
-          {
-            key: "Content-Security-Policy",
-            value:
-              /**
-               * For testing adjustments use https://addons.mozilla.org/en-GB/firefox/addon/laboratory-by-mozilla/
-               * (which allows you to overwrite the Content Security Policy of a particular website).
-               *
-               * Do not add `unsafe-inline` to `script-src`, as we are using dangerouslySetInnerHTML in a few places,
-               * which makes us vulnerable to arbitrary code execution if we receive unsanitized data from the APIs.
-               *
-               * For the development environment we either need to maintain a separate CSP or disable it altogether.
-               * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
-               */
-              phase === PHASE_PRODUCTION_BUILD ? CONTENT_SECURITY_POLICY : "",
-          },
-        ],
-      },
-    ]
-  },
-})
+const sentryWebpackPluginOptions = {
+  // Additional config options for the Sentry Webpack plugin. Keep in mind that
+  // the following options are set automatically, and overriding them is not
+  // recommended:
+  //   release, url, org, project, authToken, configFile, stripPrefix,
+  //   urlPrefix, include, ignore
+
+  silent: true, // Suppresses all logs
+  // For all available options, see:
+  // https://github.com/getsentry/sentry-webpack-plugin#options.
+}
+
+module.exports = withSentryConfig(
+  (phase) => ({
+    i18n,
+    images: {
+      domains: [
+        "flathub.org",
+        "dl.flathub.org",
+        "avatars.githubusercontent.com",
+        "gitlab.com",
+        "gitlab.gnome.org",
+        "lh3.googleusercontent.com",
+        "secure.gravatar.com",
+      ],
+    },
+    sentry: {
+      // Use `hidden-source-map` rather than `source-map` as the Webpack `devtool`
+      // for client-side builds. (This will be the default starting in
+      // `@sentry/nextjs` version 8.0.0.) See
+      // https://webpack.js.org/configuration/devtool/ and
+      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-hidden-source-map
+      // for more information.
+      hideSourceMaps: true,
+    },
+    output: "standalone",
+    async redirects() {
+      return [
+        {
+          source: "/home",
+          destination: "/",
+          permanent: true,
+        },
+      ]
+    },
+    async headers() {
+      return [
+        {
+          source: "/:path*",
+          headers: [
+            {
+              key: "X-Frame-Options",
+              value: "Deny",
+            },
+            {
+              key: "X-XSS-Protection",
+              value: "1; mode=block",
+            },
+            {
+              key: "X-Content-Type-Options",
+              value: "nosniff",
+            },
+            {
+              key: "Referrer-Policy",
+              value: "strict-origin-when-cross-origin",
+            },
+            {
+              key: "Content-Security-Policy",
+              value:
+                /**
+                 * For testing adjustments use https://addons.mozilla.org/en-GB/firefox/addon/laboratory-by-mozilla/
+                 * (which allows you to overwrite the Content Security Policy of a particular website).
+                 *
+                 * Do not add `unsafe-inline` to `script-src`, as we are using dangerouslySetInnerHTML in a few places,
+                 * which makes us vulnerable to arbitrary code execution if we receive unsanitized data from the APIs.
+                 *
+                 * For the development environment we either need to maintain a separate CSP or disable it altogether.
+                 * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
+                 */
+                phase === PHASE_PRODUCTION_BUILD ? CONTENT_SECURITY_POLICY : "",
+            },
+          ],
+        },
+      ]
+    },
+  }),
+  sentryWebpackPluginOptions,
+)
