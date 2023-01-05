@@ -30,6 +30,13 @@ Additionally, you may want to update the statistics:
 curl -X POST localhost:8000/update/stats
 ```
 
+If you perform any transactions which need funds transferring to vendors
+then you should:
+
+```bash
+curl -X POST localhost:8000/update/process-pending-transfers
+```
+
 If you change any files, the server should restart and you should be able to see the changes.
 
 If you want to explore the endpoints, you can use the UI:
