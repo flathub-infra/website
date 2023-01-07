@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "react-toastify"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
@@ -21,44 +21,44 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
   const [, setReturnTo] = useLocalStorage<string>("returnTo", "")
 
   // When user clicks a provider, a redirect is fetched to initiate login flow
-  useEffect(() => {
-    const redirect = async (url: string) => {
-      let res: Response
-      try {
-        res = await fetch(url, {
-          // Must use the session cookie sent back
-          credentials: "include",
-          // Redirects are unique each time
-          cache: "no-store",
-        })
-      } catch {
-        // Allow the user to try again on network error
-        toast.error(t("network-error-try-again"))
-        setClicked(false)
-        return
-      }
+  const onClick = useCallback(async () => {
+    // Prevent multiple async requests
+    if (clicked) return
+    setClicked(true)
 
-      if (res.ok) {
-        const data: LoginRedirect = await res.json()
-        setReturnTo((router.query.returnTo as string) ?? "")
-        window.location.href = data.redirect
-      } else {
-        toast.error(`${res.status} ${res.statusText}`)
-        setClicked(false)
-      }
+    const url = `${LOGIN_PROVIDERS_URL}/${provider.method}`
+
+    let res: Response
+    try {
+      res = await fetch(url, {
+        // Must use the session cookie sent back
+        credentials: "include",
+        // Redirects are unique each time
+        cache: "no-store",
+      })
+    } catch {
+      // Allow the user to try again on network error
+      toast.error(t("network-error-try-again"))
+      setClicked(false)
+      return
     }
 
-    if (clicked) {
-      redirect(`${LOGIN_PROVIDERS_URL}/${provider.method}`)
+    if (res.ok) {
+      const data: LoginRedirect = await res.json()
+      setReturnTo((router.query.returnTo as string) ?? "")
+      window.location.href = data.redirect
+    } else {
+      toast.error(`${res.status} ${res.statusText}`)
+      setClicked(false)
     }
-  }, [clicked, provider.method, router, setReturnTo, t])
+  }, [clicked, setClicked, t, router, setReturnTo, provider.method])
 
   const loginText = t(`login-with-provider`, { provider: provider.name })
 
   return (
     <button
       className="flex w-full flex-row items-center justify-center gap-3 rounded-xl border border-textSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:opacity-75 active:bg-bgColorPrimary md:w-auto"
-      onClick={() => setClicked(true)}
+      onClick={onClick}
     >
       <Image
         src={`/img/login/${provider.method}-logo.svg`}
