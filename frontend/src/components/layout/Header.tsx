@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
@@ -38,19 +38,21 @@ const Header = () => {
 
   const [query, setQuery] = useState("")
 
-  // Using state to prevent user repeatedly initiating fetches
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
 
-  // Only make a request on first logout click
-  useEffect(() => {
-    if (clickedLogout) {
-      logout(dispatch).catch((err) => {
-        toast.error(t(err))
-        setClickedLogout(false)
-      })
+  const onLogout = useCallback(async () => {
+    // Only make a request on first logout click
+    if (clickedLogout) return
+    setClickedLogout(true)
+
+    try {
+      logout(dispatch)
+    } catch (err) {
+      toast.error(t(err))
+      setClickedLogout(false)
     }
-  }, [dispatch, clickedLogout, t])
+  }, [clickedLogout, dispatch, t])
 
   useEffect(() => {
     document.dir = i18n.dir()
@@ -274,9 +276,7 @@ const Header = () => {
                           <Menu.Item key="logout">
                             {({ active }) => (
                               <button
-                                onClick={() => {
-                                  setClickedLogout(true)
-                                }}
+                                onClick={onLogout}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
                                   "block w-full py-2 px-4 text-left text-sm font-normal text-gray-700 hover:bg-white hover:opacity-75",
