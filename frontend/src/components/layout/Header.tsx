@@ -399,7 +399,7 @@ const Header = () => {
                         <button
                           key={"logout"}
                           onClick={() => {
-                            setClickedLogout(true)
+                            onLogout()
                             close()
                           }}
                           className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-white hover:bg-colorHighlight dark:text-textPrimary"
