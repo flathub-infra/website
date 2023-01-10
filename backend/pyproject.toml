@@ -35,7 +35,7 @@ black = "^22.12"
 pytest = "^7.2.0"
 isort = "^5.11.4"
 pyflakes = "^3.0.1"
-pylint = "^2.15.9"
+pylint = "^2.15.10"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.23.1"
