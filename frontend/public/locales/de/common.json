@@ -269,5 +269,10 @@
   "website-validation-instruction": "Erstelle eine Seite unter <1>{{ webpage }}</1> mit dem folgenden Token: <3>{{token}}</3> Wenn die Seite bereits existiert, füge den Token hinzu.",
   "login-provider-verification-instruction": "Wir werden versuchen, deinen Zugang zur App mit deinem Login <1>{{login_name}}</1> mit deinem Konto auf <3>{{login_provider}}</3> zu verifizieren",
   "setup-verification": "Verifizierung einrichten",
-  "unverify": "Unverifizieren"
+  "unverify": "Unverifizieren",
+  "login-provider-verification-switch-account": "Du bist bei <1>{{login_provider}}</1> als <3>@{{current_name}}</3> angemeldet. Melde dich als <5>@{{required_name}}</5> an, um <7>{{appId}}</7> via Login-Provider zu verifizieren oder wähle eine andere Methode, wenn eine verfügbar ist.",
+  "login-provider-verification-main-instruction": "Verifiziere dein Recht, die App ID <1>{{id}}</1> zu verwenden, indem du dich in das Konto <3>@{{login_name}}</3> auf <5>{{login_provider}}</5> einloggst.",
+  "begin": "Start",
+  "failed-to-find-token": "Dein Token konnte in der Antwort von {{domain}} nicht gefunden werden.",
+  "category-distribution": "Verteilung der Kategorien"
 }
