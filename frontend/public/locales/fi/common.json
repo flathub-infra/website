@@ -31,7 +31,7 @@
   "help": "Ohje",
   "contribute-translations": "Auta kielikäännöksissä",
   "report-an-issue": "Ilmoita ongelmasta",
-  "no-changelog-provided": "Muutoslokia ei ole tarjolla",
+  "no-changelog-provided": "Muutoslokia ei ole saatavilla",
   "changes-in-version": "Muutokset versiossa {{version-number}}",
   "manual-install": "Manuaalinen asennus",
   "run": "Suorita",
@@ -273,5 +273,6 @@
   "failed-to-find-token": "Verkkotunnuksen {{domain}} vastauksesta ei löytynyt polettia.",
   "no-transactions": "Ei maksutapahtumia",
   "website-validation-instruction": "Luo sivu osoitteeseen <1>{{ webpage }}</1> sisältäen seuraavan poletin: <3>{{token}}</3> Jos sivu on jo olemassa, lisää poletti sivulle.",
-  "count-desktop-applications": "Työpöytäsovelluksia yhteensä"
+  "count-desktop-applications": "Työpöytäsovelluksia yhteensä",
+  "category-distribution": "Jakauma luokittain"
 }

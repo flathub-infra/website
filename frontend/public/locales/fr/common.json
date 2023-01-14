@@ -53,7 +53,7 @@
   "app-logo": "Logo de {{app-name}}",
   "user-page": "Page utilisateur",
   "flathub-statistics": "Statistiques de Flathub",
-  "count-downloads": "Total des téléchargements",
+  "count-downloads": "Téléchargements total",
   "since": "Depuis",
   "downloads-per-country": "Téléchargements par pays",
   "downloads-over-time": "Téléchargements au fil du temps",
@@ -237,5 +237,7 @@
   "verified": "Vérifié",
   "app-is-verified": "Cette appli est vérifiée.",
   "redeem-token": "Convertir le jeton",
-  "more-type": "Plus de {{type}}"
+  "more-type": "Plus de {{type}}",
+  "count-desktop-applications": "Application de bureau total",
+  "no-transactions": "Sans transaction"
 }
