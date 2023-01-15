@@ -40,7 +40,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           <h2>{title}</h2>
           <p>{t("number-of-results", { number: applications.length })}</p>
 
-          <div className="grid grid-cols-2 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-6">
+          <div className="grid grid-cols-1 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-3">
             {pagedApplications.map((app) => (
               <div key={app.id} className={"flex flex-col gap-2"}>
                 <ApplicationCard application={app} />
