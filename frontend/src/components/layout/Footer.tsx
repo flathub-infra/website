@@ -68,11 +68,19 @@ const Footer = () => {
             </a>
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+              href="https://matrix.to/#/#flathub:matrix.org"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("chat")}
+            </a>
+            <a
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
               href="https://twitter.com/FlatpakApps"
               target="_blank"
               rel="noreferrer"
             >
-              {t("follow-us")}
+              Twitter
             </a>
           </div>
         </div>
