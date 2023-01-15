@@ -14,7 +14,6 @@
   "rss-feeds": "RSS Feeds",
   "community": "Community",
   "get-involved": "Get Involved",
-  "follow-us": "Follow Us",
   "developers": "Developers",
   "publish-your-app": "Publish Your App",
   "documentation": "Documentation",
@@ -274,5 +273,6 @@
   "unverify-app-prompt": "Unverify {{appId}}?",
   "begin": "Begin",
   "failed-to-find-token": "Failed to find token in response from {{domain}}.",
-  "category-distribution": "Category Distribution"
+  "category-distribution": "Category Distribution",
+  "chat": "Chat"
 }
