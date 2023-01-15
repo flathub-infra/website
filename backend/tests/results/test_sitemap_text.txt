@@ -698,3 +698,23 @@ https://beta.flathub.org/nl/languages
 https://beta.flathub.org/nl/privacy-policy
 https://beta.flathub.org/nl/statistics
 https://beta.flathub.org/nl/terms-and-conditions
+https://beta.flathub.org/pt/about
+https://beta.flathub.org/pt/apps
+https://beta.flathub.org/pt/apps/category/Game
+https://beta.flathub.org/pt/apps/category/Network
+https://beta.flathub.org/pt/apps/category/Office
+https://beta.flathub.org/pt/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/pt/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/pt/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/pt/apps/collection/popular
+https://beta.flathub.org/pt/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/pt/apps/collection/recently-updated
+https://beta.flathub.org/pt/apps/details/com.anydesk.Anydesk
+https://beta.flathub.org/pt/apps/details/com.wps.Office
+https://beta.flathub.org/pt/apps/details/org.sugarlabs.Maze
+https://beta.flathub.org/pt/badges
+https://beta.flathub.org/pt/feeds
+https://beta.flathub.org/pt/languages
+https://beta.flathub.org/pt/privacy-policy
+https://beta.flathub.org/pt/statistics
+https://beta.flathub.org/pt/terms-and-conditions
