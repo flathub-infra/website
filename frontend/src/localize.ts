@@ -69,6 +69,7 @@ export type Language =
   | "be"
   | "hu"
   | "nl"
+  | "pt"
 
 export const languages: Language[] = [
   "en",
@@ -105,6 +106,7 @@ export const languages: Language[] = [
   "be",
   "hu",
   "nl",
+  "pt",
 ]
 
 export function getLocale(language: string): Locale {
@@ -177,6 +179,8 @@ export function getLocale(language: string): Locale {
       return hu
     case "nl":
       return nl
+    case "pt":
+      return pt
 
     default:
       return enGB
@@ -253,6 +257,8 @@ export function bcpToPosixLocale(language: string): string {
       return "hu_HU"
     case "nl":
       return "nl_NL"
+    case "pt":
+      return "pt_PT"
 
     default:
       return "en_US"
@@ -329,6 +335,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇭🇺"
     case "nl":
       return "🇳🇱"
+    case "pt":
+      return "🇵🇹"
   }
 }
 
@@ -402,6 +410,8 @@ export function getLanguageName(language: Language): string {
       return "Magyar"
     case "nl":
       return "Nederlands"
+    case "pt":
+      return "Português"
 
     default:
       return assertUnreachable(language)
@@ -496,6 +506,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("hu")
     case "nl":
       return new Intl.Locale("nl")
+    case "pt":
+      return new Intl.Locale("pt")
   }
 }
 

@@ -38,6 +38,7 @@ module.exports = {
       "be",
       "hu",
       "nl",
+      "pt",
     ],
   },
   // debug: true,
