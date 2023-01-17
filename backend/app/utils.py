@@ -92,6 +92,9 @@ def appstream2dict(reponame: str):
                         height = image.attrib.get("height")
                         attrs[f"{width}x{height}"] = image.text
 
+                    if image.attrib.get("type") == "source":
+                        attrs["source"] = image.text
+
                 if attrs:
                     if screenshot.attrib.get("type") == "default":
                         app["screenshots"].insert(0, attrs.copy())
