@@ -203,6 +203,9 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
             background_tasks.add_task(get_repo_creation_date, appid)
 
         if screenshots := app.get("screenshots"):
+            if screenshots.get("source"):
+                del screenshots["source"]
+
             screenshots_sizes = sorted(
                 screenshots[0].keys(), key=lambda res: int(res.split("x")[0])
             )
