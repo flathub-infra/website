@@ -121,9 +121,20 @@ export async function unverifyApp(appId: string): Promise<void> {
  * @param appIds array of app identifiers to fetch data for
  */
 export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
-  const responses = await Promise.all(
+  const responses = await Promise.allSettled(
     appIds.map((id) => fetch(`${APP_DETAILS(id)}`)),
   )
 
-  return Promise.all(responses.map((res) => res.json() as Promise<Appstream>))
+  return Promise.all(
+    responses.map((res) => {
+      if (res.status === "fulfilled") {
+        return res.value.json() as Promise<Appstream>
+      } else {
+        return {
+          id: "error",
+          name: "Error",
+        } as Appstream
+      }
+    }),
+  )
 }
