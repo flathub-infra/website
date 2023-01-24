@@ -102,14 +102,17 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  defaultLocale,
+}) => {
   const data = await fetchLoginProviders()
 
   const services = data.map((d) => d.method)
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       services,
     },
     revalidate: 3600,

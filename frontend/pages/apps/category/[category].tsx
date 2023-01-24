@@ -41,14 +41,18 @@ const ApplicationCategory = ({ applications }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  defaultLocale,
+  params,
+}) => {
   const applications: AppstreamListItem[] = await fetchCategory(
     params.category as keyof typeof Category,
   )
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       applications,
     },
     revalidate: 3600,

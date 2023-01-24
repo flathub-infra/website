@@ -30,6 +30,7 @@ export default function AppPurchasePage({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
+  defaultLocale,
   params: { appId },
 }) => {
   const [app, vendingConfig] = await Promise.all([
@@ -40,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     notFound: !app,
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       app,
       vendingConfig,
     },

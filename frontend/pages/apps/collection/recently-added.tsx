@@ -22,14 +22,17 @@ export default function RecentlyAdded({ applications }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  defaultLocale,
+}) => {
   const applications: AppstreamListItem[] = await fetchCollection(
     Collections.recentlyAdded,
   )
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       applications,
     },
     revalidate: 3600,

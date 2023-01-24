@@ -195,13 +195,16 @@ const PrivacyPolicy = (): JSX.Element => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+  defaultLocale,
+}) => {
   console.log("Fetching data for stats")
   const stats = await fetchStats()
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       stats,
     },
     revalidate: 3600,
