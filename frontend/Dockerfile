@@ -9,6 +9,8 @@ CMD ["yarn", "dev"]
 
 FROM node:16 as builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
+ARG ENABLE_SENTRY=false
+ARG SENTRY_AUTH_TOKEN
 
 WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
