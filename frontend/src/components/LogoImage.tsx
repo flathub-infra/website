@@ -20,6 +20,7 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
             alt={t("app-logo", { "app-name": appName })}
             width={128}
             height={128}
+            placeholder="blur"
           />
         ) : (
           <img
