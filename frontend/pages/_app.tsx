@@ -16,6 +16,9 @@ import { useRouter } from "next/router"
 import { bcpToPosixLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
+import { Inter } from "@next/font/google"
+const inter = Inter({ subsets: ["latin"] })
+
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
   const instance = createInstance({
@@ -40,7 +43,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             type: "website",
             locale: bcpToPosixLocale(router.locale),
             url: process.env.NEXT_PUBLIC_URL,
-            site_name: "FlatHub",
+            site_name: "Flathub",
             images: [
               {
                 url: `${IMAGE_BASE_URL}flathub-social.png`,
@@ -50,6 +53,11 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <UserInfoProvider>
           <Main>
+            <style jsx global>{`
+              html {
+                font-family: ${inter.style.fontFamily};
+              }
+            `}</style>
             <Component {...pageProps} />
           </Main>
         </UserInfoProvider>
