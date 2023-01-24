@@ -29,13 +29,12 @@ export default function Projectgroup({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
-  defaultLocale,
   params: { projectgroup },
 }) => {
   const projectgroupApps = await fetchProjectgroupApps(projectgroup as string)
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       projectgroupApps: projectgroupApps ?? [],
       projectgroup,
     },

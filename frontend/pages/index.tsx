@@ -51,10 +51,7 @@ export default function Home({ recentlyUpdated, recentlyAdded, popular }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const recentlyUpdated = await fetchCollection(
     Collections.recentlyUpdated,
     APPS_IN_PREVIEW_COUNT,
@@ -70,7 +67,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       recentlyUpdated,
       recentlyAdded,
       popular,

@@ -60,7 +60,6 @@ export default function AppManagementPage({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
-  defaultLocale,
   params: { appId },
 }) => {
   const [app, vendingConfig] = await Promise.all([
@@ -71,7 +70,7 @@ export const getStaticProps: GetStaticProps = async ({
   return {
     notFound: !app,
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       app,
       vendingConfig,
     },

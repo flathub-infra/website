@@ -29,17 +29,14 @@ export default function DeveloperLoginPortal({ providers }) {
 }
 
 // Providers won't change often so fetch at build time for now
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const providers: LoginProvider[] = await fetchLoginProviders()
 
   // If request failed at build time, this page becomes a 404
   return {
     notFound: !providers,
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       providers,
     },
   }

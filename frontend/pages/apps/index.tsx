@@ -47,10 +47,7 @@ export default function Apps({ topAppsByCategory }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   let topAppsByCategory: { category: string; apps: AppstreamListItem[] }[] = []
 
   const categoryPromise = Object.keys(Category).map(
@@ -65,7 +62,7 @@ export const getStaticProps: GetStaticProps = async ({
   topAppsByCategory = await Promise.all(categoryPromise)
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       topAppsByCategory,
     },
     revalidate: 3600,

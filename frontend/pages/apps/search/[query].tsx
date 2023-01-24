@@ -53,10 +53,10 @@ export default function Search() {
   )
 }
 
-export async function getServerSideProps({ locale, defaultLocale }) {
+export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   }
 }

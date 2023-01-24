@@ -31,8 +31,6 @@ RUN addgroup --system --gid 1001 nextjs && \
 WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/next-i18next.config.js ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app

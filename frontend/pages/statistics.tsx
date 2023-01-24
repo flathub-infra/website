@@ -204,16 +204,13 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   console.log("Fetching data for stats")
   const stats = await fetchStats()
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       stats,
     },
     revalidate: 3600,

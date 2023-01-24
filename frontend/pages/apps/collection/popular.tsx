@@ -22,17 +22,14 @@ export default function PopularApps({ applications }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const applications: AppstreamListItem[] = await fetchCollection(
     Collections.popular,
   )
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       applications,
     },
     revalidate: 3600,

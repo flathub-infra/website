@@ -36,15 +36,12 @@ export default function Userpage({
 }
 
 // Need available login providers to show options on page
-export const getStaticProps: GetStaticProps = async ({
-  locale,
-  defaultLocale,
-}) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const providers: LoginProvider[] = await fetchLoginProviders()
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       providers,
     },
   }

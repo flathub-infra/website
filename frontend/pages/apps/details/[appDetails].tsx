@@ -72,7 +72,6 @@ export default function Details({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
-  defaultLocale,
   params: { appDetails: appId },
 }) => {
   console.log("Fetching data for app details: ", appId)
@@ -102,7 +101,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
       app,
       summary,
       stats,
