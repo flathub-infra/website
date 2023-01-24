@@ -29,12 +29,13 @@ export default function Developer({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
+  defaultLocale,
   params: { developer },
 }) => {
   const developerApps = await fetchDeveloperApps(developer as string)
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? defaultLocale, ["common"])),
       developerApps: developerApps ?? [],
       developer,
     },
