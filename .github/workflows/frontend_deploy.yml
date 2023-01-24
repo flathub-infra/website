@@ -72,6 +72,8 @@ jobs:
           no-cache: true
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION=true
+            ENABLE_SENTRY=true
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
           tags: |
             ghcr.io/flathub/frontend:${{ github.sha }}-prod
             ghcr.io/flathub/frontend:prod
