@@ -11,7 +11,6 @@
   "rss-feeds": "RSS-hírcsatornák",
   "community": "Közösség",
   "get-involved": "Részvétel",
-  "follow-us": "Kövessen minket",
   "developers": "Fejlesztők",
   "publish-your-app": "Alkalmazás közzététele",
   "documentation": "Dokumentáció",
@@ -274,5 +273,6 @@
   "no-transactions": "Nincsenek ügyletek",
   "count-desktop-applications": "Összes asztali alkalmazás",
   "website-validation-instruction": "Hozzon létre egy oldalt a(z) <1>{{ webpage }}</1> címen, amely a következő jelvényt tartalmazza: <3>{{token}}</3>. Ha az oldal már létezik, adja hozzá a jelvényt.",
-  "category-distribution": "Kategória elosztása"
+  "category-distribution": "Kategória elosztása",
+  "chat": "Csevegés"
 }

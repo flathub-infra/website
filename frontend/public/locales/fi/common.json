@@ -8,14 +8,13 @@
   "an-error-occurred-server": "Palvelimella tapahtui virhe.",
   "search-apps": "Etsi sovelluksia",
   "publish": "Julkaise",
-  "forum": "Keskustelu",
+  "forum": "Foorumi",
   "about": "Tietoja",
   "about-pagename": "Tietoja Flathubista",
   "new-and-updated": "Äskettäin päivitetty",
   "rss-feeds": "RSS-syötteet",
   "community": "Yhteisö",
   "get-involved": "Tule mukaan",
-  "follow-us": "Seuraa meitä",
   "publish-your-app": "Julkaise sovelluksesi",
   "badges": "Merkit",
   "source-code": "Lähdekoodi",
@@ -274,5 +273,6 @@
   "no-transactions": "Ei maksutapahtumia",
   "website-validation-instruction": "Luo sivu osoitteeseen <1>{{ webpage }}</1> sisältäen seuraavan poletin: <3>{{token}}</3> Jos sivu on jo olemassa, lisää poletti sivulle.",
   "count-desktop-applications": "Työpöytäsovelluksia yhteensä",
-  "category-distribution": "Jakauma luokittain"
+  "category-distribution": "Jakauma luokittain",
+  "chat": "Keskustelu"
 }

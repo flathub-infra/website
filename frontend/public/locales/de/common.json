@@ -15,7 +15,6 @@
   "retry-or-go-home": "Wiederholen oder zurück zur <1>Startseite</1>.",
   "community": "Community",
   "get-involved": "Mitmachen",
-  "follow-us": "Folge uns",
   "developers": "Entwickler",
   "publish-your-app": "App publizieren",
   "documentation": "Dokumentation",
@@ -274,5 +273,6 @@
   "login-provider-verification-main-instruction": "Verifiziere dein Recht, die App ID <1>{{id}}</1> zu verwenden, indem du dich in das Konto <3>@{{login_name}}</3> auf <5>{{login_provider}}</5> einloggst.",
   "begin": "Start",
   "failed-to-find-token": "Dein Token konnte in der Antwort von {{domain}} nicht gefunden werden.",
-  "category-distribution": "Verteilung der Kategorien"
+  "category-distribution": "Verteilung der Kategorien",
+  "chat": "Chat"
 }

@@ -14,7 +14,6 @@
   "rss-feeds": "RSS Akışları",
   "community": "Topluluk",
   "get-involved": "Dahil Olun",
-  "follow-us": "Bizi Takip Edin",
   "developers": "Geliştiriciler",
   "publish-your-app": "Uygulamanızı Yayınlayın",
   "documentation": "Belgelendirme",
@@ -274,5 +273,6 @@
   "count-desktop-applications": "Toplam masaüstü uygulamaları",
   "no-transactions": "İşlem yok",
   "website-validation-instruction": "<1>{{ webpage }}</1> adresinde şu belirteci içeren bir sayfa oluşturun: <3>{{token}}</3> Sayfa zaten varsa belirteci sayfaya ekleyin.",
-  "category-distribution": "Kategori Dağılımı"
+  "category-distribution": "Kategori Dağılımı",
+  "chat": "Sohbet"
 }

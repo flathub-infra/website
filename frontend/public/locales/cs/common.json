@@ -52,7 +52,6 @@
   "request-new-app": "Pokud hledáte konkrétní aplikaci a chcete ji získat na Flathubu, dejte komunitě vědět, že ji chcete <1>zde</1>.",
   "manifest": "Manifest aplikace",
   "popular": "Populární",
-  "follow-us": "Sledujte nás",
   "documentation": "Dokumentace",
   "browse-apps": "Procházet aplikace",
   "publish-your-app": "Publikovat svojí aplikaci",
@@ -274,5 +273,6 @@
   "count-desktop-applications": "Celkový počet desktopových aplikací",
   "no-transactions": "Žádné transakce",
   "website-validation-instruction": "Vytvořte stránku na adrese <1>{{ webpage }}</1> obsahující následující token: <3>{{token}}</3> Pokud stránka již existuje, přidejte do ní tento token.",
-  "category-distribution": "Distribuce kategorií"
+  "category-distribution": "Distribuce kategorií",
+  "chat": "Chat"
 }

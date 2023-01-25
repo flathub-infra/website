@@ -57,7 +57,6 @@
   "new-and-updated": "Наскоро обновени",
   "explore": "Разглеждане",
   "get-involved": "Включете се",
-  "follow-us": "Последвайте ни",
   "publish-your-app": "Публикуване",
   "documentation": "Документация",
   "statistics": "Статистика",
@@ -274,5 +273,6 @@
   "no-transactions": "Няма транзакции",
   "count-desktop-applications": "Общо приложения",
   "website-validation-instruction": "Създайте страница в <1>{{ webpage }}</1> със следния жетон: <3>{{token}}</3>. Ако страницата вече съществува, добавете жетона към нея.",
-  "category-distribution": "Изтегляния по категория"
+  "category-distribution": "Изтегляния по категория",
+  "chat": "Чат"
 }
