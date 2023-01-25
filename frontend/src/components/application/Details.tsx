@@ -227,6 +227,7 @@ const Details: FunctionComponent<Props> = ({
                       alt={t("screenshot")}
                       loading="eager"
                       priority={index === 0}
+                      placeholder="blur"
                     />
                   )
                 })}
