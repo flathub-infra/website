@@ -37,7 +37,6 @@
   "developers": "டெவலப்பர்கள்",
   "badges": "பேட்ஜ்கள்",
   "get-involved": "ஈடுபடுங்கள்",
-  "follow-us": "எங்களை பின்தொடருங்கள்",
   "open-in-new-tab": "புதிய டேப்பில் திறக்கவும்",
   "source-code": "மூல குறியீடு",
   "statistics": "புள்ளிவிவரங்கள்",
@@ -274,5 +273,6 @@
   "count-desktop-applications": "மொத்த டெஸ்க்டாப் பயன்பாடுகள்",
   "no-transactions": "பரிவர்த்தனைகள் இல்லை",
   "website-validation-instruction": "பின்வரும் டோக்கனைக் கொண்ட <1>{{ webpage }}</1> இல் ஒரு பக்கத்தை உருவாக்கவும்: <3>{{token}}</3> பக்கம் ஏற்கனவே இருந்தால், அதில் டோக்கனைச் சேர்க்கவும்.",
-  "category-distribution": "வகை விநியோகம்"
+  "category-distribution": "வகை விநியோகம்",
+  "chat": "உரையாடு"
 }

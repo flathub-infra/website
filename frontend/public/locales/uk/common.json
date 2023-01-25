@@ -97,7 +97,6 @@
   "rss-feeds": "RSS-стрічки",
   "community": "Спільнота",
   "get-involved": "Долучитися",
-  "follow-us": "Слідкуйте за нами",
   "developers": "Розробники",
   "publish-your-app": "Опублікувати свій застосунок",
   "documentation": "Документація",
@@ -274,5 +273,6 @@
   "count-desktop-applications": "Усього застосунків для комп'ютера",
   "no-transactions": "Немає транзакцій",
   "website-validation-instruction": "Створіть сторінку за адресою <1>{{ webpage }}</1>, що містить такий токен: <3>{{token}}</3> Якщо сторінка вже існує, додайте на неї токен.",
-  "category-distribution": "Розподіл за категоріями"
+  "category-distribution": "Розподіл за категоріями",
+  "chat": "Бесіда"
 }

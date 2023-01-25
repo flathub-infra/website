@@ -28,7 +28,6 @@
   "browse-apps": "Explorar aplicaciones",
   "community": "Comunidad",
   "get-involved": "Involucrarse",
-  "follow-us": "Síganos",
   "developers": "Desarrolladores",
   "publish-your-app": "Publicar su aplicación",
   "documentation": "Documentación",
@@ -274,5 +273,6 @@
   "no-transactions": "Sin transacciones",
   "website-validation-instruction": "Crea una página en<1>{{ webpage }}</1> que contenga el siguiente token: <3>{{token}}</3> Si la página ya existe, añádele el token.",
   "count-desktop-applications": "Total de las aplicaciones del escritorio",
-  "category-distribution": "Distribución de las categorías"
+  "category-distribution": "Distribución de las categorías",
+  "chat": "Chat"
 }
