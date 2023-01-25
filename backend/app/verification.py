@@ -2,10 +2,12 @@ from enum import Enum
 from typing import List, Optional, Tuple
 from uuid import uuid4
 
+import github
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
+from github.GithubException import UnknownObjectException
 from pydantic import BaseModel
 from sqlalchemy.sql import func
 
@@ -28,10 +30,22 @@ class ErrorDetail(str, Enum):
     TOKEN_NOT_PRESENT = "app_not_listed"
     # The app cannot be verified because the Flathub administrators manually blocked it.
     BLOCKED_BY_ADMINS = "blocked_by_admins"
-    # The operation requires you to be logged in.
+    # The operation requires you to be logged in to Flathub or a specific provider.
     NOT_LOGGED_IN = "not_logged_in"
     # The operation requires a different user to be logged in.
     USERNAME_DOES_NOT_MATCH = "username_does_not_match"
+    # The app ID contains a username that does not exist for its provider.
+    USER_DOES_NOT_EXIST = "user_does_not_exist"
+    # An issue occurred when connecting to the login provider.
+    PROVIDER_ERROR = "provider_error"
+    # The login provider denied access to the information needed, such as membership in the organization. This can
+    # happen when verifying by GitHub organization if the organization has restricted access to OAuth apps. See
+    # <https://docs.github.com/en/organizations/managing-oauth-access-to-your-organizations-data>.
+    PROVIDER_DENIED_ACCESS = "provider_denied_access"
+    # The currently logged in user is not a member of the required organization on a login provider.
+    NOT_ORG_MEMBER = "not_org_member"
+    # The currently logged in user is regular member, not an admin, of the required organization on a login provider.
+    NOT_ORG_ADMIN = "not_org_admin"
     # The app can't be verified because it is already verified
     APP_ALREADY_VERIFIED = "app_already_verified"
     # Website verification needs to be set up before it can be confirmed
@@ -161,6 +175,7 @@ class VerificationStatus(BaseModel):
     website: Optional[str]
     login_provider: Optional[LoginProvider]
     login_name: Optional[str]
+    login_is_organization: Optional[bool]
     detail: Optional[str]
 
 
@@ -245,6 +260,7 @@ def get_verification_status(appid: str) -> VerificationStatus:
                 method=VerificationMethod.LOGIN_PROVIDER,
                 login_provider=provider,
                 login_name=username,
+                login_is_organization=verification.login_is_organization,
             )
 
 
@@ -259,6 +275,7 @@ class AvailableMethod(BaseModel):
     website_token: Optional[str]
     login_provider: Optional[LoginProvider]
     login_name: Optional[str]
+    login_is_organization: Optional[bool]
 
 
 class AvailableMethods(BaseModel):
@@ -300,15 +317,100 @@ def get_available_methods(appid: str, login=Depends(login_state)):
 
     if provider := _get_provider_username(appid):
         provider_name, username = provider
+        organization = False
+
+        if provider_name == LoginProvider.GITHUB:
+            try:
+                user = github.Github().get_user(username)
+            except github.GithubException as e:
+                if e.status == 404:
+                    raise HTTPException(
+                        status_code=403, detail=ErrorDetail.USER_DOES_NOT_EXIST
+                    )
+                else:
+                    raise HTTPException(
+                        status_code=500, detail=ErrorDetail.PROVIDER_ERROR
+                    )
+
+            if user.type == "Organization":
+                organization = True
+
         methods.append(
             AvailableMethod(
                 method=AvailableMethodType.LOGIN_PROVIDER,
                 login_provider=provider_name,
                 login_name=username,
+                login_organization=organization,
             )
         )
 
     return AvailableMethods(methods=methods)
+
+
+def _verify_by_github(username: str, account) -> bool:
+    # For GitHub, we allow verifying by either user or organization. If it's by organization, the user must be an
+    # admin of that organization.
+
+    account = models.GithubAccount.by_user(sqldb, account)
+
+    if account is None:
+        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
+
+    try:
+        gh = github.Github()
+
+        try:
+            user = gh.get_user(username)
+        except UnknownObjectException:
+            raise HTTPException(status_code=400, detail=ErrorDetail.USER_DOES_NOT_EXIST)
+
+        if user.type == "User":
+            # Verify the username matches
+            if account.login != username:
+                raise HTTPException(
+                    status_code=401, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH
+                )
+
+            return False
+
+        elif user.type == "Organization":
+            # Verify the current user is an admin of this organization
+            user_gh = github.Github(account.token)
+            try:
+                membership = user_gh.get_user(
+                    account.login
+                ).get_organization_membership(username)
+            except github.GithubException as e:
+                if e.status == 403:
+                    raise HTTPException(
+                        status_code=403,
+                        detail=ErrorDetail.PROVIDER_DENIED_ACCESS,
+                    )
+                elif e.status == 404:
+                    raise HTTPException(
+                        status_code=403, detail=ErrorDetail.NOT_ORG_MEMBER
+                    )
+                else:
+                    raise HTTPException(
+                        status_code=500, detail=ErrorDetail.PROVIDER_ERROR
+                    )
+
+            if membership.role != "admin":
+                raise HTTPException(status_code=401, detail=ErrorDetail.NOT_ORG_ADMIN)
+
+            return True
+
+        else:
+            raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+    except github.GithubException:
+        raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+
+def _verify_by_account(username: str, account):
+    if account is None:
+        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
+    elif account.login != username:
+        raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
 
 
 @router.post("/{appid}/verify-by-login-provider", status_code=200)
@@ -323,17 +425,16 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
     (provider, username) = provider_username
+    login_is_organization = False
 
-    account = None
     if provider == LoginProvider.GITHUB:
-        account = models.GithubAccount.by_user(sqldb, login["user"])
+        login_is_organization = _verify_by_github(username, login["user"])
     elif provider == LoginProvider.GITLAB:
-        account = models.GitlabAccount.by_user(sqldb, login["user"])
+        _verify_by_account(username, models.GitlabAccount.by_user(sqldb, login["user"]))
     elif provider == LoginProvider.GNOME_GITLAB:
-        account = models.GnomeAccount.by_user(sqldb, login["user"])
-
-    if account is None or account.login != username:
-        raise HTTPException(status_code=401, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
+        _verify_by_account(username, models.GnomeAccount.by_user(sqldb, login["user"]))
+    else:
+        raise HTTPException(status_code=500)
 
     verification = models.AppVerification(
         app_id=appid,
@@ -341,9 +442,22 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
         method="login_provider",
         verified=True,
         verified_timestamp=func.now(),
+        login_is_organization=login_is_organization,
     )
     sqldb.session.merge(verification)
     sqldb.session.commit()
+
+
+class LinkResponse(BaseModel):
+    link: str
+
+
+@router.get("/request-organization-access/github", response_model=LinkResponse)
+def request_organization_access_github():
+    """Returns the URL to request access to the organization so we can verify the user's membership."""
+    return LinkResponse(
+        link=f"https://github.com/settings/connections/applications/{config.settings.github_client_id}"
+    )
 
 
 class WebsiteVerificationToken(BaseModel):
