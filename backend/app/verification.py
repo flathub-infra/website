@@ -335,7 +335,7 @@ def get_available_methods(appid: str, login=Depends(login_state)):
                 method=AvailableMethodType.LOGIN_PROVIDER,
                 login_provider=provider_name,
                 login_name=username,
-                login_organization=organization,
+                login_is_organization=organization,
             )
         )
 
@@ -352,7 +352,7 @@ def _verify_by_github(username: str, account) -> bool:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
     try:
-        gh = github.Github()
+        gh = github.Github(account.token)
 
         try:
             user = gh.get_user(username)
@@ -370,11 +370,10 @@ def _verify_by_github(username: str, account) -> bool:
 
         elif user.type == "Organization":
             # Verify the current user is an admin of this organization
-            user_gh = github.Github(account.token)
             try:
-                membership = user_gh.get_user(
-                    account.login
-                ).get_organization_membership(username)
+                membership = gh.get_user(account.login).get_organization_membership(
+                    username
+                )
             except github.GithubException as e:
                 if e.status == 403:
                     raise HTTPException(
