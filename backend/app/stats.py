@@ -300,6 +300,11 @@ def update(all_app_ids: list):
                 else:
                     stats_apps_dict[new_id]["installs_per_day"][day] = count
 
+            sorted_days = {}
+            for day in sorted(stats_apps_dict[new_id]["installs_per_day"]):
+                sorted_days[day] = stats_apps_dict[new_id]["installs_per_day"][day]
+            stats_apps_dict[new_id]["installs_per_day"] = sorted_days
+
     db.redis_conn.set("stats", orjson.dumps(stats_dict))
     db.redis_conn.mset(
         {
