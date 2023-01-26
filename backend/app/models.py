@@ -407,7 +407,7 @@ class AppVerification(Base):
         ),
         nullable=False,
     )
-    login_is_organization = Column(Boolean, nullable=False)
+    login_is_organization = Column(Boolean)
     token = Column(String)
     verified = Column(Boolean, nullable=False)
     verified_timestamp = Column(DateTime)
