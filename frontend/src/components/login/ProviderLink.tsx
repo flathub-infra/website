@@ -5,7 +5,10 @@ import { toast } from "react-toastify"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"
-import Image from "next/image"
+import { GoogleLogo } from "./GoogleLogo"
+import { GnomeLogo } from "./GnomeLogo"
+import { GitlabLogo } from "./GitlabLogo"
+import { GithubLogo } from "./GithubLogo"
 
 interface Props {
   provider: LoginProvider
@@ -60,12 +63,12 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
       className="flex w-full flex-row items-center justify-center gap-3 rounded-xl border border-textSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:opacity-75 active:bg-bgColorPrimary md:w-auto"
       onClick={onClick}
     >
-      <Image
-        src={`/img/login/${provider.method}-logo.svg`}
-        width="60"
-        height="60"
-        alt={loginText}
-      />
+      <div className="flex h-16 w-16 items-center justify-center">
+        {provider.method === "github" && <GithubLogo />}
+        {provider.method === "google" && <GoogleLogo />}
+        {provider.method === "gnome" && <GnomeLogo />}
+        {provider.method === "gitlab" && <GitlabLogo />}
+      </div>
       {loginText}
     </button>
   )
