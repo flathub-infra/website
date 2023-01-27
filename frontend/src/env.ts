@@ -123,3 +123,5 @@ export const APP_VERIFICATION_CONFIRM_WEBSITE = (id: string): string =>
 
 export const APP_VERIFICATION_UNVERIFY = (id: string): string =>
   `${BASE_URI}/verification/${id}/unverify`
+
+export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
