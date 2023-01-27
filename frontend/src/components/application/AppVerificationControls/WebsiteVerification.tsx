@@ -6,6 +6,7 @@ import {
   WebsiteVerificationConfirmResult,
 } from "src/asyncs/app"
 import Button from "src/components/Button"
+import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
 import { useAsync } from "src/hooks/useAsync"
 import { VerificationMethodWebsite } from "src/types/VerificationAvailableMethods"
@@ -60,27 +61,30 @@ const WebsiteVerification: FunctionComponent<Props> = ({
       resultInfo = null
     } else if (confirmResult.detail == "server_returned_error") {
       resultInfo = (
-        <div className="text-textSecondary">
-          {t("server-returned-status-code", {
+        <InlineError
+          shown={true}
+          error={t("server-returned-status-code", {
             code: confirmResult.status_code,
           })}
-        </div>
+        ></InlineError>
       )
     } else if (confirmResult.detail == "failed_to_connect") {
       resultInfo = (
-        <div className="text-textSecondary">
-          {t("verification-failed-to-connect", {
+        <InlineError
+          shown={true}
+          error={t("verification-failed-to-connect", {
             domain: method.website,
           })}
-        </div>
+        ></InlineError>
       )
     } else if (confirmResult.detail == "app_not_listed") {
       resultInfo = (
-        <div className="text-textSecondary">
-          {t("failed-to-find-token", {
+        <InlineError
+          shown={true}
+          error={t("failed-to-find-token", {
             domain: method.website,
           })}
-        </div>
+        ></InlineError>
       )
     } else {
       resultInfo = (
