@@ -20,6 +20,7 @@ import {
   EOL_REBASE_URL,
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
+  REQUEST_ORG_ACCESS_LINK_GITHUB,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -235,6 +236,25 @@ export async function fetchLoginProviders(): Promise<LoginProvider[]> {
   }
 
   return await providersRes.json()
+}
+
+export async function fetchGithubRequestOrgAccessLink(): Promise<string> {
+  let providersRes: Response
+  try {
+    providersRes = await fetch(REQUEST_ORG_ACCESS_LINK_GITHUB)
+
+    if (!providersRes.ok) {
+      console.log(
+        `No request organization access link fetched, status ${providersRes.status}`,
+      )
+      return null
+    }
+  } catch (error) {
+    console.log(error)
+    return null
+  }
+
+  return (await providersRes.json()).link
 }
 
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {

@@ -264,6 +264,16 @@ class AvailableMethodType(Enum):
     LOGIN_PROVIDER = "login_provider"
 
 
+class AvailableLoginMethodStatus(Enum):
+    READY = "ready"
+    USER_DOES_NOT_EXIST = ErrorDetail.USER_DOES_NOT_EXIST
+    USERNAME_DOES_NOT_MATCH = ErrorDetail.USERNAME_DOES_NOT_MATCH
+    PROVIDER_DENIED_ACCESS = ErrorDetail.PROVIDER_DENIED_ACCESS
+    NOT_LOGGED_IN = ErrorDetail.NOT_LOGGED_IN
+    NOT_ORG_MEMBER = ErrorDetail.NOT_ORG_MEMBER
+    NOT_ORG_ADMIN = ErrorDetail.NOT_ORG_ADMIN
+
+
 class AvailableMethod(BaseModel):
     method: AvailableMethodType
     website: Optional[str]
@@ -271,6 +281,7 @@ class AvailableMethod(BaseModel):
     login_provider: Optional[LoginProvider]
     login_name: Optional[str]
     login_is_organization: Optional[bool]
+    login_status: Optional[AvailableLoginMethodStatus]
 
 
 class AvailableMethods(BaseModel):
@@ -311,31 +322,29 @@ def get_available_methods(appid: str, login=Depends(login_state)):
         )
 
     if provider := _get_provider_username(appid):
+        login_is_organization = False
+
+        try:
+            login_is_organization = _check_login_provider_verification(appid, login)
+            status = AvailableLoginMethodStatus.READY
+        except HTTPException as e:
+            status = e.detail
+            if e.detail in [
+                ErrorDetail.PROVIDER_DENIED_ACCESS,
+                ErrorDetail.NOT_ORG_MEMBER,
+                ErrorDetail.NOT_ORG_ADMIN,
+            ]:
+                login_is_organization = True
+
         provider_name, username = provider
-        organization = False
-
-        if provider_name == LoginProvider.GITHUB:
-            try:
-                user = github.Github().get_user(username)
-            except github.GithubException as e:
-                if e.status == 404:
-                    raise HTTPException(
-                        status_code=403, detail=ErrorDetail.USER_DOES_NOT_EXIST
-                    )
-                else:
-                    raise HTTPException(
-                        status_code=500, detail=ErrorDetail.PROVIDER_ERROR
-                    )
-
-            if user.type == "Organization":
-                organization = True
 
         methods.append(
             AvailableMethod(
                 method=AvailableMethodType.LOGIN_PROVIDER,
                 login_provider=provider_name,
                 login_name=username,
-                login_is_organization=organization,
+                login_is_organization=login_is_organization,
+                login_status=status,
             )
         )
 
@@ -407,11 +416,7 @@ def _verify_by_account(username: str, account):
         raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
 
 
-@router.post("/{appid}/verify-by-login-provider", status_code=200)
-def verify_by_login_provider(appid: str, login=Depends(login_state)):
-    """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
-    someone else, marks the app as verified."""
-
+def _check_login_provider_verification(appid: str, login) -> bool:
     _check_app_id(appid, login)
 
     provider_username = _get_provider_username(appid)
@@ -429,6 +434,16 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
         _verify_by_account(username, models.GnomeAccount.by_user(sqldb, login["user"]))
     else:
         raise HTTPException(status_code=500)
+
+    return login_is_organization
+
+
+@router.post("/{appid}/verify-by-login-provider", status_code=200)
+def verify_by_login_provider(appid: str, login=Depends(login_state)):
+    """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
+    someone else, marks the app as verified."""
+
+    login_is_organization = _check_login_provider_verification(appid, login)
 
     verification = models.AppVerification(
         app_id=appid,

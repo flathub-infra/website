@@ -37,7 +37,10 @@ const StatusInfo: FunctionComponent<{ status: VerificationStatus }> = ({
       return (
         <Trans i18nKey="app-is-currently-verified-by-login-provider">
           Your app is currently verified by your login
-          <span className="">@{{ login_name: status.login_name }}</span> on
+          <span className="font-medium">
+            @{{ login_name: status.login_name }}
+          </span>
+          on
           <span className="font-medium">
             {{
               login_provider: verificationProviderToHumanReadable(
@@ -159,6 +162,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
                 appId={app.id}
                 method={methodType}
                 onVerified={doFetch}
+                onReloadNeeded={doFetch}
               ></LoginVerification>
             )
           }
