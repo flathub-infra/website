@@ -259,7 +259,7 @@
   "login-provider-verification-switch-account": "You are currently logged in to <1>{{login_provider}}</1> as <3>@{{current_name}}</3>. Log in as <5>@{{required_name}}</5> to verify <7>{{appId}}</7> by login provider, or choose another method if one is available.",
   "login-provider-verification-not-org-admin": "You are currently logged in to <1>{{login_provider}}</1> as <3>@{{current_name}}</3>. This account is not an admin of the <5>@{{organization}}</5> organization. To verify this app, you must request admin privileges in the organization or sign into an account that already has them.",
   "login-provider-verification-not-org-member": "You are currently logged in to <1>{{login_provider}}</1> as <3>@{{current_name}}</3>. This account is not a member of the <5>@{{organization}}</5> organization. To verify this app, you must request admin privileges in the organization or sign into an account that already has them.",
-  "login-provider-verification-failed": "The verification requirements were still not met.",
+  "login-provider-verification-failed": "The verification requirements were not met.",
   "login-provider-verification-user-does-not-exist": "The account <1>@{{required_name}}</1> does not exist on <3>{{login_provider}}</3>. You must claim this account name and use it to verify your app, or ideally, choose an app ID that you have control over. See <5>the Flatpak documentation</5> for information about good app IDs.",
   "try-again": "Try Again",
   "server-returned-status-code": "The server returned HTTP {{code}}.",
