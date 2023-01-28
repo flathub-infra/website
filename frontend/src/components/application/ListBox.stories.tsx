@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import ListBox from "./ListBox"
 import { faker } from "@faker-js/faker"
 import { HiCodeBracket } from "react-icons/hi2"
@@ -7,7 +7,7 @@ import { HiCodeBracket } from "react-icons/hi2"
 export default {
   title: "Components/Application/ListBox",
   component: ListBox,
-} as ComponentMeta<typeof ListBox>
+} as Meta<typeof ListBox>
 
 export const singleLink = () => {
   const items = [

@@ -1,11 +1,11 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Button from "./Button"
 
 export default {
   title: "Components/Button",
   component: Button,
-} as ComponentMeta<typeof Button>
+} as Meta<typeof Button>
 
 export const Primary = () => {
   return <Button>Test</Button>

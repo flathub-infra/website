@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import CardInfo from "./CardInfo"
 import { faker } from "@faker-js/faker"
 import { PaymentCard } from "src/types/Payment"
@@ -7,7 +7,7 @@ import { PaymentCard } from "src/types/Payment"
 export default {
   title: "Components/Payment/Cards/CardInfo",
   component: CardInfo,
-} as ComponentMeta<typeof CardInfo>
+} as Meta<typeof CardInfo>
 
 export const mastercard = () => {
   const card: PaymentCard = {
