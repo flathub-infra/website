@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import CardSelect from "./CardSelect"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
@@ -9,7 +9,7 @@ import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
 export default {
   title: "Components/Payment/CardSelect",
   component: CardSelect,
-} as ComponentMeta<typeof CardSelect>
+} as Meta<typeof CardSelect>
 
 export const Generated = () => {
   const stripePromise = loadStripe("STRIPE_PUBLISHABLE_API_KEY")

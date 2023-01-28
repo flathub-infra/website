@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Verification from "./Verification"
 import {
   VerificationStatusLoginProvider,
@@ -9,7 +9,7 @@ import {
 export default {
   title: "Components/Application/Verification",
   component: Verification,
-} as ComponentMeta<typeof Verification>
+} as Meta<typeof Verification>
 
 export const manualVerification = () => {
   const verificationStatus: VerificationStatusManual = {

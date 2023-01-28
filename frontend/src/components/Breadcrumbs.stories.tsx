@@ -1,11 +1,11 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Breadcrumbs from "./Breadcrumbs"
 
 export default {
   title: "Components/Breadcrumbs",
   component: Breadcrumbs,
-} as ComponentMeta<typeof Breadcrumbs>
+} as Meta<typeof Breadcrumbs>
 
 export const Generated = () => {
   const pages = [

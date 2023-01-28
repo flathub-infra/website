@@ -1,11 +1,11 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Spinner from "./Spinner"
 
 export default {
   title: "Components/Spinner",
   component: Spinner,
-} as ComponentMeta<typeof Spinner>
+} as Meta<typeof Spinner>
 
 export const S = () => {
   return <Spinner size="s" text="Loading text..."></Spinner>

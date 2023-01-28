@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Details from "./Details"
 import { faker } from "@faker-js/faker"
 import { AppStats } from "../../types/AppStats"
@@ -9,7 +9,7 @@ import { Summary } from "../../types/Summary"
 export default {
   title: "Components/Application/Details",
   component: Details,
-} as ComponentMeta<typeof Details>
+} as Meta<typeof Details>
 
 export const Generated = () => {
   const developerApps = [

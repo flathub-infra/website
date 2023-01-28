@@ -1,11 +1,11 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Pagination from "./Pagination"
 
 export default {
   title: "Components/Pagination",
   component: Pagination,
-} as ComponentMeta<typeof Pagination>
+} as Meta<typeof Pagination>
 
 export const all = () => {
   return (

@@ -1,12 +1,12 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import ApplicationSection from "./ApplicationSection"
 import { faker } from "@faker-js/faker"
 
 export default {
   title: "Components/Application/ApplicationSection",
   component: ApplicationSection,
-} as ComponentMeta<typeof ApplicationSection>
+} as Meta<typeof ApplicationSection>
 
 export const Generated = () => {
   const popular = [...Array(faker.datatype.number({ min: 1, max: 30 }))].map(

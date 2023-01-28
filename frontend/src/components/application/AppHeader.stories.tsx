@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
 import { Appstream } from "../../../src/types/Appstream"
@@ -8,7 +8,7 @@ import { VendingSetup } from "../../../src/types/Vending"
 export default {
   title: "Components/Application/AppHeader",
   component: AppHeader,
-} as ComponentMeta<typeof AppHeader>
+} as Meta<typeof AppHeader>
 
 export const Install = () => {
   const app = {

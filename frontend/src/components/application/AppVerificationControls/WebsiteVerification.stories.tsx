@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import WebsiteVerification from "./WebsiteVerification"
 import { VerificationMethodWebsite } from "../../../types/VerificationAvailableMethods"
@@ -7,7 +7,7 @@ import { VerificationMethodWebsite } from "../../../types/VerificationAvailableM
 export default {
   title: "Components/Application/AppVerificationControls/WebsiteVerification",
   component: WebsiteVerification,
-} as ComponentMeta<typeof WebsiteVerification>
+} as Meta<typeof WebsiteVerification>
 
 export const NoTokenFirstStep = () => {
   const method: VerificationMethodWebsite = {
