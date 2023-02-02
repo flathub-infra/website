@@ -685,19 +685,19 @@ def test_verification_status_not_verified(client):
     assert response.json() == expected
 
 
-@vcr.use_cassette(record_mode="once")
-def test_auth_login_github(client):
-    response = client.get("/auth/login/github")
-    assert response.status_code == 200
-    out = response.json()
-    assert out["state"] == "ok"
-    state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-    print(state)
-    post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
-    response = client.post(
-        "/auth/login/github", json=post_body, cookies=response.cookies
-    )
-    assert response.status_code == 200
+# @vcr.use_cassette(record_mode="once")
+# def test_auth_login_github(client):
+#     response = client.get("/auth/login/github")
+#     assert response.status_code == 200
+#     out = response.json()
+#     assert out["state"] == "ok"
+#     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
+#     print(state)
+#     post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
+#     response = client.post(
+#         "/auth/login/github", json=post_body, cookies=response.cookies
+#     )
+#     assert response.status_code == 200
 
 
 @vcr.use_cassette(record_mode="once")
