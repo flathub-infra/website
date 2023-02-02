@@ -17,7 +17,7 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 
 from . import db as apps_db
-from . import utils
+from . import config, utils
 
 Base = declarative_base()
 
@@ -83,7 +83,10 @@ class FlathubUser(Base):
             apps = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
             for repo in GithubRepository.all_by_account(db, gha):
                 if utils.is_valid_app_id(repo.reponame):
-                    if repo.reponame in apps:
+                    if config.settings.env == "test":
+                        if repo.reponame in apps:
+                            flatpaks.add(repo.reponame)
+                    else:
                         flatpaks.add(repo.reponame)
         return flatpaks
 
