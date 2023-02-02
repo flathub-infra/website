@@ -135,10 +135,6 @@ def get_login_kinds():
             "method": "gnome",
             "name": "GNOME",
         },
-        {
-            "method": "google",
-            "name": "Google",
-        },
     ]
 
 
@@ -229,33 +225,33 @@ def start_gnome_flow(request: Request, login=Depends(login_state)):
     )
 
 
-@router.get("/login/google")
-def start_google_flow(request: Request, login=Depends(login_state)):
-    """
-    Starts a google login flow.  This will set session cookie values and
-    will return a redirect.  The frontend is expected to save the cookie
-    for use later, and follow the redirect to Google
+# @router.get("/login/google")
+# def start_google_flow(request: Request, login=Depends(login_state)):
+#     """
+#     Starts a google login flow.  This will set session cookie values and
+#     will return a redirect.  The frontend is expected to save the cookie
+#     for use later, and follow the redirect to Google
 
-    Upon return from Google to the frontend, the frontend should POST to this
-    endpoint with the relevant data from Google
+#     Upon return from Google to the frontend, the frontend should POST to this
+#     endpoint with the relevant data from Google
 
-    If the user is already logged in, and has a valid google token stored,
-    then this will return an error instead.
-    """
-    return start_oauth_flow(
-        request,
-        login,
-        "google",
-        models.GoogleAccount,
-        models.GoogleFlowToken,
-        "https://accounts.google.com/o/oauth2/v2/auth",
-        {
-            "client_id": config.settings.google_client_id,
-            "redirect_uri": config.settings.google_return_url,
-            "scope": "openid email",
-            "response_type": "code",
-        },
-    )
+#     If the user is already logged in, and has a valid google token stored,
+#     then this will return an error instead.
+#     """
+#     return start_oauth_flow(
+#         request,
+#         login,
+#         "google",
+#         models.GoogleAccount,
+#         models.GoogleFlowToken,
+#         "https://accounts.google.com/o/oauth2/v2/auth",
+#         {
+#             "client_id": config.settings.google_client_id,
+#             "redirect_uri": config.settings.google_return_url,
+#             "scope": "openid email",
+#             "response_type": "code",
+#         },
+#     )
 
 
 def start_oauth_flow(
