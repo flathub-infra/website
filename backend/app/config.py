@@ -48,6 +48,7 @@ class Settings(BaseSettings):
     stripe_webhook_key: Optional[str] = None
     flat_manager_secret: str = "c2VjcmV0"
     update_token_secret: str = "c2VjcmV0"
+    env: str = "production"
 
 
 settings = Settings()
