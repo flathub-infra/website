@@ -133,7 +133,7 @@ def get_login_kinds():
         },
         {
             "method": "gnome",
-            "name": "GNOME",
+            "name": "GNOME GitLab",
         },
     ]
 
