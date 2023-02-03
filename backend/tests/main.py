@@ -25,7 +25,9 @@ sys.path.append(ROOT_DIR)
 workspace = None
 
 
-vcr = vcr.VCR(cassette_library_dir="tests/cassettes", ignore_hosts=["localhost", "testserver"])
+vcr = vcr.VCR(
+    cassette_library_dir="tests/cassettes", ignore_hosts=["localhost", "testserver"]
+)
 
 
 class Override:

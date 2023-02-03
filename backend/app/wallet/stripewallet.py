@@ -182,7 +182,7 @@ class StripeWallet(WalletBase):
             db.session.flush()
 
             # Now iterate the recipients and add any transfers in which we need
-            for (account_id, amount) in recipients:
+            for account_id, amount in recipients:
                 transfer = models.StripePendingTransfer(
                     stripe_transaction=stxn.id,
                     recipient=account_id,
@@ -295,7 +295,7 @@ class StripeWallet(WalletBase):
         db.session.add(txn)
         db.session.flush()
 
-        for (idx, row) in enumerate(transaction.details):
+        for idx, row in enumerate(transaction.details):
             db.session.add(
                 models.TransactionRow(
                     txn=txn.id,
