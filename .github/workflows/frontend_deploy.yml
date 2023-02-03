@@ -29,7 +29,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push beta image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: frontend
           file: frontend/Dockerfile
@@ -64,7 +64,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push production image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: frontend
           file: frontend/Dockerfile
