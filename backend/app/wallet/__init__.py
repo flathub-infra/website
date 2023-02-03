@@ -30,6 +30,7 @@ except ImportError:
 
 # Utilities and types
 
+
 # @app.exception_handler(WalletError) (done in register function below)
 async def walleterror_exception_handler(_request: Request, exc: WalletError):
     """

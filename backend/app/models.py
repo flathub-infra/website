@@ -531,7 +531,7 @@ class Transaction(Base):
         )
         db.session.add(txn)
         db.session.flush()
-        for (idx, (appid, value)) in enumerate(splits):
+        for idx, (appid, value) in enumerate(splits):
             if idx == 0:
                 row_kind = kind
             elif appid == "org.flathub.FlatHub":

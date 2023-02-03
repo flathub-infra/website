@@ -322,7 +322,7 @@ def _load_platforms(with_stripe: bool) -> Dict[str, Platform]:
             data = json.load(file_)
         aliases = set()
         ret = {}
-        for (name, item) in data.items():
+        for name, item in data.items():
             ret[name] = Platform(
                 depends=item.get("depends"),
                 aliases=item["aliases"],
@@ -351,7 +351,8 @@ def is_valid_app_id(appid: str) -> bool:
     """Ensures that an app ID is correctly formed. The requirements are taken from the D-Bus spec for well-known bus
     names [1], except we require at least 3 segments rather than 2.
 
-    [1] https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus"""
+    [1] https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
+    """
 
     if len(appid) > 255:
         return False
