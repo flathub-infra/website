@@ -16,8 +16,9 @@ from sqlalchemy import (
 )
 from sqlalchemy.ext.declarative import declarative_base
 
+from . import config
 from . import db as apps_db
-from . import config, utils
+from . import utils
 
 Base = declarative_base()
 
