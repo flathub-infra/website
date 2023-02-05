@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({
       projectgroupApps: projectgroupApps ?? [],
       projectgroup,
     },
-    revalidate: 3600,
+    revalidate: 900,
   }
 }
 

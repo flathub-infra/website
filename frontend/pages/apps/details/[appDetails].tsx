@@ -109,7 +109,7 @@ export const getStaticProps: GetStaticProps = async ({
       projectgroupApps: projectgroupApps ?? [],
       verificationStatus,
     },
-    revalidate: 3600,
+    revalidate: 900,
   }
 }
 
