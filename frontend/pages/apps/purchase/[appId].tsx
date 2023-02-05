@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async ({
       app,
       vendingConfig,
     },
-    revalidate: 3600,
+    revalidate: 900,
   }
 }
 
