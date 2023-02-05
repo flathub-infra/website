@@ -9,12 +9,17 @@ import { GoogleLogo } from "./GoogleLogo"
 import { GnomeLogo } from "./GnomeLogo"
 import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
+import { classNames } from "src/styling"
 
 interface Props {
   provider: LoginProvider
+  inACard?: boolean
 }
 
-const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
+const ProviderLink: FunctionComponent<Props> = ({
+  provider,
+  inACard = false,
+}) => {
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -60,7 +65,11 @@ const ProviderLink: FunctionComponent<Props> = ({ provider }) => {
 
   return (
     <button
-      className="flex w-full flex-row items-center justify-center gap-3 rounded-xl border border-textSecondary bg-bgColorSecondary p-5 shadow-md hover:cursor-pointer hover:opacity-75 active:bg-bgColorPrimary"
+      className={classNames(
+        "flex w-full flex-row items-center justify-center gap-3 rounded-xl ",
+        "p-5 shadow-md hover:cursor-pointer hover:opacity-60 active:bg-bgColorPrimary",
+        inACard ? "bg-bgColorPrimary" : "bg-bgColorSecondary",
+      )}
       onClick={onClick}
     >
       <div className="flex h-16 w-16 items-center justify-center">

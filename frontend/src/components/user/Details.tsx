@@ -29,7 +29,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex w-full items-center gap-3 rounded-xl bg-bgColorPrimary py-2 px-6 text-textPrimary md:w-auto"
+          className="flex w-full items-center gap-3 rounded-xl bg-bgColorPrimary py-2 px-6 text-textPrimary shadow-md md:w-auto"
         >
           <Image
             src={authData.avatar}
@@ -51,13 +51,15 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const linkOptions = logins
     .filter((provider) => !user.info.auths[provider.method])
     .map((provider) => (
-      <ProviderLink key={provider.method} provider={provider} />
+      <ProviderLink key={provider.method} provider={provider} inACard />
     ))
 
   const loginSection = linkOptions.length ? (
     <div className="mx-4 my-auto">
       <h3>{t("link-more-accounts")}</h3>
-      <div className="flex flex-row flex-wrap gap-3">{linkOptions}</div>
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+        {linkOptions}
+      </div>
     </div>
   ) : (
     <></>

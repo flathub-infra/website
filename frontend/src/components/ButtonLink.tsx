@@ -45,15 +45,14 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
       destructive:
         "disabled:borden-none disabled:text-gray-100 enabled:hover:bg-colorDanger enabled:hover:text-gray-100",
       secondary:
-        "disabled:border-none disabled:text-gray-100 disabled:bg-gray-500 enabled:hover:opacity-50",
-      primary: " disabled:bg-gray-400 enabled:hover:opacity-75",
+        "disabled:border-none disabled:text-gray-100 disabled:bg-gray-500 enabled:hover:opacity-60",
+      primary: "disabled:bg-gray-400 enabled:hover:opacity-75",
     }[variant]
 
     const variantClass = {
       destructive:
         "bg-bgColorSecondary text-colorDanger border border-colorDanger",
-      secondary:
-        "bg-bgColorSecondary text-textSecondary border border-textSecondary",
+      secondary: "bg-bgColorSecondary text-textSecondary",
       primary: "bg-colorPrimary text-gray-100",
     }[variant]
 
