@@ -18,22 +18,20 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
           <Image
             src={iconUrl}
             alt={t("app-logo", { "app-name": appName })}
-            width={128}
-            height={128}
+            layout="fill"
           />
         ) : (
           <img
             src={iconUrl}
             alt={t("app-logo", { "app-name": appName })}
-            className="my-8 mx-auto block h-32 w-32 self-center"
+            className="mx-auto block self-center"
           />
         )
       ) : (
         <Image
           src="/img/flathub-logo.png"
           alt={t("app-logo", { "app-name": appName })}
-          width={128}
-          height={128}
+          layout="fill"
         />
       )}
     </>

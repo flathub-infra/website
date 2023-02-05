@@ -12,9 +12,9 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
   <Link
     href={`/apps/details/${application.id}`}
     passHref
-    className="flex h-[160px] min-w-0 gap-4 rounded-xl bg-bgColorSecondary p-4 shadow-md duration-500 hover:cursor-pointer hover:no-underline hover:shadow-xl hover:brightness-95 active:bg-bgColorPrimary"
+    className="flex min-w-0 items-center gap-4 rounded-xl bg-bgColorSecondary p-4 shadow-md duration-500 hover:cursor-pointer hover:no-underline hover:shadow-xl hover:brightness-95 active:bg-bgColorPrimary"
   >
-    <div className="flex h-[128px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md">
+    <div className="relative h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[128px] md:w-[128px]">
       <LogoImage iconUrl={application.icon} appName={application.name} />
     </div>
     <div className="flex flex-col justify-center overflow-hidden">
