@@ -22,7 +22,9 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, models
+from . import config
+from . import db as apps_db
+from . import models
 
 
 class LoginState(str, Enum):
@@ -760,10 +762,16 @@ def get_userinfo(login=Depends(login_state)):
     }
     ret["auths"] = {}
 
-    ret["dev-flatpaks"] = ret["dev-flatpaks"].union(user.dev_flatpaks(db))
-    ret["owned-flatpaks"] = {
-        app.app_id for app in models.UserOwnedApp.all_owned_by_user(db, user)
+    appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
+    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    owned_flatpaks = {
+        app.app_id
+        for app in models.UserOwnedApp.all_owned_by_user(db, user)
+        if app.app_id in appstream
     }
+
+    ret["dev-flatpaks"] = ret["dev-flatpaks"].union(dev_flatpaks)
+    ret["owned-flatpaks"] = owned_flatpaks
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:
