@@ -276,11 +276,9 @@ def start_oauth_flow(
             # and send them back with the same in-progress login
             pass
         else:
-            # Already mid-flow to something else
-            return JSONResponse(
-                {"state": "error", "error": "User is mid-login-flow elsewhere"},
-                status_code=400,
-            )
+            # Just assume things will work out for the best
+            pass
+
     user = login["user"]
     if user is not None:
         account = account_model.by_user(db, user)
