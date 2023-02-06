@@ -14,7 +14,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@floating-ui/react-dom-interactions": "^0.10.3",
+    "@floating-ui/react-dom-interactions": "^0.13.3",
     "@headlessui/react": "^1.7.7",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@next/font": "^13.1.5",
