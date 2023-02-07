@@ -374,8 +374,8 @@ def _verify_by_github(username: str, account) -> bool:
             raise HTTPException(status_code=400, detail=ErrorDetail.USER_DOES_NOT_EXIST)
 
         if user.type == "User":
-            # Verify the username matches
-            if account.login != username:
+            # Verify the username matches. We use .lower() because GitHub usernames are case insensitive.
+            if account.login.lower() != username.lower():
                 raise HTTPException(
                     status_code=401, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH
                 )
@@ -414,10 +414,12 @@ def _verify_by_github(username: str, account) -> bool:
         raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
 
-def _verify_by_account(username: str, account):
+def _verify_by_account(username: str, account, caseSensitive: bool):
     if account is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    elif account.login != username:
+    elif account.login.lower() != username.lower() or (
+        caseSensitive and account.login != username
+    ):
         raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
 
 
@@ -434,9 +436,13 @@ def _check_login_provider_verification(appid: str, login) -> bool:
     if provider == LoginProvider.GITHUB:
         login_is_organization = _verify_by_github(username, login["user"])
     elif provider == LoginProvider.GITLAB:
-        _verify_by_account(username, models.GitlabAccount.by_user(sqldb, login["user"]))
+        _verify_by_account(
+            username, models.GitlabAccount.by_user(sqldb, login["user"]), False
+        )
     elif provider == LoginProvider.GNOME_GITLAB:
-        _verify_by_account(username, models.GnomeAccount.by_user(sqldb, login["user"]))
+        _verify_by_account(
+            username, models.GnomeAccount.by_user(sqldb, login["user"]), False
+        )
     else:
         raise HTTPException(status_code=500)
 
