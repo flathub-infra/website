@@ -3,14 +3,20 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 from uuid import uuid4
 
+import gi
 import jwt
-from fastapi import APIRouter, Body, Depends, FastAPI
+from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
 from . import config, logins, models
+from .db import get_json_key
 from .verification import VerificationStatus, get_verification_status
+
+gi.require_version("AppStream", "1.0")
+
+from gi.repository import AppStream
 
 router = APIRouter(prefix="/purchases")
 
@@ -46,7 +52,14 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     if verification.verified:
         result.verification = verification
 
-    # TODO: Use the license heuristic in <https://github.com/flathub/website/pull/832> to set result.is_free_software
+    # Determine whether the app is FOSS
+    appstream = get_json_key(f"apps:{app_id}")
+    if appstream is None:
+        raise HTTPException(status_code=404, detail=f"Application {app_id} not found")
+
+    app_licence = appstream.get("project_license", "")
+    if app_licence and AppStream.license_is_free_license(app_licence):
+        result.is_free_software = True
 
     return result
 
