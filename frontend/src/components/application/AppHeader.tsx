@@ -25,20 +25,20 @@ export function AppHeader({
   const { t } = useTranslation()
 
   return (
-    <header className="col-start-2 flex w-full flex-col gap-8 py-7 md:flex-row">
+    <header className="col-start-2 flex w-full flex-col gap-4 py-7 md:flex-row">
       {app.icon && (
-        <div className="m-2 flex h-[64px] w-[64px] self-center drop-shadow-md md:h-[128px] md:w-[128px]">
+        <div className="m-2 flex h-[128px] w-[128px] self-center drop-shadow-md">
           <LogoImage iconUrl={app.icon} appName={app.name} />
         </div>
       )}
 
       <div className="mx-3 my-auto">
-        <div className="mb-3 flex space-x-4">
+        <div className="mb-2 flex space-x-3">
           <h2 className="my-0">{app.name}</h2>
           <Verification verificationStatus={verificationStatus}></Verification>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-sm font-light">
+          <div className="text-sm font-light text-textSecondary">
             {t("by", {
               developer: app.developer_name,
             })}
@@ -46,7 +46,7 @@ export function AppHeader({
         )}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 md:ml-auto">
+      <div className="grid items-center gap-4 sm:grid-cols-2 md:ml-auto">
         <Button className="w-full" onClick={installClicked}>
           {t("install")}
         </Button>
