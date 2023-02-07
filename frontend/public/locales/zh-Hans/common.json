@@ -273,5 +273,6 @@
   "failed-to-find-token": "无法从 {{domain}} 找到响应的令牌。",
   "unverify-app-prompt": "取消验证 {{appId}}？",
   "count-desktop-applications": "桌面应用总数",
-  "category-distribution": "品类分布"
+  "category-distribution": "品类分布",
+  "chat": "聊天"
 }

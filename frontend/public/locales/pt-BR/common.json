@@ -273,5 +273,6 @@
   "count-desktop-applications": "Total de aplicativos de desktop",
   "no-transactions": "Sem transações",
   "website-validation-instruction": "Crie uma página em <1>{{ webpage }}</1> contendo o seguinte token: <3>{{token}}</3>. Se a página já existir, adicione o token a ela.",
-  "category-distribution": "Distribuição por categoria"
+  "category-distribution": "Distribuição por categoria",
+  "chat": "Chat"
 }

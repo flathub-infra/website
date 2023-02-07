@@ -4,5 +4,6 @@
   "explore": "Explore",
   "publish": "Publish",
   "forum": "Forum",
-  "about": "About"
+  "about": "About",
+  "about-description": "Flathub aims to be the place to get and distribute apps for Linux. It is powered by Flatpak which allows Flathub apps to run on almost any Linux distribution."
 }

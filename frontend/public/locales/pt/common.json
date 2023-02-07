@@ -273,5 +273,6 @@
   "category-distribution": "Distribuição por categoria",
   "unverify-app-prompt": "Retirar verificação de {{appId}}?",
   "begin": "Começar",
-  "failed-to-find-token": "Falha ao encontrar token em resposta de {{domain}}."
+  "failed-to-find-token": "Falha ao encontrar token em resposta de {{domain}}.",
+  "chat": "Chat"
 }
