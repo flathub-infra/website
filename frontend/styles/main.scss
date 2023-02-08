@@ -142,11 +142,9 @@ a {
 
     background-color: var(--bg-color-secondary) !important;
     color: var(--link-color) !important;
-    border: 1px solid var(--text-secondary) !important;
 
     &:hover {
-      background-color: var(--color-primary) !important;
-      color: var(--white-10) !important;
+      background-color: var(--bg-color-primary) !important;
     }
 
     &.control-prev {
