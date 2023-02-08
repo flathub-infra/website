@@ -52,6 +52,11 @@ const nextConfig = (phase) => ({
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/apps/details/:path*",
+        destination: "/apps/:path*",
+        permanent: true,
+      },
     ]
   },
   async headers() {
