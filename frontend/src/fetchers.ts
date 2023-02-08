@@ -132,6 +132,7 @@ export default async function fetchCollection(
       break
     case Collections.verified:
       collectionURL = VERIFIED_APPS_URL
+      break
     default:
       collectionURL = ""
   }
