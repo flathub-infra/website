@@ -70,7 +70,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     Collections.popular,
     APPS_IN_PREVIEW_COUNT,
   )
-  const verified = await fetchCollection(Collections.verified)
+  const verified = await fetchCollection(
+    Collections.verified,
+    APPS_IN_PREVIEW_COUNT,
+  )
 
   return {
     props: {
