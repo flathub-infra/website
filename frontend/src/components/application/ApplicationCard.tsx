@@ -10,7 +10,7 @@ interface Props {
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
   <Link
-    href={`/apps/details/${application.id}`}
+    href={`/apps/${application.id}`}
     passHref
     className="flex min-w-0 items-center gap-4 rounded-xl bg-bgColorSecondary p-4 shadow-md duration-500 hover:cursor-pointer hover:no-underline hover:shadow-xl hover:brightness-95 active:bg-bgColorPrimary"
   >
