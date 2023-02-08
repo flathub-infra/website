@@ -207,7 +207,8 @@ def get_recently_added(limit: int = 100):
 
 
 @app.get("/collection/verified")
-def get_verified():
+@app.get("/collection/verified/{limit}")
+def get_verified(limit: int = 100):
     verified = verification.get_verified_apps()
     appids = [x.app_id for x in verified]
     result = [utils.get_listing_app(f"apps:{appid}") for appid in appids]
