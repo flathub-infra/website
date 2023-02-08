@@ -9,9 +9,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Trans, useTranslation } from "next-i18next"
 
 const badgeExampleCode =
-  "<a href='https://flathub.org/apps/details/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://flathub.org/assets/badges/flathub-badge-en.png'/></a>"
+  "<a href='https://flathub.org/apps/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png'/></a>"
 const badgeExampleCodeMoinMoin =
-  "[[https://flathub.org/apps/details/org.gimp.GIMP|{{https://flathub.org/assets/badges/flathub-badge-en.png|Download on Flathub|width=240,align=middle}}]]"
+  "[[https://flathub.org/apps/org.gimp.GIMP|{{https://dl.flathub.org/assets/badges/flathub-badge-en.png|Download on Flathub|width=240,align=middle}}]]"
 
 const Badges = () => {
   const { t } = useTranslation()
@@ -37,7 +37,9 @@ const Badges = () => {
             <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
-                <a href="/assets/badges/flathub-badge-en.svg">svg format</a>
+                <a href="https://dl.flathub.org/assets/badges/flathub-badge-en.svg">
+                  svg format
+                </a>
               </Trans>
             </h6>
           </div>
@@ -53,7 +55,9 @@ const Badges = () => {
             <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
-                <a href="/assets/badges/flathub-badge-i-en.svg">svg format</a>
+                <a href="https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg">
+                  svg format
+                </a>
               </Trans>
             </h6>
           </div>
@@ -94,7 +98,7 @@ const Badges = () => {
               className="min-h-[180px] max-w-xs"
               text={badgeExampleCode}
             ></CodeCopy>
-            <a href="https://flathub.org/apps/details/org.gimp.GIMP">
+            <a href="https://flathub.org/apps/org.gimp.GIMP">
               <Image
                 width={240}
                 height={80}
@@ -109,7 +113,7 @@ const Badges = () => {
               className="min-h-[180px] max-w-xs"
               text={badgeExampleCodeMoinMoin}
             ></CodeCopy>
-            <a href="https://flathub.org/apps/details/org.gimp.GIMP">
+            <a href="https://flathub.org/apps/org.gimp.GIMP">
               <Image
                 width={240}
                 height={80}
