@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import ApplicationDetails from "../../../src/components/application/Details"
+import ApplicationDetails from "../../src/components/application/Details"
 import {
   fetchAppstream,
   fetchAppStats,
@@ -10,15 +10,15 @@ import {
   fetchProjectgroupApps,
   fetchVerificationStatus,
   fetchEolRebase,
-} from "../../../src/fetchers"
+} from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
   Appstream,
   pickScreenshot,
   Screenshot,
-} from "../../../src/types/Appstream"
-import { Summary } from "../../../src/types/Summary"
-import { AppStats } from "../../../src/types/AppStats"
+} from "../../src/types/Appstream"
+import { Summary } from "../../src/types/Summary"
+import { AppStats } from "../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
 
 export default function Details({
