@@ -208,6 +208,13 @@ def _check_app_id(appid: str, login):
         raise HTTPException(status_code=403, detail=ErrorDetail.APP_ALREADY_VERIFIED)
 
 
+def get_verified_apps():
+    verified = models.AppVerification.all_verified(sqldb)
+    for x in verified:
+        print(x)
+    return verified
+
+
 @router.get(
     "/{appid}/status",
     status_code=200,
