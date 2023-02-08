@@ -281,5 +281,6 @@
   "begin": "Begin",
   "failed-to-find-token": "Failed to find token in response from {{domain}}.",
   "category-distribution": "Category Distribution",
-  "chat": "Chat"
+  "chat": "Chat",
+  "verified-apps": "Verified Apps"
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Releases from "./Releases"
 import { faker } from "@faker-js/faker"
 import { Release } from "../../types/Appstream"
@@ -7,7 +7,7 @@ import { Release } from "../../types/Appstream"
 export default {
   title: "Components/Application/Releases",
   component: Releases,
-} as ComponentMeta<typeof Releases>
+} as Meta<typeof Releases>
 
 export const noChangelogProvided = () => {
   const latestRelease: Release = {

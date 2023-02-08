@@ -1,12 +1,12 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import ProviderLink from "./ProviderLink"
 import { LoginProvider } from "../../types/Login"
 
 export default {
   title: "Components/Login/ProviderLink",
   component: ProviderLink,
-} as ComponentMeta<typeof ProviderLink>
+} as Meta<typeof ProviderLink>
 
 export const github = () => {
   const provider: LoginProvider = {

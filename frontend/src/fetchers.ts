@@ -21,6 +21,7 @@ import {
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
+  VERIFIED_APPS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -129,6 +130,8 @@ export default async function fetchCollection(
     case Collections.recentlyAdded:
       collectionURL = RECENTLY_ADDED_URL
       break
+    case Collections.verified:
+      collectionURL = VERIFIED_APPS_URL
     default:
       collectionURL = ""
   }

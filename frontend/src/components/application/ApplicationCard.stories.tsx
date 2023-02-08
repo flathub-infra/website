@@ -1,12 +1,12 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import ApplicationCard from "./ApplicationCard"
 import { faker } from "@faker-js/faker"
 
 export default {
   title: "Components/Application/ApplicationCard",
   component: ApplicationCard,
-} as ComponentMeta<typeof ApplicationCard>
+} as Meta<typeof ApplicationCard>
 
 export const Generated = () => {
   const application = {

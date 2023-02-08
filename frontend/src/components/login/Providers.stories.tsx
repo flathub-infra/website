@@ -1,12 +1,12 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Providers from "./Providers"
 import { LoginProvider } from "../../types/Login"
 
 export default {
   title: "Components/Login/Providers",
   component: Providers,
-} as ComponentMeta<typeof Providers>
+} as Meta<typeof Providers>
 
 export const generated = () => {
   const providers: LoginProvider[] = [

@@ -770,8 +770,8 @@ def get_userinfo(login=Depends(login_state)):
         if app.app_id in appstream
     }
 
-    ret["dev-flatpaks"] = ret["dev-flatpaks"].union(dev_flatpaks)
-    ret["owned-flatpaks"] = owned_flatpaks
+    ret["dev-flatpaks"] = sorted(ret["dev-flatpaks"].union(dev_flatpaks))
+    ret["owned-flatpaks"] = sorted(owned_flatpaks)
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:
