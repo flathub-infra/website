@@ -15,6 +15,7 @@ export const SEARCH_APP = (query: string): string =>
 export const POPULAR_URL: string = `${BASE_URI}/popular/30`
 export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
 export const RECENTLY_ADDED_URL: string = `${BASE_URI}/collection/recently-added`
+export const VERIFIED_APPS_URL: string = `${BASE_URI}/collection/verified`
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,

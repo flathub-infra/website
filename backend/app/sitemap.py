@@ -12,6 +12,7 @@ def generate_text(frontend_url="beta.flathub.org"):
         "/apps",
         "/apps/collection/popular",
         "/apps/collection/recently-updated",
+        "/apps/collection/verified",
         "/badges",
         "/feeds",
         "/privacy-policy",
