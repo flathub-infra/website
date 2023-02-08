@@ -31,6 +31,12 @@ const Footer = () => {
               {t("new-and-updated")}
             </Link>
             <Link
+              href="/apps/collection/verified"
+              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
+            >
+              {t("verified-apps")}
+            </Link>
+            <Link
               href="/apps"
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
             >
