@@ -8,12 +8,14 @@ interface Props {
   popular: AppstreamListItem[]
   recentlyUpdated: AppstreamListItem[]
   recentlyAdded: AppstreamListItem[]
+  verified: AppstreamListItem[] | null
 }
 
 const ApplicationSections: FunctionComponent<Props> = ({
   popular,
   recentlyUpdated,
   recentlyAdded,
+  verified,
 }) => {
   const { t } = useTranslation()
   return (
@@ -29,6 +31,12 @@ const ApplicationSections: FunctionComponent<Props> = ({
         title={t("new-and-updated-apps")}
         applications={recentlyUpdated}
         href="/apps/collection/recently-updated"
+      />
+      <ApplicationSection
+        key="verified"
+        title={t("verified-apps")}
+        applications={verified}
+        href="/apps/collection/verified"
       />
       <ApplicationSection
         key="popular"

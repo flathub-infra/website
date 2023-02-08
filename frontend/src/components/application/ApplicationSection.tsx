@@ -20,6 +20,9 @@ const ApplicationSection: FunctionComponent<Props> = ({
   showMore = true,
 }) => {
   const { t } = useTranslation()
+
+  if (!applications || !applications.length) return null
+
   return (
     <div>
       <header className="mt-10 mb-3 flex max-w-full flex-row content-center justify-between">
