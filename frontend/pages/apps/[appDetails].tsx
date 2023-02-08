@@ -80,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({
   if (eolRebaseTo) {
     return {
       redirect: {
-        destination: `/apps/details/${eolRebaseTo}`,
+        destination: `/apps/${eolRebaseTo}`,
         permanent: true,
       },
     }
