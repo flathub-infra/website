@@ -211,6 +211,7 @@ def get_recently_added(limit: int = 100):
 def get_verified(limit: int = 100):
     verified = verification.get_verified_apps()
     appids = [x.app_id for x in verified]
+    appids.reverse()
     result = [utils.get_listing_app(f"apps:{appid}") for appid in appids]
     return [app for app in result if app]
 
