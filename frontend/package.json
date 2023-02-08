@@ -36,13 +36,13 @@
     "react-country-flag": "^3.0.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
-    "react-image-lightbox": "^5.1.4",
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "^2.0.0-alpha.0",
     "react-toastify": "^9.1.1",
     "sass": "^1.57.1",
     "sharp": "^0.31.3",
-    "spdx-license-list": "^6.6.0"
+    "spdx-license-list": "^6.6.0",
+    "yet-another-react-lightbox": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",

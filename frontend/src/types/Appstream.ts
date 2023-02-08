@@ -79,21 +79,79 @@ export interface Screenshot {
   "1504x846"?: string
 }
 
-export function pickScreenshot(screenshot: Screenshot) {
+export function pickScreenshot(
+  screenshot: Screenshot,
+): { src: string; width: number; height: number } | undefined {
   if (screenshot["1504x846"]) {
-    return { url: screenshot["1504x846"], width: 1504, height: 846 }
+    return { src: screenshot["1504x846"], width: 1504, height: 846 }
   } else if (screenshot["1248x702"]) {
-    return { url: screenshot["1248x702"], width: 1248, height: 702 }
+    return { src: screenshot["1248x702"], width: 1248, height: 702 }
   } else if (screenshot["752x423"]) {
-    return { url: screenshot["752x423"], width: 752, height: 423 }
+    return { src: screenshot["752x423"], width: 752, height: 423 }
   } else if (screenshot["624x351"]) {
-    return { url: screenshot["624x351"], width: 624, height: 351 }
+    return { src: screenshot["624x351"], width: 624, height: 351 }
   } else if (screenshot["224x126"]) {
-    return { url: screenshot["224x126"], width: 224, height: 126 }
+    return { src: screenshot["224x126"], width: 224, height: 126 }
   } else if (screenshot["112x63"]) {
-    return { url: screenshot["112x63"], width: 112, height: 63 }
+    return { src: screenshot["112x63"], width: 112, height: 63 }
   } else {
     return undefined
+  }
+}
+
+export function mapScreenshot(screenshot: Screenshot) {
+  const screenshotVariant: { src: string; width: number; height: number }[] = []
+  if (screenshot["1504x846"]) {
+    screenshotVariant.push({
+      src: screenshot["1504x846"],
+      width: 1504,
+      height: 846,
+    })
+  }
+  if (screenshot["1248x702"]) {
+    screenshotVariant.push({
+      src: screenshot["1248x702"],
+      width: 1248,
+      height: 702,
+    })
+  }
+  if (screenshot["752x423"]) {
+    screenshotVariant.push({
+      src: screenshot["752x423"],
+      width: 752,
+      height: 423,
+    })
+  }
+  if (screenshot["624x351"]) {
+    screenshotVariant.push({
+      src: screenshot["624x351"],
+      width: 624,
+      height: 351,
+    })
+  }
+  if (screenshot["224x126"]) {
+    screenshotVariant.push({
+      src: screenshot["224x126"],
+      width: 224,
+      height: 126,
+    })
+  }
+  if (screenshot["112x63"]) {
+    screenshotVariant.push({
+      src: screenshot["112x63"],
+      width: 112,
+      height: 63,
+    })
+  }
+
+  if (screenshotVariant.length === 0) {
+    return undefined
+  }
+
+  return {
+    ...screenshotVariant[0],
+    srcSet:
+      screenshotVariant.length > 1 ? screenshotVariant.slice(1) : undefined,
   }
 }
 
