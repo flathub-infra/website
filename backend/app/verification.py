@@ -210,8 +210,6 @@ def _check_app_id(appid: str, login):
 
 def get_verified_apps():
     verified = models.AppVerification.all_verified(sqldb)
-    for x in verified:
-        print(x)
     return verified
 
 
