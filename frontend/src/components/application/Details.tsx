@@ -10,8 +10,11 @@ import {
 } from "react"
 import React from "react"
 import { Carousel } from "react-responsive-carousel"
-import { Appstream, pickScreenshot } from "../../types/Appstream"
+import { Appstream, mapScreenshot, pickScreenshot } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
+import Lightbox from "yet-another-react-lightbox"
+import "yet-another-react-lightbox/styles.css"
+import Zoom from "yet-another-react-lightbox/plugins/zoom"
 
 import { Summary } from "../../types/Summary"
 
@@ -28,12 +31,10 @@ import AdditionalInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
-import Lightbox from "react-image-lightbox"
 import ApplicationSection from "./ApplicationSection"
 import { calculateHumanReadableSize } from "../../size"
 import { useUserContext } from "../../context/user-info"
 
-import "react-image-lightbox/style.css" // This only needs to be imported once in your app
 import { useAsync } from "../../hooks/useAsync"
 import { getAppVendingSetup } from "../../asyncs/vending"
 
@@ -161,16 +162,13 @@ const Details: FunctionComponent<Props> = ({
           verificationStatus={verificationStatus}
         />
         <div className="col-start-1 col-end-4 bg-bgColorSecondary">
-          {showLightbox && (
-            <Lightbox
-              mainSrc={
-                pickScreenshot(
-                  app.screenshots?.filter(pickScreenshot)[currentScreenshot],
-                ).url
-              }
-              onCloseRequest={() => setShowLightbox(false)}
-            />
-          )}
+          <Lightbox
+            open={showLightbox}
+            close={() => setShowLightbox(false)}
+            plugins={[Zoom]}
+            slides={app.screenshots?.map(mapScreenshot)}
+            index={currentScreenshot}
+          />
           <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
@@ -221,7 +219,7 @@ const Details: FunctionComponent<Props> = ({
                   return (
                     <Image
                       key={index}
-                      src={pickedScreenshot.url}
+                      src={pickedScreenshot.src}
                       width={752}
                       height={423}
                       alt={t("screenshot")}
