@@ -82,8 +82,8 @@
 :root {
   --white: rgba(250, 250, 250, 1);
   --white-10: hsl(30, 10%, 96.1%);
-  --bg-color-primary: var(--white-10);
-  --bg-color-secondary: var(--white);
+  --bg-color-primary: rgba(235, 235, 235, 1);
+  --bg-color-secondary: var(--white-10);
 
   --text-primary: hsl(195, 8%, 19.6%);
   --text-secondary: hsl(0, 0%, 44.7%);
