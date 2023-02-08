@@ -487,6 +487,7 @@ def test_verification_available_method_website(client):
     assert response.json() == expected
 
 
+@vcr.use_cassette("github_user_cassette")
 def test_verification_available_method_multiple(client):
     _login(client)
 
@@ -503,6 +504,8 @@ def test_verification_available_method_multiple(client):
                 "method": "login_provider",
                 "login_provider": "github",
                 "login_name": "ajr0d",
+                "login_is_organization": False,
+                "login_status": "ready",
             },
         ]
     }
@@ -628,6 +631,7 @@ def test_verification_website(client):
     }
 
 
+@vcr.use_cassette("github_user_cassette")
 def test_verification_github(client):
     _login(client)
 
@@ -643,6 +647,7 @@ def test_verification_github(client):
         "method": "login_provider",
         "login_provider": "github",
         "login_name": "ajr0d",
+        "login_is_organization": False,
     }
 
     # Unverify the app
@@ -657,6 +662,7 @@ def test_verification_github(client):
     }
 
 
+@vcr.use_cassette("github_user_cassette")
 def test_double_verification_forbidden(client):
     _login(client)
 
