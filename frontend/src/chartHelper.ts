@@ -58,7 +58,9 @@ export function chartOptions(
         },
         grid: {
           display: false,
-          borderColor:
+        },
+        border: {
+          color:
             resolvedTheme === "light"
               ? "hsl(0, 0%, 44.7%)"
               : "rgba(255, 255, 255, 0.6)",
@@ -76,7 +78,9 @@ export function chartOptions(
       y: {
         grid: {
           display: false,
-          borderColor:
+        },
+        border: {
+          color:
             resolvedTheme === "light"
               ? "hsl(0, 0%, 44.7%)"
               : "rgba(255, 255, 255, 0.6)",
@@ -114,7 +118,9 @@ export function barChartOptions(
       x: {
         grid: {
           display: false,
-          borderColor:
+        },
+        border: {
+          color:
             resolvedTheme === "light"
               ? "hsl(0, 0%, 44.7%)"
               : "rgba(255, 255, 255, 0.6)",
@@ -129,7 +135,9 @@ export function barChartOptions(
       y: {
         grid: {
           display: false,
-          borderColor:
+        },
+        border: {
+          color:
             resolvedTheme === "light"
               ? "hsl(0, 0%, 44.7%)"
               : "rgba(255, 255, 255, 0.6)",
