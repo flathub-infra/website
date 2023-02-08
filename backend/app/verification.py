@@ -340,6 +340,8 @@ def get_available_methods(appid: str, login=Depends(login_state)):
                 ErrorDetail.NOT_ORG_ADMIN,
             ]:
                 login_is_organization = True
+            elif e.detail == ErrorDetail.PROVIDER_ERROR:
+                raise e
 
         provider_name, username = provider
 
@@ -389,9 +391,9 @@ def _verify_by_github(username: str, account) -> bool:
                     username
                 )
             except github.GithubException as e:
-                if e.status == 403:
+                if e.status == 403 or e.status == 401:
                     raise HTTPException(
-                        status_code=403,
+                        status_code=e.status,
                         detail=ErrorDetail.PROVIDER_DENIED_ACCESS,
                     )
                 elif e.status == 404:
