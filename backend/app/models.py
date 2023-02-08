@@ -437,6 +437,10 @@ class AppVerification(Base):
         return db.session.query(AppVerification).filter_by(account=user.id)
 
     @staticmethod
+    def all_verified(db) -> List["AppVerification"]:
+        return db.session.query(AppVerification).filter_by(verified=True)
+
+    @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """
         Add a user's verified apps to the hasher for token generation

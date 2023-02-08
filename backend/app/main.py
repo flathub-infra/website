@@ -206,6 +206,14 @@ def get_recently_added(limit: int = 100):
     return [app for app in result if app]
 
 
+@app.get("/collection/verified")
+def get_verified():
+    verified = verification.get_verified_apps()
+    appids = [x.app_id for x in verified]
+    result = [utils.get_listing_app(f"apps:{appid}") for appid in appids]
+    return [app for app in result if app]
+
+
 @app.get("/popular")
 def get_popular(limit: int = 100):
     popular = stats.get_popular(None)[0:limit]
