@@ -26,7 +26,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
 
         entry = feed.add_entry()
         entry.title(app["name"])
-        entry.link(href=f"https://flathub.org/apps/details/{app['id']}")
+        entry.link(href=f"https://flathub.org/apps/{app['id']}")
 
         timestamp = int(timestamp)
         entry_date = datetime.utcfromtimestamp(timestamp).strftime(
