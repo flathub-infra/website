@@ -150,8 +150,7 @@ export function mapScreenshot(screenshot: Screenshot) {
 
   return {
     ...screenshotVariant[0],
-    srcSet:
-      screenshotVariant.length > 1 ? screenshotVariant.slice(1) : undefined,
+    srcSet: screenshotVariant,
   }
 }
 
