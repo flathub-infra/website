@@ -18,6 +18,7 @@ import {
   LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
   EOL_REBASE_URL,
+  EOL_MESSAGE_URL,
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
@@ -87,6 +88,25 @@ export async function fetchEolRebase(
 
   if (!entryJson) {
     console.log(`No eol rebase data`)
+  }
+  return entryJson
+}
+
+export async function fetchEolMessage(
+  appId: string,
+): Promise<string | undefined> {
+  let entryJson: string | undefined
+  try {
+    const entryData = await fetch(`${EOL_MESSAGE_URL(appId)}`)
+    if (entryData.status === 200) {
+      entryJson = await entryData.json()
+    }
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!entryJson) {
+    console.log(`No eol message data`)
   }
   return entryJson
 }

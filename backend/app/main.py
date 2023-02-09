@@ -166,6 +166,19 @@ def get_eol_rebase_appid(
         return value
 
 
+@app.get("/eol/message")
+def get_eol_message():
+    return db.get_json_key("eol_message")
+
+
+@app.get("/eol/message/{appid}")
+def get_eol_message_appid(
+    appid: str,
+):
+    if value := db.get_json_key(f"eol_message:{appid}"):
+        return value
+
+
 @app.get("/projectgroup")
 def get_project_groups():
     return db.get_project_groups()
