@@ -229,7 +229,9 @@ def update():
         if not found:
             break
 
-    db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)})
+    db.redis_conn.mset(
+        {"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)}
+    )
 
     for appid, old_id_list in eol_rebase.items():
         for old_id in old_id_list:
