@@ -164,9 +164,9 @@ class VerificationMethod(Enum):
 
 
 class LoginProvider(Enum):
-    GITHUB = "github"
-    GITLAB = "gitlab"
-    GNOME_GITLAB = "gnome"
+    GITHUB = "GitHub"
+    GITLAB = "GitLab"
+    GNOME_GITLAB = "GNOME GitLab"
 
 
 class VerificationStatus(BaseModel):
