@@ -37,7 +37,7 @@ export function AppHeader({
           <h2 className="my-0">{app.name}</h2>
           <Verification verificationStatus={verificationStatus}></Verification>
         </div>
-        <div className="text-center mb-2 text-sm font-extralight text-textSecondary md:text-start">
+        <div className="mb2-text-center text-sm font-extralight text-textSecondary md:text-start">
           {app.id}
         </div>
         {app.developer_name?.trim().length > 0 && (
