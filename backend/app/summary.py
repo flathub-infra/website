@@ -194,20 +194,25 @@ def update():
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )
 
-    eol_rebase = {}
+    eol_rebase: dict[str, str] = {}
+    eol_message: dict[str, str] = {}
     for app, eol_dict in metadata["xa.sparse-cache"].items():
-        appid = app.split("/")[1]
+        flatpak_type, appid, arch, branch = app.split("/")
         if (
-            "eolr" in eol_dict
+            flatpak_type == "app"
+            and branch == "stable"
             and not appid.endswith(".Debug")
             and not appid.endswith(".Locale")
             and not appid.endswith(".Sources")
         ):
-            new_id = eol_dict["eolr"].split("/")[1]
-            if new_id in eol_rebase:
-                eol_rebase[new_id].append(appid)
-            else:
-                eol_rebase[new_id] = [appid]
+            if "eolr" in eol_dict:
+                new_id = eol_dict["eolr"].split("/")[1]
+                if new_id in eol_rebase:
+                    eol_rebase[new_id].append(appid)
+                else:
+                    eol_rebase[new_id] = [appid]
+            elif "eol" in eol_dict:
+                eol_message[appid] = eol_dict["eol"]
 
     # Support changing of App ID multiple times
     while True:
@@ -224,11 +229,14 @@ def update():
         if not found:
             break
 
-    db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase)})
+    db.redis_conn.mset({"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)})
 
     for appid, old_id_list in eol_rebase.items():
         for old_id in old_id_list:
             db.redis_conn.mset({f"eol_rebase:{old_id}": json.dumps(appid)})
+
+    for appid, message in eol_message.items():
+        db.redis_conn.mset({f"eol_message:{appid}": json.dumps(message)})
 
     # Build reverse lookup map for flathub-hooks
     reverse_lookup = {}

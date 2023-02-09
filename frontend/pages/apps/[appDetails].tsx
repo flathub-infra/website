@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import ApplicationDetails from "../../src/components/application/Details"
+import EolMessageDetails from "../../src/components/application/EolMessage"
 import {
   fetchAppstream,
   fetchAppStats,
@@ -10,6 +11,7 @@ import {
   fetchProjectgroupApps,
   fetchVerificationStatus,
   fetchEolRebase,
+  fetchEolMessage,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
@@ -33,6 +35,7 @@ export default function Details({
   developerApps,
   projectgroupApps,
   verificationStatus,
+  eolMessage,
 }: {
   app: Appstream
   summary?: Summary
@@ -40,7 +43,12 @@ export default function Details({
   developerApps: MeilisearchResponse<AppsIndex>
   projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
+  eolMessage: string
 }) {
+  if (eolMessage) {
+    return <EolMessageDetails message={eolMessage} />
+  }
+
   const screenshots = app.screenshots
     ? app.screenshots
         .filter((screenshot) => pickScreenshot(screenshot))
@@ -117,9 +125,10 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
+  const eolMessage = await fetchEolMessage(appId as string)
   const app = await fetchAppstream(appId as string)
 
-  if (!app) {
+  if (!app && !eolMessage) {
     return {
       notFound: true,
     }
@@ -140,6 +149,7 @@ export const getStaticProps: GetStaticProps = async ({
       developerApps: removeAppIdFromSearchResponse(developerApps, app.id),
       projectgroupApps: removeAppIdFromSearchResponse(projectgroupApps, app.id),
       verificationStatus,
+      eolMessage,
     },
     revalidate: 900,
   }
