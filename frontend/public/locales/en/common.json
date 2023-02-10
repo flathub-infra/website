@@ -247,8 +247,6 @@
   "verified": "Verified",
   "app-is-verified": "This app is verified",
   "website-validation-instruction": "Create a page at <1>{{ webpage }}</1> containing the following token: <3>{{token}}</3> If the page already exists, add the token to it.",
-  "verified-manually": "Verified by Flathub staff",
-  "verified-website": "{{website}}",
   "verified-login-provider": "@{{login_name}} on {{login_provider}}",
   "verified-manually-tooltip": "The ownership of the {{app_id}} application ID has been manually verified by Flathub staff",
   "verified-website-tooltip": "The ownership of the {{app_id}} application ID has been verified using {{website}}",
