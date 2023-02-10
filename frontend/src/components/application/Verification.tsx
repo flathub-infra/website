@@ -136,7 +136,9 @@ const Verification: FunctionComponent<Props> = ({
                 : verificationStatus.method == "login_provider"
                 ? t("verified-login-provider-tooltip", {
                     app_id: appId,
-                    login_provider: verificationStatus.login_provider,
+                    login_provider: verificationProviderToHumanReadable(
+                      verificationStatus.login_provider,
+                    ),
                     login_name: verificationStatus.login_name,
                   })
                 : t("verified") // Should never happen
