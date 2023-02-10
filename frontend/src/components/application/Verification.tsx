@@ -97,7 +97,7 @@ const Verification: FunctionComponent<Props> = ({ verificationStatus }) => {
                     website: verificationStatus.website,
                   })
                 : verificationStatus.method == "login_provider"
-                ? t("verified-login-providert-tooltip", {
+                ? t("verified-login-provider-tooltip", {
                     login_provider: verificationStatus.login_provider,
                     login_name: verificationStatus.login_name,
                   })
