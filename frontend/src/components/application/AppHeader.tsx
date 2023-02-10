@@ -33,12 +33,8 @@ export function AppHeader({
       )}
 
       <div className="mx-3 my-auto">
-        <div className="justify-left mb-0 flex items-center space-x-3">
-          <h2 className="my-0">{app.name}</h2>
-          <Verification verificationStatus={verificationStatus}></Verification>
-        </div>
-        <div className="text-center mb-2 text-sm font-extralight text-textSecondary md:text-start">
-          {app.id}
+        <div className="justify-left mb-2 flex items-center space-x-3">
+          <h2 className="my-2">{app.name}</h2>
         </div>
         {app.developer_name?.trim().length > 0 && (
           <div className="text-center text-sm text-textSecondary md:text-start">
@@ -47,6 +43,7 @@ export function AppHeader({
             })}
           </div>
         )}
+        <Verification verificationStatus={verificationStatus}></Verification>
       </div>
 
       <div className="flex items-center justify-center gap-4 md:ml-auto">
