@@ -17,7 +17,12 @@ export const manualVerification = () => {
     detail: "",
     method: "manual",
   }
-  return <Verification verificationStatus={verificationStatus} />
+  return (
+    <Verification
+      appId="org.flathub.Example"
+      verificationStatus={verificationStatus}
+    />
+  )
 }
 export const websiteVerification = () => {
   const verificationStatus: VerificationStatusWebsite = {
@@ -26,7 +31,12 @@ export const websiteVerification = () => {
     method: "website",
     website: "https://example.com",
   }
-  return <Verification verificationStatus={verificationStatus} />
+  return (
+    <Verification
+      appId="com.example.Example"
+      verificationStatus={verificationStatus}
+    />
+  )
 }
 export const loginProviderVerification = () => {
   const verificationStatus: VerificationStatusLoginProvider = {
@@ -36,5 +46,10 @@ export const loginProviderVerification = () => {
     login_provider: "github",
     detail: "",
   }
-  return <Verification verificationStatus={verificationStatus} />
+  return (
+    <Verification
+      appId="io.github.Example"
+      verificationStatus={verificationStatus}
+    />
+  )
 }

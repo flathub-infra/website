@@ -43,7 +43,10 @@ export function AppHeader({
             })}
           </div>
         )}
-        <Verification verificationStatus={verificationStatus}></Verification>
+        <Verification
+          appId={app.id}
+          verificationStatus={verificationStatus}
+        ></Verification>
       </div>
 
       <div className="flex items-center justify-center gap-4 md:ml-auto">
