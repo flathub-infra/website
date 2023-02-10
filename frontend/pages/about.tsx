@@ -2,6 +2,7 @@ import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
+import Link from "next/link"
 
 const About = () => {
   const { t } = useTranslation()
@@ -63,6 +64,37 @@ const About = () => {
               or be available as a third party download. However, if you are a
               proprietary app developer and are interested in using Flathub, we
               would love to talk to you.
+            </p>
+          </Trans>
+
+          <h2>{t("about-app-verification")}</h2>
+          <Trans i18nKey="about-app-verification-block">
+            <h3>What does the checkmark under an app name mean?</h3>
+            <p>
+              Some apps have a checkmark on the app page under the developer
+              name. This means the app is published on Flathub by its original
+              developer or a third party approved by the developer.
+            </p>
+            <p>
+              Some apps are published by third parties that are unaffiliated
+              with the original developer. This is allowed, but such apps are
+              not eligible for the checkmark.
+            </p>
+            <p>
+              Next to the checkmark is a link to the developer&apos;s website or
+              to their profile on a source code hosting site. Flathub has
+              verified the developer&apos;s identity using that link.
+            </p>
+
+            <h3>
+              I&apos;m publishing an app on Flathub. How do I get it verified?
+            </h3>
+            <p>
+              First, <Link href="/login">log in to Flathub</Link>. Click the
+              &quot;Developer Settings&quot; button under the app you want to
+              verify. At the top of the page, find the &quot;Setup
+              Verification&quot; section. The instructions there will walk you
+              through the verification process.
             </p>
           </Trans>
 
