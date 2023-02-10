@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         bgColorPrimary: "var(--bg-color-primary)",
         bgColorSecondary: "var(--bg-color-secondary)",
+        bgButtonSecondary: "var(--bg-button-secondary)",
         textPrimary: "var(--text-primary)",
         textSecondary: "var(--text-secondary)",
         colorPrimary: "var(--color-primary)",

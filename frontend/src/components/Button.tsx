@@ -19,7 +19,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
       destructive:
         "bg-bgColorSecondary text-colorDanger border border-colorDanger disabled:borden-none disabled:text-gray-100 enabled:hover:bg-colorDanger enabled:hover:text-gray-100",
       secondary:
-        "bg-bgColorSecondary text-textSecondary disabled:border-none disabled:text-gray-100 disabled:bg-gray-500 enabled:hover:opacity-60",
+        "bg-bgButtonSecondary text-textPrimary disabled:border-none disabled:text-gray-100 disabled:bg-gray-500 enabled:hover:opacity-60",
       primary:
         "bg-colorPrimary text-gray-100 disabled:bg-gray-400 enabled:hover:opacity-75",
     }[variant]

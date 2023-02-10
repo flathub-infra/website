@@ -52,7 +52,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
     const variantClass = {
       destructive:
         "bg-bgColorSecondary text-colorDanger border border-colorDanger",
-      secondary: "bg-bgColorSecondary text-textSecondary",
+      secondary: "bg-bgButtonSecondary text-textPrimary",
       primary: "bg-colorPrimary text-gray-100",
     }[variant]
 
