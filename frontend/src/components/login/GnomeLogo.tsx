@@ -4,6 +4,7 @@ export const GnomeLogo = () => (
     version="1.0"
     viewBox="0 0 365 365"
     id="svg1903"
+    style={{ width: "100%", height: "100%" }}
   >
     <defs id="defs1905" />
     <g transform="translate(-171.1264,-231.669)" id="layer1">
