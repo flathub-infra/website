@@ -25,7 +25,7 @@ export function AppHeader({
   const { t } = useTranslation()
 
   return (
-    <header className="col-start-2 flex w-full flex-col gap-4 py-7 md:flex-row">
+    <header className="col-start-2 flex w-full flex-col gap-4 py-7 sm:flex-row">
       {app.icon && (
         <div className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md">
           <LogoImage iconUrl={app.icon} appName={app.name} />
@@ -37,7 +37,7 @@ export function AppHeader({
           <h2 className="my-2">{app.name}</h2>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-center text-sm text-textSecondary md:text-start">
+          <div className="text-center text-sm text-textSecondary sm:text-start">
             {t("by", {
               developer: app.developer_name,
             })}
@@ -49,8 +49,8 @@ export function AppHeader({
         ></Verification>
       </div>
 
-      <div className="flex items-center justify-center gap-4 md:ml-auto">
-        <Button className="w-52 md:w-full" onClick={installClicked}>
+      <div className="flex items-center justify-center gap-4 sm:ml-auto">
+        <Button className="w-52 sm:w-full" onClick={installClicked}>
           {t("install")}
         </Button>
         {app.urls?.donation && (
@@ -60,7 +60,7 @@ export function AppHeader({
             rel="noreferrer"
             onClick={donateClicked}
             passHref
-            className="w-52 md:w-full"
+            className="w-52 sm:w-full"
             variant="secondary"
           >
             {t("donate")}
@@ -70,7 +70,7 @@ export function AppHeader({
           <ButtonLink
             passHref
             href={`/apps/purchase/${app.id}`}
-            className="w-52 md:w-full"
+            className="w-52 sm:w-full"
           >
             {t("kind-purchase")}
           </ButtonLink>
