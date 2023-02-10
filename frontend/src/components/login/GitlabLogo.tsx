@@ -1,5 +1,10 @@
 export const GitlabLogo = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "100%", height: "100%" }}
+  >
     <path
       d="M1.33334 9.33332 7.58668 15.3333V9.33332L4.92001 1.14666C4.78334.725325 4.13601.725325 4.00001 1.14666L1.33334 9.33332z"
       fill="#e24329"
