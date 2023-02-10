@@ -56,28 +56,28 @@ const Verification: FunctionComponent<Props> = ({ verificationStatus }) => {
   if (verificationStatus?.verified == true) {
     return (
       <>
-     <div className="text-sm text-blue-700 text-textSecondary md:text-start">
-            {
-              verificationStatus.method == "manual"
-                ? t("verified-manually")
-                : verificationStatus.method == "website"
-                ? t("verified-website", {
-                    website: verificationStatus.website,
-                  })
-                : verificationStatus.method == "login_provider"
-                ? t("verified-login-provider", {
-                    login_provider: verificationStatus.login_provider,
-                    login_name: verificationStatus.login_name,
-                  })
-                : t("verified") // Should never happen
-            }
-        <button ref={reference} {...getReferenceProps}>
-          <HiCheckBadge
-            className="h-6 w-6 text-colorLink"
-            aria-label={t("app-is-verified")}
-          />
-        </button>
-            </div>
+        <div className="text-sm text-blue-700 text-textSecondary md:text-start">
+          {
+            verificationStatus.method == "manual"
+              ? t("verified-manually")
+              : verificationStatus.method == "website"
+              ? t("verified-website", {
+                  website: verificationStatus.website,
+                })
+              : verificationStatus.method == "login_provider"
+              ? t("verified-login-provider", {
+                  login_provider: verificationStatus.login_provider,
+                  login_name: verificationStatus.login_name,
+                })
+              : t("verified") // Should never happen
+          }
+          <button ref={reference} {...getReferenceProps}>
+            <HiCheckBadge
+              className="h-6 w-6 text-colorLink"
+              aria-label={t("app-is-verified")}
+            />
+          </button>
+        </div>
         {open && (
           <div
             ref={floating}
@@ -115,7 +115,6 @@ const Verification: FunctionComponent<Props> = ({ verificationStatus }) => {
                 [staticSide]: "-4px",
               }}
             />
-            
           </div>
         )}
       </>
