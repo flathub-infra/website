@@ -80,10 +80,11 @@
 }
 
 :root {
-  --white: rgba(250, 250, 250, 1);
-  --white-10: hsl(30, 10%, 96.1%);
-  --bg-color-primary: rgba(235, 235, 235, 1);
-  --bg-color-secondary: var(--white-10);
+  --white: hsl(0, 0%, 98%);
+  --bg-color-primary: var(--white);
+  --bg-color-secondary: hsl(0, 0%, 100%);
+
+  --bg-button-secondary: hsl(0, 0%, 92.2%);
 
   --text-primary: hsl(195, 8%, 19.6%);
   --text-secondary: hsl(0, 0%, 44.7%);
@@ -107,8 +108,10 @@
   --toastify-color-light: var(--toastify-color-dark);
   --toastify-text-color-light: var(--text-primary);
 
-  --bg-color-primary: hsl(0, 0%, 14.9%);
-  --bg-color-secondary: hsl(0, 0%, 20%);
+  --bg-color-primary: hsl(0, 0%, 14.1%);
+  --bg-color-secondary: hsl(0, 0%, 20.8%);
+
+  --bg-button-secondary: hsl(0, 0%, 28.6%);
 
   --text-primary: var(--white);
   --text-secondary: rgba(255, 255, 255, 0.6);
@@ -140,11 +143,11 @@ a {
     padding: 8px 7px !important;
     border-radius: var(--button-border-radius) !important;
 
-    background-color: var(--bg-color-secondary) !important;
+    background-color: var(--bg-button-secondary) !important;
     color: var(--link-color) !important;
 
     &:hover {
-      background-color: var(--bg-color-primary) !important;
+      opacity: 0.5 !important;
     }
 
     &.control-prev {
