@@ -105,7 +105,7 @@ const Verification: FunctionComponent<Props> = ({
 
   if (verificationStatus?.verified == true) {
     return (
-      <div className="justify-left flex items-center text-sm text-textSecondary md:text-start">
+      <div className="flex items-center justify-center gap-1 text-sm text-textSecondary sm:justify-start">
         {verifiedLink}
         <button ref={reference} {...getReferenceProps}>
           <HiCheckBadge

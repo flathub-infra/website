@@ -33,11 +33,11 @@ export function AppHeader({
       )}
 
       <div className="mx-3 my-auto">
-        <div className="justify-left mb-2 flex items-center space-x-3">
-          <h2 className="my-2">{app.name}</h2>
+        <div className="mb-2 flex items-center justify-center space-x-3 sm:justify-start">
+          <h2 className="my-0">{app.name}</h2>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-center text-sm text-textSecondary sm:text-start">
+          <div className="text-center text-sm font-light text-textSecondary sm:text-start">
             {t("by", {
               developer: app.developer_name,
             })}
