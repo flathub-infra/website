@@ -47,7 +47,7 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 md:ml-auto">
-        <Button className="w-full" onClick={installClicked}>
+        <Button className="w-52 md:w-full" onClick={installClicked}>
           {t("install")}
         </Button>
         {app.urls?.donation && (
@@ -57,7 +57,7 @@ export function AppHeader({
             rel="noreferrer"
             onClick={donateClicked}
             passHref
-            className="w-full"
+            className="w-52 md:w-full"
             variant="secondary"
           >
             {t("donate")}
@@ -67,7 +67,7 @@ export function AppHeader({
           <ButtonLink
             passHref
             href={`/apps/purchase/${app.id}`}
-            className="w-full"
+            className="w-52 md:w-full"
           >
             {t("kind-purchase")}
           </ButtonLink>
