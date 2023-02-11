@@ -32,7 +32,7 @@ def load_appstream():
                     "id": utils.get_clean_app_id(appid),
                     "name": apps[appid]["name"],
                     "summary": apps[appid]["summary"],
-                    "downloads_last_month": 0,
+                    "installs_last_month": 0,
                     "keywords": search_keywords,
                     "app_id": appid,
                     "description": search_description,

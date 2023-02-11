@@ -8,7 +8,7 @@ client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_master_key
 )
 client.create_index("apps")
-client.index("apps").update_sortable_attributes(["downloads_last_month"])
+client.index("apps").update_sortable_attributes(["installs_last_month"])
 client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
 )
@@ -31,7 +31,7 @@ def search_apps(query: str):
     query = unquote(query)
 
     if results := client.index("apps").search(
-        query, {"limit": 250, "sort": ["downloads_last_month:desc"]}
+        query, {"limit": 250, "sort": ["installs_last_month:desc"]}
     ):
         ret = []
         for app in results["hits"]:
