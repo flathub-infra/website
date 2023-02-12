@@ -2,7 +2,7 @@ import { FunctionComponent, useRef, useState } from "react"
 import React from "react"
 
 import { HiCheckBadge } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   useFloating,
@@ -12,6 +12,9 @@ import {
   offset,
   shift,
   autoPlacement,
+  useRole,
+  useDismiss,
+  useFocus,
 } from "@floating-ui/react-dom-interactions"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 
@@ -27,7 +30,7 @@ const Verification: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const arrowRef = useRef(null)
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const {
     x,
     y,
@@ -38,8 +41,8 @@ const Verification: FunctionComponent<Props> = ({
     middlewareData: { arrow: { x: arrowX, y: arrowY } = {} },
     placement,
   } = useFloating({
-    open,
-    onOpenChange: setOpen,
+    open: isOpen,
+    onOpenChange: setIsOpen,
     middleware: [
       shift(),
       autoPlacement(),
@@ -47,9 +50,17 @@ const Verification: FunctionComponent<Props> = ({
       arrow({ element: arrowRef }),
     ],
   })
-  const hover = useHover(context, {})
+  const hover = useHover(context, { move: false })
+  const focus = useFocus(context)
+  const dismiss = useDismiss(context)
+  const role = useRole(context, { role: "tooltip" })
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+    dismiss,
+    role,
+  ])
 
   const staticSide = {
     top: "bottom",
@@ -114,7 +125,7 @@ const Verification: FunctionComponent<Props> = ({
           />
         </button>
 
-        {open && (
+        {isOpen && (
           <div
             ref={floating}
             style={{
@@ -122,26 +133,49 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className="w-max rounded-xl bg-bgColorSecondary p-4"
+            className="rounded-xl bg-bgColorSecondary p-4"
             {...getFloatingProps()}
           >
             {
-              verificationStatus.method == "manual"
-                ? t("verified-manually-tooltip", { app_id: appId })
-                : verificationStatus.method == "website"
-                ? t("verified-website-tooltip", {
+              verificationStatus.method == "manual" ? (
+                <Trans i18nKey={"verified-manually-tooltip"}>
+                  The ownership of the <b>{{ app_id: appId }}</b> application ID
+                  has been manually verified by Flathub staff
+                </Trans>
+              ) : verificationStatus.method == "website" ? (
+                <Trans
+                  i18nKey={"verified-website-tooltip"}
+                  values={{
                     app_id: appId,
                     website: verificationStatus.website,
-                  })
-                : verificationStatus.method == "login_provider"
-                ? t("verified-login-provider-tooltip", {
-                    app_id: appId,
-                    login_provider: verificationProviderToHumanReadable(
-                      verificationStatus.login_provider,
-                    ),
-                    login_name: verificationStatus.login_name,
-                  })
-                : t("verified") // Should never happen
+                  }}
+                >
+                  The ownership of the <b>{{ app_id: appId }}</b> application ID
+                  has been verified by the owner of{" "}
+                  <b>{{ website: verificationStatus.website }}</b>
+                </Trans>
+              ) : verificationStatus.method == "login_provider" ? (
+                <Trans i18nKey={"verified-login-provider-tooltip"}>
+                  The ownership of the <b>{{ app_id: appId }}</b> application ID
+                  has been verified by{" "}
+                  <b>
+                    @
+                    {{
+                      login_provider: verificationProviderToHumanReadable(
+                        verificationStatus.login_provider,
+                      ),
+                    }}
+                  </b>{" "}
+                  on{" "}
+                  <b>
+                    {{
+                      login_name: verificationStatus.login_name,
+                    }}
+                  </b>
+                </Trans>
+              ) : (
+                t("verified")
+              ) // Should never happen
             }
 
             <div
