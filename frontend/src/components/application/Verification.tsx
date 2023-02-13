@@ -133,7 +133,7 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className="rounded-xl bg-flathubWhite dark:bg-flathubJet p-4"
+            className="rounded-xl bg-flathubWhite p-4 dark:bg-flathubJet"
             {...getFloatingProps()}
           >
             {

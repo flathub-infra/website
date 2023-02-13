@@ -50,7 +50,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
           <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathubGray98 dark:bg-flathubRaisinBlack p-14 shadow-md">
+            <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathubGray98 p-14 shadow-md dark:bg-flathubRaisinBlack">
               <Dialog.Title className="m-0">{t("create-tokens")}</Dialog.Title>
               <textarea
                 placeholder={t("token-creation-placeholder")}

@@ -5,7 +5,7 @@ const Footer = () => {
   const { t } = useTranslation()
 
   return (
-    <footer className="mt-16 bg-flathubCyanBlueAzure dark:bg-flathubIndigo p-12">
+    <footer className="mt-16 bg-flathubCyanBlueAzure p-12 dark:bg-flathubIndigo">
       <div className="mx-auto grid max-w-[900px] grid-cols-1 justify-items-center gap-0 sm:grid-cols-2 md:grid-cols-4">
         <div className="m-3 min-w-[200px] text-gray-100 ">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">

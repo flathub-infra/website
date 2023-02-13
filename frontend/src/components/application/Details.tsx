@@ -172,7 +172,7 @@ const Details: FunctionComponent<Props> = ({
           <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
-                className="!hover:text-gray-100 absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl bg-flathubGray92 dark:bg-flathubOuterSpace px-3 py-3 text-2xl !text-flathubNickel dark:text-flathubDarkGray hover:cursor-pointer hover:bg-opacity-50"
+                className="!hover:text-gray-100 absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl bg-flathubGray92 px-3 py-3 text-2xl !text-flathubNickel hover:cursor-pointer hover:bg-opacity-50 dark:bg-flathubOuterSpace dark:text-flathubDarkGray"
                 onClick={() => setShowLightbox(true)}
                 aria-label={t("zoom")}
               >
@@ -256,7 +256,7 @@ const Details: FunctionComponent<Props> = ({
           </div>
           {scrollHeight > collapsedHeight && (
             <button {...getToggleProps()}>
-              <span className="m-0 w-full rounded-xl bg-flathubWhite dark:bg-flathubJet/80 py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathubWhite dark:bg-flathubJet">
+              <span className="m-0 w-full rounded-xl bg-flathubWhite py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathubWhite dark:bg-flathubJet/80 dark:bg-flathubJet">
                 {isExpanded ? t(`show-less`) : t(`show-more`)}
               </span>
             </button>
