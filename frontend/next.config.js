@@ -32,6 +32,9 @@ const sentryWebpackPluginOptions = {
 }
 
 const nextConfig = (phase) => ({
+  experimental: {
+    scrollRestoration: true,
+  },
   i18n,
   images: {
     domains: [
