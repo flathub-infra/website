@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next"
 import React from "react"
 import { Appstream } from "src/types/Appstream"
-import { UserState } from "src/types/Login"
 import { VendingSetup } from "src/types/Vending"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import Button from "../Button"
@@ -50,7 +49,7 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ml-auto">
-        <Button className="w-52 sm:w-full" onClick={installClicked}>
+        <Button className="w-52 sm:w-32 md:w-40" onClick={installClicked}>
           {t("install")}
         </Button>
         {app.urls?.donation && (
@@ -60,7 +59,7 @@ export function AppHeader({
             rel="noreferrer"
             onClick={donateClicked}
             passHref
-            className="w-52 sm:w-full"
+            className="w-52 sm:w-32 md:w-40"
             variant="secondary"
           >
             {t("donate")}
@@ -70,7 +69,7 @@ export function AppHeader({
           <ButtonLink
             passHref
             href={`/apps/purchase/${app.id}`}
-            className="w-52 sm:w-full"
+            className="w-52 sm:w-32 md:w-40"
           >
             {t("kind-purchase")}
           </ButtonLink>
