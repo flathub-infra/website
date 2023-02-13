@@ -74,25 +74,34 @@
     @apply p-0;
     @apply m-0;
     @apply overflow-x-hidden;
-    @apply text-textPrimary;
+    @apply text-flathubRaisinBlack;
     @apply min-h-screen;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html,
+    body {
+      @apply text-flathubGray98;
+    }
   }
 }
 
 :root {
-  --white: hsl(0, 0%, 98%);
-  --bg-color-primary: var(--white);
-  --bg-color-secondary: hsl(0, 0%, 100%);
+  // colors used via tailwind
+  --flathub-cyan-blue-azure: 74 134 207;
+  --flathub-indigo: 27 60 101;
+  --flathub-electric-red: 226 0 0;
 
-  --bg-button-secondary: hsl(0, 0%, 92.2%);
-
-  --text-primary: hsl(195, 8%, 19.6%);
-  --text-secondary: hsl(0, 0%, 44.7%);
-
-  --color-primary: hsl(212.9, 58.1%, 55.1%);
-  --color-danger: hsl(0, 100%, 44.3%);
-
-  --color-highlight: rgba(0, 0, 0, 0.1);
+  // grays
+  --flathub-white: 255 255 255;
+  --flathub-gray-98: 250 250 250;
+  --flathub-gray-92: 235 235 235;
+  --flathub-dark-gray: 170 170 170;
+  --flathub-nickel: 114 114 114;
+  --flathub-outer-space: 73 73 73;
+  --flathub-jet: 53 53 53;
+  --flathub-gunmetal: 46 52 54;
+  --flathub-raisin-black: 36 36 36;
 
   --base-border-radius: 12px;
   --button-border-radius: 8px;
@@ -100,35 +109,30 @@
 
   --toastify-font-family: inherit;
 
-  --color-link: var(--color-primary);
+
+  // for worldmap and below css
+  --text-primary: var(--flathub-gunmetal);
+  --bg-color-secondary: var(--flathub-white);
+  --color-primary: var(--flathub-cyan-blue-azure);
 }
 
 [data-theme="dark"] {
   // Override react-tostify variable here for easy theme adherence
-  --toastify-color-light: var(--toastify-color-dark);
-  --toastify-text-color-light: var(--text-primary);
+  --toastify-color-light: var(--toastify-color-dark); // todo: check if this ever worked
+  --toastify-text-color-light: var(--flathub-gray-98);
 
-  --bg-color-primary: hsl(0, 0%, 14.1%);
-  --bg-color-secondary: hsl(0, 0%, 20.8%);
 
-  --bg-button-secondary: hsl(0, 0%, 28.6%);
-
-  --text-primary: var(--white);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-
-  --color-primary: hsl(212.9, 58.1%, calc(55.1% - 30%));
-
-  --color-highlight: rgba(255, 255, 255, 0.1);
-
-  --color-link: hsl(212.9, 58.1%, 55.1%);
+  --text-primary: var(--flathub-gray-98);
+  --bg-color-secondary: var(--flathub-jet);
+  --color-primary: var(--flathub-indigo);
 }
+
 a {
-  color: var(--color-link);
+  color: rgb(var(--flathub-cyan-blue-azure));
 }
 
 .carousel {
   outline: none;
-  background: var(--bg-color-secondary);
   width: 100%;
 
   .control-arrow {
@@ -143,9 +147,13 @@ a {
     padding: 8px 7px !important;
     border-radius: var(--button-border-radius) !important;
 
-    background-color: var(--bg-button-secondary) !important;
-    color: var(--link-color) !important;
+    background-color: rgb(var(--flathub-gray-92)) !important;
+    color: rgb(var(--flathub-gunmetal)) !important;
 
+    @media (prefers-color-scheme: dark) {
+      background-color: rgb(var(--flathub-outer-space)) !important;
+      color: rgb(var(--flathub-gray-98)) !important;
+    }
     &:hover {
       opacity: 0.5 !important;
     }
@@ -170,14 +178,13 @@ a {
   .slide {
     margin-bottom: 60px;
     margin-top: 20px;
-    background-color: var(--bg-color-secondary);
   }
 
   .control-dots {
     margin-bottom: 20px;
 
     .dot {
-      background-color: var(--text-primary);
+      background-color: rgb(var(--text-primary));
       opacity: 0.4;
       box-shadow: none;
       transform: scale(1);

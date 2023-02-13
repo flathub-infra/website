@@ -12,7 +12,7 @@ Typical UX is to show an error on form input blur event, then hide it on form in
 */
 const InlineError: FunctionComponent<Props> = ({ shown, error }) => {
   return shown ? (
-    <p role="alert" className="my-2 text-colorDanger">
+    <p role="alert" className="my-2 text-flathubElectricRed">
       {error}
     </p>
   ) : (

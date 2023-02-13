@@ -35,7 +35,7 @@ const PaymentForm: FunctionComponent<Props> = ({
 
   return (
     <form
-      className="flex flex-col gap-4 p-5 text-textPrimary"
+      className="flex flex-col gap-4 p-5 text-flathubGunmetal  dark:text-flathubGray98"
       onSubmit={handleSubmit}
     >
       <PaymentElement />

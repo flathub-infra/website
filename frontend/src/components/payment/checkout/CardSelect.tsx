@@ -83,7 +83,7 @@ const CardSelect: FunctionComponent<Props> = ({
           onClick={() => setUseCard(card)}
           className={
             useCard && card.id === useCard.id
-              ? "border border-colorPrimary"
+              ? "border border-flathubCyanBlueAzure dark:border-flathubIndigo"
               : ""
           }
         />

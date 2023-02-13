@@ -53,7 +53,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
     content = <p>{t(error)}</p>
   } else {
     content = (
-      <div className="flex flex-col gap-2 rounded-2xl bg-bgColorSecondary p-2">
+      <div className="flex flex-col gap-2 rounded-2xl bg-flathubWhite dark:bg-flathubJet p-2">
         {tokens?.tokens.map((token) => (
           <Disclosure key={token.id}>
             {({ open }) => (

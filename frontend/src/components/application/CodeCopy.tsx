@@ -30,9 +30,8 @@ const CodeCopy: FunctionComponent<Props> = ({
 
   return (
     <div
-      className={`relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl bg-bgColorSecondary p-2 pr-10 text-sm text-textSecondary shadow-md ${
-        styles.pre
-      } ${className ?? ""} ${nested ? "bg-bgColorPrimary" : ""}`}
+      className={`relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl bg-flathubWhite dark:bg-flathubJet p-2 pr-10 text-sm text-flathubNickel dark:text-flathubDarkGray shadow-md ${styles.pre
+        } ${className ?? ""} ${nested ? "bg-flathubGray98 dark:bg-flathubRaisinBlack" : ""}`}
     >
       {text}
       <CopyToClipboard
@@ -43,7 +42,7 @@ const CodeCopy: FunctionComponent<Props> = ({
         }}
       >
         <button
-          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-textSecondary hover:text-textPrimary"
+          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-flathubNickel dark:text-flathubDarkGray hover:text-flathubGunmetal hover:dark:text-flathubGray98"
           title={t("copy-text")}
         >
           {!copied && <HiSquare2Stack></HiSquare2Stack>}

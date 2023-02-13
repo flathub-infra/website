@@ -22,7 +22,7 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
   const prettyValue = formatCurrency(value / 100, i18n.language)
 
   return (
-    <div className="rounded-xl bg-bgColorSecondary p-3 shadow-md">
+    <div className="rounded-xl bg-flathubWhite dark:bg-flathubJet p-3 shadow-md">
       <p className="m-0">
         {t("transaction-summary-id", { id })}
         <br />
