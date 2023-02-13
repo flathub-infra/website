@@ -60,13 +60,13 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
   }
 
   return (
-    <div className="inline-flex gap-2 rounded-xl bg-flathubWhite dark:bg-flathubJet p-4">
+    <div className="inline-flex gap-2 rounded-xl bg-flathubWhite p-4 dark:bg-flathubJet">
       <input
         type="text"
         placeholder={t("token-redeem-placeholder")}
         value={text}
         onChange={textUpdate}
-        className="w-80 rounded-xl bg-flathubGray98 dark:bg-flathubRaisinBlack p-2"
+        className="w-80 rounded-xl bg-flathubGray98 p-2 dark:bg-flathubRaisinBlack"
       />
       <Button onClick={onSubmit}>{t("redeem-token")}</Button>
     </div>

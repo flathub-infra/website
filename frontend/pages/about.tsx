@@ -12,7 +12,7 @@ const About = () => {
       <div className="flex flex-col">
         {/* <!-- header --> */}
         <header
-          className={`flex bg-flathubCyanBlueAzure dark:bg-flathubIndigo bg-none bg-contain bg-no-repeat px-[5%] md:px-[20%] lg:bg-[url('/img/about.svg')] 2xl:px-[30%]`}
+          className={`flex bg-flathubCyanBlueAzure bg-none bg-contain bg-no-repeat px-[5%] dark:bg-flathubIndigo md:px-[20%] lg:bg-[url('/img/about.svg')] 2xl:px-[30%]`}
         >
           <div className="text-gray-50">
             <h1>{t("about-pagename")}</h1>

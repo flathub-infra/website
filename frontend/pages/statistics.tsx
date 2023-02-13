@@ -109,10 +109,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
       count: countryValue,
     })
 
-    const translation = `${translatedCountryName ??
+    const translation = `${
+      translatedCountryName ??
       countries.getName(countryCode, "en") ??
       t("unknown")
-      }: ${downloadTranslation}`
+    }: ${downloadTranslation}`
 
     return translation
   }
@@ -178,11 +179,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
-        <div className="h-[500px] rounded-xl bg-flathubWhite dark:bg-flathubJet p-4 shadow-md">
+        <div className="h-[500px] rounded-xl bg-flathubWhite p-4 shadow-md dark:bg-flathubJet">
           <Line data={data} options={options} />
         </div>
         <h3>{t("category-distribution")}</h3>
-        <div className="h-[500px] rounded-xl bg-flathubWhite dark:bg-flathubJet p-4 shadow-md">
+        <div className="h-[500px] rounded-xl bg-flathubWhite p-4 shadow-md dark:bg-flathubJet">
           <Bar
             data={{
               labels: category_data.map((x) =>

@@ -109,7 +109,6 @@
 
   --toastify-font-family: inherit;
 
-
   // for worldmap and below css
   --text-primary: var(--flathub-gunmetal);
   --bg-color-secondary: var(--flathub-white);
@@ -118,9 +117,10 @@
 
 [data-theme="dark"] {
   // Override react-tostify variable here for easy theme adherence
-  --toastify-color-light: var(--toastify-color-dark); // todo: check if this ever worked
+  --toastify-color-light: var(
+    --toastify-color-dark
+  ); // todo: check if this ever worked
   --toastify-text-color-light: var(--flathub-gray-98);
-
 
   --text-primary: var(--flathub-gray-98);
   --bg-color-secondary: var(--flathub-jet);

@@ -107,7 +107,7 @@ const Header = () => {
         className={({ open }) =>
           classNames(
             open ? "fixed inset-0 overflow-y-auto" : "",
-            "fixed z-40 w-full bg-flathubCyanBlueAzure dark:bg-flathubIndigo shadow-sm lg:overflow-y-visible",
+            "fixed z-40 w-full bg-flathubCyanBlueAzure shadow-sm dark:bg-flathubIndigo lg:overflow-y-visible",
           )
         }
       >
@@ -159,7 +159,7 @@ const Header = () => {
                             value={query}
                             className={
                               (i18n.dir() === "rtl" ? "md:pr-10 " : "") +
-                              "block w-full rounded-full bg-flathubGray98 dark:bg-flathubRaisinBlack py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-flathubGunmetal dark:focus:border-flathubGray98 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-flathubGunmetal dark:focus:ring-flathubGray98 dark:text-flathubGray98 dark:focus:text-white sm:text-sm"
+                              "block w-full rounded-full bg-flathubGray98 py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-flathubGunmetal focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-flathubGunmetal dark:bg-flathubRaisinBlack dark:text-flathubGray98 dark:focus:border-flathubGray98 dark:focus:text-white dark:focus:ring-flathubGray98 sm:text-sm"
                             }
                             placeholder={t("search-apps")}
                             type="search"

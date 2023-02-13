@@ -9,8 +9,8 @@ interface Props {
     icon: string | JSX.Element
     header: string
     content:
-    | { type: "url"; text: string; trackAsEvent: string }
-    | { type: "text"; text: string }
+      | { type: "url"; text: string; trackAsEvent: string }
+      | { type: "text"; text: string }
   }[]
 }
 
@@ -34,10 +34,11 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathubWhite dark:bg-flathubJet p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl ${item.content.type === "text"
-                  ? "grid-cols-[36px_calc(100%_-_36px)]"
-                  : ""
-                  }`}
+                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathubWhite p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathubJet ${
+                  item.content.type === "text"
+                    ? "grid-cols-[36px_calc(100%_-_36px)]"
+                    : ""
+                }`}
                 key={index}
               >
                 <div className="self-center text-2xl text-flathubNickel dark:text-flathubDarkGray">
