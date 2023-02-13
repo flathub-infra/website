@@ -9,8 +9,8 @@ interface Props {
     icon: string | JSX.Element
     header: string
     content:
-      | { type: "url"; text: string; trackAsEvent: string }
-      | { type: "text"; text: string }
+    | { type: "url"; text: string; trackAsEvent: string }
+    | { type: "text"; text: string }
   }[]
 }
 
@@ -34,20 +34,19 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-bgColorSecondary p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl ${
-                  item.content.type === "text"
-                    ? "grid-cols-[36px_calc(100%_-_36px)]"
-                    : ""
-                }`}
+                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathubWhite dark:bg-flathubJet p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl ${item.content.type === "text"
+                  ? "grid-cols-[36px_calc(100%_-_36px)]"
+                  : ""
+                  }`}
                 key={index}
               >
-                <div className="self-center text-2xl text-textSecondary">
+                <div className="self-center text-2xl text-flathubNickel dark:text-flathubDarkGray">
                   {item.icon}
                 </div>
                 <div className="text-base">
                   {item.header}
                   {item.content.type === "text" && (
-                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-textSecondary">
+                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathubNickel dark:text-flathubDarkGray">
                       {item.content.text}
                     </span>
                   )}
@@ -57,7 +56,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-textSecondary"
+                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathubNickel dark:text-flathubDarkGray"
                     >
                       {item.content.text}
                     </a>

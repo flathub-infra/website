@@ -19,7 +19,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
 
   return (
     <>
-      <Disclosure.Button className="flex justify-between rounded-lg border p-2 hover:bg-colorHighlight focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
+      <Disclosure.Button className="flex justify-between rounded-lg border p-2 hover:opacity-80 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
         <div className="grid w-full grid-cols-3 justify-items-start">
           <span>{token.id}</span>
           <span>{token.name}</span>

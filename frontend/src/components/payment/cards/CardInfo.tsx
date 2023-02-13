@@ -22,7 +22,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   const { resolvedTheme } = useTheme()
 
   const classes = [
-    "grid grid-cols-3 grid-rows-3 shadow-md w-[250px] min-w-[200px] p-4 rounded-xl bg-bgColorSecondary max-w-[300px]",
+    "grid grid-cols-3 grid-rows-3 shadow-md w-[250px] min-w-[200px] p-4 rounded-xl bg-flathubWhite dark:bg-flathubJet max-w-[300px]",
   ]
   if (onClick) {
     classes.push("hover:cursor-pointer")
@@ -67,7 +67,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
       <span className="col-span-3 row-start-3 flex">
         <div className="flex flex-col font-bold ">
           <div className="text-gray-400 dark:text-gray-500">{t("expiry")}</div>
-          <div className="text-textPrimary">
+          <div className="text-flathubGunmetal  dark:text-flathubGray98">
             {card.exp_month} / {card.exp_year}
           </div>
         </div>

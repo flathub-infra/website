@@ -1,19 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class", '[data-theme="dark"]'],
   important: true,
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-        bgColorPrimary: "var(--bg-color-primary)",
-        bgColorSecondary: "var(--bg-color-secondary)",
-        bgButtonSecondary: "var(--bg-button-secondary)",
-        textPrimary: "var(--text-primary)",
-        textSecondary: "var(--text-secondary)",
-        colorPrimary: "var(--color-primary)",
-        colorDanger: "var(--color-danger)",
-        colorHighlight: "var(--color-highlight)",
-        colorLink: "var(--color-link)",
+        flathubGray98: "rgb(var(--flathub-gray-98) / <alpha-value>)",
+        flathubRaisinBlack: "rgb(var(--flathub-raisin-black) / <alpha-value>)",
+        flathubWhite: "rgb(var(--flathub-white) / <alpha-value>)",
+        flathubJet: "rgb(var(--flathub-jet) / <alpha-value>)",
+        flathubGray92: "rgb(var(--flathub-gray-92) / <alpha-value>)",
+        flathubOuterSpace: "rgb(var(--flathub-outer-space) / <alpha-value>)",
+        flathubGunmetal: "rgb(var(--flathub-gunmetal) / <alpha-value>)",
+        flathubNickel: "rgb(var(--flathub-nickel) / <alpha-value>)",
+        flathubDarkGray: "rgb(var(--flathub-dark-gray) / <alpha-value>)",
+        flathubCyanBlueAzure:
+          "rgb(var(--flathub-cyan-blue-azure) / <alpha-value>)",
+        flathubIndigo: "rgb(var(--flathub-indigo) / <alpha-value>)",
+        flathubElectricRed: "rgb(var(--flathub-electric-red) / <alpha-value>)",
       },
       boxShadow: {
         md: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",

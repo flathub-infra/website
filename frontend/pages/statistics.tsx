@@ -109,11 +109,10 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
       count: countryValue,
     })
 
-    const translation = `${
-      translatedCountryName ??
+    const translation = `${translatedCountryName ??
       countries.getName(countryCode, "en") ??
       t("unknown")
-    }: ${downloadTranslation}`
+      }: ${downloadTranslation}`
 
     return translation
   }
@@ -170,20 +169,20 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
         <h3>{t("downloads-per-country")}</h3>
         <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
-            color="var(--color-primary)"
-            backgroundColor="var(--bg-color-secondary)"
-            borderColor="var(--text-primary)"
+            color="rgb(var(--color-primary))"
+            backgroundColor="rgb(var(--bg-color-secondary))"
+            borderColor="rgb(var(--text-primary))"
             size="responsive"
             data={country_data}
             tooltipTextFunction={getLocalizedText}
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
-        <div className="h-[500px] rounded-xl bg-bgColorSecondary p-4 shadow-md">
+        <div className="h-[500px] rounded-xl bg-flathubWhite dark:bg-flathubJet p-4 shadow-md">
           <Line data={data} options={options} />
         </div>
         <h3>{t("category-distribution")}</h3>
-        <div className="h-[500px] rounded-xl bg-bgColorSecondary p-4 shadow-md">
+        <div className="h-[500px] rounded-xl bg-flathubWhite dark:bg-flathubJet p-4 shadow-md">
           <Bar
             data={{
               labels: category_data.map((x) =>

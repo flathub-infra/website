@@ -56,7 +56,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   return (
     <>
       {latestRelease && (
-        <div className="rounded-xl bg-bgColorSecondary shadow-md">
+        <div className="rounded-xl bg-flathubWhite dark:bg-flathubJet shadow-md">
           <div>
             <div className="flex flex-col gap-2 px-4 pt-4">
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
@@ -84,11 +84,10 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`prose relative transition-[height] transition-all duration-700 dark:prose-invert ${
-                  !isExpanded && scrollHeight > collapsedHeight
-                    ? "from-transparent to-bgColorSecondary before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
-                    : ""
-                }`}
+                className={`prose relative transition-all duration-700 dark:prose-invert ${!isExpanded && scrollHeight > collapsedHeight
+                  ? "from-transparent to-flathubWhite dark:to-flathubJet before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-['']"
+                  : ""
+                  }`}
                 ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: releaseDescription,
@@ -97,7 +96,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
             </div>
             {scrollHeight > collapsedHeight && (
               <button
-                className="w-full rounded-tl-none rounded-tr-none rounded-bl-xl rounded-br-xl border-t py-3 px-0 font-semibold transition hover:cursor-pointer hover:bg-colorHighlight dark:border-zinc-600"
+                className="w-full rounded-tl-none rounded-tr-none rounded-bl-xl rounded-br-xl border-t py-3 px-0 font-semibold transition hover:cursor-pointer hover:bg-white/5 dark:border-zinc-600"
                 {...getToggleProps()}
               >
                 {isExpanded ? (

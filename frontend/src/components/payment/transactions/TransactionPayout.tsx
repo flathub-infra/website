@@ -11,7 +11,7 @@ const TransactionPayout: FunctionComponent<Props> = ({ payout }) => {
   const { t, i18n } = useTranslation()
 
   return (
-    <div className="flex flex-wrap gap-3 rounded-xl bg-bgColorSecondary p-3 shadow-md">
+    <div className="flex flex-wrap gap-3 rounded-xl bg-flathubWhite dark:bg-flathubJet p-3 shadow-md">
       <span>
         {formatCurrency(payout.amount / 100, i18n.language, payout.currency)}
       </span>
