@@ -256,7 +256,7 @@ const Details: FunctionComponent<Props> = ({
           </div>
           {scrollHeight > collapsedHeight && (
             <button {...getToggleProps()}>
-              <span className="m-0 w-full rounded-xl bg-flathubWhite py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathubWhite dark:bg-flathubJet/80 dark:bg-flathubJet">
+              <span className="m-0 w-full rounded-xl bg-flathubWhite py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathubWhite dark:bg-flathubJet/80 hover:dark:bg-flathubJet">
                 {isExpanded ? t(`show-less`) : t(`show-more`)}
               </span>
             </button>

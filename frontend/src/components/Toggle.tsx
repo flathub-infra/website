@@ -19,8 +19,8 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
       onChange={toggle}
       className={classNames(
         enabled
-          ? "bg-flathubCyanBlueAzure dark:bg-flathubIndigo/75"
-          : "bg-flathubCyanBlueAzure dark:bg-flathubIndigo",
+          ? "bg-flathubCyanBlueAzure dark:bg-flathubIndigo"
+          : "bg-flathubNickel dark:bg-flathubOuterSpace",
         `relative inline-flex h-6 w-11 items-center rounded-full`,
       )}
     >
