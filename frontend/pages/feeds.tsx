@@ -16,14 +16,18 @@ const Feeds = (): JSX.Element => {
         <h3>{t("new-apps")}</h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-apps-description")}</p>
-          <ButtonLink href={FEED_NEW_URL} passHref>
+          <ButtonLink className="w-52" href={FEED_NEW_URL} passHref>
             {t("subscribe")}
           </ButtonLink>
         </div>
         <h3>{t("new-and-updated-apps")}</h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-and-updated-apps-description")}</p>
-          <ButtonLink href={FEED_RECENTLY_UPDATED_URL} passHref>
+          <ButtonLink
+            className="w-52"
+            href={FEED_RECENTLY_UPDATED_URL}
+            passHref
+          >
             {t("subscribe")}
           </ButtonLink>
         </div>
