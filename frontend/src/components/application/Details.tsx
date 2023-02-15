@@ -92,15 +92,20 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
 }) => {
   const { t } = useTranslation()
-  const user = useUserContext()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
+  const [scrollHeight, setScrollHeight] = useState(0)
   const collapsedHeight = 172
   const ref = useRef(null)
-  const [scrollHeight, setScrollHeight] = useState(0)
+
   useEffect(() => {
     setScrollHeight(ref.current.scrollHeight)
   }, [ref])
+
+  useEffect(() => {
+    setCurrentScreenshot(0)
+  }, [app.id])
+
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
   })
@@ -190,6 +195,7 @@ const Details: FunctionComponent<Props> = ({
               useKeyboardArrows={true}
               dynamicHeight={false}
               showStatus={false}
+              selectedItem={currentScreenshot}
               onChange={(index) => {
                 setCurrentScreenshot(index)
               }}
