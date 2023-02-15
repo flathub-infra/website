@@ -54,8 +54,6 @@
   "new-and-updated-apps": "App nuove e aggiornate",
   "subscribe": "Iscriviti",
   "rss-feeds-description": "Ora puoi iscriverti ai nostri flussi RSS per ricevere le ultime chicche di Flathub nel tuo lettore di flussi!",
-  "client-error": "Errore di client",
-  "an-error-occurred-client": "Si è verificato un errore sul client.",
   "server-error": "Errore del server",
   "whoops": "Ops!",
   "login": "Accedi",

@@ -133,7 +133,6 @@
   "stripe-error-incorrect_cvc": "Kod bezpieczeństwa karty jest niepoprawny. Sprawdź kod bezpieczeństwa karty lub użyj innej.",
   "stripe-error-incorrect_number": "Numer karty jest niepoprawny. Sprawdź numer karty lub użyj innej.",
   "stripe-error-payment_intent_authentication_failure": "Nie udało się uwierzytelnić sposobu płatności. Proszę wybrać inny sposób płatności i spróbować ponownie.",
-  "an-error-occurred-client": "Wystąpił błąd klienta.",
   "server-error": "Błąd serwera",
   "terms-and-conditions": "Zasady i warunki użytkowania",
   "terms-and-conditions-description": "Używając tej strony zgadzasz się z zasadami i warunkami użytkowania.",
@@ -155,7 +154,6 @@
   "subscribe": "Subskrybuj",
   "rss-feeds-description": "Możesz teraz subskrybować nasz kanał RSS, aby dostawać nowinki Flathub w swoim czytniku!",
   "new-apps-description": "Aplikacje opublikowane na Flathubie w ciągu ostatnich 30 dni.",
-  "client-error": "Błąd klienta",
   "reporting-issues-block": "<0>Kwestie związane z bezpieczeństwem lub prawem mogą być zgłaszane <2>zarządcom Flathub</2>.</0>",
   "acknowledgements": "Podziękowania",
   "official-badges": "Oficjalne emblematy Flathub",
@@ -244,8 +242,6 @@
   "more-type": "Więcej {{type}}",
   "verified": "Zweryfikowano",
   "app-is-verified": "Ta aplikacja jest zweryfikowana:",
-  "verified-manually": "Ta aplikacja została ręcznie zweryfikowana przez zespół Flathubu",
-  "verified-website": "Publikujący zweryfikował własność {{website}}",
   "verified-login-provider": "Zweryfikowane przez @{{login_name}} używając {{login_provider}}",
   "x-downloads": "{{x}} pobrań"
 }
