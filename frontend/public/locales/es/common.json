@@ -64,8 +64,6 @@
   "flathub-description": "Encuentre e instale cientos de aplicaciones y juegos para Linux. ¡Disfrute de GIMP, GNU Octave, Spotify, Steam y muchos más!",
   "new-apps-description": "Aplicaciones publicadas en Flathub en los últimos 30 días.",
   "new-and-updated-apps-description": "Aplicaciones publicadas o actualizadas en Flathub en los últimos 7 días.",
-  "client-error": "Error del cliente",
-  "an-error-occurred-client": "Se ha producido un error en el cliente.",
   "server-error": "Error del servidor",
   "an-error-occurred-server": "Se ha producido un error en el servidor.",
   "whoops": "¡Ups!",
@@ -245,8 +243,6 @@
   "app-is-verified": "Esta aplicación está verificada",
   "more-type": "Más {{type}}",
   "x-downloads": "{{x}} descargas",
-  "verified-manually": "Ésta aplicación ha sido verificada manueal por el equipo de Flathub",
-  "verified-website": "Este publicador ha sido verificada como propiedad de {{website}}",
   "verified-login-provider": "Verificado por @{{login_name}} en {{login_provider}}",
   "website-verification": "Verificación sitio web",
   "login-provider-verification-instruction": "Intentaremos verificar su acceso a la aplicación con su inicio de sesión <1>{{login_name}}</1> con su cuenta en <3>{{login_provider}}</3>",
@@ -274,5 +270,13 @@
   "website-validation-instruction": "Crea una página en<1>{{ webpage }}</1> que contenga el siguiente token: <3>{{token}}</3> Si la página ya existe, añádele el token.",
   "count-desktop-applications": "Total de las aplicaciones del escritorio",
   "category-distribution": "Distribución de las categorías",
-  "chat": "Chat"
+  "chat": "Chat",
+  "login-provider-verification-user-does-not-exist": "La cuenta <1>@{{required_name}}</1> no existe en <3>{{login_provider}}</3>. Debe reclamar este nombre de cuenta y usarlo para verificar su aplicación o, idealmente, elegir una ID de aplicación sobre la que tenga control. Consulte <5>la documentación de Flatpak</5> para obtener información sobre las buenos identificadores de las aplicaciones.",
+  "login-provider-verification-main-instruction-organization": "Confirme su derecho a utilizar el ID <1>{{id}}</1> iniciando sesión con derechos administrativos desde la cuenta <3>@{{login_name}}</3> en <5>{{login_provider}} </5>.",
+  "login-provider-verification-enable-github-app": "Para continuar con la verificación, Flathub necesita permiso para leer tú categoría en la organización <1>@{{organization}}</1>. Puedes conceder este permiso <3>en tu configuración de GitHub</3>.",
+  "login-provider-verification-not-org-admin": "Actualmente estás conectado a <1>{{login_provider}}</1> como <3>@{{current_name}}</3>. Esta cuenta no es un administrador de la <5>@{{organization}}</5>. Para verificar esta aplicación, debe solicitar privilegios de administrador en la organización o iniciar sesión con una cuenta que ya los tenga.",
+  "login-provider-verification-not-org-member": "Actualmente estás conectado a <1>{{login_provider}}</1> como <3>@{{current_name}}</3>. Esta cuenta no es miembro de la organización <5>@{{organization}}</5>. Para verificar esta aplicación, debe solicitar privilegios de administrador en la organización o iniciar sesión con una cuenta que ya los tenga.",
+  "login-provider-verification-failed": "No se cumplieron los requisitos de la verificación.",
+  "try-again": "Prueba de nuevo",
+  "verified-apps": "Aplicaciones verificadas"
 }

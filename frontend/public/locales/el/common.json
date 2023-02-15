@@ -73,8 +73,6 @@
   "new-and-updated-apps": "Πρόσφατα Ενημερωμένες Εφαρμογές",
   "subscribe": "Εγγραφή",
   "new-apps-description": "Εφαρμογές που δημοσιεύθηκαν στο Flathub τις τελευταίες 30 μέρες.",
-  "client-error": "Σφάλμα εφαρμογής",
-  "an-error-occurred-client": "Προέκυψε σφάλμα στην εφαρμογή.",
   "server-error": "Σφάλμα Διακομιστή",
   "an-error-occurred-server": "Προέκυψε σφάλμα στον διακομιστή.",
   "login": "Σύνδεση",

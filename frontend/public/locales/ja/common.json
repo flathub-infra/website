@@ -74,8 +74,6 @@
   "home": "ホーム",
   "new-apps-description": "過去30日の間に公開されたアプリケーション",
   "applications-by-developer": "{{developer}} のアプリケーション",
-  "client-error": "クライアントエラー",
-  "an-error-occurred-client": "クライアントでエラーが発生しました。",
   "server-error": "サーバーエラー",
   "an-error-occurred-server": "サーバーでエラーが発生しました。",
   "reporting-issues": "問題を報告する",

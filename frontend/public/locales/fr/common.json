@@ -65,8 +65,6 @@
   "rss-feeds-description": "Vous pouvez désormais vous abonner à nos flux RSS pour recevoir les dernières nouveautés de Flathub dans votre lecteur de flux !",
   "new-apps-description": "Applications publiées dans Flathub au cours des 30 derniers jours.",
   "new-and-updated-apps-description": "Applications publiées ou mises à jour dans Flathub au cours des 7 derniers jours.",
-  "client-error": "Erreur du client",
-  "an-error-occurred-client": "Une erreur s'est produite sur le client.",
   "server-error": "Erreur de serveur",
   "an-error-occurred-server": "Une erreur s'est produite sur le serveur.",
   "whoops": "Oups !",

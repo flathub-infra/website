@@ -65,8 +65,6 @@
   "rss-feeds-description": "Du kan nå abonnere på RSS-informasjonskanaler for å få nyeste nytt i din informasjonkanalsleser.",
   "new-apps-description": "Programmer publisert på Flathub de siste 30 dagene.",
   "new-and-updated-apps-description": "Programmer publisert eller oppdatert på Flathub de siste 7 dagene.",
-  "client-error": "Klientfeil",
-  "an-error-occurred-client": "En feil oppstod i klienten.",
   "server-error": "Tjenerfeil",
   "an-error-occurred-server": "En feil oppstod på tjeneren.",
   "whoops": "Oida.",
