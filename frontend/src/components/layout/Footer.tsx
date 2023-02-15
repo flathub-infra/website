@@ -7,11 +7,11 @@ const Footer = () => {
   return (
     <footer className="mt-16 bg-flathubCyanBlueAzure p-12 dark:bg-flathubIndigo">
       <div className="mx-auto grid max-w-[900px] grid-cols-1 justify-items-center gap-0 sm:grid-cols-2 md:grid-cols-4">
-        <div className="m-3 min-w-[200px] text-gray-100 ">
+        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("applications")}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:space-y-3">
             <Link
               href="/apps/collection/popular"
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
@@ -51,11 +51,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 ">
+        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("community")}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:space-y-3">
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
               href="https://flatpak.org/about/"
@@ -91,11 +91,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 ">
+        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("developers")}
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:space-y-3">
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
               href="https://github.com/flathub/flathub/wiki/App-Submission"
@@ -121,11 +121,11 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 ">
+        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             Flathub
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col sm:space-y-3">
             <Link
               href="/languages"
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
