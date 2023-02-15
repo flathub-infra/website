@@ -38,13 +38,13 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
       </p>
       <CodeCopy
         text={`flatpak install flathub ${appId}`}
-        nested={resolvedTheme === "dark"}
+        nested
         onCopy={flatpakInstallCopied}
       />
       <h3>{t("run")}</h3>
       <CodeCopy
         text={`flatpak run ${appId}`}
-        nested={resolvedTheme === "dark"}
+        nested
         onCopy={flatpakRunCopied}
       />
     </div>

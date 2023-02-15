@@ -3,6 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
 import styles from "./CodeCopy.module.scss"
+import { classNames } from "src/styling"
 
 interface Props {
   text: string
@@ -30,11 +31,14 @@ const CodeCopy: FunctionComponent<Props> = ({
 
   return (
     <div
-      className={`relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl bg-flathubWhite p-2 pr-10 text-sm text-flathubNickel shadow-md dark:bg-flathubJet dark:text-flathubDarkGray ${
-        styles.pre
-      } ${className ?? ""} ${
-        nested ? "bg-flathubGray98 dark:bg-flathubRaisinBlack" : ""
-      }`}
+      className={classNames(
+        `relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl p-2 pr-10 text-sm`,
+        styles.pre,
+        className,
+        nested
+          ? "bg-flathubGray92 text-flathubOuterSpace dark:bg-flathubRaisinBlack dark:text-flathubDarkGray"
+          : "bg-flathubGray92 text-flathubOuterSpace dark:bg-flathubJet dark:text-flathubDarkGray",
+      )}
     >
       {text}
       <CopyToClipboard
