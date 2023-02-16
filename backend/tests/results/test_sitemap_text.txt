@@ -1,8 +1,15 @@
 https://beta.flathub.org/about
 https://beta.flathub.org/apps
+https://beta.flathub.org/apps/category/AudioVideo
+https://beta.flathub.org/apps/category/Development
+https://beta.flathub.org/apps/category/Education
 https://beta.flathub.org/apps/category/Game
+https://beta.flathub.org/apps/category/Graphics
 https://beta.flathub.org/apps/category/Network
 https://beta.flathub.org/apps/category/Office
+https://beta.flathub.org/apps/category/Science
+https://beta.flathub.org/apps/category/System
+https://beta.flathub.org/apps/category/Utility
 https://beta.flathub.org/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/apps/collection/developer/Sugar Labs Community
@@ -21,9 +28,16 @@ https://beta.flathub.org/statistics
 https://beta.flathub.org/terms-and-conditions
 https://beta.flathub.org/en-GB/about
 https://beta.flathub.org/en-GB/apps
+https://beta.flathub.org/en-GB/apps/category/AudioVideo
+https://beta.flathub.org/en-GB/apps/category/Development
+https://beta.flathub.org/en-GB/apps/category/Education
 https://beta.flathub.org/en-GB/apps/category/Game
+https://beta.flathub.org/en-GB/apps/category/Graphics
 https://beta.flathub.org/en-GB/apps/category/Network
 https://beta.flathub.org/en-GB/apps/category/Office
+https://beta.flathub.org/en-GB/apps/category/Science
+https://beta.flathub.org/en-GB/apps/category/System
+https://beta.flathub.org/en-GB/apps/category/Utility
 https://beta.flathub.org/en-GB/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/en-GB/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/en-GB/apps/collection/developer/Sugar Labs Community
@@ -42,9 +56,16 @@ https://beta.flathub.org/en-GB/statistics
 https://beta.flathub.org/en-GB/terms-and-conditions
 https://beta.flathub.org/en/about
 https://beta.flathub.org/en/apps
+https://beta.flathub.org/en/apps/category/AudioVideo
+https://beta.flathub.org/en/apps/category/Development
+https://beta.flathub.org/en/apps/category/Education
 https://beta.flathub.org/en/apps/category/Game
+https://beta.flathub.org/en/apps/category/Graphics
 https://beta.flathub.org/en/apps/category/Network
 https://beta.flathub.org/en/apps/category/Office
+https://beta.flathub.org/en/apps/category/Science
+https://beta.flathub.org/en/apps/category/System
+https://beta.flathub.org/en/apps/category/Utility
 https://beta.flathub.org/en/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/en/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/en/apps/collection/developer/Sugar Labs Community
@@ -63,9 +84,16 @@ https://beta.flathub.org/en/statistics
 https://beta.flathub.org/en/terms-and-conditions
 https://beta.flathub.org/de/about
 https://beta.flathub.org/de/apps
+https://beta.flathub.org/de/apps/category/AudioVideo
+https://beta.flathub.org/de/apps/category/Development
+https://beta.flathub.org/de/apps/category/Education
 https://beta.flathub.org/de/apps/category/Game
+https://beta.flathub.org/de/apps/category/Graphics
 https://beta.flathub.org/de/apps/category/Network
 https://beta.flathub.org/de/apps/category/Office
+https://beta.flathub.org/de/apps/category/Science
+https://beta.flathub.org/de/apps/category/System
+https://beta.flathub.org/de/apps/category/Utility
 https://beta.flathub.org/de/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/de/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/de/apps/collection/developer/Sugar Labs Community
@@ -84,9 +112,16 @@ https://beta.flathub.org/de/statistics
 https://beta.flathub.org/de/terms-and-conditions
 https://beta.flathub.org/fr/about
 https://beta.flathub.org/fr/apps
+https://beta.flathub.org/fr/apps/category/AudioVideo
+https://beta.flathub.org/fr/apps/category/Development
+https://beta.flathub.org/fr/apps/category/Education
 https://beta.flathub.org/fr/apps/category/Game
+https://beta.flathub.org/fr/apps/category/Graphics
 https://beta.flathub.org/fr/apps/category/Network
 https://beta.flathub.org/fr/apps/category/Office
+https://beta.flathub.org/fr/apps/category/Science
+https://beta.flathub.org/fr/apps/category/System
+https://beta.flathub.org/fr/apps/category/Utility
 https://beta.flathub.org/fr/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fr/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fr/apps/collection/developer/Sugar Labs Community
@@ -105,9 +140,16 @@ https://beta.flathub.org/fr/statistics
 https://beta.flathub.org/fr/terms-and-conditions
 https://beta.flathub.org/nb-NO/about
 https://beta.flathub.org/nb-NO/apps
+https://beta.flathub.org/nb-NO/apps/category/AudioVideo
+https://beta.flathub.org/nb-NO/apps/category/Development
+https://beta.flathub.org/nb-NO/apps/category/Education
 https://beta.flathub.org/nb-NO/apps/category/Game
+https://beta.flathub.org/nb-NO/apps/category/Graphics
 https://beta.flathub.org/nb-NO/apps/category/Network
 https://beta.flathub.org/nb-NO/apps/category/Office
+https://beta.flathub.org/nb-NO/apps/category/Science
+https://beta.flathub.org/nb-NO/apps/category/System
+https://beta.flathub.org/nb-NO/apps/category/Utility
 https://beta.flathub.org/nb-NO/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/nb-NO/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/nb-NO/apps/collection/developer/Sugar Labs Community
@@ -126,9 +168,16 @@ https://beta.flathub.org/nb-NO/statistics
 https://beta.flathub.org/nb-NO/terms-and-conditions
 https://beta.flathub.org/tr/about
 https://beta.flathub.org/tr/apps
+https://beta.flathub.org/tr/apps/category/AudioVideo
+https://beta.flathub.org/tr/apps/category/Development
+https://beta.flathub.org/tr/apps/category/Education
 https://beta.flathub.org/tr/apps/category/Game
+https://beta.flathub.org/tr/apps/category/Graphics
 https://beta.flathub.org/tr/apps/category/Network
 https://beta.flathub.org/tr/apps/category/Office
+https://beta.flathub.org/tr/apps/category/Science
+https://beta.flathub.org/tr/apps/category/System
+https://beta.flathub.org/tr/apps/category/Utility
 https://beta.flathub.org/tr/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/tr/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/tr/apps/collection/developer/Sugar Labs Community
@@ -147,9 +196,16 @@ https://beta.flathub.org/tr/statistics
 https://beta.flathub.org/tr/terms-and-conditions
 https://beta.flathub.org/fi/about
 https://beta.flathub.org/fi/apps
+https://beta.flathub.org/fi/apps/category/AudioVideo
+https://beta.flathub.org/fi/apps/category/Development
+https://beta.flathub.org/fi/apps/category/Education
 https://beta.flathub.org/fi/apps/category/Game
+https://beta.flathub.org/fi/apps/category/Graphics
 https://beta.flathub.org/fi/apps/category/Network
 https://beta.flathub.org/fi/apps/category/Office
+https://beta.flathub.org/fi/apps/category/Science
+https://beta.flathub.org/fi/apps/category/System
+https://beta.flathub.org/fi/apps/category/Utility
 https://beta.flathub.org/fi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fi/apps/collection/developer/Sugar Labs Community
@@ -168,9 +224,16 @@ https://beta.flathub.org/fi/statistics
 https://beta.flathub.org/fi/terms-and-conditions
 https://beta.flathub.org/id/about
 https://beta.flathub.org/id/apps
+https://beta.flathub.org/id/apps/category/AudioVideo
+https://beta.flathub.org/id/apps/category/Development
+https://beta.flathub.org/id/apps/category/Education
 https://beta.flathub.org/id/apps/category/Game
+https://beta.flathub.org/id/apps/category/Graphics
 https://beta.flathub.org/id/apps/category/Network
 https://beta.flathub.org/id/apps/category/Office
+https://beta.flathub.org/id/apps/category/Science
+https://beta.flathub.org/id/apps/category/System
+https://beta.flathub.org/id/apps/category/Utility
 https://beta.flathub.org/id/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/id/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/id/apps/collection/developer/Sugar Labs Community
@@ -189,9 +252,16 @@ https://beta.flathub.org/id/statistics
 https://beta.flathub.org/id/terms-and-conditions
 https://beta.flathub.org/it/about
 https://beta.flathub.org/it/apps
+https://beta.flathub.org/it/apps/category/AudioVideo
+https://beta.flathub.org/it/apps/category/Development
+https://beta.flathub.org/it/apps/category/Education
 https://beta.flathub.org/it/apps/category/Game
+https://beta.flathub.org/it/apps/category/Graphics
 https://beta.flathub.org/it/apps/category/Network
 https://beta.flathub.org/it/apps/category/Office
+https://beta.flathub.org/it/apps/category/Science
+https://beta.flathub.org/it/apps/category/System
+https://beta.flathub.org/it/apps/category/Utility
 https://beta.flathub.org/it/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/it/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/it/apps/collection/developer/Sugar Labs Community
@@ -210,9 +280,16 @@ https://beta.flathub.org/it/statistics
 https://beta.flathub.org/it/terms-and-conditions
 https://beta.flathub.org/pl/about
 https://beta.flathub.org/pl/apps
+https://beta.flathub.org/pl/apps/category/AudioVideo
+https://beta.flathub.org/pl/apps/category/Development
+https://beta.flathub.org/pl/apps/category/Education
 https://beta.flathub.org/pl/apps/category/Game
+https://beta.flathub.org/pl/apps/category/Graphics
 https://beta.flathub.org/pl/apps/category/Network
 https://beta.flathub.org/pl/apps/category/Office
+https://beta.flathub.org/pl/apps/category/Science
+https://beta.flathub.org/pl/apps/category/System
+https://beta.flathub.org/pl/apps/category/Utility
 https://beta.flathub.org/pl/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/pl/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/pl/apps/collection/developer/Sugar Labs Community
@@ -231,9 +308,16 @@ https://beta.flathub.org/pl/statistics
 https://beta.flathub.org/pl/terms-and-conditions
 https://beta.flathub.org/pt-BR/about
 https://beta.flathub.org/pt-BR/apps
+https://beta.flathub.org/pt-BR/apps/category/AudioVideo
+https://beta.flathub.org/pt-BR/apps/category/Development
+https://beta.flathub.org/pt-BR/apps/category/Education
 https://beta.flathub.org/pt-BR/apps/category/Game
+https://beta.flathub.org/pt-BR/apps/category/Graphics
 https://beta.flathub.org/pt-BR/apps/category/Network
 https://beta.flathub.org/pt-BR/apps/category/Office
+https://beta.flathub.org/pt-BR/apps/category/Science
+https://beta.flathub.org/pt-BR/apps/category/System
+https://beta.flathub.org/pt-BR/apps/category/Utility
 https://beta.flathub.org/pt-BR/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/pt-BR/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/pt-BR/apps/collection/developer/Sugar Labs Community
@@ -252,9 +336,16 @@ https://beta.flathub.org/pt-BR/statistics
 https://beta.flathub.org/pt-BR/terms-and-conditions
 https://beta.flathub.org/ru/about
 https://beta.flathub.org/ru/apps
+https://beta.flathub.org/ru/apps/category/AudioVideo
+https://beta.flathub.org/ru/apps/category/Development
+https://beta.flathub.org/ru/apps/category/Education
 https://beta.flathub.org/ru/apps/category/Game
+https://beta.flathub.org/ru/apps/category/Graphics
 https://beta.flathub.org/ru/apps/category/Network
 https://beta.flathub.org/ru/apps/category/Office
+https://beta.flathub.org/ru/apps/category/Science
+https://beta.flathub.org/ru/apps/category/System
+https://beta.flathub.org/ru/apps/category/Utility
 https://beta.flathub.org/ru/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ru/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ru/apps/collection/developer/Sugar Labs Community
@@ -273,9 +364,16 @@ https://beta.flathub.org/ru/statistics
 https://beta.flathub.org/ru/terms-and-conditions
 https://beta.flathub.org/si/about
 https://beta.flathub.org/si/apps
+https://beta.flathub.org/si/apps/category/AudioVideo
+https://beta.flathub.org/si/apps/category/Development
+https://beta.flathub.org/si/apps/category/Education
 https://beta.flathub.org/si/apps/category/Game
+https://beta.flathub.org/si/apps/category/Graphics
 https://beta.flathub.org/si/apps/category/Network
 https://beta.flathub.org/si/apps/category/Office
+https://beta.flathub.org/si/apps/category/Science
+https://beta.flathub.org/si/apps/category/System
+https://beta.flathub.org/si/apps/category/Utility
 https://beta.flathub.org/si/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/si/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/si/apps/collection/developer/Sugar Labs Community
@@ -294,9 +392,16 @@ https://beta.flathub.org/si/statistics
 https://beta.flathub.org/si/terms-and-conditions
 https://beta.flathub.org/vi/about
 https://beta.flathub.org/vi/apps
+https://beta.flathub.org/vi/apps/category/AudioVideo
+https://beta.flathub.org/vi/apps/category/Development
+https://beta.flathub.org/vi/apps/category/Education
 https://beta.flathub.org/vi/apps/category/Game
+https://beta.flathub.org/vi/apps/category/Graphics
 https://beta.flathub.org/vi/apps/category/Network
 https://beta.flathub.org/vi/apps/category/Office
+https://beta.flathub.org/vi/apps/category/Science
+https://beta.flathub.org/vi/apps/category/System
+https://beta.flathub.org/vi/apps/category/Utility
 https://beta.flathub.org/vi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/vi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/vi/apps/collection/developer/Sugar Labs Community
@@ -315,9 +420,16 @@ https://beta.flathub.org/vi/statistics
 https://beta.flathub.org/vi/terms-and-conditions
 https://beta.flathub.org/ar/about
 https://beta.flathub.org/ar/apps
+https://beta.flathub.org/ar/apps/category/AudioVideo
+https://beta.flathub.org/ar/apps/category/Development
+https://beta.flathub.org/ar/apps/category/Education
 https://beta.flathub.org/ar/apps/category/Game
+https://beta.flathub.org/ar/apps/category/Graphics
 https://beta.flathub.org/ar/apps/category/Network
 https://beta.flathub.org/ar/apps/category/Office
+https://beta.flathub.org/ar/apps/category/Science
+https://beta.flathub.org/ar/apps/category/System
+https://beta.flathub.org/ar/apps/category/Utility
 https://beta.flathub.org/ar/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ar/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ar/apps/collection/developer/Sugar Labs Community
@@ -336,9 +448,16 @@ https://beta.flathub.org/ar/statistics
 https://beta.flathub.org/ar/terms-and-conditions
 https://beta.flathub.org/es/about
 https://beta.flathub.org/es/apps
+https://beta.flathub.org/es/apps/category/AudioVideo
+https://beta.flathub.org/es/apps/category/Development
+https://beta.flathub.org/es/apps/category/Education
 https://beta.flathub.org/es/apps/category/Game
+https://beta.flathub.org/es/apps/category/Graphics
 https://beta.flathub.org/es/apps/category/Network
 https://beta.flathub.org/es/apps/category/Office
+https://beta.flathub.org/es/apps/category/Science
+https://beta.flathub.org/es/apps/category/System
+https://beta.flathub.org/es/apps/category/Utility
 https://beta.flathub.org/es/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/es/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/es/apps/collection/developer/Sugar Labs Community
@@ -357,9 +476,16 @@ https://beta.flathub.org/es/statistics
 https://beta.flathub.org/es/terms-and-conditions
 https://beta.flathub.org/ja/about
 https://beta.flathub.org/ja/apps
+https://beta.flathub.org/ja/apps/category/AudioVideo
+https://beta.flathub.org/ja/apps/category/Development
+https://beta.flathub.org/ja/apps/category/Education
 https://beta.flathub.org/ja/apps/category/Game
+https://beta.flathub.org/ja/apps/category/Graphics
 https://beta.flathub.org/ja/apps/category/Network
 https://beta.flathub.org/ja/apps/category/Office
+https://beta.flathub.org/ja/apps/category/Science
+https://beta.flathub.org/ja/apps/category/System
+https://beta.flathub.org/ja/apps/category/Utility
 https://beta.flathub.org/ja/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ja/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ja/apps/collection/developer/Sugar Labs Community
@@ -378,9 +504,16 @@ https://beta.flathub.org/ja/statistics
 https://beta.flathub.org/ja/terms-and-conditions
 https://beta.flathub.org/cs/about
 https://beta.flathub.org/cs/apps
+https://beta.flathub.org/cs/apps/category/AudioVideo
+https://beta.flathub.org/cs/apps/category/Development
+https://beta.flathub.org/cs/apps/category/Education
 https://beta.flathub.org/cs/apps/category/Game
+https://beta.flathub.org/cs/apps/category/Graphics
 https://beta.flathub.org/cs/apps/category/Network
 https://beta.flathub.org/cs/apps/category/Office
+https://beta.flathub.org/cs/apps/category/Science
+https://beta.flathub.org/cs/apps/category/System
+https://beta.flathub.org/cs/apps/category/Utility
 https://beta.flathub.org/cs/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/cs/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/cs/apps/collection/developer/Sugar Labs Community
@@ -399,9 +532,16 @@ https://beta.flathub.org/cs/statistics
 https://beta.flathub.org/cs/terms-and-conditions
 https://beta.flathub.org/zh-Hans/about
 https://beta.flathub.org/zh-Hans/apps
+https://beta.flathub.org/zh-Hans/apps/category/AudioVideo
+https://beta.flathub.org/zh-Hans/apps/category/Development
+https://beta.flathub.org/zh-Hans/apps/category/Education
 https://beta.flathub.org/zh-Hans/apps/category/Game
+https://beta.flathub.org/zh-Hans/apps/category/Graphics
 https://beta.flathub.org/zh-Hans/apps/category/Network
 https://beta.flathub.org/zh-Hans/apps/category/Office
+https://beta.flathub.org/zh-Hans/apps/category/Science
+https://beta.flathub.org/zh-Hans/apps/category/System
+https://beta.flathub.org/zh-Hans/apps/category/Utility
 https://beta.flathub.org/zh-Hans/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/zh-Hans/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/zh-Hans/apps/collection/developer/Sugar Labs Community
@@ -420,9 +560,16 @@ https://beta.flathub.org/zh-Hans/statistics
 https://beta.flathub.org/zh-Hans/terms-and-conditions
 https://beta.flathub.org/bg/about
 https://beta.flathub.org/bg/apps
+https://beta.flathub.org/bg/apps/category/AudioVideo
+https://beta.flathub.org/bg/apps/category/Development
+https://beta.flathub.org/bg/apps/category/Education
 https://beta.flathub.org/bg/apps/category/Game
+https://beta.flathub.org/bg/apps/category/Graphics
 https://beta.flathub.org/bg/apps/category/Network
 https://beta.flathub.org/bg/apps/category/Office
+https://beta.flathub.org/bg/apps/category/Science
+https://beta.flathub.org/bg/apps/category/System
+https://beta.flathub.org/bg/apps/category/Utility
 https://beta.flathub.org/bg/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/bg/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/bg/apps/collection/developer/Sugar Labs Community
@@ -441,9 +588,16 @@ https://beta.flathub.org/bg/statistics
 https://beta.flathub.org/bg/terms-and-conditions
 https://beta.flathub.org/uk/about
 https://beta.flathub.org/uk/apps
+https://beta.flathub.org/uk/apps/category/AudioVideo
+https://beta.flathub.org/uk/apps/category/Development
+https://beta.flathub.org/uk/apps/category/Education
 https://beta.flathub.org/uk/apps/category/Game
+https://beta.flathub.org/uk/apps/category/Graphics
 https://beta.flathub.org/uk/apps/category/Network
 https://beta.flathub.org/uk/apps/category/Office
+https://beta.flathub.org/uk/apps/category/Science
+https://beta.flathub.org/uk/apps/category/System
+https://beta.flathub.org/uk/apps/category/Utility
 https://beta.flathub.org/uk/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/uk/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/uk/apps/collection/developer/Sugar Labs Community
@@ -462,9 +616,16 @@ https://beta.flathub.org/uk/statistics
 https://beta.flathub.org/uk/terms-and-conditions
 https://beta.flathub.org/et/about
 https://beta.flathub.org/et/apps
+https://beta.flathub.org/et/apps/category/AudioVideo
+https://beta.flathub.org/et/apps/category/Development
+https://beta.flathub.org/et/apps/category/Education
 https://beta.flathub.org/et/apps/category/Game
+https://beta.flathub.org/et/apps/category/Graphics
 https://beta.flathub.org/et/apps/category/Network
 https://beta.flathub.org/et/apps/category/Office
+https://beta.flathub.org/et/apps/category/Science
+https://beta.flathub.org/et/apps/category/System
+https://beta.flathub.org/et/apps/category/Utility
 https://beta.flathub.org/et/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/et/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/et/apps/collection/developer/Sugar Labs Community
@@ -483,9 +644,16 @@ https://beta.flathub.org/et/statistics
 https://beta.flathub.org/et/terms-and-conditions
 https://beta.flathub.org/ca/about
 https://beta.flathub.org/ca/apps
+https://beta.flathub.org/ca/apps/category/AudioVideo
+https://beta.flathub.org/ca/apps/category/Development
+https://beta.flathub.org/ca/apps/category/Education
 https://beta.flathub.org/ca/apps/category/Game
+https://beta.flathub.org/ca/apps/category/Graphics
 https://beta.flathub.org/ca/apps/category/Network
 https://beta.flathub.org/ca/apps/category/Office
+https://beta.flathub.org/ca/apps/category/Science
+https://beta.flathub.org/ca/apps/category/System
+https://beta.flathub.org/ca/apps/category/Utility
 https://beta.flathub.org/ca/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ca/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ca/apps/collection/developer/Sugar Labs Community
@@ -504,9 +672,16 @@ https://beta.flathub.org/ca/statistics
 https://beta.flathub.org/ca/terms-and-conditions
 https://beta.flathub.org/el/about
 https://beta.flathub.org/el/apps
+https://beta.flathub.org/el/apps/category/AudioVideo
+https://beta.flathub.org/el/apps/category/Development
+https://beta.flathub.org/el/apps/category/Education
 https://beta.flathub.org/el/apps/category/Game
+https://beta.flathub.org/el/apps/category/Graphics
 https://beta.flathub.org/el/apps/category/Network
 https://beta.flathub.org/el/apps/category/Office
+https://beta.flathub.org/el/apps/category/Science
+https://beta.flathub.org/el/apps/category/System
+https://beta.flathub.org/el/apps/category/Utility
 https://beta.flathub.org/el/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/el/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/el/apps/collection/developer/Sugar Labs Community
@@ -525,9 +700,16 @@ https://beta.flathub.org/el/statistics
 https://beta.flathub.org/el/terms-and-conditions
 https://beta.flathub.org/ta/about
 https://beta.flathub.org/ta/apps
+https://beta.flathub.org/ta/apps/category/AudioVideo
+https://beta.flathub.org/ta/apps/category/Development
+https://beta.flathub.org/ta/apps/category/Education
 https://beta.flathub.org/ta/apps/category/Game
+https://beta.flathub.org/ta/apps/category/Graphics
 https://beta.flathub.org/ta/apps/category/Network
 https://beta.flathub.org/ta/apps/category/Office
+https://beta.flathub.org/ta/apps/category/Science
+https://beta.flathub.org/ta/apps/category/System
+https://beta.flathub.org/ta/apps/category/Utility
 https://beta.flathub.org/ta/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/ta/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/ta/apps/collection/developer/Sugar Labs Community
@@ -546,9 +728,16 @@ https://beta.flathub.org/ta/statistics
 https://beta.flathub.org/ta/terms-and-conditions
 https://beta.flathub.org/fa/about
 https://beta.flathub.org/fa/apps
+https://beta.flathub.org/fa/apps/category/AudioVideo
+https://beta.flathub.org/fa/apps/category/Development
+https://beta.flathub.org/fa/apps/category/Education
 https://beta.flathub.org/fa/apps/category/Game
+https://beta.flathub.org/fa/apps/category/Graphics
 https://beta.flathub.org/fa/apps/category/Network
 https://beta.flathub.org/fa/apps/category/Office
+https://beta.flathub.org/fa/apps/category/Science
+https://beta.flathub.org/fa/apps/category/System
+https://beta.flathub.org/fa/apps/category/Utility
 https://beta.flathub.org/fa/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/fa/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/fa/apps/collection/developer/Sugar Labs Community
@@ -567,9 +756,16 @@ https://beta.flathub.org/fa/statistics
 https://beta.flathub.org/fa/terms-and-conditions
 https://beta.flathub.org/hi/about
 https://beta.flathub.org/hi/apps
+https://beta.flathub.org/hi/apps/category/AudioVideo
+https://beta.flathub.org/hi/apps/category/Development
+https://beta.flathub.org/hi/apps/category/Education
 https://beta.flathub.org/hi/apps/category/Game
+https://beta.flathub.org/hi/apps/category/Graphics
 https://beta.flathub.org/hi/apps/category/Network
 https://beta.flathub.org/hi/apps/category/Office
+https://beta.flathub.org/hi/apps/category/Science
+https://beta.flathub.org/hi/apps/category/System
+https://beta.flathub.org/hi/apps/category/Utility
 https://beta.flathub.org/hi/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/hi/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/hi/apps/collection/developer/Sugar Labs Community
@@ -588,9 +784,16 @@ https://beta.flathub.org/hi/statistics
 https://beta.flathub.org/hi/terms-and-conditions
 https://beta.flathub.org/bn/about
 https://beta.flathub.org/bn/apps
+https://beta.flathub.org/bn/apps/category/AudioVideo
+https://beta.flathub.org/bn/apps/category/Development
+https://beta.flathub.org/bn/apps/category/Education
 https://beta.flathub.org/bn/apps/category/Game
+https://beta.flathub.org/bn/apps/category/Graphics
 https://beta.flathub.org/bn/apps/category/Network
 https://beta.flathub.org/bn/apps/category/Office
+https://beta.flathub.org/bn/apps/category/Science
+https://beta.flathub.org/bn/apps/category/System
+https://beta.flathub.org/bn/apps/category/Utility
 https://beta.flathub.org/bn/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/bn/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/bn/apps/collection/developer/Sugar Labs Community
@@ -609,9 +812,16 @@ https://beta.flathub.org/bn/statistics
 https://beta.flathub.org/bn/terms-and-conditions
 https://beta.flathub.org/eo/about
 https://beta.flathub.org/eo/apps
+https://beta.flathub.org/eo/apps/category/AudioVideo
+https://beta.flathub.org/eo/apps/category/Development
+https://beta.flathub.org/eo/apps/category/Education
 https://beta.flathub.org/eo/apps/category/Game
+https://beta.flathub.org/eo/apps/category/Graphics
 https://beta.flathub.org/eo/apps/category/Network
 https://beta.flathub.org/eo/apps/category/Office
+https://beta.flathub.org/eo/apps/category/Science
+https://beta.flathub.org/eo/apps/category/System
+https://beta.flathub.org/eo/apps/category/Utility
 https://beta.flathub.org/eo/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/eo/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/eo/apps/collection/developer/Sugar Labs Community
@@ -630,9 +840,16 @@ https://beta.flathub.org/eo/statistics
 https://beta.flathub.org/eo/terms-and-conditions
 https://beta.flathub.org/lt/about
 https://beta.flathub.org/lt/apps
+https://beta.flathub.org/lt/apps/category/AudioVideo
+https://beta.flathub.org/lt/apps/category/Development
+https://beta.flathub.org/lt/apps/category/Education
 https://beta.flathub.org/lt/apps/category/Game
+https://beta.flathub.org/lt/apps/category/Graphics
 https://beta.flathub.org/lt/apps/category/Network
 https://beta.flathub.org/lt/apps/category/Office
+https://beta.flathub.org/lt/apps/category/Science
+https://beta.flathub.org/lt/apps/category/System
+https://beta.flathub.org/lt/apps/category/Utility
 https://beta.flathub.org/lt/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/lt/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/lt/apps/collection/developer/Sugar Labs Community
@@ -651,9 +868,16 @@ https://beta.flathub.org/lt/statistics
 https://beta.flathub.org/lt/terms-and-conditions
 https://beta.flathub.org/hr/about
 https://beta.flathub.org/hr/apps
+https://beta.flathub.org/hr/apps/category/AudioVideo
+https://beta.flathub.org/hr/apps/category/Development
+https://beta.flathub.org/hr/apps/category/Education
 https://beta.flathub.org/hr/apps/category/Game
+https://beta.flathub.org/hr/apps/category/Graphics
 https://beta.flathub.org/hr/apps/category/Network
 https://beta.flathub.org/hr/apps/category/Office
+https://beta.flathub.org/hr/apps/category/Science
+https://beta.flathub.org/hr/apps/category/System
+https://beta.flathub.org/hr/apps/category/Utility
 https://beta.flathub.org/hr/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/hr/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/hr/apps/collection/developer/Sugar Labs Community
@@ -672,9 +896,16 @@ https://beta.flathub.org/hr/statistics
 https://beta.flathub.org/hr/terms-and-conditions
 https://beta.flathub.org/be/about
 https://beta.flathub.org/be/apps
+https://beta.flathub.org/be/apps/category/AudioVideo
+https://beta.flathub.org/be/apps/category/Development
+https://beta.flathub.org/be/apps/category/Education
 https://beta.flathub.org/be/apps/category/Game
+https://beta.flathub.org/be/apps/category/Graphics
 https://beta.flathub.org/be/apps/category/Network
 https://beta.flathub.org/be/apps/category/Office
+https://beta.flathub.org/be/apps/category/Science
+https://beta.flathub.org/be/apps/category/System
+https://beta.flathub.org/be/apps/category/Utility
 https://beta.flathub.org/be/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/be/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/be/apps/collection/developer/Sugar Labs Community
@@ -693,9 +924,16 @@ https://beta.flathub.org/be/statistics
 https://beta.flathub.org/be/terms-and-conditions
 https://beta.flathub.org/hu/about
 https://beta.flathub.org/hu/apps
+https://beta.flathub.org/hu/apps/category/AudioVideo
+https://beta.flathub.org/hu/apps/category/Development
+https://beta.flathub.org/hu/apps/category/Education
 https://beta.flathub.org/hu/apps/category/Game
+https://beta.flathub.org/hu/apps/category/Graphics
 https://beta.flathub.org/hu/apps/category/Network
 https://beta.flathub.org/hu/apps/category/Office
+https://beta.flathub.org/hu/apps/category/Science
+https://beta.flathub.org/hu/apps/category/System
+https://beta.flathub.org/hu/apps/category/Utility
 https://beta.flathub.org/hu/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/hu/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/hu/apps/collection/developer/Sugar Labs Community
@@ -714,9 +952,16 @@ https://beta.flathub.org/hu/statistics
 https://beta.flathub.org/hu/terms-and-conditions
 https://beta.flathub.org/nl/about
 https://beta.flathub.org/nl/apps
+https://beta.flathub.org/nl/apps/category/AudioVideo
+https://beta.flathub.org/nl/apps/category/Development
+https://beta.flathub.org/nl/apps/category/Education
 https://beta.flathub.org/nl/apps/category/Game
+https://beta.flathub.org/nl/apps/category/Graphics
 https://beta.flathub.org/nl/apps/category/Network
 https://beta.flathub.org/nl/apps/category/Office
+https://beta.flathub.org/nl/apps/category/Science
+https://beta.flathub.org/nl/apps/category/System
+https://beta.flathub.org/nl/apps/category/Utility
 https://beta.flathub.org/nl/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/nl/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/nl/apps/collection/developer/Sugar Labs Community
@@ -735,9 +980,16 @@ https://beta.flathub.org/nl/statistics
 https://beta.flathub.org/nl/terms-and-conditions
 https://beta.flathub.org/pt/about
 https://beta.flathub.org/pt/apps
+https://beta.flathub.org/pt/apps/category/AudioVideo
+https://beta.flathub.org/pt/apps/category/Development
+https://beta.flathub.org/pt/apps/category/Education
 https://beta.flathub.org/pt/apps/category/Game
+https://beta.flathub.org/pt/apps/category/Graphics
 https://beta.flathub.org/pt/apps/category/Network
 https://beta.flathub.org/pt/apps/category/Office
+https://beta.flathub.org/pt/apps/category/Science
+https://beta.flathub.org/pt/apps/category/System
+https://beta.flathub.org/pt/apps/category/Utility
 https://beta.flathub.org/pt/apps/collection/developer/AnyDesk Software GmbH
 https://beta.flathub.org/pt/apps/collection/developer/Kingsoft Office Corporation
 https://beta.flathub.org/pt/apps/collection/developer/Sugar Labs Community

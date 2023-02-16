@@ -3,7 +3,7 @@ from enum import Enum
 # https://specifications.freedesktop.org/menu-spec/latest/apa.html
 
 
-class Category(str, Enum):
+class MainCategory(str, Enum):
     AudioVideo = "AudioVideo"
     Development = "Development"
     Education = "Education"
@@ -14,3 +14,7 @@ class Category(str, Enum):
     Science = "Science"
     System = "System"
     Utility = "Utility"
+
+
+def get_main_categories():
+    return [category.value for category in MainCategory]

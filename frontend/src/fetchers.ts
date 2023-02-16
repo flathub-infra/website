@@ -22,6 +22,7 @@ import {
   APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
+  CATEGORIES_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -29,6 +30,7 @@ import { Stats } from "./types/Stats"
 import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
 import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
+import { AppsIndex, MeilisearchResponse } from "./meilisearch"
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
@@ -157,21 +159,28 @@ export default async function fetchCollection(
   return limitedList.filter((item) => Boolean(item))
 }
 
+export async function fetchCategories(): Promise<Category[]> {
+  const categories = await fetch(CATEGORIES_URL)
+  const categoriesList = await categories.json()
+
+  console.log(`\nCategories fetched. Returned items: ${categoriesList.length}.`)
+
+  return categoriesList
+}
+
 export async function fetchCategory(
   category: keyof typeof Category,
   page?: number,
   per_page?: number,
-): Promise<AppstreamListItem[]> {
+): Promise<MeilisearchResponse<AppsIndex>> {
   const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
-  const appList = await appListRes.json()
+  const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
   console.log(
-    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${
-      appList.filter((item) => Boolean(item)).length
-    }.`,
+    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
   )
 
-  return appList.filter((item) => Boolean(item))
+  return response
 }
 
 export async function fetchDeveloperApps(developer: string | undefined) {

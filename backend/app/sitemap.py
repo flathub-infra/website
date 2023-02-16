@@ -1,4 +1,4 @@
-from . import apps, db
+from . import apps, db, schemas
 
 
 def generate_text(frontend_url="beta.flathub.org"):
@@ -61,7 +61,9 @@ def generate_text(frontend_url="beta.flathub.org"):
 
     applications = [f"/apps/{appid}" for appid in apps.list_appstream()]
 
-    categories = [f"/apps/category/{category}" for category in db.get_categories()]
+    categories = [
+        f"/apps/category/{category}" for category in schemas.get_main_categories()
+    ]
 
     developers = [
         f"/apps/collection/developer/{developer}" for developer in db.get_developers()

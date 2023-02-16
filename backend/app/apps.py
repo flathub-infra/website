@@ -37,6 +37,7 @@ def load_appstream():
                     "app_id": appid,
                     "description": search_description,
                     "icon": apps[appid]["icon"],
+                    "categories": apps[appid].get("categories"),
                 }
             )
 
@@ -93,7 +94,7 @@ def get_recently_added(limit: int = 100):
     return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
 
 
-def get_category(category: schemas.Category):
+def get_category(category: schemas.MainCategory):
     if index := db.redis_conn.smembers(f"categories:{category.value}"):
         return [appid.removeprefix("apps:") for appid in index]
     else:

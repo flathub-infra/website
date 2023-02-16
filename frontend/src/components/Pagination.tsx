@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react"
 import { useRouter } from "next/router"
+import Link from "next/link"
+import { classNames } from "src/styling"
 
 interface Props {
   currentPage: number
@@ -31,25 +33,23 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                 <div className={`w-12 text-center`}>...</div>
               )}
 
-              <a
-                onClick={() => {
-                  router.push({
-                    pathname: router.pathname,
-                    query: {
-                      ...router.query,
-                      page: curr.toString(),
-                    },
-                  })
+              <Link
+                href={{
+                  pathname: router.pathname,
+                  query: {
+                    ...router.query,
+                    page: curr.toString(),
+                  },
                 }}
                 aria-current={isActive ? "page" : null}
                 className={`${
                   isActive
-                    ? `bg-flathub-cyan-blue-azure text-gray-50 dark:bg-flathub-indigo`
+                    ? `bg-flathub-cyan-blue-azure text-flathub-gray-98 dark:bg-flathub-indigo`
                     : ""
                 }  h-12 w-12 rounded-full py-2 text-center no-underline duration-500 hover:cursor-pointer hover:opacity-50`}
               >
                 {curr}
-              </a>
+              </Link>
             </React.Fragment>
           )
         })}

@@ -136,7 +136,7 @@ def _get_stats(app_count: int) -> Dict[str, Dict[str, int]]:
                         totals_country[country] = 0
                     totals_country[country] = totals_country[country] + downloads
 
-    for category in schemas.Category:
+    for category in schemas.MainCategory:
         category_totals[category.value] = db.get_category_count(category)
 
     return {
