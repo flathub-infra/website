@@ -42,7 +42,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
 
   return (
-    <div className="h-[300px] rounded-xl bg-flathubWhite p-4 pb-16 shadow-md dark:bg-flathubJet">
+    <div className="h-[300px] rounded-xl bg-flathub-white p-4 pb-16 shadow-md dark:bg-flathub-jet">
       <h3 className="mt-0">{t("installs-over-time")}</h3>
       <Line data={data} options={options} />
     </div>

@@ -179,11 +179,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           />
         </div>
         <h3>{t("downloads-over-time")}</h3>
-        <div className="h-[500px] rounded-xl bg-flathubWhite p-4 shadow-md dark:bg-flathubJet">
+        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
           <Line data={data} options={options} />
         </div>
         <h3>{t("category-distribution")}</h3>
-        <div className="h-[500px] rounded-xl bg-flathubWhite p-4 shadow-md dark:bg-flathubJet">
+        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
           <Bar
             data={{
               labels: category_data.map((x) =>

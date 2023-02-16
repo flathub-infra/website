@@ -56,7 +56,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   return (
     <>
       {latestRelease && (
-        <div className="rounded-xl bg-flathubWhite shadow-md dark:bg-flathubJet">
+        <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-jet">
           <div>
             <div className="flex flex-col gap-2 px-4 pt-4">
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
@@ -86,7 +86,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 {...getCollapseProps()}
                 className={`prose relative transition-all duration-700 dark:prose-invert ${
                   !isExpanded && scrollHeight > collapsedHeight
-                    ? "from-transparent to-flathubWhite before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathubJet"
+                    ? "from-transparent to-flathub-white before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-jet"
                     : ""
                 }`}
                 ref={ref}

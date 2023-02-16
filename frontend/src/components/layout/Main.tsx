@@ -13,7 +13,7 @@ const Main: FunctionComponent = ({ children }) => {
   }, [trackPageView])
 
   return (
-    <div className="flex min-h-screen flex-col bg-flathubGray98 dark:bg-flathubRaisinBlack">
+    <div className="flex min-h-screen flex-col bg-flathub-gray-98 dark:bg-flathub-raisin-black">
       <Header />
 
       <main className="pt-16">{children}</main>
