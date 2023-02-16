@@ -133,7 +133,7 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className="rounded-xl bg-flathubWhite p-4 dark:bg-flathubJet"
+            className="rounded-xl bg-flathubGray92 p-4 dark:bg-flathubOuterSpace"
             {...getFloatingProps()}
           >
             {
@@ -180,7 +180,7 @@ const Verification: FunctionComponent<Props> = ({
 
             <div
               ref={arrowRef}
-              className="absolute h-4 w-4 rotate-45 bg-flathubWhite dark:bg-flathubJet"
+              className="absolute h-4 w-4 rotate-45 bg-flathubGray92 dark:bg-flathubOuterSpace"
               style={{
                 top: arrowY != null ? `${arrowY}px` : "",
                 left: arrowX != null ? `${arrowX}px` : "",
