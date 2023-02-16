@@ -66,16 +66,6 @@ const About = () => {
             </p>
           </Trans>
 
-          <h2>{t("get-involved")}</h2>
-          <Trans i18nKey={"common:get-involved-block"}>
-            <p>
-              Flathub is an attempt to transform the Linux desktop ecosystem for
-              the better, and we need your help. If you can write documentation,
-              create websites, administer servers or write code, we would love
-              your help.
-            </p>
-          </Trans>
-
           <h2>{t("reporting-issues")}</h2>
           <Trans i18nKey={"common:reporting-issues-block"}>
             <p>
