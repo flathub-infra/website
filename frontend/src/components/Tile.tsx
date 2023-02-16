@@ -11,7 +11,7 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
   ({ children, className, onClick, href }, ref) => {
     return (
       <a
-        className={`flex items-center justify-center break-words rounded-xl bg-flathubWhite p-3 text-center text-flathubNickel no-underline shadow-md duration-500 hover:bg-flathubGray98 dark:bg-flathubJet dark:text-flathubDarkGray hover:dark:bg-flathubRaisinBlack  ${className}`}
+        className={`flex items-center justify-center break-words rounded-xl bg-flathub-white p-3 text-center text-flathub-nickel no-underline shadow-md duration-500 hover:bg-flathub-gray-98 dark:bg-flathub-jet dark:text-flathub-dark-gray hover:dark:bg-flathub-raisin-black  ${className}`}
         href={href}
         onClick={onClick}
         ref={ref}

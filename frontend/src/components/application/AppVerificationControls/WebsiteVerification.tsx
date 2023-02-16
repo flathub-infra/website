@@ -91,7 +91,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         <>
           <p>{t("error")}</p>
           {confirmResult.detail && (
-            <span className="text-xs text-flathubNickel dark:text-flathubDarkGray">
+            <span className="text-xs text-flathub-nickel dark:text-flathub-dark-gray">
               {t("error-code", { code: confirmResult.detail })}
             </span>
           )}
@@ -105,7 +105,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           <Trans i18nKey={"website-validation-instruction"}>
             Create a page at <a href={webpage}>{{ webpage }}</a> containing the
             following token:
-            <div className="p-3 font-semibold text-flathubNickel dark:text-flathubDarkGray">
+            <div className="p-3 font-semibold text-flathub-nickel dark:text-flathub-dark-gray">
               {{ token }}
             </div>
             If the page already exists, add the token to it.

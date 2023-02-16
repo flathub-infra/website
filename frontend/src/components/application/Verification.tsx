@@ -116,11 +116,11 @@ const Verification: FunctionComponent<Props> = ({
 
   if (verificationStatus?.verified == true) {
     return (
-      <div className="flex items-center justify-center gap-1 text-sm text-flathubNickel dark:text-flathubDarkGray sm:justify-start">
+      <div className="flex items-center justify-center gap-1 text-sm text-flathub-nickel dark:text-flathub-dark-gray sm:justify-start">
         {verifiedLink}
         <button ref={reference} {...getReferenceProps}>
           <HiCheckBadge
-            className="h-6 w-6 text-flathubCyanBlueAzure"
+            className="h-6 w-6 text-flathub-cyan-blue-azure"
             aria-label={t("app-is-verified")}
           />
         </button>
@@ -133,7 +133,7 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className="rounded-xl bg-flathubGray92 p-4 dark:bg-flathubOuterSpace"
+            className="rounded-xl bg-flathub-gray-92 p-4 dark:bg-flathub-outer-space"
             {...getFloatingProps()}
           >
             {
@@ -180,7 +180,7 @@ const Verification: FunctionComponent<Props> = ({
 
             <div
               ref={arrowRef}
-              className="absolute h-4 w-4 rotate-45 bg-flathubGray92 dark:bg-flathubOuterSpace"
+              className="absolute h-4 w-4 rotate-45 bg-flathub-gray-92 dark:bg-flathub-outer-space"
               style={{
                 top: arrowY != null ? `${arrowY}px` : "",
                 left: arrowX != null ? `${arrowX}px` : "",

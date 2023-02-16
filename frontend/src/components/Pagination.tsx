@@ -44,7 +44,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                 aria-current={isActive ? "page" : null}
                 className={`${
                   isActive
-                    ? `bg-flathubCyanBlueAzure text-gray-50 dark:bg-flathubIndigo`
+                    ? `bg-flathub-cyan-blue-azure text-gray-50 dark:bg-flathub-indigo`
                     : ""
                 }  h-12 w-12 rounded-full py-2 text-center no-underline duration-500 hover:cursor-pointer hover:opacity-50`}
               >

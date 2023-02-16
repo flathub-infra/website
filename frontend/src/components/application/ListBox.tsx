@@ -34,20 +34,20 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathubWhite p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathubJet ${
+                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-jet ${
                   item.content.type === "text"
                     ? "grid-cols-[36px_calc(100%_-_36px)]"
                     : ""
                 }`}
                 key={index}
               >
-                <div className="self-center text-2xl text-flathubNickel dark:text-flathubDarkGray">
+                <div className="self-center text-2xl text-flathub-nickel dark:text-flathub-dark-gray">
                   {item.icon}
                 </div>
                 <div className="text-base">
                   {item.header}
                   {item.content.type === "text" && (
-                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathubNickel dark:text-flathubDarkGray">
+                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-nickel dark:text-flathub-dark-gray">
                       {item.content.text}
                     </span>
                   )}
@@ -57,7 +57,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathubNickel dark:text-flathubDarkGray"
+                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-nickel dark:text-flathub-dark-gray"
                     >
                       {item.content.text}
                     </a>

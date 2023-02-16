@@ -25,7 +25,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
   }
 
   return (
-    <div className="rounded-xl bg-flathubWhite px-4 pb-4 shadow-md dark:bg-flathubJet">
+    <div className="rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-jet">
       <h3>{t("manual-install")}</h3>
       <p>
         <Trans i18nKey={"common:manual-install-instructions"}>

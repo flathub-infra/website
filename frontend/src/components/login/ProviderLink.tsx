@@ -67,10 +67,10 @@ const ProviderLink: FunctionComponent<Props> = ({
     <button
       className={classNames(
         "flex w-full flex-row items-center justify-center gap-3 rounded-xl ",
-        "p-5 shadow-md hover:cursor-pointer hover:opacity-60 active:bg-flathubGray98 active:dark:bg-flathubRaisinBlack",
+        "p-5 shadow-md hover:cursor-pointer hover:opacity-60 active:bg-flathub-gray-98 active:dark:bg-flathub-raisin-black",
         inACard
-          ? "bg-flathubGray98 dark:bg-flathubRaisinBlack"
-          : "bg-flathubWhite dark:bg-flathubJet",
+          ? "bg-flathub-gray-98 dark:bg-flathub-raisin-black"
+          : "bg-flathub-white dark:bg-flathub-jet",
       )}
       onClick={onClick}
     >
