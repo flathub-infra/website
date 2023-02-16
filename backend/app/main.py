@@ -88,9 +88,14 @@ def process_transfers():
     return Response(None, status_code=200)
 
 
+@app.get("/categories")
+def get_categories():
+    return [category.value for category in schemas.MainCategory]
+
+
 @app.get("/category/{category}")
 def get_category(
-    category: schemas.Category,
+    category: schemas.MainCategory,
     page: int = None,
     per_page: int = None,
     response: Response = Response,
@@ -101,17 +106,9 @@ def get_category(
         response.status_code = 400
         return response
 
-    ids = apps.get_category(category)
+    result = search.get_by_selected_categories([category], page, per_page)
 
-    sorted_ids = utils.sort_ids_by_installs(ids)
-
-    if page is None:
-        category = sorted_ids
-    else:
-        category = sorted_ids.__getitem__(slice(per_page * (page - 1), per_page * page))
-
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in category]
-    return [app for app in result if app]
+    return result
 
 
 @app.get("/developer")

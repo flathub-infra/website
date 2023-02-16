@@ -40,11 +40,7 @@ def get_json_key(key: str):
     return None
 
 
-def get_categories():
-    return {category for category in redis_conn.smembers("categories:index")}
-
-
-def get_category_count(category: schemas.Category):
+def get_category_count(category: schemas.MainCategory):
     return redis_conn.scard(f"categories:{category.value}")
 
 
