@@ -72,6 +72,7 @@ export default function Details({
 
 export const getStaticProps: GetStaticProps = async ({
   locale,
+  defaultLocale,
   params: { appDetails: appId },
 }) => {
   console.log("Fetching data for app details: ", appId)
@@ -85,11 +86,13 @@ export const getStaticProps: GetStaticProps = async ({
   const eolRebaseTo = await fetchEolRebase(appId as string)
 
   if (eolRebaseTo) {
+    const prefix = locale && locale !== defaultLocale ? `/${locale}` : ``
+
     return {
       redirect: {
         destination: isFlatpakref
-          ? `/apps/${eolRebaseTo}.flatpakref`
-          : `/apps/${eolRebaseTo}`,
+          ? `${prefix}/apps/${eolRebaseTo}.flatpakref`
+          : `${prefix}/apps/${eolRebaseTo}`,
         permanent: true,
       },
     }
