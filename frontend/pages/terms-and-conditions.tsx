@@ -13,7 +13,7 @@ const TermsAndConditions = (): JSX.Element => {
         title={t("terms-and-conditions")}
         description={t("terms-and-conditions-description")}
       />
-      <div className="flex flex-col px-[5%] text-justify md:px-[20%] 2xl:px-[30%]">
+      <div className="prose mt-8 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1>Terms Of Service</h1>
         <h3>Overview</h3>
         <p>

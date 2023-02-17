@@ -16,7 +16,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   }
 
   return (
-    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl text-gray-900 dark:text-gray-50">
+    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl text-gray-900 dark:text-flathub-gray-98">
       {pages
         .filter(
           (page) =>
