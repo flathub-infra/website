@@ -2,6 +2,7 @@ from enum import Enum
 from uuid import uuid4
 
 import github
+import gitlab
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi_sqlalchemy import DBSessionMiddleware
@@ -11,7 +12,7 @@ from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
-from .logins import login_state
+from .logins import login_state, refresh_oauth_token
 
 
 class ErrorDetail(str, Enum):
@@ -447,13 +448,54 @@ def _verify_by_github(username: str, account) -> bool:
         raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
 
-def _verify_by_account(username: str, account, caseSensitive: bool):
+def _verify_by_gitlab(username: str, account, model, url) -> bool:
+    account = model.by_user(sqldb, account)
+
     if account is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    elif account.login.lower() != username.lower() or (
-        caseSensitive and account.login != username
-    ):
-        raise HTTPException(status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH)
+
+    # If the username matches, return immediately. We use .lower() because GitLab usernames are case insensitive.
+    if account.login.lower() == username.lower():
+        return False
+
+    try:
+        access_token = refresh_oauth_token(account)
+    except HTTPException:
+        raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+    try:
+        try:
+            gl = gitlab.Gitlab(url)
+            gl.groups.get(username)
+        except gitlab.GitlabError:
+            # Group does not exist. Either it's private or it's a user.
+            raise HTTPException(
+                status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH
+            )
+
+        # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
+        r = requests.get(
+            url + "/oauth/userinfo",
+            headers={"Authorization": "Bearer " + access_token},
+        )
+
+        if not r.ok:
+            raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+        userinfo = r.json()
+
+        # Must be owner or maintainer of the group
+        if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
+            if username.lower() in [group.lower() for group in groups]:
+                return True
+
+        if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
+            if username.lower() in [group.lower() for group in groups]:
+                return True
+
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_ORG_MEMBER)
+    except HTTPException as e:
+        raise e
 
 
 def _check_login_provider_verification(appid: str, login) -> bool:
@@ -469,12 +511,12 @@ def _check_login_provider_verification(appid: str, login) -> bool:
     if provider == LoginProvider.GITHUB:
         login_is_organization = _verify_by_github(username, login["user"])
     elif provider == LoginProvider.GITLAB:
-        _verify_by_account(
-            username, models.GitlabAccount.by_user(sqldb, login["user"]), False
+        login_is_organization = _verify_by_gitlab(
+            username, login["user"], models.GitlabAccount, "https://gitlab.com"
         )
     elif provider == LoginProvider.GNOME_GITLAB:
-        _verify_by_account(
-            username, models.GnomeAccount.by_user(sqldb, login["user"]), False
+        login_is_organization = _verify_by_gitlab(
+            username, login["user"], models.GnomeAccount, "https://gitlab.gnome.org"
         )
     else:
         raise HTTPException(status_code=500)
