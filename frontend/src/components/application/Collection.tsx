@@ -8,6 +8,7 @@ import Pagination from "../Pagination"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "../ButtonLink"
 import { UserState } from "src/types/Login"
+import Button from "../Button"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
@@ -17,6 +18,7 @@ interface Props {
   page?: number
   totalPages?: number
   totalHits?: number
+  onRefresh?: () => void
 }
 
 const ApplicationCollection: FunctionComponent<Props> = ({
@@ -27,6 +29,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   page,
   totalPages,
   totalHits,
+  onRefresh,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -42,11 +45,36 @@ const ApplicationCollection: FunctionComponent<Props> = ({
     ? applications
     : applications.slice((page - 1) * perPage, page * perPage)
 
+  const refresh = onRefresh ? (
+    <Button onClick={onRefresh}>{t("refresh")}</Button>
+  ) : null
+
+  const header = (
+    <span className="flex items-center justify-between">
+      <h2>{title}</h2>
+      {refresh}
+    </span>
+  )
+
+  if (applications.length === 0) {
+    return (
+      <div className="flex">
+        <section className="w-full">
+          <div className="w-full">
+            {header}
+            <p>{t("no-applications")}</p>
+          </div>
+        </section>
+      </div>
+    )
+  }
+
   return (
     <div className="flex">
       <section className="min-h-[750px] w-full">
         <div className="w-full">
-          <h2>{title}</h2>
+          {header}
+
           <p>
             {t("number-of-results", {
               number: totalHits ?? applications.length,

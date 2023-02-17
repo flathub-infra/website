@@ -63,6 +63,17 @@ class UserDeleteRequest(BaseModel):
     token: str
 
 
+def refresh_repo_list(gh_access_token: str, account: models.GithubAccount):
+    gh = Github(gh_access_token)
+    ghuser = gh.get_user()
+    repos = [
+        repo.full_name.removeprefix("flathub/")
+        for repo in ghuser.get_repos(affiliation="collaborator")
+        if repo.full_name.startswith("flathub/") and repo.permissions.push
+    ]
+    models.GithubRepository.unify_repolist(db, account, repos)
+
+
 # Routers etc.
 
 
@@ -359,14 +370,7 @@ def continue_github_flow(
         }
 
     def github_postlogin(tokens, account):
-        gh = Github(tokens["access_token"])
-        ghuser = gh.get_user()
-        repos = [
-            repo.full_name.removeprefix("flathub/")
-            for repo in ghuser.get_repos(affiliation="collaborator")
-            if repo.full_name.startswith("flathub/") and repo.permissions.push
-        ]
-        models.GithubRepository.unify_repolist(db, account, repos)
+        refresh_repo_list(tokens["access_token"], account)
 
     return continue_oauth_flow(
         request,
@@ -806,6 +810,18 @@ def get_userinfo(login=Depends(login_state)):
             ret["auths"]["google"]["avatar"] = gga.avatar_url
 
     return ret
+
+
+@router.post("/refresh-dev-flatpaks", status_code=204)
+def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
+    if login["state"] == LoginState.LOGGED_OUT:
+        return {}
+
+    if user := login["user"]:
+        account = models.GithubAccount.by_user(db, user)
+        refresh_repo_list(account.token, account)
+
+    db.session.commit()
 
 
 @router.post("/logout")

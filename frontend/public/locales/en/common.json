@@ -56,6 +56,7 @@
   "loading-user-apps": "Loading user apps…",
   "your-apps": "Authored Apps",
   "owned-apps": "Owned Apps",
+  "refresh": "Refresh",
   "app-logo": "{{app-name}} Logo",
   "user-page": "User Page",
   "user-wallet": "User Wallet",
