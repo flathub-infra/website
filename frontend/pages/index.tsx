@@ -21,7 +21,7 @@ export default function Home({
       <NextSeo title={t("home")} description={t("flathub-description")} />
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="flex justify-between gap-3">
-          <div>
+          <div className="prose mt-8 dark:prose-invert">
             <h1>{t("apps-for-linux-right-here")}</h1>
             <p className="introduction mb-10 max-w-2xl text-lg font-light">
               {t("welcome-to-flathub-index-text")}

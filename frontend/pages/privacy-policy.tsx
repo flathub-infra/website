@@ -13,7 +13,7 @@ const PrivacyPolicy = (): JSX.Element => {
         title={t("privacy-policy")}
         description={t("privacy-policy-description")}
       />
-      <div className="flex flex-col px-[5%] text-justify md:px-[20%] 2xl:px-[30%]">
+      <div className="prose mt-8 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1>Privacy Policy for Flathub</h1>
 
         <p>
