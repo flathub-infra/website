@@ -5,6 +5,7 @@ import {
   APP_VERIFICATION_UNVERIFY,
   APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER,
   CHECK_PURCHASES_URL,
+  REFRESH_DEV_FLATPAKS,
   TOKEN_GENERATION_URL,
 } from "../env"
 import { Appstream } from "../types/Appstream"
@@ -108,6 +109,20 @@ export async function confirmWebsiteVerification(
 export async function unverifyApp(appId: string): Promise<void> {
   try {
     await fetch(APP_VERIFICATION_UNVERIFY(appId), {
+      method: "POST",
+      credentials: "include",
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+}
+
+/**
+ * Refreshes the user's dev flatpaks list.
+ */
+export async function refreshDevFlatpaks(): Promise<void> {
+  try {
+    await fetch(REFRESH_DEV_FLATPAKS, {
       method: "POST",
       credentials: "include",
     })

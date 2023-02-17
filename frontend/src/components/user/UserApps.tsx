@@ -1,7 +1,8 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useEffect } from "react"
-import { getAppsInfo } from "../../asyncs/app"
-import { useUserContext } from "../../context/user-info"
+import { getUserData } from "src/asyncs/login"
+import { getAppsInfo, refreshDevFlatpaks } from "../../asyncs/app"
+import { useUserContext, useUserDispatch } from "../../context/user-info"
 import { useAsync } from "../../hooks/useAsync"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
@@ -13,12 +14,19 @@ interface Props {
 const UserApps: FunctionComponent<Props> = ({ variant }) => {
   const { t } = useTranslation()
   const user = useUserContext()
+  const userDispatch = useUserDispatch()
 
   const getApps = useCallback(
     () => getAppsInfo(user.info[`${variant}-flatpaks`]),
     [user.info, variant],
   )
   const { execute, status, value: apps } = useAsync(getApps, false)
+
+  const doRefreshDev = useCallback(async () => {
+    await refreshDevFlatpaks()
+    await getUserData(userDispatch)
+  }, [userDispatch])
+  const { execute: executeRefreshDev } = useAsync(doRefreshDev, false)
 
   // User app list not available until login context resolves
   useEffect(() => {
@@ -31,16 +39,14 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
 
   const title = t(variant === "dev" ? "your-apps" : "owned-apps")
 
-  if (apps.length === 0) {
-    return (
-      <>
-        <h2>{title}</h2>
-        <p>{t("no-applications")}</p>
-      </>
-    )
-  }
-
-  return <ApplicationCollection user={user} title={title} applications={apps} />
+  return (
+    <ApplicationCollection
+      user={user}
+      title={title}
+      applications={apps}
+      onRefresh={variant === "dev" && executeRefreshDev}
+    />
+  )
 }
 
 export default UserApps

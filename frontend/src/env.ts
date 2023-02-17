@@ -126,4 +126,6 @@ export const APP_VERIFICATION_CONFIRM_WEBSITE = (id: string): string =>
 export const APP_VERIFICATION_UNVERIFY = (id: string): string =>
   `${BASE_URI}/verification/${id}/unverify`
 
+export const REFRESH_DEV_FLATPAKS = `${BASE_URI}/auth/refresh-dev-flatpaks`
+
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
