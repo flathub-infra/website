@@ -14,7 +14,7 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 import requests
-from fastapi import APIRouter, Depends, FastAPI, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
@@ -71,6 +71,78 @@ def refresh_repo_list(gh_access_token: str, account: models.GithubAccount):
         if repo.full_name.startswith("flathub/") and repo.permissions.push
     ]
     models.GithubRepository.unify_repolist(db, account, repos)
+
+
+def _refresh_token(
+    account, method: str, token_endpoint: str, client_id: str, client_secret: str
+) -> str:
+    if account.token_expiry is None or account.token_expiry > datetime.now():
+        return account.token
+
+    response = requests.post(
+        token_endpoint,
+        data={
+            "grant_type": "refresh_token",
+            "refresh_token": account.refresh_token,
+            "client_id": client_id,
+            "client_secret": client_secret,
+        },
+        headers={
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+        },
+    )
+
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to refresh {method} token: {response.status_code}",
+        )
+
+    login_result = response.json()
+
+    if (
+        "token_type" not in login_result
+        or login_result["token_type"].lower() != "bearer"
+        or "access_token" not in login_result
+    ):
+        raise HTTPException(
+            status_code=500,
+            detail=f"{method} login flow did not return a bearer token",
+        )
+
+    account.token = login_result["access_token"]
+    if "refresh_token" in login_result:
+        account.refresh_token = login_result["refresh_token"]
+        account.token_expiry = datetime.now() + timedelta(
+            seconds=int(login_result.get("expires_in", "7200"))
+        )
+
+    db.session.commit()
+
+    return account.token
+
+
+def refresh_oauth_token(account) -> str:
+    """Makes sure the account has an up to date access token, refreshing it with the refresh token if needed.
+    If the token is updated, db.session.commit() is called to save the change."""
+
+    if isinstance(account, models.GitlabAccount):
+        return _refresh_token(
+            account,
+            "gitlab",
+            "https://gitlab.com/oauth/token",
+            config.settings.gitlab_client_id,
+            config.settings.gitlab_client_secret,
+        )
+    elif isinstance(account, models.GnomeAccount):
+        return _refresh_token(
+            account,
+            "gnome",
+            "https://gitlab.gnome.org/oauth/token",
+            config.settings.gnome_client_id,
+            config.settings.gnome_client_secret,
+        )
 
 
 # Routers etc.
@@ -201,7 +273,7 @@ def start_gitlab_flow(request: Request, login=Depends(login_state)):
         {
             "client_id": config.settings.gitlab_client_id,
             "redirect_uri": config.settings.gitlab_return_url,
-            "scope": "read_user",
+            "scope": "read_user openid",
             "response_type": "code",
         },
     )
@@ -230,7 +302,7 @@ def start_gnome_flow(request: Request, login=Depends(login_state)):
         {
             "client_id": config.settings.gnome_client_id,
             "redirect_uri": config.settings.gnome_return_url,
-            "scope": "read_user",
+            "scope": "read_user openid",
             "response_type": "code",
         },
     )
@@ -697,7 +769,7 @@ def continue_oauth_flow(
         )
         if "refresh_token" in login_result:
             account.refresh_token = login_result["refresh_token"]
-            account.access_token_expires = datetime.now() + timedelta(
+            account.token_expiry = datetime.now() + timedelta(
                 seconds=int(login_result.get("expires_in", "7200"))
             )
         db.session.add(account)
@@ -717,7 +789,7 @@ def continue_oauth_flow(
         account.last_used = datetime.now()
         if "refresh_token" in login_result:
             account.refresh_token = login_result["refresh_token"]
-            account.access_token_expires = datetime.now() + timedelta(
+            account.token_expiry = datetime.now() + timedelta(
                 seconds=int(login_result.get("expires_in", "7200"))
             )
         db.session.add(account)
