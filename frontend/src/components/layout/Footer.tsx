@@ -58,14 +58,6 @@ const Footer = () => {
           <div className="flex flex-col sm:space-y-3">
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
-              href="https://flatpak.org/about/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t("get-involved")}
-            </a>
-            <a
-              className="flex h-12 items-center justify-center text-xl text-inherit sm:block sm:h-auto sm:text-sm"
               href="https://discourse.flathub.org/"
               target="_blank"
               rel="noreferrer"
