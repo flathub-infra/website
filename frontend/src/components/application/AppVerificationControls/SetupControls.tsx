@@ -7,6 +7,7 @@ import {
   useState,
 } from "react"
 import { unverifyApp } from "src/asyncs/app"
+import { Notice } from "src/components/Notice"
 import {
   fetchVerificationAvailableMethods,
   fetchVerificationStatus,
@@ -144,6 +145,11 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
   } else {
     content = (
       <div className="space-y-3">
+        <p className="xl:max-w-[75%]">{t("verification-instructions")}</p>
+        <div className="xl:max-w-[75%]">
+          <Notice>{t("verification-warning")}</Notice>
+        </div>
+
         {verificationMethods?.methods.map((methodType) => {
           if (methodType.method === "website") {
             return (
