@@ -812,16 +812,20 @@ def get_userinfo(login=Depends(login_state)):
     return ret
 
 
-@router.post("/refresh-dev-flatpaks", status_code=204)
+@router.post("/refresh-dev-flatpaks")
 def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
     if login["state"] == LoginState.LOGGED_OUT:
         return {}
 
-    if user := login["user"]:
-        account = models.GithubAccount.by_user(db, user)
-        refresh_repo_list(account.token, account)
+    user = login["user"]
+    account = models.GithubAccount.by_user(db, user)
 
+    refresh_repo_list(account.token, account)
     db.session.commit()
+
+    appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
+    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    return {"dev-flatpaks": sorted(dev_flatpaks)}
 
 
 @router.post("/logout")

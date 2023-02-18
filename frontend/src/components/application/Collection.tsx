@@ -1,14 +1,14 @@
-import { FunctionComponent } from "react"
 import { useRouter } from "next/router"
+import { FunctionComponent } from "react"
 
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
 
-import ApplicationCard from "./ApplicationCard"
-import Pagination from "../Pagination"
 import { useTranslation } from "next-i18next"
-import ButtonLink from "../ButtonLink"
 import { UserState } from "src/types/Login"
 import Button from "../Button"
+import ButtonLink from "../ButtonLink"
+import Pagination from "../Pagination"
+import ApplicationCard from "./ApplicationCard"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]

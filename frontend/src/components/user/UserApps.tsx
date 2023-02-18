@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useEffect } from "react"
-import { getUserData } from "src/asyncs/login"
 import { getAppsInfo, refreshDevFlatpaks } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import { useAsync } from "../../hooks/useAsync"
@@ -23,17 +22,20 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
   const { execute, status, value: apps } = useAsync(getApps, false)
 
   const doRefreshDev = useCallback(async () => {
-    await refreshDevFlatpaks()
-    await getUserData(userDispatch)
+    const devFlatpaks = await refreshDevFlatpaks()
+    userDispatch({ type: "update-dev-flatpaks", devFlatpaks })
   }, [userDispatch])
-  const { execute: executeRefreshDev } = useAsync(doRefreshDev, false)
+  const { execute: executeRefreshDev, status: refreshStatus } = useAsync(
+    doRefreshDev,
+    false,
+  )
 
   // User app list not available until login context resolves
   useEffect(() => {
     if (user.info) execute()
   }, [user.info, execute])
 
-  if (["idle", "pending"].includes(status)) {
+  if (["idle", "pending"].includes(status) || refreshStatus === "pending") {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 

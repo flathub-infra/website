@@ -29,8 +29,9 @@ export interface UserState {
 
 // For calls to user state reducer's dispatch method
 export interface UserStateAction {
-  type: string
+  type: "loading" | "interrupt" | "login" | "logout" | "update-dev-flatpaks"
   info?: UserInfo
+  devFlatpaks?: string[]
 }
 
 // GET /auth/deleteuser
