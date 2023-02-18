@@ -1,3 +1,4 @@
+import base64
 import os
 from typing import Optional
 
@@ -49,11 +50,15 @@ class Settings(BaseSettings):
     env: str = "production"
 
     # Should match "repo-secret" in flat-manager's config
-    flat_manager_secret: str = "c2VjcmV0"
+    flat_manager_secret: str = base64.b64encode("secret".encode("utf-8")).decode()
     # Should be a unique random secret, not in flat-manager's config
-    update_token_secret: str = "c2VjcmV0"
+    update_token_secret: str = base64.b64encode(
+        "update_token_secret".encode("utf-8")
+    ).decode()
     # Should match "secret" in flat-manager's config
-    flat_manager_build_secret: Optional[str] = "c2VjcmV0"
+    flat_manager_build_secret: Optional[str] = base64.b64encode(
+        "secret".encode("utf-8")
+    ).decode()
     # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
     # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
     # when running docker-compose.
