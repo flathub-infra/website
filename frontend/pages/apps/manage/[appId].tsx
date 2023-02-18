@@ -27,7 +27,8 @@ export default function AppManagementPage({
   if (user.info?.["dev-flatpaks"].includes(app.id)) {
     content = (
       <>
-        <h2>{t("developer-settings-title", { appname: app.name })}</h2>
+        <h1 className="mt-8">{app.name}</h1>
+        <div className="text-sm opacity-75">{t("developer-settings")}</div>
         <AppVerificationControls.SetupControls app={app} />
         {!IS_PRODUCTION && (
           <AppVendingControls.SetupControls
@@ -41,7 +42,7 @@ export default function AppManagementPage({
   } else {
     content = (
       <>
-        <h1>{t("whoops")}</h1>
+        <h1 className="my-8">{t("whoops")}</h1>
         <p>{t("unauthorized-to-view")}</p>
         <Trans i18nKey={"common:retry-or-go-home"}>
           You might want to retry or go back <a href=".">home</a>.
@@ -52,7 +53,7 @@ export default function AppManagementPage({
 
   return (
     <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t("developer-settings-title", { appname: app.name })} />
+      <NextSeo title={t(app.name)} />
       <LoginGuard>{content}</LoginGuard>
     </div>
   )

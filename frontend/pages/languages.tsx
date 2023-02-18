@@ -12,7 +12,7 @@ const Languages = (): JSX.Element => {
     <>
       <NextSeo title={t("languages")} description={t("languages-summary")} />
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1>{t("languages")}</h1>
+        <h1 className="my-8">{t("languages")}</h1>
         <p>{t("languages-description")}</p>
         <ul className="columns-1 sm:columns-2">
           {languages

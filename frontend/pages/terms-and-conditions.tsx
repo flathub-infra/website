@@ -13,8 +13,8 @@ const TermsAndConditions = (): JSX.Element => {
         title={t("terms-and-conditions")}
         description={t("terms-and-conditions-description")}
       />
-      <div className="prose mt-8 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
-        <h1>Terms Of Service</h1>
+      <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
+        <h1 className="my-8">Terms Of Service</h1>
         <h3>Overview</h3>
         <p>
           This website is operated by Flathub. Throughout the site, the terms
