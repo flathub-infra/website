@@ -122,7 +122,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
     <>
       <NextSeo title={t("statistics")} description={t("flathub-statistics")} />
       <div className="max-w-11/12 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1>{t("statistics")}</h1>
+        <h1 className="my-8">{t("statistics")}</h1>
         <div className="flex flex-wrap gap-8 md:flex-nowrap">
           <ListBox
             items={[
@@ -167,7 +167,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             ]}
           />
         </div>
-        <h3>{t("downloads-per-country")}</h3>
+        <h2>{t("downloads-per-country")}</h2>
         <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
             color="rgb(var(--color-primary))"
@@ -178,11 +178,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             tooltipTextFunction={getLocalizedText}
           />
         </div>
-        <h3>{t("downloads-over-time")}</h3>
+        <h2>{t("downloads-over-time")}</h2>
         <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
           <Line data={data} options={options} />
         </div>
-        <h3>{t("category-distribution")}</h3>
+        <h2>{t("category-distribution")}</h2>
         <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
           <Bar
             data={{

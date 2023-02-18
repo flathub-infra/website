@@ -73,7 +73,7 @@ const TransactionPanel = ({
     <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-jet">
       {error && (
         <>
-          <h1>{t("whoops")}</h1>
+          <h1 className="my-8">{t("whoops")}</h1>
           <p>{t(error)}</p>
         </>
       )}

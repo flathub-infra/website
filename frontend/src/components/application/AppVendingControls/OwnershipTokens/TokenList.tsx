@@ -68,7 +68,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
 
   return (
     <>
-      <h3>{t("ownership-tokens")}</h3>
+      <h2>{t("ownership-tokens")}</h2>
       {content}
     </>
   )

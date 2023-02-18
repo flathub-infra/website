@@ -9,22 +9,20 @@
 
   h1 {
     @apply text-4xl;
-    @apply my-8;
-    @apply mx-0;
     @apply font-extrabold;
   }
 
   h2 {
-    @apply my-8;
-    @apply mx-0;
-    @apply text-3xl;
+    @apply mt-12;
+    @apply mb-6;
+    @apply text-2xl;
     @apply font-bold;
   }
 
   h3 {
     @apply my-4;
-    @apply text-2xl;
-    @apply font-medium;
+    @apply text-xl;
+    @apply font-semibold;
   }
 
   h4 {
@@ -44,6 +42,12 @@
 
   p {
     @apply mb-4;
+    @apply text-flathub-raisin-black;
+    @apply leading-7;
+
+    @media (prefers-color-scheme: dark) {
+      @apply text-flathub-dark-gray;
+    }
   }
 
   a {

@@ -9,7 +9,7 @@ export default function Custom404() {
     <>
       <NextSeo title={t("page-not-found", { errorCode: "404" })} />
       <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1>{t("page-not-found", { errorCode: "404" })}</h1>
+        <h1 className="my-8">{t("page-not-found", { errorCode: "404" })}</h1>
         <p>{t("could-not-find-page")}</p>
         <p>
           <Trans i18nKey={"common:retry-or-go-home"}>

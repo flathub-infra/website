@@ -173,7 +173,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
 
   return (
     <>
-      <h3>{t("setup-verification")}</h3>
+      <h2>{t("setup-verification")}</h2>
       {content}
     </>
   )

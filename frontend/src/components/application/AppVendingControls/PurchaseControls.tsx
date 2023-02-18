@@ -96,7 +96,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   if (error) {
     return (
       <>
-        <h1>{t("whoops")}</h1>
+        <h1 className="my-8">{t("whoops")}</h1>
         <p>{t(error)}</p>
       </>
     )
