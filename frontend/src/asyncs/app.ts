@@ -120,12 +120,14 @@ export async function unverifyApp(appId: string): Promise<void> {
 /**
  * Refreshes the user's dev flatpaks list.
  */
-export async function refreshDevFlatpaks(): Promise<void> {
+export async function refreshDevFlatpaks(): Promise<string[]> {
   try {
-    await fetch(REFRESH_DEV_FLATPAKS, {
+    const res = await fetch(REFRESH_DEV_FLATPAKS, {
       method: "POST",
       credentials: "include",
     })
+
+    return (await res.json())["dev-flatpaks"]
   } catch {
     throw "network-error-try-again"
   }

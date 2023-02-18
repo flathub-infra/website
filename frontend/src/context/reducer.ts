@@ -25,6 +25,14 @@ export function contextReducer(
       return {
         loading: false,
       }
+    case "update-dev-flatpaks":
+      return {
+        ...state,
+        info: {
+          ...state.info,
+          "dev-flatpaks": action.devFlatpaks,
+        },
+      }
     default:
       return state
   }
