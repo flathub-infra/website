@@ -56,6 +56,12 @@ const ApplicationCategory = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+  if (isNaN(params.page as unknown as number)) {
+    return {
+      notFound: true,
+    }
+  }
+
   const applications = await fetchCategory(
     params.category as keyof typeof Category,
     params.page as unknown as number,
