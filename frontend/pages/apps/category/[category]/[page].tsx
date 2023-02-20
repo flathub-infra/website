@@ -62,6 +62,12 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     30,
   )
 
+  if (applications.page > applications.totalPages) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
