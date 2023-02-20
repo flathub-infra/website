@@ -8,12 +8,10 @@ def load_appstream():
     apps = utils.appstream2dict("repo")
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
-    current_categories = db.redis_conn.smembers("categories:index")
     current_developers = db.redis_conn.smembers("developers:index")
     current_projectgroups = db.redis_conn.smembers("developers:projectgroups")
 
     with db.redis_conn.pipeline() as p:
-        p.delete("categories:index", *current_categories)
         p.delete("developers:index", *current_developers)
         p.delete("projectgroups:index", *current_projectgroups)
 
@@ -53,7 +51,6 @@ def load_appstream():
 
             if categories := apps[appid].get("categories"):
                 for category in categories:
-                    p.sadd("categories:index", category)
                     p.sadd(f"categories:{category}", redis_key)
 
         search.add_apps(search_apps)
