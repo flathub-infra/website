@@ -1,7 +1,9 @@
+from typing import List
+
 import dramatiq
 import dramatiq.brokers.redis
 
-from . import apps, compat, db, exceptions, stats, summary
+from . import apps, compat, db, exceptions, search, stats, summary, utils
 from .config import settings
 
 broker = dramatiq.brokers.redis.RedisBroker(
@@ -30,3 +32,23 @@ def update():
                 new_apps_zset[appid] = metadata.get("timestamp", 0)
         if new_apps_zset:
             db.redis_conn.zadd("new_apps_zset", new_apps_zset)
+
+    added_at_values = db.redis_conn.zrange(
+        "new_apps_zset",
+        0,
+        -1,
+        desc=True,
+        withscores=True,
+    )
+
+    added_at: List = []
+
+    for [appid, value] in added_at_values:
+        added_at.append(
+            {
+                "id": utils.get_clean_app_id(appid),
+                "added_at": round(value),
+            }
+        )
+
+    search.update_apps(added_at)

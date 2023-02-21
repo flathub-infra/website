@@ -3,6 +3,7 @@ import json
 import struct
 import subprocess
 from collections import defaultdict
+from typing import List
 
 import gi
 
@@ -10,7 +11,7 @@ gi.require_version("OSTree", "1.0")
 
 from gi.repository import Gio, GLib, OSTree
 
-from . import config, db
+from . import config, db, search, utils
 
 
 # "valid" here means it would be displayed on flathub.org
@@ -167,6 +168,18 @@ def update():
 
     if recently_updated_zset:
         db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
+        updated: List = []
+
+        for appid in recently_updated_zset:
+            updated.append(
+                {
+                    "id": utils.get_clean_app_id(appid),
+                    "updated_at": recently_updated_zset[appid],
+                }
+            )
+
+        search.update_apps(updated)
+
     db.redis_conn.mset(
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )
