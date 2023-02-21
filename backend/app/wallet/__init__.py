@@ -79,7 +79,7 @@ def post_removecard(request: Request, card: CardInfo, login=Depends(login_state)
     return Response(None, status_code=201)
 
 
-@router.get("/transactions")
+@router.get("/transactions", response_model=None)
 def get_transactions(
     request: Request,
     login=Depends(login_state),
