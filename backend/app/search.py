@@ -8,7 +8,7 @@ from . import config, schemas
 client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_master_key
 )
-client.create_index("apps")
+client.create_index("apps", {"primaryKey": "id"})
 client.index("apps").update_sortable_attributes(["installs_last_month"])
 client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
