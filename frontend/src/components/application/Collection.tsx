@@ -33,17 +33,6 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  if (!page) {
-    page = parseInt((router.query.page ?? "1") as string)
-  }
-  if (!totalPages) {
-    totalPages = Math.ceil(applications.length / perPage)
-  }
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
-
-  const pagedApplications = totalHits
-    ? applications
-    : applications.slice((page - 1) * perPage, page * perPage)
 
   const refresh = onRefresh ? (
     <Button onClick={onRefresh}>{t("refresh")}</Button>
@@ -68,6 +57,18 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       </div>
     )
   }
+
+  if (!page) {
+    page = parseInt((router.query.page ?? "1") as string)
+  }
+  if (!totalPages) {
+    totalPages = Math.ceil(applications.length / perPage)
+  }
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+
+  const pagedApplications = totalHits
+    ? applications
+    : applications.slice((page - 1) * perPage, page * perPage)
 
   return (
     <div className="flex">
