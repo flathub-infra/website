@@ -46,7 +46,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             site_name: "Flathub",
             images: [
               {
-                url: `${IMAGE_BASE_URL}flathub-social.png`,
+                url: `${IMAGE_BASE_URL}flathub-social.webp`,
               },
             ],
           }}
