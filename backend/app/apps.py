@@ -36,6 +36,8 @@ def load_appstream():
                     "description": search_description,
                     "icon": apps[appid]["icon"],
                     "categories": apps[appid].get("categories"),
+                    "developer_name": apps[appid].get("developer_name"),
+                    "project_group": apps[appid].get("project_group"),
                 }
             )
 

@@ -9,11 +9,15 @@ client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_master_key
 )
 client.create_index("apps", {"primaryKey": "id"})
-client.index("apps").update_sortable_attributes(["installs_last_month"])
+client.index("apps").update_sortable_attributes(
+    ["installs_last_month", "added_at", "updated_at"]
+)
 client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
 )
-client.index("apps").update_filterable_attributes(["categories"])
+client.index("apps").update_filterable_attributes(
+    ["categories", "developer_name", "project_group"]
+)
 
 
 def add_apps(app_search_items):
