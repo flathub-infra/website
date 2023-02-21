@@ -17,16 +17,17 @@ client.index("apps").update_filterable_attributes(["categories"])
 
 
 def add_apps(app_search_items):
-    client.index("apps").add_documents(app_search_items)
+    return client.index("apps").add_documents(app_search_items)
 
 
 def update_apps(apps_to_update):
-    client.index("apps").update_documents(apps_to_update)
+    return client.index("apps").update_documents(apps_to_update)
 
 
 def delete_apps(app_id_list):
     if len(app_id_list) > 0:
-        client.index("apps").delete_documents(app_id_list)
+        return client.index("apps").delete_documents(app_id_list)
+    return None
 
 
 def get_by_selected_categories(
