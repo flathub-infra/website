@@ -64,13 +64,40 @@ def _matches_prefixes(appid: str, *prefixes) -> bool:
 
 def _get_provider_username(appid: str) -> Tuple["LoginProvider", str]:
     if _matches_prefixes(appid, "com.github", "io.github"):
-        return (LoginProvider.GITHUB, appid.split(".")[2])
+        return (LoginProvider.GITHUB, _demangle_name(appid.split(".")[2]))
     elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
-        return (LoginProvider.GITLAB, appid.split(".")[2])
+        return (LoginProvider.GITLAB, _demangle_name(appid.split(".")[2]))
     elif _matches_prefixes(appid, "org.gnome.gitlab"):
-        return (LoginProvider.GNOME_GITLAB, appid.split(".")[3])
+        return (LoginProvider.GNOME_GITLAB, _demangle_name(appid.split(".")[3]))
     else:
         return None
+
+
+def _demangle_name(name: str) -> str:
+    # Flatpak app IDs are slightly more restrictive than domain names, so some mangling is required. Fortunately,
+    # given the syntax for domain name labels [1], the prescribed mangling rules are reversible.
+    #
+    # We also demangle login_provider usernames in the same way. For GitLab, the mangling rules are *not* reversible,
+    # but because of GitLab Pages most people won't have a username that really contains underscores anyway.
+    #
+    # Mangling rules [2]:
+    # - If an element starts with a digit, which is not allowed in D-Bus, prefix it with an underscore.
+    # - Replace hyphens with underscores, since hyphens are not allowed in D-Bus.
+    #
+    # Domain names may not contain underscores, so any underscore in an app ID is the result of mangling. Hyphens
+    # are not permitted as the first character of a domain name, so an underscore there is always escaping a
+    # digit. Only a digit as the first character must be escaped as such, so an underscore anywhere else is always
+    # replacing a hyphen.
+    #
+    # [1]: https://www.rfc-editor.org/rfc/rfc1035#section-2.3.1
+    # [2]: https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
+    if name.startswith("_"):
+        # Remove the underscore, which is escaping a digit
+        name = name[1:]
+    # All other underscores are replacements for hyphens
+    name = name.replace("_", "-")
+
+    return name
 
 
 def _get_domain_name(appid: str) -> str:
@@ -80,30 +107,12 @@ def _get_domain_name(appid: str) -> str:
         return None
     elif _matches_prefixes(appid, "io.github", "io.gitlab"):
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
-        return ".".join(reversed(appid.split(".")[0:3]))
+        [tld, domain, username] = appid.split(".")[0:3]
+        username = _demangle_name(username)
+        return f"{username}.{domain}.{tld}"
     else:
         [tld, domain] = appid.split(".")[0:2]
-
-        # Flatpak app IDs are slightly more restrictive than domain names, so some mangling is required. Fortunately,
-        # given the syntax for domain name labels [1], the prescribed mangling rules are reversible.
-        #
-        # Mangling rules [2]:
-        # - If an element starts with a digit, which is not allowed in D-Bus, prefix it with an underscore.
-        # - Replace hyphens with underscores, since hyphens are not allowed in D-Bus.
-        #
-        # Domain names may not contain underscores, so any underscore in an app ID is the result of mangling. Hyphens
-        # are not permitted as the first character of a domain name, so an underscore there is always escaping a
-        # digit. Only a digit as the first character must be escaped as such, so an underscore anywhere else is always
-        # replacing a hyphen.
-        #
-        # [1]: https://www.rfc-editor.org/rfc/rfc1035#section-2.3.1
-        # [2]: https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
-        if domain.startswith("_"):
-            # Remove the underscore, which is escaping a digit
-            domain = domain[1:]
-        # All other underscores are replacements for hyphens
-        domain = domain.replace("_", "-")
-
+        domain = _demangle_name(domain)
         return f"{domain}.{tld}"
 
 
