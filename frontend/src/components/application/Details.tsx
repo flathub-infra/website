@@ -33,7 +33,6 @@ import AppStatistics from "./AppStats"
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import ApplicationSection from "./ApplicationSection"
 import { calculateHumanReadableSize } from "../../size"
-import { useUserContext } from "../../context/user-info"
 
 import { useAsync } from "../../hooks/useAsync"
 import { getAppVendingSetup } from "../../asyncs/vending"
@@ -177,9 +176,10 @@ const Details: FunctionComponent<Props> = ({
           <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
             {app.screenshots && app.screenshots.length > 0 && (
               <Button
-                className="!hover:text-gray-100 absolute right-3 bottom-3 z-10 h-12 w-12 rounded-xl bg-flathub-gray-92 px-3 py-3 text-2xl !text-flathub-nickel hover:cursor-pointer hover:bg-opacity-50 dark:bg-flathub-outer-space dark:text-flathub-dark-gray"
+                className="absolute right-3 bottom-3 z-10 h-12 w-12 px-3 py-3 text-2xl"
                 onClick={() => setShowLightbox(true)}
                 aria-label={t("zoom")}
+                variant="secondary"
               >
                 <HiMagnifyingGlassPlus />
               </Button>
