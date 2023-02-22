@@ -12,9 +12,7 @@ const About = () => {
       <NextSeo title={t("about")} description={t("about-description")} />
       <div className="prose flex max-w-full flex-col dark:prose-invert">
         {/* <!-- header --> */}
-        <header
-          className={`flex bg-flathub-cyan-blue-azure bg-none bg-contain bg-no-repeat px-[5%] dark:bg-flathub-indigo md:px-[20%] lg:bg-[url('/img/about.svg')] 2xl:px-[30%]`}
-        >
+        <header className={`flex px-[5%] md:px-[20%] 2xl:px-[30%]`}>
           <div className="text-flathub-gray-98">
             <h1 className="mt-8">{t("about-pagename")}</h1>
             <Trans i18nKey={"common:about-block"}>
