@@ -109,7 +109,7 @@ const Header = () => {
         className={({ open }) =>
           classNames(
             open ? "fixed inset-0 overflow-y-auto" : "",
-            "fixed z-40 w-full bg-flathub-gray-98 shadow-sm dark:bg-flathub-jet lg:overflow-y-visible",
+            "fixed z-40 w-full bg-flathub-gray-98 shadow dark:bg-flathub-jet lg:overflow-y-visible",
           )
         }
       >
@@ -125,7 +125,7 @@ const Header = () => {
                     />
                     <Link href="/" passHref>
                       <div
-                        className="h-10 w-10 cursor-pointer rounded-lg p-[10px] text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:flex lg:w-[150px] lg:justify-center lg:py-2"
+                        className="h-10 w-10 cursor-pointer rounded-lg p-[10px] text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:flex lg:w-32 lg:justify-center lg:py-2"
                         title={t("go-home")}
                       >
                         <div className="hidden lg:block">
@@ -320,7 +320,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-white dark:text-flathub-gray-98",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-flathub-gray-98",
                             )}
                           >
                             {t(item.name)}
@@ -343,7 +343,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-white dark:text-flathub-gray-98",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-flathub-gray-98",
                             )}
                           >
                             {t(item.name)}
@@ -357,7 +357,7 @@ const Header = () => {
                         href="/login"
                         key="login"
                         className={classNames(
-                          "block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5",
+                          "block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-flathub-gray-98 dark:hover:bg-white/5",
                         )}
                         onClick={() => {
                           close()
@@ -397,7 +397,7 @@ const Header = () => {
                             key={item.name}
                             href={item.href}
                             passHref
-                            className="block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5"
+                            className="block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-flathub-gray-98 dark:hover:bg-white/5"
                             onClick={() => {
                               close()
                             }}
@@ -411,7 +411,7 @@ const Header = () => {
                             onLogout()
                             close()
                           }}
-                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-black hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5"
+                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-black hover:bg-black/5 dark:text-flathub-gray-98 dark:hover:bg-white/5"
                         >
                           {t("log-out")}
                         </button>
