@@ -5,9 +5,9 @@ const Footer = () => {
   const { t } = useTranslation()
 
   return (
-    <footer className="mt-16 bg-flathub-cyan-blue-azure p-12 dark:bg-flathub-indigo">
+    <footer className="mt-16 bg-flathub-gray-98 p-12 dark:bg-flathub-jet">
       <div className="mx-auto grid max-w-[900px] grid-cols-1 justify-items-center gap-0 sm:grid-cols-2 md:grid-cols-4">
-        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
+        <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("applications")}
           </div>
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
+        <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("community")}
           </div>
@@ -83,7 +83,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
+        <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             {t("developers")}
           </div>
@@ -113,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] text-gray-100 sm:space-y-3">
+        <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
             Flathub
           </div>
