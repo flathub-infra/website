@@ -15,6 +15,8 @@ import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
 import { BsSlashSquare } from "react-icons/bs"
 import { classNames } from "src/styling"
+import { FlathubLogo } from "../login/FlathubLogo"
+import { FlathubMiniLogo } from "../login/FlathubLogoMini"
 
 const navigation = [
   {
@@ -107,7 +109,7 @@ const Header = () => {
         className={({ open }) =>
           classNames(
             open ? "fixed inset-0 overflow-y-auto" : "",
-            "fixed z-40 w-full bg-flathub-cyan-blue-azure shadow-sm dark:bg-flathub-indigo lg:overflow-y-visible",
+            "fixed z-40 w-full bg-flathub-gray-98 shadow-sm dark:bg-flathub-jet lg:overflow-y-visible",
           )
         }
       >
@@ -123,9 +125,16 @@ const Header = () => {
                     />
                     <Link href="/" passHref>
                       <div
-                        className="h-10 w-10 cursor-pointer rounded-lg bg-[url('/img/flathub-logo.png')] bg-contain bg-center bg-no-repeat px-4 py-2 hover:bg-white/5 lg:w-[150px] lg:bg-[url('/img/logo/flathub-logo-toolbar.svg')] lg:bg-auto lg:bg-origin-content"
+                        className="h-10 w-10 cursor-pointer rounded-lg p-[10px] text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:flex lg:w-[150px] lg:justify-center lg:py-2"
                         title={t("go-home")}
-                      />
+                      >
+                        <div className="hidden lg:block">
+                          <FlathubLogo />
+                        </div>
+                        <div className="block lg:hidden">
+                          <FlathubMiniLogo />
+                        </div>
+                      </div>
                     </Link>
                   </div>
                 </div>
@@ -159,7 +168,7 @@ const Header = () => {
                             value={query}
                             className={
                               (i18n.dir() === "rtl" ? "md:pr-10 " : "") +
-                              "block w-full rounded-full bg-flathub-gray-98 py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-flathub-gunmetal focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-flathub-gunmetal dark:bg-flathub-raisin-black dark:text-flathub-gray-98 dark:focus:border-flathub-gray-98 dark:focus:text-white dark:focus:ring-flathub-gray-98 sm:text-sm"
+                              "block w-full rounded-full bg-flathub-gray-92 py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:border-flathub-gunmetal focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-flathub-gunmetal dark:bg-flathub-raisin-black dark:text-flathub-gray-98 dark:focus:border-flathub-gray-98 dark:focus:text-white dark:focus:ring-flathub-gray-98 sm:text-sm"
                             }
                             placeholder={t("search-apps")}
                             type="search"
@@ -179,7 +188,7 @@ const Header = () => {
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
                   {/* Mobile menu button */}
-                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/5 focus:outline-none">
+                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
                     <span className="sr-only">{t("open-menu")}</span>
                     {open ? (
                       <HiXMark className="block h-6 w-6" aria-hidden="true" />
@@ -197,7 +206,7 @@ const Header = () => {
                           key={item.name}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white no-underline hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </a>
@@ -208,7 +217,7 @@ const Header = () => {
                           passHref
                           href={item.href}
                           key={item.name}
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white no-underline hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </Link>
@@ -220,7 +229,7 @@ const Header = () => {
                       passHref
                       href="/login"
                       key="login"
-                      className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white no-underline hover:bg-white/5"
+                      className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
                       {t("login")}
                     </Link>
@@ -308,8 +317,10 @@ const Header = () => {
                             rel="noreferrer"
                             aria-current={item.current ? "page" : undefined}
                             className={classNames(
-                              item.current ? "bg-white/5" : "hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-flathub-gray-98",
+                              item.current
+                                ? "bg-white/5"
+                                : "hover:bg-black/5 dark:hover:bg-white/5",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-white dark:text-flathub-gray-98",
                             )}
                           >
                             {t(item.name)}
@@ -329,8 +340,10 @@ const Header = () => {
                             }}
                             aria-current={item.current ? "page" : undefined}
                             className={classNames(
-                              item.current ? "bg-white/5" : "hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-white no-underline dark:text-flathub-gray-98",
+                              item.current
+                                ? "bg-white/5"
+                                : "hover:bg-black/5 dark:hover:bg-white/5",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-white dark:text-flathub-gray-98",
                             )}
                           >
                             {t(item.name)}
@@ -344,7 +357,7 @@ const Header = () => {
                         href="/login"
                         key="login"
                         className={classNames(
-                          "block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-white/5 dark:text-flathub-gray-98",
+                          "block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5",
                         )}
                         onClick={() => {
                           close()
@@ -384,7 +397,7 @@ const Header = () => {
                             key={item.name}
                             href={item.href}
                             passHref
-                            className="block rounded-md py-2 px-3 text-base font-medium text-white no-underline hover:bg-white/5 dark:text-flathub-gray-98"
+                            className="block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5"
                             onClick={() => {
                               close()
                             }}
@@ -398,7 +411,7 @@ const Header = () => {
                             onLogout()
                             close()
                           }}
-                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-white hover:bg-white/5 dark:text-flathub-gray-98"
+                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-black hover:bg-black/5 dark:text-white dark:text-flathub-gray-98 dark:hover:bg-white/5"
                         >
                           {t("log-out")}
                         </button>
