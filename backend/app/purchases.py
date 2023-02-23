@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import gi
 import jwt
-from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Body, Depends, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
@@ -41,6 +41,11 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
 
     result = StorefrontInfo()
 
+    # Determine whether the app is FOSS
+    appstream = get_json_key(f"apps:{app_id}")
+    if appstream is None:
+        return result
+
     if app := models.ApplicationVendingConfig.by_appid(sqldb, app_id):
         result.pricing = PricingInfo()
         if app.recommended_donation > 0:
@@ -51,11 +56,6 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     verification = get_verification_status(app_id)
     if verification.verified:
         result.verification = verification
-
-    # Determine whether the app is FOSS
-    appstream = get_json_key(f"apps:{app_id}")
-    if appstream is None:
-        raise HTTPException(status_code=404, detail=f"Application {app_id} not found")
 
     app_licence = appstream.get("project_license", "")
     if app_licence and AppStream.license_is_free_license(app_licence):
