@@ -58,15 +58,17 @@ def search_apps(query: str):
     if results := client.index("apps").search(
         query, {"limit": 250, "sort": ["installs_last_month:desc"]}
     ):
-        ret = []
-        for app in results["hits"]:
-            entry = {
+        ret = [
+            {
                 "id": app["app_id"],
                 "name": app["name"],
                 "summary": app["summary"],
                 "icon": app.get("icon"),
             }
-            ret.append(entry)
+            for app in results["hits"]
+            if "app_id"  # this might cause hit count to be wrong, but is better then crashing
+            in app
+        ]
 
         return ret
 
