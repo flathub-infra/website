@@ -17,7 +17,9 @@ import { bcpToPosixLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "@next/font/google"
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({
+  subsets: ["latin"],
+})
 
 const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
@@ -52,12 +54,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           }}
         />
         <UserInfoProvider>
-          <Main>
-            <style jsx global>{`
-              html {
-                font-family: ${inter.style.fontFamily};
-              }
-            `}</style>
+          <Main className={inter.className}>
             <Component {...pageProps} />
           </Main>
         </UserInfoProvider>

@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: Inter, sans-serif;
-  }
-
   h1 {
     @apply text-4xl;
     @apply font-extrabold;
