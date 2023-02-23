@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import gi
 import jwt
-from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Body, Depends, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
