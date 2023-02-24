@@ -20,6 +20,7 @@ def update_stats():
 
 @dramatiq.actor
 def update():
+    search.delete_all_apps()
     new_apps = apps.load_appstream()
     summary.update()
     compat.update_picks()
@@ -41,9 +42,13 @@ def update():
         withscores=True,
     )
 
+    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     added_at: List = []
 
     for [appid, value] in added_at_values:
+        if appid not in current_apps:
+            continue
+
         added_at.append(
             {
                 "id": utils.get_clean_app_id(appid),
