@@ -11,39 +11,33 @@ const About = () => {
     <>
       <NextSeo title={t("about")} description={t("about-description")} />
       <div className="prose flex max-w-full flex-col dark:prose-invert">
-        {/* <!-- header --> */}
-        <header className={`flex px-[5%] md:px-[20%] 2xl:px-[30%]`}>
-          <div className="text-flathub-gray-98">
-            <h1 className="mt-8">{t("about-pagename")}</h1>
-            <Trans i18nKey={"common:about-block"}>
-              <p className="mb-12 text-lg">
-                Flathub aims to be the place to get and distribute apps for
-                Linux. It is powered by
-                <a
-                  className="font-bold text-gray-300 opacity-80 duration-200"
-                  href="https://flatpak.org"
-                >
-                  Flatpak
-                </a>{" "}
-                which allows Flathub apps to run on almost any Linux
-                distribution.
-              </p>
+        <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
+          <h1 className="mt-8">{t("about-pagename")}</h1>
+          <Trans i18nKey={"common:about-block"}>
+            <p>
+              Flathub aims to be the place to get and distribute apps for Linux.
+              It is powered by
+              <a href="https://flatpak.org" target="_blank" rel="noreferrer">
+                Flatpak
+              </a>{" "}
+              which allows Flathub apps to run on almost any Linux distribution.
+            </p>
 
-              <p className="mb-12 text-lg">
-                If you are a Linux user, you can use Flathub to gain access to a
-                growing collection of Flatpak applications. You just need to
-                follow the{" "}
-                <a
-                  className="font-bold text-gray-300 opacity-80 duration-200"
-                  href="https://flatpak.org/setup/"
-                >
-                  setup instructions
-                </a>
-                .
-              </p>
-            </Trans>
-          </div>
-        </header>
+            <p>
+              If you are a Linux user, you can use Flathub to gain access to a
+              growing collection of Flatpak applications. You just need to
+              follow the{" "}
+              <a
+                href="https://flatpak.org/setup/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                setup instructions
+              </a>
+              .
+            </p>
+          </Trans>
+        </section>
 
         {/* <!-- main content --> */}
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
@@ -51,7 +45,11 @@ const About = () => {
           <Trans i18nKey={"common:submitting-apps-block"}>
             <p>
               App developers can{" "}
-              <a href="https://github.com/flathub/flathub/wiki/App-Submission">
+              <a
+                href="https://github.com/flathub/flathub/wiki/App-Submission"
+                target="_blank"
+                rel="noreferrer"
+              >
                 submit their applications
               </a>{" "}
               to be distributed to Flathub&apos;s growing user base, thus
@@ -114,37 +112,37 @@ const About = () => {
               the following organizations and individuals.
             </p>
           </Trans>
-          <div>
-            <div>Codethink</div>
-            <div>Cloud Native Computing Foundation</div>
-            <div>Fastly</div>
-            <div>Mythic Beasts</div>
-            <div>Prerender.io</div>
-            <div>Scaleway</div>
+          <ul>
+            <li>Codethink</li>
+            <li>Cloud Native Computing Foundation</li>
+            <li>Fastly</li>
+            <li>Mythic Beasts</li>
+            <li>Prerender.io</li>
+            <li>Scaleway</li>
             <br />
 
-            <div>Alex Larsson</div>
-            <div>Andreas Nilsson</div>
-            <div>Arun Raghavan</div>
-            <div>Bartłomiej Piotrowski</div>
-            <div>Christian Hergert</div>
-            <div>Christopher Halse Rogers</div>
-            <div>Cosimo Cecchi</div>
-            <div>Emmanuele Bassi</div>
-            <div>G Stavracas Neto</div>
-            <div>Jakub Steiner</div>
-            <div>James Shubin</div>
-            <div>Joaquim Rocha</div>
-            <div>Jorge García Oncins</div>
-            <div>Lubomír Sedlář</div>
-            <div>Nathan Dyer</div>
-            <div>Nick Richards</div>
-            <div>Mario Sanchez Prada</div>
-            <div>Matthias Clasen</div>
-            <div>Michael Doherty</div>
-            <div>Robert McQueen</div>
-            <div>Zach Oglesby</div>
-          </div>
+            <li>Alex Larsson</li>
+            <li>Andreas Nilsson</li>
+            <li>Arun Raghavan</li>
+            <li>Bartłomiej Piotrowski</li>
+            <li>Christian Hergert</li>
+            <li>Christopher Halse Rogers</li>
+            <li>Cosimo Cecchi</li>
+            <li>Emmanuele Bassi</li>
+            <li>G Stavracas Neto</li>
+            <li>Jakub Steiner</li>
+            <li>James Shubin</li>
+            <li>Joaquim Rocha</li>
+            <li>Jorge García Oncins</li>
+            <li>Lubomír Sedlář</li>
+            <li>Nathan Dyer</li>
+            <li>Nick Richards</li>
+            <li>Mario Sanchez Prada</li>
+            <li>Matthias Clasen</li>
+            <li>Michael Doherty</li>
+            <li>Robert McQueen</li>
+            <li>Zach Oglesby</li>
+          </ul>
         </section>
       </div>
     </>
