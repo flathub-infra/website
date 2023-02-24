@@ -20,7 +20,6 @@ def update_stats():
 
 @dramatiq.actor
 def update():
-    search.delete_all_apps()
     new_apps = apps.load_appstream()
     summary.update()
     compat.update_picks()
