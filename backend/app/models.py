@@ -439,7 +439,11 @@ class AppVerification(Base):
 
     @staticmethod
     def all_verified(db) -> List["AppVerification"]:
-        return db.session.query(AppVerification).filter_by(verified=True)
+        return (
+            db.session.query(AppVerification)
+            .filter_by(verified=True)
+            .order_by(AppVerification.verified_timestamp.desc())
+        )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
