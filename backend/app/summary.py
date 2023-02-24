@@ -96,6 +96,7 @@ def parse_metadata(ini: str):
 def update():
     summary_dict = defaultdict(lambda: {"arches": []})
     recently_updated_zset = {}
+    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
     repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
     repo = OSTree.Repo.new(repo_file)
@@ -171,6 +172,9 @@ def update():
         updated: List = []
 
         for appid in recently_updated_zset:
+            if appid not in current_apps:
+                continue
+
             updated.append(
                 {
                     "id": utils.get_clean_app_id(appid),
