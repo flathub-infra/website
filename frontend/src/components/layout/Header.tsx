@@ -386,7 +386,7 @@ const Header = () => {
                           />
                         </div>
                         <div className="ml-3">
-                          <div className="text-base font-medium text-white dark:text-flathub-gray-98 ">
+                          <div className="text-base font-medium text-black dark:text-flathub-gray-98 ">
                             {user.info.displayname}
                           </div>
                         </div>
