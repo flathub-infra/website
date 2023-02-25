@@ -179,11 +179,11 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
           />
         </div>
         <h2>{t("downloads-over-time")}</h2>
-        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
+        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
           <Line data={data} options={options} />
         </div>
         <h2>{t("category-distribution")}</h2>
-        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
+        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
           <Bar
             data={{
               labels: category_data.map((x) =>
@@ -192,7 +192,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
               datasets: [
                 {
                   data: category_data.map((x) => x.value),
-                  backgroundColor: ["hsl(212.9, 58.1%, 55.1%)"],
+                  backgroundColor: ["rgb(74, 144, 217)"],
                 },
               ],
             }}

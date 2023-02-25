@@ -18,7 +18,7 @@ export function stackedBarData(
     return {
       label: labels[i],
       data: [value],
-      backgroundColor: `hsl(${212.9 - i * 35}, 58.1%, ${lightness})`,
+      backgroundColor: `hsl(${210.6 - i * 35}, 65.3%, ${lightness})`,
     } as ChartDataset<"bar", number[]>
   })
 

@@ -26,7 +26,7 @@ export default function Userpage({
           <UserDetails logins={providers} />
           {!IS_PRODUCTION && <UserApps variant="owned" />}
           <UserApps variant="dev" />
-          <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-jet">
+          <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
             <DeleteButton />
           </div>
         </LoginGuard>

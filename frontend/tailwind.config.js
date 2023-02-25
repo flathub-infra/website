@@ -6,20 +6,23 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "flathub-gray-98": "rgb(var(--flathub-gray-98) / <alpha-value>)",
-        "flathub-raisin-black":
-          "rgb(var(--flathub-raisin-black) / <alpha-value>)",
+        "flathub-gainsborow": "rgb(var(--flathub-gainsborow) / <alpha-value>)",
+        "flathub-dark-gunmetal":
+          "rgb(var(--flathub-dark-gunmetal) / <alpha-value>)",
         "flathub-white": "rgb(var(--flathub-white) / <alpha-value>)",
-        "flathub-jet": "rgb(var(--flathub-jet) / <alpha-value>)",
-        "flathub-gray-92": "rgb(var(--flathub-gray-92) / <alpha-value>)",
-        "flathub-outer-space":
-          "rgb(var(--flathub-outer-space) / <alpha-value>)",
-        "flathub-gunmetal": "rgb(var(--flathub-gunmetal) / <alpha-value>)",
-        "flathub-nickel": "rgb(var(--flathub-nickel) / <alpha-value>)",
-        "flathub-dark-gray": "rgb(var(--flathub-dark-gray) / <alpha-value>)",
-        "flathub-cyan-blue-azure":
-          "rgb(var(--flathub-cyan-blue-azure) / <alpha-value>)",
-        "flathub-indigo": "rgb(var(--flathub-indigo) / <alpha-value>)",
+        "flathub-arsenic": "rgb(var(--flathub-arsenic) / <alpha-value>)",
+        "flathub-gray-x11": "rgb(var(--flathub-gray-x11) / <alpha-value>)",
+        "flathub-granite-gray":
+          "rgb(var(--flathub-granite-gray) / <alpha-value>)",
+        "flathub-dark-gunmetal":
+          "rgb(var(--flathub-dark-gunmetal) / <alpha-value>)",
+        "flathub-sonic-silver":
+          "rgb(var(--flathub-sonic-silver) / <alpha-value>)",
+        "flathub-spanish-gray":
+          "rgb(var(--flathub-spanish-gray) / <alpha-value>)",
+        "flathub-celestial-blue":
+          "rgb(var(--flathub-celestial-blue) / <alpha-value>)",
+        "flathub-black": "rgb(var(--flathub-black) / <alpha-value>)",
         "flathub-electric-red":
           "rgb(var(--flathub-electric-red) / <alpha-value>)",
       },

@@ -165,7 +165,7 @@ const Details: FunctionComponent<Props> = ({
           vendingSetup={vendingSetup}
           verificationStatus={verificationStatus}
         />
-        <div className="col-start-1 col-end-4 bg-flathub-white dark:bg-flathub-jet">
+        <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
           <Lightbox
             open={showLightbox}
             close={() => setShowLightbox(false)}
@@ -262,7 +262,7 @@ const Details: FunctionComponent<Props> = ({
           </div>
           {scrollHeight > collapsedHeight && (
             <button {...getToggleProps()}>
-              <span className="m-0 w-full rounded-xl bg-flathub-white py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-jet/80 hover:dark:bg-flathub-jet">
+              <span className="m-0 w-full rounded-xl bg-flathub-white py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
                 {isExpanded ? t(`show-less`) : t(`show-more`)}
               </span>
             </button>

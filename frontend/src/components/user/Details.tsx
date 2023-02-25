@@ -29,7 +29,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex w-full items-center gap-3 rounded-xl bg-flathub-gray-98 py-2 px-6 text-flathub-gunmetal shadow-md  dark:bg-flathub-raisin-black dark:text-flathub-gray-98 md:w-auto"
+          className="flex w-full items-center gap-3 rounded-xl bg-flathub-gainsborow py-2 px-6 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
         >
           <Image
             src={authData.avatar}
@@ -66,7 +66,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   )
 
   return (
-    <div className="grid rounded-xl bg-flathub-white p-4 text-flathub-gunmetal shadow-md  dark:bg-flathub-jet dark:text-flathub-gray-98">
+    <div className="grid rounded-xl bg-flathub-white p-4 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-arsenic dark:text-flathub-gainsborow">
       <h2 className="col-start-1 row-start-1 mt-0 mb-3">
         {user.info.displayname}
       </h2>

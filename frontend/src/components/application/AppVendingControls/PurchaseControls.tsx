@@ -130,7 +130,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   return (
     <form
-      className="my-5 mx-0 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-jet"
+      className="my-5 mx-0 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
       onSubmit={handleSubmit}
     >
       {!isDonationOnly && (

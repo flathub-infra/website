@@ -34,20 +34,20 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-jet ${
+                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic ${
                   item.content.type === "text"
                     ? "grid-cols-[36px_calc(100%_-_36px)]"
                     : ""
                 }`}
                 key={index}
               >
-                <div className="self-center text-2xl text-flathub-nickel dark:text-flathub-dark-gray">
+                <div className="self-center text-2xl text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                   {item.icon}
                 </div>
                 <div className="text-base">
                   {item.header}
                   {item.content.type === "text" && (
-                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-nickel dark:text-flathub-dark-gray">
+                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                       {item.content.text}
                     </span>
                   )}
@@ -57,7 +57,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-nickel dark:text-flathub-dark-gray"
+                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray"
                     >
                       {item.content.text}
                     </a>

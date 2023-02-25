@@ -14,7 +14,7 @@ const Main = ({ children, className }) => {
 
   return (
     <div
-      className={`${className} flex min-h-screen flex-col bg-flathub-gray-98 dark:bg-flathub-raisin-black`}
+      className={`${className} flex min-h-screen flex-col bg-flathub-white dark:bg-flathub-dark-gunmetal`}
     >
       <Header />
 
