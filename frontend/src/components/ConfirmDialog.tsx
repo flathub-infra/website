@@ -35,7 +35,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
         {t("entry-confirmation-prompt", { text: entry })}
       </Dialog.Description>
       <input
-        className="w-full rounded-xl border border-flathub-nickel p-3 dark:border-flathub-dark-gray"
+        className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
         value={text}
         onInput={(e) => setText((e.target as HTMLInputElement).value)}
       />
@@ -48,7 +48,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
 
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathub-gray-98 p-14 shadow-md dark:bg-flathub-raisin-black">
+          <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathub-gainsborow p-14 shadow-md dark:bg-flathub-dark-gunmetal">
             <Dialog.Title className="m-0">{prompt}</Dialog.Title>
 
             {entry ? toEnter : <></>}

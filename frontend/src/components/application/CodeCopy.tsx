@@ -36,8 +36,8 @@ const CodeCopy: FunctionComponent<Props> = ({
         styles.pre,
         className,
         nested
-          ? "bg-flathub-gray-92 text-flathub-outer-space dark:bg-flathub-raisin-black dark:text-flathub-dark-gray"
-          : "bg-flathub-gray-92 text-flathub-outer-space dark:bg-flathub-jet dark:text-flathub-dark-gray",
+          ? "bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
+          : "bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-spanish-gray",
       )}
     >
       {text}
@@ -49,7 +49,7 @@ const CodeCopy: FunctionComponent<Props> = ({
         }}
       >
         <button
-          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-flathub-nickel hover:text-flathub-gunmetal dark:text-flathub-dark-gray hover:dark:text-flathub-gray-98"
+          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
           title={t("copy-text")}
         >
           {!copied && <HiSquare2Stack></HiSquare2Stack>}

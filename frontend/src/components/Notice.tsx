@@ -6,7 +6,7 @@ interface Props {
 
 export const Notice: FunctionComponent<Props> = ({ variant, children }) => {
   var classes = {
-    info: "border-flathub-cyan-blue-azure",
+    info: "border-flathub-celestial-blue",
     danger: "border-flathub-electric-red",
   }[variant ?? "info"]
 

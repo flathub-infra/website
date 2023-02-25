@@ -81,7 +81,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
         onBlur={handleBlur}
         ref={ref}
         className={
-          "rounded-xl border-none bg-flathub-gray-98 p-2 pl-7 text-flathub-gunmetal outline-none  dark:bg-flathub-raisin-black dark:text-flathub-gray-98"
+          "rounded-xl border-none bg-flathub-gainsborow p-2 pl-7 text-flathub-dark-gunmetal outline-none  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow"
         }
         {...inputProps}
       />

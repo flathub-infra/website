@@ -11,11 +11,11 @@ export const FlathubDisclosure: FunctionComponent<{
     <Disclosure>
       {({ open }) => (
         <>
-          <Disclosure.Button className="flex w-full items-center gap-3 bg-flathub-white px-4 py-3 dark:bg-flathub-jet">
+          <Disclosure.Button className="flex w-full items-center gap-3 bg-flathub-white px-4 py-3 dark:bg-flathub-arsenic">
             <HiChevronRight
               className={classNames(
                 open ? "rotate-90 " : "",
-                "h-6 w-6 transform text-flathub-nickel duration-150 dark:text-flathub-dark-gray",
+                "h-6 w-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
               )}
             />
             {buttonItems}

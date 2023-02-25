@@ -16,7 +16,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   }
 
   return (
-    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl text-gray-900 dark:text-flathub-gray-98">
+    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl text-gray-900 dark:text-flathub-gainsborow">
       {pages
         .filter(
           (page) =>
@@ -44,7 +44,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                 aria-current={isActive ? "page" : null}
                 className={`${
                   isActive
-                    ? `bg-flathub-cyan-blue-azure text-flathub-gray-98 dark:bg-flathub-indigo`
+                    ? `bg-flathub-celestial-blue text-flathub-gainsborow dark:bg-flathub-celestial-blue`
                     : ""
                 }  h-12 w-12 rounded-full py-2 text-center no-underline duration-500 hover:cursor-pointer hover:opacity-50`}
               >

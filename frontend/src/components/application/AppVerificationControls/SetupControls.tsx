@@ -112,7 +112,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
         <p>{t("error")}</p>
         {error && <p>{error}</p>}
         {verificationMethods?.detail && (
-          <span className="text-xs text-flathub-nickel dark:text-flathub-dark-gray">
+          <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
             {t("error-code", { code: verificationMethods.detail })}
           </span>
         )}

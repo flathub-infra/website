@@ -38,11 +38,11 @@
 
   p {
     @apply mb-4;
-    @apply text-flathub-raisin-black;
+    @apply text-flathub-dark-gunmetal;
     @apply leading-7;
 
     @media (prefers-color-scheme: dark) {
-      @apply text-flathub-dark-gray;
+      @apply text-flathub-spanish-gray;
     }
   }
 
@@ -74,34 +74,41 @@
     @apply p-0;
     @apply m-0;
     @apply overflow-x-hidden;
-    @apply text-flathub-gunmetal;
+    @apply text-flathub-dark-gunmetal;
     @apply min-h-screen;
   }
 
   @media (prefers-color-scheme: dark) {
     html,
     body {
-      @apply text-flathub-gray-98;
+      @apply text-flathub-gainsborow;
     }
   }
 }
 
 :root {
   // colors used via tailwind
-  --flathub-cyan-blue-azure: 74 134 207;
-  --flathub-indigo: 27 60 101;
+  --flathub-celestial-blue: 74 144 217;
   --flathub-electric-red: 226 0 0;
 
   // grays
   --flathub-white: 255 255 255;
-  --flathub-gray-98: 250 250 250;
-  --flathub-gray-92: 235 235 235;
-  --flathub-dark-gray: 170 170 170;
-  --flathub-nickel: 114 114 114;
-  --flathub-outer-space: 73 73 73;
-  --flathub-jet: 53 53 53;
-  --flathub-gunmetal: 46 52 54;
-  --flathub-raisin-black: 36 36 36;
+
+  --flathub-gainsborow: 222 221 218;
+
+  --flathub-gray-x11: 192 191 188;
+
+  --flathub-spanish-gray: 154 153 150;
+
+  --flathub-sonic-silver: 119 118 123;
+
+  --flathub-granite-gray: 94 92 100;
+
+  --flathub-arsenic: 61 56 70;
+
+  --flathub-dark-gunmetal: 36 31 49;
+
+  --flathub-black: 0 0 0;
 
   --base-border-radius: 12px;
   --button-border-radius: 8px;
@@ -110,9 +117,9 @@
   --toastify-font-family: inherit;
 
   // for worldmap and below css
-  --text-primary: var(--flathub-gunmetal);
+  --text-primary: var(--flathub-dark-gunmetal);
   --bg-color-secondary: var(--flathub-white);
-  --color-primary: var(--flathub-cyan-blue-azure);
+  --color-primary: var(--flathub-celestial-blue);
 }
 
 [data-theme="dark"] {
@@ -120,15 +127,15 @@
   --toastify-color-light: var(
     --toastify-color-dark
   ); // todo: check if this ever worked
-  --toastify-text-color-light: var(--flathub-gray-98);
+  --toastify-text-color-light: var(--flathub-gainsborow);
 
-  --text-primary: var(--flathub-gray-98);
-  --bg-color-secondary: var(--flathub-jet);
-  --color-primary: var(--flathub-indigo);
+  --text-primary: var(--flathub-gainsborow);
+  --bg-color-secondary: var(--flathub-arsenic);
+  --color-primary: var(--flathub-celestial-blue);
 }
 
 a {
-  color: rgb(var(--flathub-cyan-blue-azure));
+  color: rgb(var(--flathub-celestial-blue));
 }
 
 .carousel {
@@ -148,11 +155,11 @@ a {
     border-radius: var(--button-border-radius) !important;
 
     background-color: rgb(var(--flathub-gray-92)) !important;
-    color: rgb(var(--flathub-gunmetal)) !important;
+    color: rgb(var(--flathub-dark-gunmetal)) !important;
 
     @media (prefers-color-scheme: dark) {
       background-color: rgb(var(--flathub-outer-space)) !important;
-      color: rgb(var(--flathub-gray-98)) !important;
+      color: rgb(var(--flathub-gainsborow)) !important;
     }
     &:hover {
       opacity: 0.5 !important;

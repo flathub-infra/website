@@ -47,11 +47,11 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
 
     const variantClass = {
       destructive:
-        "bg-flathub-white dark:bg-flathub-jet text-flathub-electric-red border border-flathub-electric-red",
+        "bg-flathub-white dark:bg-flathub-arsenic text-flathub-electric-red border border-flathub-electric-red",
       secondary:
-        "bg-flathub-gray-92 dark:bg-flathub-outer-space text-flathub-gunmetal  dark:text-flathub-gray-98",
+        "bg-flathub-gainsborow dark:bg-flathub-granite-gray text-flathub-dark-gunmetal  dark:text-flathub-gainsborow",
       primary:
-        "bg-flathub-cyan-blue-azure dark:bg-flathub-indigo text-gray-100",
+        "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue text-gray-100",
     }[variant]
 
     return (
@@ -66,7 +66,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         tabIndex={-1}
         className={`${
           className ?? ""
-        }  ${hover} ${variantClass} no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gray-98/100 active:dark:bg-flathub-raisin-black/100`}
+        }  ${hover} ${variantClass} no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100`}
         aria-label={ariaLabel}
         role="button"
       >

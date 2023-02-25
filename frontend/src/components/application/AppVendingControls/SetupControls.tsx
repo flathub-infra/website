@@ -152,7 +152,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   } else {
     content = (
       <form
-        className="flex flex-col gap-6 rounded-xl bg-flathub-white p-4 dark:bg-flathub-jet"
+        className="flex flex-col gap-6 rounded-xl bg-flathub-white p-4 dark:bg-flathub-arsenic"
         onSubmit={handleSubmit}
       >
         <div className="flex gap-3 border-b border-slate-400/20 pb-3">

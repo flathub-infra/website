@@ -14,19 +14,19 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
     href={`/apps/${application.id}`}
     passHref
     className={classNames(
-      "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-jet",
-      "hover:cursor-pointer hover:bg-flathub-gray-98 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-outer-space",
-      "active:bg-flathub-gray-92 active:dark:bg-flathub-gunmetal",
+      "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic",
+      "hover:cursor-pointer hover:bg-flathub-white/95 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-granite-gray",
+      "active:bg-flathub-gray-x11 active:dark:bg-flathub-dark-gunmetal",
     )}
   >
     <div className="relative h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[128px] md:w-[128px]">
       <LogoImage iconUrl={application.icon} appName={application.name} />
     </div>
     <div className="flex flex-col justify-center overflow-hidden">
-      <h4 className="flex-shrink-0 truncate whitespace-nowrap font-semibold text-flathub-gunmetal dark:text-flathub-gray-98">
+      <h4 className="flex-shrink-0 truncate whitespace-nowrap font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
         {application.name}
       </h4>
-      <div className="text-sm text-flathub-gunmetal line-clamp-3 dark:text-flathub-gray-98">
+      <div className="text-sm text-flathub-dark-gunmetal line-clamp-3 dark:text-flathub-gainsborow">
         {application.summary}
       </div>
     </div>

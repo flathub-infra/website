@@ -9,8 +9,8 @@ export function chartStyle(
 ): ChartData<"line", number[]> {
   const color =
     mode === "light"
-      ? "hsl(212.9, 58.1%, 55.1%)"
-      : "hsl(212.9, 58.1%, calc(55.1% - 15%))"
+      ? "hsl(210.6, 65.3%, 57.1%)"
+      : "hsl(210.6, 65.3%, calc(57.1% - 15%))"
 
   return {
     labels: labels,
@@ -62,7 +62,7 @@ export function chartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
 
@@ -71,7 +71,7 @@ export function chartOptions(
           autoSkipPadding: 10,
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -82,7 +82,7 @@ export function chartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
@@ -90,7 +90,7 @@ export function chartOptions(
           precision: 0,
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -122,13 +122,13 @@ export function barChartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -139,13 +139,13 @@ export function barChartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
           color:
             resolvedTheme === "light"
-              ? "hsl(0, 0%, 44.7%)"
+              ? "rgb(61, 56, 70)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
