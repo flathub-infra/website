@@ -280,5 +280,6 @@
   "could-not-find-page": "Etsimääsi sivua ei löytynyt.",
   "verified-manually-tooltip": "Sovellustunnisteen <1>{{app_id}}</1> omistajuus on vahvistettu manuaalisesti Flathubin henkilöstön toimesta",
   "verified-website-tooltip": "Sovellustunnisteen <1>{{app_id}}</1> omistajuus on vahvistettu käyttäen sivustoa <4>{{website}}</4>",
-  "verified-login-provider-tooltip": "Sovellustunnisteen <1>{{app_id}}</1> omistajuus on vahvistettu käyttäen tiliä <4>@{{login_name}}</4> palvelussa <8>{{login_provider}}</8>"
+  "verified-login-provider-tooltip": "Sovellustunnisteen <1>{{app_id}}</1> omistajuus on vahvistettu käyttäen tiliä <4>@{{login_name}}</4> palvelussa <8>{{login_provider}}</8>",
+  "about-app-verification": "Vahvistetut sovellukset"
 }

@@ -53,7 +53,7 @@
   "rss-feeds-description": "Vi nun povas aboni niajn RSS-fluojn por ricevi la plej novajn Flathub-bonaĵojn en via abonilo!",
   "new-apps-description": "Programoj eldonitaj ĉe Flathub dum la lastaj 30 tagoj.",
   "login": "Saluti",
-  "an-error-occurred-server": "Okazis eraro ĉe la servilo.",
+  "an-error-occurred-server": "{{errorCode}} — Okazis eraro ĉe la servilo.",
   "submitting-apps": "Submeti programojn",
   "retry-or-go-home": "Vi eble volas reprovi aŭ reiri <1>ĉefpaĝen</1>.",
   "acknowledgements": "Dankoj",
@@ -239,7 +239,7 @@
   "token-creation-placeholder": "Tajpu liston de nomoj po unu en ĉiu linio; ĉiu estos nomo de nova posedĵetono.",
   "status-unredeemed": "Nekonvertita",
   "purchase-terms-confirmation": "Mi konfirmas, ke mi legis la Kondiĉojn pri Uzado de Flathub kaj konsentas rezigni la 14-tagan malvarmigan periodon asociitan kun ĉi tiu cifereca elŝuto.",
-  "verified-login-provider": "Konfirmita de @{{login_name}} ĉe {{login_provider}}",
+  "verified-login-provider": "@{{login_name}} ĉe {{login_provider}}",
   "x-downloads": "{{x}} elŝutoj",
   "login-provider-verification-instruction": "Ni povas konfirmi, ke vi regas la programon per via konto <1>{{login_name}}</1> ĉe <3>{{login_provider}}</3>",
   "error-code": "Erarkodo: {{code}}",
@@ -275,5 +275,12 @@
   "chat": "Babili",
   "unverify": "Malkonfirmi",
   "verified-apps": "Konfirmitaj programoj",
-  "failed-to-find-token": "Ne troviĝis ĵetono en respondo el {{domain}}."
+  "failed-to-find-token": "Ne troviĝis ĵetono en respondo el {{domain}}.",
+  "page-not-found": "{{errorCode}} — Paĝo ne troviĝis",
+  "could-not-find-page": "Ne troviĝis la paĝo, kiun vi petis.",
+  "about-app-verification": "Konfirmitaj programoj",
+  "verified-login-provider-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> konfirmiĝis per la konto <4>@{{login_name}}</4> ĉe <8>{{login_provider}}</8>",
+  "verified-website-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> konfirmiĝis per la retejo <4>{{website}}</4>",
+  "verified-manually-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> estis neaŭtomate konfirmita de Flathub",
+  "about-app-verification-block": "<0>Kion signifas la marko sub nomo de programo?</0><p>Kelkaj programo havas konfirmomarkon sur la paĝo pri la programo sub la nomo de la programisto. Tio signifas, ke la programo estas ĉe Flathub eldonita de ĝia originala programisto aŭ aliulo aprobita de la programisto.</p><p>Kelkaj programoj estas eldonitaj de uloj ne aprobitaj de la origina programisto. Tio estas permesata, sed tiaj programoj ne rajtas ricevi la konfirmomarkon.</p><p>Apud la konfirmomarko estas ligo al la programista retejo aŭ konto ĉe fontkoda deponejo. Flathub konfirmis la identecon de la programisto per tiu ligo.</p><4>Mi eldonis programon ĉe Flathub. Kiel mi igu ĝin konfirmita?</4><5>Unue, <1>salutu al Flathub</1>. Alklaku la butonon «Agordoj por programistoj» sub la programo, kiun vi volas igi konfirmita. Ĉe la supro de la paĝo, trovu la paragrafon «Agordi konfirmadon». La tieaj instrukcioj gvidos vin tra la konfirma procedo.</5>"
 }

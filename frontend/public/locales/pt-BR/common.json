@@ -280,5 +280,6 @@
   "verified-manually-tooltip": "A propriedade do ID de aplicativo <1>{{app_id}}</1> foi verificada manualmente pela equipe do Flathub",
   "verified-website-tooltip": "A propriedade do ID de aplicativo <1>{{app_id}}</1> foi verificada usando <4>{{website}}</4>",
   "page-not-found": "{{errorCode}} - Página não encontrada",
-  "verified-login-provider-tooltip": "A propriedade do ID de aplicativo <1>{{app_id}}</1> foi verificada por <4>@{{login_name}}</4> em <8>{{login_provider}}</8>"
+  "verified-login-provider-tooltip": "A propriedade do ID de aplicativo <1>{{app_id}}</1> foi verificada por <4>@{{login_name}}</4> em <8>{{login_provider}}</8>",
+  "about-app-verification": "Apps verificados"
 }
