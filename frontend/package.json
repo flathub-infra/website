@@ -51,7 +51,7 @@
     "@storybook/addon-essentials": "^7.0.0-beta.36",
     "@storybook/addon-interactions": "^7.0.0-beta.36",
     "@storybook/addon-links": "^7.0.0-beta.36",
-    "@storybook/nextjs": "^7.0.0-beta.36",
+    "@storybook/nextjs": "^7.0.0-beta.54",
     "@storybook/react": "^7.0.0-beta.50",
     "@storybook/testing-library": "^0.0.14-next.1",
     "@tailwindcss/line-clamp": "^0.4.2",
