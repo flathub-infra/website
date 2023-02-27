@@ -16,7 +16,7 @@ import { useRouter } from "next/router"
 import { bcpToPosixLocale } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
-import { Inter } from "@next/font/google"
+import { Inter } from "next/font/google"
 const inter = Inter({
   subsets: ["latin"],
 })
