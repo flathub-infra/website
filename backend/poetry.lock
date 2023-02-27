@@ -402,14 +402,14 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "dramatiq"
-version = "1.14.0"
+version = "1.14.1"
 description = "Background Processing for Python 3."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "dramatiq-1.14.0-py3-none-any.whl", hash = "sha256:469ce543ff7d6f270910f5dac3ab4bbdabbd421e25b74f32d19acbc0a58ec66b"},
-    {file = "dramatiq-1.14.0.tar.gz", hash = "sha256:fbf6caff95ccac3ac92e2e12506925c3069e65cd1bf27fa90990498def713882"},
+    {file = "dramatiq-1.14.1-py3-none-any.whl", hash = "sha256:8a27fbee4b0b4139edf1d87717c49fe4138c233247fd43ab9e39c4313eedb8fa"},
+    {file = "dramatiq-1.14.1.tar.gz", hash = "sha256:cfef1a45ffa7d6c3d2571413658429742a74c3d7503c7ca69b376bd2fb60958d"},
 ]
 
 [package.dependencies]
@@ -2269,4 +2269,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "aa1aaa421d7135d97e0193979e27999428f0f376b540ba51cde53f145f3f7bac"
+content-hash = "71098350b2d8c9dd04d7aa1e3d1c27c2f5c7cf9575520ba192550fee371d598f"
