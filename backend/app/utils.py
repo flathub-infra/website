@@ -184,6 +184,14 @@ def appstream2dict(reponame: str):
         else:
             app["icon"] = None
 
+        custom = component.find("custom")
+        if custom is not None:
+            app["custom"] = {}
+            for value in custom:
+                key = value.attrib.get("key")
+                app["custom"][key] = value.text
+            component.remove(custom)
+
         for elem in component:
             # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
@@ -227,7 +235,7 @@ def appstream2dict(reponame: str):
             if "Settings" in app["categories"]:
                 app["categories"].append("System")
 
-        # Some apps keep .desktop suffix for legacy reasons, fall back to what
+        # Some apps append .desktop suffix for legacy reasons, fall back to what
         # Flatpak put into bundle component for actual ID
         appid = app["bundle"]["value"].split("/")[1]
         app["id"] = appid
