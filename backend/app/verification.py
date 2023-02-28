@@ -1,3 +1,4 @@
+import datetime
 from enum import Enum
 from typing import List, Optional, Tuple, Union
 from uuid import uuid4
@@ -180,6 +181,7 @@ class LoginProvider(Enum):
 
 class VerificationStatus(BaseModel):
     verified: bool
+    timestamp: Optional[datetime.datetime]
     method: Optional[VerificationMethod]
     website: Optional[str]
     login_provider: Optional[LoginProvider]
@@ -273,11 +275,14 @@ def get_verification_status(appid: str) -> VerificationStatus:
     match verification.method:
         case "manual":
             return VerificationStatus(
-                verified=verification.verified, method=VerificationMethod.MANUAL
+                verified=verification.verified,
+                timestamp=verification.verified_timestamp,
+                method=VerificationMethod.MANUAL,
             )
         case "website":
             return VerificationStatus(
                 verified=True,
+                timestamp=verification.verified_timestamp,
                 method=VerificationMethod.WEBSITE,
                 website=_get_domain_name(appid),
             )
@@ -285,6 +290,7 @@ def get_verification_status(appid: str) -> VerificationStatus:
             (provider, username) = _get_provider_username(appid)
             return VerificationStatus(
                 verified=True,
+                timestamp=verification.verified_timestamp,
                 method=VerificationMethod.LOGIN_PROVIDER,
                 login_provider=provider,
                 login_name=username,

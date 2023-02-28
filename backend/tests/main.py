@@ -611,13 +611,11 @@ def test_verification_website(client):
 
     # Make sure the verification worked
     response = client.get("/verification/org.gnome.Maps/status")
-    expected = {
-        "verified": True,
-        "method": "website",
-        "website": "gnome.org",
-    }
     assert response.status_code == 200
-    assert response.json() == expected
+    json = response.json()
+    assert json["verified"] == True
+    assert json["method"] == "website"
+    assert json["website"] == "gnome.org"
 
     # Unverify the app
     response = client.post("/verification/org.gnome.Maps/unverify")
@@ -642,13 +640,12 @@ def test_verification_github(client):
 
     response = client.get("/verification/io.github.ajr0d.FlathubTestApp/status")
     assert response.status_code == 200
-    assert response.json() == {
-        "verified": True,
-        "method": "login_provider",
-        "login_provider": "github",
-        "login_name": "ajr0d",
-        "login_is_organization": False,
-    }
+    json = response.json()
+    assert json["verified"] == True
+    assert json["method"] == "login_provider"
+    assert json["login_provider"] == "github"
+    assert json["login_name"] == "ajr0d"
+    assert json["login_is_organization"] == False
 
     # Unverify the app
     response = client.post("/verification/io.github.ajr0d.FlathubTestApp/unverify")
