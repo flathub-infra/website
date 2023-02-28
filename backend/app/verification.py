@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union
 from uuid import uuid4
 
 import github
@@ -186,6 +186,22 @@ class VerificationStatus(BaseModel):
     login_name: Optional[str]
     login_is_organization: Optional[bool]
     detail: Optional[str]
+
+
+def is_appid_runtime(appid: str) -> Union[str, bool]:
+    # All runtimes are pushed by verified vendors, but they might be using anything
+    # matching tld.vendor.*, so we need to test refs against one specific ID
+    # Extensions are special case maintained by other developers
+    split_appid = appid.split(".")
+    if split_appid[0] == "org":
+        if split_appid[1] in ("gnome", "kde", "freedesktop"):
+            if split_appid[2] in ("Platform", "Sdk"):
+                if split_appid[3:4] == "Extension":
+                    return False
+                else:
+                    appid = ".".join([split_appid[0], split_appid[1], "Sdk"])
+                    return appid
+    return False
 
 
 def _get_existing_verification(appid: str) -> models.AppVerification | None:
