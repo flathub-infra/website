@@ -13,7 +13,6 @@ import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
-import { BsSlashSquare } from "react-icons/bs"
 import { classNames } from "src/styling"
 import { FlathubLogo } from "../login/FlathubLogo"
 import { FlathubMiniLogo } from "../login/FlathubLogoMini"
@@ -168,21 +167,24 @@ const Header = () => {
                             value={query}
                             className={classNames(
                               i18n.dir() === "rtl" && "md:pr-10",
-                              "block w-full rounded-full bg-flathub-white/95 py-2 pl-10 pr-3 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal",
-                              "outline outline-1 outline-flathub-gainsborow focus:outline-none dark:outline-flathub-granite-gray",
-                              "placeholder-gray-400 focus:placeholder-gray-500 focus:outline-none dark:placeholder-gray-500 dark:focus:placeholder-gray-400 dark:focus:outline-none",
-                              "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
+                              "peer",
+                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 pl-10 pr-3 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
+                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-gray-500 dark:focus:placeholder-gray-400 dark:focus:outline-none",
+                              "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
                               "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
+                              "pr-10",
                             )}
                             placeholder={t("search-apps")}
                             type="search"
                           />
                           {!query && (
-                            <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-5 focus:hidden md:flex">
-                              <BsSlashSquare
-                                className="h-4 w-4 text-gray-400"
+                            <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-5 peer-focus:hidden md:flex">
+                              <div
+                                className="flex h-5 w-5 items-center justify-center rounded bg-flathub-gainsborow/90 text-xs text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-gainsborow"
                                 aria-hidden="true"
-                              />
+                              >
+                                /
+                              </div>
                             </div>
                           )}
                         </form>
