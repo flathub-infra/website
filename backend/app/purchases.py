@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 from . import config, logins, models
 from .db import get_json_key
-from .verification import VerificationStatus, get_verification_status
+from .verification import VerificationStatus, get_verification_status, is_appid_runtime
 
 gi.require_version("AppStream", "1.0")
 
@@ -41,7 +41,14 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
 
     result = StorefrontInfo()
 
-    # Determine whether the app is FOSS
+    verification = get_verification_status(app_id)
+    if verification.verified:
+        result.verification = verification
+
+    if is_appid_runtime(app_id):
+        result.is_free_software = True
+        return result
+
     appstream = get_json_key(f"apps:{app_id}")
     if appstream is None:
         return result
@@ -53,10 +60,7 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
         if app.minimum_payment > 0:
             result.pricing.minimum_payment = app.minimum_payment
 
-    verification = get_verification_status(app_id)
-    if verification.verified:
-        result.verification = verification
-
+    # Determine whether the app is FOSS
     app_licence = appstream.get("project_license", "")
     if app_licence and AppStream.license_is_free_license(app_licence):
         result.is_free_software = True
