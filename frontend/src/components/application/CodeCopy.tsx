@@ -32,12 +32,12 @@ const CodeCopy: FunctionComponent<Props> = ({
   return (
     <div
       className={classNames(
-        `relative mx-0 mt-0 mb-3 block overflow-auto rounded-xl p-2 pr-10 text-sm`,
+        `relative mx-0 mt-0 mb-3 block overflow-auto  p-2 pr-10 text-sm`,
         styles.pre,
         className,
         nested
-          ? "bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
-          : "bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-spanish-gray",
+          ? "rounded-lg bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
+          : "rounded-xl bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-spanish-gray",
       )}
     >
       {text}
@@ -49,7 +49,7 @@ const CodeCopy: FunctionComponent<Props> = ({
         }}
       >
         <button
-          className="absolute right-1 top-1 cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
+          className="absolute right-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
           title={t("copy-text")}
         >
           {!copied && <HiSquare2Stack></HiSquare2Stack>}
