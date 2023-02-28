@@ -15,7 +15,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
     passHref
     className={classNames(
       "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic",
-      "hover:cursor-pointer hover:bg-flathub-white/95 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-granite-gray",
+      "hover:cursor-pointer hover:bg-flathub-gainsborow/5 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-granite-gray",
       "active:bg-flathub-gray-x11 active:dark:bg-flathub-dark-gunmetal",
     )}
   >
