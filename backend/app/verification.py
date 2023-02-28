@@ -205,6 +205,9 @@ def is_appid_runtime(appid: str) -> Union[str, bool]:
 
 
 def _get_existing_verification(appid: str) -> models.AppVerification | None:
+    if runtime_id := is_appid_runtime(appid):
+        appid = runtime_id
+
     # Get all verification rows for this app
     verifications = models.AppVerification.all_by_app(sqldb, appid)
 
