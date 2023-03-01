@@ -5,6 +5,7 @@ import {
   DetailedHTMLProps,
   ButtonHTMLAttributes,
 } from "react"
+import { classNames } from "src/styling"
 
 type Props = {
   href
@@ -64,9 +65,12 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         target={target}
         rel={rel}
         tabIndex={-1}
-        className={`${
-          className ?? ""
-        }  ${hover} ${variantClass} no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100`}
+        className={classNames(
+          className ?? "",
+          hover,
+          variantClass,
+          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100",
+        )}
         aria-label={ariaLabel}
         role="button"
       >

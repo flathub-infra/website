@@ -50,13 +50,6 @@
     flex-grow: 1;
   }
 
-  button {
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: bold;
-    border-radius: var(--button-border-radius);
-  }
-
   .Toastify__toast {
     @apply rounded-xl;
   }

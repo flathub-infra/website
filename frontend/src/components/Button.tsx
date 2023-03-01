@@ -4,6 +4,7 @@ import {
   DetailedHTMLProps,
   ButtonHTMLAttributes,
 } from "react"
+import { classNames } from "src/styling"
 
 type Props = {
   children: React.ReactNode
@@ -26,9 +27,11 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
 
     return (
       <button
-        className={`${
-          className ?? ""
-        } ${variantClass} no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center duration-500 enabled:hover:cursor-pointer enabled:active:bg-flathub-gainsborow enabled:active:text-flathub-celestial-blue disabled:cursor-default active:dark:bg-flathub-dark-gunmetal dark:enabled:active:text-flathub-celestial-blue`}
+        className={classNames(
+          className ?? "",
+          variantClass,
+          "no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold duration-500 enabled:hover:cursor-pointer enabled:active:bg-flathub-gainsborow enabled:active:text-flathub-celestial-blue disabled:cursor-default active:dark:bg-flathub-dark-gunmetal dark:enabled:active:text-flathub-celestial-blue",
+        )}
         type={buttonProps.type}
         ref={ref}
         {...buttonProps}
