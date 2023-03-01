@@ -14,9 +14,9 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => (
     href={`/apps/${application.id}`}
     passHref
     className={classNames(
-      "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic",
-      "hover:cursor-pointer hover:bg-flathub-gainsborow/5 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-granite-gray",
-      "active:bg-flathub-gray-x11 active:dark:bg-flathub-dark-gunmetal",
+      "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
+      "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
+      "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
     )}
   >
     <div className="relative h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[128px] md:w-[128px]">

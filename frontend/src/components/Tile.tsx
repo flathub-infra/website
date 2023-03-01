@@ -13,10 +13,10 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
     return (
       <a
         className={classNames(
-          "flex items-center justify-center break-words rounded-xl p-3 text-center duration-500",
-          "bg-flathub-white text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic dark:text-flathub-spanish-gray",
-          "hover:bg-flathub-gainsborow/5 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-granite-gray",
-          "active:bg-flathub-gray-x11 active:dark:bg-flathub-dark-gunmetal",
+          "flex items-center justify-center break-words rounded-xl p-4 text-center duration-500",
+          "bg-flathub-white text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic/70 dark:text-flathub-spanish-gray",
+          "hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
+          "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
           className,
         )}
         href={href}
