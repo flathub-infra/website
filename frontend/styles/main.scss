@@ -69,6 +69,14 @@
       @apply text-flathub-gainsborow;
     }
   }
+
+  button,
+  a {
+    &:focus-visible {
+      @apply outline;
+      @apply outline-flathub-celestial-blue;
+    }
+  }
 }
 
 :root {
