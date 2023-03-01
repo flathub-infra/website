@@ -38,6 +38,21 @@ def load_appstream():
                     "categories": apps[appid].get("categories"),
                     "developer_name": apps[appid].get("developer_name"),
                     "project_group": apps[appid].get("project_group"),
+                    "verification_verified": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::verified", None),
+                    "verification_method": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::method", None),
+                    "verification_login_name": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::login_name", None),
+                    "verification_login_provider": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::login_provider", None),
+                    "verification_website": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::website", None),
                 }
             )
 
