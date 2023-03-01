@@ -629,5 +629,6 @@
   "verified-login-provider-tooltip": "",
   "continue": "",
   "tastefully-curated": "",
-  "transaction-summary-updated": ""
+  "transaction-summary-updated": "",
+  "moderation-no-review-requests": ""
 }
