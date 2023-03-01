@@ -212,7 +212,7 @@ const Header = () => {
                           key={item.name}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </a>
@@ -223,7 +223,7 @@ const Header = () => {
                           passHref
                           href={item.href}
                           key={item.name}
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </Link>
@@ -235,7 +235,7 @@ const Header = () => {
                       passHref
                       href="/login"
                       key="login"
-                      className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                      className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
                       {t("login")}
                     </Link>
