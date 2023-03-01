@@ -294,7 +294,7 @@ const Header = () => {
                                 onClick={onLogout}
                                 className={classNames(
                                   active ? "bg-gray-100" : "",
-                                  "block w-full py-2 px-4 text-left text-sm font-normal text-gray-700 hover:bg-white hover:opacity-75",
+                                  "block w-full py-2 px-4 text-left text-sm font-normal text-gray-700 hover:opacity-75",
                                 )}
                               >
                                 {t("log-out")}
