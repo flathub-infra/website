@@ -93,7 +93,7 @@ const TermsAndConditions = (): JSX.Element => {
           and will not limit or otherwise affect these Terms.
         </p>
         <h3>
-          Section 3 - Accuracy, Completeness And Timeliness Of InformATION
+          Section 3 - Accuracy, Completeness And Timeliness Of Information
         </h3>
         <p>
           We are not responsible if information made available on this site is
