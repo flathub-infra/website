@@ -17,7 +17,12 @@ const About = () => {
             <p>
               Flathub aims to be the place to get and distribute apps for Linux.
               It is powered by
-              <a href="https://flatpak.org" target="_blank" rel="noreferrer">
+              <a
+                className="no-underline hover:underline"
+                href="https://flatpak.org"
+                target="_blank"
+                rel="noreferrer"
+              >
                 Flatpak
               </a>{" "}
               which allows Flathub apps to run on almost any Linux distribution.
@@ -28,6 +33,7 @@ const About = () => {
               growing collection of Flatpak applications. You just need to
               follow the{" "}
               <a
+                className="no-underline hover:underline"
                 href="https://flatpak.org/setup/"
                 target="_blank"
                 rel="noreferrer"
@@ -46,6 +52,7 @@ const About = () => {
             <p>
               App developers can{" "}
               <a
+                className="no-underline hover:underline"
                 href="https://github.com/flathub/flathub/wiki/App-Submission"
                 target="_blank"
                 rel="noreferrer"
@@ -86,9 +93,12 @@ const About = () => {
               I&apos;m publishing an app on Flathub. How do I get it verified?
             </h3>
             <p>
-              First, <Link href="/login">log in to Flathub</Link>. Click the
-              &quot;Developer Settings&quot; button under the app you want to
-              verify. At the top of the page, find the &quot;Setup
+              First,{" "}
+              <Link className="no-underline hover:underline" href="/login">
+                log in to Flathub
+              </Link>
+              . Click the &quot;Developer Settings&quot; button under the app
+              you want to verify. At the top of the page, find the &quot;Setup
               Verification&quot; section. The instructions there will walk you
               through the verification process.
             </p>
@@ -98,7 +108,10 @@ const About = () => {
           <Trans i18nKey={"common:reporting-issues-block"}>
             <p>
               Security or legal issues can be reported to the{" "}
-              <a href="mailto:flathub@lists.freedesktop.org">
+              <a
+                className="no-underline hover:underline"
+                href="mailto:flathub@lists.freedesktop.org"
+              >
                 Flathub maintainers
               </a>
               .

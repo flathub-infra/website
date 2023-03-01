@@ -13,7 +13,11 @@ export default function Custom404() {
         <p>{t("could-not-find-page")}</p>
         <p>
           <Trans i18nKey={"common:retry-or-go-home"}>
-            You might want to retry or go back <a href=".">home</a>.
+            You might want to retry or go back{" "}
+            <a className="no-underline hover:underline" href=".">
+              home
+            </a>
+            .
           </Trans>
         </p>
       </div>

@@ -39,6 +39,7 @@ export default function Search() {
                 <a
                   target="_blank"
                   rel="noreferrer"
+                  className="no-underline hover:underline"
                   href="https://discourse.flathub.org/t/about-the-requests-category/22"
                 >
                   here

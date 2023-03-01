@@ -39,7 +39,12 @@ const TransactionSummary: FunctionComponent<Props> = ({ transaction }) => {
         })}
         <br />
         {transaction.receipt ? (
-          <a href={transaction.receipt} target="_blank" rel="noreferrer">
+          <a
+            href={transaction.receipt}
+            className="no-underline hover:underline"
+            target="_blank"
+            rel="noreferrer"
+          >
             {t("stripe-receipt")}
           </a>
         ) : (

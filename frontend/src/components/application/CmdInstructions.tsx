@@ -30,7 +30,12 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
       <p>
         <Trans i18nKey={"common:manual-install-instructions"}>
           Make sure to follow the{" "}
-          <a href="https://flatpak.org/setup/" target="_blank" rel="noreferrer">
+          <a
+            href="https://flatpak.org/setup/"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline hover:underline"
+          >
             setup guide
           </a>{" "}
           before installing

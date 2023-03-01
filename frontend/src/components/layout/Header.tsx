@@ -212,7 +212,7 @@ const Header = () => {
                           key={item.name}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </a>
@@ -223,7 +223,7 @@ const Header = () => {
                           passHref
                           href={item.href}
                           key={item.name}
-                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </Link>
@@ -235,7 +235,7 @@ const Header = () => {
                       passHref
                       href="/login"
                       key="login"
-                      className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black no-underline hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                      className="ml-4 inline-flex items-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
                       {t("login")}
                     </Link>
@@ -245,7 +245,7 @@ const Header = () => {
                   {user.info && (
                     <Menu as="div" className="relative ml-5">
                       <div>
-                        <Menu.Button className="flex rounded-full bg-white no-underline">
+                        <Menu.Button className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
                           <Image
                             className="rounded-full"
@@ -280,7 +280,7 @@ const Header = () => {
                                   href={item.href}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
-                                    "block py-2 px-4 text-sm text-gray-700 no-underline hover:opacity-75",
+                                    "block py-2 px-4 text-sm text-gray-700 hover:opacity-75",
                                   )}
                                 >
                                   {t(item.name)}
@@ -326,7 +326,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-flathub-gainsborow",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black dark:text-flathub-gainsborow",
                             )}
                           >
                             {t(item.name)}
@@ -349,7 +349,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black no-underline dark:text-flathub-gainsborow",
+                              "block rounded-md py-2 px-3 text-base font-medium text-black dark:text-flathub-gainsborow",
                             )}
                           >
                             {t(item.name)}
@@ -363,7 +363,7 @@ const Header = () => {
                         href="/login"
                         key="login"
                         className={classNames(
-                          "block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
+                          "block rounded-md py-2 px-3 text-base font-medium text-black hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
                         )}
                         onClick={() => {
                           close()
@@ -403,7 +403,7 @@ const Header = () => {
                             key={item.name}
                             href={item.href}
                             passHref
-                            className="block rounded-md py-2 px-3 text-base font-medium text-black no-underline hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
+                            className="block rounded-md py-2 px-3 text-base font-medium text-black hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                             onClick={() => {
                               close()
                             }}

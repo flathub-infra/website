@@ -41,7 +41,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
                 <Link
                   href={page.href}
                   passHref
-                  className="ml-4 text-sm font-medium text-zinc-400 no-underline hover:text-zinc-500"
+                  className="ml-4 text-sm font-medium text-zinc-400 hover:text-zinc-500"
                   aria-current={page.current ? "page" : undefined}
                 >
                   {t(page.name)}

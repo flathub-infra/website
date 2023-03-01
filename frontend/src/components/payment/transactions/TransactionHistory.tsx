@@ -104,6 +104,7 @@ const TransactionPanel = ({
               href={transactionDetailed.receipt}
               target="_blank"
               rel="noreferrer"
+              className="no-underline hover:underline"
             >
               {t("stripe-receipt")}
             </a>

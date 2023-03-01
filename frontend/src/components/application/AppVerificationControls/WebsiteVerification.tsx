@@ -103,8 +103,11 @@ const WebsiteVerification: FunctionComponent<Props> = ({
       <div className="space-y-2">
         <div>
           <Trans i18nKey={"website-validation-instruction"}>
-            Create a page at <a href={webpage}>{{ webpage }}</a> containing the
-            following token:
+            Create a page at{" "}
+            <a className="no-underline hover:underline" href={webpage}>
+              {{ webpage }}
+            </a>{" "}
+            containing the following token:
             <div className="p-3 font-semibold text-flathub-sonic-silver dark:text-flathub-spanish-gray">
               {{ token }}
             </div>
