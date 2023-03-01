@@ -64,7 +64,6 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         onClick={onClick}
         target={target}
         rel={rel}
-        tabIndex={-1}
         className={classNames(
           className ?? "",
           hover,
