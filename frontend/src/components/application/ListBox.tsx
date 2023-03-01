@@ -57,7 +57,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray"
+                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver no-underline hover:underline dark:text-flathub-spanish-gray"
                     >
                       {item.content.text}
                     </a>
@@ -71,6 +71,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       rel="noreferrer"
                       onClick={linkClicked}
                       title={t("open-in-new-tab")}
+                      className="no-underline hover:underline"
                     >
                       <HiArrowTopRightOnSquare />
                     </a>

@@ -4,6 +4,7 @@ import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import ButtonLink from "src/components/ButtonLink"
+import Link from "next/link"
 
 const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
@@ -35,7 +36,13 @@ const Feeds = (): JSX.Element => {
         <h6 className="mt-2">
           <Trans i18nKey={"common:rss-applications"}>
             Do you need an RSS application? We have excellent ones in Flathub.
-            Find them <a href="/apps/search/rss">here</a>
+            Find them{" "}
+            <Link
+              className="no-underline hover:underline"
+              href="/apps/search/rss"
+            >
+              here
+            </Link>
           </Trans>
         </h6>
       </div>

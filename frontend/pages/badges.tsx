@@ -37,7 +37,10 @@ const Badges = () => {
             <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
-                <a href="https://dl.flathub.org/assets/badges/flathub-badge-en.svg">
+                <a
+                  className="no-underline hover:underline"
+                  href="https://dl.flathub.org/assets/badges/flathub-badge-en.svg"
+                >
                   svg format
                 </a>
               </Trans>
@@ -55,7 +58,10 @@ const Badges = () => {
             <h6 className="pt-2">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
-                <a href="https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg">
+                <a
+                  className="no-underline hover:underline"
+                  href="https://dl.flathub.org/assets/badges/flathub-badge-i-en.svg"
+                >
                   svg format
                 </a>
               </Trans>
@@ -78,11 +84,14 @@ const Badges = () => {
           </a>
           <br />
           <Trans i18nKey={"common:badge-copyright"}>
-            To the extent possible under law,
-            <a rel="dct:publisher" href="https://flathub.org/badges">
-              {" "}
-              <span property="dct:title">Jakub Steiner</span>{" "}
-            </a>
+            To the extent possible under law,{" "}
+            <a
+              rel="dct:publisher"
+              className="no-underline hover:underline"
+              href="https://flathub.org/badges"
+            >
+              <span property="dct:title">Jakub Steiner</span>
+            </a>{" "}
             has waived all copyright and related or neighboring rights to
             <span property="dct:title">Flathub Badges</span>. This work is
             published from: Czech Republic.

@@ -45,7 +45,11 @@ export default function AppManagementPage({
         <h1 className="my-8">{t("whoops")}</h1>
         <p>{t("unauthorized-to-view")}</p>
         <Trans i18nKey={"common:retry-or-go-home"}>
-          You might want to retry or go back <a href=".">home</a>.
+          You might want to retry or go back{" "}
+          <a className="no-underline hover:underline" href=".">
+            home
+          </a>
+          .
         </Trans>{" "}
       </>
     )

@@ -84,7 +84,12 @@ const VendingLink: FunctionComponent = () => {
 
   return (
     <div className="flex- flex-col">
-      <a target="_blank" rel="noreferrer" href={dashboardLink}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        className="no-underline hover:underline"
+        href={dashboardLink}
+      >
         {t("vending-dashboard")}
       </a>
       {status.needs_attention ? (

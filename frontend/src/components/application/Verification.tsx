@@ -79,6 +79,7 @@ const Verification: FunctionComponent<Props> = ({
     case "website":
       verifiedLink = (
         <a
+          className="no-underline hover:underline"
           href={`https://${verificationStatus.website}`}
           target="_blank"
           rel="noreferrer"
@@ -102,7 +103,12 @@ const Verification: FunctionComponent<Props> = ({
           break
       }
       verifiedLink = (
-        <a href={link} target="_blank" rel="noreferrer">
+        <a
+          className="no-underline hover:underline"
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+        >
           {t("verified-login-provider", {
             login_provider: verificationProviderToHumanReadable(
               verificationStatus.login_provider,

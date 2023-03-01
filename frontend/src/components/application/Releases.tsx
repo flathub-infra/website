@@ -41,7 +41,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
     releaseDescription +=
       "<br><a href='" +
       latestRelease.url +
-      "'' target='_blank' rel='noreferrer'>" +
+      "'' target='_blank' class='no-underline hover:underline' rel='noreferrer'>" +
       t("release-link") +
       "</a>"
   }

@@ -149,6 +149,7 @@ const LoginVerification: FunctionComponent<Props> = ({
             href="https://docs.flatpak.org/en/latest/conventions.html#application-ids"
             target="_blank"
             rel="noreferrer"
+            className="no-underline hover:underline"
           >
             the Flatpak documentation
           </a>
@@ -195,7 +196,12 @@ const LoginVerification: FunctionComponent<Props> = ({
                 @{{ organization: method.login_name }}
               </span>
               organization. You can grant this permission
-              <a href={githubOrgAccessLink} target="_blank" rel="noreferrer">
+              <a
+                className="no-underline hover:underline"
+                href={githubOrgAccessLink}
+                target="_blank"
+                rel="noreferrer"
+              >
                 in your GitHub settings
               </a>
               .

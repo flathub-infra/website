@@ -21,7 +21,12 @@ const Languages = (): JSX.Element => {
             )
             .map((language) => (
               <li key={language}>
-                <Link href={``} locale={`${language}`} passHref>
+                <Link
+                  className="no-underline hover:underline"
+                  href={``}
+                  locale={`${language}`}
+                  passHref
+                >
                   {getLanguageFlag(language) + " " + getLanguageName(language)}
                 </Link>
               </li>
@@ -34,6 +39,7 @@ const Languages = (): JSX.Element => {
             <a
               target="_blank"
               rel="noreferrer"
+              className="no-underline hover:underline"
               href="https://hosted.weblate.org/engage/flathub/"
             >
               join the Flathub translation team

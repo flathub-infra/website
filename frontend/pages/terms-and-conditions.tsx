@@ -419,7 +419,10 @@ const TermsAndConditions = (): JSX.Element => {
         <h3>Section 20 - Contact Information</h3>
         <p>
           Questions about the Terms of Service should be sent to us at{" "}
-          <a href="mailto:flathub@lists.freedesktop.org">
+          <a
+            className="no-underline hover:underline"
+            href="mailto:flathub@lists.freedesktop.org"
+          >
             flathub@lists.freedesktop.org
           </a>
         </p>
