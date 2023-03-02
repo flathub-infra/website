@@ -14,6 +14,11 @@
         ],
         "developer_name": "Sugar Labs Community",
         "project_group": "SugarLabs",
+        "verification_verified": null,
+        "verification_method": null,
+        "verification_login_name": null,
+        "verification_login_provider": null,
+        "verification_website": null,
         "updated_at": 1610973680,
         "added_at": 1610973680
       }
