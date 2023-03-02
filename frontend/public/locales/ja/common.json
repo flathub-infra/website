@@ -77,7 +77,7 @@
   "an-error-occurred-server": "{{errorCode}} - サーバーでエラーが発生しました。",
   "reporting-issues": "問題を報告する",
   "official-badges": "Flathub公式バッジ",
-  "retry-or-go-home": "再試行するか、<1>ホーム</1>に戻ってください。",
+  "retry-or-go-home": "再試行するか、<2>ホーム</2>に戻ってください。",
   "login-with-provider": "{{provider}}でログイン",
   "acknowledgements": "謝辞",
   "search-for-query": "「{{query}}」の検索結果",
@@ -108,9 +108,9 @@
   "also-available-as-svg": "<2>SVG形式の画像もあります</2>",
   "preferred-badge": "標準バッジ",
   "alternative-badge": "代替バッジ",
-  "rss-applications": "<1>FlathubにあるRSSアプリを見てみる。</1>",
+  "rss-applications": "<2>Flathub</2>にあるRSSアプリを見てみる。",
   "rss-description": "FlathubのRSSフィードを購読",
-  "badge-copyright": "法律で可能な範囲で、<1> <1>Jakub Steiner</ 1> </ 1>は、<3>FlathubBadges</3>のすべての著作権および関連する権利または隣接権を放棄しました。この作品はチェコから公開されました。",
+  "badge-copyright": "法律で可能な範囲で、<2>Jakub Steiner</2>は、<5>Flathub Badges</5>のすべての著作権および関連する権利または隣接権を放棄しました。この作品はチェコから公開されました。",
   "about-description": "Flathubは、Flatpakにより運営されています。Linux向けアプリの、配布と入手の「ハブ」となる場所を目指しています。Flathubにあるアプリは、ほぼすべてのLinuxディストリビューションで利用できます。",
   "submitting-apps-block": "<0>あなたが開発したアプリを<2>Flathubに公開する</2>と、ほとんどのLinuxデスクトップにアプリをインストールすることができるようになります。</0><p>Flathubでアプリの公開をするには、再配布可能なライセンスであるか、もしくはサードパーティーのサーバーからのダウンロードが可能である必要があります。もしプロプライエタリアプリを公開したい場合は、お問い合わせください。</p>",
   "about-block": "<0>Flathub は、 Linux 用のアプリケーションをFlatpakパッケージで配布するサイトで、<1>Flatpak</1>によって運営されています。FlathubのアプリはほぼすべてのLinuxディストリビューションで動作します。</0><1>Flathubにあるアプリをインストールするには、<2>クイックセットアップ</2>に沿って設定してください。<1>",
@@ -214,7 +214,7 @@
   "your-profile": "マイページ",
   "show-more": "すべて表示",
   "show-less": "一部を表示",
-  "app-payment-information": "このアプリの開発者が最小支払い額の{{minivalue}}に、推奨支払額の{{recvalue}}に設定されています。",
+  "app-payment-information": "このアプリの開発者が最小支払い額の{{minvalue}}に、推奨支払額の{{recvalue}}に設定されています。",
   "value-at-most": "{{value}}以上の値を入力してください",
   "confirm-settings": "設定事項を確定する",
   "count-desktop-applications": "総デスクトップアプリ数",
@@ -228,5 +228,6 @@
   "chat": "チャット",
   "verified-login-provider": "@{{login_name}} ({{login_provider}})",
   "verified-website-tooltip": "アプリケーションID <1>{{app_id}}</1> の所有権は、<4>{{website}}</4>を使って認証されました",
-  "about-app-verification-block": "<0>アプリ名の下にあるチェックマークはなんですか？</0><p>アプリごとのページで、開発者名の下にチェックマークがついていることがあります。 これは開発元または開発元が認めている第三者が、Flathubにアプリを公開していることを表しています。</p><p>またFlathubには、開発元とは関係のない第三者が公開しているアプリもあります。このようなアプリの公開は許可されていますが、チェックマークは付きません。</p><p>チェックマークの横には、開発者のウェブサイトや、ソースコードのホスティングサイトのアカウントが表示されます。Flathubはこれらのリンクを使って、開発者の認証をしています。</p><4>自分がFlathubに公開しているアプリを認証するには、どうしたら良いですか？</4><5>まず、 <1>Flathubにログインしてください</1>。 マイページを開き、認証したいアプリの下の『開発者設定』ボタンをクリックしてください。 ページ上部にある、『Setup Verification』セクションに書いてある手順で、認証を行ってください。</5>"
+  "about-app-verification-block": "<0>アプリ名の下にあるチェックマークはなんですか？</0><p>アプリごとのページで、開発者名の下にチェックマークがついていることがあります。 これは開発元または開発元が認めている第三者が、Flathubにアプリを公開していることを表しています。</p><p>またFlathubには、開発元とは関係のない第三者が公開しているアプリもあります。このようなアプリの公開は許可されていますが、チェックマークは付きません。</p><p>チェックマークの横には、開発者のウェブサイトや、ソースコードのホスティングサイトのアカウントが表示されます。Flathubはこれらのリンクを使って、開発者の認証をしています。</p><4>自分がFlathubに公開しているアプリを認証するには、どうしたら良いですか？</4><5>まず、 <1>Flathubにログインしてください</1>。 マイページを開き、認証したいアプリの下の『開発者設定』ボタンをクリックしてください。 ページ上部にある、『Setup Verification』セクションに書いてある手順で、認証を行ってください。</5>",
+  "error": "エラー"
 }
