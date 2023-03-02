@@ -13,14 +13,21 @@ export interface MeilisearchResponse<T> {
 export interface AppsIndex {
   /// Be careful, this is not the same as the flatpak app id use the app_id field instead
   id: string
-  app_id: string
   name: string
   summary: string
+  installs_last_month: number
+  keywords: string[] | null
+  app_id: string
   description: string
   icon: string
-  keywords: string[] | null
   categories: string[] | null
-  installs_last_month: number
+  developer_name: string | null
+  project_group: string | null
+  verification_verified: boolean
+  verification_method: "website" | "manual" | "login_provider" | null
+  verification_login_name: string | null
+  verification_login_provider: string | null
+  verification_website: string | null
 }
 
 export function mapAppsIndexToAppstreamListItem(
@@ -31,5 +38,12 @@ export function mapAppsIndexToAppstreamListItem(
     name: app.name,
     summary: app.summary,
     icon: app.icon,
+    custom: {
+      "flathub::verification::verified": app.verification_verified,
+      "flathub::verification::method": app.verification_method,
+      "flathub::verification::login_name": app.verification_login_name,
+      "flathub::verification::login_provider": app.verification_login_provider,
+      "flathub::verification::website": app.verification_website,
+    },
   }
 }
