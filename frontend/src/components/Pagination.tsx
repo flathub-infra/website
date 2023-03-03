@@ -42,13 +42,14 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                   },
                 }}
                 aria-current={isActive ? "page" : null}
-                className={`${
+                className={classNames(
                   isActive
                     ? `bg-flathub-celestial-blue text-flathub-gainsborow dark:bg-flathub-celestial-blue`
-                    : ""
-                }  h-12 w-12 rounded-full py-2 text-center duration-500 hover:cursor-pointer hover:opacity-50`}
+                    : "",
+                  "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
+                )}
               >
-                {curr}
+                <span className="m-auto">{curr}</span>
               </Link>
             </React.Fragment>
           )
