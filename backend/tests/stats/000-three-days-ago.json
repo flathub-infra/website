@@ -1,0 +1,37 @@
+{
+  "countries": {
+    "AD": 15,
+    "BR": 7
+  },
+  "delta_downloads": 51,
+  "downloads": 199,
+  "updates": 56,
+  "refs": {
+    "com.anydesk.Anydesk": {
+      "i386": [
+        45,
+        4
+      ],
+      "x86_64": [
+        56,
+        5
+      ]
+    },
+    "org.sugarlabs.Maze": {
+      "x86_64": [
+        516,
+        56
+      ]
+    },
+    "com.wps.Office": {
+      "i386": [
+        166,
+        85
+      ],
+      "x86_64": [
+        161,
+        16
+      ]
+    }
+  }
+}
