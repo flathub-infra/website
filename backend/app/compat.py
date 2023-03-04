@@ -207,6 +207,8 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
                 if screenshot.get("source"):
                     del screenshot["source"]
 
+            screenshots = list(filter(None, screenshots))
+
             screenshots_sizes = sorted(
                 screenshots[0].keys(), key=lambda res: int(res.split("x")[0])
             )
