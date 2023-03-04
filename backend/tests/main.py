@@ -77,6 +77,8 @@ def test_update(client):
     time.sleep(3)
 
     update_stats = client.post("/update/stats")
+    time.sleep(3)
+
     assert update_stats.status_code == 200
 
 
@@ -114,7 +116,9 @@ def test_apps_by_developer(client):
 
 def test_apps_by_non_existent_developer(client):
     response = client.get("/developer/NonExistent")
-    assert response.status_code == 404
+    assert response.status_code == 200
+    responseJson = response.json()
+    responseJson["totalHits"] = 0
 
 
 def test_apps_by_projectgroups(client):
@@ -131,7 +135,9 @@ def test_apps_by_projectgroup(client):
 
 def test_apps_by_non_existent_project_group(client):
     response = client.get("/projectgroup/NonExistent")
-    assert response.status_code == 404
+    assert response.status_code == 200
+    responseJson = response.json()
+    responseJson["totalHits"] = 0
 
 
 def test_appstream_by_appid(client):
@@ -149,39 +155,73 @@ def test_appstream_by_non_existent_appid(client):
 def test_search_query_by_partial_name(client):
     response = client.get("/search/maz")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_search_query_by_appid")
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_appid")
+    expected["query"] = "maz"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_search_query_by_partial_name_2(client):
     response = client.get("/search/ma")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_search_query_by_appid")
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_appid")
+    expected["query"] = "ma"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_search_query_by_name(client):
     response = client.get("/search/Maze")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_search_query_by_appid")
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_appid")
+    expected["query"] = "Maze"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_search_query_by_summary(client):
     response = client.get("/search/maze%20game")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_search_query_by_appid")
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_appid")
+    expected["query"] = "maze game"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_search_query_by_description(client):
     response = client.get("/search/finding%20your%20way%20out")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_search_query_by_appid")
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_appid")
+    expected["query"] = "finding your way out"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_search_query_by_non_existent(client):
     response = client.get("/search/NonExistent")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result(
-        "test_search_query_by_non_existent"
-    )
+    responseJson = response.json()
+    expected = _get_expected_json_result("test_search_query_by_non_existent")
+    expected["query"] = "NonExistent"
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert responseJson == expected
 
 
 def test_collection_by_recently_updated(client):
@@ -193,7 +233,7 @@ def test_collection_by_recently_updated(client):
 
 
 def test_collection_by_one_recently_updated(client):
-    response = client.get("/collection/recently-updated/1")
+    response = client.get("/collection/recently-updated?page=1&per_page=1")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result(
         "test_collection_by_one_recently_updated"
@@ -256,10 +296,10 @@ def test_picked_non_existent(client):
     assert response.json() is None
 
 
-def test_popular(client):
-    response = client.get("/popular")
+def test_popular_last_month(client):
+    response = client.get("/popular/last-month")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_popular")
+    assert response.json() == _get_expected_json_result("test_popular_last_month")
 
 
 def test_status(client):

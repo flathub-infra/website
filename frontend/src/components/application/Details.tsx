@@ -41,13 +41,18 @@ import useCollapse from "react-collapsed"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { motion } from "framer-motion"
 import { classNames } from "src/styling"
+import {
+  AppsIndex,
+  MeilisearchResponse,
+  mapAppsIndexToAppstreamListItem,
+} from "src/meilisearch"
 
 interface Props {
   app?: Appstream
   summary?: Summary
   stats: AppStats
-  developerApps: Appstream[]
-  projectgroupApps: Appstream[]
+  developerApps: MeilisearchResponse<AppsIndex>
+  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
 }
 
@@ -290,25 +295,29 @@ const Details: FunctionComponent<Props> = ({
             stats={stats}
           ></AdditionalInfo>
 
-          {developerApps && developerApps.length > 0 && (
+          {developerApps && developerApps.totalHits > 0 && (
             <ApplicationSection
               href={`/apps/collection/developer/${app.developer_name}`}
               title={t("other-apps-by-developer", {
                 developer: app.developer_name,
               })}
-              applications={developerApps.slice(0, 6)}
-              showMore={developerApps.length > 6}
+              applications={developerApps.hits
+                .slice(0, 6)
+                .map(mapAppsIndexToAppstreamListItem)}
+              showMore={developerApps.totalHits > 6}
             />
           )}
 
-          {projectgroupApps && projectgroupApps.length > 0 && (
+          {projectgroupApps && projectgroupApps.totalHits > 0 && (
             <ApplicationSection
               href={`/apps/collection/project-group/${app.project_group}`}
               title={t("other-apps-by-projectgroup", {
                 projectgroup: app.project_group,
               })}
-              applications={projectgroupApps.slice(0, 6)}
-              showMore={projectgroupApps.length > 6}
+              applications={projectgroupApps.hits
+                .slice(0, 6)
+                .map(mapAppsIndexToAppstreamListItem)}
+              showMore={projectgroupApps.totalHits > 6}
             />
           )}
 

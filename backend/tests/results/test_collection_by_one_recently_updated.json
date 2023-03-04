@@ -1,8 +1,33 @@
-[
-  {
-    "id": "com.anydesk.Anydesk",
-    "name": "AnyDesk",
-    "summary": "Connect to a computer remotely",
-    "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png"
-  }
-]
+{
+  "hits": [
+    {
+      "name": "AnyDesk",
+      "summary": "Connect to a computer remotely",
+      "keywords": null,
+      "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
+      "id": "com_anydesk_Anydesk",
+      "installs_last_month": 613,
+      "app_id": "com.anydesk.Anydesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "categories": [
+        "Network"
+      ],
+      "developer_name": "AnyDesk Software GmbH",
+      "project_group": null,
+      "verification_verified": null,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "updated_at": 1610973790,
+      "added_at": 1610973790
+    }
+  ],
+  "query": "",
+  "processingTimeMs": 0,
+  "hitsPerPage": 1,
+  "page": 1,
+  "totalPages": 3,
+  "totalHits": 3
+}

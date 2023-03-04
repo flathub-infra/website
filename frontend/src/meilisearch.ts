@@ -28,6 +28,7 @@ export interface AppsIndex {
   verification_login_name: string | null
   verification_login_provider: string | null
   verification_website: string | null
+  verification_timestamp: string | null
 }
 
 export function mapAppsIndexToAppstreamListItem(
@@ -44,6 +45,24 @@ export function mapAppsIndexToAppstreamListItem(
       "flathub::verification::login_name": app.verification_login_name,
       "flathub::verification::login_provider": app.verification_login_provider,
       "flathub::verification::website": app.verification_website,
+      "flathub::verification::timestamp": app.verification_timestamp,
     },
+  }
+}
+
+export function removeAppIdFromSearchResponse(
+  response: MeilisearchResponse<AppsIndex>,
+  app_id: string,
+): MeilisearchResponse<AppsIndex> {
+  if (!response) {
+    return null
+  }
+
+  const newHits = response.hits.filter((app) => app.app_id !== app_id)
+
+  return {
+    ...response,
+    totalHits: newHits.length,
+    hits: newHits,
   }
 }

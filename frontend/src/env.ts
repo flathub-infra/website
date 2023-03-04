@@ -12,10 +12,28 @@ export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
 export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP = (query: string): string =>
   `${BASE_URI}/search/${encodeURIComponent(query)}`
-export const POPULAR_URL: string = `${BASE_URI}/popular/30`
-export const RECENTLY_UPDATED_URL: string = `${BASE_URI}/collection/recently-updated`
-export const RECENTLY_ADDED_URL: string = `${BASE_URI}/collection/recently-added`
-export const VERIFIED_APPS_URL: string = `${BASE_URI}/collection/verified`
+export const POPULAR_LAST_MONTH_URL = (
+  page?: number,
+  per_page?: number,
+): string =>
+  page && per_page
+    ? `${BASE_URI}/popular/last-month?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/popular/last-month`
+export const RECENTLY_UPDATED_URL = (
+  page?: number,
+  per_page?: number,
+): string =>
+  page && per_page
+    ? `${BASE_URI}/collection/recently-updated?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/collection/recently-updated`
+export const RECENTLY_ADDED_URL = (page?: number, per_page?: number): string =>
+  page && per_page
+    ? `${BASE_URI}/collection/recently-added?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/collection/recently-added`
+export const VERIFIED_APPS_URL = (page?: number, per_page?: number): string =>
+  page && per_page
+    ? `${BASE_URI}/collection/verified?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/collection/verified`
 export const CATEGORIES_URL: string = `${BASE_URI}/categories`
 export const CATEGORY_URL = (
   category: keyof typeof Category,
@@ -28,10 +46,33 @@ export const CATEGORY_URL = (
     return `${BASE_URI}/category/${category}`
   }
 }
-export const DEVELOPER_URL = (developer: string): string =>
-  `${BASE_URI}/developer/${encodeURIComponent(developer)}`
-export const PROJECTGROUP_URL = (projectgroup: string): string =>
-  `${BASE_URI}/projectgroup/${encodeURIComponent(projectgroup)}`
+
+export const DEVELOPERS_URL: string = `${BASE_URI}/developer`
+
+export const DEVELOPER_URL = (
+  developer: string,
+  page?: number,
+  per_page?: number,
+): string =>
+  page && per_page
+    ? `${BASE_URI}/developer/${encodeURIComponent(
+        developer,
+      )}?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/developer/${encodeURIComponent(developer)}`
+
+export const PROJECTGROUPS_URL: string = `${BASE_URI}/projectgroup`
+
+export const PROJECTGROUP_URL = (
+  projectgroup: string,
+  page?: number,
+  per_page?: number,
+): string =>
+  page && per_page
+    ? `${BASE_URI}/projectgroup/${encodeURIComponent(
+        projectgroup,
+      )}?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/projectgroup/${encodeURIComponent(projectgroup)}`
+
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
 export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 

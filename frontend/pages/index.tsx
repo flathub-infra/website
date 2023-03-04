@@ -60,18 +60,22 @@ export default function Home({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const recentlyUpdated = await fetchCollection(
     Collections.recentlyUpdated,
+    1,
     APPS_IN_PREVIEW_COUNT,
   )
   const recentlyAdded = await fetchCollection(
     Collections.recentlyAdded,
+    1,
     APPS_IN_PREVIEW_COUNT,
   )
   const popular = await fetchCollection(
     Collections.popular,
+    1,
     APPS_IN_PREVIEW_COUNT,
   )
   const verified = await fetchCollection(
     Collections.verified,
+    1,
     APPS_IN_PREVIEW_COUNT,
   )
 
@@ -81,7 +85,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       recentlyUpdated,
       recentlyAdded,
       popular,
-      verified: verified || [],
+      verified,
     },
     revalidate: 900,
   }

@@ -114,21 +114,25 @@ def get_developers():
     return db.get_developers()
 
 
-@app.get("/developer/{developer}")
+@app.get("/developer/{developer:path}")
 def get_developer(
     developer: str,
-    response: Response,
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
 ):
-    ids = apps.get_developer(developer)
+    if developer.startswith("ARI"):
+        print(developer)
 
-    if not ids:
-        response.status_code = 404
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
         return response
 
-    sorted_ids = utils.sort_ids_by_installs(ids)
+    result = search.get_by_developer(developer, page, per_page)
 
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
-    return [app for app in result if app]
+    return result
 
 
 @app.get("/eol/rebase")
@@ -152,18 +156,19 @@ def get_project_groups():
 @app.get("/projectgroup/{project_group}")
 def get_project_group(
     project_group: str,
-    response: Response,
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
 ):
-    ids = apps.get_project_group(project_group)
-
-    if not ids:
-        response.status_code = 404
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
         return response
 
-    sorted_ids = utils.sort_ids_by_installs(ids)
+    result = search.get_by_project_group(project_group, page, per_page)
 
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in sorted_ids]
-    return [app for app in result if app]
+    return result
 
 
 @app.get("/appstream")
@@ -186,42 +191,71 @@ def get_search(userquery: str):
 
 
 @app.get("/collection/recently-updated")
-@app.get("/collection/recently-updated/{limit}")
-def get_recently_updated(limit: int = 100):
-    recent = apps.get_recently_updated(limit)
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
-    return [app for app in result if app]
+def get_recently_updated(
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_updated_at(page, per_page)
+
+    return result
 
 
 @app.get("/collection/recently-added")
-@app.get("/collection/recently-added/{limit}")
-def get_recently_added(limit: int = 100):
-    recent = apps.get_recently_added(limit)
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in recent]
-    return [app for app in result if app]
+def get_recently_added(
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_added_at(page, per_page)
+
+    return result
 
 
 @app.get("/collection/verified")
-@app.get("/collection/verified/{limit}")
-def get_verified(limit: int = 100):
-    verified = verification.get_verified_apps()
-    appids = [x.app_id for x in verified]
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in appids]
-    return [app for app in result if app]
+def get_verified(
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_verified(page, per_page)
+
+    return result
 
 
-@app.get("/popular")
-def get_popular(limit: int = 100):
-    popular = stats.get_popular(None)[0:limit]
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in popular]
-    return [app for app in result if app]
+@app.get("/popular/last-month")
+def get_popular_last_month(
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
 
+    result = search.get_by_installs_last_month(page, per_page)
 
-@app.get("/popular/{days}")
-def get_popular_days(days: int):
-    popular = stats.get_popular(days)
-    result = [utils.get_listing_app(f"apps:{appid}") for appid in popular]
-    return [app for app in result if app]
+    return result
 
 
 @app.get("/feed/recently-updated")

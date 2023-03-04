@@ -60,6 +60,26 @@ const nextConfig = (phase) => ({
         destination: "/apps/:path*",
         permanent: true,
       },
+      {
+        source: "/apps/collection/verified",
+        destination: "/apps/collection/verified/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/collection/recently-updated",
+        destination: "/apps/collection/recently-updated/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/collection/recently-added",
+        destination: "/apps/collection/recently-added/1",
+        permanent: true,
+      },
+      {
+        source: "/apps/collection/popular",
+        destination: "/apps/collection/popular/1",
+        permanent: true,
+      },
     ]
   },
   async headers() {
