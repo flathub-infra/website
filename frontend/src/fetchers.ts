@@ -4,7 +4,7 @@ import { Category } from "./types/Category"
 import { LoginProvider } from "./types/Login"
 
 import {
-  POPULAR_URL,
+  POPULAR_LAST_MONTH_URL,
   APP_DETAILS,
   RECENTLY_UPDATED_URL,
   RECENTLY_ADDED_URL,
@@ -23,6 +23,8 @@ import {
   REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
   CATEGORIES_URL,
+  DEVELOPERS_URL,
+  PROJECTGROUPS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -119,21 +121,22 @@ export async function fetchAppStats(appId: string): Promise<AppStats> {
 
 export default async function fetchCollection(
   collection: Collection,
-  count?: number,
-): Promise<AppstreamListItem[]> {
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
   let collectionURL: string = ""
   switch (collection) {
     case Collections.popular:
-      collectionURL = POPULAR_URL
+      collectionURL = POPULAR_LAST_MONTH_URL(page, per_page)
       break
     case Collections.recentlyUpdated:
-      collectionURL = RECENTLY_UPDATED_URL
+      collectionURL = RECENTLY_UPDATED_URL(page, per_page)
       break
     case Collections.recentlyAdded:
-      collectionURL = RECENTLY_ADDED_URL
+      collectionURL = RECENTLY_ADDED_URL(page, per_page)
       break
     case Collections.verified:
-      collectionURL = VERIFIED_APPS_URL
+      collectionURL = VERIFIED_APPS_URL(page, per_page)
       break
     default:
       collectionURL = ""
@@ -144,26 +147,21 @@ export default async function fetchCollection(
   }
 
   const collectionListRes = await fetch(collectionURL)
-  const collectionList = await collectionListRes.json()
-
-  const limit = count ? count : collectionList.length
-
-  const limitedList = collectionList.slice(0, limit)
+  const collectionList: MeilisearchResponse<AppsIndex> =
+    await collectionListRes.json()
 
   console.log(
-    `\nCollection ${collection} fetched. Asked for: ${count}. Returned items: ${
-      limitedList.filter((item) => Boolean(item)).length
-    }.`,
+    `Collection ${collection} fetched. Asked for: ${page}. Returned items: ${collectionList.hits.length}.`,
   )
 
-  return limitedList.filter((item) => Boolean(item))
+  return collectionList
 }
 
 export async function fetchCategories(): Promise<Category[]> {
   const categories = await fetch(CATEGORIES_URL)
   const categoriesList = await categories.json()
 
-  console.log(`\nCategories fetched. Returned items: ${categoriesList.length}.`)
+  console.log(`Categories fetched. Returned items: ${categoriesList.length}.`)
 
   return categoriesList
 }
@@ -177,19 +175,32 @@ export async function fetchCategory(
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
   console.log(
-    `\nCategory ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
+    `Category ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
   )
 
   return response
 }
 
-export async function fetchDeveloperApps(developer: string | undefined) {
+export async function fetchDevelopers(): Promise<string[]> {
+  const developers = await fetch(DEVELOPERS_URL)
+  const developersList = await developers.json()
+
+  console.log(`Developers fetched. Returned items: ${developersList.length}.`)
+
+  return developersList
+}
+
+export async function fetchDeveloperApps(
+  developer: string | undefined,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
   if (!developer) {
     console.log("No developer specified")
     return null
   }
-  console.log(`\nFetching apps for developer ${developer}`)
-  const appListRes = await fetch(DEVELOPER_URL(developer))
+  console.log(`Fetching apps for developer ${developer}`)
+  const appListRes = await fetch(DEVELOPER_URL(developer, page, per_page))
   if (!appListRes || appListRes.status === 404) {
     console.log(`No apps for developer ${developer}`)
     return null
@@ -199,16 +210,31 @@ export async function fetchDeveloperApps(developer: string | undefined) {
 
   console.log(`Developer apps for ${developer} fetched`)
 
-  return appList.filter((item) => Boolean(item))
+  return appList
 }
 
-export async function fetchProjectgroupApps(projectgroup: string | undefined) {
+export async function fetchProjectgroups(): Promise<string[]> {
+  const projectgroups = await fetch(PROJECTGROUPS_URL)
+  const projectgroupsList = await projectgroups.json()
+
+  console.log(
+    `Project-groups fetched. Returned items: ${projectgroupsList.length}.`,
+  )
+
+  return projectgroupsList
+}
+
+export async function fetchProjectgroupApps(
+  projectgroup: string | undefined,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
   if (!projectgroup) {
     console.log("No project-group specified")
     return null
   }
-  console.log(`\nFetching apps for project-group ${projectgroup}`)
-  const appListRes = await fetch(PROJECTGROUP_URL(projectgroup))
+  console.log(`Fetching apps for project-group ${projectgroup}`)
+  const appListRes = await fetch(PROJECTGROUP_URL(projectgroup, page, per_page))
   if (!appListRes || appListRes.status === 404) {
     console.log("No apps for project-group ", projectgroup)
     return null
@@ -218,17 +244,17 @@ export async function fetchProjectgroupApps(projectgroup: string | undefined) {
 
   console.log(`Project-group apps for ${projectgroup} fetched.`)
 
-  return appList.filter((item) => Boolean(item))
+  return appList
 }
 
 export async function fetchSearchQuery(query: string) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
   const appListRes = await fetch(SEARCH_APP(queryEncoded))
-  const appList = await appListRes.json()
+  const appList: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
-  console.log(`\nSearch for query: ${queryEncoded} fetched`)
+  console.log(`Search for query: ${queryEncoded} fetched`)
 
-  return appList.filter((item) => Boolean(item))
+  return appList
 }
 
 export async function fetchLoginProviders(): Promise<LoginProvider[]> {

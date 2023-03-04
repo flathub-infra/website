@@ -36,6 +36,7 @@ export interface Custom {
   "flathub::verification::login_name": string
   "flathub::verification::login_provider": string
   "flathub::verification::website": string
+  "flathub::verification::timestamp": string
 }
 
 interface ContentRating {

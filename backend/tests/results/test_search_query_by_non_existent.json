@@ -1,2 +1,8 @@
-[
-]
+{
+    "hits": [],
+    "query": "NonExistent",
+    "processingTimeMs": 0,
+    "limit": 250,
+    "offset": 0,
+    "estimatedTotalHits": 0
+}

@@ -86,12 +86,6 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const categories = await fetchCategories()
 
-  let appsPerCategory = {}
-  for (const category of categories) {
-    const apps = fetchCategory(category, 1, 30)
-    appsPerCategory[category] = apps
-  }
-
   async function getCategoryAsync(category: Category) {
     return { category: category, data: await fetchCategory(category, 1, 30) }
   }

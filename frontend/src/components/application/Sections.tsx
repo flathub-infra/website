@@ -1,14 +1,18 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import { AppstreamListItem } from "src/types/Appstream"
 
 import ApplicationSection from "./ApplicationSection"
+import {
+  MeilisearchResponse,
+  AppsIndex,
+  mapAppsIndexToAppstreamListItem,
+} from "src/meilisearch"
 
 interface Props {
-  popular: AppstreamListItem[]
-  recentlyUpdated: AppstreamListItem[]
-  recentlyAdded: AppstreamListItem[]
-  verified: AppstreamListItem[] | null
+  popular: MeilisearchResponse<AppsIndex>
+  recentlyUpdated: MeilisearchResponse<AppsIndex>
+  recentlyAdded: MeilisearchResponse<AppsIndex>
+  verified: MeilisearchResponse<AppsIndex>
 }
 
 const ApplicationSections: FunctionComponent<Props> = ({
@@ -23,25 +27,25 @@ const ApplicationSections: FunctionComponent<Props> = ({
       <ApplicationSection
         key="recently_added"
         title={t("recently-added-apps")}
-        applications={recentlyAdded}
+        applications={recentlyAdded.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/recently-added"
       />
       <ApplicationSection
         key="updated"
         title={t("new-and-updated-apps")}
-        applications={recentlyUpdated}
+        applications={recentlyUpdated.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/recently-updated"
       />
       <ApplicationSection
         key="verified"
         title={t("verified-apps")}
-        applications={verified}
+        applications={verified.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/verified"
       />
       <ApplicationSection
         key="popular"
         title={t("popular-apps")}
-        applications={popular}
+        applications={popular.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/popular"
       />
     </>

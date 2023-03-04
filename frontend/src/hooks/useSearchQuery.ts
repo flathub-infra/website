@@ -2,19 +2,22 @@ import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { useState, useEffect } from "react"
 
 import { fetchSearchQuery } from "../fetchers"
-import { Appstream } from "../types/Appstream"
+import { AppstreamListItem } from "../types/Appstream"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
-export function useSearchQuery(query: string): Appstream[] {
+export function useSearchQuery(query: string): AppstreamListItem[] {
   const { trackSiteSearch } = useMatomo()
-  const [searchResult, setSearchResult] = useState<Appstream[] | null>(null)
+  const [searchResult, setSearchResult] = useState<AppstreamListItem[] | null>(
+    null,
+  )
 
   useEffect(() => {
     const callSearch = async () => {
       const applications = await fetchSearchQuery(query)
-      setSearchResult(applications)
+      setSearchResult(applications.hits.map(mapAppsIndexToAppstreamListItem))
       trackSiteSearch({
         keyword: query as string,
-        count: applications.length,
+        count: applications.hits.length,
       })
     }
 

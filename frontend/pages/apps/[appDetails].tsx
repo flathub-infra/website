@@ -20,6 +20,11 @@ import {
 import { Summary } from "../../src/types/Summary"
 import { AppStats } from "../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
+import {
+  AppsIndex,
+  MeilisearchResponse,
+  removeAppIdFromSearchResponse,
+} from "src/meilisearch"
 
 export default function Details({
   app,
@@ -32,8 +37,8 @@ export default function Details({
   app: Appstream
   summary?: Summary
   stats: AppStats
-  developerApps: Appstream[]
-  projectgroupApps: Appstream[]
+  developerApps: MeilisearchResponse<AppsIndex>
+  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
 }) {
   const screenshots = app.screenshots
@@ -60,10 +65,8 @@ export default function Details({
         app={app}
         summary={summary}
         stats={stats}
-        developerApps={developerApps.filter((devApp) => devApp.id !== app.id)}
-        projectgroupApps={projectgroupApps.filter(
-          (devApp) => devApp.id !== app.id,
-        )}
+        developerApps={developerApps}
+        projectgroupApps={projectgroupApps}
         verificationStatus={verificationStatus}
       />
     </>
@@ -127,8 +130,8 @@ export const getStaticProps: GetStaticProps = async ({
       app,
       summary,
       stats,
-      developerApps: developerApps ?? [],
-      projectgroupApps: projectgroupApps ?? [],
+      developerApps: removeAppIdFromSearchResponse(developerApps, app.id),
+      projectgroupApps: removeAppIdFromSearchResponse(projectgroupApps, app.id),
       verificationStatus,
     },
     revalidate: 900,

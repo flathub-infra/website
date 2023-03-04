@@ -1,7 +1,7 @@
 import json
 import re
 
-from . import db, schemas, search, utils
+from . import db, search, utils
 
 
 def load_appstream():
@@ -9,7 +9,7 @@ def load_appstream():
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_developers = db.redis_conn.smembers("developers:index")
-    current_projectgroups = db.redis_conn.smembers("developers:projectgroups")
+    current_projectgroups = db.redis_conn.smembers("projectgroups:index")
 
     with db.redis_conn.pipeline() as p:
         p.delete("developers:index", *current_developers)
@@ -53,16 +53,17 @@ def load_appstream():
                     "verification_website": apps[appid]
                     .get("custom", {})
                     .get("flathub::verification::website", None),
+                    "verification_timestamp": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::timestamp", None),
                 }
             )
 
             if developer_name := apps[appid].get("developer_name"):
                 p.sadd("developers:index", developer_name)
-                p.sadd(f"developers:{developer_name}", redis_key)
 
             if project_group := apps[appid].get("project_group"):
                 p.sadd("projectgroups:index", project_group)
-                p.sadd(f"projectgroups:{project_group}", redis_key)
 
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
 
@@ -106,24 +107,3 @@ def get_recently_updated(limit: int = 100):
 def get_recently_added(limit: int = 100):
     zset = db.redis_conn.zrevrange("new_apps_zset", 0, limit - 1)
     return [appid for appid in zset if db.redis_conn.exists(f"apps:{appid}")]
-
-
-def get_category(category: schemas.MainCategory):
-    if index := db.redis_conn.smembers(f"categories:{category.value}"):
-        return [appid.removeprefix("apps:") for appid in index]
-    else:
-        return []
-
-
-def get_developer(developer: str):
-    if index := db.redis_conn.smembers(f"developers:{developer}"):
-        return [appid.removeprefix("apps:") for appid in index]
-    else:
-        return []
-
-
-def get_project_group(project_group: str):
-    if index := db.redis_conn.smembers(f"projectgroups:{project_group}"):
-        return [appid.removeprefix("apps:") for appid in index]
-    else:
-        return []

@@ -1,4 +1,4 @@
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
 import meilisearch
 
@@ -9,7 +9,7 @@ client = meilisearch.Client(
 )
 client.create_index("apps", {"primaryKey": "id"})
 client.index("apps").update_sortable_attributes(
-    ["installs_last_month", "added_at", "updated_at"]
+    ["installs_last_month", "added_at", "updated_at", "verification_timestamp"]
 )
 client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
@@ -51,24 +51,86 @@ def get_by_selected_categories(
     )
 
 
+def get_by_installs_last_month(page: int, hits_per_page: int):
+    return client.index("apps").search(
+        "",
+        {
+            "sort": ["installs_last_month:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_added_at(page: int, hits_per_page: int):
+    return client.index("apps").search(
+        "",
+        {
+            "sort": ["added_at:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_updated_at(page: int, hits_per_page: int):
+    return client.index("apps").search(
+        "",
+        {
+            "sort": ["updated_at:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_verified(page: int, hits_per_page: int):
+    return client.index("apps").search(
+        "",
+        {
+            "filter": ["verification_verified = true"],
+            "sort": ["verification_timestamp:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_developer(developer: str, page: int, hits_per_page: int):
+    escaped_developer = (
+        developer.replace("'", "\\'")
+        .replace('"', '\\"')
+        .replace("(", "\\(")
+        .replace(")", "\\)")
+        .replace("/", "\\/")
+    )
+
+    return client.index("apps").search(
+        "",
+        {
+            "filter": [f"developer_name = '{escaped_developer}'"],
+            "sort": ["installs_last_month:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_project_group(project_group: str, page: int, hits_per_page: int):
+    return client.index("apps").search(
+        "",
+        {
+            "filter": [f"project_group = '{quote(project_group)}'"],
+            "sort": ["installs_last_month:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
 def search_apps(query: str):
     query = unquote(query)
 
-    if results := client.index("apps").search(
+    return client.index("apps").search(
         query, {"limit": 250, "sort": ["installs_last_month:desc"]}
-    ):
-        ret = [
-            {
-                "id": app["app_id"],
-                "name": app["name"],
-                "summary": app["summary"],
-                "icon": app.get("icon"),
-            }
-            for app in results["hits"]
-            if "app_id"  # this might cause hit count to be wrong, but is better then crashing
-            in app
-        ]
-
-        return ret
-
-    return []
+    )

@@ -1,8 +1,32 @@
-[
-    {
-        "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-        "id": "org.sugarlabs.Maze",
+{
+    "hits": [
+      {
         "name": "Maze",
-        "summary": "A simple maze game"
-    }
-]
+        "summary": "A simple maze game",
+        "keywords": null,
+        "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+        "id": "org_sugarlabs_Maze",
+        "installs_last_month": 467,
+        "app_id": "org.sugarlabs.Maze",
+        "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+        "categories": [
+          "Game"
+        ],
+        "developer_name": "Sugar Labs Community",
+        "project_group": "SugarLabs",
+        "verification_verified": null,
+        "verification_method": null,
+        "verification_login_name": null,
+        "verification_login_provider": null,
+        "verification_website": null,
+        "verification_timestamp": null,
+        "updated_at": 1610973680,
+        "added_at": 1610973680
+      }
+    ],
+    "query": "Maze",
+    "processingTimeMs": 0,
+    "limit": 250,
+    "offset": 0,
+    "estimatedTotalHits": 1
+  }
