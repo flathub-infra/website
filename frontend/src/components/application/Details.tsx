@@ -39,6 +39,7 @@ import { getAppVendingSetup } from "../../asyncs/vending"
 
 import useCollapse from "react-collapsed"
 import { VerificationStatus } from "src/types/VerificationStatus"
+import { motion } from "framer-motion"
 
 interface Props {
   app?: Appstream
@@ -261,11 +262,15 @@ const Details: FunctionComponent<Props> = ({
             )}
           </div>
           {scrollHeight > collapsedHeight && (
-            <button {...getToggleProps()}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              {...getToggleProps()}
+            >
               <span className="m-0 w-full rounded-xl bg-flathub-white py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
                 {isExpanded ? t(`show-less`) : t(`show-more`)}
               </span>
-            </button>
+            </motion.button>
           )}
 
           {stableReleases && stableReleases.length > 0 && (

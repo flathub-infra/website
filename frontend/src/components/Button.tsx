@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import {
   forwardRef,
   FunctionComponent,
@@ -26,18 +27,21 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
     }[variant]
 
     return (
-      <button
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
         className={classNames(
           className ?? "",
           variantClass,
           "no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold duration-500 enabled:hover:cursor-pointer enabled:active:bg-flathub-gainsborow enabled:active:text-flathub-celestial-blue disabled:cursor-default active:dark:bg-flathub-dark-gunmetal dark:enabled:active:text-flathub-celestial-blue",
         )}
         type={buttonProps.type}
+        // @ts-ignore
         ref={ref}
         {...buttonProps}
       >
         {children}
-      </button>
+      </motion.button>
     )
   },
 )
