@@ -43,15 +43,15 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
   ) => {
     const hover = {
       destructive: "hover:bg-flathub-electric-red hover:text-gray-100",
-      secondary: "hover:opacity-75",
-      primary: "hover:opacity-75",
+      secondary: "",
+      primary: "",
     }[variant]
 
     const variantClass = {
       destructive:
         "bg-flathub-white dark:bg-flathub-arsenic text-flathub-electric-red border border-flathub-electric-red",
       secondary:
-        "bg-flathub-gainsborow dark:bg-flathub-granite-gray text-flathub-dark-gunmetal  dark:text-flathub-gainsborow",
+        "bg-flathub-gainsborow dark:bg-flathub-granite-gray text-flathub-dark-gunmetal dark:text-flathub-gainsborow",
       primary:
         "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue text-gray-100",
     }[variant]
@@ -70,7 +70,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
             className ?? "",
             hover,
             variantClass,
-            "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100",
+            "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
           )}
           aria-label={ariaLabel}
           role="button"

@@ -70,7 +70,7 @@ const ProviderLink: FunctionComponent<Props> = ({
       whileTap={{ scale: 0.95 }}
       className={classNames(
         "flex w-full flex-row items-center justify-center gap-3 rounded-xl font-bold",
-        "p-5 shadow-md hover:cursor-pointer hover:opacity-60 active:bg-flathub-gainsborow active:dark:bg-flathub-dark-gunmetal",
+        "p-5 shadow-md hover:cursor-pointer hover:opacity-60",
         inACard
           ? "bg-flathub-gainsborow dark:bg-flathub-dark-gunmetal"
           : "bg-flathub-white dark:bg-flathub-arsenic",
