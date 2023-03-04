@@ -4,6 +4,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
 import styles from "./CodeCopy.module.scss"
 import { classNames } from "src/styling"
+import { AnimatePresence, motion } from "framer-motion"
 
 interface Props {
   text: string
@@ -41,21 +42,36 @@ const CodeCopy: FunctionComponent<Props> = ({
       )}
     >
       {text}
-      <CopyToClipboard
-        text={text}
-        onCopy={() => {
-          setCopied(true)
-          if (onCopy) onCopy()
-        }}
-      >
-        <button
-          className="absolute right-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
-          title={t("copy-text")}
+      <AnimatePresence>
+        <CopyToClipboard
+          text={text}
+          onCopy={() => {
+            setCopied(true)
+            if (onCopy) onCopy()
+          }}
         >
-          {!copied && <HiSquare2Stack></HiSquare2Stack>}
-          {copied && <HiCheck className="text-green-600"></HiCheck>}
-        </button>
-      </CopyToClipboard>
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute right-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
+            title={t("copy-text")}
+          >
+            {!copied && <HiSquare2Stack></HiSquare2Stack>}
+          </motion.button>
+        </CopyToClipboard>
+        {copied && (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute right-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
+            title={t("copy-text")}
+          >
+            <HiCheck className="text-green-600"></HiCheck>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

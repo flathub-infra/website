@@ -10,6 +10,7 @@ import { GnomeLogo } from "./GnomeLogo"
 import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
 import { classNames } from "src/styling"
+import { motion } from "framer-motion"
 
 interface Props {
   provider: LoginProvider
@@ -64,7 +65,9 @@ const ProviderLink: FunctionComponent<Props> = ({
   const loginText = t(`login-with-provider`, { provider: provider.name })
 
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       className={classNames(
         "flex w-full flex-row items-center justify-center gap-3 rounded-xl font-bold",
         "p-5 shadow-md hover:cursor-pointer hover:opacity-60 active:bg-flathub-gainsborow active:dark:bg-flathub-dark-gunmetal",
@@ -81,7 +84,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         {provider.method === "gitlab" && <GitlabLogo />}
       </div>
       {loginText}
-    </button>
+    </motion.button>
   )
 }
 

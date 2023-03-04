@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import Link from "next/link"
 import {
   forwardRef,
@@ -56,25 +57,27 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
     }[variant]
 
     return (
-      // @ts-ignore
-      <Link
-        href={href}
-        passHref={passHref}
-        {...rest}
-        onClick={onClick}
-        target={target}
-        rel={rel}
-        className={classNames(
-          className ?? "",
-          hover,
-          variantClass,
-          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100",
-        )}
-        aria-label={ariaLabel}
-        role="button"
-      >
-        {children}
-      </Link>
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Link
+          href={href}
+          passHref={passHref}
+          {...rest}
+          onClick={onClick}
+          target={target}
+          ref={ref}
+          rel={rel}
+          className={classNames(
+            className ?? "",
+            hover,
+            variantClass,
+            "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer active:bg-flathub-gainsborow/100 active:dark:bg-flathub-dark-gunmetal/100",
+          )}
+          aria-label={ariaLabel}
+          role="button"
+        >
+          {children}
+        </Link>
+      </motion.div>
     )
   },
 )
