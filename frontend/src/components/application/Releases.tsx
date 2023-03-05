@@ -5,13 +5,14 @@ import { getIntlLocale, getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
 import useCollapse from "react-collapsed"
+import { classNames } from "src/styling"
 
 interface Props {
   latestRelease: Release | null
 }
 
 const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
-  const collapsedHeight = 60
+  const collapsedHeight = 62
   const [scrollHeight, setScrollHeight] = useState(0)
   const ref = useRef(null)
 
@@ -84,11 +85,12 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={`prose relative transition-all duration-700 dark:prose-invert ${
+                className={classNames(
+                  `prose relative transition-all duration-700 dark:prose-invert`,
                   !isExpanded && scrollHeight > collapsedHeight
                     ? "from-transparent to-flathub-white before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-arsenic"
-                    : ""
-                }`}
+                    : "",
+                )}
                 ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: releaseDescription,
