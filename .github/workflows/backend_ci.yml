@@ -43,14 +43,11 @@ jobs:
           sudo apt-get install -y --no-install-recommends build-essential libcairo2-dev libgirepository1.0-dev gir1.2-ostree-1.0
           poetry install
 
-      - name: Check module sort order
-        run: poetry run isort --check-only app
-
       - name: Check code formatting with black
         run: poetry run black --check app
 
       - name: Check for code errors
-        run: poetry run pyflakes app
+        run: poetry run ruff .
 
   smoketests:
     runs-on: ubuntu-latest

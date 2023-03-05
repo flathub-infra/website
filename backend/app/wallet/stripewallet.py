@@ -6,7 +6,6 @@ This will be used if the app starts with Stripe credentials available
 
 from datetime import datetime
 from itertools import dropwhile
-from typing import List, Optional
 
 import stripe
 from fastapi import Request, Response
@@ -63,7 +62,7 @@ class StripeWallet(WalletBase):
             return StripeCustomer.by_user(db, user)
         return cust
 
-    def _cardinfo(self, card: dict) -> Optional[CardInfo]:
+    def _cardinfo(self, card: dict) -> CardInfo | None:
         return CardInfo(
             id=card["id"],
             brand=card["card"]["brand"].lower().replace(" ", ""),
@@ -94,9 +93,9 @@ class StripeWallet(WalletBase):
         request: Request,
         user: FlathubUser,
         sort: TransactionSortOrder,
-        since: Optional[str],
+        since: str | None,
         limit: int,
-    ) -> List[TransactionSummary]:
+    ) -> list[TransactionSummary]:
         txns = models.Transaction.by_user(db, user)
         if sort == TransactionSortOrder.RECENT:
             txns = txns.order_by(models.Transaction.created.desc())
@@ -157,10 +156,12 @@ class StripeWallet(WalletBase):
                             recipients.append((acct.stripe_account, value))
                             continue
                     plaf_data = PLATFORMS_WITH_STRIPE.get(row.recipient)
-                    if plaf_data is not None:
-                        if (stripe_id := plaf_data.stripe_account) is not None:
-                            recipients.append((stripe_id, value))
-                            continue
+                    if (
+                        plaf_data is not None
+                        and (stripe_id := plaf_data.stripe_account) is not None
+                    ):
+                        recipients.append((stripe_id, value))
+                        continue
                     flathub_amount = value
                 except WalletError:
                     raise
@@ -385,7 +386,7 @@ class StripeWallet(WalletBase):
         request: Request,
         user: FlathubUser,
         transaction: str,
-        state: Optional[TransactionSaveCardKind],
+        state: TransactionSaveCardKind | None,
     ):
         txn = models.Transaction.by_user_and_id(db, user, transaction)
         if txn is None:

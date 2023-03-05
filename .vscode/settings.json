@@ -1,3 +1,11 @@
-{ "eslint.workingDirectories": [
-    "./frontend",
-]}
+{
+  "eslint.workingDirectories": ["./frontend"],
+
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll": true
+    },
+    "python.formatting.provider": "black"
+  }
+}

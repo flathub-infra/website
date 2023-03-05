@@ -7,9 +7,9 @@ And we present the full /auth/ sub-namespace
 """
 
 
+from collections.abc import Callable
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Callable, Optional, Union
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -22,9 +22,8 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config
+from . import config, models
 from . import db as apps_db
-from . import models
 
 
 class LoginState(str, Enum):
@@ -52,11 +51,11 @@ class OauthLoginResponseSuccess(BaseModel):
 class OauthLoginResponseFailure(BaseModel):
     state: str
     error: str
-    error_description: Optional[str]
-    error_uri: Optional[str]
+    error_description: str | None
+    error_uri: str | None
 
 
-OauthLoginResponse = Union[OauthLoginResponseSuccess, OauthLoginResponseFailure]
+OauthLoginResponse = OauthLoginResponseSuccess | OauthLoginResponseFailure
 
 
 class UserDeleteRequest(BaseModel):
@@ -105,10 +104,9 @@ def login_state(request: Request):
     user = request.session.get("user-id", None)
     if user is not None:
         user = db.session.get(models.FlathubUser, user)
-    if user is not None:
-        if user.deleted:
-            user = None
-            del request.session["user-id"]
+    if user is not None and user.deleted:
+        user = None
+        del request.session["user-id"]
     if user is not None:
         ret["state"] = LoginState.LOGGED_IN
         ret["user"] = user

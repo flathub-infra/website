@@ -2,7 +2,6 @@ import json
 import os
 import random
 from datetime import datetime
-from typing import Optional
 
 import requests
 from fastapi import APIRouter, BackgroundTasks, FastAPI, Response
@@ -17,7 +16,7 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-def get_repo_creation_date(appid: str) -> Optional[str]:
+def get_repo_creation_date(appid: str) -> str | None:
     key = f"created_at:{appid}"
     if created_at := db.redis_conn.get(key):
         return created_at

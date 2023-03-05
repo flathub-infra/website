@@ -81,7 +81,7 @@
             "label": "fix format backend",
             "type": "shell",
             "group": "build",
-            "command": "poetry run black app && poetry run isort app",
+            "command": "poetry run black app && poetry run ruff . --fix",
             "options": {
                 "cwd": "${workspaceFolder}/backend"
             },

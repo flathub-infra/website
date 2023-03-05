@@ -65,7 +65,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
 
             for screenshot in screenshots:
                 if image := screenshot.get("624x351"):
-                    content.append('<img src="{}">'.format(image))
+                    content.append(f'<img src="{image}">')
 
         entry.description("".join(content))
 

@@ -1,7 +1,6 @@
 import datetime
 import json
 from collections import defaultdict
-from typing import Dict, List, Optional
 from urllib.parse import urlparse, urlunparse
 
 import orjson
@@ -11,7 +10,7 @@ from app import utils
 
 from . import config, db, schemas, search
 
-StatsType = Dict[str, Dict[str, List[int]]]
+StatsType = dict[str, dict[str, list[int]]]
 POPULAR_DAYS_NUM = 7
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
@@ -23,7 +22,7 @@ def _get_stats_for_date(date: datetime.date, session: requests.Session):
     )
     if stats_json_url.scheme == "file":
         try:
-            with open(stats_json_url.path, "r") as stats_file:
+            with open(stats_json_url.path) as stats_file:
                 stats = json.load(stats_file)
         except FileNotFoundError:
             return None
@@ -36,10 +35,7 @@ def _get_stats_for_date(date: datetime.date, session: requests.Session):
             return None
         response.raise_for_status()
         stats = response.json()
-        if date == datetime.date.today():
-            expire = 60 * 60
-        else:
-            expire = 24 * 60 * 60
+        expire = 60 * 60 if date == datetime.date.today() else 24 * 60 * 60
         db.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
         stats = orjson.loads(stats_txt)
@@ -68,12 +64,12 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
     return totals
 
 
-def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
+def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     # Skip last two days as flathub-stats publishes partial statistics
     edate = datetime.date.today() - datetime.timedelta(days=2)
     sdate = FIRST_STATS_DATE
 
-    app_stats_per_day: Dict[str, Dict[str, int]] = {}
+    app_stats_per_day: dict[str, dict[str, int]] = {}
 
     with requests.Session() as session:
         for i in range((edate - sdate).days + 1):
@@ -91,15 +87,15 @@ def _get_app_stats_per_day() -> Dict[str, Dict[str, int]]:
     return app_stats_per_day
 
 
-def _get_stats(app_count: int) -> Dict[str, Dict[str, int]]:
+def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
     edate = datetime.date.today()
     sdate = FIRST_STATS_DATE
 
-    downloads_per_day: Dict[str, int] = {}
-    delta_downloads_per_day: Dict[str, int] = {}
-    updates_per_day: Dict[str, int] = {}
-    totals_country: Dict[str, int] = {}
-    category_totals: Dict[str, int] = {}
+    downloads_per_day: dict[str, int] = {}
+    delta_downloads_per_day: dict[str, int] = {}
+    updates_per_day: dict[str, int] = {}
+    totals_country: dict[str, int] = {}
+    category_totals: dict[str, int] = {}
     with requests.Session() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
@@ -151,7 +147,7 @@ def _get_stats(app_count: int) -> Dict[str, Dict[str, int]]:
 
 
 def _sort_key(
-    app_stats: Dict[str, List[int]], for_arches: Optional[List[str]] = None
+    app_stats: dict[str, list[int]], for_arches: list[str] | None = None
 ) -> int:
     new_dls = 0
     for arch, dls in app_stats.items():
@@ -165,7 +161,7 @@ def _is_app(app_id: str) -> bool:
     return "/" not in app_id
 
 
-def get_installs_by_ids(ids: List[str]):
+def get_installs_by_ids(ids: list[str]):
     result = defaultdict()
     for app_id in ids:
         if not _is_app(app_id):
@@ -177,7 +173,7 @@ def get_installs_by_ids(ids: List[str]):
     return result
 
 
-def get_popular(days: Optional[int]):
+def get_popular(days: int | None):
     edate = datetime.date.today()
 
     if days is None:
@@ -227,7 +223,7 @@ def update(all_app_ids: list):
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
-    stats_installs: List = []
+    stats_installs: list = []
     for appid, dict in stats_30_days.items():
         if _is_app(appid):
             # Index 0 is install and update count index 1 would be the update count
@@ -255,7 +251,7 @@ def update(all_app_ids: list):
             )
 
     # Make sure the Apps has all Keys
-    for appid in stats_apps_dict.keys():
+    for appid in stats_apps_dict:
         stats_apps_dict[appid]["installs_total"] = stats_apps_dict[appid].get(
             "installs_total", 0
         )

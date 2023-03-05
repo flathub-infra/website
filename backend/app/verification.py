@@ -1,5 +1,4 @@
 from enum import Enum
-from typing import List, Optional, Tuple, Union
 from uuid import uuid4
 
 import github
@@ -56,13 +55,10 @@ class ErrorDetail(str, Enum):
 
 
 def _matches_prefixes(appid: str, *prefixes) -> bool:
-    for prefix in prefixes:
-        if appid.startswith(prefix + "."):
-            return True
-    return False
+    return any(appid.startswith(prefix + ".") for prefix in prefixes)
 
 
-def _get_provider_username(appid: str) -> Tuple["LoginProvider", str]:
+def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
     if _matches_prefixes(appid, "com.github", "io.github"):
         return (LoginProvider.GITHUB, _demangle_name(appid.split(".")[2]))
     elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
@@ -122,8 +118,8 @@ router = APIRouter(prefix="/verification")
 
 class WebsiteVerificationResult(BaseModel):
     verified: bool
-    detail: Optional[ErrorDetail] = None
-    status_code: Optional[int] = None
+    detail: ErrorDetail | None = None
+    status_code: int | None = None
 
 
 class CheckWebsiteVerification:
@@ -141,7 +137,7 @@ class CheckWebsiteVerification:
             r = requests.get(
                 f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt", timeout=5
             )
-        except:
+        except requests.exceptions.ConnectionError:
             return WebsiteVerificationResult(
                 verified=False, detail=ErrorDetail.FAILED_TO_CONNECT
             )
@@ -180,28 +176,30 @@ class LoginProvider(Enum):
 
 class VerificationStatus(BaseModel):
     verified: bool
-    timestamp: Optional[int]
-    method: Optional[VerificationMethod]
-    website: Optional[str]
-    login_provider: Optional[LoginProvider]
-    login_name: Optional[str]
-    login_is_organization: Optional[bool]
-    detail: Optional[str]
+    timestamp: int | None
+    method: VerificationMethod | None
+    website: str | None
+    login_provider: LoginProvider | None
+    login_name: str | None
+    login_is_organization: bool | None
+    detail: str | None
 
 
-def is_appid_runtime(appid: str) -> Union[str, bool]:
+def is_appid_runtime(appid: str) -> str | bool:
     # All runtimes are pushed by verified vendors, but they might be using anything
     # matching tld.vendor.*, so we need to test refs against one specific ID
     # Extensions are special case maintained by other developers
     split_appid = appid.split(".")
-    if split_appid[0] == "org":
-        if split_appid[1] in ("gnome", "kde", "freedesktop"):
-            if split_appid[2] in ("Platform", "Sdk"):
-                if split_appid[3:4] == "Extension":
-                    return False
-                else:
-                    appid = ".".join([split_appid[0], split_appid[1], "Sdk"])
-                    return appid
+    if (
+        split_appid[0] == "org"
+        and split_appid[1] in ("gnome", "kde", "freedesktop")
+        and split_appid[2] in ("Platform", "Sdk")
+    ):
+        if split_appid[3:4] == "Extension":
+            return False
+        else:
+            appid = ".".join([split_appid[0], split_appid[1], "Sdk"])
+            return appid
     return False
 
 
@@ -314,17 +312,17 @@ class AvailableLoginMethodStatus(Enum):
 
 class AvailableMethod(BaseModel):
     method: AvailableMethodType
-    website: Optional[str]
-    website_token: Optional[str]
-    login_provider: Optional[LoginProvider]
-    login_name: Optional[str]
-    login_is_organization: Optional[bool]
-    login_status: Optional[AvailableLoginMethodStatus]
+    website: str | None
+    website_token: str | None
+    login_provider: LoginProvider | None
+    login_name: str | None
+    login_is_organization: bool | None
+    login_status: AvailableLoginMethodStatus | None
 
 
 class AvailableMethods(BaseModel):
-    methods: Optional[List[AvailableMethod]]
-    detail: Optional[str]
+    methods: list[AvailableMethod] | None
+    detail: str | None
 
 
 @router.get(

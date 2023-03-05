@@ -1,1 +1,1 @@
-{ "recommendations": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "ms-python.python", "shardulm94.trailing-spaces", "bradlc.vscode-tailwindcss"] }
+{ "recommendations": ["esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "ms-python.python", "shardulm94.trailing-spaces", "bradlc.vscode-tailwindcss", "charliermarsh.ruff"] }

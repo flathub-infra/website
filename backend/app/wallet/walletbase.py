@@ -6,7 +6,7 @@ common.  This class provides the basis for wallet operations
 """
 
 from enum import Enum
-from typing import List, Literal, Optional
+from typing import Literal
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse
@@ -33,9 +33,9 @@ class TransactionSummary(BaseModel):
     currency: str
     kind: TransactionKind
     status: str
-    reason: Optional[str]
-    created: Optional[int]
-    updated: Optional[int]
+    reason: str | None
+    created: int | None
+    updated: int | None
 
 
 class TransactionRow(BaseModel):
@@ -47,9 +47,9 @@ class TransactionRow(BaseModel):
 
 class Transaction(BaseModel):
     summary: TransactionSummary
-    card: Optional[CardInfo]
-    details: List[TransactionRow]
-    receipt: Optional[str]
+    card: CardInfo | None
+    details: list[TransactionRow]
+    receipt: str | None
 
 
 class NascentTransactionSummary(BaseModel):
@@ -60,7 +60,7 @@ class NascentTransactionSummary(BaseModel):
 
 class NascentTransaction(BaseModel):
     summary: NascentTransactionSummary
-    details: List[TransactionRow]
+    details: list[TransactionRow]
 
 
 class WalletError(Exception):
@@ -85,7 +85,7 @@ class WalletError(Exception):
 
 class WalletInfo(BaseModel):
     status: str
-    cards: List[CardInfo]
+    cards: list[CardInfo]
 
 
 class StripeKeys(BaseModel):
@@ -96,14 +96,14 @@ class StripeKeys(BaseModel):
 class TransactionStripeData(BaseModel):
     status: str
     client_secret: str
-    card: Optional[CardInfo]
+    card: CardInfo | None
 
 
 TransactionSaveCardKind = Literal["off_session", "on_session"]
 
 
 class TransactionSaveCard(BaseModel):
-    save_card: Optional[TransactionSaveCardKind]
+    save_card: TransactionSaveCardKind | None
 
 
 class TransactionSortOrder(Enum):
@@ -153,9 +153,9 @@ class WalletBase:
         request: Request,
         user: FlathubUser,
         sort: TransactionSortOrder,
-        since: Optional[str],
+        since: str | None,
         limit: int,
-    ) -> List[TransactionSummary]:
+    ) -> list[TransactionSummary]:
         """
         List the transactions this user has performed.
         """
@@ -177,9 +177,10 @@ class WalletBase:
 
         Meeting these checks does not guarantee that a transaction can be created.
         """
-        if transaction.summary.kind == "donation":
-            if any(row.kind == "purchase" for row in transaction.details):
-                raise WalletError(error="inconsistent details")
+        if transaction.summary.kind == "donation" and any(
+            row.kind == "purchase" for row in transaction.details
+        ):
+            raise WalletError(error="inconsistent details")
         if transaction.summary.currency != "usd" or any(
             row.currency != "usd" for row in transaction.details
         ):
@@ -255,7 +256,7 @@ class WalletBase:
         request: Request,
         user: FlathubUser,
         transaction: str,
-        state: Optional[TransactionSaveCardKind],
+        state: TransactionSaveCardKind | None,
     ):
         """
         Set whether or not to save the card when completing a transaction

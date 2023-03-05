@@ -1,6 +1,5 @@
 import base64
 from datetime import datetime, timedelta
-from typing import List, Optional
 from uuid import uuid4
 
 import gi
@@ -8,6 +7,7 @@ import jwt
 from fastapi import APIRouter, Body, Depends, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
+from gi.repository import AppStream
 from pydantic import BaseModel
 
 from . import config, logins, models
@@ -16,20 +16,19 @@ from .verification import VerificationStatus, get_verification_status, is_appid_
 
 gi.require_version("AppStream", "1.0")
 
-from gi.repository import AppStream
 
 router = APIRouter(prefix="/purchases")
 
 
 class PricingInfo(BaseModel):
-    recommended_donation: Optional[int]
-    minimum_payment: Optional[int]
+    recommended_donation: int | None
+    minimum_payment: int | None
 
 
 class StorefrontInfo(BaseModel):
-    verification: Optional[VerificationStatus]
-    pricing: Optional[PricingInfo]
-    is_free_software: Optional[bool]
+    verification: VerificationStatus | None
+    pricing: PricingInfo | None
+    is_free_software: bool | None
 
 
 @router.get("/storefront-info", status_code=200, response_model_exclude_none=True)
@@ -95,7 +94,7 @@ def get_update_token(login=Depends(logins.login_state)):
     }
 
 
-def _check_purchases(appids: List[str], user_id: int):
+def _check_purchases(appids: list[str], user_id: int):
     def canon_app_id(app_id: str):
         # For .Locale, .Debug, etc. refs, we only check the base app ID. However, when we generate the token, we still
         # need to include the suffixed version.
@@ -125,7 +124,7 @@ def _check_purchases(appids: List[str], user_id: int):
 
 
 @router.post("/check-purchases", status_code=200)
-def check_purchases(appids: List[str], login=Depends(logins.login_state)):
+def check_purchases(appids: list[str], login=Depends(logins.login_state)):
     """
     Checks whether the logged in user is able to download all of the given app refs.
 
@@ -156,7 +155,7 @@ def check_purchases(appids: List[str], login=Depends(logins.login_state)):
 
 
 @router.post("/generate-download-token", status_code=200)
-def get_download_token(appids: List[str], update_token: str = Body(None)):
+def get_download_token(appids: list[str], update_token: str = Body(None)):
     """
     Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
     "app/org.gnome.Maps/x86_64/stable".

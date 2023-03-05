@@ -1,23 +1,18 @@
 import datetime
-import glob
 import json
 import os
-import shutil
 import sys
-import tempfile
 import time
+from urllib import parse
 
 import gi
 import pytest
+import vcr
+from fastapi.testclient import TestClient
+from lxml import etree
 
 gi.require_version("OSTree", "1.0")
 
-from urllib import parse
-
-import vcr
-from fastapi.testclient import TestClient
-from gi.repository import Gio, OSTree
-from lxml import etree
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -35,10 +30,7 @@ class Override:
         from app import main
 
         self._dependency = dependency
-        if dependency in main.app.dependency_overrides:
-            self._original = main.app.dependency_overrides[dependency]
-        else:
-            self._original = None
+        self._original = main.app.dependency_overrides.get(dependency, None)
         main.app.dependency_overrides[dependency] = replacement
 
     def __enter__(self):
@@ -125,7 +117,7 @@ def test_apps_by_non_existent_developer(client):
     assert response.status_code == 404
 
 
-def test_apps_by_projectgroup(client):
+def test_apps_by_projectgroups(client):
     response = client.get("/projectgroup")
     assert response.status_code == 200
     assert response.json() == _get_expected_json_result("test_list_projectgroups")
@@ -151,7 +143,7 @@ def test_appstream_by_appid(client):
 def test_appstream_by_non_existent_appid(client):
     response = client.get("/appstream/NonExistent")
     assert response.status_code == 404
-    assert response.json() == None
+    assert response.json() is None
 
 
 def test_search_query_by_partial_name(client):
@@ -261,7 +253,7 @@ def test_picked_games(client):
 def test_picked_non_existent(client):
     response = client.get("/compat/picks/NonExistent")
     assert response.status_code == 404
-    assert response.json() == None
+    assert response.json() is None
 
 
 def test_popular(client):
@@ -291,7 +283,7 @@ def test_summary_by_id(client):
 def test_summary_by_non_existent_id(client):
     response = client.get("/summary/does.not.exist")
     assert response.status_code == 404
-    assert response.json() == None
+    assert response.json() is None
 
 
 def test_stats(client):
@@ -361,7 +353,7 @@ def test_app_stats_by_id(client):
 def test_app_stats_by_non_existent_id(client):
     response = client.get("/stats/does.not.exist")
     assert response.status_code == 404
-    assert response.json() == None
+    assert response.json() is None
 
 
 def test_sitemap_text(client):
@@ -621,7 +613,7 @@ def test_verification_website(client):
     response = client.get("/verification/org.gnome.Maps/status")
     assert response.status_code == 200
     json = response.json()
-    assert json["verified"] == True
+    assert json["verified"] is True
     assert json["method"] == "website"
     assert json["website"] == "gnome.org"
 
@@ -649,11 +641,11 @@ def test_verification_github(client):
     response = client.get("/verification/io.github.ajr0d.FlathubTestApp/status")
     assert response.status_code == 200
     json = response.json()
-    assert json["verified"] == True
+    assert json["verified"] is True
     assert json["method"] == "login_provider"
     assert json["login_provider"] == "github"
     assert json["login_name"] == "ajr0d"
-    assert json["login_is_organization"] == False
+    assert json["login_is_organization"] is False
 
     # Unverify the app
     response = client.post("/verification/io.github.ajr0d.FlathubTestApp/unverify")
