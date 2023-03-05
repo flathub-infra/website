@@ -7,7 +7,8 @@ distribute the share among other parties.  This is to be considered canonical.
 """
 
 # The currency Flathub operates in is US dollars (which for Stripe means cents)
-from typing import List, Tuple
+
+from fastapi import HTTPException
 
 from .. import db as appdb
 from ..utils import PLATFORMS
@@ -40,7 +41,7 @@ STRIPE_TAX_CATEGORIES = {
 }
 
 
-def flathub_fee_parameters(currency: str) -> Tuple[int, int, int]:
+def flathub_fee_parameters(currency: str) -> tuple[int, int, int]:
     """
     Compute the flathub fee parameters for a given currency.
     Raises ValueError if that currency isn't US dollars
@@ -81,7 +82,7 @@ def flathub_fee(total: int, currency: str) -> int:
     return int(max(flat_rate, variable_rate) + 0.5)
 
 
-def compute_shares(appid: str, appshare: int) -> List[Tuple[str, int]]:
+def compute_shares(appid: str, appshare: int) -> list[tuple[str, int]]:
     """
     Find the percentage shares for the platform(s) for the given app
     Where platforms are deps of deps, their shares are scaled appropriately
@@ -117,7 +118,7 @@ def compute_shares(appid: str, appshare: int) -> List[Tuple[str, int]]:
 
 def compute_app_shares(
     total: int, currency: str, appid: str, appshare: int
-) -> List[Tuple[str, int]]:
+) -> list[tuple[str, int]]:
     """
     Compute the shares that the app, flathub, and any platform(s) take from
     the payment.
@@ -150,7 +151,7 @@ def compute_app_shares(
         # Apply adjustments to application fee
         ret[0] = (ret[0][0], ret[0][1] + remaining)
     ret.append(("org.flathub.Flathub", fh_fee))
-    assert total == sum((fee for (_appid, fee) in ret))
+    assert total == sum(fee for (_appid, fee) in ret)
     return ret
 
 
@@ -169,7 +170,7 @@ def stripe_tax_code_for(row):
         if info.kind == "GAME":
             return STRIPE_TAX_CATEGORIES["GAME"]
         return STRIPE_TAX_CATEGORIES["SOFTWARE"]
-    except:
+    except HTTPException:
         # We couldn't use app info, so assume it's for a platform or for
         # Flathub
         if row.kind != "donation":

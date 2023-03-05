@@ -1,6 +1,5 @@
 import base64
 import os
-from typing import Optional
 
 from pydantic import BaseSettings
 
@@ -15,9 +14,9 @@ class Settings(BaseSettings):
     redis_db: int = 0
     database_url: str = "postgresql+psycopg2://postgres:postgres@db:5432"
     meilisearch_url: str = "http://meilisearch:7700"
-    meilisearch_master_key: Optional[str] = None
-    sentry_dsn: Optional[str] = None
-    appstream_repos: Optional[str] = None
+    meilisearch_master_key: str | None = None
+    sentry_dsn: str | None = None
+    appstream_repos: str | None = None
     datadir: str = os.path.join(ROOT_DIR, "data")
     stats_baseurl = "https://flathub.org/stats"
     session_secret_key: str = "change-me-for-production"
@@ -44,25 +43,21 @@ class Settings(BaseSettings):
     google_client_secret: str = "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"
     google_return_url: str = "http://localhost:3000/login/google"
     cors_origins: str = "http://localhost:3000 http://localhost:4200"
-    stripe_secret_key: Optional[str] = None
-    stripe_public_key: Optional[str] = None
-    stripe_webhook_key: Optional[str] = None
+    stripe_secret_key: str | None = None
+    stripe_public_key: str | None = None
+    stripe_webhook_key: str | None = None
     env: str = "production"
 
     # Should match "repo-secret" in flat-manager's config
-    flat_manager_secret: str = base64.b64encode("secret".encode("utf-8")).decode()
+    flat_manager_secret: str = base64.b64encode(b"secret").decode()
     # Should be a unique random secret, not in flat-manager's config
-    update_token_secret: str = base64.b64encode(
-        "update_token_secret".encode("utf-8")
-    ).decode()
+    update_token_secret: str = base64.b64encode(b"update_token_secret").decode()
     # Should match "secret" in flat-manager's config
-    flat_manager_build_secret: Optional[str] = base64.b64encode(
-        "secret".encode("utf-8")
-    ).decode()
+    flat_manager_build_secret: str | None = base64.b64encode(b"secret").decode()
     # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
     # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
     # when running docker-compose.
-    flat_manager_api: Optional[str] = None
+    flat_manager_api: str | None = None
 
 
 settings = Settings()

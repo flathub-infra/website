@@ -1,6 +1,5 @@
 import base64
-from datetime import datetime, timedelta
-from typing import List
+import datetime
 
 import dramatiq
 import dramatiq.brokers.redis
@@ -46,7 +45,7 @@ def update():
     )
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
-    added_at: List = []
+    added_at: list = []
 
     for [appid, value] in added_at_values:
         if appid not in current_apps:
@@ -80,7 +79,7 @@ def republish_app(appid: str):
             "apps": [appid],
             "repos": repos,
             "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + timedelta(minutes=5),
+            "exp": datetime.utcnow() + datetime.timedelta(minutes=5),
             "name": "Backend token for internal use (republish_app)",
         },
         base64.b64decode(settings.flat_manager_build_secret),
@@ -99,5 +98,5 @@ def republish_app(appid: str):
                 if response.status_code != 200:
                     raise VendingError("republish failed")
 
-            except:
+            except Exception:
                 raise VendingError("republish failed")

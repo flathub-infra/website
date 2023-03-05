@@ -23,7 +23,7 @@ def wait_for_redis():
                 break
             else:
                 raise redis.exceptions.ConnectionError
-        except:
+        except redis.exceptions.ConnectionError:
             retry_no += 1
             sleep = 5 * retry_no
             time.sleep(sleep)

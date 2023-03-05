@@ -3,7 +3,7 @@ import hashlib
 import json
 import os
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import requests
 from lxml import etree
@@ -160,10 +160,7 @@ def appstream2dict(reponame: str):
                 icon_name = icon.text
 
                 icon_size = icon.attrib.get("width")
-                if icon_size:
-                    icon_size = int(icon_size)
-                else:
-                    icon_size = 0
+                icon_size = int(icon_size) if icon_size else 0
 
                 if icon_type not in icons_dict:
                     icons_dict[icon_type] = {}
@@ -231,9 +228,8 @@ def appstream2dict(reponame: str):
 
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
-        if "categories" in app:
-            if "Settings" in app["categories"]:
-                app["categories"].append("System")
+        if "categories" in app and "Settings" in app["categories"]:
+            app["categories"].append("System")
 
         # Some apps append .desktop suffix for legacy reasons, fall back to what
         # Flatpak put into bundle component for actual ID
@@ -251,7 +247,7 @@ def get_appids(path):
             path,
         ) as file_:
             return json.load(file_)
-    except IOError:
+    except OSError:
         return []
 
 
@@ -299,12 +295,12 @@ class Platform(BaseModel):
     platform and using that.
     """
 
-    depends: Optional[str]
-    aliases: List[str]
+    depends: str | None
+    aliases: list[str]
     keep: int
-    stripe_account: Optional[str]
+    stripe_account: str | None
 
-    def dict(self, *args, **kwargs) -> Dict[str, Any]:
+    def dict(self, *args, **kwargs) -> dict[str, Any]:
         """
         Override the dict() method to always hide the optional values if None
         """
@@ -312,7 +308,7 @@ class Platform(BaseModel):
         return super().dict(*args, exclude_none=True, **kwargs)
 
 
-def _load_platforms(with_stripe: bool) -> Dict[str, Platform]:
+def _load_platforms(with_stripe: bool) -> dict[str, Platform]:
     """
     Load the platform set from disk.  If something goes wrong this will return
     the internal default platform set (flathub only).
@@ -340,9 +336,8 @@ def _load_platforms(with_stripe: bool) -> Dict[str, Platform]:
                 if alias in aliases:
                     raise ValueError(f"Repeated alias: {alias} in {name}")
                 aliases.add(alias)
-            if dep := ret[name].depends:
-                if data.get(dep) is None:
-                    raise ValueError(f"Unknown dependency: {dep} for {name}")
+            if (dep := ret[name].depends) and data.get(dep) is None:
+                raise ValueError(f"Unknown dependency: {dep} for {name}")
             if with_stripe:
                 ret[name].stripe_account = item.get("stripe-account")
         return ret
@@ -368,7 +363,4 @@ def is_valid_app_id(appid: str) -> bool:
     elements = appid.split(".")
     if len(elements) < 3:
         return False
-    for element in elements:
-        if not re.match(r"^[A-Za-z_][\w\-]*$", element):
-            return False
-    return True
+    return all(re.match("^[A-Za-z_][\\w\\-]*$", element) for element in elements)

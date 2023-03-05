@@ -3,15 +3,13 @@ import json
 import struct
 import subprocess
 from collections import defaultdict
-from typing import List
 
 import gi
-
-gi.require_version("OSTree", "1.0")
-
 from gi.repository import Gio, GLib, OSTree
 
 from . import config, db, search, utils
+
+gi.require_version("OSTree", "1.0")
 
 
 # "valid" here means it would be displayed on flathub.org
@@ -122,7 +120,7 @@ def update():
         recently_updated_zset[appid] = timestamp
         summary_dict[appid]["timestamp"] = timestamp
 
-    for ref in xa_cache.keys():
+    for ref in xa_cache:
         if not validate_ref(ref):
             continue
 
@@ -169,7 +167,7 @@ def update():
 
     if recently_updated_zset:
         db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
-        updated: List = []
+        updated: list = []
 
         for appid in recently_updated_zset:
             if appid not in current_apps:

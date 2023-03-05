@@ -33,9 +33,7 @@ dramatiq = {extras = ["redis", "watch"], version = "^1.14.1"}
 [tool.poetry.dev-dependencies]
 black = "^23.1"
 pytest = "^7.2.1"
-isort = "^5.12.0"
-pyflakes = "^3.0.1"
-pylint = "^2.16.2"
+ruff = "^0.0.254"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.23.3"
@@ -44,5 +42,7 @@ httpx = "^0.23.3"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+ignore = ["E501"]
+exclude = ["alembic/versions/*"]
+extend-select = ["I", "SIM", "W", "UP", "TCH"]

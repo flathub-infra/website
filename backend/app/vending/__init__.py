@@ -10,13 +10,14 @@ The core vending behaviours are:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Literal
 
 import gi
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
+from gi.repository import AppStream
 from pydantic import BaseModel
 
 from .. import worker
@@ -35,8 +36,6 @@ from ..vending import prices
 from ..wallet import Wallet, WalletError
 
 gi.require_version("AppStream", "1.0")
-
-from gi.repository import AppStream
 
 
 class VendingError(Exception):
@@ -104,7 +103,7 @@ class VendingConfig(BaseModel):
     """
 
     status: str
-    platforms: Dict[str, Platform]
+    platforms: dict[str, Platform]
     fee_fixed_cost: int
     fee_cost_percent: int
     fee_prefer_percent: int
@@ -117,7 +116,7 @@ class VendingDescriptor(BaseModel):
 
     status: str
     currency: str
-    components: List[Tuple[str, int]]
+    components: list[tuple[str, int]]
 
     fee_fixed_cost: int
     fee_cost_percent: int
@@ -131,7 +130,7 @@ class VendingSplit(BaseModel):
 
     status: str
     currency: str
-    splits: List[Tuple[str, int]]
+    splits: list[tuple[str, int]]
 
 
 class VendingSetup(BaseModel):
@@ -444,7 +443,7 @@ class TokenModel(BaseModel):
     id: str
     state: str
     name: str
-    token: Optional[str]
+    token: str | None
     created: str
     changed: str
 
@@ -452,7 +451,7 @@ class TokenModel(BaseModel):
 class TokenList(BaseModel):
     status: str
     total: int
-    tokens: List[TokenModel]
+    tokens: list[TokenModel]
 
 
 @router.get("app/{appid}/tokens")
@@ -491,8 +490,8 @@ def get_redeemable_tokens(
 
 @router.post("app/{appid}/tokens")
 def create_tokens(
-    request: Request, appid: str, data: List[str], login=Depends(login_state)
-) -> List[TokenModel]:
+    request: Request, appid: str, data: list[str], login=Depends(login_state)
+) -> list[TokenModel]:
     """
     Create some tokens for the given appid.
 
@@ -532,8 +531,8 @@ class TokenCancellation(BaseModel):
 
 @router.post("app/{appid}/tokens/cancel")
 def cancel_tokens(
-    request: Request, appid: str, data: List[str], login=Depends(login_state)
-) -> List[TokenCancellation]:
+    request: Request, appid: str, data: list[str], login=Depends(login_state)
+) -> list[TokenCancellation]:
     """
     Cancel a set of tokens
     """
@@ -583,13 +582,12 @@ def redeem_token(
         return RedemptionResult(status="failure", reason="not-logged-in")
 
     dbtoken = RedeemableAppToken.by_appid_and_token(db, appid, token)
-    if dbtoken is not None:
-        if dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
-            if dbtoken.redeem(db, login["user"]):
-                db.session.commit()
-                return RedemptionResult(status="success", reason="redeemed")
-            else:
-                return RedemptionResult(status="failure", reason="already-owned")
+    if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
+        if dbtoken.redeem(db, login["user"]):
+            db.session.commit()
+            return RedemptionResult(status="success", reason="redeemed")
+        else:
+            return RedemptionResult(status="failure", reason="already-owned")
 
     return RedemptionResult(status="failure", reason="invalid")
 

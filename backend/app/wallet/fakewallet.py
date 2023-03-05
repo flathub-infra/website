@@ -7,9 +7,9 @@ We "pretend" to have stripe credentials, but they'll always fail since
 they're fake.
 """
 
+from collections.abc import Iterable
 from itertools import dropwhile
 from time import time
-from typing import Iterable, List, Optional
 
 from fastapi import Request, Response
 
@@ -168,9 +168,9 @@ class FakeWallet(WalletBase):
         request: Request,
         user: FlathubUser,
         sort: TransactionSortOrder,
-        since: Optional[str],
+        since: str | None,
         limit: int,
-    ) -> List[TransactionSummary]:
+    ) -> list[TransactionSummary]:
         def txn_key(txn: Transaction):
             return txn.summary.created
 
@@ -283,7 +283,7 @@ class FakeWallet(WalletBase):
         request: Request,
         user: FlathubUser,
         transaction: str,
-        state: Optional[TransactionSaveCardKind],
+        state: TransactionSaveCardKind | None,
     ):
         pass
 

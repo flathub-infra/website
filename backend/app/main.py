@@ -1,5 +1,3 @@
-from typing import Dict
-
 import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -278,7 +276,7 @@ def get_summary(appid: str, response: Response):
 
 
 @app.get("/platforms", status_code=200)
-def get_platforms() -> Dict[str, utils.Platform]:
+def get_platforms() -> dict[str, utils.Platform]:
     """
     Return a mapping from org-name to platform aliases and dependencies which are
     recognised by the backend.  These are used by things such as the transactions

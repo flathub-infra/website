@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import List, Optional, Tuple
+from typing import Optional
 from uuid import uuid4
 
 from sqlalchemy import (
@@ -171,7 +171,7 @@ class GithubRepository(Base):
     reponame = Column(String, nullable=False)
 
     @staticmethod
-    def unify_repolist(db, account: GithubAccount, repolist: List[str]):
+    def unify_repolist(db, account: GithubAccount, repolist: list[str]):
         all_names = set(repolist)
         existing = db.session.query(GithubRepository).filter_by(
             github_account=account.id
@@ -187,7 +187,7 @@ class GithubRepository(Base):
         db.session.flush()
 
     @staticmethod
-    def all_by_account(db, account: GithubAccount) -> List["GithubRepository"]:
+    def all_by_account(db, account: GithubAccount) -> list["GithubRepository"]:
         return db.session.query(GithubRepository).filter_by(github_account=account.id)
 
 
@@ -430,15 +430,15 @@ class AppVerification(Base):
         )
 
     @staticmethod
-    def all_by_app(db, app_id: str) -> List["AppVerification"]:
+    def all_by_app(db, app_id: str) -> list["AppVerification"]:
         return db.session.query(AppVerification).filter_by(app_id=app_id)
 
     @staticmethod
-    def all_by_user(db, user: FlathubUser) -> List["AppVerification"]:
+    def all_by_user(db, user: FlathubUser) -> list["AppVerification"]:
         return db.session.query(AppVerification).filter_by(account=user.id)
 
     @staticmethod
-    def all_verified(db) -> List["AppVerification"]:
+    def all_verified(db) -> list["AppVerification"]:
         return (
             db.session.query(AppVerification)
             .filter_by(verified=True)
@@ -511,16 +511,13 @@ class Transaction(Base):
         user: FlathubUser,
         purchase: bool,
         currency: str,
-        splits: List[Tuple[str, int]],
+        splits: list[tuple[str, int]],
     ) -> "Transaction":
         """
         Create a transaction, and rows, from the given input information
         """
         total = sum(value for (_appid, value) in splits)
-        if purchase:
-            kind = "purchase"
-        else:
-            kind = "donation"
+        kind = "purchase" if purchase else "donation"
         now_date = datetime.now()
         txn = Transaction(
             user_id=user.id,
@@ -807,7 +804,7 @@ class ApplicationVendingConfig(Base):
         )
 
     @classmethod
-    def all_by_user(cls, db, user: FlathubUser) -> List["ApplicationVendingConfig"]:
+    def all_by_user(cls, db, user: FlathubUser) -> list["ApplicationVendingConfig"]:
         """
         Retrieve all the vending configurations for a given user
         """
@@ -861,7 +858,7 @@ class RedeemableAppToken(Base):
     changed = Column(DateTime, nullable=False)
 
     @classmethod
-    def by_appid(cls, db, appid: str, all: bool) -> List["RedeemableAppToken"]:
+    def by_appid(cls, db, appid: str, all: bool) -> list["RedeemableAppToken"]:
         """
         Retrieve tokens for the given app.
 

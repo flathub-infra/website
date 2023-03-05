@@ -6,7 +6,6 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-from typing import List, Union
 
 from fastapi import APIRouter, Depends, FastAPI, Request, Response
 from fastapi.responses import JSONResponse
@@ -86,7 +85,7 @@ def get_transactions(
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
     since: str = None,
     limit: int = 100,
-) -> Union[JSONResponse, List[TransactionSummary]]:
+) -> JSONResponse | list[TransactionSummary]:
     """
     Return a list of transactions associated with this user.
 

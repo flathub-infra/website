@@ -1,4 +1,3 @@
-from typing import List
 from urllib.parse import unquote
 
 import meilisearch
@@ -35,7 +34,7 @@ def delete_apps(app_id_list):
 
 
 def get_by_selected_categories(
-    selected_categories: List[schemas.MainCategory], page: int, hits_per_page: int
+    selected_categories: list[schemas.MainCategory], page: int, hits_per_page: int
 ):
     category_list = [
         f"categories = {category.value}" for category in selected_categories
