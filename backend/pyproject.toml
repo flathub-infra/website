@@ -32,7 +32,7 @@ dramatiq = {extras = ["redis", "watch"], version = "^1.14.1"}
 
 [tool.poetry.dev-dependencies]
 black = "^23.1"
-pytest = "^7.2.1"
+pytest = "^7.2.2"
 isort = "^5.12.0"
 pyflakes = "^3.0.1"
 pylint = "^2.16.2"
