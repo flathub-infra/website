@@ -176,7 +176,7 @@ class LoginProvider(Enum):
 
 class VerificationStatus(BaseModel):
     verified: bool
-    timestamp: int | None
+    timestamp: str | None
     method: VerificationMethod | None
     website: str | None
     login_provider: LoginProvider | None
@@ -273,13 +273,13 @@ def get_verification_status(appid: str) -> VerificationStatus:
         case "manual":
             return VerificationStatus(
                 verified=verification.verified,
-                timestamp=verification.verified_timestamp.timestamp(),
+                timestamp=str(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.MANUAL,
             )
         case "website":
             return VerificationStatus(
                 verified=True,
-                timestamp=verification.verified_timestamp.timestamp(),
+                timestamp=str(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.WEBSITE,
                 website=_get_domain_name(appid),
             )
@@ -287,7 +287,7 @@ def get_verification_status(appid: str) -> VerificationStatus:
             (provider, username) = _get_provider_username(appid)
             return VerificationStatus(
                 verified=True,
-                timestamp=verification.verified_timestamp.timestamp(),
+                timestamp=str(verification.verified_timestamp.timestamp()),
                 method=VerificationMethod.LOGIN_PROVIDER,
                 login_provider=provider,
                 login_name=username,
