@@ -32,6 +32,14 @@ def validate_ref(ref: str):
     return True
 
 
+def get_parent_id(appid: str):
+    if reverse_lookup := db.get_json_key("summary:reverse_lookup"):
+        if parent := reverse_lookup.get(appid):
+            return parent
+
+    return None
+
+
 def parse_metadata(ini: str):
     parser = configparser.RawConfigParser()
     parser.read_string(ini)
@@ -221,5 +229,24 @@ def update():
     for appid, old_id_list in eol_rebase.items():
         for old_id in old_id_list:
             db.redis_conn.mset({f"eol_rebase:{old_id}": json.dumps(appid)})
+
+    # Build reverse lookup map for flathub-hooks
+    reverse_lookup = {}
+    for ref in xa_cache:
+        appid = ref.split("/")[1]
+        reverse_lookup[appid] = appid
+
+        ini = xa_cache[ref][2]
+        parser = configparser.RawConfigParser(strict=False)
+        parser.read_string(ini)
+
+        if "Build" in parser:
+            build = parser["Build"]
+            if "built-extensions" in build:
+                built_ext = build["built-extensions"].split(";")
+                for ext in built_ext:
+                    reverse_lookup[ext] = appid
+
+    db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
 
     return len(recently_updated_zset)
