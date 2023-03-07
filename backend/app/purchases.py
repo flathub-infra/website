@@ -10,7 +10,7 @@ from fastapi_sqlalchemy import db as sqldb
 from gi.repository import AppStream
 from pydantic import BaseModel
 
-from . import config, logins, models
+from . import config, logins, models, summary
 from .db import get_json_key
 from .verification import VerificationStatus, get_verification_status, is_appid_runtime
 
@@ -39,6 +39,9 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     """
 
     result = StorefrontInfo()
+
+    if parent_id := summary.get_parent_id(app_id):
+        app_id = parent_id
 
     verification = get_verification_status(app_id)
     if verification.verified:
