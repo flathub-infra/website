@@ -234,7 +234,6 @@ def update():
     reverse_lookup = {}
     for ref in xa_cache:
         appid = ref.split("/")[1]
-        reverse_lookup[appid] = appid
 
         ini = xa_cache[ref][2]
         parser = configparser.RawConfigParser(strict=False)
