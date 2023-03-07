@@ -7,26 +7,29 @@ export type VerificationStatus =
   | VerificationStatusLoginProvider
 
 export interface VerificationStatusNone {
-  verified: boolean
+  verified: false
   method: "none"
   detail: string
 }
 
 export interface VerificationStatusManual {
-  verified: boolean
+  verified: true
+  timestamp: number
   method: "manual"
   detail: string
 }
 
 export interface VerificationStatusWebsite {
-  verified: boolean
+  verified: true
+  timestamp: number
   method: "website"
   website: string
   detail: string
 }
 
 export interface VerificationStatusLoginProvider {
-  verified: boolean
+  verified: true
+  timestamp: number
   method: "login_provider"
   login_provider: VerificationProvider
   login_name: string
