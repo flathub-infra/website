@@ -38,7 +38,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
           </ButtonLink>
         )}
       </header>
-      <div className="grid grid-cols-1 justify-around gap-4 lg:grid-cols-3 2xl:grid-cols-3">
+      <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
           <ApplicationCard key={app.id} application={app} />
         ))}
