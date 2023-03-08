@@ -188,7 +188,7 @@ def update():
                 }
             )
 
-        search.update_apps(updated)
+        search.create_or_update_apps(updated)
 
     db.redis_conn.mset(
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}

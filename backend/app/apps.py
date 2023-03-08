@@ -30,7 +30,6 @@ def load_appstream():
                     "id": utils.get_clean_app_id(appid),
                     "name": apps[appid]["name"],
                     "summary": apps[appid]["summary"],
-                    "installs_last_month": 0,
                     "keywords": search_keywords,
                     "app_id": appid,
                     "description": search_description,
@@ -71,7 +70,7 @@ def load_appstream():
                 for category in categories:
                     p.sadd(f"categories:{category}", redis_key)
 
-        search.add_apps(search_apps)
+        search.create_or_update_apps(search_apps)
 
         apps_to_delete_from_search = []
         for appid in current_apps - set(apps):

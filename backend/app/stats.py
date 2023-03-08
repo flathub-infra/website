@@ -237,7 +237,7 @@ def update(all_app_ids: list):
                         "installs_last_month": installs_last_month,
                     }
                 )
-    search.update_apps(stats_installs)
+    search.create_or_update_apps(stats_installs)
 
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
