@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { FunctionComponent, forwardRef } from "react"
 import { classNames } from "src/styling"
 
@@ -12,9 +11,7 @@ interface Props {
 const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
   ({ children, className, onClick, href }, ref) => {
     return (
-      <motion.a
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+      <a
         className={classNames(
           "flex items-center justify-center break-words rounded-xl p-4 text-center duration-500",
           "bg-flathub-white text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic/70 dark:text-flathub-spanish-gray",
@@ -27,7 +24,7 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
         ref={ref}
       >
         <span className="overflow-hidden">{children}</span>
-      </motion.a>
+      </a>
     )
   },
 )
