@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import Link from "next/link"
 import {
   forwardRef,
@@ -42,9 +41,10 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
     ref,
   ) => {
     const hover = {
-      destructive: "hover:bg-flathub-electric-red hover:text-gray-100",
-      secondary: "",
-      primary: "",
+      destructive:
+        "hover:bg-flathub-electric-red hover:text-gray-100 active:opacity-50",
+      secondary: "hover:opacity-75  active:opacity-50",
+      primary: "hover:opacity-75 active:opacity-50",
     }[variant]
 
     const variantClass = {
@@ -57,27 +57,25 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
     }[variant]
 
     return (
-      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-        <Link
-          href={href}
-          passHref={passHref}
-          {...rest}
-          onClick={onClick}
-          target={target}
-          ref={ref}
-          rel={rel}
-          className={classNames(
-            className ?? "",
-            hover,
-            variantClass,
-            "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
-          )}
-          aria-label={ariaLabel}
-          role="button"
-        >
-          {children}
-        </Link>
-      </motion.div>
+      <Link
+        href={href}
+        passHref={passHref}
+        {...rest}
+        onClick={onClick}
+        target={target}
+        ref={ref}
+        rel={rel}
+        className={classNames(
+          className ?? "",
+          hover,
+          variantClass,
+          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
+        )}
+        aria-label={ariaLabel}
+        role="button"
+      >
+        {children}
+      </Link>
     )
   },
 )
