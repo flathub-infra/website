@@ -5,9 +5,18 @@ import dramatiq
 import dramatiq.brokers.redis
 import jwt
 import requests
+import sentry_dramatiq
+import sentry_sdk
 
-from . import apps, compat, db, exceptions, search, stats, summary, utils
+from . import apps, compat, config, db, exceptions, search, stats, summary, utils
 from .config import settings
+
+if config.settings.sentry_dsn:
+    sentry_sdk.init(
+        dsn=config.settings.sentry_dsn,
+        environment="production",
+        integrations=[sentry_dramatiq.DramatiqIntegration()],
+    )
 
 broker = dramatiq.brokers.redis.RedisBroker(
     host=settings.redis_host, port=settings.redis_port, db=1

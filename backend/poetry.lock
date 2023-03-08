@@ -1562,6 +1562,25 @@ files = [
 ]
 
 [[package]]
+name = "sentry-dramatiq"
+version = "0.3.2"
+description = "Dramatiq task processor integration for the Sentry SDK"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "sentry_dramatiq-0.3.2-py3-none-any.whl", hash = "sha256:0830b9d99f8cb41f816df5e76af0c82c1e697fa8c18738710c9c21b6d03e4e77"},
+    {file = "sentry_dramatiq-0.3.2.tar.gz", hash = "sha256:f270fe577ffbd91f1a2fe38027060cd761a169b634f3507a27a03e724eb7f195"},
+]
+
+[package.dependencies]
+dramatiq = "*"
+sentry-sdk = "*"
+
+[package.extras]
+test = ["coverage", "flake8", "isort", "pytest"]
+
+[[package]]
 name = "sentry-sdk"
 version = "1.16.0"
 description = "Python client for Sentry (https://sentry.io)"
@@ -2141,4 +2160,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3f47fa2e26e7378ff59979ff31c37d64d4f542ad4610c0fbc0a19c5d1aea3fcc"
+content-hash = "11d2aeb0b57f2ade60f8143f24453ce1eba18583df755114a91db662a76c464f"
