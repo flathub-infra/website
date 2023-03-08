@@ -1006,3 +1006,31 @@ https://beta.flathub.org/pt/languages
 https://beta.flathub.org/pt/privacy-policy
 https://beta.flathub.org/pt/statistics
 https://beta.flathub.org/pt/terms-and-conditions
+https://beta.flathub.org/zh-Hant/about
+https://beta.flathub.org/zh-Hant/apps
+https://beta.flathub.org/zh-Hant/apps/category/AudioVideo
+https://beta.flathub.org/zh-Hant/apps/category/Development
+https://beta.flathub.org/zh-Hant/apps/category/Education
+https://beta.flathub.org/zh-Hant/apps/category/Game
+https://beta.flathub.org/zh-Hant/apps/category/Graphics
+https://beta.flathub.org/zh-Hant/apps/category/Network
+https://beta.flathub.org/zh-Hant/apps/category/Office
+https://beta.flathub.org/zh-Hant/apps/category/Science
+https://beta.flathub.org/zh-Hant/apps/category/System
+https://beta.flathub.org/zh-Hant/apps/category/Utility
+https://beta.flathub.org/zh-Hant/apps/collection/developer/AnyDesk Software GmbH
+https://beta.flathub.org/zh-Hant/apps/collection/developer/Kingsoft Office Corporation
+https://beta.flathub.org/zh-Hant/apps/collection/developer/Sugar Labs Community
+https://beta.flathub.org/zh-Hant/apps/collection/popular
+https://beta.flathub.org/zh-Hant/apps/collection/project-group/SugarLabs
+https://beta.flathub.org/zh-Hant/apps/collection/recently-updated
+https://beta.flathub.org/zh-Hant/apps/collection/verified
+https://beta.flathub.org/zh-Hant/apps/com.anydesk.Anydesk
+https://beta.flathub.org/zh-Hant/apps/com.wps.Office
+https://beta.flathub.org/zh-Hant/apps/org.sugarlabs.Maze
+https://beta.flathub.org/zh-Hant/badges
+https://beta.flathub.org/zh-Hant/feeds
+https://beta.flathub.org/zh-Hant/languages
+https://beta.flathub.org/zh-Hant/privacy-policy
+https://beta.flathub.org/zh-Hant/statistics
+https://beta.flathub.org/zh-Hant/terms-and-conditions

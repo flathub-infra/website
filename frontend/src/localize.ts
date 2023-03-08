@@ -70,6 +70,7 @@ export type Language =
   | "hu"
   | "nl"
   | "pt"
+  | "zh-Hant"
 
 export const languages: Language[] = [
   "en",
@@ -107,6 +108,7 @@ export const languages: Language[] = [
   "hu",
   "nl",
   "pt",
+  "zh-Hant",
 ]
 
 export function getLocale(language: string): Locale {
@@ -148,7 +150,7 @@ export function getLocale(language: string): Locale {
     case "cs":
       return cs
     case "zh-Hans":
-      return zhCN
+      return zhCN // date-fns has no Simplified Chinese locale
     case "bg":
       return bg
     case "uk":
@@ -181,6 +183,8 @@ export function getLocale(language: string): Locale {
       return nl
     case "pt":
       return pt
+    case "zh-Hant":
+      return zhCN // date-fns has no Traditional Chinese locale
 
     default:
       return enGB
@@ -259,6 +263,8 @@ export function bcpToPosixLocale(language: string): string {
       return "nl_NL"
     case "pt":
       return "pt_PT"
+    case "zh-Hant":
+      return "zh_Hant"
 
     default:
       return "en_US"
@@ -304,7 +310,7 @@ export function getLanguageFlag(language: Language): string {
     case "cs":
       return "🇨🇿"
     case "zh-Hans":
-      return "🇨🇳"
+      return ""
     case "bg":
       return "🇧🇬"
     case "uk":
@@ -337,6 +343,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇳🇱"
     case "pt":
       return "🇵🇹"
+    case "zh-Hant":
+      return ""
   }
 }
 
@@ -412,6 +420,8 @@ export function getLanguageName(language: Language): string {
       return "Nederlands"
     case "pt":
       return "Português"
+    case "zh-Hant":
+      return "繁體中文"
 
     default:
       return assertUnreachable(language)
@@ -508,6 +518,10 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("nl")
     case "pt":
       return new Intl.Locale("pt")
+    case "zh-Hant":
+      return new Intl.Locale("zh", {
+        script: "Hant",
+      })
   }
 }
 
