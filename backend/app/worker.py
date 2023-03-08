@@ -67,7 +67,7 @@ def update():
             }
         )
 
-    search.update_apps(added_at)
+    search.create_or_update_apps(added_at)
 
 
 @dramatiq.actor

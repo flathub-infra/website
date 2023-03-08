@@ -19,11 +19,7 @@ client.index("apps").update_filterable_attributes(
 )
 
 
-def add_apps(app_search_items):
-    return client.index("apps").add_documents(app_search_items)
-
-
-def update_apps(apps_to_update):
+def create_or_update_apps(apps_to_update):
     return client.index("apps").update_documents(apps_to_update)
 
 
