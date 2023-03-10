@@ -77,7 +77,7 @@ def republish_app(appid: str):
     if not settings.flat_manager_build_secret or not settings.flat_manager_api:
         return
 
-    repos = ["stable", "beta"]
+    repos = ["stable"]
 
     # Create a token to use in the request
     token = "Bearer " + jwt.encode(
