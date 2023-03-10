@@ -164,7 +164,7 @@
   "also-available-as-svg": "Ook beschikbaar in <2>SVG-formaat</2>",
   "applications-by-developer": "Apps door {{developer}}",
   "applications-by-projectgroup": "Apps in de {{projectgroup}}-groep",
-  "search-for-query": "Zoeken naar ‘{{query}}’",
+  "search-for-query": "Resultaten voor ‘{{query}}’",
   "categories": "Categorieën",
   "loading": "Aan het laden…",
   "kind-donation": "Donatie",
