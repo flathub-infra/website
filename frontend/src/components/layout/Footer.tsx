@@ -156,6 +156,12 @@ const Footer = () => {
             >
               {t("about")}
             </Link>
+            <Link
+              href="/consultants"
+              className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
+            >
+              {t("consultants")}
+            </Link>
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
               href="https://status.flathub.org/"
