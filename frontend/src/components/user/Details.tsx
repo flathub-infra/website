@@ -4,8 +4,6 @@ import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "../login/ProviderLink"
-import VendingLink from "./VendingLink"
-import { IS_PRODUCTION } from "src/env"
 
 interface Props {
   logins: LoginProvider[]
@@ -29,7 +27,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex w-full items-center gap-3 rounded-xl bg-flathub-gainsborow py-2 px-6 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
+          className="flex w-full items-center gap-3 rounded-xl bg-flathub-white py-2 px-6 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
         >
           <Image
             src={authData.avatar}
@@ -55,7 +53,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     ))
 
   const loginSection = linkOptions.length ? (
-    <div className="mx-4 my-auto">
+    <div>
       <h3>{t("link-more-accounts")}</h3>
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {linkOptions}
@@ -66,27 +64,18 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   )
 
   return (
-    <div className="grid rounded-xl bg-flathub-white p-4 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-arsenic dark:text-flathub-gainsborow">
+    <>
       <h2 className="col-start-1 row-start-1 mt-0 mb-3">
         {user.info.displayname}
       </h2>
 
-      <div className="mx-4 my-auto">
+      <div>
         <h3>{t("linked-accounts")}</h3>
         <div className="flex flex-row flex-wrap gap-3">{linkedAccounts}</div>
       </div>
 
       {loginSection}
-
-      {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
-        <div className="mx-4 my-auto">
-          <h3>{t("accepting-payment")}</h3>
-          <VendingLink />
-        </div>
-      ) : (
-        <></>
-      )}
-    </div>
+    </>
   )
 }
 

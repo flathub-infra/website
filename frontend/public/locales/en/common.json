@@ -240,7 +240,6 @@
   "token-redeem-placeholder": "Enter an ownership token",
   "open-menu": "Open Menu",
   "open-user-menu": "Open User Menu",
-  "your-profile": "Your Profile",
   "show-more": "Show More",
   "show-less": "Show Less",
   "more-type": "More {{type}}",
@@ -286,5 +285,7 @@
   "category-distribution": "Category Distribution",
   "chat": "Chat",
   "verified-apps": "Verified Apps",
-  "verification": "Verification"
+  "verification": "Verification",
+  "my-flathub": "My Flathub",
+  "settings": "Settings"
 }

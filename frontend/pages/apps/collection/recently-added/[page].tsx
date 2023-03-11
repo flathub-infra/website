@@ -16,7 +16,7 @@ export default function RecentlyAdded({ applications }) {
   return (
     <>
       <NextSeo title={t("recently-added-apps")} />
-      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 my-0 mx-auto mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <ApplicationCollection
           title={t("recently-added-apps")}
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}

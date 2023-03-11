@@ -27,7 +27,7 @@ const navigation = [
   { name: "about", href: "/about", current: false },
 ]
 
-let userNavigation = [{ name: "your-profile", href: "/userpage" }]
+let userNavigation = [{ name: "my-flathub", href: "/my-flathub" }]
 
 if (!IS_PRODUCTION)
   userNavigation.push({ name: "view-wallet", href: "/wallet" })
