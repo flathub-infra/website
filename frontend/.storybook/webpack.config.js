@@ -21,6 +21,7 @@ module.exports = async ({ config, mode }) => {
     tls: false,
     net: false,
     module: false,
+    crypto: false,
     path: require.resolve("path-browserify"),
   }
 
