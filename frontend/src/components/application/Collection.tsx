@@ -40,7 +40,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   const header = (
     <span className="flex items-center justify-between">
-      <h2>{title}</h2>
+      <h2 className="my-0">{title}</h2>
       {refresh}
     </span>
   )
@@ -72,7 +72,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <div className="flex">
-      <section className="min-h-[750px] w-full">
+      <section className="w-full">
         <div className="w-full">
           {header}
 

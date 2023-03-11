@@ -99,7 +99,7 @@ export async function getOnboardingLink(): Promise<string> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/userpage`,
+        return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/my-flathub`,
       }),
     })
   } catch {

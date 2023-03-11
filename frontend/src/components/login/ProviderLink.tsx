@@ -69,7 +69,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         "flex w-full flex-row items-center justify-center gap-3 rounded-xl font-bold",
         "p-5 shadow-md hover:cursor-pointer hover:opacity-60",
         inACard
-          ? "bg-flathub-gainsborow dark:bg-flathub-dark-gunmetal"
+          ? "bg-flathub-white dark:bg-flathub-dark-gunmetal"
           : "bg-flathub-white dark:bg-flathub-arsenic",
       )}
       onClick={onClick}
