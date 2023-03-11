@@ -12,6 +12,7 @@ import { IS_PRODUCTION } from "src/env"
 import Tabs from "src/components/Tabs"
 import VendingLink from "src/components/user/VendingLink"
 import { useUserContext } from "src/context/user-info"
+import { useRouter } from "next/router"
 
 export default function Userpage({
   providers,
@@ -20,10 +21,16 @@ export default function Userpage({
 }) {
   const { t } = useTranslation()
   const user = useUserContext()
+  const router = useRouter()
+
+  if (!router.isReady || user.loading) {
+    return null
+  }
 
   // Nothing to show if not logged in
-  if (!user.info) {
-    return <></>
+  if (!user.info && !user.loading) {
+    router.push("/login")
+    return null
   }
 
   const tabs = [
