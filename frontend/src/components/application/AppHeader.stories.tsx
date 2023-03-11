@@ -24,7 +24,7 @@ export const Install = () => {
       installClicked={() => {}}
       donateClicked={() => {}}
       vendingSetup={undefined}
-      verificationStatus={{ verified: true }}
+      verificationStatus={{ verified: true, method: "manual" }}
     />
   )
 }
