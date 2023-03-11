@@ -196,7 +196,7 @@ const Header = () => {
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
                   {/* Mobile menu button */}
-                  <Popover.Button className="-mx-2 inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
+                  <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
                     <span className="sr-only">{t("open-menu")}</span>
                     {open ? (
                       <HiXMark className="block h-6 w-6" aria-hidden="true" />
