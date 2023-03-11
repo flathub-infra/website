@@ -285,5 +285,6 @@
   "failed-to-find-token": "Failed to find token in response from {{domain}}.",
   "category-distribution": "Category Distribution",
   "chat": "Chat",
-  "verified-apps": "Verified Apps"
+  "verified-apps": "Verified Apps",
+  "verification": "Verification"
 }

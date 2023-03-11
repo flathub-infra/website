@@ -11,7 +11,7 @@ export const FlathubDisclosure: FunctionComponent<{
     <Disclosure>
       {({ open }) => (
         <>
-          <Disclosure.Button className="flex w-full items-center gap-3 bg-flathub-white px-4 py-3 dark:bg-flathub-arsenic">
+          <Disclosure.Button className="flex w-full items-center gap-3 px-4 py-3">
             <HiChevronRight
               className={classNames(
                 open ? "rotate-90 " : "",
@@ -28,7 +28,7 @@ export const FlathubDisclosure: FunctionComponent<{
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel>{children}</Disclosure.Panel>
+            <Disclosure.Panel className={"px-4"}>{children}</Disclosure.Panel>
           </Transition>
         </>
       )}

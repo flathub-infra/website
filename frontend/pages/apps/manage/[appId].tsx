@@ -11,6 +11,7 @@ import { fetchAppstream, fetchVendingConfig } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
 import { IS_PRODUCTION } from "src/env"
+import Tabs from "src/components/Tabs"
 
 export default function AppManagementPage({
   app,
@@ -22,21 +23,45 @@ export default function AppManagementPage({
   const { t } = useTranslation()
   const user = useUserContext()
 
+  const tabs = [
+    {
+      name: t("verification"),
+      content: <AppVerificationControls.SetupControls app={app} />,
+    },
+  ]
+
+  if (!IS_PRODUCTION) {
+    tabs.push(
+      {
+        name: t("payment"),
+        content: (
+          <AppVendingControls.SetupControls
+            app={app}
+            vendingConfig={vendingConfig}
+          />
+        ),
+      },
+      {
+        name: t("ownership-tokens"),
+        content: <AppVendingControls.OwnershipTokens app={app} />,
+      },
+    )
+  }
+
   // User must be a developer of the app to see these controls
   let content: ReactElement
   if (user.info?.["dev-flatpaks"].includes(app.id)) {
     content = (
       <>
-        <h1 className="mt-8">{app.name}</h1>
-        <div className="text-sm opacity-75">{t("developer-settings")}</div>
-        <AppVerificationControls.SetupControls app={app} />
-        {!IS_PRODUCTION && (
-          <AppVendingControls.SetupControls
-            app={app}
-            vendingConfig={vendingConfig}
-          />
-        )}
-        {!IS_PRODUCTION && <AppVendingControls.OwnershipTokens app={app} />}
+        <div className="space-y-8">
+          <div>
+            <h1 className="mt-8">{app.name}</h1>
+            <div className="text-sm opacity-75">{t("developer-settings")}</div>
+          </div>
+          <div>
+            <Tabs tabs={tabs} />
+          </div>
+        </div>
       </>
     )
   } else {
