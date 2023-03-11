@@ -233,7 +233,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   return (
     <>
-      <h2>{t("accepting-payment")}</h2>
+      <h2 className="!mt-0">{t("accepting-payment")}</h2>
       {content}
     </>
   )
