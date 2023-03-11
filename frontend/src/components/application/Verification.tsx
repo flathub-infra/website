@@ -8,7 +8,6 @@ import {
   useFloating,
   useHover,
   useInteractions,
-  arrow,
   offset,
   shift,
   autoPlacement,
@@ -17,6 +16,7 @@ import {
   useFocus,
 } from "@floating-ui/react-dom-interactions"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
+import { classNames } from "src/styling"
 
 interface Props {
   appId: string
@@ -29,27 +29,13 @@ const Verification: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const arrowRef = useRef(null)
   const [isOpen, setIsOpen] = useState(false)
-  const {
-    x,
-    y,
-    reference,
-    floating,
-    strategy,
-    context,
-    middlewareData: { arrow: { x: arrowX, y: arrowY } = {} },
-    placement,
-  } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [
-      shift(),
-      autoPlacement(),
-      offset(6),
-      arrow({ element: arrowRef }),
-    ],
-  })
+  const { x, y, reference, floating, strategy, context, placement } =
+    useFloating({
+      open: isOpen,
+      onOpenChange: setIsOpen,
+      middleware: [shift(), autoPlacement(), offset(6)],
+    })
   const hover = useHover(context, { move: false })
   const focus = useFocus(context)
   const dismiss = useDismiss(context)
@@ -122,14 +108,14 @@ const Verification: FunctionComponent<Props> = ({
 
   if (verificationStatus?.verified == true) {
     return (
-      <div className="flex items-center justify-center gap-1 text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray sm:justify-start">
-        {verifiedLink}
+      <div className="flex items-center justify-center text-xs font-semibold text-flathub-sonic-silver dark:text-flathub-spanish-gray sm:justify-start">
         <button ref={reference} {...getReferenceProps}>
           <HiCheckBadge
-            className="h-6 w-6 text-flathub-celestial-blue"
+            className="h-5 w-5 text-flathub-celestial-blue"
             aria-label={t("app-is-verified")}
           />
         </button>
+        {verifiedLink}
 
         {isOpen && (
           <div
@@ -139,7 +125,11 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className="rounded-xl bg-flathub-gray-x11 p-4 dark:bg-flathub-granite-gray dark:text-flathub-gainsborow"
+            className={classNames(
+              "mx-1 rounded-xl p-4",
+              "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
+              "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",
+            )}
             {...getFloatingProps()}
           >
             {
@@ -183,18 +173,6 @@ const Verification: FunctionComponent<Props> = ({
                 t("verified")
               ) // Should never happen
             }
-
-            <div
-              ref={arrowRef}
-              className="absolute h-4 w-4 rotate-45 bg-flathub-gray-x11 dark:bg-flathub-granite-gray"
-              style={{
-                top: arrowY != null ? `${arrowY}px` : "",
-                left: arrowX != null ? `${arrowX}px` : "",
-                right: "",
-                bottom: "",
-                [staticSide]: "-4px",
-              }}
-            />
           </div>
         )}
       </div>
