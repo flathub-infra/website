@@ -89,7 +89,9 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   useEffect(() => {
     if (submitValue) {
-      router.push(`/payment/${submitValue.transaction}`)
+      router.push(`/payment/${submitValue.transaction}`, undefined, {
+        locale: router.locale,
+      })
     }
   }, [submitValue, router])
 

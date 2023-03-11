@@ -62,7 +62,11 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
     <TransactionCancelButton
       id={transactionId}
       className="w-full sm:w-auto"
-      onSuccess={() => router.push(`${detailsPage}/${transactionId}`)}
+      onSuccess={() =>
+        router.push(`${detailsPage}/${transactionId}`, undefined, {
+          locale: router.locale,
+        })
+      }
     />
   )
 
@@ -83,7 +87,11 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           clientSecret={clientSecret}
           cards={cards}
           error={error}
-          submit={() => router.push(`${detailsPage}/${transactionId}`)}
+          submit={() =>
+            router.push(`${detailsPage}/${transactionId}`, undefined, {
+              locale: router.locale,
+            })
+          }
           skip={() => setStage(Stage.CardInput)}
           transactionCancelButton={transactionCancelButton}
         />

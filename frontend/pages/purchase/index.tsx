@@ -54,7 +54,9 @@ export default function Purchase() {
             )
             .then(() => {
               setPendingTransaction(null)
-              router.push("/purchase/finished")
+              router.push("/purchase/finished", undefined, {
+                locale: router.locale,
+              })
             })
             .catch(() => toast.error(t("app-install-error-try-again")))
         } else {
@@ -65,7 +67,7 @@ export default function Purchase() {
                 appIDs,
                 missingAppIDs: [],
               })
-              router.push("/login")
+              router.push("/login", undefined, { locale: router.locale })
               break
 
             case "purchase_necessary":
@@ -74,7 +76,9 @@ export default function Purchase() {
                 appIDs,
                 missingAppIDs: result.missing_appids,
               })
-              router.push("/purchase/checkout")
+              router.push("/purchase/checkout", undefined, {
+                locale: router.locale,
+              })
               break
 
             default:

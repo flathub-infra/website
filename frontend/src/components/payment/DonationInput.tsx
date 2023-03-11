@@ -37,7 +37,9 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   useEffect(() => {
     if (transaction) {
-      Router.push(`payment/${transaction}`)
+      Router.push(`payment/${transaction}`, undefined, {
+        locale: Router.locale,
+      })
     }
   }, [transaction])
 

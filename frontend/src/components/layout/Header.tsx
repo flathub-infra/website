@@ -76,7 +76,9 @@ const Header = () => {
     const disallowedQueries = ["", ".", ".."]
     if (!disallowedQueries.includes(query)) {
       const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(`/apps/search/${queryEncoded}`)
+      router.push(`/apps/search/${queryEncoded}`, undefined, {
+        locale: router.locale,
+      })
     }
   }
 

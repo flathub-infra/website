@@ -29,7 +29,7 @@ export default function Userpage({
 
   // Nothing to show if not logged in
   if (!user.info && !user.loading) {
-    router.push("/login")
+    router.push("/login", undefined, { locale: router.locale })
     return null
   }
 
