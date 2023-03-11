@@ -54,7 +54,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       setRedirected(true)
 
       if (pendingTransaction) {
-        router.push("/purchase")
+        router.push("/purchase", undefined, { locale: router.locale })
         return
       } else if (returnTo) {
         const redirect = decodeURIComponent(returnTo)
@@ -62,12 +62,12 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 
         // Must validate the redirect to prevent open redirect and code execution
         if (isInternalRedirect(redirect)) {
-          router.push(redirect)
+          router.push(redirect, undefined, { locale: router.locale })
           return
         }
       }
 
-      router.push("/my-flathub")
+      router.push("/my-flathub", undefined, { locale: router.locale })
     }
   }, [
     status,
