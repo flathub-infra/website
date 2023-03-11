@@ -267,7 +267,6 @@
   "server-returned-status-code": "The server returned HTTP {{code}}.",
   "verification-failed-to-connect": "Failed to connect to {{domain}}.",
   "verifying": "Verifying",
-  "setup-verification": "Setup verification",
   "website-verification": "Website verification",
   "login-provider-verification": "Login provider verification",
   "login-provider-verification-instruction": "We'll try to verify your access to the app with your login <1>{{login_name}}</1> with your account on <3>{{login_provider}}</3>",
