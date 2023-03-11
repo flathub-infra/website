@@ -271,7 +271,7 @@ const Header = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
@@ -279,8 +279,10 @@ const Header = () => {
                                   passHref
                                   href={item.href}
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block py-2 px-4 text-sm text-gray-700 hover:opacity-75",
+                                    active
+                                      ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
+                                      : "",
+                                    "block py-2 px-4 text-sm text-flathub-dark-gunmetal first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                   )}
                                 >
                                   {t(item.name)}
@@ -293,8 +295,10 @@ const Header = () => {
                               <button
                                 onClick={onLogout}
                                 className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block w-full py-2 px-4 text-left text-sm font-normal text-gray-700 hover:opacity-75",
+                                  active
+                                    ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
+                                    : "",
+                                  "block w-full rounded-b-md py-2 px-4 text-left text-sm font-normal text-flathub-dark-gunmetal hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                 )}
                               >
                                 {t("log-out")}
