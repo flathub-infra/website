@@ -62,6 +62,7 @@ function categoryToSeoCategories(categories: string[]) {
 
   return categories.map(categoryToSeoCategory).join(" ")
 }
+
 function categoryToSeoCategory(category) {
   switch (category) {
     case "AudioVideo":
@@ -88,6 +89,95 @@ function categoryToSeoCategory(category) {
   }
 }
 
+const CarouselStrip = ({ app }: { app: Appstream }) => {
+  const { t } = useTranslation()
+  const [showLightbox, setShowLightbox] = useState(false)
+  const [currentScreenshot, setCurrentScreenshot] = useState(0)
+
+  useEffect(() => {
+    setCurrentScreenshot(0)
+  }, [app.id])
+
+  const filteredScreenshots = app.screenshots?.filter(pickScreenshot)
+
+  console.log("filteredScreenshots", filteredScreenshots)
+
+  const moreThan1Screenshot = filteredScreenshots.length > 1
+
+  return (
+    <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
+      <Lightbox
+        open={showLightbox}
+        close={() => setShowLightbox(false)}
+        plugins={[Zoom]}
+        slides={app.screenshots?.map(mapScreenshot)}
+        index={currentScreenshot}
+      />
+      <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
+        {filteredScreenshots && filteredScreenshots.length > 0 && (
+          <Button
+            className="absolute right-3 bottom-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
+            onClick={() => setShowLightbox(true)}
+            aria-label={t("zoom")}
+            variant="secondary"
+          >
+            <HiMagnifyingGlassPlus />
+          </Button>
+        )}
+        <Carousel
+          showThumbs={false}
+          infiniteLoop={true}
+          autoPlay={false}
+          showArrows={true}
+          showIndicators={moreThan1Screenshot}
+          swipeable={true}
+          emulateTouch={true}
+          useKeyboardArrows={true}
+          dynamicHeight={false}
+          showStatus={false}
+          selectedItem={currentScreenshot}
+          onChange={(index) => {
+            setCurrentScreenshot(index)
+          }}
+          renderArrowNext={(handler, hasNext, label) =>
+            hasNext ? (
+              <div className="control-arrow control-next" onClick={handler}>
+                <HiChevronRight />
+              </div>
+            ) : (
+              <></>
+            )
+          }
+          renderArrowPrev={(handler, hasPrev, label) =>
+            hasPrev ? (
+              <div className="control-arrow control-prev" onClick={handler}>
+                <HiChevronLeft />
+              </div>
+            ) : (
+              <></>
+            )
+          }
+        >
+          {filteredScreenshots.map((screenshot, index) => {
+            const pickedScreenshot = pickScreenshot(screenshot)
+            return (
+              <Image
+                key={index}
+                src={pickedScreenshot.src}
+                width={752}
+                height={423}
+                alt={t("screenshot")}
+                loading="eager"
+                priority={index === 0}
+              />
+            )
+          })}
+        </Carousel>
+      </div>
+    </div>
+  )
+}
+
 const Details: FunctionComponent<Props> = ({
   app,
   summary,
@@ -97,8 +187,7 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
 }) => {
   const { t } = useTranslation()
-  const [showLightbox, setShowLightbox] = useState(false)
-  const [currentScreenshot, setCurrentScreenshot] = useState(0)
+
   const [scrollHeight, setScrollHeight] = useState(0)
   const collapsedHeight = 172
   const ref = useRef(null)
@@ -106,10 +195,6 @@ const Details: FunctionComponent<Props> = ({
   useEffect(() => {
     setScrollHeight(ref.current.scrollHeight)
   }, [ref])
-
-  useEffect(() => {
-    setCurrentScreenshot(0)
-  }, [app.id])
 
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
@@ -136,9 +221,6 @@ const Details: FunctionComponent<Props> = ({
   )
 
   if (app) {
-    const moreThan1Screenshot =
-      app.screenshots?.filter(pickScreenshot).length > 1
-
     const stableReleases = app.releases?.filter(
       (release) => release.type === undefined || release.type === "stable",
     )
@@ -171,78 +253,7 @@ const Details: FunctionComponent<Props> = ({
           vendingSetup={vendingSetup}
           verificationStatus={verificationStatus}
         />
-        <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
-          <Lightbox
-            open={showLightbox}
-            close={() => setShowLightbox(false)}
-            plugins={[Zoom]}
-            slides={app.screenshots?.map(mapScreenshot)}
-            index={currentScreenshot}
-          />
-          <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
-            {app.screenshots && app.screenshots.length > 0 && (
-              <Button
-                className="absolute right-3 bottom-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
-                onClick={() => setShowLightbox(true)}
-                aria-label={t("zoom")}
-                variant="secondary"
-              >
-                <HiMagnifyingGlassPlus />
-              </Button>
-            )}
-            <Carousel
-              showThumbs={false}
-              infiniteLoop={true}
-              autoPlay={false}
-              showArrows={true}
-              showIndicators={moreThan1Screenshot}
-              swipeable={true}
-              emulateTouch={true}
-              useKeyboardArrows={true}
-              dynamicHeight={false}
-              showStatus={false}
-              selectedItem={currentScreenshot}
-              onChange={(index) => {
-                setCurrentScreenshot(index)
-              }}
-              renderArrowNext={(handler, hasNext, label) =>
-                hasNext ? (
-                  <div className="control-arrow control-next" onClick={handler}>
-                    <HiChevronRight />
-                  </div>
-                ) : (
-                  <></>
-                )
-              }
-              renderArrowPrev={(handler, hasPrev, label) =>
-                hasPrev ? (
-                  <div className="control-arrow control-prev" onClick={handler}>
-                    <HiChevronLeft />
-                  </div>
-                ) : (
-                  <></>
-                )
-              }
-            >
-              {app.screenshots
-                ?.filter(pickScreenshot)
-                .map((screenshot, index) => {
-                  const pickedScreenshot = pickScreenshot(screenshot)
-                  return (
-                    <Image
-                      key={index}
-                      src={pickedScreenshot.src}
-                      width={752}
-                      height={423}
-                      alt={t("screenshot")}
-                      loading="eager"
-                      priority={index === 0}
-                    />
-                  )
-                })}
-            </Carousel>
-          </div>
-        </div>
+        <CarouselStrip app={app} />
         <div className="col-start-2 flex flex-col gap-6">
           <div>
             <h3 className="text-xl">{app.summary}</h3>
