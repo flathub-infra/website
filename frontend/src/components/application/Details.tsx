@@ -100,10 +100,6 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
 
   const filteredScreenshots = app.screenshots?.filter(pickScreenshot)
 
-  console.log("filteredScreenshots", filteredScreenshots)
-
-  const moreThan1Screenshot = filteredScreenshots.length > 1
-
   return (
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
       <Lightbox
@@ -114,7 +110,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
         index={currentScreenshot}
       />
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
-        {filteredScreenshots && filteredScreenshots.length > 0 && (
+        {filteredScreenshots && filteredScreenshots?.length > 0 && (
           <Button
             className="absolute right-3 bottom-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
             onClick={() => setShowLightbox(true)}
@@ -129,7 +125,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           infiniteLoop={true}
           autoPlay={false}
           showArrows={true}
-          showIndicators={moreThan1Screenshot}
+          showIndicators={filteredScreenshots?.length > 1}
           swipeable={true}
           emulateTouch={true}
           useKeyboardArrows={true}
@@ -158,7 +154,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
             )
           }
         >
-          {filteredScreenshots.map((screenshot, index) => {
+          {filteredScreenshots?.map((screenshot, index) => {
             const pickedScreenshot = pickScreenshot(screenshot)
             return (
               <Image
