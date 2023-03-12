@@ -27,20 +27,19 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex w-full items-center gap-3 rounded-xl bg-flathub-white py-2 px-6 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
+          className="flex w-full items-center gap-3 rounded-xl bg-flathub-white py-4 px-4 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
         >
           <Image
             src={authData.avatar}
-            width={50}
-            height={50}
+            width={48}
+            height={48}
             className="rounded-full"
             alt={t("user-avatar", { user: authData.login })}
           />
-          <p>
-            <b>{provider.name}</b>
-            <br />
-            {authData.login}
-          </p>
+          <div className="flex flex-col">
+            <span className="font-semibold">{provider.name}</span>
+            <span>{authData.login}</span>
+          </div>
         </div>
       )
     })
