@@ -41,7 +41,7 @@
     "sass": "^1.57.1",
     "sharp": "^0.31.3",
     "spdx-license-list": "^6.6.0",
-    "yet-another-react-lightbox": "^2.3.0"
+    "yet-another-react-lightbox": "^2.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
