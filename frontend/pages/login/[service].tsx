@@ -88,7 +88,9 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       router.query.code == null ||
       router.query.state == null
     ) {
-      router.push(user.info ? "/my-flathub" : "/")
+      router.push(user.info ? "/my-flathub" : "/", undefined, {
+        locale: router.locale,
+      })
       return
     }
   }, [router, user, services])
