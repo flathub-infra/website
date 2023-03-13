@@ -6,6 +6,9 @@ import { AppstreamListItem } from "../../types/Appstream"
 import { classNames } from "src/styling"
 import { HiCheckBadge } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
+import { VerificationText } from "src/verification"
+import { VerificationStatus } from "src/types/VerificationStatus"
+import { VerificationProvider } from "src/verificationProvider"
 
 interface Props {
   application: AppstreamListItem
@@ -13,6 +16,26 @@ interface Props {
 
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
   const { t } = useTranslation()
+
+  const isVerified = application.custom?.["flathub::verification::verified"]
+
+  const verificationStatus: VerificationStatus = isVerified
+    ? {
+        method: application.custom?.["flathub::verification::method"],
+        verified: true,
+        website: application.custom?.["flathub::verification::website"],
+        login_provider: application.custom?.[
+          "flathub::verification::login_provider"
+        ] as VerificationProvider,
+        login_name: application.custom?.["flathub::verification::login_name"],
+        timestamp: 0,
+        detail: "",
+      }
+    : {
+        method: "none",
+        verified: false,
+        detail: "",
+      }
 
   return (
     <Link
@@ -43,7 +66,9 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
               title={t("app-is-verified")}
               aria-hidden={true}
             />
-            <span aria-label={t("app-is-verified")}>{t("verified")}</span>
+            <span aria-label={t("app-is-verified")}>
+              {VerificationText(verificationStatus)}
+            </span>
           </div>
         )}
       </div>
