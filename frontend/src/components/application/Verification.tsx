@@ -17,6 +17,7 @@ import {
 } from "@floating-ui/react-dom-interactions"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { classNames } from "src/styling"
+import { VerificationText } from "src/verification"
 
 interface Props {
   appId: string
@@ -55,11 +56,12 @@ const Verification: FunctionComponent<Props> = ({
     left: "right",
   }[placement.split("-")[0]]
 
+  const verificationText = VerificationText(verificationStatus)
   let verifiedLink = null
 
   switch (verificationStatus.method) {
     case "manual":
-      verifiedLink = t("verified")
+      verifiedLink = verificationText
       break
 
     case "website":
@@ -70,7 +72,7 @@ const Verification: FunctionComponent<Props> = ({
           target="_blank"
           rel="noreferrer"
         >
-          {verificationStatus.website}
+          {verificationText}
         </a>
       )
       break
@@ -95,12 +97,7 @@ const Verification: FunctionComponent<Props> = ({
           target="_blank"
           rel="noreferrer"
         >
-          {t("verified-login-provider", {
-            login_provider: verificationProviderToHumanReadable(
-              verificationStatus.login_provider,
-            ),
-            login_name: verificationStatus.login_name,
-          })}
+          {verificationText}
         </a>
       )
       break
