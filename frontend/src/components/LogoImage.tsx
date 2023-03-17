@@ -24,7 +24,7 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
           <img
             src={iconUrl}
             alt={t("app-logo", { "app-name": appName })}
-            className="mx-auto block self-center"
+            className="mx-auto block h-full w-full self-center object-contain"
           />
         )
       ) : (
