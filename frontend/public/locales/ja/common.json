@@ -211,7 +211,6 @@
   "system": "システム",
   "minimum-payment": "最小支払額",
   "recommended-payment": "推奨支払額",
-  "your-profile": "マイページ",
   "show-more": "すべて表示",
   "show-less": "一部を表示",
   "app-payment-information": "このアプリの開発者が最小支払い額の{{minvalue}}に、推奨支払額の{{recvalue}}に設定されています。",
@@ -229,5 +228,13 @@
   "verified-login-provider": "@{{login_name}} ({{login_provider}})",
   "verified-website-tooltip": "アプリケーションID <1>{{app_id}}</1> の所有権は、<4>{{website}}</4>を使って認証されました",
   "about-app-verification-block": "<0>アプリ名の下にあるチェックマークはなんですか？</0><p>アプリごとのページで、開発者名の下にチェックマークがついていることがあります。 これは開発元または開発元が認めている第三者が、Flathubにアプリを公開していることを表しています。</p><p>またFlathubには、開発元とは関係のない第三者が公開しているアプリもあります。このようなアプリの公開は許可されていますが、チェックマークは付きません。</p><p>チェックマークの横には、開発者のウェブサイトや、ソースコードのホスティングサイトのアカウントが表示されます。Flathubはこれらのリンクを使って、開発者の認証をしています。</p><4>自分がFlathubに公開しているアプリを認証するには、どうしたら良いですか？</4><5>まず、 <1>Flathubにログインしてください</1>。 マイページを開き、認証したいアプリの下の『開発者設定』ボタンをクリックしてください。 ページ上部にある、『Setup Verification』セクションに書いてある手順で、認証を行ってください。</5>",
-  "error": "エラー"
+  "error": "エラー",
+  "no-transactions": "取引がありません",
+  "app-vending-settings-confirmed": "アプリ配布設定が確定されました",
+  "enable-app-vending": "アプリ配布を有効にする",
+  "require-payment": "お支払いが必要です",
+  "permission-denied": "あなたはそれを行う許可がありません。",
+  "ownership-tokens": "所有権トークン",
+  "refresh": "更新",
+  "unauthorized-to-view": "あなたはこのコンテンツを見る許可がありません。"
 }

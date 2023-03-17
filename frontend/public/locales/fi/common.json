@@ -47,7 +47,7 @@
   "user-page": "Käyttäjäsivu",
   "flathub-statistics": "Flathub-tilastot",
   "count-downloads": "Latauksia yhteensä",
-  "since": "Lähtien",
+  "since": "Alkaen",
   "downloads-per-country": "Latauksia per maa",
   "downloads-over-time": "Latauksia ajan myötä",
   "home": "Etusivu",
@@ -233,14 +233,12 @@
   "submit": "Lähetä",
   "open-menu": "Avaa valikko",
   "open-user-menu": "Avaa käyttäjävalikko",
-  "your-profile": "Profiilisi",
   "show-more": "Näytä lisää",
   "show-less": "Näytä vähemmän",
   "more-type": "Lisää {{type}}",
   "verified": "Vahvistettu",
   "app-is-verified": "Tämä sovellus on vahvistettu",
   "verified-login-provider": "@{{login_name}} palvelussa {{login_provider}}",
-  "setup-verification": "Määritä vahvistus",
   "website-verification": "Verkkosivuston vahvistus",
   "login-provider-verification": "Kirjautumispalvelun vahvistus",
   "error-code": "Virhekoodi: {{code}}",
@@ -284,5 +282,8 @@
   "about-app-verification": "Vahvistetut sovellukset",
   "refresh": "Päivitä",
   "verification-instructions": "Vahvista sovellustunnisteesi ilmaistaksesi, että Flathub-lähetys on hyväksytty sovelluskehittäjän toimesta. Sinun tulee todentaa, että sinulla on hallinta sovelluksesta sovelluksen verkkosivuston verkkotunnusta käyttäen tai pääsy sovelluksen lähdekoodia hallitsevan palvelun tiliin. Vahvistuskuvake näytetään sovelluksen ja julkaisijan nimen vieressä, kuvake kertoo sovellustunnisteen vahvistustavan.",
-  "verification-warning": "Flathub-tiimi voi poistaa vahvistuskuvakkeen miltä tahansa sovellukselta, jos se esimerkiksi voi harhaanjohtaa käyttäjiä sovelluksen julkaisun virallisesta tilasta tai aiheuttaa epäselvyyttä tuotemerkkiin liittyen."
+  "verification-warning": "Flathub-tiimi voi poistaa vahvistuskuvakkeen miltä tahansa sovellukselta, jos se esimerkiksi voi harhaanjohtaa käyttäjiä sovelluksen julkaisun virallisesta tilasta tai aiheuttaa epäselvyyttä tuotemerkkiin liittyen.",
+  "settings": "Asetukset",
+  "verification": "Vahvistus",
+  "my-flathub": "Oma Flathub"
 }

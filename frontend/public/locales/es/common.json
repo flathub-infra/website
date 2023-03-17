@@ -235,7 +235,6 @@
   "show-less": "Mostrar menos",
   "open-menu": "Abrir menú",
   "open-user-menu": "Abrir el menú de usuario",
-  "your-profile": "Tu perfil",
   "verified": "Verificada",
   "app-is-verified": "Esta aplicación está verificada",
   "more-type": "Más {{type}}",
@@ -246,7 +245,6 @@
   "app-is-currently-verified-by-website": "Su aplicación está actualmente verificada por su sitio web <1>{{website}}</1>",
   "app-is-currently-verified-manually": "Su aplicación está actualmente verificada por el equipo de Flathub",
   "app-is-currently-verified-by-login-provider": "Su aplicación está actualmente verificada por su sesión <1>@{{login_name}}</1> con su cuenta en <3>{{login_provider}}</3>",
-  "setup-verification": "Verificación de la instalación",
   "login-provider-verification": "Verificación del proveedor de acceso",
   "error-code": "Código de error: {{code}}",
   "error": "Error",
@@ -285,5 +283,8 @@
   "about-app-verification-block": "<0>¿Qué significa la marca de verificación bajo el nombre de una aplicación?</0><p>Algunas aplicaciones tienen una marca de verificación en la página de la aplicación bajo el nombre del desarrollador. Esto significa que la aplicación está publicada en Flathub por su desarrollador original o por un tercero aprobado por el desarrollador.</p><p>Algunas aplicaciones están publicadas por terceros que no están afiliados con el desarrollador original. Esto está permitido, pero estas aplicaciones no son elegibles para la marca de verificación.</p><p>Al lado de la marca de verificación hay un enlace a la página web del desarrollador o a su perfil en un sitio de alojamiento de código fuente. Flathub ha verificado la identidad del desarrollador utilizando ese enlace.</p><4>Voy a publicar una aplicación en Flathub. ¿Cómo la verifico? </4><5>Primero, <2>inicie sesión en Flathub</2>. Haz clic en el botón \"Configuración de desarrollador\" situado debajo de la aplicación que deseas verificar. En la parte superior de la página, busca la sección \"Configurar verificación\". Las instrucciones te guiarán a través del proceso de verificación.</5>",
   "refresh": "Actualizar",
   "verification-instructions": "Verifique la identificación para indicar que la aplicación ha sido aprobada por su desarrollador para publicarse en Flathub. Debe demostrar que tiene acceso a la aplicación a través del sitio web del desarrollador o del sitio web del código fuente de la aplicación. La marca de verificación aparecerá debajo del nombre del desarrollador, junto con la forma en que se verificó la identificación.",
-  "verification-warning": "El equipo de Flathub puede eliminar la insignia de verificación de cualquier aplicación a su exclusivo criterio, por ejemplo, si pudiera inducir a error a las personas sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial."
+  "verification-warning": "El equipo de Flathub puede eliminar la insignia de verificación de cualquier aplicación a su exclusivo criterio, por ejemplo, si pudiera inducir a error a las personas sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial.",
+  "verification": "Verificación",
+  "my-flathub": "Mi Flathub",
+  "settings": "Ajustes"
 }
