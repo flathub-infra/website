@@ -74,6 +74,14 @@ const Footer = () => {
             </a>
             <a
               className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
+              href="https://fosstodon.org/@FlatpakApps"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Mastodon
+            </a>
+            <a
+              className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
               href="https://twitter.com/FlatpakApps"
               target="_blank"
               rel="noreferrer"
