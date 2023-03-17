@@ -150,7 +150,7 @@
   "delete-account-prompt": "Eliminare il tuo account?",
   "app-is-currently-verified-manually": "La tua app è attualmente verificata dal team di Flathub",
   "verified-apps": "App Verificate",
-  "app-is-verified": "Questa app è verificata",
+  "app-is-verified": "Quest'app è verificata",
   "about-app-verification": "App Verificate",
   "contribute": "Contribuisci all'App",
   "installs-over-time": "Installazioni nel tempo",
@@ -194,7 +194,6 @@
   "create-tokens": "Crea Token",
   "token-redeemed": "Token riscattato con successo",
   "token-failed": "Impossibile riscattare il token",
-  "your-profile": "Il tuo Profilo",
   "open-menu": "Apri Menu",
   "open-user-menu": "Apri Menu Utente",
   "verified-login-provider": "@{{login_name}} su {{login_provider}}",
@@ -233,7 +232,7 @@
   "login-provider-verification-failed": "I requisiti di verifica non sono stati soddisfatti.",
   "preferred-badge": "Distintivo Preferito",
   "account-deletion-token-mismatch": "La richiesta di eliminazione dell'account non è riuscita ad autenticarsi.",
-  "verified": "Verificato",
+  "verified": "Verificata",
   "error-code": "Codice errore: {{code}}",
   "retry-or-go-home": "Potresti riprovare o tornare alla <2>home </2>.",
   "rss-applications": "Hai bisogno di un'applicazione RSS? Trovane di eccellenti su <2>Flathub</2>.",
@@ -252,5 +251,6 @@
   "verified-login-provider-tooltip": "La proprietà dell'ID applicazione <1>{{app_id}}</1> è stata verificata da <4>@{{login_name}}</4> su <8>{{login_provider}}</8>",
   "verified-website-tooltip": "La proprietà dell'ID applicazione <1>{{app_id}}</1> è stata verificata utilizzando <4>{{website}}</4>",
   "login-provider-verification-switch-account": "Hai effettuato l'accesso a <1>{{login_provider}}</1> come <3>@{{current_name}}</3>. Accedi come <5>@{{required_name}}</5> per verificare <7>{{appId}}</7> dal provider di accesso, o scegli un altro metodo se disponibile.",
-  "login-provider-verification-not-org-member": "Hai effettuato l'accesso a <1>{{login_provider}}</1> come <3>@{{current_name}}</3>. Questo account non è un membro dell'organizzazione <5>@{{organization}}</5>. Per verificare quest'app, devi richiedere i privilegi di amministratore nell'organizzazione o accedere con un account che già li possiede."
+  "login-provider-verification-not-org-member": "Hai effettuato l'accesso a <1>{{login_provider}}</1> come <3>@{{current_name}}</3>. Questo account non è un membro dell'organizzazione <5>@{{organization}}</5>. Per verificare quest'app, devi richiedere i privilegi di amministratore nell'organizzazione o accedere con un account che già li possiede.",
+  "badge-copyright": "Nella misura consentita dalla legge, <2>Jakub Steiner</2> ha rinunciato a tutti i diritti d'autore e ai diritti connessi o vicini ai <5>Distintivi Flathub</5>. Questo lavoro è pubblicato dalla Repubblica Ceca."
 }

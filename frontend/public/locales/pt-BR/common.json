@@ -234,14 +234,12 @@
   "show-more": "Mostrar mais",
   "show-less": "Mostrar menos",
   "open-user-menu": "Abrir menu do usuário",
-  "your-profile": "Seu perfil",
   "open-menu": "Abrir menu",
   "verified": "Verificado",
   "app-is-verified": "Este aplicativo foi verificado",
   "x-downloads": "{{x}} downloads",
   "more-type": "Mais {{type}}",
   "verified-login-provider": "@{{login_name}} em {{login_provider}}",
-  "setup-verification": "Verificação da configuração",
   "website-verification": "Verificação do site",
   "login-provider-verification": "Verificação do provedor de login",
   "login-provider-verification-instruction": "Tentaremos verificar seu acesso ao aplicativo com seu login <1>{{login_name}}</1> com sua conta em <3>{{login_provider}}</3>",
@@ -285,5 +283,8 @@
   "refresh": "Atualizar",
   "verification-warning": "A equipe do Flathub pode remover o selo de verificação de qualquer aplicativo a nosso exclusivo critério, por exemplo, se isso puder enganar as pessoas sobre o status oficial do aplicativo ou causar confusão em relação a uma marca registrada.",
   "about-app-verification-block": "<0>O que significa a marca de verificação sob o nome de um aplicativo?</0><p>Alguns aplicativos têm uma marca de verificação na página do aplicativo sob o nome do desenvolvedor. Isso significa que o aplicativo é publicado no Flathub por seu desenvolvedor original ou por um terceiro aprovado pelo desenvolvedor.</p><p>Alguns aplicativos são publicados por terceiros que não são afiliados ao desenvolvedor original. Isso é permitido, mas esses aplicativos não são qualificados para a marca de seleção.</p><p>Ao lado da marca de verificação há um link para o site do desenvolvedor ou para seu perfil em um site de hospedagem de código-fonte. Flathub verificou a identidade do desenvolvedor usando esse link.</p><4>Estou publicando um aplicativo no Flathub. Como faço para torná-lo verificado?</4><5>Primeiro, <2>faça login no Flathub</2>. Clique no botão \"Configurações do desenvolvedor\" no aplicativo que você deseja verificar. Na parte superior da página, localize a seção \"Verificação da configuração\". As instruções ali guiarão pelo processo de verificação.</5>",
-  "verification-instructions": "Verifique o ID do seu aplicativo para indicar que seu envio ao Flathub foi aprovado pelo desenvolvedor do aplicativo. Você precisará provar que tem o controle do aplicativo por meio de um site no domínio do aplicativo ou verificando o acesso à conta do aplicativo em um site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome do aplicativo, nome do editor e a forma como o ID do aplicativo foi verificado."
+  "verification-instructions": "Verifique o ID do seu aplicativo para indicar que seu envio ao Flathub foi aprovado pelo desenvolvedor do aplicativo. Você precisará provar que tem o controle do aplicativo por meio de um site no domínio do aplicativo ou verificando o acesso à conta do aplicativo em um site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome do aplicativo, nome do editor e a forma como o ID do aplicativo foi verificado.",
+  "verification": "Verificação",
+  "my-flathub": "Meu Flathub",
+  "settings": "Configurações"
 }

@@ -182,7 +182,6 @@
   "login-provider-verification-failed": "未滿足驗證要求。",
   "login-provider-verification-user-does-not-exist": "帳號 <1>@{{required_name}}</1> 在 <3>{{login_provider}}</3> 上不存在。您必須索取此帳號名稱，並使用其來驗證您的應用程式，或著最好選擇一個您可以控制的應用程式 ID。請見 <5>Flatpak 文件</5>了解關於良好應用程式 ID 的資訊。",
   "try-again": "嘗試",
-  "setup-verification": "設定驗證",
   "website-verification": "網站驗證",
   "login-provider-verification": "登入提供者驗證",
   "login-provider-verification-instruction": "我們將會嘗試使用您在 <3>{{login_provider}}</3> 上的帳號 <1>{{login_name}}</1> 來驗證您對應用程式的存取權",
@@ -270,7 +269,6 @@
   "education": "教育",
   "system": "系統",
   "token-redeem-placeholder": "輸入擁有權權杖",
-  "your-profile": "您的個人檔案",
   "app-is-verified": "此應用程式已驗證",
   "verification-instructions": "驗證您的應用程式 ID，以表明您的 Flathub 上傳已獲得應用程式開發者的核准。您必須透過應用程式網域中的網站或透過檢查原始碼託管網站上對應用程式帳號的存取權限來證明您可以控制該應用程式。經過驗證的徽章將與應用程式名稱、發佈者名稱以及應用程式 ID 的驗證方式一起顯示。",
   "website-verification-main-instruction": "透過放置權杖於 <3>{{domain}}</3> 上的特定頁面來使用應用程式 ID <1>{{id}}</1> 驗證您的權利。",
@@ -285,5 +283,8 @@
   "error-code": "錯誤代碼：{{code}}",
   "app-is-currently-verified-by-website": "您的應用程式目前已使用您的網站 <1>{{website}}</1> 驗證",
   "unverify": "取消驗證",
-  "chat": "聊天"
+  "chat": "聊天",
+  "verification": "驗證",
+  "settings": "設定",
+  "my-flathub": "我的 Flathub"
 }
