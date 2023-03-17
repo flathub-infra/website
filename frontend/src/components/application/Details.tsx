@@ -102,13 +102,15 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
 
   return (
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
-      <Lightbox
-        open={showLightbox}
-        close={() => setShowLightbox(false)}
-        plugins={[Zoom]}
-        slides={app.screenshots?.map(mapScreenshot)}
-        index={currentScreenshot}
-      />
+      {filteredScreenshots && (
+        <Lightbox
+          open={showLightbox}
+          close={() => setShowLightbox(false)}
+          plugins={[Zoom]}
+          slides={app.screenshots?.map(mapScreenshot)}
+          index={currentScreenshot}
+        />
+      )}
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {filteredScreenshots && filteredScreenshots?.length > 0 && (
           <Button

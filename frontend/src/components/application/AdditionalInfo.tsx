@@ -73,21 +73,22 @@ const AdditionalInfo = ({
         ]}
       ></ListBox>
       {/* {data.content_rating} */}
-      {summary.arches.length > 0 && (
-        <ListBox
-          appId={appId}
-          items={[
-            {
-              icon: <BsLaptop />,
-              header: t("available-architectures"),
-              content: {
-                type: "text",
-                text: summary ? summary.arches.join(", ") : t("unknown"),
-              },
+      <ListBox
+        appId={appId}
+        items={[
+          {
+            icon: <BsLaptop />,
+            header: t("available-architectures"),
+            content: {
+              type: "text",
+              text:
+                summary && summary.arches
+                  ? summary.arches.join(", ")
+                  : t("unknown"),
             },
-          ]}
-        ></ListBox>
-      )}
+          },
+        ]}
+      ></ListBox>
       <ListBox
         appId={appId}
         items={[
