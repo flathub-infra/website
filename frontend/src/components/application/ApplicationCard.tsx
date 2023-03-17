@@ -47,7 +47,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
         "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
       )}
     >
-      <div className="relative h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[128px] md:w-[128px]">
+      <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[128px] md:w-[128px]">
         <LogoImage iconUrl={application.icon} appName={application.name} />
       </div>
       <div className="flex flex-col justify-center overflow-hidden">
