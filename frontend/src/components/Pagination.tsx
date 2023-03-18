@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   currentPage: number
@@ -42,7 +42,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                   },
                 }}
                 aria-current={isActive ? "page" : null}
-                className={classNames(
+                className={clsx(
                   isActive
                     ? `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`
                     : "",

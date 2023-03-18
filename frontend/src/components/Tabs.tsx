@@ -1,6 +1,6 @@
 import { Tab } from "@headlessui/react"
 import { Fragment, FunctionComponent } from "react"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   tabs: { name: string; content: JSX.Element }[]
@@ -16,7 +16,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
             <Tab key={index} as={Fragment}>
               {({ selected }) => (
                 <button
-                  className={classNames(
+                  className={clsx(
                     selected
                       ? "border-flathub-celestial-blue text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
                       : "border-transparent text-flathub-arsenic hover:border-flathub-gray-x11 hover:text-flathub-dark-gunmetal dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow",

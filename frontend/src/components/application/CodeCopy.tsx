@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
 import styles from "./CodeCopy.module.scss"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   text: string
@@ -31,7 +31,7 @@ const CodeCopy: FunctionComponent<Props> = ({
 
   return (
     <div
-      className={classNames(
+      className={clsx(
         `relative mx-0 mt-0 mb-3 block overflow-auto break-words p-2 pr-10 text-sm`,
         styles.pre,
         className,

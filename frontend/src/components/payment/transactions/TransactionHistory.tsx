@@ -18,7 +18,7 @@ import Spinner from "../../Spinner"
 import { FlathubDisclosure } from "./../../Disclosure"
 import { getIntlLocale } from "src/localize"
 import { formatCurrency } from "src/utils/localize"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 import ButtonLink from "src/components/ButtonLink"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { TRANSACTION_INFO_URL } from "src/env"
@@ -175,9 +175,7 @@ const TransactionHeader = ({
 
         <div className="flex items-center gap-2">
           {needsAttention && <HiExclamationTriangle className="text-red-500" />}
-          <span
-            className={classNames(status === "cancelled" && "line-through")}
-          >
+          <span className={clsx(status === "cancelled" && "line-through")}>
             {prettyValue}
           </span>
         </div>
