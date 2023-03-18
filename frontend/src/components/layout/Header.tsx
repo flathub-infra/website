@@ -13,7 +13,7 @@ import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 import { FlathubLogo } from "../login/FlathubLogo"
 import { FlathubMiniLogo } from "../login/FlathubLogoMini"
 
@@ -108,7 +108,7 @@ const Header = () => {
       <Popover
         as="header"
         className={({ open }) =>
-          classNames(
+          clsx(
             open ? "fixed inset-0 overflow-y-auto" : "",
             "fixed z-40 w-full bg-flathub-white shadow dark:bg-flathub-arsenic lg:overflow-y-visible",
           )
@@ -167,7 +167,7 @@ const Header = () => {
                             name="q'"
                             onChange={onChange}
                             value={query}
-                            className={classNames(
+                            className={clsx(
                               i18n.dir() === "rtl" && "md:pr-10",
                               "peer",
                               "block w-full rounded-full bg-flathub-gainsborow/50 py-2 pl-10 pr-3 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
@@ -280,7 +280,7 @@ const Header = () => {
                                 <Link
                                   passHref
                                   href={item.href}
-                                  className={classNames(
+                                  className={clsx(
                                     active
                                       ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                       : "",
@@ -296,7 +296,7 @@ const Header = () => {
                             {({ active }) => (
                               <button
                                 onClick={onLogout}
-                                className={classNames(
+                                className={clsx(
                                   active
                                     ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                     : "",
@@ -328,7 +328,7 @@ const Header = () => {
                             target="_blank"
                             rel="noreferrer"
                             aria-current={item.current ? "page" : undefined}
-                            className={classNames(
+                            className={clsx(
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
@@ -351,7 +351,7 @@ const Header = () => {
                               close()
                             }}
                             aria-current={item.current ? "page" : undefined}
-                            className={classNames(
+                            className={clsx(
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
@@ -368,7 +368,7 @@ const Header = () => {
                         passHref
                         href="/login"
                         key="login"
-                        className={classNames(
+                        className={clsx(
                           "block rounded-md py-2 px-3 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
                         )}
                         onClick={() => {

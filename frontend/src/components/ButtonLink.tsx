@@ -5,7 +5,7 @@ import {
   DetailedHTMLProps,
   ButtonHTMLAttributes,
 } from "react"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 type Props = {
   href
@@ -65,7 +65,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         target={target}
         ref={ref}
         rel={rel}
-        className={classNames(
+        className={clsx(
           className ?? "",
           hover,
           variantClass,

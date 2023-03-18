@@ -1,6 +1,6 @@
 import { Switch } from "@headlessui/react"
 import { FunctionComponent, useCallback } from "react"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   enabled: boolean
@@ -17,7 +17,7 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
     <Switch
       checked={enabled}
       onChange={toggle}
-      className={classNames(
+      className={clsx(
         enabled
           ? "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue"
           : "bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
@@ -25,7 +25,7 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
       )}
     >
       <span
-        className={classNames(
+        className={clsx(
           enabled ? "translate-x-6" : "translate-x-1",
           `inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ease-in-out`,
         )}

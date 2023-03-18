@@ -1,5 +1,5 @@
 import { FunctionComponent, forwardRef } from "react"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   children: React.ReactNode
@@ -12,7 +12,7 @@ const Tile: FunctionComponent<Props> = forwardRef<HTMLAnchorElement, Props>(
   ({ children, className, onClick, href }, ref) => {
     return (
       <a
-        className={classNames(
+        className={clsx(
           "flex items-center justify-center break-words rounded-xl p-4 text-center duration-500",
           "bg-flathub-white text-flathub-sonic-silver shadow-md dark:bg-flathub-arsenic/70 dark:text-flathub-spanish-gray",
           "hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",

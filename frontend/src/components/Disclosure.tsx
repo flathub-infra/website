@@ -1,7 +1,7 @@
 import { Disclosure, Transition } from "@headlessui/react"
 import { FunctionComponent, ReactElement } from "react"
 import { HiChevronRight } from "react-icons/hi2"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 export const FlathubDisclosure: FunctionComponent<{
   buttonItems: ReactElement | ReactElement[]
@@ -13,7 +13,7 @@ export const FlathubDisclosure: FunctionComponent<{
         <>
           <Disclosure.Button className="flex w-full items-center gap-3 px-4 py-3">
             <HiChevronRight
-              className={classNames(
+              className={clsx(
                 open ? "rotate-90 " : "",
                 "h-6 w-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
               )}

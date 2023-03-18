@@ -5,7 +5,7 @@ import { getIntlLocale, getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
 import useCollapse from "react-collapsed"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   latestRelease: Release | null
@@ -85,7 +85,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
               </header>
               <div
                 {...getCollapseProps()}
-                className={classNames(
+                className={clsx(
                   `prose relative transition-all duration-700 dark:prose-invert`,
                   !isExpanded && scrollHeight > collapsedHeight
                     ? "from-transparent to-flathub-white before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-arsenic"

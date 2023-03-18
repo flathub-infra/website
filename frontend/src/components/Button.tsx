@@ -4,7 +4,7 @@ import {
   DetailedHTMLProps,
   ButtonHTMLAttributes,
 } from "react"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 type Props = {
   children: React.ReactNode
@@ -27,7 +27,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
 
     return (
       <button
-        className={classNames(
+        className={clsx(
           className ?? "",
           variantClass,
           "no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold duration-500 enabled:hover:cursor-pointer disabled:cursor-default",

@@ -39,7 +39,7 @@ import { getAppVendingSetup } from "../../asyncs/vending"
 
 import useCollapse from "react-collapsed"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -258,7 +258,7 @@ const Details: FunctionComponent<Props> = ({
             {scrollHeight > collapsedHeight && (
               <div
                 {...getCollapseProps()}
-                className={classNames(
+                className={clsx(
                   `prose relative transition-all dark:prose-invert xl:max-w-[75%]`,
                   !isExpanded && scrollHeight > collapsedHeight
                     ? "from-transparent to-flathub-white before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-dark-gunmetal"

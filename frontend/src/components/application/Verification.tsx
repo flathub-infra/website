@@ -16,7 +16,7 @@ import {
   useFocus,
 } from "@floating-ui/react-dom-interactions"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 import { VerificationText } from "src/verification"
 
 interface Props {
@@ -122,7 +122,7 @@ const Verification: FunctionComponent<Props> = ({
               top: y ?? 0,
               left: x ?? 0,
             }}
-            className={classNames(
+            className={clsx(
               "mx-1 rounded-xl p-4",
               "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
               "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",

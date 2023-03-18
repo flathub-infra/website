@@ -9,7 +9,7 @@ import { GoogleLogo } from "./GoogleLogo"
 import { GnomeLogo } from "./GnomeLogo"
 import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 
 interface Props {
   provider: LoginProvider
@@ -65,7 +65,7 @@ const ProviderLink: FunctionComponent<Props> = ({
 
   return (
     <button
-      className={classNames(
+      className={clsx(
         "flex w-full flex-row items-center justify-center gap-3 rounded-xl font-bold",
         "p-5 shadow-md hover:cursor-pointer hover:opacity-60",
         inACard

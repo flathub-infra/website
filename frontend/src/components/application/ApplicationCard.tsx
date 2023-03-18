@@ -3,7 +3,7 @@ import Link from "next/link"
 import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
-import { classNames } from "src/styling"
+import { clsx } from "clsx"
 import { HiCheckBadge } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
 import { VerificationText } from "src/verification"
@@ -41,7 +41,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
     <Link
       href={`/apps/${application.id}`}
       passHref
-      className={classNames(
+      className={clsx(
         "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
         "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
         "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
