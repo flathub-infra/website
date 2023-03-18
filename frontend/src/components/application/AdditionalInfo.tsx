@@ -5,6 +5,7 @@ import {
   HiChatBubbleLeftRight,
   HiCloudArrowDown,
   HiCodeBracket,
+  HiCodeBracketSquare,
   HiFlag,
   HiFolderArrowDown,
   HiGlobeAlt,
@@ -268,7 +269,7 @@ const AdditionalInfo = ({
         appId={appId}
         items={[
           {
-            icon: <HiCloudArrowDown />,
+            icon: <HiCodeBracketSquare />,
             header: t("manifest"),
             content: {
               type: "url",
