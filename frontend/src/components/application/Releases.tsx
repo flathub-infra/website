@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
 import { getIntlLocale, getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
-import useCollapse from "react-collapsed"
+import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
 
 interface Props {
@@ -84,14 +84,13 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 </div>
               </header>
               <div
-                {...getCollapseProps()}
+                {...getCollapseProps({ ref })}
                 className={clsx(
                   `prose relative transition-all duration-700 dark:prose-invert`,
                   !isExpanded && scrollHeight > collapsedHeight
                     ? "from-transparent to-flathub-white before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-arsenic"
                     : "",
                 )}
-                ref={ref}
                 dangerouslySetInnerHTML={{
                   __html: releaseDescription,
                 }}
