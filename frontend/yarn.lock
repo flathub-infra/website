@@ -1313,6 +1313,21 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@collapsed/core@4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@collapsed/core/-/core-4.0.1.tgz#859714110abfb68eac48f6ce5ed480bf97bcfd72"
+  integrity sha512-RdejmttES4HzIrtIoX0hIi6cUtrakmgaS7CJEiz7lANgbPU/WRSZBLghcM4ZeNY0dyH6kHYL46KsiuyNijWqXg==
+  dependencies:
+    tiny-warning "^1.0.3"
+
+"@collapsed/react@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@collapsed/react/-/react-4.0.1.tgz#87f4fc2b3974812e4aa31653c7a9462c9d055726"
+  integrity sha512-tHm5bgxl/ddsfh6paK+0XTxdE3t9UfISOWODUbikyhhVGPh06mg4C2z7Y0AkXaj+LJIFBnn6Qbp73AH2KULdrw==
+  dependencies:
+    "@collapsed/core" "4.0.1"
+    tiny-warning "^1.0.3"
+
 "@colors/colors@1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
@@ -7990,13 +8005,6 @@ react-chartjs-2@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-5.2.0.tgz#43c1e3549071c00a1a083ecbd26c1ad34d385f5d"
   integrity sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==
-
-react-collapsed@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/react-collapsed/-/react-collapsed-3.5.0.tgz#7b90d988040a9f93fac227dcf47f0f9be0b4b946"
-  integrity sha512-MtwlFoVfm1LdS1FFFNBQhMESSly0+ZaIouZHVbpVytM9gflLwUfPLbcqEuhzilT8upwzg45ect1zWC4Dbd5xpw==
-  dependencies:
-    tiny-warning "^1.0.3"
 
 react-colorful@^5.1.2:
   version "5.6.1"
