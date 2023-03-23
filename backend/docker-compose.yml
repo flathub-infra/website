@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
       context: .
     restart: unless-stopped
-    command: dramatiq app.worker --processes 1 --threads 2 --verbose --watch app
+    command: dramatiq app.worker --processes 1 --threads 2 --watch app
     environment:
       - REDIS_HOST=redis
       - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
