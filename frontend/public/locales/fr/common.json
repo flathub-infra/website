@@ -269,5 +269,8 @@
   "token-cancelled": "Jeton annulé",
   "token-redeemed": "Jeton utilisé avec succès",
   "token-failed": "Impossible d’utiliser le jeton",
-  "token-redeem-placeholder": "Entrez un jeton de propriété"
+  "token-redeem-placeholder": "Entrez un jeton de propriété",
+  "my-flathub": "Mon Flathub",
+  "settings": "Paramètres",
+  "verification": "Vérification"
 }

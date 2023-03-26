@@ -283,5 +283,8 @@
   "source-code": "Source Code",
   "open-in-new-tab": "Open in new tab",
   "enable-app-vending": "Enable Application Vending",
-  "submit": "Submit"
+  "submit": "Submit",
+  "my-flathub": "My Flathub",
+  "settings": "Settings",
+  "verification": "Verification"
 }

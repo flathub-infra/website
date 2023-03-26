@@ -145,5 +145,6 @@
   "education": "آموزشی",
   "system": "سامانه",
   "transaction-summary": "خلاصهٔ تراکنش",
-  "transaction-summary-created": "تاریخ ایجاد: {{date}}"
+  "transaction-summary-created": "تاریخ ایجاد: {{date}}",
+  "about-app-verification": "برنامه‌های تایید شده"
 }
