@@ -67,6 +67,7 @@ def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
     elif _matches_prefixes(appid, "org.gnome.gitlab"):
         return (LoginProvider.GNOME_GITLAB, _demangle_name(appid.split(".")[3]))
     elif _matches_prefixes(appid, "org.gnome"):
+        return (LoginProvider.GNOME_GITLAB, "GNOME")
     else:
         return None
 
@@ -359,46 +360,28 @@ def get_available_methods(appid: str, login=Depends(login_state)):
             )
         )
 
-    if provider := _get_provider_username(appid):
-        login_is_organization = False
-
-        try:
-            login_is_organization = _check_login_provider_verification(appid, login)
-            status = AvailableLoginMethodStatus.READY
-        except HTTPException as e:
-            status = e.detail
-            if e.detail in [
-                ErrorDetail.PROVIDER_DENIED_ACCESS,
-                ErrorDetail.NOT_ORG_MEMBER,
-                ErrorDetail.NOT_ORG_ADMIN,
-            ]:
-                login_is_organization = True
-            elif e.detail == ErrorDetail.PROVIDER_ERROR:
-                raise e
-
-        provider_name, username = provider
-
-        methods.append(
-            AvailableMethod(
-                method=AvailableMethodType.LOGIN_PROVIDER,
-                login_provider=provider_name,
-                login_name=username,
-                login_is_organization=login_is_organization,
-                login_status=status,
-            )
-        )
+    if _get_provider_username(appid) is not None:
+        available_method = _check_login_provider_verification(appid, login)
+        methods.append(available_method)
 
     return AvailableMethods(methods=methods)
 
 
-def _verify_by_github(username: str, account) -> bool:
+def _verify_by_github(username: str, account) -> AvailableMethod:
     # For GitHub, we allow verifying by either user or organization. If it's by organization, the user must be an
     # admin of that organization.
+
+    result = AvailableMethod(
+        method=AvailableMethodType.LOGIN_PROVIDER,
+        login_provider=LoginProvider.GITHUB,
+        login_name=username,
+    )
 
     account = models.GithubAccount.by_user(sqldb, account)
 
     if account is None:
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
+        result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
+        return result
 
     try:
         gh = github.Github(account.token)
@@ -406,18 +389,23 @@ def _verify_by_github(username: str, account) -> bool:
         try:
             user = gh.get_user(username)
         except UnknownObjectException:
-            raise HTTPException(status_code=400, detail=ErrorDetail.USER_DOES_NOT_EXIST)
+            result.login_status = AvailableLoginMethodStatus.USER_DOES_NOT_EXIST
+            return result
 
         if user.type == "User":
+            result.login_is_organization = False
+
             # Verify the username matches. We use .lower() because GitHub usernames are case insensitive.
             if account.login.lower() != username.lower():
-                raise HTTPException(
-                    status_code=401, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH
-                )
+                result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
+                return result
 
-            return False
+            result.login_status = AvailableLoginMethodStatus.READY
+            return result
 
         elif user.type == "Organization":
+            result.login_is_organization = True
+
             # Verify the current user is an admin of this organization
             try:
                 membership = gh.get_user(account.login).get_organization_membership(
@@ -425,39 +413,51 @@ def _verify_by_github(username: str, account) -> bool:
                 )
             except github.GithubException as e:
                 if e.status == 403 or e.status == 401:
-                    raise HTTPException(
-                        status_code=e.status,
-                        detail=ErrorDetail.PROVIDER_DENIED_ACCESS,
+                    result.login_status = (
+                        AvailableLoginMethodStatus.PROVIDER_DENIED_ACCESS
                     )
+                    return result
                 elif e.status == 404:
-                    raise HTTPException(
-                        status_code=403, detail=ErrorDetail.NOT_ORG_MEMBER
-                    )
+                    result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
+                    return result
                 else:
                     raise HTTPException(
                         status_code=500, detail=ErrorDetail.PROVIDER_ERROR
                     )
 
             if membership.role != "admin":
-                raise HTTPException(status_code=401, detail=ErrorDetail.NOT_ORG_ADMIN)
+                result.login_status = AvailableLoginMethodStatus.NOT_ORG_ADMIN
+                return result
 
-            return True
-
+            result.login_status = AvailableLoginMethodStatus.READY
+            return result
         else:
             raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
     except github.GithubException:
         raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
 
-def _verify_by_gitlab(username: str, account, model, url) -> bool:
+def _verify_by_gitlab(username: str, account, model, provider, url) -> AvailableMethod:
+    """Checks verification using a GitLab instance. If username is a group, the user must have owner or maintainer
+    access to that group. Returns True if the username is a group, returns False if it is a regular user, and raises an
+    exception if verification fails."""
+
+    result = AvailableMethod(
+        method=AvailableMethodType.LOGIN_PROVIDER,
+        login_provider=provider,
+        login_name=username,
+    )
+
     account = model.by_user(sqldb, account)
 
     if account is None:
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
+        result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
+        return result
 
     # If the username matches, return immediately. We use .lower() because GitLab usernames are case insensitive.
     if account.login.lower() == username.lower():
-        return False
+        result.login_status = AvailableLoginMethodStatus.READY
+        return result
 
     try:
         access_token = refresh_oauth_token(account)
@@ -465,14 +465,21 @@ def _verify_by_gitlab(username: str, account, model, url) -> bool:
         raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
 
     try:
+        gl = gitlab.Gitlab(url)
+
+        # Does the username refer to a user or a group?
+        matching_users = gl.users.list(username=username)
+        if len(matching_users) == 1:
+            result.login_is_organization = False
+            result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
+            return result
+
         try:
-            gl = gitlab.Gitlab(url)
             gl.groups.get(username)
         except gitlab.GitlabError:
             # Group does not exist. Either it's private or it's a user.
-            raise HTTPException(
-                status_code=403, detail=ErrorDetail.USERNAME_DOES_NOT_MATCH
-            )
+            result.login_status = AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
+            return result
 
         # python-gitlab does not support the userinfo endpoint AFAICT, so we have to do it manually.
         r = requests.get(
@@ -485,21 +492,26 @@ def _verify_by_gitlab(username: str, account, model, url) -> bool:
 
         userinfo = r.json()
 
+        result.login_is_organization = True
+
         # Must be owner or maintainer of the group
         if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
             if username.lower() in [group.lower() for group in groups]:
-                return True
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
 
         if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
             if username.lower() in [group.lower() for group in groups]:
-                return True
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
 
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_ORG_MEMBER)
+        result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
+        return result
     except HTTPException as e:
         raise e
 
 
-def _check_login_provider_verification(appid: str, login) -> bool:
+def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
     _check_app_id(appid, login)
 
     provider_username = _get_provider_username(appid)
@@ -507,22 +519,27 @@ def _check_login_provider_verification(appid: str, login) -> bool:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
     (provider, username) = provider_username
-    login_is_organization = False
 
     if provider == LoginProvider.GITHUB:
-        login_is_organization = _verify_by_github(username, login["user"])
+        return _verify_by_github(username, login["user"])
     elif provider == LoginProvider.GITLAB:
-        login_is_organization = _verify_by_gitlab(
-            username, login["user"], models.GitlabAccount, "https://gitlab.com"
+        return _verify_by_gitlab(
+            username,
+            login["user"],
+            models.GitlabAccount,
+            LoginProvider.GITLAB,
+            "https://gitlab.com",
         )
     elif provider == LoginProvider.GNOME_GITLAB:
-        login_is_organization = _verify_by_gitlab(
-            username, login["user"], models.GnomeAccount, "https://gitlab.gnome.org"
+        return _verify_by_gitlab(
+            username,
+            login["user"],
+            models.GnomeAccount,
+            LoginProvider.GNOME_GITLAB,
+            "https://gitlab.gnome.org",
         )
     else:
         raise HTTPException(status_code=500)
-
-    return login_is_organization
 
 
 @router.post("/{appid}/verify-by-login-provider", status_code=200)
@@ -530,7 +547,27 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
 
-    login_is_organization = _check_login_provider_verification(appid, login)
+    available_method = _check_login_provider_verification(appid, login)
+
+    if available_method.login_status != AvailableLoginMethodStatus.READY:
+        match available_method.login_status:
+            case AvailableLoginMethodStatus.NOT_LOGGED_IN:
+                status_code = 401
+            case (
+                AvailableLoginMethodStatus.USERNAME_DOES_NOT_MATCH
+                | AvailableLoginMethodStatus.NOT_ORG_MEMBER
+                | AvailableLoginMethodStatus.NOT_ORG_ADMIN
+                | AvailableLoginMethodStatus.PROVIDER_DENIED_ACCESS
+            ):
+                status_code = 403
+            case AvailableLoginMethodStatus.USER_DOES_NOT_EXIST:
+                status_code = 400
+            case _:
+                status_code = 500
+
+        raise HTTPException(
+            status_code=status_code, detail=available_method.login_status
+        )
 
     verification = models.AppVerification(
         app_id=appid,
@@ -538,7 +575,7 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
         method="login_provider",
         verified=True,
         verified_timestamp=func.now(),
-        login_is_organization=login_is_organization,
+        login_is_organization=available_method.login_is_organization,
     )
     sqldb.session.merge(verification)
     sqldb.session.commit()

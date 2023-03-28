@@ -13,7 +13,7 @@ export interface VerificationMethodLoginProvider {
   method: "login_provider"
   login_provider: VerificationProvider
   login_name: string
-  login_is_organization: boolean
+  login_is_organization?: boolean
   login_status: string
 }
 
