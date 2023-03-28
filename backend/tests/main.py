@@ -520,6 +520,12 @@ def test_verification_available_method_website(client):
             {
                 "method": "website",
                 "website": "gnome.org",
+            },
+            {
+                "method": "login_provider",
+                "login_provider": "gnome",
+                "login_name": "GNOME",
+                "login_status": "not_logged_in",
             }
         ]
     }
