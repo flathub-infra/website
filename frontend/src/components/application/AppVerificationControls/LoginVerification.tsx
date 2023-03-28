@@ -103,7 +103,7 @@ const LoginVerification: FunctionComponent<Props> = ({
         .
       </Trans>
     )
-  } else {
+  } else if (method.login_is_organization === false) {
     description = (
       <Trans i18nKey={"login-provider-verification-main-instruction"}>
         Verify your right to use the app ID
@@ -113,6 +113,32 @@ const LoginVerification: FunctionComponent<Props> = ({
           @{{ login_name: method.login_name }}
         </span>
         on
+        <span className="font-medium">
+          {{
+            login_provider: provider_name,
+          }}
+        </span>
+        .
+      </Trans>
+    )
+  } else {
+    description = (
+      <Trans
+        i18nKey={
+          "login-provider-verification-main-instruction-unknown-is-organization"
+        }
+      >
+        Verify your right to use the app ID
+        <span className="font-medium">{{ id: appId }}</span> by logging in to
+        the account
+        <span className="font-medium">
+          @{{ login_name: method.login_name }}
+        </span>
+        (or, if
+        <span className="font-medium">
+          @{{ login_name: method.login_name }}
+        </span>
+        is an organization, an account with access to it) on
         <span className="font-medium">
           {{
             login_provider: provider_name,
