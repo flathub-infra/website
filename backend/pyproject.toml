@@ -26,7 +26,7 @@ python-gitlab = "^3.13"
 stripe = "^5.3"
 PyJWT = "^2.6.0"
 meilisearch = "^0.25.0"
-orjson = "^3.8.8"
+orjson = "^3.8.9"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
 sqlalchemy = "2.0.7"
