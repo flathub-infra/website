@@ -371,7 +371,7 @@ export function getLanguageName(language: Language): string {
     case "pl":
       return "Polski"
     case "pt-BR":
-      return "Brasileiro"
+      return "Português brasileiro"
     case "ru":
       return "Русский язык"
     case "si":
