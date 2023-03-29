@@ -1317,13 +1317,13 @@ requests = ">=2.14.0"
 
 [[package]]
 name = "pygobject"
-version = "3.42.2"
+version = "3.44.1"
 description = "Python bindings for GObject Introspection"
 category = "main"
 optional = false
-python-versions = ">=3.6, <4"
+python-versions = ">=3.7, <4"
 files = [
-    {file = "PyGObject-3.42.2.tar.gz", hash = "sha256:21524cef33100c8fd59dc135948b703d79d303e368ce71fa60521cc971cd8aa7"},
+    {file = "PyGObject-3.44.1.tar.gz", hash = "sha256:665fbe980c91e8b31ad78ed3f66879946948200864002d193f67eccc1d7d5d83"},
 ]
 
 [package.dependencies]
@@ -2196,4 +2196,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e00e7ecb796a4e8358e73cfc13ae41626cd1de17f2e0a91116646f58bc869ff0"
+content-hash = "a277471ee3370f7149bedca6c219fb503c9b767ba5bc50de140872a3c3310a0f"
