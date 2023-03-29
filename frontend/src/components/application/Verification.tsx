@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import React from "react"
 
 import { HiCheckBadge } from "react-icons/hi2"
@@ -123,7 +123,7 @@ const Verification: FunctionComponent<Props> = ({
               left: x ?? 0,
             }}
             className={clsx(
-              "mx-1 rounded-xl p-4",
+              "z-20 mx-1 max-w-sm rounded-xl p-4",
               "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
               "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",
             )}
