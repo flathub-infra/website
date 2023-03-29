@@ -18,7 +18,7 @@
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@headlessui/react": "^1.7.13",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
-    "@sentry/nextjs": "^7.37.1",
+    "@sentry/nextjs": "^7.45.0",
     "@stripe/react-stripe-js": "^1.13.0",
     "@stripe/stripe-js": "^1.52.0",
     "chart.js": "^4.2.1",
