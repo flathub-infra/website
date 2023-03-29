@@ -33,7 +33,7 @@ sqlalchemy = "2.0.7"
 sentry-dramatiq = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
-black = "^23.1"
+black = "^23.3"
 pytest = "^7.2.1"
 ruff = "^0.0.259"
 
