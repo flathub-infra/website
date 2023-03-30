@@ -438,9 +438,9 @@ def _verify_by_github(username: str, account) -> AvailableMethod:
 
 
 def _verify_by_gitlab(username: str, account, model, provider, url) -> AvailableMethod:
-    """Checks verification using a GitLab instance. If username is a group, the user must have owner or maintainer
-    access to that group. Returns True if the username is a group, returns False if it is a regular user, and raises an
-    exception if verification fails."""
+    """Checks verification using a GitLab instance. If username is a group, the user must have owner, maintainer or
+    developer access to that group. Returns True if the username is a group, returns False if it is a regular user,
+    and raises an exception if verification fails."""
 
     result = AvailableMethod(
         method=AvailableMethodType.LOGIN_PROVIDER,
@@ -501,6 +501,11 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
                 return result
 
         if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
+            if username.lower() in [group.lower() for group in groups]:
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
+
+        if groups := userinfo.get("https://gitlab.org/claims/groups/developer"):
             if username.lower() in [group.lower() for group in groups]:
                 result.login_status = AvailableLoginMethodStatus.READY
                 return result
