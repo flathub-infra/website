@@ -104,7 +104,7 @@ def _get_domain_name(appid: str) -> str:
         # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's
         # main website.
         return None
-    elif _matches_prefixes(appid, "io.github", "io.gitlab"):
+    elif _matches_prefixes(appid, "io.github", "io.gitlab", "page.codeberg"):
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
         [tld, domain, username] = appid.split(".")[0:3]
         username = _demangle_name(username)
