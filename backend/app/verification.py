@@ -108,11 +108,11 @@ def _get_domain_name(appid: str) -> str:
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
         [tld, domain, username] = appid.split(".")[0:3]
         username = _demangle_name(username)
-        return f"{username}.{domain}.{tld}"
+        return f"{username}.{domain}.{tld}".lower()
     else:
         [tld, domain] = appid.split(".")[0:2]
         domain = _demangle_name(domain)
-        return f"{domain}.{tld}"
+        return f"{domain}.{tld}".lower()
 
 
 # Routes
