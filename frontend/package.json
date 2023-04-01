@@ -37,7 +37,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
     "react-responsive-carousel": "^3.2.23",
-    "react-svg-worldmap": "^2.0.0-alpha.0",
+    "react-svg-worldmap": "^2.0.0-alpha.11",
     "react-toastify": "^9.1.1",
     "sass": "^1.57.1",
     "sharp": "^0.32.0",
