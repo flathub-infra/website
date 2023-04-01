@@ -286,5 +286,6 @@
   "verification-warning": "El equipo de Flathub puede eliminar la insignia de verificación de cualquier aplicación a su exclusivo criterio, por ejemplo, si pudiera inducir a error a las personas sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial.",
   "verification": "Verificación",
   "my-flathub": "Mi Flathub",
-  "settings": "Ajustes"
+  "settings": "Ajustes",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Verifique tú derecho a usar la ID de la aplicación <1>{{id}}</1> iniciando sesión en la cuenta <3>@{{login_name}}</3> (o, si <5>@{{login_name}}</5> es una organización, una cuenta con acceso a esta) en <7>{{login_provider}}</7>."
 }
