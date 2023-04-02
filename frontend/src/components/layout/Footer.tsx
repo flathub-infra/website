@@ -22,7 +22,7 @@ const Footer = () => {
               href="/apps/collection/recently-added"
               className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
             >
-              {t("recently-added-apps")}
+              {t("new")}
             </Link>
             <Link
               href="/apps/collection/recently-updated"
@@ -34,13 +34,13 @@ const Footer = () => {
               href="/apps/collection/verified"
               className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
             >
-              {t("verified-apps")}
+              {t("verified")}
             </Link>
             <Link
               href="/apps"
               className="flex h-12 items-center justify-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-sm"
             >
-              {t("browse-apps")}
+              {t("browse")}
             </Link>
             <Link
               href="/feeds"
