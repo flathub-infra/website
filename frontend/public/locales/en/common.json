@@ -10,7 +10,6 @@
   "applications": "Applications",
   "popular": "Popular",
   "new-and-updated": "Recently Updated",
-  "browse-apps": "Browse Apps",
   "rss-feeds": "RSS Feeds",
   "community": "Community",
   "about-app-verification": "Verified Apps",
@@ -287,5 +286,7 @@
   "verified-apps": "Verified Apps",
   "verification": "Verification",
   "my-flathub": "My Flathub",
-  "settings": "Settings"
+  "settings": "Settings",
+  "new": "New",
+  "browse": "Browse"
 }
