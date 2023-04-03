@@ -35,17 +35,17 @@ const Consultants = (): JSX.Element => {
           services that they provide.
         </p>
 
-        <h2>Flatty McPakface, LLC</h2>
+        <h2>Hari Rana</h2>
 
         <p>
-          Flatty McPakface is a boutique software consultancy, based on the
-          Great Pacific Garbage Patch. As well as maintaining Poorly-Planned
-          Audience Polls on Flathub, we have contributed a number of features to
-          Flatpak itself, including the recycling portal.
-        </p>
-
-        <p>
-          <a href="https://flattymcpakface.example.com/">More details</a>
+          Hari Rana is a Flatpak, GNOME and Fedora contributor; the
+          co-maintainer of <a href="https://usebottles.com/">Bottles</a> and
+          <a href="https://gitlab.com/TheEvilSkeleton/Upscaler">Upscaler</a>;
+          and a member of <a href="https://vanillaos.org/">Vanilla OS</a>, a
+          Flatpak-centric distribution. He maintains a number of apps on
+          Flathub, including three Chromium-based web browsers. See
+          <a href="https://theevilskeleton.gitlab.io/">his website</a> for more
+          details and contact information.
         </p>
       </div>
     </>
