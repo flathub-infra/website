@@ -176,6 +176,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             size="responsive"
             data={country_data}
             tooltipTextFunction={getLocalizedText}
+            rtl={i18n.dir() === "rtl"}
           />
         </div>
         <h2>{t("downloads-over-time")}</h2>
