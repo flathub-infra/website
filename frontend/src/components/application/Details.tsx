@@ -114,7 +114,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {filteredScreenshots && filteredScreenshots?.length > 0 && (
           <Button
-            className="absolute right-3 bottom-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
+            className="absolute bottom-3 right-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
             onClick={() => setShowLightbox(true)}
             aria-label={t("zoom")}
             variant="secondary"
@@ -281,7 +281,7 @@ const Details: FunctionComponent<Props> = ({
           </div>
           {scrollHeight > collapsedHeight && (
             <button {...getToggleProps()}>
-              <span className="m-0 w-full rounded-xl bg-flathub-white py-2 px-6 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
+              <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
                 {isExpanded ? t(`show-less`) : t(`show-more`)}
               </span>
             </button>
@@ -332,7 +332,7 @@ const Details: FunctionComponent<Props> = ({
     )
   } else {
     return (
-      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div>{t("loading")}</div>
       </div>
     )

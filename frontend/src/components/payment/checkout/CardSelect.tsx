@@ -98,7 +98,7 @@ const CardSelect: FunctionComponent<Props> = ({
   // Should always present the option to use a new card in case user
   // doesn't want to wait for a slow network
   return (
-    <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <h3>{t("saved-cards")}</h3>
       {cardSection}
       <div className="flex flex-col-reverse gap-4 sm:flex-row">

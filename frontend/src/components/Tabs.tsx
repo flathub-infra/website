@@ -20,7 +20,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                     selected
                       ? "border-flathub-celestial-blue text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
                       : "border-transparent text-flathub-arsenic hover:border-flathub-gray-x11 hover:text-flathub-dark-gunmetal dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow",
-                    "flex whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium transition focus:outline-none",
+                    "flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition focus:outline-none",
                   )}
                 >
                   {tab.name}

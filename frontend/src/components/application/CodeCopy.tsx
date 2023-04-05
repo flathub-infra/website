@@ -32,7 +32,7 @@ const CodeCopy: FunctionComponent<Props> = ({
   return (
     <div
       className={clsx(
-        `relative mx-0 mt-0 mb-3 block overflow-auto break-words p-2 pr-10 text-sm`,
+        `relative mx-0 mb-3 mt-0 block overflow-auto break-words p-2 pr-10 text-sm`,
         styles.pre,
         className,
         nested

@@ -56,7 +56,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
             {application.name}
           </h4>
         </div>
-        <div className="mt-2 text-sm text-flathub-dark-gunmetal line-clamp-3 dark:text-flathub-gainsborow">
+        <div className="mt-2 line-clamp-3 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
           {application.summary}
         </div>
         {application.custom?.["flathub::verification::verified"] && (

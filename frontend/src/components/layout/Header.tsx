@@ -283,7 +283,7 @@ const Header = () => {
                                     active
                                       ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                       : "",
-                                    "block py-2 px-4 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
+                                    "block px-4 py-2 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                   )}
                                 >
                                   {t(item.name)}
@@ -299,7 +299,7 @@ const Header = () => {
                                   active
                                     ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                     : "",
-                                  "block w-full rounded-b-md py-2 px-4 text-left text-sm font-normal text-flathub-dark-gunmetal transition hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
+                                  "block w-full rounded-b-md px-4 py-2 text-left text-sm font-normal text-flathub-dark-gunmetal transition hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                 )}
                               >
                                 {t("log-out")}
@@ -317,7 +317,7 @@ const Header = () => {
             <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
               {({ close }) => (
                 <>
-                  <div className="mx-auto max-w-3xl space-y-1 px-2 pt-2 pb-3 sm:px-4">
+                  <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
                     {navigation.map((item) => {
                       if (item.href.startsWith("http")) {
                         return (
@@ -331,7 +331,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black transition dark:text-flathub-gainsborow",
+                              "block rounded-md px-3 py-2 text-base font-medium text-black transition dark:text-flathub-gainsborow",
                             )}
                           >
                             {t(item.name)}
@@ -354,7 +354,7 @@ const Header = () => {
                               item.current
                                 ? "bg-white/5"
                                 : "hover:bg-black/5 dark:hover:bg-white/5",
-                              "block rounded-md py-2 px-3 text-base font-medium text-black transition dark:text-flathub-gainsborow",
+                              "block rounded-md px-3 py-2 text-base font-medium text-black transition dark:text-flathub-gainsborow",
                             )}
                           >
                             {t(item.name)}
@@ -368,7 +368,7 @@ const Header = () => {
                         href="/login"
                         key="login"
                         className={clsx(
-                          "block rounded-md py-2 px-3 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
+                          "block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
                         )}
                         onClick={() => {
                           close()
@@ -379,7 +379,7 @@ const Header = () => {
                     )}
                   </div>
                   {user.info && (
-                    <div className="border-t border-gray-200 pt-4 pb-3 dark:border-zinc-600">
+                    <div className="border-t border-gray-200 pb-3 pt-4 dark:border-zinc-600">
                       <div className="mx-auto flex max-w-3xl items-center px-4 sm:px-6">
                         <div className="flex-shrink-0">
                           <Image
@@ -408,7 +408,7 @@ const Header = () => {
                             key={item.name}
                             href={item.href}
                             passHref
-                            className="block rounded-md py-2 px-3 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
+                            className="block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                             onClick={() => {
                               close()
                             }}
@@ -422,7 +422,7 @@ const Header = () => {
                             onLogout()
                             close()
                           }}
-                          className="block w-full rounded-md py-2 px-3 text-left text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
+                          className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                         >
                           {t("log-out")}
                         </button>
