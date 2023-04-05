@@ -70,7 +70,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
 
   return (
     <div>
-      <label className="absolute mt-2 ml-2 text-xl">$</label>
+      <label className="absolute ml-2 mt-2 text-xl">$</label>
       <input
         type="text"
         inputMode="numeric"

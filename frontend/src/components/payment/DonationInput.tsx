@@ -62,7 +62,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
 
   return (
     <form
-      className="my-5 mx-0 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
+      className="mx-0 my-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
       onSubmit={handleSubmit}
     >
       <h4 className="m-0">{t("select-donation-amount")}</h4>

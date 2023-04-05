@@ -11,7 +11,7 @@ const Feeds = (): JSX.Element => {
   return (
     <>
       <NextSeo title={t("rss-feeds")} description={t("rss-description")} />
-      <div className="max-w-11/12 my-0 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
         <h3>{t("new-apps")}</h3>
