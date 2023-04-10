@@ -39,7 +39,6 @@
   "search-apps": "アプリを検索",
   "about": "Flathubとは",
   "popular": "人気のアプリ",
-  "browse-apps": "アプリを見つける",
   "contact": "問い合わせ",
   "publish-your-app": "アプリをFlathubに公開",
   "statistics": "統計",
@@ -248,5 +247,7 @@
   "x-downloads": "{{x}}回のダウンロード",
   "my-flathub": "アカウント",
   "settings": "設定",
-  "verification": "検証"
+  "verification": "検証",
+  "open-menu": "メニューを開く",
+  "open-user-menu": "ユーザーメニューを開く"
 }

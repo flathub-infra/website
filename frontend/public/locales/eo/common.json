@@ -9,7 +9,6 @@
   "popular": "Popularaj",
   "documentation": "Dokumentaro",
   "badges": "Insignoj",
-  "browse-apps": "Foliumi programojn",
   "community": "Komunumo",
   "rss-feeds": "RSS-abonfluoj",
   "statistics": "Statistikoj",
@@ -286,5 +285,8 @@
   "verification-instructions": "Konfirmu vian programidentigilon por indiki, ke vian Flathub-alŝuton aprobas la aŭtoro de la programo. Vi devos pruvi, ke vi regas la programon per programista retejo aŭ per aliro al la programa konto ĉe fontkoda deponejo. La konfirmosigno montriĝos apud la nomo de la programo, nomo de la eldoninto kaj la konfirmomaniero de la programidentigilo.",
   "settings": "Agordoj",
   "my-flathub": "Mia Flathub",
-  "verification": "Konfirmado"
+  "verification": "Konfirmado",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Konfirmu vian rajton uzi la programidentigilon <1>{{id}}</1> ensalutante en la konton <3>@{{login_name}}</3> (aŭ, se <5>@{{login_name}}</5> estas organizaĵo, konton havantan rajtojn pri ĝi) ĉe <7>{{login_provider}}</7>.",
+  "new": "Novaj",
+  "browse": "Foliumi"
 }

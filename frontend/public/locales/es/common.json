@@ -25,7 +25,6 @@
   "manual-install-instructions": "Asegúrese de seguir la <2>guía de instalación</2> antes de instalar",
   "go-home": "Volver al inicio",
   "new-and-updated": "Actualizado recientemente",
-  "browse-apps": "Explorar aplicaciones",
   "community": "Comunidad",
   "developers": "Desarrolladores",
   "publish-your-app": "Publicar su aplicación",
@@ -287,5 +286,7 @@
   "verification": "Verificación",
   "my-flathub": "Mi Flathub",
   "settings": "Ajustes",
-  "login-provider-verification-main-instruction-unknown-is-organization": "Verifique tú derecho a usar la ID de la aplicación <1>{{id}}</1> iniciando sesión en la cuenta <3>@{{login_name}}</3> (o, si <5>@{{login_name}}</5> es una organización, una cuenta con acceso a esta) en <7>{{login_provider}}</7>."
+  "login-provider-verification-main-instruction-unknown-is-organization": "Verifique tú derecho a usar la ID de la aplicación <1>{{id}}</1> iniciando sesión en la cuenta <3>@{{login_name}}</3> (o, si <5>@{{login_name}}</5> es una organización, una cuenta con acceso a esta) en <7>{{login_provider}}</7>.",
+  "new": "Nuevo",
+  "browse": "Navegar"
 }

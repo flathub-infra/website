@@ -4,7 +4,6 @@
   "languages": "Езици",
   "downloads-over-time": "Изтегляния по време",
   "go-home": "Начална страница",
-  "browse-apps": "Разглеждане",
   "rss-feeds": "RSS новини",
   "vcs_browser": "Преглед на изходния код",
   "report-an-issue": "Докладване на проблем",
@@ -287,5 +286,7 @@
   "verification": "Проверяване",
   "my-flathub": "Моят „Flathub“",
   "settings": "Настройки",
-  "login-provider-verification-main-instruction-unknown-is-organization": "Потвърдете правото си да използвате идентификатора <1>{{id}}</1> като влезете от профила <3>@{{login_name}}</3> (трябва да имате администраторски права с <5>@{{login_name}}</5>) в „<7>{{login_provider}}</7>“."
+  "login-provider-verification-main-instruction-unknown-is-organization": "Потвърдете правото си да използвате идентификатора <1>{{id}}</1> като влезете от профила <3>@{{login_name}}</3> (трябва да имате администраторски права с <5>@{{login_name}}</5>) в „<7>{{login_provider}}</7>“.",
+  "new": "Нови",
+  "browse": "Разглеждане"
 }

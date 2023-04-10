@@ -238,7 +238,6 @@
   "applications": "Applications",
   "popular": "Popular",
   "new-and-updated": "Recently Updated",
-  "browse-apps": "Browse Apps",
   "rss-feeds": "RSS Feeds",
   "stripe-api-error": "The Stripe API encountered an error. Try again later.",
   "about-app-verification": "Verified Apps",
@@ -286,5 +285,8 @@
   "submit": "Submit",
   "my-flathub": "My Flathub",
   "settings": "Settings",
-  "verification": "Verification"
+  "verification": "Verification",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Verify your right to use the app ID <1>{{id}}</1> by logging into the account <3>@{{login_name}}</3> (or, if <5>@{{login_name}}</5> is an organisation, an account with access to it) on <7>{{login_provider}}</7>.",
+  "new": "New",
+  "browse": "Browse"
 }
