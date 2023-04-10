@@ -52,7 +52,6 @@
   "manifest": "Manifest aplikace",
   "popular": "Populární",
   "documentation": "Dokumentace",
-  "browse-apps": "Procházet aplikace",
   "publish-your-app": "Publikovat svou aplikaci",
   "more": "Více",
   "community": "Komunita",
@@ -286,5 +285,8 @@
   "verification-instructions": "Ověřte své ID aplikace, abyste zjistili, že je vaše nahrávání do Flathubu schváleno vývojářem aplikace. Budete muset prokázat, že máte kontrolu nad aplikací prostřednictvím webové stránky na doméně aplikace nebo ověřením přístupu k účtu aplikace na webu pro hosting zdrojového kódu. Ověřený odznak se zobrazí vedle názvu aplikace, jména vydavatele a způsobu, jakým bylo ID aplikace ověřeno.",
   "verification": "Ověření",
   "my-flathub": "Můj Flathub",
-  "settings": "Nastavení"
+  "settings": "Nastavení",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Ověřte své právo používat ID aplikace <1>{{id}}</1> přihlášením k účtu <3>@{{login_name}}</3> (nebo, pokud je <5>@{{login_name}}</5> organizace, k účtu s přístupem k ní) na <7>{{login_provider}}</7>.",
+  "new": "Nové",
+  "browse": "Procházet"
 }

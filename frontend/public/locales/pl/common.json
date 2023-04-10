@@ -6,7 +6,6 @@
   "popular": "Popularne",
   "explore": "Odkrywaj",
   "new-and-updated": "Ostatnio zaktualizowane",
-  "browse-apps": "Przeglądaj aplikacje",
   "rss-feeds": "Kanał RSS",
   "community": "Społeczność",
   "documentation": "Dokumentacja",
@@ -286,5 +285,8 @@
   "verification-warning": "Zespół Flathub może usunąć plakietkę weryfikacyjną z dowolnej aplikacji według własnego uznania, na przykład, jeśli mogłaby ona wprowadzać w błąd co do oficjalnego statusu aplikacji lub powodować pomyłki dotyczące znaku towarowego.",
   "verification": "Weryfikacja",
   "my-flathub": "Mój Flathub",
-  "settings": "Ustawienia"
+  "settings": "Ustawienia",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Zweryfikuj swoje prawo do użycia identyfikatora aplikacji <1>{{id}}</1> logując się na konto <3>@{{login_name}}</3> (lub, jeśli <5>@{{login_name}}</5> jest organizacją, na konto z dostępem do niej) na stronie<7>{{login_provider}}</7>.",
+  "new": "Nowe",
+  "browse": "Przeglądaj"
 }

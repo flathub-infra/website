@@ -10,7 +10,6 @@
   "applications": "Anwendungen",
   "popular": "Beliebt",
   "new-and-updated": "Kürzlich aktualisiert",
-  "browse-apps": "Apps durchsuchen",
   "rss-feeds": "RSS-Feeds",
   "retry-or-go-home": "Wiederholen oder zurück zur <2>Startseite</2>.",
   "community": "Community",
@@ -241,7 +240,7 @@
   "verified-login-provider": "@{{login_name}} auf {{login_provider}}",
   "x-downloads": "{{x}} Downloads",
   "website-verification-instruction": "Erstelle eine Seite unter <1>{{webpage}}</1>, die den folgenden Token enthält: <3>{{token}}</3> Wenn die Seite bereits existiert, füge den Token hinzu.",
-  "website-verification-main-instruction": "Überprüfe Dein Recht, die App-ID <1>{{id}}</1> zu verwenden, indem Du einen Token auf einer bestimmten Seite auf <3>{{domain}}</3> platzierst.",
+  "website-verification-main-instruction": "Verifiziere dein Recht, die App-ID <1>{{id}}</1> zu verwenden, indem du ein Token auf einer bestimmten Seite auf <3>{{domain}}</3> platzierst.",
   "unverify-app-prompt": "Verifizierung von {{appId}} aufheben?",
   "server-returned-status-code": "Der Server gab HTTP {{code}} zurück.",
   "verifying": "Wird verifiziert",
@@ -286,5 +285,8 @@
   "verification-instructions": "Verifiziere deine App-ID, um anzuzeigen, dass dein Flathub-Upload vom App-Entwickler genehmigt wurde. Du musst nachweisen, dass du Kontrolle über die App hast, indem du eine Website auf der Domäne der App ablegst oder den Zugriff auf das Konto der App auf einer Quellcode-Hosting-Website hast. Das verifiziert Abzeichen wird neben dem Namen der App, dem Namen des Herausgebers und der Art und Weise, wie die App-ID verifiziert wurde, angezeigt.",
   "settings": "Einstellungen",
   "verification": "Verifizierung",
-  "my-flathub": "Mein Flathub"
+  "my-flathub": "Mein Flathub",
+  "new": "Neu",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Verifiziere dein Recht, die App-ID <1>{{id}}</1> zu verwenden, indem du dich bei dem Konto <3>@{{login_name}}</3> (oder, wenn <5>@{{login_name}}</5> eine Organisation ist, bei einem Konto mit Zugriff darauf) auf <7>{{login_provider}}</7> anmeldest.",
+  "browse": "Durchsuchen"
 }

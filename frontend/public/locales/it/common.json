@@ -91,7 +91,6 @@
   "flathub-statistics": "Statistiche di Flathub",
   "count-downloads": "Download Totali",
   "unknown": "Sconosciuto",
-  "browse-apps": "Sfoglia App",
   "error-already-logged-in": "L'account selezionato è già connesso.",
   "an-error-occurred-server": "{{errorCode}} - Si è verificato un errore sul server.",
   "page-not-found": "{{errorCode}} - Pagina non trovata",

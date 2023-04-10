@@ -92,7 +92,6 @@
   "explore": "Огляд",
   "publish": "Опублікувати",
   "about-description": "Flathub має на меті бути місцем для отримання та розповсюдження застосунків для Linux. Він працює з Flatpak, який дає змогу застосункам Flathub працювати майже на будь-якому дистрибутиві Linux.",
-  "browse-apps": "Переглянути застосунки",
   "rss-feeds": "RSS-стрічки",
   "community": "Спільнота",
   "developers": "Розробники",
@@ -287,5 +286,7 @@
   "verification": "Верифікація",
   "my-flathub": "Мій Flathub",
   "settings": "Налаштування",
-  "login-provider-verification-main-instruction-unknown-is-organization": "Перевірте своє право на використання ID pfcnjceyre <1>{{id}}</1>, увійшовши в обліковий запис <3>@{{login_name}}</3> (або, якщо <5>@{{login_name}}</5> — це організація, в обліковий запис з доступом до неї) на <7>{{login_provider}}</7>."
+  "login-provider-verification-main-instruction-unknown-is-organization": "Перевірте своє право на використання ID pfcnjceyre <1>{{id}}</1>, увійшовши в обліковий запис <3>@{{login_name}}</3> (або, якщо <5>@{{login_name}}</5> — це організація, в обліковий запис з доступом до неї) на <7>{{login_provider}}</7>.",
+  "browse": "Переглянути",
+  "new": "Новий"
 }

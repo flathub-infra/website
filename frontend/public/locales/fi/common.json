@@ -1,6 +1,5 @@
 {
   "productivity": "Tuottavuus",
-  "browse-apps": "Selaa sovelluksia",
   "applications": "Sovellukset",
   "popular": "Suositut",
   "documentation": "Dokumentaatio",
@@ -285,5 +284,7 @@
   "verification-warning": "Flathub-tiimi voi poistaa vahvistuskuvakkeen miltä tahansa sovellukselta, jos se esimerkiksi voi harhaanjohtaa käyttäjiä sovelluksen julkaisun virallisesta tilasta tai aiheuttaa epäselvyyttä tuotemerkkiin liittyen.",
   "settings": "Asetukset",
   "verification": "Vahvistus",
-  "my-flathub": "Oma Flathub"
+  "my-flathub": "Oma Flathub",
+  "new": "Uusi",
+  "browse": "Selaa"
 }

@@ -31,7 +31,6 @@
   "error": "Erro",
   "app-is-currently-verified-by-login-provider": "A sua app está atualmente verificada pela sua auticação <1>@{{login_name}}</1> com sua conta em {{login_provider}}",
   "app-is-currently-verified-manually": "A sua appestá atualmente verificada pela equipa do Flathub",
-  "browse-apps": "Navegar pelos apps",
   "rss-feeds": "Feeds RSS",
   "publish-your-app": "Publique a sua app",
   "badges": "Emblemas",
