@@ -37,6 +37,9 @@ class Settings(BaseSettings):
         "9122d58ed56789d80db5f1ed0ec6bad5d9dae612aa9d458d89ee475e01151c43"
     )
     gnome_return_url: str = "http://localhost:3000/login/gnome"
+    kde_client_id: str = "foobar"
+    kde_client_secret: str = "xyz123"
+    kde_return_url: str = "http://localhost:3000/login/kde"
     google_client_id: str = (
         "29861222915-aj1mcmdcutk00a5u5n8egcvpqv27lpvq.apps.googleusercontent.com"
     )
