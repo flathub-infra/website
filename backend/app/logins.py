@@ -155,6 +155,14 @@ def refresh_oauth_token(account) -> str:
             config.settings.gnome_client_id,
             config.settings.gnome_client_secret,
         )
+    elif isinstance(account, models.KdeAccount):
+        return _refresh_token(
+            account,
+            "gnome",
+            "https://invent.kde.org/oauth/token",
+            config.settings.kde_client_id,
+            config.settings.kde_client_secret,
+        )
 
 
 # Routers etc.
@@ -229,6 +237,10 @@ def get_login_kinds():
         {
             "method": "gnome",
             "name": "GNOME GitLab",
+        },
+        {
+            "method": "kde",
+            "name": "KDE GitLab",
         },
     ]
 
@@ -314,6 +326,24 @@ def start_gnome_flow(request: Request, login=Depends(login_state)):
         {
             "client_id": config.settings.gnome_client_id,
             "redirect_uri": config.settings.gnome_return_url,
+            "scope": "read_user openid",
+            "response_type": "code",
+        },
+    )
+
+
+@router.get("/login/kde")
+def start_kde_flow(request: Request, login=Depends(login_state)):
+    return start_oauth_flow(
+        request,
+        login,
+        "kde",
+        models.KdeAccount,
+        models.KdeFlowToken,
+        "https://invent.kde.org/oauth/authorize",
+        {
+            "client_id": config.settings.kde_client_id,
+            "redirect_uri": config.settings.kde_return_url,
             "scope": "read_user openid",
             "response_type": "code",
         },
