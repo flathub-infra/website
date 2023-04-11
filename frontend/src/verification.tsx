@@ -13,6 +13,13 @@ export const VerificationText = (verificationStatus: VerificationStatus) => {
       return verificationStatus.website
 
     case "login_provider":
+      if (
+        verificationStatus.login_provider === "gnome" &&
+        verificationStatus.login_name === "GNOME" &&
+        verificationStatus.login_is_organization === true
+      ) {
+        return "GNOME"
+      }
       return t("verified-login-provider", {
         login_provider: verificationProviderToHumanReadable(
           verificationStatus.login_provider,
