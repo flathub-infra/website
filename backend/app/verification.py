@@ -68,6 +68,8 @@ def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
         return (LoginProvider.GNOME_GITLAB, _demangle_name(appid.split(".")[3]))
     elif _matches_prefixes(appid, "org.gnome"):
         return (LoginProvider.GNOME_GITLAB, "GNOME")
+    elif _matches_prefixes(appid, "org.kde"):
+        return (LoginProvider.KDE_GITLAB, "KDE")
     else:
         return None
 
@@ -175,6 +177,7 @@ class LoginProvider(Enum):
     GITHUB = "github"
     GITLAB = "gitlab"
     GNOME_GITLAB = "gnome"
+    KDE_GITLAB = "kde"
 
 
 class VerificationStatus(BaseModel):
@@ -542,6 +545,14 @@ def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
             models.GnomeAccount,
             LoginProvider.GNOME_GITLAB,
             "https://gitlab.gnome.org",
+        )
+    elif provider == LoginProvider.KDE_GITLAB:
+        return _verify_by_gitlab(
+            username,
+            login["user"],
+            models.KdeAccount,
+            LoginProvider.KDE_GITLAB,
+            "https://invent.kde.org",
         )
     else:
         raise HTTPException(status_code=500)
