@@ -34,4 +34,5 @@ export interface VerificationStatusLoginProvider {
   login_provider: VerificationProvider
   login_name: string
   detail: string
+  login_is_organization?: boolean
 }
