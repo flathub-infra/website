@@ -383,6 +383,68 @@ class GoogleAccount(Base):
 FlathubUser.TABLES_FOR_DELETE.append(GoogleAccount)
 
 
+class KdeFlowToken(Base):
+    __tablename__ = "kdeflowtoken"
+
+    id = Column(Integer, primary_key=True)
+    state = Column(String, nullable=False)
+    created = Column(DateTime, nullable=False)
+
+    @staticmethod
+    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
+        """
+        Clear out any tokens which are more than the specified age.
+
+        The login flow will also discard flow tokens younger than this, so over-all
+        the flow tokens table should be kept pretty clean.
+        """
+        too_old = datetime.now() - timedelta(minutes=minutes)
+        db.session.execute(delete(KdeFlowToken).where(KdeFlowToken.created < too_old))
+        db.session.flush()
+
+
+class KdeAccount(Base):
+    __tablename__ = "kdeaccount"
+
+    id = Column(Integer, primary_key=True)
+    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    kde_userid = Column(Integer, nullable=False)
+    login = Column(String)
+    avatar_url = Column(String)
+    token = Column(String, nullable=True, default=None)
+    token_expiry = Column(DateTime, nullable=True, default=None)
+    refresh_token = Column(String, nullable=True, default=None)
+    last_used = Column(DateTime, nullable=True, default=None)
+
+    @staticmethod
+    def by_user(db, user: FlathubUser):
+        return db.session.query(KdeAccount).filter_by(user=user.id).first()
+
+    @staticmethod
+    def by_provider_id(db, glid):
+        return db.session.query(KdeAccount).filter_by(kde_userid=glid).first()
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user):
+        """
+        Add a user's information from Kde to the hasher for token generation
+        """
+        if account := KdeAccount.by_user(db, user):
+            hasher.add_string("kde")
+            hasher.add_number(account.kde_userid)
+            hasher.add_string(account.login)
+
+    @staticmethod
+    def delete_user(db, user):
+        """
+        Delete a user's account and information related to Kde
+        """
+        db.session.execute(delete(KdeAccount).where(KdeAccount.user == user.id))
+
+
+FlathubUser.TABLES_FOR_DELETE.append(KdeAccount)
+
+
 class AppVerification(Base):
     __tablename__ = "appverification"
 
