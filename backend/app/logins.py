@@ -719,7 +719,7 @@ def continue_kde_flow(
         request,
         login,
         data,
-        "gnome",
+        "kde",
         models.KdeFlowToken,
         "https://invent.kde.org/oauth/token",
         {
