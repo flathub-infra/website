@@ -22,7 +22,7 @@ export const VerificationText = (verificationStatus: VerificationStatus) => {
       }
       if (
         verificationStatus.login_provider === "kde" &&
-        verificationStatus.login_name === "KDE" &&
+        verificationStatus.login_name === "teams/flathub" &&
         verificationStatus.login_is_organization === true
       ) {
         return "KDE"
