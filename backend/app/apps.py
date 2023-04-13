@@ -49,6 +49,9 @@ def load_appstream():
                     "verification_login_provider": apps[appid]
                     .get("custom", {})
                     .get("flathub::verification::login_provider", None),
+                    "verification_login_is_organization": apps[appid]
+                    .get("custom", {})
+                    .get("flathub::verification::login_is_organization", None),
                     "verification_website": apps[appid]
                     .get("custom", {})
                     .get("flathub::verification::website", None),
