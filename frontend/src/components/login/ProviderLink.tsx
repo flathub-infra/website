@@ -9,6 +9,7 @@ import { GoogleLogo } from "./GoogleLogo"
 import { GnomeLogo } from "./GnomeLogo"
 import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
+import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
 
 interface Props {
@@ -79,6 +80,7 @@ const ProviderLink: FunctionComponent<Props> = ({
         {provider.method === "google" && <GoogleLogo />}
         {provider.method === "gnome" && <GnomeLogo />}
         {provider.method === "gitlab" && <GitlabLogo />}
+        {provider.method === "kde" && <KdeLogo />}
       </div>
       {loginText}
     </button>
