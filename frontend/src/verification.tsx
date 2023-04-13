@@ -20,6 +20,13 @@ export const VerificationText = (verificationStatus: VerificationStatus) => {
       ) {
         return "GNOME"
       }
+      if (
+        verificationStatus.login_provider === "kde" &&
+        verificationStatus.login_name === "KDE" &&
+        verificationStatus.login_is_organization === true
+      ) {
+        return "KDE"
+      }
       return t("verified-login-provider", {
         login_provider: verificationProviderToHumanReadable(
           verificationStatus.login_provider,
