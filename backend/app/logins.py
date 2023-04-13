@@ -958,6 +958,14 @@ def get_userinfo(login=Depends(login_state)):
         if gga.avatar_url:
             ret["auths"]["google"]["avatar"] = gga.avatar_url
 
+    gga = models.KdeAccount.by_user(db, user)
+    if gga is not None:
+        ret["auths"]["kde"] = {}
+        if gga.login:
+            ret["auths"]["kde"]["login"] = gga.login
+        if gga.avatar_url:
+            ret["auths"]["kde"]["avatar"] = gga.avatar_url
+
     return ret
 
 
