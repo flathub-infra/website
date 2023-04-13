@@ -1,4 +1,4 @@
-export type VerificationProvider = "github" | "gitlab" | "gnome"
+export type VerificationProvider = "github" | "gitlab" | "gnome" | "kde"
 export function verificationProviderToHumanReadable(
   verificationProvider: VerificationProvider,
 ) {
@@ -9,5 +9,7 @@ export function verificationProviderToHumanReadable(
       return "GitLab"
     case "gnome":
       return "GNOME GitLab"
+    case "kde":
+      return "KDE GitLab"
   }
 }
