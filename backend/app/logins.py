@@ -697,6 +697,43 @@ def continue_google_flow(
     )
 
 
+@router.post("/login/kde")
+def continue_kde_flow(
+    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+):
+    def kde_userdata(tokens):
+        gl = Gitlab("https://invent.kde.org", oauth_token=tokens["access_token"])
+        gl.auth()
+        gluser = gl.user
+        return {
+            "id": gluser.id,
+            "login": gluser.username,
+            "name": gluser.name,
+            "avatar_url": gluser.avatar_url,
+        }
+
+    def kde_postlogin(tokens, account):
+        pass
+
+    return continue_oauth_flow(
+        request,
+        login,
+        data,
+        "gnome",
+        models.KdeFlowToken,
+        "https://invent.kde.org/oauth/token",
+        {
+            "client_id": config.settings.kde_client_id,
+            "client_secret": config.settings.kde_client_secret,
+            "grant_type": "authorization_code",
+            "redirect_uri": config.settings.kde_return_url,
+        },
+        kde_userdata,
+        models.KdeAccount,
+        kde_postlogin,
+    )
+
+
 def continue_oauth_flow(
     request: Request,
     login: dict,
