@@ -69,7 +69,7 @@ def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
     elif _matches_prefixes(appid, "org.gnome"):
         return (LoginProvider.GNOME_GITLAB, "GNOME")
     elif _matches_prefixes(appid, "org.kde"):
-        return (LoginProvider.KDE_GITLAB, "KDE")
+        return (LoginProvider.KDE_GITLAB, "teams/flathub")
     else:
         return None
 
@@ -519,66 +519,6 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
         raise e
 
 
-def _verify_by_kde_gitlab(
-    username: str, account, model, provider, url
-) -> AvailableMethod:
-    result = AvailableMethod(
-        method=AvailableMethodType.LOGIN_PROVIDER,
-        login_provider=provider,
-        login_name=username,
-    )
-
-    account = model.by_user(sqldb, account)
-
-    if account is None:
-        result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
-        return result
-
-    try:
-        access_token = refresh_oauth_token(account)
-    except HTTPException:
-        raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
-
-    try:
-        r = requests.get(
-            url + "/oauth/userinfo",
-            headers={"Authorization": "Bearer " + access_token},
-        )
-
-        if not r.ok:
-            raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
-
-        userinfo = r.json()
-        result.login_is_organization = True
-
-        # Must have write access to the teams/kde-developers or teams/flathub
-        # groups
-        kde_groups = ["teams/flathub", "teams/kde-developers"]
-
-        if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
-            groups = [group.lower() for group in groups]
-            if any(group in groups for group in kde_groups):
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
-            groups = [group.lower() for group in groups]
-            if any(group in groups for group in kde_groups):
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        if groups := userinfo.get("https://gitlab.org/claims/groups/developer"):
-            groups = [group.lower() for group in groups]
-            if any(group in groups for group in kde_groups):
-                result.login_status = AvailableLoginMethodStatus.READY
-                return result
-
-        result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
-        return result
-    except HTTPException as e:
-        raise e
-
-
 def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
     _check_app_id(appid, login)
 
@@ -607,7 +547,7 @@ def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
             "https://gitlab.gnome.org",
         )
     elif provider == LoginProvider.KDE_GITLAB:
-        return _verify_by_kde_gitlab(
+        return _verify_by_gitlab(
             username,
             login["user"],
             models.KdeAccount,
