@@ -47,6 +47,16 @@ const Consultants = (): JSX.Element => {
           <a href="https://theevilskeleton.gitlab.io/">his website</a> for more
           details and contact information.
         </p>
+
+        <h2>Mazhar Hussain</h2>
+
+        <p>
+          Mazhar Hussain is the primary author of
+          <a href="https://gdm-settings.github.io/">Login Manager Settings</a>,
+          a settings app for GNOME's login manager, which is published on
+          Flathub. See
+          <a href="https://realmazharhussain.github.io/">his website</a> for
+          more details and contact information.
       </div>
     </>
   )
