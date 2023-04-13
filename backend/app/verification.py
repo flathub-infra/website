@@ -522,10 +522,6 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
 def _verify_by_kde_gitlab(
     username: str, account, model, provider, url
 ) -> AvailableMethod:
-    """Checks verification using a GitLab instance. If username is a group, the user must have owner, maintainer or
-    developer access to that group. Returns True if the username is a group, returns False if it is a regular user,
-    and raises an exception if verification fails."""
-
     result = AvailableMethod(
         method=AvailableMethodType.LOGIN_PROVIDER,
         login_provider=provider,
@@ -555,19 +551,25 @@ def _verify_by_kde_gitlab(
         userinfo = r.json()
         result.login_is_organization = True
 
-        # Must have write access to the teams/kde-developers group
+        # Must have write access to the teams/kde-developers or teams/flathub
+        # groups
+        kde_groups = ["teams/flathub", "teams/kde-developers"]
+
         if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
-            if "teams/kde-developers" in [group.lower() for group in groups]:
+            groups = [group.lower() for group in groups]
+            if any(group in groups for group in kde_groups):
                 result.login_status = AvailableLoginMethodStatus.READY
                 return result
 
         if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
-            if "teams/kde-developers" in [group.lower() for group in groups]:
+            groups = [group.lower() for group in groups]
+            if any(group in groups for group in kde_groups):
                 result.login_status = AvailableLoginMethodStatus.READY
                 return result
 
         if groups := userinfo.get("https://gitlab.org/claims/groups/developer"):
-            if "teams/kde-developers" in [group.lower() for group in groups]:
+            groups = [group.lower() for group in groups]
+            if any(group in groups for group in kde_groups):
                 result.login_status = AvailableLoginMethodStatus.READY
                 return result
 
