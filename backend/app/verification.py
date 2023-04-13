@@ -519,6 +519,62 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
         raise e
 
 
+def _verify_by_kde_gitlab(username: str, account, model, provider, url) -> AvailableMethod:
+    """Checks verification using a GitLab instance. If username is a group, the user must have owner, maintainer or
+    developer access to that group. Returns True if the username is a group, returns False if it is a regular user,
+    and raises an exception if verification fails."""
+
+    result = AvailableMethod(
+        method=AvailableMethodType.LOGIN_PROVIDER,
+        login_provider=provider,
+        login_name=username,
+    )
+
+    account = model.by_user(sqldb, account)
+
+    if account is None:
+        result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
+        return result
+
+    try:
+        access_token = refresh_oauth_token(account)
+    except HTTPException:
+        raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+    try:
+        r = requests.get(
+            url + "/oauth/userinfo",
+            headers={"Authorization": "Bearer " + access_token},
+        )
+
+        if not r.ok:
+            raise HTTPException(status_code=500, detail=ErrorDetail.PROVIDER_ERROR)
+
+        userinfo = r.json()
+        result.login_is_organization = True
+
+        # Must have write access to the teams/kde-developers group
+        if groups := userinfo.get("https://gitlab.org/claims/groups/owner"):
+            if "teams/kde-developers" in [group.lower() for group in groups]:
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
+
+        if groups := userinfo.get("https://gitlab.org/claims/groups/maintainer"):
+            if "teams/kde-developers" in [group.lower() for group in groups]:
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
+
+        if groups := userinfo.get("https://gitlab.org/claims/groups/developer"):
+            if "teams/kde-developers" in [group.lower() for group in groups]:
+                result.login_status = AvailableLoginMethodStatus.READY
+                return result
+
+        result.login_status = AvailableLoginMethodStatus.NOT_ORG_MEMBER
+        return result
+    except HTTPException as e:
+        raise e
+
+
 def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
     _check_app_id(appid, login)
 
@@ -547,7 +603,7 @@ def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
             "https://gitlab.gnome.org",
         )
     elif provider == LoginProvider.KDE_GITLAB:
-        return _verify_by_gitlab(
+        return _verify_by_kde_gitlab(
             username,
             login["user"],
             models.KdeAccount,
