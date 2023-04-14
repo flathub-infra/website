@@ -89,6 +89,9 @@ const Verification: FunctionComponent<Props> = ({
         case "gnome":
           link = `https://gitlab.gnome.org/${verificationStatus.login_name}`
           break
+        case "kde":
+          link = `https://invent.kde.org/${verificationStatus.login_name}`
+          break
       }
       verifiedLink = (
         <a
