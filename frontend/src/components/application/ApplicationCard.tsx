@@ -31,7 +31,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
         login_is_organization:
           application.custom?.[
             "flathub::verification::login_is_organization"
-          ] === true,
+          ] === "true",
         timestamp: 0,
         detail: "",
       }
