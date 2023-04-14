@@ -29,6 +29,7 @@ export interface AppsIndex {
   verification_login_provider: string | null
   verification_website: string | null
   verification_timestamp: string | null
+  verification_login_is_organization: boolean | null
 }
 
 export function mapAppsIndexToAppstreamListItem(
@@ -46,6 +47,8 @@ export function mapAppsIndexToAppstreamListItem(
       "flathub::verification::login_provider": app.verification_login_provider,
       "flathub::verification::website": app.verification_website,
       "flathub::verification::timestamp": app.verification_timestamp,
+      "flathub::verification::login_is_organization":
+        app.verification_login_is_organization,
     },
   }
 }

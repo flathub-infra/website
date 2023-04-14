@@ -37,6 +37,7 @@ export interface Custom {
   "flathub::verification::login_provider": string
   "flathub::verification::website": string
   "flathub::verification::timestamp": string
+  "flathub::verification::login_is_organization": boolean
 }
 
 interface ContentRating {

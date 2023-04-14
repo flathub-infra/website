@@ -28,6 +28,10 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
           "flathub::verification::login_provider"
         ] as VerificationProvider,
         login_name: application.custom?.["flathub::verification::login_name"],
+        login_is_organization:
+          application.custom?.[
+            "flathub::verification::login_is_organization"
+          ] === true,
         timestamp: 0,
         detail: "",
       }
@@ -56,7 +60,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
             {application.name}
           </h4>
         </div>
-        <div className="mt-2 line-clamp-3 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+        <div className="mt-2·line-clamp-3 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
           {application.summary}
         </div>
         {application.custom?.["flathub::verification::verified"] && (
