@@ -27,7 +27,7 @@ export interface Appstream {
 }
 
 export interface Custom {
-  "flathub::verification::verified": boolean | undefined
+  "flathub::verification::verified": string | undefined
   "flathub::verification::method":
     | undefined
     | "manual"
@@ -37,7 +37,7 @@ export interface Custom {
   "flathub::verification::login_provider": string
   "flathub::verification::website": string
   "flathub::verification::timestamp": string
-  "flathub::verification::login_is_organization": boolean
+  "flathub::verification::login_is_organization": string
 }
 
 interface ContentRating {
