@@ -23,13 +23,13 @@ export interface AppsIndex {
   categories: string[] | null
   developer_name: string | null
   project_group: string | null
-  verification_verified: boolean
+  verification_verified: string
   verification_method: "website" | "manual" | "login_provider" | null
   verification_login_name: string | null
   verification_login_provider: string | null
   verification_website: string | null
   verification_timestamp: string | null
-  verification_login_is_organization: boolean | null
+  verification_login_is_organization: string | null
 }
 
 export function mapAppsIndexToAppstreamListItem(

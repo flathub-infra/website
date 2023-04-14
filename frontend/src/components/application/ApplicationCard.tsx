@@ -17,7 +17,8 @@ interface Props {
 const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
   const { t } = useTranslation()
 
-  const isVerified = application.custom?.["flathub::verification::verified"]
+  const isVerified =
+    application.custom?.["flathub::verification::verified"] === "true"
 
   const verificationStatus: VerificationStatus = isVerified
     ? {
