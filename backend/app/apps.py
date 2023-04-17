@@ -38,25 +38,25 @@ def load_appstream():
                     "developer_name": apps[appid].get("developer_name"),
                     "project_group": apps[appid].get("project_group"),
                     "verification_verified": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::verified", None),
                     "verification_method": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::method", None),
                     "verification_login_name": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::login_name", None),
                     "verification_login_provider": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::login_provider", None),
                     "verification_login_is_organization": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::login_is_organization", None),
                     "verification_website": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::website", None),
                     "verification_timestamp": apps[appid]
-                    .get("custom", {})
+                    .get("metadata", {})
                     .get("flathub::verification::timestamp", None),
                 }
             )
