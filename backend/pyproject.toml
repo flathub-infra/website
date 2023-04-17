@@ -34,7 +34,7 @@ sentry-dramatiq = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 black = "^23.3"
-pytest = "^7.3.0"
+pytest = "^7.3.1"
 ruff = "^0.0.261"
 
 [tool.poetry.group.dev.dependencies]
