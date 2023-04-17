@@ -183,7 +183,8 @@ def appstream2dict(reponame: str):
 
         custom = component.find("custom")
         if custom is not None:
-            app["custom"] = {}
+            if "metadata" not in app:
+                app["metadata"] = {}
             for value in custom:
                 key = value.attrib.get("key")
                 app["metadata"][key] = value.text
