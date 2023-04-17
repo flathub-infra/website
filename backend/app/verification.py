@@ -1,3 +1,4 @@
+import xml.etree.ElementTree as ET
 from enum import Enum
 from uuid import uuid4
 
@@ -67,7 +68,12 @@ def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
     elif _matches_prefixes(appid, "org.gnome.gitlab"):
         return (LoginProvider.GNOME_GITLAB, _demangle_name(appid.split(".")[3]))
     elif _matches_prefixes(appid, "org.gnome.World"):
-        return None
+        if maintainers := _get_gnome_world_doap_maintainers(appid):
+            return (LoginProvider.GNOME_GITLAB, maintainers[0])
+        else:
+            return None
+    elif _matches_prefixes(appid, "org.gnome.design"):
+        return (LoginProvider.GNOME_GITLAB, "World/design")
     elif _matches_prefixes(appid, "org.gnome"):
         return (LoginProvider.GNOME_GITLAB, "GNOME")
     elif _matches_prefixes(appid, "org.kde"):
@@ -117,6 +123,37 @@ def _get_domain_name(appid: str) -> str:
         [tld, domain] = appid.split(".")[0:2]
         domain = _demangle_name(domain)
         return f"{domain}.{tld}".lower()
+
+
+def _get_gnome_world_doap_maintainers(appid: str) -> list[str]:
+    repo_name = appid.split(".")[-1]
+    try:
+        r = requests.get(
+            f"https://gitlab.gnome.org/World/{repo_name}/-/raw/master/{repo_name}.doap"
+        )
+    except requests.exceptions.ConnectionError:
+        return []
+
+    if r.status_code != 200:
+        return []
+
+    root = ET.fromstring(r.text)
+    maintainers = []
+
+    maintainer_tags = root.findall("{http://usefulinc.com/ns/doap#}maintainer")
+    for maintainer_tag in maintainer_tags:
+        person_tags = maintainer_tag.findall("{http://xmlns.com/foaf/0.1/}Person")
+        for person_tag in person_tags:
+            if account_tag := person_tag.find("{http://xmlns.com/foaf/0.1/}account"):
+                if online_account := account_tag.find(
+                    "{http://xmlns.com/foaf/0.1/}OnlineAccount"
+                ):
+                    account_name = online_account.find(
+                        "{http://xmlns.com/foaf/0.1/}accountName"
+                    )
+                    if account_name is not None:
+                        maintainers.append(account_name.text)
+    return maintainers
 
 
 # Routes
