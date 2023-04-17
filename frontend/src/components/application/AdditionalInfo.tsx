@@ -274,7 +274,7 @@ const AdditionalInfo = ({
             content: {
               type: "url",
               text:
-                data.metadata?.["Flathub::manifest"] ??
+                data.metadata?.["flathub::manifest"] ??
                 `https://github.com/flathub/${appId}`,
               trackAsEvent: "Manifest",
             },
