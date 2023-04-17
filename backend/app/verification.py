@@ -126,7 +126,10 @@ def _get_domain_name(appid: str) -> str:
 
 
 def _get_gnome_world_doap_maintainers(appid: str) -> list[str]:
-    repo_name = appid.split(".")[-1]
+    repo_name = appid.split(".")[-1].lower()
+    if repo_name == "PikaBackup":
+        repo_name = "pika-backup"
+
     try:
         r = requests.get(
             f"https://gitlab.gnome.org/World/{repo_name}/-/raw/master/{repo_name}.doap"
