@@ -1,6 +1,6 @@
 export type AppstreamListItem = Pick<
   Appstream,
-  "id" | "summary" | "icon" | "name" | "custom"
+  "id" | "summary" | "icon" | "name" | "metadata"
 >
 
 export interface Appstream {
@@ -23,21 +23,6 @@ export interface Appstream {
   launchable: Launchable
   bundle: Bundle
   metadata?: Metadata
-  custom?: Custom
-}
-
-export interface Custom {
-  "flathub::verification::verified": string | undefined
-  "flathub::verification::method":
-    | undefined
-    | "manual"
-    | "website"
-    | "login_provider"
-  "flathub::verification::login_name": string
-  "flathub::verification::login_provider": string
-  "flathub::verification::website": string
-  "flathub::verification::timestamp": string
-  "flathub::verification::login_is_organization": string
 }
 
 interface ContentRating {
@@ -194,4 +179,15 @@ export interface Bundle {
 
 export interface Metadata {
   "flathub::manifest"?: string
+  "flathub::verification::verified": string | undefined
+  "flathub::verification::method":
+    | undefined
+    | "manual"
+    | "website"
+    | "login_provider"
+  "flathub::verification::login_name": string
+  "flathub::verification::login_provider": string
+  "flathub::verification::website": string
+  "flathub::verification::timestamp": string
+  "flathub::verification::login_is_organization": string
 }

@@ -40,7 +40,7 @@ export function mapAppsIndexToAppstreamListItem(
     name: app.name,
     summary: app.summary,
     icon: app.icon,
-    custom: {
+    metadata: {
       "flathub::verification::verified": app.verification_verified,
       "flathub::verification::method": app.verification_method,
       "flathub::verification::login_name": app.verification_login_name,

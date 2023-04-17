@@ -18,19 +18,19 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
   const { t } = useTranslation()
 
   const isVerified =
-    application.custom?.["flathub::verification::verified"] === "true"
+    application.metadata?.["flathub::verification::verified"] === "true"
 
   const verificationStatus: VerificationStatus = isVerified
     ? {
-        method: application.custom?.["flathub::verification::method"],
+        method: application.metadata?.["flathub::verification::method"],
         verified: true,
-        website: application.custom?.["flathub::verification::website"],
-        login_provider: application.custom?.[
+        website: application.metadata?.["flathub::verification::website"],
+        login_provider: application.metadata?.[
           "flathub::verification::login_provider"
         ] as VerificationProvider,
-        login_name: application.custom?.["flathub::verification::login_name"],
+        login_name: application.metadata?.["flathub::verification::login_name"],
         login_is_organization:
-          application.custom?.[
+          application.metadata?.[
             "flathub::verification::login_is_organization"
           ] === "true",
         timestamp: 0,
@@ -64,7 +64,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
         <div className="mt-2·line-clamp-3 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
           {application.summary}
         </div>
-        {application.custom?.["flathub::verification::verified"] && (
+        {application.metadata?.["flathub::verification::verified"] && (
           <div className="mt-1 flex items-center text-xs font-semibold">
             <HiCheckBadge
               className="h-5 w-5 text-flathub-celestial-blue"
