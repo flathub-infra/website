@@ -134,14 +134,6 @@ def appstream2dict(reponame: str):
                     app["content_rating"][attr_name] = attr.text
             component.remove(content_rating)
 
-        metadata = component.find("metadata")
-        if metadata is not None:
-            app["metadata"] = {}
-            for value in metadata:
-                key = value.attrib.get("key")
-                app["metadata"][key] = value.text
-            component.remove(metadata)
-
         urls = component.findall("url")
         if len(urls):
             app["urls"] = {}
@@ -181,12 +173,20 @@ def appstream2dict(reponame: str):
         else:
             app["icon"] = None
 
+        metadata = component.find("metadata")
+        if metadata is not None:
+            app["metadata"] = {}
+            for value in metadata:
+                key = value.attrib.get("key")
+                app["metadata"][key] = value.text
+            component.remove(metadata)
+
         custom = component.find("custom")
         if custom is not None:
             app["custom"] = {}
             for value in custom:
                 key = value.attrib.get("key")
-                app["custom"][key] = value.text
+                app["metadata"][key] = value.text
             component.remove(custom)
 
         for elem in component:
