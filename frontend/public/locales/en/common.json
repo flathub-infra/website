@@ -22,7 +22,6 @@
   "source-code": "Source Code",
   "open-in-new-tab": "Open in new tab",
   "user-avatar": "{{user}}'s avatar",
-  "quick-setup": "Quick Setup",
   "apps-for-linux-right-here": "Apps for Linux, right here",
   "more": "More",
   "number-of-results": "{{number}} results",
@@ -288,5 +287,8 @@
   "my-flathub": "My Flathub",
   "settings": "Settings",
   "new": "New",
-  "browse": "Browse"
+  "browse": "Browse",
+  "explore-applications": "Explore Applications",
+  "setup-flathub": "Setup Flathub",
+  "setup-flathub-description": "Setup Flathub to install and update applications on your system."
 }

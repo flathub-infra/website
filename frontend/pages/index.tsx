@@ -31,14 +31,25 @@ export default function Home({
                 variant="secondary"
                 href={"https://flatpak.org/setup/"}
                 passHref
+                aria-label={t("setup-flathub-description")}
               >
-                {t("quick-setup")}
+                {t("setup-flathub")}
               </ButtonLink>
-              <ButtonLink variant="secondary" href={"/apps"} passHref>
+              <ButtonLink
+                variant="secondary"
+                href={"/apps"}
+                passHref
+                aria-label={t("explore-applications")}
+              >
                 {t("explore")}
               </ButtonLink>
               {!IS_PRODUCTION && (
-                <ButtonLink variant="secondary" href={"/donate"} passHref>
+                <ButtonLink
+                  variant="secondary"
+                  href={"/donate"}
+                  passHref
+                  aria-label={t("donate-to", { project: "Flathub" })}
+                >
                   {t("donate-to", { project: "Flathub" })}
                 </ButtonLink>
               )}
