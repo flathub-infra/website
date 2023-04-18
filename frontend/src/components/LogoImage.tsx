@@ -19,12 +19,14 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
             src={iconUrl}
             alt={t("app-logo", { "app-name": appName })}
             layout="fill"
+            aria-hidden
           />
         ) : (
           <img
             src={iconUrl}
             alt={t("app-logo", { "app-name": appName })}
             className="mx-auto block h-full w-full self-center object-contain"
+            aria-hidden
           />
         )
       ) : (
@@ -32,6 +34,7 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
           src="/img/flathub-logo.png"
           alt={t("app-logo", { "app-name": appName })}
           layout="fill"
+          aria-hidden
         />
       )}
     </>
