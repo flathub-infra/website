@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react"
+import { useEffect } from "react"
 
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import Header from "./Header"
