@@ -64,7 +64,6 @@
   "submitting-apps": "Alkalmazások beküldése",
   "vcs_browser": "Forráskód böngészése",
   "about-description": "A Flathub célja, hogy a Linux-alkalmazások beszerzésének és terjesztésének helye legyen. A Flatpak hajtja, amely lehetővé teszi, hogy a Flathub-alkalmazások szinte bármilyen Linux disztribúción futhassanak.",
-  "quick-setup": "Gyorsbeállítás",
   "apps-for-linux-right-here": "Alkalmazások Linuxra, pontosan itt",
   "number-of-results": "{{number}} találat",
   "manual-install": "Kézi telepítés",

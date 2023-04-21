@@ -69,7 +69,7 @@
   "code-examples": "Exemples de codi",
   "also-available-as-svg": "També disponible en <2>format SVG</2>",
   "rss-description": "Subscriu-te als canals RSS de Flathub",
-  "rss-applications": "Necessiteu una aplicació RSS? Trobeu-ne d'excel·lents a <1>Flathub</1>.",
+  "rss-applications": "Necessiteu una aplicació RSS? Trobeu-ne d'excel·lents a <2>Flathub</2>.",
   "applications-by-developer": "Aplicacions de {{developer}}",
   "applications-by-projectgroup": "Aplicacions en el grup {{projectgroup}}",
   "search-for-query": "Cercar \"{{query}}\"",
@@ -157,7 +157,6 @@
   "installs": "Instal·lacions",
   "proprietary": "Propietari",
   "user-avatar": "Avatar de {{user}}",
-  "quick-setup": "Configuració ràpida",
   "run": "Executar",
   "manual-install": "Instal·lació manual",
   "log-out": "Tancar sessió",
@@ -228,7 +227,7 @@
   "verified": "Verificat",
   "app-is-verified": "Aquesta aplicació està verificada",
   "x-downloads": "{{x}} descàrregues",
-  "verified-login-provider": "Verificat per @{{login_name}} en {{login_provider}}",
+  "verified-login-provider": "@{{login_name}} en {{login_provider}}",
   "website-verification": "Verificació del lloc web",
   "login-provider-verification": "Verificació del proveïdor d'inici de sessió",
   "error-code": "Codi d'error: {{code}}",
@@ -244,5 +243,7 @@
   "page-not-found": "{{errorCode}} - No s'ha trobat la pàgina",
   "could-not-find-page": "No hem pogut trobar la pàgina que estàveu buscant.",
   "count-desktop-applications": "Total d'aplicacions d'escriptori",
-  "about-app-verification": "Aplicacions verificades"
+  "about-app-verification": "Aplicacions verificades",
+  "ownership-tokens": "Fitxes de propietat",
+  "verification-warning": "L'equip de Flathub pot eliminar l'insígnia de verificació de qualsevol aplicació a la nostra discreció, per exemple, si podria enganyar la gent sobre l'estat oficial de l'aplicació o causar confusió sobre una marca comercial."
 }
