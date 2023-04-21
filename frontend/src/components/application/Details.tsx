@@ -1,5 +1,4 @@
 import { AppHeader } from "./AppHeader"
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import {
   FunctionComponent,
   useCallback,
@@ -197,17 +196,6 @@ const Details: FunctionComponent<Props> = ({
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
   })
-  const { trackEvent } = useMatomo()
-
-  const installClicked = (e) => {
-    e.preventDefault()
-    trackEvent({ category: "App", action: "Install", name: app.id })
-    window.location.href = `https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`
-  }
-
-  const donateClicked = (e) => {
-    trackEvent({ category: "App", action: "Donate", name: app.id })
-  }
 
   const description = useMemo(
     () => (app.description ? app.description : ""),
@@ -246,8 +234,6 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
-          installClicked={installClicked}
-          donateClicked={donateClicked}
           vendingSetup={vendingSetup}
           verificationStatus={verificationStatus}
         />

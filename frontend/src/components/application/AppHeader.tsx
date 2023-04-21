@@ -3,25 +3,34 @@ import React from "react"
 import { Appstream } from "src/types/Appstream"
 import { VendingSetup } from "src/types/Vending"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import Button from "../Button"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
+import { useMatomo } from "@jonkoops/matomo-tracker-react"
 
 export function AppHeader({
   app,
-  installClicked,
-  donateClicked,
   vendingSetup,
   verificationStatus,
 }: {
   app: Appstream
-  installClicked: (e: any) => void
-  donateClicked: (e: any) => void
   vendingSetup: VendingSetup
   verificationStatus: VerificationStatus
 }) {
   const { t } = useTranslation()
+  const { trackEvent } = useMatomo()
+
+  const installClicked = (e) => {
+    e.preventDefault()
+    trackEvent({ category: "App", action: "Install", name: app.id })
+    window.location.href = `https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`
+  }
+
+  const donateClicked = (e) => {
+    e.preventDefault()
+    trackEvent({ category: "App", action: "Donate", name: app.id })
+    window.location.href = app.urls.donation
+  }
 
   return (
     <header className="col-start-2 flex w-full flex-col gap-4 py-7 sm:flex-row">
@@ -49,9 +58,14 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ml-auto">
-        <Button className="w-52 sm:w-32 md:w-40" onClick={installClicked}>
+        <ButtonLink
+          href={`https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`}
+          passHref
+          className="w-52 sm:w-32 md:w-40"
+          onClick={installClicked}
+        >
           {t("install")}
-        </Button>
+        </ButtonLink>
         {app.urls?.donation && (
           <ButtonLink
             href={app.urls.donation}
