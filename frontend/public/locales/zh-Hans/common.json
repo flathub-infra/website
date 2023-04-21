@@ -16,7 +16,6 @@
   "source-code": "源代码",
   "open-in-new-tab": "在新标签页打开",
   "user-avatar": "{{user}} 的头像",
-  "quick-setup": "快速开始",
   "apps-for-linux-right-here": "Linux 应用，就在此处",
   "more": "更多",
   "number-of-results": "{{number}} 项结果",
@@ -285,5 +284,8 @@
   "refresh": "刷新",
   "verification": "验证",
   "my-flathub": "我的 Flathub",
-  "settings": "设置"
+  "settings": "设置",
+  "login-provider-verification-main-instruction-unknown-is-organization": "通过登录 <7>{{login_provider}}</7> 上的帐户 <3>@{{login_name}}</3>（或者，如果 <5>@{{login_name}}</5> 是一个组织，有权访问它的帐户）来验证你是否有权使用应用程序 ID <1>{{id}}</1>。",
+  "browse": "浏览",
+  "new": "新建"
 }
