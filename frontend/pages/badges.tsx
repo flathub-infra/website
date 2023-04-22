@@ -1,13 +1,14 @@
 import Image from "../src/components/Image"
 import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
-import flathubBadge from "/public/assets/badges/flathub-badge-en.png"
-import flathubBadgeInverted from "/public/assets/badges/flathub-badge-i-en.png"
 import cc0 from "/public/img/CC0.png"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Trans, useTranslation } from "next-i18next"
 
+const flathubBadge = "https://dl.flathub.org/assets/badges/flathub-badge-en.png"
+const flathubBadgeInverted =
+  "https://dl.flathub.org/assets/badges/flathub-badge-i-en.png"
 const badgeExampleCode =
   "<a href='https://flathub.org/apps/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png'/></a>"
 const badgeExampleCodeMoinMoin =
@@ -28,7 +29,7 @@ const Badges = () => {
         <div className="flex w-full flex-wrap justify-around">
           <div>
             <h3>{t("preferred-badge")}</h3>
-            <Image
+            <img
               width="240"
               height="80"
               alt="Download on Flathub"
@@ -49,7 +50,7 @@ const Badges = () => {
 
           <div>
             <h3>{t("alternative-badge")}</h3>
-            <Image
+            <img
               width="240"
               height="80"
               alt="Download on Flathub"
@@ -123,7 +124,7 @@ const Badges = () => {
               text={badgeExampleCodeMoinMoin}
             ></CodeCopy>
             <a href="https://flathub.org/apps/org.gimp.GIMP">
-              <Image
+              <img
                 width={240}
                 height={80}
                 alt="Download on Flathub"
