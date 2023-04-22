@@ -51,6 +51,7 @@ countries.registerLocale(require("i18n-iso-countries/langs/be.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/hu.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/nl.json"))
 countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
+// No translations for oc
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()
