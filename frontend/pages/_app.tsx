@@ -13,7 +13,7 @@ import { ToastContainer } from "react-toastify"
 
 import "../styles/main.scss"
 import { useRouter } from "next/router"
-import { bcpToPosixLocale } from "../src/localize"
+import { bcpToPosixLocale, languages } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
@@ -37,6 +37,10 @@ const App = ({ Component, pageProps }: AppProps) => {
           dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
           titleTemplate="%s | Flathub"
           defaultTitle="Flathub"
+          languageAlternates={languages.map((lang) => ({
+            hrefLang: lang,
+            href: `${process.env.NEXT_PUBLIC_URL}/${lang}`,
+          }))}
           twitter={{
             site: "@FlatpakApps",
             cardType: "summary_large_image",
