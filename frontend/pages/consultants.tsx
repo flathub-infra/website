@@ -29,7 +29,7 @@ const Consultants = (): JSX.Element => {
         <p>
           All companies and individuals listed below are familiar to the Flathub
           team, have successfully submitted at least one app to Flathub, and
-          actively maintain at least one app on Flathub. Beyond this,
+          actively maintain at least one app on Flathub. Beyond this,{" "}
           <strong>the Flathub team has done no checks on them</strong>. Please
           contact them directly if you would like to know more about the
           services that they provide.
@@ -38,25 +38,57 @@ const Consultants = (): JSX.Element => {
         <h2>Hari Rana</h2>
 
         <p>
-          Hari Rana is a Flatpak, GNOME and Fedora contributor; the
-          co-maintainer of <a href="https://usebottles.com/">Bottles</a> and
-          <a href="https://gitlab.com/TheEvilSkeleton/Upscaler">Upscaler</a>;
-          and a member of <a href="https://vanillaos.org/">Vanilla OS</a>, a
-          Flatpak-centric distribution. He maintains a number of apps on
-          Flathub, including three Chromium-based web browsers. See
-          <a href="https://theevilskeleton.gitlab.io/">his website</a> for more
-          details and contact information.
+          Hari Rana is a Flatpak, GNOME and Fedora contributor, the
+          co-maintainer of{" "}
+          <a target="_blank" rel="noreferrer" href="https://usebottles.com/">
+            Bottles
+          </a>{" "}
+          and{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://gitlab.com/TheEvilSkeleton/Upscaler"
+          >
+            Upscaler
+          </a>{" "}
+          and and a member of{" "}
+          <a target="_blank" rel="noreferrer" href="https://vanillaos.org/">
+            Vanilla OS
+          </a>
+          , a Flatpak-centric distribution. He maintains a number of apps on
+          Flathub, including three Chromium-based web browsers. See{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://theevilskeleton.gitlab.io/"
+          >
+            his website
+          </a>{" "}
+          for more details and contact information.
         </p>
 
         <h2>Mazhar Hussain</h2>
 
         <p>
-          Mazhar Hussain is the primary author of
-          <a href="https://gdm-settings.github.io/">Login Manager Settings</a>,
-          a settings app for GNOME's login manager, which is published on
-          Flathub. See
-          <a href="https://realmazharhussain.github.io/">his website</a> for
-          more details and contact information.
+          Mazhar Hussain is the primary author of{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://gdm-settings.github.io/"
+          >
+            Login Manager Settings
+          </a>
+          , a settings app for GNOME&apos;s login manager, which is published on
+          Flathub. See{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://realmazharhussain.github.io/"
+          >
+            his website
+          </a>{" "}
+          for more details and contact information.
+        </p>
       </div>
     </>
   )
