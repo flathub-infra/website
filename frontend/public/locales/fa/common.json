@@ -86,7 +86,7 @@
   "downloads-per-country": "بارگیری‌ها در هر کشور",
   "login": "ورود",
   "rss-feeds-description": "اکنون می‌توانید مشترک خوراک آراس‌اس ما شوید تا جدیدترین چیزهای فلت‌هاب را در خوراک خوان خود دریافت کنید!",
-  "an-error-occurred-server": "خطایی در کارساز رخ داد.",
+  "an-error-occurred-server": "{{errorCode}} - خطایی در کارساز رخ داد.",
   "whoops": "وای!",
   "retry-or-go-home": "ممکن است بخواهید دوباره تلاش کنید یا به <2>خانه</2> برگردید.",
   "graphics-and-photography": "گرافیک و عکاسی",

@@ -71,7 +71,7 @@
   "subscribe": "Εγγραφή",
   "new-apps-description": "Εφαρμογές που δημοσιεύθηκαν στο Flathub τις τελευταίες 30 μέρες.",
   "server-error": "Σφάλμα Διακομιστή",
-  "an-error-occurred-server": "Προέκυψε σφάλμα στον διακομιστή.",
+  "an-error-occurred-server": "{{errorCode}} - Προέκυψε σφάλμα στον διακομιστή.",
   "login": "Σύνδεση",
   "retry-or-go-home": "Ίσως θέλετε να ξαναπροσπαθήσετε ή να πάτε πίσω <2>home</2>.",
   "submitting-apps": "Υποβάλλοντας Εφαρμογές",
