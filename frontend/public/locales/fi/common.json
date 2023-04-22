@@ -90,7 +90,7 @@
   "download-size": "Latauksen koko",
   "downloads": "Lataukset",
   "welcome-to-flathub-index-text": "Tervetuloa Flathubiin, mille tahansa Linux-jakelulle asennettavien sovellusten kotipaikkaan. Selaa sovelluksia selaimen kautta, järjestelmäsi ohjelmistokeskuksesta tai komentoriviltä.",
-  "flathub-description": "Löydä ja asenna satoja eri sovelluksia sekä pelejä Linuxille. Nauti Gimpistä, GNU Octavesta, Spotifysta, Steamista ja paljon muusta!",
+  "flathub-description": "Löydä ja asenna satoja eri sovelluksia sekä pelejä Linuxille. Nauti Firefoxista, Telegramista, RetroArchista, GIMP:istä ja monesta muusta!",
   "new-apps-description": "Viimeisen 30 päivän aikana Flathubissa julkaistut sovellukset.",
   "categories": "Luokat",
   "linked-accounts": "Linkitetyt tilit",
@@ -286,5 +286,8 @@
   "my-flathub": "Oma Flathub",
   "new": "Uusi",
   "browse": "Selaa",
-  "about-app-verification-block": "<0>Mitä tarkistusmerkki sovelluksen nimen alla tarkoittaa?</0><p>Joillain sovelluksilla on tarkistusmerkki sovelluksen sivulla kehittäjän nimen alla. Se tarkoittaa, että sovellus on julkaistu Flathubissa sen alkuperäisen kehittäjän tai alkuperäisen kehittäjän hyväksymän kolmannen osapuolen toimesta.</p><p>Osa sovelluksista on julkaistu kolmannen osapuolen toimesta, jotka eivät ole tekemisissä alkuperäisen kehittäjän kanssa. Tämä on sallittua, mutta kyseisille sovelluksille ei anneta tarkistusmerkkiä.</p><p>Tarkistusmerkin vieressä on linkki kehittäjän verkkosivustolle tai lähdekoodin sisältävän sivuston profiiliin. Flathub on vahvistanut kehittäjän henkilöyden kyseisellä linkillä.</p><4>Julkaisen sovellukseni Flathubissa. Miten voin tulla vahvistetuksi?</4><5> <2>Kirjaudu Flathubiin</2>. Napsauta \"Kehittäjäasetukset\"-painiketta sen sovelluksen alapuolelta, jonka haluat vahvistaa. Sivun ylälaidassa on \"Määritä vahvistus\"-osio. Siinä oleva ohje neuvoo, kuinka voit läpikäydä vahvistuksen.</5>"
+  "about-app-verification-block": "<0>Mitä tarkistusmerkki sovelluksen nimen alla tarkoittaa?</0><p>Joillain sovelluksilla on tarkistusmerkki sovelluksen sivulla kehittäjän nimen alla. Se tarkoittaa, että sovellus on julkaistu Flathubissa sen alkuperäisen kehittäjän tai alkuperäisen kehittäjän hyväksymän kolmannen osapuolen toimesta.</p><p>Osa sovelluksista on julkaistu kolmannen osapuolen toimesta, jotka eivät ole tekemisissä alkuperäisen kehittäjän kanssa. Tämä on sallittua, mutta kyseisille sovelluksille ei anneta tarkistusmerkkiä.</p><p>Tarkistusmerkin vieressä on linkki kehittäjän verkkosivustolle tai lähdekoodin sisältävän sivuston profiiliin. Flathub on vahvistanut kehittäjän henkilöyden kyseisellä linkillä.</p><4>Julkaisen sovellukseni Flathubissa. Miten voin tulla vahvistetuksi?</4><5> <2>Kirjaudu Flathubiin</2>. Napsauta \"Kehittäjäasetukset\"-painiketta sen sovelluksen alapuolelta, jonka haluat vahvistaa. Sivun ylälaidassa on \"Määritä vahvistus\"-osio. Siinä oleva ohje neuvoo, kuinka voit läpikäydä vahvistuksen.</5>",
+  "setup-flathub": "Määritä Flathub",
+  "explore-applications": "Selaa sovelluksia",
+  "setup-flathub-description": "Määritä Flathub asentaaksesi sovelluksia ja päivittääksesi niitä."
 }

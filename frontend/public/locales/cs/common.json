@@ -80,7 +80,7 @@
   "downloads-per-country": "Počet stažení podle států",
   "since": "Od",
   "new-and-updated-apps-description": "Aplikace publikované nebo aktualizované na Flathubu za posledních 7 dní.",
-  "flathub-description": "Najděte a nainstalujte stovky aplikací a her pro Linux. Užijte si GIMP, GNU Octave, Spotify, Steam a další!",
+  "flathub-description": "Najděte a nainstalujte stovky aplikací a her pro Linux. Užijte si Firefox, Telegram, RetroArch, GIMP a další!",
   "server-error": "Chyba na straně serveru",
   "submitting-apps": "Vydávání aplikací",
   "new-apps-description": "Aplikace publikované na Flathubu za posledních 30 dní.",
@@ -287,5 +287,8 @@
   "settings": "Nastavení",
   "login-provider-verification-main-instruction-unknown-is-organization": "Ověřte své právo používat ID aplikace <1>{{id}}</1> přihlášením k účtu <3>@{{login_name}}</3> (nebo, pokud je <5>@{{login_name}}</5> organizace, k účtu s přístupem k ní) na <7>{{login_provider}}</7>.",
   "new": "Nové",
-  "browse": "Procházet"
+  "browse": "Procházet",
+  "setup-flathub": "Nastavit Flathub",
+  "setup-flathub-description": "Nastavte Flathub pro instalaci a aktualizaci aplikací ve vašem systému.",
+  "explore-applications": "Prozkoumat aplikace"
 }
