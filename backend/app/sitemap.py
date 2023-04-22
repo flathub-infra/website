@@ -12,6 +12,7 @@ def generate_text(frontend_url="beta.flathub.org"):
         "/apps",
         "/apps/collection/popular",
         "/apps/collection/recently-updated",
+        "/apps/collection/recently-added",
         "/apps/collection/verified",
         "/badges",
         "/feeds",
@@ -19,6 +20,7 @@ def generate_text(frontend_url="beta.flathub.org"):
         "/statistics",
         "/terms-and-conditions",
         "/languages",
+        "/login",
     ]
 
     languages = [
