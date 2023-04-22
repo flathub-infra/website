@@ -63,7 +63,7 @@
   "new-apps-description": "Applications publiées dans Flathub au cours des 30 derniers jours.",
   "new-and-updated-apps-description": "Applications publiées ou mises à jour dans Flathub au cours des 7 derniers jours.",
   "server-error": "Erreur de serveur",
-  "an-error-occurred-server": "{{errorCode} – Une erreur s’est produite sur le serveur.",
+  "an-error-occurred-server": "{{errorCode}} – Une erreur s’est produite sur le serveur.",
   "whoops": "Oups !",
   "login": "Se connecter",
   "retry-or-go-home": "Vous pouvez réessayer ou retourner à la page d’<2>accueil</2>.",

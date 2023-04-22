@@ -36,7 +36,7 @@
   "new-and-updated-apps": "මෑත යාවත්කාල යෙදුම්",
   "new-apps": "නව යෙදුම්",
   "whoops": "අපොයි!",
-  "an-error-occurred-server": "සේවාදායකයේ දෝෂයක් සිදු විය.",
+  "an-error-occurred-server": "{{errorCode}} - සේවාදායකයේ දෝෂයක් සිදු විය.",
   "submitting-apps": "යෙදුම් යොමු වෙමින්",
   "server-error": "සේවාදායකයේ දෝෂයකි",
   "code-examples": "කේත නිදසුන්",
