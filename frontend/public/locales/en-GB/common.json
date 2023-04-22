@@ -127,7 +127,7 @@
   "developers": "Developers",
   "welcome-to-flathub-index-text": "Welcome to Flathub, the home of hundreds of apps which can be easily installed on any Linux distribution. Browse the apps online, from your app centre or the command line.",
   "home": "Home",
-  "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy GIMP, GNU Octave, Spotify, Steam and many more!",
+  "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy Firefox, Telegram, RetroArch, GIMP and many more!",
   "server-error": "Server Error",
   "login": "Login",
   "retry-or-go-home": "You might want to retry or go back <2>home</2>.",
@@ -287,5 +287,8 @@
   "verification": "Verification",
   "login-provider-verification-main-instruction-unknown-is-organization": "Verify your right to use the app ID <1>{{id}}</1> by logging into the account <3>@{{login_name}}</3> (or, if <5>@{{login_name}}</5> is an organisation, an account with access to it) on <7>{{login_provider}}</7>.",
   "new": "New",
-  "browse": "Browse"
+  "browse": "Browse",
+  "explore-applications": "Explore Applications",
+  "setup-flathub": "Setup Flathub",
+  "setup-flathub-description": "Setup Flathub to install and update applications on your system."
 }

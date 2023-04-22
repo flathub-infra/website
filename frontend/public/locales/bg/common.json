@@ -14,7 +14,7 @@
   "flathub-statistics": "Статистика на „Flathub“",
   "home": "Начало",
   "downloads-per-country": "Изтегляния по държава",
-  "flathub-description": "Открийте и инсталирайте стотици приложения и игри за Линукс. Наслаждавайте се на приложенията „GIMP“, „GNU Octave“, „Spotify“, „Steam“ и много други!",
+  "flathub-description": "Открийте и инсталирайте стотици приложения и игри за Линукс. Наслаждавайте се на приложенията „Firefox“, „Telegram“, „RetroArch“, „GIMP“ и много други!",
   "server-error": "Сървърна грешка",
   "retry-or-go-home": "Може да опитате отново или да се върнете в <2>началната страница</2>.",
   "acknowledgements": "Благодарности",
@@ -287,5 +287,8 @@
   "settings": "Настройки",
   "login-provider-verification-main-instruction-unknown-is-organization": "Потвърдете правото си да използвате идентификатора <1>{{id}}</1> като влезете от профила <3>@{{login_name}}</3> (трябва да имате администраторски права с <5>@{{login_name}}</5>) в „<7>{{login_provider}}</7>“.",
   "new": "Нови",
-  "browse": "Разглеждане"
+  "browse": "Разглеждане",
+  "setup-flathub": "Настройване",
+  "setup-flathub-description": "Настройте „Flathub“ за инсталиране и обновяване на приложенията във Вашата система.",
+  "explore-applications": "Разглеждане"
 }

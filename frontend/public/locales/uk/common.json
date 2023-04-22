@@ -76,7 +76,7 @@
   "downloads-over-time": "Завантажень за час",
   "downloads-per-country": "Завантажень за країною",
   "welcome-to-flathub-index-text": "Ласкаво просимо у Flathub, домівці сотень застосунків, які можна легко встановити на будь-який дистрибутив Linux. Переглядайте застосунки в інтернеті, у центрі застосунків або в командному рядку.",
-  "flathub-description": "Знайдіть і встановіть сотні застосунків та ігор для Linux. Насолоджуйтесь GIMP, GNU Octave, Spotify, Steam та багатьма іншими!",
+  "flathub-description": "Знайдіть і встановіть сотні застосунків та ігор для Linux. Насолоджуйтесь Firefox, Telegram, RetroArch, GIMP і багатьма іншими!",
   "rss-feeds-description": "Відтепер ви можете підписатися на наші RSS-канали, щоб отримувати найновіші цікавинки Flathub у вашому читачі стрічок!",
   "login": "Увійти",
   "submitting-apps": "Надсилання застосунків",
@@ -287,5 +287,8 @@
   "settings": "Налаштування",
   "login-provider-verification-main-instruction-unknown-is-organization": "Перевірте своє право на використання ID pfcnjceyre <1>{{id}}</1>, увійшовши в обліковий запис <3>@{{login_name}}</3> (або, якщо <5>@{{login_name}}</5> — це організація, в обліковий запис з доступом до неї) на <7>{{login_provider}}</7>.",
   "browse": "Переглянути",
-  "new": "Новий"
+  "new": "Новий",
+  "setup-flathub": "Налаштувати Flathub",
+  "setup-flathub-description": "Налаштуйте Flathub для встановлення та оновлення застосунків у вашій системі.",
+  "explore-applications": "Огляд застосунків"
 }
