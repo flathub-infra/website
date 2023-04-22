@@ -104,7 +104,7 @@
   "value-at-most": "U moet een waarde van maximaal {{value}} invoeren",
   "unauthorized-to-view": "U heeft geen toestemming om deze inhoud te bekijken.",
   "payment-provider-error": "Er is een fout opgetreden bij onze betalingsaanbieder. Probeer het later opnieuw.",
-  "no-applications": "Geen apps om weer te geven",
+  "no-applications": "Geen apps om weer te geven.",
   "science": "Wetenschap",
   "system": "Systeem",
   "permission-denied": "U heeft geen toestemming om dat te doen.",
@@ -152,7 +152,7 @@
   "downloads-per-country": "Downloads per land",
   "new-apps-description": "Apps gepubliceerd op Flathub gedurende de laatste 30 dagen.",
   "since": "Sinds",
-  "flathub-description": "Vind en installeer honderden verschillende apps en games voor Linux. Geniet van GIMP, GNU Octave, Spotify, Steam, en nog veel meer!",
+  "flathub-description": "Vind en installeer honderden apps en games voor Linux. Geniet van Firefox, Telegram, RetroArch, GIMP, en nog veel meer!",
   "rss-feeds-description": "U kunt zich nu abonneren op onze RSS-feeds om de laatste informatie over Flathub rechtstreeks in uw feed-lezer te ontvangen!",
   "submitting-apps-block": "<0>App-ontwikkelaars kunnen <2>hun apps indienen</2> om verspreid te worden naar het steeds groeiende aantal gebruikers van Flathub, waardoor een enkele toegangspoort tot het volledige Linux-ecosysteem wordt geboden.</0><p>Op dit moment moeten de apps, of legaal herdistribueerbaar, of beschikbaar voor derden zijn. Echter, mocht u de maker zijn van een propriëtaire app en geïnteresseerd zijn in het gebruiken van Flathub, dan zouden we graag met u in gesprek gaan.</p>",
   "about-block": "<0>Flathub heeft als doel om een plaats te zijn waar u Linux-apps kunt downloaden en publiceren. Het werkt met <1>Flatpak</1>, waardoor de apps op bijna elke Linux-distributie kunnen worden geïnstalleerd.</0><1>Gebruik Flathub om toegang te krijgen tot een groeiende verzameling van Flatpaks, door de <2>installatie-instructies</2> te volgen.</1>",
@@ -179,7 +179,7 @@
   "payment": "Betaling",
   "status": "Status",
   "make-donation": "Doneren",
-  "no-saved-payment-methods": "Geen opgeslagen betalings­methoden om te laten zien",
+  "no-saved-payment-methods": "Geen opgeslagen betalings­methoden om te laten zien.",
   "select-donation-amount": "Kies hoeveel u wilt doneren",
   "transaction-cancel": "Transactie annuleren",
   "status-new": "Nieuw",
@@ -287,5 +287,8 @@
   "settings": "Instellingen",
   "login-provider-verification-main-instruction-unknown-is-organization": "Controleer uw recht om de app-ID <1>{{id}}</1> te gebruiken door in te loggen op het account <3>@{{login_name}}</3> (of, als <5>@{{login_name}}</5> een organisatie is, een account met toegang) op <7>{{login_provider}}</7>.",
   "browse": "Bladeren",
-  "new": "Nieuw"
+  "new": "Nieuw",
+  "explore-applications": "Apps verkennen",
+  "setup-flathub": "Flathub instellen",
+  "setup-flathub-description": "Stel Flathub in om apps op uw systeem te installeren en bij te werken."
 }

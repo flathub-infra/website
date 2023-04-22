@@ -58,7 +58,7 @@
   "since": "Desde",
   "downloads-per-country": "Descargas por país",
   "downloads-over-time": "Descargas en el tiempo",
-  "flathub-description": "Encuentre e instale cientos de aplicaciones y juegos para Linux. ¡Disfrute de GIMP, GNU Octave, Spotify, Steam y muchos más!",
+  "flathub-description": "Encuentra e instala cientos de aplicaciones y juegos para Linux. ¡Disfruta de Firefox, Telegram, RetroArch, GIMP y muchos más!",
   "new-apps-description": "Aplicaciones publicadas en Flathub en los últimos 30 días.",
   "new-and-updated-apps-description": "Aplicaciones publicadas o actualizadas en Flathub en los últimos 7 días.",
   "server-error": "Error del servidor",
@@ -287,5 +287,8 @@
   "settings": "Ajustes",
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifique tú derecho a usar la ID de la aplicación <1>{{id}}</1> iniciando sesión en la cuenta <3>@{{login_name}}</3> (o, si <5>@{{login_name}}</5> es una organización, una cuenta con acceso a esta) en <7>{{login_provider}}</7>.",
   "new": "Nuevo",
-  "browse": "Navegar"
+  "browse": "Navegar",
+  "setup-flathub": "Configurar Flathub",
+  "explore-applications": "Explorar las aplicaciones",
+  "setup-flathub-description": "Configura Flathub para instalar y actualizar las aplicaciones en tu sistema."
 }

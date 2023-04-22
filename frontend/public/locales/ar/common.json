@@ -77,7 +77,7 @@
   "home": "الصفحة الرئيسة",
   "login-with-provider": "لِج عبر {{provider}}",
   "apps-for-linux-right-here": "تطبيقات لينكس هنا",
-  "flathub-description": "ثبِّت المئات من تطبيقات وألعاب لينكس، مثل جِمب وغنو أوكتاف وسبوتيفاي وستيم وغيرها!",
+  "flathub-description": "ثبِّت المئات من تطبيقات وألعاب لينكس، مثل فيرفكس وتلجرام ورتروآرتش وجمب وغيرها!",
   "subscribe": "اشترك",
   "new-apps-description": "التطبيقات المنشورة خلال آخر ثلاثين يوم.",
   "new-and-updated-apps-description": "التطبيقات المنشورة والمحدَّثة في آخر سبعة أيَّام.",
@@ -287,5 +287,8 @@
   "settings": "الإعدادات",
   "login-provider-verification-main-instruction-unknown-is-organization": "أكِّد حقَّك في استخدام معرِّف التطبيق <1>{{id}}</1> بتسجيل دخولك في الحساب <3>@{{login_name}}</3> (أو حساب له حقٌّ وصول إن كانت <5>@{{login_name}}</5> منظَّمةً) في <7>{{login_provider}}</7>.",
   "new": "جديد",
-  "browse": "تصفَّح"
+  "browse": "تصفَّح",
+  "setup-flathub": "أعِدَّ فلات‌هب",
+  "explore-applications": "اكتشف تطبيقات",
+  "setup-flathub-description": "أعِدَّ فلات‌هب لتثبِّت وتحدِّث التطبيقات في نظامك."
 }
