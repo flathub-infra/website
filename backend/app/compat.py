@@ -1,13 +1,10 @@
-import json
-import os
-import random
 from datetime import datetime
 
 import requests
-from fastapi import APIRouter, BackgroundTasks, FastAPI, Response
+from fastapi import APIRouter, BackgroundTasks, FastAPI
 from fastapi.responses import ORJSONResponse
 
-from . import apps, config, db, search, stats, utils
+from . import apps, db, search, stats
 
 router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
 
@@ -60,37 +57,6 @@ def list_apps_in_index(index="apps:index"):
     return ret
 
 
-def update_picks():
-    with db.redis_conn.pipeline() as p:
-        with requests.Session() as session:
-            for pick in ["games", "apps"]:
-                r = session.get(
-                    f"https://raw.githubusercontent.com/flathub/website/master/backend/data/picks/{pick}.json"
-                )
-                if r.status_code == 200:
-                    # Decode JSON to ensure it's not malformed
-                    content = r.json()
-
-                    p.set(f"picks:{pick}", json.dumps(content))
-
-        p.execute()
-
-
-def initialize_picks():
-    picks_dir = os.path.join(config.settings.datadir, "picks")
-    with db.redis_conn.pipeline() as p:
-        for pick_json in os.listdir(picks_dir):
-            value = utils.get_appids(os.path.join(picks_dir, pick_json))
-            p.set(f"picks:{pick_json[:-5]}", json.dumps(value))
-        p.execute()
-
-
-def get_pick(pick):
-    if value := db.redis_conn.get(f"picks:{pick}"):
-        return json.loads(value)
-    return None
-
-
 @router.get("/apps")
 def get_apps():
     return list_apps_in_index()
@@ -115,17 +81,6 @@ def get_recently_added():
     added = apps.get_recently_added(50)
     compat = [get_short_app(f"apps:{appid}") for appid in added]
     return [app for app in compat if app]
-
-
-@router.get("/apps/collection/picks")
-@router.get("/apps/collection/picks/50")
-def get_recommended_apps():
-    if picks := db.get_json_key("picks:apps"):
-        compat = [get_short_app(f"apps:{appid}") for appid in picks]
-        random.shuffle(compat)
-        return [app for app in compat if app]
-
-    return []
 
 
 @router.get("/apps/collection/popular")
@@ -240,12 +195,3 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
             compat_app["screenshots"] = compat_screenshots
 
         return compat_app
-
-
-@router.get("/picks/{pick}")
-def get_picks(pick: str, response: Response):
-    if picks_ids := get_pick(pick):
-        result = [utils.get_listing_app(f"apps:{appid}") for appid in picks_ids]
-        return [app for app in result if app]
-
-    response.status_code = 404

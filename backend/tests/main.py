@@ -280,22 +280,6 @@ def test_feed_by_new(client):
     assert etree.tostring(feed) == etree.tostring(expected)
 
 
-def test_picked_apps(client):
-    response = client.get("/compat/picks/apps")
-    assert response.status_code == 200
-
-
-def test_picked_games(client):
-    response = client.get("/compat/picks/games")
-    assert response.status_code == 200
-
-
-def test_picked_non_existent(client):
-    response = client.get("/compat/picks/NonExistent")
-    assert response.status_code == 404
-    assert response.json() is None
-
-
 def test_popular_last_month(client):
     response = client.get("/popular/last-month")
     assert response.status_code == 200
