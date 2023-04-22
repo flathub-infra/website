@@ -65,8 +65,6 @@ compat.register_to_app(app)
 def startup_event():
     db.wait_for_redis()
 
-    compat.initialize_picks()
-
 
 @app.post("/update")
 async def update():

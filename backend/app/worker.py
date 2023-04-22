@@ -8,7 +8,7 @@ import requests
 import sentry_dramatiq
 import sentry_sdk
 
-from . import apps, compat, config, db, exceptions, search, stats, summary, utils
+from . import apps, config, db, exceptions, search, stats, summary, utils
 from .config import settings
 
 if config.settings.sentry_dsn:
@@ -34,7 +34,6 @@ def update_stats():
 def update():
     new_apps = apps.load_appstream()
     summary.update()
-    compat.update_picks()
     exceptions.update()
 
     if new_apps:
