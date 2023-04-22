@@ -23,13 +23,13 @@ class Hasher:
     def __init__(self):
         self.hasher = hashlib.sha256()
 
-    def add_bytes(self, bytes):
+    def add_bytes(self, bytes: bytes):
         self.hasher.update(bytes)
 
-    def add_string(self, string):
+    def add_string(self, string: str):
         self.add_bytes(string.encode("utf-8"))
 
-    def add_number(self, num):
+    def add_number(self, num: int):
         self.add_string(f"{num}")
 
     def hash(self):
