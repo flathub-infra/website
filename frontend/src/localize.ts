@@ -32,6 +32,7 @@ import {
   be,
   hu,
   nl,
+  oc,
 } from "date-fns/locale"
 
 export type Language =
@@ -71,6 +72,7 @@ export type Language =
   | "nl"
   | "pt"
   | "zh-Hant"
+  | "oc"
 
 export const languages: Language[] = [
   "en",
@@ -109,6 +111,7 @@ export const languages: Language[] = [
   "nl",
   "pt",
   "zh-Hant",
+  "oc",
 ]
 
 export function getLocale(language: string): Locale {
@@ -185,6 +188,8 @@ export function getLocale(language: string): Locale {
       return pt
     case "zh-Hant":
       return zhCN // date-fns has no Traditional Chinese locale
+    case "oc":
+      return oc
 
     default:
       return enGB
@@ -265,6 +270,8 @@ export function bcpToPosixLocale(language: string): string {
       return "pt_PT"
     case "zh-Hant":
       return "zh_Hant"
+    case "oc":
+      return "oc"
 
     default:
       return "en_US"
@@ -345,6 +352,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇵🇹"
     case "zh-Hant":
       return ""
+    case "oc":
+      return ""
   }
 }
 
@@ -422,6 +431,8 @@ export function getLanguageName(language: Language): string {
       return "Português"
     case "zh-Hant":
       return "繁體中文"
+    case "oc":
+      return "Occitan"
 
     default:
       return assertUnreachable(language)
@@ -522,6 +533,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("zh", {
         script: "Hant",
       })
+    case "oc":
+      return new Intl.Locale("oc")
   }
 }
 
