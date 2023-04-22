@@ -106,7 +106,7 @@
   "could-not-find-match-for-search": "No se pudo encontrar una coincidencia para la búsqueda.",
   "request-new-app": "Si está buscando una aplicación específica, hágale saber a la comunidad que la quiere en Flathub <1>aquí</1>.",
   "manifest": "Manifiesto",
-  "languages-description": "Seleccione un idioma para cambiar a él:",
+  "languages-description": "Seleccione un idioma para cambiarlo:",
   "switch-language": "Cambiar idioma",
   "search-apps": "Buscar aplicaciones",
   "explore": "Explorar",

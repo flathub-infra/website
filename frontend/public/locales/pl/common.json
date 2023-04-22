@@ -40,7 +40,7 @@
   "your-apps": "Twoje aplikacje",
   "welcome-to-flathub-index-text": "Witaj w Flathub, domu setek aplikacji łatwych do zainstalowania na każdej dystrybucji Linuksa. Przeglądaj aplikacje online, z Twojego centrum aplikacji lub linii komend.",
   "home": "Strona główna",
-  "flathub-description": "Znajdź i zainstaluj setki aplikacji i gier dla Linuksa. Ciesz się GIMPem, GNU Octave, Spotify, Steamem i wieloma innymi!",
+  "flathub-description": "Znajdź i zainstaluj setki aplikacji i gier dla Linuksa. Ciesz się Firefoxem, Telegramem, RetroArchem, GIMPem i wieloma innymi!",
   "new-and-updated-apps": "Ostatnio zaktualizowane aplikacje",
   "an-error-occurred-server": "{{errorCode}} - Wystąpił błąd serwera.",
   "whoops": "Ups!",
@@ -221,7 +221,7 @@
   "contribute-languages": "Wszystkie tłumaczenia zostały wykonane przez społeczność. Jeśli chcesz pomóc w tłumaczeniu, <1>przyłącz się do tłumaczy Flathub</1>.",
   "recently-added-apps": "Nowe aplikacje",
   "payment-provider-error": "Nasz dostawca płatności napotkał problem. Spróbuj ponownie później.",
-  "about-block": "<0>Flathub to miejsce, gdzie można pobierać i udostępniać aplikacje dla każdego desktopowego Linuksa. Jest napędzany przez <1>Flatpak</1>, co pozwala aplikacjom Flathub działać na prawie każdej dystrybucji Linuksa.</0><1>Korzystaj z Flathub, aby zyskać dostęp do rosnącej kolekcji Flatpak'ów, postępując zgodnie z <2>instrukcjami konfiguracji</2>.</1>",
+  "about-block": "<0>Flathub to miejsce, gdzie można pobierać i udostępniać aplikacje dla każdego desktopowego Linuksa. Jest napędzany przez <1>Flatpak</1>, co pozwala aplikacjom Flathub działać na prawie każdej dystrybucji Linuksa.</0><1>Korzystaj z Flathub, aby zyskać dostęp do rosnącej kolekcji Flatpaków, postępując zgodnie z <2>instrukcjami konfiguracji</2>.</1>",
   "badge-copyright": "W zakresie dopuszczalnym przez prawo, <2>Jakub Steiner</2> zrzekł się wszelkich praw autorskich i praw pokrewnych lub sąsiedzkich do <5>Emblematów Flathub</5>. Utwór ten jest publikowany z Czech.",
   "submitting-apps-block": "<0>Deweloperzy aplikacji mogą <2>udostępnić swoje aplikacje</2> dla rosnącej bazy użytkowników Flathub, zapewniając w ten sposób dostęp dla całego ekosystemu Linuksa.</0><p>Na ten moment, aplikacje muszą być legalnie rozpowszechniane lub dostępne do pobrania z innych źródeł. Jeśli Twoja aplikacja jest własnościowa i jesteś zainteresowany skorzystaniem z Flathuba, z chęcią z Tobą o tym porozmawiamy.</p>",
   "applications-by-projectgroup": "Aplikacje od grupy {{projectgroup}}",
@@ -234,7 +234,7 @@
   "show-more": "Pokaż więcej",
   "show-less": "Pokaż mniej",
   "more-type": "Więcej {{type}}",
-  "verified": "Zweryfikowano",
+  "verified": "Zweryfikowane",
   "app-is-verified": "Ta aplikacja jest zweryfikowana",
   "verified-login-provider": "@{{login_name}} używając {{login_provider}}",
   "x-downloads": "{{x}} pobrań",
@@ -287,5 +287,8 @@
   "settings": "Ustawienia",
   "login-provider-verification-main-instruction-unknown-is-organization": "Zweryfikuj swoje prawo do użycia identyfikatora aplikacji <1>{{id}}</1> logując się na konto <3>@{{login_name}}</3> (lub, jeśli <5>@{{login_name}}</5> jest organizacją, na konto z dostępem do niej) na stronie<7>{{login_provider}}</7>.",
   "new": "Nowe",
-  "browse": "Przeglądaj"
+  "browse": "Przeglądaj",
+  "setup-flathub": "Skonfiguruj Flathub",
+  "explore-applications": "Przeglądaj aplikacje",
+  "setup-flathub-description": "Skonfiguruj Flathub, aby instalować i aktualizować aplikacje na Twoim systemie."
 }
