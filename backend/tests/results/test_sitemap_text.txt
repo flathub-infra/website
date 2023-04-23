@@ -1,1140 +1,1140 @@
-https://beta.flathub.org/about
-https://beta.flathub.org/apps
-https://beta.flathub.org/apps/category/AudioVideo
-https://beta.flathub.org/apps/category/Development
-https://beta.flathub.org/apps/category/Education
-https://beta.flathub.org/apps/category/Game
-https://beta.flathub.org/apps/category/Graphics
-https://beta.flathub.org/apps/category/Network
-https://beta.flathub.org/apps/category/Office
-https://beta.flathub.org/apps/category/Science
-https://beta.flathub.org/apps/category/System
-https://beta.flathub.org/apps/category/Utility
-https://beta.flathub.org/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/apps/collection/popular
-https://beta.flathub.org/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/apps/collection/recently-added
-https://beta.flathub.org/apps/collection/recently-updated
-https://beta.flathub.org/apps/collection/verified
-https://beta.flathub.org/apps/com.anydesk.Anydesk
-https://beta.flathub.org/apps/com.wps.Office
-https://beta.flathub.org/apps/org.sugarlabs.Maze
-https://beta.flathub.org/badges
-https://beta.flathub.org/feeds
-https://beta.flathub.org/languages
-https://beta.flathub.org/login
-https://beta.flathub.org/privacy-policy
-https://beta.flathub.org/statistics
-https://beta.flathub.org/terms-and-conditions
-https://beta.flathub.org/en-GB/about
-https://beta.flathub.org/en-GB/apps
-https://beta.flathub.org/en-GB/apps/category/AudioVideo
-https://beta.flathub.org/en-GB/apps/category/Development
-https://beta.flathub.org/en-GB/apps/category/Education
-https://beta.flathub.org/en-GB/apps/category/Game
-https://beta.flathub.org/en-GB/apps/category/Graphics
-https://beta.flathub.org/en-GB/apps/category/Network
-https://beta.flathub.org/en-GB/apps/category/Office
-https://beta.flathub.org/en-GB/apps/category/Science
-https://beta.flathub.org/en-GB/apps/category/System
-https://beta.flathub.org/en-GB/apps/category/Utility
-https://beta.flathub.org/en-GB/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/en-GB/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/en-GB/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/en-GB/apps/collection/popular
-https://beta.flathub.org/en-GB/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/en-GB/apps/collection/recently-added
-https://beta.flathub.org/en-GB/apps/collection/recently-updated
-https://beta.flathub.org/en-GB/apps/collection/verified
-https://beta.flathub.org/en-GB/apps/com.anydesk.Anydesk
-https://beta.flathub.org/en-GB/apps/com.wps.Office
-https://beta.flathub.org/en-GB/apps/org.sugarlabs.Maze
-https://beta.flathub.org/en-GB/badges
-https://beta.flathub.org/en-GB/feeds
-https://beta.flathub.org/en-GB/languages
-https://beta.flathub.org/en-GB/login
-https://beta.flathub.org/en-GB/privacy-policy
-https://beta.flathub.org/en-GB/statistics
-https://beta.flathub.org/en-GB/terms-and-conditions
-https://beta.flathub.org/en/about
-https://beta.flathub.org/en/apps
-https://beta.flathub.org/en/apps/category/AudioVideo
-https://beta.flathub.org/en/apps/category/Development
-https://beta.flathub.org/en/apps/category/Education
-https://beta.flathub.org/en/apps/category/Game
-https://beta.flathub.org/en/apps/category/Graphics
-https://beta.flathub.org/en/apps/category/Network
-https://beta.flathub.org/en/apps/category/Office
-https://beta.flathub.org/en/apps/category/Science
-https://beta.flathub.org/en/apps/category/System
-https://beta.flathub.org/en/apps/category/Utility
-https://beta.flathub.org/en/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/en/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/en/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/en/apps/collection/popular
-https://beta.flathub.org/en/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/en/apps/collection/recently-added
-https://beta.flathub.org/en/apps/collection/recently-updated
-https://beta.flathub.org/en/apps/collection/verified
-https://beta.flathub.org/en/apps/com.anydesk.Anydesk
-https://beta.flathub.org/en/apps/com.wps.Office
-https://beta.flathub.org/en/apps/org.sugarlabs.Maze
-https://beta.flathub.org/en/badges
-https://beta.flathub.org/en/feeds
-https://beta.flathub.org/en/languages
-https://beta.flathub.org/en/login
-https://beta.flathub.org/en/privacy-policy
-https://beta.flathub.org/en/statistics
-https://beta.flathub.org/en/terms-and-conditions
-https://beta.flathub.org/de/about
-https://beta.flathub.org/de/apps
-https://beta.flathub.org/de/apps/category/AudioVideo
-https://beta.flathub.org/de/apps/category/Development
-https://beta.flathub.org/de/apps/category/Education
-https://beta.flathub.org/de/apps/category/Game
-https://beta.flathub.org/de/apps/category/Graphics
-https://beta.flathub.org/de/apps/category/Network
-https://beta.flathub.org/de/apps/category/Office
-https://beta.flathub.org/de/apps/category/Science
-https://beta.flathub.org/de/apps/category/System
-https://beta.flathub.org/de/apps/category/Utility
-https://beta.flathub.org/de/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/de/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/de/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/de/apps/collection/popular
-https://beta.flathub.org/de/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/de/apps/collection/recently-added
-https://beta.flathub.org/de/apps/collection/recently-updated
-https://beta.flathub.org/de/apps/collection/verified
-https://beta.flathub.org/de/apps/com.anydesk.Anydesk
-https://beta.flathub.org/de/apps/com.wps.Office
-https://beta.flathub.org/de/apps/org.sugarlabs.Maze
-https://beta.flathub.org/de/badges
-https://beta.flathub.org/de/feeds
-https://beta.flathub.org/de/languages
-https://beta.flathub.org/de/login
-https://beta.flathub.org/de/privacy-policy
-https://beta.flathub.org/de/statistics
-https://beta.flathub.org/de/terms-and-conditions
-https://beta.flathub.org/fr/about
-https://beta.flathub.org/fr/apps
-https://beta.flathub.org/fr/apps/category/AudioVideo
-https://beta.flathub.org/fr/apps/category/Development
-https://beta.flathub.org/fr/apps/category/Education
-https://beta.flathub.org/fr/apps/category/Game
-https://beta.flathub.org/fr/apps/category/Graphics
-https://beta.flathub.org/fr/apps/category/Network
-https://beta.flathub.org/fr/apps/category/Office
-https://beta.flathub.org/fr/apps/category/Science
-https://beta.flathub.org/fr/apps/category/System
-https://beta.flathub.org/fr/apps/category/Utility
-https://beta.flathub.org/fr/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/fr/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/fr/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fr/apps/collection/popular
-https://beta.flathub.org/fr/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/fr/apps/collection/recently-added
-https://beta.flathub.org/fr/apps/collection/recently-updated
-https://beta.flathub.org/fr/apps/collection/verified
-https://beta.flathub.org/fr/apps/com.anydesk.Anydesk
-https://beta.flathub.org/fr/apps/com.wps.Office
-https://beta.flathub.org/fr/apps/org.sugarlabs.Maze
-https://beta.flathub.org/fr/badges
-https://beta.flathub.org/fr/feeds
-https://beta.flathub.org/fr/languages
-https://beta.flathub.org/fr/login
-https://beta.flathub.org/fr/privacy-policy
-https://beta.flathub.org/fr/statistics
-https://beta.flathub.org/fr/terms-and-conditions
-https://beta.flathub.org/nb-NO/about
-https://beta.flathub.org/nb-NO/apps
-https://beta.flathub.org/nb-NO/apps/category/AudioVideo
-https://beta.flathub.org/nb-NO/apps/category/Development
-https://beta.flathub.org/nb-NO/apps/category/Education
-https://beta.flathub.org/nb-NO/apps/category/Game
-https://beta.flathub.org/nb-NO/apps/category/Graphics
-https://beta.flathub.org/nb-NO/apps/category/Network
-https://beta.flathub.org/nb-NO/apps/category/Office
-https://beta.flathub.org/nb-NO/apps/category/Science
-https://beta.flathub.org/nb-NO/apps/category/System
-https://beta.flathub.org/nb-NO/apps/category/Utility
-https://beta.flathub.org/nb-NO/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/nb-NO/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/nb-NO/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/nb-NO/apps/collection/popular
-https://beta.flathub.org/nb-NO/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/nb-NO/apps/collection/recently-added
-https://beta.flathub.org/nb-NO/apps/collection/recently-updated
-https://beta.flathub.org/nb-NO/apps/collection/verified
-https://beta.flathub.org/nb-NO/apps/com.anydesk.Anydesk
-https://beta.flathub.org/nb-NO/apps/com.wps.Office
-https://beta.flathub.org/nb-NO/apps/org.sugarlabs.Maze
-https://beta.flathub.org/nb-NO/badges
-https://beta.flathub.org/nb-NO/feeds
-https://beta.flathub.org/nb-NO/languages
-https://beta.flathub.org/nb-NO/login
-https://beta.flathub.org/nb-NO/privacy-policy
-https://beta.flathub.org/nb-NO/statistics
-https://beta.flathub.org/nb-NO/terms-and-conditions
-https://beta.flathub.org/tr/about
-https://beta.flathub.org/tr/apps
-https://beta.flathub.org/tr/apps/category/AudioVideo
-https://beta.flathub.org/tr/apps/category/Development
-https://beta.flathub.org/tr/apps/category/Education
-https://beta.flathub.org/tr/apps/category/Game
-https://beta.flathub.org/tr/apps/category/Graphics
-https://beta.flathub.org/tr/apps/category/Network
-https://beta.flathub.org/tr/apps/category/Office
-https://beta.flathub.org/tr/apps/category/Science
-https://beta.flathub.org/tr/apps/category/System
-https://beta.flathub.org/tr/apps/category/Utility
-https://beta.flathub.org/tr/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/tr/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/tr/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/tr/apps/collection/popular
-https://beta.flathub.org/tr/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/tr/apps/collection/recently-added
-https://beta.flathub.org/tr/apps/collection/recently-updated
-https://beta.flathub.org/tr/apps/collection/verified
-https://beta.flathub.org/tr/apps/com.anydesk.Anydesk
-https://beta.flathub.org/tr/apps/com.wps.Office
-https://beta.flathub.org/tr/apps/org.sugarlabs.Maze
-https://beta.flathub.org/tr/badges
-https://beta.flathub.org/tr/feeds
-https://beta.flathub.org/tr/languages
-https://beta.flathub.org/tr/login
-https://beta.flathub.org/tr/privacy-policy
-https://beta.flathub.org/tr/statistics
-https://beta.flathub.org/tr/terms-and-conditions
-https://beta.flathub.org/fi/about
-https://beta.flathub.org/fi/apps
-https://beta.flathub.org/fi/apps/category/AudioVideo
-https://beta.flathub.org/fi/apps/category/Development
-https://beta.flathub.org/fi/apps/category/Education
-https://beta.flathub.org/fi/apps/category/Game
-https://beta.flathub.org/fi/apps/category/Graphics
-https://beta.flathub.org/fi/apps/category/Network
-https://beta.flathub.org/fi/apps/category/Office
-https://beta.flathub.org/fi/apps/category/Science
-https://beta.flathub.org/fi/apps/category/System
-https://beta.flathub.org/fi/apps/category/Utility
-https://beta.flathub.org/fi/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/fi/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/fi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fi/apps/collection/popular
-https://beta.flathub.org/fi/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/fi/apps/collection/recently-added
-https://beta.flathub.org/fi/apps/collection/recently-updated
-https://beta.flathub.org/fi/apps/collection/verified
-https://beta.flathub.org/fi/apps/com.anydesk.Anydesk
-https://beta.flathub.org/fi/apps/com.wps.Office
-https://beta.flathub.org/fi/apps/org.sugarlabs.Maze
-https://beta.flathub.org/fi/badges
-https://beta.flathub.org/fi/feeds
-https://beta.flathub.org/fi/languages
-https://beta.flathub.org/fi/login
-https://beta.flathub.org/fi/privacy-policy
-https://beta.flathub.org/fi/statistics
-https://beta.flathub.org/fi/terms-and-conditions
-https://beta.flathub.org/id/about
-https://beta.flathub.org/id/apps
-https://beta.flathub.org/id/apps/category/AudioVideo
-https://beta.flathub.org/id/apps/category/Development
-https://beta.flathub.org/id/apps/category/Education
-https://beta.flathub.org/id/apps/category/Game
-https://beta.flathub.org/id/apps/category/Graphics
-https://beta.flathub.org/id/apps/category/Network
-https://beta.flathub.org/id/apps/category/Office
-https://beta.flathub.org/id/apps/category/Science
-https://beta.flathub.org/id/apps/category/System
-https://beta.flathub.org/id/apps/category/Utility
-https://beta.flathub.org/id/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/id/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/id/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/id/apps/collection/popular
-https://beta.flathub.org/id/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/id/apps/collection/recently-added
-https://beta.flathub.org/id/apps/collection/recently-updated
-https://beta.flathub.org/id/apps/collection/verified
-https://beta.flathub.org/id/apps/com.anydesk.Anydesk
-https://beta.flathub.org/id/apps/com.wps.Office
-https://beta.flathub.org/id/apps/org.sugarlabs.Maze
-https://beta.flathub.org/id/badges
-https://beta.flathub.org/id/feeds
-https://beta.flathub.org/id/languages
-https://beta.flathub.org/id/login
-https://beta.flathub.org/id/privacy-policy
-https://beta.flathub.org/id/statistics
-https://beta.flathub.org/id/terms-and-conditions
-https://beta.flathub.org/it/about
-https://beta.flathub.org/it/apps
-https://beta.flathub.org/it/apps/category/AudioVideo
-https://beta.flathub.org/it/apps/category/Development
-https://beta.flathub.org/it/apps/category/Education
-https://beta.flathub.org/it/apps/category/Game
-https://beta.flathub.org/it/apps/category/Graphics
-https://beta.flathub.org/it/apps/category/Network
-https://beta.flathub.org/it/apps/category/Office
-https://beta.flathub.org/it/apps/category/Science
-https://beta.flathub.org/it/apps/category/System
-https://beta.flathub.org/it/apps/category/Utility
-https://beta.flathub.org/it/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/it/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/it/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/it/apps/collection/popular
-https://beta.flathub.org/it/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/it/apps/collection/recently-added
-https://beta.flathub.org/it/apps/collection/recently-updated
-https://beta.flathub.org/it/apps/collection/verified
-https://beta.flathub.org/it/apps/com.anydesk.Anydesk
-https://beta.flathub.org/it/apps/com.wps.Office
-https://beta.flathub.org/it/apps/org.sugarlabs.Maze
-https://beta.flathub.org/it/badges
-https://beta.flathub.org/it/feeds
-https://beta.flathub.org/it/languages
-https://beta.flathub.org/it/login
-https://beta.flathub.org/it/privacy-policy
-https://beta.flathub.org/it/statistics
-https://beta.flathub.org/it/terms-and-conditions
-https://beta.flathub.org/pl/about
-https://beta.flathub.org/pl/apps
-https://beta.flathub.org/pl/apps/category/AudioVideo
-https://beta.flathub.org/pl/apps/category/Development
-https://beta.flathub.org/pl/apps/category/Education
-https://beta.flathub.org/pl/apps/category/Game
-https://beta.flathub.org/pl/apps/category/Graphics
-https://beta.flathub.org/pl/apps/category/Network
-https://beta.flathub.org/pl/apps/category/Office
-https://beta.flathub.org/pl/apps/category/Science
-https://beta.flathub.org/pl/apps/category/System
-https://beta.flathub.org/pl/apps/category/Utility
-https://beta.flathub.org/pl/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/pl/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/pl/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/pl/apps/collection/popular
-https://beta.flathub.org/pl/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/pl/apps/collection/recently-added
-https://beta.flathub.org/pl/apps/collection/recently-updated
-https://beta.flathub.org/pl/apps/collection/verified
-https://beta.flathub.org/pl/apps/com.anydesk.Anydesk
-https://beta.flathub.org/pl/apps/com.wps.Office
-https://beta.flathub.org/pl/apps/org.sugarlabs.Maze
-https://beta.flathub.org/pl/badges
-https://beta.flathub.org/pl/feeds
-https://beta.flathub.org/pl/languages
-https://beta.flathub.org/pl/login
-https://beta.flathub.org/pl/privacy-policy
-https://beta.flathub.org/pl/statistics
-https://beta.flathub.org/pl/terms-and-conditions
-https://beta.flathub.org/pt-BR/about
-https://beta.flathub.org/pt-BR/apps
-https://beta.flathub.org/pt-BR/apps/category/AudioVideo
-https://beta.flathub.org/pt-BR/apps/category/Development
-https://beta.flathub.org/pt-BR/apps/category/Education
-https://beta.flathub.org/pt-BR/apps/category/Game
-https://beta.flathub.org/pt-BR/apps/category/Graphics
-https://beta.flathub.org/pt-BR/apps/category/Network
-https://beta.flathub.org/pt-BR/apps/category/Office
-https://beta.flathub.org/pt-BR/apps/category/Science
-https://beta.flathub.org/pt-BR/apps/category/System
-https://beta.flathub.org/pt-BR/apps/category/Utility
-https://beta.flathub.org/pt-BR/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/pt-BR/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/pt-BR/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/pt-BR/apps/collection/popular
-https://beta.flathub.org/pt-BR/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/pt-BR/apps/collection/recently-added
-https://beta.flathub.org/pt-BR/apps/collection/recently-updated
-https://beta.flathub.org/pt-BR/apps/collection/verified
-https://beta.flathub.org/pt-BR/apps/com.anydesk.Anydesk
-https://beta.flathub.org/pt-BR/apps/com.wps.Office
-https://beta.flathub.org/pt-BR/apps/org.sugarlabs.Maze
-https://beta.flathub.org/pt-BR/badges
-https://beta.flathub.org/pt-BR/feeds
-https://beta.flathub.org/pt-BR/languages
-https://beta.flathub.org/pt-BR/login
-https://beta.flathub.org/pt-BR/privacy-policy
-https://beta.flathub.org/pt-BR/statistics
-https://beta.flathub.org/pt-BR/terms-and-conditions
-https://beta.flathub.org/ru/about
-https://beta.flathub.org/ru/apps
-https://beta.flathub.org/ru/apps/category/AudioVideo
-https://beta.flathub.org/ru/apps/category/Development
-https://beta.flathub.org/ru/apps/category/Education
-https://beta.flathub.org/ru/apps/category/Game
-https://beta.flathub.org/ru/apps/category/Graphics
-https://beta.flathub.org/ru/apps/category/Network
-https://beta.flathub.org/ru/apps/category/Office
-https://beta.flathub.org/ru/apps/category/Science
-https://beta.flathub.org/ru/apps/category/System
-https://beta.flathub.org/ru/apps/category/Utility
-https://beta.flathub.org/ru/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/ru/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/ru/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ru/apps/collection/popular
-https://beta.flathub.org/ru/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/ru/apps/collection/recently-added
-https://beta.flathub.org/ru/apps/collection/recently-updated
-https://beta.flathub.org/ru/apps/collection/verified
-https://beta.flathub.org/ru/apps/com.anydesk.Anydesk
-https://beta.flathub.org/ru/apps/com.wps.Office
-https://beta.flathub.org/ru/apps/org.sugarlabs.Maze
-https://beta.flathub.org/ru/badges
-https://beta.flathub.org/ru/feeds
-https://beta.flathub.org/ru/languages
-https://beta.flathub.org/ru/login
-https://beta.flathub.org/ru/privacy-policy
-https://beta.flathub.org/ru/statistics
-https://beta.flathub.org/ru/terms-and-conditions
-https://beta.flathub.org/si/about
-https://beta.flathub.org/si/apps
-https://beta.flathub.org/si/apps/category/AudioVideo
-https://beta.flathub.org/si/apps/category/Development
-https://beta.flathub.org/si/apps/category/Education
-https://beta.flathub.org/si/apps/category/Game
-https://beta.flathub.org/si/apps/category/Graphics
-https://beta.flathub.org/si/apps/category/Network
-https://beta.flathub.org/si/apps/category/Office
-https://beta.flathub.org/si/apps/category/Science
-https://beta.flathub.org/si/apps/category/System
-https://beta.flathub.org/si/apps/category/Utility
-https://beta.flathub.org/si/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/si/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/si/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/si/apps/collection/popular
-https://beta.flathub.org/si/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/si/apps/collection/recently-added
-https://beta.flathub.org/si/apps/collection/recently-updated
-https://beta.flathub.org/si/apps/collection/verified
-https://beta.flathub.org/si/apps/com.anydesk.Anydesk
-https://beta.flathub.org/si/apps/com.wps.Office
-https://beta.flathub.org/si/apps/org.sugarlabs.Maze
-https://beta.flathub.org/si/badges
-https://beta.flathub.org/si/feeds
-https://beta.flathub.org/si/languages
-https://beta.flathub.org/si/login
-https://beta.flathub.org/si/privacy-policy
-https://beta.flathub.org/si/statistics
-https://beta.flathub.org/si/terms-and-conditions
-https://beta.flathub.org/vi/about
-https://beta.flathub.org/vi/apps
-https://beta.flathub.org/vi/apps/category/AudioVideo
-https://beta.flathub.org/vi/apps/category/Development
-https://beta.flathub.org/vi/apps/category/Education
-https://beta.flathub.org/vi/apps/category/Game
-https://beta.flathub.org/vi/apps/category/Graphics
-https://beta.flathub.org/vi/apps/category/Network
-https://beta.flathub.org/vi/apps/category/Office
-https://beta.flathub.org/vi/apps/category/Science
-https://beta.flathub.org/vi/apps/category/System
-https://beta.flathub.org/vi/apps/category/Utility
-https://beta.flathub.org/vi/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/vi/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/vi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/vi/apps/collection/popular
-https://beta.flathub.org/vi/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/vi/apps/collection/recently-added
-https://beta.flathub.org/vi/apps/collection/recently-updated
-https://beta.flathub.org/vi/apps/collection/verified
-https://beta.flathub.org/vi/apps/com.anydesk.Anydesk
-https://beta.flathub.org/vi/apps/com.wps.Office
-https://beta.flathub.org/vi/apps/org.sugarlabs.Maze
-https://beta.flathub.org/vi/badges
-https://beta.flathub.org/vi/feeds
-https://beta.flathub.org/vi/languages
-https://beta.flathub.org/vi/login
-https://beta.flathub.org/vi/privacy-policy
-https://beta.flathub.org/vi/statistics
-https://beta.flathub.org/vi/terms-and-conditions
-https://beta.flathub.org/ar/about
-https://beta.flathub.org/ar/apps
-https://beta.flathub.org/ar/apps/category/AudioVideo
-https://beta.flathub.org/ar/apps/category/Development
-https://beta.flathub.org/ar/apps/category/Education
-https://beta.flathub.org/ar/apps/category/Game
-https://beta.flathub.org/ar/apps/category/Graphics
-https://beta.flathub.org/ar/apps/category/Network
-https://beta.flathub.org/ar/apps/category/Office
-https://beta.flathub.org/ar/apps/category/Science
-https://beta.flathub.org/ar/apps/category/System
-https://beta.flathub.org/ar/apps/category/Utility
-https://beta.flathub.org/ar/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/ar/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/ar/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ar/apps/collection/popular
-https://beta.flathub.org/ar/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/ar/apps/collection/recently-added
-https://beta.flathub.org/ar/apps/collection/recently-updated
-https://beta.flathub.org/ar/apps/collection/verified
-https://beta.flathub.org/ar/apps/com.anydesk.Anydesk
-https://beta.flathub.org/ar/apps/com.wps.Office
-https://beta.flathub.org/ar/apps/org.sugarlabs.Maze
-https://beta.flathub.org/ar/badges
-https://beta.flathub.org/ar/feeds
-https://beta.flathub.org/ar/languages
-https://beta.flathub.org/ar/login
-https://beta.flathub.org/ar/privacy-policy
-https://beta.flathub.org/ar/statistics
-https://beta.flathub.org/ar/terms-and-conditions
-https://beta.flathub.org/es/about
-https://beta.flathub.org/es/apps
-https://beta.flathub.org/es/apps/category/AudioVideo
-https://beta.flathub.org/es/apps/category/Development
-https://beta.flathub.org/es/apps/category/Education
-https://beta.flathub.org/es/apps/category/Game
-https://beta.flathub.org/es/apps/category/Graphics
-https://beta.flathub.org/es/apps/category/Network
-https://beta.flathub.org/es/apps/category/Office
-https://beta.flathub.org/es/apps/category/Science
-https://beta.flathub.org/es/apps/category/System
-https://beta.flathub.org/es/apps/category/Utility
-https://beta.flathub.org/es/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/es/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/es/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/es/apps/collection/popular
-https://beta.flathub.org/es/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/es/apps/collection/recently-added
-https://beta.flathub.org/es/apps/collection/recently-updated
-https://beta.flathub.org/es/apps/collection/verified
-https://beta.flathub.org/es/apps/com.anydesk.Anydesk
-https://beta.flathub.org/es/apps/com.wps.Office
-https://beta.flathub.org/es/apps/org.sugarlabs.Maze
-https://beta.flathub.org/es/badges
-https://beta.flathub.org/es/feeds
-https://beta.flathub.org/es/languages
-https://beta.flathub.org/es/login
-https://beta.flathub.org/es/privacy-policy
-https://beta.flathub.org/es/statistics
-https://beta.flathub.org/es/terms-and-conditions
-https://beta.flathub.org/ja/about
-https://beta.flathub.org/ja/apps
-https://beta.flathub.org/ja/apps/category/AudioVideo
-https://beta.flathub.org/ja/apps/category/Development
-https://beta.flathub.org/ja/apps/category/Education
-https://beta.flathub.org/ja/apps/category/Game
-https://beta.flathub.org/ja/apps/category/Graphics
-https://beta.flathub.org/ja/apps/category/Network
-https://beta.flathub.org/ja/apps/category/Office
-https://beta.flathub.org/ja/apps/category/Science
-https://beta.flathub.org/ja/apps/category/System
-https://beta.flathub.org/ja/apps/category/Utility
-https://beta.flathub.org/ja/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/ja/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/ja/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ja/apps/collection/popular
-https://beta.flathub.org/ja/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/ja/apps/collection/recently-added
-https://beta.flathub.org/ja/apps/collection/recently-updated
-https://beta.flathub.org/ja/apps/collection/verified
-https://beta.flathub.org/ja/apps/com.anydesk.Anydesk
-https://beta.flathub.org/ja/apps/com.wps.Office
-https://beta.flathub.org/ja/apps/org.sugarlabs.Maze
-https://beta.flathub.org/ja/badges
-https://beta.flathub.org/ja/feeds
-https://beta.flathub.org/ja/languages
-https://beta.flathub.org/ja/login
-https://beta.flathub.org/ja/privacy-policy
-https://beta.flathub.org/ja/statistics
-https://beta.flathub.org/ja/terms-and-conditions
-https://beta.flathub.org/cs/about
-https://beta.flathub.org/cs/apps
-https://beta.flathub.org/cs/apps/category/AudioVideo
-https://beta.flathub.org/cs/apps/category/Development
-https://beta.flathub.org/cs/apps/category/Education
-https://beta.flathub.org/cs/apps/category/Game
-https://beta.flathub.org/cs/apps/category/Graphics
-https://beta.flathub.org/cs/apps/category/Network
-https://beta.flathub.org/cs/apps/category/Office
-https://beta.flathub.org/cs/apps/category/Science
-https://beta.flathub.org/cs/apps/category/System
-https://beta.flathub.org/cs/apps/category/Utility
-https://beta.flathub.org/cs/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/cs/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/cs/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/cs/apps/collection/popular
-https://beta.flathub.org/cs/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/cs/apps/collection/recently-added
-https://beta.flathub.org/cs/apps/collection/recently-updated
-https://beta.flathub.org/cs/apps/collection/verified
-https://beta.flathub.org/cs/apps/com.anydesk.Anydesk
-https://beta.flathub.org/cs/apps/com.wps.Office
-https://beta.flathub.org/cs/apps/org.sugarlabs.Maze
-https://beta.flathub.org/cs/badges
-https://beta.flathub.org/cs/feeds
-https://beta.flathub.org/cs/languages
-https://beta.flathub.org/cs/login
-https://beta.flathub.org/cs/privacy-policy
-https://beta.flathub.org/cs/statistics
-https://beta.flathub.org/cs/terms-and-conditions
-https://beta.flathub.org/zh-Hans/about
-https://beta.flathub.org/zh-Hans/apps
-https://beta.flathub.org/zh-Hans/apps/category/AudioVideo
-https://beta.flathub.org/zh-Hans/apps/category/Development
-https://beta.flathub.org/zh-Hans/apps/category/Education
-https://beta.flathub.org/zh-Hans/apps/category/Game
-https://beta.flathub.org/zh-Hans/apps/category/Graphics
-https://beta.flathub.org/zh-Hans/apps/category/Network
-https://beta.flathub.org/zh-Hans/apps/category/Office
-https://beta.flathub.org/zh-Hans/apps/category/Science
-https://beta.flathub.org/zh-Hans/apps/category/System
-https://beta.flathub.org/zh-Hans/apps/category/Utility
-https://beta.flathub.org/zh-Hans/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/zh-Hans/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/zh-Hans/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/zh-Hans/apps/collection/popular
-https://beta.flathub.org/zh-Hans/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/zh-Hans/apps/collection/recently-added
-https://beta.flathub.org/zh-Hans/apps/collection/recently-updated
-https://beta.flathub.org/zh-Hans/apps/collection/verified
-https://beta.flathub.org/zh-Hans/apps/com.anydesk.Anydesk
-https://beta.flathub.org/zh-Hans/apps/com.wps.Office
-https://beta.flathub.org/zh-Hans/apps/org.sugarlabs.Maze
-https://beta.flathub.org/zh-Hans/badges
-https://beta.flathub.org/zh-Hans/feeds
-https://beta.flathub.org/zh-Hans/languages
-https://beta.flathub.org/zh-Hans/login
-https://beta.flathub.org/zh-Hans/privacy-policy
-https://beta.flathub.org/zh-Hans/statistics
-https://beta.flathub.org/zh-Hans/terms-and-conditions
-https://beta.flathub.org/bg/about
-https://beta.flathub.org/bg/apps
-https://beta.flathub.org/bg/apps/category/AudioVideo
-https://beta.flathub.org/bg/apps/category/Development
-https://beta.flathub.org/bg/apps/category/Education
-https://beta.flathub.org/bg/apps/category/Game
-https://beta.flathub.org/bg/apps/category/Graphics
-https://beta.flathub.org/bg/apps/category/Network
-https://beta.flathub.org/bg/apps/category/Office
-https://beta.flathub.org/bg/apps/category/Science
-https://beta.flathub.org/bg/apps/category/System
-https://beta.flathub.org/bg/apps/category/Utility
-https://beta.flathub.org/bg/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/bg/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/bg/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/bg/apps/collection/popular
-https://beta.flathub.org/bg/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/bg/apps/collection/recently-added
-https://beta.flathub.org/bg/apps/collection/recently-updated
-https://beta.flathub.org/bg/apps/collection/verified
-https://beta.flathub.org/bg/apps/com.anydesk.Anydesk
-https://beta.flathub.org/bg/apps/com.wps.Office
-https://beta.flathub.org/bg/apps/org.sugarlabs.Maze
-https://beta.flathub.org/bg/badges
-https://beta.flathub.org/bg/feeds
-https://beta.flathub.org/bg/languages
-https://beta.flathub.org/bg/login
-https://beta.flathub.org/bg/privacy-policy
-https://beta.flathub.org/bg/statistics
-https://beta.flathub.org/bg/terms-and-conditions
-https://beta.flathub.org/uk/about
-https://beta.flathub.org/uk/apps
-https://beta.flathub.org/uk/apps/category/AudioVideo
-https://beta.flathub.org/uk/apps/category/Development
-https://beta.flathub.org/uk/apps/category/Education
-https://beta.flathub.org/uk/apps/category/Game
-https://beta.flathub.org/uk/apps/category/Graphics
-https://beta.flathub.org/uk/apps/category/Network
-https://beta.flathub.org/uk/apps/category/Office
-https://beta.flathub.org/uk/apps/category/Science
-https://beta.flathub.org/uk/apps/category/System
-https://beta.flathub.org/uk/apps/category/Utility
-https://beta.flathub.org/uk/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/uk/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/uk/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/uk/apps/collection/popular
-https://beta.flathub.org/uk/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/uk/apps/collection/recently-added
-https://beta.flathub.org/uk/apps/collection/recently-updated
-https://beta.flathub.org/uk/apps/collection/verified
-https://beta.flathub.org/uk/apps/com.anydesk.Anydesk
-https://beta.flathub.org/uk/apps/com.wps.Office
-https://beta.flathub.org/uk/apps/org.sugarlabs.Maze
-https://beta.flathub.org/uk/badges
-https://beta.flathub.org/uk/feeds
-https://beta.flathub.org/uk/languages
-https://beta.flathub.org/uk/login
-https://beta.flathub.org/uk/privacy-policy
-https://beta.flathub.org/uk/statistics
-https://beta.flathub.org/uk/terms-and-conditions
-https://beta.flathub.org/et/about
-https://beta.flathub.org/et/apps
-https://beta.flathub.org/et/apps/category/AudioVideo
-https://beta.flathub.org/et/apps/category/Development
-https://beta.flathub.org/et/apps/category/Education
-https://beta.flathub.org/et/apps/category/Game
-https://beta.flathub.org/et/apps/category/Graphics
-https://beta.flathub.org/et/apps/category/Network
-https://beta.flathub.org/et/apps/category/Office
-https://beta.flathub.org/et/apps/category/Science
-https://beta.flathub.org/et/apps/category/System
-https://beta.flathub.org/et/apps/category/Utility
-https://beta.flathub.org/et/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/et/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/et/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/et/apps/collection/popular
-https://beta.flathub.org/et/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/et/apps/collection/recently-added
-https://beta.flathub.org/et/apps/collection/recently-updated
-https://beta.flathub.org/et/apps/collection/verified
-https://beta.flathub.org/et/apps/com.anydesk.Anydesk
-https://beta.flathub.org/et/apps/com.wps.Office
-https://beta.flathub.org/et/apps/org.sugarlabs.Maze
-https://beta.flathub.org/et/badges
-https://beta.flathub.org/et/feeds
-https://beta.flathub.org/et/languages
-https://beta.flathub.org/et/login
-https://beta.flathub.org/et/privacy-policy
-https://beta.flathub.org/et/statistics
-https://beta.flathub.org/et/terms-and-conditions
-https://beta.flathub.org/ca/about
-https://beta.flathub.org/ca/apps
-https://beta.flathub.org/ca/apps/category/AudioVideo
-https://beta.flathub.org/ca/apps/category/Development
-https://beta.flathub.org/ca/apps/category/Education
-https://beta.flathub.org/ca/apps/category/Game
-https://beta.flathub.org/ca/apps/category/Graphics
-https://beta.flathub.org/ca/apps/category/Network
-https://beta.flathub.org/ca/apps/category/Office
-https://beta.flathub.org/ca/apps/category/Science
-https://beta.flathub.org/ca/apps/category/System
-https://beta.flathub.org/ca/apps/category/Utility
-https://beta.flathub.org/ca/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/ca/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/ca/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ca/apps/collection/popular
-https://beta.flathub.org/ca/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/ca/apps/collection/recently-added
-https://beta.flathub.org/ca/apps/collection/recently-updated
-https://beta.flathub.org/ca/apps/collection/verified
-https://beta.flathub.org/ca/apps/com.anydesk.Anydesk
-https://beta.flathub.org/ca/apps/com.wps.Office
-https://beta.flathub.org/ca/apps/org.sugarlabs.Maze
-https://beta.flathub.org/ca/badges
-https://beta.flathub.org/ca/feeds
-https://beta.flathub.org/ca/languages
-https://beta.flathub.org/ca/login
-https://beta.flathub.org/ca/privacy-policy
-https://beta.flathub.org/ca/statistics
-https://beta.flathub.org/ca/terms-and-conditions
-https://beta.flathub.org/el/about
-https://beta.flathub.org/el/apps
-https://beta.flathub.org/el/apps/category/AudioVideo
-https://beta.flathub.org/el/apps/category/Development
-https://beta.flathub.org/el/apps/category/Education
-https://beta.flathub.org/el/apps/category/Game
-https://beta.flathub.org/el/apps/category/Graphics
-https://beta.flathub.org/el/apps/category/Network
-https://beta.flathub.org/el/apps/category/Office
-https://beta.flathub.org/el/apps/category/Science
-https://beta.flathub.org/el/apps/category/System
-https://beta.flathub.org/el/apps/category/Utility
-https://beta.flathub.org/el/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/el/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/el/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/el/apps/collection/popular
-https://beta.flathub.org/el/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/el/apps/collection/recently-added
-https://beta.flathub.org/el/apps/collection/recently-updated
-https://beta.flathub.org/el/apps/collection/verified
-https://beta.flathub.org/el/apps/com.anydesk.Anydesk
-https://beta.flathub.org/el/apps/com.wps.Office
-https://beta.flathub.org/el/apps/org.sugarlabs.Maze
-https://beta.flathub.org/el/badges
-https://beta.flathub.org/el/feeds
-https://beta.flathub.org/el/languages
-https://beta.flathub.org/el/login
-https://beta.flathub.org/el/privacy-policy
-https://beta.flathub.org/el/statistics
-https://beta.flathub.org/el/terms-and-conditions
-https://beta.flathub.org/ta/about
-https://beta.flathub.org/ta/apps
-https://beta.flathub.org/ta/apps/category/AudioVideo
-https://beta.flathub.org/ta/apps/category/Development
-https://beta.flathub.org/ta/apps/category/Education
-https://beta.flathub.org/ta/apps/category/Game
-https://beta.flathub.org/ta/apps/category/Graphics
-https://beta.flathub.org/ta/apps/category/Network
-https://beta.flathub.org/ta/apps/category/Office
-https://beta.flathub.org/ta/apps/category/Science
-https://beta.flathub.org/ta/apps/category/System
-https://beta.flathub.org/ta/apps/category/Utility
-https://beta.flathub.org/ta/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/ta/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/ta/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/ta/apps/collection/popular
-https://beta.flathub.org/ta/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/ta/apps/collection/recently-added
-https://beta.flathub.org/ta/apps/collection/recently-updated
-https://beta.flathub.org/ta/apps/collection/verified
-https://beta.flathub.org/ta/apps/com.anydesk.Anydesk
-https://beta.flathub.org/ta/apps/com.wps.Office
-https://beta.flathub.org/ta/apps/org.sugarlabs.Maze
-https://beta.flathub.org/ta/badges
-https://beta.flathub.org/ta/feeds
-https://beta.flathub.org/ta/languages
-https://beta.flathub.org/ta/login
-https://beta.flathub.org/ta/privacy-policy
-https://beta.flathub.org/ta/statistics
-https://beta.flathub.org/ta/terms-and-conditions
-https://beta.flathub.org/fa/about
-https://beta.flathub.org/fa/apps
-https://beta.flathub.org/fa/apps/category/AudioVideo
-https://beta.flathub.org/fa/apps/category/Development
-https://beta.flathub.org/fa/apps/category/Education
-https://beta.flathub.org/fa/apps/category/Game
-https://beta.flathub.org/fa/apps/category/Graphics
-https://beta.flathub.org/fa/apps/category/Network
-https://beta.flathub.org/fa/apps/category/Office
-https://beta.flathub.org/fa/apps/category/Science
-https://beta.flathub.org/fa/apps/category/System
-https://beta.flathub.org/fa/apps/category/Utility
-https://beta.flathub.org/fa/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/fa/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/fa/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/fa/apps/collection/popular
-https://beta.flathub.org/fa/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/fa/apps/collection/recently-added
-https://beta.flathub.org/fa/apps/collection/recently-updated
-https://beta.flathub.org/fa/apps/collection/verified
-https://beta.flathub.org/fa/apps/com.anydesk.Anydesk
-https://beta.flathub.org/fa/apps/com.wps.Office
-https://beta.flathub.org/fa/apps/org.sugarlabs.Maze
-https://beta.flathub.org/fa/badges
-https://beta.flathub.org/fa/feeds
-https://beta.flathub.org/fa/languages
-https://beta.flathub.org/fa/login
-https://beta.flathub.org/fa/privacy-policy
-https://beta.flathub.org/fa/statistics
-https://beta.flathub.org/fa/terms-and-conditions
-https://beta.flathub.org/hi/about
-https://beta.flathub.org/hi/apps
-https://beta.flathub.org/hi/apps/category/AudioVideo
-https://beta.flathub.org/hi/apps/category/Development
-https://beta.flathub.org/hi/apps/category/Education
-https://beta.flathub.org/hi/apps/category/Game
-https://beta.flathub.org/hi/apps/category/Graphics
-https://beta.flathub.org/hi/apps/category/Network
-https://beta.flathub.org/hi/apps/category/Office
-https://beta.flathub.org/hi/apps/category/Science
-https://beta.flathub.org/hi/apps/category/System
-https://beta.flathub.org/hi/apps/category/Utility
-https://beta.flathub.org/hi/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/hi/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/hi/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/hi/apps/collection/popular
-https://beta.flathub.org/hi/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/hi/apps/collection/recently-added
-https://beta.flathub.org/hi/apps/collection/recently-updated
-https://beta.flathub.org/hi/apps/collection/verified
-https://beta.flathub.org/hi/apps/com.anydesk.Anydesk
-https://beta.flathub.org/hi/apps/com.wps.Office
-https://beta.flathub.org/hi/apps/org.sugarlabs.Maze
-https://beta.flathub.org/hi/badges
-https://beta.flathub.org/hi/feeds
-https://beta.flathub.org/hi/languages
-https://beta.flathub.org/hi/login
-https://beta.flathub.org/hi/privacy-policy
-https://beta.flathub.org/hi/statistics
-https://beta.flathub.org/hi/terms-and-conditions
-https://beta.flathub.org/bn/about
-https://beta.flathub.org/bn/apps
-https://beta.flathub.org/bn/apps/category/AudioVideo
-https://beta.flathub.org/bn/apps/category/Development
-https://beta.flathub.org/bn/apps/category/Education
-https://beta.flathub.org/bn/apps/category/Game
-https://beta.flathub.org/bn/apps/category/Graphics
-https://beta.flathub.org/bn/apps/category/Network
-https://beta.flathub.org/bn/apps/category/Office
-https://beta.flathub.org/bn/apps/category/Science
-https://beta.flathub.org/bn/apps/category/System
-https://beta.flathub.org/bn/apps/category/Utility
-https://beta.flathub.org/bn/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/bn/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/bn/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/bn/apps/collection/popular
-https://beta.flathub.org/bn/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/bn/apps/collection/recently-added
-https://beta.flathub.org/bn/apps/collection/recently-updated
-https://beta.flathub.org/bn/apps/collection/verified
-https://beta.flathub.org/bn/apps/com.anydesk.Anydesk
-https://beta.flathub.org/bn/apps/com.wps.Office
-https://beta.flathub.org/bn/apps/org.sugarlabs.Maze
-https://beta.flathub.org/bn/badges
-https://beta.flathub.org/bn/feeds
-https://beta.flathub.org/bn/languages
-https://beta.flathub.org/bn/login
-https://beta.flathub.org/bn/privacy-policy
-https://beta.flathub.org/bn/statistics
-https://beta.flathub.org/bn/terms-and-conditions
-https://beta.flathub.org/eo/about
-https://beta.flathub.org/eo/apps
-https://beta.flathub.org/eo/apps/category/AudioVideo
-https://beta.flathub.org/eo/apps/category/Development
-https://beta.flathub.org/eo/apps/category/Education
-https://beta.flathub.org/eo/apps/category/Game
-https://beta.flathub.org/eo/apps/category/Graphics
-https://beta.flathub.org/eo/apps/category/Network
-https://beta.flathub.org/eo/apps/category/Office
-https://beta.flathub.org/eo/apps/category/Science
-https://beta.flathub.org/eo/apps/category/System
-https://beta.flathub.org/eo/apps/category/Utility
-https://beta.flathub.org/eo/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/eo/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/eo/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/eo/apps/collection/popular
-https://beta.flathub.org/eo/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/eo/apps/collection/recently-added
-https://beta.flathub.org/eo/apps/collection/recently-updated
-https://beta.flathub.org/eo/apps/collection/verified
-https://beta.flathub.org/eo/apps/com.anydesk.Anydesk
-https://beta.flathub.org/eo/apps/com.wps.Office
-https://beta.flathub.org/eo/apps/org.sugarlabs.Maze
-https://beta.flathub.org/eo/badges
-https://beta.flathub.org/eo/feeds
-https://beta.flathub.org/eo/languages
-https://beta.flathub.org/eo/login
-https://beta.flathub.org/eo/privacy-policy
-https://beta.flathub.org/eo/statistics
-https://beta.flathub.org/eo/terms-and-conditions
-https://beta.flathub.org/lt/about
-https://beta.flathub.org/lt/apps
-https://beta.flathub.org/lt/apps/category/AudioVideo
-https://beta.flathub.org/lt/apps/category/Development
-https://beta.flathub.org/lt/apps/category/Education
-https://beta.flathub.org/lt/apps/category/Game
-https://beta.flathub.org/lt/apps/category/Graphics
-https://beta.flathub.org/lt/apps/category/Network
-https://beta.flathub.org/lt/apps/category/Office
-https://beta.flathub.org/lt/apps/category/Science
-https://beta.flathub.org/lt/apps/category/System
-https://beta.flathub.org/lt/apps/category/Utility
-https://beta.flathub.org/lt/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/lt/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/lt/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/lt/apps/collection/popular
-https://beta.flathub.org/lt/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/lt/apps/collection/recently-added
-https://beta.flathub.org/lt/apps/collection/recently-updated
-https://beta.flathub.org/lt/apps/collection/verified
-https://beta.flathub.org/lt/apps/com.anydesk.Anydesk
-https://beta.flathub.org/lt/apps/com.wps.Office
-https://beta.flathub.org/lt/apps/org.sugarlabs.Maze
-https://beta.flathub.org/lt/badges
-https://beta.flathub.org/lt/feeds
-https://beta.flathub.org/lt/languages
-https://beta.flathub.org/lt/login
-https://beta.flathub.org/lt/privacy-policy
-https://beta.flathub.org/lt/statistics
-https://beta.flathub.org/lt/terms-and-conditions
-https://beta.flathub.org/hr/about
-https://beta.flathub.org/hr/apps
-https://beta.flathub.org/hr/apps/category/AudioVideo
-https://beta.flathub.org/hr/apps/category/Development
-https://beta.flathub.org/hr/apps/category/Education
-https://beta.flathub.org/hr/apps/category/Game
-https://beta.flathub.org/hr/apps/category/Graphics
-https://beta.flathub.org/hr/apps/category/Network
-https://beta.flathub.org/hr/apps/category/Office
-https://beta.flathub.org/hr/apps/category/Science
-https://beta.flathub.org/hr/apps/category/System
-https://beta.flathub.org/hr/apps/category/Utility
-https://beta.flathub.org/hr/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/hr/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/hr/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/hr/apps/collection/popular
-https://beta.flathub.org/hr/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/hr/apps/collection/recently-added
-https://beta.flathub.org/hr/apps/collection/recently-updated
-https://beta.flathub.org/hr/apps/collection/verified
-https://beta.flathub.org/hr/apps/com.anydesk.Anydesk
-https://beta.flathub.org/hr/apps/com.wps.Office
-https://beta.flathub.org/hr/apps/org.sugarlabs.Maze
-https://beta.flathub.org/hr/badges
-https://beta.flathub.org/hr/feeds
-https://beta.flathub.org/hr/languages
-https://beta.flathub.org/hr/login
-https://beta.flathub.org/hr/privacy-policy
-https://beta.flathub.org/hr/statistics
-https://beta.flathub.org/hr/terms-and-conditions
-https://beta.flathub.org/be/about
-https://beta.flathub.org/be/apps
-https://beta.flathub.org/be/apps/category/AudioVideo
-https://beta.flathub.org/be/apps/category/Development
-https://beta.flathub.org/be/apps/category/Education
-https://beta.flathub.org/be/apps/category/Game
-https://beta.flathub.org/be/apps/category/Graphics
-https://beta.flathub.org/be/apps/category/Network
-https://beta.flathub.org/be/apps/category/Office
-https://beta.flathub.org/be/apps/category/Science
-https://beta.flathub.org/be/apps/category/System
-https://beta.flathub.org/be/apps/category/Utility
-https://beta.flathub.org/be/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/be/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/be/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/be/apps/collection/popular
-https://beta.flathub.org/be/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/be/apps/collection/recently-added
-https://beta.flathub.org/be/apps/collection/recently-updated
-https://beta.flathub.org/be/apps/collection/verified
-https://beta.flathub.org/be/apps/com.anydesk.Anydesk
-https://beta.flathub.org/be/apps/com.wps.Office
-https://beta.flathub.org/be/apps/org.sugarlabs.Maze
-https://beta.flathub.org/be/badges
-https://beta.flathub.org/be/feeds
-https://beta.flathub.org/be/languages
-https://beta.flathub.org/be/login
-https://beta.flathub.org/be/privacy-policy
-https://beta.flathub.org/be/statistics
-https://beta.flathub.org/be/terms-and-conditions
-https://beta.flathub.org/hu/about
-https://beta.flathub.org/hu/apps
-https://beta.flathub.org/hu/apps/category/AudioVideo
-https://beta.flathub.org/hu/apps/category/Development
-https://beta.flathub.org/hu/apps/category/Education
-https://beta.flathub.org/hu/apps/category/Game
-https://beta.flathub.org/hu/apps/category/Graphics
-https://beta.flathub.org/hu/apps/category/Network
-https://beta.flathub.org/hu/apps/category/Office
-https://beta.flathub.org/hu/apps/category/Science
-https://beta.flathub.org/hu/apps/category/System
-https://beta.flathub.org/hu/apps/category/Utility
-https://beta.flathub.org/hu/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/hu/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/hu/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/hu/apps/collection/popular
-https://beta.flathub.org/hu/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/hu/apps/collection/recently-added
-https://beta.flathub.org/hu/apps/collection/recently-updated
-https://beta.flathub.org/hu/apps/collection/verified
-https://beta.flathub.org/hu/apps/com.anydesk.Anydesk
-https://beta.flathub.org/hu/apps/com.wps.Office
-https://beta.flathub.org/hu/apps/org.sugarlabs.Maze
-https://beta.flathub.org/hu/badges
-https://beta.flathub.org/hu/feeds
-https://beta.flathub.org/hu/languages
-https://beta.flathub.org/hu/login
-https://beta.flathub.org/hu/privacy-policy
-https://beta.flathub.org/hu/statistics
-https://beta.flathub.org/hu/terms-and-conditions
-https://beta.flathub.org/nl/about
-https://beta.flathub.org/nl/apps
-https://beta.flathub.org/nl/apps/category/AudioVideo
-https://beta.flathub.org/nl/apps/category/Development
-https://beta.flathub.org/nl/apps/category/Education
-https://beta.flathub.org/nl/apps/category/Game
-https://beta.flathub.org/nl/apps/category/Graphics
-https://beta.flathub.org/nl/apps/category/Network
-https://beta.flathub.org/nl/apps/category/Office
-https://beta.flathub.org/nl/apps/category/Science
-https://beta.flathub.org/nl/apps/category/System
-https://beta.flathub.org/nl/apps/category/Utility
-https://beta.flathub.org/nl/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/nl/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/nl/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/nl/apps/collection/popular
-https://beta.flathub.org/nl/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/nl/apps/collection/recently-added
-https://beta.flathub.org/nl/apps/collection/recently-updated
-https://beta.flathub.org/nl/apps/collection/verified
-https://beta.flathub.org/nl/apps/com.anydesk.Anydesk
-https://beta.flathub.org/nl/apps/com.wps.Office
-https://beta.flathub.org/nl/apps/org.sugarlabs.Maze
-https://beta.flathub.org/nl/badges
-https://beta.flathub.org/nl/feeds
-https://beta.flathub.org/nl/languages
-https://beta.flathub.org/nl/login
-https://beta.flathub.org/nl/privacy-policy
-https://beta.flathub.org/nl/statistics
-https://beta.flathub.org/nl/terms-and-conditions
-https://beta.flathub.org/pt/about
-https://beta.flathub.org/pt/apps
-https://beta.flathub.org/pt/apps/category/AudioVideo
-https://beta.flathub.org/pt/apps/category/Development
-https://beta.flathub.org/pt/apps/category/Education
-https://beta.flathub.org/pt/apps/category/Game
-https://beta.flathub.org/pt/apps/category/Graphics
-https://beta.flathub.org/pt/apps/category/Network
-https://beta.flathub.org/pt/apps/category/Office
-https://beta.flathub.org/pt/apps/category/Science
-https://beta.flathub.org/pt/apps/category/System
-https://beta.flathub.org/pt/apps/category/Utility
-https://beta.flathub.org/pt/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/pt/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/pt/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/pt/apps/collection/popular
-https://beta.flathub.org/pt/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/pt/apps/collection/recently-added
-https://beta.flathub.org/pt/apps/collection/recently-updated
-https://beta.flathub.org/pt/apps/collection/verified
-https://beta.flathub.org/pt/apps/com.anydesk.Anydesk
-https://beta.flathub.org/pt/apps/com.wps.Office
-https://beta.flathub.org/pt/apps/org.sugarlabs.Maze
-https://beta.flathub.org/pt/badges
-https://beta.flathub.org/pt/feeds
-https://beta.flathub.org/pt/languages
-https://beta.flathub.org/pt/login
-https://beta.flathub.org/pt/privacy-policy
-https://beta.flathub.org/pt/statistics
-https://beta.flathub.org/pt/terms-and-conditions
-https://beta.flathub.org/zh-Hant/about
-https://beta.flathub.org/zh-Hant/apps
-https://beta.flathub.org/zh-Hant/apps/category/AudioVideo
-https://beta.flathub.org/zh-Hant/apps/category/Development
-https://beta.flathub.org/zh-Hant/apps/category/Education
-https://beta.flathub.org/zh-Hant/apps/category/Game
-https://beta.flathub.org/zh-Hant/apps/category/Graphics
-https://beta.flathub.org/zh-Hant/apps/category/Network
-https://beta.flathub.org/zh-Hant/apps/category/Office
-https://beta.flathub.org/zh-Hant/apps/category/Science
-https://beta.flathub.org/zh-Hant/apps/category/System
-https://beta.flathub.org/zh-Hant/apps/category/Utility
-https://beta.flathub.org/zh-Hant/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/zh-Hant/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/zh-Hant/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/zh-Hant/apps/collection/popular
-https://beta.flathub.org/zh-Hant/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/zh-Hant/apps/collection/recently-added
-https://beta.flathub.org/zh-Hant/apps/collection/recently-updated
-https://beta.flathub.org/zh-Hant/apps/collection/verified
-https://beta.flathub.org/zh-Hant/apps/com.anydesk.Anydesk
-https://beta.flathub.org/zh-Hant/apps/com.wps.Office
-https://beta.flathub.org/zh-Hant/apps/org.sugarlabs.Maze
-https://beta.flathub.org/zh-Hant/badges
-https://beta.flathub.org/zh-Hant/feeds
-https://beta.flathub.org/zh-Hant/languages
-https://beta.flathub.org/zh-Hant/login
-https://beta.flathub.org/zh-Hant/privacy-policy
-https://beta.flathub.org/zh-Hant/statistics
-https://beta.flathub.org/zh-Hant/terms-and-conditions
-https://beta.flathub.org/oc/about
-https://beta.flathub.org/oc/apps
-https://beta.flathub.org/oc/apps/category/AudioVideo
-https://beta.flathub.org/oc/apps/category/Development
-https://beta.flathub.org/oc/apps/category/Education
-https://beta.flathub.org/oc/apps/category/Game
-https://beta.flathub.org/oc/apps/category/Graphics
-https://beta.flathub.org/oc/apps/category/Network
-https://beta.flathub.org/oc/apps/category/Office
-https://beta.flathub.org/oc/apps/category/Science
-https://beta.flathub.org/oc/apps/category/System
-https://beta.flathub.org/oc/apps/category/Utility
-https://beta.flathub.org/oc/apps/collection/developer/AnyDesk Software GmbH
-https://beta.flathub.org/oc/apps/collection/developer/Kingsoft Office Corporation
-https://beta.flathub.org/oc/apps/collection/developer/Sugar Labs Community
-https://beta.flathub.org/oc/apps/collection/popular
-https://beta.flathub.org/oc/apps/collection/project-group/SugarLabs
-https://beta.flathub.org/oc/apps/collection/recently-added
-https://beta.flathub.org/oc/apps/collection/recently-updated
-https://beta.flathub.org/oc/apps/collection/verified
-https://beta.flathub.org/oc/apps/com.anydesk.Anydesk
-https://beta.flathub.org/oc/apps/com.wps.Office
-https://beta.flathub.org/oc/apps/org.sugarlabs.Maze
-https://beta.flathub.org/oc/badges
-https://beta.flathub.org/oc/feeds
-https://beta.flathub.org/oc/languages
-https://beta.flathub.org/oc/login
-https://beta.flathub.org/oc/privacy-policy
-https://beta.flathub.org/oc/statistics
-https://beta.flathub.org/oc/terms-and-conditions
+https://flathub.org/about
+https://flathub.org/apps
+https://flathub.org/apps/category/AudioVideo
+https://flathub.org/apps/category/Development
+https://flathub.org/apps/category/Education
+https://flathub.org/apps/category/Game
+https://flathub.org/apps/category/Graphics
+https://flathub.org/apps/category/Network
+https://flathub.org/apps/category/Office
+https://flathub.org/apps/category/Science
+https://flathub.org/apps/category/System
+https://flathub.org/apps/category/Utility
+https://flathub.org/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/apps/collection/developer/Sugar Labs Community
+https://flathub.org/apps/collection/popular
+https://flathub.org/apps/collection/project-group/SugarLabs
+https://flathub.org/apps/collection/recently-added
+https://flathub.org/apps/collection/recently-updated
+https://flathub.org/apps/collection/verified
+https://flathub.org/apps/com.anydesk.Anydesk
+https://flathub.org/apps/com.wps.Office
+https://flathub.org/apps/org.sugarlabs.Maze
+https://flathub.org/badges
+https://flathub.org/feeds
+https://flathub.org/languages
+https://flathub.org/login
+https://flathub.org/privacy-policy
+https://flathub.org/statistics
+https://flathub.org/terms-and-conditions
+https://flathub.org/en-GB/about
+https://flathub.org/en-GB/apps
+https://flathub.org/en-GB/apps/category/AudioVideo
+https://flathub.org/en-GB/apps/category/Development
+https://flathub.org/en-GB/apps/category/Education
+https://flathub.org/en-GB/apps/category/Game
+https://flathub.org/en-GB/apps/category/Graphics
+https://flathub.org/en-GB/apps/category/Network
+https://flathub.org/en-GB/apps/category/Office
+https://flathub.org/en-GB/apps/category/Science
+https://flathub.org/en-GB/apps/category/System
+https://flathub.org/en-GB/apps/category/Utility
+https://flathub.org/en-GB/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/en-GB/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/en-GB/apps/collection/developer/Sugar Labs Community
+https://flathub.org/en-GB/apps/collection/popular
+https://flathub.org/en-GB/apps/collection/project-group/SugarLabs
+https://flathub.org/en-GB/apps/collection/recently-added
+https://flathub.org/en-GB/apps/collection/recently-updated
+https://flathub.org/en-GB/apps/collection/verified
+https://flathub.org/en-GB/apps/com.anydesk.Anydesk
+https://flathub.org/en-GB/apps/com.wps.Office
+https://flathub.org/en-GB/apps/org.sugarlabs.Maze
+https://flathub.org/en-GB/badges
+https://flathub.org/en-GB/feeds
+https://flathub.org/en-GB/languages
+https://flathub.org/en-GB/login
+https://flathub.org/en-GB/privacy-policy
+https://flathub.org/en-GB/statistics
+https://flathub.org/en-GB/terms-and-conditions
+https://flathub.org/en/about
+https://flathub.org/en/apps
+https://flathub.org/en/apps/category/AudioVideo
+https://flathub.org/en/apps/category/Development
+https://flathub.org/en/apps/category/Education
+https://flathub.org/en/apps/category/Game
+https://flathub.org/en/apps/category/Graphics
+https://flathub.org/en/apps/category/Network
+https://flathub.org/en/apps/category/Office
+https://flathub.org/en/apps/category/Science
+https://flathub.org/en/apps/category/System
+https://flathub.org/en/apps/category/Utility
+https://flathub.org/en/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/en/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/en/apps/collection/developer/Sugar Labs Community
+https://flathub.org/en/apps/collection/popular
+https://flathub.org/en/apps/collection/project-group/SugarLabs
+https://flathub.org/en/apps/collection/recently-added
+https://flathub.org/en/apps/collection/recently-updated
+https://flathub.org/en/apps/collection/verified
+https://flathub.org/en/apps/com.anydesk.Anydesk
+https://flathub.org/en/apps/com.wps.Office
+https://flathub.org/en/apps/org.sugarlabs.Maze
+https://flathub.org/en/badges
+https://flathub.org/en/feeds
+https://flathub.org/en/languages
+https://flathub.org/en/login
+https://flathub.org/en/privacy-policy
+https://flathub.org/en/statistics
+https://flathub.org/en/terms-and-conditions
+https://flathub.org/de/about
+https://flathub.org/de/apps
+https://flathub.org/de/apps/category/AudioVideo
+https://flathub.org/de/apps/category/Development
+https://flathub.org/de/apps/category/Education
+https://flathub.org/de/apps/category/Game
+https://flathub.org/de/apps/category/Graphics
+https://flathub.org/de/apps/category/Network
+https://flathub.org/de/apps/category/Office
+https://flathub.org/de/apps/category/Science
+https://flathub.org/de/apps/category/System
+https://flathub.org/de/apps/category/Utility
+https://flathub.org/de/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/de/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/de/apps/collection/developer/Sugar Labs Community
+https://flathub.org/de/apps/collection/popular
+https://flathub.org/de/apps/collection/project-group/SugarLabs
+https://flathub.org/de/apps/collection/recently-added
+https://flathub.org/de/apps/collection/recently-updated
+https://flathub.org/de/apps/collection/verified
+https://flathub.org/de/apps/com.anydesk.Anydesk
+https://flathub.org/de/apps/com.wps.Office
+https://flathub.org/de/apps/org.sugarlabs.Maze
+https://flathub.org/de/badges
+https://flathub.org/de/feeds
+https://flathub.org/de/languages
+https://flathub.org/de/login
+https://flathub.org/de/privacy-policy
+https://flathub.org/de/statistics
+https://flathub.org/de/terms-and-conditions
+https://flathub.org/fr/about
+https://flathub.org/fr/apps
+https://flathub.org/fr/apps/category/AudioVideo
+https://flathub.org/fr/apps/category/Development
+https://flathub.org/fr/apps/category/Education
+https://flathub.org/fr/apps/category/Game
+https://flathub.org/fr/apps/category/Graphics
+https://flathub.org/fr/apps/category/Network
+https://flathub.org/fr/apps/category/Office
+https://flathub.org/fr/apps/category/Science
+https://flathub.org/fr/apps/category/System
+https://flathub.org/fr/apps/category/Utility
+https://flathub.org/fr/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/fr/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/fr/apps/collection/developer/Sugar Labs Community
+https://flathub.org/fr/apps/collection/popular
+https://flathub.org/fr/apps/collection/project-group/SugarLabs
+https://flathub.org/fr/apps/collection/recently-added
+https://flathub.org/fr/apps/collection/recently-updated
+https://flathub.org/fr/apps/collection/verified
+https://flathub.org/fr/apps/com.anydesk.Anydesk
+https://flathub.org/fr/apps/com.wps.Office
+https://flathub.org/fr/apps/org.sugarlabs.Maze
+https://flathub.org/fr/badges
+https://flathub.org/fr/feeds
+https://flathub.org/fr/languages
+https://flathub.org/fr/login
+https://flathub.org/fr/privacy-policy
+https://flathub.org/fr/statistics
+https://flathub.org/fr/terms-and-conditions
+https://flathub.org/nb-NO/about
+https://flathub.org/nb-NO/apps
+https://flathub.org/nb-NO/apps/category/AudioVideo
+https://flathub.org/nb-NO/apps/category/Development
+https://flathub.org/nb-NO/apps/category/Education
+https://flathub.org/nb-NO/apps/category/Game
+https://flathub.org/nb-NO/apps/category/Graphics
+https://flathub.org/nb-NO/apps/category/Network
+https://flathub.org/nb-NO/apps/category/Office
+https://flathub.org/nb-NO/apps/category/Science
+https://flathub.org/nb-NO/apps/category/System
+https://flathub.org/nb-NO/apps/category/Utility
+https://flathub.org/nb-NO/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/nb-NO/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/nb-NO/apps/collection/developer/Sugar Labs Community
+https://flathub.org/nb-NO/apps/collection/popular
+https://flathub.org/nb-NO/apps/collection/project-group/SugarLabs
+https://flathub.org/nb-NO/apps/collection/recently-added
+https://flathub.org/nb-NO/apps/collection/recently-updated
+https://flathub.org/nb-NO/apps/collection/verified
+https://flathub.org/nb-NO/apps/com.anydesk.Anydesk
+https://flathub.org/nb-NO/apps/com.wps.Office
+https://flathub.org/nb-NO/apps/org.sugarlabs.Maze
+https://flathub.org/nb-NO/badges
+https://flathub.org/nb-NO/feeds
+https://flathub.org/nb-NO/languages
+https://flathub.org/nb-NO/login
+https://flathub.org/nb-NO/privacy-policy
+https://flathub.org/nb-NO/statistics
+https://flathub.org/nb-NO/terms-and-conditions
+https://flathub.org/tr/about
+https://flathub.org/tr/apps
+https://flathub.org/tr/apps/category/AudioVideo
+https://flathub.org/tr/apps/category/Development
+https://flathub.org/tr/apps/category/Education
+https://flathub.org/tr/apps/category/Game
+https://flathub.org/tr/apps/category/Graphics
+https://flathub.org/tr/apps/category/Network
+https://flathub.org/tr/apps/category/Office
+https://flathub.org/tr/apps/category/Science
+https://flathub.org/tr/apps/category/System
+https://flathub.org/tr/apps/category/Utility
+https://flathub.org/tr/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/tr/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/tr/apps/collection/developer/Sugar Labs Community
+https://flathub.org/tr/apps/collection/popular
+https://flathub.org/tr/apps/collection/project-group/SugarLabs
+https://flathub.org/tr/apps/collection/recently-added
+https://flathub.org/tr/apps/collection/recently-updated
+https://flathub.org/tr/apps/collection/verified
+https://flathub.org/tr/apps/com.anydesk.Anydesk
+https://flathub.org/tr/apps/com.wps.Office
+https://flathub.org/tr/apps/org.sugarlabs.Maze
+https://flathub.org/tr/badges
+https://flathub.org/tr/feeds
+https://flathub.org/tr/languages
+https://flathub.org/tr/login
+https://flathub.org/tr/privacy-policy
+https://flathub.org/tr/statistics
+https://flathub.org/tr/terms-and-conditions
+https://flathub.org/fi/about
+https://flathub.org/fi/apps
+https://flathub.org/fi/apps/category/AudioVideo
+https://flathub.org/fi/apps/category/Development
+https://flathub.org/fi/apps/category/Education
+https://flathub.org/fi/apps/category/Game
+https://flathub.org/fi/apps/category/Graphics
+https://flathub.org/fi/apps/category/Network
+https://flathub.org/fi/apps/category/Office
+https://flathub.org/fi/apps/category/Science
+https://flathub.org/fi/apps/category/System
+https://flathub.org/fi/apps/category/Utility
+https://flathub.org/fi/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/fi/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/fi/apps/collection/developer/Sugar Labs Community
+https://flathub.org/fi/apps/collection/popular
+https://flathub.org/fi/apps/collection/project-group/SugarLabs
+https://flathub.org/fi/apps/collection/recently-added
+https://flathub.org/fi/apps/collection/recently-updated
+https://flathub.org/fi/apps/collection/verified
+https://flathub.org/fi/apps/com.anydesk.Anydesk
+https://flathub.org/fi/apps/com.wps.Office
+https://flathub.org/fi/apps/org.sugarlabs.Maze
+https://flathub.org/fi/badges
+https://flathub.org/fi/feeds
+https://flathub.org/fi/languages
+https://flathub.org/fi/login
+https://flathub.org/fi/privacy-policy
+https://flathub.org/fi/statistics
+https://flathub.org/fi/terms-and-conditions
+https://flathub.org/id/about
+https://flathub.org/id/apps
+https://flathub.org/id/apps/category/AudioVideo
+https://flathub.org/id/apps/category/Development
+https://flathub.org/id/apps/category/Education
+https://flathub.org/id/apps/category/Game
+https://flathub.org/id/apps/category/Graphics
+https://flathub.org/id/apps/category/Network
+https://flathub.org/id/apps/category/Office
+https://flathub.org/id/apps/category/Science
+https://flathub.org/id/apps/category/System
+https://flathub.org/id/apps/category/Utility
+https://flathub.org/id/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/id/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/id/apps/collection/developer/Sugar Labs Community
+https://flathub.org/id/apps/collection/popular
+https://flathub.org/id/apps/collection/project-group/SugarLabs
+https://flathub.org/id/apps/collection/recently-added
+https://flathub.org/id/apps/collection/recently-updated
+https://flathub.org/id/apps/collection/verified
+https://flathub.org/id/apps/com.anydesk.Anydesk
+https://flathub.org/id/apps/com.wps.Office
+https://flathub.org/id/apps/org.sugarlabs.Maze
+https://flathub.org/id/badges
+https://flathub.org/id/feeds
+https://flathub.org/id/languages
+https://flathub.org/id/login
+https://flathub.org/id/privacy-policy
+https://flathub.org/id/statistics
+https://flathub.org/id/terms-and-conditions
+https://flathub.org/it/about
+https://flathub.org/it/apps
+https://flathub.org/it/apps/category/AudioVideo
+https://flathub.org/it/apps/category/Development
+https://flathub.org/it/apps/category/Education
+https://flathub.org/it/apps/category/Game
+https://flathub.org/it/apps/category/Graphics
+https://flathub.org/it/apps/category/Network
+https://flathub.org/it/apps/category/Office
+https://flathub.org/it/apps/category/Science
+https://flathub.org/it/apps/category/System
+https://flathub.org/it/apps/category/Utility
+https://flathub.org/it/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/it/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/it/apps/collection/developer/Sugar Labs Community
+https://flathub.org/it/apps/collection/popular
+https://flathub.org/it/apps/collection/project-group/SugarLabs
+https://flathub.org/it/apps/collection/recently-added
+https://flathub.org/it/apps/collection/recently-updated
+https://flathub.org/it/apps/collection/verified
+https://flathub.org/it/apps/com.anydesk.Anydesk
+https://flathub.org/it/apps/com.wps.Office
+https://flathub.org/it/apps/org.sugarlabs.Maze
+https://flathub.org/it/badges
+https://flathub.org/it/feeds
+https://flathub.org/it/languages
+https://flathub.org/it/login
+https://flathub.org/it/privacy-policy
+https://flathub.org/it/statistics
+https://flathub.org/it/terms-and-conditions
+https://flathub.org/pl/about
+https://flathub.org/pl/apps
+https://flathub.org/pl/apps/category/AudioVideo
+https://flathub.org/pl/apps/category/Development
+https://flathub.org/pl/apps/category/Education
+https://flathub.org/pl/apps/category/Game
+https://flathub.org/pl/apps/category/Graphics
+https://flathub.org/pl/apps/category/Network
+https://flathub.org/pl/apps/category/Office
+https://flathub.org/pl/apps/category/Science
+https://flathub.org/pl/apps/category/System
+https://flathub.org/pl/apps/category/Utility
+https://flathub.org/pl/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/pl/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/pl/apps/collection/developer/Sugar Labs Community
+https://flathub.org/pl/apps/collection/popular
+https://flathub.org/pl/apps/collection/project-group/SugarLabs
+https://flathub.org/pl/apps/collection/recently-added
+https://flathub.org/pl/apps/collection/recently-updated
+https://flathub.org/pl/apps/collection/verified
+https://flathub.org/pl/apps/com.anydesk.Anydesk
+https://flathub.org/pl/apps/com.wps.Office
+https://flathub.org/pl/apps/org.sugarlabs.Maze
+https://flathub.org/pl/badges
+https://flathub.org/pl/feeds
+https://flathub.org/pl/languages
+https://flathub.org/pl/login
+https://flathub.org/pl/privacy-policy
+https://flathub.org/pl/statistics
+https://flathub.org/pl/terms-and-conditions
+https://flathub.org/pt-BR/about
+https://flathub.org/pt-BR/apps
+https://flathub.org/pt-BR/apps/category/AudioVideo
+https://flathub.org/pt-BR/apps/category/Development
+https://flathub.org/pt-BR/apps/category/Education
+https://flathub.org/pt-BR/apps/category/Game
+https://flathub.org/pt-BR/apps/category/Graphics
+https://flathub.org/pt-BR/apps/category/Network
+https://flathub.org/pt-BR/apps/category/Office
+https://flathub.org/pt-BR/apps/category/Science
+https://flathub.org/pt-BR/apps/category/System
+https://flathub.org/pt-BR/apps/category/Utility
+https://flathub.org/pt-BR/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/pt-BR/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/pt-BR/apps/collection/developer/Sugar Labs Community
+https://flathub.org/pt-BR/apps/collection/popular
+https://flathub.org/pt-BR/apps/collection/project-group/SugarLabs
+https://flathub.org/pt-BR/apps/collection/recently-added
+https://flathub.org/pt-BR/apps/collection/recently-updated
+https://flathub.org/pt-BR/apps/collection/verified
+https://flathub.org/pt-BR/apps/com.anydesk.Anydesk
+https://flathub.org/pt-BR/apps/com.wps.Office
+https://flathub.org/pt-BR/apps/org.sugarlabs.Maze
+https://flathub.org/pt-BR/badges
+https://flathub.org/pt-BR/feeds
+https://flathub.org/pt-BR/languages
+https://flathub.org/pt-BR/login
+https://flathub.org/pt-BR/privacy-policy
+https://flathub.org/pt-BR/statistics
+https://flathub.org/pt-BR/terms-and-conditions
+https://flathub.org/ru/about
+https://flathub.org/ru/apps
+https://flathub.org/ru/apps/category/AudioVideo
+https://flathub.org/ru/apps/category/Development
+https://flathub.org/ru/apps/category/Education
+https://flathub.org/ru/apps/category/Game
+https://flathub.org/ru/apps/category/Graphics
+https://flathub.org/ru/apps/category/Network
+https://flathub.org/ru/apps/category/Office
+https://flathub.org/ru/apps/category/Science
+https://flathub.org/ru/apps/category/System
+https://flathub.org/ru/apps/category/Utility
+https://flathub.org/ru/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/ru/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/ru/apps/collection/developer/Sugar Labs Community
+https://flathub.org/ru/apps/collection/popular
+https://flathub.org/ru/apps/collection/project-group/SugarLabs
+https://flathub.org/ru/apps/collection/recently-added
+https://flathub.org/ru/apps/collection/recently-updated
+https://flathub.org/ru/apps/collection/verified
+https://flathub.org/ru/apps/com.anydesk.Anydesk
+https://flathub.org/ru/apps/com.wps.Office
+https://flathub.org/ru/apps/org.sugarlabs.Maze
+https://flathub.org/ru/badges
+https://flathub.org/ru/feeds
+https://flathub.org/ru/languages
+https://flathub.org/ru/login
+https://flathub.org/ru/privacy-policy
+https://flathub.org/ru/statistics
+https://flathub.org/ru/terms-and-conditions
+https://flathub.org/si/about
+https://flathub.org/si/apps
+https://flathub.org/si/apps/category/AudioVideo
+https://flathub.org/si/apps/category/Development
+https://flathub.org/si/apps/category/Education
+https://flathub.org/si/apps/category/Game
+https://flathub.org/si/apps/category/Graphics
+https://flathub.org/si/apps/category/Network
+https://flathub.org/si/apps/category/Office
+https://flathub.org/si/apps/category/Science
+https://flathub.org/si/apps/category/System
+https://flathub.org/si/apps/category/Utility
+https://flathub.org/si/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/si/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/si/apps/collection/developer/Sugar Labs Community
+https://flathub.org/si/apps/collection/popular
+https://flathub.org/si/apps/collection/project-group/SugarLabs
+https://flathub.org/si/apps/collection/recently-added
+https://flathub.org/si/apps/collection/recently-updated
+https://flathub.org/si/apps/collection/verified
+https://flathub.org/si/apps/com.anydesk.Anydesk
+https://flathub.org/si/apps/com.wps.Office
+https://flathub.org/si/apps/org.sugarlabs.Maze
+https://flathub.org/si/badges
+https://flathub.org/si/feeds
+https://flathub.org/si/languages
+https://flathub.org/si/login
+https://flathub.org/si/privacy-policy
+https://flathub.org/si/statistics
+https://flathub.org/si/terms-and-conditions
+https://flathub.org/vi/about
+https://flathub.org/vi/apps
+https://flathub.org/vi/apps/category/AudioVideo
+https://flathub.org/vi/apps/category/Development
+https://flathub.org/vi/apps/category/Education
+https://flathub.org/vi/apps/category/Game
+https://flathub.org/vi/apps/category/Graphics
+https://flathub.org/vi/apps/category/Network
+https://flathub.org/vi/apps/category/Office
+https://flathub.org/vi/apps/category/Science
+https://flathub.org/vi/apps/category/System
+https://flathub.org/vi/apps/category/Utility
+https://flathub.org/vi/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/vi/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/vi/apps/collection/developer/Sugar Labs Community
+https://flathub.org/vi/apps/collection/popular
+https://flathub.org/vi/apps/collection/project-group/SugarLabs
+https://flathub.org/vi/apps/collection/recently-added
+https://flathub.org/vi/apps/collection/recently-updated
+https://flathub.org/vi/apps/collection/verified
+https://flathub.org/vi/apps/com.anydesk.Anydesk
+https://flathub.org/vi/apps/com.wps.Office
+https://flathub.org/vi/apps/org.sugarlabs.Maze
+https://flathub.org/vi/badges
+https://flathub.org/vi/feeds
+https://flathub.org/vi/languages
+https://flathub.org/vi/login
+https://flathub.org/vi/privacy-policy
+https://flathub.org/vi/statistics
+https://flathub.org/vi/terms-and-conditions
+https://flathub.org/ar/about
+https://flathub.org/ar/apps
+https://flathub.org/ar/apps/category/AudioVideo
+https://flathub.org/ar/apps/category/Development
+https://flathub.org/ar/apps/category/Education
+https://flathub.org/ar/apps/category/Game
+https://flathub.org/ar/apps/category/Graphics
+https://flathub.org/ar/apps/category/Network
+https://flathub.org/ar/apps/category/Office
+https://flathub.org/ar/apps/category/Science
+https://flathub.org/ar/apps/category/System
+https://flathub.org/ar/apps/category/Utility
+https://flathub.org/ar/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/ar/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/ar/apps/collection/developer/Sugar Labs Community
+https://flathub.org/ar/apps/collection/popular
+https://flathub.org/ar/apps/collection/project-group/SugarLabs
+https://flathub.org/ar/apps/collection/recently-added
+https://flathub.org/ar/apps/collection/recently-updated
+https://flathub.org/ar/apps/collection/verified
+https://flathub.org/ar/apps/com.anydesk.Anydesk
+https://flathub.org/ar/apps/com.wps.Office
+https://flathub.org/ar/apps/org.sugarlabs.Maze
+https://flathub.org/ar/badges
+https://flathub.org/ar/feeds
+https://flathub.org/ar/languages
+https://flathub.org/ar/login
+https://flathub.org/ar/privacy-policy
+https://flathub.org/ar/statistics
+https://flathub.org/ar/terms-and-conditions
+https://flathub.org/es/about
+https://flathub.org/es/apps
+https://flathub.org/es/apps/category/AudioVideo
+https://flathub.org/es/apps/category/Development
+https://flathub.org/es/apps/category/Education
+https://flathub.org/es/apps/category/Game
+https://flathub.org/es/apps/category/Graphics
+https://flathub.org/es/apps/category/Network
+https://flathub.org/es/apps/category/Office
+https://flathub.org/es/apps/category/Science
+https://flathub.org/es/apps/category/System
+https://flathub.org/es/apps/category/Utility
+https://flathub.org/es/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/es/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/es/apps/collection/developer/Sugar Labs Community
+https://flathub.org/es/apps/collection/popular
+https://flathub.org/es/apps/collection/project-group/SugarLabs
+https://flathub.org/es/apps/collection/recently-added
+https://flathub.org/es/apps/collection/recently-updated
+https://flathub.org/es/apps/collection/verified
+https://flathub.org/es/apps/com.anydesk.Anydesk
+https://flathub.org/es/apps/com.wps.Office
+https://flathub.org/es/apps/org.sugarlabs.Maze
+https://flathub.org/es/badges
+https://flathub.org/es/feeds
+https://flathub.org/es/languages
+https://flathub.org/es/login
+https://flathub.org/es/privacy-policy
+https://flathub.org/es/statistics
+https://flathub.org/es/terms-and-conditions
+https://flathub.org/ja/about
+https://flathub.org/ja/apps
+https://flathub.org/ja/apps/category/AudioVideo
+https://flathub.org/ja/apps/category/Development
+https://flathub.org/ja/apps/category/Education
+https://flathub.org/ja/apps/category/Game
+https://flathub.org/ja/apps/category/Graphics
+https://flathub.org/ja/apps/category/Network
+https://flathub.org/ja/apps/category/Office
+https://flathub.org/ja/apps/category/Science
+https://flathub.org/ja/apps/category/System
+https://flathub.org/ja/apps/category/Utility
+https://flathub.org/ja/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/ja/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/ja/apps/collection/developer/Sugar Labs Community
+https://flathub.org/ja/apps/collection/popular
+https://flathub.org/ja/apps/collection/project-group/SugarLabs
+https://flathub.org/ja/apps/collection/recently-added
+https://flathub.org/ja/apps/collection/recently-updated
+https://flathub.org/ja/apps/collection/verified
+https://flathub.org/ja/apps/com.anydesk.Anydesk
+https://flathub.org/ja/apps/com.wps.Office
+https://flathub.org/ja/apps/org.sugarlabs.Maze
+https://flathub.org/ja/badges
+https://flathub.org/ja/feeds
+https://flathub.org/ja/languages
+https://flathub.org/ja/login
+https://flathub.org/ja/privacy-policy
+https://flathub.org/ja/statistics
+https://flathub.org/ja/terms-and-conditions
+https://flathub.org/cs/about
+https://flathub.org/cs/apps
+https://flathub.org/cs/apps/category/AudioVideo
+https://flathub.org/cs/apps/category/Development
+https://flathub.org/cs/apps/category/Education
+https://flathub.org/cs/apps/category/Game
+https://flathub.org/cs/apps/category/Graphics
+https://flathub.org/cs/apps/category/Network
+https://flathub.org/cs/apps/category/Office
+https://flathub.org/cs/apps/category/Science
+https://flathub.org/cs/apps/category/System
+https://flathub.org/cs/apps/category/Utility
+https://flathub.org/cs/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/cs/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/cs/apps/collection/developer/Sugar Labs Community
+https://flathub.org/cs/apps/collection/popular
+https://flathub.org/cs/apps/collection/project-group/SugarLabs
+https://flathub.org/cs/apps/collection/recently-added
+https://flathub.org/cs/apps/collection/recently-updated
+https://flathub.org/cs/apps/collection/verified
+https://flathub.org/cs/apps/com.anydesk.Anydesk
+https://flathub.org/cs/apps/com.wps.Office
+https://flathub.org/cs/apps/org.sugarlabs.Maze
+https://flathub.org/cs/badges
+https://flathub.org/cs/feeds
+https://flathub.org/cs/languages
+https://flathub.org/cs/login
+https://flathub.org/cs/privacy-policy
+https://flathub.org/cs/statistics
+https://flathub.org/cs/terms-and-conditions
+https://flathub.org/zh-Hans/about
+https://flathub.org/zh-Hans/apps
+https://flathub.org/zh-Hans/apps/category/AudioVideo
+https://flathub.org/zh-Hans/apps/category/Development
+https://flathub.org/zh-Hans/apps/category/Education
+https://flathub.org/zh-Hans/apps/category/Game
+https://flathub.org/zh-Hans/apps/category/Graphics
+https://flathub.org/zh-Hans/apps/category/Network
+https://flathub.org/zh-Hans/apps/category/Office
+https://flathub.org/zh-Hans/apps/category/Science
+https://flathub.org/zh-Hans/apps/category/System
+https://flathub.org/zh-Hans/apps/category/Utility
+https://flathub.org/zh-Hans/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/zh-Hans/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/zh-Hans/apps/collection/developer/Sugar Labs Community
+https://flathub.org/zh-Hans/apps/collection/popular
+https://flathub.org/zh-Hans/apps/collection/project-group/SugarLabs
+https://flathub.org/zh-Hans/apps/collection/recently-added
+https://flathub.org/zh-Hans/apps/collection/recently-updated
+https://flathub.org/zh-Hans/apps/collection/verified
+https://flathub.org/zh-Hans/apps/com.anydesk.Anydesk
+https://flathub.org/zh-Hans/apps/com.wps.Office
+https://flathub.org/zh-Hans/apps/org.sugarlabs.Maze
+https://flathub.org/zh-Hans/badges
+https://flathub.org/zh-Hans/feeds
+https://flathub.org/zh-Hans/languages
+https://flathub.org/zh-Hans/login
+https://flathub.org/zh-Hans/privacy-policy
+https://flathub.org/zh-Hans/statistics
+https://flathub.org/zh-Hans/terms-and-conditions
+https://flathub.org/bg/about
+https://flathub.org/bg/apps
+https://flathub.org/bg/apps/category/AudioVideo
+https://flathub.org/bg/apps/category/Development
+https://flathub.org/bg/apps/category/Education
+https://flathub.org/bg/apps/category/Game
+https://flathub.org/bg/apps/category/Graphics
+https://flathub.org/bg/apps/category/Network
+https://flathub.org/bg/apps/category/Office
+https://flathub.org/bg/apps/category/Science
+https://flathub.org/bg/apps/category/System
+https://flathub.org/bg/apps/category/Utility
+https://flathub.org/bg/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/bg/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/bg/apps/collection/developer/Sugar Labs Community
+https://flathub.org/bg/apps/collection/popular
+https://flathub.org/bg/apps/collection/project-group/SugarLabs
+https://flathub.org/bg/apps/collection/recently-added
+https://flathub.org/bg/apps/collection/recently-updated
+https://flathub.org/bg/apps/collection/verified
+https://flathub.org/bg/apps/com.anydesk.Anydesk
+https://flathub.org/bg/apps/com.wps.Office
+https://flathub.org/bg/apps/org.sugarlabs.Maze
+https://flathub.org/bg/badges
+https://flathub.org/bg/feeds
+https://flathub.org/bg/languages
+https://flathub.org/bg/login
+https://flathub.org/bg/privacy-policy
+https://flathub.org/bg/statistics
+https://flathub.org/bg/terms-and-conditions
+https://flathub.org/uk/about
+https://flathub.org/uk/apps
+https://flathub.org/uk/apps/category/AudioVideo
+https://flathub.org/uk/apps/category/Development
+https://flathub.org/uk/apps/category/Education
+https://flathub.org/uk/apps/category/Game
+https://flathub.org/uk/apps/category/Graphics
+https://flathub.org/uk/apps/category/Network
+https://flathub.org/uk/apps/category/Office
+https://flathub.org/uk/apps/category/Science
+https://flathub.org/uk/apps/category/System
+https://flathub.org/uk/apps/category/Utility
+https://flathub.org/uk/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/uk/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/uk/apps/collection/developer/Sugar Labs Community
+https://flathub.org/uk/apps/collection/popular
+https://flathub.org/uk/apps/collection/project-group/SugarLabs
+https://flathub.org/uk/apps/collection/recently-added
+https://flathub.org/uk/apps/collection/recently-updated
+https://flathub.org/uk/apps/collection/verified
+https://flathub.org/uk/apps/com.anydesk.Anydesk
+https://flathub.org/uk/apps/com.wps.Office
+https://flathub.org/uk/apps/org.sugarlabs.Maze
+https://flathub.org/uk/badges
+https://flathub.org/uk/feeds
+https://flathub.org/uk/languages
+https://flathub.org/uk/login
+https://flathub.org/uk/privacy-policy
+https://flathub.org/uk/statistics
+https://flathub.org/uk/terms-and-conditions
+https://flathub.org/et/about
+https://flathub.org/et/apps
+https://flathub.org/et/apps/category/AudioVideo
+https://flathub.org/et/apps/category/Development
+https://flathub.org/et/apps/category/Education
+https://flathub.org/et/apps/category/Game
+https://flathub.org/et/apps/category/Graphics
+https://flathub.org/et/apps/category/Network
+https://flathub.org/et/apps/category/Office
+https://flathub.org/et/apps/category/Science
+https://flathub.org/et/apps/category/System
+https://flathub.org/et/apps/category/Utility
+https://flathub.org/et/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/et/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/et/apps/collection/developer/Sugar Labs Community
+https://flathub.org/et/apps/collection/popular
+https://flathub.org/et/apps/collection/project-group/SugarLabs
+https://flathub.org/et/apps/collection/recently-added
+https://flathub.org/et/apps/collection/recently-updated
+https://flathub.org/et/apps/collection/verified
+https://flathub.org/et/apps/com.anydesk.Anydesk
+https://flathub.org/et/apps/com.wps.Office
+https://flathub.org/et/apps/org.sugarlabs.Maze
+https://flathub.org/et/badges
+https://flathub.org/et/feeds
+https://flathub.org/et/languages
+https://flathub.org/et/login
+https://flathub.org/et/privacy-policy
+https://flathub.org/et/statistics
+https://flathub.org/et/terms-and-conditions
+https://flathub.org/ca/about
+https://flathub.org/ca/apps
+https://flathub.org/ca/apps/category/AudioVideo
+https://flathub.org/ca/apps/category/Development
+https://flathub.org/ca/apps/category/Education
+https://flathub.org/ca/apps/category/Game
+https://flathub.org/ca/apps/category/Graphics
+https://flathub.org/ca/apps/category/Network
+https://flathub.org/ca/apps/category/Office
+https://flathub.org/ca/apps/category/Science
+https://flathub.org/ca/apps/category/System
+https://flathub.org/ca/apps/category/Utility
+https://flathub.org/ca/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/ca/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/ca/apps/collection/developer/Sugar Labs Community
+https://flathub.org/ca/apps/collection/popular
+https://flathub.org/ca/apps/collection/project-group/SugarLabs
+https://flathub.org/ca/apps/collection/recently-added
+https://flathub.org/ca/apps/collection/recently-updated
+https://flathub.org/ca/apps/collection/verified
+https://flathub.org/ca/apps/com.anydesk.Anydesk
+https://flathub.org/ca/apps/com.wps.Office
+https://flathub.org/ca/apps/org.sugarlabs.Maze
+https://flathub.org/ca/badges
+https://flathub.org/ca/feeds
+https://flathub.org/ca/languages
+https://flathub.org/ca/login
+https://flathub.org/ca/privacy-policy
+https://flathub.org/ca/statistics
+https://flathub.org/ca/terms-and-conditions
+https://flathub.org/el/about
+https://flathub.org/el/apps
+https://flathub.org/el/apps/category/AudioVideo
+https://flathub.org/el/apps/category/Development
+https://flathub.org/el/apps/category/Education
+https://flathub.org/el/apps/category/Game
+https://flathub.org/el/apps/category/Graphics
+https://flathub.org/el/apps/category/Network
+https://flathub.org/el/apps/category/Office
+https://flathub.org/el/apps/category/Science
+https://flathub.org/el/apps/category/System
+https://flathub.org/el/apps/category/Utility
+https://flathub.org/el/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/el/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/el/apps/collection/developer/Sugar Labs Community
+https://flathub.org/el/apps/collection/popular
+https://flathub.org/el/apps/collection/project-group/SugarLabs
+https://flathub.org/el/apps/collection/recently-added
+https://flathub.org/el/apps/collection/recently-updated
+https://flathub.org/el/apps/collection/verified
+https://flathub.org/el/apps/com.anydesk.Anydesk
+https://flathub.org/el/apps/com.wps.Office
+https://flathub.org/el/apps/org.sugarlabs.Maze
+https://flathub.org/el/badges
+https://flathub.org/el/feeds
+https://flathub.org/el/languages
+https://flathub.org/el/login
+https://flathub.org/el/privacy-policy
+https://flathub.org/el/statistics
+https://flathub.org/el/terms-and-conditions
+https://flathub.org/ta/about
+https://flathub.org/ta/apps
+https://flathub.org/ta/apps/category/AudioVideo
+https://flathub.org/ta/apps/category/Development
+https://flathub.org/ta/apps/category/Education
+https://flathub.org/ta/apps/category/Game
+https://flathub.org/ta/apps/category/Graphics
+https://flathub.org/ta/apps/category/Network
+https://flathub.org/ta/apps/category/Office
+https://flathub.org/ta/apps/category/Science
+https://flathub.org/ta/apps/category/System
+https://flathub.org/ta/apps/category/Utility
+https://flathub.org/ta/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/ta/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/ta/apps/collection/developer/Sugar Labs Community
+https://flathub.org/ta/apps/collection/popular
+https://flathub.org/ta/apps/collection/project-group/SugarLabs
+https://flathub.org/ta/apps/collection/recently-added
+https://flathub.org/ta/apps/collection/recently-updated
+https://flathub.org/ta/apps/collection/verified
+https://flathub.org/ta/apps/com.anydesk.Anydesk
+https://flathub.org/ta/apps/com.wps.Office
+https://flathub.org/ta/apps/org.sugarlabs.Maze
+https://flathub.org/ta/badges
+https://flathub.org/ta/feeds
+https://flathub.org/ta/languages
+https://flathub.org/ta/login
+https://flathub.org/ta/privacy-policy
+https://flathub.org/ta/statistics
+https://flathub.org/ta/terms-and-conditions
+https://flathub.org/fa/about
+https://flathub.org/fa/apps
+https://flathub.org/fa/apps/category/AudioVideo
+https://flathub.org/fa/apps/category/Development
+https://flathub.org/fa/apps/category/Education
+https://flathub.org/fa/apps/category/Game
+https://flathub.org/fa/apps/category/Graphics
+https://flathub.org/fa/apps/category/Network
+https://flathub.org/fa/apps/category/Office
+https://flathub.org/fa/apps/category/Science
+https://flathub.org/fa/apps/category/System
+https://flathub.org/fa/apps/category/Utility
+https://flathub.org/fa/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/fa/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/fa/apps/collection/developer/Sugar Labs Community
+https://flathub.org/fa/apps/collection/popular
+https://flathub.org/fa/apps/collection/project-group/SugarLabs
+https://flathub.org/fa/apps/collection/recently-added
+https://flathub.org/fa/apps/collection/recently-updated
+https://flathub.org/fa/apps/collection/verified
+https://flathub.org/fa/apps/com.anydesk.Anydesk
+https://flathub.org/fa/apps/com.wps.Office
+https://flathub.org/fa/apps/org.sugarlabs.Maze
+https://flathub.org/fa/badges
+https://flathub.org/fa/feeds
+https://flathub.org/fa/languages
+https://flathub.org/fa/login
+https://flathub.org/fa/privacy-policy
+https://flathub.org/fa/statistics
+https://flathub.org/fa/terms-and-conditions
+https://flathub.org/hi/about
+https://flathub.org/hi/apps
+https://flathub.org/hi/apps/category/AudioVideo
+https://flathub.org/hi/apps/category/Development
+https://flathub.org/hi/apps/category/Education
+https://flathub.org/hi/apps/category/Game
+https://flathub.org/hi/apps/category/Graphics
+https://flathub.org/hi/apps/category/Network
+https://flathub.org/hi/apps/category/Office
+https://flathub.org/hi/apps/category/Science
+https://flathub.org/hi/apps/category/System
+https://flathub.org/hi/apps/category/Utility
+https://flathub.org/hi/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/hi/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/hi/apps/collection/developer/Sugar Labs Community
+https://flathub.org/hi/apps/collection/popular
+https://flathub.org/hi/apps/collection/project-group/SugarLabs
+https://flathub.org/hi/apps/collection/recently-added
+https://flathub.org/hi/apps/collection/recently-updated
+https://flathub.org/hi/apps/collection/verified
+https://flathub.org/hi/apps/com.anydesk.Anydesk
+https://flathub.org/hi/apps/com.wps.Office
+https://flathub.org/hi/apps/org.sugarlabs.Maze
+https://flathub.org/hi/badges
+https://flathub.org/hi/feeds
+https://flathub.org/hi/languages
+https://flathub.org/hi/login
+https://flathub.org/hi/privacy-policy
+https://flathub.org/hi/statistics
+https://flathub.org/hi/terms-and-conditions
+https://flathub.org/bn/about
+https://flathub.org/bn/apps
+https://flathub.org/bn/apps/category/AudioVideo
+https://flathub.org/bn/apps/category/Development
+https://flathub.org/bn/apps/category/Education
+https://flathub.org/bn/apps/category/Game
+https://flathub.org/bn/apps/category/Graphics
+https://flathub.org/bn/apps/category/Network
+https://flathub.org/bn/apps/category/Office
+https://flathub.org/bn/apps/category/Science
+https://flathub.org/bn/apps/category/System
+https://flathub.org/bn/apps/category/Utility
+https://flathub.org/bn/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/bn/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/bn/apps/collection/developer/Sugar Labs Community
+https://flathub.org/bn/apps/collection/popular
+https://flathub.org/bn/apps/collection/project-group/SugarLabs
+https://flathub.org/bn/apps/collection/recently-added
+https://flathub.org/bn/apps/collection/recently-updated
+https://flathub.org/bn/apps/collection/verified
+https://flathub.org/bn/apps/com.anydesk.Anydesk
+https://flathub.org/bn/apps/com.wps.Office
+https://flathub.org/bn/apps/org.sugarlabs.Maze
+https://flathub.org/bn/badges
+https://flathub.org/bn/feeds
+https://flathub.org/bn/languages
+https://flathub.org/bn/login
+https://flathub.org/bn/privacy-policy
+https://flathub.org/bn/statistics
+https://flathub.org/bn/terms-and-conditions
+https://flathub.org/eo/about
+https://flathub.org/eo/apps
+https://flathub.org/eo/apps/category/AudioVideo
+https://flathub.org/eo/apps/category/Development
+https://flathub.org/eo/apps/category/Education
+https://flathub.org/eo/apps/category/Game
+https://flathub.org/eo/apps/category/Graphics
+https://flathub.org/eo/apps/category/Network
+https://flathub.org/eo/apps/category/Office
+https://flathub.org/eo/apps/category/Science
+https://flathub.org/eo/apps/category/System
+https://flathub.org/eo/apps/category/Utility
+https://flathub.org/eo/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/eo/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/eo/apps/collection/developer/Sugar Labs Community
+https://flathub.org/eo/apps/collection/popular
+https://flathub.org/eo/apps/collection/project-group/SugarLabs
+https://flathub.org/eo/apps/collection/recently-added
+https://flathub.org/eo/apps/collection/recently-updated
+https://flathub.org/eo/apps/collection/verified
+https://flathub.org/eo/apps/com.anydesk.Anydesk
+https://flathub.org/eo/apps/com.wps.Office
+https://flathub.org/eo/apps/org.sugarlabs.Maze
+https://flathub.org/eo/badges
+https://flathub.org/eo/feeds
+https://flathub.org/eo/languages
+https://flathub.org/eo/login
+https://flathub.org/eo/privacy-policy
+https://flathub.org/eo/statistics
+https://flathub.org/eo/terms-and-conditions
+https://flathub.org/lt/about
+https://flathub.org/lt/apps
+https://flathub.org/lt/apps/category/AudioVideo
+https://flathub.org/lt/apps/category/Development
+https://flathub.org/lt/apps/category/Education
+https://flathub.org/lt/apps/category/Game
+https://flathub.org/lt/apps/category/Graphics
+https://flathub.org/lt/apps/category/Network
+https://flathub.org/lt/apps/category/Office
+https://flathub.org/lt/apps/category/Science
+https://flathub.org/lt/apps/category/System
+https://flathub.org/lt/apps/category/Utility
+https://flathub.org/lt/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/lt/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/lt/apps/collection/developer/Sugar Labs Community
+https://flathub.org/lt/apps/collection/popular
+https://flathub.org/lt/apps/collection/project-group/SugarLabs
+https://flathub.org/lt/apps/collection/recently-added
+https://flathub.org/lt/apps/collection/recently-updated
+https://flathub.org/lt/apps/collection/verified
+https://flathub.org/lt/apps/com.anydesk.Anydesk
+https://flathub.org/lt/apps/com.wps.Office
+https://flathub.org/lt/apps/org.sugarlabs.Maze
+https://flathub.org/lt/badges
+https://flathub.org/lt/feeds
+https://flathub.org/lt/languages
+https://flathub.org/lt/login
+https://flathub.org/lt/privacy-policy
+https://flathub.org/lt/statistics
+https://flathub.org/lt/terms-and-conditions
+https://flathub.org/hr/about
+https://flathub.org/hr/apps
+https://flathub.org/hr/apps/category/AudioVideo
+https://flathub.org/hr/apps/category/Development
+https://flathub.org/hr/apps/category/Education
+https://flathub.org/hr/apps/category/Game
+https://flathub.org/hr/apps/category/Graphics
+https://flathub.org/hr/apps/category/Network
+https://flathub.org/hr/apps/category/Office
+https://flathub.org/hr/apps/category/Science
+https://flathub.org/hr/apps/category/System
+https://flathub.org/hr/apps/category/Utility
+https://flathub.org/hr/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/hr/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/hr/apps/collection/developer/Sugar Labs Community
+https://flathub.org/hr/apps/collection/popular
+https://flathub.org/hr/apps/collection/project-group/SugarLabs
+https://flathub.org/hr/apps/collection/recently-added
+https://flathub.org/hr/apps/collection/recently-updated
+https://flathub.org/hr/apps/collection/verified
+https://flathub.org/hr/apps/com.anydesk.Anydesk
+https://flathub.org/hr/apps/com.wps.Office
+https://flathub.org/hr/apps/org.sugarlabs.Maze
+https://flathub.org/hr/badges
+https://flathub.org/hr/feeds
+https://flathub.org/hr/languages
+https://flathub.org/hr/login
+https://flathub.org/hr/privacy-policy
+https://flathub.org/hr/statistics
+https://flathub.org/hr/terms-and-conditions
+https://flathub.org/be/about
+https://flathub.org/be/apps
+https://flathub.org/be/apps/category/AudioVideo
+https://flathub.org/be/apps/category/Development
+https://flathub.org/be/apps/category/Education
+https://flathub.org/be/apps/category/Game
+https://flathub.org/be/apps/category/Graphics
+https://flathub.org/be/apps/category/Network
+https://flathub.org/be/apps/category/Office
+https://flathub.org/be/apps/category/Science
+https://flathub.org/be/apps/category/System
+https://flathub.org/be/apps/category/Utility
+https://flathub.org/be/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/be/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/be/apps/collection/developer/Sugar Labs Community
+https://flathub.org/be/apps/collection/popular
+https://flathub.org/be/apps/collection/project-group/SugarLabs
+https://flathub.org/be/apps/collection/recently-added
+https://flathub.org/be/apps/collection/recently-updated
+https://flathub.org/be/apps/collection/verified
+https://flathub.org/be/apps/com.anydesk.Anydesk
+https://flathub.org/be/apps/com.wps.Office
+https://flathub.org/be/apps/org.sugarlabs.Maze
+https://flathub.org/be/badges
+https://flathub.org/be/feeds
+https://flathub.org/be/languages
+https://flathub.org/be/login
+https://flathub.org/be/privacy-policy
+https://flathub.org/be/statistics
+https://flathub.org/be/terms-and-conditions
+https://flathub.org/hu/about
+https://flathub.org/hu/apps
+https://flathub.org/hu/apps/category/AudioVideo
+https://flathub.org/hu/apps/category/Development
+https://flathub.org/hu/apps/category/Education
+https://flathub.org/hu/apps/category/Game
+https://flathub.org/hu/apps/category/Graphics
+https://flathub.org/hu/apps/category/Network
+https://flathub.org/hu/apps/category/Office
+https://flathub.org/hu/apps/category/Science
+https://flathub.org/hu/apps/category/System
+https://flathub.org/hu/apps/category/Utility
+https://flathub.org/hu/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/hu/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/hu/apps/collection/developer/Sugar Labs Community
+https://flathub.org/hu/apps/collection/popular
+https://flathub.org/hu/apps/collection/project-group/SugarLabs
+https://flathub.org/hu/apps/collection/recently-added
+https://flathub.org/hu/apps/collection/recently-updated
+https://flathub.org/hu/apps/collection/verified
+https://flathub.org/hu/apps/com.anydesk.Anydesk
+https://flathub.org/hu/apps/com.wps.Office
+https://flathub.org/hu/apps/org.sugarlabs.Maze
+https://flathub.org/hu/badges
+https://flathub.org/hu/feeds
+https://flathub.org/hu/languages
+https://flathub.org/hu/login
+https://flathub.org/hu/privacy-policy
+https://flathub.org/hu/statistics
+https://flathub.org/hu/terms-and-conditions
+https://flathub.org/nl/about
+https://flathub.org/nl/apps
+https://flathub.org/nl/apps/category/AudioVideo
+https://flathub.org/nl/apps/category/Development
+https://flathub.org/nl/apps/category/Education
+https://flathub.org/nl/apps/category/Game
+https://flathub.org/nl/apps/category/Graphics
+https://flathub.org/nl/apps/category/Network
+https://flathub.org/nl/apps/category/Office
+https://flathub.org/nl/apps/category/Science
+https://flathub.org/nl/apps/category/System
+https://flathub.org/nl/apps/category/Utility
+https://flathub.org/nl/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/nl/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/nl/apps/collection/developer/Sugar Labs Community
+https://flathub.org/nl/apps/collection/popular
+https://flathub.org/nl/apps/collection/project-group/SugarLabs
+https://flathub.org/nl/apps/collection/recently-added
+https://flathub.org/nl/apps/collection/recently-updated
+https://flathub.org/nl/apps/collection/verified
+https://flathub.org/nl/apps/com.anydesk.Anydesk
+https://flathub.org/nl/apps/com.wps.Office
+https://flathub.org/nl/apps/org.sugarlabs.Maze
+https://flathub.org/nl/badges
+https://flathub.org/nl/feeds
+https://flathub.org/nl/languages
+https://flathub.org/nl/login
+https://flathub.org/nl/privacy-policy
+https://flathub.org/nl/statistics
+https://flathub.org/nl/terms-and-conditions
+https://flathub.org/pt/about
+https://flathub.org/pt/apps
+https://flathub.org/pt/apps/category/AudioVideo
+https://flathub.org/pt/apps/category/Development
+https://flathub.org/pt/apps/category/Education
+https://flathub.org/pt/apps/category/Game
+https://flathub.org/pt/apps/category/Graphics
+https://flathub.org/pt/apps/category/Network
+https://flathub.org/pt/apps/category/Office
+https://flathub.org/pt/apps/category/Science
+https://flathub.org/pt/apps/category/System
+https://flathub.org/pt/apps/category/Utility
+https://flathub.org/pt/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/pt/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/pt/apps/collection/developer/Sugar Labs Community
+https://flathub.org/pt/apps/collection/popular
+https://flathub.org/pt/apps/collection/project-group/SugarLabs
+https://flathub.org/pt/apps/collection/recently-added
+https://flathub.org/pt/apps/collection/recently-updated
+https://flathub.org/pt/apps/collection/verified
+https://flathub.org/pt/apps/com.anydesk.Anydesk
+https://flathub.org/pt/apps/com.wps.Office
+https://flathub.org/pt/apps/org.sugarlabs.Maze
+https://flathub.org/pt/badges
+https://flathub.org/pt/feeds
+https://flathub.org/pt/languages
+https://flathub.org/pt/login
+https://flathub.org/pt/privacy-policy
+https://flathub.org/pt/statistics
+https://flathub.org/pt/terms-and-conditions
+https://flathub.org/zh-Hant/about
+https://flathub.org/zh-Hant/apps
+https://flathub.org/zh-Hant/apps/category/AudioVideo
+https://flathub.org/zh-Hant/apps/category/Development
+https://flathub.org/zh-Hant/apps/category/Education
+https://flathub.org/zh-Hant/apps/category/Game
+https://flathub.org/zh-Hant/apps/category/Graphics
+https://flathub.org/zh-Hant/apps/category/Network
+https://flathub.org/zh-Hant/apps/category/Office
+https://flathub.org/zh-Hant/apps/category/Science
+https://flathub.org/zh-Hant/apps/category/System
+https://flathub.org/zh-Hant/apps/category/Utility
+https://flathub.org/zh-Hant/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/zh-Hant/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/zh-Hant/apps/collection/developer/Sugar Labs Community
+https://flathub.org/zh-Hant/apps/collection/popular
+https://flathub.org/zh-Hant/apps/collection/project-group/SugarLabs
+https://flathub.org/zh-Hant/apps/collection/recently-added
+https://flathub.org/zh-Hant/apps/collection/recently-updated
+https://flathub.org/zh-Hant/apps/collection/verified
+https://flathub.org/zh-Hant/apps/com.anydesk.Anydesk
+https://flathub.org/zh-Hant/apps/com.wps.Office
+https://flathub.org/zh-Hant/apps/org.sugarlabs.Maze
+https://flathub.org/zh-Hant/badges
+https://flathub.org/zh-Hant/feeds
+https://flathub.org/zh-Hant/languages
+https://flathub.org/zh-Hant/login
+https://flathub.org/zh-Hant/privacy-policy
+https://flathub.org/zh-Hant/statistics
+https://flathub.org/zh-Hant/terms-and-conditions
+https://flathub.org/oc/about
+https://flathub.org/oc/apps
+https://flathub.org/oc/apps/category/AudioVideo
+https://flathub.org/oc/apps/category/Development
+https://flathub.org/oc/apps/category/Education
+https://flathub.org/oc/apps/category/Game
+https://flathub.org/oc/apps/category/Graphics
+https://flathub.org/oc/apps/category/Network
+https://flathub.org/oc/apps/category/Office
+https://flathub.org/oc/apps/category/Science
+https://flathub.org/oc/apps/category/System
+https://flathub.org/oc/apps/category/Utility
+https://flathub.org/oc/apps/collection/developer/AnyDesk Software GmbH
+https://flathub.org/oc/apps/collection/developer/Kingsoft Office Corporation
+https://flathub.org/oc/apps/collection/developer/Sugar Labs Community
+https://flathub.org/oc/apps/collection/popular
+https://flathub.org/oc/apps/collection/project-group/SugarLabs
+https://flathub.org/oc/apps/collection/recently-added
+https://flathub.org/oc/apps/collection/recently-updated
+https://flathub.org/oc/apps/collection/verified
+https://flathub.org/oc/apps/com.anydesk.Anydesk
+https://flathub.org/oc/apps/com.wps.Office
+https://flathub.org/oc/apps/org.sugarlabs.Maze
+https://flathub.org/oc/badges
+https://flathub.org/oc/feeds
+https://flathub.org/oc/languages
+https://flathub.org/oc/login
+https://flathub.org/oc/privacy-policy
+https://flathub.org/oc/statistics
+https://flathub.org/oc/terms-and-conditions
