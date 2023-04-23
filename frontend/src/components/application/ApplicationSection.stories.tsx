@@ -11,7 +11,7 @@ export default {
 export const Generated = () => {
   const popular = [...Array(faker.datatype.number({ min: 1, max: 30 }))].map(
     (_item, index) => ({
-      id: index,
+      id: index.toString(),
       icon: faker.image.image(),
       name: faker.commerce.product(),
       summary: faker.commerce.productDescription(),
@@ -23,6 +23,7 @@ export const Generated = () => {
       href={"popular"}
       title={"Popular"}
       applications={popular}
+      showMore={true}
     />
   )
 }
