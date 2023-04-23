@@ -121,8 +121,8 @@ const Header = () => {
                 <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <LogoJsonLd
-                      logo={`${env.NEXT_PUBLIC_BASE_URL}/img/logo/flathub-logo-toolbar.svg`}
-                      url={`${env.NEXT_PUBLIC_BASE_URL}`}
+                      logo={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/logo/flathub-logo-toolbar.svg`}
+                      url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                     />
                     <Link href="/" passHref>
                       <div
