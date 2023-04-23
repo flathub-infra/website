@@ -99,5 +99,7 @@ def generate_text(frontend_url="flathub.org"):
         )
         sitemap += "\n"
 
+    # Google doesn't accept sitemaps longer than 50k lines
+    sitemap = sitemap[0:50001]
     db.redis_conn.setex(redis_key, 60 * 60 * 24, sitemap)
     return sitemap
