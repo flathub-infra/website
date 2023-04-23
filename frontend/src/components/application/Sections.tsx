@@ -23,7 +23,7 @@ const ApplicationSections: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
   return (
-    <>
+    <div className="space-y-10">
       <ApplicationSection
         key="recently_added"
         title={t("recently-added-apps")}
@@ -48,7 +48,7 @@ const ApplicationSections: FunctionComponent<Props> = ({
         applications={popular.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/popular"
       />
-    </>
+    </div>
   )
 }
 

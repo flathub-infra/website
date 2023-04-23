@@ -29,21 +29,23 @@ export default function Apps({
         title={t("applications")}
         description={t("applications-description")}
       />
-      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <header>
-          <h3>{t("categories")}</h3>
-        </header>
-        <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
-          {Object.keys(Category).map((category: Category) => (
-            <Link
-              key={category}
-              href={`/apps/category/${encodeURIComponent(category)}`}
-              passHref
-              legacyBehavior
-            >
-              <Tile>{categoryToName(category, t)}</Tile>
-            </Link>
-          ))}
+      <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <div>
+          <header>
+            <h3>{t("categories")}</h3>
+          </header>
+          <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
+            {Object.keys(Category).map((category: Category) => (
+              <Link
+                key={category}
+                href={`/apps/category/${encodeURIComponent(category)}`}
+                passHref
+                legacyBehavior
+              >
+                <Tile>{categoryToName(category, t)}</Tile>
+              </Link>
+            ))}
+          </div>
         </div>
         {topAppsByCategory.map((sectionData, i) => (
           <ApplicationSection
@@ -53,7 +55,7 @@ export default function Apps({
               mapAppsIndexToAppstreamListItem(app),
             )}
             title={categoryToName(sectionData.category, t)}
-          ></ApplicationSection>
+          />
         ))}
       </div>
     </>
