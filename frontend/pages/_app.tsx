@@ -39,7 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           defaultTitle="Flathub"
           languageAlternates={languages.map((lang) => ({
             hrefLang: lang,
-            href: `${process.env.NEXT_PUBLIC_URL}/${lang}`,
+            href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
           }))}
           twitter={{
             site: "@FlatpakApps",
@@ -48,7 +48,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           openGraph={{
             type: "website",
             locale: bcpToPosixLocale(router.locale),
-            url: process.env.NEXT_PUBLIC_URL,
+            url: process.env.NEXT_PUBLIC_SITE_BASE_URI,
             site_name: "Flathub",
             images: [
               {
