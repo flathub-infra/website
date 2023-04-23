@@ -56,6 +56,18 @@ const nextConfig = (phase) => ({
         permanent: true,
       },
       {
+        source: "/apps/search",
+        has: [
+          {
+            type: "query",
+            key: "q",
+            value: "(?<q>.*)",
+          },
+        ],
+        destination: "/apps/search/:q",
+        permanent: true,
+      },
+      {
         source: "/apps/details/:path*",
         destination: "/apps/:path*",
         permanent: true,

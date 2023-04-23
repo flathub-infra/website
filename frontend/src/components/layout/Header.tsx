@@ -146,7 +146,7 @@ const Header = () => {
                         url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
                         potentialActions={[
                           {
-                            target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/{search_term_string}`,
+                            target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q`,
                             queryInput: "search_term_string",
                           },
                         ]}
