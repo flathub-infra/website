@@ -1,7 +1,7 @@
 from . import apps, db, schemas
 
 
-def generate_text(frontend_url="beta.flathub.org"):
+def generate_text(frontend_url="flathub.org"):
     redis_key = "sitemap_text"
 
     if sitemap := db.redis_conn.get(redis_key):
