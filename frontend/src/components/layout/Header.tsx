@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
-import { env } from "process"
+import Avatar from "boring-avatars"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
@@ -37,6 +37,7 @@ const Header = () => {
   const router = useRouter()
   const user = useUserContext()
 
+  const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [query, setQuery] = useState("")
 
   const [clickedLogout, setClickedLogout] = useState(false)
@@ -54,6 +55,16 @@ const Header = () => {
       setClickedLogout(false)
     }
   }, [clickedLogout, dispatch, t])
+
+  useEffect(() => {
+    if (user.info) {
+      const avatarUrl = Object.values(user.info.auths).find(
+        (auth) => auth.avatar,
+      ).avatar
+
+      setUserAvatarUrl(avatarUrl)
+    }
+  }, [user.info])
 
   useEffect(() => {
     document.dir = i18n.dir()
@@ -248,19 +259,27 @@ const Header = () => {
                       <div>
                         <Menu.Button className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
-                          <Image
-                            className="rounded-full"
-                            src={
-                              Object.values(user.info.auths).find(
-                                (auth) => auth.avatar,
-                              ).avatar
-                            }
-                            width="38"
-                            height="38"
-                            alt={t("user-avatar", {
-                              user: user.info.displayname,
-                            })}
-                          />
+                          {userAvatarUrl ? (
+                            <Image
+                              className="rounded-full"
+                              src={userAvatarUrl}
+                              width="38"
+                              height="38"
+                              alt={t("user-avatar", {
+                                user: user.info.displayname,
+                              })}
+                            />
+                          ) : (
+                            <Avatar
+                              size={40}
+                              name={user.info.displayname}
+                              variant="marble"
+                              colors={[
+                                "rgb(74, 144, 217)",
+                                "rgb(112, 222, 230)",
+                              ]}
+                            />
+                          )}
                         </Menu.Button>
                       </div>
                       <Transition
