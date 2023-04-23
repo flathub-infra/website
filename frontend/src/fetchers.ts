@@ -25,6 +25,7 @@ import {
   CATEGORIES_URL,
   DEVELOPERS_URL,
   PROJECTGROUPS_URL,
+  APPSTREAM_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -33,6 +34,22 @@ import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
 import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
 import { AppsIndex, MeilisearchResponse } from "./meilisearch"
+
+export async function fetchAppstreamList(): Promise<string[]> {
+  let entryJson: string[]
+  try {
+    const entryData = await fetch(APPSTREAM_URL)
+
+    entryJson = await entryData.json()
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!entryJson) {
+    console.log(`Couldn't get appstream list`)
+  }
+  return entryJson
+}
 
 export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream

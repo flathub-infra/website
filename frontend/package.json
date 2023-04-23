@@ -11,7 +11,8 @@
     "format": "prettier --check --ignore-path .gitignore .",
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
@@ -29,6 +30,7 @@
     "next": "^13.2.4",
     "next-i18next": "^12.1.0",
     "next-seo": "^5.15.0",
+    "next-sitemap": "^4.0.7",
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
