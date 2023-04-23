@@ -169,11 +169,12 @@ const Header = () => {
                             value={query}
                             className={clsx(
                               "peer",
-                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 pl-10 pr-2 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
+                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 pl-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
                               "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-gray-500 dark:focus:placeholder-gray-400 dark:focus:outline-none",
                               "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
                               "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
                               "rtl:pr-12",
+                              "ltr:pr-2",
                             )}
                             placeholder={t("search-apps")}
                             type="search"
