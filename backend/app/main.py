@@ -29,7 +29,7 @@ from . import (
 if config.settings.sentry_dsn:
     sentry_sdk.init(
         dsn=config.settings.sentry_dsn,
-        traces_sample_rate=0.01,
+        traces_sample_rate=1.0,
         environment="production",
         integrations=[
             StarletteIntegration(),
