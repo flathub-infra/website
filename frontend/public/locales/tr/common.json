@@ -8,7 +8,7 @@
   "about-description": "Flathub, Linux için uygulama edinme ve dağıtma noktası olmayı hedeflemektedir. Flathub uygulamalarının neredeyse tüm Linux dağıtımlarında çalışmasına olanak tanıyan Flatpak paketleme sistemini temel almaktadır.",
   "about-pagename": "Flathub Hakkında",
   "applications": "Uygulamalar",
-  "popular": "Gözde",
+  "popular": "Popüler",
   "new-and-updated": "Son Güncellenenler",
   "rss-feeds": "RSS Akışları",
   "community": "Topluluk",
@@ -283,6 +283,11 @@
   "refresh": "Yenile",
   "verification-instructions": "Flathub yüklemenizin uygulama geliştiricisi tarafından onaylandığını belirtmek için uygulama kimliğinizi doğrulayın. Uygulamanın etki alanındaki bir web sitesi aracılığıyla ya da bir kaynak kodu barındırma sitesinde uygulamanın hesabına erişimi denetleyerek uygulamanın kontrolüne sahip olduğunuzu kanıtlamanız gerekir. Doğrulanmış rozeti, uygulama adı, yayıncı adı ve uygulama kimliğinin doğrulandığı yolla birlikte gösterilecektir.",
   "verification": "Doğrulama",
-  "my-flathub": "Benim Flathub'um",
-  "settings": "Ayarlar"
+  "my-flathub": "Benim Flathub'ım",
+  "settings": "Ayarlar",
+  "new": "Yeni",
+  "browse": "Keşfet",
+  "explore-applications": "Uygulamaları Keşfet",
+  "setup-flathub": "Flathub'ı Kur",
+  "setup-flathub-description": "Sisteminizdeki uygulamaları yüklemek ve güncellemek için Flathub'ı kurun."
 }
