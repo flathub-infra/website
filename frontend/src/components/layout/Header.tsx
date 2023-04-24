@@ -4,7 +4,6 @@ import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
-import Avatar from "boring-avatars"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
@@ -16,6 +15,7 @@ import { logout } from "src/asyncs/login"
 import { clsx } from "clsx"
 import { FlathubLogo } from "../login/FlathubLogo"
 import { FlathubMiniLogo } from "../login/FlathubLogoMini"
+import Avatar from "../user/Avatar"
 
 const navigation = [
   {
@@ -260,27 +260,10 @@ const Header = () => {
                       <div>
                         <Menu.Button className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
-                          {userAvatarUrl ? (
-                            <Image
-                              className="rounded-full"
-                              src={userAvatarUrl}
-                              width="38"
-                              height="38"
-                              alt={t("user-avatar", {
-                                user: user.info.displayname,
-                              })}
-                            />
-                          ) : (
-                            <Avatar
-                              size={40}
-                              name={user.info.displayname}
-                              variant="marble"
-                              colors={[
-                                "rgb(74, 144, 217)",
-                                "rgb(112, 222, 230)",
-                              ]}
-                            />
-                          )}
+                          <Avatar
+                            userName={user.info.displayname}
+                            avatarUrl={userAvatarUrl}
+                          />
                         </Menu.Button>
                       </div>
                       <Transition
