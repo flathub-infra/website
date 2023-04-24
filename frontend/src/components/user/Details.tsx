@@ -1,10 +1,9 @@
 import { useTranslation } from "next-i18next"
-import Image from "next/image"
 import { FunctionComponent } from "react"
 import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "../login/ProviderLink"
-import Avatar from "boring-avatars"
+import Avatar from "./Avatar"
 
 interface Props {
   logins: LoginProvider[]
@@ -30,22 +29,10 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
           key={provider.method}
           className="flex w-full items-center gap-3 rounded-xl bg-flathub-white px-4 py-4 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
         >
-          {authData.avatar ? (
-            <Image
-              src={authData.avatar}
-              width={48}
-              height={48}
-              className="rounded-full"
-              alt={t("user-avatar", { user: authData.login })}
-            />
-          ) : (
-            <Avatar
-              size={40}
-              name={user.info.displayname}
-              variant="marble"
-              colors={["rgb(74, 144, 217)", "rgb(112, 222, 230)"]}
-            />
-          )}
+          <Avatar
+            userName={user.info.displayname}
+            avatarUrl={authData.avatar}
+          />
           <div className="flex flex-col">
             <span className="font-semibold">{provider.name}</span>
             <span>{authData.login}</span>
