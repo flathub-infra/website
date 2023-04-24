@@ -2,6 +2,7 @@ import { FunctionComponent } from "react"
 
 interface Props {
   variant?: "info" | "danger"
+  children: React.ReactNode
 }
 
 export const Notice: FunctionComponent<Props> = ({ variant, children }) => {
