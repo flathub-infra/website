@@ -17,7 +17,7 @@
   "dependencies": {
     "@collapsed/react": "^4.0.1",
     "@floating-ui/react-dom-interactions": "^0.13.3",
-    "@headlessui/react": "^1.7.13",
+    "@headlessui/react": "^1.7.14",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@sentry/nextjs": "^7.45.0",
     "@stripe/react-stripe-js": "^2.1.0",
@@ -27,7 +27,7 @@
     "clsx": "^1.2.1",
     "date-fns": "^2.29.3",
     "i18n-iso-countries": "^7.5.0",
-    "next": "^13.2.4",
+    "next": "^13.3.1",
     "next-i18next": "^12.1.0",
     "next-seo": "^5.15.0",
     "next-sitemap": "^4.0.7",
@@ -41,7 +41,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-svg-worldmap": "2.0.0-alpha.16",
     "react-toastify": "^9.1.1",
-    "sass": "^1.57.1",
+    "sass": "^1.62.0",
     "sharp": "^0.32.0",
     "spdx-license-list": "^6.6.0",
     "yet-another-react-lightbox": "^3.2.0"
