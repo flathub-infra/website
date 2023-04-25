@@ -100,7 +100,7 @@
   "applications-by-developer": "Applications by {{developer}}",
   "applications-by-projectgroup": "Applications in the {{projectgroup}} group",
   "search-for-query": "Search for '{{query}}'",
-  "applications-description": "An app store and build service for Linux",
+  "applications-description": "Explore the Linux applications available on Flathub",
   "categories": "Categories",
   "linked-accounts": "Linked Accounts",
   "link-more-accounts": "Link More Accounts",

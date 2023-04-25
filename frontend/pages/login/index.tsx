@@ -22,7 +22,12 @@ export default function DeveloperLoginPortal({ providers }) {
 
   return (
     <>
-      <NextSeo title={t("login")} />
+      <NextSeo
+        title={t("login")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/login`,
+        }}
+      />
       <LoginProviders providers={providers} />
     </>
   )

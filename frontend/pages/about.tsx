@@ -9,7 +9,13 @@ const About = () => {
 
   return (
     <>
-      <NextSeo title={t("about")} description={t("about-description")} />
+      <NextSeo
+        title={t("about")}
+        description={t("about-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/about`,
+        }}
+      />
       <div className="prose flex max-w-full flex-col dark:prose-invert">
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
           <h1 className="mt-8">{t("about-pagename")}</h1>

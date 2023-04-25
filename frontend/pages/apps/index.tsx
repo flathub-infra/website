@@ -28,6 +28,9 @@ export default function Apps({
       <NextSeo
         title={t("applications")}
         description={t("applications-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps`,
+        }}
       />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div>

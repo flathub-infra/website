@@ -12,6 +12,9 @@ const PrivacyPolicy = (): JSX.Element => {
       <NextSeo
         title={t("privacy-policy")}
         description={t("privacy-policy-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/privacy-policy`,
+        }}
       />
       <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1 className="my-8">Privacy Policy for Flathub</h1>

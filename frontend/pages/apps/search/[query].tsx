@@ -13,22 +13,24 @@ export default function Search() {
 
   const searchResult = useSearchQuery(query as string)
 
-  if (!searchResult) {
-    return <Spinner size="l" />
-  }
-
   return (
     <>
-      <NextSeo title={t("search-for-query", { query })} />
+      <NextSeo
+        title={t("search-for-query", { query })}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/${query}`,
+        }}
+      />
 
       <div className="max-w-11/12 mx-auto my-0 mt-6 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        {!searchResult && <Spinner size="l" />}
         {searchResult && searchResult.length > 0 && (
           <Collection
             title={t("search-for-query", { query })}
             applications={searchResult}
           />
         )}
-        {searchResult.length === 0 && (
+        {searchResult && searchResult.length === 0 && (
           <>
             <h2>{t("search-for-query", { query })}</h2>
             <p>{t("could-not-find-match-for-search")}</p>
