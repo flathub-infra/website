@@ -53,6 +53,7 @@ export default function Details({
         title={app?.name}
         description={app?.summary}
         openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
             {
               url: app?.icon,

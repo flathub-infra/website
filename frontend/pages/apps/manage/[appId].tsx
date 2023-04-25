@@ -82,7 +82,7 @@ export default function AppManagementPage({
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t(app.name)} />
+      <NextSeo title={t(app.name)} noindex />
       <LoginGuard>{content}</LoginGuard>
     </div>
   )

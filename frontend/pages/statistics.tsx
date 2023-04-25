@@ -121,7 +121,13 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
 
   return (
     <>
-      <NextSeo title={t("statistics")} description={t("flathub-statistics")} />
+      <NextSeo
+        title={t("statistics")}
+        description={t("flathub-statistics-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/statistics`,
+        }}
+      />
       <div className="max-w-11/12 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("statistics")}</h1>
         <div className="flex flex-wrap gap-8 md:flex-nowrap">

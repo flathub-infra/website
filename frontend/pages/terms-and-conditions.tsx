@@ -12,6 +12,9 @@ const TermsAndConditions = (): JSX.Element => {
       <NextSeo
         title={t("terms-and-conditions")}
         description={t("terms-and-conditions-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/terms-and-conditions`,
+        }}
       />
       <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1 className="my-8">Terms Of Service</h1>

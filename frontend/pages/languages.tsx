@@ -10,7 +10,13 @@ const Languages = (): JSX.Element => {
 
   return (
     <>
-      <NextSeo title={t("languages")} description={t("languages-summary")} />
+      <NextSeo
+        title={t("languages")}
+        description={t("languages-summary")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/languages`,
+        }}
+      />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("languages")}</h1>
         <p>{t("languages-description")}</p>

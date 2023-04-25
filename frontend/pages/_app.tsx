@@ -6,7 +6,7 @@ import type { AppProps } from "next/app"
 import "react-responsive-carousel/lib/styles/carousel.min.css" // Requires a loader
 import { UserInfoProvider } from "../src/context/user-info"
 import { IMAGE_BASE_URL, IS_PRODUCTION } from "../src/env"
-import { appWithTranslation } from "next-i18next"
+import { appWithTranslation, useTranslation } from "next-i18next"
 
 import "react-toastify/dist/ReactToastify.css"
 import { ToastContainer } from "react-toastify"
@@ -22,6 +22,8 @@ const inter = Inter({
 })
 
 const App = ({ Component, pageProps }: AppProps) => {
+  const { t } = useTranslation()
+
   const router = useRouter()
   const instance = createInstance({
     urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI,
@@ -37,6 +39,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
           titleTemplate="%s | Flathub"
           defaultTitle="Flathub"
+          description={t("flathub-description")}
           languageAlternates={languages.map((lang) => ({
             hrefLang: lang,
             href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
@@ -49,7 +52,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             type: "website",
             locale: bcpToPosixLocale(router.locale),
             url: process.env.NEXT_PUBLIC_SITE_BASE_URI,
-            site_name: "Flathub",
+            siteName: "Flathub",
             images: [
               {
                 url: `${IMAGE_BASE_URL}card.webp`,

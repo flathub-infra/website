@@ -10,7 +10,13 @@ const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
   return (
     <>
-      <NextSeo title={t("rss-feeds")} description={t("rss-description")} />
+      <NextSeo
+        title={t("rss-feeds")}
+        description={t("rss-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/feeds`,
+        }}
+      />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
