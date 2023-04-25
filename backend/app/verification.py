@@ -127,14 +127,12 @@ def _get_domain_name(appid: str) -> str:
 
 def _get_gnome_world_doap_maintainers(appid: str) -> list[str]:
     repo_name = appid.split(".")[-1].lower()
-    if repo_name == "PikaBackup":
+    if repo_name == "pikabackup":
         repo_name = "pika-backup"
-
-    default_branch = "HEAD"
 
     try:
         r = requests.get(
-            f"https://gitlab.gnome.org/World/{repo_name}/-/raw/{default_branch}/{repo_name}.doap"
+            f"https://gitlab.gnome.org/World/{repo_name}/-/raw/HEAD/{repo_name}.doap"
         )
     except requests.exceptions.ConnectionError:
         return []
