@@ -40,7 +40,7 @@ const Feeds = (): JSX.Element => {
         </div>
 
         <h6 className="mt-2">
-          <Trans i18nKey={"common:rss-applications"}>
+          <Trans i18nKey={"common:rss-apps"}>
             Do you need an RSS application? We have excellent ones in Flathub.
             Find them{" "}
             <Link

@@ -177,7 +177,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           />
         </div>
         <div>
-          <label>{t("application-share")}</label>
+          <label>{t("app-share")}</label>
           <AppShareSlider
             value={appShare}
             setValue={setAppShare}
