@@ -55,7 +55,7 @@
   "downloads-over-time": "Zaman içindeki indirmeler",
   "welcome-to-flathub-index-text": "Herhangi bir Linux dağıtımına kolayca kurulabilen yüzlerce uygulamanın evi olan Flathubʼa hoş geldiniz. Uygulama merkezinizden veya komut satırından uygulamalara çevrim içi göz atın.",
   "home": "Ana Sayfa",
-  "flathub-description": "Linux için yüzlerce uygulama ve oyun bulun ve kurun. GIMP, GNU Octave, Spotify, Steam ve çok daha fazlasının keyfini çıkarın!",
+  "flathub-description": "Linux için yüzlerce uygulama ve oyun bulun ve kurun. Firefox, Telegram, RetroArch, GIMP ve çok daha fazlasının keyfini çıkarın!",
   "new-apps": "Yeni Uygulamalar",
   "new-and-updated-apps": "Son Güncellenen Uygulamalar",
   "subscribe": "Abone Ol",
@@ -284,5 +284,11 @@
   "verification-instructions": "Flathub yüklemenizin uygulama geliştiricisi tarafından onaylandığını belirtmek için uygulama kimliğinizi doğrulayın. Uygulamanın etki alanındaki bir web sitesi aracılığıyla ya da bir kaynak kodu barındırma sitesinde uygulamanın hesabına erişimi denetleyerek uygulamanın kontrolüne sahip olduğunuzu kanıtlamanız gerekir. Doğrulanmış rozeti, uygulama adı, yayıncı adı ve uygulama kimliğinin doğrulandığı yolla birlikte gösterilecektir.",
   "verification": "Doğrulama",
   "my-flathub": "Benim Flathub'um",
-  "settings": "Ayarlar"
+  "settings": "Ayarlar",
+  "login-provider-verification-main-instruction-unknown-is-organization": "<1>{{id}}</1> uygulama kimliğini kullanma hakkınızı <3>@{{login_name}}</3> hesabına (veya <5>@{{login_name}}</5> bir kuruluş ise, erişimi olan bir hesaba) <7>{{login_provider}}</7> adresinden giriş yaparak doğrulayın.",
+  "new": "Yeni",
+  "browse": "Göz at",
+  "explore-applications": "Uygulamaları Keşfet",
+  "setup-flathub": "Flathub'ı Kurun",
+  "setup-flathub-description": "Sisteminize uygulamaları yüklemek ve güncellemek için Flathub'ı kurun."
 }

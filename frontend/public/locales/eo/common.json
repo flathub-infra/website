@@ -1,5 +1,5 @@
 {
-  "flathub-description": "Trovu kaj instalu centojn da programoj kaj ludoj por Linux. Ĝuu GIMP, GNU Octave, Spotify, Steam kaj multajn pli!",
+  "flathub-description": "Trovu kaj instalu centojn da programoj kaj ludoj por Linux. Ĝuu Firefox, Telegram, RetroArch, GIMP kaj multajn pli!",
   "developer-tools": "Iloj por programistoj",
   "transaction-summary-created": "Dato de kreo: {{date}}",
   "explore": "Esplori",
@@ -287,5 +287,8 @@
   "verification": "Konfirmado",
   "login-provider-verification-main-instruction-unknown-is-organization": "Konfirmu vian rajton uzi la programidentigilon <1>{{id}}</1> ensalutante en la konton <3>@{{login_name}}</3> (aŭ, se <5>@{{login_name}}</5> estas organizaĵo, konton havantan rajtojn pri ĝi) ĉe <7>{{login_provider}}</7>.",
   "new": "Novaj",
-  "browse": "Foliumi"
+  "browse": "Foliumi",
+  "setup-flathub": "Agordi Flathub",
+  "explore-applications": "Esplori programojn",
+  "setup-flathub-description": "Agordu Flathub por instali kaj ĝisdatigi programojn en via sistemo."
 }
