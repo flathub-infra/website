@@ -50,7 +50,7 @@
   "downloads-over-time": "隨時間推移的下載數",
   "welcome-to-flathub-index-text": "歡迎使用 Flathub，其是數百個可以輕鬆安裝在任何 Linux 散佈版上應用程式的大本營。從您的應用程式中心或命令列線上瀏覽應用程式。",
   "home": "首頁",
-  "flathub-description": "尋找並安裝數百個適用於 Linux 的應用程式與遊戲。享受 GIMP、GNU Octave、Spotify、Steam 與更多其他應用程式！",
+  "flathub-description": "尋找並安裝數百個適用於 Linux 的應用程式與遊戲。享受 Firefox、Telegram、RetroArch、GIMP 與更多其他應用程式！",
   "new-apps": "新進應用程式",
   "new-and-updated-apps": "最近更新的應用程式",
   "subscribe": "訂閱",
@@ -287,5 +287,8 @@
   "my-flathub": "我的 Flathub",
   "login-provider-verification-main-instruction-unknown-is-organization": "透過登入 <7>{{login_provider}}</7> 上的帳號 <3>@{{login_name}}</3>（或者如果 <5>@{{login_name}}</5> 是組織的話，那麼就是有權存取的帳號）驗證您使用應用程式 ID <1>{{id}}</1> 的權利。",
   "new": "新",
-  "browse": "瀏覽"
+  "browse": "瀏覽",
+  "explore-applications": "探索應用程式",
+  "setup-flathub": "設定 Flathub",
+  "setup-flathub-description": "設定 Flathub 以在您的系統上安裝與更新應用程式。"
 }

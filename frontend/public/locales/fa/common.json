@@ -144,5 +144,7 @@
   "system": "سامانه",
   "transaction-summary": "خلاصهٔ تراکنش",
   "transaction-summary-created": "تاریخ ایجاد: {{date}}",
-  "about-app-verification": "برنامه‌های تایید شده"
+  "about-app-verification": "برنامه‌های تایید شده",
+  "refresh": "تازه‌سازی",
+  "reporting-issues": "گزارش مشکلات"
 }

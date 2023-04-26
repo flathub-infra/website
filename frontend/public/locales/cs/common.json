@@ -1,6 +1,6 @@
 {
   "search-apps": "Hledat aplikace",
-  "explore": "Objevit",
+  "explore": "Procházet",
   "publish": "Publikovat",
   "about": "O Flathubu",
   "go-home": "Domovská stránka",
@@ -290,5 +290,5 @@
   "browse": "Procházet",
   "setup-flathub": "Nastavit Flathub",
   "setup-flathub-description": "Nastavte Flathub pro instalaci a aktualizaci aplikací ve vašem systému.",
-  "explore-applications": "Prozkoumat aplikace"
+  "explore-applications": "Procházet aplikace"
 }
