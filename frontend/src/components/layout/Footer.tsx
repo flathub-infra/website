@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="mx-auto grid max-w-[900px] grid-cols-1 justify-items-center gap-0 sm:grid-cols-2 md:grid-cols-4">
         <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
-            {t("applications")}
+            {t("apps")}
           </div>
           <div className="flex flex-col sm:space-y-3">
             <Link

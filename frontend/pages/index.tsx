@@ -39,7 +39,7 @@ export default function Home({
                 variant="secondary"
                 href={"/apps"}
                 passHref
-                aria-label={t("explore-applications")}
+                aria-label={t("explore-apps")}
               >
                 {t("explore")}
               </ButtonLink>

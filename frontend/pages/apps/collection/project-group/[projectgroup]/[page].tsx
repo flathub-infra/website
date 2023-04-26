@@ -24,14 +24,14 @@ export default function Projectgroup({
   return (
     <>
       <NextSeo
-        title={t("applications-by-projectgroup", { projectgroup })}
+        title={t("apps-by-projectgroup", { projectgroup })}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/collection/project-group/${projectgroup}`,
         }}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <ApplicationCollection
-          title={t("applications-by-projectgroup", { projectgroup })}
+          title={t("apps-by-projectgroup", { projectgroup })}
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
           page={applications.page}
           totalPages={applications.totalPages}

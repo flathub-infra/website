@@ -26,8 +26,8 @@ export default function Apps({
   return (
     <>
       <NextSeo
-        title={t("applications")}
-        description={t("applications-description")}
+        title={t("apps")}
+        description={t("apps-description")}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps`,
         }}

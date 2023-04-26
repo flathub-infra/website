@@ -51,7 +51,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         <section className="w-full">
           <div className="w-full">
             {header}
-            <p>{t("no-applications")}</p>
+            <p>{t("no-apps")}</p>
           </div>
         </section>
       </div>
