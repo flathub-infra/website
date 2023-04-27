@@ -19,6 +19,7 @@ export interface UserInfo {
   "dev-flatpaks": string[]
   "owned-flatpaks": string[]
   auths: Record<string, AuthInfo>
+  "is-moderator": boolean
 }
 
 // State houses user info, along with whether it's currently mid-request

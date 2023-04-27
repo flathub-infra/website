@@ -16,6 +16,7 @@ import { clsx } from "clsx"
 import { FlathubLogo } from "../login/FlathubLogo"
 import { FlathubMiniLogo } from "../login/FlathubLogoMini"
 import Avatar from "../user/Avatar"
+import { UserInfo } from "src/types/Login"
 
 const navigation = [
   {
@@ -27,7 +28,14 @@ const navigation = [
   { name: "about", href: "/about", current: false },
 ]
 
-let userNavigation = [{ name: "my-flathub", href: "/my-flathub" }]
+let userNavigation = [
+  { name: "my-flathub", href: "/my-flathub" },
+  {
+    name: "moderation-dashboard",
+    href: "/moderation",
+    condition: (user: UserInfo) => user?.["is-moderator"],
+  },
+]
 
 if (!IS_PRODUCTION)
   userNavigation.push({ name: "view-wallet", href: "/wallet" })
@@ -291,24 +299,29 @@ const Header = () => {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
-                          {userNavigation.map((item) => (
-                            <Menu.Item key={item.name}>
-                              {({ active }) => (
-                                <Link
-                                  passHref
-                                  href={item.href}
-                                  className={clsx(
-                                    active
-                                      ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
-                                      : "",
-                                    "block px-4 py-2 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
-                                  )}
-                                >
-                                  {t(item.name)}
-                                </Link>
-                              )}
-                            </Menu.Item>
-                          ))}
+                          {userNavigation
+                            .filter(
+                              (nav) =>
+                                !nav.condition || nav.condition(user?.info),
+                            )
+                            .map((item) => (
+                              <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                  <Link
+                                    passHref
+                                    href={item.href}
+                                    className={clsx(
+                                      active
+                                        ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
+                                        : "",
+                                      "block px-4 py-2 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
+                                    )}
+                                  >
+                                    {t(item.name)}
+                                  </Link>
+                                )}
+                              </Menu.Item>
+                            ))}
                           <Menu.Item key="logout">
                             {({ active }) => (
                               <button

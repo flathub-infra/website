@@ -12,13 +12,16 @@ import { VerificationProvider } from "src/verificationProvider"
 
 interface Props {
   application: AppstreamListItem
+  link?: (appid: string) => string
 }
 
-const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
+const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
   const { t } = useTranslation()
 
   const isVerified =
     application.metadata?.["flathub::verification::verified"] === "true"
+
+  const linkFunc = link ?? ((appid: string) => `/apps/${appid}`)
 
   const verificationStatus: VerificationStatus = isVerified
     ? {
@@ -44,7 +47,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
 
   return (
     <Link
-      href={`/apps/${application.id}`}
+      href={linkFunc(application.id)}
       passHref
       className={clsx(
         "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",

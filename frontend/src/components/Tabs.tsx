@@ -3,7 +3,11 @@ import { Fragment, FunctionComponent } from "react"
 import { clsx } from "clsx"
 
 interface Props {
-  tabs: { name: string; content: JSX.Element }[]
+  tabs: {
+    name: string
+    content: JSX.Element
+    badge?: string | number
+  }[]
 }
 
 /** A link placed at the top of a page's main container to return to some other page */
@@ -24,6 +28,15 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                   )}
                 >
                   {tab.name}
+                  {!!tab.badge && (
+                    <span
+                      className={clsx(
+                        "ml-2 inline-flex items-center rounded-md bg-flathub-celestial-blue px-2 py-1 text-xs font-medium text-flathub-black dark:text-flathub-white",
+                      )}
+                    >
+                      {tab.badge}
+                    </span>
+                  )}
                 </button>
               )}
             </Tab>
