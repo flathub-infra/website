@@ -13,6 +13,8 @@ from sqlalchemy import (
     Integer,
     String,
     delete,
+    func,
+    text,
 )
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -27,6 +29,7 @@ class FlathubUser(Base):
     id = Column(Integer, primary_key=True)
     display_name = Column(String)
     deleted = Column(Boolean, nullable=False, default=False)
+    is_moderator = Column(Boolean, nullable=False, server_default=text("false"))
     TABLES_FOR_DELETE = []
 
     @staticmethod
@@ -1007,3 +1010,26 @@ class RedeemableAppToken(Base):
         db.session.flush()
 
         return token
+
+
+class ModerationRequest(Base):
+    """A job from flat-manager that needs to be reviewed by a moderator"""
+
+    __tablename__ = "moderationrequest"
+
+    id = Column(Integer, primary_key=True)
+    appid = Column(String, nullable=False, index=True)
+    created_at = Column(DateTime, nullable=False, server_default=func.now())
+
+    build_id = Column(Integer, nullable=False)
+    job_id = Column(Integer, nullable=False, index=True)
+    is_outdated = Column(Boolean, nullable=False, default=False)
+
+    request_type = Column(String, nullable=False)
+    request_data = Column(String)
+    is_new_submission = Column(Boolean, nullable=False, default=False)
+
+    handled_by = Column(Integer, ForeignKey(FlathubUser.id), index=True)
+    handled_at = Column(DateTime)
+    is_approved = Column(Boolean)
+    comment = Column(String)

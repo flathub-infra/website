@@ -14,6 +14,7 @@ from . import (
     db,
     feeds,
     logins,
+    moderation,
     purchases,
     schemas,
     search,
@@ -51,6 +52,7 @@ app.add_middleware(
 )
 
 logins.register_to_app(app)
+moderation.register_to_app(app)
 wallet.register_to_app(app)
 vending.register_to_app(app)
 

@@ -1,4 +1,5 @@
 import base64
+import typing as T
 from datetime import datetime, timedelta
 
 import dramatiq
@@ -69,6 +70,21 @@ def update():
     search.create_or_update_apps(added_at)
 
 
+def _create_flat_manager_token(use: str, scopes: list[str], **kwargs):
+    return "Bearer " + jwt.encode(
+        {
+            "sub": "build",
+            "scope": scopes,
+            "iat": datetime.utcnow(),
+            "exp": datetime.utcnow() + timedelta(minutes=5),
+            "name": f"Backend token for internal use ({use})",
+            **kwargs,
+        },
+        base64.b64decode(settings.flat_manager_build_secret),
+        algorithm="HS256",
+    )
+
+
 @dramatiq.actor
 def republish_app(appid: str):
     from .vending import VendingError
@@ -78,20 +94,8 @@ def republish_app(appid: str):
 
     repos = ["stable"]
 
-    # Create a token to use in the request
-    token = "Bearer " + jwt.encode(
-        {
-            "jti": "flathub_backend_internal_token",
-            "sub": "build",
-            "scope": ["republish"],
-            "apps": [appid],
-            "repos": repos,
-            "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + timedelta(minutes=5),
-            "name": "Backend token for internal use (republish_app)",
-        },
-        base64.b64decode(settings.flat_manager_build_secret),
-        algorithm="HS256",
+    token = _create_flat_manager_token(
+        "republish_app", ["republish"], apps=[appid], repos=repos
     )
 
     with requests.Session() as session:
@@ -108,3 +112,17 @@ def republish_app(appid: str):
 
             except Exception:
                 raise VendingError("republish failed")
+
+
+@dramatiq.actor
+def review_check(
+    job_id: int,
+    status: T.Literal["Passed"] | T.Literal["Failed"],
+    reason: str | None,
+):
+    token = _create_flat_manager_token("review_check", ["reviewcheck"])
+    requests.post(
+        f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
+        json={"new-status": {"status": status, "reason": reason}},
+        headers={"Authorization": token},
+    )
