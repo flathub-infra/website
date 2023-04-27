@@ -139,13 +139,23 @@ export async function refreshDevFlatpaks(): Promise<string[]> {
  */
 export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
   const responses = await Promise.allSettled(
-    appIds.map((id) => fetch(`${APP_DETAILS(id)}`)),
+    appIds.map(async (id) => ({
+      id,
+      response: await fetch(`${APP_DETAILS(id)}`),
+    })),
   )
 
   return Promise.all(
     responses.map((res) => {
       if (res.status === "fulfilled") {
-        return res.value.json() as Promise<Appstream>
+        if (res.value.response.ok) {
+          return res.value.response.json() as Promise<Appstream>
+        } else {
+          return {
+            id: res.value.id,
+            name: res.value.id,
+          } as Appstream
+        }
       } else {
         return {
           id: "error",
