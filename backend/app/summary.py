@@ -5,11 +5,11 @@ import subprocess
 from collections import defaultdict
 
 import gi
-from gi.repository import Gio, GLib, OSTree
 
 from . import config, db, search, utils
 
 gi.require_version("OSTree", "1.0")
+from gi.repository import Gio, GLib, OSTree
 
 
 # "valid" here means it would be displayed on flathub.org
