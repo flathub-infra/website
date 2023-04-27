@@ -29,7 +29,7 @@ meilisearch = "^0.26.0"
 orjson = "^3.8.10"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
-sqlalchemy = "2.0.10"
+sqlalchemy = "2.0.11"
 sentry-dramatiq = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
