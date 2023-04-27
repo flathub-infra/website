@@ -223,7 +223,15 @@ export async function fetchDeveloperApps(
     return null
   }
 
-  const appList = await appListRes.json()
+  let appList: MeilisearchResponse<AppsIndex>
+  if (appListRes.headers.get("content-type").includes("json")) {
+    // it's json
+    appList = await appListRes.json()
+  } else {
+    // it's something else
+    console.log(await appListRes.text())
+    throw new Error("Error developer apps are not json")
+  }
 
   console.log(`Developer apps for ${developer} fetched`)
 
