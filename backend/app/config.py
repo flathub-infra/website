@@ -62,5 +62,9 @@ class Settings(BaseSettings):
     # when running docker-compose.
     flat_manager_api: str | None = None
 
+    # When set to True, moderation reviews will still be logged, but they do not have to be approved for the build to
+    # be published.
+    moderation_observe_only: bool = True
+
 
 settings = Settings()

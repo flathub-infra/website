@@ -909,6 +909,7 @@ def get_userinfo(login=Depends(login_state)):
         return Response(status_code=204)
     user = login["user"]
     ret = {
+        "is-moderator": user.is_moderator,
         "displayname": user.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
