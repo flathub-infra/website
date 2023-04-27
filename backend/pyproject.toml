@@ -45,6 +45,6 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-ignore = ["E501"]
+ignore = ["E501", "E402"]
 exclude = ["alembic/versions/*"]
 extend-select = ["I", "W", "UP", "TCH"]

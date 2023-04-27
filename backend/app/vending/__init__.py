@@ -17,7 +17,6 @@ import stripe
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
-from gi.repository import AppStream
 from pydantic import BaseModel
 
 from .. import worker
@@ -36,6 +35,8 @@ from ..vending import prices
 from ..wallet import Wallet, WalletError
 
 gi.require_version("AppStream", "1.0")
+
+from gi.repository import AppStream
 
 
 class VendingError(Exception):
@@ -311,7 +312,7 @@ def get_global_vending_config() -> VendingConfig:
 
 
 @router.get("app/{appid}/setup")
-def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingDescriptor:
+def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingSetup:
     """
     Retrieve the vending status for a given application.  Returns a no
     content response if the appid has no vending setup.
