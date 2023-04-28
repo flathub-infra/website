@@ -1,7 +1,12 @@
 import json
 import re
+import gi
+
+from gi.repository import AppStream
 
 from . import db, search, utils
+
+gi.require_version("AppStream", "1.0")
 
 
 def load_appstream():
@@ -24,6 +29,8 @@ def load_appstream():
 
             search_keywords = apps[appid].get("keywords")
 
+            project_license = apps[appid].get("project_license", "")
+
             # order of the dict is important for attritbute ranking
             search_apps.append(
                 {
@@ -31,6 +38,8 @@ def load_appstream():
                     "name": apps[appid]["name"],
                     "summary": apps[appid]["summary"],
                     "keywords": search_keywords,
+                    "project_license": project_license,
+                    "is_free_license": AppStream.license_is_free_license(project_license),
                     "app_id": appid,
                     "description": search_description,
                     "icon": apps[appid]["icon"],
