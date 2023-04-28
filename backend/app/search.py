@@ -124,9 +124,13 @@ def get_by_project_group(project_group: str, page: int, hits_per_page: int):
     )
 
 
-def search_apps(query: str):
+def search_apps(query: str, free_software_only: bool):
     query = unquote(query)
 
     return client.index("apps").search(
-        query, {"limit": 250, "sort": ["installs_last_month:desc"]}
+        query,
+        {
+            "limit": 250, "sort": ["installs_last_month:desc"],
+            "filter": ["is_free_license = true"] if free_software_only else None,
+        }
     )
