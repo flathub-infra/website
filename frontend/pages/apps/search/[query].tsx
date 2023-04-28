@@ -5,13 +5,18 @@ import { useRouter } from "next/router"
 import Spinner from "src/components/Spinner"
 import Collection from "../../../src/components/application/Collection"
 import { useSearchQuery } from "../../../src/hooks/useSearchQuery"
+import { useLocalStorage } from "../../../src/hooks/useLocalStorage"
 
 export default function Search() {
   const { t } = useTranslation()
   const router = useRouter()
   const { query } = router.query
+  const [freeSoftwareOnly, setFreeSoftwareOnly] = useLocalStorage(
+    "search-free-software-only",
+    false,
+  )
 
-  const searchResult = useSearchQuery(query as string)
+  const searchResult = useSearchQuery(query as string, freeSoftwareOnly)
 
   return (
     <>
@@ -28,6 +33,8 @@ export default function Search() {
           <Collection
             title={t("search-for-query", { query })}
             applications={searchResult}
+            freeSoftwareOnly={freeSoftwareOnly}
+            setFreeSoftwareOnly={setFreeSoftwareOnly}
           />
         )}
         {searchResult && searchResult.length === 0 && (

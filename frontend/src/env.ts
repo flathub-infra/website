@@ -10,8 +10,13 @@ export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
 export const STATS = `${BASE_URI}/stats`
-export const SEARCH_APP = (query: string): string =>
-  `${BASE_URI}/search/${encodeURIComponent(query)}`
+export const SEARCH_APP = (
+  query: string,
+  free_software_only: boolean,
+): string =>
+  `${BASE_URI}/search/${encodeURIComponent(
+    query,
+  )}?free_software_only=${free_software_only}`
 export const POPULAR_LAST_MONTH_URL = (
   page?: number,
   per_page?: number,
