@@ -52,7 +52,11 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                 <div className="text-base">
                   {item.header}
                   {item.content.type === "text" && (
-                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                    <span
+                      className={`block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray ${
+                        item.highlight ? "text-flathub-granite-gray" : "" // increase contrast with highlighted background
+                      }`}
+                    >
                       {item.content.text}
                     </span>
                   )}
@@ -63,7 +67,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       rel="noreferrer"
                       onClick={linkClicked}
                       className={`block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver no-underline hover:underline dark:text-flathub-spanish-gray ${
-                        item.highlight ? "text-flathub-granite-gray" : "" // increase contrast with highlighted background
+                        item.highlight ? "text-flathub-granite-gray" : ""
                       }`}
                     >
                       {item.content.text}
