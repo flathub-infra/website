@@ -15,7 +15,7 @@ client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
 )
 client.index("apps").update_filterable_attributes(
-    ["categories", "developer_name", "project_group", "verification_verified"]
+    ["categories", "developer_name", "project_group", "verification_verified", "is_free_license"]
 )
 
 
