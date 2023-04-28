@@ -5,7 +5,10 @@ import { fetchSearchQuery } from "../fetchers"
 import { AppstreamListItem } from "../types/Appstream"
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
-export function useSearchQuery(query: string): AppstreamListItem[] {
+export function useSearchQuery(
+  query: string,
+  freeSoftwareOnly: boolean,
+): AppstreamListItem[] {
   const { trackSiteSearch } = useMatomo()
   const [searchResult, setSearchResult] = useState<AppstreamListItem[] | null>(
     null,
@@ -13,7 +16,7 @@ export function useSearchQuery(query: string): AppstreamListItem[] {
 
   useEffect(() => {
     const callSearch = async () => {
-      const applications = await fetchSearchQuery(query)
+      const applications = await fetchSearchQuery(query, freeSoftwareOnly)
       setSearchResult(applications.hits.map(mapAppsIndexToAppstreamListItem))
       trackSiteSearch({
         keyword: query as string,
@@ -25,7 +28,7 @@ export function useSearchQuery(query: string): AppstreamListItem[] {
       setSearchResult(null)
       callSearch()
     }
-  }, [trackSiteSearch, query])
+  }, [trackSiteSearch, query, freeSoftwareOnly])
 
   return searchResult
 }

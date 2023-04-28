@@ -264,9 +264,12 @@ export async function fetchProjectgroupApps(
   return appList
 }
 
-export async function fetchSearchQuery(query: string) {
+export async function fetchSearchQuery(
+  query: string,
+  freeSoftwareOnly: boolean,
+) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-  const appListRes = await fetch(SEARCH_APP(queryEncoded))
+  const appListRes = await fetch(SEARCH_APP(queryEncoded, freeSoftwareOnly))
   const appList: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
   console.log(`Search for query: ${queryEncoded} fetched`)
