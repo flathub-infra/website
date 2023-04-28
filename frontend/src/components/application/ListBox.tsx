@@ -8,6 +8,7 @@ interface Props {
   items: {
     icon: string | JSX.Element
     header: string
+    highlight?: boolean
     content:
       | { type: "url"; text: string; trackAsEvent: string }
       | { type: "text"; text: string }
@@ -38,6 +39,10 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                   item.content.type === "text"
                     ? "grid-cols-[36px_calc(100%_-_36px)]"
                     : ""
+                } ${
+                  item.highlight
+                    ? "bg-flathub-electric-red/10 ring-2 ring-flathub-electric-red/50 dark:bg-flathub-electric-red/30"
+                    : ""
                 }`}
                 key={index}
               >
@@ -57,7 +62,9 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                       target="_blank"
                       rel="noreferrer"
                       onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver no-underline hover:underline dark:text-flathub-spanish-gray"
+                      className={`block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver no-underline hover:underline dark:text-flathub-spanish-gray ${
+                        item.highlight ? "text-flathub-granite-gray" : "" // increase contrast with highlighted background
+                      }`}
                     >
                       {item.content.text}
                     </a>

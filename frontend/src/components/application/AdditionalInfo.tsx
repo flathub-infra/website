@@ -12,6 +12,7 @@ import {
   HiInbox,
   HiLanguage,
   HiLifebuoy,
+  HiMinusCircle,
   HiScale,
   HiWrenchScrewdriver,
 } from "react-icons/hi2"
@@ -39,6 +40,9 @@ const AdditionalInfo = ({
 
   const licenseIsLink = data.project_license?.startsWith(
     "LicenseRef-proprietary=",
+  )
+  const licenseIsProprietary = data.project_license?.startsWith(
+    "LicenseRef-proprietary",
   )
 
   return (
@@ -110,8 +114,13 @@ const AdditionalInfo = ({
           appId={appId}
           items={[
             {
-              icon: <HiScale />,
+              icon: licenseIsProprietary ? (
+                <HiMinusCircle color="rgb(var(--flathub-electric-red))" />
+              ) : (
+                <HiScale />
+              ),
               header: t("license"),
+              highlight: licenseIsProprietary,
               content: {
                 type: licenseIsLink ? "url" : "text",
                 text: license,
