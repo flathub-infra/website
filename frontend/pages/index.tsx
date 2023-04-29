@@ -1,19 +1,36 @@
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import fetchCollection from "../src/fetchers"
+import fetchCollection, { fetchCategory } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
 import { Collections } from "../src/types/Collection"
 import ApplicationSections from "../src/components/application/Sections"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
+import {
+  AppsIndex,
+  MeilisearchResponse,
+  mapAppsIndexToAppstreamListItem,
+} from "src/meilisearch"
+import { Category, categoryToName } from "src/types/Category"
+import ApplicationSection from "src/components/application/ApplicationSection"
 
 export default function Home({
   recentlyUpdated,
   recentlyAdded,
   popular,
   verified,
+  topAppsByCategory,
+}: {
+  recentlyUpdated: MeilisearchResponse<AppsIndex>
+  recentlyAdded: MeilisearchResponse<AppsIndex>
+  popular: MeilisearchResponse<AppsIndex>
+  verified: MeilisearchResponse<AppsIndex>
+  topAppsByCategory: {
+    category: Category
+    apps: MeilisearchResponse<AppsIndex>
+  }[]
 }) {
   const { t } = useTranslation()
   return (
@@ -37,14 +54,6 @@ export default function Home({
               >
                 {t("setup-flathub")}
               </ButtonLink>
-              <ButtonLink
-                variant="secondary"
-                href={"/apps"}
-                passHref
-                aria-label={t("explore-apps")}
-              >
-                {t("explore")}
-              </ButtonLink>
               {!IS_PRODUCTION && (
                 <ButtonLink
                   variant="secondary"
@@ -65,6 +74,17 @@ export default function Home({
           recentlyAdded={recentlyAdded}
           verified={verified}
         ></ApplicationSections>
+
+        {topAppsByCategory.map((sectionData, i) => (
+          <ApplicationSection
+            key={`categorySection${i}`}
+            href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
+            applications={sectionData.apps.hits.map((app) =>
+              mapAppsIndexToAppstreamListItem(app),
+            )}
+            title={categoryToName(sectionData.category, t)}
+          />
+        ))}
       </div>
     </>
   )
@@ -92,6 +112,22 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     APPS_IN_PREVIEW_COUNT,
   )
 
+  let topAppsByCategory: {
+    category: string
+    apps: MeilisearchResponse<AppsIndex>
+  }[] = []
+
+  const categoryPromise = Object.keys(Category).map(
+    async (category: Category) => {
+      return {
+        category,
+        apps: await fetchCategory(category, 1, 6),
+      }
+    },
+  )
+
+  topAppsByCategory = await Promise.all(categoryPromise)
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -99,6 +135,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       recentlyAdded,
       popular,
       verified,
+      topAppsByCategory,
     },
     revalidate: 900,
   }

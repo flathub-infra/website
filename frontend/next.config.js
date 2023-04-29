@@ -57,7 +57,12 @@ const nextConfig = (phase) => ({
       },
       {
         source: "/apps/category/All/:page*",
-        destination: "/apps",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/apps",
+        destination: "/",
         permanent: true,
       },
       {

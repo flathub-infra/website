@@ -37,12 +37,6 @@ const Footer = () => {
               {t("verified")}
             </Link>
             <Link
-              href="/apps"
-              className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
-            >
-              {t("browse")}
-            </Link>
-            <Link
               href="/feeds"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
