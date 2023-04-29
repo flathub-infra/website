@@ -39,7 +39,9 @@ def load_appstream():
                     "summary": apps[appid]["summary"],
                     "keywords": search_keywords,
                     "project_license": project_license,
-                    "is_free_license": AppStream.license_is_free_license(project_license),
+                    "is_free_license": AppStream.license_is_free_license(
+                        project_license
+                    ),
                     "app_id": appid,
                     "description": search_description,
                     "icon": apps[appid]["icon"],
