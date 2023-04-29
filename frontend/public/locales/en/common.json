@@ -1,7 +1,6 @@
 {
   "go-home": "Go Home",
   "search-apps": "Search Apps",
-  "explore": "Explore",
   "publish": "Publish",
   "forum": "Forum",
   "about": "About",
@@ -100,7 +99,6 @@
   "apps-by-developer": "Apps by {{developer}}",
   "apps-by-projectgroup": "Apps in the {{projectgroup}} group",
   "search-for-query": "Search for '{{query}}'",
-  "apps-description": "Explore the Linux apps available on Flathub",
   "categories": "Categories",
   "linked-accounts": "Linked Accounts",
   "link-more-accounts": "Link More Accounts",
@@ -290,7 +288,6 @@
   "settings": "Settings",
   "new": "New",
   "browse": "Browse",
-  "explore-apps": "Explore apps",
   "setup-flathub": "Setup Flathub",
   "setup-flathub-description": "Setup Flathub to install and update apps on your system.",
   "tags-colon": "Tags:",
