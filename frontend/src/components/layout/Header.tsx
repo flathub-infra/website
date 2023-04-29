@@ -93,6 +93,16 @@ const Header = () => {
     }
   }
 
+  function onClickSearch(): void {
+    const disallowedQueries = ["", ".", ".."]
+    if (!disallowedQueries.includes(query)) {
+      const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
+      router.push(`/apps/search/${queryEncoded}`, undefined, {
+        locale: router.locale,
+      })
+    }
+  }
+
   useEffect(() => {
     function focusSearchBar(e: KeyboardEvent) {
       const searchBarComponent = document.getElementById("search")
@@ -166,11 +176,15 @@ const Header = () => {
                         {t("search-apps")}
                       </label>
                       <div className="relative">
-                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <HiMagnifyingGlass
-                            className="h-5 w-5 text-gray-400"
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-2">
+                          <button
+                            className="rounded-full p-1 hover:bg-flathub-gray-x11/50 dark:hover:bg-flathub-gainsborow/10"
                             aria-hidden="true"
-                          />
+                            tabIndex={-1}
+                            onClick={onClickSearch}
+                          >
+                            <HiMagnifyingGlass className="h-5 w-5 text-flathub-spanish-gray" />
+                          </button>
                         </div>
                         <form id="search-form" onSubmit={onSubmit}>
                           <input
