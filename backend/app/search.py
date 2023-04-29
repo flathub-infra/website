@@ -15,7 +15,13 @@ client.index("apps").update_searchable_attributes(
     ["name", "summary", "keywords", "description", "id"]
 )
 client.index("apps").update_filterable_attributes(
-    ["categories", "developer_name", "project_group", "verification_verified", "is_free_license"]
+    [
+        "categories",
+        "developer_name",
+        "project_group",
+        "verification_verified",
+        "is_free_license",
+    ]
 )
 
 
@@ -130,7 +136,8 @@ def search_apps(query: str, free_software_only: bool):
     return client.index("apps").search(
         query,
         {
-            "limit": 250, "sort": ["installs_last_month:desc"],
+            "limit": 250,
+            "sort": ["installs_last_month:desc"],
             "filter": ["is_free_license = true"] if free_software_only else None,
-        }
+        },
     )
