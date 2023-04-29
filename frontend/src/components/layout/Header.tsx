@@ -1,8 +1,8 @@
-import { ChangeEvent, useCallback, useEffect, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
-
+import { useWindowSize } from "src/hooks/useWindowSize"
 import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
@@ -36,10 +36,10 @@ const Header = () => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
   const user = useUserContext()
-
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [query, setQuery] = useState("")
-
+  const size = useWindowSize()
+  const popoverRef = useRef(null)
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
 
@@ -124,6 +124,12 @@ const Header = () => {
     }
   }, [])
 
+  // function toClose() {
+  //  if(shouldClose) {
+
+  //  }
+  // }
+
   return (
     <>
       <Popover
@@ -135,7 +141,7 @@ const Header = () => {
           )
         }
       >
-        {({ open }) => (
+        {({ open, close }) => (
           <>
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
@@ -229,6 +235,8 @@ const Header = () => {
                       <HiBars3 className="block h-6 w-6" aria-hidden="true" />
                     )}
                   </Popover.Button>
+                  {/* Mobile menu, show/hide based on screen width. */}
+                  {open && size.width >= 1024 && close()}
                 </div>
                 <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                   {navigation.map((item) => {
@@ -331,7 +339,12 @@ const Header = () => {
               </div>
             </div>
 
-            <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
+            <Popover.Panel
+              as="nav"
+              className="lg:hidden"
+              aria-label="Global"
+              ref={popoverRef}
+            >
               {({ close }) => (
                 <>
                   <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
