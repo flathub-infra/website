@@ -4,7 +4,7 @@
 
 # flathub.org
 
-This is the source code for the website, both backend and frontend. That's running on https://beta.flathub.org and hopefully soon https://flathub.org
+This is the source code for the website, both backend and frontend. That's running on https://flathub.org
 
 # Code contribution
 
