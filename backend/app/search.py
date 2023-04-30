@@ -130,7 +130,7 @@ def get_by_project_group(project_group: str, page: int, hits_per_page: int):
     )
 
 
-def search_apps(query: str, free_software_only: bool):
+def search_apps(query: str, free_software_only: bool = False):
     query = unquote(query)
 
     return client.index("apps").search(
