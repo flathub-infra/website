@@ -73,6 +73,13 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     30,
   )
 
+  // If there are no applications in this category, return 404
+  if (!applications.totalHits) {
+    return {
+      notFound: true,
+    }
+  }
+
   if (applications.page > applications.totalPages) {
     return {
       notFound: true,
