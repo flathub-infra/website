@@ -1,7 +1,7 @@
 import json
 import re
-import gi
 
+import gi
 from gi.repository import AppStream
 
 from . import db, search, utils
