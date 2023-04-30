@@ -124,9 +124,6 @@ def get_developer(
     per_page: int = None,
     response: Response = Response,
 ):
-    if developer.startswith("ARI"):
-        print(developer)
-
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
     ):
