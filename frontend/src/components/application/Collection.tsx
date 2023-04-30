@@ -9,7 +9,6 @@ import Button from "../Button"
 import ButtonLink from "../ButtonLink"
 import Pagination from "../Pagination"
 import ApplicationCard from "./ApplicationCard"
-import Toggle from "../Toggle"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
@@ -20,8 +19,6 @@ interface Props {
   totalPages?: number
   totalHits?: number
   onRefresh?: () => void
-  freeSoftwareOnly?: boolean
-  setFreeSoftwareOnly?: (arg0: boolean) => void
 }
 
 const ApplicationCollection: FunctionComponent<Props> = ({
@@ -33,8 +30,6 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   totalPages,
   totalHits,
   onRefresh,
-  freeSoftwareOnly,
-  setFreeSoftwareOnly,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -47,12 +42,6 @@ const ApplicationCollection: FunctionComponent<Props> = ({
     <span className="flex items-center justify-between">
       <h2 className="text-2xl font-bold">{title}</h2>
       {refresh}
-      {freeSoftwareOnly !== undefined && setFreeSoftwareOnly && (
-        <div className="flex gap-3">
-          <label>{t("free-software-only")}</label>
-          <Toggle enabled={freeSoftwareOnly} setEnabled={setFreeSoftwareOnly} />
-        </div>
-      )}
     </span>
   )
 

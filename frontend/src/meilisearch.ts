@@ -10,6 +10,20 @@ export interface MeilisearchResponse<T> {
   totalHits: number
 }
 
+export interface MeilisearchResponseLimited<T> {
+  hits: T[]
+  query: string
+  processingTimeMs: number
+  limit: number
+  offset: number
+  estimatedTotalHits: number
+  facetDistribution: {
+    [key: string]: {
+      [key: string]: number
+    }
+  }
+}
+
 export interface AppsIndex {
   /// Be careful, this is not the same as the flatpak app id use the app_id field instead
   id: string

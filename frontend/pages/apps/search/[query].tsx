@@ -3,9 +3,65 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import Spinner from "src/components/Spinner"
-import Collection from "../../../src/components/application/Collection"
 import { useSearchQuery } from "../../../src/hooks/useSearchQuery"
 import { useLocalStorage } from "../../../src/hooks/useLocalStorage"
+import Toggle from "../../../src/components/Toggle"
+import { FunctionComponent } from "react"
+import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
+import ApplicationCard from "src/components/application/ApplicationCard"
+
+interface Props {
+  results: MeilisearchResponseLimited<AppsIndex>
+}
+
+const SearchResults: FunctionComponent<Props> = ({ results }) => {
+  const { t } = useTranslation()
+
+  if (!results) {
+    return <Spinner size="l" />
+  }
+
+  if (!results || results.estimatedTotalHits === 0) {
+    return (
+      <>
+        <p>{t("could-not-find-match-for-search")}</p>
+        <p>
+          <Trans i18nKey={"common:request-new-app"}>
+            If you&apos;re searching for a specific application, let the
+            community know, that you want it on flathub
+            <a
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+              href="https://discourse.flathub.org/t/about-the-requests-category/22"
+            >
+              here
+            </a>
+            .
+          </Trans>
+        </p>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <p>
+        {t("number-of-results", {
+          number: results.estimatedTotalHits,
+        })}
+      </p>
+
+      <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
+        {results.hits.map((app) => (
+          <div key={app.id} className={"flex flex-col gap-2"}>
+            <ApplicationCard application={app} />
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
 
 export default function Search() {
   const { t } = useTranslation()
@@ -28,38 +84,19 @@ export default function Search() {
       />
 
       <div className="max-w-11/12 mx-auto my-0 mt-6 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        {!searchResult && <Spinner size="l" />}
-        {searchResult && searchResult.length > 0 && (
-          <Collection
-            title={t("search-for-query", { query })}
-            applications={searchResult}
-            freeSoftwareOnly={freeSoftwareOnly}
-            setFreeSoftwareOnly={setFreeSoftwareOnly}
-          />
-        )}
-        {searchResult && searchResult.length === 0 && (
-          <>
-            <h2 className="mb-6 mt-12 text-2xl font-bold">
-              {t("search-for-query", { query })}
-            </h2>
-            <p>{t("could-not-find-match-for-search")}</p>
-            <p>
-              <Trans i18nKey={"common:request-new-app"}>
-                If you&apos;re searching for a specific application, let the
-                community know, that you want it on flathub
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="no-underline hover:underline"
-                  href="https://discourse.flathub.org/t/about-the-requests-category/22"
-                >
-                  here
-                </a>
-                .
-              </Trans>
-            </p>
-          </>
-        )}
+        <span className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold">
+            {t("search-for-query", { query })}
+          </h1>
+          <div className="flex gap-3">
+            <label>{t("free-software-only")}</label>
+            <Toggle
+              enabled={freeSoftwareOnly}
+              setEnabled={setFreeSoftwareOnly}
+            />
+          </div>
+        </span>
+        <SearchResults results={searchResult} />
       </div>
     </>
   )
