@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
+import { ChangeEvent, useCallback, useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
@@ -39,7 +39,6 @@ const Header = () => {
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [query, setQuery] = useState("")
   const size = useWindowSize()
-  const popoverRef = useRef(null)
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
 
@@ -333,12 +332,7 @@ const Header = () => {
               </div>
             </div>
 
-            <Popover.Panel
-              as="nav"
-              className="lg:hidden"
-              aria-label="Global"
-              ref={popoverRef}
-            >
+            <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
               {({ close }) => (
                 <>
                   <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
