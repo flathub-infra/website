@@ -40,7 +40,11 @@ if config.settings.sentry_dsn:
         ],
     )
 
-app = FastAPI(title=config.settings.app_name, default_response_class=ORJSONResponse)
+app = FastAPI(
+    title=config.settings.app_name,
+    default_response_class=ORJSONResponse,
+    openapi_url="/api/v2/openapi.json",
+)
 
 origins = config.settings.cors_origins.split(" ")
 app.add_middleware(
