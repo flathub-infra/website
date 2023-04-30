@@ -33,7 +33,11 @@ import { Stats } from "./types/Stats"
 import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
 import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
-import { AppsIndex, MeilisearchResponse } from "./meilisearch"
+import {
+  AppsIndex,
+  MeilisearchResponse,
+  MeilisearchResponseLimited,
+} from "./meilisearch"
 
 export async function fetchAppstreamList(): Promise<string[]> {
   let entryJson: string[]
@@ -270,9 +274,11 @@ export async function fetchSearchQuery(
 ) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
   const appListRes = await fetch(SEARCH_APP(queryEncoded, freeSoftwareOnly))
-  const appList: MeilisearchResponse<AppsIndex> = await appListRes.json()
+  const appList: MeilisearchResponseLimited<AppsIndex> = await appListRes.json()
 
-  console.log(`Search for query: ${queryEncoded} fetched`)
+  console.log(
+    `Search for query: ${queryEncoded} and freeSoftwareOnly: ${freeSoftwareOnly} fetched`,
+  )
 
   return appList
 }
