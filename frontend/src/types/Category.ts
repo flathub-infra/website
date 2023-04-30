@@ -13,6 +13,33 @@ export enum Category {
   Utility = "Utility",
 }
 
+export function stringToCategory(category: string): Category | undefined {
+  switch (category.toLowerCase()) {
+    case "audiovideo":
+      return Category.AudioVideo
+    case "development":
+      return Category.Development
+    case "education":
+      return Category.Education
+    case "game":
+      return Category.Game
+    case "graphics":
+      return Category.Graphics
+    case "network":
+      return Category.Network
+    case "office":
+      return Category.Office
+    case "science":
+      return Category.Science
+    case "system":
+      return Category.System
+    case "utility":
+      return Category.Utility
+    default:
+      return undefined
+  }
+}
+
 export function categoryToName(
   category: Category,
   t: TFunction<"translation", undefined>,

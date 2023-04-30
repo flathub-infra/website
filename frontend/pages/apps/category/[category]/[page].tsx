@@ -7,7 +7,11 @@ import Breadcrumbs from "src/components/Breadcrumbs"
 
 import ApplicationCollection from "../../../../src/components/application/Collection"
 import { fetchCategories, fetchCategory } from "../../../../src/fetchers"
-import { Category, categoryToName } from "../../../../src/types/Category"
+import {
+  Category,
+  categoryToName,
+  stringToCategory,
+} from "../../../../src/types/Category"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -21,7 +25,7 @@ const ApplicationCategory = ({
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const category = router.query.category as Category
+  const category = stringToCategory(router.query.category as string)
   let title = categoryToName(category, t)
 
   const pages = [
@@ -61,6 +65,14 @@ const ApplicationCategory = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+  const category = stringToCategory(params.category as string)
+
+  if (!category) {
+    return {
+      notFound: true,
+    }
+  }
+
   if (isNaN(params.page as unknown as number)) {
     return {
       notFound: true,
@@ -68,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   }
 
   const applications = await fetchCategory(
-    params.category as keyof typeof Category,
+    category,
     params.page as unknown as number,
     30,
   )
