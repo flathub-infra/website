@@ -7,7 +7,6 @@
   "about": "Om",
   "about-description": "Flathub er et sted å finne og distribuere programmer for Linux. Det drives av Flatpak, som tillater Flathub-programmer å kjøre på nesten alle Linux-distribusjoner.",
   "about-pagename": "Om Flathub",
-  "applications": "Programmer",
   "popular": "Populært",
   "new-and-updated": "Nytt og oppdatert",
   "rss-feeds": "RSS-informasjonskanaler",
@@ -83,10 +82,7 @@
   "also-available-as-svg": "Også tilgjengelig i <2>SVG-format</2>",
   "badge-copyright": "I den grad det tillates juridisk sett har <2>Jakub Steiner</2> gitt avkall på alle opphavsrettslige og lignende rettigheter til <5>Flathub-skilt</5>. Innholdet er publisert fra Tsjekkia.",
   "rss-description": "Abonner på RSS-informasjonskanaler fra Flathub",
-  "rss-applications": "Trenger du et RSS-program. Du finner utmerkede alternativer på <1>Flathub</>.",
-  "applications-by-developer": "Programmer av {{developer}}",
   "search-for-query": "Søk etter «{{query}}»",
-  "applications-description": "En programbutikk og byggtjeneste for Linux",
   "categories": "Kategorier",
   "linked-accounts": "Lenkede kontoer",
   "link-more-accounts": "Lenk sammen flere kontoer",
@@ -174,6 +170,5 @@
   "confirm-selection": "Bekreft utvalg",
   "kind-donation": "Donasjon",
   "kind-purchase": "Kjøp",
-  "open-menu": "Åpne meny",
-  "explore-applications": "Utforsk programmer"
+  "open-menu": "Åpne meny"
 }
