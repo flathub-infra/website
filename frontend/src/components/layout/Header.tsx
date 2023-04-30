@@ -124,12 +124,6 @@ const Header = () => {
     }
   }, [])
 
-  // function toClose() {
-  //  if(shouldClose) {
-
-  //  }
-  // }
-
   return (
     <>
       <Popover
