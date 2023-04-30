@@ -56,6 +56,11 @@ const nextConfig = (phase) => ({
         permanent: true,
       },
       {
+        source: "/apps/category/All/:page*",
+        destination: "/apps",
+        permanent: true,
+      },
+      {
         source: "/apps/search",
         has: [
           {
