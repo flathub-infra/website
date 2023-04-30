@@ -34,7 +34,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
             }
             return (
               <div
-                className={`grid w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic ${
+                className={`grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic ${
                   item.content.type === "text"
                     ? "grid-cols-[36px_calc(100%_-_36px)]"
                     : ""
