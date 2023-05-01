@@ -83,7 +83,7 @@ const AdditionalInfo = ({
             content: {
               type: "text",
               text:
-                summary && summary.arches
+                summary && summary.arches && summary.arches.length > 0
                   ? summary.arches.join(", ")
                   : t("unknown"),
             },
