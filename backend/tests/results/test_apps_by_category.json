@@ -7,6 +7,7 @@
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
       "installs_last_month": 467,
+      "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
       "categories": [
@@ -14,6 +15,7 @@
       ],
       "developer_name": "Sugar Labs Community",
       "project_group": "SugarLabs",
+      "project_license": "GPL-3.0-or-later",
       "verification_verified": null,
       "verification_method": null,
       "verification_login_is_organization": null,

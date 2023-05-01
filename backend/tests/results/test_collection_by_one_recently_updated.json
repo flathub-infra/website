@@ -7,6 +7,7 @@
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
       "installs_last_month": 613,
+      "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
       "categories": [
@@ -14,6 +15,7 @@
       ],
       "developer_name": "AnyDesk Software GmbH",
       "project_group": null,
+      "project_license": "LicenseRef-proprietary",
       "verification_verified": null,
       "verification_method": null,
       "verification_login_is_organization": null,
