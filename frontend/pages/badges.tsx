@@ -26,19 +26,21 @@ const Badges = () => {
         }}
       />
       <section className="max-w-11/12 mx-auto my-0 w-11/12 space-y-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1 className="my-8">{t("official-badges")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("official-badges")}</h1>
         <p>{t("badges-block")}</p>
 
         <div className="flex w-full flex-wrap justify-around">
           <div>
-            <h3>{t("preferred-badge")}</h3>
+            <h3 className="my-4 text-xl font-semibold">
+              {t("preferred-badge")}
+            </h3>
             <img
               width="240"
               height="80"
               alt="Download on Flathub"
               src={flathubBadge}
             />
-            <h6 className="pt-2">
+            <h6 className="pt-2 text-xs font-normal">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
                 <a
@@ -52,14 +54,16 @@ const Badges = () => {
           </div>
 
           <div>
-            <h3>{t("alternative-badge")}</h3>
+            <h3 className="my-4 text-xl font-semibold">
+              {t("alternative-badge")}
+            </h3>
             <img
               width="240"
               height="80"
               alt="Download on Flathub"
               src={flathubBadgeInverted}
             />
-            <h6 className="pt-2">
+            <h6 className="pt-2 text-xs font-normal">
               <Trans i18nKey={"common:also-available-as-svg"}>
                 Also available in{" "}
                 <a
@@ -102,11 +106,11 @@ const Badges = () => {
           </Trans>
         </p>
 
-        <h2>{t("code-examples")}</h2>
+        <h2 className="mb-6 mt-12 text-2xl font-bold">{t("code-examples")}</h2>
 
         <div className="flex w-full flex-wrap justify-around">
           <div>
-            <h3>HTML</h3>
+            <h3 className="my-4 text-xl font-semibold">HTML</h3>
             <CodeCopy
               className="min-h-[180px] max-w-xs"
               text={badgeExampleCode}
@@ -121,7 +125,7 @@ const Badges = () => {
             </a>
           </div>
           <div>
-            <h3>MoinMoin Wiki</h3>
+            <h3 className="my-4 text-xl font-semibold">MoinMoin Wiki</h3>
             <CodeCopy
               className="min-h-[180px] max-w-xs"
               text={badgeExampleCodeMoinMoin}

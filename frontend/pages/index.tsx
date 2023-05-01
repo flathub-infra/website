@@ -22,7 +22,9 @@ export default function Home({
       <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="flex justify-between gap-3">
           <div className="prose dark:prose-invert">
-            <h1 className="my-8">{t("apps-for-linux-right-here")}</h1>
+            <h1 className="my-8 text-4xl font-extrabold">
+              {t("apps-for-linux-right-here")}
+            </h1>
             <p className="introduction mb-10 max-w-2xl text-lg font-light">
               {t("welcome-to-flathub-index-text")}
             </p>

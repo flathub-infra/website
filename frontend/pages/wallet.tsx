@@ -15,7 +15,7 @@ export default function Wallet() {
     <>
       <NextSeo title={t("user-wallet")} noindex={true} />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1 className="pt-12">{t("user-wallet")}</h1>
+        <h1 className="pt-12 text-4xl font-extrabold">{t("user-wallet")}</h1>
         <LoginGuard>
           <SavedCards />
           <TransactionHistory />

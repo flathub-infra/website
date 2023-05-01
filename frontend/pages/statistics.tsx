@@ -129,7 +129,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
         }}
       />
       <div className="max-w-11/12 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1 className="my-8">{t("statistics")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("statistics")}</h1>
         <div className="flex flex-wrap gap-8 md:flex-nowrap">
           <ListBox
             items={[
@@ -174,7 +174,9 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             ]}
           />
         </div>
-        <h2>{t("downloads-per-country")}</h2>
+        <h2 className="mb-6 mt-12 text-2xl font-bold">
+          {t("downloads-per-country")}
+        </h2>
         <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
             color="rgb(var(--color-primary))"
@@ -186,11 +188,15 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             rtl={i18n.dir() === "rtl"}
           />
         </div>
-        <h2>{t("downloads-over-time")}</h2>
+        <h2 className="mb-6 mt-12 text-2xl font-bold">
+          {t("downloads-over-time")}
+        </h2>
         <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
           <Line data={data} options={options} />
         </div>
-        <h2>{t("category-distribution")}</h2>
+        <h2 className="mb-6 mt-12 text-2xl font-bold">
+          {t("category-distribution")}
+        </h2>
         <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
           <Bar
             data={{

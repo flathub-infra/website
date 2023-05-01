@@ -40,7 +40,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   const header = (
     <span className="flex items-center justify-between">
-      <h2 className="my-0">{title}</h2>
+      <h2 className="text-2xl font-bold">{title}</h2>
       {refresh}
     </span>
   )

@@ -73,7 +73,7 @@ const TransactionPanel = ({
     <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic">
       {error && (
         <>
-          <h1 className="my-8">{t("whoops")}</h1>
+          <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
           <p>{t(error)}</p>
         </>
       )}
@@ -248,7 +248,7 @@ const TransactionHistory: FunctionComponent = () => {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <h3>{t("transaction-history")}</h3>
+      <h3 className="my-4 text-xl font-semibold">{t("transaction-history")}</h3>
       {error ? (
         <p>{t(error)}</p>
       ) : (

@@ -50,7 +50,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   const loginSection = linkOptions.length ? (
     <div>
-      <h3>{t("link-more-accounts")}</h3>
+      <h3 className="my-4 text-xl font-semibold">{t("link-more-accounts")}</h3>
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         {linkOptions}
       </div>
@@ -61,12 +61,12 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   return (
     <>
-      <h1 className="col-start-1 row-start-1 mb-3 mt-0">
+      <h1 className="col-start-1 row-start-1 mb-3 mt-0 text-4xl font-extrabold">
         {user.info.displayname}
       </h1>
 
       <div>
-        <h3>{t("linked-accounts")}</h3>
+        <h3 className="my-4 text-xl font-semibold">{t("linked-accounts")}</h3>
         <div className="flex flex-row flex-wrap gap-3">{linkedAccounts}</div>
       </div>
 

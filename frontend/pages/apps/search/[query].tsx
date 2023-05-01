@@ -32,7 +32,9 @@ export default function Search() {
         )}
         {searchResult && searchResult.length === 0 && (
           <>
-            <h2>{t("search-for-query", { query })}</h2>
+            <h2 className="mb-6 mt-12 text-2xl font-bold">
+              {t("search-for-query", { query })}
+            </h2>
             <p>{t("could-not-find-match-for-search")}</p>
             <p>
               <Trans i18nKey={"common:request-new-app"}>

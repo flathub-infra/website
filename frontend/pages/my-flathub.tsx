@@ -42,7 +42,9 @@ export default function Userpage({
             <UserApps variant="dev" />
             {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
               <div className="mx-2 my-auto">
-                <h3>{t("accepting-payment")}</h3>
+                <h3 className="my-4 text-xl font-semibold">
+                  {t("accepting-payment")}
+                </h3>
                 <VendingLink />
               </div>
             ) : (

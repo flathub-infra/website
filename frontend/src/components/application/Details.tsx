@@ -243,7 +243,7 @@ const Details: FunctionComponent<Props> = ({
         <CarouselStrip app={app} />
         <div className="col-start-2 flex flex-col gap-6">
           <div>
-            <h3 className="text-xl">{app.summary}</h3>
+            <h3 className="my-4 text-xl font-semibold ">{app.summary}</h3>
             {scrollHeight > collapsedHeight && (
               <div
                 {...getCollapseProps({ ref })}

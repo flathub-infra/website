@@ -53,7 +53,7 @@ const SavedCards: FunctionComponent = () => {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <h3>{t("saved-cards")}</h3>
+      <h3 className="my-4 text-xl font-semibold">{t("saved-cards")}</h3>
       {content}
     </div>
   )

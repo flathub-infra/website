@@ -57,7 +57,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application }) => {
       </div>
       <div className="flex flex-col justify-center overflow-hidden">
         <div className="flex">
-          <h4 className="truncate whitespace-nowrap font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+          <h4 className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
             {application.name}
           </h4>
         </div>

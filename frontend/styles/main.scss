@@ -3,38 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  h1 {
-    @apply text-4xl;
-    @apply font-extrabold;
-  }
-
-  h2 {
-    @apply mt-12;
-    @apply mb-6;
-    @apply text-2xl;
-    @apply font-bold;
-  }
-
-  h3 {
-    @apply my-4;
-    @apply text-xl;
-    @apply font-semibold;
-  }
-
-  h4 {
-    @apply text-base;
-    @apply font-normal;
-  }
-
-  h5 {
-    @apply font-normal;
-    @apply text-sm;
-  }
-
-  h6 {
-    @apply font-normal;
-    @apply text-xs;
-  }
 
   p {
     @apply mb-4;

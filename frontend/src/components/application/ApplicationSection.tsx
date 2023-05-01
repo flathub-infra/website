@@ -26,7 +26,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
   return (
     <div>
       <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-        <h2 className="my-auto">{title}</h2>
+        <h2 className="my-auto text-2xl font-bold">{title}</h2>
 
         {showMore && (
           <ButtonLink
