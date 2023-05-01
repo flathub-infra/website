@@ -90,11 +90,11 @@ export default function Search() {
       />
 
       <div className="max-w-11/12 mx-auto my-0 mt-6 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <span className="flex items-center justify-between">
+        <span className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl font-bold">
             {t("search-for-query", { query })}
           </h1>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-4 sm:pt-0">
             <label>{t("free-software-only")}</label>
             <Toggle
               enabled={freeSoftwareOnly}
