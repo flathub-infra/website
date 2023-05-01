@@ -2,7 +2,6 @@ import { GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { fetchStats } from "../src/fetchers"
 
 const Consultants = (): JSX.Element => {
   const { t } = useTranslation()
@@ -12,6 +11,9 @@ const Consultants = (): JSX.Element => {
       <NextSeo
         title={t("consultants")}
         description={t("consultants-description")}
+        openGraph={{
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/consultants`,
+        }}
       />
       <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1 className="my-8">Consultants and Contractors</h1>
@@ -95,13 +97,9 @@ const Consultants = (): JSX.Element => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  console.log("Fetching data for stats")
-  const stats = await fetchStats()
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      stats,
     },
     revalidate: 900,
   }
