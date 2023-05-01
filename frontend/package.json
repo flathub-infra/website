@@ -43,7 +43,7 @@
     "react-svg-worldmap": "2.0.0-alpha.16",
     "react-toastify": "^9.1.2",
     "sass": "^1.62.1",
-    "sharp": "^0.32.0",
+    "sharp": "^0.32.1",
     "spdx-license-list": "^6.6.0",
     "yet-another-react-lightbox": "^3.5.3"
   },
