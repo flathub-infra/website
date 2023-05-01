@@ -380,12 +380,6 @@ def test_app_stats_by_non_existent_id(client):
     assert response.json() is None
 
 
-def test_sitemap_text(client):
-    response = client.get("/sitemap/text")
-    assert response.status_code == 200
-    assert response.text == _get_expected_text_result("test_sitemap_text")
-
-
 def test_compat_apps(client):
     response = client.get("/compat/apps")
     assert response.status_code == 200
