@@ -20,7 +20,7 @@ const Languages = (): JSX.Element => {
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <h1 className="my-8">{t("languages")}</h1>
         <p>{t("languages-description")}</p>
-        <ul className="columns-1 sm:columns-2">
+        <ul className="columns-1 space-y-2 text-lg sm:columns-2 sm:gap-0 sm:space-y-0 sm:text-base">
           {languages
             .sort((a, b) =>
               getLanguageName(a).localeCompare(getLanguageName(b)),
