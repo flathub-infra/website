@@ -323,7 +323,7 @@ const Details: FunctionComponent<Props> = ({
     )
   } else {
     return (
-      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
         <div>{t("loading")}</div>
       </div>
     )

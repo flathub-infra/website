@@ -17,7 +17,7 @@ const Languages = (): JSX.Element => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/languages`,
         }}
       />
-      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
         <h1 className="my-8">{t("languages")}</h1>
         <p>{t("languages-description")}</p>
         <ul className="columns-1 space-y-2 text-lg sm:columns-2 sm:gap-0 sm:space-y-0 sm:text-base 2xl:columns-3">
