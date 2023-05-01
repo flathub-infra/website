@@ -7,7 +7,11 @@ import { useSearchQuery } from "../../../src/hooks/useSearchQuery"
 import { useLocalStorage } from "../../../src/hooks/useLocalStorage"
 import Toggle from "../../../src/components/Toggle"
 import { FunctionComponent } from "react"
-import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
+import {
+  AppsIndex,
+  MeilisearchResponseLimited,
+  mapAppsIndexToAppstreamListItem,
+} from "src/meilisearch"
 import ApplicationCard from "src/components/application/ApplicationCard"
 
 interface Props {
@@ -54,8 +58,10 @@ const SearchResults: FunctionComponent<Props> = ({ results }) => {
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {results.hits.map((app) => (
-          <div key={app.id} className={"flex flex-col gap-2"}>
-            <ApplicationCard application={app} />
+          <div key={app.app_id} className={"flex flex-col gap-2"}>
+            <ApplicationCard
+              application={mapAppsIndexToAppstreamListItem(app)}
+            />
           </div>
         ))}
       </div>
