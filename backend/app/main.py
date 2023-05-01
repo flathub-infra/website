@@ -1,7 +1,7 @@
 import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import ORJSONResponse, PlainTextResponse
+from fastapi.responses import ORJSONResponse
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.redis import RedisIntegration
 from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
@@ -17,7 +17,6 @@ from . import (
     purchases,
     schemas,
     search,
-    sitemap,
     stats,
     utils,
     vending,
@@ -313,11 +312,6 @@ def get_platforms() -> dict[str, utils.Platform]:
     and donations APIs to address amounts to the platforms.
     """
     return utils.PLATFORMS
-
-
-@app.get("/sitemap/text", response_class=PlainTextResponse)
-def get_sitemap():
-    return sitemap.generate_text()
 
 
 @app.get("/exceptions")
