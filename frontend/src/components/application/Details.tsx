@@ -44,6 +44,7 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
+import Tags from "./Tags"
 
 interface Props {
   app?: Appstream
@@ -315,6 +316,8 @@ const Details: FunctionComponent<Props> = ({
           <AppStatistics stats={stats}></AppStatistics>
 
           <CmdInstructions appId={app.id}></CmdInstructions>
+
+          <Tags keywords={app.keywords} />
         </div>
       </div>
     )

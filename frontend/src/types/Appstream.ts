@@ -23,6 +23,7 @@ export interface Appstream {
   launchable: Launchable
   bundle: Bundle
   metadata?: Metadata
+  keywords: string[]
 }
 
 interface ContentRating {
