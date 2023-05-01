@@ -35,7 +35,7 @@ export default function Apps({
       <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div>
           <header>
-            <h3>{t("categories")}</h3>
+            <h3 className="my-4 text-xl font-semibold">{t("categories")}</h3>
           </header>
           <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
             {Object.keys(Category).map((category: Category) => (

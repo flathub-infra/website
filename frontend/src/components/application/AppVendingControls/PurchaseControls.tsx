@@ -98,7 +98,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   if (error) {
     return (
       <>
-        <h1 className="my-8">{t("whoops")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t(error)}</p>
       </>
     )
@@ -143,7 +143,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           })}
         </p>
       )}
-      <h4 className="m-0">
+      <h4 className="m-0 text-base font-normal">
         {t(
           isDonationOnly ? "select-donation-amount" : "select-purchase-amount",
         )}

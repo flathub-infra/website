@@ -18,11 +18,15 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
   return (
     <div>
       <div>
-        <h3>{t("transaction-summary")}</h3>
+        <h3 className="my-4 text-xl font-semibold">
+          {t("transaction-summary")}
+        </h3>
         <TransactionSummary transaction={transaction} />
       </div>
       <div>
-        <h3>{t("transaction-breakdown")}</h3>
+        <h3 className="my-4 text-xl font-semibold">
+          {t("transaction-breakdown")}
+        </h3>
         {entries}
       </div>
     </div>

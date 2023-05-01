@@ -56,7 +56,7 @@ export default function TransactionPage() {
   if (error) {
     content = (
       <>
-        <h1 className="my-8">{t("whoops")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t(error)}</p>
       </>
     )
@@ -65,7 +65,7 @@ export default function TransactionPage() {
     if (unresolved) {
       content = (
         <>
-          <h1 className="my-8">{t("whoops")}</h1>
+          <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
           <p>{t("transaction-went-wrong")}</p>
           <div className="flex gap-3">
             <TransactionCancelButton

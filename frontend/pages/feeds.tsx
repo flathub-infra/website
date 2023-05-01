@@ -18,16 +18,18 @@ const Feeds = (): JSX.Element => {
         }}
       />
       <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
-        <h1 className="my-8">{t("rss-feeds")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
-        <h3>{t("new-apps")}</h3>
+        <h3 className="my-4 text-xl font-semibold">{t("new-apps")}</h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-apps-description")}</p>
           <ButtonLink className="w-52" href={FEED_NEW_URL} passHref>
             {t("subscribe")}
           </ButtonLink>
         </div>
-        <h3>{t("new-and-updated-apps")}</h3>
+        <h3 className="my-4 text-xl font-semibold">
+          {t("new-and-updated-apps")}
+        </h3>
         <div className="flex flex-col pb-4">
           <p>{t("new-and-updated-apps-description")}</p>
           <ButtonLink
@@ -39,7 +41,7 @@ const Feeds = (): JSX.Element => {
           </ButtonLink>
         </div>
 
-        <h6 className="mt-2">
+        <h6 className="mt-2 text-xs font-normal">
           <Trans i18nKey={"common:rss-apps"}>
             Do you need an RSS application? We have excellent ones in Flathub.
             Find them{" "}

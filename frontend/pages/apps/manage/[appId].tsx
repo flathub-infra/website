@@ -55,7 +55,7 @@ export default function AppManagementPage({
       <>
         <div className="space-y-8">
           <div>
-            <h1 className="mt-8">{app.name}</h1>
+            <h1 className="mt-8 text-4xl font-extrabold">{app.name}</h1>
             <div className="text-sm opacity-75">{t("developer-settings")}</div>
           </div>
           <div>
@@ -67,7 +67,7 @@ export default function AppManagementPage({
   } else {
     content = (
       <>
-        <h1 className="my-8">{t("whoops")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t("unauthorized-to-view")}</p>
         <Trans i18nKey={"common:retry-or-go-home"}>
           You might want to retry or go back{" "}

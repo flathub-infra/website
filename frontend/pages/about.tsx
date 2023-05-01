@@ -18,7 +18,9 @@ const About = () => {
       />
       <div className="prose flex max-w-full flex-col dark:prose-invert">
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
-          <h1 className="mt-8">{t("about-pagename")}</h1>
+          <h1 className="mt-8 text-4xl font-extrabold">
+            {t("about-pagename")}
+          </h1>
           <Trans i18nKey={"common:about-block"}>
             <p>
               Flathub aims to be the place to get and distribute apps for Linux.
@@ -53,7 +55,9 @@ const About = () => {
 
         {/* <!-- main content --> */}
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
-          <h2>{t("submitting-apps")}</h2>
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("submitting-apps")}
+          </h2>
           <Trans i18nKey={"common:submitting-apps-block"}>
             <p>
               App developers can{" "}
@@ -76,9 +80,13 @@ const About = () => {
             </p>
           </Trans>
 
-          <h2>{t("about-app-verification")}</h2>
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("about-app-verification")}
+          </h2>
           <Trans i18nKey="about-app-verification-block">
-            <h3>What does the checkmark under an app name mean?</h3>
+            <h3 className="my-4 text-xl font-semibold">
+              What does the checkmark under an app name mean?
+            </h3>
             <p>
               Some apps have a checkmark on the app page under the developer
               name. This means the app is published on Flathub by its original
@@ -95,7 +103,7 @@ const About = () => {
               verified the developer&apos;s identity using that link.
             </p>
 
-            <h3>
+            <h3 className="my-4 text-xl font-semibold">
               I&apos;m publishing an app on Flathub. How do I get it verified?
             </h3>
             <p>
@@ -110,7 +118,9 @@ const About = () => {
             </p>
           </Trans>
 
-          <h2>{t("reporting-issues")}</h2>
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("reporting-issues")}
+          </h2>
           <Trans i18nKey={"common:reporting-issues-block"}>
             <p>
               Security or legal issues can be reported to the{" "}
@@ -124,7 +134,9 @@ const About = () => {
             </p>
           </Trans>
 
-          <h2>{t("acknowledgements")}</h2>
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("acknowledgements")}
+          </h2>
           <Trans i18nKey={"common:acknowledgements-block"}>
             <p>
               Flathub wouldn&apos;t be possible without the generous support of

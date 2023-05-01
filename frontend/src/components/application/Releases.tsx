@@ -61,7 +61,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
           <div>
             <div className="flex flex-col gap-2 px-4 pt-4">
               <header className="flex flex-col gap-2 sm:flex-row sm:justify-between">
-                <h3 className="my-0">
+                <h3 className="my-0 text-xl font-semibold ">
                   {t("changes-in-version", {
                     "version-number": latestRelease.version,
                   })}

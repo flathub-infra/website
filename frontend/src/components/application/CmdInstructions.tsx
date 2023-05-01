@@ -26,7 +26,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
 
   return (
     <div className="rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic">
-      <h3>{t("manual-install")}</h3>
+      <h3 className="my-4 text-xl font-semibold">{t("manual-install")}</h3>
       <p>
         <Trans i18nKey={"common:manual-install-instructions"}>
           Make sure to follow the{" "}
@@ -46,7 +46,7 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
         nested
         onCopy={flatpakInstallCopied}
       />
-      <h3>{t("run")}</h3>
+      <h3 className="my-4 text-xl font-semibold">{t("run")}</h3>
       <CodeCopy
         text={`flatpak run ${appId}`}
         nested
