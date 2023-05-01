@@ -1,82 +1,88 @@
 {
-    "hits": [
-      {
-        "name": "WPS Office",
-        "summary": "WPS Office Suite",
-        "keywords": null,
-        "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
-        "id": "com_wps_Office",
-        "installs_last_month": 668,
-        "app_id": "com.wps.Office",
-        "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
-        "categories": [
-          "Office"
-        ],
-        "developer_name": "Kingsoft Office Corporation",
-        "project_group": null,
-        "verification_verified": null,
-        "verification_method": null,
-        "verification_login_is_organization": null,
-        "verification_login_name": null,
-        "verification_login_provider": null,
-        "verification_website": null,
-        "verification_timestamp": null,
-        "updated_at": 1610973768,
-        "added_at": 1610973768
-      },
-      {
-        "name": "AnyDesk",
-        "summary": "Connect to a computer remotely",
-        "keywords": null,
-        "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
-        "id": "com_anydesk_Anydesk",
-        "installs_last_month": 613,
-        "app_id": "com.anydesk.Anydesk",
-        "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-        "categories": [
-          "Network"
-        ],
-        "developer_name": "AnyDesk Software GmbH",
-        "project_group": null,
-        "verification_verified": null,
-        "verification_method": null,
-        "verification_login_is_organization": null,
-        "verification_login_name": null,
-        "verification_login_provider": null,
-        "verification_website": null,
-        "verification_timestamp": null,
-        "updated_at": 1610973790,
-        "added_at": 1610973790
-      },
-      {
-        "name": "Maze",
-        "summary": "A simple maze game",
-        "keywords": null,
-        "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
-        "id": "org_sugarlabs_Maze",
-        "installs_last_month": 467,
-        "app_id": "org.sugarlabs.Maze",
-        "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-        "categories": [
-          "Game"
-        ],
-        "developer_name": "Sugar Labs Community",
-        "project_group": "SugarLabs",
-        "verification_verified": null,
-        "verification_method": null,
-        "verification_login_is_organization": null,
-        "verification_login_name": null,
-        "verification_login_provider": null,
-        "verification_website": null,
-        "verification_timestamp": null,
-        "updated_at": 1610973680,
-        "added_at": 1610973680
-      }
-    ],
-    "query": "",
-    "processingTimeMs": 0,
-    "hitsPerPage": 250,
-    "page": 1,
-    "totalPages": 1,
-    "totalHits": 3
-  }
+  "hits": [
+    {
+      "name": "WPS Office",
+      "summary": "WPS Office Suite",
+      "keywords": null,
+      "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
+      "id": "com_wps_Office",
+      "installs_last_month": 668,
+      "is_free_license": false,
+      "app_id": "com.wps.Office",
+      "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
+      "categories": [
+        "Office"
+      ],
+      "developer_name": "Kingsoft Office Corporation",
+      "project_group": null,
+      "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
+      "verification_verified": null,
+      "verification_method": null,
+      "verification_login_is_organization": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "updated_at": 1610973768,
+      "added_at": 1610973768
+    },
+    {
+      "name": "AnyDesk",
+      "summary": "Connect to a computer remotely",
+      "keywords": null,
+      "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
+      "id": "com_anydesk_Anydesk",
+      "installs_last_month": 613,
+      "is_free_license": false,
+      "app_id": "com.anydesk.Anydesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "categories": [
+        "Network"
+      ],
+      "developer_name": "AnyDesk Software GmbH",
+      "project_group": null,
+      "project_license": "LicenseRef-proprietary",
+      "verification_verified": null,
+      "verification_method": null,
+      "verification_login_is_organization": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "updated_at": 1610973790,
+      "added_at": 1610973790
+    },
+    {
+      "name": "Maze",
+      "summary": "A simple maze game",
+      "keywords": null,
+      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+      "id": "org_sugarlabs_Maze",
+      "installs_last_month": 467,
+      "is_free_license": true,
+      "app_id": "org.sugarlabs.Maze",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "categories": [
+        "Game"
+      ],
+      "developer_name": "Sugar Labs Community",
+      "project_group": "SugarLabs",
+      "project_license": "GPL-3.0-or-later",
+      "verification_verified": null,
+      "verification_method": null,
+      "verification_login_is_organization": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "updated_at": 1610973680,
+      "added_at": 1610973680
+    }
+  ],
+  "query": "",
+  "processingTimeMs": 0,
+  "hitsPerPage": 250,
+  "page": 1,
+  "totalPages": 1,
+  "totalHits": 3
+}
