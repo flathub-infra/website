@@ -61,9 +61,9 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   return (
     <>
-      <h2 className="col-start-1 row-start-1 mb-3 mt-0">
+      <h1 className="col-start-1 row-start-1 mb-3 mt-0">
         {user.info.displayname}
-      </h2>
+      </h1>
 
       <div>
         <h3>{t("linked-accounts")}</h3>
