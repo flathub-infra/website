@@ -17,6 +17,9 @@ import { bcpToPosixLocale, languages } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
+import * as Sentry from "@sentry/react"
+import { Error } from "../src/components/Error"
+
 const inter = Inter({
   subsets: ["latin"],
 })
@@ -71,4 +74,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   )
 }
 
-export default appWithTranslation(App)
+export default Sentry.withErrorBoundary(appWithTranslation(App), {
+  fallback: <Error />,
+})
