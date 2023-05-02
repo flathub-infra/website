@@ -1,6 +1,7 @@
 import { Tab } from "@headlessui/react"
 import { Fragment, FunctionComponent } from "react"
 import { clsx } from "clsx"
+import Badge from "./application/Badge"
 
 interface Props {
   tabs: {
@@ -29,12 +30,8 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                 >
                   {tab.name}
                   {!!tab.badge && (
-                    <span
-                      className={clsx(
-                        "ml-2 inline-flex items-center rounded-md bg-flathub-celestial-blue px-2 py-1 text-xs font-medium text-flathub-black dark:text-flathub-white",
-                      )}
-                    >
-                      {tab.badge}
+                    <span className="ml-1">
+                      <Badge text={tab.badge.toString()}></Badge>
                     </span>
                   )}
                 </button>
