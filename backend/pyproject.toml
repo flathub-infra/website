@@ -30,7 +30,7 @@ orjson = "^3.8.11"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
 sqlalchemy = "2.0.12"
-sentry-dramatiq = "^0.3.2"
+sentry-dramatiq = "^0.3.3"
 
 [tool.poetry.dev-dependencies]
 black = "^23.3"
