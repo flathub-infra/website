@@ -16,6 +16,19 @@ import {
 import { Category, categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
 
+const categoryOrder = [
+  Category.Office,
+  Category.Graphics,
+  Category.AudioVideo,
+  Category.Education,
+  Category.Game,
+  Category.Network,
+  Category.Development,
+  Category.Science,
+  Category.System,
+  Category.Utility,
+]
+
 export default function Home({
   recentlyUpdated,
   recentlyAdded,
@@ -113,7 +126,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   )
 
   let topAppsByCategory: {
-    category: string
+    category: Category
     apps: MeilisearchResponse<AppsIndex>
   }[] = []
 
@@ -127,6 +140,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   )
 
   topAppsByCategory = await Promise.all(categoryPromise)
+
+  topAppsByCategory = topAppsByCategory.sort((a, b) => {
+    return categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
+  })
 
   return {
     props: {
