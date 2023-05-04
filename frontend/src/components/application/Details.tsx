@@ -51,7 +51,6 @@ interface Props {
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
-  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
 }
 
@@ -183,7 +182,6 @@ const Details: FunctionComponent<Props> = ({
   summary,
   stats,
   developerApps,
-  projectgroupApps,
   verificationStatus,
 }) => {
   const { t } = useTranslation()
@@ -297,19 +295,6 @@ const Details: FunctionComponent<Props> = ({
                 .slice(0, 6)
                 .map(mapAppsIndexToAppstreamListItem)}
               showMore={developerApps.totalHits > 6}
-            />
-          )}
-
-          {projectgroupApps && projectgroupApps.totalHits > 0 && (
-            <ApplicationSection
-              href={`/apps/collection/project-group/${app.project_group}`}
-              title={t("other-apps-by-projectgroup", {
-                projectgroup: app.project_group,
-              })}
-              applications={projectgroupApps.hits
-                .slice(0, 6)
-                .map(mapAppsIndexToAppstreamListItem)}
-              showMore={projectgroupApps.totalHits > 6}
             />
           )}
 

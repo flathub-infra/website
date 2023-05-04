@@ -10,11 +10,8 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "categories": [
-        "Network"
-      ],
+      "categories": ["Network"],
       "developer_name": "AnyDesk Software GmbH",
-      "project_group": null,
       "project_license": "LicenseRef-proprietary",
       "verification_verified": null,
       "verification_method": null,

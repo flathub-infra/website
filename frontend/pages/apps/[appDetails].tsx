@@ -7,7 +7,6 @@ import {
   fetchAppStats,
   fetchSummary,
   fetchDeveloperApps,
-  fetchProjectgroupApps,
   fetchVerificationStatus,
   fetchEolRebase,
 } from "../../src/fetchers"
@@ -31,14 +30,12 @@ export default function Details({
   summary,
   stats,
   developerApps,
-  projectgroupApps,
   verificationStatus,
 }: {
   app: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
-  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
 }) {
   const screenshots = app.screenshots
@@ -67,7 +64,6 @@ export default function Details({
         summary={summary}
         stats={stats}
         developerApps={developerApps}
-        projectgroupApps={projectgroupApps}
         verificationStatus={verificationStatus}
       />
     </>
@@ -122,7 +118,6 @@ export const getStaticProps: GetStaticProps = async ({
   const summary = await fetchSummary(appId as string)
   const stats = await fetchAppStats(appId as string)
   const developerApps = await fetchDeveloperApps(app?.developer_name)
-  const projectgroupApps = await fetchProjectgroupApps(app?.project_group)
   const verificationStatus = await fetchVerificationStatus(appId as string)
 
   return {
@@ -132,7 +127,6 @@ export const getStaticProps: GetStaticProps = async ({
       summary,
       stats,
       developerApps: removeAppIdFromSearchResponse(developerApps, app.id),
-      projectgroupApps: removeAppIdFromSearchResponse(projectgroupApps, app.id),
       verificationStatus,
     },
     revalidate: 900,

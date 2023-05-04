@@ -65,19 +65,6 @@ export const DEVELOPER_URL = (
       )}?page=${page}&per_page=${per_page}`
     : `${BASE_URI}/developer/${encodeURIComponent(developer)}`
 
-export const PROJECTGROUPS_URL: string = `${BASE_URI}/projectgroup`
-
-export const PROJECTGROUP_URL = (
-  projectgroup: string,
-  page?: number,
-  per_page?: number,
-): string =>
-  page && per_page
-    ? `${BASE_URI}/projectgroup/${encodeURIComponent(
-        projectgroup,
-      )}?page=${page}&per_page=${per_page}`
-    : `${BASE_URI}/projectgroup/${encodeURIComponent(projectgroup)}`
-
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
 export const FEED_NEW_URL: string = `${BASE_URI}/feed/new`
 

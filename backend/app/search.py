@@ -1,4 +1,4 @@
-from urllib.parse import quote, unquote
+from urllib.parse import unquote
 
 import meilisearch
 
@@ -18,7 +18,6 @@ client.index("apps").update_filterable_attributes(
     [
         "categories",
         "developer_name",
-        "project_group",
         "verification_verified",
         "is_free_license",
     ]
@@ -111,18 +110,6 @@ def get_by_developer(developer: str, page: int, hits_per_page: int):
         "",
         {
             "filter": [f"developer_name = '{escaped_developer}'"],
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
-    )
-
-
-def get_by_project_group(project_group: str, page: int, hits_per_page: int):
-    return client.index("apps").search(
-        "",
-        {
-            "filter": [f"project_group = '{quote(project_group)}'"],
             "sort": ["installs_last_month:desc"],
             "hitsPerPage": hits_per_page or 250,
             "page": page or 1,

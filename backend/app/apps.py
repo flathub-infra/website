@@ -14,11 +14,9 @@ def load_appstream():
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_developers = db.redis_conn.smembers("developers:index")
-    current_projectgroups = db.redis_conn.smembers("projectgroups:index")
 
     with db.redis_conn.pipeline() as p:
         p.delete("developers:index", *current_developers)
-        p.delete("projectgroups:index", *current_projectgroups)
 
         clean_html_re = re.compile("<.*?>")
         search_apps = []
@@ -47,7 +45,6 @@ def load_appstream():
                     "icon": apps[appid]["icon"],
                     "categories": apps[appid].get("categories"),
                     "developer_name": apps[appid].get("developer_name"),
-                    "project_group": apps[appid].get("project_group"),
                     "verification_verified": apps[appid]
                     .get("metadata", {})
                     .get("flathub::verification::verified", None),
@@ -74,9 +71,6 @@ def load_appstream():
 
             if developer_name := apps[appid].get("developer_name"):
                 p.sadd("developers:index", developer_name)
-
-            if project_group := apps[appid].get("project_group"):
-                p.sadd("projectgroups:index", project_group)
 
             p.set(f"apps:{appid}", json.dumps(apps[appid]))
 

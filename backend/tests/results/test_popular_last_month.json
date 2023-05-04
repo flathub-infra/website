@@ -10,11 +10,8 @@
       "is_free_license": false,
       "app_id": "com.wps.Office",
       "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
-      "categories": [
-        "Office"
-      ],
+      "categories": ["Office"],
       "developer_name": "Kingsoft Office Corporation",
-      "project_group": null,
       "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
       "verification_verified": null,
       "verification_method": null,
@@ -36,11 +33,8 @@
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
-      "categories": [
-        "Network"
-      ],
+      "categories": ["Network"],
       "developer_name": "AnyDesk Software GmbH",
-      "project_group": null,
       "project_license": "LicenseRef-proprietary",
       "verification_verified": null,
       "verification_method": null,
@@ -62,11 +56,8 @@
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-      "categories": [
-        "Game"
-      ],
+      "categories": ["Game"],
       "developer_name": "Sugar Labs Community",
-      "project_group": "SugarLabs",
       "project_license": "GPL-3.0-or-later",
       "verification_verified": null,
       "verification_method": null,

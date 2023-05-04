@@ -20,14 +20,6 @@ export const Generated = () => {
     name: faker.commerce.product(),
     summary: faker.commerce.productDescription(),
   }))
-  const projectgroupApps = [
-    ...Array(faker.datatype.number({ min: 1, max: 12 })),
-  ].map((item, index) => ({
-    id: index,
-    icon: faker.image.image(),
-    name: faker.commerce.product(),
-    summary: faker.commerce.productDescription(),
-  }))
 
   const stats: AppStats = {
     installs_last_7_days: faker.datatype.number({ min: 0, max: 100 }),
@@ -61,7 +53,6 @@ export const Generated = () => {
       summary={summary}
       stats={stats}
       developerApps={developerApps}
-      projectgroupApps={projectgroupApps}
       verificationStatus={{ verified: true }}
     />
   )

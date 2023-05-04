@@ -14,7 +14,6 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
-  PROJECTGROUP_URL,
   LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
   EOL_REBASE_URL,
@@ -24,7 +23,6 @@ import {
   VERIFIED_APPS_URL,
   CATEGORIES_URL,
   DEVELOPERS_URL,
-  PROJECTGROUPS_URL,
   APPSTREAM_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
@@ -230,40 +228,6 @@ export async function fetchDeveloperApps(
   const appList = await appListRes.json()
 
   console.log(`Developer apps for ${developer} fetched`)
-
-  return appList
-}
-
-export async function fetchProjectgroups(): Promise<string[]> {
-  const projectgroups = await fetch(PROJECTGROUPS_URL)
-  const projectgroupsList = await projectgroups.json()
-
-  console.log(
-    `Project-groups fetched. Returned items: ${projectgroupsList.length}.`,
-  )
-
-  return projectgroupsList
-}
-
-export async function fetchProjectgroupApps(
-  projectgroup: string | undefined,
-  page?: number,
-  per_page?: number,
-): Promise<MeilisearchResponse<AppsIndex>> {
-  if (!projectgroup) {
-    console.log("No project-group specified")
-    return null
-  }
-  console.log(`Fetching apps for project-group ${projectgroup}`)
-  const appListRes = await fetch(PROJECTGROUP_URL(projectgroup, page, per_page))
-  if (!appListRes || appListRes.status === 404) {
-    console.log("No apps for project-group ", projectgroup)
-    return null
-  }
-
-  const appList = await appListRes.json()
-
-  console.log(`Project-group apps for ${projectgroup} fetched.`)
 
   return appList
 }
