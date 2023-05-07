@@ -86,13 +86,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const pagesByProjectgroups = await Promise.all(pagesByProjectgroupsPromises)
 
   let paths: { params: { projectgroup: string; page?: string } }[] = []
-  pagesByProjectgroups.forEach((app) => {
-    for (let i = 1; i <= app.data.totalPages; i++) {
-      paths.push({
-        params: { projectgroup: app.projectgroup, page: i.toString() },
-      })
-    }
-  })
+  pagesByProjectgroups
+    .filter((app) => app.data)
+    .forEach((app) => {
+      for (let i = 1; i <= app.data.totalPages; i++) {
+        paths.push({
+          params: { projectgroup: app.projectgroup, page: i.toString() },
+        })
+      }
+    })
 
   return {
     paths: paths,

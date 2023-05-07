@@ -86,13 +86,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const pagesByDevelopers = await Promise.all(pagesByDevelopersPromises)
 
   let paths: { params: { developer: string; page?: string } }[] = []
-  pagesByDevelopers.forEach((app) => {
-    for (let i = 1; i <= app.data.totalPages; i++) {
-      paths.push({
-        params: { developer: app.developer, page: i.toString() },
-      })
-    }
-  })
+  pagesByDevelopers
+    .filter((app) => app.data)
+    .forEach((app) => {
+      for (let i = 1; i <= app.data.totalPages; i++) {
+        paths.push({
+          params: { developer: app.developer, page: i.toString() },
+        })
+      }
+    })
 
   return {
     paths: paths,
