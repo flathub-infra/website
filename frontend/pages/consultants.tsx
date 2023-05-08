@@ -53,7 +53,7 @@ const Consultants = (): JSX.Element => {
           >
             Upscaler
           </a>{" "}
-          and and a member of{" "}
+          and a member of{" "}
           <a target="_blank" rel="noreferrer" href="https://vanillaos.org/">
             Vanilla OS
           </a>
