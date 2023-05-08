@@ -48,7 +48,7 @@
     "yet-another-react-lightbox": "^3.5.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.4",
+    "@babel/core": "^7.21.8",
     "@faker-js/faker": "^7.6.0",
     "@storybook/addon-actions": "^7.0.9",
     "@storybook/addon-essentials": "^7.0.7",
