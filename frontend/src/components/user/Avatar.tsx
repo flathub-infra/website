@@ -12,8 +12,13 @@ const celestialBlue = "#4a90d9"
 const variationTone = "#70dee6"
 
 const Avatar: FunctionComponent<Props> = (props: Props) => {
-  const { avatarUrl, userName } = props
   const { t } = useTranslation()
+
+  if (!props.userName) {
+    return null
+  }
+
+  const { avatarUrl, userName } = props
 
   return avatarUrl ? (
     <Image
