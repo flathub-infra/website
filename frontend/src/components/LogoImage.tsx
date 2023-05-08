@@ -12,23 +12,15 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
 
   return (
     <>
-      {iconUrl ? (
-        iconUrl.startsWith("https://dl.flathub.org") ||
-        iconUrl.startsWith("https://flathub.org") ? (
-          <Image
-            src={iconUrl}
-            alt={t("app-logo", { "app-name": appName })}
-            layout="fill"
-            aria-hidden
-          />
-        ) : (
-          <img
-            src={iconUrl}
-            alt={t("app-logo", { "app-name": appName })}
-            className="mx-auto block h-full w-full self-center object-contain"
-            aria-hidden
-          />
-        )
+      {iconUrl &&
+      (iconUrl.startsWith("https://dl.flathub.org") ||
+        iconUrl.startsWith("https://flathub.org")) ? (
+        <Image
+          src={iconUrl}
+          alt={t("app-logo", { "app-name": appName })}
+          layout="fill"
+          aria-hidden
+        />
       ) : (
         <Image
           src="/img/flathub-logo.png"
