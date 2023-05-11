@@ -31,5 +31,14 @@
   "processingTimeMs": 0,
   "limit": 250,
   "offset": 0,
-  "estimatedTotalHits": 1
+  "estimatedTotalHits": 1,
+  "facetDistribution": {
+    "categories": {
+      "Game": 1
+    },
+    "is_free_license": {
+      "true": 1
+    },
+    "verification_verified": {}
+  }
 }

@@ -180,9 +180,9 @@ def get_appstream(appid: str, response: Response):
     return None
 
 
-@app.get("/search/{userquery}")
-def get_search(userquery: str, free_software_only: bool = False):
-    return search.search_apps(userquery, free_software_only)
+@app.post("/search")
+def post_search(query: search.SearchQuery):
+    return search.search_apps_post(query)
 
 
 @app.get("/collection/recently-updated")

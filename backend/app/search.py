@@ -1,8 +1,15 @@
 from urllib.parse import quote, unquote
 
 import meilisearch
+from pydantic import BaseModel
 
 from . import config, schemas
+
+
+class SearchQuery(BaseModel):
+    query: str
+    free_software_only: bool = False
+
 
 client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_master_key
@@ -130,6 +137,7 @@ def get_by_project_group(project_group: str, page: int, hits_per_page: int):
     )
 
 
+## remove this, when compat get's removed
 def search_apps(query: str, free_software_only: bool = False):
     query = unquote(query)
 
@@ -139,5 +147,19 @@ def search_apps(query: str, free_software_only: bool = False):
             "limit": 250,
             "sort": ["installs_last_month:desc"],
             "filter": ["is_free_license = true"] if free_software_only else None,
+        },
+    )
+
+
+def search_apps_post(searchquery: SearchQuery):
+    return client.index("apps").search(
+        searchquery.query,
+        {
+            "limit": 250,
+            "sort": ["installs_last_month:desc"],
+            "filter": ["is_free_license = true"]
+            if searchquery.free_software_only
+            else None,
+            "facets": ["verification_verified", "categories", "is_free_license"],
         },
     )

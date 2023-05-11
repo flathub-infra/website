@@ -273,7 +273,16 @@ export async function fetchSearchQuery(
   freeSoftwareOnly: boolean,
 ) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-  const appListRes = await fetch(SEARCH_APP(queryEncoded, freeSoftwareOnly))
+  const appListRes = await fetch(SEARCH_APP, {
+    method: "POST",
+    body: JSON.stringify({
+      query: queryEncoded,
+      free_software_only: freeSoftwareOnly,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
   const appList: MeilisearchResponseLimited<AppsIndex> = await appListRes.json()
 
   console.log(
