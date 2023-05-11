@@ -153,7 +153,8 @@ def test_appstream_by_non_existent_appid(client):
 
 
 def test_search_query_by_partial_name(client):
-    response = client.get("/search/maz")
+    post_body = {"query": "maz"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_appid")
@@ -165,7 +166,8 @@ def test_search_query_by_partial_name(client):
 
 
 def test_search_query_by_partial_name_2(client):
-    response = client.get("/search/ma")
+    post_body = {"query": "ma"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_appid")
@@ -177,7 +179,8 @@ def test_search_query_by_partial_name_2(client):
 
 
 def test_search_query_by_name(client):
-    response = client.get("/search/Maze")
+    post_body = {"query": "Maze"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_appid")
@@ -189,7 +192,8 @@ def test_search_query_by_name(client):
 
 
 def test_search_query_by_summary(client):
-    response = client.get("/search/maze%20game")
+    post_body = {"query": "maze game"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_appid")
@@ -201,7 +205,8 @@ def test_search_query_by_summary(client):
 
 
 def test_search_query_by_description(client):
-    response = client.get("/search/finding%20your%20way%20out")
+    post_body = {"query": "finding your way out"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_appid")
@@ -213,7 +218,8 @@ def test_search_query_by_description(client):
 
 
 def test_search_query_by_non_existent(client):
-    response = client.get("/search/NonExistent")
+    post_body = {"query": "NonExistent"}
+    response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
     expected = _get_expected_json_result("test_search_query_by_non_existent")
@@ -463,6 +469,7 @@ def test_verification_domain_names():
     assert _get_domain_name("org.example_website.TestApp") == "example-website.org"
     assert _get_domain_name("org._0_example.TestApp") == "0-example.org"
 
+
 @pytest.mark.xfail
 @vcr.use_cassette("login_cassette")
 def _login(client):
@@ -505,11 +512,12 @@ def test_verification_available_method_website(client):
                 "login_provider": "gnome",
                 "login_name": "GNOME",
                 "login_status": "not_logged_in",
-            }
+            },
         ]
     }
     assert response.status_code == 200
     assert response.json() == expected
+
 
 @pytest.mark.xfail
 @vcr.use_cassette("github_user_cassette")
@@ -580,6 +588,7 @@ def test_verification_app_id_errors(client):
     response = client.post("/verification/org.gnome.Calendar/verify-by-login-provider")
     assert response.status_code == 401
     assert response.json()["detail"] == "not_app_developer"
+
 
 @pytest.mark.xfail
 @vcr.use_cassette()
@@ -655,6 +664,7 @@ def test_verification_website(client):
         "verified": False,
     }
 
+
 @pytest.mark.xfail
 @vcr.use_cassette("github_user_cassette")
 def test_verification_github(client):
@@ -684,6 +694,7 @@ def test_verification_github(client):
     assert response.json() == {
         "verified": False,
     }
+
 
 @pytest.mark.xfail
 @vcr.use_cassette("github_user_cassette")
@@ -716,6 +727,7 @@ def test_verification_status_not_verified(client):
     assert response.status_code == 200
     assert response.json() == expected
 
+
 # @vcr.use_cassette(record_mode="once")
 # def test_auth_login_github(client):
 #     response = client.get("/auth/login/github")
@@ -729,6 +741,7 @@ def test_verification_status_not_verified(client):
 #         "/auth/login/github", json=post_body, cookies=response.cookies
 #     )
 #     assert response.status_code == 200
+
 
 @pytest.mark.xfail
 @vcr.use_cassette(record_mode="once")
@@ -747,6 +760,7 @@ def test_auth_login_gitlab(client):
         "/auth/login/gitlab", json=post_body, cookies=response.cookies
     )
     assert response.status_code == 200
+
 
 # @vcr.use_cassette(record_mode="once")
 # def test_auth_login_google(client):
@@ -807,6 +821,7 @@ def test_fakewallet(client):
     assert out["status"] == "ok"
     assert out["cards"][0]["id"] == "fake_card_exp"
     assert out["cards"][1]["id"] == "fake_card_ok"
+
 
 @pytest.mark.xfail
 @vcr.use_cassette(record_mode="once")

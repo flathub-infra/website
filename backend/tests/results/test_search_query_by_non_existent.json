@@ -4,5 +4,10 @@
     "processingTimeMs": 0,
     "limit": 250,
     "offset": 0,
-    "estimatedTotalHits": 0
+    "estimatedTotalHits": 0,
+    "facetDistribution": {
+        "categories": {},
+        "is_free_license": {},
+        "verification_verified": {}
+    }
 }
