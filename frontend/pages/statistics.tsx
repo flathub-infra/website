@@ -14,44 +14,10 @@ import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { getIntlLocale } from "../src/localize"
+import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
-const countries = require("i18n-iso-countries")
-countries.registerLocale(require("i18n-iso-countries/langs/ar.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/bg.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/bn.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/ca.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/cs.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/de.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/el.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
-// No translation for eo
-countries.registerLocale(require("i18n-iso-countries/langs/es.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/et.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/fa.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/fi.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/fr.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/hi.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/hr.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/id.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/it.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/ja.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/lt.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/no.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/pl.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/ru.json"))
-// No translatons for si
-countries.registerLocale(require("i18n-iso-countries/langs/ta.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/tr.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/uk.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/vi.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/zh.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/be.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/hu.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/nl.json"))
-countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
-// No translations for oc
+
+const countries = registerIsoCountriesLocales()
 
 const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
   const { t } = useTranslation()

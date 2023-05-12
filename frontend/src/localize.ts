@@ -33,6 +33,7 @@ import {
   hu,
   nl,
   oc,
+  da,
 } from "date-fns/locale"
 
 export type Language =
@@ -73,6 +74,7 @@ export type Language =
   | "pt"
   | "zh-Hant"
   | "oc"
+  | "da"
 
 export const languages: Language[] = [
   "en",
@@ -112,6 +114,7 @@ export const languages: Language[] = [
   "pt",
   "zh-Hant",
   "oc",
+  "da",
 ]
 
 export function getLocale(language: string): Locale {
@@ -190,6 +193,8 @@ export function getLocale(language: string): Locale {
       return zhCN // date-fns has no Traditional Chinese locale
     case "oc":
       return oc
+    case "da":
+      return da
 
     default:
       return enGB
@@ -272,6 +277,8 @@ export function bcpToPosixLocale(language: string): string {
       return "zh_Hant"
     case "oc":
       return "oc"
+    case "da":
+      return "da_DK"
 
     default:
       return "en_US"
@@ -354,6 +361,8 @@ export function getLanguageFlag(language: Language): string {
       return ""
     case "oc":
       return ""
+    case "da":
+      return "🇩🇰"
   }
 }
 
@@ -433,6 +442,8 @@ export function getLanguageName(language: Language): string {
       return "繁體中文"
     case "oc":
       return "Occitan"
+    case "da":
+      return "Dansk"
 
     default:
       return assertUnreachable(language)
@@ -535,7 +546,51 @@ export function getIntlLocale(language: string): Intl.Locale {
       })
     case "oc":
       return new Intl.Locale("oc")
+    case "da":
+      return new Intl.Locale("da")
   }
+}
+
+export function registerIsoCountriesLocales() {
+  const countries = require("i18n-iso-countries")
+  countries.registerLocale(require("i18n-iso-countries/langs/ar.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/bg.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/bn.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/ca.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/cs.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/de.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/el.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/en.json"))
+  // No translation for eo
+  countries.registerLocale(require("i18n-iso-countries/langs/es.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/et.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/fa.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/fi.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/fr.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/hi.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/hr.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/id.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/it.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/ja.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/lt.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/no.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/pl.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/ru.json"))
+  // No translatons for si
+  countries.registerLocale(require("i18n-iso-countries/langs/ta.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/tr.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/uk.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/vi.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/zh.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/be.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/hu.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/nl.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/pt.json"))
+  // No translations for oc
+  countries.registerLocale(require("i18n-iso-countries/langs/da.json"))
+
+  return countries
 }
 
 function assertUnreachable(_x: never): never {
