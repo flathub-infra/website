@@ -55,10 +55,10 @@ export default function Details({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
+            ...screenshots,
             {
               url: app?.icon,
             },
-            ...screenshots,
           ],
         }}
       />
