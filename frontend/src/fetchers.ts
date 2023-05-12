@@ -25,6 +25,7 @@ import {
   CATEGORIES_URL,
   DEVELOPERS_URL,
   PROJECTGROUPS_URL,
+  SUBCATEGORY_URL,
   APPSTREAM_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
@@ -197,6 +198,24 @@ export async function fetchCategory(
 
   console.log(
     `Category ${category} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
+  )
+
+  return response
+}
+
+export async function fetchSubcategory(
+  category: keyof typeof Category,
+  subcategory: string,
+  page?: number,
+  per_page?: number,
+): Promise<MeilisearchResponse<AppsIndex>> {
+  const appListRes = await fetch(
+    SUBCATEGORY_URL(category, subcategory, page, per_page),
+  )
+  const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
+
+  console.log(
+    `Subcategory ${subcategory} fetched. Asked for Page: ${page} with ${per_page} per page. Returned items: ${response.totalHits}.`,
   )
 
   return response

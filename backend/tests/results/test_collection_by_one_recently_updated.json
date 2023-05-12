@@ -24,7 +24,11 @@
       "verification_website": null,
       "verification_timestamp": null,
       "updated_at": 1610973790,
-      "added_at": 1610973790
+      "added_at": 1610973790,
+      "main_categories": [
+        "Network"
+      ],
+      "sub_categories": []
     }
   ],
   "query": "",

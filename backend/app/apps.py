@@ -4,7 +4,7 @@ import re
 import gi
 from gi.repository import AppStream
 
-from . import db, search, utils
+from . import db, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 
@@ -12,6 +12,7 @@ gi.require_version("AppStream", "1.0")
 def load_appstream():
     apps = utils.appstream2dict("repo")
 
+    all_main_categories = schemas.get_main_categories()
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_developers = db.redis_conn.smembers("developers:index")
     current_projectgroups = db.redis_conn.smembers("projectgroups:index")
@@ -31,6 +32,16 @@ def load_appstream():
 
             project_license = apps[appid].get("project_license", "")
 
+            categories = apps[appid].get("categories")
+            main_categories = [
+                category for category in categories if category in all_main_categories
+            ]
+            sub_categories = [
+                category
+                for category in categories
+                if category not in all_main_categories
+            ]
+
             # order of the dict is important for attritbute ranking
             search_apps.append(
                 {
@@ -45,7 +56,9 @@ def load_appstream():
                     "app_id": appid,
                     "description": search_description,
                     "icon": apps[appid]["icon"],
-                    "categories": apps[appid].get("categories"),
+                    "categories": categories,
+                    "main_categories": main_categories,
+                    "sub_categories": sub_categories,
                     "developer_name": apps[appid].get("developer_name"),
                     "project_group": apps[appid].get("project_group"),
                     "verification_verified": apps[appid]
