@@ -10,14 +10,19 @@ interface Props {
 const Tags: FunctionComponent<Props> = ({ keywords }) => {
   const { t } = useTranslation()
 
+  if (!keywords) return null
+
+  // Remove duplicates
+  const keywordSet = new Set(keywords.map((keyword) => keyword.toLowerCase()))
+
   return (
     <>
-      {keywords && (
+      {keywordSet.size && (
         <div className="flex gap-2 text-sm">
           <div>{t("tags-colon")}</div>
-          <div className="flex flex-wrap gap-2">
-            {keywords &&
-              keywords.map((item, index) => {
+          <div className="flex flex-wrap gap-2 lowercase">
+            {keywordSet.size &&
+              Array.from(keywordSet).map((item, index) => {
                 return (
                   <Link key={index} href={`/apps/search/${item}`}>
                     <Badge text={item} />
