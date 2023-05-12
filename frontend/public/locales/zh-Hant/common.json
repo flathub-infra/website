@@ -1,7 +1,6 @@
 {
   "about": "關於",
   "search-apps": "搜尋應用程式",
-  "explore": "探索",
   "publish": "發佈",
   "forum": "論壇",
   "about-pagename": "關於 Flathub",
@@ -281,5 +280,17 @@
   "new": "新",
   "browse": "瀏覽",
   "setup-flathub": "設定 Flathub",
-  "setup-flathub-description": "設定 Flathub 以在您的系統上安裝與更新應用程式。"
+  "setup-flathub-description": "設定 Flathub 以在您的系統上安裝與更新應用程式。",
+  "apps": "應用程式",
+  "count-desktop-apps": "桌面應用程式總數",
+  "rss-apps": "您需要 RSS 應用程式嗎？在 <2>Flathub</2> 上尋找超棒的應用程式。",
+  "apps-by-developer": "由 {{developer}} 開發的應用程式",
+  "apps-by-projectgroup": "{{projectgroup}} 群組中的應用程式",
+  "app-share": "應用程式分享",
+  "no-apps": "沒有要顯示的應用程式。",
+  "consultants-description": "遞交應用程式至 Flathub 的顧問服務。",
+  "tags-colon": "標籤：",
+  "free-software-only": "僅顯示自由軟體",
+  "something-went-wrong": "出了點問題",
+  "consultants": "顧問"
 }

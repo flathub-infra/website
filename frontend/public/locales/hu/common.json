@@ -1,6 +1,5 @@
 {
   "search-apps": "Alkalmazások keresése",
-  "explore": "Felfedezés",
   "publish": "Közzététel",
   "forum": "Fórum",
   "about": "Névjegy",
@@ -281,5 +280,16 @@
   "new": "Új",
   "browse": "Tallózás",
   "setup-flathub": "Flathub-beállítás",
-  "setup-flathub-description": "Flathub-beállítás az alkalmazások telepítéséhez és frissítéséhez a rendszeren."
+  "setup-flathub-description": "Flathub-beállítás az alkalmazások telepítéséhez és frissítéséhez a rendszeren.",
+  "apps": "Alkalmazások",
+  "count-desktop-apps": "Összes asztali alkalmazás",
+  "rss-apps": "Szüksége van egy RSS-alkalmazásra? Keressen kiválóakat a <2>Flathubon</2>.",
+  "apps-by-developer": "Alkalmazások a következőtől: {{developer}}",
+  "apps-by-projectgroup": "Alkalmazások a(z) {{projectgroup}} csoportban",
+  "app-share": "Alkalmazás megosztása",
+  "no-apps": "Nincsenek megjelenítendő alkalmazások.",
+  "consultants": "Tanácsadók",
+  "consultants-description": "Tanácsadó szolgáltatások alkalmazások Flathubba való beküldéséhez.",
+  "tags-colon": "Címkék:",
+  "something-went-wrong": "Hiba történt"
 }

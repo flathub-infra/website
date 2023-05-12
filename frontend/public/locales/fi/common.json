@@ -79,7 +79,6 @@
   "screenshot": "Kuvakaappaus",
   "other-apps-by-developer": "Muut kehittäjän {{developer}} sovellukset",
   "go-home": "Siirry etusivulle",
-  "explore": "Selaa",
   "manifest": "Manifesti",
   "developers": "Kehittäjät",
   "open-in-new-tab": "Avaa uudessa välilehdessä",
@@ -285,9 +284,12 @@
   "count-desktop-apps": "Työpöytäsovelluksia yhteensä",
   "rss-apps": "Tarvitsetko RSS-sovelluksen? Löydä erinomaisia vaihtoehtoja <2>Flathub</2>ista.",
   "apps-by-developer": "Kehittäjän {{developer}} sovellukset",
-  "apps-description": "Selaa Flathubissa olevia Linux-sovelluksia",
   "app-share": "Sovelluksen jako",
   "no-apps": "Ei sovelluksia näytettäväksi.",
-  "explore-apps": "Selaa sovelluksia",
-  "apps-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}"
+  "apps-by-projectgroup": "Sovellukset ryhmässä {{projectgroup}}",
+  "consultants": "Konsultit",
+  "consultants-description": "Konsultointipalvelut sovellusten lähettämiseksi Flathubiin.",
+  "tags-colon": "Tunnisteet:",
+  "free-software-only": "Näytä vain vapaat ohjelmistot",
+  "something-went-wrong": "Jokin meni pieleen"
 }

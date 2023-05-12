@@ -1,7 +1,6 @@
 {
   "go-home": "Accueil",
   "search-apps": "Chercher des applis",
-  "explore": "Explorer",
   "publish": "Publier",
   "forum": "Forum",
   "about": "À propos",
@@ -265,9 +264,7 @@
   "verification": "Vérification",
   "apps": "Applis",
   "count-desktop-apps": "Nombre total d’applis",
-  "explore-apps": "Explorer les applis",
   "setup-flathub-description": "Configurez Flathub pour installer et mettre à jour les applis sur votre système.",
-  "apps-description": "Explorez les applis Linux disponibles sur Flathub",
   "rss-apps": "Vous avez besoin d’une appli RSS ? Trouvez-en d’excellentes sur <2>Flathub</2>.",
   "no-apps": "Aucune appli à montrer.",
   "apps-by-developer": "Applis par {{developer}}",

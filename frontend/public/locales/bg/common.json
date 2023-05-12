@@ -51,7 +51,6 @@
   "developers": "Разработчици",
   "popular": "Популярни",
   "new-and-updated": "Наскоро обновени",
-  "explore": "Разглеждане",
   "publish-your-app": "Публикуване",
   "documentation": "Документация",
   "statistics": "Статистика",
@@ -285,10 +284,13 @@
   "count-desktop-apps": "Общо приложения",
   "apps-by-developer": "Приложения от {{developer}}",
   "rss-apps": "Имате ли нужда от RSS приложение? Във <2>„Flathub“</2> има за всеки по нещо.",
-  "apps-description": "Разгледайте приложенията за Линукс във „Flathub“",
   "apps-by-projectgroup": "Приложения в групата „{{projectgroup}}“",
   "app-share": "Дял на приложението",
   "no-apps": "Няма приложения.",
-  "explore-apps": "Разглеждане",
-  "apps": "Приложения"
+  "apps": "Приложения",
+  "consultants": "Консултанти",
+  "consultants-description": "Консултантски услуги за публикуване на приложения във „Flathub“.",
+  "tags-colon": "Етикети:",
+  "free-software-only": "Показване на само свободен софтуер",
+  "something-went-wrong": "Нещо се обърка"
 }
