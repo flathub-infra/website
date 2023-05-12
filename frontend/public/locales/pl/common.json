@@ -3,7 +3,6 @@
   "publish": "Opublikuj",
   "forum": "Forum",
   "popular": "Popularne",
-  "explore": "Odkrywaj",
   "new-and-updated": "Ostatnio zaktualizowane",
   "rss-feeds": "Kanał RSS",
   "community": "Społeczność",
@@ -287,8 +286,11 @@
   "rss-apps": "Potrzebujesz aplikacji do kanałów RSS? Znajdziesz idealną dla siebie na <2>Flathubie</2>.",
   "apps-by-developer": "Aplikacja stworzona przez {{developer}}",
   "apps-by-projectgroup": "Aplikacje w grupie {{projectgroup}}",
-  "apps-description": "Eksploruj aplikacje dostępne na Linuxa przez Flathub",
   "app-share": "Udostępnianie aplikacji",
   "no-apps": "Brak aplikacji do pokazania.",
-  "explore-apps": "Eksploruj aplikacje"
+  "consultants": "Konsultanci",
+  "consultants-description": "Usługi konsultacyjne w sprawie zgłaszania aplikacji do Flathub.",
+  "tags-colon": "Tagi:",
+  "free-software-only": "Pokaż tylko otwarte oprogramowanie",
+  "something-went-wrong": "Coś poszło nie tak"
 }

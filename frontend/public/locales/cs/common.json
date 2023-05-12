@@ -1,6 +1,5 @@
 {
   "search-apps": "Hledat aplikace",
-  "explore": "Procházet",
   "publish": "Publikovat",
   "about": "O Flathubu",
   "go-home": "Domovská stránka",
@@ -286,9 +285,11 @@
   "count-desktop-apps": "Celkem desktopových aplikací",
   "apps-by-developer": "Aplikace od {{developer}}",
   "apps-by-projectgroup": "Aplikace ve skupině {{projectgroup}}",
-  "apps-description": "Prozkoumejte Linuxové aplikace dostupné na Flathubu",
   "app-share": "Sdílení aplikací",
   "no-apps": "Žádné aplikace k zobrazení.",
-  "explore-apps": "Prozkoumat aplikace",
-  "rss-apps": "Potřebujete RSS čtečku? Najděte tu správnou na <2>Flathub</2>."
+  "rss-apps": "Potřebujete RSS čtečku? Najděte tu správnou na <2>Flathub</2>.",
+  "consultants": "Konzultanti",
+  "consultants-description": "Poradenské služby pro vydávání aplikací na Flathub.",
+  "tags-colon": "Štítky:",
+  "free-software-only": "Zobrazit pouze svobodný software"
 }

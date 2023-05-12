@@ -1,7 +1,6 @@
 {
   "go-home": "Go Home",
   "search-apps": "Search Apps",
-  "explore": "Explore",
   "publish": "Publish",
   "forum": "Forum",
   "about": "About",
@@ -285,10 +284,13 @@
   "apps": "Apps",
   "apps-by-developer": "Apps by {{developer}}",
   "apps-by-projectgroup": "Apps in the {{projectgroup}} group",
-  "apps-description": "Explore the Linux apps available on Flathub",
   "app-share": "App share",
   "no-apps": "No apps to show.",
-  "explore-apps": "Explore apps",
   "count-desktop-apps": "Total desktop apps",
-  "rss-apps": "Do you need an RSS app? Find excellent ones on <2>Flathub</2>."
+  "rss-apps": "Do you need an RSS app? Find excellent ones on <2>Flathub</2>.",
+  "consultants": "Consultants",
+  "consultants-description": "Consulting services for submitting apps to Flathub.",
+  "tags-colon": "Tags:",
+  "free-software-only": "Only show Free Software",
+  "something-went-wrong": "Something went wrong"
 }

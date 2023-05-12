@@ -106,7 +106,6 @@
   "languages-description": "Seleccione un idioma para cambiarlo:",
   "switch-language": "Cambiar idioma",
   "search-apps": "Buscar aplicaciones",
-  "explore": "Explorar",
   "publish": "Publicar",
   "forum": "Foro",
   "about": "Acerca de",
@@ -286,9 +285,12 @@
   "count-desktop-apps": "Total de aplicaciones del escritorio",
   "rss-apps": "¿Necesita una aplicación RSS? Encuentra excelentes en <2>Flathub</2>.",
   "apps-by-projectgroup": "Aplicaciones del grupo {{projectgroup}}",
-  "apps-description": "Explore las aplicaciones Linux disponibles en Flathub",
   "app-share": "Compartir la aplicación",
-  "explore-apps": "Explorar las aplicaciones",
   "no-apps": "No hay aplicaciones para mostrar.",
-  "apps-by-developer": "Aplicaciones por {{developer}}"
+  "apps-by-developer": "Aplicaciones por {{developer}}",
+  "consultants-description": "Servicios de consultoría para enviar aplicaciones a Flathub.",
+  "free-software-only": "Mostrar solo software libre",
+  "consultants": "Consultores",
+  "tags-colon": "Etiquetas:",
+  "something-went-wrong": "Algo salió mal"
 }

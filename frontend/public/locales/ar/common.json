@@ -1,5 +1,4 @@
 {
-  "explore": "استكشف",
   "publish": "انشر",
   "about": "عن",
   "about-pagename": "عن فلاتهب",
@@ -287,8 +286,11 @@
   "apps-by-developer": "تطبيقات {{developer}}",
   "apps-by-projectgroup": "التطبيقات من مجموعة {{projectgroup}}",
   "app-share": "مشاركة التطبيقات",
-  "explore-apps": "استكشف التطبيقات",
   "no-apps": "لا توجد تطبيقات لتُعرض.",
   "rss-apps": "أتريد تطبيق آر‌إس‌إس؟ تجد خيرهم في <2>فلاتهب</2>.",
-  "apps-description": "استكشف تطبيقات لينكس الموجودة في فلاتهب"
+  "consultants-description": "استشارات حيال وضع التطبيقات في فلاتهب.",
+  "consultants": "المستشارون",
+  "tags-colon": "الوسوم:",
+  "free-software-only": "اعرض البرمجيات الحرة فقط",
+  "something-went-wrong": "حدث خطأ ما"
 }
