@@ -41,6 +41,7 @@ module.exports = {
       "pt",
       "zh-Hant",
       "oc",
+      "da",
     ],
   },
   // debug: true,
