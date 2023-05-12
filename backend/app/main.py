@@ -107,6 +107,27 @@ def get_category(
     return result
 
 
+@app.get("/category/{category}/subcategories/{subcategory}")
+def get_subcategory(
+    category: schemas.MainCategory,
+    subcategory: str,
+    page: int = None,
+    per_page: int = None,
+    response: Response = Response,
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_selected_category_and_subcategory(
+        category, subcategory, page, per_page
+    )
+
+    return result
+
+
 @app.get("/developer")
 def get_developers():
     return db.get_developers()

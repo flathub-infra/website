@@ -45,6 +45,18 @@ export const CATEGORY_URL = (
     return `${BASE_URI}/category/${category}`
   }
 }
+export const SUBCATEGORY_URL = (
+  category: keyof typeof Category,
+  subcategory: string,
+  page?: number,
+  per_page?: number,
+): string => {
+  if (page && per_page) {
+    return `${BASE_URI}/category/${category}/subcategories/${subcategory}?page=${page}&per_page=${per_page}`
+  } else {
+    return `${BASE_URI}/category/${category}/subcategories/${subcategory}`
+  }
+}
 
 export const DEVELOPERS_URL: string = `${BASE_URI}/developer`
 

@@ -24,7 +24,11 @@
       "verification_website": null,
       "verification_timestamp": null,
       "updated_at": 1610973768,
-      "added_at": 1610973768
+      "added_at": 1610973768,
+      "main_categories": [
+        "Office"
+      ],
+      "sub_categories": []
     },
     {
       "name": "AnyDesk",
@@ -50,7 +54,11 @@
       "verification_website": null,
       "verification_timestamp": null,
       "updated_at": 1610973790,
-      "added_at": 1610973790
+      "added_at": 1610973790,
+      "main_categories": [
+        "Network"
+      ],
+      "sub_categories": []
     },
     {
       "name": "Maze",
@@ -76,7 +84,11 @@
       "verification_website": null,
       "verification_timestamp": null,
       "updated_at": 1610973680,
-      "added_at": 1610973680
+      "added_at": 1610973680,
+      "main_categories": [
+        "Game"
+      ],
+      "sub_categories": []
     }
   ],
   "query": "",

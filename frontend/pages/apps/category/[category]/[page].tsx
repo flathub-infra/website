@@ -10,6 +10,8 @@ import { fetchCategories, fetchCategory } from "../../../../src/fetchers"
 import {
   Category,
   categoryToName,
+  getSubcategory,
+  subcategoryToName,
   stringToCategory,
 } from "../../../../src/types/Category"
 import {
@@ -17,6 +19,8 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
+import Link from "next/link"
+import Tile from "src/components/Tile"
 
 const ApplicationCategory = ({
   applications,
@@ -30,16 +34,13 @@ const ApplicationCategory = ({
 
   const pages = [
     {
-      name: t("categories"),
-      href: "/apps",
-      current: false,
-    },
-    {
       name: title,
       href: `/apps/category/${category}`,
       current: true,
     },
   ]
+
+  const subcategories = getSubcategory(category)
 
   return (
     <>
@@ -51,6 +52,23 @@ const ApplicationCategory = ({
       />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 space-y-12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <Breadcrumbs pages={pages} />
+
+        {subcategories && (
+          <div>
+            <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
+              {getSubcategory(category).map((subcategory) => (
+                <Link
+                  key={subcategory}
+                  href={`/apps/category/${category}/subcategories/${subcategory}`}
+                  passHref
+                  legacyBehavior
+                >
+                  <Tile>{subcategoryToName(category, subcategory, t)}</Tile>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
 
         <ApplicationCollection
           title={title}

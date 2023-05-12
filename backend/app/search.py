@@ -24,6 +24,8 @@ client.index("apps").update_searchable_attributes(
 client.index("apps").update_filterable_attributes(
     [
         "categories",
+        "main_categories",
+        "sub_categories",
         "developer_name",
         "project_group",
         "verification_verified",
@@ -53,6 +55,26 @@ def get_by_selected_categories(
         "",
         {
             "filter": [category_list],
+            "sort": ["installs_last_month:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_selected_category_and_subcategory(
+    selected_category: schemas.MainCategory,
+    selected_subcategory: str,
+    page: int,
+    hits_per_page: int,
+):
+    return client.index("apps").search(
+        "",
+        {
+            "filter": [
+                f"main_categories = {selected_category.value}",
+                f"sub_categories = {selected_subcategory}",
+            ],
             "sort": ["installs_last_month:desc"],
             "hitsPerPage": hits_per_page or 250,
             "page": page or 1,
