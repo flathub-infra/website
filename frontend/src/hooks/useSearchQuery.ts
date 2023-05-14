@@ -6,7 +6,10 @@ import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
 
 export function useSearchQuery(
   query: string,
-  freeSoftwareOnly: boolean,
+  selectedFilters: {
+    filterType: string
+    value: string
+  }[],
 ): MeilisearchResponseLimited<AppsIndex> {
   const { trackSiteSearch } = useMatomo()
   const [searchResult, setSearchResult] =
@@ -14,7 +17,7 @@ export function useSearchQuery(
 
   useEffect(() => {
     const callSearch = async () => {
-      const applications = await fetchSearchQuery(query, freeSoftwareOnly)
+      const applications = await fetchSearchQuery(query, selectedFilters)
       setSearchResult(applications)
       trackSiteSearch({
         keyword: query as string,
@@ -26,7 +29,7 @@ export function useSearchQuery(
       setSearchResult(null)
       callSearch()
     }
-  }, [trackSiteSearch, query, freeSoftwareOnly])
+  }, [trackSiteSearch, query, selectedFilters])
 
   return searchResult
 }

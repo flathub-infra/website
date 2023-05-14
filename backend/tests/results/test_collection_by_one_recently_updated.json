@@ -16,7 +16,7 @@
       "developer_name": "AnyDesk Software GmbH",
       "project_group": null,
       "project_license": "LicenseRef-proprietary",
-      "verification_verified": null,
+      "verification_verified": false,
       "verification_method": null,
       "verification_login_is_organization": null,
       "verification_login_name": null,

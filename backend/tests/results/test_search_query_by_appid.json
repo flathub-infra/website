@@ -16,7 +16,7 @@
       "developer_name": "Sugar Labs Community",
       "project_group": "SugarLabs",
       "project_license": "GPL-3.0-or-later",
-      "verification_verified": null,
+      "verification_verified": false,
       "verification_method": null,
       "verification_login_is_organization": null,
       "verification_login_name": null,
@@ -37,12 +37,14 @@
   "offset": 0,
   "estimatedTotalHits": 1,
   "facetDistribution": {
-    "categories": {
+    "main_categories": {
       "Game": 1
     },
     "is_free_license": {
       "true": 1
     },
-    "verification_verified": {}
+    "verification_verified": {
+      "false": 1
+    }
   }
 }

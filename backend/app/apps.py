@@ -63,7 +63,7 @@ def load_appstream():
                     "project_group": apps[appid].get("project_group"),
                     "verification_verified": apps[appid]
                     .get("metadata", {})
-                    .get("flathub::verification::verified", None),
+                    .get("flathub::verification::verified", False),
                     "verification_method": apps[appid]
                     .get("metadata", {})
                     .get("flathub::verification::method", None),
