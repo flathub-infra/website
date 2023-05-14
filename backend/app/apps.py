@@ -32,7 +32,7 @@ def load_appstream():
 
             project_license = apps[appid].get("project_license", "")
 
-            categories = apps[appid].get("categories")
+            categories = apps[appid].get("categories", [])
             main_categories = [
                 category for category in categories if category in all_main_categories
             ]
