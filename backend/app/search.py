@@ -6,9 +6,14 @@ from pydantic import BaseModel
 from . import config, schemas
 
 
+class Filter(BaseModel):
+    filterType: str
+    value: str
+
+
 class SearchQuery(BaseModel):
     query: str
-    free_software_only: bool = False
+    filters: list[Filter] | None
 
 
 client = meilisearch.Client(
@@ -174,14 +179,19 @@ def search_apps(query: str, free_software_only: bool = False):
 
 
 def search_apps_post(searchquery: SearchQuery):
+    filters = []
+
+    for filter in searchquery.filters or []:
+        filters.append(f"{filter.filterType} = '{filter.value}'")
+
+    filterString = " AND ".join(filters)
+
     return client.index("apps").search(
         searchquery.query,
         {
             "limit": 250,
             "sort": ["installs_last_month:desc"],
-            "filter": ["is_free_license = true"]
-            if searchquery.free_software_only
-            else None,
-            "facets": ["verification_verified", "categories", "is_free_license"],
+            "filter": filterString if filterString else None,
+            "facets": ["verification_verified", "main_categories", "is_free_license"],
         },
     )

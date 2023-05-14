@@ -314,6 +314,8 @@
   "setup-flathub": "Setup Flathub",
   "setup-flathub-description": "Setup Flathub to install and update apps on your system.",
   "tags-colon": "Tags:",
-  "free-software-only": "Only show Free Software",
-  "something-went-wrong": "Something went wrong"
+  "something-went-wrong": "Something went wrong",
+  "floss": "Free/Libre Open Source Software",
+  "not-verified": "Not verified",
+  "filters": "Filters"
 }

@@ -289,14 +289,17 @@ export async function fetchProjectgroupApps(
 
 export async function fetchSearchQuery(
   query: string,
-  freeSoftwareOnly: boolean,
+  selectedFilters: {
+    filterType: string
+    value: string
+  }[],
 ) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
   const appListRes = await fetch(SEARCH_APP, {
     method: "POST",
     body: JSON.stringify({
       query: queryEncoded,
-      free_software_only: freeSoftwareOnly,
+      filters: selectedFilters,
     }),
     headers: {
       "Content-Type": "application/json",
@@ -304,9 +307,7 @@ export async function fetchSearchQuery(
   })
   const appList: MeilisearchResponseLimited<AppsIndex> = await appListRes.json()
 
-  console.log(
-    `Search for query: ${queryEncoded} and freeSoftwareOnly: ${freeSoftwareOnly} fetched`,
-  )
+  console.log(`Search for query: ${queryEncoded} fetched`)
 
   return appList
 }
