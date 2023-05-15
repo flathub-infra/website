@@ -183,7 +183,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
       <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
         <span className="flex">
-          <h2 className="m-0 flex-grow pb-4">{title}</h2>
+          <h2 className="m-0 flex-grow pb-4 text-2xl font-bold">{title}</h2>
           <span className="ml-2 text-gray-500 dark:text-gray-400">
             {new Date(request.created_at * 1000).toLocaleDateString(
               getIntlLocale(i18n.language),
