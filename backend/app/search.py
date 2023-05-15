@@ -24,7 +24,7 @@ client.index("apps").update_sortable_attributes(
     ["installs_last_month", "added_at", "updated_at", "verification_timestamp"]
 )
 client.index("apps").update_searchable_attributes(
-    ["name", "summary", "keywords", "description", "id"]
+    ["name", "keywords", "summary", "description", "id"]
 )
 client.index("apps").update_filterable_attributes(
     [
