@@ -1,10 +1,13 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useState } from "react"
+import { useRouter } from "next/router"
+import { FunctionComponent, useCallback } from "react"
 import { getAppsInfo } from "src/asyncs/app"
 import { getModerationApp } from "src/asyncs/moderation"
 import { useAsync } from "src/hooks/useAsync"
+import { useQueryParam } from "src/hooks/useQueryParam"
 import { ModerationRequest } from "src/types/Moderation"
 import InlineError from "../InlineError"
+import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 
@@ -14,9 +17,10 @@ interface Props {
 
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const { t } = useTranslation()
+  const router = useRouter()
 
-  const [includeHandled, setIncludeHandled] = useState(false)
-  const [includeOutdated, setIncludeOutdated] = useState(false)
+  const [includeOutdated, setIncludeOutdated] = useQueryParam("includeOutdated")
+  const [includeHandled, setIncludeHandled] = useQueryParam("includeHandled")
 
   const {
     error: appstreamError,
@@ -27,6 +31,9 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     true,
   )
 
+  const PAGE_SIZE = 10
+  const currentPage = parseInt((router.query.page as string) ?? "1") ?? 1
+
   const {
     error,
     status,
@@ -34,8 +41,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   } = useAsync(
     useCallback(
       async () =>
-        await getModerationApp(appId, includeOutdated, includeHandled),
-      [appId, includeHandled, includeOutdated],
+        await getModerationApp(
+          appId,
+          includeOutdated === "true",
+          includeHandled === "true",
+          PAGE_SIZE,
+          (currentPage - 1) * PAGE_SIZE,
+        ),
+      [appId, currentPage, includeHandled, includeOutdated],
     ),
     true,
   )
@@ -51,6 +64,11 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     return <InlineError error={error ?? appstreamError} shown={true} />
   }
 
+  const pages = Array.from(
+    { length: Math.ceil((moderationApp.requests_count ?? 1) / PAGE_SIZE) },
+    (_, i) => i + 1,
+  )
+
   return (
     <div className="space-y-8">
       <div>
@@ -63,8 +81,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           <input
             id="include-outdated"
             type="checkbox"
-            checked={includeOutdated}
-            onChange={() => setIncludeOutdated(!includeOutdated)}
+            checked={includeOutdated === "true"}
+            onChange={() =>
+              setIncludeOutdated(includeOutdated ? undefined : "true")
+            }
           />
           <label htmlFor="include-outdated" className="ml-2">
             {t("moderation-include-outdated")}
@@ -75,8 +95,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           <input
             id="include-handled"
             type="checkbox"
-            checked={includeHandled}
-            onChange={() => setIncludeHandled(!includeHandled)}
+            checked={includeHandled === "true"}
+            onChange={() =>
+              setIncludeHandled(includeHandled ? undefined : "true")
+            }
           />
           <label htmlFor="include-handled" className="ml-2">
             {t("moderation-include-handled")}
@@ -91,6 +113,8 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
       <div className="flex flex-col space-y-4">
         {moderationApp.requests.map(getReviewRow)}
       </div>
+
+      <Pagination currentPage={currentPage} pages={pages} />
     </div>
   )
 }

@@ -40,4 +40,5 @@ export type ModerationRequest = ModerationAppdataRequest
 
 export interface ModerationApp {
   requests: ModerationRequest[]
+  requests_count: number
 }
