@@ -72,7 +72,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="mt-8">{appstream.name}</h1>
+        <h1 className="mt-8 text-4xl font-extrabold">{appstream.name}</h1>
         <div className="text-sm opacity-75">{t("moderation-dashboard")}</div>
       </div>
 

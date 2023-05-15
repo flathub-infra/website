@@ -38,7 +38,7 @@ export default function ModerationDashboard() {
   } else {
     content = (
       <>
-        <h1 className="my-8">{t("moderation-dashboard")}</h1>
+        <h1 className="my-8 text-4xl font-extrabold">{t("moderation-dashboard")}</h1>
         <ModerationTabs />
       </>
     )
