@@ -7327,17 +7327,7 @@ minimatch@^5.0.1:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
-  version "1.2.6"
-  resolved "https://registry.npmjs.org/minimist/-/minimist-1.2.6.tgz"
-  integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
-
-minimist@^1.2.3:
-  version "1.2.7"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
-  integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
-
-minimist@^1.2.8:
+minimist@^1.2.0, minimist@^1.2.3, minimist@^1.2.5, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
@@ -7458,10 +7448,10 @@ next-seo@^6.0.0:
   resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-6.0.0.tgz#4568dc61a44dbdf5fe5ff44156cd0ff8804889a2"
   integrity sha512-jKKt1p1z4otMA28AyeoAONixVjdYmgFCWwpEFtu+DwRHQDllVX3RjtyXbuCQiUZEfQ9rFPBpAI90vDeLZlMBdg==
 
-next-sitemap@^4.0.7:
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-4.0.7.tgz#a8e7ffc1b8ec976b61171f4cb2d1d5384a2c4eb4"
-  integrity sha512-S2g5IwJeO0+ecmFq981fb+Mw9YWmntOuN/qTCxclSkUibOJ8qKIOye0vn6NEJ1S4tKhbY+MTYKgJpNdFZYxLoA==
+next-sitemap@^4.0.9:
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/next-sitemap/-/next-sitemap-4.0.9.tgz#534d2e96440e1579c7053f56cd4a1fe912b63ea5"
+  integrity sha512-8pbcEe4vrmgGEc3beVbrSqd8mTQ9lCsGxP+AOlArrGmeLkKD4TbSR41R2unQHHSTkBG8cQ/7gjKkdLBlzwtu6g==
   dependencies:
     "@corex/deepmerge" "^4.0.37"
     minimist "^1.2.8"
