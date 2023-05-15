@@ -121,7 +121,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
 
 export default AppModeration
 
-const getReviewRow = (request: ModerationRequest) => {
+export const getReviewRow = (request: ModerationRequest) => {
   switch (request.request_type) {
     case "appdata":
       return <AppstreamChangesRow key={request.id} request={request} />

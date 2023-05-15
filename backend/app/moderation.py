@@ -108,9 +108,16 @@ def get_moderation_app(
     include_handled: bool = False,
     limit: int = 100,
     offset: int = 0,
-    _moderator=Depends(moderator_only),
+    login=Depends(logins.login_state),
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
+
+    if not login["state"].logged_in():
+        raise HTTPException(status_code=401, detail="not_logged_in")
+    if not login["user"].is_moderator and app_id not in login["user"].dev_flatpaks(
+        sqldb
+    ):
+        raise HTTPException(status_code=403, detail="not_app_developer")
 
     query = (
         sqldb.session.query(models.ModerationRequest, models.FlathubUser.display_name)
