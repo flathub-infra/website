@@ -7,6 +7,7 @@ import { ModerationRequest } from "src/types/Moderation"
 import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
+import Badge from "../application/Badge"
 import { formatDistance } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
@@ -183,7 +184,14 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
       <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
         <span className="flex">
-          <h2 className="m-0 flex-grow pb-4 text-2xl font-bold">{title}</h2>
+          <h2 className="m-0 flex-grow pb-4 text-2xl font-bold">
+            {title}
+            {request.is_outdated && (
+              <span className="ml-2">
+                <Badge text={t("moderation-outdated")} />
+              </span>
+            )}
+          </h2>
           <span className="ml-2 text-gray-500 dark:text-gray-400">
             {new Date(request.created_at * 1000).toLocaleDateString(
               getIntlLocale(i18n.language),

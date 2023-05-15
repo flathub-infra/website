@@ -12,6 +12,7 @@ import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
 import { IS_PRODUCTION } from "src/env"
 import Tabs from "src/components/Tabs"
+import { AppDevModeration } from "src/components/moderation/AppDevModeration"
 
 export default function AppManagementPage({
   app,
@@ -44,6 +45,10 @@ export default function AppManagementPage({
       {
         name: t("ownership-tokens"),
         content: <AppVendingControls.OwnershipTokens app={app} />,
+      },
+      {
+        name: t("moderation-pending-reviews"),
+        content: <AppDevModeration app={app} />,
       },
     )
   }
