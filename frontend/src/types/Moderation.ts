@@ -9,6 +9,7 @@ export interface ModerationAppItem {
 
 export interface ModerationApps {
   apps: ModerationAppItem[]
+  apps_count: number
 }
 
 export interface ModerationRequestBase {
