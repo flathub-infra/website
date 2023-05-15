@@ -9,7 +9,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel, validator
-from sqlalchemy import func, or_
+from sqlalchemy import func, not_, or_
 
 from . import config, logins, models, worker
 from .db import get_json_key
@@ -60,6 +60,7 @@ class ModerationRequestResponse(BaseModel):
 
 class ModerationApp(BaseModel):
     requests: list[ModerationRequestResponse]
+    requests_count: int
 
 
 @router.get("/apps", status_code=200, response_model_exclude_none=True)
@@ -97,6 +98,8 @@ def get_moderation_app(
     app_id: str,
     include_outdated: bool = False,
     include_handled: bool = False,
+    limit: int = 100,
+    offset: int = 0,
     _moderator=Depends(moderator_only),
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
@@ -113,7 +116,7 @@ def get_moderation_app(
             query = query.filter(
                 or_(
                     models.ModerationRequest.handled_at.isnot(None),
-                    not models.ModerationRequest.is_outdated,
+                    not_(models.ModerationRequest.is_outdated),
                 )
             )
     else:
@@ -122,6 +125,9 @@ def get_moderation_app(
             query = query.filter_by(is_outdated=False)
 
     query = query.join(models.FlathubUser, isouter=True)
+
+    total = query.count()
+    query = query.offset(offset).limit(limit)
 
     return ModerationApp(
         requests=[
@@ -141,7 +147,8 @@ def get_moderation_app(
                 created_at=row.created_at.timestamp(),
             )
             for row, handled_by_name in query
-        ]
+        ],
+        requests_count=total,
     )
 
 

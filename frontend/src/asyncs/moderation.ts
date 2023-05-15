@@ -29,6 +29,8 @@ export async function getModerationApp(
   appId: string,
   includeOutdated: boolean = false,
   includeHandled: boolean = false,
+  limit: number = 25,
+  offset: number = 0,
 ): Promise<ModerationApp> {
   let res: Response
   try {
@@ -38,6 +40,8 @@ export async function getModerationApp(
       new URLSearchParams({
         include_outdated: includeOutdated.toString(),
         include_handled: includeHandled.toString(),
+        limit: limit.toString(),
+        offset: offset.toString(),
       })
     res = await fetch(url, { credentials: "include" })
   } catch {
