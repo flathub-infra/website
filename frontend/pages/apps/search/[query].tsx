@@ -164,7 +164,7 @@ const SearchFilterFloss = ({
                 }}
               />
               <span className="ml-2">{`${t(
-                license === "true" ? "floss" : "proprietary",
+                license === "true" ? "flos" : "proprietary",
               )} (${isFreeLicense[license]})`}</span>
             </label>
           </div>
