@@ -9,10 +9,21 @@ import { ModerationApp, ModerationApps } from "src/types/Moderation"
  * Performs API request to retrieve list of apps for moderation
  * @returns array of apps
  */
-export async function getModerationApps(): Promise<ModerationApps> {
+export async function getModerationApps(
+  limit: number = 100,
+  offset: number = 0,
+): Promise<ModerationApps> {
   let res: Response
   try {
-    res = await fetch(MODERATION_APPS_URL, { credentials: "include" })
+    res = await fetch(
+      MODERATION_APPS_URL +
+        "?" +
+        new URLSearchParams({
+          limit: limit.toString(),
+          offset: offset.toString(),
+        }),
+      { credentials: "include" },
+    )
   } catch {
     throw "failed-to-load-refresh"
   }

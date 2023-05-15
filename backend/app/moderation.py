@@ -37,6 +37,7 @@ class ModerationAppItem(BaseModel):
 
 class ModerationAppsResponse(BaseModel):
     apps: list[ModerationAppItem]
+    apps_count: int
 
 
 class ModerationRequestResponse(BaseModel):
@@ -65,7 +66,10 @@ class ModerationApp(BaseModel):
 
 @router.get("/apps", status_code=200, response_model_exclude_none=True)
 def get_moderation_apps(
-    new_submissions: bool | None = None, _moderator=Depends(moderator_only)
+    new_submissions: bool | None = None,
+    limit: int = 100,
+    offset: int = 0,
+    _moderator=Depends(moderator_only),
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
@@ -88,8 +92,12 @@ def get_moderation_apps(
     if new_submissions is not None:
         query = query.having(is_new_submission == new_submissions)
 
+    total = query.count()
+    query = query.offset(offset).limit(limit)
+
     return ModerationAppsResponse(
-        apps=[ModerationAppItem(**row._asdict()) for row in query]
+        apps=[ModerationAppItem(**row._asdict()) for row in query],
+        apps_count=total,
     )
 
 
