@@ -31,7 +31,7 @@ const navigation = [
 let userNavigation = [
   { name: "my-flathub", href: "/my-flathub" },
   {
-    name: "moderation-dashboard",
+    name: "Moderation Dashboard",
     href: "/moderation",
     condition: (user: UserInfo) => user?.["is-moderator"],
   },

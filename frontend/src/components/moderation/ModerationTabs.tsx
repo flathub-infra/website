@@ -48,7 +48,7 @@ const ModerationTabs: FunctionComponent = () => {
       <div>
         <ApplicationCollection
           user={user}
-          title={t("moderation-pending-reviews")}
+          title="Pending Reviews"
           applications={value.appstream}
           totalHits={value.apps.apps_count}
           link={link}

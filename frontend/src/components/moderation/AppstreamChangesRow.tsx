@@ -16,7 +16,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
     <ReviewRow
       title={
         request.is_new_submission
-          ? t("moderation-new-submission-appstream")
+          ? t("moderation-appstream")
           : t("moderation-appstream-changes")
       }
       request={request}
