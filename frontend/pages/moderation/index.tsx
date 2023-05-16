@@ -38,9 +38,7 @@ export default function ModerationDashboard() {
   } else {
     content = (
       <>
-        <h1 className="my-8 text-4xl font-extrabold">
-          {t("moderation-dashboard")}
-        </h1>
+        <h1 className="my-8 text-4xl font-extrabold">Moderation Dashboard</h1>
         <ModerationTabs />
       </>
     )
@@ -48,7 +46,7 @@ export default function ModerationDashboard() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t("moderation-dashboard")} />
+      <NextSeo title="Moderation Dashboard" />
       {content}
     </div>
   )

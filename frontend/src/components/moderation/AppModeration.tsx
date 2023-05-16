@@ -73,7 +73,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     <div className="space-y-8">
       <div>
         <h1 className="mt-8 text-4xl font-extrabold">{appstream.name}</h1>
-        <div className="text-sm opacity-75">{t("moderation-dashboard")}</div>
+        <div className="text-sm opacity-75">Moderation Dashboard</div>
       </div>
 
       <div className="flex space-x-8">
@@ -87,7 +87,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             }
           />
           <label htmlFor="include-outdated" className="ml-2">
-            {t("moderation-include-outdated")}
+            Include outdated requests
           </label>
         </span>
 
@@ -101,13 +101,13 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             }
           />
           <label htmlFor="include-handled" className="ml-2">
-            {t("moderation-include-handled")}
+            Include handled requests
           </label>
         </span>
       </div>
 
       {moderationApp.requests.length === 0 && (
-        <div>{t("moderation-no-review-requests")}</div>
+        <div>No reviews to show for this app.</div>
       )}
 
       <div className="flex flex-col space-y-4">

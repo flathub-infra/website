@@ -26,15 +26,14 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
   const [comment, setComment] = useState<string | undefined>(undefined)
 
-  const modalTitle =
-    modalState === "reject" ? t("moderation-reject") : t("moderation-approve")
+  const modalTitle = modalState === "reject" ? "Reject" : "Approve"
 
   const confirmText =
     modalState === "reject"
-      ? t("moderation-reject")
+      ? "Reject"
       : comment
-      ? t("moderation-approve-with-comment")
-      : t("moderation-approve")
+      ? "Approve With Comment"
+      : "Approve"
 
   const [status, setStatus] = useState<
     "idle" | "pending" | "error" | "success"
@@ -107,7 +106,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             submit(true)
           }}
         >
-          {t("moderation-approve")}
+          Approve
         </Button>
         <Button
           variant="secondary"
@@ -116,7 +115,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             setModalVisible(true)
           }}
         >
-          {t("moderation-approve-with-comment")}
+          Approve With Comment
         </Button>
         <Button
           variant="destructive"
@@ -125,7 +124,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             setModalVisible(true)
           }}
         >
-          {t("moderation-reject")}
+          Reject
         </Button>
       </>
     )
