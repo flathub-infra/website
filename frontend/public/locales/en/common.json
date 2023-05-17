@@ -99,8 +99,6 @@
   "apps-by-developer": "Apps by {{developer}}",
   "apps-by-projectgroup": "Apps in the {{projectgroup}} group",
   "search-for-query": "Search for '{{query}}'",
-  "apps-description": "Explore the Linux apps available on Flathub",
-  "applications-description": "An app store and build service for Linux",
   "moderation-pending-reviews": "Pending Reviews",
   "moderation-appstream-changes": "Appstream Changes",
   "moderation-appstream": "Appstream",
