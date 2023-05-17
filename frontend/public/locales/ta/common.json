@@ -291,6 +291,13 @@
   "consultants": "ஆலோசகர்கள்",
   "consultants-description": "பிளாட்ஹப் இல் பயன்பாடுகளைச் சமர்ப்பிப்பதற்கான ஆலோசனைச் சேவைகள்.",
   "tags-colon": "குறிச்சொற்கள்:",
-  "free-software-only": "இலவச மென்பொருளை மட்டும் காட்டவும்",
-  "something-went-wrong": "ஏதோ தவறாகிவிட்டது"
+  "something-went-wrong": "ஏதோ தவறாகிவிட்டது",
+  "adventure": "சாகசம்",
+  "board": "பலகை",
+  "arcade": "ஆர்கேட்",
+  "blocks": "பிளாக்ஸ்",
+  "logic": "தர்க்கம்",
+  "kids": "குழந்தைகள்",
+  "action": "செயல்",
+  "card": "அட்டை"
 }
