@@ -290,7 +290,6 @@
   "rss-apps": "Auf der Suche nach einer RSS-App? Wir haben ein paar ausgezeichnete <2>hier auf Flathub</2>.",
   "consultants": "Berater",
   "consultants-description": "Beratungsleistungen für die Einreichung von Apps bei Flathub.",
-  "free-software-only": "Nur freie Software anzeigen",
   "tags-colon": "Schlagwörter:",
   "something-went-wrong": "Etwas ist schiefgelaufen",
   "adventure": "Adventure",
@@ -315,5 +314,8 @@
   "kids": "Kinderspiele",
   "sports": "Sportspiele",
   "sequencer": "Sequenzer",
-  "strategy": "Strategie"
+  "strategy": "Strategie",
+  "not-verified": "Nicht verifiziert",
+  "filters": "Filter",
+  "flos": "Frei/Libre Open Source"
 }
