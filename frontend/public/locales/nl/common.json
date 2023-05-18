@@ -317,5 +317,17 @@
   "music": "Muziek",
   "filters": "Filters",
   "not-verified": "Niet geverifieerd",
-  "flos": "Vrij en open source"
+  "flos": "Vrij en open source",
+  "moderation-dev-description": "Sommige wijzigingen in de metagegevens van een app, zoals de naam of beschrijving, moeten worden beoordeeld door het Flathub-team. U kunt de status van huidige en eerdere beoordelingsverzoeken hier bekijken.",
+  "moderation-pending-reviews": "In afwachting van reviews",
+  "moderation-appstream-changes": "Appstream-wijzigingen",
+  "moderation-appstream": "Appstream",
+  "moderation-key": "Sleutel",
+  "moderation-old-value": "Oude waarde",
+  "moderation-new-value": "Nieuwe waarde",
+  "moderation-value": "Waarde",
+  "moderation-no-review-requests": "Geen reviews om te tonen voor deze app.",
+  "moderation-outdated": "Verouderd",
+  "moderation-approved-by": "Goedgekeurd door {{handledBy}} op {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Afgewezen door {{handledBy}} op {{handledAt}} ({{handledAtRel}})"
 }

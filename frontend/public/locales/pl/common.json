@@ -314,5 +314,20 @@
   "music": "Muzyka",
   "tv": "Telewizja",
   "sequencer": "Sekwenser",
-  "tuner": "Tuner"
+  "tuner": "Tuner",
+  "moderation-pending-reviews": "Oczekujące recenzje",
+  "moderation-appstream-changes": "Zmiany Appstream",
+  "moderation-appstream": "Appstream",
+  "moderation-outdated": "Nieaktualne",
+  "flos": "Wolne i otwarte oprogramowanie",
+  "not-verified": "Nie zweryfikowane",
+  "filters": "Filtry",
+  "moderation-key": "Klucz",
+  "moderation-no-review-requests": "Brak recenzji do wyświetlenia dla tej aplikacji.",
+  "moderation-old-value": "Poprzednia wartość",
+  "moderation-new-value": "Nowa wartość",
+  "moderation-value": "Wartość",
+  "moderation-dev-description": "Niektóre zmiany w metadanych aplikacji, takie jak jej nazwa lub opis, muszą zostać zweryfikowane przez zespół Flathub. Status aktualnych i wcześniejszych wniosków o weryfikację można sprawdzić tutaj.",
+  "moderation-approved-by": "Zatwierdzone przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Odrzucony przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})"
 }
