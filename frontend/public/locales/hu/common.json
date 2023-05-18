@@ -314,5 +314,20 @@
   "audio-video-editing": "Hang és videó szerkesztése",
   "player": "Lejátszó",
   "recorder": "Rögzítőeszköz",
-  "music": "Zene"
+  "music": "Zene",
+  "flos": "Szabadság/ingyenes nyílt forráskódú",
+  "not-verified": "Nem ellenőrzött",
+  "moderation-pending-reviews": "Függőben lévő vélemények",
+  "moderation-appstream-changes": "Alkalmazásfolyam módosításai",
+  "moderation-appstream": "Alkalmazásfolyam",
+  "moderation-key": "Kulcs",
+  "moderation-old-value": "Régi érték",
+  "moderation-new-value": "Új érték",
+  "moderation-value": "Érték",
+  "moderation-no-review-requests": "Nincsenek megjeleníthető vélemények erről az alkalmazásról.",
+  "moderation-outdated": "Elavult",
+  "moderation-approved-by": "Jóváhagyta: {{handledBy}} ekkor: {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Elutasította {{handledBy}} ekkor: {{handledAt}} ({{handledAtRel}})",
+  "moderation-dev-description": "Az alkalmazások metaadatainak bizonyos módosításait, például a nevét vagy leírását, a Flathub csapatának felül kell vizsgálnia. Itt tekintheti meg a jelenlegi és korábbi felülvizsgálati kérelmek állapotát.",
+  "filters": "Szűrők"
 }

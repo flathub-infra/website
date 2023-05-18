@@ -317,5 +317,17 @@
   "strategy": "Strategie",
   "not-verified": "Nicht verifiziert",
   "filters": "Filter",
-  "flos": "Frei/Libre Open Source"
+  "flos": "Frei/Libre Open Source",
+  "moderation-appstream-changes": "Appstream-Änderungen",
+  "moderation-pending-reviews": "Ausstehende Überprüfungen",
+  "moderation-outdated": "Veraltet",
+  "moderation-approved-by": "Genehmigt von {{handledBy}} am {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Abgelehnt von {{handledBy}} am {{handledAt}} ({{handledAtRel}})",
+  "moderation-appstream": "Appstream",
+  "moderation-value": "Wert",
+  "moderation-old-value": "Alter Wert",
+  "moderation-new-value": "Neuer Wert",
+  "moderation-key": "Schlüssel",
+  "moderation-no-review-requests": "Für diese App gibt es keine Überprüfungen.",
+  "moderation-dev-description": "Einige Änderungen an den Metadaten einer App, wie z. B. der Name oder die Beschreibung, müssen vom Flathub-Team überprüft werden. Sie können den Status aktueller und vergangener Überprüfungsanfragen hier einsehen."
 }

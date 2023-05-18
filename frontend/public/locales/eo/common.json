@@ -314,5 +314,11 @@
   "music": "Muziko",
   "mixer": "Sonmiksiloj",
   "player": "Spektiloj",
-  "recorder": "Registriloj"
+  "recorder": "Registriloj",
+  "moderation-appstream": "Appstream",
+  "moderation-appstream-changes": "Ŝanĝoj pri Appstream",
+  "moderation-key": "Ŝlosilo",
+  "moderation-value": "Valoro",
+  "moderation-old-value": "Malnova valoro",
+  "moderation-new-value": "Nova valoro"
 }

@@ -314,5 +314,20 @@
   "midi": "Midi",
   "recorder": "Kaydedici",
   "tags-colon": "Etiketler:",
-  "something-went-wrong": "Bir şeyler yanlış gitti"
+  "something-went-wrong": "Bir şeyler yanlış gitti",
+  "flos": "Özgür Açık Kaynak",
+  "moderation-key": "Anahtar",
+  "moderation-pending-reviews": "Bekleyen İncelemeler",
+  "moderation-appstream-changes": "Appstream Değişiklikleri",
+  "moderation-appstream": "Appstream",
+  "moderation-old-value": "Eski Değer",
+  "moderation-new-value": "Yeni Değer",
+  "moderation-value": "Değer",
+  "moderation-outdated": "Eski",
+  "moderation-dev-description": "Bir uygulamanın adı veya açıklaması gibi üst verilerindeki kimi değişikliklerin Flathub ekibi tarafından incelenmesi gerekir. Mevcut ve geçmiş inceleme taleplerinin durumunu buradan görüntüleyebilirsiniz.",
+  "moderation-approved-by": "{{handledBy}} tarafından {{handledAt}} ({{handledAtRel}}) tarihinde onaylandı",
+  "moderation-rejected-by": "{{handledBy}} tarafından {{handledAt}} ({{handledAtRel}}) tarihinde reddedildi",
+  "not-verified": "Doğrulanmadı",
+  "filters": "Süzgeçler",
+  "moderation-no-review-requests": "Bu uygulama için gösterilecek inceleme yok."
 }

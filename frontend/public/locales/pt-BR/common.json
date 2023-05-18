@@ -317,5 +317,17 @@
   "audio-video-editing": "Edição de áudio & vídeo",
   "flos": "Código aberto e livre",
   "not-verified": "Não verificada",
-  "filters": "Filtros"
+  "filters": "Filtros",
+  "moderation-appstream-changes": "Alterações no appstream",
+  "moderation-key": "Chave",
+  "moderation-new-value": "Valor novo",
+  "moderation-outdated": "Desatualizado",
+  "moderation-value": "Valor",
+  "moderation-no-review-requests": "Nenhuma revisão para mostrar para este aplicativo.",
+  "moderation-pending-reviews": "Revisões pendentes",
+  "moderation-approved-by": "Aprovado por {{handledBy}} em {{handledAt}} ({{handledAtRel}})",
+  "moderation-appstream": "Appstream",
+  "moderation-old-value": "Valor antigo",
+  "moderation-dev-description": "Algumas alterações nos metadados de um aplicativo, como nome ou descrição, precisam ser revisadas pela equipe do Flathub. Você pode visualizar o status das solicitações de revisão atuais e anteriores aqui.",
+  "moderation-rejected-by": "Rejeitado por {{handledBy}} em {{handledAt}} ({{handledAtRel}})"
 }

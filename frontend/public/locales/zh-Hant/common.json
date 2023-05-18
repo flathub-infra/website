@@ -314,5 +314,20 @@
   "tv": "電視",
   "audio-video-editing": "音訊與視訊編輯",
   "player": "播放程式",
-  "recorder": "錄音機"
+  "recorder": "錄音機",
+  "moderation-pending-reviews": "待審核",
+  "moderation-appstream-changes": "Appstream 變更",
+  "moderation-appstream": "Appstream",
+  "moderation-key": "金鑰",
+  "moderation-old-value": "舊值",
+  "moderation-new-value": "新值",
+  "moderation-value": "值",
+  "moderation-no-review-requests": "此應用程式無評論可顯示。",
+  "moderation-dev-description": "Flathub 團隊必須審核應用程式詮釋資料的某些變更，例如其名稱或描述。您可以在此處檢視目前與過去的審核請求的狀態。",
+  "moderation-approved-by": "由 {{handledBy}} 於 {{handledAt}}（{{handledAtRel}}）批准",
+  "moderation-rejected-by": "由 {{handledBy}} 於 {{handledAt}}（{{handledAtRel}}）回絕",
+  "not-verified": "未驗證",
+  "flos": "自由與開放原始碼",
+  "filters": "過濾條件",
+  "moderation-outdated": "過期"
 }

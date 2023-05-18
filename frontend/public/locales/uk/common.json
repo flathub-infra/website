@@ -314,5 +314,20 @@
   "sports": "Спорт",
   "emulators": "Емулятори",
   "tuner": "Тюнер",
-  "recorder": "Диктофон"
+  "recorder": "Диктофон",
+  "moderation-pending-reviews": "Очікують на розгляд",
+  "moderation-dev-description": "Деякі зміни метаданих застосунку, як-от його назва або опис, мають бути розглянуті командою Flathub. Ви можете переглянути стан поточних і минулих запитів на розгляд тут.",
+  "moderation-old-value": "Старе значення",
+  "moderation-appstream-changes": "Зміни в Appstream",
+  "moderation-appstream": "Appstream",
+  "moderation-key": "Ключ",
+  "moderation-value": "Значення",
+  "moderation-new-value": "Нове значення",
+  "moderation-no-review-requests": "Немає відгуків для цього застосунку.",
+  "moderation-approved-by": "Затверджено {{handledBy}} {{handledAt}} ({{handledAtRel}})",
+  "filters": "Фільтри",
+  "moderation-outdated": "Застаріле",
+  "moderation-rejected-by": "Відхилено {{handledBy}} {{handledAt}} ({{handledAtRel}})",
+  "flos": "Вільне/відкрите програмне забезпечення",
+  "not-verified": "Не підтверджено"
 }

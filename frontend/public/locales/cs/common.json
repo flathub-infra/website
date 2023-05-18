@@ -314,5 +314,20 @@
   "tv": "TV",
   "player": "Hráč",
   "recorder": "Záznamník",
-  "something-went-wrong": "Něco se pokazilo"
+  "something-went-wrong": "Něco se pokazilo",
+  "flos": "Bezplatný/Svobodný open-source",
+  "moderation-no-review-requests": "Nejsou k dispozici žádné recenze k této aplikaci.",
+  "moderation-outdated": "Zastaralé",
+  "moderation-approved-by": "Schválil {{handledBy}} na adrese {{handledAt}} {{handledAtRel}}",
+  "moderation-rejected-by": "Zamítnul {{handledBy}} na adrese {{handledAt}} {{handledAtRel}}",
+  "not-verified": "Neověřeno",
+  "moderation-pending-reviews": "Čekající recenze",
+  "moderation-appstream-changes": "Změny Appstream",
+  "moderation-appstream": "Appstream",
+  "moderation-old-value": "Stará hodnota",
+  "moderation-key": "Klíč",
+  "moderation-new-value": "Nová hodnota",
+  "moderation-value": "Hodnota",
+  "moderation-dev-description": "Spousta změn v metadatech aplikace, jako je její název nebo popis, vyžadují kontrolu týmu Flathub. Můžete si zobrazit stav aktuální nebo předchozí žádosti o přezkoumání zde.",
+  "filters": "Filtry"
 }
