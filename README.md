@@ -63,6 +63,10 @@ You can find more backend instructions in the readme in the backend folder.
 
 We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate the UI. So feel free, to contribute translations over there.
 
+<a href="https://hosted.weblate.org/engage/flathub/">
+<img src="https://hosted.weblate.org/widgets/flathub/-/glossary/multi-auto.svg" alt="Translation status" />
+</a>
+
 ## Stripe payment testing
 
 In both staging and development environments, Stripe is running in test mode (all data is fake).
