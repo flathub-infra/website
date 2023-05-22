@@ -223,12 +223,12 @@ def submit_review_request(
         if app := get_json_key(f"apps:{app_id}"):
             is_new_submission = False
 
-            current_values["name"] = app["name"]
-            current_values["summary"] = app["summary"]
-            current_values["developer_name"] = app["developer_name"]
-            current_values["project_group"] = app["project_group"]
-            current_values["project_license"] = app["project_license"]
-            current_values["compulsory_for_desktop"] = app["compulsory_for_desktop"]
+            current_values["name"] = app.get("name")
+            current_values["summary"] = app.get("summary")
+            current_values["developer_name"] = app.get("developer_name")
+            current_values["project_group"] = app.get("project_group")
+            current_values["project_license"] = app.get("project_license")
+            current_values["compulsory_for_desktop"] = app.get("compulsory_for_desktop")
 
             for key, value in current_values.items():
                 if value == keys[key]:
