@@ -58,7 +58,7 @@
     "@storybook/react": "^7.0.7",
     "@storybook/testing-library": "^0.1.0",
     "@tailwindcss/typography": "^0.5.9",
-    "@types/node": "^18.16.1",
+    "@types/node": "^20.2.3",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.39.0",
