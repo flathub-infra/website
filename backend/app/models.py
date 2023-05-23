@@ -90,6 +90,15 @@ class FlathubUser(Base):
             for repo in GithubRepository.all_by_account(db, gha):
                 if utils.is_valid_app_id(repo.reponame):
                     flatpaks.add(repo.reponame)
+
+        direct_upload = (
+            db.session.query(DirectUploadAppDeveloper, DirectUploadApp.app_id)
+            .filter_by(developer_id=self.id)
+            .join(DirectUploadApp)
+        )
+        for _dev, app_id in direct_upload:
+            flatpaks.add(app_id)
+
         return flatpaks
 
 
