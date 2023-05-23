@@ -917,7 +917,7 @@ def get_userinfo(login=Depends(login_state)):
     ret["auths"] = {}
 
     appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
-    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    dev_flatpaks = user.dev_flatpaks(db)
     owned_flatpaks = {
         app.app_id
         for app in models.UserOwnedApp.all_owned_by_user(db, user)
