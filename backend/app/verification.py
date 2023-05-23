@@ -51,6 +51,8 @@ class ErrorDetail(str, Enum):
     APP_ALREADY_VERIFIED = "app_already_verified"
     # Website verification needs to be set up before it can be confirmed
     MUST_SET_UP_FIRST = "must_set_up_first"
+    # The app can't be verified as a new app because it already exists in github.org/flathub
+    APP_ALREADY_EXISTS = "app_already_exists"
 
 
 # Utility functions
@@ -233,6 +235,24 @@ class VerificationStatus(BaseModel):
     detail: str | None
 
 
+def _is_github_app(appid: str) -> bool:
+    """Determines whether the app is a repo in github.com/flathub."""
+    try:
+        gh = github.Github(
+            config.settings.github_client_id, config.settings.github_client_secret
+        )
+        try:
+            gh.get_repo(f"flathub/{appid}")
+        except UnknownObjectException:
+            return False
+        except Exception:
+            raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
+
+        return True
+    except requests.exceptions.RequestException:
+        raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
+
+
 def is_appid_runtime(appid: str) -> str | bool:
     # All runtimes are pushed by verified vendors, but they might be using anything
     # matching tld.vendor.*, so we need to test refs against one specific ID
@@ -276,7 +296,7 @@ def _get_existing_verification(appid: str) -> models.AppVerification | None:
         return None
 
 
-def _check_app_id(appid: str, login):
+def _check_app_id(appid: str, new_app: bool, login):
     """Make sure the given user has development access to the given flatpak."""
 
     if not login["state"].logged_in():
@@ -285,8 +305,20 @@ def _check_app_id(appid: str, login):
     if not utils.is_valid_app_id(appid):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
-    if appid not in login["user"].dev_flatpaks(sqldb):
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    if new_app:
+        if models.DirectUploadApp.by_app_id(sqldb, appid) is not None:
+            raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
+
+        if _is_github_app(appid):
+            raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
+
+        if _matches_prefixes(appid, "com.github", "com.gitlab"):
+            # Do not allow new apps with com.github.* or com.gitlab.* app IDs. If GitHub or GitLab themselves want to
+            # submit an app, they should ask for manual verification.
+            raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
+    else:
+        if appid not in login["user"].dev_flatpaks(sqldb):
+            raise HTTPException(status_code=401, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
     existing = _get_existing_verification(appid)
 
@@ -348,14 +380,14 @@ class AvailableMethodType(Enum):
     LOGIN_PROVIDER = "login_provider"
 
 
-class AvailableLoginMethodStatus(Enum):
+class AvailableLoginMethodStatus(str, Enum):
     READY = "ready"
-    USER_DOES_NOT_EXIST = ErrorDetail.USER_DOES_NOT_EXIST
-    USERNAME_DOES_NOT_MATCH = ErrorDetail.USERNAME_DOES_NOT_MATCH
-    PROVIDER_DENIED_ACCESS = ErrorDetail.PROVIDER_DENIED_ACCESS
-    NOT_LOGGED_IN = ErrorDetail.NOT_LOGGED_IN
-    NOT_ORG_MEMBER = ErrorDetail.NOT_ORG_MEMBER
-    NOT_ORG_ADMIN = ErrorDetail.NOT_ORG_ADMIN
+    USER_DOES_NOT_EXIST = ErrorDetail.USER_DOES_NOT_EXIST.value
+    USERNAME_DOES_NOT_MATCH = ErrorDetail.USERNAME_DOES_NOT_MATCH.value
+    PROVIDER_DENIED_ACCESS = ErrorDetail.PROVIDER_DENIED_ACCESS.value
+    NOT_LOGGED_IN = ErrorDetail.NOT_LOGGED_IN.value
+    NOT_ORG_MEMBER = ErrorDetail.NOT_ORG_MEMBER.value
+    NOT_ORG_ADMIN = ErrorDetail.NOT_ORG_ADMIN.value
 
 
 class AvailableMethod(BaseModel):
@@ -379,10 +411,12 @@ class AvailableMethods(BaseModel):
     response_model=AvailableMethods,
     response_model_exclude_none=True,
 )
-def get_available_methods(appid: str, login=Depends(login_state)):
+def get_available_methods(
+    appid: str, new_app: bool = False, login=Depends(login_state)
+):
     """Gets the ways an app may be verified."""
 
-    _check_app_id(appid, login)
+    _check_app_id(appid, new_app, login)
 
     methods = []
 
@@ -406,7 +440,7 @@ def get_available_methods(appid: str, login=Depends(login_state)):
         )
 
     if _get_provider_username(appid) is not None:
-        available_method = _check_login_provider_verification(appid, login)
+        available_method = _check_login_provider_verification(appid, new_app, login)
         methods.append(available_method)
 
     return AvailableMethods(methods=methods)
@@ -561,8 +595,10 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
         raise e
 
 
-def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
-    _check_app_id(appid, login)
+def _check_login_provider_verification(
+    appid: str, new_app: bool, login
+) -> AvailableMethod:
+    _check_app_id(appid, new_app, login)
 
     provider_username = _get_provider_username(appid)
     if provider_username is None:
@@ -611,11 +647,13 @@ def _create_direct_upload_app(user: models.FlathubUser, appid: str):
 
 
 @router.post("/{appid}/verify-by-login-provider", status_code=200)
-def verify_by_login_provider(appid: str, login=Depends(login_state)):
+def verify_by_login_provider(
+    appid: str, new_app: bool = False, login=Depends(login_state)
+):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
 
-    available_method = _check_login_provider_verification(appid, login)
+    available_method = _check_login_provider_verification(appid, new_app, login)
 
     if available_method.login_status != AvailableLoginMethodStatus.READY:
         match available_method.login_status:
@@ -646,6 +684,10 @@ def verify_by_login_provider(appid: str, login=Depends(login_state)):
         login_is_organization=available_method.login_is_organization,
     )
     sqldb.session.merge(verification)
+
+    if new_app:
+        _create_direct_upload_app(login["user"], appid)
+
     sqldb.session.commit()
 
     worker.republish_app.send(appid)
@@ -673,10 +715,12 @@ class WebsiteVerificationToken(BaseModel):
     status_code=200,
     response_model=WebsiteVerificationToken,
 )
-def setup_website_verification(appid: str, login=Depends(login_state)):
+def setup_website_verification(
+    appid: str, new_app: bool = False, login=Depends(login_state)
+):
     """Creates a token for the user to verify the app via website."""
 
-    _check_app_id(appid, login)
+    _check_app_id(appid, new_app, login)
 
     domain = _get_domain_name(appid)
 
@@ -710,11 +754,14 @@ def setup_website_verification(appid: str, login=Depends(login_state)):
     response_model_exclude_none=True,
 )
 def confirm_website_verification(
-    appid: str, login=Depends(login_state), check=Depends(CheckWebsiteVerification)
+    appid: str,
+    new_app: bool = False,
+    login=Depends(login_state),
+    check=Depends(CheckWebsiteVerification),
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
 
-    _check_app_id(appid, login)
+    _check_app_id(appid, new_app, login)
 
     verification = models.AppVerification.by_app_and_user(sqldb, appid, login["user"])
 
@@ -730,6 +777,10 @@ def confirm_website_verification(
     if result.verified:
         verification.verified = True
         verification.verified_timestamp = func.now()
+
+        if new_app:
+            _create_direct_upload_app(login["user"], appid)
+
         sqldb.session.commit()
 
         worker.republish_app.send(appid)
