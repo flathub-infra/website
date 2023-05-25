@@ -1,5 +1,12 @@
 {
   "forum": "Forum",
   "about": "Om",
-  "publish": "Udgiv"
+  "publish": "Udgiv",
+  "go-home": "Gå til Hjem",
+  "search-apps": "Søg Apps",
+  "about-description": "Flathub har til formål at være stedet, hvor man kan få og distribuere apps til Linux. Det drives af Flatpak, som gør det muligt for Flathub-apps at køre på næsten enhver Linux-distribution.",
+  "apps": "Apps",
+  "popular": "Populære",
+  "new-and-updated": "Opdateret for nylig",
+  "about-pagename": "Om Flathub"
 }

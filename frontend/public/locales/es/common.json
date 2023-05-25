@@ -314,5 +314,20 @@
   "mixer": "Mixer",
   "sequencer": "Secuenciador",
   "tv": "Televisión",
-  "player": "Jugador"
+  "player": "Jugador",
+  "moderation-pending-reviews": "Pendientes de revisión",
+  "moderation-appstream-changes": "Cambios en el flujo de las aplicaciones",
+  "moderation-appstream": "flujo de aplicaciones (Appstream)",
+  "moderation-key": "Llave",
+  "moderation-old-value": "Valor antiguo",
+  "moderation-new-value": "Nuevo valor",
+  "moderation-value": "Valor",
+  "moderation-dev-description": "Algunos cambios en los metadatos de una aplicación, como tu nombre o la descripción, deben ser revisados por el equipo de Flathub. Puede ver el estado de las solicitudes de la revisión actual y anteriores aquí.",
+  "moderation-outdated": "Obsoleto",
+  "moderation-approved-by": "Aprobado por {{handledBy}} en {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Rechazado por {{handledBy}} en {{handledAt}} ({{handledAtRel}})",
+  "flos": "Libre/Código Abierto",
+  "moderation-no-review-requests": "No hay reseñas para esta aplicación.",
+  "not-verified": "Sin verificar",
+  "filters": "Filtros"
 }

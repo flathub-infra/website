@@ -314,5 +314,20 @@
   "emulators": "برامج محاكاة",
   "simulation": "محاكاة",
   "midi": "ميدي",
-  "audio-video-editing": "تحرير الأصوات والمقاطع"
+  "audio-video-editing": "تحرير الأصوات والمقاطع",
+  "moderation-dev-description": "ينبغي لفريق فلاتهب مراجعة تغييرات بيانات وصف التطبيق، كاسمه ووصفه. لك أن ترى حال المراجعات السابقة والحالية هنا.",
+  "flos": "حر المصدر",
+  "moderation-outdated": "قديم",
+  "moderation-approved-by": "قبله {{handledBy}} في {{handledAt}} ({{handledAtRel}})",
+  "moderation-old-value": "القيمة القديمة",
+  "moderation-no-review-requests": "ليس لهذا التطبيق مراجعات.",
+  "moderation-value": "القيمة",
+  "moderation-new-value": "القيمة الجديدة",
+  "moderation-appstream": "آبستريم",
+  "moderation-appstream-changes": "تغييرات آبستريم",
+  "moderation-key": "المفتاح",
+  "moderation-pending-reviews": "المراجعات المعلَّقة",
+  "filters": "التصفيات",
+  "not-verified": "ليس مؤكَّدًا",
+  "moderation-rejected-by": "رفضه {{handledBy}} في {{handledAt}} ({{handledAtRel}})"
 }

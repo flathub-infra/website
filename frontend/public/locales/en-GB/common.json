@@ -314,5 +314,20 @@
   "tv": "TV",
   "audio-video-editing": "Audio & Video Editing",
   "player": "Player",
-  "recorder": "Recorder"
+  "recorder": "Recorder",
+  "moderation-pending-reviews": "Pending Reviews",
+  "moderation-appstream-changes": "Appstream Changes",
+  "moderation-appstream": "Appstream",
+  "moderation-key": "Key",
+  "moderation-old-value": "Old Value",
+  "moderation-new-value": "New Value",
+  "flos": "Free/Libre Open Source",
+  "not-verified": "Not verified",
+  "filters": "Filters",
+  "moderation-no-review-requests": "No reviews to show for this app.",
+  "moderation-dev-description": "Some changes to an app's metadata, such as its name or description, need to be reviewed by the Flathub team. You can view the status of current and past review requests here.",
+  "moderation-value": "Value",
+  "moderation-outdated": "Outdated",
+  "moderation-approved-by": "Approved by {{handledBy}} on {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Rejected by {{handledBy}} on {{handledAt}} ({{handledAtRel}})"
 }

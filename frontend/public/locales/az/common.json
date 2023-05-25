@@ -1,0 +1,20 @@
+{
+  "about-app-verification": "Doğrulanmış Tətbiqlər",
+  "apps": "Tətbiqlər",
+  "go-home": "Əsas Səhifəyə keçin",
+  "search-apps": "Tətbiqi Axtar",
+  "publish": "Dərc et",
+  "forum": "Forum",
+  "about": "Haqqında",
+  "about-description": "Flathub Linux üçün proqramların əldə edilməsi və paylanması nöqtəsi olmağı hədəfləyir. O, Flathub proqramlarına demək olar ki, istənilən Linux paylamasında işləməyə imkan verən Flatpak qablaşdırma sisteminə əsaslanır.",
+  "about-pagename": "Flathub Haqqında",
+  "popular": "Məşhur",
+  "new-and-updated": "Bu yaxınlarda Yenilənib",
+  "community": "İcma",
+  "publish-your-app": "Tətbiqinizi Dərc Edin",
+  "rss-feeds": "RSS Lentləri",
+  "about-app-verification-block": "<0>Tətbiq adı altında işarə nə deməkdir? </0><p>Bəzi tətbiqlərin tətbiq səhifəsində tərtibatçı adının altında işarəsi var. Bu o deməkdir ki, tətbiq Flathub-da onun orijinal tərtibatçısı və ya tərtibatçı tərəfindən təsdiqlənmiş üçüncü tərəf tərəfindən dərc olunur.</p><p>Bəzi tətbiqlər orijinal tərtibatçı ilə əlaqəli olmayan üçüncü tərəflər tərəfindən dərc olunur. Buna icazə verilir, lakin bu cür tətbiqlər qeyd işarəsi üçün uyğun deyil.</p><p>İşarənin yanında tərtibatçının veb-saytına və ya mənbə kodu hostinq saytındakı profilinə keçid var. Flathub bu linkdən istifadə edərək tərtibatçının autentifikasiyasını həyata keçirdi.</p><p>Mən Flathub-da tətbiq dərc edirəm. Necə yoxlaya bilərəm? /4><5>İlk olaraq, <2>Flathub-a daxil olun</2>. Doğrulamaq istədiyiniz proqramın altındakı \"Tərtibatçı Parametrləri\" düyməsini klikləyin. Səhifənin yuxarı hissəsində \"Doğrulama Quraşdırma\" bölməsini tapın. Buradakı təlimatlar doğrulama prosesində sizə rəhbərlik edəcək.</5>",
+  "developers": "Tərtibatçılar",
+  "documentation": "Sənədləşdirmə",
+  "badges": "Nişanlar"
+}
