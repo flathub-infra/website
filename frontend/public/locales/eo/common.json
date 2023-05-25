@@ -36,7 +36,7 @@
   "unknown": "Nekonata",
   "log-out": "Adiaŭi",
   "network-error-try-again": "Okazis reta eraro. Reprovu.",
-  "proprietary": "Proprieta",
+  "proprietary": "Proprietaj",
   "flathub-statistics": "Statistikoj pri Flathub",
   "owned-apps": "Posedataj programoj",
   "loading-user-apps": "Ŝargante programojn de uzanto…",
@@ -320,5 +320,14 @@
   "moderation-key": "Ŝlosilo",
   "moderation-value": "Valoro",
   "moderation-old-value": "Malnova valoro",
-  "moderation-new-value": "Nova valoro"
+  "moderation-new-value": "Nova valoro",
+  "moderation-pending-reviews": "Reviziendaj recenzoj",
+  "moderation-rejected-by": "Malaprobita de {{handledBy}} je {{handledAt}} ({{handledAtRel}})",
+  "moderation-no-review-requests": "Neniu reviziendaj recenzoj pri ĉi tiu programo.",
+  "moderation-outdated": "Ne ĝisdata",
+  "filters": "Filtriloj",
+  "flos": "Liberaj kaj malfermitkodaj",
+  "not-verified": "Ne konfirmitaj",
+  "moderation-approved-by": "Aprobita de {{handledBy}} je {{handledAt}} ({{handledAtRel}})",
+  "moderation-dev-description": "Iuj ŝanĝoj al la programaj metadatenoj, ekz. la nomo aŭ la priskribo, estas reviziendaj de la Flathub-teamo. Vi povas vidi la statojn de nunaj kaj pasintaj revizipetoj ĉi tie."
 }
