@@ -1826,14 +1826,14 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 
 [[package]]
 name = "vcrpy"
-version = "4.2.1"
+version = "4.3.0"
 description = "Automatically mock your HTTP interactions to simplify and speed up testing"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "vcrpy-4.2.1-py2.py3-none-any.whl", hash = "sha256:efac3e2e0b2af7686f83a266518180af7a048619b2f696e7bad9520f5e2eac09"},
-    {file = "vcrpy-4.2.1.tar.gz", hash = "sha256:7cd3e81a2c492e01c281f180bcc2a86b520b173d2b656cb5d89d99475423e013"},
+    {file = "vcrpy-4.3.0-py2.py3-none-any.whl", hash = "sha256:8fbd4be412e8a7f35f623dd61034e6380a1c8dbd0edf6e87277a3289f6e98093"},
+    {file = "vcrpy-4.3.0.tar.gz", hash = "sha256:49c270ce67e826dba027d83e20d25b67a5885487697e97bca6dbdf53d750a0ac"},
 ]
 
 [package.dependencies]
@@ -2163,4 +2163,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ccac8a11f5062e3238ffb34008fc7920ff63fb088f2e64f1584caf9a0bb67356"
+content-hash = "d60cf38e4c9da85399d27fae1ca5b18a1621e20b0518ae65d43350b447087a49"
