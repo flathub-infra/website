@@ -35,7 +35,7 @@ sentry-dramatiq = "^0.3.3"
 [tool.poetry.dev-dependencies]
 black = "^23.3"
 pytest = "^7.3.1"
-ruff = "^0.0.269"
+ruff = "^0.0.270"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"
