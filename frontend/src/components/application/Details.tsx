@@ -136,6 +136,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           selectedItem={currentScreenshot}
           preventMovementUntilSwipeScrollTolerance={true}
           swipeScrollTolerance={30}
+          onClickItem={() => setShowLightbox(true)}
           onChange={(index) => {
             setCurrentScreenshot(index)
           }}
