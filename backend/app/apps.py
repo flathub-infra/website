@@ -2,11 +2,11 @@ import json
 import re
 
 import gi
-from gi.repository import AppStream
 
 from . import db, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
+from gi.repository import AppStream
 
 
 def load_appstream():
@@ -82,6 +82,7 @@ def load_appstream():
                     "verification_timestamp": apps[appid]
                     .get("metadata", {})
                     .get("flathub::verification::timestamp", None),
+                    "runtime": apps[appid].get("bundle", {}).get("runtime", None),
                 }
             )
 
