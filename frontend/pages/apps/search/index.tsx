@@ -395,28 +395,24 @@ const SearchPanel = ({
 export default function Search() {
   const { t } = useTranslation()
   const router = useRouter()
-  const { runtime } = router.query
+  const query = router.query
 
-  const q = (router.query.q as string) || ""
+  const q = (query.q as string) || ""
+
+  const filtersFromQuery = []
+  if (query.runtime) {
+    filtersFromQuery.push({
+      filterType: "runtime",
+      value: query.runtime as string,
+    })
+  }
 
   const [selectedFilters, setSelectedFilters] = useState<
     {
       filterType: string
       value: string
     }[]
-  >([])
-
-  useEffect(() => {
-    if (runtime) {
-      setSelectedFilters([
-        ...selectedFilters,
-        {
-          filterType: "runtime",
-          value: runtime as string,
-        },
-      ])
-    }
-  }, [runtime, selectedFilters])
+  >(filtersFromQuery)
 
   const searchResult = useSearchQuery(q as string, selectedFilters)
 

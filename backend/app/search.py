@@ -35,6 +35,7 @@ client.index("apps").update_filterable_attributes(
         "project_group",
         "verification_verified",
         "is_free_license",
+        "runtime",
     ]
 )
 
@@ -193,5 +194,16 @@ def search_apps_post(searchquery: SearchQuery):
             "sort": ["installs_last_month:desc"],
             "filter": filterString if filterString else None,
             "facets": ["verification_verified", "main_categories", "is_free_license"],
+        },
+    )
+
+
+def get_runtime_list():
+    return client.index("apps").search(
+        "",
+        {
+            "limit": 0,
+            "sort": ["installs_last_month:desc"],
+            "facets": ["runtime"],
         },
     )

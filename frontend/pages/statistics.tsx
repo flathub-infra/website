@@ -2,7 +2,7 @@ import { NextSeo } from "next-seo"
 import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { fetchStats } from "../src/fetchers"
+import { fetchRuntimes, fetchStats } from "../src/fetchers"
 import { Stats as Statistics } from "../src/types/Stats"
 import styles from "./statistics.module.scss"
 import "chart.js/auto"
@@ -16,10 +16,54 @@ import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
+import { useRouter } from "next/router"
 
 const countries = registerIsoCountriesLocales()
 
-const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
+const RuntimeChart = ({ runtimes, barOptions }) => {
+  const { t } = useTranslation()
+  const router = useRouter()
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">
+        {t("runtime-distribution")}
+      </h2>
+      <div className="h-[800px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <Bar
+          data={{
+            labels: Object.keys(runtimes),
+            datasets: [
+              {
+                data: Object.values(runtimes),
+                backgroundColor: ["rgb(74, 144, 217)"],
+              },
+            ],
+          }}
+          options={{
+            ...barOptions,
+            indexAxis: "y",
+            onClick: (event: any) => {
+              router.push(
+                `/apps/search?runtime=${encodeURIComponent(
+                  event.chart.tooltip.title[0],
+                )}`,
+              )
+            },
+          }}
+        />
+      </div>
+    </>
+  )
+}
+
+const Statistics = ({
+  stats,
+  runtimes,
+}: {
+  stats: Statistics
+  runtimes: { [key: string]: number }
+}): JSX.Element => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
   let country_data: { country: string; value: number }[] = []
@@ -179,6 +223,7 @@ const Statistics = ({ stats }: { stats: Statistics }): JSX.Element => {
             options={barOptions}
           />
         </div>
+        <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
       </div>
     </>
   )
@@ -188,10 +233,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   console.log("Fetching data for stats")
   const stats = await fetchStats()
 
+  const runtimes = await fetchRuntimes()
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       stats,
+      runtimes,
     },
     revalidate: 900,
   }
