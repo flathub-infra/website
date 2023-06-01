@@ -1,0 +1,26 @@
+{% macro moderation_request_item(request) %}
+  <h3>{{ request.request_type }}</h3>
+
+  {% if request.request_type == "appdata" %}
+    <table>
+      <tr>
+        <th>Field</th>
+        {% if not request.is_new_submission %}
+          <th>Old value</th>
+        {% endif %}
+        <th>New value</th>
+      </tr>
+      {% for field in request.request_data['keys'] %}
+        {% if request.request_data['keys'][field] or request.request_data['current_values'][field] %}
+          <tr>
+            <td>{{ field }}</td>
+            {% if not request.is_new_submission %}
+              <td>{{ request.request_data['current_values'][field] }}</td>
+            {% endif %}
+            <td>{{ request.request_data['keys'][field] }}</td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    </table>
+  {% endif %}
+{% endmacro %}

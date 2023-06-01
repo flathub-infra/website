@@ -22,8 +22,9 @@ from gitlab import Gitlab
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, models
+from . import config, models, worker
 from . import db as apps_db
+from .emails import EmailCategory, EmailInfo
 
 
 class LoginState(str, Enum):
@@ -878,6 +879,19 @@ def continue_oauth_flow(
     postlogin_handler(login_result, account)
     # The session is now ready
     db.session.commit()
+
+    worker.send_email.send(
+        EmailInfo(
+            user_id=account.user,
+            category=EmailCategory.SECURITY_LOGIN,
+            subject="New login to Flathub account",
+            template_data={
+                "provider": method,
+                "login": account.login,
+            },
+        ).dict()
+    )
+
     return {
         "status": "ok",
         "result": "logged_in",

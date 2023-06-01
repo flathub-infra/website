@@ -64,7 +64,14 @@ class Settings(BaseSettings):
 
     # When set to True, moderation reviews will still be logged, but they do not have to be approved for the build to
     # be published.
-    moderation_observe_only: bool = True
+    moderation_observe_only: bool = False
+
+    smtp_host: str | None = None
+    smtp_port: int | None = None
+    smtp_username: str | None = None
+    smtp_password: str | None = None
+    email_from: str | None = None
+    email_from_name: str | None = "Flathub"
 
 
 settings = Settings()

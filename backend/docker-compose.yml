@@ -51,6 +51,10 @@ services:
       - APPSTREAM_REPOS=$APPSTREAM_REPOS
       - DATADIR=${DATADIR-/app/data}
       - FLAT_MANAGER_API=$FLAT_MANAGER_API
+      - SMTP_HOST=$SMTP_HOST
+      - SMTP_USERNAME=$SMTP_USERNAME
+      - SMTP_PASSWORD=$SMTP_PASSWORD
+      - EMAIL_FROM=$EMAIL_FROM
     depends_on:
       - redis
       - db

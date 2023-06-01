@@ -8,9 +8,20 @@ import jwt
 import requests
 import sentry_dramatiq
 import sentry_sdk
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
 from . import apps, config, db, exceptions, search, stats, summary, utils
 from .config import settings
+from .emails import (
+    EmailInfo,
+)
+from .emails import (
+    send_email as send_email_impl,
+)
+from .emails import (
+    send_one_email as send_one_email_impl,
+)
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
@@ -23,6 +34,25 @@ broker = dramatiq.brokers.redis.RedisBroker(
     host=settings.redis_host, port=settings.redis_port, db=1
 )
 dramatiq.set_broker(broker)
+
+engine = create_engine(settings.database_url)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+class WorkerDB:
+    def __init__(self):
+        self._session = None
+
+    @property
+    def session(self) -> Session:
+        return self._session
+
+    def __enter__(self):
+        self._session = SessionLocal()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._session.close()
 
 
 @dramatiq.actor(time_limit=1000 * 60 * 60)
@@ -130,3 +160,14 @@ def review_check(
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
     )
+
+
+@dramatiq.actor
+def send_email(email):
+    with WorkerDB() as db:
+        send_email_impl(EmailInfo(**email), db)
+
+
+@dramatiq.actor
+def send_one_email(message: str, dest: str):
+    send_one_email_impl(message, dest)

@@ -1,4 +1,5 @@
 import base64
+import itertools
 import json
 import typing as T
 from datetime import datetime
@@ -13,6 +14,7 @@ from sqlalchemy import func, not_, or_
 
 from . import config, logins, models, worker
 from .db import get_json_key
+from .emails import EmailCategory, EmailInfo
 
 router = APIRouter(prefix="/moderation")
 
@@ -204,7 +206,7 @@ def submit_review_request(
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid_token")
 
-    new_requests = []
+    new_requests: list[models.ModerationRequest] = []
 
     for app_id, item in appdata.app_metadata.items():
         is_new_submission = True
@@ -249,22 +251,49 @@ def submit_review_request(
             )
             new_requests.append(request)
 
-    if len(new_requests) > 0:
+    if len(new_requests) == 0:
+        return ReviewRequestResponse(requires_review=False)
+    else:
         # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
         # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
-        sqldb.session.query(models.ModerationRequest).filter_by(
-            appid=request.appid
-        ).update({"is_outdated": True})
+        app_ids = set(request.appid for request in new_requests)
+        for app_id in app_ids:
+            sqldb.session.query(models.ModerationRequest).filter_by(
+                appid=app_id, is_outdated=False
+            ).update({"is_outdated": True})
 
         for request in new_requests:
             sqldb.session.add(request)
         sqldb.session.commit()
 
-        return ReviewRequestResponse(
-            requires_review=not config.settings.moderation_observe_only
-        )
-    else:
-        return ReviewRequestResponse(requires_review=False)
+        if config.settings.moderation_observe_only:
+            return ReviewRequestResponse(requires_review=False)
+        else:
+            apps = itertools.groupby(new_requests, lambda r: r.appid)
+            for app_id, requests in apps:
+                requests = list(requests)
+                worker.send_email.send(
+                    EmailInfo(
+                        user_id=None,
+                        app_id=app_id,
+                        category=EmailCategory.MODERATION_HELD,
+                        subject=f"Build #{appdata.build_id} held for review",
+                        template_data={
+                            "build_id": appdata.build_id,
+                            "job_id": appdata.job_id,
+                            "requests": [
+                                {
+                                    "request_type": request.request_type,
+                                    "request_data": json.loads(request.request_data),
+                                    "is_new_submission": request.is_new_submission,
+                                }
+                                for request in requests
+                            ],
+                        },
+                    ).dict()
+                )
+
+            return ReviewRequestResponse(requires_review=True)
 
 
 class Review(BaseModel):
@@ -324,7 +353,28 @@ def submit_review(
             request.job_id, "Failed", "The review was rejected by a moderator."
         )
 
-    # TODO: Notify developer
+    worker.send_email.send(
+        EmailInfo(
+            user_id=None,
+            app_id=request.appid,
+            category=EmailCategory.MODERATION_APPROVED
+            if request.is_approved
+            else EmailCategory.MODERATION_REJECTED,
+            subject=f"Change in build #{request.build_id} approved"
+            if request.is_approved
+            else f"Change in build #{request.build_id} rejected",
+            template_data={
+                "build_id": request.build_id,
+                "job_id": request.job_id,
+                "request": {
+                    "request_type": request.request_type,
+                    "request_data": json.loads(request.request_data),
+                    "is_new_submission": request.is_new_submission,
+                },
+                "comment": request.comment,
+            },
+        ).dict()
+    )
 
 
 def register_to_app(app: FastAPI):
