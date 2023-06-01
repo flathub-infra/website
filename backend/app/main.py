@@ -210,7 +210,7 @@ def post_search(query: search.SearchQuery):
 
 @app.get("/runtimes")
 def get_runtime_list():
-    return search.get_runtime_list()["facetDistribution"]["runtime"]
+    return search.get_runtime_list()
 
 
 @app.get("/collection/recently-updated")

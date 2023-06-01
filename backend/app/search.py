@@ -206,4 +206,4 @@ def get_runtime_list():
             "sort": ["installs_last_month:desc"],
             "facets": ["runtime"],
         },
-    )
+    )["facetDistribution"]["runtime"]
