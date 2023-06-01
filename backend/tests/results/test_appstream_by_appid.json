@@ -45,8 +45,12 @@
   "name": "Maze",
   "summary": "A simple maze game",
   "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
   "project_license": "GPL-3.0-or-later",
   "project_group": "SugarLabs",
   "launchable": {
