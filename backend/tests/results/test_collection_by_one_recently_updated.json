@@ -16,6 +16,7 @@
       "developer_name": "AnyDesk Software GmbH",
       "project_group": null,
       "project_license": "LicenseRef-proprietary",
+      "runtime": "org.freedesktop.Platform/x86_64/20.08",
       "verification_verified": false,
       "verification_method": null,
       "verification_login_is_organization": null,

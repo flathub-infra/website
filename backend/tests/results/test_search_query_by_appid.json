@@ -16,6 +16,7 @@
       "developer_name": "Sugar Labs Community",
       "project_group": "SugarLabs",
       "project_license": "GPL-3.0-or-later",
+      "runtime": "org.gnome.Platform/x86_64/3.36",
       "verification_verified": false,
       "verification_method": null,
       "verification_login_is_organization": null,
