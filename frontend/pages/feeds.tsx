@@ -47,7 +47,7 @@ const Feeds = (): JSX.Element => {
             Find them{" "}
             <Link
               className="no-underline hover:underline"
-              href="/apps/search/rss"
+              href="/apps/search?q=rss"
             >
               here
             </Link>
