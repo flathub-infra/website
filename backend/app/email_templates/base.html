@@ -1,0 +1,45 @@
+<div class="header">
+  <img src="https://flathub.org/img/logo/flathub-logo-toolbar.svg" alt="Flathub"/>
+</div>
+
+<hr/>
+
+<h1>{{ email_subject }}</h1>
+
+{% block content %}
+{% endblock %}
+
+<hr/>
+
+{% if app_id %}
+  You are receiving this email because you are a maintainer of the app {% include "app_name_and_id.html" %} on Flathub.
+{% else %}
+  You are receiving this email because you have an account on Flathub.
+{% endif %}
+
+
+<style>
+  .header {
+    display: flex;
+    justify-content: space-around;
+    margin: 2em;
+  }
+  .header img {
+    height: 2.5em;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  h2 {
+    font-size: 1.3em;
+  }
+  hr {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+  }
+
+  th, td {
+    text-align: start;
+    padding-right: 1em;
+  }
+</style>

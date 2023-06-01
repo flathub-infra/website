@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% from "_moderation_request_item.html" import moderation_request_item %}
+
+{% block content %}
+
+Build #{{ build_id }} of {% include "app_name_and_id.html" %} has been held for review because the app's metadata has changed.
+
+You can check the status of the review in the <a href="https://flathub.org/apps/manage/{{ app_id }}">app developer settings</a>. You'll receive another email when the changes are approved or rejected.
+
+<h2>Changes:</h2>
+{% for request in requests %}
+  {{ moderation_request_item(request) }}
+{% endfor %}
+
+{% endblock content %}

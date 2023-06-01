@@ -33,6 +33,10 @@ class FlathubUser(Base):
     TABLES_FOR_DELETE = []
 
     @staticmethod
+    def by_id(db, user_id: int) -> Optional["FlathubUser"]:
+        return db.session.get(FlathubUser, user_id)
+
+    @staticmethod
     def generate_token(db, user) -> str:
         """
         Generate a token which represents this user's state.  This token will be needed
@@ -100,7 +104,7 @@ class GithubAccount(Base):
     last_used = Column(DateTime, nullable=True, default=None)
 
     @staticmethod
-    def by_user(db, user: FlathubUser):
+    def by_user(db, user: FlathubUser) -> Optional["GithubAccount"]:
         return db.session.query(GithubAccount).filter_by(user=user.id).first()
 
     @staticmethod
