@@ -24,7 +24,7 @@ const Tags: FunctionComponent<Props> = ({ keywords }) => {
             {keywordSet.size &&
               Array.from(keywordSet).map((item, index) => {
                 return (
-                  <Link key={index} href={`/apps/search/${item}`}>
+                  <Link key={index} href={`/apps/search?q=${item}`}>
                     <Badge text={item} />
                   </Link>
                 )

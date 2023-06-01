@@ -395,7 +395,9 @@ const SearchPanel = ({
 export default function Search() {
   const { t } = useTranslation()
   const router = useRouter()
-  const { query } = router.query
+  const { runtime } = router.query
+
+  const q = (router.query.q as string) || ""
 
   const [selectedFilters, setSelectedFilters] = useState<
     {
@@ -404,16 +406,28 @@ export default function Search() {
     }[]
   >([])
 
-  const searchResult = useSearchQuery(query as string, selectedFilters)
+  useEffect(() => {
+    if (runtime) {
+      setSelectedFilters([
+        ...selectedFilters,
+        {
+          filterType: "runtime",
+          value: runtime as string,
+        },
+      ])
+    }
+  }, [runtime, selectedFilters])
+
+  const searchResult = useSearchQuery(q as string, selectedFilters)
 
   useEffect(() => {}, [selectedFilters])
 
   return (
     <>
       <NextSeo
-        title={t("search-for-query", { query })}
+        title={t("search-for-query", { q })}
         openGraph={{
-          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search/${query}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q=${q}`,
         }}
       />
 
@@ -423,7 +437,7 @@ export default function Search() {
             searchResult={searchResult}
             selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
-            query={query}
+            query={q}
           />
         </div>
       </div>

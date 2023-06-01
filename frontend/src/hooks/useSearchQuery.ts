@@ -19,13 +19,14 @@ export function useSearchQuery(
     const callSearch = async () => {
       const applications = await fetchSearchQuery(query, selectedFilters)
       setSearchResult(applications)
-      trackSiteSearch({
-        keyword: query as string,
-        count: applications.hits.length,
-      })
+      if (query) {
+        trackSiteSearch({
+          keyword: query as string,
+          count: applications.hits.length,
+        })
+      }
     }
-
-    if (query) {
+    if (query.length > 0 || query === "") {
       setSearchResult(null)
       callSearch()
     }

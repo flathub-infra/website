@@ -91,22 +91,30 @@ const Header = () => {
 
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const disallowedQueries = ["", ".", ".."]
+    const disallowedQueries = [".", ".."]
     if (!disallowedQueries.includes(query)) {
       const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(`/apps/search/${queryEncoded}`, undefined, {
-        locale: router.locale,
-      })
+      router.push(
+        `/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`,
+        undefined,
+        {
+          locale: router.locale,
+        },
+      )
     }
   }
 
   function onClickSearch(): void {
-    const disallowedQueries = ["", ".", ".."]
+    const disallowedQueries = [".", ".."]
     if (!disallowedQueries.includes(query)) {
       const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(`/apps/search/${queryEncoded}`, undefined, {
-        locale: router.locale,
-      })
+      router.push(
+        `/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`,
+        undefined,
+        {
+          locale: router.locale,
+        },
+      )
     }
   }
 
