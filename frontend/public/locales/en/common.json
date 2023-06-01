@@ -329,5 +329,6 @@
   "something-went-wrong": "Something went wrong",
   "flos": "Free/Libre Open Source",
   "not-verified": "Not verified",
-  "filters": "Filters"
+  "filters": "Filters",
+  "runtime-distribution": "Runtime Distribution"
 }

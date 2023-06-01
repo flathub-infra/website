@@ -27,6 +27,7 @@ import {
   PROJECTGROUPS_URL,
   SUBCATEGORY_URL,
   APPSTREAM_URL,
+  RUNTIMES,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -396,4 +397,15 @@ export async function fetchVerificationAvailableMethods(
     console.log(`No available verification methods for ${appId}`)
   }
   return verificationMethods
+}
+
+export async function fetchRuntimes(): Promise<{ [key: string]: number }> {
+  let runtimes: { [key: string]: number } = {}
+  try {
+    const verificationResponse = await fetch(RUNTIMES)
+    runtimes = await verificationResponse.json()
+  } catch (error) {
+    console.log(`Could not fetch runtimes`)
+  }
+  return runtimes
 }

@@ -11,6 +11,8 @@ export const SUMMARY_DETAILS = (id: string): string =>
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
 export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP: string = `${BASE_URI}/search`
+export const RUNTIMES: string = `${BASE_URI}/runtimes`
+
 export const POPULAR_LAST_MONTH_URL = (
   page?: number,
   per_page?: number,
