@@ -329,5 +329,6 @@
   "moderation-new-value": "Neuer Wert",
   "moderation-key": "Schlüssel",
   "moderation-no-review-requests": "Für diese App gibt es keine Überprüfungen.",
-  "moderation-dev-description": "Einige Änderungen an den Metadaten einer App, wie z. B. der Name oder die Beschreibung, müssen vom Flathub-Team überprüft werden. Sie können den Status aktueller und vergangener Überprüfungsanfragen hier einsehen."
+  "moderation-dev-description": "Einige Änderungen an den Metadaten einer App, wie z. B. der Name oder die Beschreibung, müssen vom Flathub-Team überprüft werden. Sie können den Status aktueller und vergangener Überprüfungsanfragen hier einsehen.",
+  "runtime-distribution": "Aufteilung der Runtimes"
 }
