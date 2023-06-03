@@ -1,3 +1,9 @@
+{% if env != "production" %}
+  <p style="border: 1px solid black; border-radius: 0.25em; padding: 0.5em;">
+    This email was sent from a {{ env }} instance.
+  </p>
+{% endif %}
+
 <div class="header">
   <img src="https://flathub.org/img/logo/flathub-logo-toolbar.svg" alt="Flathub"/>
 </div>

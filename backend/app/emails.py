@@ -71,7 +71,11 @@ def _create_message(
             app_name = app["name"]
         full_subject = f"{app_name or info.app_id} | {full_subject}"
 
+    if settings.env != "production":
+        full_subject = f"[{settings.env.upper()}] {full_subject}"
+
     data = {
+        "env": settings.env,
         "user_display_name": user.display_name,
         "user_email_address": email,
         "email_category": info.category,
