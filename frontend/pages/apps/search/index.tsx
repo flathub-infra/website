@@ -421,7 +421,7 @@ export default function Search() {
   return (
     <>
       <NextSeo
-        title={t("search-for-query", { q })}
+        title={t("search-for-query", { query: q })}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q=${q}`,
         }}
