@@ -98,7 +98,9 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
     setCurrentScreenshot(0)
   }, [app.id])
 
-  const filteredScreenshots = app.screenshots?.filter(pickScreenshot)
+  const filteredScreenshots = app.screenshots?.filter((screenshot) =>
+    pickScreenshot(screenshot),
+  )
 
   return (
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
@@ -160,13 +162,13 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           }
         >
           {filteredScreenshots?.map((screenshot, index) => {
-            const pickedScreenshot = pickScreenshot(screenshot)
+            const pickedScreenshot = pickScreenshot(screenshot, 500)
             return (
               <Image
                 key={index}
                 src={pickedScreenshot.src}
-                width={752}
-                height={423}
+                width={pickedScreenshot.width}
+                height={pickedScreenshot.height}
                 alt={t("screenshot")}
                 loading="eager"
                 priority={index === 0}
