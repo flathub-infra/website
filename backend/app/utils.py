@@ -9,7 +9,7 @@ import requests
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config, db, stats
+from . import config
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 
@@ -242,48 +242,8 @@ def appstream2dict(reponame: str):
     return apps
 
 
-def get_appids(path):
-    try:
-        with open(
-            path,
-        ) as file_:
-            return json.load(file_)
-    except OSError:
-        return []
-
-
 def get_clean_app_id(appid: str):
     return re.sub(clean_id_re, "_", appid)
-
-
-def get_listing_app(key: str):
-    listing_app = None
-    if app := db.get_json_key(key):
-        appid = key[5:]
-        listing_app = {
-            "id": appid,
-            "name": app.get("name"),
-            "summary": app.get("summary"),
-            "icon": app.get("icon"),
-        }
-
-    return listing_app
-
-
-def sort_ids_by_installs(ids):
-    if len(ids) <= 1:
-        return ids
-
-    installs = stats.get_installs_by_ids(ids)
-    sorted_ids = sorted(
-        ids,
-        key=lambda appid: installs.get(appid, {"installs_last_month": 0}).get(
-            "installs_last_month", 0
-        ),
-        reverse=True,
-    )
-
-    return sorted_ids
 
 
 class Platform(BaseModel):
