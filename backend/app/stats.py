@@ -52,9 +52,10 @@ def _get_stats_for_period(sdate: datetime.date, edate: datetime.date):
             if stats is None or "refs" not in stats or stats["refs"] is None:
                 continue
             for app_id, app_stats in stats["refs"].items():
-                if app_id not in totals:
-                    totals[app_id] = {}
-                app_totals = totals[app_id]
+                app_id_without_architecture = _remove_architecture_from_id(app_id)
+                if app_id_without_architecture not in totals:
+                    totals[app_id_without_architecture] = {}
+                app_totals = totals[app_id_without_architecture]
                 for arch, downloads in app_stats.items():
                     if arch not in app_totals:
                         app_totals[arch] = [0, 0, 0]
@@ -78,12 +79,12 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
 
             if stats is not None and "refs" in stats and stats["refs"] is not None:
                 for app_id, app_stats in stats["refs"].items():
-                    if _is_app(app_id):
-                        if app_id not in app_stats_per_day:
-                            app_stats_per_day[app_id] = {}
-                        app_stats_per_day[app_id][date.isoformat()] = sum(
-                            [i[0] - i[1] for i in app_stats.values()]
-                        )
+                    app_id_without_architecture = _remove_architecture_from_id(app_id)
+                    if app_id_without_architecture not in app_stats_per_day:
+                        app_stats_per_day[app_id_without_architecture] = {}
+                    app_stats_per_day[app_id_without_architecture][
+                        date.isoformat()
+                    ] = sum([i[0] - i[1] for i in app_stats.values()])
     return app_stats_per_day
 
 
@@ -161,11 +162,13 @@ def _is_app(app_id: str) -> bool:
     return "/" not in app_id
 
 
+def _remove_architecture_from_id(app_id: str) -> str:
+    return app_id.split("/")[0]
+
+
 def get_installs_by_ids(ids: list[str]):
     result = defaultdict()
     for app_id in ids:
-        if not _is_app(app_id):
-            continue
         app_stats = db.get_json_key(f"app_stats:{app_id}")
         if app_stats is None:
             continue
@@ -209,59 +212,54 @@ def update(all_app_ids: list):
 
     app_stats_per_day = _get_app_stats_per_day()
 
-    for appid, dict in stats_total.items():
-        if _is_app(appid):
-            # Index 0 is install and update count index 1 would be the update count
-            # Index 2 is the install count
-            stats_apps_dict[appid]["installs_total"] = sum(
-                [i[2] for i in dict.values()]
-            )
+    for app_id, dict in stats_total.items():
+        # Index 0 is install and update count index 1 would be the update count
+        # Index 2 is the install count
+        stats_apps_dict[app_id]["installs_total"] = sum([i[2] for i in dict.values()])
 
-            if appid in app_stats_per_day:
-                stats_apps_dict[appid]["installs_per_day"] = app_stats_per_day[appid]
+        if app_id in app_stats_per_day:
+            stats_apps_dict[app_id]["installs_per_day"] = app_stats_per_day[app_id]
 
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
     stats_installs: list = []
-    for appid, dict in stats_30_days.items():
-        if _is_app(appid):
-            # Index 0 is install and update count index 1 would be the update count
-            # Index 2 is the install count
-            installs_last_month = sum([i[2] for i in dict.values()])
-            stats_apps_dict[appid]["installs_last_month"] = installs_last_month
-            if appid in all_app_ids:
-                stats_installs.append(
-                    {
-                        "id": utils.get_clean_app_id(appid),
-                        "installs_last_month": installs_last_month,
-                    }
-                )
+    for app_id, dict in stats_30_days.items():
+        # Index 0 is install and update count index 1 would be the update count
+        # Index 2 is the install count
+        installs_last_month = sum([i[2] for i in dict.values()])
+        stats_apps_dict[app_id]["installs_last_month"] = installs_last_month
+        if app_id in all_app_ids:
+            stats_installs.append(
+                {
+                    "id": utils.get_clean_app_id(app_id),
+                    "installs_last_month": installs_last_month,
+                }
+            )
     search.create_or_update_apps(stats_installs)
 
     sdate_7_days = edate - datetime.timedelta(days=7 - 1)
     stats_7_days = _get_stats_for_period(sdate_7_days, edate)
 
-    for appid, dict in stats_7_days.items():
-        if _is_app(appid):
-            # Index 0 is install and update count index 1 would be the update count
-            # Index 2 is the install count
-            stats_apps_dict[appid]["installs_last_7_days"] = sum(
-                [i[2] for i in dict.values()]
-            )
+    for app_id, dict in stats_7_days.items():
+        # Index 0 is install and update count index 1 would be the update count
+        # Index 2 is the install count
+        stats_apps_dict[app_id]["installs_last_7_days"] = sum(
+            [i[2] for i in dict.values()]
+        )
 
     # Make sure the Apps has all Keys
-    for appid in stats_apps_dict:
-        stats_apps_dict[appid]["installs_total"] = stats_apps_dict[appid].get(
+    for app_id in stats_apps_dict:
+        stats_apps_dict[app_id]["installs_total"] = stats_apps_dict[app_id].get(
             "installs_total", 0
         )
-        stats_apps_dict[appid]["installs_last_month"] = stats_apps_dict[appid].get(
+        stats_apps_dict[app_id]["installs_last_month"] = stats_apps_dict[app_id].get(
             "installs_last_month", 0
         )
-        stats_apps_dict[appid]["installs_last_7_days"] = stats_apps_dict[appid].get(
+        stats_apps_dict[app_id]["installs_last_7_days"] = stats_apps_dict[app_id].get(
             "installs_last_7_days", 0
         )
-        stats_apps_dict[appid]["installs_per_day"] = stats_apps_dict[appid].get(
+        stats_apps_dict[app_id]["installs_per_day"] = stats_apps_dict[app_id].get(
             "installs_per_day", {}
         )
 
@@ -304,7 +302,7 @@ def update(all_app_ids: list):
     db.redis_conn.set("stats", orjson.dumps(stats_dict))
     db.redis_conn.mset(
         {
-            f"app_stats:{appid}": orjson.dumps(stats_apps_dict[appid])
-            for appid in stats_apps_dict
+            f"app_stats:{app_id}": orjson.dumps(stats_apps_dict[app_id])
+            for app_id in stats_apps_dict
         }
     )
