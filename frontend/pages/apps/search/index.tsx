@@ -337,7 +337,7 @@ const SearchPanel = ({
           setSelectedFilters={setSelectedFilters}
         />
       </div>
-      <div className="flex flex-col gap-3">
+      <div className="flex w-full flex-col gap-3">
         <span className="flex flex-col">
           <h1 className="text-2xl font-bold">
             {t("search-for-query", { query })}
