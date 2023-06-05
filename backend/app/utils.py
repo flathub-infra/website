@@ -61,10 +61,12 @@ def appstream2dict(reponame: str):
 
     apps = {}
 
+    media_base_url = "https://dl.flathub.org/media"
+
     for component in root:
         app = {}
 
-        if component.attrib.get("type") != "desktop":
+        if component.attrib.get("type") not in ("desktop", "desktop-application"):
             continue
 
         descriptions = component.findall("description")
@@ -91,9 +93,10 @@ def appstream2dict(reponame: str):
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
                         attrs[f"{width}x{height}"] = image.text
-
-                    if image.attrib.get("type") == "source":
-                        attrs["source"] = image.text
+                        if not image.text.startswith("http"):
+                            attrs[
+                                f"{width}x{height}"
+                            ] = f"{media_base_url}/{image.text}"
 
                 if attrs:
                     if screenshot.attrib.get("type") == "default":
@@ -160,16 +163,17 @@ def appstream2dict(reponame: str):
                 icons_dict[icon_type][icon_size] = icon_name
                 component.remove(icon)
 
-            if icons_data := icons_dict.get("cached"):
-                cdn_baseurl = "https://dl.flathub.org"
-                icon_size = max(icons_data)
-                icon_name = icons_data[icon_size]
-                app[
-                    "icon"
-                ] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
-            elif icons_data := icons_dict.get("remote"):
-                icon_size = max(icons_data)
-                app["icon"] = icons_data[icon_size]
+            if component.attrib.get("type") == "desktop-application":
+                # For libappstream we need to process the remote icon first and bail
+                if icons_data := icons_dict.get("remote"):
+                    process_remote_icon(media_base_url, app, icons_data)
+                elif icons_data := icons_dict.get("cached"):
+                    process_cached_icon(app, icons_data)
+            else:
+                if icons_data := icons_dict.get("cached"):
+                    process_cached_icon(app, icons_data)
+                elif icons_data := icons_dict.get("remote"):
+                    process_remote_icon(media_base_url, app, icons_data)
         else:
             app["icon"] = None
 
@@ -240,6 +244,23 @@ def appstream2dict(reponame: str):
         apps[appid] = app
 
     return apps
+
+
+def process_cached_icon(app, icons_data):
+    cdn_baseurl = "https://dl.flathub.org"
+    icon_size = max(icons_data)
+    icon_name = icons_data[icon_size]
+    app[
+        "icon"
+    ] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
+
+
+def process_remote_icon(media_base_url, app, icons_data):
+    icon_size = max(icons_data)
+    app["icon"] = icons_data[icon_size]
+
+    if not app["icon"].startswith("http"):
+        app["icon"] = f"{media_base_url}/{app['icon']}"
 
 
 def get_clean_app_id(appid: str):

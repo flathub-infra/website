@@ -168,10 +168,6 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
             background_tasks.add_task(get_repo_creation_date, appid)
 
         if screenshots := app.get("screenshots"):
-            for screenshot in screenshots:
-                if screenshot.get("source"):
-                    del screenshot["source"]
-
             screenshots = list(filter(None, screenshots))
 
             compat_screenshots = []
