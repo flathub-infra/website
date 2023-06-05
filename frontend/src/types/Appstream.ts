@@ -72,78 +72,57 @@ export interface Urls {
 }
 
 export interface Screenshot {
-  "112x63"?: string
-  "224x126"?: string
-  "624x351"?: string
-  "752x423"?: string
-  "1248x702"?: string
-  "1504x846"?: string
+  [key: string]: string
 }
 
 export function pickScreenshot(
   screenshot: Screenshot,
 ): { src: string; width: number; height: number } | undefined {
-  if (screenshot["1504x846"]) {
-    return { src: screenshot["1504x846"], width: 1504, height: 846 }
-  } else if (screenshot["1248x702"]) {
-    return { src: screenshot["1248x702"], width: 1248, height: 702 }
-  } else if (screenshot["752x423"]) {
-    return { src: screenshot["752x423"], width: 752, height: 423 }
-  } else if (screenshot["624x351"]) {
-    return { src: screenshot["624x351"], width: 624, height: 351 }
-  } else if (screenshot["224x126"]) {
-    return { src: screenshot["224x126"], width: 224, height: 126 }
-  } else if (screenshot["112x63"]) {
-    return { src: screenshot["112x63"], width: 112, height: 63 }
-  } else {
-    return undefined
-  }
+  const highestResolution = Object.keys(screenshot)
+    .map((key) => {
+      const width = key.split("x")[0]
+      const widthNumber = parseInt(width)
+
+      const height = key.split("x")[1]
+      const heightNumber = parseInt(height)
+
+      return { key, width: widthNumber, height: heightNumber }
+    })
+    .sort((a, b) => {
+      if (a.width > b.width) {
+        return -1
+      } else if (a.width < b.width) {
+        return 1
+      } else {
+        if (a.height > b.height) {
+          return -1
+        } else if (a.height < b.height) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    })[0]
+
+  return highestResolution
+    ? {
+        src: screenshot[highestResolution.key],
+        width: highestResolution.width,
+        height: highestResolution.height,
+      }
+    : undefined
 }
 
 export function mapScreenshot(screenshot: Screenshot) {
-  const screenshotVariant: { src: string; width: number; height: number }[] = []
-  if (screenshot["1504x846"]) {
-    screenshotVariant.push({
-      src: screenshot["1504x846"],
-      width: 1504,
-      height: 846,
-    })
-  }
-  if (screenshot["1248x702"]) {
-    screenshotVariant.push({
-      src: screenshot["1248x702"],
-      width: 1248,
-      height: 702,
-    })
-  }
-  if (screenshot["752x423"]) {
-    screenshotVariant.push({
-      src: screenshot["752x423"],
-      width: 752,
-      height: 423,
-    })
-  }
-  if (screenshot["624x351"]) {
-    screenshotVariant.push({
-      src: screenshot["624x351"],
-      width: 624,
-      height: 351,
-    })
-  }
-  if (screenshot["224x126"]) {
-    screenshotVariant.push({
-      src: screenshot["224x126"],
-      width: 224,
-      height: 126,
-    })
-  }
-  if (screenshot["112x63"]) {
-    screenshotVariant.push({
-      src: screenshot["112x63"],
-      width: 112,
-      height: 63,
-    })
-  }
+  const screenshotVariant = Object.keys(screenshot).map((key) => {
+    const width = key.split("x")[0]
+    const widthNumber = parseInt(width)
+
+    const height = key.split("x")[1]
+    const heightNumber = parseInt(height)
+
+    return { src: screenshot[key], width: widthNumber, height: heightNumber }
+  })
 
   if (screenshotVariant.length === 0) {
     return undefined
