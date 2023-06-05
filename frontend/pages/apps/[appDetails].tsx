@@ -42,9 +42,11 @@ export default function Details({
   verificationStatus: VerificationStatus
 }) {
   const screenshots = app.screenshots
-    ? app.screenshots.filter(pickScreenshot).map((screenshot: Screenshot) => ({
-        url: pickScreenshot(screenshot).src,
-      }))
+    ? app.screenshots
+        .filter((screenshot) => pickScreenshot(screenshot))
+        .map((screenshot: Screenshot) => ({
+          url: pickScreenshot(screenshot).src,
+        }))
     : []
 
   return (

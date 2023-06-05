@@ -77,8 +77,9 @@ export interface Screenshot {
 
 export function pickScreenshot(
   screenshot: Screenshot,
+  maxHeight?: number,
 ): { src: string; width: number; height: number } | undefined {
-  const highestResolution = Object.keys(screenshot)
+  const orderedByResolution = Object.keys(screenshot)
     .map((key) => {
       const width = key.split("x")[0]
       const widthNumber = parseInt(width)
@@ -102,7 +103,11 @@ export function pickScreenshot(
           return 0
         }
       }
-    })[0]
+    })
+
+  const highestResolution = orderedByResolution.find(
+    (screenshot) => maxHeight === undefined || screenshot.height <= maxHeight,
+  )
 
   return highestResolution
     ? {
