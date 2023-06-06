@@ -88,17 +88,29 @@ def appstream2dict(reponame: str):
             for screenshot in screenshots:
                 attrs = {}
 
+                if component.attrib.get("type") == "desktop-application":
+                    for caption in screenshot.findall("caption"):
+                        if (
+                            caption is not None
+                            and caption.attrib.get(
+                                "{http://www.w3.org/XML/1998/namespace}lang"
+                            )
+                            is None
+                        ):
+                            attrs["caption"] = caption.text
+
+                attrs["sizes"] = {}
                 for image in screenshot:
                     if image.attrib.get("type") == "thumbnail":
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
-                        attrs[f"{width}x{height}"] = image.text
+                        attrs["sizes"][f"{width}x{height}"] = image.text
                         if not image.text.startswith("http"):
-                            attrs[
+                            attrs["sizes"][
                                 f"{width}x{height}"
                             ] = f"{media_base_url}/{image.text}"
 
-                if attrs:
+                if attrs and len(attrs["sizes"]) > 0:
                     if screenshot.attrib.get("type") == "default":
                         app["screenshots"].insert(0, attrs.copy())
                     else:
