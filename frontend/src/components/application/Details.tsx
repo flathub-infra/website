@@ -119,6 +119,10 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
             }
           })}
           index={currentScreenshot}
+          render={{
+            buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
+            buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
+          }}
         />
       )}
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
