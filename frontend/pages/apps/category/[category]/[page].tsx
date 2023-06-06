@@ -55,7 +55,7 @@ const ApplicationCategory = ({
 
         {subcategories && (
           <div>
-            <div className="grid grid-cols-[repeat(auto-fill,_minmax(125px,_1fr))] gap-2">
+            <div className="flex flex-wrap gap-2">
               {getSubcategory(category).map((subcategory) => (
                 <Link
                   key={subcategory}
