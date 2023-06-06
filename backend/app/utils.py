@@ -101,7 +101,13 @@ def appstream2dict(reponame: str):
 
                 attrs["sizes"] = {}
                 for image in screenshot:
-                    if image.attrib.get("type") == "thumbnail":
+                    if (
+                        image.attrib.get("type") == "thumbnail"
+                        and image.attrib.get(
+                            "{http://www.w3.org/XML/1998/namespace}lang"
+                        )
+                        is None
+                    ):
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
                         attrs["sizes"][f"{width}x{height}"] = image.text
