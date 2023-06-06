@@ -44,9 +44,13 @@ export default function Details({
   const screenshots = app.screenshots
     ? app.screenshots
         .filter((screenshot) => pickScreenshot(screenshot))
-        .map((screenshot: Screenshot) => ({
-          url: pickScreenshot(screenshot).src,
-        }))
+        .map((screenshot: Screenshot) => {
+          const pickedScreenshot = pickScreenshot(screenshot)
+          return {
+            url: pickedScreenshot.src,
+            alt: pickedScreenshot.caption,
+          }
+        })
     : []
 
   return (
