@@ -72,14 +72,19 @@ export interface Urls {
 }
 
 export interface Screenshot {
+  caption: string
+  sizes: ScreenshotSize[]
+}
+
+export interface ScreenshotSize {
   [key: string]: string
 }
 
 export function pickScreenshot(
   screenshot: Screenshot,
   maxHeight?: number,
-): { src: string; width: number; height: number } | undefined {
-  const orderedByResolution = Object.keys(screenshot)
+): { src: string; width: number; height: number; caption: string } | undefined {
+  const orderedByResolution = Object.keys(screenshot.sizes)
     .map((key) => {
       const width = key.split("x")[0]
       const widthNumber = parseInt(width)
@@ -111,22 +116,28 @@ export function pickScreenshot(
 
   return highestResolution
     ? {
-        src: screenshot[highestResolution.key],
+        src: screenshot.sizes[highestResolution.key],
         width: highestResolution.width,
         height: highestResolution.height,
+        caption: screenshot.caption,
       }
     : undefined
 }
 
 export function mapScreenshot(screenshot: Screenshot) {
-  const screenshotVariant = Object.keys(screenshot).map((key) => {
+  const screenshotVariant = Object.keys(screenshot.sizes).map((key) => {
     const width = key.split("x")[0]
     const widthNumber = parseInt(width)
 
     const height = key.split("x")[1]
     const heightNumber = parseInt(height)
 
-    return { src: screenshot[key], width: widthNumber, height: heightNumber }
+    return {
+      src: screenshot.sizes[key],
+      width: widthNumber,
+      height: heightNumber,
+      caption: screenshot.caption,
+    }
   })
 
   if (screenshotVariant.length === 0) {

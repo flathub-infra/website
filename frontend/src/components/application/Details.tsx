@@ -14,6 +14,7 @@ import { useTranslation } from "next-i18next"
 import Lightbox from "yet-another-react-lightbox"
 import "yet-another-react-lightbox/styles.css"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
+import Captions from "yet-another-react-lightbox/plugins/captions"
 
 import { Summary } from "../../types/Summary"
 
@@ -45,6 +46,7 @@ import {
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 import Tags from "./Tags"
+import "yet-another-react-lightbox/plugins/captions.css"
 
 interface Props {
   app?: Appstream
@@ -108,8 +110,14 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
         <Lightbox
           open={showLightbox}
           close={() => setShowLightbox(false)}
-          plugins={[Zoom]}
-          slides={app.screenshots?.map(mapScreenshot)}
+          plugins={[Zoom, Captions]}
+          slides={app.screenshots?.map(mapScreenshot).map((screenshot) => {
+            return {
+              ...screenshot,
+              title: screenshot.caption,
+              caption: undefined,
+            }
+          })}
           index={currentScreenshot}
         />
       )}
@@ -164,15 +172,21 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           {filteredScreenshots?.map((screenshot, index) => {
             const pickedScreenshot = pickScreenshot(screenshot, 500)
             return (
-              <Image
-                key={index}
-                src={pickedScreenshot.src}
-                width={pickedScreenshot.width}
-                height={pickedScreenshot.height}
-                alt={t("screenshot")}
-                loading="eager"
-                priority={index === 0}
-              />
+              <div key={index} className="flex h-full flex-col justify-center">
+                <div>
+                  <Image
+                    src={pickedScreenshot.src}
+                    width={pickedScreenshot.width}
+                    height={pickedScreenshot.height}
+                    alt={pickedScreenshot.caption ?? t("screenshot")}
+                    loading="eager"
+                    priority={index === 0}
+                  />
+                </div>
+                {pickedScreenshot.caption && (
+                  <span>{pickedScreenshot.caption}</span>
+                )}
+              </div>
             )
           })}
         </Carousel>
