@@ -2,22 +2,28 @@
   "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
   "screenshots": [
     {
-      "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-      "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-      "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-      "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+      "sizes": {
+        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
+        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+      }
     },
     {
-      "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-      "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-      "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-      "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+      "sizes": {
+        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
+        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+      }
     },
     {
-      "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-      "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-      "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-      "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+      "sizes": {
+        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
+        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+      }
     }
   ],
   "releases": [
