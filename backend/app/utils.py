@@ -72,6 +72,9 @@ def appstream2dict(reponame: str):
         descriptions = component.findall("description")
         if len(descriptions):
             for desc in descriptions:
+                # TODO: support translations
+                if desc.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                    continue
                 component.remove(desc)
                 if len(desc.attrib) > 0:
                     continue
