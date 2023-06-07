@@ -329,5 +329,6 @@
   "moderation-value": "Wartość",
   "moderation-dev-description": "Niektóre zmiany w metadanych aplikacji, takie jak jej nazwa lub opis, muszą zostać zweryfikowane przez zespół Flathub. Status aktualnych i wcześniejszych wniosków o weryfikację można sprawdzić tutaj.",
   "moderation-approved-by": "Zatwierdzone przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})",
-  "moderation-rejected-by": "Odrzucony przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})"
+  "moderation-rejected-by": "Odrzucony przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})",
+  "runtime-distribution": "Dystrybucja Runtime"
 }

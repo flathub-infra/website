@@ -329,5 +329,6 @@
   "moderation-no-review-requests": "Geen reviews om te tonen voor deze app.",
   "moderation-outdated": "Verouderd",
   "moderation-approved-by": "Goedgekeurd door {{handledBy}} op {{handledAt}} ({{handledAtRel}})",
-  "moderation-rejected-by": "Afgewezen door {{handledBy}} op {{handledAt}} ({{handledAtRel}})"
+  "moderation-rejected-by": "Afgewezen door {{handledBy}} op {{handledAt}} ({{handledAtRel}})",
+  "runtime-distribution": "Runtime-verdeling"
 }

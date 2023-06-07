@@ -329,5 +329,6 @@
   "moderation-pending-reviews": "المراجعات المعلَّقة",
   "filters": "التصفيات",
   "not-verified": "ليس مؤكَّدًا",
-  "moderation-rejected-by": "رفضه {{handledBy}} في {{handledAt}} ({{handledAtRel}})"
+  "moderation-rejected-by": "رفضه {{handledBy}} في {{handledAt}} ({{handledAtRel}})",
+  "runtime-distribution": "توزيعة بيئة العمل"
 }

@@ -329,5 +329,6 @@
   "moderation-value": "Value",
   "moderation-outdated": "Outdated",
   "moderation-approved-by": "Approved by {{handledBy}} on {{handledAt}} ({{handledAtRel}})",
-  "moderation-rejected-by": "Rejected by {{handledBy}} on {{handledAt}} ({{handledAtRel}})"
+  "moderation-rejected-by": "Rejected by {{handledBy}} on {{handledAt}} ({{handledAtRel}})",
+  "runtime-distribution": "Runtime Distribution"
 }

@@ -329,5 +329,6 @@
   "not-verified": "未驗證",
   "flos": "自由與開放原始碼",
   "filters": "過濾條件",
-  "moderation-outdated": "過期"
+  "moderation-outdated": "過期",
+  "runtime-distribution": "執行時期散佈版"
 }

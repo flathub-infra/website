@@ -329,5 +329,6 @@
   "moderation-outdated": "Застаріле",
   "moderation-rejected-by": "Відхилено {{handledBy}} {{handledAt}} ({{handledAtRel}})",
   "flos": "Вільне/відкрите програмне забезпечення",
-  "not-verified": "Не підтверджено"
+  "not-verified": "Не підтверджено",
+  "runtime-distribution": "Розподіл середовища виконання"
 }

@@ -329,5 +329,6 @@
   "moderation-rejected-by": "Odbijeno od {{handledBy}}, {{handledAt}} ({{handledAtRel}})",
   "moderation-no-review-requests": "Za ovu aplikaciju nema recenzija.",
   "moderation-appstream": "Appstream",
-  "moderation-dev-description": "Flathubov tim mora pregledati neke promjene u metapodataka aplikacije, kao što su ime ili opis. Ovdje se može vidjeti stanje aktualnih i prošlih zahtjeva za pregled."
+  "moderation-dev-description": "Flathubov tim mora pregledati neke promjene u metapodataka aplikacije, kao što su ime ili opis. Ovdje se može vidjeti stanje aktualnih i prošlih zahtjeva za pregled.",
+  "runtime-distribution": "Distribucija vremena izvođenja"
 }
