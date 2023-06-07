@@ -329,5 +329,6 @@
   "kids": "Uşaq",
   "role-playing": "Rol Oyunu",
   "shooter": "Nişancı",
-  "login-provider-verification-instruction": "Tətbiqə olan girişinizi doğrulamaq üçün <3>{{login_provider}}</3> platformundakı <1>{{login_name}}</1> hesabınızla giriş edəcəyik."
+  "login-provider-verification-instruction": "Tətbiqə olan girişinizi doğrulamaq üçün <3>{{login_provider}}</3> platformundakı <1>{{login_name}}</1> hesabınızla giriş edəcəyik.",
+  "runtime-distribution": "Runtime Distribution"
 }

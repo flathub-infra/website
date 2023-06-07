@@ -329,5 +329,6 @@
   "flos": "Liberaj kaj malfermitkodaj",
   "not-verified": "Ne konfirmitaj",
   "moderation-approved-by": "Aprobita de {{handledBy}} je {{handledAt}} ({{handledAtRel}})",
-  "moderation-dev-description": "Iuj ŝanĝoj al la programaj metadatenoj, ekz. la nomo aŭ la priskribo, estas reviziendaj de la Flathub-teamo. Vi povas vidi la statojn de nunaj kaj pasintaj revizipetoj ĉi tie."
+  "moderation-dev-description": "Iuj ŝanĝoj al la programaj metadatenoj, ekz. la nomo aŭ la priskribo, estas reviziendaj de la Flathub-teamo. Vi povas vidi la statojn de nunaj kaj pasintaj revizipetoj ĉi tie.",
+  "runtime-distribution": "Distribuo de rultempa medio"
 }

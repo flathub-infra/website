@@ -329,5 +329,6 @@
   "flos": "Libre/Código Abierto",
   "moderation-no-review-requests": "No hay reseñas para esta aplicación.",
   "not-verified": "Sin verificar",
-  "filters": "Filtros"
+  "filters": "Filtros",
+  "runtime-distribution": "División de los tiempos de ejecución"
 }

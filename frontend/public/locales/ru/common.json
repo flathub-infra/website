@@ -314,5 +314,21 @@
   "sequencer": "Секвенсоры",
   "player": "Проигрыватели",
   "recorder": "Звукозапись",
-  "music": "Музыка"
+  "music": "Музыка",
+  "moderation-appstream-changes": "Изменения в Appstream",
+  "moderation-appstream": "Appstream",
+  "moderation-dev-description": "Некоторые изменения в метаданных приложения, например, название или описание, должны быть рассмотрены командой Flathub. Просмотреть статус текущих и прошлых запросов на рассмотрении можно здесь.",
+  "moderation-rejected-by": "Отклонено {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
+  "filters": "Фильтры",
+  "runtime-distribution": "Распространение среды выполнения",
+  "moderation-pending-reviews": "На рассмотрении",
+  "moderation-key": "Ключ",
+  "moderation-old-value": "Старое значение",
+  "moderation-new-value": "Новое значение",
+  "moderation-value": "Значение",
+  "moderation-outdated": "Устаревшее",
+  "moderation-approved-by": "Одобрено {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
+  "flos": "Свободное/Открытое ПО",
+  "not-verified": "Не подтверждено",
+  "moderation-no-review-requests": "Нет отзывов для этого приложения."
 }
