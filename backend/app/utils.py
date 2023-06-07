@@ -99,6 +99,9 @@ def appstream2dict(reponame: str):
                         ):
                             attrs["caption"] = caption.text
 
+                if screenshot.attrib.get("type") == "default":
+                    attrs["default"] = True
+
                 attrs["sizes"] = {}
                 for image in screenshot:
                     if (
@@ -117,10 +120,7 @@ def appstream2dict(reponame: str):
                             ] = f"{media_base_url}/{image.text}"
 
                 if attrs and len(attrs["sizes"]) > 0:
-                    if screenshot.attrib.get("type") == "default":
-                        app["screenshots"].insert(0, attrs.copy())
-                    else:
-                        app["screenshots"].append(attrs.copy())
+                    app["screenshots"].append(attrs.copy())
             component.remove(screenshots)
 
         releases = component.find("releases")
