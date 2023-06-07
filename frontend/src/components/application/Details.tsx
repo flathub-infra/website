@@ -177,8 +177,11 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           {filteredScreenshots?.map((screenshot, index) => {
             const pickedScreenshot = pickScreenshot(screenshot, 500)
             return (
-              <div key={index} className="flex h-full flex-col justify-center">
-                <div className="">
+              <figure
+                key={index}
+                className="flex h-full flex-col justify-center"
+              >
+                <div>
                   <Image
                     src={pickedScreenshot.src}
                     width={pickedScreenshot.width}
@@ -189,9 +192,11 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
                   />
                 </div>
                 {pickedScreenshot.caption && (
-                  <div className="break-all">{pickedScreenshot.caption}</div>
+                  <figcaption className="break-all">
+                    {pickedScreenshot.caption}
+                  </figcaption>
                 )}
-              </div>
+              </figure>
             )
           })}
         </Carousel>
