@@ -137,6 +137,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
           </Button>
         )}
         <Carousel
+          className="w-full"
           showThumbs={false}
           infiniteLoop={true}
           autoPlay={false}
@@ -177,7 +178,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
             const pickedScreenshot = pickScreenshot(screenshot, 500)
             return (
               <div key={index} className="flex h-full flex-col justify-center">
-                <div>
+                <div className="">
                   <Image
                     src={pickedScreenshot.src}
                     width={pickedScreenshot.width}
@@ -188,7 +189,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
                   />
                 </div>
                 {pickedScreenshot.caption && (
-                  <span>{pickedScreenshot.caption}</span>
+                  <div className="break-all">{pickedScreenshot.caption}</div>
                 )}
               </div>
             )
