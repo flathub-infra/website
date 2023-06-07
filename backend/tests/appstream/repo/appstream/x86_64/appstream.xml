@@ -5,8 +5,10 @@
     <translation type="gettext">org.sugarlabs.Maze</translation>
     <name>Maze</name>
     <summary>A simple maze game</summary>
+    <summary xml:lang="de">Should not show up as long as we don't support translations</summary>
     <developer_name>Sugar Labs Community</developer_name>
     <description><p>Good at finding your way out of hard situations? Let&apos;s see! Try to make your way through an increasingly difficult path.</p></description>
+    <description xml:lang="de">Should not show up as long as we don't support translations</description>
     <icon type="cached" height="64" width="64">org.sugarlabs.Maze.png</icon>
     <icon type="cached" height="128" width="128">org.sugarlabs.Maze.png</icon>
     <categories>
