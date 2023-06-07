@@ -1,7 +1,9 @@
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { clsx } from "clsx"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
+import { ConditionalWrapper } from "src/utils/helpers"
 
 interface Props {
   appId?: string
@@ -33,51 +35,49 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
               })
             }
             return (
-              <div
-                className={`grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic ${
-                  item.content.type === "text"
-                    ? "grid-cols-[36px_calc(100%_-_36px)]"
-                    : ""
-                }`}
+              <ConditionalWrapper
                 key={index}
-              >
-                <div className="self-center text-2xl text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                  {item.icon}
-                </div>
-                <div className="text-base">
-                  {item.header}
-                  {item.content.type === "text" && (
-                    <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-                      {item.content.text}
-                    </span>
-                  )}
-                  {item.content.type === "url" && (
-                    <a
-                      href={item.content.text}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={linkClicked}
-                      className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver no-underline hover:underline dark:text-flathub-spanish-gray"
-                    >
-                      {item.content.text}
-                    </a>
-                  )}
-                </div>
-                {item.content.type === "url" && (
-                  <div className="self-center justify-self-end opacity-60">
-                    <a
-                      href={item.content.text}
-                      target="_blank"
-                      rel="noreferrer"
-                      onClick={linkClicked}
-                      title={t("open-in-new-tab")}
-                      className="no-underline hover:underline"
-                    >
-                      <HiArrowTopRightOnSquare />
-                    </a>
-                  </div>
+                condition={item.content.type === "url"}
+                wrapper={(children) => (
+                  <a
+                    href={item.content.text}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={linkClicked}
+                    title={t("open-in-new-tab")}
+                    className="text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+                  >
+                    {children}
+                  </a>
                 )}
-              </div>
+              >
+                <div
+                  className={clsx(
+                    `grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic`,
+                    item.content.type === "text" &&
+                      "grid-cols-[36px_calc(100%_-_36px)]",
+                    item.content.type === "url" &&
+                      "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-arsenic/80 dark:active:bg-flathub-arsenic/50",
+                  )}
+                >
+                  <div className="self-center text-2xl text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                    {item.icon}
+                  </div>
+                  <div className="text-base">
+                    {item.header}
+                    {
+                      <span className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                        {item.content.text}
+                      </span>
+                    }
+                  </div>
+                  {item.content.type === "url" && (
+                    <div className="self-center justify-self-end opacity-60">
+                      <HiArrowTopRightOnSquare />
+                    </div>
+                  )}
+                </div>
+              </ConditionalWrapper>
             )
           })}
     </div>
