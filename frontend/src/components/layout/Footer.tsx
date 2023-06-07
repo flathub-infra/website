@@ -22,13 +22,13 @@ const Footer = () => {
               href="/apps/collection/recently-added"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
-              {t("new")}
+              {t("recently-added")}
             </Link>
             <Link
               href="/apps/collection/recently-updated"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
-              {t("new-and-updated")}
+              {t("recently-updated")}
             </Link>
             <Link
               href="/apps/collection/verified"
