@@ -20,18 +20,20 @@ const Feeds = (): JSX.Element => {
       <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
         <h1 className="my-8 text-4xl font-extrabold">{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
-        <h3 className="my-4 text-xl font-semibold">{t("new-apps")}</h3>
+        <h3 className="my-4 text-xl font-semibold">
+          {t("recently-added-apps")}
+        </h3>
         <div className="flex flex-col pb-4">
-          <p>{t("new-apps-description")}</p>
+          <p>{t("recently-added-description")}</p>
           <ButtonLink className="w-52" href={FEED_NEW_URL} passHref>
             {t("subscribe")}
           </ButtonLink>
         </div>
         <h3 className="my-4 text-xl font-semibold">
-          {t("new-and-updated-apps")}
+          {t("recently-updated-apps")}
         </h3>
         <div className="flex flex-col pb-4">
-          <p>{t("new-and-updated-apps-description")}</p>
+          <p>{t("recently-updated-description")}</p>
           <ButtonLink
             className="w-52"
             href={FEED_RECENTLY_UPDATED_URL}

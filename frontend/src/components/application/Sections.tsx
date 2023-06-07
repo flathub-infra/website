@@ -32,7 +32,7 @@ const ApplicationSections: FunctionComponent<Props> = ({
       />
       <ApplicationSection
         key="updated"
-        title={t("new-and-updated-apps")}
+        title={t("recently-updated-apps")}
         applications={recentlyUpdated.hits.map(mapAppsIndexToAppstreamListItem)}
         href="/apps/collection/recently-updated"
       />
