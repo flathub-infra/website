@@ -53,6 +53,7 @@ const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
         "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
         "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
         "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
+        "h-full",
       )}
     >
       <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
