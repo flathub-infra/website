@@ -21,7 +21,7 @@ import { UserInfo } from "src/types/Login"
 const navigation = [
   {
     name: "publish",
-    href: "https://github.com/flathub/flathub/wiki/App-Submission",
+    href: "https://docs.flathub.org/docs/for-app-authors/submission",
     current: false,
   },
   { name: "forum", href: "https://discourse.flathub.org/", current: false },
