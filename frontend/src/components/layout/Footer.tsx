@@ -92,7 +92,7 @@ const Footer = () => {
           <div className="flex flex-col sm:space-y-3">
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
-              href="https://github.com/flathub/flathub/wiki/App-Submission"
+              href="https://docs.flathub.org/docs/for-app-authors/submission"
               target="_blank"
               rel="noreferrer"
             >
@@ -100,7 +100,7 @@ const Footer = () => {
             </a>
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
-              href="http://docs.flatpak.org/"
+              href="http://docs.flathub.org/"
               target="_blank"
               rel="noreferrer"
             >

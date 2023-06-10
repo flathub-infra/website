@@ -63,7 +63,7 @@ const About = () => {
               App developers can{" "}
               <a
                 className="no-underline hover:underline"
-                href="https://github.com/flathub/flathub/wiki/App-Submission"
+                href="https://docs.flathub.org/docs/for-app-authors/submission"
                 target="_blank"
                 rel="noreferrer"
               >

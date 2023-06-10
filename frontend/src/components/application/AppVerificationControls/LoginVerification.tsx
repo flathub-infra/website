@@ -172,7 +172,7 @@ const LoginVerification: FunctionComponent<Props> = ({
           . You must claim this account name and use it to verify your app, or
           ideally, choose an app ID that you have control over. See
           <a
-            href="https://docs.flatpak.org/en/latest/conventions.html#application-ids"
+            href="https://docs.flathub.org/docs/for-app-authors/requirements#application-id"
             target="_blank"
             rel="noreferrer"
             className="no-underline hover:underline"
