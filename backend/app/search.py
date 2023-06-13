@@ -40,8 +40,8 @@ client.index("apps").update_filterable_attributes(
 )
 
 
-def create_or_update_apps(apps_to_update):
-    return client.index("apps").update_documents(apps_to_update)
+def create_or_update_apps(apps_to_update: list[dict]):
+    client.index("apps").update_documents(apps_to_update)
 
 
 def delete_apps(app_id_list):
