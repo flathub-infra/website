@@ -25,6 +25,7 @@ from . import (
     schemas,
     search,
     stats,
+    upload_tokens,
     utils,
     vending,
     verification,
@@ -70,6 +71,7 @@ vending.register_to_app(app)
 verification.register_to_app(app)
 purchases.register_to_app(app)
 invites.register_to_app(app)
+upload_tokens.register_to_app(app)
 
 compat.register_to_app(app)
 

@@ -815,6 +815,28 @@ class DirectUploadAppInvite(Base):
         )
 
 
+class UploadToken(Base):
+    __tablename__ = "uploadtoken"
+
+    id = mapped_column(Integer, primary_key=True)
+    comment = mapped_column(String, nullable=False)
+
+    app_id = mapped_column(String, nullable=False)
+    scopes = mapped_column(String, nullable=False)
+    repos = mapped_column(String, nullable=False)
+
+    issued_at = mapped_column(DateTime, nullable=False)
+    issued_to = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=True, index=True
+    )
+    expires_at = mapped_column(DateTime, nullable=False)
+    revoked = mapped_column(Boolean, nullable=False, default=False)
+
+    @staticmethod
+    def by_id(db, token_id: int) -> Optional["UploadToken"]:
+        return db.session.query(UploadToken).filter_by(id=token_id).first()
+
+
 # Wallet related content
 
 

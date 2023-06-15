@@ -154,5 +154,16 @@
     "data": {
       "username": "Test User"
     }
+  },
+  "new_upload_token": {
+    "category": "new_upload_token",
+    "data": {
+      "comment": "Upload token for org.flatpak.Hello",
+      "issued_to": "Test User",
+      "scopes": ["build", "upload", "publish"],
+      "repos": ["stable", "beta"],
+      "expires_at": "31 July 2023",
+      "token_id": "backend_1234"
+    }
   }
 }
