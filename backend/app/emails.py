@@ -26,15 +26,16 @@ template_env = Environment(
 
 
 class EmailCategory(str, Enum):
-    SECURITY_LOGIN = "security_login"
+    BUILD_NOTIFICATION = "build_notification"
     DEVELOPER_INVITE = "developer_invite"
     DEVELOPER_INVITE_ACCEPTED = "developer_invite_accepted"
     DEVELOPER_INVITE_DECLINED = "developer_invite_declined"
     DEVELOPER_LEFT = "developer_left"
-    MODERATION_HELD = "moderation_held"
     MODERATION_APPROVED = "moderation_approved"
+    MODERATION_HELD = "moderation_held"
     MODERATION_REJECTED = "moderation_rejected"
-    BUILD_NOTIFICATION = "build_notification"
+    SECURITY_LOGIN = "security_login"
+    UPLOAD_TOKEN_CREATED = "upload_token_created"
 
 
 class EmailInfo(BaseModel):

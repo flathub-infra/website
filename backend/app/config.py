@@ -60,6 +60,7 @@ class Settings(BaseSettings):
     update_token_secret: str = base64.b64encode(b"update_token_secret").decode()
     # Should match "secret" in flat-manager's config
     flat_manager_build_secret: str | None = base64.b64encode(b"secret").decode()
+    flat_manager_build_token_prefix: str | None = "FLATHUB_TOKEN_"
     # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
     # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
     # when running docker compose.

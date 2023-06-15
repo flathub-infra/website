@@ -29,6 +29,7 @@ services:
       - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
       - APPSTREAM_REPOS=$APPSTREAM_REPOS
       - DATADIR=${DATADIR-/app/data}
+      - FLAT_MANAGER_API=$FLAT_MANAGER_API
     ports:
       - "8000:8000"
     depends_on:
@@ -38,6 +39,9 @@ services:
     volumes:
       - /var/lib/flatpak
       - .:/app:z
+    # We need access to flat-manager
+    extra_hosts:
+      host.docker.internal: host-gateway
 
   worker:
     image: backend_backend:latest
