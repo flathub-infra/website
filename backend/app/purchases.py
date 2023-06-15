@@ -7,7 +7,7 @@ import jwt
 from fastapi import APIRouter, Body, Depends, FastAPI
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
-from gi.repository import AppStream
+from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
 from . import config, logins, models, summary
@@ -64,10 +64,24 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
 
     # Determine whether the app is FOSS
     app_licence = appstream.get("project_license", "")
-    if app_licence and AppStream.license_is_free_license(app_licence):
-        result.is_free_software = True
+    result.is_free_software = app_licence and AppStream.license_is_free_license(
+        app_licence
+    )
 
     return result
+
+
+@router.get("/storefront-info/is-free-software", status_code=200)
+def get_is_free_software(app_id: str, license: str | None = None) -> bool:
+    """
+    Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
+    database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
+    """
+    if is_appid_runtime(app_id):
+        return True
+    if license and AppStream.license_is_free_license(license):
+        return True
+    return False
 
 
 @router.post("/generate-update-token", status_code=200)
