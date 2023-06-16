@@ -1459,6 +1459,11 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@inlang/cli@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@inlang/cli/-/cli-0.10.1.tgz#4224b520d5cb28b03aca6470409b56e6ae7c3a39"
+  integrity sha512-hzosMLQVF87y5Y2SDQZy5bsk2GBLo6XeHrnNXEQDI1IBfvCM7oi3w5sVjCU84BjqBme5N2YWfNkvhYZRQAo0qg==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
