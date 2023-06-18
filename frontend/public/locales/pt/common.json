@@ -195,7 +195,7 @@
   "privacy-policy-description": "Ao usar este site, concorda com a Política de Privacidade.",
   "terms-and-conditions-description": "Ao usar este site, concorda com os Termos e Condições.",
   "contribute-languages": "Todas essas traduções foram contribuídas pela comunidade. Se quiser ajudar a traduzir o Flathub, <1>junte-se à equipa de tradução do Flathub</1>.",
-  "recently-added-apps": "Novas aplicações",
+  "recently-added-apps": "Aplicações adicionadas recentemente",
   "minimum-payment": "Pagamento mínimo",
   "recommended-payment": "Pagamento recomendado",
   "developer-settings": "Configurações do programador",
@@ -324,5 +324,9 @@
   "apps-by-projectgroup": "Aplicações no grupo {{projectgroup}}",
   "moderation-dev-description": "Algumas alterações aos metadados de uma aplicação, como o seu nome ou descrição, têm de ser revistas pela equipa do Flathub. Pode ver o estado dos pedidos de revisão atuais e passados aqui.",
   "apps-by-developer": "Apps de {{developer}}",
-  "runtime-distribution": "Distribuição Runtime"
+  "runtime-distribution": "Distribuição Runtime",
+  "recently-updated": "Atualizado recentemente",
+  "recently-updated-description": "Aplicações atualizadas no Flathub nos últimos dias.",
+  "recently-added": "Adicionado recentemente",
+  "recently-added-description": "Novas aplicações publicadas no Flathub nos últimos dias."
 }

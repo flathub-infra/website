@@ -194,7 +194,7 @@
   "token-creation-placeholder": "在单独的行上输入名称列表，每行将标识一个新的所有权令牌。",
   "terms-and-conditions": "条款和条件",
   "contribute-languages": "所有这些翻译都是由社区贡献的。如果你想帮助翻译Flathub，请<1>加入Flathub翻译团队</1>。",
-  "recently-added-apps": "新的应用",
+  "recently-added-apps": "最近添加的应用",
   "badge-copyright": "在法律允许的范围内，<2>Jakub Steiner</2> 放弃了<5>Flathub Badges</5>的所有版权和相关或邻近的权利。本作品从捷克出版。",
   "less": "少",
   "accepting-payment": "接受付款",
@@ -323,5 +323,10 @@
   "tags-colon": "标签：",
   "apps-by-projectgroup": "{{projectgroup}} 组中的应用",
   "board": "图板",
-  "adventure": "冒险"
+  "adventure": "冒险",
+  "recently-updated": "最近更新",
+  "recently-added": "最近添加",
+  "recently-updated-description": "最近几天在 Flathub 上更新的应用程序。",
+  "recently-added-description": "最近几天在 Flathub 上发布的新应用程序。",
+  "runtime-distribution": "运行时发行版"
 }

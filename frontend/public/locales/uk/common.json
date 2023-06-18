@@ -186,7 +186,7 @@
   "other-apps-by-projectgroup": "Інші застосунки з групи {{projectgroup}}",
   "release-link": "Отримати більше інформації",
   "contribute-languages": "Усі ці переклади надала спільнота. Якщо ви хочете допомогти перекласти Flathub, <1>приєднуйтеся до команди перекладачів Flathub</1>.",
-  "recently-added-apps": "Нові застосунки",
+  "recently-added-apps": "Нещодавно додані застосунки",
   "developer-settings": "Налаштування розробника",
   "minimum-payment": "Мінімальний платіж",
   "unauthorized-to-view": "Ви не маєте прав для перегляду цього вмісту.",
@@ -324,5 +324,9 @@
   "moderation-rejected-by": "Відхилено {{handledBy}} {{handledAt}} ({{handledAtRel}})",
   "flos": "Вільне/відкрите програмне забезпечення",
   "not-verified": "Не підтверджено",
-  "runtime-distribution": "Розподіл середовища виконання"
+  "runtime-distribution": "Розподіл середовища виконання",
+  "recently-updated": "Нещодавно оновлено",
+  "recently-added": "Нещодавно додано",
+  "recently-updated-description": "Застосунки, оновлені на Flathub за останні дні.",
+  "recently-added-description": "Нові застосунки, опубліковані на Flathub за останні дні."
 }
