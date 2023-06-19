@@ -1464,6 +1464,11 @@
   resolved "https://registry.yarnpkg.com/@inlang/cli/-/cli-0.10.1.tgz#4224b520d5cb28b03aca6470409b56e6ae7c3a39"
   integrity sha512-hzosMLQVF87y5Y2SDQZy5bsk2GBLo6XeHrnNXEQDI1IBfvCM7oi3w5sVjCU84BjqBme5N2YWfNkvhYZRQAo0qg==
 
+"@inlang/plugin-i18next@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@inlang/plugin-i18next/-/plugin-i18next-2.2.1.tgz#3d2457773621467a67a7344eb923e69b920287a8"
+  integrity sha512-KrH8oLVC07QZH/1Ysupi89LV9Hmi8ddXDsjJ5cQDZdz+hWcasOxr8GzeUNTqlOuXa8V3q/yM+5Cc4zOf6J5jEA==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"

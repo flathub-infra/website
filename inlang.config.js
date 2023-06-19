@@ -1,6 +1,6 @@
 export async function defineConfig(env) {
     const { default: i18nextPlugin } = await env.$import(
-      "./frontend/inlang.plugin.js"
+      "./frontend/node_modules/@inlang/plugin-i18next/dist/index.js"
     );
     const { default: standardLintRules } = await env.$import(
       "https://cdn.jsdelivr.net/npm/@inlang/plugin-standard-lint-rules@3/dist/index.js"
