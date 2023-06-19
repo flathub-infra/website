@@ -995,8 +995,7 @@ def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
     refresh_repo_list(account.token, account)
     db.session.commit()
 
-    appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
-    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
     return {"dev-flatpaks": sorted(dev_flatpaks)}
 
 
