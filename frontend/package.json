@@ -69,7 +69,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.7",
     "storybook": "^7.0.20",
-    "storybook-react-i18next": "^2.0.1",
+    "storybook-react-i18next": "^2.0.6",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4"
   }
