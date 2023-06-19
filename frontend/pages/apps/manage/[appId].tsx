@@ -103,10 +103,9 @@ export const getStaticProps: GetStaticProps = async ({
   ])
 
   return {
-    notFound: !app,
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      app,
+      app: app ?? { id: appId, name: appId },
       vendingConfig,
     },
     revalidate: 900,
