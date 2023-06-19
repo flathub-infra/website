@@ -23,6 +23,7 @@
     "@headlessui/react": "^1.7.14",
     "@inlang/cli": "^0.10.1",
     "@inlang/plugin-i18next": "^2.2.1",
+    "@inlang/plugin-standard-lint-rules": "^3.0.0",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@sentry/nextjs": "^7.52.1",
     "@stripe/react-stripe-js": "^2.1.0",
