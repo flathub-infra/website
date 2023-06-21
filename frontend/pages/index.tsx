@@ -53,10 +53,10 @@ export default function Home({
         <div className="flex justify-between gap-3">
           <div className="prose dark:prose-invert">
             <h1 className="my-8 text-4xl font-extrabold">
-              {t("apps-for-linux-right-here")}
+              {t("the-linux-app-store")}
             </h1>
             <p className="introduction mb-10 max-w-2xl text-lg font-light">
-              {t("welcome-to-flathub-index-text")}
+              {t("flathub-index-description")}
             </p>
             <div className="flex flex-wrap gap-3">
               <ButtonLink

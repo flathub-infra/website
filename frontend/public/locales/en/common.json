@@ -22,7 +22,6 @@
   "source-code": "Source Code",
   "open-in-new-tab": "Open in new tab",
   "user-avatar": "{{user}}'s avatar",
-  "apps-for-linux-right-here": "Apps for Linux, right here",
   "more": "More",
   "number-of-results": "{{number}} results",
   "installed-size": "Installed Size",
@@ -64,7 +63,6 @@
   "since": "Since",
   "downloads-per-country": "Downloads per Country",
   "downloads-over-time": "Downloads over time",
-  "welcome-to-flathub-index-text": "Welcome to Flathub, the home of hundreds of apps which can be easily installed on any Linux distribution. Browse the apps online, from your app center or the command line.",
   "home": "Home",
   "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy Firefox, Telegram, RetroArch, GIMP and many more!",
   "subscribe": "Subscribe",
@@ -328,5 +326,7 @@
   "flos": "Free/Libre Open Source",
   "not-verified": "Not verified",
   "filters": "Filters",
-  "runtime-distribution": "Runtime Distribution"
+  "runtime-distribution": "Runtime Distribution",
+  "the-linux-app-store": "The Linux App Store",
+  "flathub-index-description": "Get the latest versions of all your favorite apps from Flathub, for any Linux distribution."
 }
