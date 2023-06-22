@@ -154,7 +154,7 @@ const Header = () => {
           <>
             <div className="px-4 sm:px-6 lg:px-8">
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
-                <div className="flex md:absolute md:inset-y-0 md:left-0 lg:static xl:col-span-4">
+                <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <LogoJsonLd
                       logo={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/logo/flathub-logo-toolbar.svg`}
@@ -162,7 +162,7 @@ const Header = () => {
                     />
                     <Link href="/" passHref>
                       <div
-                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:w-fit lg:py-2 lg:pl-3 lg:pr-[14px]"
+                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:w-fit lg:py-2 lg:pe-[14px] lg:ps-3"
                         title={t("go-home")}
                       >
                         <div className="hidden lg:block">
@@ -191,7 +191,7 @@ const Header = () => {
                         {t("search-apps")}
                       </label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-2">
+                        <div className="absolute inset-y-0 start-0 flex items-center ps-2">
                           <button
                             className="rounded-full p-1 hover:bg-flathub-gray-x11/50 dark:hover:bg-flathub-gainsborow/10"
                             aria-hidden="true"
@@ -209,24 +209,23 @@ const Header = () => {
                             value={query}
                             className={clsx(
                               "peer",
-                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 pl-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
+                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
                               "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-gray-500 dark:focus:placeholder-gray-400 dark:focus:outline-none",
                               "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
                               "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
-                              "rtl:pr-12",
-                              "ltr:pr-2",
+                              "pe-2",
                             )}
                             placeholder={t("search-apps")}
                             type="search"
                           />
                           {!query && (
-                            <div className="pointer-events-none absolute inset-y-0 right-0 hidden items-center pr-5 peer-focus:hidden md:flex">
-                              <div
-                                className="flex h-5 w-5 items-center justify-center rounded bg-flathub-gainsborow/90 text-xs text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-gainsborow"
+                            <div className="pointer-events-none absolute inset-y-0 end-0 hidden items-center pe-5 peer-focus:hidden md:flex">
+                              <kbd
+                                className="flex h-5 w-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-arsenic dark:text-flathub-gainsborow"
                                 aria-hidden="true"
                               >
                                 /
-                              </div>
+                              </kbd>
                             </div>
                           )}
                         </form>
@@ -234,7 +233,7 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center md:absolute md:inset-y-0 md:right-0 lg:hidden">
+                <div className="flex items-center md:absolute md:inset-y-0 md:end-0 lg:hidden">
                   {/* Mobile menu button */}
                   <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
                     <span className="sr-only">{t("open-menu")}</span>
@@ -306,7 +305,7 @@ const Header = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
+                        <Menu.Items className="absolute end-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
                           {userNavigation
                             .filter(
                               (nav) =>
@@ -338,7 +337,7 @@ const Header = () => {
                                   active
                                     ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                     : "",
-                                  "block w-full rounded-b-md px-4 py-2 text-left text-sm font-normal text-flathub-dark-gunmetal transition hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
+                                  "block w-full rounded-b-md px-4 py-2 text-start text-sm font-normal text-flathub-dark-gunmetal transition hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
                                 )}
                               >
                                 {t("log-out")}
@@ -461,7 +460,7 @@ const Header = () => {
                             onLogout()
                             close()
                           }}
-                          className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
+                          className="block w-full rounded-md px-3 py-2 text-start text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
                         >
                           {t("log-out")}
                         </button>
