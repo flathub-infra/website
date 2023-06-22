@@ -23,5 +23,5 @@ for container in backend worker; do
     docker compose exec $container flatpak --user update
 done
 
-docker compose exec backend pip install -r dev-requirements.txt
-docker compose exec backend python -m pytest -vvvv tests/main.py
+docker compose exec backend /venv/bin/python -m pip install -r dev-requirements.txt
+docker compose exec backend /venv/bin/python -m pytest -vvvv tests/main.py
