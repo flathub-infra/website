@@ -18,7 +18,6 @@ PyGObject = "^3.44.1"
 watchgod = "^0.8"
 FastAPI-SQLAlchemy = "^0.2.1"
 alembic = "^1.11.1"
-psycopg2-binary = "^2.9.6"
 itsdangerous = "^2.1"
 PyGithub = "^1.58"
 vcrpy = "^4.3.1"
@@ -31,6 +30,7 @@ python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
 sqlalchemy = "2.0.15"
 sentry-dramatiq = "^0.3.3"
+psycopg2 = "^2.9.6"
 
 [tool.poetry.dev-dependencies]
 black = "^23.3"

@@ -2,7 +2,7 @@ FROM debian:testing as builder
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3 python3-dev python3-pip python-is-python3 python3-venv build-essential libcairo2-dev libgirepository1.0-dev \
+        python3 python3-dev python3-pip python-is-python3 python3-venv build-essential libpq-dev libcairo2-dev libgirepository1.0-dev \
         gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
 
 RUN python -m pip install --break-system-packages pipx && \
@@ -22,7 +22,7 @@ EXPOSE 8000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3 python-is-python3 python3-venv ca-certificates libcairo2 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
+        python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
