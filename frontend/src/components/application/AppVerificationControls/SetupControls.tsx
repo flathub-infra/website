@@ -26,14 +26,12 @@ interface Props {
   app: Appstream
 }
 
-const StatusInfo: FunctionComponent<{ status: VerificationStatus }> = ({
-  status,
-}) => {
+const StatusInfo = ({ status }: { status: VerificationStatus }) => {
   const { t } = useTranslation()
 
   switch (status.method) {
     case "none" || !status.verified:
-      return t("app-is-currently-not-verified")
+      return <span>{t("app-is-currently-not-verified")}</span>
     case "login_provider":
       return (
         <Trans i18nKey="app-is-currently-verified-by-login-provider">
@@ -60,7 +58,7 @@ const StatusInfo: FunctionComponent<{ status: VerificationStatus }> = ({
         </Trans>
       )
     case "manual":
-      return t("app-is-currently-verified-manually")
+      return <span>{t("app-is-currently-verified-manually")}</span>
   }
 }
 
