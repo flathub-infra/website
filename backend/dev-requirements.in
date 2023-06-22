@@ -1,0 +1,6 @@
+-c requirements.txt
+vcrpy
+black
+pytest
+ruff
+httpx
