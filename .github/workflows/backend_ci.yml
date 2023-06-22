@@ -36,10 +36,10 @@ jobs:
           pip install -r dev-requirements.txt
 
       - name: Check code formatting with black
-        run: poetry run black --check app
+        run: black --check app
 
       - name: Check for code errors
-        run: poetry run ruff .
+        run: ruff .
 
   smoketests:
     runs-on: ubuntu-latest
