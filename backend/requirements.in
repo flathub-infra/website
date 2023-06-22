@@ -17,5 +17,5 @@ sentry-dramatiq
 sentry-sdk
 sqlalchemy
 stripe
-unicorn
+uvicorn
 watchgod
