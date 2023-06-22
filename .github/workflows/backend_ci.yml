@@ -26,28 +26,16 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
+          cache: 'pip'
 
-      - name: Setup Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-
-      - uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends build-essential libcairo2-dev libgirepository1.0-dev gir1.2-ostree-1.0
-          poetry install
+      - run: |
+        pip install -r requirements.txt dev-requirements.txt
 
       - name: Check code formatting with black
-        run: poetry run black --check app
+        run: black --check app
 
       - name: Check for code errors
-        run: poetry run ruff .
+        run: ruff .
 
   smoketests:
     runs-on: ubuntu-latest
