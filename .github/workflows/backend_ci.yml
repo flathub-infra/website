@@ -28,14 +28,17 @@ jobs:
           python-version: "3.11"
           cache: 'pip'
 
-      - run: |
-        pip install -r requirements.txt dev-requirements.txt
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential libcairo2-dev libgirepository1.0-dev gir1.2-ostree-1.0
+          pip install -r requirements.txt dev-requirements.txt
 
       - name: Check code formatting with black
-        run: black --check app
+        run: poetry run black --check app
 
       - name: Check for code errors
-        run: ruff .
+        run: poetry run ruff .
 
   smoketests:
     runs-on: ubuntu-latest
