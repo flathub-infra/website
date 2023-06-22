@@ -109,11 +109,9 @@ After these changes, it's possible that the endpoint will need an update. To do 
 curl -X POST localhost:8000/update
 ```
 
-## Poetry changes
+## Dependency changes
 
-If there's an update in `pyproject.toml` and `poetry.lock`, this means the dependencies have changed and the container needs to be rebuilt.
-
-To do this, you run:
+If one of requirement files has been modified, the container needs to be rebuilt:
 
 ```bash
 docker-compose up --build
