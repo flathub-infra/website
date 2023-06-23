@@ -13,6 +13,7 @@ import Tabs from "src/components/Tabs"
 import VendingLink from "src/components/user/VendingLink"
 import { useUserContext } from "src/context/user-info"
 import { useRouter } from "next/router"
+import ButtonLink from "src/components/ButtonLink"
 
 export default function Userpage({
   providers,
@@ -40,6 +41,11 @@ export default function Userpage({
         <>
           <div className="space-y-12">
             <UserApps variant="dev" />
+
+            <ButtonLink passHref href="/apps/new">
+              {t("new-app")}
+            </ButtonLink>
+
             {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
               <div className="mx-2 my-auto">
                 <h3 className="my-4 text-xl font-semibold">

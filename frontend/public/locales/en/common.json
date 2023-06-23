@@ -335,5 +335,18 @@
   "no-results-found": "No results found",
   "desktop-application": "Desktop Application",
   "console-application": "Console Application",
-  "app-type": "App Type"
+  "app-type": "App Type",
+  "new-app": "New App",
+  "community-repository": "Community Repository",
+  "community-repository-description": "Upload your app to Flathub by uploading your Flatpak manifest and supporting files to a repository in our GitHub organization. Flathub's buildbot will build the app and publish it to Flathub.",
+  "new-community-repository": "New Community Repository App",
+  "direct-upload": "Direct Upload",
+  "direct-upload-description": "Build your app in your own continuous integration environment and upload it directly to Flathub.",
+  "new-direct-upload": "New Direct Upload App",
+  "register-new-app": "Register New App",
+  "verify-app-id": "Verify App ID",
+  "app-id": "App ID",
+  "app-id-instructions": "App IDs use reverse domain name notation (RDNN). For example, GNOME Maps uses 'org.gnome.Maps'. Pick a domain you have control over, such as the project's website (or, if you're uploading as an individual, your own website). If no website is available, you can also use a domain associated with a source code hosting account, such as 'io.github.<your_username>.<app_name>'.",
+  "app-already-exists": "An app with this ID already exists.",
+  "malformed-app-id": "The app ID is malformed. App IDs must contain at least three segments, and no segment may be empty. Each segment must start with a letter or underscore and may only contain letters, digits, underscores, and hyphens."
 }

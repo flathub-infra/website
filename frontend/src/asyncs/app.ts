@@ -48,12 +48,18 @@ export async function generateUpdateToken() {
 /**
  * Tries to verify the given appId with social login.
  */
-export async function verifyApp(appId: string): Promise<{ detail: string }> {
+export async function verifyApp(
+  appId: string,
+  isNewApp: boolean,
+): Promise<{ detail: string }> {
   try {
-    let res = await fetch(APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER(appId), {
-      method: "POST",
-      credentials: "include",
-    })
+    let res = await fetch(
+      APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER(appId, isNewApp),
+      {
+        method: "POST",
+        credentials: "include",
+      },
+    )
 
     return await res.json()
   } catch {
@@ -66,9 +72,10 @@ export async function verifyApp(appId: string): Promise<{ detail: string }> {
  */
 export async function setupWebsiteVerification(
   appId: string,
+  isNewApp: boolean,
 ): Promise<{ token?: string; detail?: string }> {
   try {
-    let res = await fetch(APP_VERIFICATION_SETUP_WEBSITE(appId), {
+    let res = await fetch(APP_VERIFICATION_SETUP_WEBSITE(appId, isNewApp), {
       method: "POST",
       credentials: "include",
     })
@@ -90,9 +97,10 @@ export interface WebsiteVerificationConfirmResult {
  */
 export async function confirmWebsiteVerification(
   appId: string,
+  isNewApp: boolean,
 ): Promise<WebsiteVerificationConfirmResult> {
   try {
-    let res = await fetch(APP_VERIFICATION_CONFIRM_WEBSITE(appId), {
+    let res = await fetch(APP_VERIFICATION_CONFIRM_WEBSITE(appId, isNewApp), {
       method: "POST",
       credentials: "include",
     })

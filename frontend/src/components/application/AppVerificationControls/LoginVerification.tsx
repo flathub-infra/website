@@ -18,6 +18,7 @@ import Spinner from "src/components/Spinner"
 interface Props {
   appId: string
   method: VerificationMethodLoginProvider
+  isNewApp: boolean
   onVerified: () => void
   onReloadNeeded: () => void
 }
@@ -25,6 +26,7 @@ interface Props {
 const LoginVerification: FunctionComponent<Props> = ({
   appId,
   method,
+  isNewApp,
   onVerified,
   onReloadNeeded,
 }) => {
@@ -47,8 +49,8 @@ const LoginVerification: FunctionComponent<Props> = ({
     useCallback(async () => {
       setError("")
 
-      const result = await verifyApp(appId)
-      if (result.detail) {
+      const result = await verifyApp(appId, isNewApp ?? false)
+      if (result?.detail) {
         switch (result.detail) {
           case "user_does_not_exist":
           case "provider_denied_access":
@@ -64,7 +66,7 @@ const LoginVerification: FunctionComponent<Props> = ({
       } else {
         onVerified()
       }
-    }, [appId, onReloadNeeded, onVerified, t]),
+    }, [appId, onReloadNeeded, onVerified, t, isNewApp]),
     false,
   )
 
@@ -151,11 +153,7 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   switch (method.login_status) {
     case "ready":
-      content = (
-        <Button onClick={() => verifyApp(appId).then(() => onVerified())}>
-          {t("verify-app")}
-        </Button>
-      )
+      content = <Button onClick={verify}>{t("verify-app")}</Button>
       break
 
     case "user_does_not_exist":
