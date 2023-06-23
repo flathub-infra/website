@@ -600,6 +600,16 @@ def _check_login_provider_verification(appid: str, login) -> AvailableMethod:
         raise HTTPException(status_code=500)
 
 
+def _create_direct_upload_app(user: models.FlathubUser, appid: str):
+    direct_upload_app = models.DirectUploadApp(app_id=appid)
+    sqldb.session.add(direct_upload_app)
+    sqldb.session.flush()
+    app_developer = models.DirectUploadAppDeveloper(
+        app_id=direct_upload_app.id, developer_id=user.id, is_primary=True
+    )
+    sqldb.session.add(app_developer)
+
+
 @router.post("/{appid}/verify-by-login-provider", status_code=200)
 def verify_by_login_provider(appid: str, login=Depends(login_state)):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
