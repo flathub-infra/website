@@ -405,11 +405,12 @@ export async function fetchVerificationStatus(
 
 export async function fetchVerificationAvailableMethods(
   appId: string,
+  isNewApp: boolean,
 ): Promise<VerificationAvailableMethods | undefined> {
   let verificationMethods: VerificationAvailableMethods
   try {
     const verificationResponse = await fetch(
-      `${APP_VERIFICATION_AVAILABLE_METHODS(appId)}`,
+      `${APP_VERIFICATION_AVAILABLE_METHODS(appId, isNewApp ?? false)}`,
       { credentials: "include" },
     )
     verificationMethods = await verificationResponse.json()

@@ -21,9 +21,12 @@ import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
+import InlineError from "src/components/InlineError"
 
 interface Props {
   app: Appstream
+  isNewApp?: boolean
+  onVerified?: () => void
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
@@ -62,7 +65,11 @@ const StatusInfo = ({ status }: { status: VerificationStatus }) => {
   }
 }
 
-const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
+const AppVerificationSetup: FunctionComponent<Props> = ({
+  app,
+  isNewApp,
+  onVerified,
+}) => {
   const { t } = useTranslation()
 
   const [verificationMethods, setVerificationMethods] =
@@ -82,7 +89,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
       setVerificationStatus(fetchStatus)
 
       if (!fetchStatus?.verified) {
-        const fetch = await fetchVerificationAvailableMethods(app.id)
+        const fetch = await fetchVerificationAvailableMethods(app.id, isNewApp)
         setVerificationMethods(fetch)
       } else {
         setVerificationMethods(null)
@@ -93,7 +100,12 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
       setStatus("error")
       setError(err)
     }
-  }, [app.id])
+  }, [app.id, isNewApp])
+
+  const onChildVerified = useCallback(() => {
+    doFetch()
+    onVerified?.()
+  }, [doFetch, onVerified])
 
   useEffect(() => {
     doFetch()
@@ -104,42 +116,49 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
   }
 
   let content: ReactElement
-  if (error || verificationMethods?.detail) {
-    content = (
-      <>
-        <p>{t("error")}</p>
-        {error && <p>{error}</p>}
-        {verificationMethods?.detail && (
-          <span className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-            {t("error-code", { code: verificationMethods.detail })}
-          </span>
-        )}
-      </>
-    )
+  if (error) {
+    content = <InlineError shown={true} error={error} />
+  } else if (verificationMethods?.detail) {
+    let errorCode: string
+    switch (verificationMethods.detail) {
+      case "app_already_exists":
+        errorCode = t("app-already-exists")
+        break
+      case "malformed_app_id":
+        errorCode = t("malformed-app-id")
+        break
+      default:
+        errorCode = t("error-code", { code: verificationMethods.detail })
+    }
+    content = <InlineError shown={true} error={errorCode} />
   } else if (verificationStatus?.verified) {
-    content = (
-      <div className="space-y-3">
-        <StatusInfo status={verificationStatus} />
+    if (isNewApp) {
+      content = <InlineError shown={true} error={t("app-already-exists")} />
+    } else {
+      content = (
+        <div className="space-y-3">
+          <StatusInfo status={verificationStatus} />
 
-        <br />
+          <br />
 
-        <Button onClick={() => setConfirmUnverify(true)}>
-          {t("unverify")}
-        </Button>
+          <Button onClick={() => setConfirmUnverify(true)}>
+            {t("unverify")}
+          </Button>
 
-        <ConfirmDialog
-          isVisible={confirmUnverify}
-          prompt={t("unverify-app-prompt", { appId: app.id })}
-          action={t("unverify")}
-          actionVariant="destructive"
-          onConfirmed={() => {
-            setConfirmUnverify(false)
-            unverifyApp(app.id).then(doFetch)
-          }}
-          onCancelled={() => setConfirmUnverify(false)}
-        />
-      </div>
-    )
+          <ConfirmDialog
+            isVisible={confirmUnverify}
+            prompt={t("unverify-app-prompt", { appId: app.id })}
+            action={t("unverify")}
+            actionVariant="destructive"
+            onConfirmed={() => {
+              setConfirmUnverify(false)
+              unverifyApp(app.id).then(doFetch)
+            }}
+            onCancelled={() => setConfirmUnverify(false)}
+          />
+        </div>
+      )
+    }
   } else {
     content = (
       <div className="space-y-3">
@@ -155,7 +174,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
                 key={methodType.method}
                 appId={app.id}
                 method={methodType}
-                onVerified={doFetch}
+                isNewApp={isNewApp}
+                onVerified={onChildVerified}
               ></WebsiteVerification>
             )
           }
@@ -165,7 +185,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({ app }) => {
                 key={methodType.method}
                 appId={app.id}
                 method={methodType}
-                onVerified={doFetch}
+                isNewApp={isNewApp}
+                onVerified={onChildVerified}
                 onReloadNeeded={doFetch}
               ></LoginVerification>
             )

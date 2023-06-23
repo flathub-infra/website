@@ -15,12 +15,14 @@ import { FlathubDisclosure } from "../../Disclosure"
 interface Props {
   appId: string
   method: VerificationMethodWebsite
+  isNewApp: boolean
   onVerified: () => void
 }
 
 const WebsiteVerification: FunctionComponent<Props> = ({
   appId,
   method,
+  isNewApp,
   onVerified,
 }) => {
   const { t } = useTranslation()
@@ -31,21 +33,21 @@ const WebsiteVerification: FunctionComponent<Props> = ({
 
   const { execute: setup, status: setupStatus } = useAsync(
     useCallback(async () => {
-      const result = await setupWebsiteVerification(appId)
+      const result = await setupWebsiteVerification(appId, isNewApp)
       setReturnedToken(result.token)
-    }, [appId, setReturnedToken]),
+    }, [appId, setReturnedToken, isNewApp]),
     false,
   )
 
   const { execute: verifyApp, status: verifyAppStatus } = useAsync(
     useCallback(async () => {
-      const result = await confirmWebsiteVerification(appId)
+      const result = await confirmWebsiteVerification(appId, isNewApp)
       if (result.verified) {
         onVerified()
       } else {
         setConfirmResult(result)
       }
-    }, [appId, onVerified, setConfirmResult]),
+    }, [appId, onVerified, setConfirmResult, isNewApp]),
     false,
   )
 
