@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from uuid import uuid4
 
+from fastapi import HTTPException
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
@@ -535,6 +536,70 @@ class AppVerification(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(AppVerification)
+
+
+class DirectUploadApp(Base):
+    __tablename__ = "directuploadapp"
+
+    id = Column(Integer, primary_key=True)
+    app_id = Column(String, nullable=False, unique=True, index=True)
+
+    @staticmethod
+    def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:
+        return db.session.query(DirectUploadApp).filter_by(app_id=app_id).first()
+
+
+class DirectUploadAppDeveloper(Base):
+    __tablename__ = "directuploadappdeveloper"
+
+    id = Column(Integer, primary_key=True)
+    app_id = Column(Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True)
+    developer_id = Column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    is_primary = Column(Boolean, nullable=False)
+
+    __table_args__ = (
+        Index(
+            "direct_upload_app_developer_unique", "app_id", "developer_id", unique=True
+        ),
+        Index(
+            "direct_upload_app_only_one_primary",
+            "app_id",
+            postgresql_where=Column("is_primary"),
+            unique=True,
+        ),
+    )
+
+    @staticmethod
+    def all_by_developer(
+        db, developer: FlathubUser
+    ) -> list["DirectUploadAppDeveloper"]:
+        return db.session.query(DirectUploadAppDeveloper).filter_by(
+            developer_id=developer.id
+        )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """
+        If you are the primary developer of a backend app, you may not delete your account.
+        """
+        apps = DirectUploadAppDeveloper.all_by_developer(db, user).filter_by(
+            is_primary=True
+        )
+        if apps.count() > 0:
+            raise HTTPException(status_code=403, detail="cannot_abandon_app")
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            delete(DirectUploadAppDeveloper).where(
+                DirectUploadAppDeveloper.developer_id == user.id
+            )
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(DirectUploadAppDeveloper)
 
 
 # Wallet related content
