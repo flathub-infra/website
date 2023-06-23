@@ -1,6 +1,7 @@
 import { ParsedUrlQuery } from "querystring"
 import { Dispatch } from "react"
 import {
+  ACCEPT_PUBLISHER_AGREEMENT_URL,
   LOGIN_PROVIDERS_URL,
   LOGOUT_URL,
   USER_DELETION_URL,
@@ -156,5 +157,25 @@ export async function deleteAccount(
     }[data.error]
 
     throw msg ?? "network-error-try-again"
+  }
+}
+
+export async function acceptPublisherAgreement(
+  dispatch: Dispatch<UserStateAction>,
+) {
+  let res: Response
+  try {
+    res = await fetch(ACCEPT_PUBLISHER_AGREEMENT_URL, {
+      method: "POST",
+      credentials: "include",
+    })
+  } catch {
+    throw "network-error-try-again"
+  }
+
+  if (res.ok) {
+    await getUserData(dispatch)
+  } else {
+    throw "network-error-try-again"
   }
 }

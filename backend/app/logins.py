@@ -20,6 +20,7 @@ from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
 from gitlab import Gitlab
 from pydantic import BaseModel
+from sqlalchemy import func
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import config, models, worker
@@ -910,6 +911,7 @@ def get_userinfo(login=Depends(login_state)):
         "displayname": "Mx Human Person",
         "dev-flatpaks": [ "org.people.human.Appname" ],
         "owned-flatpaks": [ "org.foo.bar.Appname" ],
+        "accepted-publisher-agreement-at": "2023-06-23T20:38:28.553028"
     }
     ```
 
@@ -927,6 +929,7 @@ def get_userinfo(login=Depends(login_state)):
         "displayname": user.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
+        "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
     }
     ret["auths"] = {}
 
@@ -1064,6 +1067,15 @@ def do_deleteuser(
         return JSONResponse(ret, status_code=400)
 
     return ret
+
+
+@router.post("/accept-publisher-agreement")
+def do_agree_to_publisher_agreement(login=Depends(login_state)):
+    if not login["state"].logged_in():
+        return Response(status_code=403)
+
+    login["user"].accepted_publisher_agreement_at = func.now()
+    db.session.commit()
 
 
 def register_to_app(app: FastAPI):
