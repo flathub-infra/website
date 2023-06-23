@@ -53,6 +53,8 @@ class ErrorDetail(str, Enum):
     MUST_SET_UP_FIRST = "must_set_up_first"
     # The app can't be verified as a new app because it already exists in github.org/flathub
     APP_ALREADY_EXISTS = "app_already_exists"
+    # The user has not agreed to the publisher agreement
+    MUST_ACCEPT_PUBLISHER_AGREEMENT = "must_accept_publisher_agreement"
 
 
 # Utility functions
@@ -306,6 +308,11 @@ def _check_app_id(appid: str, new_app: bool, login):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
     if new_app:
+        if login["user"].accepted_publisher_agreement_at is None:
+            raise HTTPException(
+                status_code=403, detail=ErrorDetail.MUST_ACCEPT_PUBLISHER_AGREEMENT
+            )
+
         if models.DirectUploadApp.by_app_id(sqldb, appid) is not None:
             raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
 

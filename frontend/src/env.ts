@@ -101,6 +101,7 @@ export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
 export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 export const CHECK_PURCHASES_URL: string = `${BASE_URI}/purchases/check-purchases`
 export const TOKEN_GENERATION_URL: string = `${BASE_URI}/purchases/generate-update-token`
+export const ACCEPT_PUBLISHER_AGREEMENT_URL: string = `${BASE_URI}/auth/accept-publisher-agreement`
 
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
 export const REMOVE_CARD_URL: string = `${WALLET_BASE_URL}/removecard`

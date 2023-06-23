@@ -31,6 +31,8 @@ class FlathubUser(Base):
     display_name = Column(String)
     deleted = Column(Boolean, nullable=False, default=False)
     is_moderator = Column(Boolean, nullable=False, server_default=text("false"))
+    accepted_publisher_agreement_at = Column(DateTime, nullable=True, default=None)
+
     TABLES_FOR_DELETE = []
 
     @staticmethod
