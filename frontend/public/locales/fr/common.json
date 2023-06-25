@@ -17,7 +17,6 @@
   "source-code": "Code source",
   "open-in-new-tab": "Ouvrir dans un nouvel onglet",
   "user-avatar": "Avatar de {{user}}",
-  "apps-for-linux-right-here": "Applis pour Linux, ici même",
   "more": "Plus",
   "number-of-results": "{{number}} résultats",
   "installed-size": "Taille installée",
@@ -50,7 +49,6 @@
   "since": "Depuis",
   "downloads-per-country": "Téléchargements par pays",
   "downloads-over-time": "Téléchargements au fil du temps",
-  "welcome-to-flathub-index-text": "Bienvenue sur Flathub, le site de centaines d’applis qui peuvent être facilement installées sur n’importe quelle distribution Linux. Parcourez les applis en ligne, à partir de votre centre d’applis ou de la ligne de commande.",
   "home": "Accueil",
   "flathub-description": "Trouvez et installez des centaines d’applis et de jeux pour Linux. Profitez de Firefox, Telegram, RetroArch, GIMP et bien d’autres !",
   "subscribe": "S’abonner",
@@ -328,5 +326,7 @@
   "recently-updated-description": "Logiciels mis à jour sur Flathub au cours des derniers jours.",
   "verification-warning": "L'équipe de Flathub peut retirer le badge de vérification d'une application à sa seule discrétion, par exemple s'il risque d'induire les gens en erreur quant au statut officiel de l'application ou de créer une confusion au sujet d'une marque déposée.",
   "login-provider-verification-main-instruction-organization": "Vérifiez que vous avez le droit d'utiliser l'identifiant de l'application <1>{{id}}</1> en vous connectant à un compte disposant de droits d'administrateur sur l'organisation <3>@{{login_name}}</3> sur <5>{{login_provider}}</5>.",
-  "runtime-distribution": "Distribution de la durée d'exécution"
+  "runtime-distribution": "Distribution de la durée d'exécution",
+  "the-linux-app-store": "Le magasin d'applications Linux",
+  "flathub-index-description": "Obtenez les dernières versions de toutes vos applications préférées sur Flathub, pour n'importe quelle distribution Linux."
 }

@@ -13,7 +13,6 @@
   "source-code": "Fontkodo",
   "user-avatar": "Avataro de {{user}}",
   "more": "Pli",
-  "apps-for-linux-right-here": "Programoj por Linux, ĝuste ĉi tie",
   "license": "Licenco",
   "number-of-results": "{{number}} rezultoj",
   "installed-size": "Instalita grando",
@@ -41,7 +40,6 @@
   "loading-user-apps": "Ŝargante programojn de uzanto…",
   "count-downloads": "Nombro de elŝutoj",
   "since": "Ekde",
-  "welcome-to-flathub-index-text": "Bonvenon al Flathub, la hejmo de centoj da programoj facile instaleblaj sur ajna Linux-distribuaĵo. Foliumu la programojn Interrete, ĉe via programvendejo aŭ per la terminalo.",
   "downloads-per-country": "Elŝutoj en lando",
   "downloads-over-time": "Elŝutoj tra tempo",
   "rss-feeds-description": "Vi nun povas aboni niajn RSS-fluojn por ricevi la plej novajn Flathub-bonaĵojn en via abonilo!",
@@ -328,5 +326,7 @@
   "recently-updated": "Ĵus ĝisdatigitaj",
   "recently-updated-description": "Programoj ĝisdatigitaj ĉe Flathub lastatempe.",
   "recently-added-description": "Programoj nove eldonitaj ĉe Flathub lastatempe.",
-  "recently-added": "Ĵus eldonitaj"
+  "recently-added": "Ĵus eldonitaj",
+  "flathub-index-description": "Akiru el Flathub la plej novajn versiojn de ĉiuj viaj ŝatataj programoj, por iu ajn Linux-distribuo.",
+  "the-linux-app-store": "La Programvendejo por Linux"
 }

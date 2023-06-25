@@ -34,7 +34,6 @@
   "source-code": "Código-fonte",
   "open-in-new-tab": "Abrir novo separador",
   "user-avatar": "Avatar do(a) {{user}}",
-  "apps-for-linux-right-here": "Aplicações para Linux, aqui mesmo",
   "more": "Mais",
   "number-of-results": "{{number}} resultados",
   "installed-size": "Tamanho instalado",
@@ -74,7 +73,6 @@
   "since": "Desde",
   "downloads-per-country": "Descargas por país",
   "downloads-over-time": "Descargas ao longo do tempo",
-  "welcome-to-flathub-index-text": "Bem-vindo ao Flathub, o lar de centenas de aplicações que podem ser facilmente instaladas em qualquer distribuição Linux. Navegue pelas aplicações online, a partir do seu centro de aplicações ou da linha de comandos.",
   "home": "Página Inicial",
   "flathub-description": "Encontre e instale centenas de aplicações e jogos para Linux. Desfrute do Firefox, Telegram, RetroArch, GIMP e muito mais!",
   "subscribe": "Inscrever-se",
@@ -328,5 +326,7 @@
   "recently-updated": "Atualizado recentemente",
   "recently-updated-description": "Aplicações atualizadas no Flathub nos últimos dias.",
   "recently-added": "Adicionado recentemente",
-  "recently-added-description": "Novas aplicações publicadas no Flathub nos últimos dias."
+  "recently-added-description": "Novas aplicações publicadas no Flathub nos últimos dias.",
+  "the-linux-app-store": "A loja de aplicações Linux",
+  "flathub-index-description": "Obtenha as versões mais recentes de todas as suas aplicações favoritas a partir do Flathub, para qualquer distribuição Linux."
 }

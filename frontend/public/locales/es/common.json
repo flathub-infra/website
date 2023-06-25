@@ -12,7 +12,6 @@
   "number-of-results": "{{number}} resultados",
   "installs": "Instalaciones",
   "flathub-statistics": "Estadísticas de Flathub",
-  "welcome-to-flathub-index-text": "Le damos la bienvenida a Flathub, el hogar de cientos de aplicaciones que se pueden instalar fácilmente en cualquier distribución de Linux. Explore las aplicaciones en línea, desde su centro de aplicaciones o desde la línea de comandos.",
   "graphics-and-photography": "Gráficos y fotografía",
   "submitting-apps-block": "<0>Los desarrolladores de aplicaciones pueden <2>enviar sus aplicaciones</2> para que se distribuyan a la creciente base de usuarios de Flathub, proporcionando así una puerta de enlace única a todo el ecosistema de escritorio de Linux.</0><p>Por el momento, las aplicaciones deben ser legalmente redistribuible o estar disponible como descarga de un tercero. Sin embargo, si eres un desarrollador de aplicaciones propietario y estás interesado en usar Flathub, nos encantaría hablar contigo.</p>",
   "languages-summary": "Elija el idioma en el que desea ver el sitio web.",
@@ -30,7 +29,6 @@
   "source-code": "Código fuente",
   "open-in-new-tab": "Abrir en una pestaña nueva",
   "user-avatar": "Avatar de {{user}}",
-  "apps-for-linux-right-here": "Aplicaciones para Linux, justo aquí",
   "more": "Más",
   "installed-size": "Tamaño instalado",
   "download-size": "Tamaño de la descarga",
@@ -119,7 +117,7 @@
   "failed-to-load-refresh": "El recurso no se ha podido cargar. Intente recargando.",
   "user-wallet": "Cartera del usuario",
   "donate-to": "Donar a {{project}}",
-  "checkout": "Pago",
+  "checkout": "Pedido",
   "confirm-selection": "Confirmar selección",
   "kind-purchase": "Comprar",
   "payment-summary": "Resumen de los pagos",
@@ -161,7 +159,7 @@
   "entry-confirmation-prompt": "Introduzca \"{{text}}\" para continuar.",
   "delete-account-entry": "Deseo eliminar mi cuenta",
   "loading-saved-payment-methods": "Cargando métodos de pago guardados…",
-  "payment": "Pago",
+  "payment": "Formas de pago",
   "make-donation": "Hacer donación",
   "no-saved-payment-methods": "No hay métodos de pago guardados para mostrar.",
   "remove-saved-card": "Eliminar la tarjeta guardada",
@@ -328,5 +326,7 @@
   "recently-updated": "Actualizado recientemente",
   "recently-added": "Añadido recientemente",
   "recently-updated-description": "Aplicaciones actualizadas en Flathub en los últimos días.",
-  "recently-added-description": "Nuevas aplicaciones publicadas en Flathub en los últimos días."
+  "recently-added-description": "Nuevas aplicaciones publicadas en Flathub en los últimos días.",
+  "the-linux-app-store": "La tienda de aplicaciones de Linux",
+  "flathub-index-description": "Obtén las últimas versiones de todas tus aplicaciones favoritas de Flathub, para cualquier distribución de Linux."
 }
