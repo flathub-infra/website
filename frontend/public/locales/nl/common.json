@@ -26,7 +26,6 @@
   "user-page": "Gebruikers­pagina",
   "user-wallet": "Gebruikers­portemonnee",
   "flathub-statistics": "Flathub-satistieken",
-  "welcome-to-flathub-index-text": "Welkom op Flathub, de thuisbasis van honderden apps welke gemakkelijk kunnen worden geïnstalleerd op elke Linux-distributie. Blader door de apps online, vanuit uw app-winkel, of via de opdrachtregel.",
   "home": "Start",
   "subscribe": "Abonneren",
   "server-error": "Serverfout",
@@ -129,7 +128,7 @@
   "help": "Hulp",
   "license": "Licentie",
   "contribute-translations": "Helpen met vertalen",
-  "vcs_browser": "Broncode",
+  "vcs_browser": "Broncode verkennen",
   "report-an-issue": "Probleem melden",
   "login": "Inloggen",
   "run": "Uitvoeren",
@@ -203,7 +202,6 @@
   "x-downloads": "{{x}} downloads",
   "website-verification-instruction": "Maak een pagina op <1>{{webpage}}</1> welke de volgende tokens bevat: <3>{{token}}</3> Als de pagina al bestaat, voeg de token er dan aan toe.",
   "website-verification-main-instruction": "Verifieer dat u het recht heeft om app-ID <1>{{id}}</1> te gebruiken door het plaatsten van een token op een specifieke pagina van <3>{{domain}}</3>.",
-  "apps-for-linux-right-here": "Apps voor Linux, centraal",
   "proprietary": "Propriëtair",
   "official-badges": "Officiële Flathub-badges",
   "badges-block": "U kunt deze badges gebruiken om uw app te promoten op Flathub",
@@ -328,5 +326,7 @@
   "recently-updated-description": "Bijgewerkte apps op Flathub in de afgelopen dagen",
   "recently-updated": "Onlangs bijgewerkt",
   "recently-added-description": "Nieuw gepubliceerde apps op Flathub in de afgelopen dagen",
-  "recently-added": "Onlangs toegevoegd"
+  "recently-added": "Onlangs toegevoegd",
+  "the-linux-app-store": "De app-store voor Linux",
+  "flathub-index-description": "Download de nieuwste versies van al uw favoriete apps via Flathub, voor elke Linux-distributie."
 }

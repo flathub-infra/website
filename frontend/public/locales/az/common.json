@@ -78,7 +78,6 @@
   "loading-user-apps": "İstifadəçi tətbiqləri yüklənir…",
   "source-code": "Mənbə kodu",
   "user-avatar": "{{user}} istifadəçisinin avatarı",
-  "apps-for-linux-right-here": "Linux üçün tətbiqlər, burada",
   "contribute": "Tətbiqə töhfə verin",
   "open-in-new-tab": "Yeni tabda açın",
   "contact": "Əlaqə",
@@ -113,7 +112,6 @@
   "since": "ildən bəri",
   "downloads-per-country": "Ölkə Üzrə Yükləmə Sayı",
   "downloads-over-time": "Zamana Görə Yükləmə Sayı",
-  "welcome-to-flathub-index-text": "İstənilən Linux paylamasında asanlıqla quraşdırıla bilən yüzlərlə proqramın evi olan Flathub-a xoş gəlmisiniz. Tətbiq mərkəzinizdən və ya komanda xəttindən onlayn tetbiqlərə göz atın.",
   "home": "Əsas səhifə",
   "subscribe": "Abunə Ol",
   "server-error": "Server Xətası",
@@ -328,5 +326,7 @@
   "recently-updated-description": "Tətbiqlər son günlərdə Flathub-da yeniləndi.",
   "recently-added-description": "Son günlərdə Flathub-da yayımlanan yeni tətbiqlər.",
   "recently-added": "Bu yaxınlarda əlavə edildi",
-  "recently-updated": "Bu yaxınlarda yeniləndi"
+  "recently-updated": "Bu yaxınlarda yeniləndi",
+  "the-linux-app-store": "Linux Tətbiq Mağazası",
+  "flathub-index-description": "İstənilən Linux paylanması üçün Flathub-dan bütün sevimli tətbiqlərinin ən son versiyalarını əldə edin."
 }

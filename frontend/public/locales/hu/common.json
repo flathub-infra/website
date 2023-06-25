@@ -57,12 +57,10 @@
   "submitting-apps": "Alkalmazások beküldése",
   "vcs_browser": "Forráskód böngészése",
   "about-description": "A Flathub célja, hogy a Linux-alkalmazások beszerzésének és terjesztésének helye legyen. A Flatpak hajtja, amely lehetővé teszi, hogy a Flathub-alkalmazások szinte bármilyen Linux disztribúción futhassanak.",
-  "apps-for-linux-right-here": "Alkalmazások Linuxra, pontosan itt",
   "number-of-results": "{{number}} találat",
   "manual-install": "Kézi telepítés",
   "copy-text": "Szöveg másolása",
   "run": "Futtatás",
-  "welcome-to-flathub-index-text": "Üdvözöljük a Flathub-on, számos olyan alkalmazás otthonában, amelyek könnyen telepíthetők bármely Linux disztribúcióra. Böngésszen az alkalmazások között online, az alkalmazásközpontjából vagy a terminálból.",
   "retry-or-go-home": "Érdemes lehet újra megpróbálni, vagy visszamenni a <2>Kezdőlap</2>ra.",
   "go-home": "Kezdőlap",
   "an-error-occurred-server": "{{errorCode}} - Hiba történt a kiszolgálón.",
@@ -328,5 +326,7 @@
   "recently-updated-description": "Az elmúlt napokban frissített alkalmazások a Flathubon.",
   "recently-added-description": "Az elmúlt napokban új alkalmazások a Flathubon.",
   "recently-updated": "Nemrég frissítve",
-  "runtime-distribution": "Futásidejű elosztás"
+  "runtime-distribution": "Futásidejű elosztás",
+  "the-linux-app-store": "A Linux-alkalmazásáruház",
+  "flathub-index-description": "Szerezze be kedvenc alkalmazásai legfrissebb verzióját a Flathubtól bármely Linux-disztribúcióhoz."
 }

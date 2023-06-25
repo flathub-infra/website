@@ -55,8 +55,6 @@
   "open-in-new-tab": "Otevřít na nové kartě",
   "run": "Spuštění",
   "project-website": "Webové stránky projektu",
-  "welcome-to-flathub-index-text": "Vítejte na Flathubu, sbírce stovek aplikací, které lze snadno nainstalovat na jakoukoliv Linuxovou distribuci. Procházejte aplikace online, z centra aplikací nebo příkazového řádku.",
-  "apps-for-linux-right-here": "Aplikace pro Linux, zde",
   "number-of-results": "{{number}} výsledků",
   "license": "Licence",
   "downloads": "Počet stažení",
@@ -328,5 +326,7 @@
   "recently-updated": "Nedávno aktualizované",
   "recently-added": "Nedávno přidané",
   "recently-added-description": "Nové aplikace publikované na Flathubu v posledních dnech.",
-  "runtime-distribution": "Distribuce běhového prostředí"
+  "runtime-distribution": "Distribuce běhového prostředí",
+  "the-linux-app-store": "Obchod s aplikacemi pro Linux",
+  "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací z Flathub, pro libovolnou Linuxovou distribuci."
 }

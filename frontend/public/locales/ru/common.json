@@ -55,8 +55,6 @@
   "open-in-new-tab": "Открыть в новой вкладке",
   "run": "Выполните",
   "project-website": "Сайт проекта",
-  "welcome-to-flathub-index-text": "Добро пожаловать на Flathub, где собраны сотни приложений, которые можно легко установить на любой дистрибутив Linux. Просматривайте приложения онлайн, из центра приложений или из командной строки.",
-  "apps-for-linux-right-here": "Приложения для Linux, прямо здесь",
   "number-of-results": "{{number}} результатов",
   "license": "Лицензия",
   "downloads": "Загрузки",
@@ -136,7 +134,7 @@
   "delete": "Удалить",
   "developer-settings": "Настройки разработчика",
   "contribute": "Внести вклад в развитие приложения",
-  "recently-added-apps": "Новые приложения",
+  "recently-added-apps": "Недавно добавленные приложения",
   "installs-over-time": "Установок за всё время",
   "app-vending-settings-confirmed": "Настройки условий продажи приложений подтверждены",
   "confirm-settings": "Подтвердить настройки",
@@ -324,5 +322,9 @@
   "moderation-approved-by": "Одобрено {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "flos": "Свободное/Открытое ПО",
   "not-verified": "Не подтверждено",
-  "moderation-no-review-requests": "Нет отзывов для этого приложения."
+  "moderation-no-review-requests": "Нет отзывов для этого приложения.",
+  "recently-added": "Недавно добавленные",
+  "recently-updated-description": "Приложения, обновлённые на Flathub за последние дни.",
+  "recently-updated": "Недавно обновлённые",
+  "recently-added-description": "Новые приложения, опубликованные на Flathub за последние дни."
 }

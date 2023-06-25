@@ -17,7 +17,6 @@
   "source-code": "Kaynak Kodu",
   "open-in-new-tab": "Yeni sekmede aç",
   "user-avatar": "{{user}} kullanıcısının avatarı",
-  "apps-for-linux-right-here": "Linux için uygulamalar, tam burada",
   "more": "Daha fazla",
   "number-of-results": "{{number}} sonuç",
   "installed-size": "Kurulu Boyut",
@@ -50,7 +49,6 @@
   "since": "Şu zamandan beri",
   "downloads-per-country": "Ülkeye Göre İndirme Sayısı",
   "downloads-over-time": "Zamana Göre İndirme Sayıları",
-  "welcome-to-flathub-index-text": "Herhangi bir Linux dağıtımına kolayca kurulabilen yüzlerce uygulamanın evi olan Flathubʼa hoş geldiniz. Uygulama merkezinizden veya komut satırından uygulamalara çevrim içi göz atın.",
   "home": "Ana Sayfa",
   "flathub-description": "Linux için yüzlerce uygulama ve oyun bulun ve kurun. Firefox, Telegram, RetroArch, GIMP ve çok daha fazlasının keyfini çıkarın!",
   "subscribe": "Abone Ol",
@@ -222,7 +220,7 @@
   "show-less": "Daha Az Göster",
   "more-type": "Daha fazla {{type}}",
   "app-is-verified": "Bu uygulama doğrulandı",
-  "verified": "Doğrulandı",
+  "verified": "Doğrulanmış",
   "verified-login-provider": "@{{login_name}}, {{login_provider}} üzerinde",
   "x-downloads": "{{x}} indirme",
   "website-verification": "Web sitesi doğrulaması",
@@ -328,5 +326,7 @@
   "recently-added-description": "Flathubʼda son günlerde yayınlanan yeni uygulamalar.",
   "recently-added": "Son eklenen",
   "recently-updated-description": "Flathubʼda son günlerde güncellenen uygulamalar.",
-  "runtime-distribution": "Çalışma Zamanı Dağıtımı"
+  "runtime-distribution": "Çalışma Zamanı Dağıtımı",
+  "the-linux-app-store": "Linux Uygulama Mağazası",
+  "flathub-index-description": "Herhangi bir Linux dağıtımı için Flathub'dan tüm gövde uygulamalarınızın en son sürümlerini edinin."
 }

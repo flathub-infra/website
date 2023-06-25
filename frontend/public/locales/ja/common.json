@@ -47,7 +47,6 @@
   "available-architectures": "対応アーキテクチャ",
   "no-changelog-provided": "リリースノートがありません",
   "network-error-try-again": "ネットワークエラーが発生しました。もう一度お試しください。",
-  "apps-for-linux-right-here": "LinuxアプリならFlathub",
   "changes-in-version": "バージョン {{version-number}}",
   "installs-over-time": "インストール数の推移",
   "installs": "インストール数",
@@ -86,7 +85,6 @@
   "languages-summary": "このサイトで表示する言語を選択してください。",
   "languages-description": "表示言語を選んでください:",
   "loading-user-apps": "ユーザーアプリの読み込み中…",
-  "welcome-to-flathub-index-text": "Flathubへようこそ。FlathubはLinuxのためのアプリストアです。掲載されているアプリは、お使いのアプリセンターやコマンドラインからも検索できます。初めての方はクイックセットアップをしてください。",
   "flathub-description": "Linux 用のアプリケーションやゲームを検索してインストールできます。GIMP、GNU Octave、Spotify、Steamなどの人気のアプリもあります！",
   "rss-feeds-description": "RSSフィードを購読すると、最新情報がフィードリーダーに届きます！",
   "badges-block": "Flathubのアプリケーションを宣伝する際には、このバッジをお使いください",
@@ -239,5 +237,7 @@
   "setup-flathub": "Flathubをセットアップ",
   "verified-apps": "認証済みのアプリ",
   "apps": "アプリ",
-  "consultants": "コンサルタント"
+  "consultants": "コンサルタント",
+  "the-linux-app-store": "ザ・Linuxアプリストア",
+  "flathub-index-description": "あらゆるLinuxディストリビューションに対応するFlathubから、お気に入りのアプリの最新バージョンを入手しよう。"
 }
