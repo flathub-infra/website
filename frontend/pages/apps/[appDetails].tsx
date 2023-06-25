@@ -146,8 +146,11 @@ export const getStaticProps: GetStaticProps = async ({
       app,
       summary,
       stats,
-      developerApps: removeAppIdFromSearchResponse(developerApps, app.id),
-      projectgroupApps: removeAppIdFromSearchResponse(projectgroupApps, app.id),
+      developerApps: removeAppIdFromSearchResponse(developerApps, app?.id),
+      projectgroupApps: removeAppIdFromSearchResponse(
+        projectgroupApps,
+        app?.id,
+      ),
       verificationStatus,
       eolMessage,
     },
