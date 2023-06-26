@@ -19,7 +19,7 @@ export default function AppRegistrationPage() {
   const userInfo = useUserContext()
   const userDispatch = useUserDispatch()
 
-  const [step, setStep] = useState<"start" | "verify">("start")
+  const [step, setStep] = useState<"start" | "verify" | "wait">("start")
 
   const router = useRouter()
 
@@ -69,6 +69,7 @@ export default function AppRegistrationPage() {
               app={{ id: appId, name: appId } as Appstream}
               isNewApp={true}
               onVerified={async () => {
+                setStep("wait")
                 /* Update userdata to reflect new app, otherwise the next page will give an unauthorized error */
                 await getUserData(userDispatch)
                 router.push(`/apps/manage/${appId}`)
@@ -76,6 +77,8 @@ export default function AppRegistrationPage() {
             />
           </div>
         )}
+
+        {step === "wait" && <Spinner size="m" />}
       </>
     )
   }
