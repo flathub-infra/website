@@ -20,7 +20,7 @@
     "@headlessui/react": "^1.7.14",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@sentry/nextjs": "^7.55.2",
-    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.52.1",
     "boring-avatars": "^1.7.0",
     "chart.js": "^4.3.0",
