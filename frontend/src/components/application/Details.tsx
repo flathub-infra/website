@@ -216,7 +216,7 @@ const Details: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const [scrollHeight, setScrollHeight] = useState(0)
-  const collapsedHeight = 172
+  const collapsedHeight = 356
   const ref = useRef(null)
 
   useEffect(() => {
