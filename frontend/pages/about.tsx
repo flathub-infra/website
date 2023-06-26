@@ -40,14 +40,9 @@ const About = () => {
               If you are a Linux user, you can use Flathub to gain access to a
               growing collection of Flatpak applications. You just need to
               follow the{" "}
-              <a
-                className="no-underline hover:underline"
-                href="https://flatpak.org/setup/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <Link className="no-underline hover:underline" href="/setup">
                 setup instructions
-              </a>
+              </Link>
               .
             </p>
           </Trans>

@@ -61,7 +61,7 @@ export default function Home({
             <div className="flex flex-wrap gap-3">
               <ButtonLink
                 variant="secondary"
-                href={"https://flatpak.org/setup/"}
+                href={"/setup"}
                 passHref
                 aria-label={t("setup-flathub-description")}
               >

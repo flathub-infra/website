@@ -2,6 +2,7 @@ import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import { Trans, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import CodeCopy from "./CodeCopy"
+import Link from "next/link"
 
 const CmdInstructions = ({ appId }: { appId: string }) => {
   const { t } = useTranslation()
@@ -30,14 +31,9 @@ const CmdInstructions = ({ appId }: { appId: string }) => {
       <p>
         <Trans i18nKey={"common:manual-install-instructions"}>
           Make sure to follow the{" "}
-          <a
-            href="https://flatpak.org/setup/"
-            target="_blank"
-            rel="noreferrer"
-            className="no-underline hover:underline"
-          >
+          <Link href="/setup/" className="no-underline hover:underline">
             setup guide
-          </a>{" "}
+          </Link>{" "}
           before installing
         </Trans>
       </p>

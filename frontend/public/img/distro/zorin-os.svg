@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="zorin-os.svg"
+   version="1.1"
+   height="128"
+   width="128"
+   id="svg2">
+  <sodipodi:namedview
+     inkscape:current-layer="svg2"
+     inkscape:window-maximized="1"
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:cy="66.15625"
+     inkscape:cx="72.09375"
+     inkscape:zoom="1"
+     showgrid="false"
+     id="namedview10"
+     inkscape:window-height="1353"
+     inkscape:window-width="3440"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff" />
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs8" />
+  <g
+     id="g4155"
+     style="fill:#15a6f0;fill-opacity:1"
+     transform="matrix(0.14769231,0,0,0.14769231,8.6153838,15.999999)">
+    <path
+       style="fill:#15a6f0;fill-opacity:1;stroke:none"
+       d="m 125,542 62.35291,108 H 562.64318 L 625,542 Z"
+       id="path3795" />
+    <path
+       style="fill:#15a6f0;fill-opacity:1;stroke:none"
+       d="M 750,324.99804 687.10301,434 H 288 L 687.10301,216 Z"
+       id="path3803" />
+    <path
+       id="path3801"
+       d="M 0,325.00196 62.896988,216 H 462 L 62.896988,434 Z"
+       style="fill:#15a6f0;fill-opacity:1;stroke:none" />
+    <path
+       id="path3025"
+       d="M 125,108 187.35291,0 H 562.64318 L 625,108 Z"
+       style="fill:#15a6f0;fill-opacity:1;stroke:none" />
+  </g>
+</svg>
