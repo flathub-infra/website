@@ -329,5 +329,8 @@
   "runtime-distribution": "Runtime Distribution",
   "the-linux-app-store": "The Linux App Store",
   "flathub-index-description": "Get the latest versions of all your favorite apps from Flathub, for any Linux distribution.",
-  "app-eol": "This App is no longer available on Flathub"
+  "app-eol": "This App is no longer available on Flathub",
+  "distrobution-flathub-setup": "{{distrobution}} Flathub Setup",
+  "find-your-distrobution": "Find your distrobution",
+  "no-results-found": "No results found"
 }

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="128"
+   height="128"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg35"
+   sodipodi:docname="ISO安装器-128px.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   inkscape:export-filename="/home/inspiron5447/Desktop/001.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <metadata
+     id="metadata39">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>ISO安装器-256px</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1366"
+     inkscape:window-height="716"
+     id="namedview37"
+     showgrid="false"
+     inkscape:zoom="1.7652926"
+     inkscape:cx="72.852484"
+     inkscape:cy="90.234372"
+     inkscape:window-x="0"
+     inkscape:window-y="28"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g33"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-rotation="0" />
+  <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title2">ISO安装器-256px</title>
+  <desc
+     id="desc4">Created with Sketch.</desc>
+  <defs
+     id="defs11">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient825">
+      <stop
+         style="stop-color:#034db3;stop-opacity:1"
+         offset="0"
+         id="stop821" />
+      <stop
+         style="stop-color:#1be0fc;stop-opacity:1"
+         offset="1"
+         id="stop823" />
+    </linearGradient>
+    <linearGradient
+       x1="0.49999547"
+       y1="0.006944444"
+       x2="0.49999547"
+       y2="1"
+       id="linearGradient-1">
+      <stop
+         stop-color="#FFDD89"
+         offset="0%"
+         id="stop6" />
+      <stop
+         stop-color="#FFAF32"
+         offset="100%"
+         id="stop8" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient825"
+       id="linearGradient829"
+       gradientUnits="userSpaceOnUse"
+       x1="99.787598"
+       y1="175.19077"
+       x2="156.08139"
+       y2="32.767662" />
+  </defs>
+  <g
+     id="g33"
+     transform="matrix(10.331317,-3.9658209,3.8587574,10.052407,-885.24039,-1230.8386)"
+     style="opacity:1;fill:none;fill-rule:evenodd;stroke:none;stroke-width:1">
+    <g
+       id="ISO安装器-256px"
+       transform="matrix(0.05608132,0,0,0.05608132,30.970112,138.03224)">
+      <path
+         d="M 154.41881,36.889655 C 108.83853,23.559639 77.816519,34.010298 61.467671,77.538252 c -13.330082,45.574678 -3.67052,75.602398 39.040459,92.116798 45.56953,13.33001 81.09144,3.08828 94.41615,-42.48639 13.33008,-45.585435 2.42029,-73.243996 -40.50547,-90.279005 z"
+         id="path15"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         d="m 153.9937,32.40558 c -10.92244,-3.984578 -22.11089,-5.059437 -32.96819,-4.049721 -12.58904,0.99343 -18.73427,4.89115 -18.37055,4.185435 -20.585441,7.350297 -37.989694,23.158321 -46.051239,45.32864 -14.353352,39.482056 5.976943,83.144126 45.399799,97.519006 39.43915,14.37487 83.03664,-5.9823 97.38999,-45.46436 14.35878,-39.482056 -5.97152,-83.138693 -45.39981,-97.519 z m -49.39528,135.84478 c -4.20178,-1.53629 -8.126692,-3.49058 -11.823603,-5.72173 18.370553,1.41143 42.343473,-2.82286 58.509993,-17.95231 0,0 30.81845,-24.62404 8.52298,-65.034384 0,0 3.59377,16.285739 -0.98802,29.683474 0,0 -4.37006,18.21831 -23.79377,23.51118 -28.60898,7.79544 -61.20803,-12.23059 -74.833942,-21.93146 -1.026015,-9.9723 -0.114001,-20.275749 3.53948,-30.329478 5.417793,-14.896023 15.601941,-26.518612 28.044407,-34.324909 -3.110616,21.763176 -0.651438,41.800063 2.882613,50.192647 4.744641,11.25345 12.990762,24.37975 29.075852,26.06261 16.08509,1.68829 24.9555,-13.36516 24.9555,-13.36516 8.25155,-12.540022 9.54357,-30.54662 9.41871,-30.980906 -0.12486,-0.439715 -2.1986,-1.628574 -2.1986,-1.628574 -5.55351,22.474319 -14.71164,29.98204 -14.71164,29.98204 -14.44021,13.9406 -24.66779,4.2723 -24.66779,4.2723 -10.99302,-11.807164 -3.29519,-30.997192 -3.29519,-30.997192 4.30492,-13.07202 16.85053,-32.202334 31.06816,-41.930349 2.3669,0.586287 4.75007,0.950001 7.08982,1.802289 8.60441,3.137718 16.13938,7.866011 22.51261,13.674591 -10.39586,3.794578 -27.18125,11.818018 -27.18125,11.818018 -26.60581,11.204588 -28.40269,28.152614 -28.40269,28.152614 -2.75233,17.469169 11.10701,10.075439 11.10701,10.075439 14.2665,-6.948577 21.27488,-28.603181 21.27488,-28.603181 -4.45149,-0.846859 -7.9584,0.504858 -7.9584,0.504858 -5.69465,14.054592 -17.31196,19.836029 -17.31196,19.836029 -4.57093,2.421147 -5.63494,-1.856574 -5.63494,-1.856574 -0.77087,-3.202862 3.30605,-3.751148 3.30605,-3.751148 6.3298,-2.459147 10.37957,-9.109157 11.29702,-11.828875 0.91201,-2.725147 2.61118,-2.936862 2.61118,-2.936862 8.67498,-2.768575 16.58452,-3.387433 16.58452,-3.387433 10.77045,-1.324574 27.25726,3.810862 27.25726,3.810862 3.69691,1.487431 7.24182,2.60029 10.39043,3.490577 6.04209,15.09688 6.99753,32.289187 1.00973,48.770357 -12.90933,35.53006 -52.15847,53.85694 -87.65641,40.92064 z"
+         id="path11795"
+         inkscape:connector-curvature="0"
+         style="opacity:1;fill:url(#linearGradient829);fill-opacity:1" />
+      <g
+         id="Page-1"
+         transform="translate(80,168)"
+         style="fill:#b08043" />
+    </g>
+  </g>
+</svg>

@@ -12,7 +12,8 @@
     "format:fix": "prettier --write --ignore-path .gitignore .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "update-setup-instructions": "./setup-instructions.sh"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
@@ -47,6 +48,7 @@
     "sass": "^1.62.1",
     "sharp": "^0.32.1",
     "spdx-license-list": "^6.6.0",
+    "yaml": "^2.2.2",
     "yet-another-react-lightbox": "^3.11.0"
   },
   "devDependencies": {
