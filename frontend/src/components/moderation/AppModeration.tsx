@@ -4,8 +4,8 @@ import { FunctionComponent, useCallback } from "react"
 import { getAppsInfo } from "src/asyncs/app"
 import { getModerationApp } from "src/asyncs/moderation"
 import { useAsync } from "src/hooks/useAsync"
-import { useQueryParam } from "src/hooks/useQueryParam"
 import { ModerationRequest } from "src/types/Moderation"
+import { setQueryParams } from "src/utils/queryParams"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
@@ -19,8 +19,8 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const [includeOutdated, setIncludeOutdated] = useQueryParam("includeOutdated")
-  const [includeHandled, setIncludeHandled] = useQueryParam("includeHandled")
+  const includeOutdated = router.query.includeOutdated
+  const includeHandled = router.query.includeHandled
 
   const {
     error: appstreamError,
@@ -82,9 +82,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             id="include-outdated"
             type="checkbox"
             checked={includeOutdated === "true"}
-            onChange={() =>
-              setIncludeOutdated(includeOutdated ? undefined : "true")
-            }
+            onChange={() => {
+              setQueryParams(router, {
+                includeOutdated: includeOutdated ? undefined : "true",
+                page: "1",
+              })
+            }}
           />
           <label htmlFor="include-outdated" className="ml-2">
             Include outdated requests
@@ -96,9 +99,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             id="include-handled"
             type="checkbox"
             checked={includeHandled === "true"}
-            onChange={() =>
-              setIncludeHandled(includeHandled ? undefined : "true")
-            }
+            onChange={() => {
+              setQueryParams(router, {
+                includeHandled: includeHandled ? undefined : "true",
+                page: "1",
+              })
+            }}
           />
           <label htmlFor="include-handled" className="ml-2">
             Include handled requests
