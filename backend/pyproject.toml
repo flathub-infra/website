@@ -28,7 +28,7 @@ meilisearch = "^0.28.0"
 orjson = "^3.9.0"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
-sqlalchemy = "2.0.16"
+sqlalchemy = "2.0.17"
 sentry-dramatiq = "^0.3.3"
 psycopg2 = "^2.9.6"
 
