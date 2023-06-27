@@ -78,8 +78,14 @@ export const getStaticProps: GetStaticProps = async ({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const instructions = await fetchSetupInstructions()
+
+  const paths = instructions.map((instruction) => ({
+    params: { distro: instruction.name },
+  }))
+
   return {
-    paths: [],
+    paths: paths,
     fallback: "blocking",
   }
 }
