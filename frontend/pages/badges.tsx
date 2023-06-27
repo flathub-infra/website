@@ -25,8 +25,8 @@ const Badges = () => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/badges`,
         }}
       />
-      <section className="max-w-11/12 mx-auto my-0 w-11/12 space-y-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1 className="my-8 text-4xl font-extrabold">{t("official-badges")}</h1>
+      <section className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <h1 className="mb-8 text-4xl font-extrabold">{t("official-badges")}</h1>
         <p>{t("badges-block")}</p>
 
         <div className="flex w-full flex-wrap justify-around">

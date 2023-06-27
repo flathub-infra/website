@@ -16,10 +16,8 @@ const PrivacyPolicy = (): JSX.Element => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/privacy-policy`,
         }}
       />
-      <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
-        <h1 className="my-8 text-4xl font-extrabold">
-          Privacy Policy for Flathub
-        </h1>
+      <div className="prose mt-12 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
+        <h1>Privacy Policy for Flathub</h1>
 
         <p>
           At Flathub, accessible from flathub.org, one of our main priorities is
@@ -40,16 +38,14 @@ const PrivacyPolicy = (): JSX.Element => {
           information collected offline or via channels other than this website.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">Consent</h2>
+        <h2>Consent</h2>
 
         <p>
           By using our website, you hereby consent to our Privacy Policy and
           agree to its terms.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          Information we collect
-        </h2>
+        <h2>Information we collect</h2>
 
         <p>
           The personal information that you are asked to provide, and the
@@ -67,13 +63,11 @@ const PrivacyPolicy = (): JSX.Element => {
           information, including items such as name and email address.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          How we use your information
-        </h2>
+        <h2>How we use your information</h2>
 
         <p>We use the information we collect in various ways, including to:</p>
 
-        <ul className="list-outside list-disc py-4 pl-6">
+        <ul>
           <li>Provide, operate, and maintain our website</li>
           <li>Improve, personalize, and expand our website</li>
           <li>Understand and analyze how you use our website</li>
@@ -88,7 +82,7 @@ const PrivacyPolicy = (): JSX.Element => {
           <li>Find and prevent fraud</li>
         </ul>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">Log Files</h2>
+        <h2>Log Files</h2>
 
         <p>
           Flathub follows a standard procedure of using log files. These files
@@ -103,9 +97,7 @@ const PrivacyPolicy = (): JSX.Element => {
           information.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          Cookies and Web Beacons
-        </h2>
+        <h2>Cookies and Web Beacons</h2>
 
         <p>
           Like any other website, Flathub uses &apos;cookies&apos;. These
@@ -123,9 +115,7 @@ const PrivacyPolicy = (): JSX.Element => {
           respective websites.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          CCPA Privacy Rights (Do Not Sell My Personal Information)
-        </h2>
+        <h2>CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
 
         <p>
           Under the CCPA, among other rights, California consumers have the
@@ -149,9 +139,7 @@ const PrivacyPolicy = (): JSX.Element => {
           would like to exercise any of these rights, please contact us.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          GDPR Data Protection Rights
-        </h2>
+        <h2>GDPR Data Protection Rights</h2>
 
         <p>
           We would like to make sure you are fully aware of all of your data
@@ -190,9 +178,7 @@ const PrivacyPolicy = (): JSX.Element => {
           would like to exercise any of these rights, please contact us.
         </p>
 
-        <h2 className="mb-6 mt-12 text-2xl font-bold">
-          Children&apos;s Information
-        </h2>
+        <h2>Children&apos;s Information</h2>
 
         <p>
           Another part of our priority is adding protection for children while
