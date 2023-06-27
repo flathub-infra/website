@@ -37,7 +37,7 @@ export default function Setup({
 
   const instructionsFilteredAndSorted = instructions
     .filter((instruction) =>
-      instruction.name.toLowerCase().includes(distroFilter),
+      instruction.name.toLowerCase().includes(distroFilter.toLowerCase()),
     )
     .sort((a, b) => {
       const aIndex = distroOrder.findIndex((distro) => distro.name === a.name)
