@@ -77,15 +77,23 @@ export const getStaticProps: GetStaticProps = async ({
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const instructions = await fetchSetupInstructions()
 
-  const paths = instructions.map((instruction) => ({
+  const instructionUrl = instructions.map((instruction) => ({
     params: { distro: instruction.name },
   }))
 
+  const paths = instructionUrl.reduce((acc, path) => {
+    const curr = locales.map((locale) => ({
+      ...path,
+      locale,
+    }))
+    return [...acc, ...curr]
+  }, [])
+
   return {
-    paths: paths,
-    fallback: "blocking",
+    paths,
+    fallback: false,
   }
 }
