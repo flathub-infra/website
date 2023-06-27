@@ -17,8 +17,8 @@ const Feeds = (): JSX.Element => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/feeds`,
         }}
       />
-      <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
-        <h1 className="my-8 text-4xl font-extrabold">{t("rss-feeds")}</h1>
+      <div className="max-w-11/12 sm:w-max-1/2 mx-auto my-0 mt-12 w-11/12 sm:w-1/2 2xl:w-[900px] 2xl:max-w-[900px]">
+        <h1 className="mb-8 text-4xl font-extrabold">{t("rss-feeds")}</h1>
         <p>{t("rss-feeds-description")}</p>
         <h3 className="my-4 text-xl font-semibold">
           {t("recently-added-apps")}

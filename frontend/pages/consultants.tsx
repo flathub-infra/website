@@ -15,8 +15,8 @@ const Consultants = (): JSX.Element => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/consultants`,
         }}
       />
-      <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
-        <h1 className="my-8">Consultants and Contractors</h1>
+      <div className="prose mt-12 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
+        <h1>Consultants and Contractors</h1>
 
         <p>
           Developers who are interested in publishing their app on Flathub may

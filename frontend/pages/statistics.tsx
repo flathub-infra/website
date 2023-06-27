@@ -138,9 +138,9 @@ const Statistics = ({
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/statistics`,
         }}
       />
-      <div className="max-w-11/12 mx-auto w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <h1 className="my-8 text-4xl font-extrabold">{t("statistics")}</h1>
-        <div className="flex flex-wrap gap-8 md:flex-nowrap">
+      <div className="max-w-11/12 mx-auto mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <h1 className="mb-8 text-4xl font-extrabold">{t("statistics")}</h1>
+        <div className="flex flex-wrap gap-3 md:flex-nowrap">
           <ListBox
             items={[
               {
