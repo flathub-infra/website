@@ -75,7 +75,7 @@ export default function Setup({
               "w-full rounded-xl bg-flathub-white p-4 ps-9 shadow-md duration-500 dark:bg-flathub-arsenic/70",
               "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-flathub-granite-gray dark:focus:placeholder-flathub-sonic-silver dark:focus:outline-none",
             )}
-            placeholder={t("find-your-distrobution")}
+            placeholder={t("find-your-distribution")}
             onChange={(e) => setDistroFilter(e.target.value)}
           />
         </div>

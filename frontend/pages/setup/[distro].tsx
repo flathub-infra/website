@@ -28,8 +28,8 @@ export default function Setup({
   return (
     <>
       <NextSeo
-        title={t("distrobution-flathub-setup", {
-          distrobution: distroData.name,
+        title={t("distribution-flathub-setup", {
+          distribution: distroData.name,
         })}
         description={t("setup-flathub-description")}
       />
