@@ -1,0 +1,132 @@
+{% macro build_diagnostic(diagnostic) %}
+  <h3 style="margin-bottom: 0">{{ diagnostic.category }}</h3>
+
+  {% if diagnostic.refstring %}
+    {{ diagnostic.refstring }}
+  {% endif %}
+
+  <div style="margin-left: 1em">
+    {% if diagnostic.category == "failed_to_load_appstream" %}
+      <p>
+        The appstream file at {{ diagnostic.data.path }} could not be loaded. Make sure it exists, is not corrupted,
+        and the app ID is correct.
+      </p>
+      <p>
+        Error: {{ diagnostic.data.error }}
+      </p>
+    {% elif diagnostic.category == "appstream_validation" %}
+      <p>
+        The appstream file at <code>{{ diagnostic.data.path }}</code> contains errors.
+      </p>
+      {% if diagnostic.data.stdout %}
+        <h4>stdout</h4>
+        <pre>{{ diagnostic.data.stdout }}</pre>
+      {% endif %}
+      {% if diagnostic.data.stderr %}
+        <h4>stderr</h4>
+        <pre>{{ diagnostic.data.stderr }}</pre>
+      {% endif %}
+    {% elif diagnostic.category == "missing_icon" %}
+      <p>
+        The appstream file at <code>{{ diagnostic.data.appstream_path }}</code> does not contain an icon.
+      </p>
+    {% elif diagnostic.category == "no_local_icon" %}
+      <p>
+        The appstream file at <code>{{ diagnostic.data.appstream_path }}</code> only contains a remote icon for the app, not a
+        local one.
+      </p>
+    {% elif diagnostic.category == "missing_build_log_url" %}
+      <p>
+        For FOSS apps, Flathub requires that direct uploads provide a link to public build logs for each build. The build log may be
+        specified using <code>flat-manager-client</code>'s <code>--build-log-url</code> option at either the <code>create</code>
+        or <code>push</code> step.
+      </p>
+    {% elif diagnostic.category == "screenshot_not_mirrored" %}
+      <p>
+        The following screenshots in the appstream catalog file (at <code>{{ diagnostic.data.path }}</code>) are not
+        mirrored to the screenshots branch:
+      </p>
+
+      <ul>
+        {% for screenshot in diagnostic.data.urls %}
+          <li>{{ screenshot }}</li>
+        {% endfor %}
+      </ul>
+    {% elif diagnostic.category == "mirrored_screenshot_not_found" %}
+      <p>
+        The screenshots in the appstream catalog file (at <code>{{ diagnostic.data.path }}</code>) have been edited to
+        point to the Flathub mirror, but the following screenshots are not present in the <code>{{ diagnostic.data.expected_branch }}</code>
+        branch:
+      </p>
+      <ul>
+        {% for screenshot in diagnostic.data.urls %}
+          <li>{{ screenshot }}</li>
+        {% endfor %}
+      </ul>
+    {% elif diagnostic.category == "no_screenshot_branch" %}
+      <p>
+        The screenshots in the appstream file have not been mirrored to the <code>{{diagnostic.data.expected_branch}}</code>
+        OSTree branch, which is required for Flathub to display them correctly.
+      </p>
+      <p>
+        To prepare screenshots for mirroring, pass the <code>--mirror-screenshots-url=https://dl.flathub.org/media</code>
+        option to <code>flatpak-builder</code>. This option downloads screenshots from their source and saves them
+        to the build directory. Then, commit the screenshots to the <code>screenshots/&lt;architecture&gt;</code>
+        branch for each architecture.
+      </p>
+    {% elif diagnostic.category == "unexpected_files_in_screenshot_branch" %}
+      <p>
+        The following files do not match the expected app ID:
+      </p>
+
+      <ul>
+        {% for file in diagnostic.data.files %}
+          <li>{{ file }}</li>
+        {% endfor %}
+      </ul>
+
+      <p>
+        Screenshot files should be in a directory named after the app ID and branch, e.g. <code>{{ app_id }}-master</code>.
+      </p>
+    {% elif diagnostic.category == "wrong_arch_executables" %}
+      <p>
+        The following executable or shared library files are built for a different architecture than the
+        {{ diagnostic.data.expected_arch }} ref:
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Detected Architecture</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for file in diagnostic.data.executables %}
+            <tr>
+              <td>
+                <code>{{ file.path }}</code>
+              </td>
+              <td>
+                {{ file.detected_arch }} ({{ file.detected_arch_code }})
+              </td>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p>
+        This is probably a mistake. If you are including pre-built binaries in your build, make sure to use the
+        correct binaries for each architecture.
+      </p>
+    {% else %}
+      <table>
+        {% for field in diagnostic.data %}
+          <tr>
+            <td>{{ field }}</td>
+            <td>{{ diagnostic.data[field] }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+{% endmacro %}
