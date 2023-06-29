@@ -12,6 +12,7 @@ from . import (
     compat,
     config,
     db,
+    emails,
     feeds,
     logins,
     moderation,
@@ -51,6 +52,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+emails.register_to_app(app)
 logins.register_to_app(app)
 moderation.register_to_app(app)
 wallet.register_to_app(app)

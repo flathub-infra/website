@@ -1,9 +1,13 @@
+import base64
 from email.mime.text import MIMEText
 from email.utils import formataddr
 from enum import Enum
 from smtplib import SMTP_SSL as SMTP
 from typing import Any
 
+import jwt
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github
 from gitlab import Gitlab
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -25,6 +29,7 @@ class EmailCategory(str, Enum):
     MODERATION_HELD = "moderation_held"
     MODERATION_APPROVED = "moderation_approved"
     MODERATION_REJECTED = "moderation_rejected"
+    BUILD_NOTIFICATION = "build_notification"
 
 
 class EmailInfo(BaseModel):
@@ -137,3 +142,58 @@ def send_one_email(message: str, dest: str):
         with SMTP(settings.smtp_host, settings.smtp_port) as smtp:
             smtp.login(settings.smtp_username, settings.smtp_password)
             smtp.sendmail(settings.email_from, [dest], message)
+
+
+router = APIRouter(prefix="/emails")
+
+
+class BuildNotificationRequest(BaseModel):
+    app_id: str
+    build_id: int
+    build_repo: str
+    diagnostics: list[Any]
+
+
+@router.post("/build-notification")
+def build_notification(
+    request: BuildNotificationRequest,
+    authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+):
+    from . import worker
+
+    try:
+        claims = jwt.decode(
+            authorization.credentials,
+            base64.b64decode(settings.flat_manager_build_secret),
+            algorithms=["HS256"],
+        )
+        if "reviewcheck" not in claims["scope"]:
+            raise HTTPException(status_code=403, detail="invalid_scope")
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+    is_failure = any(not d["is_warning"] for d in request.diagnostics)
+    subject = (
+        f"Build #{request.build_id} failed"
+        if is_failure
+        else f"Build #{request.build_id} passed with warnings"
+    )
+
+    worker.send_email.send(
+        EmailInfo(
+            app_id=request.app_id,
+            category=EmailCategory.BUILD_NOTIFICATION,
+            subject=subject,
+            template_data={
+                "diagnostics": request.diagnostics,
+                "any_warnings": any(d["is_warning"] for d in request.diagnostics),
+                "any_errors": any(not d["is_warning"] for d in request.diagnostics),
+                "build_id": request.build_id,
+                "build_repo": request.build_repo,
+            },
+        ).dict()
+    )
+
+
+def register_to_app(app: FastAPI):
+    app.include_router(router)
