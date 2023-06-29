@@ -326,5 +326,7 @@
   "recently-added": "Недавно добавленные",
   "recently-updated-description": "Приложения, обновлённые на Flathub за последние дни.",
   "recently-updated": "Недавно обновлённые",
-  "recently-added-description": "Новые приложения, опубликованные на Flathub за последние дни."
+  "recently-added-description": "Новые приложения, опубликованные на Flathub за последние дни.",
+  "flathub-index-description": "Получите последние версии всех ваших любимых приложений из Flathub для любого дистрибутива Linux.",
+  "the-linux-app-store": "Магазин приложений для Linux"
 }

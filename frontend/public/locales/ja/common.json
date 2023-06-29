@@ -85,7 +85,7 @@
   "languages-summary": "このサイトで表示する言語を選択してください。",
   "languages-description": "表示言語を選んでください:",
   "loading-user-apps": "ユーザーアプリの読み込み中…",
-  "flathub-description": "Linux 用のアプリケーションやゲームを検索してインストールできます。GIMP、GNU Octave、Spotify、Steamなどの人気のアプリもあります！",
+  "flathub-description": "Linux 用のアプリケーションやゲームを検索してインストールできます。Firefox, Telegram, RetroArch, GIMPなどの人気のアプリもあります！",
   "rss-feeds-description": "RSSフィードを購読すると、最新情報がフィードリーダーに届きます！",
   "badges-block": "Flathubのアプリケーションを宣伝する際には、このバッジをお使いください",
   "whoops": "エラー！",
@@ -239,5 +239,8 @@
   "apps": "アプリ",
   "consultants": "コンサルタント",
   "the-linux-app-store": "ザ・Linuxアプリストア",
-  "flathub-index-description": "あらゆるLinuxディストリビューションに対応するFlathubから、お気に入りのアプリの最新バージョンを入手しよう。"
+  "flathub-index-description": "あらゆるLinuxディストリビューションに対応するFlathubから、お気に入りのアプリの最新バージョンを入手しよう。",
+  "recently-added": "新登場",
+  "recently-updated": "最近更新",
+  "count-desktop-apps": "総デスクトップアプリ数"
 }
