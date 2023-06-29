@@ -326,5 +326,7 @@
   "recently-added": "أُضيفت مؤخَّرًا",
   "recently-updated-description": "التطبيقات المحدَّثة في فلاتهب مؤخَّرًا.",
   "recently-added-description": "التطبيقات المنشورة في فلاتهب مؤخَّرًا.",
-  "recently-updated": "حُدِّثت مؤخَّرًا"
+  "recently-updated": "حُدِّثت مؤخَّرًا",
+  "the-linux-app-store": "متجر تطبيقات لينكس",
+  "flathub-index-description": "هاهنا تجد أحدث إصدارات تطبيقاتك، وهي متوفرة لكلِّ توزيعات لينكس."
 }

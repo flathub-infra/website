@@ -316,7 +316,7 @@
   "moderation-approved-by": "Одобрено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Отхвърлено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "flos": "Свободен с отворен код",
-  "not-verified": "Непроверено",
+  "not-verified": "Непроверени",
   "moderation-new-value": "Нова стойност",
   "moderation-value": "Стойност",
   "moderation-old-value": "Стара стойност",

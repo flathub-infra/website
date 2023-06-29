@@ -326,5 +326,7 @@
   "recently-updated-description": "最近幾天在 Flathub 上更新的應用程式。",
   "recently-added-description": "最近幾天在 Flathub 上發佈的新應用程式。",
   "recently-updated": "近期更新",
-  "recently-added": "近期新增"
+  "recently-added": "近期新增",
+  "the-linux-app-store": "Linux 應用程式商店",
+  "flathub-index-description": "從 Flathub 為任何 Linux 散佈版取得您最愛應用程式的最新版本。"
 }
