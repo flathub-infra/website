@@ -1,4 +1,6 @@
 import base64
+import importlib.resources
+import json
 from email.mime.text import MIMEText
 from email.utils import formataddr
 from enum import Enum
@@ -7,6 +9,7 @@ from typing import Any
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github
 from gitlab import Gitlab
@@ -64,6 +67,21 @@ def _get_email_address(user: models.FlathubUser, db) -> str | None:
         return _get_gitlab_email(gl_user, "https://invent.kde.org")
 
 
+def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
+    data = {
+        "env": settings.env,
+        "user_display_name": user_display_name,
+        "user_email_address": email,
+        "email_category": info.category,
+        "email_subject": info.subject,
+        "app_id": info.app_id,
+        "app_name": app_name,
+        **info.template_data,
+    }
+
+    return template_env.get_template(info.category + ".html").render(data)
+
+
 def _create_message(
     user: models.FlathubUser, info: EmailInfo, db
 ) -> tuple[str, MIMEText]:
@@ -79,18 +97,8 @@ def _create_message(
     if settings.env != "production":
         full_subject = f"[{settings.env.upper()}] {full_subject}"
 
-    data = {
-        "env": settings.env,
-        "user_display_name": user.display_name,
-        "user_email_address": email,
-        "email_category": info.category,
-        "email_subject": info.subject,
-        "app_id": info.app_id,
-        "app_name": app_name,
-        **info.template_data,
-    }
+    text = _create_html(info, app_name, email, user.display_name)
 
-    text = template_env.get_template(info.category + ".html").render(data)
     message = MIMEText(text, "html")
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
@@ -193,6 +201,47 @@ def build_notification(
             },
         ).dict()
     )
+
+
+if settings.env != "production":
+
+    def _get_preview_data():
+        with importlib.resources.open_text(
+            "app.email_templates", "preview_data.json"
+        ) as f:
+            return json.load(f)
+
+    @router.get("/preview", response_class=HTMLResponse)
+    def preview_templates():
+        preview_data = _get_preview_data()
+        previews = [
+            f"<li><a href='preview/{name}'>{name}</a></li>"
+            for name in preview_data.keys()
+        ]
+        return "<ul>" + "\n".join(previews) + "</ul>"
+
+    @router.get("/preview/{name}", response_class=HTMLResponse)
+    def preview_template(name: str):
+        preview_data = _get_preview_data()
+        if name not in preview_data:
+            raise HTTPException(status_code=404)
+
+        info = EmailInfo(
+            category=preview_data[name]["category"],
+            subject="Test email",
+            app_id="com.example.Test",
+            template_data=preview_data[name]["data"],
+        )
+
+        preview = _create_html(info, "Test App", "test@example.com", "Test User")
+
+        return f"""
+            {preview}
+
+            <div style="margin-top: 5em"/>
+
+            <a href="../preview">Back to list of templates</a>
+        """
 
 
 def register_to_app(app: FastAPI):
