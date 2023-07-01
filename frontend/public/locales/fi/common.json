@@ -326,6 +326,10 @@
   "not-verified": "Ei vahvistettu",
   "moderation-dev-description": "Jotkin muutokset sovelluksen metatietoihin, kuten nimi tai kuvaus, vaativat katselmoinnin Flathub-tiimin toimesta. Näet nykyisten ja menneiden katselmointipyyntöjen tilan täällä.",
   "flos": "Vapaa/avoin lähdekoodi",
-  "flathub-index-description": "Hanki suosikkisovellustesi uusimmat versiot Flathubista, mille tahansa Linux-jakelulle.",
-  "the-linux-app-store": "Linux-sovelluskauppa"
+  "flathub-index-description": "Hanki suosikkisovellustesi uusimmat versiot mille tahansa Linux-jakelulle.",
+  "the-linux-app-store": "Linux-sovelluskauppa",
+  "no-results-found": "Tuloksia ei löytynyt",
+  "app-eol": "Tämä sovellus ei ole enää saatavilla Flathubista",
+  "distribution-flathub-setup": "{{distribution}} - Flathubin määritys",
+  "find-your-distribution": "Löydä jakelusi"
 }

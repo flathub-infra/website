@@ -326,5 +326,11 @@
   "recently-added": "最近添加",
   "recently-updated-description": "最近几天在 Flathub 上更新的应用程序。",
   "recently-added-description": "最近几天在 Flathub 上发布的新应用程序。",
-  "runtime-distribution": "运行时发行版"
+  "runtime-distribution": "运行时发行版",
+  "the-linux-app-store": "Linux 应用商店",
+  "flathub-index-description": "获取适用于任何 Linux 发行版的所有喜爱应用的最新版本",
+  "app-eol": "Flathub 上不再提供此应用",
+  "distribution-flathub-setup": "{{distribution}} Flathub 设置",
+  "find-your-distribution": "找到您的发行版",
+  "no-results-found": "未找到结果"
 }

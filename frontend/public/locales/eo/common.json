@@ -327,6 +327,10 @@
   "recently-updated-description": "Programoj ĝisdatigitaj ĉe Flathub lastatempe.",
   "recently-added-description": "Programoj nove eldonitaj ĉe Flathub lastatempe.",
   "recently-added": "Ĵus eldonitaj",
-  "flathub-index-description": "Akiru el Flathub la plej novajn versiojn de ĉiuj viaj ŝatataj programoj, por iu ajn Linux-distribuo.",
-  "the-linux-app-store": "La Programvendejo por Linux"
+  "flathub-index-description": "Akiru la plej novajn versiojn de ĉiuj viaj ŝatataj programoj, por iu ajn Linux-distribuo",
+  "the-linux-app-store": "La Programvendejo por Linux",
+  "distribution-flathub-setup": "Agordado de Flathub por {{distribution}}",
+  "find-your-distribution": "Serĉi vian Linux-distribuon",
+  "no-results-found": "Neniu rezulto troviĝis",
+  "app-eol": "Ĉi tiu programo estas ne plu disponebla ĉe Flathub"
 }

@@ -328,5 +328,9 @@
   "recently-updated-description": "Застосунки, оновлені на Flathub за останні дні.",
   "recently-added-description": "Нові застосунки, опубліковані на Flathub за останні дні.",
   "the-linux-app-store": "Крамниця застосунків Linux",
-  "flathub-index-description": "Завантажуйте найновіші версії улюблених застосунків з Flathub для будь-якого дистрибутиву Linux."
+  "flathub-index-description": "Завантажуйте найновіші версії улюблених застосунків для будь-якого дистрибутиву Linux",
+  "app-eol": "Цей застосунок більше недоступний на Flathub",
+  "distribution-flathub-setup": "Налаштування Flathub у {{distribution}}",
+  "find-your-distribution": "Знайти свій дистрибутив",
+  "no-results-found": "Результатів не знайдено"
 }

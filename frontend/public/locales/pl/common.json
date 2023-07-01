@@ -328,5 +328,9 @@
   "recently-updated": "Ostatnio zaktualizowane",
   "recently-added": "Ostatnio dodane",
   "the-linux-app-store": "Sklep z aplikacjami dla Linuksa",
-  "flathub-index-description": "Pobierz najnowsze wersje wszystkich swoich ulubionych aplikacji z Flathub dla dowolnej dystrybucji Linuksa."
+  "flathub-index-description": "Pobierz najnowsze wersje wszystkich swoich ulubionych aplikacji dla dowolnej dystrybucji Linuksa",
+  "find-your-distribution": "Znajdź swoją dystrybucję",
+  "no-results-found": "Nie znaleziono wyników",
+  "distribution-flathub-setup": "Konfiguracja Flathub dla {{distribution}}",
+  "app-eol": "Ta aplikacja nie jest już dostępna na Flathubie"
 }

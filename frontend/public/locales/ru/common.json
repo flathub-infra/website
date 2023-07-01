@@ -110,7 +110,7 @@
   "app-install-error-try-again": "Не удалось установить приложение. Попробуйте вернуться в магазин приложений и установить приложение снова.",
   "kind-purchase": "Покупка",
   "kind-donation": "Пожертвование",
-  "payment": "Оплата",
+  "payment": "Платёж",
   "select-donation-amount": "Выберите сумму для пожертвования",
   "status": "Статус",
   "status-cancelled": "Отменена",
@@ -263,7 +263,7 @@
   "try-again": "Попробовать ещё раз",
   "verified-apps": "Проверенные приложения",
   "login-provider-verification-failed": "Требования проверки не были выполнены.",
-  "verification": "Проверка",
+  "verification": "Верификация",
   "my-flathub": "Мой Flathub",
   "settings": "Настройки",
   "apps": "Приложения",
@@ -327,6 +327,10 @@
   "recently-updated-description": "Приложения, обновлённые на Flathub за последние дни.",
   "recently-updated": "Недавно обновлённые",
   "recently-added-description": "Новые приложения, опубликованные на Flathub за последние дни.",
-  "flathub-index-description": "Получите последние версии всех ваших любимых приложений из Flathub для любого дистрибутива Linux.",
-  "the-linux-app-store": "Магазин приложений для Linux"
+  "flathub-index-description": "Получите последние версии всех ваших любимых приложений для любого дистрибутива Linux.",
+  "the-linux-app-store": "Магазин приложений для Linux",
+  "distribution-flathub-setup": "Настройка Flathub для {{distribution}}",
+  "find-your-distribution": "Найдите свой дистрибутив",
+  "no-results-found": "Результаты не найдены",
+  "app-eol": "Это приложение более недоступно в Flathub"
 }

@@ -1,6 +1,6 @@
 {
   "go-home": "Tornar a l'inici",
-  "search-apps": "Cercar Aplicacions",
+  "search-apps": "Cercar aplicacions",
   "publish": "Publicar",
   "forum": "Fòrum",
   "about": "Quant a",
@@ -252,5 +252,7 @@
   "rss-apps": "Necessiteu una aplicació RSS? Trobeu-ne d'excel·lents a <2>Flathub</2>.",
   "apps-by-developer": "Aplicacions de {{developer}}",
   "count-desktop-apps": "Total d'aplicacions d'escriptori",
-  "apps-by-projectgroup": "Aplicacions del grup {{projectgroup}}"
+  "apps-by-projectgroup": "Aplicacions del grup {{projectgroup}}",
+  "recently-updated": "Actualitzades recentment",
+  "recently-added": "Afegides recentment"
 }
