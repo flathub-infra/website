@@ -1,3 +1,4 @@
+import { VerificationProvider } from "src/verificationProvider"
 import { APIResponseOk } from "./API"
 
 export interface LoginProvider {
@@ -15,10 +16,10 @@ export interface AuthInfo {
   login?: string
 }
 export interface UserInfo {
-  displayname: string
+  displayname?: string
   "dev-flatpaks": string[]
   "owned-flatpaks": string[]
-  auths: Record<string, AuthInfo>
+  auths: Record<VerificationProvider, AuthInfo>
   "is-moderator": boolean
 }
 

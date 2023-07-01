@@ -17,6 +17,7 @@ import { FlathubLogo } from "../login/FlathubLogo"
 import { FlathubMiniLogo } from "../login/FlathubLogoMini"
 import Avatar from "../user/Avatar"
 import { UserInfo } from "src/types/Login"
+import { getUserName } from "src/verificationProvider"
 
 const navigation = [
   {
@@ -138,6 +139,8 @@ const Header = () => {
       window.removeEventListener("keydown", focusSearchBar)
     }
   }, [])
+
+  const displayNameWithFallback = getUserName(user.info)
 
   return (
     <>
@@ -291,7 +294,7 @@ const Header = () => {
                         <Menu.Button className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
                           <Avatar
-                            userName={user.info.displayname}
+                            userName={displayNameWithFallback}
                             avatarUrl={userAvatarUrl}
                           />
                         </Menu.Button>
@@ -430,13 +433,13 @@ const Header = () => {
                             width="38"
                             height="38"
                             alt={t("user-avatar", {
-                              user: user.info.displayname,
+                              user: displayNameWithFallback,
                             })}
                           />
                         </div>
                         <div className="ml-3">
                           <div className="text-base font-medium text-black dark:text-flathub-gainsborow ">
-                            {user.info.displayname}
+                            {displayNameWithFallback}
                           </div>
                         </div>
                       </div>

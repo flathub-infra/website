@@ -4,6 +4,7 @@ import { useUserContext } from "../../context/user-info"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "../login/ProviderLink"
 import Avatar from "./Avatar"
+import { getUserName } from "src/verificationProvider"
 
 interface Props {
   logins: LoginProvider[]
@@ -59,10 +60,12 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
     <></>
   )
 
+  const displayNameWithFallback = getUserName(user.info)
+
   return (
     <>
       <h1 className="col-start-1 row-start-1 mb-3 mt-0 text-4xl font-extrabold">
-        {user.info.displayname}
+        {displayNameWithFallback}
       </h1>
 
       <div>
