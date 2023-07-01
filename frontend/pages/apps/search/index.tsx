@@ -33,6 +33,30 @@ const SearchResults: FunctionComponent<Props> = ({ results }) => {
   )
 }
 
+const FilterFacette = ({
+  label,
+  count,
+  checked,
+  onChange,
+}: {
+  label: string
+  count: number
+  checked: boolean
+  onChange: (e) => void
+}) => {
+  return (
+    <label className="flex items-center">
+      <input
+        type="checkbox"
+        className="form-checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
+      <span className="ml-2">{`${label} (${count})`}</span>
+    </label>
+  )
+}
+
 const SearchFilterCategories = ({
   categories,
   selectedFilters,
@@ -55,45 +79,37 @@ const SearchFilterCategories = ({
     <div className="flex flex-col gap-2">
       <h2 className="text-lg font-bold">{t("categories")}</h2>
       {Object.keys(categories).map((category) => (
-        <div key={category}>
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              className="form-checkbox"
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "main_categories" &&
-                  filter.value === category,
-              )}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "main_categories",
-                      value: category,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "main_categories" &&
-                          filter.value === category
-                        ),
+        <FilterFacette
+          key={category}
+          label={categoryToName(stringToCategory(category), t)}
+          count={categories[category]}
+          checked={selectedFilters.some(
+            (filter) =>
+              filter.filterType === "main_categories" &&
+              filter.value === category,
+          )}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelectedFilters([
+                ...selectedFilters,
+                {
+                  filterType: "main_categories",
+                  value: category,
+                },
+              ])
+            } else {
+              setSelectedFilters(
+                selectedFilters.filter(
+                  (filter) =>
+                    !(
+                      filter.filterType === "main_categories" &&
+                      filter.value === category
                     ),
-                  )
-                }
-              }}
-            />
-            <span className="ml-2">
-              {`${categoryToName(stringToCategory(category), t)} (${
-                categories[category]
-              })`}
-            </span>
-          </label>
-        </div>
+                ),
+              )
+            }
+          }}
+        />
       ))}
     </div>
   )
@@ -131,43 +147,37 @@ const SearchFilterFloss = ({
           return 0
         })
         .map((license, i) => (
-          <div key={`${license}-${i}`}>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox"
-                checked={selectedFilters.some(
-                  (filter) =>
-                    filter.filterType === "is_free_license" &&
-                    filter.value === license,
-                )}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedFilters([
-                      ...selectedFilters,
-                      {
-                        filterType: "is_free_license",
-                        value: license,
-                      },
-                    ])
-                  } else {
-                    setSelectedFilters(
-                      selectedFilters.filter(
-                        (filter) =>
-                          !(
-                            filter.filterType === "is_free_license" &&
-                            filter.value === license
-                          ),
+          <FilterFacette
+            key={`${license}-${i}`}
+            label={license === "true" ? t("flos") : t("proprietary")}
+            count={isFreeLicense[license]}
+            checked={selectedFilters.some(
+              (filter) =>
+                filter.filterType === "is_free_license" &&
+                filter.value === license,
+            )}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setSelectedFilters([
+                  ...selectedFilters,
+                  {
+                    filterType: "is_free_license",
+                    value: license,
+                  },
+                ])
+              } else {
+                setSelectedFilters(
+                  selectedFilters.filter(
+                    (filter) =>
+                      !(
+                        filter.filterType === "is_free_license" &&
+                        filter.value === license
                       ),
-                    )
-                  }
-                }}
-              />
-              <span className="ml-2">{`${t(
-                license === "true" ? "flos" : "proprietary",
-              )} (${isFreeLicense[license]})`}</span>
-            </label>
-          </div>
+                  ),
+                )
+              }
+            }}
+          />
         ))}
     </div>
   )
@@ -205,43 +215,37 @@ const SearchFilterVerified = ({
           return 0
         })
         .map((verified, i) => (
-          <div key={`${verified}-${i}`}>
-            <label className="flex items-center">
-              <input
-                type="checkbox"
-                className="form-checkbox"
-                checked={selectedFilters.some(
-                  (filter) =>
-                    filter.filterType === "verification_verified" &&
-                    filter.value === verified,
-                )}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setSelectedFilters([
-                      ...selectedFilters,
-                      {
-                        filterType: "verification_verified",
-                        value: verified,
-                      },
-                    ])
-                  } else {
-                    setSelectedFilters(
-                      selectedFilters.filter(
-                        (filter) =>
-                          !(
-                            filter.filterType === "verification_verified" &&
-                            filter.value === verified
-                          ),
+          <FilterFacette
+            key={`${verified}-${i}`}
+            label={verified === "true" ? t("verified") : t("not-verified")}
+            count={verificationVerified[verified]}
+            checked={selectedFilters.some(
+              (filter) =>
+                filter.filterType === "verification_verified" &&
+                filter.value === verified,
+            )}
+            onChange={(e) => {
+              if (e.target.checked) {
+                setSelectedFilters([
+                  ...selectedFilters,
+                  {
+                    filterType: "verification_verified",
+                    value: verified,
+                  },
+                ])
+              } else {
+                setSelectedFilters(
+                  selectedFilters.filter(
+                    (filter) =>
+                      !(
+                        filter.filterType === "verification_verified" &&
+                        filter.value === verified
                       ),
-                    )
-                  }
-                }}
-              />
-              <span className="ml-2">{`${t(
-                verified === "true" ? "verified" : "not-verified",
-              )} (${verificationVerified[verified]})`}</span>
-            </label>
-          </div>
+                  ),
+                )
+              }
+            }}
+          />
         ))}
     </div>
   )
