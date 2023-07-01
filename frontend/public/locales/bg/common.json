@@ -311,7 +311,7 @@
   "moderation-appstream-changes": "Промени в „Appstream“",
   "moderation-appstream": "„Appstream“",
   "moderation-pending-reviews": "Предстоящи рецензии",
-  "moderation-no-review-requests": "Няма рецензии за това приложение.",
+  "moderation-no-review-requests": "Няма рецензии за приложението.",
   "moderation-outdated": "Остаряла",
   "moderation-approved-by": "Одобрено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Отхвърлено от {{handledBy}} на {{handledAt}} ({{handledAtRel}})",
@@ -328,5 +328,9 @@
   "recently-added-description": "Публикувани приложения във „Flathub“ през последните няколко дни.",
   "recently-updated-description": "Обновени приложения във „Flathub“ през последните няколко дни.",
   "the-linux-app-store": "Приложения за Линукс",
-  "flathub-index-description": "Изтеглете актуалните версии на вашите любими приложения от „Flathub“, за всяка дистрибуция на Линукс."
+  "flathub-index-description": "Изтеглете актуалните версии на вашите любими приложения, за всяка дистрибуция на Линукс",
+  "no-results-found": "Няма намерени резултати",
+  "find-your-distribution": "Намерете вашата дистрибуция",
+  "distribution-flathub-setup": "Настройване за „{{distribution}}“",
+  "app-eol": "Приложението вече не е налично във „Flathub“"
 }

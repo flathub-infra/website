@@ -328,5 +328,9 @@
   "recently-added-description": "Nové aplikace publikované na Flathubu v posledních dnech.",
   "runtime-distribution": "Distribuce běhového prostředí",
   "the-linux-app-store": "Obchod s aplikacemi pro Linux",
-  "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací z Flathub, pro libovolnou Linuxovou distribuci."
+  "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací pro libovolnou Linuxovou distribuci.",
+  "app-eol": "Tato aplikace již není na Flathubu k dispozici",
+  "distribution-flathub-setup": "{{distribution}} Nastavení Flathubu",
+  "find-your-distribution": "Najděte svoji distribuci",
+  "no-results-found": "Nebyly nalezeny žádné výsledky"
 }

@@ -10,7 +10,7 @@
   "transaction-summary-type": "Vrsta: {{type}}",
   "view-wallet": "Prikaži novčanik",
   "less": "Manje",
-  "recently-added-apps": "Nove aplikacije",
+  "recently-added-apps": "Nedavno dodane aplikacije",
   "permission-denied": "Za to nemaš korisnička prava.",
   "go-home": "Idi na početnu stranicu",
   "search-apps": "Traži aplikacije",
@@ -322,5 +322,15 @@
   "moderation-no-review-requests": "Za ovu aplikaciju nema recenzija.",
   "moderation-appstream": "Appstream",
   "moderation-dev-description": "Flathubov tim mora pregledati neke promjene u metapodataka aplikacije, kao što su ime ili opis. Ovdje se može vidjeti stanje aktualnih i prošlih zahtjeva za pregled.",
-  "runtime-distribution": "Distribucija vremena izvođenja"
+  "runtime-distribution": "Distribucija vremena izvođenja",
+  "recently-updated": "Nedavno ažurirano",
+  "recently-added": "Nedavno dodano",
+  "distribution-flathub-setup": "{{distribution}} Flathub postavljanje",
+  "no-results-found": "Nema pronađenih rezultata",
+  "recently-added-description": "Nove aplikacije objavljene na Flathub-u u posljednjim danima.",
+  "find-your-distribution": "Pronađite svoju distribuciju",
+  "app-eol": "Ova aplikacija više nije dostupna na Flathub-u",
+  "recently-updated-description": "Ažurirane aplikacije na Flathub-u u posljednjim danima.",
+  "the-linux-app-store": "Trgovina App za Linux",
+  "flathub-index-description": "Dobijte najnovije verzije svih vaših omiljenih apps za bilo koju Linux distribuciju"
 }
