@@ -35,7 +35,11 @@ def _get_stats_for_date(date: datetime.date, session: requests.Session):
             return None
         response.raise_for_status()
         stats = response.json()
-        expire = 60 * 60 if date == datetime.date.today() else 24 * 60 * 60
+        expire = (
+            datetime.timedelta(hours=4)
+            if date > datetime.date.today() + datetime.timedelta(days=-7)
+            else None
+        )
         db.redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
         stats = orjson.loads(stats_txt)
