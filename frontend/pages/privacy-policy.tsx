@@ -2,7 +2,6 @@ import { GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { fetchStats } from "../src/fetchers"
 
 const PrivacyPolicy = (): JSX.Element => {
   const { t } = useTranslation()
@@ -199,15 +198,10 @@ const PrivacyPolicy = (): JSX.Element => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  console.log("Fetching data for stats")
-  const stats = await fetchStats()
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      stats,
     },
-    revalidate: 900,
   }
 }
 
