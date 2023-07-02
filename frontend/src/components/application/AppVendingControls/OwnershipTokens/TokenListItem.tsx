@@ -31,7 +31,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
           <HiChevronDown className="text-2xl" />
         )}
       </Disclosure.Button>
-      <Disclosure.Panel className="flex flex-wrap justify-between gap-y-4 pl-4 pr-4">
+      <Disclosure.Panel className="flex flex-wrap justify-between gap-y-4 pe-4 ps-4">
         <div className="flex flex-col gap-4">
           <span>{token.token}</span>
           <span>

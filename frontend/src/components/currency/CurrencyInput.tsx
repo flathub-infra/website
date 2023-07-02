@@ -70,7 +70,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
 
   return (
     <div>
-      <label className="absolute ml-2 mt-2 text-xl">$</label>
+      <label className="absolute ms-2 mt-2 text-xl">$</label>
       <input
         type="text"
         inputMode="numeric"
@@ -81,7 +81,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
         onBlur={handleBlur}
         ref={ref}
         className={
-          "rounded-xl border-none bg-flathub-gainsborow p-2 pl-7 text-flathub-dark-gunmetal outline-none  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+          "rounded-xl border-none bg-flathub-gainsborow p-2 ps-7 text-flathub-dark-gunmetal outline-none  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow"
         }
         {...inputProps}
       />

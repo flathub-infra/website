@@ -27,7 +27,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
 
   const noChangelog = useMemo(
     () =>
-      `<ul class='list-disc my-4 pl-10'><li>${t(
+      `<ul class='list-disc my-4 ps-10'><li>${t(
         "no-changelog-provided",
       )}</li></ul>`,
     [t],
