@@ -91,7 +91,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
       <div>
         <div>{message}</div>
         {request.comment && (
-          <blockquote className="mt-2 border-l-4 border-flathub-sonic-silver pl-2">
+          <blockquote className="mt-2 border-s-4 border-flathub-sonic-silver ps-2">
             {request.comment}
           </blockquote>
         )}
@@ -186,12 +186,12 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           <h2 className="m-0 flex-grow pb-4 text-2xl font-bold">
             {title}
             {request.is_outdated && (
-              <span className="ml-2">
+              <span className="ms-2">
                 <Badge text={t("moderation-outdated")} />
               </span>
             )}
           </h2>
-          <span className="ml-2 text-gray-500 dark:text-gray-400">
+          <span className="ms-2 text-gray-500 dark:text-gray-400">
             {new Date(request.created_at * 1000).toLocaleDateString(
               getIntlLocale(i18n.language),
             )}
@@ -199,7 +199,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           <Link
             id={`review-${request.id}`}
             href={`#review-${request.id}`}
-            className="ml-3 text-gray-500 dark:text-gray-400"
+            className="ms-3 text-gray-500 dark:text-gray-400"
           >
             #{request.id}
           </Link>

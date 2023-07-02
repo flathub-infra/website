@@ -30,7 +30,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
             className="h-4 w-4"
           />
         </div>
-        <div className="ml-3 text-sm">
+        <div className="ms-3 text-sm">
           <label htmlFor="save-card" className="font-medium">
             {t("purchase-terms-confirmation")}
           </label>
@@ -39,7 +39,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
         <Button
-          className="ml-auto w-full sm:w-auto"
+          className="ms-auto w-full sm:w-auto"
           disabled={!checked}
           onClick={onConfirm}
         >

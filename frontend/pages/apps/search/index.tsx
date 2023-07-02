@@ -52,7 +52,7 @@ const FilterFacette = ({
         checked={checked}
         onChange={onChange}
       />
-      <span className="ml-2">{`${label} (${count})`}</span>
+      <span className="ms-2">{`${label} (${count})`}</span>
     </label>
   )
 }

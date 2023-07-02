@@ -34,7 +34,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
   return (
     <div className={classes.join(" ")} onClick={onClick}>
       <span className="col-span-3 row-start-1 flex">
-        <div className="ml-auto">
+        <div className="ms-auto">
           <ReactCountryFlag countryCode={card.country} />
         </div>
       </span>
@@ -71,7 +71,7 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
             {card.exp_month} / {card.exp_year}
           </div>
         </div>
-        <div className="ml-auto flex flex-col justify-end font-bold">
+        <div className="ms-auto flex flex-col justify-end font-bold">
           <Image
             src={getBrandImage(card.brand, resolvedTheme)}
             width={54}

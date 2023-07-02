@@ -89,7 +89,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
               })
             }}
           />
-          <label htmlFor="include-outdated" className="ml-2">
+          <label htmlFor="include-outdated" className="ms-2">
             Include outdated requests
           </label>
         </span>
@@ -106,7 +106,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
               })
             }}
           />
-          <label htmlFor="include-handled" className="ml-2">
+          <label htmlFor="include-handled" className="ms-2">
             Include handled requests
           </label>
         </span>

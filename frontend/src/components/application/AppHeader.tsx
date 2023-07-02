@@ -51,7 +51,7 @@ export function AppHeader({
         <Verification appId={app.id} verificationStatus={verificationStatus} />
       </div>
 
-      <div className="flex items-center justify-center gap-4 sm:ml-auto">
+      <div className="flex items-center justify-center gap-4 sm:ms-auto">
         <InstallButton appId={app.id} />
         {app.urls?.donation && (
           <ButtonLink

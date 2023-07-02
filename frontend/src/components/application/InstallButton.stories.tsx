@@ -11,7 +11,7 @@ export const Generated = () => {
 
   return (
     <div className="flex">
-      <div className="ml-auto">
+      <div className="ms-auto">
         <InstallButton appId={appId} />
       </div>
     </div>

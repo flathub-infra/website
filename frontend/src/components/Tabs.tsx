@@ -30,7 +30,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                 >
                   {tab.name}
                   {!!tab.badge && (
-                    <span className="ml-1">
+                    <span className="ms-1">
                       <Badge text={tab.badge.toString()}></Badge>
                     </span>
                   )}

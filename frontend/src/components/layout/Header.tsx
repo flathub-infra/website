@@ -258,7 +258,7 @@ const Header = () => {
                           key={item.name}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </a>
@@ -269,7 +269,7 @@ const Header = () => {
                           passHref
                           href={item.href}
                           key={item.name}
-                          className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                          className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                         >
                           {t(item.name)}
                         </Link>
@@ -281,7 +281,7 @@ const Header = () => {
                       passHref
                       href="/login"
                       key="login"
-                      className="ml-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
+                      className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
                       {t("login")}
                     </Link>
@@ -289,7 +289,7 @@ const Header = () => {
 
                   {/* Profile dropdown */}
                   {user.info && (
-                    <Menu as="div" className="relative ml-5">
+                    <Menu as="div" className="relative ms-5">
                       <div>
                         <Menu.Button className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
@@ -437,7 +437,7 @@ const Header = () => {
                             })}
                           />
                         </div>
-                        <div className="ml-3">
+                        <div className="ms-3">
                           <div className="text-base font-medium text-black dark:text-flathub-gainsborow ">
                             {displayNameWithFallback}
                           </div>

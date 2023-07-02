@@ -25,7 +25,7 @@ const Alert: FunctionComponent<Props> = ({ icon, headline, message, type }) => {
               "aria-hidden": "true",
             })}
           </div>
-          <div className="ml-3">
+          <div className="ms-3">
             <h3 className={`text-sm font-medium ${headerColor}`}>{headline}</h3>
             <div className={`mt-2 text-sm ${messageColor}`}>
               <p className="text-inherit">{message}</p>

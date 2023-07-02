@@ -103,7 +103,7 @@ const CardSelect: FunctionComponent<Props> = ({
       {cardSection}
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
-        <Button className="ml-auto w-full sm:w-auto" onClick={skip}>
+        <Button className="ms-auto w-full sm:w-auto" onClick={skip}>
           {t("use-new-card")}
         </Button>
         <Button
