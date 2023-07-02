@@ -9,6 +9,7 @@ import { useTranslation } from "next-i18next"
 import { VerificationText } from "src/verification"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
+import VerificationIcon from "./VerificationIcon"
 
 interface Props {
   application: AppstreamListItem
@@ -60,26 +61,18 @@ const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
         <LogoImage iconUrl={application.icon} appName={application.name} />
       </div>
       <div className="flex flex-col justify-center overflow-hidden">
-        <div className="flex">
+        <div className="flex gap-1">
           <h4 className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-            {application.name}
+            {application.name}{" "}
           </h4>
+          <VerificationIcon
+            appId={application.id}
+            verificationStatus={verificationStatus}
+          />
         </div>
         <div className="mt-2 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
           {application.summary}
         </div>
-        {application.metadata?.["flathub::verification::verified"] && (
-          <div className="mt-1 flex items-center text-xs font-semibold">
-            <HiCheckBadge
-              className="h-5 w-5 text-flathub-celestial-blue"
-              title={t("app-is-verified")}
-              aria-hidden={true}
-            />
-            <span aria-label={t("app-is-verified")}>
-              {VerificationText(verificationStatus)}
-            </span>
-          </div>
-        )}
       </div>
     </Link>
   )
