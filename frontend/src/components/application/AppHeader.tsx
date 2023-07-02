@@ -6,7 +6,7 @@ import { VerificationStatus } from "src/types/VerificationStatus"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
 
 export function AppHeader({
   app,

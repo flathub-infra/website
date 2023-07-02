@@ -1,4 +1,4 @@
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { useState, useEffect } from "react"
 
 import { fetchSearchQuery } from "../fetchers"

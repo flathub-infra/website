@@ -19,7 +19,7 @@
     "@collapsed/react": "^4.0.1",
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@headlessui/react": "^1.7.14",
-    "@jonkoops/matomo-tracker-react": "^0.7.0",
+    "@mitresthen/matomo-tracker-react": "^0.1.0",
     "@sentry/nextjs": "^7.55.2",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.52.1",

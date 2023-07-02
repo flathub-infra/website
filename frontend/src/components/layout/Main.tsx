@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import Header from "./Header"
 import Footer from "./Footer"
 import { useRouter } from "next/router"
