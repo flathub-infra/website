@@ -4,9 +4,6 @@ import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
 import { clsx } from "clsx"
-import { HiCheckBadge } from "react-icons/hi2"
-import { useTranslation } from "next-i18next"
-import { VerificationText } from "src/verification"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
@@ -17,8 +14,6 @@ interface Props {
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
-  const { t } = useTranslation()
-
   const isVerified =
     application.metadata?.["flathub::verification::verified"] === "true"
 
