@@ -3,14 +3,23 @@ import { useEffect } from "react"
 import { useMatomo } from "@jonkoops/matomo-tracker-react"
 import Header from "./Header"
 import Footer from "./Footer"
+import { useRouter } from "next/router"
 
 const Main = ({ children, className }) => {
   const { trackPageView } = useMatomo()
+  const router = useRouter()
 
   // Track page view
   useEffect(() => {
-    trackPageView({})
-  }, [trackPageView])
+    trackPageView({
+      customDimensions: [
+        {
+          id: 1,
+          value: router.locale,
+        },
+      ],
+    })
+  }, [router.locale, trackPageView])
 
   return (
     <div
