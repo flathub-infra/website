@@ -1631,18 +1631,6 @@
     "@types/yargs" "^17.0.8"
     chalk "^4.0.0"
 
-"@jonkoops/matomo-tracker-react@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@jonkoops/matomo-tracker-react/-/matomo-tracker-react-0.7.0.tgz"
-  integrity sha512-3iwG/QM1T6KokU/NZNCkhOccIkhaNnO1+0bTv2JsLbsS7u7hWxpio20gfBjCRd/9N1AMiGidvytG2FK9tu7WFw==
-  dependencies:
-    "@jonkoops/matomo-tracker" "^0.7.0"
-
-"@jonkoops/matomo-tracker@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.npmjs.org/@jonkoops/matomo-tracker/-/matomo-tracker-0.7.0.tgz"
-  integrity sha512-ppCXiDaVytTQOP6hNZIBwjUph5IrGgDoQw4IF5sBoA3PBpMAc5tWtPExbVWTR5pJWpTcp11dv2M83n9pm7LpeQ==
-
 "@jridgewell/gen-mapping@^0.1.0":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.1.1.tgz#e5d2e450306a9491e3bd77e323e38d7aff315996"
@@ -1716,6 +1704,18 @@
   dependencies:
     "@types/mdx" "^2.0.0"
     "@types/react" ">=16"
+
+"@mitresthen/matomo-tracker-react@^0.1.0":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@mitresthen/matomo-tracker-react/-/matomo-tracker-react-0.1.1.tgz#f522f2f354c92102c2ce3c13d61305e47fd80ef4"
+  integrity sha512-1Z+Sup9uuX5TrGe+s86mL6iKpLDA2QCdioCrbUr7I+dRiu/fvH5WAV4/akECKvx5bTOXdVlhoCsbVX29HCS0Hw==
+  dependencies:
+    "@mitresthen/matomo-tracker" "^0.1.1"
+
+"@mitresthen/matomo-tracker@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@mitresthen/matomo-tracker/-/matomo-tracker-0.1.1.tgz#b1c8794383356e931a7737d4d284515d7080fae3"
+  integrity sha512-fzEgWlqfwSE/aSTT4qC8ATp9L2SUfvnecWhi/uQSisqtTQN0YLlLjfqDDwEhzXkwLO0n2TcH0loAi9g7X9D3ug==
 
 "@ndelangen/get-tarball@^3.0.7":
   version "3.0.7"

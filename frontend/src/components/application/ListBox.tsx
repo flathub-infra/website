@@ -1,4 +1,4 @@
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { clsx } from "clsx"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"

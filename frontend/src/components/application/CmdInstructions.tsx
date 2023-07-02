@@ -1,4 +1,4 @@
-import { useMatomo } from "@jonkoops/matomo-tracker-react"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { Trans, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import CodeCopy from "./CodeCopy"
