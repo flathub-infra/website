@@ -26,7 +26,6 @@ import {
   HiChevronLeft,
   HiMagnifyingGlassPlus,
 } from "react-icons/hi2"
-import CmdInstructions from "./CmdInstructions"
 import AdditionalInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
@@ -342,8 +341,6 @@ const Details: FunctionComponent<Props> = ({
           )}
 
           <AppStatistics stats={stats}></AppStatistics>
-
-          <CmdInstructions appId={app.id}></CmdInstructions>
 
           <Tags keywords={app.keywords} />
         </div>

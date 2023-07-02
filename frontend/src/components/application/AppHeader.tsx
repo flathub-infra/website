@@ -7,6 +7,7 @@ import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
+import InstallButton from "../application/InstallButton"
 
 export function AppHeader({
   app,
@@ -19,12 +20,6 @@ export function AppHeader({
 }) {
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
-
-  const installClicked = (e) => {
-    e.preventDefault()
-    trackEvent({ category: "App", action: "Install", name: app.id })
-    window.location.href = `https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`
-  }
 
   const donateClicked = (e) => {
     e.preventDefault()
@@ -57,14 +52,7 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ml-auto">
-        <ButtonLink
-          href={`https://dl.flathub.org/repo/appstream/${app.id}.flatpakref`}
-          passHref
-          className="w-52 sm:w-32 md:w-40"
-          onClick={installClicked}
-        >
-          {t("install")}
-        </ButtonLink>
+        <InstallButton appId={app.id} />
         {app.urls?.donation && (
           <ButtonLink
             href={app.urls.donation}
