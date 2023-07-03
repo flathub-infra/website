@@ -1,7 +1,7 @@
-import { Fragment, FunctionComponent, useEffect, useState } from "react"
-import Button from "./Button"
-import { useTranslation } from "next-i18next"
 import { Dialog, Transition } from "@headlessui/react"
+import { useTranslation } from "next-i18next"
+import { Fragment, FunctionComponent, PropsWithChildren, useState } from "react"
+import Button from "./Button"
 
 interface Props {
   isVisible: boolean
@@ -17,7 +17,7 @@ interface Props {
 /** A dialog to confirm an action and perform a callback function on
  * confirmation or cancellation.
  */
-const ConfirmDialog: FunctionComponent<Props> = ({
+const ConfirmDialog: FunctionComponent<PropsWithChildren<Props>> = ({
   isVisible,
   prompt,
   description,
@@ -26,6 +26,7 @@ const ConfirmDialog: FunctionComponent<Props> = ({
   actionVariant,
   onConfirmed,
   onCancelled,
+  children,
 }) => {
   const { t } = useTranslation()
 
@@ -58,6 +59,8 @@ const ConfirmDialog: FunctionComponent<Props> = ({
             )}
 
             {entry ? toEnter : <></>}
+
+            {children}
 
             <div className="mt-3 grid grid-cols-2 gap-6">
               <Button
