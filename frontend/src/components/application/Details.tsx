@@ -108,6 +108,7 @@ const CarouselStrip = ({ app }: { app: Appstream }) => {
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
       {filteredScreenshots && (
         <Lightbox
+          controller={{ closeOnBackdropClick: true }}
           open={showLightbox}
           close={() => setShowLightbox(false)}
           plugins={[Zoom, Captions]}
