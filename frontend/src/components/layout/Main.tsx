@@ -12,6 +12,10 @@ const Main = ({ children, className }) => {
   // Track page view
   useEffect(() => {
     trackPageView({
+      href: window.location.href.replace(
+        RegExp(`/${router.locale}$|/${router.locale}/`),
+        "/",
+      ),
       customDimensions: [
         {
           id: 1,
@@ -19,7 +23,7 @@ const Main = ({ children, className }) => {
         },
       ],
     })
-  }, [router.locale, trackPageView])
+  })
 
   return (
     <div
