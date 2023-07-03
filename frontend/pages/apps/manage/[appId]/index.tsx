@@ -1,21 +1,22 @@
+import { useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
+import { getInviteStatus } from "src/asyncs/directUpload"
+import Tabs from "src/components/Tabs"
+import AppDevelopersControls from "src/components/application/AppDevelopersControls"
+import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
+import { AppDevModeration } from "src/components/moderation/AppDevModeration"
+import { IS_PRODUCTION } from "src/env"
 import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../../src/context/user-info"
 import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
-import { IS_PRODUCTION } from "src/env"
-import Tabs from "src/components/Tabs"
-import { AppDevModeration } from "src/components/moderation/AppDevModeration"
-import AppDevelopersControls from "src/components/application/AppDevelopersControls"
-import { getInviteStatus } from "src/asyncs/directUpload"
-import { useQuery } from "@tanstack/react-query"
 
 export default function AppManagementPage({
   app,
@@ -59,6 +60,10 @@ export default function AppManagementPage({
       {
         name: t("ownership-tokens"),
         content: <AppVendingControls.OwnershipTokens app={app} />,
+      },
+      {
+        name: t("upload-tokens"),
+        content: <UploadTokenControls app={app} />,
       },
     )
   }

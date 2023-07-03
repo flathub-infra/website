@@ -204,6 +204,16 @@ export const APP_VERIFICATION_CONFIRM_WEBSITE = (
 export const APP_VERIFICATION_UNVERIFY = (id: string): string =>
   `${BASE_URI}/verification/${id}/unverify`
 
+export const UPLOAD_TOKENS_URL = (
+  appId: string,
+  includeExpired: boolean,
+): string =>
+  `${BASE_URI}/upload-tokens/${appId}?include_expired=${includeExpired}`
+export const UPLOAD_TOKEN_CREATE_URL = (appId: string): string =>
+  `${BASE_URI}/upload-tokens/${appId}`
+export const UPLOAD_TOKEN_REVOKE_URL = (tokenId: number): string =>
+  `${BASE_URI}/upload-tokens/${tokenId}/revoke`
+
 export const REFRESH_DEV_FLATPAKS = `${BASE_URI}/auth/refresh-dev-flatpaks`
 
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
