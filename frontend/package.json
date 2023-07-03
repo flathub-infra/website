@@ -23,7 +23,7 @@
     "@sentry/nextjs": "^7.55.2",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.52.1",
-    "boring-avatars": "^1.7.0",
+    "boring-avatars": "^1.10.1",
     "chart.js": "^4.3.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^1.2.1",
