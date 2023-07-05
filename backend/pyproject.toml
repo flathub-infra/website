@@ -24,7 +24,7 @@ vcrpy = "^5.0.0"
 python-gitlab = "^3.14"
 stripe = "^5.4"
 PyJWT = "^2.7.0"
-meilisearch = "^0.28.0"
+meilisearch = "^0.28.1"
 orjson = "^3.9.0"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
