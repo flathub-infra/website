@@ -204,7 +204,7 @@ def get_project_group(
 
 @app.get("/appstream")
 def list_appstream():
-    return apps.list_appstream()
+    return apps.list_desktop_appstream()
 
 
 @app.get("/appstream/{appid}", status_code=200)
