@@ -8,7 +8,7 @@ import requests
 
 from app import utils
 
-from . import config, db, schemas, search
+from . import config, db, search
 
 StatsType = dict[str, dict[str, list[int]]]
 POPULAR_DAYS_NUM = 7
@@ -100,7 +100,6 @@ def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
     delta_downloads_per_day: dict[str, int] = {}
     updates_per_day: dict[str, int] = {}
     totals_country: dict[str, int] = {}
-    category_totals: dict[str, int] = {}
     with requests.Session() as session:
         for i in range((edate - sdate).days + 1):
             date = sdate + datetime.timedelta(days=i)
@@ -137,8 +136,7 @@ def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
                         totals_country[country] = 0
                     totals_country[country] = totals_country[country] + downloads
 
-    for category in schemas.MainCategory:
-        category_totals[category.value] = db.get_category_count(category)
+    totals = search.search_apps_post(search.SearchQuery(query="", filters=None))
 
     return {
         "countries": totals_country,
@@ -147,7 +145,7 @@ def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
         "delta_downloads_per_day": delta_downloads_per_day,
         "downloads": sum(downloads_per_day.values()),
         "number_of_apps": app_count,
-        "category_totals": category_totals,
+        "category_totals": totals["facetDistribution"]["main_categories"],
     }
 
 

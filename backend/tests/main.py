@@ -325,16 +325,9 @@ def test_stats(client):
     three_days_ago = today - datetime.timedelta(days=3)
     expected = {
         "category_totals": {
-            "AudioVideo": 0,
-            "Development": 0,
-            "Education": 0,
             "Game": 1,
-            "Graphics": 0,
             "Network": 1,
             "Office": 1,
-            "Science": 0,
-            "System": 0,
-            "Utility": 0,
         },
         "countries": {"AD": 45, "BR": 67},
         "downloads_per_day": {},
