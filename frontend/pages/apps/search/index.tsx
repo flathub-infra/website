@@ -307,11 +307,9 @@ const SearchPanel = ({
   if (!searchResult || searchResult.estimatedTotalHits === 0) {
     return (
       <div>
-        <span className="flex flex-col">
-          <h1 className="text-2xl font-bold">
-            {t("search-for-query", { query })}
-          </h1>
-        </span>
+        <h1 className="pb-8 text-2xl font-bold">
+          {t("search-for-query", { query })}
+        </h1>
         <p>{t("could-not-find-match-for-search")}</p>
         <p>
           <Trans i18nKey={"common:request-new-app"}>
