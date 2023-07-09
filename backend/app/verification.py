@@ -238,13 +238,15 @@ class VerificationStatus(BaseModel):
 
 
 def _is_github_app(appid: str) -> bool:
-    """Determines whether the app is a repo in github.com/flathub."""
+    """Determines whether the app is a non-archived repo in github.com/flathub."""
     try:
         gh = github.Github(
             config.settings.github_client_id, config.settings.github_client_secret
         )
         try:
-            gh.get_repo(f"flathub/{appid}")
+            repo = gh.get_repo(f"flathub/{appid}")
+            if repo.archived:
+                return False
         except UnknownObjectException:
             return False
         except Exception:
