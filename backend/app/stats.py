@@ -232,6 +232,9 @@ def update(all_app_ids: list):
         installs_last_month = sum([i[2] for i in dict.values()])
         stats_apps_dict[app_id]["installs_last_month"] = installs_last_month
         if app_id in all_app_ids:
+            if not db.is_appid_for_frontend(app_id):
+                continue
+
             stats_installs.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
