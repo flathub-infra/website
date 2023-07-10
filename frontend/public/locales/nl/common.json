@@ -155,7 +155,7 @@
   "loading": "Aan het laden…",
   "kind-donation": "Donatie",
   "install": "Installeren",
-  "manual-install-instructions": "Volg de <2>installatie-instructies</2> alvorens te installeren",
+  "manual-install-instructions": "Volg de <2>installatie-instructies voor uw Linux-distributie</2> alvorens te installeren",
   "delete-account-prompt": "Uw account verwijderen?",
   "delete-account-entry": "Ik wil mijn account verwijderen",
   "screenshot": "Scherm­afdruk",
@@ -328,5 +328,9 @@
   "recently-added-description": "Nieuw gepubliceerde apps op Flathub in de afgelopen dagen",
   "recently-added": "Onlangs toegevoegd",
   "the-linux-app-store": "De app-store voor Linux",
-  "flathub-index-description": "Download de nieuwste versies van al uw favoriete apps via Flathub, voor elke Linux-distributie."
+  "flathub-index-description": "Download de nieuwste versies van al uw favoriete apps, voor elke Linux-distributie",
+  "app-eol": "Deze app is niet meer beschikbaar op Flathub",
+  "distribution-flathub-setup": "Flathub-setup voor {{distribution}}",
+  "find-your-distribution": "Uw distributie zoeken",
+  "no-results-found": "Geen resultaten gevonden"
 }

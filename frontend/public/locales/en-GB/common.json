@@ -203,7 +203,7 @@
   "acknowledgements": "Acknowledgements",
   "link-more-accounts": "Link More Accounts",
   "audio-and-video": "Audio & Video",
-  "manual-install-instructions": "Make sure to follow the <2>setup guide</2> before installing",
+  "manual-install-instructions": "Make sure you follow the <2>setup guide for your Linux distribution</2> before installing",
   "manifest": "Manifest",
   "transaction-summary-created": "Date created: {{date}}",
   "use-new-card": "Use a new card",
@@ -326,5 +326,11 @@
   "recently-updated-description": "Apps updated on Flathub in the last days.",
   "recently-updated": "Recently updated",
   "recently-added": "Recently added",
-  "recently-added-description": "New apps published on Flathub in the last days."
+  "recently-added-description": "New apps published on Flathub in the last days.",
+  "no-results-found": "No results found",
+  "find-your-distribution": "Find your distribution",
+  "flathub-index-description": "Get the latest versions of all your favourite apps, for any Linux distribution",
+  "app-eol": "This application is no longer available on Flathub",
+  "distribution-flathub-setup": "{{distribution}} Flathub Setup",
+  "the-linux-app-store": "The Linux App Store"
 }
