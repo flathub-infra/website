@@ -46,7 +46,7 @@ def get_short_app(key: str):
     return compat_app
 
 
-def list_apps_in_index(index="apps:index"):
+def list_apps_in_index(index="types:desktop"):
     appids = sorted(db.redis_conn.smembers(index))
     ret = []
 
