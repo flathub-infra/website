@@ -50,6 +50,10 @@ def delete_apps(app_id_list):
     return None
 
 
+def reset_apps_index():
+    client.index("apps").delete_all_documents()
+
+
 def get_by_selected_categories(
     selected_categories: list[schemas.MainCategory], page: int, hits_per_page: int
 ):
