@@ -367,3 +367,8 @@ def get_exceptions_for_app(appid: str, response: Response):
 
     response.status_code = 404
     return None
+
+
+@app.post("/reset-search-index")
+def reset_search_index():
+    search.reset_apps_index()
