@@ -175,7 +175,7 @@
   "productivity": "Produktywność",
   "utilities": "Narzędzia",
   "frequently-asked-questions": "Często zadawane pytania",
-  "manual-install-instructions": "Przed instalacją, odwiedź <2>instrukcję konfiguracji</2>",
+  "manual-install-instructions": "Przed instalacją upewnij się, że postępujesz zgodnie z <2>instrukcją instalacji dla swojej dystrybucji Linuksa</2>",
   "by": "od {{developer}}",
   "request-new-app": "Jeśli szukasz konkretnej aplikacji, daj znać <1>społeczności</1>, że chcesz ją widzieć na Flathubie.",
   "owned-apps": "Posiadane aplikacje",

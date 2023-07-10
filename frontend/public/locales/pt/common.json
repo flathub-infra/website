@@ -107,7 +107,7 @@
   "productivity": "Produtividade",
   "utilities": "Utilitários",
   "frequently-asked-questions": "Perguntas frequentes",
-  "manual-install-instructions": "Certifique-se de seguir o <2>guia de instalação</2> antes de instalar",
+  "manual-install-instructions": "Certifique-se de que segue o <2>guia de configuração da sua distribuição Linux</2> antes de instalar",
   "popular-apps": "Aplicações populares",
   "recently-updated-apps": "Aplicações atualizadas recentemente",
   "delete-account": "Deletar conta",
@@ -328,5 +328,9 @@
   "recently-added": "Adicionado recentemente",
   "recently-added-description": "Novas aplicações publicadas no Flathub nos últimos dias.",
   "the-linux-app-store": "A loja de aplicações Linux",
-  "flathub-index-description": "Obtenha as versões mais recentes de todas as suas aplicações favoritas a partir do Flathub, para qualquer distribuição Linux."
+  "flathub-index-description": "Obtenha as versões mais recentes de todas as suas aplicações favoritas, para qualquer distribuição Linux",
+  "app-eol": "Esta aplicação já não está disponível no Flathub",
+  "distribution-flathub-setup": "{{distribution}} Configuração do Flathub",
+  "find-your-distribution": "Encontre a sua distribuição",
+  "no-results-found": "Não foram encontrados resultados"
 }

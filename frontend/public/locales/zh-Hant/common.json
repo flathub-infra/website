@@ -110,7 +110,7 @@
   "link-more-accounts": "連結更多帳號",
   "games": "遊戲",
   "graphics-and-photography": "影像與攝影",
-  "manual-install-instructions": "請確保在安裝前遵循<2>設定指南</2>",
+  "manual-install-instructions": "請確保在安裝前遵循<2>您 Linux 散佈版設定指南</2>",
   "recently-updated-apps": "最近更新的應用程式",
   "popular-apps": "熱門應用程式",
   "purchase-apps-title": "購買應用程式",
@@ -328,5 +328,9 @@
   "recently-updated": "近期更新",
   "recently-added": "近期新增",
   "the-linux-app-store": "Linux 應用程式商店",
-  "flathub-index-description": "從 Flathub 為任何 Linux 散佈版取得您最愛應用程式的最新版本。"
+  "flathub-index-description": "為任何 Linux 散佈版取得您最愛應用程式的最新版本",
+  "app-eol": "此應用程式不再於 Flathub 上提供",
+  "distribution-flathub-setup": "{{distribution}} Flathub 設定",
+  "find-your-distribution": "尋找您的散佈版",
+  "no-results-found": "找不到結果"
 }

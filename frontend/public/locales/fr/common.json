@@ -86,7 +86,7 @@
   "productivity": "Productivité",
   "utilities": "Outils",
   "frequently-asked-questions": "Foire aux questions",
-  "manual-install-instructions": "Assurez-vous de lire le <2>guide d’installation</2> avant de l’installer",
+  "manual-install-instructions": "Veillez à suivre le <2>guide d'installation pour votre distribution </2> avant de l'installer",
   "popular-apps": "Applis populaires",
   "recently-updated-apps": "Applis récemment mises à jour",
   "delete-account": "Supprimer le compte",
@@ -328,5 +328,9 @@
   "login-provider-verification-main-instruction-organization": "Vérifiez que vous avez le droit d'utiliser l'identifiant de l'application <1>{{id}}</1> en vous connectant à un compte disposant de droits d'administrateur sur l'organisation <3>@{{login_name}}</3> sur <5>{{login_provider}}</5>.",
   "runtime-distribution": "Distribution de la durée d'exécution",
   "the-linux-app-store": "Le magasin d'applications Linux",
-  "flathub-index-description": "Obtenez les dernières versions de toutes vos applications préférées sur Flathub, pour n'importe quelle distribution Linux."
+  "flathub-index-description": "Obtenez les dernières versions de toutes vos logiciels préférées, pour n'importe quelle distribution Linux",
+  "app-eol": "Cette application n'est plus accessible sur Flathub",
+  "distribution-flathub-setup": "{{distribution}} Configuration de Flathub",
+  "find-your-distribution": "Trouvez votre distribution",
+  "no-results-found": "Aucun résultat trouvé"
 }

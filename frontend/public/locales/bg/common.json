@@ -130,7 +130,7 @@
   "transaction-went-wrong": "Нещо се обърка по време на транзакцията.",
   "continue": "Продължаване",
   "rss-description": "Абониране за RSS новини от „Flathub“",
-  "manual-install-instructions": "Не забравяйте да прочетете <2>началните инструкции</2>",
+  "manual-install-instructions": "Не забравяйте да прочетете <2>инструкциите за вашата дистрибуция</2>",
   "app-install-error-try-again": "Инсталирането на приложението е неуспешно. Моля, опитайте отново.",
   "could-not-find-match-for-search": "Няма намерени резултати.",
   "languages-summary": "Изберете езика на уебсайта.",
@@ -271,7 +271,7 @@
   "settings": "Настройки",
   "login-provider-verification-main-instruction-unknown-is-organization": "Потвърдете правото си да използвате идентификатора <1>{{id}}</1> като влезете от профила <3>@{{login_name}}</3> (трябва да имате администраторски права с <5>@{{login_name}}</5>) в „<7>{{login_provider}}</7>“.",
   "browse": "Разглеждане",
-  "setup-flathub": "Настройване",
+  "setup-flathub": "Инструкции",
   "setup-flathub-description": "Настройте „Flathub“ за инсталиране и обновяване на приложенията във Вашата система.",
   "count-desktop-apps": "Общо приложения",
   "apps-by-developer": "Приложения от {{developer}}",
@@ -331,6 +331,6 @@
   "flathub-index-description": "Изтеглете актуалните версии на вашите любими приложения, за всяка дистрибуция на Линукс",
   "no-results-found": "Няма намерени резултати",
   "find-your-distribution": "Намерете вашата дистрибуция",
-  "distribution-flathub-setup": "Настройване за „{{distribution}}“",
+  "distribution-flathub-setup": "Инструкции за „{{distribution}}“",
   "app-eol": "Приложението вече не е налично във „Flathub“"
 }
