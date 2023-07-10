@@ -103,6 +103,7 @@ def load_appstream():
                 p.sadd("types:index", type)
                 p.sadd(f"types:{type}", redis_key)
 
+            # only used for compat
             if categories := apps[appid].get("categories"):
                 for category in categories:
                     p.sadd(f"categories:{category}", redis_key)
@@ -139,6 +140,7 @@ def list_desktop_appstream():
     return sorted(list(apps_desktop | apps_desktop_application))
 
 
+# Only used for compat
 def get_recently_updated(limit: int = 100):
     zset = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
     return [
@@ -149,6 +151,7 @@ def get_recently_updated(limit: int = 100):
     ]
 
 
+# Only used for compat
 def get_recently_added(limit: int = 100):
     zset = db.redis_conn.zrevrange("new_apps_zset", 0, limit - 1)
     return [
