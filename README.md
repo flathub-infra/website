@@ -4,7 +4,7 @@
 
 # flathub.org
 
-This is the source code for the website, both backend and frontend. That's running on <https://flathub.org>.
+This is the source code for the website, both backend and frontend. That's running on https://flathub.org.
 
 ## Code contribution
 
@@ -27,7 +27,7 @@ docker-compose up
 
 You might need to use `--build` to rebuild the images, when dependencies change.
 
-Use another terminal session to run the following or use your browser to go to <https://localhost:8000/docs> and use the UI to run the `/update` endpoint.
+Use another terminal session to run the following or use your browser to go to https://localhost:8000/docs and use the UI to run the `/update` endpoint.
 This will populate the database with the latest data from Flathub.
 
 ```sh
@@ -70,4 +70,4 @@ We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate t
 ## Stripe payment testing
 
 In both staging and development environments, Stripe is running in test mode (all data is fake).
-To test payment, card details can be used from <https://stripe.com/docs/testing>.
+To test payment, card details can be used from https://stripe.com/docs/testing.
