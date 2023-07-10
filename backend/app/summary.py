@@ -181,6 +181,9 @@ def update():
             if appid not in current_apps:
                 continue
 
+            if not db.is_appid_for_frontend(appid):
+                continue
+
             updated.append(
                 {
                     "id": utils.get_clean_app_id(appid),

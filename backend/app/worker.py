@@ -53,14 +53,15 @@ def update():
         withscores=True,
     )
 
-    # only add added at for the following types
-    current_apps = {app[5:] for app in db.redis_conn.smembers("types:desktop")} | {
-        app[5:] for app in db.redis_conn.smembers("types:desktop-application")
-    }
+    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+
     added_at: list = []
 
     for [appid, value] in added_at_values:
         if appid not in current_apps:
+            continue
+
+        if not db.is_appid_for_frontend(appid):
             continue
 
         added_at.append(

@@ -48,3 +48,9 @@ def get_project_groups():
     return {
         project_group for project_group in redis_conn.smembers("projectgroups:index")
     }
+
+
+def is_appid_for_frontend(appid: str):
+    return redis_conn.sismember(
+        "types:desktop", f"apps:{appid}"
+    ) or redis_conn.sismember("types:desktop-application", f"apps:{appid}")
