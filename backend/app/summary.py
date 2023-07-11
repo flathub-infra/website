@@ -26,7 +26,7 @@ def validate_ref(ref: str):
     if arch not in ("x86_64", "aarch64"):
         return False
 
-    if branch != "stable":
+    if not branch.startswith("stable"):
         return False
 
     return True
