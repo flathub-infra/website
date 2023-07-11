@@ -33,6 +33,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
             href={href}
             passHref
             aria-label={t("more-type", { type: title })}
+            title={t("more-type", { type: title })}
           >
             {t("more")}
           </ButtonLink>
