@@ -33,7 +33,7 @@ sentry-dramatiq = "^0.3.3"
 psycopg2 = "^2.9.6"
 
 [tool.poetry.dev-dependencies]
-black = "^23.3"
+black = "^23.7"
 pytest = "^7.4.0"
 ruff = "^0.0.277"
 
