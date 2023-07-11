@@ -13,8 +13,6 @@ import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { logout } from "src/asyncs/login"
 import { clsx } from "clsx"
-import { FlathubLogo } from "../login/FlathubLogo"
-import { FlathubMiniLogo } from "../login/FlathubLogoMini"
 import Avatar from "../user/Avatar"
 import { UserInfo } from "src/types/Login"
 import { getUserName } from "src/verificationProvider"
@@ -169,10 +167,20 @@ const Header = () => {
                         title={t("go-home")}
                       >
                         <div className="hidden lg:block">
-                          <FlathubLogo />
+                          <Image
+                            src="/img/logo/flathub-logo-toolbar.svg"
+                            alt="Flathub Logo"
+                            width={88}
+                            height={24}
+                          />
                         </div>
                         <div className="block lg:hidden">
-                          <FlathubMiniLogo />
+                          <Image
+                            src="/img/logo/flathub-logo-mini.svg"
+                            alt="Flathub Logo"
+                            width={24}
+                            height={22}
+                          />
                         </div>
                       </div>
                     </Link>
