@@ -3,18 +3,21 @@
     "id": "com.anydesk.Anydesk",
     "name": "AnyDesk",
     "summary": "Connect to a computer remotely",
+    "type": "desktop-application",
     "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png"
   },
   {
     "id": "org.sugarlabs.Maze",
     "name": "Maze",
     "summary": "A simple maze game",
+    "type": "desktop-application",
     "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png"
   },
   {
     "id": "com.wps.Office",
     "name": "WPS Office",
     "summary": "WPS Office Suite",
+    "type": "desktop-application",
     "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png"
   }
 ]
