@@ -3,6 +3,7 @@
     {
       "name": "AnyDesk",
       "summary": "Connect to a computer remotely",
+      "type": "desktop-application",
       "keywords": null,
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
