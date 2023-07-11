@@ -332,5 +332,8 @@
   "app-eol": "This application is no longer available on Flathub",
   "distribution-flathub-setup": "{{distribution}} Flathub Setup",
   "find-your-distribution": "Find your distribution",
-  "no-results-found": "No results found"
+  "no-results-found": "No results found",
+  "desktop-application": "Desktop Application",
+  "console-application": "Console Application",
+  "app-type": "App Type"
 }
