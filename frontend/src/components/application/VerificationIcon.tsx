@@ -51,7 +51,11 @@ const VerificationIcon: FunctionComponent<Props> = ({
   if (verificationStatus?.verified == true) {
     return (
       <>
-        <button ref={reference} {...getReferenceProps}>
+        <button
+          ref={reference}
+          {...getReferenceProps}
+          aria-label={t("app-is-verified")}
+        >
           <HiCheckBadge
             className="h-5 w-5 text-flathub-celestial-blue"
             aria-label={t("app-is-verified")}
