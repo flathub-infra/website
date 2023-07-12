@@ -57,9 +57,9 @@ const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
       </div>
       <div className="flex flex-col justify-center overflow-hidden">
         <div className="flex gap-1">
-          <h4 className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+          <span className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
             {application.name}
-          </h4>
+          </span>
           <VerificationIcon
             appId={application.id}
             verificationStatus={verificationStatus}
