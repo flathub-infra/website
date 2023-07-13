@@ -35,7 +35,7 @@ psycopg2 = "^2.9.6"
 [tool.poetry.dev-dependencies]
 black = "^23.7"
 pytest = "^7.4.0"
-ruff = "^0.0.277"
+ruff = "^0.0.278"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"
