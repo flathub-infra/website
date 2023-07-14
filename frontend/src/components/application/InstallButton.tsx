@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import { Popover, Transition } from "@headlessui/react"
-import { HiOutlineCommandLine } from "react-icons/hi2"
+import { HiChevronDown } from "react-icons/hi2"
 import { clsx } from "clsx"
 import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
@@ -59,7 +59,7 @@ export default function InstallButton({ appId }: { appId: string }) {
           )}
         >
           <span className="sr-only">Open options</span>
-          <HiOutlineCommandLine className="h-5 w-5" aria-hidden="true" />
+          <HiChevronDown className="h-5 w-5" aria-hidden="true" />
         </Popover.Button>
         <Transition
           as={Fragment}
