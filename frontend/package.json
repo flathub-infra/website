@@ -13,7 +13,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postbuild": "next-sitemap",
-    "update-setup-instructions": "./setup-instructions.sh"
+    "update-setup-instructions": "./setup-instructions.sh",
+    "test": "jest"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
@@ -62,6 +63,8 @@
     "@storybook/react": "^7.0.26",
     "@storybook/testing-library": "^0.2.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^20.4.1",
     "@types/react": "^17.0.43",
     "autoprefixer": "^10.4.14",
@@ -69,6 +72,8 @@
     "eslint-config-next": "^13.4.9",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.6.1",
+    "jest-environment-jsdom": "^29.6.1",
     "postcss": "^8.4.25",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
