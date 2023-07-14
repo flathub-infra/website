@@ -36,6 +36,7 @@ client.index("apps").update_filterable_attributes(
         "verification_verified",
         "is_free_license",
         "runtime",
+        "type",
     ]
 )
 
@@ -193,7 +194,12 @@ def search_apps_post(searchquery: SearchQuery):
             "limit": 250,
             "sort": ["installs_last_month:desc"],
             "filter": filterString if filterString else None,
-            "facets": ["verification_verified", "main_categories", "is_free_license"],
+            "facets": [
+                "verification_verified",
+                "main_categories",
+                "is_free_license",
+                "type",
+            ],
         },
     )
 

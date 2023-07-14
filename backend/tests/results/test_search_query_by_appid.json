@@ -3,6 +3,7 @@
     {
       "name": "Maze",
       "summary": "A simple maze game",
+      "type": "desktop-application",
       "keywords": null,
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
@@ -43,6 +44,9 @@
     },
     "is_free_license": {
       "true": 1
+    },
+    "type": {
+      "desktop-application": 1
     },
     "verification_verified": {
       "false": 1

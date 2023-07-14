@@ -50,7 +50,21 @@ def get_project_groups():
     }
 
 
+# keep in sync with show_in_frontend
 def is_appid_for_frontend(appid: str):
-    return redis_conn.sismember(
-        "types:desktop", f"apps:{appid}"
-    ) or redis_conn.sismember("types:desktop-application", f"apps:{appid}")
+    if redis_conn.sismember("types:desktop", f"apps:{appid}"):
+        return True
+
+    if redis_conn.sismember("types:desktop-application", f"apps:{appid}"):
+        return True
+
+    # get app from redis
+    if app := get_json_key(f"apps:{appid}"):
+        if (
+            app.get("type") == "console-application"
+            and app.get("icon")
+            and app.get("screenshots")
+        ):
+            return True
+
+    return False

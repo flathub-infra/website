@@ -251,6 +251,59 @@ const SearchFilterVerified = ({
   )
 }
 
+const SearchFilterTypes = ({
+  types,
+  selectedFilters,
+  setSelectedFilters,
+}: {
+  types: MeilisearchResponseLimited<AppsIndex>["facetDistribution"]["type"]
+  selectedFilters: {
+    filterType: string
+    value: string
+  }[]
+  setSelectedFilters
+}) => {
+  const { t } = useTranslation()
+
+  if (!types) {
+    return null
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <h2 className="text-lg font-bold">{t("app-type")}</h2>
+      {Object.keys(types).map((type) => (
+        <FilterFacette
+          key={type}
+          label={t(type)}
+          count={types[type]}
+          checked={selectedFilters.some(
+            (filter) => filter.filterType === "type" && filter.value === type,
+          )}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelectedFilters([
+                ...selectedFilters,
+                {
+                  filterType: "type",
+                  value: type,
+                },
+              ])
+            } else {
+              setSelectedFilters(
+                selectedFilters.filter(
+                  (filter) =>
+                    !(filter.filterType === "type" && filter.value === type),
+                ),
+              )
+            }
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 const SearchFilters = ({
   results,
   selectedFilters,
@@ -266,6 +319,7 @@ const SearchFilters = ({
   const categories = results?.facetDistribution?.main_categories
   const isFreeLicense = results?.facetDistribution?.is_free_license
   const verificationVerified = results?.facetDistribution?.verification_verified
+  const types = results?.facetDistribution?.type
 
   return (
     <div className="flex min-w-[300px] flex-col gap-4">
@@ -281,6 +335,11 @@ const SearchFilters = ({
       />
       <SearchFilterVerified
         verificationVerified={verificationVerified}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
+      <SearchFilterTypes
+        types={types}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />

@@ -27,9 +27,12 @@ def add_to_search(appid: str, app: dict) -> dict:
         category for category in categories if category not in all_main_categories
     ]
 
+    type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
+
     # order of the dict is important for attritbute ranking
     return {
         "id": utils.get_clean_app_id(appid),
+        "type": type,
         "name": app["name"],
         "summary": app["summary"],
         "keywords": search_keywords,
@@ -68,6 +71,24 @@ def add_to_search(appid: str, app: dict) -> dict:
     }
 
 
+# keep in sync with db.is_appid_for_frontend
+def show_in_frontend(app: dict) -> bool:
+    if app.get("type") == "desktop":
+        return True
+
+    if app.get("type") == "desktop-application":
+        return True
+
+    if (
+        app.get("type") == "console-application"
+        and app.get("icon")
+        and app.get("screenshots")
+    ):
+        return True
+
+    return False
+
+
 def load_appstream():
     apps = utils.appstream2dict("repo")
 
@@ -85,10 +106,7 @@ def load_appstream():
         for appid in apps:
             redis_key = f"apps:{appid}"
 
-            if (
-                apps[appid].get("type") == "desktop-application"
-                or apps[appid].get("type") == "desktop"
-            ):
+            if show_in_frontend(apps[appid]):
                 search_apps.append(add_to_search(appid, apps[appid]))
 
                 if developer_name := apps[appid].get("developer_name"):
@@ -131,13 +149,19 @@ def load_appstream():
     return new_apps
 
 
+# Only used for sitemap
 def list_desktop_appstream():
     apps_desktop = {app[5:] for app in db.redis_conn.smembers("types:desktop")}
     apps_desktop_application = {
         app[5:] for app in db.redis_conn.smembers("types:desktop-application")
     }
+    apps_console_application = {
+        app[5:] for app in db.redis_conn.smembers("types:console-application")
+    }
 
-    return sorted(list(apps_desktop | apps_desktop_application))
+    return sorted(
+        list(apps_desktop | apps_desktop_application | apps_console_application)
+    )
 
 
 # Only used for compat
