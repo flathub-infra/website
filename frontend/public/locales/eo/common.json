@@ -332,5 +332,8 @@
   "distribution-flathub-setup": "Agordado de Flathub por {{distribution}}",
   "find-your-distribution": "Serĉi vian Linux-distribuon",
   "no-results-found": "Neniu rezulto troviĝis",
-  "app-eol": "Ĉi tiu programo estas ne plu disponebla ĉe Flathub"
+  "app-eol": "Ĉi tiu programo estas ne plu disponebla ĉe Flathub",
+  "app-type": "Speco de programo",
+  "console-application": "Terminala programo",
+  "desktop-application": "Grafika programo"
 }

@@ -332,5 +332,8 @@
   "app-eol": "Tato aplikace již není na Flathubu k dispozici",
   "distribution-flathub-setup": "{{distribution}} Nastavení Flathubu",
   "find-your-distribution": "Najděte svoji distribuci",
-  "no-results-found": "Nebyly nalezeny žádné výsledky"
+  "no-results-found": "Nebyly nalezeny žádné výsledky",
+  "desktop-application": "Desktopová aplikace",
+  "console-application": "Konzolová aplikace",
+  "app-type": "Typ aplikace"
 }

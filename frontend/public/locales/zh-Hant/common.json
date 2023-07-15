@@ -332,5 +332,8 @@
   "app-eol": "此應用程式不再於 Flathub 上提供",
   "distribution-flathub-setup": "{{distribution}} Flathub 設定",
   "find-your-distribution": "尋找您的散佈版",
-  "no-results-found": "找不到結果"
+  "no-results-found": "找不到結果",
+  "desktop-application": "桌面應用程式",
+  "console-application": "控制台應用程式",
+  "app-type": "應用程式類型"
 }

@@ -332,5 +332,8 @@
   "app-eol": "Цей застосунок більше недоступний на Flathub",
   "distribution-flathub-setup": "Налаштування Flathub у {{distribution}}",
   "find-your-distribution": "Знайти свій дистрибутив",
-  "no-results-found": "Результатів не знайдено"
+  "no-results-found": "Результатів не знайдено",
+  "desktop-application": "Застосунок для комп'ютера",
+  "console-application": "Застосунок для консолі",
+  "app-type": "Тип застосунку"
 }

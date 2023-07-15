@@ -184,7 +184,7 @@
   "previous-page": "Pàgina anterior",
   "no-more-transactions": "No hi ha més transaccions per mostrar.",
   "purchase-terms-confirmation": "Confirmo que he llegit els Termes i condicions de Flathub i accepto renunciar al període de reflexió de 14 dies associat amb aquesta descàrrega digital.",
-  "recently-added-apps": "Noves aplicacions",
+  "recently-added-apps": "Aplicacions afegides recentment",
   "developer-settings": "Configuració del desenvolupador",
   "minimum-payment": "Pagament mínim",
   "recommended-payment": "Pagament recomanat",
@@ -254,5 +254,16 @@
   "count-desktop-apps": "Total d'aplicacions d'escriptori",
   "apps-by-projectgroup": "Aplicacions del grup {{projectgroup}}",
   "recently-updated": "Actualitzades recentment",
-  "recently-added": "Afegides recentment"
+  "recently-added": "Afegides recentment",
+  "moderation-key": "Clau",
+  "moderation-old-value": "Valor Antic",
+  "moderation-new-value": "Valor Nou",
+  "moderation-value": "Valor",
+  "moderation-no-review-requests": "No hi ha ressenyes per mostrar per a aquesta aplicació.",
+  "moderation-outdated": "Obsolet",
+  "recently-updated-description": "Aplicacions actualitzades a Flathub en els darrers dies.",
+  "recently-added-description": "Noves aplicacions publicades a Flathub en els darrers dies.",
+  "moderation-approved-by": "Aprovat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Rebutjat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
+  "consultants-description": "Serveis de consultoria per a l'enviament d'aplicacions a Flathub."
 }
