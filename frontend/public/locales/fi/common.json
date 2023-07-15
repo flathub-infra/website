@@ -331,5 +331,8 @@
   "no-results-found": "Tuloksia ei löytynyt",
   "app-eol": "Tämä sovellus ei ole enää saatavilla Flathubista",
   "distribution-flathub-setup": "{{distribution}} - Flathubin määritys",
-  "find-your-distribution": "Löydä jakelusi"
+  "find-your-distribution": "Löydä jakelusi",
+  "console-application": "Konsolisovellus",
+  "app-type": "Sovelluksen tyyppi",
+  "desktop-application": "Työpöytäsovellus"
 }

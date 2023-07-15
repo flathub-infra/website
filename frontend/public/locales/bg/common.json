@@ -332,5 +332,8 @@
   "no-results-found": "Няма намерени резултати",
   "find-your-distribution": "Намерете вашата дистрибуция",
   "distribution-flathub-setup": "Инструкции за „{{distribution}}“",
-  "app-eol": "Приложението вече не е налично във „Flathub“"
+  "app-eol": "Приложението вече не е налично във „Flathub“",
+  "app-type": "Вид",
+  "desktop-application": "Графични",
+  "console-application": "Текстови"
 }
