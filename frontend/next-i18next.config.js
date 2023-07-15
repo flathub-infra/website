@@ -44,6 +44,7 @@ module.exports = {
       "oc",
       "da",
       "az",
+      "he",
     ],
   },
   // debug: true,
