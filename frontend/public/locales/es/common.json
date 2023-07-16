@@ -18,7 +18,7 @@
   "languages": "Idiomas",
   "badge-copyright": "En la medida de lo posible por ley, <2>Jakub Steiner</2> ha renunciado a todos los derechos de autor y derechos conexos o vecinos a <5>Insignias de Flathub</5>. Esta obra se publica desde Chequia.",
   "donate": "Donar",
-  "manual-install-instructions": "Asegúrate de seguir la <2>guía de instalación de tu distribución de Linux</2> antes de instalar",
+  "manual-install-instructions": "Asegúrese de seguir la <2>guía de instalación de su distribución de Linux</2> antes de instalar",
   "go-home": "Volver al inicio",
   "community": "Comunidad",
   "developers": "Desarrolladores",
@@ -332,5 +332,8 @@
   "app-eol": "Esta aplicación ya no está disponible en Flathub",
   "distribution-flathub-setup": "{{distribution}} Configuración de Flathub",
   "find-your-distribution": "Encuentre su distribución",
-  "no-results-found": "No se ha encontrado ningún resultado"
+  "no-results-found": "No se ha encontrado ningún resultado",
+  "desktop-application": "Aplicación de escritorio",
+  "console-application": "Aplicación de consola",
+  "app-type": "Tipo de aplicación"
 }

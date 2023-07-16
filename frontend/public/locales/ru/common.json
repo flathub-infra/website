@@ -332,5 +332,8 @@
   "distribution-flathub-setup": "Настройка Flathub для {{distribution}}",
   "find-your-distribution": "Найдите свой дистрибутив",
   "no-results-found": "Результаты не найдены",
-  "app-eol": "Это приложение более недоступно в Flathub"
+  "app-eol": "Это приложение более недоступно в Flathub",
+  "console-application": "Консольное приложение",
+  "app-type": "Тип приложения",
+  "desktop-application": "Настольное приложение"
 }

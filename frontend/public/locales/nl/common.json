@@ -332,5 +332,8 @@
   "app-eol": "Deze app is niet meer beschikbaar op Flathub",
   "distribution-flathub-setup": "Flathub-setup voor {{distribution}}",
   "find-your-distribution": "Uw distributie zoeken",
-  "no-results-found": "Geen resultaten gevonden"
+  "no-results-found": "Geen resultaten gevonden",
+  "console-application": "Console-app",
+  "app-type": "App-type",
+  "desktop-application": "Grafische app"
 }

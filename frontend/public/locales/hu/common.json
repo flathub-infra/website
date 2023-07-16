@@ -122,7 +122,7 @@
   "loading-saved-payment-methods": "Mentett fizetési módok betöltése folyamatban van…",
   "save-card-for-reuse": "Fizetési mód mentése újrafelhasználásra",
   "saved-cards": "Mentett fizetési módok",
-  "manual-install-instructions": "A telepítés előtt mindenképpen kövesse a <2>beállítási útmutató</2>t",
+  "manual-install-instructions": "A telepítés előtt feltétlenül kövesse a <2>GNU/Linux disztribúció telepítési útmutatóját</2>",
   "request-new-app": "Ha egy adott alkalmazást keres, tudasa a közösséggel, hogy szeretné a Flathub-on <1>kattintson ide</1>.",
   "languages-description": "Válasszon ki egy nyelvet a váltáshoz:",
   "app-install-error-try-again": "Nem sikerült telepíteni az alkalmazást. Próbáljon meg visszamenni az alkalmazásáruházba, és telepítse újra.",
@@ -332,5 +332,8 @@
   "app-eol": "Ez az alkalmazás már nem érhető el a Flathubon",
   "find-your-distribution": "Keresse meg a disztribúcióját",
   "distribution-flathub-setup": "{{distribution}} Flathub-beállítása",
-  "no-results-found": "Nincs találat"
+  "no-results-found": "Nincs találat",
+  "desktop-application": "Asztali alkalmazás",
+  "console-application": "Vezérlői alkalmazás",
+  "app-type": "Alkalmazás típusa"
 }
