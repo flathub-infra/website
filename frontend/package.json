@@ -26,7 +26,7 @@
     "boring-avatars": "^1.10.1",
     "chart.js": "^4.3.0",
     "chartjs-adapter-date-fns": "^3.0.0",
-    "clsx": "^1.2.1",
+    "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
     "i18n-iso-countries": "^7.6.0",
     "i18next": "^23.2.8",
