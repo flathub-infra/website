@@ -68,6 +68,9 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
         app_licence
     )
 
+    if result.is_free_software is None:
+        result.is_free_software = False
+
     return result
 
 
