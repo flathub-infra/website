@@ -8,7 +8,19 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 /** @type {import('jest').Config} */
 const config = {
-  // rootDir: ".",
+  rootDir: ".",
+  moduleNameMapper: {
+    "src/hooks/useWindowSize": "<rootDir>/src/hooks/useWindowSize",
+    "src/asyncs/login": "<rootDir>/src/asyncs/login",
+    "src/verificationProvider": "<rootDir>/src/verificationProvider",
+    "pages/apps/search": "<rootDir>/pages/apps/search",
+    "src/components/Spinner": "<rootDir>/src/components/Spinner",
+    "src/meilisearch": "<rootDir>/src/meilisearch",
+    "src/components/application/ApplicationCard":
+      "<rootDir>/src/components/application/ApplicationCard",
+    "src/types/Category": "<rootDir>/src/types/Category",
+    "src/components/Button": "<rootDir>/src/components/Button",
+  },
   // Add more setup options before each test is run
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)"],
