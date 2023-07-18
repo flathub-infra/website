@@ -28,7 +28,7 @@ class PricingInfo(BaseModel):
 class StorefrontInfo(BaseModel):
     verification: VerificationStatus | None
     pricing: PricingInfo | None
-    is_free_software: bool | None
+    is_free_software: bool = False
 
 
 @router.get("/storefront-info", status_code=200, response_model_exclude_none=True)
@@ -68,7 +68,7 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
         app_licence
     )
 
-    if result.is_free_software is None:
+    if result.is_free_software == "":
         result.is_free_software = False
 
     return result
