@@ -20,6 +20,7 @@ const config = {
       "<rootDir>/src/components/application/ApplicationCard",
     "src/types/Category": "<rootDir>/src/types/Category",
     "src/components/Button": "<rootDir>/src/components/Button",
+    "src/context/user-info": "<rootDir>/src/context/user-info",
   },
   // Add more setup options before each test is run
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
