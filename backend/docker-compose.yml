@@ -21,6 +21,7 @@ services:
     restart: unless-stopped
     command: bash -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     environment:
+      - ENV=development
       - REDIS_HOST=redis
       - STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY
       - STRIPE_PUBLIC_KEY=$STRIPE_PUBLIC_KEY
@@ -46,11 +47,16 @@ services:
     restart: unless-stopped
     command: dramatiq app.worker --processes 1 --threads 2 --watch app
     environment:
+      - ENV=development
       - REDIS_HOST=redis
       - STATS_BASEURL=${STATS_BASEURL-https://flathub.org/stats}
       - APPSTREAM_REPOS=$APPSTREAM_REPOS
       - DATADIR=${DATADIR-/app/data}
       - FLAT_MANAGER_API=$FLAT_MANAGER_API
+      - SMTP_HOST=$SMTP_HOST
+      - SMTP_USERNAME=$SMTP_USERNAME
+      - SMTP_PASSWORD=$SMTP_PASSWORD
+      - EMAIL_FROM=$EMAIL_FROM
     depends_on:
       - redis
       - db

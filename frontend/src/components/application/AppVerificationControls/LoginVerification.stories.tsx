@@ -15,14 +15,17 @@ export const Individual = () => {
     login_provider: "github",
     login_name: faker.internet.userName(),
     login_is_organization: false,
+    login_status: "ready",
   }
 
   return (
     <div className="space-y-3">
       <LoginVerification
         appId="io.github.appId"
+        isNewApp={false}
         method={method}
         onVerified={() => {}}
+        onReloadNeeded={() => {}}
       ></LoginVerification>
     </div>
   )
@@ -34,6 +37,7 @@ export const Organization = () => {
     login_provider: "github",
     login_name: faker.internet.domainWord(),
     login_is_organization: true,
+    login_status: "ready",
   }
 
   return (
@@ -41,7 +45,9 @@ export const Organization = () => {
       <LoginVerification
         appId="io.github.appId"
         method={method}
+        isNewApp={false}
         onVerified={() => {}}
+        onReloadNeeded={() => {}}
       ></LoginVerification>
     </div>
   )

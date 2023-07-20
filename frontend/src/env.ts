@@ -101,6 +101,7 @@ export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
 export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 export const CHECK_PURCHASES_URL: string = `${BASE_URI}/purchases/check-purchases`
 export const TOKEN_GENERATION_URL: string = `${BASE_URI}/purchases/generate-update-token`
+export const ACCEPT_PUBLISHER_AGREEMENT_URL: string = `${BASE_URI}/auth/accept-publisher-agreement`
 
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
 export const REMOVE_CARD_URL: string = `${WALLET_BASE_URL}/removecard`
@@ -167,17 +168,29 @@ export const FLATHUB_MIN_PAYMENT = 1
 export const APP_VERIFICATION_STATUS = (id: string): string =>
   `${BASE_URI}/verification/${id}/status`
 
-export const APP_VERIFICATION_AVAILABLE_METHODS = (id: string): string =>
-  `${BASE_URI}/verification/${id}/available-methods`
+export const APP_VERIFICATION_AVAILABLE_METHODS = (
+  id: string,
+  newApp: boolean,
+): string =>
+  `${BASE_URI}/verification/${id}/available-methods?new_app=${newApp}`
 
-export const APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER = (id: string): string =>
-  `${BASE_URI}/verification/${id}/verify-by-login-provider`
+export const APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER = (
+  id: string,
+  newApp: boolean,
+): string =>
+  `${BASE_URI}/verification/${id}/verify-by-login-provider?new_app=${newApp}`
 
-export const APP_VERIFICATION_SETUP_WEBSITE = (id: string): string =>
-  `${BASE_URI}/verification/${id}/setup-website-verification`
+export const APP_VERIFICATION_SETUP_WEBSITE = (
+  id: string,
+  newApp: boolean,
+): string =>
+  `${BASE_URI}/verification/${id}/setup-website-verification?new_app=${newApp}`
 
-export const APP_VERIFICATION_CONFIRM_WEBSITE = (id: string): string =>
-  `${BASE_URI}/verification/${id}/confirm-website-verification`
+export const APP_VERIFICATION_CONFIRM_WEBSITE = (
+  id: string,
+  newApp: boolean,
+): string =>
+  `${BASE_URI}/verification/${id}/confirm-website-verification?new_app=${newApp}`
 
 export const APP_VERIFICATION_UNVERIFY = (id: string): string =>
   `${BASE_URI}/verification/${id}/unverify`

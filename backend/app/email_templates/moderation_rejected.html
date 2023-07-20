@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% from "_moderation_request_item.html" import moderation_request_item %}
+
+{% block content %}
+
+A change in build #{{ build_id }} of {% include "app_name_and_id.html" %} has been reviewed by the Flathub team, and the build has been rejected for the following reason.
+
+<h2>Comment:</h2>
+<blockquote>
+  {{ comment }}
+</blockquote>
+
+<h2>Change:</h2>
+{{ moderation_request_item(request) }}
+
+{% endblock content %}

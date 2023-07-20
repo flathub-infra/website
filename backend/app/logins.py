@@ -20,10 +20,12 @@ from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
 from gitlab import Gitlab
 from pydantic import BaseModel
+from sqlalchemy import func
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, models
+from . import config, models, worker
 from . import db as apps_db
+from .emails import EmailCategory, EmailInfo
 
 
 class LoginState(str, Enum):
@@ -878,6 +880,19 @@ def continue_oauth_flow(
     postlogin_handler(login_result, account)
     # The session is now ready
     db.session.commit()
+
+    worker.send_email.send(
+        EmailInfo(
+            user_id=account.user,
+            category=EmailCategory.SECURITY_LOGIN,
+            subject="New login to Flathub account",
+            template_data={
+                "provider": method,
+                "login": account.login,
+            },
+        ).dict()
+    )
+
     return {
         "status": "ok",
         "result": "logged_in",
@@ -896,6 +911,7 @@ def get_userinfo(login=Depends(login_state)):
         "displayname": "Mx Human Person",
         "dev-flatpaks": [ "org.people.human.Appname" ],
         "owned-flatpaks": [ "org.foo.bar.Appname" ],
+        "accepted-publisher-agreement-at": "2023-06-23T20:38:28.553028"
     }
     ```
 
@@ -913,11 +929,12 @@ def get_userinfo(login=Depends(login_state)):
         "displayname": user.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
+        "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
     }
     ret["auths"] = {}
 
     appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
-    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    dev_flatpaks = user.dev_flatpaks(db)
     owned_flatpaks = {
         app.app_id
         for app in models.UserOwnedApp.all_owned_by_user(db, user)
@@ -981,8 +998,7 @@ def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
     refresh_repo_list(account.token, account)
     db.session.commit()
 
-    appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
-    dev_flatpaks = {appid for appid in user.dev_flatpaks(db) if appid in appstream}
+    dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
     return {"dev-flatpaks": sorted(dev_flatpaks)}
 
 
@@ -1051,6 +1067,15 @@ def do_deleteuser(
         return JSONResponse(ret, status_code=400)
 
     return ret
+
+
+@router.post("/accept-publisher-agreement")
+def do_agree_to_publisher_agreement(login=Depends(login_state)):
+    if not login["state"].logged_in():
+        return Response(status_code=403)
+
+    login["user"].accepted_publisher_agreement_at = func.now()
+    db.session.commit()
 
 
 def register_to_app(app: FastAPI):

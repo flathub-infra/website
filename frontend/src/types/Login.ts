@@ -21,6 +21,7 @@ export interface UserInfo {
   "owned-flatpaks": string[]
   auths: Record<VerificationProvider, AuthInfo>
   "is-moderator": boolean
+  "accepted-publisher-agreement-at": string | null
 }
 
 // State houses user info, along with whether it's currently mid-request
