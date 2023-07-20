@@ -112,4 +112,7 @@ public/sitemap.xml
 # Sentry
 .sentryclirc
 
+# Jetbrains
+.idea
+
 flatpak.github.io
