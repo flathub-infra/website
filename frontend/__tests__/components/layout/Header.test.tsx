@@ -4,25 +4,6 @@ import { UserState } from "../../../src/types/Login"
 import { UserContext, UserDispatchContext } from "src/context/user-info"
 import React from "react"
 
-const pushMock = jest.fn()
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      route: "/",
-      pathname: "",
-      query: "",
-      asPath: "",
-      push: pushMock,
-      events: {
-        on: jest.fn(),
-        off: jest.fn(),
-      },
-      beforePopState: jest.fn(() => null),
-      prefetch: jest.fn(() => null),
-    }
-  },
-}))
-
 jest.mock("react-i18next", () => ({
   useTranslation: () => {
     return {
@@ -35,53 +16,51 @@ jest.mock("react-i18next", () => ({
   },
 }))
 
-afterEach(() => {
-  jest.clearAllMocks()
-})
-
-test("user logs out successfully", async () => {
-  const dispatchMock = jest.fn()
-  const userState: UserState = {
-    loading: false,
-    info: {
-      auths: {
-        github: {
-          avatar: "https://avatars.githubusercontent.com/u/27268838?s=200&v=4",
-          login: "devflat",
+describe("Header tests", () => {
+  it("User logs out successfully", async () => {
+    const dispatchMock = jest.fn()
+    const userState: UserState = {
+      loading: false,
+      info: {
+        auths: {
+          github: {
+            avatar: "https://avatars.githubusercontent.com/u/27268838?s=200&v=4",
+            login: "devflat",
+          },
+          gitlab: undefined,
+          gnome: undefined,
+          kde: undefined,
         },
-        gitlab: undefined,
-        gnome: undefined,
-        kde: undefined,
+        "is-moderator": false,
+        "dev-flatpaks": [],
+        "owned-flatpaks": [],
+        displayname: "dev-flatpak",
       },
-      "is-moderator": false,
-      "dev-flatpaks": [],
-      "owned-flatpaks": [],
-      displayname: "dev-flatpak",
-    },
-  }
-  const expectedUrlValue = "https://wiki.gnome.org"
-  global.fetch = jest.fn(() =>
-    Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve({ url: expectedUrlValue }),
-    }),
-  ) as jest.Mock
+    }
+    const expectedUrlValue = "https://wiki.gnome.org"
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ url: expectedUrlValue }),
+      }),
+    ) as jest.Mock
 
-  const { getByText } = render(
-    <>
-      <UserContext.Provider value={userState}>
-        <UserDispatchContext.Provider value={dispatchMock}>
-          <Header />
-        </UserDispatchContext.Provider>
-      </UserContext.Provider>
-    </>,
-  )
+    const { getByText } = render(
+      <>
+        <UserContext.Provider value={userState}>
+          <UserDispatchContext.Provider value={dispatchMock}>
+            <Header />
+          </UserDispatchContext.Provider>
+        </UserContext.Provider>
+      </>,
+    )
 
-  await waitFor(() => {
-    fireEvent.click(getByText("open-user-menu"))
-    fireEvent.click(getByText("log-out"))
+    await waitFor(() => {
+      fireEvent.click(getByText("open-user-menu"))
+      fireEvent.click(getByText("log-out"))
+    })
+
+    expect(dispatchMock).toHaveBeenCalledWith({ type: "loading" })
+    expect(dispatchMock).toHaveBeenCalledWith({ type: "logout" })
   })
-
-  expect(dispatchMock).toHaveBeenCalledWith({ type: "loading" })
-  expect(dispatchMock).toHaveBeenCalledWith({ type: "logout" })
 })
