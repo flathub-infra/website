@@ -248,5 +248,6 @@
   "apps-by-projectgroup": "{{projectgroup}}グループ のアプリ",
   "tags-colon": "タグ:",
   "not-verified": "未認証",
-  "flos": "オープンソース"
+  "flos": "オープンソース",
+  "desktop-application": "デスクアプリ"
 }

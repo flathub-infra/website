@@ -335,5 +335,19 @@
   "no-results-found": "Nebyly nalezeny žádné výsledky",
   "desktop-application": "Desktopová aplikace",
   "console-application": "Konzolová aplikace",
-  "app-type": "Typ aplikace"
+  "app-type": "Typ aplikace",
+  "new-app": "Nová aplikace",
+  "community-repository": "Komunitní repositář",
+  "community-repository-description": "Nahrajte svou aplikaci na Flathub nahráním souboru manifestu vaší aplikace Flatpak a podpůrných souborů do repositáře v naší organizaci Github. Sestavovací nástroj sestaví aplikaci a publikuje ji na Flathub.",
+  "new-community-repository": "Nová aplikace komunitního repositáře",
+  "direct-upload": "Přímé nahrání",
+  "direct-upload-description": "Sestavte aplikaci ve vlastním prostředí pro kontinuální integraci a nahrajte ji přímo na Flathub.",
+  "new-direct-upload": "Nová aplikace pro přímé nahrání",
+  "verify-app-id": "Ověřit ID aplikace",
+  "app-id": "ID aplikace",
+  "app-already-exists": "Aplikace s tímto ID již dávno existuje.",
+  "malformed-app-id": "ID aplikace je chybně zadáno. ID aplikace musí obsahovat alespoň tři segmenty a žádný segment nesmí být prázdný. Každý segment musí začínat písmenem nebo podtržítkem a smí obsahovat pouze písmena, číslice, podtržítka a pomlčky.",
+  "publisher-agreement": "Smlouva o předkládání publikací vydavateli",
+  "publisher-agreement-accept": "Souhlasím se smlouvou o předkládání publikací vydavateli",
+  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.<vaše_uživatelské_jméno>.<název_aplikace>'."
 }
