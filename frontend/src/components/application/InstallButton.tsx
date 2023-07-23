@@ -35,7 +35,7 @@ export default function InstallButton({ appId }: { appId: string }) {
   }
 
   return (
-    <div className="inline-flex rounded-md shadow-sm">
+    <div className="inline-flex w-52 basis-1/2 rounded-md shadow-sm sm:w-32 md:w-40">
       <Link
         href={`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`}
         onClick={installClicked}
@@ -43,7 +43,7 @@ export default function InstallButton({ appId }: { appId: string }) {
           "hover:opacity-75 active:opacity-50",
           "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
           "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-s-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer",
-          "w-44 sm:w-24 md:w-32",
+          "w-full",
         )}
         role="button"
       >
