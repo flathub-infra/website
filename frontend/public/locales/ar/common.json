@@ -237,7 +237,7 @@
   "cancel": "ألغِ",
   "select-donation-amount": "اختر مبلغ التبرُّع",
   "status-cancelled": "أُلغي",
-  "status-retry": "جرِّب مرَّةً أخرى",
+  "status-retry": "حاول مرَّةً أخرى",
   "status-success": "نجاح",
   "stripe-receipt": "إيصال سترايب",
   "submit-payment": "سلِّم مقدار الدفع",
@@ -328,9 +328,15 @@
   "recently-added-description": "التطبيقات المنشورة في فلاتهب مؤخَّرًا.",
   "recently-updated": "حُدِّثت مؤخَّرًا",
   "the-linux-app-store": "متجر تطبيقات لينكس",
-  "flathub-index-description": "هاهنا تجد أحدث إصدارات التطبيقات لكلِّ توزيعات لينكس.",
+  "flathub-index-description": "هنا تجد أحدث إصدارات التطبيقات لكلِّ توزيعات لينكس",
   "app-eol": "ما عاد هذا التطبيق في فلاتهب",
   "distribution-flathub-setup": "{{distribution}} إعداد فلاتهب",
   "find-your-distribution": "جِد توزيعتك",
-  "no-results-found": "لا توجد نتائج"
+  "no-results-found": "لا توجد نتائج",
+  "desktop-application": "تطبيق سطح المكتب",
+  "console-application": "تطبيق وحدة التحكم",
+  "app-type": "نوع التطبيق",
+  "new-app": "تطبيق جديد",
+  "community-repository": "مستودع المجتمع",
+  "community-repository-description": "قم بتحميل تطبيقك إلى Flathub عن طريق تحميل بيان Flatpak وملفات الدعم إلى المستودع في مؤسسة GitHub الخاصة بنا. سيقوم buildbot الخاص ب Flathub ببناء التطبيق ونشره على Flathub."
 }

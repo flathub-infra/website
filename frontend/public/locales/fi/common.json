@@ -334,5 +334,20 @@
   "find-your-distribution": "Löydä jakelusi",
   "console-application": "Konsolisovellus",
   "app-type": "Sovelluksen tyyppi",
-  "desktop-application": "Työpöytäsovellus"
+  "desktop-application": "Työpöytäsovellus",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Vahvista oikeutesi käyttää sovellustunnistetta <1>{{id}}</1> kirjautumalla tilille <3>@{{login_name}}</3> (jos <5>@{{login_name}}</5> on organisaatio, kirjaudu tilillä jolla on käyttöoikeus kyseiseen organisaatioon) palvelussa <7>{{login_provider}}</7>.",
+  "community-repository": "Yhteisön tietovarasto",
+  "malformed-app-id": "Sovellus-ID on muodostettu väärin. Sovellus-ID:n tulee sisältää kolme osaa, eikä yksikään osa voi olla tyhjä. Jokaisen osan tulee alkaa kirjaimella tai alaviivalla, ja osa voi sisältää vain kirjaimia, numeroita, alaviivoja ja tavuviivoja.",
+  "new-app": "Uusi sovellus",
+  "community-repository-description": "Lähetä sovellus Flathubiin lähettämällä Flatpak-manifesti ja sitä tukevat tiedostot GitHub-organisaatiosi tietovarastoon. Flathubin koostamisbotti koostaa sovelluksen ja julkaisee sen Flathubiin.",
+  "new-community-repository": "Uusi yhteisön tietovaraston sovellus",
+  "direct-upload": "Suora lähetys",
+  "direct-upload-description": "Koosta sovelluksesi omassa jatkuvan integraation ympäristössä ja lähetä valmis sovellus Flathubiin.",
+  "new-direct-upload": "Uusi suoran lähetyksen sovellus",
+  "verify-app-id": "Vahvista sovellus-ID",
+  "app-id": "Sovellus-ID",
+  "app-id-instructions": "Sovellus-ID:t ovat käänteisiä verkkotunnuksen niminotaatioita (RDNN). Esimerkiksi Gnomen karttasovelluksen ID on 'org.gnome.Maps'. Valitse verkkotunnus, jonka hallinnasta vastaat, kuten projektin verkkosivusto, tai jos lähetät yksityishenkilönä, oma verkkosivustosi. Jos verkkosivustoa ei ole käytettävissä, voit käyttää lähdekoodia tarjoavan tilin verkkotunnusta, kuten 'io.github.<tilin_nimi>.<sovelluksen_nimi>'.",
+  "app-already-exists": "Sovellus tällä ID:llä on jo olemassa.",
+  "publisher-agreement": "Julkaisijan lähetyksen hyväksyntä",
+  "publisher-agreement-accept": "Hyväksyn julkaisijan lähetyksen ehdot"
 }
