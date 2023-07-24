@@ -36,7 +36,7 @@ jinja2 = "^3.1.2"
 [tool.poetry.dev-dependencies]
 black = "^23.7"
 pytest = "^7.4.0"
-ruff = "^0.0.278"
+ruff = "^0.0.280"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"
