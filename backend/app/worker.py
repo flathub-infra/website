@@ -71,7 +71,9 @@ def update():
         new_apps_zset = {}
         for appid in new_apps:
             if metadata := db.get_json_key(f"summary:{appid}"):
-                new_apps_zset[appid] = metadata.get("timestamp", 0)
+                new_apps_zset[appid] = metadata.get(
+                    "timestamp", datetime.utcnow().timestamp()
+                )
         if new_apps_zset:
             db.redis_conn.zadd("new_apps_zset", new_apps_zset)
 
