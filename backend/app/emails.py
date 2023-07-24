@@ -55,7 +55,9 @@ def _get_gitlab_email(account, gitlab_url) -> str | None:
 def _get_email_address(user: models.FlathubUser, db) -> str | None:
     if gh_user := models.GithubAccount.by_user(db, user):
         gh = Github(gh_user.token)
-        return gh.get_user().email
+        emails = gh.get_user().get_emails()
+        primary = next((e for e in emails if e.primary), None)
+        return primary.email if primary else None
 
     if gl_user := models.GitlabAccount.by_user(db, user):
         return _get_gitlab_email(gl_user, "https://gitlab.com")
@@ -102,7 +104,7 @@ def _create_message(
     message = MIMEText(text, "html")
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
-    message["To"] = formataddr((user.display_name, email))
+    message["To"] = formataddr((user.display_name or False, email))
 
     return (email, message)
 
