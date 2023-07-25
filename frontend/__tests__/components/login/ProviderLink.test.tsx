@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react"
 import ProviderLink from "../../../src/components/login/ProviderLink"
 import { LoginProvider } from "src/types/Login"
-import React from "react"
+import React, { Dispatch } from "react"
 import { toast } from "react-toastify"
 import { translationMock } from "../../../jest.setup"
 
@@ -21,7 +21,7 @@ const githubProps: Props = {
 
 const useStateSpy = jest.spyOn(React, "useState")
 const setStateMock = jest.fn()
-// @ts-ignore
+
 useStateSpy.mockImplementation((init) => [init, setStateMock])
 const useLocalStorageSpy = jest.spyOn(Storage.prototype, "setItem")
 
@@ -119,7 +119,6 @@ describe("ProviderLink tests", () => {
 
   it("redirect login test if clicked is true not call api", async () => {
     global.fetch = jest.fn() as jest.Mock
-    // @ts-ignore
     useStateSpy.mockImplementation(() => [true, setStateMock])
     const { getByRole } = render(
       <ProviderLink
