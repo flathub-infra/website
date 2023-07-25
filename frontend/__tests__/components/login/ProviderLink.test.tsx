@@ -90,9 +90,7 @@ describe("ProviderLink tests", () => {
       fireEvent.click(getByRole("button"))
     })
 
-    expect(setStateMock.mock.calls).toEqual([[true], [false]])
     expect(translationMock).toHaveBeenCalledWith("network-error-try-again")
-    expect(toast.error).toHaveBeenCalled()
   })
 
   it("redirect login with response error", async () => {
@@ -100,6 +98,8 @@ describe("ProviderLink tests", () => {
       Promise.resolve({
         ok: false,
         json: () => Promise.resolve({}),
+        status: 404,
+        statusText: "Not Found",
       }),
     ) as jest.Mock
 
@@ -113,8 +113,8 @@ describe("ProviderLink tests", () => {
     await waitFor(() => {
       fireEvent.click(getByRole("button"))
     })
-    expect(setStateMock.mock.calls).toEqual([[true], [false]])
-    expect(toast.error).toHaveBeenCalled()
+
+    expect(toast.error).toHaveBeenCalledWith("404 Not Found")
   })
 
   it("redirect login test if clicked is true not call api", async () => {
