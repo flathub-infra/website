@@ -6,7 +6,6 @@ import { DefaultSeo } from "next-seo"
 import { ThemeProvider } from "next-themes"
 import type { AppProps } from "next/app"
 
-import "react-responsive-carousel/lib/styles/carousel.min.css" // Requires a loader
 import { UserInfoProvider } from "../src/context/user-info"
 import { IMAGE_BASE_URL, IS_PRODUCTION } from "../src/env"
 import { appWithTranslation, useTranslation } from "next-i18next"
