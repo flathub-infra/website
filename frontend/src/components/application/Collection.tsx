@@ -20,6 +20,7 @@ interface Props {
   totalHits?: number
   onRefresh?: () => void
   link?: (appid: string) => string
+  inACard?: boolean
 }
 
 const ApplicationCollection: FunctionComponent<Props> = ({
@@ -32,6 +33,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   totalHits,
   onRefresh,
   link,
+  inACard,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -87,7 +89,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
             {pagedApplications.map((app) => (
               <div key={app.id} className={"flex flex-col gap-2"}>
-                <ApplicationCard application={app} link={link} />
+                <ApplicationCard application={app} link={link} inACard />
                 {!user?.loading &&
                   user?.info?.["dev-flatpaks"].includes(app.id) && (
                     <ButtonLink
