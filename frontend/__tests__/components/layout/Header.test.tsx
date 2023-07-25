@@ -3,18 +3,11 @@ import Header from "../../../src/components/layout/Header"
 import { UserState } from "../../../src/types/Login"
 import { UserContext, UserDispatchContext } from "src/context/user-info"
 import React from "react"
+import { translationMock } from "../../../jest.setup"
 
-jest.mock("react-i18next", () => ({
-  useTranslation: () => {
-    return {
-      t: (args: any) => args,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-        dir: jest.fn(),
-      },
-    }
-  },
-}))
+beforeEach(() => {
+  translationMock.mockImplementation((args) => args)
+})
 
 describe("Header tests", () => {
   it("User logs out successfully", async () => {

@@ -3,6 +3,7 @@ import ProviderLink from "../../../src/components/login/ProviderLink"
 import { LoginProvider } from "src/types/Login"
 import React from "react"
 import { toast } from "react-toastify"
+import { translationMock } from "../../../jest.setup"
 
 type Props = {
   provider: LoginProvider
@@ -17,18 +18,6 @@ const githubProps: Props = {
   inACard: true,
   provider: githubProvider,
 }
-const translationMock = jest.fn()
-
-jest.mock("react-i18next", () => ({
-  useTranslation: () => {
-    return {
-      t: translationMock,
-      i18n: {
-        changeLanguage: () => new Promise(() => {}),
-      },
-    }
-  },
-}))
 
 const useStateSpy = jest.spyOn(React, "useState")
 const setStateMock = jest.fn()

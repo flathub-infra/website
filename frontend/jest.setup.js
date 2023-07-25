@@ -21,3 +21,19 @@ jest.mock("next/router", () => ({
     }
   },
 }))
+
+const translationMock = jest.fn()
+
+jest.mock("react-i18next", () => ({
+  useTranslation: () => {
+    return {
+      t: translationMock,
+      i18n: {
+        changeLanguage: () => new Promise(() => {}),
+        dir: jest.fn(),
+      },
+    }
+  },
+}))
+
+export { translationMock }
