@@ -1,9 +1,16 @@
+import base64
+import importlib.resources
+import json
 from email.mime.text import MIMEText
 from email.utils import formataddr
 from enum import Enum
 from smtplib import SMTP_SSL as SMTP
 from typing import Any
 
+import jwt
+from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github
 from gitlab import Gitlab
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -25,6 +32,7 @@ class EmailCategory(str, Enum):
     MODERATION_HELD = "moderation_held"
     MODERATION_APPROVED = "moderation_approved"
     MODERATION_REJECTED = "moderation_rejected"
+    BUILD_NOTIFICATION = "build_notification"
 
 
 class EmailInfo(BaseModel):
@@ -59,6 +67,21 @@ def _get_email_address(user: models.FlathubUser, db) -> str | None:
         return _get_gitlab_email(gl_user, "https://invent.kde.org")
 
 
+def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
+    data = {
+        "env": settings.env,
+        "user_display_name": user_display_name,
+        "user_email_address": email,
+        "email_category": info.category,
+        "email_subject": info.subject,
+        "app_id": info.app_id,
+        "app_name": app_name,
+        **info.template_data,
+    }
+
+    return template_env.get_template(info.category + ".html").render(data)
+
+
 def _create_message(
     user: models.FlathubUser, info: EmailInfo, db
 ) -> tuple[str, MIMEText]:
@@ -74,18 +97,8 @@ def _create_message(
     if settings.env != "production":
         full_subject = f"[{settings.env.upper()}] {full_subject}"
 
-    data = {
-        "env": settings.env,
-        "user_display_name": user.display_name,
-        "user_email_address": email,
-        "email_category": info.category,
-        "email_subject": info.subject,
-        "app_id": info.app_id,
-        "app_name": app_name,
-        **info.template_data,
-    }
+    text = _create_html(info, app_name, email, user.display_name)
 
-    text = template_env.get_template(info.category + ".html").render(data)
     message = MIMEText(text, "html")
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
@@ -137,3 +150,99 @@ def send_one_email(message: str, dest: str):
         with SMTP(settings.smtp_host, settings.smtp_port) as smtp:
             smtp.login(settings.smtp_username, settings.smtp_password)
             smtp.sendmail(settings.email_from, [dest], message)
+
+
+router = APIRouter(prefix="/emails")
+
+
+class BuildNotificationRequest(BaseModel):
+    app_id: str
+    build_id: int
+    build_repo: str
+    diagnostics: list[Any]
+
+
+@router.post("/build-notification")
+def build_notification(
+    request: BuildNotificationRequest,
+    authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
+):
+    from . import worker
+
+    try:
+        claims = jwt.decode(
+            authorization.credentials,
+            base64.b64decode(settings.flat_manager_build_secret),
+            algorithms=["HS256"],
+        )
+        if "reviewcheck" not in claims["scope"]:
+            raise HTTPException(status_code=403, detail="invalid_scope")
+    except jwt.PyJWTError:
+        raise HTTPException(status_code=401, detail="invalid_token")
+
+    is_failure = any(not d["is_warning"] for d in request.diagnostics)
+    subject = (
+        f"Build #{request.build_id} failed"
+        if is_failure
+        else f"Build #{request.build_id} passed with warnings"
+    )
+
+    worker.send_email.send(
+        EmailInfo(
+            app_id=request.app_id,
+            category=EmailCategory.BUILD_NOTIFICATION,
+            subject=subject,
+            template_data={
+                "diagnostics": request.diagnostics,
+                "any_warnings": any(d["is_warning"] for d in request.diagnostics),
+                "any_errors": any(not d["is_warning"] for d in request.diagnostics),
+                "build_id": request.build_id,
+                "build_repo": request.build_repo,
+            },
+        ).dict()
+    )
+
+
+if settings.env != "production":
+
+    def _get_preview_data():
+        with importlib.resources.open_text(
+            "app.email_templates", "preview_data.json"
+        ) as f:
+            return json.load(f)
+
+    @router.get("/preview", response_class=HTMLResponse)
+    def preview_templates():
+        preview_data = _get_preview_data()
+        previews = [
+            f"<li><a href='preview/{name}'>{name}</a></li>"
+            for name in preview_data.keys()
+        ]
+        return "<ul>" + "\n".join(previews) + "</ul>"
+
+    @router.get("/preview/{name}", response_class=HTMLResponse)
+    def preview_template(name: str):
+        preview_data = _get_preview_data()
+        if name not in preview_data:
+            raise HTTPException(status_code=404)
+
+        info = EmailInfo(
+            category=preview_data[name]["category"],
+            subject="Test email",
+            app_id="com.example.Test",
+            template_data=preview_data[name]["data"],
+        )
+
+        preview = _create_html(info, "Test App", "test@example.com", "Test User")
+
+        return f"""
+            {preview}
+
+            <div style="margin-top: 5em"/>
+
+            <a href="../preview">Back to list of templates</a>
+        """
+
+
+def register_to_app(app: FastAPI):
+    app.include_router(router)

@@ -71,7 +71,7 @@
   "log-out": "Hesabdan Çıx",
   "network-error-try-again": "Şəbəkə xətası baş verdi. Yenidən cəhd edin.",
   "error-already-logged-in": "Seçilmiş hesab artıq daxil olub.",
-  "your-apps": "Müəllif tətbiqləri",
+  "authored-apps": "Müəllif tətbiqləri",
   "app-logo": "{{app-name}} Logosu",
   "user-page": "İstifadəçi Səhifəsi",
   "failed-to-load-refresh": "Resursu yükləmək alınmadı. Yeniləməyə çalışın.",

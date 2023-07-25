@@ -60,7 +60,7 @@ export function AppHeader({
             rel="noreferrer"
             onClick={donateClicked}
             passHref
-            className="w-52 sm:w-32 md:w-40"
+            className="w-52 basis-1/2 sm:w-32 md:w-40"
             variant="secondary"
           >
             {t("donate")}

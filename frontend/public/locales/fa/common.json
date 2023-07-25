@@ -41,7 +41,7 @@
   "error-already-logged-in": "حساب گزیده شده قبلاً وارد شده است.",
   "failed-to-load-refresh": "منبع بارگزاری نشد. تازه کردن را امتحان کنید.",
   "loading-user-apps": "در حال بارگزاری برنامه‌های کاربر…",
-  "your-apps": "برنامه‌های تالیف شده",
+  "authored-apps": "برنامه‌های تالیف شده",
   "owned-apps": "برنامه‌های به سرپرستی گرفته شده",
   "app-logo": "لوگوی {{app-name}}",
   "flathub-statistics": "آمار فلت‌هاب",

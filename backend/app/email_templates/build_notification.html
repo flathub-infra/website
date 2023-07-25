@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% from "_build_diagnostic.html" import build_diagnostic %}
+
+{% block content %}
+
+<span>
+  {% if any_errors %}
+    Errors were detected during validation of build #{{build_id}} ({{build_repo}}) for {% include "app_name_and_id.html" %}. This build
+    may not be published. Please address the issues and upload a new build.
+  {% else %}
+    Warnings were detected during validation of build #{{build_id}} for {% include "app_name_and_id.html" %}.
+  {% endif %}
+</span>
+
+{% if any_errors %}
+  <h2>Errors</h2>
+  {% for diagnostic in diagnostics %}
+    {% if not diagnostic.is_warning %}
+      {{ build_diagnostic(diagnostic) }}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if any_warnings %}
+  <h2>Warnings</h2>
+  {% for diagnostic in diagnostics %}
+    {% if diagnostic.is_warning %}
+      {{ build_diagnostic(diagnostic) }}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% endblock content %}

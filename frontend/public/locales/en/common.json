@@ -51,7 +51,7 @@
   "error-already-logged-in": "The selected account is already logged in.",
   "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
   "loading-user-apps": "Loading user apps…",
-  "your-apps": "Authored apps",
+  "authored-apps": "Authored apps",
   "owned-apps": "Owned apps",
   "refresh": "Refresh",
   "app-logo": "{{app-name}} Logo",

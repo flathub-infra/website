@@ -33,7 +33,7 @@
   "stripe-validation-error": "Niepoprawne dane karty.",
   "next-page": "Następna strona",
   "loading-user-apps": "Wczytywanie aplikacji użytkownika…",
-  "your-apps": "Twoje aplikacje",
+  "authored-apps": "Twoje aplikacje",
   "home": "Strona główna",
   "flathub-description": "Znajdź i zainstaluj setki aplikacji i gier dla Linuksa. Ciesz się Firefoxem, Telegramem, RetroArchem, GIMPem i wieloma innymi!",
   "an-error-occurred-server": "{{errorCode}} - Wystąpił błąd serwera.",
@@ -332,5 +332,8 @@
   "find-your-distribution": "Znajdź swoją dystrybucję",
   "no-results-found": "Nie znaleziono wyników",
   "distribution-flathub-setup": "Konfiguracja Flathub dla {{distribution}}",
-  "app-eol": "Ta aplikacja nie jest już dostępna na Flathubie"
+  "app-eol": "Ta aplikacja nie jest już dostępna na Flathubie",
+  "desktop-application": "Aplikacja desktopowa",
+  "console-application": "Aplikacja konsolowa",
+  "app-type": "Typ aplikacji"
 }

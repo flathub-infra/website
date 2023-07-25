@@ -28,7 +28,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       return (
         <div
           key={provider.method}
-          className="flex w-full items-center gap-3 rounded-xl bg-flathub-white px-4 py-4 text-flathub-dark-gunmetal shadow-md  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow md:w-auto"
+          className="flex w-full items-center gap-3 rounded-xl bg-flathub-white px-4 py-4 text-flathub-dark-gunmetal shadow-md dark:bg-flathub-gainsborow/10 dark:text-flathub-gainsborow md:w-auto"
         >
           <Avatar
             userName={user.info.displayname}

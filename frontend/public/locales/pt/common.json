@@ -63,7 +63,7 @@
   "error-already-logged-in": "A conta selecionada já está com sessão iniciada.",
   "failed-to-load-refresh": "O recurso falhou ao carregar. Tente atualizar a página.",
   "loading-user-apps": "A carregar aplicações do utilizador…",
-  "your-apps": "Apps que criou",
+  "authored-apps": "Apps que criou",
   "owned-apps": "Apps mantidos",
   "app-logo": "Logo de {{app-name}}",
   "user-page": "Página do utilizador",
@@ -332,5 +332,8 @@
   "app-eol": "Esta aplicação já não está disponível no Flathub",
   "distribution-flathub-setup": "{{distribution}} Configuração do Flathub",
   "find-your-distribution": "Encontre a sua distribuição",
-  "no-results-found": "Não foram encontrados resultados"
+  "no-results-found": "Não foram encontrados resultados",
+  "desktop-application": "Aplicação de ambiente de trabalho",
+  "console-application": "Aplicação de consola",
+  "app-type": "Tipo de aplicação"
 }
