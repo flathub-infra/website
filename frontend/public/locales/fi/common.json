@@ -37,7 +37,7 @@
   "network-error-try-again": "Tapahtui verkkovirhe. Yritä uudestaan.",
   "error-already-logged-in": "Valittu tili on jo sisäänkirjautuneena.",
   "loading-user-apps": "Ladataan käyttäjäsovelluksia…",
-  "your-apps": "Laaditut sovellukset",
+  "authored-apps": "Laaditut sovellukset",
   "app-logo": "Sovelluksen {{app-name}} logo",
   "user-page": "Käyttäjäsivu",
   "flathub-statistics": "Flathub-tilastot",

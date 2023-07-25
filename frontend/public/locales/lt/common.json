@@ -37,7 +37,7 @@
   "app-logo": "{{app-name}} logotipas",
   "count-downloads": "Iš viso atsisiuntimų",
   "loading-user-apps": "Įkeliamos naudotojo programėlės…",
-  "your-apps": "Sukurtos programėlės",
+  "authored-apps": "Sukurtos programėlės",
   "failed-to-load-refresh": "Išteklių įkelti nepavyko. Pabandykite perkrauti.",
   "proprietary": "Nuosavybinė",
   "since": "Nuo",

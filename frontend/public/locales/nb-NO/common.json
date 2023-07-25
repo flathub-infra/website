@@ -41,7 +41,7 @@
   "log-out": "Logg ut",
   "network-error-try-again": "Nettverksfeil. Prøv igjen.",
   "loading-user-apps": "Laster inn brukerprogrammer …",
-  "your-apps": "Dine programmer",
+  "authored-apps": "Dine programmer",
   "app-logo": "{{app-name}} Logo",
   "user-page": "Brukerside",
   "flathub-statistics": "Flathub-statistikk",

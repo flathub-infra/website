@@ -38,7 +38,7 @@
   "error-already-logged-in": "A kijelölt fiók már be van jelentkezve.",
   "failed-to-load-refresh": "Az erőforrás betöltése nem sikerült. Próbálja meg frissíteni.",
   "loading-user-apps": "Felhasználói alkalmazások betöltése…",
-  "your-apps": "Felhasználó által létrehozott alkalmazások",
+  "authored-apps": "Felhasználó által létrehozott alkalmazások",
   "owned-apps": "Felhasználó tulajdonában lévő alkalmazások",
   "app-logo": "{{app-name}} embléma",
   "user-page": "Felhasználói lap",

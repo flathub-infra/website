@@ -47,7 +47,7 @@
   "log-out": "Log Keluar",
   "error-already-logged-in": "Akun yang dipilih sudah masuk.",
   "loading-user-apps": "Memuat aplikasi pengguna…",
-  "your-apps": "Aplikasi yang Ditulis",
+  "authored-apps": "Aplikasi yang Ditulis",
   "app-logo": "Logo {{app-name}}",
   "user-page": "Halaman Pengguna",
   "flathub-statistics": "Statistik Flathub",

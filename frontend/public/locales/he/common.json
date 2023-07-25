@@ -26,7 +26,7 @@
   "error-already-logged-in": "החשבון שנבחר כבר מחובר.",
   "failed-to-load-refresh": "המשאב לא הצליח לטעון. נסה לרענן.",
   "loading-user-apps": "טוענים יישומי משתמש…",
-  "your-apps": "יישומים שנכתבו על ידך",
+  "authored-apps": "יישומים שנכתבו על ידך",
   "owned-apps": "יישומים ששייכים לך",
   "refresh": "רענון",
   "app-logo": "לוגו {{app-name}}",

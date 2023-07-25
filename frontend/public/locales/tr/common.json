@@ -41,7 +41,7 @@
   "log-out": "Oturumu Kapat",
   "network-error-try-again": "Bir ağ hatası oluştu. Tekrar deneyin.",
   "loading-user-apps": "Kullanıcı uygulamaları yükleniyor…",
-  "your-apps": "Yazılan uygulamalar",
+  "authored-apps": "Yazılan uygulamalar",
   "app-logo": "{{app-name}} Logosu",
   "user-page": "Kullanıcı Sayfası",
   "flathub-statistics": "Flathub İstatistikleri",

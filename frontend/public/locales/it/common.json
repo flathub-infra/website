@@ -38,7 +38,7 @@
   "log-out": "Esci",
   "network-error-try-again": "C'è stato un errore di rete. Riprova.",
   "loading-user-apps": "Caricamento app utente…",
-  "your-apps": "App autorizzate",
+  "authored-apps": "App autorizzate",
   "app-logo": "Logo di {{app-name}}",
   "user-page": "Pagina Utente",
   "since": "Da",
