@@ -64,7 +64,7 @@
   "loading-user-apps": "يُحمل تطبيقات المستخدم…",
   "app-logo": "شعار {{app-name}}",
   "since": "منذ",
-  "your-apps": "ما طوَّرت من تطبيقات",
+  "authored-apps": "ما طوَّرت من تطبيقات",
   "user-page": "صفحة المستخدم",
   "flathub-statistics": "احصائيَّات فلاتهب",
   "downloads-per-country": "عدد التنزيلات حسب الدولة",

@@ -38,7 +38,7 @@
   "network-error-try-again": "發生網路錯誤。請稍後再試。",
   "error-already-logged-in": "已登入選定的帳號。",
   "failed-to-load-refresh": "載入資源失敗。請嘗試重新整理。",
-  "your-apps": "創作的應用程式",
+  "authored-apps": "創作的應用程式",
   "owned-apps": "擁有的應用程式",
   "refresh": "重新整理",
   "app-logo": "{{app-name}} 標誌",

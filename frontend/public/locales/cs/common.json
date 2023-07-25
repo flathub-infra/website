@@ -66,7 +66,7 @@
   "app-logo": "Logo aplikace {{app-name}}",
   "an-error-occurred-server": "{{errorCode}} - Na serveru došlo k chybě.",
   "log-out": "Odhlásit se",
-  "your-apps": "Uznané aplikace",
+  "authored-apps": "Uznané aplikace",
   "network-error-try-again": "Nemáte přístup k internetu, zkuste to znovu.",
   "loading-user-apps": "Načítání uživatelských aplikací…",
   "count-downloads": "Celkový počet stažení",

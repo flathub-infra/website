@@ -46,7 +46,7 @@
   "network-error-try-again": "Ha habido un error de red. Inténtelo de nuevo.",
   "error-already-logged-in": "La cuenta seleccionada ya está identificada.",
   "loading-user-apps": "Cargando aplicaciones de usuario…",
-  "your-apps": "Aplicaciones autorizadas",
+  "authored-apps": "Aplicaciones autorizadas",
   "app-logo": "Logo de {{app-name}}",
   "user-page": "Página de usuario",
   "count-downloads": "Descargas totales",

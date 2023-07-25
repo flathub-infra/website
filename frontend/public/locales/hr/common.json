@@ -181,7 +181,7 @@
   "verified-login-provider": "@{{login_name}} na {{login_provider}}",
   "no-changelog-provided": "Nema promjena",
   "failed-to-load-refresh": "Neuspjelo učitavanje resursa. Pokušaj aktualizirati.",
-  "your-apps": "Tvoje aplikacije",
+  "authored-apps": "Tvoje aplikacije",
   "owned-apps": "Aplikacije u tvom vlasništvu",
   "request-new-app": "Ako tražiš određenu aplikaciju, <1>ovdje</1> obavijesti zajednicu da je želiš na Flathubu.",
   "transaction-breakdown": "Detalji transakcije",
