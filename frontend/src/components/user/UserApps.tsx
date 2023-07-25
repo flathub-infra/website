@@ -47,6 +47,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
       title={title}
       applications={apps}
       onRefresh={variant === "dev" && executeRefreshDev}
+      inACard
     />
   )
 }
