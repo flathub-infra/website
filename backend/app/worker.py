@@ -80,7 +80,7 @@ def update():
                 created_at = metadata.get("timestamp")
             else:
                 created_at = int(datetime.utcnow().timestamp())
-        apps_created_at[appid] = created_at
+        apps_created_at[appid] = float(created_at)
 
     if apps_created_at:
         db.redis_conn.zadd("new_apps_zset", apps_created_at)
@@ -96,7 +96,7 @@ def update():
         search_added_at.append(
             {
                 "id": utils.get_clean_app_id(appid),
-                "added_at": value,
+                "added_at": int(value),
             }
         )
 
