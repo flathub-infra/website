@@ -75,12 +75,22 @@ def update():
             continue
 
         created_at = db.redis_conn.get(f"created_at:{appid}")
+        if created_at:
+            if isinstance(created_at, str):
+                created_at_format = "%Y-%m-%dT%H:%M:%SZ"
+                created_at_dt = datetime.strptime(created_at, created_at_format)
+                created_at = int(created_at_dt.timestamp())
+                db.redis_conn.set(f"created_at:{appid}", created_at)
+
         if not created_at:
             if metadata := db.get_json_key(f"summary:{appid}"):
                 created_at = metadata.get("timestamp")
             else:
                 created_at = int(datetime.utcnow().timestamp())
-        apps_created_at[appid] = float(created_at)
+
+        if created_at:
+            db.redis_conn.set(f"created_at:{appid}", created_at)
+            apps_created_at[appid] = float(created_at)
 
     if apps_created_at:
         db.redis_conn.zadd("new_apps_zset", apps_created_at)
