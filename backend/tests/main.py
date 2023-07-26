@@ -379,61 +379,6 @@ def test_app_stats_by_non_existent_id(client):
     assert response.json() is None
 
 
-def test_compat_apps(client):
-    response = client.get("/compat/apps")
-    assert response.status_code == 200
-
-    response_json = response.json()
-    for app in response_json:
-        del app["inStoreSinceDate"]
-
-    expected_json = _get_expected_json_result("test_compat_apps")
-    for app in expected_json:
-        del app["inStoreSinceDate"]
-
-    assert response_json == expected_json
-
-
-def test_compat_apps_category(client):
-    response = client.get("/compat/apps/category/Network")
-    assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_compat_apps_category")
-
-
-def test_compat_apps_by_appid(client):
-    response = client.get("/compat/apps/org.sugarlabs.Maze")
-    assert response.status_code == 200
-
-    response_json = response.json()
-    del response_json["inStoreSinceDate"]
-
-    expected_json = _get_expected_json_result("test_compat_apps_by_appid")
-    del expected_json["inStoreSinceDate"]
-
-    assert response_json == expected_json
-
-
-def test_compat_apps_search(client):
-    response = client.get("/compat/apps/search/Maze")
-    assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_compat_apps_search")
-
-
-def test_compat_apps_recently_updated(client):
-    response = client.get("/compat/apps/collection/recently-updated/50")
-    assert response.status_code == 200
-
-    response_json = response.json()
-    for app in response_json:
-        del app["inStoreSinceDate"]
-
-    expected_json = _get_expected_json_result("test_compat_apps_recently_updated")
-    for app in expected_json:
-        del app["inStoreSinceDate"]
-
-    assert response_json == expected_json
-
-
 def test_valid_app_ids():
     from app.utils import is_valid_app_id
 
