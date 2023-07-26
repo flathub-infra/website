@@ -1,1 +1,1 @@
-export { default as SetupControls } from "./SetupControls"
+export { default as AppVerificationSetup } from "./AppVerificationSetup"
