@@ -27,7 +27,12 @@ export default function AppManagementPage({
   const tabs = [
     {
       name: t("verification"),
-      content: <AppVerificationControls.SetupControls app={app} />,
+      content: (
+        <AppVerificationControls.AppVerificationSetup
+          app={app}
+          isNewApp={false}
+        />
+      ),
     },
   ]
 

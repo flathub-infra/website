@@ -8,7 +8,7 @@ import { getUserData } from "src/asyncs/login"
 import Button from "src/components/Button"
 import { Notice } from "src/components/Notice"
 import Spinner from "src/components/Spinner"
-import { SetupControls } from "src/components/application/AppVerificationControls"
+import { AppVerificationSetup } from "src/components/application/AppVerificationControls"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
@@ -65,7 +65,7 @@ export default function AppRegistrationPage() {
 
         {step === "verify" && (
           <div className="mt-3">
-            <SetupControls
+            <AppVerificationSetup
               app={{ id: appId, name: appId } as Appstream}
               isNewApp={true}
               onVerified={async () => {

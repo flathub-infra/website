@@ -25,7 +25,7 @@ import InlineError from "src/components/InlineError"
 
 interface Props {
   app: Appstream
-  isNewApp?: boolean
+  isNewApp: boolean
   onVerified?: () => void
 }
 
