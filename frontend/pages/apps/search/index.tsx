@@ -304,6 +304,59 @@ const SearchFilterTypes = ({
   )
 }
 
+const SearchFilterArches = ({
+  arches,
+  selectedFilters,
+  setSelectedFilters,
+}: {
+  arches: MeilisearchResponseLimited<AppsIndex>["facetDistribution"]["arches"]
+  selectedFilters: {
+    filterType: string
+    value: string
+  }[]
+  setSelectedFilters
+}) => {
+  const { t } = useTranslation()
+
+  if (!arches) {
+    return null
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <h2 className="text-lg font-bold">{t("arch")}</h2>
+      {Object.keys(arches).map((arch) => (
+        <FilterFacette
+          key={arch}
+          label={t(arch)}
+          count={arches[arch]}
+          checked={selectedFilters.some(
+            (filter) => filter.filterType === "arches" && filter.value === arch,
+          )}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setSelectedFilters([
+                ...selectedFilters,
+                {
+                  filterType: "arches",
+                  value: arch,
+                },
+              ])
+            } else {
+              setSelectedFilters(
+                selectedFilters.filter(
+                  (filter) =>
+                    !(filter.filterType === "arches" && filter.value === arch),
+                ),
+              )
+            }
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 const SearchFilters = ({
   results,
   selectedFilters,
@@ -320,6 +373,7 @@ const SearchFilters = ({
   const isFreeLicense = results?.facetDistribution?.is_free_license
   const verificationVerified = results?.facetDistribution?.verification_verified
   const types = results?.facetDistribution?.type
+  const arches = results?.facetDistribution?.arches
 
   return (
     <div className="flex min-w-[300px] flex-col gap-4">
@@ -340,6 +394,11 @@ const SearchFilters = ({
       />
       <SearchFilterTypes
         types={types}
+        selectedFilters={selectedFilters}
+        setSelectedFilters={setSelectedFilters}
+      />
+      <SearchFilterArches
+        arches={arches}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
