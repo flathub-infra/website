@@ -89,7 +89,7 @@ def update():
                     created_at_format = "%Y-%m-%dT%H:%M:%SZ"
                     created_at_dt = datetime.strptime(created_at, created_at_format)
                     created_at = int(created_at_dt.timestamp())
-                except:
+                except (ValueError, TypeError):
                     created_at = None
 
         if not created_at:
