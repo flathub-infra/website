@@ -21,13 +21,13 @@ router = APIRouter(prefix="/purchases")
 
 
 class PricingInfo(BaseModel):
-    recommended_donation: int | None
-    minimum_payment: int | None
+    recommended_donation: int | None = None
+    minimum_payment: int | None = None
 
 
 class StorefrontInfo(BaseModel):
-    verification: VerificationStatus | None
-    pricing: PricingInfo | None
+    verification: VerificationStatus | None = None
+    pricing: PricingInfo | None = None
     is_free_software: bool = False
 
 

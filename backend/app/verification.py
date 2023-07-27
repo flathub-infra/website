@@ -228,13 +228,13 @@ class LoginProvider(Enum):
 
 class VerificationStatus(BaseModel):
     verified: bool
-    timestamp: str | None
-    method: VerificationMethod | None
-    website: str | None
-    login_provider: LoginProvider | None
-    login_name: str | None
-    login_is_organization: bool | None
-    detail: str | None
+    timestamp: str | None = None
+    method: VerificationMethod | None = None
+    website: str | None = None
+    login_provider: LoginProvider | None = None
+    login_name: str | None = None
+    login_is_organization: bool | None = None
+    detail: str | None = None
 
 
 def _is_github_app(appid: str) -> bool:
@@ -401,17 +401,17 @@ class AvailableLoginMethodStatus(str, Enum):
 
 class AvailableMethod(BaseModel):
     method: AvailableMethodType
-    website: str | None
-    website_token: str | None
-    login_provider: LoginProvider | None
-    login_name: str | None
-    login_is_organization: bool | None
-    login_status: AvailableLoginMethodStatus | None
+    website: str | None = None
+    website_token: str | None = None
+    login_provider: LoginProvider | None = None
+    login_name: str | None = None
+    login_is_organization: bool | None = None
+    login_status: AvailableLoginMethodStatus | None = None
 
 
 class AvailableMethods(BaseModel):
-    methods: list[AvailableMethod] | None
-    detail: str | None
+    methods: list[AvailableMethod] | None = None
+    detail: str | None = None
 
 
 @router.get(

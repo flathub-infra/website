@@ -36,8 +36,8 @@ class EmailCategory(str, Enum):
 
 
 class EmailInfo(BaseModel):
-    user_id: int | None
-    app_id: str | None
+    user_id: int | None = None
+    app_id: str | None = None
     category: EmailCategory
     subject: str
     template_data: dict[str, Any]

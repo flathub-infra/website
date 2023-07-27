@@ -33,7 +33,7 @@ def moderator_only(login=Depends(logins.login_state)):
 class ModerationAppItem(BaseModel):
     appid: str
     is_new_submission: bool
-    updated_at: datetime | None
+    updated_at: datetime | None = None
     request_types: list[ModerationRequestType]
 
 
@@ -52,13 +52,13 @@ class ModerationRequestResponse(BaseModel):
     is_outdated: bool
 
     request_type: ModerationRequestType
-    request_data: T.Any | None
+    request_data: T.Any | None = None
     is_new_submission: bool
 
-    handled_by: str | None
-    handled_at: int | None
-    is_approved: bool | None
-    comment: str | None
+    handled_by: str | None = None
+    handled_at: int | None = None
+    is_approved: bool | None = None
+    comment: str | None = None
 
 
 class ModerationApp(BaseModel):
@@ -170,12 +170,12 @@ def get_moderation_app(
 
 
 class ReviewItem(BaseModel):
-    name: str | None
-    summary: str | None
-    developer_name: str | None
-    project_license: str | None
-    project_group: str | None
-    compulsory_for_desktop: bool | None
+    name: str | None = None
+    summary: str | None = None
+    developer_name: str | None = None
+    project_license: str | None = None
+    project_group: str | None = None
+    compulsory_for_desktop: bool | None = None
 
 
 class ReviewRequest(BaseModel):
@@ -298,9 +298,9 @@ def submit_review_request(
 
 class Review(BaseModel):
     approve: bool
-    comment: str | None
+    comment: str | None = None
 
-    @validator("comment", always=True)
+    @field_validator("comment", always=True)
     def reject_requires_comment(cls, v, values):
         if v is None and not values["approve"]:
             raise ValueError("rejecting a request requires a comment")
