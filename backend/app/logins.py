@@ -53,8 +53,8 @@ class OauthLoginResponseSuccess(BaseModel):
 class OauthLoginResponseFailure(BaseModel):
     state: str
     error: str
-    error_description: str | None
-    error_uri: str | None
+    error_description: str | None = None
+    error_uri: str | None = None
 
 
 OauthLoginResponse = OauthLoginResponseSuccess | OauthLoginResponseFailure

@@ -13,7 +13,7 @@ class Filter(BaseModel):
 
 class SearchQuery(BaseModel):
     query: str
-    filters: list[Filter] | None
+    filters: list[Filter] | None = None
 
 
 client = meilisearch.Client(

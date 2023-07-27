@@ -33,9 +33,9 @@ class TransactionSummary(BaseModel):
     currency: str
     kind: TransactionKind
     status: str
-    reason: str | None
-    created: int | None
-    updated: int | None
+    reason: str | None = None
+    created: int | None = None
+    updated: int | None = None
 
 
 class TransactionRow(BaseModel):
@@ -47,9 +47,9 @@ class TransactionRow(BaseModel):
 
 class Transaction(BaseModel):
     summary: TransactionSummary
-    card: CardInfo | None
+    card: CardInfo | None = None
     details: list[TransactionRow]
-    receipt: str | None
+    receipt: str | None = None
 
 
 class NascentTransactionSummary(BaseModel):
@@ -96,14 +96,14 @@ class StripeKeys(BaseModel):
 class TransactionStripeData(BaseModel):
     status: str
     client_secret: str
-    card: CardInfo | None
+    card: CardInfo | None = None
 
 
 TransactionSaveCardKind = Literal["off_session", "on_session"]
 
 
 class TransactionSaveCard(BaseModel):
-    save_card: TransactionSaveCardKind | None
+    save_card: TransactionSaveCardKind | None = None
 
 
 class TransactionSortOrder(Enum):
