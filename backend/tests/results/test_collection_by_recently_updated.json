@@ -5,6 +5,9 @@
       "summary": "Connect to a computer remotely",
       "type": "desktop-application",
       "keywords": null,
+      "arches": [
+        "x86_64"
+      ],
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
       "installs_last_month": 613,
@@ -37,6 +40,9 @@
       "summary": "WPS Office Suite",
       "type": "desktop-application",
       "keywords": null,
+      "arches": [
+        "x86_64"
+      ],
       "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
       "id": "com_wps_Office",
       "installs_last_month": 668,
@@ -69,6 +75,9 @@
       "summary": "A simple maze game",
       "type": "desktop-application",
       "keywords": null,
+      "arches": [
+        "x86_64"
+      ],
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
       "installs_last_month": 467,
