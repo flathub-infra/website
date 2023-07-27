@@ -75,19 +75,22 @@ def update():
         if not db.is_appid_for_frontend(appid):
             continue
 
-        created_at = db.redis_conn.get(f"created_at:{appid}")
-        if created_at and isinstance(created_at, str):
-            with contextlib.suppress(ValueError):
-                created_at = int(created_at)
+        # created_at keys were used by the old backend to store the repository
+        # creation date; attempt to re-use that by checking if it's string
+        # and converting it to Unix timestamp, then rewriting to that form in
+        # Redis
+        if created_at := db.redis_conn.get(f"created_at:{appid}"):
+            if isinstance(created_at, str):
+                with contextlib.suppress(ValueError):
+                    created_at = int(created_at)
 
-            try:
-                created_at_format = "%Y-%m-%dT%H:%M:%SZ"
-                created_at_dt = datetime.strptime(created_at, created_at_format)
-                created_at = int(created_at_dt.timestamp())
-            except ValueError:
-                created_at = None
-
-            db.redis_conn.set(f"created_at:{appid}", created_at)
+            if isinstance(created_at, str):
+                try:
+                    created_at_format = "%Y-%m-%dT%H:%M:%SZ"
+                    created_at_dt = datetime.strptime(created_at, created_at_format)
+                    created_at = int(created_at_dt.timestamp())
+                except:
+                    created_at = None
 
         if not created_at:
             if metadata := db.get_json_key(f"summary:{appid}"):
