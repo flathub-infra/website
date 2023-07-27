@@ -1,5 +1,6 @@
 import base64
 import os
+
 from pydantic_settings import BaseSettings
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

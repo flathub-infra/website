@@ -9,7 +9,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
 from . import config, logins, models, worker
