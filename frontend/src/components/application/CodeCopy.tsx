@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
-import styles from "./CodeCopy.module.scss"
 import { clsx } from "clsx"
 
 interface Props {
@@ -33,7 +32,7 @@ const CodeCopy: FunctionComponent<Props> = ({
     <div
       className={clsx(
         `relative mx-0 mb-3 mt-0 block overflow-auto break-words p-2 pe-10 text-sm`,
-        styles.pre,
+        "font-mono",
         className,
         nested
           ? "rounded-lg bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"

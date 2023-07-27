@@ -42,7 +42,7 @@
   "log-out": "Abmelden",
   "network-error-try-again": "Netzwerkfehler. Bitte noch einmal versuchen.",
   "loading-user-apps": "Lade Benutzer-Apps…",
-  "your-apps": "Erstellte Apps",
+  "authored-apps": "Erstellte Apps",
   "app-logo": "{{app-name}}-Logo",
   "user-page": "Benutzerseite",
   "flathub-statistics": "Flathub-Statistiken",

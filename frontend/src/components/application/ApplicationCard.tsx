@@ -11,9 +11,14 @@ import VerificationIcon from "./VerificationIcon"
 interface Props {
   application: AppstreamListItem
   link?: (appid: string) => string
+  inACard?: boolean
 }
 
-const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
+const ApplicationCard: FunctionComponent<Props> = ({
+  application,
+  link,
+  inACard,
+}) => {
   const isVerified =
     application.metadata?.["flathub::verification::verified"] === "true"
 
@@ -46,7 +51,10 @@ const ApplicationCard: FunctionComponent<Props> = ({ application, link }) => {
       href={linkFunc(application.id)}
       passHref
       className={clsx(
-        "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",
+        inACard
+          ? "dark:bg-flathub-gainsborow/10"
+          : "dark:bg-flathub-arsenic/70",
+        "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500",
         "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
         "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
         "h-full",

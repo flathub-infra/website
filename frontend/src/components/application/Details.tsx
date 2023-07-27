@@ -8,24 +8,13 @@ import {
   useState,
 } from "react"
 import React from "react"
-import { Carousel } from "react-responsive-carousel"
 import { Appstream, mapScreenshot, pickScreenshot } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
-import Lightbox from "yet-another-react-lightbox"
-import "yet-another-react-lightbox/styles.css"
-import Zoom from "yet-another-react-lightbox/plugins/zoom"
-import Captions from "yet-another-react-lightbox/plugins/captions"
 
 import { Summary } from "../../types/Summary"
 
 import Releases from "./Releases"
-import Button from "../Button"
-import Image from "../Image"
-import {
-  HiChevronRight,
-  HiChevronLeft,
-  HiMagnifyingGlassPlus,
-} from "react-icons/hi2"
+
 import AdditionalInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
@@ -46,6 +35,7 @@ import {
 } from "src/meilisearch"
 import Tags from "./Tags"
 import "yet-another-react-lightbox/plugins/captions.css"
+import { CarouselStrip } from "./CarouselStrip"
 
 interface Props {
   app?: Appstream
@@ -88,121 +78,6 @@ function categoryToSeoCategory(category) {
     case "Utility":
       return "UtilitiesApplication"
   }
-}
-
-const CarouselStrip = ({ app }: { app: Appstream }) => {
-  const { t } = useTranslation()
-  const [showLightbox, setShowLightbox] = useState(false)
-  const [currentScreenshot, setCurrentScreenshot] = useState(0)
-
-  useEffect(() => {
-    setCurrentScreenshot(0)
-  }, [app.id])
-
-  const filteredScreenshots = app.screenshots?.filter((screenshot) =>
-    pickScreenshot(screenshot),
-  )
-
-  return (
-    <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
-      {filteredScreenshots && (
-        <Lightbox
-          controller={{ closeOnBackdropClick: true }}
-          open={showLightbox}
-          close={() => setShowLightbox(false)}
-          plugins={[Zoom, Captions]}
-          slides={app.screenshots?.map(mapScreenshot).map((screenshot) => {
-            return {
-              ...screenshot,
-              title: screenshot.caption,
-              caption: undefined,
-            }
-          })}
-          index={currentScreenshot}
-          render={{
-            buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
-            buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
-          }}
-        />
-      )}
-      <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
-        {filteredScreenshots && filteredScreenshots?.length > 0 && (
-          <Button
-            className="absolute bottom-3 right-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
-            onClick={() => setShowLightbox(true)}
-            aria-label={t("zoom")}
-            variant="secondary"
-          >
-            <HiMagnifyingGlassPlus />
-          </Button>
-        )}
-        <Carousel
-          className="w-full"
-          showThumbs={false}
-          infiniteLoop={true}
-          autoPlay={false}
-          showArrows={true}
-          showIndicators={filteredScreenshots?.length > 1}
-          swipeable={true}
-          emulateTouch={true}
-          useKeyboardArrows={true}
-          dynamicHeight={false}
-          showStatus={false}
-          selectedItem={currentScreenshot}
-          preventMovementUntilSwipeScrollTolerance={true}
-          swipeScrollTolerance={30}
-          onClickItem={() => setShowLightbox(true)}
-          onChange={(index) => {
-            setCurrentScreenshot(index)
-          }}
-          renderArrowNext={(handler, hasNext, label) =>
-            hasNext ? (
-              <div className="control-arrow control-next" onClick={handler}>
-                <HiChevronRight />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-          renderArrowPrev={(handler, hasPrev, label) =>
-            hasPrev ? (
-              <div className="control-arrow control-prev" onClick={handler}>
-                <HiChevronLeft />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-        >
-          {filteredScreenshots?.map((screenshot, index) => {
-            const pickedScreenshot = pickScreenshot(screenshot, 500)
-            return (
-              <figure
-                key={index}
-                className="flex h-full flex-col justify-center"
-              >
-                <div>
-                  <Image
-                    src={pickedScreenshot.src}
-                    width={pickedScreenshot.width}
-                    height={pickedScreenshot.height}
-                    alt={pickedScreenshot.caption ?? t("screenshot")}
-                    loading="eager"
-                    priority={index === 0}
-                  />
-                </div>
-                {pickedScreenshot.caption && (
-                  <figcaption className="break-all">
-                    {pickedScreenshot.caption}
-                  </figcaption>
-                )}
-              </figure>
-            )
-          })}
-        </Carousel>
-      </div>
-    </div>
-  )
 }
 
 const Details: FunctionComponent<Props> = ({

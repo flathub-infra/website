@@ -39,7 +39,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
-  const title = t(variant === "dev" ? "your-apps" : "owned-apps")
+  const title = t(variant === "dev" ? "authored-apps" : "owned-apps")
 
   return (
     <ApplicationCollection
@@ -47,6 +47,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
       title={title}
       applications={apps}
       onRefresh={variant === "dev" && executeRefreshDev}
+      inACard
     />
   )
 }

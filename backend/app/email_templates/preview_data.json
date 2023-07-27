@@ -1,0 +1,129 @@
+{
+  "security_login": {
+    "category": "security_login",
+    "data": {
+      "provider": "github",
+      "login": "testuser"
+    }
+  },
+  "moderation_held": {
+    "category": "moderation_held",
+    "data": {
+      "build_id": 123,
+      "job_id": 456,
+      "requests": [
+        {
+          "request_type": "appdata",
+          "request_data": {
+            "keys": {
+              "name": "My Awesome Test App"
+            },
+            "current_values": {
+              "name": "Test App"
+            }
+          },
+          "is_new_submission": false
+        }
+      ]
+    }
+  },
+  "moderation_approved": {
+    "category": "moderation_approved",
+    "data": {
+      "build_id": 123,
+      "job_id": 456,
+      "request": {
+        "request_type": "appdata",
+        "request_data": {
+          "keys": {
+            "name": "My Awesome Test App"
+          },
+          "current_values": {
+            "name": "Test App"
+          }
+        },
+        "is_new_submission": false
+      }
+    }
+  },
+  "moderation_rejected": {
+    "category": "moderation_rejected",
+    "data": {
+      "build_id": 123,
+      "job_id": 456,
+      "request": {
+        "request_type": "appdata",
+        "request_data": {
+          "keys": {
+            "name": "My Awesome Test App"
+          },
+          "current_values": {
+            "name": "Test App"
+          }
+        },
+        "is_new_submission": false
+      },
+      "comment": "Please use a better name for your app."
+    }
+  },
+  "build_notification": {
+    "category": "build_notification",
+    "data": {
+      "diagnostics": [
+        {
+          "refstring": "app/org.flatpak.Hello/x86_64/master",
+          "is_warning": true,
+          "category": "no_local_icon",
+          "data": {
+            "appstream_path": "files/share/appdata/org.flatpak.Hello.appdata.xml"
+          }
+        },
+        {
+          "refstring": "app/org.flatpak.Hello/x86_64/master",
+          "is_warning": false,
+          "category": "no_screenshot_branch",
+          "data": {
+            "expected_branch": "screenshots/x86_64"
+          }
+        },
+        {
+          "refstring": "app/org.flatpak.Hello/x86_64/master",
+          "is_warning": false,
+          "category": "missing_build_log_url"
+        },
+        {
+          "refstring": "app/org.gnome.Crosswords/aarch64/master",
+          "is_warning": true,
+          "category": "wrong_arch_executables",
+          "data": {
+            "expected_arch": "aarch64",
+            "executables": [
+              {
+                "path": "/files/bin/crossword-editor",
+                "detected_arch": "x86_64",
+                "detected_arch_code": 62
+              },
+              {
+                "path": "/files/bin/crosswords",
+                "detected_arch": "x86_64",
+                "detected_arch_code": 62
+              }
+            ]
+          }
+        },
+        {
+          "refstring": "screenshots/x86_64",
+          "is_warning": false,
+          "category": "unexpected_files_in_screenshot_branch",
+          "data": {
+            "files": ["screenshot.png"]
+          }
+        }
+      ],
+      "any_warnings": true,
+      "any_errors": true,
+      "build_id": 123,
+      "build_repo": "stable"
+    }
+  }
+}

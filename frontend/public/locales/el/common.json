@@ -35,7 +35,7 @@
   "network-error-try-again": "Υπήρξε ενα σφάλμα δικτύου. Προσπάθησε ξανά.",
   "failed-to-load-refresh": "Ο πόρος απέτυχε να φορτώσει. Δοκίμασε επαναφόρτωση.",
   "loading-user-apps": "Φόρτωση εφαρμογών χρήστη…",
-  "your-apps": "Οι εφαρμογές σου",
+  "authored-apps": "Οι εφαρμογές σου",
   "user-page": "Σελίδα χρήστη",
   "user-wallet": "Πορτοφόλι χρήστη",
   "flathub-statistics": "Στατιστικά Flathub",

@@ -36,7 +36,7 @@
   "error-already-logged-in": "所选账户已经登录。",
   "installs-over-time": "累计安装量",
   "loading-user-apps": "正在加载用户应用…",
-  "your-apps": "创作的应用",
+  "authored-apps": "创作的应用",
   "app-logo": "{{app-name}} 标志",
   "user-page": "用户页面",
   "user-wallet": "用户钱包",

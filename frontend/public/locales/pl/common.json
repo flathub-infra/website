@@ -33,7 +33,7 @@
   "stripe-validation-error": "Niepoprawne dane karty.",
   "next-page": "Następna strona",
   "loading-user-apps": "Wczytywanie aplikacji użytkownika…",
-  "your-apps": "Twoje aplikacje",
+  "authored-apps": "Twoje aplikacje",
   "home": "Strona główna",
   "flathub-description": "Znajdź i zainstaluj setki aplikacji i gier dla Linuksa. Ciesz się Firefoxem, Telegramem, RetroArchem, GIMPem i wieloma innymi!",
   "an-error-occurred-server": "{{errorCode}} - Wystąpił błąd serwera.",

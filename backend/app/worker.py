@@ -1,4 +1,5 @@
 import base64
+import contextlib
 import typing as T
 from datetime import datetime, timedelta
 
@@ -63,45 +64,63 @@ def update_stats():
 
 @dramatiq.actor
 def update():
-    new_apps = apps.load_appstream()
+    apps.load_appstream()
     summary.update()
     exceptions.update()
 
-    if new_apps:
-        new_apps_zset = {}
-        for appid in new_apps:
-            if metadata := db.get_json_key(f"summary:{appid}"):
-                new_apps_zset[appid] = metadata.get("timestamp", 0)
-        if new_apps_zset:
-            db.redis_conn.zadd("new_apps_zset", new_apps_zset)
-
-    added_at_values = db.redis_conn.zrange(
-        "new_apps_zset",
-        0,
-        -1,
-        desc=True,
-        withscores=True,
-    )
-
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+    apps_created_at = {}
 
-    added_at: list = []
+    for appid in current_apps:
+        if not db.is_appid_for_frontend(appid):
+            continue
 
-    for [appid, value] in added_at_values:
+        # created_at keys were used by the old backend to store the repository
+        # creation date; attempt to re-use that by checking if it's string
+        # and converting it to Unix timestamp, then rewriting to that form in
+        # Redis
+        if created_at := db.redis_conn.get(f"created_at:{appid}"):
+            if isinstance(created_at, str):
+                with contextlib.suppress(ValueError):
+                    created_at = int(created_at)
+
+            if isinstance(created_at, str):
+                try:
+                    created_at_format = "%Y-%m-%dT%H:%M:%SZ"
+                    created_at_dt = datetime.strptime(created_at, created_at_format)
+                    created_at = int(created_at_dt.timestamp())
+                except (ValueError, TypeError):
+                    created_at = None
+
+        if not created_at:
+            if metadata := db.get_json_key(f"summary:{appid}"):
+                created_at = metadata.get("timestamp")
+            else:
+                created_at = int(datetime.utcnow().timestamp())
+
+        if created_at:
+            db.redis_conn.set(f"created_at:{appid}", created_at)
+            apps_created_at[appid] = float(created_at)
+
+    if apps_created_at:
+        db.redis_conn.zadd("new_apps_zset", apps_created_at)
+
+    search_added_at = []
+    for appid, value in apps_created_at.items():
         if appid not in current_apps:
             continue
 
         if not db.is_appid_for_frontend(appid):
             continue
 
-        added_at.append(
+        search_added_at.append(
             {
                 "id": utils.get_clean_app_id(appid),
-                "added_at": round(value),
+                "added_at": int(value),
             }
         )
 
-    search.create_or_update_apps(added_at)
+    search.create_or_update_apps(search_added_at)
 
 
 def _create_flat_manager_token(use: str, scopes: list[str], **kwargs):

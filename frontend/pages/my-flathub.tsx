@@ -42,10 +42,6 @@ export default function Userpage({
           <div className="space-y-12">
             <UserApps variant="dev" />
 
-            <ButtonLink passHref href="/apps/new">
-              {t("new-app")}
-            </ButtonLink>
-
             {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
               <div className="mx-2 my-auto">
                 <h3 className="my-4 text-xl font-semibold">

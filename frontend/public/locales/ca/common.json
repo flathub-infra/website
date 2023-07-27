@@ -37,7 +37,7 @@
   "error-already-logged-in": "El compte seleccionat ja ha iniciat la sessió.",
   "failed-to-load-refresh": "El recurs no s'ha pogut carregar. Proveu de refrescar.",
   "loading-user-apps": "S'estan carregant les aplicacions de l'usuari…",
-  "your-apps": "Aplicacions d'autor",
+  "authored-apps": "Aplicacions d'autor",
   "user-page": "Pàgina d'usuari",
   "user-wallet": "Cartera d'usuari",
   "flathub-statistics": "Estadístiques de Flathub",

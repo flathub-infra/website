@@ -138,15 +138,9 @@ def load_appstream():
             apps_to_delete_from_search.append(utils.get_clean_app_id(appid))
         search.delete_apps(apps_to_delete_from_search)
 
-        new_apps = set(apps) - current_apps
-        if not len(new_apps):
-            new_apps = None
-
         p.delete("apps:index")
         p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
         p.execute()
-
-    return new_apps
 
 
 # Only used for sitemap

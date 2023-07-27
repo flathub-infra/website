@@ -41,7 +41,7 @@
   "log-out": "Se déconnecter",
   "network-error-try-again": "Il y a eu une erreur de réseau. Essayez à nouveau.",
   "loading-user-apps": "Chargement des applis utilisateur…",
-  "your-apps": "Auteur du logiciel",
+  "authored-apps": "Auteur du logiciel",
   "app-logo": "Logo de {{app-name}}",
   "user-page": "Page utilisateur",
   "flathub-statistics": "Statistiques de Flathub",
