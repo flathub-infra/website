@@ -9,7 +9,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, validator
 from sqlalchemy import func, not_, or_
 
 from . import config, logins, models, worker
@@ -300,7 +300,7 @@ class Review(BaseModel):
     approve: bool
     comment: str | None = None
 
-    @field_validator("comment", always=True)
+    @validator("comment", always=True)
     def reject_requires_comment(cls, v, values):
         if v is None and not values["approve"]:
             raise ValueError("rejecting a request requires a comment")
