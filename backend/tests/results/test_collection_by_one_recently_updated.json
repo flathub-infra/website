@@ -5,6 +5,9 @@
       "summary": "Connect to a computer remotely",
       "type": "desktop-application",
       "keywords": null,
+      "arches": [
+        "x86_64"
+      ],
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
       "installs_last_month": 613,

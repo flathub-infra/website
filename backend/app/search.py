@@ -37,6 +37,7 @@ client.index("apps").update_filterable_attributes(
         "is_free_license",
         "runtime",
         "type",
+        "arches",
     ]
 )
 
@@ -199,6 +200,7 @@ def search_apps_post(searchquery: SearchQuery):
                 "main_categories",
                 "is_free_license",
                 "type",
+                "arches",
             ],
         },
     )
