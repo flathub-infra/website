@@ -1,4 +1,5 @@
 import base64
+import contextlib
 import typing as T
 from datetime import datetime, timedelta
 
@@ -75,12 +76,18 @@ def update():
             continue
 
         created_at = db.redis_conn.get(f"created_at:{appid}")
-        if created_at:
-            if isinstance(created_at, str):
+        if created_at and isinstance(created_at, str):
+            with contextlib.suppress(ValueError):
+                created_at = int(created_at)
+
+            try:
                 created_at_format = "%Y-%m-%dT%H:%M:%SZ"
                 created_at_dt = datetime.strptime(created_at, created_at_format)
                 created_at = int(created_at_dt.timestamp())
-                db.redis_conn.set(f"created_at:{appid}", created_at)
+            except ValueError:
+                created_at = None
+
+            db.redis_conn.set(f"created_at:{appid}", created_at)
 
         if not created_at:
             if metadata := db.get_json_key(f"summary:{appid}"):
