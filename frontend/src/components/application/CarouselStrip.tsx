@@ -31,6 +31,10 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
     setCurrentIndex(lightboxState?.currentIndex)
   }, [lightboxState?.currentIndex])
 
+  if (!app.screenshots) {
+    return null
+  }
+
   const filteredScreenshots = app.screenshots?.filter((screenshot) =>
     pickScreenshot(screenshot),
   )
