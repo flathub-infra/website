@@ -134,29 +134,6 @@ def get_subcategory(
     return result
 
 
-@app.get("/developer")
-def get_developers():
-    return db.get_developers()
-
-
-@app.get("/developer/{developer:path}")
-def get_developer(
-    developer: str,
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_developer(developer, page, per_page)
-
-    return result
-
-
 @app.get("/eol/rebase")
 def get_eol_rebase():
     return db.get_json_key("eol_rebase")
@@ -185,12 +162,12 @@ def get_eol_message_appid(
         return value
 
 
-@app.get("/projectgroup")
+@app.get("/developer")
 def get_project_groups():
     return db.get_project_groups()
 
 
-@app.get("/projectgroup/{project_group}")
+@app.get("/developer/{project_group}")
 def get_project_group(
     project_group: str,
     page: int = None,

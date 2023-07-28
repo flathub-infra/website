@@ -2,6 +2,7 @@ import json
 import re
 
 import gi
+from collections import defaultdict
 
 from . import db, schemas, search, utils
 
@@ -29,7 +30,10 @@ def add_to_search(appid: str, app: dict) -> dict:
         if category.lower() not in all_main_categories
     ]
 
-    type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
+    if app.get("type") == "desktop":
+        type = "desktop-application"
+    else:
+        type = app.get("type")
 
     # order of the dict is important for attritbute ranking
     return {

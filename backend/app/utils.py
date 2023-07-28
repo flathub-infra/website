@@ -261,6 +261,20 @@ def appstream2dict(reponame: str):
         appid = app["bundle"]["value"].split("/")[1]
         app["id"] = appid
 
+        # The project_group field is completely arbitrary and has been
+        # historically used for displaying applications "native" to a specific
+        # DE to appear higher in the results. We're overloading this term to
+        # group verified apps developed by the same author as inferred from the
+        # ID
+        if "project_group" in app:
+            del app["project_group"]
+        if "metadata" in app:
+            if app["metadata"].get("flathub::verification::verified") == "true":
+                split_id = appid.split(".")
+                id_components = len(split_id)
+                project_group = ".".join(split_id[0: id_components - 1])
+                app["project_group"] = project_group
+
         apps[appid] = app
 
     return apps
