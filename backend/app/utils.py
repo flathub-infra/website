@@ -297,10 +297,10 @@ class Platform(BaseModel):
     platform and using that.
     """
 
-    depends: str | None
+    depends: str | None = None
     aliases: list[str]
     keep: int
-    stripe_account: str | None
+    stripe_account: str | None = None
 
     def dict(self, *args, **kwargs) -> dict[str, Any]:
         """

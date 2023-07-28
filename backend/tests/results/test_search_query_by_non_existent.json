@@ -6,6 +6,7 @@
     "offset": 0,
     "estimatedTotalHits": 0,
     "facetDistribution": {
+        "arches": {},
         "main_categories": {},
         "is_free_license": {},
         "type": {},

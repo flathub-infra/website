@@ -444,7 +444,7 @@ class TokenModel(BaseModel):
     id: str
     state: str
     name: str
-    token: str | None
+    token: str | None = None
     created: str
     changed: str
 

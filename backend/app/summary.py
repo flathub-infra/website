@@ -193,6 +193,17 @@ def update():
 
         search.create_or_update_apps(updated)
 
+    search.create_or_update_apps(
+        [
+            {
+                "id": utils.get_clean_app_id(appid),
+                "arches": summary_dict[appid]["arches"],
+            }
+            for appid in summary_dict
+            if db.is_appid_for_frontend(appid)
+        ]
+    )
+
     db.redis_conn.mset(
         {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
     )

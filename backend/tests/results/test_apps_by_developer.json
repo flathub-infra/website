@@ -5,6 +5,9 @@
       "summary": "A simple maze game",
       "type": "desktop-application",
       "keywords": null,
+      "arches": [
+        "x86_64"
+      ],
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
       "installs_last_month": 467,
