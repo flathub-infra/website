@@ -151,7 +151,7 @@
   "kind-donation": "تبرُّع",
   "kind-purchase": "اشتر",
   "payment": "الدفع",
-  "make-donation": "تبرَّع",
+  "make-donation": "قم بتبرَّع",
   "no-saved-payment-methods": "لا توجد طرق دفع مسجَّلة.",
   "retry-checkout": "أعد عمليَّة السداد",
   "transaction-history": "تاريخ المعاملات",
@@ -338,5 +338,17 @@
   "app-type": "نوع التطبيق",
   "new-app": "تطبيق جديد",
   "community-repository": "مستودع المجتمع",
-  "community-repository-description": "قم بتحميل تطبيقك إلى Flathub عن طريق تحميل بيان Flatpak وملفات الدعم إلى المستودع في مؤسسة GitHub الخاصة بنا. سيقوم buildbot الخاص ب Flathub ببناء التطبيق ونشره على Flathub."
+  "community-repository-description": "قم بتحميل تطبيقك إلى Flathub عن طريق تحميل بيان Flatpak وملفات الدعم إلى المستودع في مؤسسة GitHub الخاصة بنا. سيقوم buildbot الخاص ب Flathub ببناء التطبيق ونشره على Flathub.",
+  "direct-upload-description": "أنشئ تطبيقك في بيئة متكاملة مستمرة خاصة بك وقم بتحميله مباشرة إلى Flathub.",
+  "new-community-repository": "تطبيق مستودع المجتمع الجديد",
+  "direct-upload": "رفع مباشر",
+  "verify-app-id": "تحقق من معرف التطبيق",
+  "app-already-exists": "تطبيق بهذا المعرف موجود بالفعل.",
+  "malformed-app-id": "معرف التطبيق غير صحيح. يجب أن تحتوي معرفات التطبيقات على ثلاث اقسام على الأقل، ولا يسمح أن يكون أي قسم فارغ. يجب أن يبدأ كل مقطع بحرف أو شرطة سفلية وقد يحتوي فقط على أحرف وأرقام وشرطات سفلية وواصلات.",
+  "publisher-agreement": "اتفاقية تقديم الناشر",
+  "publisher-agreement-accept": "أقبل اتفاقية تقديم الناشر",
+  "app-id": "معرف التطبيق",
+  "new-direct-upload": "تطبيق تحميل مباشر جديد",
+  "app-id-instructions": "يستخدم معرف التطبيق تدوين اسم المجال العكسي (RDNN). على سبيل المثال ، تستخدم خرائط جنوم \"org.gnome.Maps\". اختر نطاقا يمكنك التحكم فيه ، مثل موقع الويب الخاص بالمشروع (أو ، إذا كنت تقوم بالتحميل كفرد ، موقع الويب الخاص بك). في حالة عدم توفر أي موقع ويب ، يمكنك أيضا استخدام مجال مرتبط بحساب استضافة شفرة المصدر ، مثل 'io.github. <your_username>. <app_name>'.",
+  "arch": "القوس"
 }

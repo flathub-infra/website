@@ -335,5 +335,19 @@
   "app-eol": "Ta aplikacja nie jest już dostępna na Flathubie",
   "desktop-application": "Aplikacja desktopowa",
   "console-application": "Aplikacja konsolowa",
-  "app-type": "Typ aplikacji"
+  "app-type": "Typ aplikacji",
+  "new-app": "Nowa aplikacja",
+  "community-repository": "Repozytorium społeczności",
+  "community-repository-description": "Prześlij swoją aplikację do Flathub, przesyłając manifest Flatpak i pliki dodatkowe do repozytorium w naszej organizacji GitHub. Buildbot Flathub zbuduje aplikację i opublikuje ją na Flathub.",
+  "new-community-repository": "Nowa aplikacja repozytorium społeczności",
+  "direct-upload": "Bezpośrednie przesyłanie",
+  "verify-app-id": "Weryfikacja identyfikatora aplikacji",
+  "direct-upload-description": "Zbuduj swoją aplikację we własnym środowisku ciągłej integracji i prześlij ją bezpośrednio do Flathub.",
+  "new-direct-upload": "Nowa aplikacja z bezpośrednim przesyłaniem plików",
+  "app-id": "Identyfikator aplikacji",
+  "app-already-exists": "Aplikacja o tym identyfikatorze już istnieje.",
+  "malformed-app-id": "Identyfikator aplikacji jest nieprawidłowy. Identyfikatory aplikacji muszą zawierać co najmniej trzy segmenty i żaden segment nie może być pusty. Każdy segment musi zaczynać się od litery lub podkreślenia i może zawierać tylko litery, cyfry, podkreślenia i myślniki.",
+  "publisher-agreement-accept": "Akceptuję umowę wydawniczą",
+  "publisher-agreement": "Umowa wydawnicza",
+  "app-id-instructions": "Identyfikatory aplikacji używają odwrotnej notacji nazw domen (RDNN). Na przykład, GNOME Maps używa \"org.gnome.Maps\". Wybierz domenę, nad którą masz kontrolę, taką jak strona internetowa projektu (lub, jeśli przesyłasz jako osoba fizyczna, własną stronę internetową). Jeśli witryna nie jest dostępna, można również użyć domeny powiązanej z kontem hostingowym kodu źródłowego, na przykład \"io.github.<twoja_nazwa_użytkownika>.<nazwa_aplikacji>\"."
 }

@@ -335,5 +335,19 @@
   "app-eol": "Ĉi tiu programo estas ne plu disponebla ĉe Flathub",
   "app-type": "Speco de programo",
   "console-application": "Terminala programo",
-  "desktop-application": "Grafika programo"
+  "desktop-application": "Grafika programo",
+  "new-app": "Nova programo",
+  "community-repository": "Komunuma deponejo",
+  "direct-upload": "Rekta alŝuto",
+  "new-community-repository": "Nova komunumdeponeja programo",
+  "community-repository-description": "Alŝutu vian programon al Flathub alŝutante vian Flatpak-manifeston kaj helpdosierojn al deponejo ĉe nia GitHub-organizaĵo. La kunmetilo de Flathub kunmetos vian programon kaj eldonos ĝin ĉe Flathub.",
+  "new-direct-upload": "Nova rekte elŝutata programo",
+  "app-id": "Programidentigilo",
+  "app-already-exists": "Jam ekzistas programo de ĉi tiu identigilo.",
+  "publisher-agreement-accept": "Mi akceptas la Interkonsenton kun eldononto pri submeto",
+  "verify-app-id": "Konfirmi programidentigilon",
+  "publisher-agreement": "Interkonsento kun eldononto pri submeto",
+  "malformed-app-id": "La programidentigilo estas misformita. Programidentigilo devas konsisti el almenaŭ tri komponantojn. Ĉiu komponanto devas esti nemalplena. Ĉiu segmento devas komenciĝi per litero aŭ substreko (_) kaj povas enhavi nur literojn, ciferojn, substrekojn (_) kaj streketojn (-).",
+  "direct-upload-description": "Disvolvante vian programon ĉe via propra kontinue integranta medio, alŝutu ĝin rekte al Flathub.",
+  "app-id-instructions": "Programidentigilo konformas al inversnomregna notacio. Ekzemple, GNOME Maps uzas «org.gnome.Maps». Elektu Interretan nomregnon regatan de vi, ekzemple la retejon de la projekto (aŭ, se vi alŝutas kiel individuo, vian propran retejon). Se neniu retejo disponeblas, vi ankaŭ povas uzi nomregnon asociitan kun fontkoda deponejo, ekz. «io.github.[via_salutnomo].[nomo_de_programo]»."
 }
