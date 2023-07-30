@@ -349,5 +349,6 @@
   "app-id-instructions": "Los ID de las aplicaciones usan la notación inversa de nombres de dominio (RDNN). Por ejemplo, GNOME Maps usa 'org.gnome.Maps'. Elija un dominio sobre el que tenga control, como el sitio web del proyecto (o, si lo sube como particular, su propio sitio web). Si no hay ningún sitio web disponible, también puede usar un dominio asociado a una cuenta de alojamiento de código fuente, como 'io.github.<su_nombre_de_usuario>.<nombre_de_la_aplicación>'.",
   "publisher-agreement": "Acuerdo de envío de publicaciones",
   "malformed-app-id": "El ID de la aplicación está malformado. Los ID de aplicación deben contener al menos tres segmentos, y ningún segmento puede estar vacío. Cada segmento debe empezar por una letra o un guión bajo y solo puede contener letras, dígitos, guiones bajos y guiones.",
-  "publisher-agreement-accept": "Acepto el acuerdo de envío de publicaciones"
+  "publisher-agreement-accept": "Acepto el acuerdo de envío de publicaciones",
+  "arch": "Arquitectura"
 }
