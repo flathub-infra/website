@@ -350,5 +350,6 @@
   "malformed-app-id": "The app ID is malformed. App IDs must contain at least three segments, and no segment may be empty. Each segment must start with a letter or underscore and may only contain letters, digits, underscores, and hyphens.",
   "publisher-agreement": "Publisher Submission Agreement",
   "publisher-agreement-accept": "I accept the Publisher Submission Agreement",
-  "arch": "Arch"
+  "arch": "Arch",
+  "release-link-no-changelog": "Release notes"
 }
