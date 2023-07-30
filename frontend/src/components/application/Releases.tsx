@@ -87,9 +87,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 {...getCollapseProps({ ref })}
                 className={clsx(
                   `prose relative transition-all duration-700 dark:prose-invert`,
-                  !isExpanded && scrollHeight > collapsedHeight
-                    ? "from-transparent to-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-arsenic"
-                    : "",
+                  !isExpanded &&
+                    scrollHeight > collapsedHeight &&
+                    "from-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
                 )}
                 dangerouslySetInnerHTML={{
                   __html: releaseDescription,
