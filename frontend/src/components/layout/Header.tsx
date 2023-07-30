@@ -163,7 +163,7 @@ const Header = () => {
                     />
                     <Link href="/" passHref>
                       <div
-                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5 lg:w-fit lg:py-2 lg:pe-[14px] lg:ps-3"
+                        className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-black transition hover:bg-black/5 dark:text-white dark:invert dark:hover:bg-white/5 lg:w-fit lg:py-2 lg:pe-[14px] lg:ps-3"
                         title={t("go-home")}
                       >
                         <div className="hidden lg:block">
