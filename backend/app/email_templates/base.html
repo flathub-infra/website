@@ -17,7 +17,9 @@
 
 <hr/>
 
-{% if app_id %}
+{% if email_category == "developer_invite" %}
+  You are receiving this email because someone has invited you to become a developer of the app {% include "app_name_and_id.html" %} on Flathub.
+{% elif app_id %}
   You are receiving this email because you are a maintainer of the app {% include "app_name_and_id.html" %} on Flathub.
 {% else %}
   You are receiving this email because you have an account on Flathub.

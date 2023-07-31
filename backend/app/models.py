@@ -33,11 +33,19 @@ class FlathubUser(Base):
     is_moderator = Column(Boolean, nullable=False, server_default=text("false"))
     accepted_publisher_agreement_at = Column(DateTime, nullable=True, default=None)
 
+    invite_code = Column(String, nullable=True, unique=True, index=True)
+
     TABLES_FOR_DELETE = []
 
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
         return db.session.get(FlathubUser, user_id)
+
+    @staticmethod
+    def by_invite_code(db, invite_code: str) -> Optional["FlathubUser"]:
+        if invite_code is None:
+            return None
+        return db.session.query(FlathubUser).filter_by(invite_code=invite_code).first()
 
     @staticmethod
     def generate_token(db, user) -> str:
@@ -93,13 +101,9 @@ class FlathubUser(Base):
                 if utils.is_valid_app_id(repo.reponame):
                     flatpaks.add(repo.reponame)
 
-        direct_upload = (
-            db.session.query(DirectUploadAppDeveloper, DirectUploadApp.app_id)
-            .filter_by(developer_id=self.id)
-            .join(DirectUploadApp)
-        )
-        for _dev, app_id in direct_upload:
-            flatpaks.add(app_id)
+        direct_upload = DirectUploadAppDeveloper.by_developer(db, self)
+        for _dev, app in direct_upload:
+            flatpaks.add(app.app_id)
 
         return flatpaks
 
@@ -583,11 +587,39 @@ class DirectUploadAppDeveloper(Base):
     )
 
     @staticmethod
-    def all_by_developer(
+    def by_id(db, id: int) -> Optional["DirectUploadAppDeveloper"]:
+        return db.session.query(DirectUploadAppDeveloper).get(id)
+
+    @staticmethod
+    def by_developer(
         db, developer: FlathubUser
-    ) -> list["DirectUploadAppDeveloper"]:
-        return db.session.query(DirectUploadAppDeveloper).filter_by(
-            developer_id=developer.id
+    ) -> list[tuple["DirectUploadAppDeveloper", DirectUploadApp]]:
+        return (
+            db.session.query(DirectUploadAppDeveloper, DirectUploadApp)
+            .filter_by(
+                developer_id=developer.id,
+            )
+            .join(DirectUploadApp)
+        )
+
+    @staticmethod
+    def by_developer_and_app(
+        db, developer: FlathubUser, app: DirectUploadApp
+    ) -> Optional["DirectUploadAppDeveloper"]:
+        return (
+            db.session.query(DirectUploadAppDeveloper)
+            .filter_by(developer_id=developer.id, app_id=app.id)
+            .first()
+        )
+
+    @staticmethod
+    def by_app(
+        db, app: DirectUploadApp
+    ) -> list[tuple["DirectUploadAppDeveloper", FlathubUser]]:
+        return (
+            db.session.query(DirectUploadAppDeveloper, FlathubUser)
+            .filter_by(app_id=app.id)
+            .join(FlathubUser)
         )
 
     @staticmethod
@@ -595,7 +627,7 @@ class DirectUploadAppDeveloper(Base):
         """
         If you are the primary developer of a backend app, you may not delete your account.
         """
-        apps = DirectUploadAppDeveloper.all_by_developer(db, user).filter_by(
+        apps = DirectUploadAppDeveloper.by_developer(db, user).filter_by(
             is_primary=True
         )
         if apps.count() > 0:
@@ -611,6 +643,64 @@ class DirectUploadAppDeveloper(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(DirectUploadAppDeveloper)
+
+
+class DirectUploadAppInvite(Base):
+    __tablename__ = "directuploadappinvite"
+
+    id = Column(Integer, primary_key=True)
+    app_id = Column(Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True)
+    developer_id = Column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    is_primary = Column(Boolean, nullable=False)
+
+    @staticmethod
+    def by_id(db, id: int) -> Optional["DirectUploadAppInvite"]:
+        return db.session.query(DirectUploadAppInvite).get(id)
+
+    @staticmethod
+    def by_app(
+        db, app: DirectUploadApp
+    ) -> list[tuple["DirectUploadAppInvite", FlathubUser]]:
+        return (
+            db.session.query(DirectUploadAppInvite, FlathubUser)
+            .filter_by(app_id=app.id)
+            .join(FlathubUser)
+        )
+
+    @staticmethod
+    def by_developer(
+        db, developer: FlathubUser
+    ) -> list[tuple["DirectUploadAppInvite", DirectUploadApp]]:
+        return (
+            db.session.query(DirectUploadAppInvite, DirectUploadApp)
+            .filter_by(developer_id=developer.id)
+            .join(DirectUploadApp)
+        )
+
+    @staticmethod
+    def by_developer_and_app(
+        db, developer: FlathubUser, app: DirectUploadApp
+    ) -> Optional["DirectUploadAppInvite"]:
+        return (
+            db.session.query(DirectUploadAppInvite)
+            .filter_by(developer_id=developer.id, app_id=app.id)
+            .first()
+        )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """Don't include invites in the hash"""
+        pass
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            delete(DirectUploadAppInvite).where(
+                DirectUploadAppInvite.developer_id == user.id
+            )
+        )
 
 
 # Wallet related content
