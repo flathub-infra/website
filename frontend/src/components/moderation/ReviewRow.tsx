@@ -15,6 +15,7 @@ import Link from "next/link"
 interface Props {
   title: string
   request: ModerationRequest
+  children: ReactElement
 }
 
 const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {

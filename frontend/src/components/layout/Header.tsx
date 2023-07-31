@@ -39,6 +39,27 @@ let userNavigation = [
 if (!IS_PRODUCTION)
   userNavigation.push({ name: "view-wallet", href: "/wallet" })
 
+const MobileMenuButton = ({ open, close, width }) => {
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    if (open && width >= 1024) {
+      close()
+    }
+  }, [close, open, width])
+
+  return (
+    <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
+      <span className="sr-only">{t("open-menu")}</span>
+      {open ? (
+        <HiXMark className="block h-6 w-6" aria-hidden="true" />
+      ) : (
+        <HiBars3 className="block h-6 w-6" aria-hidden="true" />
+      )}
+    </Popover.Button>
+  )
+}
+
 const Header = () => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
@@ -245,17 +266,11 @@ const Header = () => {
                   </div>
                 </div>
                 <div className="flex items-center md:absolute md:inset-y-0 md:end-0 lg:hidden">
-                  {/* Mobile menu button */}
-                  <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
-                    <span className="sr-only">{t("open-menu")}</span>
-                    {open ? (
-                      <HiXMark className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <HiBars3 className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Popover.Button>
-                  {/* Mobile menu, show/hide based on screen width. */}
-                  {open && size.width >= 1024 && close()}
+                  <MobileMenuButton
+                    open={open}
+                    close={close}
+                    width={size.width}
+                  />
                 </div>
                 <div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
                   {navigation.map((item) => {

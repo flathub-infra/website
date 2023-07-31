@@ -101,7 +101,6 @@ const VerificationIcon: FunctionComponent<Props> = ({
                   The ownership of the <b>{{ app_id: appId }}</b> application ID
                   has been verified by{" "}
                   <b>
-                    @
                     {{
                       login_provider: verificationProviderToHumanReadable(
                         verificationStatus.login_provider,
