@@ -1,7 +1,7 @@
 import { render, fireEvent, waitFor } from "@testing-library/react"
 import ProviderLink from "../../../src/components/login/ProviderLink"
 import { LoginProvider } from "src/types/Login"
-import React, { Dispatch } from "react"
+import React from "react"
 import { toast } from "react-toastify"
 import { translationMock } from "../../../jest.setup"
 

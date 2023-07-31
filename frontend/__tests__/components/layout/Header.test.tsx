@@ -1,4 +1,4 @@
-import { fireEvent, getByRole, render, waitFor } from "@testing-library/react"
+import { fireEvent, render, waitFor } from "@testing-library/react"
 import Header from "../../../src/components/layout/Header"
 import { UserState } from "../../../src/types/Login"
 import { UserContext, UserDispatchContext } from "src/context/user-info"
@@ -42,7 +42,7 @@ describe("Header tests", () => {
       }),
     ) as jest.Mock
 
-    const { getByText, getByRole, container } = render(
+    const { getByText, getByRole } = render(
       <>
         <UserContext.Provider value={userState}>
           <UserDispatchContext.Provider value={dispatchMock}>
