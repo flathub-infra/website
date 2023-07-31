@@ -14,6 +14,7 @@ from . import (
     db,
     emails,
     feeds,
+    invites,
     logins,
     moderation,
     purchases,
@@ -60,6 +61,7 @@ vending.register_to_app(app)
 
 verification.register_to_app(app)
 purchases.register_to_app(app)
+invites.register_to_app(app)
 
 compat.register_to_app(app)
 

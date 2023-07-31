@@ -29,6 +29,8 @@ template_env = Environment(
 
 class EmailCategory(str, Enum):
     SECURITY_LOGIN = "security_login"
+    DEVELOPER_INVITE = "developer_invite"
+    DEVELOPER_INVITE_ACCEPTED = "developer_invite_accepted"
     MODERATION_HELD = "moderation_held"
     MODERATION_APPROVED = "moderation_approved"
     MODERATION_REJECTED = "moderation_rejected"
@@ -78,6 +80,7 @@ def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: 
         "email_subject": info.subject,
         "app_id": info.app_id,
         "app_name": app_name,
+        "frontend_url": settings.frontend_url,
         **info.template_data,
     }
 
@@ -131,6 +134,14 @@ def send_email(info: EmailInfo, db):
         )
         for user in by_github_repo:
             messages.append(_create_message(user, info, db))
+
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, info.app_id)
+        if direct_upload_app is not None:
+            by_direct_upload = models.DirectUploadAppDeveloper.by_app(
+                db, direct_upload_app
+            )
+            for _dev, user in by_direct_upload:
+                messages.append(_create_message(user, info, db))
 
     if info.user_id is not None:
         # Get the user's email address

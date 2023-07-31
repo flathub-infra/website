@@ -7,6 +7,7 @@ And we present the full /auth/ sub-namespace
 """
 
 
+import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -286,7 +287,7 @@ def start_github_flow(request: Request, login: LoginStatusDep):
             "client_id": config.settings.github_client_id,
             "redirect_uri": config.settings.github_return_url,
             "allow_signup": "false",
-            "scope": "read:user read:org",
+            "scope": "read:user read:org user:email",
         },
     )
 
@@ -849,7 +850,9 @@ def continue_oauth_flow(
         # in then create a user
         user = login.user
         if user is None:
-            user = models.FlathubUser(display_name=provider_data["name"])
+            user = models.FlathubUser(
+                display_name=provider_data["name"],
+            )
             db.session.add(user)
             db.session.flush()
         # Now we have a user, create the local account model for it
@@ -939,11 +942,18 @@ def get_userinfo(login: LoginStatusDep):
     if not login.state.logged_in():
         return Response(status_code=204)
     user = login.user
+
+    if user.invite_code is None:
+        user.invite_code = secrets.token_urlsafe(6)
+        db.session.commit()
+
     ret = {
         "is-moderator": user.is_moderator,
         "displayname": user.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
+        "invited-flatpaks": set(),
+        "invite-code": user.invite_code,
         "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
     }
     ret["auths"] = {}
@@ -955,9 +965,14 @@ def get_userinfo(login: LoginStatusDep):
         for app in models.UserOwnedApp.all_owned_by_user(db, user)
         if app.app_id in appstream
     }
+    invited_flatpaks = [
+        app.app_id
+        for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
+    ]
 
     ret["dev-flatpaks"] = sorted(ret["dev-flatpaks"].union(dev_flatpaks))
     ret["owned-flatpaks"] = sorted(owned_flatpaks)
+    ret["invited-flatpaks"] = sorted(invited_flatpaks)
 
     gha = models.GithubAccount.by_user(db, user)
     if gha is not None:

@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     datadir: str = os.path.join(ROOT_DIR, "data")
     stats_baseurl: str = "https://hub.flathub.org/stats"
     session_secret_key: str = "change-me-for-production"
+
+    frontend_url: str = "http://localhost:3000"
+
     github_client_id: str = "71dbddbdb4288fe96a58"
     github_client_secret: str = "4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5"
     github_return_url: str = "http://localhost:3000/login/github"
