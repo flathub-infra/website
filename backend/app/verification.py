@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
-from .logins import login_state, refresh_oauth_token
+from .logins import LoginInformation, LoginStatusDep, refresh_oauth_token
 
 
 class ErrorDetail(str, Enum):
@@ -300,17 +300,17 @@ def _get_existing_verification(appid: str) -> models.AppVerification | None:
         return None
 
 
-def _check_app_id(appid: str, new_app: bool, login):
+def _check_app_id(appid: str, new_app: bool, login: LoginInformation):
     """Make sure the given user has development access to the given flatpak."""
 
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     if not utils.is_valid_app_id(appid):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
     if new_app:
-        if login["user"].accepted_publisher_agreement_at is None:
+        if login.user.accepted_publisher_agreement_at is None:
             raise HTTPException(
                 status_code=403, detail=ErrorDetail.MUST_ACCEPT_PUBLISHER_AGREEMENT
             )
@@ -326,7 +326,7 @@ def _check_app_id(appid: str, new_app: bool, login):
             # submit an app, they should ask for manual verification.
             raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
     else:
-        if appid not in login["user"].dev_flatpaks(sqldb):
+        if appid not in login.user.dev_flatpaks(sqldb):
             raise HTTPException(status_code=401, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
     existing = _get_existing_verification(appid)
@@ -421,7 +421,9 @@ class AvailableMethods(BaseModel):
     response_model_exclude_none=True,
 )
 def get_available_methods(
-    appid: str, new_app: bool = False, login=Depends(login_state)
+    appid: str,
+    login: LoginStatusDep,
+    new_app: bool = False,
 ):
     """Gets the ways an app may be verified."""
 
@@ -430,9 +432,7 @@ def get_available_methods(
     methods = []
 
     if domain := _get_domain_name(appid):
-        verification = models.AppVerification.by_app_and_user(
-            sqldb, appid, login["user"]
-        )
+        verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
         if (
             verification is not None
             and verification.method == "website"
@@ -605,7 +605,7 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
 
 
 def _check_login_provider_verification(
-    appid: str, new_app: bool, login
+    appid: str, new_app: bool, login: LoginInformation
 ) -> AvailableMethod:
     _check_app_id(appid, new_app, login)
 
@@ -616,11 +616,11 @@ def _check_login_provider_verification(
     (provider, username) = provider_username
 
     if provider == LoginProvider.GITHUB:
-        return _verify_by_github(username, login["user"])
+        return _verify_by_github(username, login.user)
     elif provider == LoginProvider.GITLAB:
         return _verify_by_gitlab(
             username,
-            login["user"],
+            login.user,
             models.GitlabAccount,
             LoginProvider.GITLAB,
             "https://gitlab.com",
@@ -628,7 +628,7 @@ def _check_login_provider_verification(
     elif provider == LoginProvider.GNOME_GITLAB:
         return _verify_by_gitlab(
             username,
-            login["user"],
+            login.user,
             models.GnomeAccount,
             LoginProvider.GNOME_GITLAB,
             "https://gitlab.gnome.org",
@@ -636,7 +636,7 @@ def _check_login_provider_verification(
     elif provider == LoginProvider.KDE_GITLAB:
         return _verify_by_gitlab(
             username,
-            login["user"],
+            login.user,
             models.KdeAccount,
             LoginProvider.KDE_GITLAB,
             "https://invent.kde.org",
@@ -656,9 +656,7 @@ def _create_direct_upload_app(user: models.FlathubUser, appid: str):
 
 
 @router.post("/{appid}/verify-by-login-provider", status_code=200)
-def verify_by_login_provider(
-    appid: str, new_app: bool = False, login=Depends(login_state)
-):
+def verify_by_login_provider(appid: str, login: LoginStatusDep, new_app: bool = False):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
 
@@ -686,7 +684,7 @@ def verify_by_login_provider(
 
     verification = models.AppVerification(
         app_id=appid,
-        account=login["user"].id,
+        account=login.user.id,
         method="login_provider",
         verified=True,
         verified_timestamp=func.now(),
@@ -695,7 +693,7 @@ def verify_by_login_provider(
     sqldb.session.merge(verification)
 
     if new_app:
-        _create_direct_upload_app(login["user"], appid)
+        _create_direct_upload_app(login.user, appid)
 
     sqldb.session.commit()
 
@@ -725,7 +723,9 @@ class WebsiteVerificationToken(BaseModel):
     response_model=WebsiteVerificationToken,
 )
 def setup_website_verification(
-    appid: str, new_app: bool = False, login=Depends(login_state)
+    appid: str,
+    login: LoginStatusDep,
+    new_app: bool = False,
 ):
     """Creates a token for the user to verify the app via website."""
 
@@ -736,7 +736,7 @@ def setup_website_verification(
     if domain is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login["user"])
+    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
 
     if (
         verification is None
@@ -745,7 +745,7 @@ def setup_website_verification(
     ):
         verification = models.AppVerification(
             app_id=appid,
-            account=login["user"].id,
+            account=login.user.id,
             method="website",
             verified=False,
             token=str(uuid4()),
@@ -764,15 +764,15 @@ def setup_website_verification(
 )
 def confirm_website_verification(
     appid: str,
+    login: LoginStatusDep,
     new_app: bool = False,
-    login=Depends(login_state),
     check=Depends(CheckWebsiteVerification),
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
 
     _check_app_id(appid, new_app, login)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login["user"])
+    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
 
     if (
         verification is None
@@ -788,7 +788,7 @@ def confirm_website_verification(
         verification.verified_timestamp = func.now()
 
         if new_app:
-            _create_direct_upload_app(login["user"], appid)
+            _create_direct_upload_app(login.user, appid)
 
         sqldb.session.commit()
 
@@ -798,13 +798,13 @@ def confirm_website_verification(
 
 
 @router.post("/{appid}/unverify", status_code=204)
-def unverify(appid: str, login=Depends(login_state)):
+def unverify(appid: str, login: LoginStatusDep):
     """If the current account has verified the given app, mark it as no longer verified."""
 
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login["user"])
+    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
     if verification is not None:
         sqldb.session.delete(verification)
         sqldb.session.commit()

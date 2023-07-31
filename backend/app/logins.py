@@ -186,7 +186,7 @@ class LoginInformation:
         return getattr(self, key)
 
 
-def login_state(request: Request):
+def login_state(request: Request) -> LoginInformation:
     """
     A dependency which can be used to inject login status into endpoints.
 
