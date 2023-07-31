@@ -19,6 +19,8 @@ export interface UserInfo {
   displayname?: string
   "dev-flatpaks": string[]
   "owned-flatpaks": string[]
+  "invited-flatpaks": string[]
+  "invite-code": string
   auths: Record<VerificationProvider, AuthInfo>
   "is-moderator": boolean
   "accepted-publisher-agreement-at": string | null

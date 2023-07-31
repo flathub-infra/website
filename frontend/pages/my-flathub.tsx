@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
@@ -41,6 +41,26 @@ export default function Userpage({
         <>
           <div className="space-y-12">
             <UserApps variant="dev" />
+
+            {!IS_PRODUCTION && (
+              <>
+                <ButtonLink passHref href="/apps/new">
+                  {t("new-app")}
+                </ButtonLink>
+
+                <div>
+                  <UserApps variant="invited" />
+                  <p>
+                    <Trans i18nKey="invite-code">
+                      Your invite code is
+                      <code>{{ inviteCode: user.info["invite-code"] }}</code>.
+                      Give this code to another developer to allow them to
+                      invite you to their app.
+                    </Trans>
+                  </p>
+                </div>
+              </>
+            )}
 
             {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
               <div className="mx-2 my-auto">
