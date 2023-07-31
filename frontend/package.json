@@ -24,7 +24,7 @@
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.1",
     "boring-avatars": "^1.10.1",
-    "chart.js": "^4.3.0",
+    "chart.js": "^4.3.2",
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@faker-js/faker": "^8.0.2",
-    "@storybook/addon-actions": "^7.0.27",
+    "@storybook/addon-actions": "^7.1.1",
     "@storybook/addon-essentials": "^7.0.26",
     "@storybook/addon-interactions": "^7.0.26",
     "@storybook/addon-links": "^7.0.26",
@@ -71,7 +71,7 @@
     "postcss": "^8.4.25",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.4.1",
-    "storybook": "^7.0.26",
+    "storybook": "^7.1.1",
     "storybook-react-i18next": "^2.0.6",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.1.6"

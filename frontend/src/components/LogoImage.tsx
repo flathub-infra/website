@@ -22,7 +22,7 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
           aria-hidden
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center dark:invert">
           <Image
             src="/img/logo/flathub-logo-mini.svg"
             alt={t("app-logo", { "app-name": appName })}
