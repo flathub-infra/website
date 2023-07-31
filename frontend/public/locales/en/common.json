@@ -139,7 +139,7 @@
   "other-apps-by-developer": "Other apps by {{developer}}",
   "other-apps-by-projectgroup": "Other apps in the {{projectgroup}} group",
   "loading": "Loading…",
-  "could-not-find-match-for-search": "Could not find a match for the search term.",
+  "could-not-find-match-for-search": "Could not find any apps matching your search.",
   "request-new-app": "If you're searching for a specific app, let the community know you want it on Flathub <1>here</1>.",
   "manifest": "Manifest",
   "languages": "Languages",
