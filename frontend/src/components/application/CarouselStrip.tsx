@@ -86,6 +86,7 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
               container: {
                 backgroundColor: "transparent",
                 width: "100%",
+                maxHeight: "500px",
               },
             }}
             on={{

@@ -6,15 +6,45 @@ import { getIntlLocale, getLocale } from "../../localize"
 import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
+import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 
 interface Props {
   latestRelease: Release | null
 }
 
+const ReleaseLink = ({
+  url,
+  noChangeLogProvided = false,
+}: {
+  url: string
+  noChangeLogProvided?: boolean
+}) => {
+  const { t } = useTranslation()
+
+  if (!url) {
+    return null
+  }
+
+  return (
+    <a
+      className="flex items-center gap-2 pb-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
+      href={url}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {t(noChangeLogProvided ? "release-link-no-changelog" : "release-link")}
+      <div className="self-center justify-self-end text-flathub-black opacity-60 dark:text-flathub-gainsborow">
+        <HiArrowTopRightOnSquare />
+      </div>
+    </a>
+  )
+}
+
 const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
+  const ref = useRef(null)
+  const { t, i18n } = useTranslation()
   const collapsedHeight = 62
   const [scrollHeight, setScrollHeight] = useState(0)
-  const ref = useRef(null)
 
   useEffect(() => {
     setScrollHeight(ref.current.scrollHeight)
@@ -23,29 +53,6 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
   })
-  const { t, i18n } = useTranslation()
-
-  const noChangelog = useMemo(
-    () =>
-      `<ul class='list-disc my-4 ps-10'><li>${t(
-        "no-changelog-provided",
-      )}</li></ul>`,
-    [t],
-  )
-
-  var releaseDescription = useMemo(
-    () => (latestRelease.description ? latestRelease.description : noChangelog),
-    [latestRelease.description, noChangelog],
-  )
-
-  if (latestRelease.url) {
-    releaseDescription +=
-      "<br><a href='" +
-      latestRelease.url +
-      "'' target='_blank' class='no-underline hover:underline' rel='noreferrer'>" +
-      t("release-link") +
-      "</a>"
-  }
 
   if (
     latestRelease.timestamp &&
@@ -83,18 +90,34 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     )}
                 </div>
               </header>
-              <div
-                {...getCollapseProps({ ref })}
-                className={clsx(
-                  `prose relative transition-all duration-700 dark:prose-invert`,
-                  !isExpanded && scrollHeight > collapsedHeight
-                    ? "from-transparent to-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-b before:content-[''] dark:to-flathub-arsenic"
-                    : "",
-                )}
-                dangerouslySetInnerHTML={{
-                  __html: releaseDescription,
-                }}
-              />
+              {latestRelease.description ? (
+                <div
+                  {...getCollapseProps({ ref })}
+                  className={clsx(
+                    `prose relative transition-all duration-700 dark:prose-invert`,
+                    !isExpanded &&
+                      scrollHeight > collapsedHeight &&
+                      "from-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
+                  )}
+                >
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: latestRelease.description,
+                    }}
+                  />
+                  <ReleaseLink url={latestRelease.url} />
+                </div>
+              ) : (
+                <div className={`prose dark:prose-invert`} ref={ref}>
+                  {latestRelease.url ? (
+                    <ReleaseLink url={latestRelease.url} noChangeLogProvided />
+                  ) : (
+                    <ul className="my-4 list-disc ps-10">
+                      <li>{t("no-changelog-provided")}</li>
+                    </ul>
+                  )}
+                </div>
+              )}
             </div>
             {scrollHeight > collapsedHeight && (
               <button
