@@ -43,7 +43,7 @@ jobs:
       - name: Lint
         run: yarn lint
 
-      - name: Unitary Tests
+      - name: Frontend Tests
         run: yarn test
 
       - name: Build application
