@@ -8,8 +8,10 @@ And we present the full /auth/ sub-namespace
 
 
 from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
+from typing import Annotated
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -173,6 +175,17 @@ def refresh_oauth_token(account) -> str:
 router = APIRouter(prefix="/auth")
 
 
+@dataclass
+class LoginInformation:
+    state: LoginState
+    user: models.FlathubUser | None
+    method: str | None
+    method_intermediate: int | None
+
+    def __getitem__(self, key):
+        return getattr(self, key)
+
+
 def login_state(request: Request):
     """
     A dependency which can be used to inject login status into endpoints.
@@ -189,30 +202,32 @@ def login_state(request: Request):
     where the `user` value will be present if logged in at all
     And the method related values will be present if a login flow is in progress
     """
-    ret = {
-        "state": LoginState.LOGGED_OUT,
-        "user": None,
-        "method": None,
-        "method_intermediate": None,
-    }
-    user = request.session.get("user-id", None)
-    if user is not None:
-        user = db.session.get(models.FlathubUser, user)
+
+    state: LoginState = LoginState.LOGGED_OUT
+    user: models.FlathubUser | None = None
+    method: str | None = None
+    method_intermediate: int | None = None
+
+    user_id = request.session.get("user-id", None)
+    if user_id is not None:
+        user = db.session.get(models.FlathubUser, user_id)
     if user is not None and user.deleted:
         user = None
         del request.session["user-id"]
     if user is not None:
-        ret["state"] = LoginState.LOGGED_IN
-        ret["user"] = user
+        state = LoginState.LOGGED_IN
     active_flow = request.session.get("active-login-flow", None)
     if active_flow is not None:
-        ret["method"] = active_flow
-        ret["method_intermediate"] = request.session["active-login-flow-intermediate"]
-        if ret["state"] == LoginState.LOGGED_IN:
-            ret["state"] = LoginState.LOGGING_IN_AGAIN
+        method = active_flow
+        method_intermediate = request.session["active-login-flow-intermediate"]
+        if state == LoginState.LOGGED_IN:
+            state = LoginState.LOGGING_IN_AGAIN
         else:
-            ret["state"] = LoginState.LOGGING_IN
-    return ret
+            state = LoginState.LOGGING_IN
+    return LoginInformation(state, user, method, method_intermediate)
+
+
+LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
 @router.get("/login")
@@ -248,7 +263,7 @@ def get_login_kinds():
 
 
 @router.get("/login/github")
-def start_github_flow(request: Request, login=Depends(login_state)):
+def start_github_flow(request: Request, login: LoginStatusDep):
     """
     Starts a github login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -277,7 +292,7 @@ def start_github_flow(request: Request, login=Depends(login_state)):
 
 
 @router.get("/login/gitlab")
-def start_gitlab_flow(request: Request, login=Depends(login_state)):
+def start_gitlab_flow(request: Request, login: LoginStatusDep):
     """
     Starts a gitlab login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -306,7 +321,7 @@ def start_gitlab_flow(request: Request, login=Depends(login_state)):
 
 
 @router.get("/login/gnome")
-def start_gnome_flow(request: Request, login=Depends(login_state)):
+def start_gnome_flow(request: Request, login: LoginStatusDep):
     """
     Starts a GNOME login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -383,7 +398,7 @@ def start_kde_flow(request: Request, login=Depends(login_state)):
 
 def start_oauth_flow(
     request: Request,
-    login: dict,
+    login: LoginInformation,
     method: str,
     account_model: models.Base,
     flowtoken_model: models.Base,
@@ -444,7 +459,7 @@ def start_oauth_flow(
 
 @router.post("/login/github")
 def continue_github_flow(
-    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     """
     Process the result of the Github oauth flow
@@ -505,7 +520,7 @@ def continue_github_flow(
 
 @router.post("/login/gitlab")
 def continue_gitlab_flow(
-    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     """
     Process the result of the Gitlab oauth flow
@@ -569,7 +584,7 @@ def continue_gitlab_flow(
 
 @router.post("/login/gnome")
 def continue_gnome_flow(
-    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     """
     Process the result of the GNOME oauth flow
@@ -633,7 +648,7 @@ def continue_gnome_flow(
 
 @router.post("/login/google")
 def continue_google_flow(
-    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     """
     Process the result of the Google oauth flow
@@ -701,7 +716,7 @@ def continue_google_flow(
 
 @router.post("/login/kde")
 def continue_kde_flow(
-    data: OauthLoginResponse, request: Request, login=Depends(login_state)
+    data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     def kde_userdata(tokens):
         gl = Gitlab("https://invent.kde.org", oauth_token=tokens["access_token"])
@@ -738,7 +753,7 @@ def continue_kde_flow(
 
 def continue_oauth_flow(
     request: Request,
-    login: dict,
+    login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
     flowtoken_model: models.Base,
@@ -755,12 +770,12 @@ def continue_oauth_flow(
     perform additional work post-login (e.g. retrieving github/gitlab user information)
     then they can do so if the return type of this function is simply `dict`.
     """
-    if login["method"] != method:
+    if login.method != method:
         return JSONResponse(
             {"state": "error", "error": f"Not mid-{method} login flow"}, status_code=400
         )
     flowtoken_model.housekeeping(db)
-    flowtokens = db.session.get(flowtoken_model, login["method_intermediate"])
+    flowtokens = db.session.get(flowtoken_model, login.method_intermediate)
     del request.session["active-login-flow"]
     del request.session["active-login-flow-intermediate"]
 
@@ -832,7 +847,7 @@ def continue_oauth_flow(
     if account is None:
         # We've never seen this provider's user before, if we're not already logged
         # in then create a user
-        user = login["user"]
+        user = login.user
         if user is None:
             user = models.FlathubUser(display_name=provider_data["name"])
             db.session.add(user)
@@ -857,7 +872,7 @@ def continue_oauth_flow(
     else:
         # The provider's user has been seen before, if we're logged in already and
         # things don't match then abort now
-        user = login["user"]
+        user = login.user
         if user is not None:
             # Eventually we might do user-merge here?
             db.session.commit()
@@ -900,7 +915,7 @@ def continue_oauth_flow(
 
 
 @router.get("/userinfo")
-def get_userinfo(login=Depends(login_state)):
+def get_userinfo(login: LoginStatusDep):
     """
     Retrieve the current login's user information.  If the user is not logged in
     you will get a `204` return.  Otherwise you will receive JSON describing the
@@ -921,9 +936,9 @@ def get_userinfo(login=Depends(login_state)):
 
     dev-flatpaks is filtered against IDs available in AppStream
     """
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         return Response(status_code=204)
-    user = login["user"]
+    user = login.user
     ret = {
         "is-moderator": user.is_moderator,
         "displayname": user.display_name,
@@ -988,11 +1003,11 @@ def get_userinfo(login=Depends(login_state)):
 
 
 @router.post("/refresh-dev-flatpaks")
-def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
-    if login["state"] == LoginState.LOGGED_OUT:
+def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
+    if login.state == LoginState.LOGGED_OUT:
         return {}
 
-    user = login["user"]
+    user = login.user
     account = models.GithubAccount.by_user(db, user)
 
     refresh_repo_list(account.token, account)
@@ -1003,17 +1018,17 @@ def do_refresh_dev_flatpaks(request: Request, login=Depends(login_state)):
 
 
 @router.post("/logout")
-def do_logout(request: Request, login=Depends(login_state)):
+def do_logout(request: Request, login: LoginStatusDep):
     """
     Clear the login state.  This will discard tokens which access socials,
     and will clear the session cookie so that the user is not logged in.
     """
-    if login["state"] == LoginState.LOGGED_OUT:
+    if login.state == LoginState.LOGGED_OUT:
         return {}
 
     # Clear the login ID
     del request.session["user-id"]
-    if login["state"].logging_in():
+    if login.state.logging_in():
         # Also clear any pending login-flow from the session
         del request.session["active-login-flow"]
         del request.session["active-login-flow-intermediate"]
@@ -1021,16 +1036,16 @@ def do_logout(request: Request, login=Depends(login_state)):
 
 
 @router.get("/deleteuser")
-def get_deleteuser(login=Depends(login_state)):
+def get_deleteuser(login: LoginStatusDep):
     """
     Delete a user's login information.
     If they're not logged in, they'll get a `403` return.
     Otherwise they will get an option to delete their account
     and data.
     """
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         return Response(status_code=403)
-    user = login["user"]
+    user = login.user
 
     token = models.FlathubUser.generate_token(db, user)
     return {
@@ -1040,9 +1055,7 @@ def get_deleteuser(login=Depends(login_state)):
 
 
 @router.post("/deleteuser")
-def do_deleteuser(
-    request: Request, data: UserDeleteRequest, login=Depends(login_state)
-):
+def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusDep):
     """
     Clear the login state. This will then delete the user's account
     and associated data. Unless there is an error.
@@ -1055,9 +1068,9 @@ def do_deleteuser(
     }
     ```
     """
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         return Response(status_code=403)
-    user = login["user"]
+    user = login.user
 
     ret = models.FlathubUser.delete_user(db, user, data.token)
 
@@ -1070,11 +1083,11 @@ def do_deleteuser(
 
 
 @router.post("/accept-publisher-agreement")
-def do_agree_to_publisher_agreement(login=Depends(login_state)):
-    if not login["state"].logged_in():
+def do_agree_to_publisher_agreement(login: LoginStatusDep):
+    if not login.state.logged_in():
         return Response(status_code=403)
 
-    login["user"].accepted_publisher_agreement_at = func.now()
+    login.user.accepted_publisher_agreement_at = func.now()
     db.session.commit()
 
 
