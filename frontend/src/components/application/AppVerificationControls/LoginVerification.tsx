@@ -94,7 +94,7 @@ const LoginVerification: FunctionComponent<Props> = ({
         <span className="font-medium">{{ id: appId }}</span> by logging into an
         account with admin rights to the
         <span className="font-medium">
-          @{{ login_name: method.login_name }}
+          {{ login_name: `@${method.login_name}` }}
         </span>
         organization on
         <span className="font-medium">
@@ -112,7 +112,7 @@ const LoginVerification: FunctionComponent<Props> = ({
         <span className="font-medium">{{ id: appId }}</span> by logging in to
         the account
         <span className="font-medium">
-          @{{ login_name: method.login_name }}
+          {{ login_name: `@${method.login_name}` }}
         </span>
         on
         <span className="font-medium">
@@ -134,11 +134,11 @@ const LoginVerification: FunctionComponent<Props> = ({
         <span className="font-medium">{{ id: appId }}</span> by logging in to
         the account
         <span className="font-medium">
-          @{{ login_name: method.login_name }}
+          {{ login_name: `@${method.login_name}` }}
         </span>
         (or, if
         <span className="font-medium">
-          @{{ login_name: method.login_name }}
+          {{ login_name: `@${method.login_name}` }}
         </span>
         is an organization, an account with access to it) on
         <span className="font-medium">
@@ -198,10 +198,12 @@ const LoginVerification: FunctionComponent<Props> = ({
             {{ login_provider: provider_name }}
           </span>
           as
-          <span className="font-medium">@{{ current_name: auth.login }}</span>.
-          Log in as
           <span className="font-medium">
-            @{{ required_name: method.login_name }}
+            {{ current_name: `@${auth.login}` }}
+          </span>
+          . Log in as
+          <span className="font-medium">
+            {{ required_name: `@${method.login_name}` }}
           </span>
           to verify <span className="font-medium">{{ appId }}</span> by login
           provider, or choose another method if one is available.
@@ -217,7 +219,7 @@ const LoginVerification: FunctionComponent<Props> = ({
               To continue verification, Flathub needs permission to read your
               membership level in the
               <span className="font-medium">
-                @{{ organization: method.login_name }}
+                {{ organization: `@${method.login_name}` }}
               </span>
               organization. You can grant this permission
               <a
@@ -243,15 +245,15 @@ const LoginVerification: FunctionComponent<Props> = ({
             <Trans i18nKey={"login-provider-verification-not-org-member"}>
               You are currently logged in to
               <span className="font-medium">
-                @{{ login_provider: provider_name }}
+                {{ login_provider: `@${provider_name}` }}
               </span>
               as
               <span className="font-medium">
-                @{{ current_name: auth.login }}
+                {{ current_name: `@${auth.login}` }}
               </span>
               . This account is not a member of the
               <span className="font-medium">
-                @{{ organization: method.login_name }}
+                {{ organization: `@${method.login_name}` }}
               </span>
               organization. To verify this app, you must request admin
               privileges in the organization or sign into an account that
@@ -270,15 +272,15 @@ const LoginVerification: FunctionComponent<Props> = ({
             <Trans i18nKey={"login-provider-verification-not-org-admin"}>
               You are currently logged in to
               <span className="font-medium">
-                @{{ login_provider: provider_name }}
+                {{ login_provider: `@${provider_name}` }}
               </span>
               as
               <span className="font-medium">
-                @{{ current_name: auth.login }}
+                {{ current_name: `@${auth.login}` }}
               </span>
               . This account is not an admin of the
               <span className="font-medium">
-                @{{ organization: method.login_name }}
+                {{ organization: `@${method.login_name}` }}
               </span>
               organization. To verify this app, you must request admin
               privileges in the organization or sign into an account that

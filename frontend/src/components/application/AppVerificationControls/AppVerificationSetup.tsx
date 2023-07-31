@@ -40,7 +40,7 @@ const StatusInfo = ({ status }: { status: VerificationStatus }) => {
         <Trans i18nKey="app-is-currently-verified-by-login-provider">
           Your app is currently verified by your login
           <span className="font-medium">
-            @{{ login_name: status.login_name }}
+            {{ login_name: `@${status.login_name}` }}
           </span>
           on
           <span className="font-medium">

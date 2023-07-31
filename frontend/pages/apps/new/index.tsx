@@ -1,7 +1,7 @@
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
 import LoginGuard from "src/components/login/LoginGuard"
 

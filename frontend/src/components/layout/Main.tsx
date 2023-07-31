@@ -5,7 +5,13 @@ import Header from "./Header"
 import Footer from "./Footer"
 import { useRouter } from "next/router"
 
-const Main = ({ children, className }) => {
+const Main = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className: string
+}) => {
   const { trackPageView } = useMatomo()
   const router = useRouter()
 
