@@ -53,7 +53,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.8",
     "@faker-js/faker": "^8.0.2",
-    "@storybook/addon-actions": "^7.0.27",
+    "@storybook/addon-actions": "^7.1.1",
     "@storybook/addon-essentials": "^7.0.26",
     "@storybook/addon-interactions": "^7.0.26",
     "@storybook/addon-links": "^7.0.26",
