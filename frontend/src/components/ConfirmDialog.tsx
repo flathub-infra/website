@@ -6,6 +6,7 @@ import { Dialog, Transition } from "@headlessui/react"
 interface Props {
   isVisible: boolean
   prompt: string
+  description?: string
   entry?: string
   action: string
   actionVariant?: "primary" | "secondary" | "destructive"
@@ -19,6 +20,7 @@ interface Props {
 const ConfirmDialog: FunctionComponent<Props> = ({
   isVisible,
   prompt,
+  description,
   entry,
   action,
   actionVariant,
@@ -50,6 +52,10 @@ const ConfirmDialog: FunctionComponent<Props> = ({
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathub-gainsborow p-14 shadow-md dark:bg-flathub-dark-gunmetal">
             <Dialog.Title className="m-0">{prompt}</Dialog.Title>
+
+            {description && (
+              <Dialog.Description>{description}</Dialog.Description>
+            )}
 
             {entry ? toEnter : <></>}
 

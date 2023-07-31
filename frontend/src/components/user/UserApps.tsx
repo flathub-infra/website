@@ -7,7 +7,7 @@ import Spinner from "../Spinner"
 import { useQuery } from "@tanstack/react-query"
 
 interface Props {
-  variant: "dev" | "owned"
+  variant: "dev" | "owned" | "invited"
 }
 
 const UserApps: FunctionComponent<Props> = ({ variant }) => {
@@ -16,7 +16,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
   const userDispatch = useUserDispatch()
 
   const queryDevApplications = useQuery({
-    queryKey: ["dev-apps"],
+    queryKey: [`${variant}-apps`],
     queryFn: async () => {
       return getAppsInfo(user.info[`${variant}-flatpaks`])
     },
@@ -47,7 +47,16 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
-  const title = t(variant === "dev" ? "authored-apps" : "owned-apps")
+  const title = t(
+    { dev: "authored-apps", owned: "owned-apps", invited: "invited-apps" }[
+      variant
+    ],
+  )
+
+  const link =
+    variant === "invited"
+      ? (app_id: string) => `/apps/manage/${app_id}/accept-invite`
+      : undefined
 
   return (
     <ApplicationCollection
@@ -57,6 +66,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
       onRefresh={variant === "dev" && queryRefreshDev.refetch}
       inACard
       showId
+      link={link}
     />
   )
 }

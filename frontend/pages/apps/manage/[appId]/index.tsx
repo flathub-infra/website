@@ -2,17 +2,20 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { ReactElement } from "react"
+import { ReactElement, useCallback } from "react"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
-import * as AppVendingControls from "../../../src/components/application/AppVendingControls"
-import LoginGuard from "../../../src/components/login/LoginGuard"
-import { useUserContext } from "../../../src/context/user-info"
-import { fetchAppstream, fetchVendingConfig } from "../../../src/fetchers"
-import { Appstream } from "../../../src/types/Appstream"
-import { VendingConfig } from "../../../src/types/Vending"
+import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
+import LoginGuard from "../../../../src/components/login/LoginGuard"
+import { useUserContext } from "../../../../src/context/user-info"
+import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
+import { Appstream } from "../../../../src/types/Appstream"
+import { VendingConfig } from "../../../../src/types/Vending"
 import { IS_PRODUCTION } from "src/env"
 import Tabs from "src/components/Tabs"
 import { AppDevModeration } from "src/components/moderation/AppDevModeration"
+import AppDevelopersControls from "src/components/application/AppDevelopersControls"
+import { getInviteStatus } from "src/asyncs/directUpload"
+import { useAsync } from "src/hooks/useAsync"
 
 export default function AppManagementPage({
   app,
@@ -36,6 +39,10 @@ export default function AppManagementPage({
     },
   ]
 
+  const { value: inviteStatus } = useAsync(
+    useCallback(async () => await getInviteStatus(app.id), [app.id]),
+  )
+
   if (!IS_PRODUCTION) {
     tabs.push(
       {
@@ -56,6 +63,13 @@ export default function AppManagementPage({
         content: <AppDevModeration app={app} />,
       },
     )
+
+    if (inviteStatus) {
+      tabs.push({
+        name: t("developers"),
+        content: <AppDevelopersControls app={app} />,
+      })
+    }
   }
 
   // User must be a developer of the app to see these controls
