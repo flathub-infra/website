@@ -37,7 +37,7 @@ pydantic-settings = "^2.0.2"
 [tool.poetry.dev-dependencies]
 black = "^23.7"
 pytest = "^7.4.0"
-ruff = "^0.0.280"
+ruff = "^0.0.281"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"
