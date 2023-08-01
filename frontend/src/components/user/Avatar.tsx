@@ -1,5 +1,6 @@
-import Image from "next/image"
-import { FunctionComponent } from "react"
+import { default as Image } from "next/image"
+import { default as UnoptimizedImage } from "../Image"
+import React, { FunctionComponent } from "react"
 import FallbackAvatar from "boring-avatars"
 import { useTranslation } from "next-i18next"
 
@@ -20,24 +21,35 @@ const Avatar: FunctionComponent<Props> = (props: Props) => {
 
   const { avatarUrl, userName } = props
 
-  return avatarUrl ? (
-    <Image
-      className="rounded-full"
-      src={avatarUrl}
-      width="38"
-      height="38"
-      alt={t("user-avatar", {
-        user: userName,
-      })}
-    />
-  ) : (
-    <FallbackAvatar
-      size={38}
-      name={userName}
-      variant="marble"
-      colors={[celestialBlue, variationTone]}
-    />
-  )
+  if (!avatarUrl) {
+    return (
+      <FallbackAvatar
+        size={38}
+        name={userName}
+        variant="marble"
+        colors={[celestialBlue, variationTone]}
+      />
+    )
+  }
+
+  const elementStyle = {
+    className: "rounded-full",
+    src: avatarUrl,
+    width: 38,
+    height: 38,
+    alt: t("user-avatar", {
+      user: userName,
+    }),
+  }
+
+  // If the avatar is hosted on our own GitLab instance, we can't use the
+  // optimized image loader because it will append image sizes to the URL
+  // which KDE GitLab doesn't seem to like.
+  if (avatarUrl.startsWith("https://invent.kde.org/uploads/")) {
+    return React.createElement(UnoptimizedImage, elementStyle)
+  }
+
+  return React.createElement(Image, elementStyle)
 }
 
 export default Avatar
