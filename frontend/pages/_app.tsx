@@ -50,7 +50,6 @@ const App = ({ Component, pageProps }: AppProps) => {
             href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
           }))}
           twitter={{
-            site: "@FlatpakApps",
             cardType: "summary_large_image",
           }}
           openGraph={{
