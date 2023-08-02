@@ -12,9 +12,10 @@ from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel, validator
 from sqlalchemy import func, not_, or_
 
-from . import config, logins, models, worker
+from . import config, models, worker
 from .db import get_json_key
 from .emails import EmailCategory, EmailInfo
+from .logins import LoginStatusDep
 
 router = APIRouter(prefix="/moderation")
 
@@ -23,10 +24,10 @@ class ModerationRequestType(str, Enum):
     APPDATA = "appdata"
 
 
-def moderator_only(login=Depends(logins.login_state)):
-    if not login["state"].logged_in():
+def moderator_only(login: LoginStatusDep):
+    if not login.state.logged_in():
         raise HTTPException(status_code=401, detail="not_logged_in")
-    if not login["user"].is_moderator:
+    if not login.user.is_moderator:
         raise HTTPException(status_code=403, detail="not_moderator")
 
 
@@ -106,19 +107,17 @@ def get_moderation_apps(
 @router.get("/apps/{app_id}", status_code=200, response_model_exclude_none=True)
 def get_moderation_app(
     app_id: str,
+    login: LoginStatusDep,
     include_outdated: bool = False,
     include_handled: bool = False,
     limit: int = 100,
     offset: int = 0,
-    login=Depends(logins.login_state),
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
 
-    if not login["state"].logged_in():
+    if not login.state.logged_in():
         raise HTTPException(status_code=401, detail="not_logged_in")
-    if not login["user"].is_moderator and app_id not in login["user"].dev_flatpaks(
-        sqldb
-    ):
+    if not login.user.is_moderator and app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(status_code=403, detail="not_app_developer")
 
     query = (
@@ -311,7 +310,7 @@ class Review(BaseModel):
 def submit_review(
     id: int,
     review: Review,
-    login=Depends(logins.login_state),
+    login: LoginStatusDep,
     _moderator=Depends(moderator_only),
 ):
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
@@ -330,7 +329,7 @@ def submit_review(
         raise HTTPException(status_code=400, detail="already_handled")
 
     request.is_approved = review.approve
-    request.handled_by = login["user"].id
+    request.handled_by = login.user.id
     request.handled_at = func.now()
     request.comment = review.comment
 

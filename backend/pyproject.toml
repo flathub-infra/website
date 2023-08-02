@@ -8,8 +8,8 @@ license = "Apache-2.0"
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.100.1"
-uvicorn = "^0.23.1"
-sentry-sdk = "^1.28.1"
+uvicorn = "^0.23.2"
+sentry-sdk = "^1.29.0"
 lxml = "^4.9.3"
 requests = "^2.31.0"
 redis = "^4.6.0"
@@ -24,7 +24,7 @@ vcrpy = "^5.1.0"
 python-gitlab = "^3.14"
 stripe = "^5.4"
 PyJWT = "^2.7.0"
-meilisearch = "^0.28.1"
+meilisearch = "^0.28.2"
 orjson = "^3.9.2"
 python-multipart = "^0.0.6"
 dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
@@ -37,7 +37,7 @@ pydantic-settings = "^2.0.2"
 [tool.poetry.dev-dependencies]
 black = "^23.7"
 pytest = "^7.4.0"
-ruff = "^0.0.280"
+ruff = "^0.0.281"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"
