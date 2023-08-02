@@ -9,7 +9,7 @@ license = "Apache-2.0"
 python = "^3.11"
 fastapi = "^0.100.1"
 uvicorn = "^0.23.2"
-sentry-sdk = "^1.29.0"
+sentry-sdk = "^1.29.2"
 lxml = "^4.9.3"
 requests = "^2.31.0"
 redis = "^4.6.0"
@@ -37,7 +37,7 @@ pydantic-settings = "^2.0.2"
 [tool.poetry.dev-dependencies]
 black = "^23.7"
 pytest = "^7.4.0"
-ruff = "^0.0.281"
+ruff = "^0.0.282"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.24.1"

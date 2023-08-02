@@ -11,7 +11,7 @@ const CONTENT_SECURITY_POLICY = `
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self';
   connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com https://o467221.ingest.sentry.io/api/6610580/;
-  img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com data:;
+  img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com https://invent.kde.org data:;
   frame-ancestors 'none';
   frame-src 'self' https://js.stripe.com https://hooks.stripe.com;
 `
@@ -45,6 +45,7 @@ const nextConfig = (phase) => ({
       "gitlab.gnome.org",
       "lh3.googleusercontent.com",
       "secure.gravatar.com",
+      "invent.kde.org",
     ],
   },
   output: "standalone",
