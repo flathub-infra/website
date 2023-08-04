@@ -79,7 +79,7 @@ export default function Userpage({
   // Buttons above apps so they're on screen when page loads (for action visibility)
   return (
     <>
-      <NextSeo title={t("user-page")} noindex={true} />
+      <NextSeo title={t("my-flathub")} noindex={true} />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <div className="mt-4">
