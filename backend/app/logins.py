@@ -1005,7 +1005,7 @@ def get_userinfo(login: LoginStatusDep):
 @router.post("/refresh-dev-flatpaks")
 def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
     if login.state == LoginState.LOGGED_OUT:
-        return {}
+        return Response(status_code=401)
 
     user = login.user
     account = models.GithubAccount.by_user(db, user)
