@@ -35,10 +35,9 @@ const LoginVerification: FunctionComponent<Props> = ({
   const user = useUserContext()
   const auth = user.info?.auths[method.login_provider]
   const { value: providers } = useAsync(fetchLoginProviders, true)
-  const { value: githubOrgAccessLink } = useAsync(
-    fetchGithubRequestOrgAccessLink,
-    true,
-  )
+  const {
+    value: { data: githubOrgAccessLink },
+  } = useAsync(fetchGithubRequestOrgAccessLink, true)
   const [error, setError] = useState("")
 
   const provider_name = verificationProviderToHumanReadable(
@@ -183,7 +182,7 @@ const LoginVerification: FunctionComponent<Props> = ({
       break
 
     case "not_logged_in":
-      const provider = providers?.filter(
+      const provider = providers?.data.filter(
         (provider) => provider.method === method.login_provider,
       )[0]
 

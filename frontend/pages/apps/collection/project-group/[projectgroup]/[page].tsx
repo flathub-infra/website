@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchProjectgroupApps(
+  const { data: applications } = await fetchProjectgroupApps(
     params.projectgroup as string,
     params.page as unknown as number,
     30,
@@ -72,12 +72,12 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projectgroups = await fetchProjectgroups()
+  const { data: projectgroups } = await fetchProjectgroups()
 
   async function getCategoryAsync(projectgroup: string) {
     return {
       projectgroup: projectgroup,
-      data: await fetchProjectgroupApps(projectgroup, 1, 30),
+      data: (await fetchProjectgroupApps(projectgroup, 1, 30)).data,
     }
   }
 

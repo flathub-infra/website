@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchCategory(
+  const { data: applications } = await fetchCategory(
     category,
     params.page as unknown as number,
     30,
@@ -126,10 +126,13 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const categories = await fetchCategories()
+  const { data: categories } = await fetchCategories()
 
   async function getCategoryAsync(category: Category) {
-    return { category: category, data: await fetchCategory(category, 1, 30) }
+    return {
+      category: category,
+      data: (await fetchCategory(category, 1, 30)).data,
+    }
   }
 
   const pagesByCategoriesPromises = categories.map(getCategoryAsync)

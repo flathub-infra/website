@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchDeveloperApps(
+  const { data: applications } = await fetchDeveloperApps(
     params.developer as string,
     params.page as unknown as number,
     30,
@@ -72,12 +72,12 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const developers = await fetchDevelopers()
+  const { data: developers } = await fetchDevelopers()
 
   async function getDeveloperAsync(developer: string) {
     return {
       developer: developer,
-      data: await fetchDeveloperApps(developer, 1, 30),
+      data: (await fetchDeveloperApps(developer, 1, 30)).data,
     }
   }
 

@@ -1,3 +1,4 @@
+import axios from "axios"
 import {
   APP_DETAILS,
   APP_VERIFICATION_CONFIRM_WEBSITE,
@@ -128,17 +129,17 @@ export async function unverifyApp(appId: string): Promise<void> {
 /**
  * Refreshes the user's dev flatpaks list.
  */
-export async function refreshDevFlatpaks(): Promise<string[]> {
-  try {
-    const res = await fetch(REFRESH_DEV_FLATPAKS, {
+export async function refreshDevFlatpaks() {
+  return axios.post<{
+    "dev-flatpaks": string[]
+  }>(
+    REFRESH_DEV_FLATPAKS,
+    {},
+    {
       method: "POST",
-      credentials: "include",
-    })
-
-    return (await res.json())["dev-flatpaks"]
-  } catch {
-    throw "network-error-try-again"
-  }
+      withCredentials: true,
+    },
+  )
 }
 
 /**
@@ -149,15 +150,15 @@ export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await fetch(`${APP_DETAILS(id)}`),
+      response: await axios.get<Appstream>(`${APP_DETAILS(id)}`),
     })),
   )
 
   return Promise.all(
     responses.map((res) => {
       if (res.status === "fulfilled") {
-        if (res.value.response.ok) {
-          return res.value.response.json() as Promise<Appstream>
+        if (res.value.response.status === 200) {
+          return res.value.response.data
         } else {
           return {
             id: res.value.id,

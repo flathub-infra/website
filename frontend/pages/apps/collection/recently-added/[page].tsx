@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications: MeilisearchResponse<AppsIndex> = await fetchCollection(
+  const { data: applications } = await fetchCollection(
     Collections.recentlyAdded,
     params.page as unknown as number,
     30,
@@ -63,7 +63,11 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const recentlyAdded = await fetchCollection(Collections.recentlyAdded, 1, 30)
+  const { data: recentlyAdded } = await fetchCollection(
+    Collections.recentlyAdded,
+    1,
+    30,
+  )
 
   const paths: { params: { page?: string } }[] = []
   for (let i = 1; i <= recentlyAdded.totalPages; i++) {

@@ -21,6 +21,7 @@ import Main from "../src/components/layout/Main"
 import { Inter } from "next/font/google"
 import * as Sentry from "@sentry/react"
 import { Error } from "../src/components/Error"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,6 +29,8 @@ const inter = Inter({
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation()
+
+  const queryClient = new QueryClient()
 
   const router = useRouter()
   const instance = createInstance({
@@ -64,12 +67,14 @@ const App = ({ Component, pageProps }: AppProps) => {
             ],
           }}
         />
-        <UserInfoProvider>
-          <Main className={inter.className}>
-            <Component {...pageProps} />
-          </Main>
-        </UserInfoProvider>
-        <ToastContainer position="bottom-right" />
+        <QueryClientProvider client={queryClient}>
+          <UserInfoProvider>
+            <Main className={inter.className}>
+              <Component {...pageProps} />
+            </Main>
+          </UserInfoProvider>
+          <ToastContainer position="bottom-right" />
+        </QueryClientProvider>
       </ThemeProvider>
     </MatomoProvider>
   )

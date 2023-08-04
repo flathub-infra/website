@@ -104,22 +104,22 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const recentlyUpdated = await fetchCollection(
+  const { data: recentlyUpdated } = await fetchCollection(
     Collections.recentlyUpdated,
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const recentlyAdded = await fetchCollection(
+  const { data: recentlyAdded } = await fetchCollection(
     Collections.recentlyAdded,
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const popular = await fetchCollection(
+  const { data: popular } = await fetchCollection(
     Collections.popular,
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const verified = await fetchCollection(
+  const { data: verified } = await fetchCollection(
     Collections.verified,
     1,
     APPS_IN_PREVIEW_COUNT,
@@ -134,7 +134,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     async (category: Category) => {
       return {
         category,
-        apps: await fetchCategory(category, 1, 6),
+        apps: (await fetchCategory(category, 1, 6)).data,
       }
     },
   )

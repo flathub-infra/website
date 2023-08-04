@@ -21,9 +21,5 @@ export async function fetchSetupInstructions() {
     }
   })
 
-  console.log(
-    `Setup instructions parsed. Returned items: ${mappedDistros.length}.`,
-  )
-
   return mappedDistros
 }

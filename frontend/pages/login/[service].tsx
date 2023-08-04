@@ -105,7 +105,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const data = await fetchLoginProviders()
+  const { data } = await fetchLoginProviders()
 
   const services = data.map((d) => d.method)
 

@@ -101,7 +101,7 @@ export const getStaticProps: GetStaticProps = async ({
     ? appId.slice(0, appId.length - ".flatpakref".length)
     : appId
 
-  const eolRebaseTo = await fetchEolRebase(appId as string)
+  const { data: eolRebaseTo } = await fetchEolRebase(appId as string)
 
   if (eolRebaseTo) {
     const prefix = locale && locale !== defaultLocale ? `/${locale}` : ``
@@ -126,10 +126,10 @@ export const getStaticProps: GetStaticProps = async ({
   }
 
   let eolMessage: string = null
-  const app = await fetchAppstream(appId as string)
+  const app = await (await fetchAppstream(appId as string)).data
 
   if (!app) {
-    eolMessage = await fetchEolMessage(appId as string)
+    eolMessage = (await fetchEolMessage(appId as string)).data
   }
 
   if (!app && !eolMessage) {
@@ -138,11 +138,15 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  const summary = await fetchSummary(appId as string)
-  const stats = await fetchAppStats(appId as string)
-  const developerApps = await fetchDeveloperApps(app?.developer_name)
-  const projectgroupApps = await fetchProjectgroupApps(app?.project_group)
-  const verificationStatus = await fetchVerificationStatus(appId as string)
+  const { data: summary } = await fetchSummary(appId as string)
+  const { data: stats } = await fetchAppStats(appId as string)
+  const { data: developerApps } = await fetchDeveloperApps(app?.developer_name)
+  const { data: projectgroupApps } = await fetchProjectgroupApps(
+    app?.project_group,
+  )
+  const { data: verificationStatus } = await fetchVerificationStatus(
+    appId as string,
+  )
 
   return {
     props: {

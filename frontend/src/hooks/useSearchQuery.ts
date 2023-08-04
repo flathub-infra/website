@@ -17,7 +17,10 @@ export function useSearchQuery(
 
   useEffect(() => {
     const callSearch = async () => {
-      const applications = await fetchSearchQuery(query, selectedFilters)
+      const { data: applications } = await fetchSearchQuery(
+        query,
+        selectedFilters,
+      )
       setSearchResult(applications)
       if (query) {
         trackSiteSearch({
