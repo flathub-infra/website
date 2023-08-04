@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const applications = await fetchSubcategory(
+  const { data: applications } = await fetchSubcategory(
     params.category as keyof typeof Category,
     params.subcategory as string,
     params.page as unknown as number,
@@ -115,12 +115,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
     return {
       category: subcategory.category,
       subcategory: subcategory.subcategory,
-      data: await fetchSubcategory(
-        subcategory.category,
-        subcategory.subcategory,
-        1,
-        30,
-      ),
+      data: (
+        await fetchSubcategory(
+          subcategory.category,
+          subcategory.subcategory,
+          1,
+          30,
+        )
+      ).data,
     }
   }
 

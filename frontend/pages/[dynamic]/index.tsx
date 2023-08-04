@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //figure out which chunk to render
   const chunk: number = parseInt(dynamic.split("-")[2].split(".")[0])
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)
-  const numberOfChunks = Math.ceil(appstreamList.length / chunkSize)
+  const numberOfChunks = Math.ceil(appstreamList.data.length / chunkSize)
 
   if (chunk >= numberOfChunks) {
     return {
@@ -26,10 +26,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return getServerSideSitemapLegacy(
     ctx,
-    appstreamList
+    appstreamList.data
       .slice(
         chunk * chunkSize,
-        Math.min(chunk + 1 * chunkSize, appstreamList.length),
+        Math.min(chunk + 1 * chunkSize, appstreamList.data.length),
       )
       .map((appId, i) => ({
         loc: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${appId}`,

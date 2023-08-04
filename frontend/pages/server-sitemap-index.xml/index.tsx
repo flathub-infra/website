@@ -8,7 +8,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // make chunks
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)
-  const numberOfChunks = Math.ceil(appstreamList.length / chunkSize)
+  const numberOfChunks = Math.ceil(appstreamList.data.length / chunkSize)
 
   return getServerSideSitemapIndexLegacy(
     ctx,

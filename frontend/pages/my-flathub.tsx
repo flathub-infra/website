@@ -93,7 +93,7 @@ export default function Userpage({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const providers: LoginProvider[] = await fetchLoginProviders()
+  const { data: providers } = await fetchLoginProviders()
 
   return {
     props: {

@@ -36,6 +36,8 @@ import {
 import Tags from "./Tags"
 import "yet-another-react-lightbox/plugins/captions.css"
 import { CarouselStrip } from "./CarouselStrip"
+import { useQuery } from "@tanstack/react-query"
+import { IS_PRODUCTION } from "src/env"
 
 interface Props {
   app?: Appstream
@@ -107,9 +109,13 @@ const Details: FunctionComponent<Props> = ({
     [app.description],
   )
 
-  const { value: vendingSetup } = useAsync(
-    useCallback(() => getAppVendingSetup(app.id), [app.id]),
-  )
+  const { data: vendingSetup } = useQuery({
+    queryKey: ["verification", app.id],
+    queryFn: async () => {
+      return getAppVendingSetup(app.id)
+    },
+    enabled: !!app.id && !IS_PRODUCTION,
+  })
 
   if (app) {
     const stableReleases = app.releases?.filter(

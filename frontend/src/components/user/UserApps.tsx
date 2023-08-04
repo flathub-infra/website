@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useEffect } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { getAppsInfo, refreshDevFlatpaks } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
-import { useAsync } from "../../hooks/useAsync"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
+import { useQuery } from "@tanstack/react-query"
 
 interface Props {
   variant: "dev" | "owned"
@@ -15,27 +15,35 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
   const user = useUserContext()
   const userDispatch = useUserDispatch()
 
-  const getApps = useCallback(
-    () => getAppsInfo(user.info[`${variant}-flatpaks`]),
-    [user.info, variant],
-  )
-  const { execute, status, value: apps } = useAsync(getApps, false)
+  const queryDevApplications = useQuery({
+    queryKey: ["dev-apps"],
+    queryFn: async () => {
+      return getAppsInfo(user.info[`${variant}-flatpaks`])
+    },
+    enabled: !!user.info,
+  })
 
-  const doRefreshDev = useCallback(async () => {
-    const devFlatpaks = await refreshDevFlatpaks()
-    userDispatch({ type: "update-dev-flatpaks", devFlatpaks })
-  }, [userDispatch])
-  const { execute: executeRefreshDev, status: refreshStatus } = useAsync(
-    doRefreshDev,
-    false,
-  )
+  const queryRefreshDev = useQuery({
+    queryKey: ["refresh-dev"],
+    queryFn: async () => {
+      return refreshDevFlatpaks()
+    },
+    enabled: false,
+  })
 
-  // User app list not available until login context resolves
   useEffect(() => {
-    if (user.info) execute()
-  }, [user.info, execute])
+    if (queryRefreshDev.data) {
+      userDispatch({
+        type: "update-dev-flatpaks",
+        devFlatpaks: queryRefreshDev.data.data["dev-flatpaks"],
+      })
+    }
+  }, [queryRefreshDev.data, userDispatch])
 
-  if (["idle", "pending"].includes(status) || refreshStatus === "pending") {
+  if (
+    "loading" === queryDevApplications.status ||
+    queryRefreshDev.isInitialLoading
+  ) {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
@@ -45,8 +53,8 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
     <ApplicationCollection
       user={user}
       title={title}
-      applications={apps}
-      onRefresh={variant === "dev" && executeRefreshDev}
+      applications={queryDevApplications.data}
+      onRefresh={variant === "dev" && queryRefreshDev.refetch}
       inACard
     />
   )

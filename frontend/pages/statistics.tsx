@@ -230,10 +230,9 @@ const Statistics = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  console.log("Fetching data for stats")
-  const stats = await fetchStats()
+  const { data: stats } = await fetchStats()
 
-  const runtimes = await fetchRuntimes()
+  const { data: runtimes } = await fetchRuntimes()
 
   return {
     props: {

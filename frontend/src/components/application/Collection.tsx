@@ -89,7 +89,11 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
             {pagedApplications.map((app) => (
               <div key={app.id} className={"flex flex-col gap-2"}>
-                <ApplicationCard application={app} link={link} inACard />
+                <ApplicationCard
+                  application={app}
+                  link={link}
+                  inACard={inACard}
+                />
                 {!user?.loading &&
                   user?.info?.["dev-flatpaks"].includes(app.id) && (
                     <ButtonLink

@@ -1,11 +1,5 @@
 import { Trans, useTranslation } from "next-i18next"
-import {
-  FunctionComponent,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { unverifyApp } from "src/asyncs/app"
 import { Notice } from "src/components/Notice"
 import {
@@ -13,7 +7,6 @@ import {
   fetchVerificationStatus,
 } from "src/fetchers"
 import { Appstream } from "src/types/Appstream"
-import { VerificationAvailableMethods } from "src/types/VerificationAvailableMethods"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import Button from "../../Button"
@@ -22,6 +15,7 @@ import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
+import { useQuery } from "@tanstack/react-query"
 
 interface Props {
   app: Appstream
@@ -72,55 +66,39 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const [verificationMethods, setVerificationMethods] =
-    useState<VerificationAvailableMethods>(null)
-  const [verificationStatus, setVerificationStatus] =
-    useState<VerificationStatus>(null)
-  const [status, setStatus] = useState<
-    "idle" | "pending" | "success" | "error"
-  >("idle")
-  const [error, setError] = useState(null)
+  const query = useQuery({
+    queryKey: ["verification", app.id],
+    queryFn: async () => {
+      return fetchVerificationStatus(app.id)
+    },
+    enabled: !!app.id,
+  })
+
+  const verificationAvailableMethods = useQuery({
+    queryKey: ["verification-available-methods", app.id],
+    queryFn: async () => {
+      return fetchVerificationAvailableMethods(app.id, isNewApp)
+    },
+    enabled: query.data && !query.data.data.verified,
+  })
 
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
-  const doFetch = useCallback(async () => {
-    try {
-      const fetchStatus = await fetchVerificationStatus(app.id)
-      setVerificationStatus(fetchStatus)
-
-      if (!fetchStatus?.verified) {
-        const fetch = await fetchVerificationAvailableMethods(app.id, isNewApp)
-        setVerificationMethods(fetch)
-      } else {
-        setVerificationMethods(null)
-      }
-
-      setStatus("success")
-    } catch (err) {
-      setStatus("error")
-      setError(err)
-    }
-  }, [app.id, isNewApp])
-
   const onChildVerified = useCallback(() => {
-    doFetch()
+    query.refetch()
     onVerified?.()
-  }, [doFetch, onVerified])
-
-  useEffect(() => {
-    doFetch()
-  }, [app.id, doFetch])
+  }, [onVerified, query])
 
   if (["pending", "idle"].includes(status)) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
-  if (error) {
-    content = <InlineError shown={true} error={error} />
-  } else if (verificationMethods?.detail) {
+  if (query.error) {
+    content = <InlineError shown={true} error={query.error as string} />
+  } else if (verificationAvailableMethods.data?.data.detail) {
     let errorCode: string
-    switch (verificationMethods.detail) {
+    switch (verificationAvailableMethods.data?.data.detail) {
       case "app_already_exists":
         errorCode = t("app-already-exists")
         break
@@ -128,16 +106,18 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         errorCode = t("malformed-app-id")
         break
       default:
-        errorCode = t("error-code", { code: verificationMethods.detail })
+        errorCode = t("error-code", {
+          code: verificationAvailableMethods.data.data.detail,
+        })
     }
     content = <InlineError shown={true} error={errorCode} />
-  } else if (verificationStatus?.verified) {
+  } else if (query.data?.data.verified) {
     if (isNewApp) {
       content = <InlineError shown={true} error={t("app-already-exists")} />
     } else {
       content = (
         <div className="space-y-3">
-          <StatusInfo status={verificationStatus} />
+          <StatusInfo status={query.data.data} />
 
           <br />
 
@@ -152,7 +132,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             actionVariant="destructive"
             onConfirmed={() => {
               setConfirmUnverify(false)
-              unverifyApp(app.id).then(doFetch)
+              unverifyApp(app.id)
+              query.refetch()
             }}
             onCancelled={() => setConfirmUnverify(false)}
           />
@@ -167,7 +148,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <Notice>{t("verification-warning")}</Notice>
         </div>
 
-        {verificationMethods?.methods.map((methodType) => {
+        {verificationAvailableMethods.data?.data.methods.map((methodType) => {
           if (methodType.method === "website") {
             return (
               <WebsiteVerification
@@ -187,7 +168,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                 method={methodType}
                 isNewApp={isNewApp}
                 onVerified={onChildVerified}
-                onReloadNeeded={doFetch}
+                onReloadNeeded={query.refetch}
               ></LoginVerification>
             )
           }

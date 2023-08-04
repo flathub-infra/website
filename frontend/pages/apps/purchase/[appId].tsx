@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
-  const [app, vendingConfig] = await Promise.all([
+  const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
     fetchVendingConfig(),
   ])
