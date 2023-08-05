@@ -38,6 +38,7 @@ import "yet-another-react-lightbox/plugins/captions.css"
 import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
 import { IS_PRODUCTION } from "src/env"
+import { Description } from "./Description"
 
 interface Props {
   app?: Appstream
@@ -92,23 +93,6 @@ const Details: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const [scrollHeight, setScrollHeight] = useState(0)
-  const collapsedHeight = 356
-  const ref = useRef(null)
-
-  useEffect(() => {
-    setScrollHeight(ref.current.scrollHeight)
-  }, [ref])
-
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
-    collapsedHeight: collapsedHeight,
-  })
-
-  const description = useMemo(
-    () => (app.description ? app.description : ""),
-    [app.description],
-  )
-
   const { data: vendingSetup } = useQuery({
     queryKey: ["verification", app.id],
     queryFn: async () => {
@@ -150,39 +134,7 @@ const Details: FunctionComponent<Props> = ({
         />
         <CarouselStrip app={app} />
         <div className="col-start-2 flex flex-col gap-6">
-          <div>
-            <h2 className="my-4 text-xl font-semibold ">{app.summary}</h2>
-            {scrollHeight > collapsedHeight && (
-              <div
-                {...getCollapseProps({ ref })}
-                className={clsx(
-                  `prose relative transition-all dark:prose-invert xl:max-w-[75%]`,
-                  !isExpanded &&
-                    scrollHeight > collapsedHeight &&
-                    "from-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/3 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-dark-gunmetal",
-                )}
-                dangerouslySetInnerHTML={{
-                  __html: description,
-                }}
-              />
-            )}
-            {scrollHeight <= collapsedHeight && (
-              <div
-                className={`prose dark:prose-invert xl:max-w-[75%]`}
-                ref={ref}
-                dangerouslySetInnerHTML={{
-                  __html: description,
-                }}
-              />
-            )}
-          </div>
-          {scrollHeight > collapsedHeight && (
-            <button {...getToggleProps()}>
-              <span className="m-0 w-full rounded-xl bg-flathub-white px-6 py-2 font-semibold shadow-md transition hover:cursor-pointer hover:bg-flathub-white dark:bg-flathub-arsenic/80 hover:dark:bg-flathub-arsenic">
-                {isExpanded ? t(`show-less`) : t(`show-more`)}
-              </span>
-            </button>
-          )}
+          <Description app={app} />
 
           {stableReleases && stableReleases.length > 0 && (
             <Releases latestRelease={stableReleases[0]}></Releases>
