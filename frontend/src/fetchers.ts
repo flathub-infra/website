@@ -36,7 +36,11 @@ import { Stats } from "./types/Stats"
 import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
 import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
-import { AppsIndex, MeilisearchResponse } from "./meilisearch"
+import {
+  AppsIndex,
+  MeilisearchResponse,
+  MeilisearchResponseLimited,
+} from "./meilisearch"
 import axios from "axios"
 
 export async function fetchAppstreamList() {
@@ -203,7 +207,7 @@ export async function fetchSearchQuery(
   }[],
 ) {
   const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-  return axios.post(
+  return axios.post<MeilisearchResponseLimited<AppsIndex>>(
     SEARCH_APP,
     {
       query: queryEncoded,
