@@ -36,7 +36,7 @@
   "source-code": "மூல குறியீடு",
   "statistics": "புள்ளிவிவரங்கள்",
   "user-avatar": "{{user}} இன் அவதார்",
-  "available-architectures": "கிடைக்கக்கூடிய கட்டிடக்கலைகள்",
+  "available-architectures": "கிடைக்கக்கூடிய கட்டமைப்புகள்",
   "no-changelog-provided": "சேஞ்ச்லாக் வழங்கப்படவில்லை",
   "changes-in-version": "பதிப்பில் மாற்றங்கள் {{version-number}}",
   "installs-over-time": "காலப்போக்கில் நிறுவல்கள்",
@@ -47,7 +47,6 @@
   "loading-user-apps": "பயனர் பயன்பாடுகளை ஏற்றுகிறது…",
   "authored-apps": "எழுதிய பயன்பாடுகள்",
   "owned-apps": "சொந்தமான பயன்பாடுகள்",
-  "user-page": "பயனர் பக்கம்",
   "user-wallet": "பயனர் பணப்பை",
   "count-downloads": "மொத்த பதிவிறக்கங்கள்",
   "since": "இருந்து",
@@ -349,5 +348,6 @@
   "community-repository": "சமூக களஞ்சியம்",
   "community-repository-description": "எங்கள் GitHub நிறுவனத்தில் உள்ள களஞ்சியத்தில் உங்கள் Flatpak மேனிஃபெஸ்ட் மற்றும் துணைக் கோப்புகளைப் பதிவேற்றுவதன் மூலம் உங்கள் பயன்பாட்டை Flathub இல் பதிவேற்றவும். Flathub இன் buildbot பயன்பாட்டை உருவாக்கி அதை Flathub இல் வெளியிடும்.",
   "direct-upload": "நேரடி பதிவேற்றம்",
-  "verify-app-id": "பயன்பாட்டு ஐடியைச் சரிபார்க்கவும்"
+  "verify-app-id": "பயன்பாட்டு ஐடியைச் சரிபார்க்கவும்",
+  "arch": "கட்டமைப்பு"
 }

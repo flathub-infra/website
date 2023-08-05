@@ -132,7 +132,6 @@
   "vcs_browser": "Przejrzyj kod źródłowy",
   "error-already-logged-in": "Wybrane konto jest już zalogowane.",
   "app-logo": "Logo {{app-name}}",
-  "user-page": "Strona użytkownika",
   "user-wallet": "Portfel użytkownika",
   "flathub-statistics": "Statystyki Flathub",
   "count-downloads": "Wszystkie pobrania",
@@ -164,7 +163,7 @@
   "delete-account-entry": "Chcę usunąć moje konto",
   "entry-confirmation-prompt": "Wprowadź \"{{text}}\" by kontynować.",
   "loading": "Wczytywanie…",
-  "could-not-find-match-for-search": "Nie udało się znaleźć szukanej frazy.",
+  "could-not-find-match-for-search": "Nie znaleziono żadnych aplikacji pasujących do wyszukiwania.",
   "manifest": "Manifest aplikacji",
   "languages": "Języki",
   "downloads": "Pobrania",
@@ -323,8 +322,8 @@
   "moderation-approved-by": "Zatwierdzone przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Odrzucony przez {{handledBy}} w dniu {{handledAt}} ({{handledAtRel}})",
   "runtime-distribution": "Użycie środowisk uruchomieniowych",
-  "recently-updated-description": "Aplikacje zaktualizowane na Flathub w ostatnich dniach.",
-  "recently-added-description": "Nowe aplikacje opublikowane na Flathub w ostatnich dniach.",
+  "recently-updated-description": "Aplikacje zaktualizowane na Flathub w ciągu ostatnich kilku dni.",
+  "recently-added-description": "Nowe aplikacje opublikowane na Flathub w ciągu ostatnich kilku dni.",
   "recently-updated": "Ostatnio zaktualizowane",
   "recently-added": "Ostatnio dodane",
   "the-linux-app-store": "Sklep z aplikacjami dla Linuksa",
@@ -349,5 +348,7 @@
   "malformed-app-id": "Identyfikator aplikacji jest nieprawidłowy. Identyfikatory aplikacji muszą zawierać co najmniej trzy segmenty i żaden segment nie może być pusty. Każdy segment musi zaczynać się od litery lub podkreślenia i może zawierać tylko litery, cyfry, podkreślenia i myślniki.",
   "publisher-agreement-accept": "Akceptuję umowę wydawniczą",
   "publisher-agreement": "Umowa wydawnicza",
-  "app-id-instructions": "Identyfikatory aplikacji używają odwrotnej notacji nazw domen (RDNN). Na przykład, GNOME Maps używa \"org.gnome.Maps\". Wybierz domenę, nad którą masz kontrolę, taką jak strona internetowa projektu (lub, jeśli przesyłasz jako osoba fizyczna, własną stronę internetową). Jeśli witryna nie jest dostępna, można również użyć domeny powiązanej z kontem hostingowym kodu źródłowego, na przykład \"io.github.<twoja_nazwa_użytkownika>.<nazwa_aplikacji>\"."
+  "app-id-instructions": "Identyfikatory aplikacji używają odwrotnej notacji nazw domen (RDNN). Na przykład, GNOME Maps używa \"org.gnome.Maps\". Wybierz domenę, nad którą masz kontrolę, taką jak strona internetowa projektu (lub, jeśli przesyłasz jako osoba fizyczna, własną stronę internetową). Jeśli witryna nie jest dostępna, można również użyć domeny powiązanej z kontem hostingowym kodu źródłowego, na przykład \"io.github.<twoja_nazwa_użytkownika>.<nazwa_aplikacji>\".",
+  "arch": "Architektura",
+  "release-link-no-changelog": "Informacje o wydaniu"
 }

@@ -23,7 +23,6 @@
   "authored-apps": "Apps door u",
   "owned-apps": "Apps in uw bezit",
   "app-logo": "Logo van {{app-name}}",
-  "user-page": "Gebruikers­pagina",
   "user-wallet": "Gebruikers­portemonnee",
   "flathub-statistics": "Flathub-satistieken",
   "home": "Start",
@@ -335,5 +334,16 @@
   "no-results-found": "Geen resultaten gevonden",
   "console-application": "Console-app",
   "app-type": "App-type",
-  "desktop-application": "Grafische app"
+  "desktop-application": "Grafische app",
+  "new-app": "Nieuwe app",
+  "community-repository": "Gemeenschaps-repository",
+  "direct-upload": "Directe upload",
+  "new-community-repository": "Nieuwe app via gemeenschaps-repository",
+  "new-direct-upload": "Nieuwe app via directe upload",
+  "app-id": "App-ID",
+  "verify-app-id": "App-ID verifiëren",
+  "publisher-agreement-accept": "Ik accepteer de inzendingsovereenkomst voor uitgevers",
+  "publisher-agreement": "Inzendingsovereenkomst voor uitgevers",
+  "app-already-exists": "Er bestaat al een app met deze ID.",
+  "arch": "Architectuur"
 }

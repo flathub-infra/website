@@ -89,7 +89,6 @@
   "since": "始於",
   "user-wallet": "使用者錢包",
   "flathub-statistics": "Flathub 統計資料",
-  "user-page": "使用者頁面",
   "count-downloads": "總下載數",
   "rss-feeds-description": "您現在可以訂閱我們的 RSS feeds，以在您的 feed 閱讀程式中取得最新的 Flathub 好東西！",
   "official-badges": "Flathub 官方徽章",
@@ -349,5 +348,6 @@
   "malformed-app-id": "應用程式 ID 格式錯誤。應用程式 ID 必須至少包含三個區段，並且任何區段都不能為空。每個區段必須以字母或底線開頭，並且只能包含字母、數字、底線與連字號。",
   "publisher-agreement": "發佈者遞交協議",
   "publisher-agreement-accept": "我接受發佈者遞交協議",
-  "app-id-instructions": "應用程式 ID 使用反向網域表示法 (RDNN)。例如，GNOME 地圖使用「org.gnome.Maps」。選擇您可以控制的網域，例如專案的網站（或者，若您個人上傳，則選擇您自己的網站）。若沒有可用的網站，您也可以使用與原始碼託管帳號關聯的網域，例如「io.github.<your_username>.<app_name>」。"
+  "app-id-instructions": "應用程式 ID 使用反向網域表示法 (RDNN)。例如，GNOME 地圖使用「org.gnome.Maps」。選擇您可以控制的網域，例如專案的網站（或者，若您個人上傳，則選擇您自己的網站）。若沒有可用的網站，您也可以使用與原始碼託管帳號關聯的網域，例如「io.github.<your_username>.<app_name>」。",
+  "arch": "架構"
 }

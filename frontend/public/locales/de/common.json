@@ -44,7 +44,6 @@
   "loading-user-apps": "Lade Benutzer-Apps…",
   "authored-apps": "Erstellte Apps",
   "app-logo": "{{app-name}}-Logo",
-  "user-page": "Benutzerseite",
   "flathub-statistics": "Flathub-Statistiken",
   "count-downloads": "Gesamt-Downloads",
   "since": "Seit",
@@ -332,5 +331,15 @@
   "app-eol": "Diese Anwendung ist auf Flathub nicht mehr verfügbar",
   "find-your-distribution": "Finde deine Distribution",
   "distribution-flathub-setup": "{{distribution}} Flathub-Einrichtung",
-  "no-results-found": "Keine Ergebnisse gefunden"
+  "no-results-found": "Keine Ergebnisse gefunden",
+  "new-app": "Neue App",
+  "community-repository-description": "Lade deine App auf Flathub hoch, indem du deine Flatpak-Manifest und unterstützende Dateien zu einem Repository in unserer GitHub-Organisation hinzufügst. Der Buildbot von Flathub baut dann die App und veröffentlicht sie auf Flathub.",
+  "direct-upload-description": "Erstelle deine App in deiner eigenen Continuous-Integration-Umgebung und lade sie direkt auf Flathub hoch.",
+  "verify-app-id": "App-ID verifizieren",
+  "app-id": "App-ID",
+  "app-id-instructions": "App-IDs verwenden die umgekehrte Domain-Namen-Notation (RDNN). GNOME Maps verwendet zum Beispiel \"org.gnome.Maps\". Wähle eine Domain, die du kontrollierst, z. B. die Website des Projekts (oder, wenn du als Einzelperson hochlädst, deine eigene Website). Wenn keine Website verfügbar ist, kannst du auch eine Domäne verwenden, die mit einem Quellcode-Hosting-Konto verknüpft ist, z. B. \"io.github.<dein_benutzername>.<app_name>\".",
+  "app-already-exists": "Eine App mit dieser ID existiert bereits.",
+  "malformed-app-id": "Die App-ID ist falsch formatiert. App-IDs müssen mindestens drei Segmente haben. Jedes Segment muss mit einem Buchstaben oder Unterstrich beginnen und darf nur Buchstaben, Ziffern, Unterstriche und Bindestriche enthalten.",
+  "desktop-application": "Desktopanwendung",
+  "console-application": "Konsolenanwendung"
 }
