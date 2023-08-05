@@ -11,7 +11,7 @@ import Inline from "yet-another-react-lightbox/plugins/inline"
 import "yet-another-react-lightbox/styles.css"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import Captions from "yet-another-react-lightbox/plugins/captions"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 
