@@ -13,7 +13,6 @@
   "installs": "Nainstalováno",
   "unknown": "Neznámé",
   "proprietary": "Proprietární",
-  "user-page": "Uživatelská stránka",
   "flathub-statistics": "Statistiky Flathubu",
   "subscribe": "Odebírat",
   "rss-feeds-description": "Můžete začít odebírat naše RSS kanály a mít tak vždy nejnovější zprávy z Flathubu ve své RSS čtečce!",
@@ -41,7 +40,7 @@
   "by": "od {{developer}}",
   "other-apps-by-developer": "Ostatní aplikace od vývojáře {{developer}}",
   "loading": "Načítání…",
-  "could-not-find-match-for-search": "Pro vámi hledaný výraz nebyly nalezeny žádné výsledky.",
+  "could-not-find-match-for-search": "Nepodařilo se najít žádné aplikace odpovídající vašemu vyhledávání.",
   "request-new-app": "Pokud hledáte konkrétní aplikaci a chcete ji získat na Flathubu, dejte komunitě vědět, že ji chcete <1>zde</1>.",
   "manifest": "Manifest aplikace",
   "popular": "Populární",
@@ -328,7 +327,7 @@
   "recently-added-description": "Nové aplikace publikované na Flathubu v posledních dnech.",
   "runtime-distribution": "Distribuce běhového prostředí",
   "the-linux-app-store": "Obchod s aplikacemi pro Linux",
-  "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací pro libovolnou linuxovou distribuci.",
+  "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací pro libovolnou linuxovou distribuci",
   "app-eol": "Tato aplikace již není na Flathubu k dispozici",
   "distribution-flathub-setup": "{{distribution}} Nastavení Flathubu",
   "find-your-distribution": "Najděte svoji distribuci",
@@ -349,5 +348,7 @@
   "malformed-app-id": "ID aplikace je chybně zadáno. ID aplikace musí obsahovat alespoň tři segmenty a žádný segment nesmí být prázdný. Každý segment musí začínat písmenem nebo podtržítkem a smí obsahovat pouze písmena, číslice, podtržítka a pomlčky.",
   "publisher-agreement": "Smlouva o předkládání publikací vydavateli",
   "publisher-agreement-accept": "Souhlasím se smlouvou o předkládání publikací vydavateli",
-  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.<vaše_uživatelské_jméno>.<název_aplikace>'."
+  "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.<vaše_uživatelské_jméno>.<název_aplikace>'.",
+  "arch": "Arch",
+  "release-link-no-changelog": "Poznámky k vydání"
 }

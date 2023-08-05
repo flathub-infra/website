@@ -55,7 +55,6 @@
   "network-error-try-again": "Greška u mreži. Pokušaj ponovo.",
   "error-already-logged-in": "Odabrani račun je već prijavljen.",
   "loading-user-apps": "Učitavanje korisničkih aplikacija …",
-  "user-page": "Stranica korisnika",
   "user-wallet": "Novčanik korisnika",
   "app-logo": "{{app-name}} logotip",
   "flathub-statistics": "Flathub statistika",
@@ -110,7 +109,7 @@
   "other-apps-by-developer": "Druge aplikacije od {{developer}}",
   "other-apps-by-projectgroup": "Druge aplikacije u grupi {{projectgroup}}",
   "loading": "Učitavanje …",
-  "could-not-find-match-for-search": "Nije pronađeno podudaranje za pretragu.",
+  "could-not-find-match-for-search": "Nije pronađena nijedna aplikacija koja odgovara tvojoj pretrazi.",
   "languages-description": "Odaberi jezik:",
   "switch-language": "Promijeni jezik",
   "expiry": "Istek",
@@ -327,10 +326,10 @@
   "recently-added": "Nedavno dodane",
   "distribution-flathub-setup": "{{distribution}} Flathub postava",
   "no-results-found": "Nema pronađenih rezultata",
-  "recently-added-description": "Nove aplikacije objavljene na Flathubu u zadnjim danima.",
+  "recently-added-description": "Nove aplikacije objavljene na Flathubu zadnjih par dana.",
   "find-your-distribution": "Pronađi svoju distribuciju",
   "app-eol": "Ova aplikacija više nije dostupna na Flathubu",
-  "recently-updated-description": "Ažurirane aplikacije na Flathubu u zadnjim danima.",
+  "recently-updated-description": "Ažurirane aplikacije na Flathubu zadnjih par dana.",
   "the-linux-app-store": "Trgovina Linux aplikacija",
   "flathub-index-description": "Nabavi najnovije verzije svih tvojih omiljenih aplikacija za bilo koju Linux distribuciju",
   "desktop-application": "Desktop aplikacija",
@@ -349,5 +348,7 @@
   "verify-app-id": "Potvrdi ID aplikacije",
   "app-id": "ID aplikacije",
   "publisher-agreement": "Ugovor o podnescima izdavača",
-  "new-community-repository": "Nova aplikacija u repozitoriju zajednice"
+  "new-community-repository": "Nova aplikacija u repozitoriju zajednice",
+  "arch": "Arhiktetura",
+  "release-link-no-changelog": "Bilješke o izdanju"
 }

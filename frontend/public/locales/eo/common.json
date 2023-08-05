@@ -20,7 +20,7 @@
   "project-website": "Projekta retejo",
   "contribute-translations": "Kontribui tradukojn",
   "contribute": "Kontribui al la programo",
-  "available-architectures": "Disponeblaj arkitekturoj",
+  "available-architectures": "Disponeblaj arĥitekturoj",
   "report-an-issue": "Raporti problemon",
   "vcs_browser": "Foliumi la fontkodon",
   "no-changelog-provided": "Neniu ŝanĝprotokolo havebla",
@@ -196,7 +196,6 @@
   "about-description": "Flathub celas esti la loko por akiri kaj distribui programojn por Linux. Ĝin funkciigas Flatpak, kiu permesas al Flathub-programoj ruliĝi sur preskaŭ ajna Linux-distribuaĵo.",
   "authored-apps": "Verkitaj programoj",
   "user-wallet": "Monujo de uzanto",
-  "user-page": "Paĝo de uzanto",
   "recommended-payment": "Rekomendata prezo",
   "app-is-verified": "Ĉi tiu programo estas konfirmita",
   "value-at-most": "La maksimumo estas {{value}}",
@@ -349,5 +348,6 @@
   "publisher-agreement": "Interkonsento kun eldononto pri submeto",
   "malformed-app-id": "La programidentigilo estas misformita. Programidentigilo devas konsisti el almenaŭ tri komponantojn. Ĉiu komponanto devas esti nemalplena. Ĉiu segmento devas komenciĝi per litero aŭ substreko (_) kaj povas enhavi nur literojn, ciferojn, substrekojn (_) kaj streketojn (-).",
   "direct-upload-description": "Disvolvante vian programon ĉe via propra kontinue integranta medio, alŝutu ĝin rekte al Flathub.",
-  "app-id-instructions": "Programidentigilo konformas al inversnomregna notacio. Ekzemple, GNOME Maps uzas «org.gnome.Maps». Elektu Interretan nomregnon regatan de vi, ekzemple la retejon de la projekto (aŭ, se vi alŝutas kiel individuo, vian propran retejon). Se neniu retejo disponeblas, vi ankaŭ povas uzi nomregnon asociitan kun fontkoda deponejo, ekz. «io.github.[via_salutnomo].[nomo_de_programo]»."
+  "app-id-instructions": "Programidentigilo konformas al inversnomregna notacio. Ekzemple, GNOME Maps uzas «org.gnome.Maps». Elektu Interretan nomregnon regatan de vi, ekzemple la retejon de la projekto (aŭ, se vi alŝutas kiel individuo, vian propran retejon). Se neniu retejo disponeblas, vi ankaŭ povas uzi nomregnon asociitan kun fontkoda deponejo, ekz. «io.github.[via_salutnomo].[nomo_de_programo]».",
+  "arch": "Arĥitekturo"
 }

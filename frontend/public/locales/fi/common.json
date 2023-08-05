@@ -39,7 +39,6 @@
   "loading-user-apps": "Ladataan käyttäjäsovelluksia…",
   "authored-apps": "Laaditut sovellukset",
   "app-logo": "Sovelluksen {{app-name}} logo",
-  "user-page": "Käyttäjäsivu",
   "flathub-statistics": "Flathub-tilastot",
   "count-downloads": "Latauksia yhteensä",
   "since": "Alkaen",
@@ -92,7 +91,7 @@
   "manual-install-instructions": "Seuraa <2>Linux-jakelusi määritysohjetta</2> ennen asennusta",
   "donate": "Lahjoita",
   "loading": "Ladataan…",
-  "could-not-find-match-for-search": "Haku ei tuottanut tuloksia.",
+  "could-not-find-match-for-search": "Hakuehtojasi vastaavia sovelluksia ei löytynyt.",
   "request-new-app": "Jos etsit jotain tiettyä sovellusta, <1>kerro yhteisölle</1>, että haluat sen Flathubiin.",
   "languages": "Kielet",
   "switch-language": "Vaihda kieli",
@@ -349,5 +348,7 @@
   "app-id-instructions": "Sovellus-ID:t ovat käänteisiä verkkotunnuksen niminotaatioita (RDNN). Esimerkiksi Gnomen karttasovelluksen ID on 'org.gnome.Maps'. Valitse verkkotunnus, jonka hallinnasta vastaat, kuten projektin verkkosivusto, tai jos lähetät yksityishenkilönä, oma verkkosivustosi. Jos verkkosivustoa ei ole käytettävissä, voit käyttää lähdekoodia tarjoavan tilin verkkotunnusta, kuten 'io.github.<tilin_nimi>.<sovelluksen_nimi>'.",
   "app-already-exists": "Sovellus tällä ID:llä on jo olemassa.",
   "publisher-agreement": "Julkaisijan lähetyksen hyväksyntä",
-  "publisher-agreement-accept": "Hyväksyn julkaisijan lähetyksen ehdot"
+  "publisher-agreement-accept": "Hyväksyn julkaisijan lähetyksen ehdot",
+  "arch": "Arkkitehtuuri",
+  "release-link-no-changelog": "Julkaisutiedot"
 }

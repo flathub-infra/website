@@ -13,7 +13,6 @@
   "installs": "Количество установок",
   "unknown": "Неизвестно",
   "proprietary": "Проприетарная",
-  "user-page": "Страница пользователя",
   "flathub-statistics": "Статистика Flathub",
   "subscribe": "Подписаться",
   "rss-feeds-description": "Теперь вы можете подписаться на наши RSS-ленты, чтобы получать последние новости Flathub в своей программе для чтения RSS-лент!",
@@ -41,7 +40,7 @@
   "by": "от {{developer}}",
   "other-apps-by-developer": "Другие приложения от {{developer}}",
   "loading": "Загрузка…",
-  "could-not-find-match-for-search": "Не удалось найти совпадения.",
+  "could-not-find-match-for-search": "Не удалось найти приложения по вашему запросу.",
   "request-new-app": "Если вы ищете конкретное приложение, сообщите сообществу о том, что хотите видеть его на Flathub <1>здесь</1>.",
   "manifest": "Манифест",
   "popular": "Популярные",
@@ -324,9 +323,9 @@
   "not-verified": "Не подтверждено",
   "moderation-no-review-requests": "Нет отзывов для этого приложения.",
   "recently-added": "Недавно добавленные",
-  "recently-updated-description": "Приложения, обновлённые на Flathub за последние дни.",
+  "recently-updated-description": "Приложения, обновлённые на Flathub за последние несколько дней.",
   "recently-updated": "Недавно обновлённые",
-  "recently-added-description": "Новые приложения, опубликованные на Flathub за последние дни.",
+  "recently-added-description": "Новые приложения, опубликованные на Flathub за последние несколько дней.",
   "flathub-index-description": "Получите последние версии всех ваших любимых приложений для любого дистрибутива Linux",
   "the-linux-app-store": "Магазин приложений для Linux",
   "distribution-flathub-setup": "Настройка Flathub для {{distribution}}",
@@ -350,5 +349,6 @@
   "direct-upload": "Прямая загрузка",
   "publisher-agreement": "Соглашение о представлении издателя",
   "publisher-agreement-accept": "Я принимаю соглашение о представлении издателя",
-  "arch": "Arch"
+  "arch": "Архитектура",
+  "release-link-no-changelog": "Примечания к выпуску"
 }

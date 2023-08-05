@@ -38,7 +38,6 @@
   "loading-user-apps": "正在加载用户应用…",
   "authored-apps": "创作的应用",
   "app-logo": "{{app-name}} 标志",
-  "user-page": "用户页面",
   "user-wallet": "用户钱包",
   "flathub-statistics": "Flathub 统计",
   "count-downloads": "下载总计",
@@ -349,5 +348,6 @@
   "app-id-instructions": "应用 ID 使用反向域名表示法 （RDNN）。例如 GNOME Maps 用 'org.gnome.Maps' 表示。使用一个您可以控制的域，例如项目的网站（如果您以个人身份上传，则选择您自己的网站）。如果没有可用的网站，您还可以使用与源代码托管平台帐户关联的域，例如'io.github.<your_username>.<app_name>'。",
   "desktop-application": "桌面应用",
   "console-application": "控制台应用",
-  "app-type": "应用类型"
+  "app-type": "应用类型",
+  "arch": "架构"
 }

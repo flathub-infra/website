@@ -48,7 +48,6 @@
   "loading-user-apps": "Cargando aplicaciones de usuario…",
   "authored-apps": "Aplicaciones autorizadas",
   "app-logo": "Logo de {{app-name}}",
-  "user-page": "Página de usuario",
   "count-downloads": "Descargas totales",
   "since": "Desde",
   "downloads-per-country": "Descargas por país",
@@ -93,7 +92,7 @@
   "screenshot": "Captura de pantalla",
   "other-apps-by-developer": "Otras aplicaciones de {{developer}}",
   "loading": "Cargando…",
-  "could-not-find-match-for-search": "No se pudo encontrar una coincidencia para la búsqueda.",
+  "could-not-find-match-for-search": "No se ha encontrado ninguna aplicación que coincide con tu búsqueda.",
   "request-new-app": "Si busca una aplicación concreta, comunique a la comunidad que la quiere en Flathub <1>aquí</1>.",
   "manifest": "Manifiesto",
   "languages-description": "Seleccione un idioma para cambiarlo:",
@@ -265,7 +264,7 @@
   "about-app-verification-block": "<0>¿Qué significa la marca de verificación bajo el nombre de una aplicación?</0><p>Algunas aplicaciones tienen una marca de verificación en la página de la aplicación bajo el nombre del desarrollador. Esto significa que la aplicación está publicada en Flathub por su desarrollador original o por un tercero aprobado por el desarrollador.</p><p>Algunas aplicaciones están publicadas por terceros que no están afiliados con el desarrollador original. Esto está permitido, pero estas aplicaciones no son elegibles para la marca de verificación.</p><p>Al lado de la marca de verificación hay un enlace a la página web del desarrollador o a su perfil en un sitio de alojamiento de código fuente. Flathub ha verificado la identidad del desarrollador utilizando ese enlace.</p><4>Voy a publicar una aplicación en Flathub. ¿Cómo la verifico? </4><5>Primero, <2>inicie sesión en Flathub</2>. Haz clic en el botón \"Configuración de desarrollador\" situado debajo de la aplicación que deseas verificar. En la parte superior de la página, busca la sección \"Configurar verificación\". Las instrucciones te guiarán a través del proceso de verificación.</5>",
   "refresh": "Actualizar",
   "verification-instructions": "Verifique la identificación para indicar que la aplicación ha sido aprobada por su desarrollador para publicarse en Flathub. Debe demostrar que tiene acceso a la aplicación a través del sitio web del desarrollador o del sitio web del código fuente de la aplicación. La marca de verificación aparecerá debajo del nombre del desarrollador, junto con la forma en que se verificó la identificación.",
-  "verification-warning": "El equipo de Flathub puede eliminar la insignia de verificación de cualquier aplicación a su exclusivo criterio, por ejemplo, si pudiera inducir a error a las personas sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial.",
+  "verification-warning": "El equipo de Flathub puede retirar el distintivo de verificación de cualquier aplicación a según su criterio, por ejemplo, si puede inducir a error sobre el estado oficial de la aplicación o causar confusión con respecto a una marca comercial.",
   "verification": "Verificación",
   "my-flathub": "Mi Flathub",
   "settings": "Ajustes",
@@ -326,7 +325,7 @@
   "recently-updated": "Actualizadas recientemente",
   "recently-added": "Añadidas recientemente",
   "recently-updated-description": "Aplicaciones actualizadas en Flathub en los últimos días.",
-  "recently-added-description": "Aplicaciones nuevas publicadas en Flathub en los últimos días.",
+  "recently-added-description": "Nuevas aplicaciones publicadas en Flathub en los últimos días.",
   "the-linux-app-store": "La tienda de aplicaciones de Linux",
   "flathub-index-description": "Obtenga las últimas versiones de todas sus aplicaciones favoritas, para cualquier distribución de Linux",
   "app-eol": "Esta aplicación ya no está disponible en Flathub",
@@ -350,5 +349,6 @@
   "publisher-agreement": "Acuerdo de envío de publicaciones",
   "malformed-app-id": "El ID de la aplicación está malformado. Los ID de aplicación deben contener al menos tres segmentos, y ningún segmento puede estar vacío. Cada segmento debe empezar por una letra o un guión bajo y solo puede contener letras, dígitos, guiones bajos y guiones.",
   "publisher-agreement-accept": "Acepto el acuerdo de envío de publicaciones",
-  "arch": "Arquitectura"
+  "arch": "Arquitectura",
+  "release-link-no-changelog": "Notas de la versión"
 }

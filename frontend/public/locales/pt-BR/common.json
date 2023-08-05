@@ -44,7 +44,6 @@
   "loading-user-apps": "Carregando apps do usuário…",
   "authored-apps": "Apps que você criou",
   "app-logo": "Logo de {{app-name}}",
-  "user-page": "Página do usuário",
   "flathub-statistics": "Estatísticas do Flathub",
   "count-downloads": "Total de downloads",
   "since": "Desde",
@@ -98,7 +97,7 @@
   "donate": "Doar",
   "other-apps-by-developer": "Outros apps de {{developer}}",
   "loading": "Carregando…",
-  "could-not-find-match-for-search": "Não foi possível encontrar uma correspondência para a pesquisa.",
+  "could-not-find-match-for-search": "Não foi possível encontrar um aplicativo correspondendo a sua pesquisa.",
   "request-new-app": "Se você estiver procurando por um aplicativo específico, informe à comunidade que você o quer no Flathub <1>aqui</1>.",
   "manifest": "Manifesto",
   "switch-language": "Alterar idioma",
@@ -332,5 +331,6 @@
   "recently-updated-description": "Apps atualizados no Flathub nos últimos dias.",
   "recently-added-description": "Novos apps publicados no Flathub nos últimos dias.",
   "flathub-index-description": "Obtenha as versões mais recentes de todos os seus aplicativos favoritos, para qualquer distribuição Linux",
-  "app-eol": "Este aplicativo não está mais disponível no Flathub"
+  "app-eol": "Este aplicativo não está mais disponível no Flathub",
+  "desktop-application": "Apliciativo de Desktop"
 }

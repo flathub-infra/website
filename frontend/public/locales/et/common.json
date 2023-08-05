@@ -63,7 +63,7 @@
   "recently-added": "Hiljuti lisatud",
   "audio-and-video": "Heli ja video",
   "loading": "Laadime andmeid…",
-  "could-not-find-match-for-search": "Sellele otsingule puudub vaste.",
+  "could-not-find-match-for-search": "Sinu otsingusõna alusel ei leidu ühtegi rakendust.",
   "manifest": "Rakenduse kontrollfail",
   "screenshot": "Ekraanitõmmis",
   "donate": "Toeta arendajat",
@@ -111,7 +111,6 @@
   "new-app": "Uus rakendus",
   "simulation": "Simulatsioon",
   "shooter": "Tulistamismäng",
-  "user-page": "Kasutaja leht",
   "user-wallet": "Kasutaja rahakott",
   "use-new-card": "Kasuta uut kaarti",
   "find-your-distribution": "Leia loendist oma distributsioon",
@@ -284,5 +283,9 @@
   "setup-flathub": "Seadista Flathub",
   "app-type": "Rakenduse tüüp",
   "console-application": "Konsoolirakendus",
-  "desktop-application": "Töölauarakendus"
+  "desktop-application": "Töölauarakendus",
+  "app-id": "Rakenduse tunnus",
+  "app-already-exists": "Sellise tunnusega rakendus on juba olemas.",
+  "arch": "Arhiiv",
+  "release-link-no-changelog": "Muudatuste logi"
 }
