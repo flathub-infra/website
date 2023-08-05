@@ -3,8 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import Spinner from "src/components/Spinner"
-import { useSearchQuery } from "../../../src/hooks/useSearchQuery"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import {
   AppsIndex,
   MeilisearchResponseLimited,
@@ -16,6 +15,10 @@ import { Disclosure, Transition } from "@headlessui/react"
 import { HiOutlineFunnel } from "react-icons/hi2"
 import clsx from "clsx"
 import Button from "src/components/Button"
+import { UseQueryResult, useQuery } from "@tanstack/react-query"
+import { fetchSearchQuery } from "src/fetchers"
+import { useMatomo } from "@mitresthen/matomo-tracker-react"
+import { AxiosResponse } from "axios"
 
 interface Props {
   results: MeilisearchResponseLimited<AppsIndex>
@@ -411,10 +414,21 @@ const SearchPanel = ({
   selectedFilters,
   setSelectedFilters,
   query,
+}: {
+  searchResult: UseQueryResult<
+    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
+    unknown
+  >
+  selectedFilters: {
+    filterType: string
+    value: string
+  }[]
+  setSelectedFilters
+  query: string
 }) => {
   const { t } = useTranslation()
 
-  if (!searchResult) {
+  if (searchResult.isLoading) {
     return (
       <div className="m-auto">
         <Spinner size="l" />
@@ -422,7 +436,9 @@ const SearchPanel = ({
     )
   }
 
-  if (!searchResult || searchResult.estimatedTotalHits === 0) {
+  const searchResultData = searchResult.data?.data
+
+  if (searchResultData.estimatedTotalHits === 0) {
     return (
       <div>
         <h1 className="pb-8 text-2xl font-bold">
@@ -452,7 +468,7 @@ const SearchPanel = ({
     <>
       <div className="hidden flex-col gap-3 md:flex">
         <SearchFilters
-          results={searchResult}
+          results={searchResultData}
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
         />
@@ -462,10 +478,10 @@ const SearchPanel = ({
           <h1 className="text-2xl font-bold">
             {t("search-for-query", { query })}
           </h1>
-          {searchResult && searchResult.estimatedTotalHits > 0 && (
+          {searchResultData && searchResultData.estimatedTotalHits > 0 && (
             <span className="text-sm text-flathub-granite-gray dark:text-flathub-sonic-silver">
               {t("number-of-results", {
-                number: searchResult.estimatedTotalHits,
+                number: searchResultData.estimatedTotalHits,
               })}
             </span>
           )}
@@ -496,7 +512,7 @@ const SearchPanel = ({
                 >
                   <Disclosure.Panel className={"px-4"}>
                     <SearchFilters
-                      results={searchResult}
+                      results={searchResultData}
                       selectedFilters={selectedFilters}
                       setSelectedFilters={setSelectedFilters}
                     />
@@ -506,7 +522,7 @@ const SearchPanel = ({
             )}
           </Disclosure>
         </div>
-        <SearchResults results={searchResult} />
+        <SearchResults results={searchResultData} />
       </div>
     </>
   )
@@ -514,6 +530,8 @@ const SearchPanel = ({
 
 export default function Search() {
   const { t } = useTranslation()
+  const { trackSiteSearch } = useMatomo()
+
   const router = useRouter()
   const query = router.query
 
@@ -534,9 +552,20 @@ export default function Search() {
     }[]
   >(filtersFromQuery)
 
-  const searchResult = useSearchQuery(q as string, selectedFilters)
-
-  useEffect(() => {}, [selectedFilters])
+  const search = useQuery({
+    queryKey: ["search", q, selectedFilters],
+    queryFn: async () => {
+      return fetchSearchQuery(q as string, selectedFilters).then((res) => {
+        if (q.length > 0) {
+          trackSiteSearch({
+            keyword: q,
+            count: res.data.estimatedTotalHits,
+          })
+        }
+        return res
+      })
+    },
+  })
 
   return (
     <>
@@ -550,7 +579,7 @@ export default function Search() {
       <div className="max-w-11/12 mx-auto my-0 mt-6 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="flex flex-col gap-3 md:flex-row">
           <SearchPanel
-            searchResult={searchResult}
+            searchResult={search}
             selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
             query={q}
