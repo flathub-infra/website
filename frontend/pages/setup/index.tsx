@@ -25,13 +25,13 @@ export default function Setup({
   // linux distros by approximate popularity or if setup is needed
   const distroOrder: { name: string; order: number }[] = [
     { name: "Ubuntu", order: 100 },
+    { name: "Debian", order: 95 },
     { name: "Chrome OS", order: 90 },
-    { name: "Debian", order: 90 },
-    { name: "Linux Mint", order: 80 },
-    { name: "Red Hat Enterprise Linux", order: 80 },
-    { name: "Fedora", order: 75 },
-    { name: "Manjaro", order: 75 },
-    { name: "Gentoo", order: 75 },
+    { name: "Fedora", order: 85 },
+    { name: "Arch", order: 80 },
+    { name: "Linux Mint", order: 75 },
+    { name: "openSUSE", order: 70 },
+    { name: "Manjaro", order: 65 },
   ]
   const [distroFilter, setDistroFilter] = useState<string>("")
 
