@@ -164,10 +164,8 @@ export async function fetchDeveloperApps(
       DEVELOPER_URL(developer, page, per_page),
     )
     .catch((error) => {
-      if (error.response.status === 404) {
-        return {
-          data: null,
-        }
+      return {
+        data: null,
       }
     })
 }

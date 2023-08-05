@@ -23,6 +23,34 @@ interface Props {
   inACard?: boolean
 }
 
+const Header = ({
+  title,
+  refresh,
+  totalHits,
+}: {
+  title: string
+  refresh?: JSX.Element
+  totalHits?: number
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <span className="flex items-center justify-between pb-2">
+      <div>
+        <h2 className="text-2xl font-bold">{title}</h2>
+        {totalHits && (
+          <div className="leading-none text-sm dark:text-flathub-spanish-gray text-flathub-granite-gray">
+            {t("number-of-results", {
+              number: totalHits,
+            })}
+          </div>
+        )}
+      </div>
+      {refresh}
+    </span>
+  )
+}
+
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
   title,
@@ -42,19 +70,12 @@ const ApplicationCollection: FunctionComponent<Props> = ({
     <Button onClick={onRefresh}>{t("refresh")}</Button>
   ) : null
 
-  const header = (
-    <span className="flex items-center justify-between">
-      <h2 className="text-2xl font-bold">{title}</h2>
-      {refresh}
-    </span>
-  )
-
   if (applications.length === 0) {
     return (
       <div className="flex">
         <section className="w-full">
           <div className="w-full">
-            {header}
+            <Header refresh={refresh} title={title} />
             <p>{t("no-apps")}</p>
           </div>
         </section>
@@ -75,43 +96,29 @@ const ApplicationCollection: FunctionComponent<Props> = ({
     : applications.slice((page - 1) * perPage, page * perPage)
 
   return (
-    <div className="flex">
-      <section className="w-full">
-        <div className="w-full">
-          {header}
+    <section className="flex flex-col gap-3">
+      <Header refresh={refresh} title={title} totalHits={totalHits} />
 
-          <p>
-            {t("number-of-results", {
-              number: totalHits ?? applications.length,
-            })}
-          </p>
-
-          <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-            {pagedApplications.map((app) => (
-              <div key={app.id} className={"flex flex-col gap-2"}>
-                <ApplicationCard
-                  application={app}
-                  link={link}
-                  inACard={inACard}
-                />
-                {!user?.loading &&
-                  user?.info?.["dev-flatpaks"].includes(app.id) && (
-                    <ButtonLink
-                      passHref
-                      href={`/apps/manage/${app.id}`}
-                      className="w-full"
-                    >
-                      {t("developer-settings")}
-                    </ButtonLink>
-                  )}
-              </div>
-            ))}
+      <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
+        {pagedApplications.map((app) => (
+          <div key={app.id} className={"flex flex-col gap-2"}>
+            <ApplicationCard application={app} link={link} inACard={inACard} />
+            {!user?.loading &&
+              user?.info?.["dev-flatpaks"].includes(app.id) && (
+                <ButtonLink
+                  passHref
+                  href={`/apps/manage/${app.id}`}
+                  className="w-full"
+                >
+                  {t("developer-settings")}
+                </ButtonLink>
+              )}
           </div>
+        ))}
+      </div>
 
-          <Pagination pages={pages} currentPage={page} />
-        </div>
-      </section>
-    </div>
+      <Pagination pages={pages} currentPage={page} />
+    </section>
   )
 }
 

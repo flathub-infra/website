@@ -11,7 +11,11 @@ import {
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 
-export default function RecentlyUpdatedApps({ applications }) {
+export default function RecentlyUpdatedApps({
+  applications,
+}: {
+  applications: MeilisearchResponse<AppsIndex>
+}) {
   const { t } = useTranslation()
   return (
     <>
@@ -27,7 +31,6 @@ export default function RecentlyUpdatedApps({ applications }) {
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
           page={applications.page}
           totalPages={applications.totalPages}
-          totalHits={applications.totalHits}
         />
       </div>
     </>

@@ -12,7 +12,7 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
   const router = useRouter()
 
   if (pages.length < 2) {
-    return <></>
+    return null
   }
 
   return (

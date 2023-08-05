@@ -27,7 +27,6 @@ export default function RecentlyAdded({ applications }) {
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
           page={applications.page}
           totalPages={applications.totalPages}
-          totalHits={applications.totalHits}
         />
       </div>
     </>
