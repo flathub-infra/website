@@ -204,6 +204,24 @@ def decline_invite(
     sqldb.session.delete(invite)
     sqldb.session.commit()
 
+    primary_dev = DirectUploadAppDeveloper.primary_for_app(sqldb, app)
+    if app_metadata := get_json_key(f"apps:{app.app_id}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+    worker.send_email.send(
+        EmailInfo(
+            user_id=primary_dev.developer_id,
+            category=EmailCategory.DEVELOPER_INVITE_DECLINED,
+            subject=f"{login.user.display_name} declined their invite",
+            template_data={
+                "app_id": app.app_id,
+                "app_name": app_name,
+                "username": login.user.display_name,
+            },
+        ).dict()
+    )
+
 
 @router.post("/{app_id}/leave", status_code=204)
 def leave_team(
@@ -221,6 +239,17 @@ def leave_team(
 
     sqldb.session.delete(developer)
     sqldb.session.commit()
+
+    worker.send_email.send(
+        EmailInfo(
+            app_id=app_id,
+            category=EmailCategory.DEVELOPER_LEFT,
+            subject=f"{login.user.display_name} left the developer team",
+            template_data={
+                "username": login.user.display_name,
+            },
+        ).dict()
+    )
 
 
 class Developer(BaseModel):
