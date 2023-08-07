@@ -32,7 +32,7 @@
     "date-fns": "^2.30.0",
     "i18n-iso-countries": "^7.6.0",
     "i18next": "^23.2.8",
-    "next": "^13.4.9",
+    "next": "^13.4.12",
     "next-i18next": "^14.0.0",
     "next-seo": "^6.1.0",
     "next-sitemap": "^4.1.8",
