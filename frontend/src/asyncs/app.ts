@@ -150,21 +150,21 @@ export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await axios.get<Appstream>(`${APP_DETAILS(id)}`),
+      response: await axios.get<Appstream>(`${APP_DETAILS(id)}`).catch(() => {
+        return {
+          data: {
+            id: id,
+            name: id,
+          } as Appstream,
+        }
+      }),
     })),
   )
 
   return Promise.all(
     responses.map((res) => {
       if (res.status === "fulfilled") {
-        if (res.value.response.status === 200) {
-          return res.value.response.data
-        } else {
-          return {
-            id: res.value.id,
-            name: res.value.id,
-          } as Appstream
-        }
+        return res.value.response.data
       } else {
         return {
           id: "error",
