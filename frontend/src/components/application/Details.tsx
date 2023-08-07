@@ -24,11 +24,14 @@ import {
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 import Tags from "./Tags"
+import SafetyRating from "./SafetyRating"
 import "yet-another-react-lightbox/plugins/captions.css"
 import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
 import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
+import { useUserContext } from "src/context/user-info"
+import { VerticalStackedListBox } from "./VerticalStackedListBox"
 
 interface Props {
   app?: Appstream
@@ -82,6 +85,7 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
 }) => {
   const { t } = useTranslation()
+  const user = useUserContext()
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["verification", app.id],
@@ -95,6 +99,8 @@ const Details: FunctionComponent<Props> = ({
     const stableReleases = app.releases?.filter(
       (release) => release.type === undefined || release.type === "stable",
     )
+
+    const isModerator = user.info?.["is-moderator"] ?? false
 
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
@@ -128,6 +134,12 @@ const Details: FunctionComponent<Props> = ({
 
           {stableReleases && stableReleases.length > 0 && (
             <Releases latestRelease={stableReleases[0]}></Releases>
+          )}
+
+          {(isModerator || !IS_PRODUCTION) && (
+            <VerticalStackedListBox>
+              <SafetyRating data={app} summary={summary} />
+            </VerticalStackedListBox>
           )}
 
           <AdditionalInfo
