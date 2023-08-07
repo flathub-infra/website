@@ -458,6 +458,14 @@ def start_oauth_flow(
     }
 
 
+@dataclass
+class ProviderInfo:
+    id: str
+    login: str
+    name: str | None = None
+    avatar_url: str | None = None
+
+
 @router.post("/login/github")
 def continue_github_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
@@ -489,15 +497,15 @@ def continue_github_flow(
     of whether or not the login sequence completed OK.
     """
 
-    def github_userdata(tokens):
+    def github_userdata(tokens) -> ProviderInfo:
         gh = Github(tokens["access_token"])
         ghuser = gh.get_user()
-        return {
-            "id": ghuser.id,
-            "login": ghuser.login,
-            "name": ghuser.name,
-            "avatar_url": ghuser.avatar_url,
-        }
+        return ProviderInfo(
+            ghuser.id,
+            ghuser.login,
+            name=ghuser.name,
+            avatar_url=ghuser.avatar_url,
+        )
 
     def github_postlogin(tokens, account):
         refresh_repo_list(tokens["access_token"], account)
@@ -550,16 +558,16 @@ def continue_gitlab_flow(
     of whether or not the login sequence completed OK.
     """
 
-    def gitlab_userdata(tokens):
-        gh = Gitlab("https://gitlab.com", oauth_token=tokens["access_token"])
-        gh.auth()
-        gluser = gh.user
-        return {
-            "id": gluser.id,
-            "login": gluser.username,
-            "name": gluser.name,
-            "avatar_url": gluser.avatar_url,
-        }
+    def gitlab_userdata(tokens) -> ProviderInfo:
+        gl = Gitlab("https://gitlab.com", oauth_token=tokens["access_token"])
+        gl.auth()
+        gluser = gl.user
+        return ProviderInfo(
+            gluser.id,
+            gluser.username,
+            name=gluser.name,
+            avatar_url=gluser.avatar_url,
+        )
 
     def gitlab_postlogin(tokens, account):
         pass
@@ -614,16 +622,16 @@ def continue_gnome_flow(
     of whether or not the login sequence completed OK.
     """
 
-    def gnome_userdata(tokens):
+    def gnome_userdata(tokens) -> ProviderInfo:
         gl = Gitlab("https://gitlab.gnome.org", oauth_token=tokens["access_token"])
         gl.auth()
         gluser = gl.user
-        return {
-            "id": gluser.id,
-            "login": gluser.username,
-            "name": gluser.name,
-            "avatar_url": gluser.avatar_url,
-        }
+        return ProviderInfo(
+            gluser.id,
+            gluser.username,
+            name=gluser.name,
+            avatar_url=gluser.avatar_url,
+        )
 
     def gnome_postlogin(tokens, account):
         pass
@@ -678,7 +686,7 @@ def continue_google_flow(
     of whether or not the login sequence completed OK.
     """
 
-    def google_userdata(tokens):
+    def google_userdata(tokens) -> ProviderInfo:
         userinfo_endpoint = "https://www.googleapis.com/oauth2/v3/userinfo"
         access_token = tokens["access_token"]
         gguser = requests.get(
@@ -686,12 +694,12 @@ def continue_google_flow(
         ).json()
         sub = gguser["sub"]
         login = gguser.get("email", sub)
-        return {
-            "id": sub,
-            "login": login,
-            "name": gguser.get("name", login),
-            "avatar_url": gguser.get("picture"),
-        }
+        return ProviderInfo(
+            sub,
+            login,
+            name=gguser.get("name", login),
+            avatar_url=gguser.get("picture"),
+        )
 
     def google_postlogin(tokens, account):
         pass
@@ -719,16 +727,16 @@ def continue_google_flow(
 def continue_kde_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
-    def kde_userdata(tokens):
+    def kde_userdata(tokens) -> ProviderInfo:
         gl = Gitlab("https://invent.kde.org", oauth_token=tokens["access_token"])
         gl.auth()
         gluser = gl.user
-        return {
-            "id": gluser.id,
-            "login": gluser.username,
-            "name": gluser.name,
-            "avatar_url": gluser.avatar_url,
-        }
+        return ProviderInfo(
+            gluser.id,
+            gluser.username,
+            name=gluser.name,
+            avatar_url=gluser.avatar_url,
+        )
 
     def kde_postlogin(tokens, account):
         pass
@@ -760,7 +768,7 @@ def continue_oauth_flow(
     flowtoken_model: models.Base,
     token_endpoint: str,
     oauth_args: dict,
-    token_to_data: Callable,
+    token_to_data: Callable[[dict], ProviderInfo],
     account_model: models.Base,
     postlogin_handler: Callable,
 ):
@@ -844,25 +852,23 @@ def continue_oauth_flow(
     # We now have a logged in user, so let's do our best to do something useful
     provider_data = token_to_data(login_result)
     # Do we have a provider's user noted with this ID already?
-    account = account_model.by_provider_id(db, provider_data["id"])
+    account = account_model.by_provider_id(db, provider_data.id)
     if account is None:
         # We've never seen this provider's user before, if we're not already logged
         # in then create a user
         user = login.user
         if user is None:
-            user = models.FlathubUser(
-                display_name=provider_data["name"],
-            )
+            user = models.FlathubUser(display_name=provider_data.name)
             db.session.add(user)
             db.session.flush()
         # Now we have a user, create the local account model for it
         userid = {}
-        userid[f"{method}_userid"] = provider_data["id"]
+        userid[f"{method}_userid"] = provider_data.id
         account = account_model(
             user=user.id,
             token=login_result["access_token"],
-            login=provider_data["login"],
-            avatar_url=provider_data["avatar_url"],
+            login=provider_data.login,
+            avatar_url=provider_data.avatar_url,
             last_used=datetime.now(),
             **userid,
         )
@@ -882,8 +888,8 @@ def continue_oauth_flow(
             return JSONResponse(
                 {"status": "error", "error": "User already logged in?"}, status_code=500
             )
-        account.login = provider_data["login"]
-        account.avatar_url = provider_data["avatar_url"]
+        account.login = provider_data.login
+        account.avatar_url = provider_data.avatar_url
         account.token = login_result["access_token"]
         account.last_used = datetime.now()
         if "refresh_token" in login_result:
