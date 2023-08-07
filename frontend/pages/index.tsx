@@ -107,7 +107,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data: recentlyUpdated } = await fetchCollection(
     Collections.recentlyUpdated,
     1,
-    APPS_IN_PREVIEW_COUNT,
+    APPS_IN_PREVIEW_COUNT * 2,
   )
   const { data: recentlyAdded } = await fetchCollection(
     Collections.recentlyAdded,
@@ -144,6 +144,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   topAppsByCategory = topAppsByCategory.sort((a, b) => {
     return categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)
   })
+
+  // remove duplicated apps
+  recentlyUpdated.hits = recentlyUpdated.hits
+    .filter(
+      (app) => !recentlyAdded.hits.some((addedApp) => addedApp.id === app.id),
+    )
+    .slice(0, APPS_IN_PREVIEW_COUNT)
 
   return {
     props: {
