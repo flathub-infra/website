@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { Axios, AxiosResponse } from "axios"
 import {
   APP_DETAILS,
   APP_VERIFICATION_CONFIRM_WEBSITE,
@@ -156,21 +156,19 @@ export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
             id: id,
             name: id,
           } as Appstream,
-        }
+        } as AxiosResponse<Appstream>
       }),
     })),
   )
 
-  return Promise.all(
-    responses.map((res) => {
-      if (res.status === "fulfilled") {
-        return res.value.response.data
-      } else {
-        return {
-          id: "error",
-          name: "Error",
-        } as Appstream
-      }
-    }),
-  )
+  return responses.map((res) => {
+    if (res.status === "fulfilled") {
+      return res.value.response.data
+    } else {
+      return {
+        id: "error",
+        name: "Error",
+      } as Appstream
+    }
+  })
 }
