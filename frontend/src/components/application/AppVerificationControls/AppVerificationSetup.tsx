@@ -116,12 +116,12 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       content = <InlineError shown={true} error={t("app-already-exists")} />
     } else {
       content = (
-        <div className="space-y-3">
+        <div>
           <StatusInfo status={query.data.data} />
 
           <br />
 
-          <Button onClick={() => setConfirmUnverify(true)}>
+          <Button className="mt-3" onClick={() => setConfirmUnverify(true)}>
             {t("unverify")}
           </Button>
 
@@ -132,8 +132,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             actionVariant="destructive"
             onConfirmed={() => {
               setConfirmUnverify(false)
-              unverifyApp(app.id)
-              query.refetch()
+              unverifyApp(app.id).then(() => {
+                query.refetch()
+              })
             }}
             onCancelled={() => setConfirmUnverify(false)}
           />
@@ -148,31 +149,35 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <Notice>{t("verification-warning")}</Notice>
         </div>
 
-        {verificationAvailableMethods.data?.data.methods.map((methodType) => {
-          if (methodType.method === "website") {
-            return (
-              <WebsiteVerification
-                key={methodType.method}
-                appId={app.id}
-                method={methodType}
-                isNewApp={isNewApp}
-                onVerified={onChildVerified}
-              ></WebsiteVerification>
-            )
-          }
-          if (methodType.method === "login_provider") {
-            return (
-              <LoginVerification
-                key={methodType.method}
-                appId={app.id}
-                method={methodType}
-                isNewApp={isNewApp}
-                onVerified={onChildVerified}
-                onReloadNeeded={query.refetch}
-              ></LoginVerification>
-            )
-          }
-        })}
+        {verificationAvailableMethods.isLoading ? (
+          <Spinner size="m" />
+        ) : (
+          verificationAvailableMethods.data?.data.methods.map((methodType) => {
+            if (methodType.method === "website") {
+              return (
+                <WebsiteVerification
+                  key={methodType.method}
+                  appId={app.id}
+                  method={methodType}
+                  isNewApp={isNewApp}
+                  onVerified={onChildVerified}
+                ></WebsiteVerification>
+              )
+            }
+            if (methodType.method === "login_provider") {
+              return (
+                <LoginVerification
+                  key={methodType.method}
+                  appId={app.id}
+                  method={methodType}
+                  isNewApp={isNewApp}
+                  onVerified={onChildVerified}
+                  onReloadNeeded={query.refetch}
+                ></LoginVerification>
+              )
+            }
+          })
+        )}
       </div>
     )
   }
