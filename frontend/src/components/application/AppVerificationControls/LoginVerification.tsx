@@ -9,11 +9,11 @@ import {
   fetchGithubRequestOrgAccessLink,
   fetchLoginProviders,
 } from "src/fetchers"
-import { useAsync } from "src/hooks/useAsync"
 import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
+import { useMutation, useQuery } from "@tanstack/react-query"
 
 interface Props {
   appId: string
@@ -34,18 +34,30 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const user = useUserContext()
   const auth = user.info?.auths[method.login_provider]
-  const { value: providers } = useAsync(fetchLoginProviders, true)
-  const {
-    value: { data: githubOrgAccessLink },
-  } = useAsync(fetchGithubRequestOrgAccessLink, true)
+
+  const { data: providers } = useQuery({
+    queryKey: ["login-providers"],
+    queryFn: async () => {
+      return fetchLoginProviders()
+    },
+  })
+
+  const { data: githubOrgAccessLink } = useQuery({
+    queryKey: ["github-org-access-link"],
+    queryFn: async () => {
+      return fetchGithubRequestOrgAccessLink()
+    },
+  })
+
   const [error, setError] = useState("")
 
   const provider_name = verificationProviderToHumanReadable(
     method.login_provider,
   )
 
-  const { execute: verify, status: verifyStatus } = useAsync(
-    useCallback(async () => {
+  const verify = useMutation({
+    mutationKey: ["verify-app", appId, isNewApp ?? false],
+    mutationFn: useCallback(async () => {
       setError("")
 
       const result = await verifyApp(appId, isNewApp ?? false)
@@ -66,13 +78,12 @@ const LoginVerification: FunctionComponent<Props> = ({
         onVerified()
       }
     }, [appId, onReloadNeeded, onVerified, t, isNewApp]),
-    false,
-  )
+  })
 
   const try_again = (
     <div>
-      <Button onClick={verify}>{t("try-again")}</Button>
-      {verifyStatus === "pending" && (
+      <Button onClick={() => verify.mutate()}>{t("try-again")}</Button>
+      {verify.status === "loading" && (
         <div className="flex flex-col items-start">
           <Spinner size="s" text={t("verifying")} />
         </div>
@@ -152,7 +163,9 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   switch (method.login_status) {
     case "ready":
-      content = <Button onClick={verify}>{t("verify-app")}</Button>
+      content = (
+        <Button onClick={() => verify.mutate()}>{t("verify-app")}</Button>
+      )
       break
 
     case "user_does_not_exist":
@@ -223,7 +236,7 @@ const LoginVerification: FunctionComponent<Props> = ({
               organization. You can grant this permission
               <a
                 className="no-underline hover:underline"
-                href={githubOrgAccessLink}
+                href={githubOrgAccessLink.data.link}
                 target="_blank"
                 rel="noreferrer"
               >

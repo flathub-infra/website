@@ -48,7 +48,11 @@ export async function fetchAppstreamList() {
 }
 
 export async function fetchAppstream(appId: string) {
-  return axios.get<Appstream>(`${APP_DETAILS(appId)}`)
+  return axios.get<Appstream>(`${APP_DETAILS(appId)}`).catch((error) => {
+    return {
+      data: null,
+    }
+  })
 }
 
 export async function fetchEolRebase(appId: string) {
@@ -224,11 +228,7 @@ export async function fetchLoginProviders() {
 }
 
 export async function fetchGithubRequestOrgAccessLink() {
-  return axios.get<string>(REQUEST_ORG_ACCESS_LINK_GITHUB).catch((error) => {
-    return {
-      data: null,
-    }
-  })
+  return axios.get<{ link: string }>(REQUEST_ORG_ACCESS_LINK_GITHUB)
 }
 
 export async function fetchVendingConfig() {
