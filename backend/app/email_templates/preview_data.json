@@ -125,5 +125,19 @@
       "build_id": 123,
       "build_repo": "stable"
     }
+  },
+  "developer_invite": {
+    "category": "developer_invite",
+    "data": {
+      "app_id": "com.example.Test",
+      "app_name": "Test App",
+      "inviter": "Test User"
+    }
+  },
+  "developer_invite_accepted": {
+    "category": "developer_invite_accepted",
+    "data": {
+      "username": "Test User"
+    }
   }
 }
