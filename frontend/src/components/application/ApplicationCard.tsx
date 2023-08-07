@@ -75,7 +75,7 @@ const ApplicationCard: FunctionComponent<Props> = ({
             verificationStatus={verificationStatus}
           />
         </div>
-        {showId && (
+        {showId && application.id !== application.name && (
           <div className="text-sm text-flathub-spanish-gray truncate leading-none">
             {application.id}
           </div>
