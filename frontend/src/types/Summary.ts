@@ -8,7 +8,7 @@ interface Permissions {
   sockets: string[]
   devices: string[]
   filesystems: string[]
-  sessionBus: SessionBus
+  "session-bus": SessionBus
 }
 
 interface ComSpotifyClientDebug {

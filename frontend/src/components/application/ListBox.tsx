@@ -57,7 +57,7 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
                     item.content.type === "text" &&
                       "grid-cols-[36px_calc(100%_-_36px)]",
                     item.content.type === "url" &&
-                      "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-arsenic/80 dark:active:bg-flathub-arsenic/50",
+                      "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-arsenic/80 dark:active:bg-flathub-arsenic/50 transition",
                   )}
                 >
                   <div className="self-center text-2xl text-flathub-sonic-silver dark:text-flathub-spanish-gray">

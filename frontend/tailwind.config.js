@@ -2,6 +2,24 @@
 module.exports = {
   darkMode: ["class", '[data-theme="dark"]'],
   content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
+  safelist: [
+    "text-flathub-status-green",
+    "bg-flathub-status-green/10",
+    "text-flathub-status-yellow",
+    "bg-flathub-status-yellow/10",
+    "text-flathub-status-red",
+    "bg-flathub-status-red/10",
+    "text-flathub-status-orange",
+    "bg-flathub-status-orange/10",
+    "text-flathub-status-green-dark",
+    "bg-flathub-status-green-dark/10",
+    "text-flathub-status-yellow-dark",
+    "bg-flathub-status-yellow-dark/10",
+    "text-flathub-status-red-dark",
+    "bg-flathub-status-red-dark/10",
+    "text-flathub-status-orange-dark",
+    "bg-flathub-status-orange-dark/10",
+  ],
   theme: {
     extend: {
       colors: {
@@ -9,6 +27,22 @@ module.exports = {
           "rgb(var(--flathub-celestial-blue) / <alpha-value>)",
         "flathub-electric-red":
           "rgb(var(--flathub-electric-red) / <alpha-value>)",
+
+        "flathub-status-green":
+          "rgb(var(--flathub-status-green) / <alpha-value>)",
+        "flathub-status-green-dark":
+          "rgb(var(--flathub-status-green-dark) / <alpha-value>)",
+        "flathub-status-yellow":
+          "rgb(var(--flathub-status-yellow) / <alpha-value>)",
+        "flathub-status-yellow-dark":
+          "rgb(var(--flathub-status-yellow-dark) / <alpha-value>)",
+        "flathub-status-orange":
+          "rgb(var(--flathub-status-orange) / <alpha-value>)",
+        "flathub-status-orange-dark":
+          "rgb(var(--flathub-status-orange-dark) / <alpha-value>)",
+        "flathub-status-red": "rgb(var(--flathub-status-red) / <alpha-value>)",
+        "flathub-status-red-dark":
+          "rgb(var(--flathub-status-red-dark) / <alpha-value>)",
 
         "flathub-white": "rgb(var(--flathub-white) / <alpha-value>)",
         "flathub-gainsborow": "rgb(var(--flathub-gainsborow) / <alpha-value>)",
