@@ -21,6 +21,7 @@ interface Props {
   onRefresh?: () => void
   link?: (appid: string) => string
   inACard?: boolean
+  showId?: boolean
 }
 
 const Header = ({
@@ -62,6 +63,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   onRefresh,
   link,
   inACard,
+  showId = false,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
@@ -102,7 +104,12 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {pagedApplications.map((app) => (
           <div key={app.id} className={"flex flex-col gap-2"}>
-            <ApplicationCard application={app} link={link} inACard={inACard} />
+            <ApplicationCard
+              application={app}
+              link={link}
+              inACard={inACard}
+              showId={showId}
+            />
             {!user?.loading &&
               user?.info?.["dev-flatpaks"].includes(app.id) && (
                 <ButtonLink

@@ -56,6 +56,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
       applications={queryDevApplications.data}
       onRefresh={variant === "dev" && queryRefreshDev.refetch}
       inACard
+      showId
     />
   )
 }

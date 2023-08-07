@@ -12,12 +12,14 @@ interface Props {
   application: AppstreamListItem
   link?: (appid: string) => string
   inACard?: boolean
+  showId?: boolean
 }
 
 const ApplicationCard: FunctionComponent<Props> = ({
   application,
   link,
   inACard,
+  showId = false,
 }) => {
   const isVerified =
     application.metadata?.["flathub::verification::verified"] === "true"
@@ -73,6 +75,11 @@ const ApplicationCard: FunctionComponent<Props> = ({
             verificationStatus={verificationStatus}
           />
         </div>
+        {showId && (
+          <div className="text-sm text-flathub-spanish-gray truncate leading-none">
+            {application.id}
+          </div>
+        )}
         <div className="mt-2 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
           {application.summary}
         </div>
