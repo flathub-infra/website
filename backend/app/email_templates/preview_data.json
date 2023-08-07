@@ -139,5 +139,17 @@
     "data": {
       "username": "Test User"
     }
+  },
+  "developer_invite_declined": {
+    "category": "developer_invite_declined",
+    "data": {
+      "username": "Test User"
+    }
+  },
+  "developer_left": {
+    "category": "developer_left",
+    "data": {
+      "username": "Test User"
+    }
   }
 }

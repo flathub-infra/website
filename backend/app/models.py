@@ -623,6 +623,16 @@ class DirectUploadAppDeveloper(Base):
         )
 
     @staticmethod
+    def primary_for_app(
+        db, app: DirectUploadApp
+    ) -> Optional["DirectUploadAppDeveloper"]:
+        return (
+            db.session.query(DirectUploadAppDeveloper)
+            .filter_by(app_id=app.id, is_primary=True)
+            .first()
+        )
+
+    @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """
         If you are the primary developer of a backend app, you may not delete your account.
