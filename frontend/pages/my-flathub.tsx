@@ -34,6 +34,8 @@ export default function Userpage({
     return null
   }
 
+  const inviteCode = user.info["invite-code"].replace(/(.{3})(?!$)/g, "$1-")
+
   const tabs = [
     {
       name: t("developers"),
@@ -53,9 +55,8 @@ export default function Userpage({
                   <p>
                     <Trans i18nKey="invite-code">
                       Your invite code is
-                      <code>{{ inviteCode: user.info["invite-code"] }}</code>.
-                      Give this code to another developer to allow them to
-                      invite you to their app.
+                      <code>{{ inviteCode }}</code>. Give this code to another
+                      developer to allow them to invite you to their app.
                     </Trans>
                   </p>
                 </div>

@@ -239,8 +239,6 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
 
   const [inviteCode, setInviteCode] = useState("")
 
-  const codeMatches = inviteCode.length === 8
-
   return (
     <Transition appear show={isVisible} as={Fragment}>
       <Dialog as="div" className="z-20 " onClose={closeDialog}>
@@ -285,7 +283,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
                 variant="primary"
                 aria-label={t("invite")}
                 title={t("invite")}
-                disabled={!codeMatches}
+                disabled={!inviteCode}
               >
                 {t("invite")}
               </Button>

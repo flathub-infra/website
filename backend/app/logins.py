@@ -944,7 +944,7 @@ def get_userinfo(login: LoginStatusDep):
     user = login.user
 
     if user.invite_code is None:
-        user.invite_code = secrets.token_urlsafe(6)
+        user.invite_code = secrets.token_urlsafe(9)
         db.session.commit()
 
     ret = {
