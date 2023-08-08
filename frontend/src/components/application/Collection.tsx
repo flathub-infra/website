@@ -93,16 +93,12 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   }
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
-  const pagedApplications = totalHits
-    ? applications
-    : applications.slice((page - 1) * perPage, page * perPage)
-
   return (
     <section className="flex flex-col gap-3">
       <Header refresh={refresh} title={title} totalHits={totalHits} />
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-        {pagedApplications.map((app) => (
+        {applications.map((app) => (
           <div key={app.id} className={"flex flex-col gap-2"}>
             <ApplicationCard
               application={app}
