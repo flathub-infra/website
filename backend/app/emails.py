@@ -11,8 +11,6 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from github import Github
-from gitlab import Gitlab
 from jinja2 import Environment, PackageLoader, select_autoescape
 from pydantic import BaseModel
 from sqlalchemy import select
@@ -47,32 +45,6 @@ class EmailInfo(BaseModel):
     template_data: dict[str, Any]
 
 
-def _get_gitlab_email(account, gitlab_url) -> str | None:
-    from .logins import refresh_oauth_token
-
-    access_token = refresh_oauth_token(account)
-    with Gitlab(gitlab_url, oauth_token=access_token) as gl:
-        gl.auth()
-        return gl.user.public_email
-
-
-def _get_email_address(user: models.FlathubUser, db) -> str | None:
-    if gh_user := models.GithubAccount.by_user(db, user):
-        gh = Github(gh_user.token)
-        emails = gh.get_user().get_emails()
-        primary = next((e for e in emails if e.primary), None)
-        return primary.email if primary else None
-
-    if gl_user := models.GitlabAccount.by_user(db, user):
-        return _get_gitlab_email(gl_user, "https://gitlab.com")
-
-    if gl_user := models.GnomeAccount.by_user(db, user):
-        return _get_gitlab_email(gl_user, "https://gitlab.gnome.org")
-
-    if gl_user := models.KdeAccount.by_user(db, user):
-        return _get_gitlab_email(gl_user, "https://invent.kde.org")
-
-
 def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
     data = {
         "env": settings.env,
@@ -91,8 +63,14 @@ def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: 
 
 def _create_message(
     user: models.FlathubUser, info: EmailInfo, db
-) -> tuple[str, MIMEText]:
-    email = _get_email_address(user, db)
+) -> tuple[str, MIMEText] | None:
+    user_default_account = user.get_default_account(db)
+
+    email = user_default_account.email
+    if email is None:
+        # User doesn't have an email address on file
+        return None
+
     full_subject = info.subject
 
     app_name = None
@@ -106,10 +84,17 @@ def _create_message(
 
     text = _create_html(info, app_name, email, user.display_name)
 
+    to_name = (
+        user_default_account.display_name
+        or user.display_name
+        or user_default_account.login
+        or False
+    )
+
     message = MIMEText(text, "html")
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
-    message["To"] = formataddr((user.display_name or False, email))
+    message["To"] = formataddr((to_name, email))
 
     return (email, message)
 
@@ -152,6 +137,8 @@ def send_email(info: EmailInfo, db):
         else:
             # User doesn't exist anymore?
             pass
+
+    messages = [m for m in messages if m is not None]
 
     for dest, message in messages:
         # Queue each message separately so that if one fails, the others won't be resent when the task is retried
