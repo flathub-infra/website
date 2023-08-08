@@ -98,7 +98,7 @@ def invite_developer(
     app = _get_app(app_id)
     _check_permission(app, login.user, require_primary=True)
 
-    invited_user = FlathubUser.by_invite_code(sqldb, invite_code)
+    invited_user = FlathubUser.by_invite_code(sqldb, invite_code.replace("-", ""))
     if invited_user is None:
         raise HTTPException(status_code=404, detail=ErrorDetail.USER_NOT_FOUND)
 
