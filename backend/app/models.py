@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Optional
+from typing import Optional, Union
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -23,6 +23,14 @@ from . import utils
 
 Base = declarative_base()
 
+ConnectedAccount = Union[
+    "GithubAccount",
+    "GitlabAccount",
+    "GnomeAccount",
+    "GoogleAccount",
+    "KdeAccount",
+]
+
 
 class FlathubUser(Base):
     __tablename__ = "flathubuser"
@@ -36,6 +44,19 @@ class FlathubUser(Base):
     invite_code = Column(String, nullable=True, unique=True, index=True)
 
     TABLES_FOR_DELETE = []
+
+    def connected_accounts(self, db) -> list[ConnectedAccount]:
+        result = []
+        for table in [
+            GithubAccount,
+            GitlabAccount,
+            GnomeAccount,
+            GoogleAccount,
+            KdeAccount,
+        ]:
+            if account := table.by_user(db, self):
+                result.append(account)
+        return result
 
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
@@ -110,6 +131,8 @@ class FlathubUser(Base):
 
 class GithubAccount(Base):
     __tablename__ = "githubaccount"
+
+    provider = "github"
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -239,6 +262,8 @@ class GitlabFlowToken(Base):
 class GitlabAccount(Base):
     __tablename__ = "gitlabaccount"
 
+    provider = "gitlab"
+
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
     gitlab_userid = Column(Integer, nullable=False)
@@ -302,6 +327,8 @@ class GnomeFlowToken(Base):
 
 class GnomeAccount(Base):
     __tablename__ = "gnomeaccount"
+
+    provider = "gnome"
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -367,6 +394,8 @@ class GoogleFlowToken(Base):
 class GoogleAccount(Base):
     __tablename__ = "googleaccount"
 
+    provider = "google"
+
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
     google_userid = Column(String, nullable=False)
@@ -428,6 +457,8 @@ class KdeFlowToken(Base):
 
 class KdeAccount(Base):
     __tablename__ = "kdeaccount"
+
+    provider = "kde"
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)

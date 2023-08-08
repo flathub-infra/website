@@ -985,45 +985,12 @@ def get_userinfo(login: LoginStatusDep):
     ret["owned-flatpaks"] = sorted(owned_flatpaks)
     ret["invited-flatpaks"] = sorted(invited_flatpaks)
 
-    gha = models.GithubAccount.by_user(db, user)
-    if gha is not None:
-        ret["auths"]["github"] = {}
-        if gha.login:
-            ret["auths"]["github"]["login"] = gha.login
-        if gha.avatar_url:
-            ret["auths"]["github"]["avatar"] = gha.avatar_url
-
-    gla = models.GitlabAccount.by_user(db, user)
-    if gla is not None:
-        ret["auths"]["gitlab"] = {}
-        if gla.login:
-            ret["auths"]["gitlab"]["login"] = gla.login
-        if gla.avatar_url:
-            ret["auths"]["gitlab"]["avatar"] = gla.avatar_url
-
-    gnma = models.GnomeAccount.by_user(db, user)
-    if gnma is not None:
-        ret["auths"]["gnome"] = {}
-        if gnma.login:
-            ret["auths"]["gnome"]["login"] = gnma.login
-        if gnma.avatar_url:
-            ret["auths"]["gnome"]["avatar"] = gnma.avatar_url
-
-    gga = models.GoogleAccount.by_user(db, user)
-    if gga is not None:
-        ret["auths"]["google"] = {}
-        if gga.login:
-            ret["auths"]["google"]["login"] = gga.login
-        if gga.avatar_url:
-            ret["auths"]["google"]["avatar"] = gga.avatar_url
-
-    gga = models.KdeAccount.by_user(db, user)
-    if gga is not None:
-        ret["auths"]["kde"] = {}
-        if gga.login:
-            ret["auths"]["kde"]["login"] = gga.login
-        if gga.avatar_url:
-            ret["auths"]["kde"]["avatar"] = gga.avatar_url
+    for account in user.connected_accounts(db):
+        ret["auths"][account.provider] = {}
+        if account.login:
+            ret["auths"][account.provider]["login"] = account.login
+        if account.avatar_url:
+            ret["auths"][account.provider]["avatar"] = account.avatar_url
 
     return ret
 
