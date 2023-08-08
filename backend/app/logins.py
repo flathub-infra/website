@@ -962,6 +962,7 @@ def get_userinfo(login: LoginStatusDep):
         "invited-flatpaks": set(),
         "invite-code": user.invite_code,
         "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
+        "default-account": user.default_account,
     }
     ret["auths"] = {}
 
@@ -1077,6 +1078,24 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
         return Response(status_code=403)
 
     login.user.accepted_publisher_agreement_at = func.now()
+    db.session.commit()
+
+
+@router.post("/change-default-account", status_code=204)
+def do_change_default_account(
+    provider: str,
+    login: LoginStatusDep,
+):
+    """Changes the user's default account, which determines which display name and email we use."""
+
+    if not login.state.logged_in():
+        raise HTTPException(status_code=403, detail="Not logged in")
+
+    account = login.user.get_connected_account(db, provider)
+    if account is None:
+        raise HTTPException(status_code=404, detail="Account not found")
+
+    login.user.default_account = provider
     db.session.commit()
 
 
