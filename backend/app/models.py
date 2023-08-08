@@ -37,6 +37,7 @@ class FlathubUser(Base):
 
     id = Column(Integer, primary_key=True)
     display_name = Column(String)
+    default_account = Column(String)
     deleted = Column(Boolean, nullable=False, default=False)
     is_moderator = Column(Boolean, nullable=False, server_default=text("false"))
     accepted_publisher_agreement_at = Column(DateTime, nullable=True, default=None)
@@ -45,18 +46,24 @@ class FlathubUser(Base):
 
     TABLES_FOR_DELETE = []
 
-    def connected_accounts(self, db) -> list[ConnectedAccount]:
+    def connected_accounts(self, db) -> list["ConnectedAccount"]:
         result = []
-        for table in [
-            GithubAccount,
-            GitlabAccount,
-            GnomeAccount,
-            GoogleAccount,
-            KdeAccount,
-        ]:
+        for table in ConnectedAccountTables:
             if account := table.by_user(db, self):
                 result.append(account)
         return result
+
+    def get_default_account(self, db) -> Optional["ConnectedAccount"]:
+        if self.default_account is not None:
+            if account := self.get_connected_account(db, self.default_account):
+                return account
+
+        # If no default is set, or if it can't be found for some reason, return the first account we find
+        for table in ConnectedAccountTables:
+            if account := table.by_user(db, self):
+                return account
+
+        return None
 
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
@@ -139,6 +146,8 @@ class GithubAccount(Base):
     github_userid = Column(Integer, nullable=False)
     login = Column(String)
     avatar_url = Column(String)
+    display_name = Column(String)
+    email = Column(String)
     token = Column(String, nullable=True, default=None)
     last_used = Column(DateTime, nullable=True, default=None)
 
@@ -269,6 +278,8 @@ class GitlabAccount(Base):
     gitlab_userid = Column(Integer, nullable=False)
     login = Column(String)
     avatar_url = Column(String)
+    display_name = Column(String)
+    email = Column(String)
     token = Column(String, nullable=True, default=None)
     token_expiry = Column(DateTime, nullable=True, default=None)
     refresh_token = Column(String, nullable=True, default=None)
@@ -335,6 +346,8 @@ class GnomeAccount(Base):
     gnome_userid = Column(Integer, nullable=False)
     login = Column(String)
     avatar_url = Column(String)
+    display_name = Column(String)
+    email = Column(String)
     token = Column(String, nullable=True, default=None)
     token_expiry = Column(DateTime, nullable=True, default=None)
     refresh_token = Column(String, nullable=True, default=None)
@@ -401,6 +414,8 @@ class GoogleAccount(Base):
     google_userid = Column(String, nullable=False)
     login = Column(String)
     avatar_url = Column(String)
+    display_name = Column(String)
+    email = Column(String)
     token = Column(String, nullable=True, default=None)
     token_expiry = Column(DateTime, nullable=True, default=None)
     refresh_token = Column(String, nullable=True, default=None)
@@ -465,6 +480,8 @@ class KdeAccount(Base):
     kde_userid = Column(Integer, nullable=False)
     login = Column(String)
     avatar_url = Column(String)
+    display_name = Column(String)
+    email = Column(String)
     token = Column(String, nullable=True, default=None)
     token_expiry = Column(DateTime, nullable=True, default=None)
     refresh_token = Column(String, nullable=True, default=None)
@@ -497,6 +514,18 @@ class KdeAccount(Base):
 
 
 FlathubUser.TABLES_FOR_DELETE.append(KdeAccount)
+
+
+ConnectedAccountTables = [
+    GithubAccount,
+    GitlabAccount,
+    GnomeAccount,
+    GoogleAccount,
+    KdeAccount,
+]
+ConnectedAccount = (
+    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
+)
 
 
 class AppVerification(Base):

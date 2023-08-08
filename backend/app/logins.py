@@ -464,6 +464,7 @@ class ProviderInfo:
     login: str
     name: str | None = None
     avatar_url: str | None = None
+    email: str | None = None
 
 
 @router.post("/login/github")
@@ -500,11 +501,15 @@ def continue_github_flow(
     def github_userdata(tokens) -> ProviderInfo:
         gh = Github(tokens["access_token"])
         ghuser = gh.get_user()
+
+        email = next((e.email for e in ghuser.get_emails() if e.primary), None)
+
         return ProviderInfo(
             ghuser.id,
             ghuser.login,
             name=ghuser.name,
             avatar_url=ghuser.avatar_url,
+            email=email,
         )
 
     def github_postlogin(tokens, account):
@@ -524,6 +529,19 @@ def continue_github_flow(
         github_userdata,
         models.GithubAccount,
         github_postlogin,
+    )
+
+
+def _gitlab_provider_info(url, tokens) -> ProviderInfo:
+    gl = Gitlab(url, oauth_token=tokens["access_token"])
+    gl.auth()
+    gluser = gl.user
+    return ProviderInfo(
+        gluser.id,
+        gluser.username,
+        name=gluser.name,
+        avatar_url=gluser.avatar_url,
+        email=gluser.email,
     )
 
 
@@ -559,15 +577,7 @@ def continue_gitlab_flow(
     """
 
     def gitlab_userdata(tokens) -> ProviderInfo:
-        gl = Gitlab("https://gitlab.com", oauth_token=tokens["access_token"])
-        gl.auth()
-        gluser = gl.user
-        return ProviderInfo(
-            gluser.id,
-            gluser.username,
-            name=gluser.name,
-            avatar_url=gluser.avatar_url,
-        )
+        return _gitlab_provider_info("https://gitlab.com", tokens)
 
     def gitlab_postlogin(tokens, account):
         pass
@@ -623,15 +633,7 @@ def continue_gnome_flow(
     """
 
     def gnome_userdata(tokens) -> ProviderInfo:
-        gl = Gitlab("https://gitlab.gnome.org", oauth_token=tokens["access_token"])
-        gl.auth()
-        gluser = gl.user
-        return ProviderInfo(
-            gluser.id,
-            gluser.username,
-            name=gluser.name,
-            avatar_url=gluser.avatar_url,
-        )
+        return _gitlab_provider_info("https://gitlab.gnome.org", tokens)
 
     def gnome_postlogin(tokens, account):
         pass
@@ -728,15 +730,7 @@ def continue_kde_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
     def kde_userdata(tokens) -> ProviderInfo:
-        gl = Gitlab("https://invent.kde.org", oauth_token=tokens["access_token"])
-        gl.auth()
-        gluser = gl.user
-        return ProviderInfo(
-            gluser.id,
-            gluser.username,
-            name=gluser.name,
-            avatar_url=gluser.avatar_url,
-        )
+        return _gitlab_provider_info("https://invent.kde.org", tokens)
 
     def kde_postlogin(tokens, account):
         pass
@@ -889,7 +883,9 @@ def continue_oauth_flow(
                 {"status": "error", "error": "User already logged in?"}, status_code=500
             )
         account.login = provider_data.login
+        account.display_name = provider_data.name
         account.avatar_url = provider_data.avatar_url
+        account.email = provider_data.email
         account.token = login_result["access_token"]
         account.last_used = datetime.now()
         if "refresh_token" in login_result:
