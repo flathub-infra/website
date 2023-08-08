@@ -22,6 +22,7 @@ export interface UserInfo {
   "invited-flatpaks": string[]
   "invite-code": string
   auths: Record<VerificationProvider, AuthInfo>
+  "default-account"?: string
   "is-moderator": boolean
   "accepted-publisher-agreement-at": string | null
 }

@@ -53,6 +53,12 @@ class FlathubUser(Base):
                 result.append(account)
         return result
 
+    def get_connected_account(self, db, provider: str) -> Optional["ConnectedAccount"]:
+        for table in ConnectedAccountTables:
+            if table.provider == provider:
+                return table.by_user(db, self)
+        return None
+
     def get_default_account(self, db) -> Optional["ConnectedAccount"]:
         if self.default_account is not None:
             if account := self.get_connected_account(db, self.default_account):
