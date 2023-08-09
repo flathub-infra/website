@@ -663,7 +663,6 @@ class DirectUploadAppInvite(Base):
     developer_id = Column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
-    is_primary = Column(Boolean, nullable=False)
 
     @staticmethod
     def by_id(db, id: int) -> Optional["DirectUploadAppInvite"]:

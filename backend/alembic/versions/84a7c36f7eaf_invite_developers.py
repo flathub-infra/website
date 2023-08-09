@@ -1,16 +1,16 @@
 """invite_developers
 
-Revision ID: c0472125ea51
+Revision ID: 84a7c36f7eaf
 Revises: da1ce859085a
-Create Date: 2023-08-07 19:37:20.008567
+Create Date: 2023-08-09 15:25:05.796882
 
 """
 from alembic import op
 import sqlalchemy as sa
-from sqlalchemy.dialects import postgresql
+
 
 # revision identifiers, used by Alembic.
-revision = 'c0472125ea51'
+revision = '84a7c36f7eaf'
 down_revision = 'da1ce859085a'
 branch_labels = None
 depends_on = None
@@ -22,7 +22,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('app_id', sa.Integer(), nullable=False),
     sa.Column('developer_id', sa.Integer(), nullable=False),
-    sa.Column('is_primary', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['app_id'], ['directuploadapp.id'], ),
     sa.ForeignKeyConstraint(['developer_id'], ['flathubuser.id'], ),
     sa.PrimaryKeyConstraint('id')
