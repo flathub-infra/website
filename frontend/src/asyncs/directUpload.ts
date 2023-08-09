@@ -14,6 +14,7 @@ import { getUserData } from "./login"
 
 export interface InviteStatus {
   is_pending: boolean
+  is_direct_upload_app: boolean
 }
 
 export async function getInviteStatus(appId: string): Promise<InviteStatus> {

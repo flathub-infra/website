@@ -63,6 +63,7 @@ def _check_permission(
 
 class InviteStatus(BaseModel):
     is_pending: bool
+    is_direct_upload_app: bool = True
 
 
 @router.get("/{app_id}")
@@ -73,7 +74,9 @@ def get_invite_status(
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    app = _get_app(app_id)
+    app = DirectUploadApp.by_app_id(sqldb, app_id)
+    if app is None:
+        return InviteStatus(is_pending=False, is_direct_upload_app=False)
 
     invite = DirectUploadAppInvite.by_developer_and_app(sqldb, login.user, app)
     if invite is not None:
