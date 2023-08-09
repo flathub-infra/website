@@ -117,7 +117,6 @@ def invite_developer(
     invite = DirectUploadAppInvite(
         app_id=app.id,
         developer_id=invited_user.id,
-        is_primary=False,
     )
 
     sqldb.session.add(invite)
@@ -256,7 +255,7 @@ class Developer(BaseModel):
     id: int
     is_self: bool
     name: str | None
-    is_primary: bool
+    is_primary: bool | None = None
 
 
 class DevelopersResponse(BaseModel):
@@ -293,7 +292,6 @@ def get_developers(
                 id=invite.id,
                 is_self=user.id == login.user.id,
                 name=user.display_name,
-                is_primary=invite.is_primary,
             )
             for invite, user in invites
         ],
