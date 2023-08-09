@@ -44,7 +44,7 @@ export default function Userpage({
           <div className="space-y-12">
             <UserApps variant="dev" />
 
-            {!IS_PRODUCTION && (
+            {(!IS_PRODUCTION || user.info?.["is-moderator"]) && (
               <>
                 <ButtonLink passHref href="/apps/new">
                   {t("new-app")}
