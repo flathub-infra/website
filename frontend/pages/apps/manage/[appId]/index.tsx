@@ -64,7 +64,7 @@ export default function AppManagementPage({
       },
     )
 
-    if (inviteStatus) {
+    if (inviteStatus?.is_direct_upload_app) {
       tabs.push({
         name: t("developers"),
         content: <AppDevelopersControls app={app} />,
