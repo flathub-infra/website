@@ -35,8 +35,8 @@ export function AppHeader({
         </div>
       )}
 
-      <div className="mx-3 my-auto">
-        <div className="mb-2 flex items-center justify-center space-x-3 sm:justify-start">
+      <div className="flex flex-col mx-3 my-auto gap-1">
+        <div className="flex items-center justify-center space-x-3 sm:justify-start">
           <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start">
             {app.name}
           </h1>
