@@ -1,10 +1,4 @@
-import {
-  Fragment,
-  FunctionComponent,
-  ReactElement,
-  useCallback,
-  useState,
-} from "react"
+import { Fragment, FunctionComponent, ReactElement, useState } from "react"
 import { useTranslation } from "react-i18next"
 import {
   Developer,
@@ -14,7 +8,6 @@ import {
   removeDeveloper,
   revokeInvite,
 } from "src/asyncs/directUpload"
-import { useAsync } from "src/hooks/useAsync"
 import { Appstream } from "src/types/Appstream"
 import Button from "../Button"
 import InlineError from "../InlineError"
@@ -23,6 +16,7 @@ import ConfirmDialog from "../ConfirmDialog"
 import { Dialog, Transition } from "@headlessui/react"
 import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
+import { useQuery } from "@tanstack/react-query"
 
 interface Props {
   app: Appstream
@@ -33,17 +27,15 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const userDispatch = useUserDispatch()
   const router = useRouter()
 
-  const {
-    value: developers,
-    status,
-    error,
-    execute: refresh,
-  } = useAsync(useCallback(async () => getDevelopers(app.id), [app.id]))
+  const developersQuery = useQuery({
+    queryKey: ["developers", app.id],
+    queryFn: () => getDevelopers(app.id),
+  })
 
   const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
   const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
 
-  const selfIsPrimary = developers?.developers.find((d) => d.is_self)
+  const selfIsPrimary = developersQuery.data?.developers.find((d) => d.is_self)
     ?.is_primary
 
   let content: ReactElement
@@ -58,12 +50,12 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       content = (
         <div className="space-y-6">
           <div className="space-y-3">
-            {developers.developers.map((developer) => (
+            {developersQuery.data.developers.map((developer) => (
               <DeveloperRow
                 key={developer.id}
                 developer={developer}
                 app={app}
-                refresh={refresh}
+                refresh={() => developersQuery.refetch()}
                 selfIsPrimary={selfIsPrimary}
                 isInvite={false}
               />
@@ -71,15 +63,15 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
           </div>
 
           <div className="space-y-3">
-            {developers.invites.length > 0 && (
+            {developersQuery.data.invites.length > 0 && (
               <h3 className="text-xl font-bold">{t("invites")}</h3>
             )}
-            {developers.invites.map((developer) => (
+            {developersQuery.data.invites.map((developer) => (
               <DeveloperRow
                 key={developer.id}
                 developer={developer}
                 app={app}
-                refresh={refresh}
+                refresh={() => developersQuery.refetch()}
                 selfIsPrimary={selfIsPrimary}
                 isInvite={true}
               />
@@ -99,7 +91,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
               <InviteDialog
                 isVisible={inviteDialogVisible}
                 app={app}
-                refresh={refresh}
+                refresh={() => developersQuery.refetch()}
                 closeDialog={() => setInviteDialogVisible(false)}
               />
             </>
@@ -136,7 +128,9 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       break
 
     case "error":
-      content = <InlineError error={error} shown={true} />
+      content = (
+        <InlineError error={developersQuery.error as string} shown={true} />
+      )
       break
   }
 

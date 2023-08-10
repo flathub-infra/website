@@ -4,10 +4,10 @@ import { toast } from "react-toastify"
 import { deleteAccount } from "../../asyncs/login"
 import { requestDeletion } from "../../asyncs/user"
 import { useUserDispatch } from "../../context/user-info"
-import { useAsync } from "../../hooks/useAsync"
 import Button from "../Button"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
+import { useMutation } from "@tanstack/react-query"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -20,31 +20,31 @@ const DeleteButton: FunctionComponent = () => {
     ? () => deleteAccount(dispatch, token)
     : requestDeletion
 
-  const { execute, status, value, error } = useAsync<void | string>(
-    nextAction,
-    false,
-  )
+  const deleteUserMutation = useMutation({
+    mutationKey: ["delete"],
+    mutationFn: async () => await nextAction(),
+  })
 
   // Alert user to network errors preventing deletion
   useEffect(() => {
-    if (error) {
-      toast.error(t(error))
+    if (deleteUserMutation.error) {
+      toast.error(t(deleteUserMutation.error as string))
     }
-  }, [error, t])
+  }, [deleteUserMutation.error, t])
 
   useEffect(() => {
-    if (value) {
-      setToken(value)
+    if (deleteUserMutation.data) {
+      setToken(deleteUserMutation.data)
     }
-  }, [value])
+  }, [deleteUserMutation.data])
 
-  if (status === "pending") {
+  if (deleteUserMutation.isLoading) {
     return <Spinner size="s" />
   }
 
   return (
     <>
-      <Button onClick={execute} variant="destructive">
+      <Button onClick={() => deleteUserMutation.mutate()} variant="destructive">
         {t("delete-account")}
       </Button>
 
@@ -53,7 +53,7 @@ const DeleteButton: FunctionComponent = () => {
         prompt={t("delete-account-prompt")}
         entry={t("delete-account-entry")}
         action={t("delete-account")}
-        onConfirmed={execute}
+        onConfirmed={deleteUserMutation.mutate}
         onCancelled={() => setToken("")}
       />
     </>

@@ -8,9 +8,9 @@ import {
 import Button from "src/components/Button"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
-import { useAsync } from "src/hooks/useAsync"
 import { VerificationMethodWebsite } from "src/types/VerificationAvailableMethods"
 import { FlathubDisclosure } from "../../Disclosure"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   appId: string
@@ -31,16 +31,17 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   const [confirmResult, setConfirmResult] =
     useState<WebsiteVerificationConfirmResult>(null)
 
-  const { execute: setup, status: setupStatus } = useAsync(
-    useCallback(async () => {
+  const setupWebsiteVerificationMutation = useMutation({
+    mutationKey: ["website-verification", appId, isNewApp ?? false],
+    mutationFn: useCallback(async () => {
       const result = await setupWebsiteVerification(appId, isNewApp)
       setReturnedToken(result.token)
     }, [appId, setReturnedToken, isNewApp]),
-    false,
-  )
+  })
 
-  const { execute: verifyApp, status: verifyAppStatus } = useAsync(
-    useCallback(async () => {
+  const confirmWebsiteVerificationMutation = useMutation({
+    mutationKey: ["confirm-website-verification", appId, isNewApp ?? false],
+    mutationFn: useCallback(async () => {
       const result = await confirmWebsiteVerification(appId, isNewApp)
       if (result.verified) {
         onVerified()
@@ -48,8 +49,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         setConfirmResult(result)
       }
     }, [appId, onVerified, setConfirmResult, isNewApp]),
-    false,
-  )
+  })
 
   const token = returnedToken ?? method.website_token
   const webpage = `https://${method.website}/.well-known/org.flathub.VerifiedApps.txt`
@@ -117,9 +117,11 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           </Trans>
         </div>
 
-        <Button onClick={verifyApp}>{t("continue")}</Button>
+        <Button onClick={() => confirmWebsiteVerificationMutation.mutate()}>
+          {t("continue")}
+        </Button>
 
-        {verifyAppStatus === "pending" && (
+        {confirmWebsiteVerificationMutation.isLoading && (
           <div className="flex flex-col items-start">
             <Spinner size="s" text={t("verifying")} />
           </div>
@@ -139,7 +141,10 @@ const WebsiteVerification: FunctionComponent<Props> = ({
             <span className="font-semibold">{{ domain: method.website }}</span>.
           </Trans>
         </p>
-        <Button onClick={setup} disabled={setupStatus === "pending"}>
+        <Button
+          onClick={() => setupWebsiteVerificationMutation.mutate()}
+          disabled={setupWebsiteVerificationMutation.isLoading}
+        >
           {t("begin")}
         </Button>
       </>
