@@ -1,8 +1,9 @@
+import { useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { ReactElement, useCallback, useEffect } from "react"
+import { ReactElement, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import {
   acceptInvite,
@@ -13,7 +14,6 @@ import Button from "src/components/Button"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
-import { useAsync } from "src/hooks/useAsync"
 
 export default function AcceptInvitePage({ app }) {
   const { t } = useTranslation()
@@ -27,13 +27,15 @@ export default function AcceptInvitePage({ app }) {
     }
   }, [app.id, router, user.info])
 
-  const { value: inviteInfo } = useAsync(
-    useCallback(async () => getInviteStatus(app.id), [app.id, user.info]),
-  )
+  const inviteQuery = useQuery({
+    queryKey: ["invite-status", app.id],
+    queryFn: () => getInviteStatus(app.id),
+    enabled: !!app.id,
+  })
 
   let content: ReactElement
 
-  if (inviteInfo?.is_pending) {
+  if (inviteQuery.data.data?.is_pending) {
     content = (
       <>
         <div className="flex flex-col items-center justify-center">

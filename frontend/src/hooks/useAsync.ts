@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react"
  * @param asyncFunction the async function to use
  * @param immediate whether to execute the function immediately
  * @returns execution handle, status value, return value, error value
+ * @deprecated use tanstack-query instead
  */
 export const useAsync = <T, E = string>(
   asyncFunction: () => Promise<T>,

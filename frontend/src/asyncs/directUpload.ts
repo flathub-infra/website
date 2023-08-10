@@ -11,30 +11,21 @@ import {
 } from "src/env"
 import { UserStateAction } from "src/types/Login"
 import { getUserData } from "./login"
+import axios, { Axios, AxiosResponse } from "axios"
 
 export interface InviteStatus {
   is_pending: boolean
   is_direct_upload_app: boolean
 }
 
-export async function getInviteStatus(appId: string): Promise<InviteStatus> {
-  let res: Response
-  let json: any
+export async function getInviteStatus(appId: string) {
   try {
-    res = await fetch(INVITE_STATUS_URL(appId), {
-      credentials: "include",
+    return await axios.get<InviteStatus>(INVITE_STATUS_URL(appId), {
+      withCredentials: true,
     })
-
-    json = await res.json()
-  } catch {
+  } catch (err) {
     throw "network-error-try-again"
   }
-
-  if (!res.ok) {
-    throw (json.detail as string) || "network-error-try-again"
-  }
-
-  return json
 }
 
 export interface Developer {

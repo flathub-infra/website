@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { ReactElement, useCallback } from "react"
+import { ReactElement } from "react"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
 import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
@@ -15,7 +15,7 @@ import Tabs from "src/components/Tabs"
 import { AppDevModeration } from "src/components/moderation/AppDevModeration"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import { getInviteStatus } from "src/asyncs/directUpload"
-import { useAsync } from "src/hooks/useAsync"
+import { useQuery } from "@tanstack/react-query"
 
 export default function AppManagementPage({
   app,
@@ -39,9 +39,11 @@ export default function AppManagementPage({
     },
   ]
 
-  const { value: inviteStatus } = useAsync(
-    useCallback(async () => await getInviteStatus(app.id), [app.id]),
-  )
+  const inviteQuery = useQuery({
+    queryKey: ["invite-status", app.id],
+    queryFn: () => getInviteStatus(app.id),
+    enabled: !!app.id,
+  })
 
   if (!IS_PRODUCTION) {
     tabs.push(
@@ -64,7 +66,7 @@ export default function AppManagementPage({
       },
     )
 
-    if (inviteStatus?.is_direct_upload_app) {
+    if (inviteQuery.data.data?.is_direct_upload_app) {
       tabs.push({
         name: t("developers"),
         content: <AppDevelopersControls app={app} />,
