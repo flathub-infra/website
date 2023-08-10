@@ -8,9 +8,10 @@ import { useQuery } from "@tanstack/react-query"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
+  customButtons?: JSX.Element
 }
 
-const UserApps: FunctionComponent<Props> = ({ variant }) => {
+const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
   const { t } = useTranslation()
   const user = useUserContext()
   const userDispatch = useUserDispatch()
@@ -63,6 +64,7 @@ const UserApps: FunctionComponent<Props> = ({ variant }) => {
       user={user}
       title={title}
       applications={queryDevApplications.data}
+      customButtons={customButtons}
       onRefresh={variant === "dev" && queryRefreshDev.refetch}
       inACard
       showId

@@ -14,6 +14,8 @@ import VendingLink from "src/components/user/VendingLink"
 import { useUserContext } from "src/context/user-info"
 import { useRouter } from "next/router"
 import ButtonLink from "src/components/ButtonLink"
+import CodeCopy from "src/components/application/CodeCopy"
+import { HiMiniPlus } from "react-icons/hi2"
 
 export default function Userpage({
   providers,
@@ -42,23 +44,33 @@ export default function Userpage({
       content: (
         <>
           <div className="space-y-12">
-            <UserApps variant="dev" />
+            <UserApps
+              variant="dev"
+              customButtons={
+                (!IS_PRODUCTION || user.info?.["is-moderator"]) && (
+                  <ButtonLink
+                    className="w-full sm:w-auto"
+                    passHref
+                    href="/apps/new"
+                  >
+                    <HiMiniPlus className="w-5 h-5" />
+                    {t("new-app")}
+                  </ButtonLink>
+                )
+              }
+            />
 
             {(!IS_PRODUCTION || user.info?.["is-moderator"]) && (
               <>
-                <ButtonLink passHref href="/apps/new">
-                  {t("new-app")}
-                </ButtonLink>
-
                 <div>
                   <UserApps variant="invited" />
-                  <p>
-                    <Trans i18nKey="invite-code">
-                      Your invite code is
-                      <code>{{ inviteCode }}</code>. Give this code to another
-                      developer to allow them to invite you to their app.
-                    </Trans>
-                  </p>
+                  <div className="flex items-baseline gap-1">
+                    {t("invite-code")}
+                    <CodeCopy className="w-48" text={inviteCode} nested />
+                  </div>
+                  <div className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                    {t("invite-code-hint")}
+                  </div>
                 </div>
               </>
             )}
