@@ -84,7 +84,7 @@
   "safe-to-close-page": "可以关闭该页面了。",
   "other-apps-by-developer": "{{developer}} 的其它应用",
   "loading": "正在加载…",
-  "could-not-find-match-for-search": "无法找到搜索匹配项。",
+  "could-not-find-match-for-search": "找不到与您的搜索匹配的任何应用程序。",
   "publish": "发布",
   "about-description": "Flathub 旨在成为获取和发行 Linux 应用的地方。它由能让 Flathub 应用运行在几乎任何 Linux 发行版上的 Flatpak 强力驱动。",
   "popular": "热门",
@@ -349,5 +349,6 @@
   "desktop-application": "桌面应用",
   "console-application": "控制台应用",
   "app-type": "应用类型",
-  "arch": "架构"
+  "arch": "架构",
+  "release-link-no-changelog": "发布说明"
 }
