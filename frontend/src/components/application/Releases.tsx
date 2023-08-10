@@ -43,11 +43,11 @@ const ReleaseLink = ({
 const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
   const ref = useRef(null)
   const { t, i18n } = useTranslation()
-  const collapsedHeight = 62
-  const [scrollHeight, setScrollHeight] = useState(0)
+  const collapsedHeight = 46
+  const [showCollapseButton, setShowCollapseButton] = useState(false)
 
   useEffect(() => {
-    setScrollHeight(ref.current.scrollHeight)
+    setShowCollapseButton(ref.current.scrollHeight > collapsedHeight)
   }, [ref])
 
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
@@ -94,9 +94,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 <div
                   {...getCollapseProps({ ref })}
                   className={clsx(
-                    `prose relative transition-all duration-700 dark:prose-invert`,
+                    `prose prose-p:my-0 prose-ul:my-0 relative transition-all duration-700 dark:prose-invert`,
                     !isExpanded &&
-                      scrollHeight > collapsedHeight &&
+                      showCollapseButton &&
                       "from-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
                   )}
                 >
@@ -108,18 +108,21 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                   <ReleaseLink url={latestRelease.url} />
                 </div>
               ) : (
-                <div className={`prose dark:prose-invert`} ref={ref}>
+                <div
+                  className={`prose prose-p:my-0 dark:prose-invert`}
+                  ref={ref}
+                >
                   {latestRelease.url ? (
                     <ReleaseLink url={latestRelease.url} noChangeLogProvided />
                   ) : (
-                    <ul className="my-4 list-disc ps-10">
+                    <ul className="list-disc ps-10">
                       <li>{t("no-changelog-provided")}</li>
                     </ul>
                   )}
                 </div>
               )}
             </div>
-            {scrollHeight > collapsedHeight && (
+            {showCollapseButton && (
               <button
                 className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-white/5 dark:border-zinc-600"
                 {...getToggleProps()}
