@@ -80,7 +80,7 @@ const ApplicationCard: FunctionComponent<Props> = ({
             {application.id}
           </div>
         )}
-        <div className="mt-2 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
+        <div className="mt-1 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
           {application.summary}
         </div>
       </div>
