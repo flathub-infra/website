@@ -36,6 +36,7 @@ import {
   da,
   az,
   he,
+  ro,
 } from "date-fns/locale"
 
 export type Language =
@@ -79,6 +80,7 @@ export type Language =
   | "da"
   | "az"
   | "he"
+  | "ro"
 
 export const languages: Language[] = [
   "en",
@@ -121,6 +123,7 @@ export const languages: Language[] = [
   "da",
   "az",
   "he",
+  "ro",
 ]
 
 export function getLocale(language: string): Locale {
@@ -205,6 +208,8 @@ export function getLocale(language: string): Locale {
       return az
     case "he":
       return he
+    case "ro":
+      return ro
 
     default:
       return enGB
@@ -293,6 +298,8 @@ export function bcpToPosixLocale(language: string): string {
       return "az_AZ"
     case "he":
       return "he_IL"
+    case "ro":
+      return "ro_RO"
 
     default:
       return "en_US"
@@ -381,6 +388,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇦🇿"
     case "he":
       return "🇮🇱"
+    case "ro":
+      return "🇷🇴"
   }
 }
 
@@ -466,6 +475,8 @@ export function getLanguageName(language: Language): string {
       return "Azərbaycanca"
     case "he":
       return "עברית"
+    case "ro":
+      return "Română"
 
     default:
       return assertUnreachable(language)
@@ -574,6 +585,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("az")
     case "he":
       return new Intl.Locale("he")
+    case "ro":
+      return new Intl.Locale("ro")
   }
 }
 
@@ -617,6 +630,7 @@ export function registerIsoCountriesLocales() {
   countries.registerLocale(require("i18n-iso-countries/langs/da.json"))
   countries.registerLocale(require("i18n-iso-countries/langs/az.json"))
   countries.registerLocale(require("i18n-iso-countries/langs/he.json"))
+  countries.registerLocale(require("i18n-iso-countries/langs/ro.json"))
 
   return countries
 }
