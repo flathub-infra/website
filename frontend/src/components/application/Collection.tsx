@@ -22,21 +22,24 @@ interface Props {
   link?: (appid: string) => string
   inACard?: boolean
   showId?: boolean
+  customButtons?: JSX.Element
 }
 
 const Header = ({
   title,
   refresh,
   totalHits,
+  customButtons,
 }: {
   title: string
   refresh?: JSX.Element
   totalHits?: number
+  customButtons?: JSX.Element
 }) => {
   const { t } = useTranslation()
 
   return (
-    <span className="flex items-center justify-between pb-2">
+    <span className="gap-2 flex sm:flex-row flex-col sm:items-center justify-between pb-2">
       <div>
         <h2 className="text-2xl font-bold">{title}</h2>
         {totalHits && (
@@ -47,7 +50,10 @@ const Header = ({
           </div>
         )}
       </div>
-      {refresh}
+      <div className="flex gap-2">
+        {customButtons}
+        {refresh}
+      </div>
     </span>
   )
 }
@@ -64,12 +70,19 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   link,
   inACard,
   showId = false,
+  customButtons,
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
 
   const refresh = onRefresh ? (
-    <Button onClick={onRefresh}>{t("refresh")}</Button>
+    <Button
+      className="w-full sm:w-auto"
+      variant="secondary"
+      onClick={onRefresh}
+    >
+      {t("refresh")}
+    </Button>
   ) : null
 
   if (applications.length === 0) {
@@ -77,7 +90,11 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       <div className="flex">
         <section className="w-full">
           <div className="w-full">
-            <Header refresh={refresh} title={title} />
+            <Header
+              title={title}
+              refresh={refresh}
+              customButtons={customButtons}
+            />
             <p>{t("no-apps")}</p>
           </div>
         </section>
@@ -95,7 +112,12 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   return (
     <section className="flex flex-col gap-3">
-      <Header refresh={refresh} title={title} totalHits={totalHits} />
+      <Header
+        title={title}
+        totalHits={totalHits}
+        refresh={refresh}
+        customButtons={customButtons}
+      />
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
