@@ -78,7 +78,7 @@
   "other-apps-by-projectgroup": "Aliaj programoj en la grupo {{projectgroup}}",
   "manifest": "Manifesta dosiero",
   "request-new-app": "Se vi serĉas specifan programon, informu la komunumon, ke vi deziras ĝin ĉe Flathub <1>ĉi tie</1>.",
-  "could-not-find-match-for-search": "Ne eblis trovi kongruaĵojn pri la serĉo.",
+  "could-not-find-match-for-search": "Ne eblis trovi kongruajn programojn pri la serĉo.",
   "switch-language": "Ŝanĝi lingvon",
   "languages-description": "Elektu uzotan fasadan lingvon:",
   "confirm-selection": "Konfirmu elekton",
@@ -349,5 +349,6 @@
   "malformed-app-id": "La programidentigilo estas misformita. Programidentigilo devas konsisti el almenaŭ tri komponantojn. Ĉiu komponanto devas esti nemalplena. Ĉiu segmento devas komenciĝi per litero aŭ substreko (_) kaj povas enhavi nur literojn, ciferojn, substrekojn (_) kaj streketojn (-).",
   "direct-upload-description": "Disvolvante vian programon ĉe via propra kontinue integranta medio, alŝutu ĝin rekte al Flathub.",
   "app-id-instructions": "Programidentigilo konformas al inversnomregna notacio. Ekzemple, GNOME Maps uzas «org.gnome.Maps». Elektu Interretan nomregnon regatan de vi, ekzemple la retejon de la projekto (aŭ, se vi alŝutas kiel individuo, vian propran retejon). Se neniu retejo disponeblas, vi ankaŭ povas uzi nomregnon asociitan kun fontkoda deponejo, ekz. «io.github.[via_salutnomo].[nomo_de_programo]».",
-  "arch": "Arĥitekturo"
+  "arch": "Arĥitekturo",
+  "release-link-no-changelog": "Notoj pri versio"
 }

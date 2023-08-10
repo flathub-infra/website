@@ -349,6 +349,6 @@
   "publisher-agreement": "Smlouva o předkládání publikací vydavateli",
   "publisher-agreement-accept": "Souhlasím se smlouvou o předkládání publikací vydavateli",
   "app-id-instructions": "ID aplikací používají reverzní notaci názvů domén (RDNN). Například Mapy GNOME používají 'org.gnome.Maps'. Vyberte si doménu, nad kterou máte kontrolu, například webové stránky projektu (nebo, pokud nahráváte jako jednotlivec, své vlastní webové stránky). Pokud není k dispozici žádná webová stránka, můžete také použít doménu spojenou s účtem pro hosting zdrojového kódu, například 'io.github.<vaše_uživatelské_jméno>.<název_aplikace>'.",
-  "arch": "Arch",
+  "arch": "Architektura",
   "release-link-no-changelog": "Poznámky k vydání"
 }

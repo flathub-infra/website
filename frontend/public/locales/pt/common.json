@@ -126,7 +126,7 @@
   "other-apps-by-developer": "Outros apps de {{developer}}",
   "other-apps-by-projectgroup": "Outros apps no grupo {{projectgroup}}",
   "loading": "Carregando…",
-  "could-not-find-match-for-search": "Não foi possível encontrar uma correspondência para a pesquisa.",
+  "could-not-find-match-for-search": "Não foi possível encontrar nenhuma aplicação que corresponda à sua pesquisa.",
   "request-new-app": "Se estiver à procura de uma aplicação específica, informe a comunidade de que a quer no Flathub <1>aqui</1>.",
   "manifest": "Manifesto",
   "languages": "Idiomas",
@@ -259,7 +259,7 @@
   "login-provider-verification-main-instruction-organization": "Verifique o seu direito de usar o ID de app <1>{{id}}</1> fazendo login em uma conta com direitos de administrador para a organização <3>@{{login_name}}</3> em <5>{{login_provider}}</5 >.",
   "login-provider-verification-enable-github-app": "Para continuar a verificação, o Flathub precisa de permissão para ler o seu nível de associação na organização <1>@{{organization}}</1>. Pode conceder essa permissão <3>nas configurações do GitHub</3>.",
   "login-provider-verification-not-org-admin": "No momento, está conectado a <1>{{login_provider}}</1> como <3>@{{current_name}}</3>. Esta conta não é um administrador da organização <5>@{{organization}}</5>. Para verificar esta app, deve solicitar privilégios de administrador na organização ou entrar numa conta que já os possua.",
-  "verification-warning": "A equipa do Flathub pode remover o selo de verificação de qualquer app a nosso exclusivo critério, por exemplo, se isso puder enganar as pessoas sobre o estado oficial da app ou causar confusão em relação a uma marca registada.",
+  "verification-warning": "A equipa da Flathub pode remover o emblema de verificação de qualquer aplicação à nossa inteira discrição, por exemplo, se puder induzir em erro as pessoas sobre o estatuto oficial da aplicação ou causar confusão relativamente a uma marca registada.",
   "verified-login-provider-tooltip": "A propriedade do <1>{{app_id}}</1> o ID da aplicação foi verificado por<4>@{{login_name}}</4> em<8>{{login_provider}}</8>",
   "login-provider-verification-not-org-member": "No momento, está conectado a <1>{{login_provider}}</1> como <3>@{{current_name}}</3>. Esta conta não é um membro da organização <5>@{{organization}}</5>. Para verificar esta app, deve solicitar privilégios de administrador na organização ou entrar numa conta que já os possua.",
   "verification-instructions": "Verifique o ID da sua app para indicar que o seu envio ao Flathub foi aprovado pelo programador da app. Precisará provar que tem o controlo da app por meio de um site no domínio do app ou a verificar o acesso à conta da app num site de hospedagem de código-fonte. O selo de verificação será exibido ao lado do nome da app, nome do editor e a forma como o ID da app foi verificado.",
@@ -349,5 +349,6 @@
   "malformed-app-id": "O ID da aplicação está mal formado. Os IDs de aplicações têm de conter pelo menos três segmentos, e nenhum segmento pode estar vazio. Cada segmento tem de começar com uma letra ou um sublinhado e só pode conter letras, dígitos, sublinhados e hífenes.",
   "publisher-agreement": "Acordo de submissão do editor",
   "publisher-agreement-accept": "Aceito o Acordo de Submissão do Editor",
-  "arch": "Arch"
+  "arch": "Arch",
+  "release-link-no-changelog": "Notas de lançamento"
 }
