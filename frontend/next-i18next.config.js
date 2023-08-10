@@ -45,6 +45,7 @@ module.exports = {
       "da",
       "az",
       "he",
+      "ro",
     ],
   },
   // debug: true,
