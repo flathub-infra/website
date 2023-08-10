@@ -1,14 +1,7 @@
 import { AppHeader } from "./AppHeader"
-import {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { FunctionComponent } from "react"
 import React from "react"
-import { Appstream, mapScreenshot, pickScreenshot } from "../../types/Appstream"
+import { Appstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -22,12 +15,9 @@ import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import ApplicationSection from "./ApplicationSection"
 import { calculateHumanReadableSize } from "../../size"
 
-import { useAsync } from "../../hooks/useAsync"
 import { getAppVendingSetup } from "../../asyncs/vending"
 
-import { useCollapse } from "@collapsed/react"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import { clsx } from "clsx"
 import {
   AppsIndex,
   MeilisearchResponse,
