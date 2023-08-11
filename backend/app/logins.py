@@ -944,7 +944,12 @@ def get_userinfo(login: LoginStatusDep):
     user = login.user
 
     if user.invite_code is None:
-        user.invite_code = secrets.token_urlsafe(9)
+        # Confusing letter/number pairs removed.
+        # This doesn't have to be super secure, it doesn't grant access to
+        # anything, we just use a code instead of the user ID to avoid enumeration.
+        # 56 available chars * 12 = ~69 bits of entropy
+        chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
+        user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
         db.session.commit()
 
     ret = {
