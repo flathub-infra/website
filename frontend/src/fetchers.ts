@@ -96,8 +96,8 @@ export async function fetchAppStats(appId: string) {
 
 export default async function fetchCollection(
   collection: Collection,
-  page?: number,
-  per_page?: number,
+  page: number,
+  per_page: number,
 ) {
   let collectionURL: string = ""
   switch (collection) {
