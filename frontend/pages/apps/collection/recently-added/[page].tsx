@@ -11,7 +11,11 @@ import {
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 
-export default function RecentlyAdded({ applications }) {
+export default function RecentlyAdded({
+  applications,
+}: {
+  applications: MeilisearchResponse<AppsIndex>
+}) {
   const { t } = useTranslation()
   return (
     <>
