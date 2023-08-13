@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async ({
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
 
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
-    fetchAppstream(appId as string),
+    fetchAppstream(appId as string, locale),
     getGlobalVendingConfigVendingConfigGet(),
   ])
 

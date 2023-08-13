@@ -139,7 +139,7 @@ export const getStaticProps: GetStaticProps = async ({
   }
 
   let eolMessage: string = null
-  const app = await (await fetchAppstream(appId as string)).data
+  const app = await (await fetchAppstream(appId as string, locale)).data
 
   if (!app) {
     eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))

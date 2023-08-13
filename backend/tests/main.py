@@ -120,13 +120,19 @@ def test_apps_by_non_existent_developer(client):
 
 
 def test_appstream_by_appid(client, snapshot):
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=en")
+    assert response.status_code == 200
+    assert snapshot("test_appstream_by_appid_en.json") == response.json()
+
+
+def test_appstream_by_appid_fallback(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert snapshot("test_appstream_by_appid.json") == response.json()
 
 
 def test_appstream_by_non_existent_appid(client):
-    response = client.get("/appstream/NonExistent")
+    response = client.get("/appstream/NonExistent?locale=en")
     assert response.status_code == 404
     assert response.json() is None
 
