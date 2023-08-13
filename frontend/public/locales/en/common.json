@@ -385,12 +385,17 @@
   "can-read-all-your-data": "Can read all your data",
   "can-read-write-your-downloads": "Can read/write your downloads",
   "can-read-your-downloads": "Can read your downloads",
-  "can-access-arbitrary-files": "Can access arbitrary files",
+  "can-access--some-specific-files": "Can access some specific files",
   "can-access-and-change-user-settings": "Can access and change user settings",
   "uses-a-legacy-windowing-system": "Uses a legacy windowing system",
   "can-aquire-arbitrary-permissions": "Can aquire arbitrary permissions",
   "proprietary-code": "Proprietary code",
   "auditable-code": "Auditable code",
-  "appname-is-safety-rating": "{{appName}} is {{safetyRating}}",
-  "software-developer-verified": "Software developer is verified"
+  "appname-is-safety-rating-1": "{{appName}} is safe",
+  "appname-is-safety-rating-2": "{{appName}} is probably safe",
+  "appname-is-safety-rating-3": "{{appName}} is potentially unsafe",
+  "appname-is-safety-rating-4": "{{appName}} is unsafe",
+  "software-developer-verified": "Software developer is verified",
+  "no-file-system-access": "No file system access",
+  "no-user-device-access": "No user device access"
 }
