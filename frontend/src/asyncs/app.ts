@@ -6,18 +6,23 @@ import { Appstream } from "../types/Appstream"
  * Fetches the appstream data for a set of apps (e.g. the user's).
  * @param appIds array of app identifiers to fetch data for
  */
-export async function getAppsInfo(appIds: string[]): Promise<Appstream[]> {
+export async function getAppsInfo(
+  appIds: string[],
+  locale: string,
+): Promise<Appstream[]> {
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await axios.get<Appstream>(`${APP_DETAILS(id)}`).catch(() => {
-        return {
-          data: {
-            id: id,
-            name: id,
-          } as Appstream,
-        } as AxiosResponse<Appstream>
-      }),
+      response: await axios
+        .get<Appstream>(`${APP_DETAILS(id, locale)}`)
+        .catch(() => {
+          return {
+            data: {
+              id: id,
+              name: id,
+            } as Appstream,
+          } as AxiosResponse<Appstream>
+        }),
     })),
   )
 

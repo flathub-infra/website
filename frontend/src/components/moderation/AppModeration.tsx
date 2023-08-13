@@ -31,7 +31,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
 
   const appInfoQuery = useQuery({
     queryKey: ["app", appId],
-    queryFn: () => getAppsInfo([appId]),
+    queryFn: () => getAppsInfo([appId], "en"),
     enabled: !!appId,
   })
 
