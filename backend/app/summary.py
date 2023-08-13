@@ -1,5 +1,6 @@
 import configparser
 import json
+import re
 import struct
 import subprocess
 from collections import defaultdict
@@ -14,19 +15,24 @@ from gi.repository import Gio, GLib, OSTree
 
 # "valid" here means it would be displayed on flathub.org
 def validate_ref(ref: str):
-    if not ref.startswith("app/"):
-        return False
-
     fields = ref.split("/")
     if len(fields) != 4:
         return False
 
     kind, appid, arch, branch = fields
 
+    # filter out platforms as the ini parser doesn't like them
+    if bool(re.search(r"\.Platform(/|\.|$)", appid)):
+        return False
+
     if arch not in ("x86_64", "aarch64"):
         return False
 
-    if not branch.startswith("stable"):
+    if (
+        appid.endswith(".Debug")
+        or appid.endswith(".Locale")
+        or appid.endswith(".Sources")
+    ):
         return False
 
     return True
@@ -43,6 +49,9 @@ def get_parent_id(appid: str):
 def parse_metadata(ini: str):
     parser = configparser.RawConfigParser()
     parser.read_string(ini)
+
+    if "Application" not in parser:
+        return None
 
     metadata = dict(parser["Application"])
 
@@ -147,7 +156,10 @@ def update():
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
         # and download sizes
-        if "extra-data" in summary_dict[appid]["metadata"]:
+        if (
+            summary_dict[appid]["metadata"]
+            and "extra-data" in summary_dict[appid]["metadata"]
+        ):
             summary_dict[appid]["installed_size"] += download_size
 
     # The main summary file contains only x86_64 refs due to ostree file size
