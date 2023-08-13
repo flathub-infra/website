@@ -30,6 +30,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^2.0.0",
     "date-fns": "^2.30.0",
+    "framer-motion": "^10.15.1",
     "i18n-iso-countries": "^7.6.0",
     "i18next": "^23.2.8",
     "next": "^13.4.12",
