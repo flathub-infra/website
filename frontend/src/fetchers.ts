@@ -30,12 +30,14 @@ export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
 }
 
-export async function fetchAppstream(appId: string) {
-  return axios.get<Appstream>(`${APP_DETAILS(appId)}`).catch((error) => {
-    return {
-      data: null,
-    }
-  })
+export async function fetchAppstream(appId: string, locale: string) {
+  return axios
+    .get<Appstream>(`${APP_DETAILS(appId, locale)}`)
+    .catch((error) => {
+      return {
+        data: null,
+      }
+    })
 }
 
 export async function fetchSummary(appId: string) {
