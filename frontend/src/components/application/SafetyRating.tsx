@@ -31,7 +31,7 @@ const SafetyRatingIcon = ({
   return (
     <div
       className={clsx(
-        size === "small" ? "h-10 w-10" : "h-16 w-16",
+        size === "small" ? "h-10 w-10" : "h-14 w-14",
         "rounded-full p-2",
         safetyRatingToColor(highestSafetyRating),
       )}
@@ -58,12 +58,12 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
   return (
     <>
       <button
-        className="flex flex-col items-center p-4 w-full hover:bg-flathub-gainsborow/20 rounded-xl duration-500 hover:shadow-xl hover:dark:bg-flathub-dark-gunmetal/20 active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic"
+        className="flex w-full flex-col items-center gap-1 rounded-xl p-4 duration-500 hover:bg-flathub-gainsborow/20 hover:shadow-xl active:bg-flathub-gainsborow/40 active:shadow-sm hover:dark:bg-flathub-dark-gunmetal/20 active:dark:bg-flathub-arsenic"
         onClick={() => setIsOpen(true)}
       >
         <SafetyRatingIcon
           highestSafetyRating={highestSafetyRating}
-          size="large"
+          size="small"
         />
         <div className="text-lg font-bold">
           {t(safetyRatingToTranslationKey(highestSafetyRating))}
@@ -71,6 +71,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
         <div className="text-center">
           {safetyRating
             .filter((x) => x.safetyRating === highestSafetyRating)
+            .filter((x) => x.showOnSummary)
             .map((x) => t(x.description))
             .join("; ")}
         </div>
@@ -101,32 +102,29 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-flathub-white dark:bg-flathub-dark-gunmetal px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-flathub-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
                   <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                     <button
                       type="button"
-                      className="rounded-md bg-flathub-white dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow hover:text-flathub-gray-x11 text-flathub-spanish-gray hover:dark:text-flathub-spanish-gray
-                       focus:outline-none focus:ring-2 focus:ring-flathub-celestial-blue focus:ring-offset-2"
+                      className="rounded-md bg-flathub-white text-flathub-spanish-gray hover:text-flathub-gray-x11 focus:outline-none focus:ring-2 focus:ring-flathub-celestial-blue
+                       focus:ring-offset-2 dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow hover:dark:text-flathub-spanish-gray"
                       onClick={() => setIsOpen(false)}
                     >
                       <span className="sr-only">Close</span>
                       <HiXMark className="h-6 w-6" aria-hidden="true" />
                     </button>
                   </div>
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center gap-2">
                     <SafetyRatingIcon
                       highestSafetyRating={highestSafetyRating}
                       size="large"
                     />
                     <Dialog.Title
                       as="h3"
-                      className="text-base text-center font-semibold leading-6"
+                      className="text-center text-base font-semibold leading-6"
                     >
-                      {t("appname-is-safety-rating", {
+                      {t(`appname-is-safety-rating-${highestSafetyRating}`, {
                         appName: data.name,
-                        safetyRating: t(
-                          safetyRatingToTranslationKey(highestSafetyRating),
-                        ),
                       })}
                     </Dialog.Title>
                     <div className="mt-2 w-full">
