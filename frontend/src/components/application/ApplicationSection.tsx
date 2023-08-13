@@ -5,6 +5,7 @@ import { AppstreamListItem } from "../../types/Appstream"
 import ApplicationCard from "./ApplicationCard"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "../ButtonLink"
+import { motion } from "framer-motion"
 
 interface Props {
   href: string
@@ -41,7 +42,14 @@ const ApplicationSection: FunctionComponent<Props> = ({
       </header>
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
-          <ApplicationCard key={app.id} application={app} />
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            key={app.id}
+          >
+            <ApplicationCard application={app} />
+          </motion.div>
         ))}
       </div>
     </div>
