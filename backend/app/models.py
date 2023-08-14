@@ -1,3 +1,4 @@
+import enum
 from datetime import datetime, timedelta
 from typing import Optional, Union
 from uuid import uuid4
@@ -32,6 +33,14 @@ ConnectedAccount = Union[
 ]
 
 
+class ConnectedAccountProvider(str, enum.Enum):
+    GITHUB = "github"
+    GITLAB = "gitlab"
+    GNOME = "gnome"
+    GOOGLE = "google"
+    KDE = "kde"
+
+
 class FlathubUser(Base):
     __tablename__ = "flathubuser"
 
@@ -53,7 +62,9 @@ class FlathubUser(Base):
                 result.append(account)
         return result
 
-    def get_connected_account(self, db, provider: str) -> Optional["ConnectedAccount"]:
+    def get_connected_account(
+        self, db, provider: ConnectedAccountProvider
+    ) -> Optional["ConnectedAccount"]:
         for table in ConnectedAccountTables:
             if table.provider == provider:
                 return table.by_user(db, self)
@@ -145,7 +156,7 @@ class FlathubUser(Base):
 class GithubAccount(Base):
     __tablename__ = "githubaccount"
 
-    provider = "github"
+    provider = ConnectedAccountProvider.GITHUB
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -277,7 +288,7 @@ class GitlabFlowToken(Base):
 class GitlabAccount(Base):
     __tablename__ = "gitlabaccount"
 
-    provider = "gitlab"
+    provider = ConnectedAccountProvider.GITLAB
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -345,7 +356,7 @@ class GnomeFlowToken(Base):
 class GnomeAccount(Base):
     __tablename__ = "gnomeaccount"
 
-    provider = "gnome"
+    provider = ConnectedAccountProvider.GNOME
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -413,7 +424,7 @@ class GoogleFlowToken(Base):
 class GoogleAccount(Base):
     __tablename__ = "googleaccount"
 
-    provider = "google"
+    provider = ConnectedAccountProvider.GOOGLE
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
@@ -479,7 +490,7 @@ class KdeFlowToken(Base):
 class KdeAccount(Base):
     __tablename__ = "kdeaccount"
 
-    provider = "kde"
+    provider = ConnectedAccountProvider.KDE
 
     id = Column(Integer, primary_key=True)
     user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
