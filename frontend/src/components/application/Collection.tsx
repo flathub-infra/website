@@ -42,7 +42,12 @@ const Header = ({
   return (
     <span className="gap-2 flex sm:flex-row flex-col sm:items-center justify-between pb-2">
       <div>
-        <h2 className="text-2xl font-bold">{title}</h2>
+        <motion.h2
+          layoutId={`app-section-${title}`}
+          className="text-2xl font-bold"
+        >
+          {title}
+        </motion.h2>
         {totalHits && (
           <div className="leading-none text-sm dark:text-flathub-spanish-gray text-flathub-granite-gray">
             {t("number-of-results", {

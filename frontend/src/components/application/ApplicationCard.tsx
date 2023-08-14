@@ -7,6 +7,7 @@ import { clsx } from "clsx"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
+import { motion } from "framer-motion"
 
 interface Props {
   application: AppstreamListItem
@@ -62,27 +63,38 @@ const ApplicationCard: FunctionComponent<Props> = ({
         "h-full",
       )}
     >
-      <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
+      <motion.div
+        layoutId={`app-icon-${application.id}`}
+        className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]"
+      >
         <LogoImage iconUrl={application.icon} appName={application.name} />
-      </div>
+      </motion.div>
       <div className="flex flex-col justify-center overflow-hidden">
         <div className="flex gap-1">
-          <span className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+          <motion.span
+            layoutId={`app-name-${application.id}`}
+            className="truncate whitespace-nowrap text-base font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
+          >
             {application.name}
-          </span>
-          <VerificationIcon
-            appId={application.id}
-            verificationStatus={verificationStatus}
-          />
+          </motion.span>
+          <motion.div layoutId={`app-verification-icon-${application.id}`}>
+            <VerificationIcon
+              appId={application.id}
+              verificationStatus={verificationStatus}
+            />
+          </motion.div>
         </div>
         {showId && application.id !== application.name && (
           <div className="text-sm text-flathub-spanish-gray truncate leading-none">
             {application.id}
           </div>
         )}
-        <div className="mt-1 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3">
+        <motion.div
+          layoutId={`app-summary-${application.id}`}
+          className="mt-1 line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:line-clamp-3"
+        >
           {application.summary}
-        </div>
+        </motion.div>
       </div>
     </Link>
   )

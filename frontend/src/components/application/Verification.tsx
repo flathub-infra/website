@@ -4,6 +4,7 @@ import React from "react"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
+import { motion } from "framer-motion"
 
 interface Props {
   appId: string
@@ -66,13 +67,16 @@ const Verification: FunctionComponent<Props> = ({
 
   if (verificationStatus?.verified == true) {
     return (
-      <div className="flex items-center justify-center text-xs font-semibold text-flathub-celestial-blue sm:justify-start">
+      <motion.div
+        layoutId={`app-verification-icon-${appId}`}
+        className="flex items-center justify-center text-xs font-semibold text-flathub-celestial-blue sm:justify-start"
+      >
         <VerificationIcon
           appId={appId}
           verificationStatus={verificationStatus}
         />
         {verifiedLink}
-      </div>
+      </motion.div>
     )
   } else {
     return null

@@ -5,7 +5,7 @@ import { AppstreamListItem } from "../../types/Appstream"
 import ApplicationCard from "./ApplicationCard"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "../ButtonLink"
-import { motion } from "framer-motion"
+import { LayoutGroup, motion } from "framer-motion"
 
 interface Props {
   href: string
@@ -27,7 +27,12 @@ const ApplicationSection: FunctionComponent<Props> = ({
   return (
     <div>
       <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-        <h2 className="my-auto text-2xl font-bold">{title}</h2>
+        <motion.h2
+          layoutId={`app-section-${title}`}
+          className="my-auto text-2xl font-bold"
+        >
+          {title}
+        </motion.h2>
 
         {showMore && (
           <ButtonLink

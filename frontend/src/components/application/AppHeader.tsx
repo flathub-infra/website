@@ -8,6 +8,7 @@ import LogoImage from "../LogoImage"
 import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
+import { motion } from "framer-motion"
 
 export function AppHeader({
   app,
@@ -30,17 +31,23 @@ export function AppHeader({
   return (
     <header className="col-start-2 flex w-full flex-col gap-4 py-7 sm:flex-row">
       {app.icon && (
-        <div className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md">
+        <motion.div
+          layoutId={`app-icon-${app.id}`}
+          className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md"
+        >
           <LogoImage iconUrl={app.icon} appName={app.name} />
-        </div>
+        </motion.div>
       )}
 
       <div className="flex flex-col mx-3 my-auto gap-1">
-        <div className="flex items-center justify-center space-x-3 sm:justify-start">
+        <motion.div
+          layoutId={`app-name-${app.id}`}
+          className="flex items-center justify-center space-x-3 sm:justify-start"
+        >
           <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start">
             {app.name}
           </h1>
-        </div>
+        </motion.div>
         {app.developer_name?.trim().length > 0 && (
           <div className="text-center text-sm font-light text-flathub-sonic-silver dark:text-flathub-spanish-gray sm:text-start">
             {t("by", {

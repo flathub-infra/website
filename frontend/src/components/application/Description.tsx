@@ -2,6 +2,7 @@ import { useCollapse } from "@collapsed/react"
 import clsx from "clsx"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "next-i18next"
+import { motion } from "framer-motion"
 
 export const Description = ({ app }) => {
   const { t } = useTranslation()
@@ -27,7 +28,12 @@ export const Description = ({ app }) => {
   return (
     <>
       <div>
-        <h2 className="my-4 text-xl font-semibold ">{app.summary}</h2>
+        <motion.h2
+          layoutId={`app-summary-${app.id}`}
+          className="my-4 text-xl font-semibold "
+        >
+          {app.summary}
+        </motion.h2>
         {scrollHeight > collapsedHeight && (
           <div
             {...getCollapseProps({ ref })}
