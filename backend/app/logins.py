@@ -1083,7 +1083,7 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
 
 @router.post("/change-default-account", status_code=204)
 def do_change_default_account(
-    provider: str,
+    provider: models.ConnectedAccountProvider,
     login: LoginStatusDep,
 ):
     """Changes the user's default account, which determines which display name and email we use."""
