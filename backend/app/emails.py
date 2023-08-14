@@ -68,7 +68,7 @@ def _create_message(
 
     email = user_default_account.email
     if email is None:
-        # User doesn't have an email address on file
+        print(f"Could not find email address for user #{user.id}")
         return None
 
     full_subject = info.subject
