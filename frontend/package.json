@@ -18,7 +18,7 @@
   "dependencies": {
     "@collapsed/react": "^4.0.1",
     "@floating-ui/react-dom-interactions": "^0.13.3",
-    "@headlessui/react": "^1.7.15",
+    "@headlessui/react": "^1.7.16",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@sentry/nextjs": "^7.57.0",
     "@stripe/react-stripe-js": "^2.1.1",
