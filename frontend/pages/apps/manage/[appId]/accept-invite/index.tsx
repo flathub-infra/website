@@ -35,7 +35,7 @@ export default function AcceptInvitePage({ app }) {
 
   let content: ReactElement
 
-  if (inviteQuery.data.data?.is_pending) {
+  if (inviteQuery.data?.data?.is_pending) {
     content = (
       <>
         <div className="flex flex-col items-center justify-center">

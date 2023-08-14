@@ -40,9 +40,8 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
 
   let content: ReactElement
 
-  switch (status) {
-    case "idle":
-    case "pending":
+  switch (developersQuery.status) {
+    case "loading":
       content = <Spinner size="l" />
       break
 
