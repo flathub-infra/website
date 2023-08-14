@@ -66,7 +66,7 @@ export default function AppManagementPage({
       },
     )
 
-    if (inviteQuery.data.data?.is_direct_upload_app) {
+    if (inviteQuery.data?.data?.is_direct_upload_app) {
       tabs.push({
         name: t("developers"),
         content: <AppDevelopersControls app={app} />,
@@ -129,7 +129,6 @@ export const getStaticProps: GetStaticProps = async ({
       app: app ?? { id: appId, name: appId },
       vendingConfig,
     },
-    revalidate: 900,
   }
 }
 
