@@ -166,7 +166,7 @@ export function getSafetyRating(
 
   // can access and change user settings
   if (
-    summary.metadata.permissions["session-bus"]?.talk.some(
+    summary.metadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "ca.desrt.dconf",
     )
   ) {
