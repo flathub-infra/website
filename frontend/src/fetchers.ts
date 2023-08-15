@@ -68,28 +68,40 @@ export async function fetchEolRebase(appId: string) {
 }
 
 export async function fetchEolMessage(appId: string) {
-  return axios.get<string | undefined>(`${EOL_MESSAGE_URL(appId)}`)
+  return axios
+    .get<string | undefined>(`${EOL_MESSAGE_URL(appId)}`)
+    .catch((error) => {
+      return {
+        data: undefined,
+      }
+    })
 }
 
 export async function fetchSummary(appId: string) {
-  return axios.get<Summary>(`${SUMMARY_DETAILS(appId)}`)
+  return axios.get<Summary>(`${SUMMARY_DETAILS(appId)}`).catch((error) => {
+    return {
+      data: null,
+    }
+  })
 }
 
 export async function fetchStats() {
-  return axios.get<Stats>(`${STATS}`)
+  return axios.get<Stats>(`${STATS}`).catch((error) => {
+    return {
+      data: null,
+    }
+  })
 }
 
 export async function fetchAppStats(appId: string) {
   return axios.get<AppStats>(`${STATS_DETAILS(appId)}`).catch((error) => {
-    if (error.response.status === 404) {
-      return {
-        data: {
-          installs_per_day: {},
-          installs_last_7_days: 0,
-          installs_last_month: 0,
-          installs_total: 0,
-        },
-      }
+    return {
+      data: {
+        installs_per_day: {},
+        installs_last_7_days: 0,
+        installs_last_month: 0,
+        installs_total: 0,
+      },
     }
   })
 }
