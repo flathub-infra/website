@@ -7,7 +7,6 @@ from fastapi import HTTPException
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
-    Column,
     DateTime,
     Enum,
     ForeignKey,
@@ -18,11 +17,14 @@ from sqlalchemy import (
     func,
     text,
 )
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from . import utils
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
+
 
 ConnectedAccount = Union[
     "GithubAccount",
@@ -44,14 +46,20 @@ class ConnectedAccountProvider(str, enum.Enum):
 class FlathubUser(Base):
     __tablename__ = "flathubuser"
 
-    id = Column(Integer, primary_key=True)
-    display_name = Column(String)
-    default_account = Column(String)
-    deleted = Column(Boolean, nullable=False, default=False)
-    is_moderator = Column(Boolean, nullable=False, server_default=text("false"))
-    accepted_publisher_agreement_at = Column(DateTime, nullable=True, default=None)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    display_name: Mapped[Optional[str]]
+    default_account: Mapped[Optional[str]]
+    deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    is_moderator: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
+    accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
+        DateTime, nullable=True, default=None
+    )
 
-    invite_code = Column(String, nullable=True, unique=True, index=True)
+    invite_code: Mapped[str | None] = mapped_column(
+        String, nullable=True, unique=True, index=True
+    )
 
     TABLES_FOR_DELETE = []
 
@@ -158,15 +166,17 @@ class GithubAccount(Base):
 
     provider = ConnectedAccountProvider.GITHUB
 
-    id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    github_userid = Column(Integer, nullable=False)
-    login = Column(String)
-    avatar_url = Column(String)
-    display_name = Column(String)
-    email = Column(String)
-    token = Column(String, nullable=True, default=None)
-    last_used = Column(DateTime, nullable=True, default=None)
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    github_userid = mapped_column(Integer, nullable=False)
+    login = mapped_column(String)
+    avatar_url = mapped_column(String)
+    display_name: Mapped[Optional[str]]
+    email: Mapped[Optional[str]]
+    token = mapped_column(String, nullable=True, default=None)
+    last_used = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_user(db, user: FlathubUser) -> Optional["GithubAccount"]:
@@ -214,9 +224,9 @@ DEFAULT_HOUSEKEEPING_MINUTES = 20
 class GithubFlowToken(Base):
     __tablename__ = "githubflowtoken"
 
-    id = Column(Integer, primary_key=True)
-    state = Column(String, nullable=False)
-    created = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    state = mapped_column(String, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
@@ -236,11 +246,11 @@ class GithubFlowToken(Base):
 class GithubRepository(Base):
     __tablename__ = "githubrepository"
 
-    id = Column(Integer, primary_key=True)
-    github_account = Column(
+    id = mapped_column(Integer, primary_key=True)
+    github_account = mapped_column(
         Integer, ForeignKey(GithubAccount.id), nullable=False, index=True
     )
-    reponame = Column(String, nullable=False)
+    reponame = mapped_column(String, nullable=False)
 
     @staticmethod
     def unify_repolist(db, account: GithubAccount, repolist: list[str]):
@@ -266,9 +276,9 @@ class GithubRepository(Base):
 class GitlabFlowToken(Base):
     __tablename__ = "gitlabflowtoken"
 
-    id = Column(Integer, primary_key=True)
-    state = Column(String, nullable=False)
-    created = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    state = mapped_column(String, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
@@ -290,17 +300,19 @@ class GitlabAccount(Base):
 
     provider = ConnectedAccountProvider.GITLAB
 
-    id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    gitlab_userid = Column(Integer, nullable=False)
-    login = Column(String)
-    avatar_url = Column(String)
-    display_name = Column(String)
-    email = Column(String)
-    token = Column(String, nullable=True, default=None)
-    token_expiry = Column(DateTime, nullable=True, default=None)
-    refresh_token = Column(String, nullable=True, default=None)
-    last_used = Column(DateTime, nullable=True, default=None)
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    gitlab_userid = mapped_column(Integer, nullable=False)
+    login = mapped_column(String)
+    avatar_url = mapped_column(String)
+    display_name: Mapped[Optional[str]]
+    email: Mapped[Optional[str]]
+    token = mapped_column(String, nullable=True, default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, default=None)
+    refresh_token = mapped_column(String, nullable=True, default=None)
+    last_used = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -334,9 +346,9 @@ FlathubUser.TABLES_FOR_DELETE.append(GitlabAccount)
 class GnomeFlowToken(Base):
     __tablename__ = "gnomeflowtoken"
 
-    id = Column(Integer, primary_key=True)
-    state = Column(String, nullable=False)
-    created = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    state = mapped_column(String, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
@@ -358,17 +370,19 @@ class GnomeAccount(Base):
 
     provider = ConnectedAccountProvider.GNOME
 
-    id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    gnome_userid = Column(Integer, nullable=False)
-    login = Column(String)
-    avatar_url = Column(String)
-    display_name = Column(String)
-    email = Column(String)
-    token = Column(String, nullable=True, default=None)
-    token_expiry = Column(DateTime, nullable=True, default=None)
-    refresh_token = Column(String, nullable=True, default=None)
-    last_used = Column(DateTime, nullable=True, default=None)
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    gnome_userid = mapped_column(Integer, nullable=False)
+    login = mapped_column(String)
+    avatar_url = mapped_column(String)
+    display_name: Mapped[Optional[str]]
+    email: Mapped[Optional[str]]
+    token = mapped_column(String, nullable=True, default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, default=None)
+    refresh_token = mapped_column(String, nullable=True, default=None)
+    last_used = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -402,9 +416,9 @@ FlathubUser.TABLES_FOR_DELETE.append(GnomeAccount)
 class GoogleFlowToken(Base):
     __tablename__ = "googleflowtoken"
 
-    id = Column(Integer, primary_key=True)
-    state = Column(String, nullable=False)
-    created = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    state = mapped_column(String, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
@@ -426,17 +440,19 @@ class GoogleAccount(Base):
 
     provider = ConnectedAccountProvider.GOOGLE
 
-    id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    google_userid = Column(String, nullable=False)
-    login = Column(String)
-    avatar_url = Column(String)
-    display_name = Column(String)
-    email = Column(String)
-    token = Column(String, nullable=True, default=None)
-    token_expiry = Column(DateTime, nullable=True, default=None)
-    refresh_token = Column(String, nullable=True, default=None)
-    last_used = Column(DateTime, nullable=True, default=None)
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    google_userid = mapped_column(String, nullable=False)
+    login = mapped_column(String)
+    avatar_url = mapped_column(String)
+    display_name: Mapped[Optional[str]]
+    email: Mapped[Optional[str]]
+    token = mapped_column(String, nullable=True, default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, default=None)
+    refresh_token = mapped_column(String, nullable=True, default=None)
+    last_used = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -470,9 +486,9 @@ FlathubUser.TABLES_FOR_DELETE.append(GoogleAccount)
 class KdeFlowToken(Base):
     __tablename__ = "kdeflowtoken"
 
-    id = Column(Integer, primary_key=True)
-    state = Column(String, nullable=False)
-    created = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    state = mapped_column(String, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
@@ -492,17 +508,19 @@ class KdeAccount(Base):
 
     provider = ConnectedAccountProvider.KDE
 
-    id = Column(Integer, primary_key=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    kde_userid = Column(Integer, nullable=False)
-    login = Column(String)
-    avatar_url = Column(String)
-    display_name = Column(String)
-    email = Column(String)
-    token = Column(String, nullable=True, default=None)
-    token_expiry = Column(DateTime, nullable=True, default=None)
-    refresh_token = Column(String, nullable=True, default=None)
-    last_used = Column(DateTime, nullable=True, default=None)
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    kde_userid = mapped_column(Integer, nullable=False)
+    login = mapped_column(String)
+    avatar_url = mapped_column(String)
+    display_name: Mapped[Optional[str]]
+    email: Mapped[Optional[str]]
+    token = mapped_column(String, nullable=True, default=None)
+    token_expiry = mapped_column(DateTime, nullable=True, default=None)
+    refresh_token = mapped_column(String, nullable=True, default=None)
+    last_used = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -548,15 +566,15 @@ ConnectedAccount = (
 class AppVerification(Base):
     __tablename__ = "appverification"
 
-    app_id = Column(String, primary_key=True, nullable=False)
-    account = Column(
+    app_id = mapped_column(String, primary_key=True, nullable=False)
+    account = mapped_column(
         Integer,
         ForeignKey(FlathubUser.id, ondelete="CASCADE"),
         primary_key=True,
         nullable=False,
     )
 
-    method = Column(
+    method = mapped_column(
         Enum(
             "manual",
             "website",
@@ -566,17 +584,17 @@ class AppVerification(Base):
         ),
         nullable=False,
     )
-    login_is_organization = Column(Boolean)
-    token = Column(String)
-    verified = Column(Boolean, nullable=False)
-    verified_timestamp = Column(DateTime)
+    login_is_organization = mapped_column(Boolean)
+    token = mapped_column(String)
+    verified = mapped_column(Boolean, nullable=False)
+    verified_timestamp = mapped_column(DateTime)
 
     __table_args__ = (
         # An app can only have one verification
         Index(
             "app_verification_unique",
             "app_id",
-            postgresql_where=Column("verified"),
+            postgresql_where=mapped_column("verified"),
             unique=True,
         ),
     )
@@ -633,8 +651,8 @@ FlathubUser.TABLES_FOR_DELETE.append(AppVerification)
 class DirectUploadApp(Base):
     __tablename__ = "directuploadapp"
 
-    id = Column(Integer, primary_key=True)
-    app_id = Column(String, nullable=False, unique=True, index=True)
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, unique=True, index=True)
 
     @staticmethod
     def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:
@@ -644,12 +662,14 @@ class DirectUploadApp(Base):
 class DirectUploadAppDeveloper(Base):
     __tablename__ = "directuploadappdeveloper"
 
-    id = Column(Integer, primary_key=True)
-    app_id = Column(Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True)
-    developer_id = Column(
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(
+        Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True
+    )
+    developer_id = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
-    is_primary = Column(Boolean, nullable=False)
+    is_primary = mapped_column(Boolean, nullable=False)
 
     __table_args__ = (
         Index(
@@ -658,7 +678,7 @@ class DirectUploadAppDeveloper(Base):
         Index(
             "direct_upload_app_only_one_primary",
             "app_id",
-            postgresql_where=Column("is_primary"),
+            postgresql_where=mapped_column("is_primary"),
             unique=True,
         ),
     )
@@ -735,9 +755,11 @@ FlathubUser.TABLES_FOR_DELETE.append(DirectUploadAppDeveloper)
 class DirectUploadAppInvite(Base):
     __tablename__ = "directuploadappinvite"
 
-    id = Column(Integer, primary_key=True)
-    app_id = Column(Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True)
-    developer_id = Column(
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(
+        Integer, ForeignKey(DirectUploadApp.id), nullable=False, index=True
+    )
+    developer_id = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
 
@@ -795,15 +817,17 @@ class DirectUploadAppInvite(Base):
 class Transaction(Base):
     __tablename__ = "transaction"
 
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    value = Column(Integer, nullable=False)
-    currency = Column(String, nullable=False)
-    kind = Column(String, nullable=False)
-    status = Column(String, nullable=False)
-    reason = Column(String)
-    created = Column(DateTime, nullable=False)
-    updated = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    user_id = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    value = mapped_column(Integer, nullable=False)
+    currency = mapped_column(String, nullable=False)
+    kind = mapped_column(String, nullable=False)
+    status = mapped_column(String, nullable=False)
+    reason = mapped_column(String)
+    created = mapped_column(DateTime, nullable=False)
+    updated = mapped_column(DateTime, nullable=False)
 
     @classmethod
     def by_user(cls, db, user: FlathubUser):
@@ -901,13 +925,13 @@ class Transaction(Base):
 class TransactionRow(Base):
     __tablename__ = "transactionrow"
 
-    id = Column(Integer, primary_key=True)
-    txn = Column(Integer, ForeignKey(Transaction.id), nullable=False, index=True)
-    idx = Column(Integer, nullable=False)
-    amount = Column(Integer, nullable=False)
-    currency = Column(String, nullable=False)
-    kind = Column(String, nullable=False)
-    recipient = Column(String, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    txn = mapped_column(Integer, ForeignKey(Transaction.id), nullable=False, index=True)
+    idx = mapped_column(Integer, nullable=False)
+    amount = mapped_column(Integer, nullable=False)
+    currency = mapped_column(String, nullable=False)
+    kind = mapped_column(String, nullable=False)
+    recipient = mapped_column(String, nullable=False)
 
 
 # Stripe-specific wallet models
@@ -916,9 +940,11 @@ class TransactionRow(Base):
 class StripeCustomer(Base):
     __tablename__ = "stripecustomer"
 
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
-    stripe_cust = Column(String, nullable=False, index=True)
+    id = mapped_column(Integer, primary_key=True)
+    user_id = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    stripe_cust = mapped_column(String, nullable=False, index=True)
 
     @classmethod
     def by_user(cls, db, user: FlathubUser):
@@ -932,11 +958,11 @@ class StripeCustomer(Base):
 class StripeTransaction(Base):
     __tablename__ = "stripetransaction"
 
-    id = Column(Integer, primary_key=True)
-    transaction = Column(
+    id = mapped_column(Integer, primary_key=True)
+    transaction = mapped_column(
         Integer, ForeignKey(Transaction.id), nullable=False, unique=True, index=True
     )
-    stripe_pi = Column(String, nullable=False)
+    stripe_pi = mapped_column(String, nullable=False)
 
     @classmethod
     def by_transaction(cls, db, txn: Transaction):
@@ -950,17 +976,17 @@ class StripeTransaction(Base):
 class StripePendingTransfer(Base):
     __tablename__ = "stripependingtransfer"
 
-    id = Column(Integer, primary_key=True)
-    stripe_transaction = Column(
+    id = mapped_column(Integer, primary_key=True)
+    stripe_transaction = mapped_column(
         Integer,
         ForeignKey(StripeTransaction.id),
         nullable=False,
         unique=False,
         index=True,
     )
-    recipient = Column(String, nullable=False)
-    currency = Column(String, nullable=False)
-    amount = Column(Integer, nullable=False)
+    recipient = mapped_column(String, nullable=False)
+    currency = mapped_column(String, nullable=False)
+    amount = mapped_column(Integer, nullable=False)
 
     @classmethod
     def all_due(cls, db):
@@ -981,14 +1007,14 @@ class StripePendingTransfer(Base):
 class UserOwnedApp(Base):
     __tablename__ = "userownedapp"
 
-    app_id = Column(String, nullable=False, primary_key=True)
-    account = Column(
+    app_id = mapped_column(String, nullable=False, primary_key=True)
+    account = mapped_column(
         Integer,
         ForeignKey(FlathubUser.id, ondelete="CASCADE"),
         nullable=False,
         primary_key=True,
     )
-    created = Column(DateTime, nullable=False)
+    created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
     def user_owns_app(db, user_id: int, app_id: str):
@@ -1030,11 +1056,11 @@ FlathubUser.TABLES_FOR_DELETE.append(UserOwnedApp)
 class StripeExpressAccount(Base):
     __tablename__ = "stripeexpressaccount"
 
-    id = Column(Integer, primary_key=True)
-    user = Column(
+    id = mapped_column(Integer, primary_key=True)
+    user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, unique=True, index=True
     )
-    stripe_account = Column(String, nullable=False)
+    stripe_account = mapped_column(String, nullable=False)
 
     @classmethod
     def by_user(cls, db, user: FlathubUser) -> Optional["StripeExpressAccount"]:
@@ -1077,15 +1103,17 @@ FlathubUser.TABLES_FOR_DELETE.append(StripeExpressAccount)
 class ApplicationVendingConfig(Base):
     __tablename__ = "applicationvendingconfig"
 
-    id = Column(Integer, primary_key=True)
-    appid = Column(String, nullable=False, unique=True, index=True)
-    user = Column(Integer, ForeignKey(FlathubUser.id), nullable=False, index=True)
+    id = mapped_column(Integer, primary_key=True)
+    appid = mapped_column(String, nullable=False, unique=True, index=True)
+    user = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
 
-    appshare = Column(Integer, nullable=False)
+    appshare = mapped_column(Integer, nullable=False)
 
-    currency = Column(String, nullable=False, default="usd")
-    recommended_donation = Column(Integer, nullable=False)
-    minimum_payment = Column(Integer, nullable=False)
+    currency = mapped_column(String, nullable=False, default="usd")
+    recommended_donation = mapped_column(Integer, nullable=False)
+    minimum_payment = mapped_column(Integer, nullable=False)
 
     # Note, Alembic may or may not detect changes here.  If you make changes,
     # and generate a revision, you may need to adjust the constraint code in the
@@ -1170,13 +1198,13 @@ class RedeemableAppToken(Base):
 
     __tablename__ = "redeemableapptoken"
 
-    id = Column(Integer, primary_key=True)
-    appid = Column(String, nullable=False, unique=False, index=True)
-    created = Column(DateTime, nullable=False)
-    token = Column(String, nullable=True)
-    name = Column(String, nullable=False)
-    state = Column(String, nullable=False)
-    changed = Column(DateTime, nullable=False)
+    id = mapped_column(Integer, primary_key=True)
+    appid = mapped_column(String, nullable=False, unique=False, index=True)
+    created = mapped_column(DateTime, nullable=False)
+    token = mapped_column(String, nullable=True)
+    name = mapped_column(String, nullable=False)
+    state = mapped_column(String, nullable=False)
+    changed = mapped_column(DateTime, nullable=False)
 
     @classmethod
     def by_appid(cls, db, appid: str, all: bool) -> list["RedeemableAppToken"]:
@@ -1273,19 +1301,19 @@ class ModerationRequest(Base):
 
     __tablename__ = "moderationrequest"
 
-    id = Column(Integer, primary_key=True)
-    appid = Column(String, nullable=False, index=True)
-    created_at = Column(DateTime, nullable=False, server_default=func.now())
+    id = mapped_column(Integer, primary_key=True)
+    appid = mapped_column(String, nullable=False, index=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
-    build_id = Column(Integer, nullable=False)
-    job_id = Column(Integer, nullable=False, index=True)
-    is_outdated = Column(Boolean, nullable=False, default=False)
+    build_id = mapped_column(Integer, nullable=False)
+    job_id = mapped_column(Integer, nullable=False, index=True)
+    is_outdated = mapped_column(Boolean, nullable=False, default=False)
 
-    request_type = Column(String, nullable=False)
-    request_data = Column(String)
-    is_new_submission = Column(Boolean, nullable=False, default=False)
+    request_type = mapped_column(String, nullable=False)
+    request_data = mapped_column(String)
+    is_new_submission = mapped_column(Boolean, nullable=False, default=False)
 
-    handled_by = Column(Integer, ForeignKey(FlathubUser.id), index=True)
-    handled_at = Column(DateTime)
-    is_approved = Column(Boolean)
-    comment = Column(String)
+    handled_by = mapped_column(Integer, ForeignKey(FlathubUser.id), index=True)
+    handled_at = mapped_column(DateTime)
+    is_approved = mapped_column(Boolean)
+    comment = mapped_column(String)
