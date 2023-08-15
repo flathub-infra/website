@@ -2,6 +2,7 @@ import { Tab } from "@headlessui/react"
 import { Fragment, FunctionComponent } from "react"
 import { clsx } from "clsx"
 import Badge from "./application/Badge"
+import { motion } from "framer-motion"
 
 interface Props {
   tabs: {
@@ -22,10 +23,8 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
               {({ selected }) => (
                 <button
                   className={clsx(
-                    selected
-                      ? "border-flathub-celestial-blue text-flathub-dark-gunmetal dark:text-flathub-gainsborow"
-                      : "border-transparent text-flathub-arsenic hover:border-flathub-gray-x11 hover:text-flathub-dark-gunmetal dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow",
-                    "flex whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium transition focus:outline-none",
+                    "relative",
+                    "flex whitespace-nowrap px-1 py-4 text-sm font-medium transition focus:outline-none",
                   )}
                 >
                   {tab.name}
@@ -33,6 +32,15 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                     <span className="ms-1">
                       <Badge text={tab.badge.toString()}></Badge>
                     </span>
+                  )}
+                  {selected && (
+                    <motion.div
+                      layoutId="tab-indicator"
+                      className={clsx(
+                        "absolute bottom-[-1px] left-0 right-0 h-1",
+                        "bg-flathub-celestial-blue",
+                      )}
+                    />
                   )}
                 </button>
               )}
