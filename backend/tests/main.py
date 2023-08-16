@@ -93,6 +93,11 @@ def test_apps_by_category_paginated(client):
     assert response.status_code == 200
 
 
+def test_apps_by_category_paginated_lowercase(client):
+    response = client.get("/category/game?page=1&per_page=10")
+    assert response.status_code == 200
+
+
 def test_apps_by_non_existent_category(client):
     response = client.get("/category/NonExistent")
     assert response.status_code == 422
