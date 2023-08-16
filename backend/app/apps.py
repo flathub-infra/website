@@ -21,10 +21,12 @@ def add_to_search(appid: str, app: dict) -> dict:
 
     categories = app.get("categories", [])
     main_categories = [
-        category for category in categories if category in all_main_categories
+        category for category in categories if category.lower() in all_main_categories
     ]
     sub_categories = [
-        category for category in categories if category not in all_main_categories
+        category
+        for category in categories
+        if category.lower() not in all_main_categories
     ]
 
     type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
