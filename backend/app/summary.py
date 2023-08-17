@@ -1,13 +1,11 @@
-import configparser
 import json
-import re
 import struct
 import subprocess
 from collections import defaultdict
 
 import gi
 
-from . import config, db, search, utils
+from . import config, configParserCustom, db, search, utils
 
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree
@@ -20,10 +18,6 @@ def validate_ref(ref: str):
         return False
 
     kind, appid, arch, branch = fields
-
-    # filter out platforms as the ini parser doesn't like them
-    if bool(re.search(r"\.Platform(/|\.|$)", appid)):
-        return False
 
     if arch not in ("x86_64", "aarch64"):
         return False
@@ -47,7 +41,7 @@ def get_parent_id(appid: str):
 
 
 def parse_metadata(ini: str):
-    parser = configparser.RawConfigParser()
+    parser = configParserCustom.ConfigParserMultiOpt()
     parser.read_string(ini)
 
     if "Application" not in parser:
@@ -272,14 +266,17 @@ def update():
         appid = ref.split("/")[1]
 
         ini = xa_cache[ref][2]
-        parser = configparser.RawConfigParser(strict=False)
+        parser = configParserCustom.ConfigParserMultiOpt()
         parser.read_string(ini)
 
         if "Build" in parser:
             build = parser["Build"]
             if "built-extensions" in build:
-                built_ext = build["built-extensions"].split(";")
-                for ext in built_ext:
+                if isinstance(build["built-extensions"], tuple):
+                    built_ext = ";".join(build["built-extensions"]).split(";")
+                else:
+                    built_ext = build["built-extensions"].split(";")
+                for ext in filter(len, built_ext):
                     reverse_lookup[ext] = appid
 
     db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
