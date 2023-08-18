@@ -45,6 +45,7 @@ module.exports = {
           "rgb(var(--flathub-status-red-dark) / <alpha-value>)",
 
         "flathub-white": "rgb(var(--flathub-white) / <alpha-value>)",
+        "flathub-lotion": "rgb(var(--flathub-lotion) / <alpha-value>)",
         "flathub-gainsborow": "rgb(var(--flathub-gainsborow) / <alpha-value>)",
         "flathub-gray-x11": "rgb(var(--flathub-gray-x11) / <alpha-value>)",
         "flathub-spanish-gray":
