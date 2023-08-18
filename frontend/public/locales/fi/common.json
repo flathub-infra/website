@@ -356,7 +356,7 @@
   "decline": "Kieltäydy",
   "invited-apps": "Kutsut",
   "invite": "Kutsu",
-  "invite-code": "Kutsukoodisi on <1>{{inviteCode}}</1>. Anna tämä koodi toiselle kehittäjälle, jotta hän voi kutsua sinut sovellukseensa.",
+  "invite-code": "Kutsukoodisi on:",
   "invite-pending": "Kutsu odottaa",
   "invite-developer": "Kutsu kehittäjä",
   "remove": "Poista",
@@ -368,5 +368,6 @@
   "primary-developer": "Pääkehittäjä",
   "remove-developer-confirmation": "Haluatko varmasti poistaa kehittäjän {{developer}} sovelluksesta {{app}}?",
   "leave-confirmation": "Haluatko varmasti poistua sovelluksesta {{app}}?",
-  "leave": "Poistu"
+  "leave": "Poistu",
+  "invite-code-hint": "Anna tämä koodi toiselle kehittäjälle, jotta hän voi kutsua sinut sovellukseensa."
 }

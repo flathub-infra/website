@@ -359,7 +359,7 @@
   "invite-not-found": "找不到邀請",
   "decline": "回絕",
   "invite": "邀請",
-  "invite-code": "您的邀請碼為 <1>{{inviteCode}}</1>。將此代碼給予其他開發者可以讓他們邀請您加入他們的應用程式。",
+  "invite-code": "您的邀請碼為：",
   "invite-pending": "待定的邀請",
   "primary-developer": "主要開發者",
   "invite-developer": "邀請開發者",
@@ -369,5 +369,6 @@
   "remove-developer-confirmation": "您確定您想要從 {{app}} 移除 {{developer}}？",
   "leave-confirmation": "您確定您想要離開 {{app}}？",
   "leave": "離開",
-  "release-link-no-changelog": "發行註記"
+  "release-link-no-changelog": "發行註記",
+  "invite-code-hint": "將此代碼給予其他開發者以讓他們可以邀請您到他們的應用程式。"
 }

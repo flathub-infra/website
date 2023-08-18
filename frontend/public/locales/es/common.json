@@ -364,10 +364,11 @@
   "remove-developer-confirmation": "¿Está seguro de que quiere quitar a {{developer}} de {{app}}?",
   "accept-invite": "Aceptar la invitación",
   "invite-not-found-description": "La invitación que intenta aceptar o rechazar no existe. Es posible que haya sido cancelada o rechazada.",
-  "invite-code": "Su código de invitación es <1>{{inviteCode}}</1>. Dele este código a otro desarrollador para que pueda invitarle a su aplicación.",
+  "invite-code": "Su código de invitación es:",
   "invite-pending": "Invitación pendiente",
   "developer-invited": "Has sido invitado a convertirte en un desarrollador",
   "invite-developer-description": "Introduzca el código de invitación del desarrollador para invitarle a convertirse en desarrollador de esta aplicación. Pueden encontrar el código en la pestaña {{developersTab}} de la página de su cuenta.",
   "leave-confirmation": "¿Seguro que quiere dejar {{app}}?",
-  "leave": "Dejar"
+  "leave": "Dejar",
+  "invite-code-hint": "Dele este código a otro desarrollador para que pueda invitarle a su aplicación."
 }
