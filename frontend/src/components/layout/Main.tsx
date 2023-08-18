@@ -33,7 +33,7 @@ const Main = ({
 
   return (
     <div
-      className={`${className} flex min-h-screen flex-col bg-flathub-white dark:bg-flathub-dark-gunmetal`}
+      className={`${className} flex min-h-screen flex-col bg-flathub-lotion dark:bg-flathub-dark-gunmetal`}
     >
       <Header />
 
