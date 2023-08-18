@@ -360,7 +360,7 @@
   "accept-invite": "接受邀请",
   "invite-not-found-description": "您尝试接受或拒绝的邀请不存在。 它可能已被取消或拒绝。",
   "invited-apps": "邀请函",
-  "invite-code": "您的邀请码是<1>{{inviteCode}}</1>。 将此代码提供给其他开发人员，以允许他们邀请您使用他们的应用程序。",
+  "invite-code": "您的邀请码是：",
   "invite": "邀请",
   "invite-pending": "邀请待处理",
   "primary-developer": "主要开发者",
@@ -369,5 +369,6 @@
   "remove": "删除",
   "remove-developer": "删除开发者",
   "leave": "离开",
-  "remove-developer-confirmation": "您确定要从 {{app}} 中删除 {{developer}} 吗？"
+  "remove-developer-confirmation": "您确定要从 {{app}} 中删除 {{developer}} 吗？",
+  "invite-code-hint": "将此邀请码发给其他开发者以让他们可以邀请您到他们的应用。"
 }

@@ -356,7 +356,7 @@
   "invite-not-found": "Uitnodiging niet gevonden",
   "invited-apps": "Uitnodigingen",
   "invite": "Uitnodigen",
-  "invite-code": "Uw uitnodigingscode is <1>{{inviteCode}}</1>. Geef deze code aan een andere ontwikkelaar zodat ze u kunnen uitnodigen voor hun app.",
+  "invite-code": "Uw uitnodigingscode is:",
   "invite-pending": "Uitnodiging in afwachting",
   "primary-developer": "Hoofd­ontwikkelaar",
   "invite-developer": "Ontwikkelaar uitnodigen",
@@ -369,5 +369,6 @@
   "leave": "Verlaten",
   "remove-developer": "Ontwikkelaar verwijderen",
   "remove-developer-confirmation": "Weet u zeker dat u {{developer}} van {{app}} wilt verwijderen?",
-  "invite-developer-description": "Voer de uitnodigingscode van de ontwikkelaar in om ze uit te nodigen ontwikkelaar van deze app te worden. Ze kunnen de code vinden onder het {{developersTab}}-tabblad van hun accountpagina."
+  "invite-developer-description": "Voer de uitnodigingscode van de ontwikkelaar in om ze uit te nodigen ontwikkelaar van deze app te worden. Ze kunnen de code vinden onder het {{developersTab}}-tabblad van hun accountpagina.",
+  "invite-code-hint": "Geef deze code aan een andere ontwikkelaar zodat ze u kunnen uitnodigen voor hun app."
 }

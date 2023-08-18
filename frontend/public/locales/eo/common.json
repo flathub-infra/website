@@ -365,9 +365,10 @@
   "invite-not-found": "Invito ne troviĝis",
   "remove-developer-confirmation": "Ĉu vi certe volas forigi {{developer}} kiel unu el la aŭtoroj de {{app}}?",
   "leave-confirmation": "Ĉu vi certe volas rezigni via aŭtorecon de {{app}}?",
-  "invite-code": "Via invitkodo estas<1>{{inviteCode}}</1>. Donu ĉi tiun kodon al alia programisto por permesi al li/ŝi inviti vin estiĝi unu el la aŭtoroj de lia/ŝia programo.",
+  "invite-code": "Jen via invitkodo:",
   "invite-not-found-description": "Ne ekzistas tiu invito, kiun vi volas akcepti aŭ malakcepti. Eble ĝi estis nuligita aŭ jam malakceptita.",
   "invite-developer-description": "Tajpu la invitkodon de la programisto por inviti lin/ŝin estiĝi unu el la aŭtoroj de ĉi tiu programo. La invitkodo troviĝas sur la langeto «{{developersTab}}» de lia/ŝia konta paĝo.",
   "developer-invited": "Vi invitiĝis estiĝi unu el la aŭtoroj de programo",
-  "invite-pending": "Invito nek akceptita nek malakceptita"
+  "invite-pending": "Invito nek akceptita nek malakceptita",
+  "invite-code-hint": "Donu ĉi tiun kodon al alia programisto por permesi al li/ŝi inviti vin estiĝi unu el la aŭtoroj de lia/ŝia programo."
 }

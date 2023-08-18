@@ -361,7 +361,7 @@
   "invite-not-found": "Felkérés nem található",
   "invite-not-found-description": "Az elfogadni vagy elutasítani kívánt felkérés nem létezik. Lehet, hogy törölték vagy elutasították.",
   "invited-apps": "Felkérések",
-  "invite-code": "Az Ön felkérésének kódja: <1>{{inviteCode}}</1>. Adja át ezt a kódot egy másik fejlesztőnek, hogy kérhesse Önt az alkalmazáshoz.",
+  "invite-code": "Felkéréskód:",
   "primary-developer": "Elsődleges fejlesztő",
   "invite-developer": "Fejlesztő felkérése",
   "invite-developer-description": "A fejlesztő kérési kódjának megadása, amellyel felkérheti Őket, hogy legyenek ennek az alkalmazásnak a fejlesztőjei. A kódot fiókoldaluk {{developersTab}} lapján találhatják meg.",
@@ -369,5 +369,6 @@
   "leave-confirmation": "Biztosan szeretne kilépni a(z) {{app}} alkalmazásból?",
   "remove": "Eltávolítás",
   "remove-developer": "Fejlesztő eltávolítása",
-  "leave": "Kilépés"
+  "leave": "Kilépés",
+  "invite-code-hint": "Ez a kód megadása egy másik fejlesztőnek, hogy Ők felkérhessék Önt az alkalmazáshoz."
 }

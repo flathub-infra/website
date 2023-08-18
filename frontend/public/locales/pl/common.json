@@ -356,7 +356,7 @@
   "invite-not-found": "Nie znaleziono zaproszenia",
   "invited-apps": "Zaproszenia",
   "invite": "Zaproś",
-  "invite-code": "Twój kod zaproszenia to <1>{{inviteCode}}</1>. Przekaż ten kod innemu deweloperowi, aby mógł zaprosić Cię do swojej aplikacji.",
+  "invite-code": "Twój kod zaproszenia to:",
   "invite-pending": "Zaproszenie oczekujące",
   "primary-developer": "Główny deweloper",
   "invite-developer": "Zaproś dewelopera",
@@ -369,5 +369,6 @@
   "developer-invited": "Zostałeś zaproszony do grona deweloperów",
   "accept-invite": "Zaakceptuj zaproszenie",
   "decline": "Odrzuć",
-  "invite-not-found-description": "Zaproszenie, które próbujesz zaakceptować lub odrzucić, nie istnieje. Mogło ono zostać anulowane lub odrzucone."
+  "invite-not-found-description": "Zaproszenie, które próbujesz zaakceptować lub odrzucić, nie istnieje. Mogło ono zostać anulowane lub odrzucone.",
+  "invite-code-hint": "Przekaż ten kod innemu deweloperowi, aby mógł zaprosić Cię do swojej aplikacji."
 }

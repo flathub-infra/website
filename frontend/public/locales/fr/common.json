@@ -360,7 +360,7 @@
   "invite-not-found": "Invitation introuvable",
   "invite-not-found-description": "L'invitation que vous essayez d'accepter ou de refuser n'existe pas. Elle a peut-être été annulée ou supprimé.",
   "invited-apps": "Invitations",
-  "invite-code": "Votre code d'invitation est <1>{{inviteCode}}</1>. Donnez ce code à un autre développeur pour lui permettre de vous inviter dans son application.",
+  "invite-code": "Votre code d'invitation est :",
   "invite-pending": "Invitation en attente",
   "primary-developer": "Développeur principal",
   "remove-developer-confirmation": "Êtes-vous sûr de vouloir supprimer {{developer}} de {{app}} ?",
@@ -369,5 +369,6 @@
   "remove": "Supprimer",
   "remove-developer": "Supprimer le développeur",
   "leave-confirmation": "Êtes-vous sûr de vouloir quitter {{app}} ?",
-  "leave": "Quitter"
+  "leave": "Quitter",
+  "invite-code-hint": "Donnez ce code à un autre développeur pour lui permettre de vous inviter dans son application."
 }
