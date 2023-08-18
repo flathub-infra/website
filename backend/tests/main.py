@@ -824,3 +824,31 @@ def test_stripewallet(client):
     assert response.status_code == 200
     assert out["summary"]["value"] == 5321
     assert out["details"][0]["recipient"] == "org.flathub.Flathub"
+
+
+def test_get_storefront_info_non_free_software(client):
+    response = client.get("/purchases/storefront-info?app_id=com.anydesk.Anydesk")
+    assert response.status_code == 200
+    assert response.json() == {"is_free_software": False}
+
+
+def test_get_storefront_info_free_software(client):
+    response = client.get("/purchases/storefront-info?app_id=org.sugarlabs.Maze")
+    assert response.status_code == 200
+    assert response.json() == {"is_free_software": True}
+
+
+def test_is_free_software_free_software(client):
+    response = client.get(
+        "/purchases/storefront-info/is-free-software?app_id=com.anydesk.Anydesk&license=GPL-3.0"
+    )
+    assert response.status_code == 200
+    assert response.text == "true"
+
+
+def test_is_free_software_non_free_software(client):
+    response = client.get(
+        "/purchases/storefront-info/is-free-software?app_id=com.anydesk.Anydesk&license=non-free"
+    )
+    assert response.status_code == 200
+    assert response.text == "false"
