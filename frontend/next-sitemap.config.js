@@ -4,6 +4,16 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: ["/server-sitemap-index.xml"],
   robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: "GPTBot",
+        disallow: ["/"],
+      },
+      {
+        userAgent: "CCBot",
+        disallow: ["/"],
+      },
+    ],
     additionalSitemaps: [
       `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/server-sitemap-index.xml`,
     ],
