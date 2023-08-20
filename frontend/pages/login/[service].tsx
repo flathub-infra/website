@@ -9,10 +9,10 @@ import { login } from "../../src/asyncs/login"
 import Spinner from "../../src/components/Spinner"
 import { useUserContext, useUserDispatch } from "../../src/context/user-info"
 import { fetchLoginProviders } from "../../src/fetchers"
-import { useAsync } from "../../src/hooks/useAsync"
 import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { isInternalRedirect } from "../../src/utils/security"
+import { useMutation } from "@tanstack/react-query"
 
 export default function AuthReturnPage({ services }: { services: string[] }) {
   // Must access query params to POST to backend for oauth verification
@@ -25,36 +25,16 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   const [pendingTransaction] = usePendingTransaction()
   const [returnTo, setReturnTo] = useLocalStorage<string>("returnTo", "")
 
-  const { execute, status, error } = useAsync(
-    useCallback(() => login(dispatch, router.query), [dispatch, router.query]),
-    false,
-  )
+  const [locale, setLocale] = useState(undefined)
 
-  useEffect(() => {
-    if (error) {
-      toast.error(t(error))
-    }
-  }, [t, error])
-
-  // Once router ready, perform login
-  useEffect(() => {
-    if (router.isReady) {
-      execute()
-    }
-  }, [router.isReady, execute])
-
-  // Prevent mistaken ridirection after stored value is cleared
-  const [redirected, setRedirected] = useState(false)
-
-  useEffect(() => {
-    if (redirected) return
-
-    // Redirect back to where user was, or userpage for unprompted login
-    if (status === "success" && user.info && !user.loading) {
-      setRedirected(true)
-
+  const loginQuery = useMutation({
+    mutationFn: useCallback(
+      () => login(dispatch, router.query),
+      [dispatch, router.query],
+    ),
+    onSuccess: () => {
       if (pendingTransaction) {
-        router.push("/purchase", undefined, { locale: router.locale })
+        router.push("/purchase", undefined, { locale })
         return
       } else if (returnTo) {
         const redirect = decodeURIComponent(returnTo)
@@ -62,22 +42,39 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 
         // Must validate the redirect to prevent open redirect and code execution
         if (isInternalRedirect(redirect)) {
-          router.push(redirect, undefined, { locale: router.locale })
+          router.push(redirect, undefined, { locale })
           return
         }
       }
 
-      router.push("/my-flathub", undefined, { locale: router.locale })
+      router.push("/my-flathub", undefined, { locale })
+    },
+  })
+
+  useEffect(() => {
+    if (loginQuery.error) {
+      toast.error(t(loginQuery.error as string))
     }
-  }, [
-    status,
-    user,
-    pendingTransaction,
-    returnTo,
-    router,
-    redirected,
-    setReturnTo,
-  ])
+  }, [t, loginQuery.error])
+
+  // Once router ready, perform login
+  useEffect(() => {
+    // redirect to correct locale, which we stored on the providers page
+    if (router.isReady && loginQuery.isIdle) {
+      const [, newlocale] = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("NEXT_LOCALE="))
+        ?.split("=")
+
+      setLocale(newlocale)
+
+      if (newlocale && newlocale !== router.locale) {
+        router.push(router.asPath, undefined, { locale: newlocale })
+      }
+
+      loginQuery.mutate()
+    }
+  }, [router.isReady, loginQuery, router])
 
   // Redirect away if user tries some kind of directory traversal
   useEffect(() => {
@@ -89,11 +86,11 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       router.query.state == null
     ) {
       router.push(user.info ? "/my-flathub" : "/", undefined, {
-        locale: router.locale,
+        locale,
       })
       return
     }
-  }, [router, user, services])
+  }, [router, user, services, locale])
 
   // This is purely a loading page
   return (

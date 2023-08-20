@@ -6,12 +6,17 @@ import { useEffect } from "react"
 import LoginProviders from "../../src/components/login/Providers"
 import { useUserContext } from "../../src/context/user-info"
 import { fetchLoginProviders } from "../../src/fetchers"
-import { LoginProvider } from "../../src/types/Login"
 import { useTranslation } from "next-i18next"
 
-export default function DeveloperLoginPortal({ providers }) {
+export default function DeveloperLoginPortal({ providers, locale }) {
   const { t } = useTranslation()
   const user = useUserContext()
+
+  // Set NEXT_LOCALE cookie to match locale of this page
+  useEffect(() => {
+    if (!locale) return
+    document.cookie = `NEXT_LOCALE=${locale};path=/;SameSite=Strict`
+  }, [locale])
 
   useEffect(() => {
     // Already logged in, just redirect to userpage
@@ -43,6 +48,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       providers,
+      locale,
     },
   }
 }
