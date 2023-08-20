@@ -140,7 +140,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
       <div>
         <input
           type="checkbox"
-          className="mr-2"
+          className="me-2"
           id="agree"
           checked={accepted}
           onChange={(event) => setAccepted(event.target.checked)}
