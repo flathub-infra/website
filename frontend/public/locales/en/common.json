@@ -397,5 +397,6 @@
   "appname-is-safety-rating-4": "{{appName}} is unsafe",
   "software-developer-verified": "Software developer is verified",
   "no-file-system-access": "No file system access",
-  "no-user-device-access": "No user device access"
+  "no-user-device-access": "No user device access",
+  "user-not-found": "User not found"
 }

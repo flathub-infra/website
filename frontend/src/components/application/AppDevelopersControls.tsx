@@ -17,6 +17,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
+import Modal from "../Modal"
 
 interface Props {
   app: Appstream
@@ -232,58 +233,41 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
 
   const [inviteCode, setInviteCode] = useState("")
 
+  const [error, setError] = useState<string | null>(null)
+
   return (
-    <Transition appear show={isVisible} as={Fragment}>
-      <Dialog as="div" className="z-20 " onClose={closeDialog}>
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="inline-flex flex-col justify-center space-y-6 rounded-xl bg-flathub-gainsborow p-14 shadow-md dark:bg-flathub-dark-gunmetal">
-            <Dialog.Title className="m-0">{t("invite-developer")}</Dialog.Title>
-
-            <Dialog.Description className="m-0">
-              {t("invite-developer-description", {
-                developersTab: t("developers"),
-              })}
-            </Dialog.Description>
-
-            <input
-              className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
-              value={inviteCode}
-              onInput={(e) =>
-                setInviteCode((e.target as HTMLInputElement).value)
-              }
-            />
-
-            <div className="mt-3 grid grid-cols-2 gap-6">
-              <Button
-                className="col-start-1"
-                onClick={closeDialog}
-                variant="secondary"
-                aria-label={t("cancel")}
-                title={t("cancel")}
-              >
-                {t("cancel")}
-              </Button>
-              <Button
-                className="col-start-2"
-                onClick={async () => {
-                  await inviteDeveloper(app.id, inviteCode)
-                  refresh()
-                  closeDialog()
-                  setInviteCode("")
-                }}
-                variant="primary"
-                aria-label={t("invite")}
-                title={t("invite")}
-                disabled={!inviteCode}
-              >
-                {t("invite")}
-              </Button>
-            </div>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
-    </Transition>
+    <Modal
+      shown={isVisible}
+      submitButtonText={t("invite")}
+      onSubmit={async () => {
+        try {
+          await inviteDeveloper(app.id, inviteCode)
+        } catch (e) {
+          setError(e.replaceAll("_", "-"))
+          return
+        }
+        refresh()
+        closeDialog()
+        setInviteCode("")
+        setError(null)
+      }}
+      onCancel={() => {
+        closeDialog()
+        setInviteCode("")
+        setError(null)
+      }}
+      title={t("invite-developer")}
+      description={t("invite-developer-description", {
+        developersTab: t("developers"),
+      })}
+      isSubmitButtonDisabled={inviteCode.length === 0}
+    >
+      <InlineError error={t(error)} shown={!!error} />
+      <input
+        className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+        value={inviteCode}
+        onInput={(e) => setInviteCode((e.target as HTMLInputElement).value)}
+      />
+    </Modal>
   )
 }
