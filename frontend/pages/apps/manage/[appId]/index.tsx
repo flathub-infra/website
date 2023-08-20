@@ -60,11 +60,14 @@ export default function AppManagementPage({
         name: t("ownership-tokens"),
         content: <AppVendingControls.OwnershipTokens app={app} />,
       },
-      {
-        name: t("moderation-pending-reviews"),
-        content: <AppDevModeration app={app} />,
-      },
     )
+  }
+
+  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
+    tabs.push({
+      name: t("moderation-pending-reviews"),
+      content: <AppDevModeration app={app} />,
+    })
 
     if (inviteQuery.data?.data?.is_direct_upload_app) {
       tabs.push({
