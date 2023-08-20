@@ -13,7 +13,6 @@ import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
-import { Dialog, Transition } from "@headlessui/react"
 import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
@@ -235,32 +234,43 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
 
   const [error, setError] = useState<string | null>(null)
 
+  const resetModal = () => {
+    setInviteCode("")
+    setError(null)
+  }
+
   return (
     <Modal
       shown={isVisible}
-      submitButtonText={t("invite")}
-      onSubmit={async () => {
-        try {
-          await inviteDeveloper(app.id, inviteCode)
-        } catch (e) {
-          setError(e.replaceAll("_", "-"))
-          return
-        }
-        refresh()
+      onClose={() => {
         closeDialog()
-        setInviteCode("")
-        setError(null)
+        resetModal()
       }}
-      onCancel={() => {
-        closeDialog()
-        setInviteCode("")
-        setError(null)
+      submitButton={{
+        label: t("invite"),
+        onClick: async () => {
+          try {
+            await inviteDeveloper(app.id, inviteCode)
+          } catch (e) {
+            setError(e.replaceAll("_", "-"))
+            return
+          }
+          refresh()
+          closeDialog()
+          resetModal()
+        },
+        disabled: inviteCode.length === 0,
+      }}
+      cancelButton={{
+        onClick: () => {
+          closeDialog()
+          resetModal()
+        },
       }}
       title={t("invite-developer")}
       description={t("invite-developer-description", {
         developersTab: t("developers"),
       })}
-      isSubmitButtonDisabled={inviteCode.length === 0}
     >
       <InlineError error={t(error)} shown={!!error} />
       <input
