@@ -97,7 +97,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     `prose prose-p:my-0 prose-ul:my-0 relative transition-all duration-700 dark:prose-invert`,
                     !isExpanded &&
                       showCollapseButton &&
-                      "from-flathub-white before:absolute before:bottom-0 before:left-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
+                      "from-flathub-white before:absolute before:bottom-0 before:start-0 before:h-1/2 before:w-full before:bg-gradient-to-t before:content-[''] dark:from-flathub-arsenic",
                   )}
                 >
                   <div

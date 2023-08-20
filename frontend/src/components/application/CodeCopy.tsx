@@ -48,7 +48,7 @@ const CodeCopy: FunctionComponent<Props> = ({
         }}
       >
         <button
-          className="absolute right-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver transition hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
+          className="absolute end-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver transition hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray hover:dark:text-flathub-gainsborow"
           title={t("copy-text")}
         >
           {!copied && <HiSquare2Stack></HiSquare2Stack>}
