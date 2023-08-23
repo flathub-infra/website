@@ -22,6 +22,7 @@ import { Inter } from "next/font/google"
 import * as Sentry from "@sentry/react"
 import { Error } from "../src/components/Error"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { MotionConfig } from "framer-motion"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -67,14 +68,16 @@ const App = ({ Component, pageProps }: AppProps) => {
             ],
           }}
         />
-        <QueryClientProvider client={queryClient}>
-          <UserInfoProvider>
-            <Main className={inter.className}>
-              <Component {...pageProps} />
-            </Main>
-          </UserInfoProvider>
-          <ToastContainer position="bottom-right" />
-        </QueryClientProvider>
+        <MotionConfig reducedMotion="user">
+          <QueryClientProvider client={queryClient}>
+            <UserInfoProvider>
+              <Main className={inter.className}>
+                <Component {...pageProps} />
+              </Main>
+            </UserInfoProvider>
+            <ToastContainer position="bottom-right" />
+          </QueryClientProvider>
+        </MotionConfig>
       </ThemeProvider>
     </MatomoProvider>
   )
