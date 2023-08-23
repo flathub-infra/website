@@ -371,3 +371,10 @@ def get_exceptions_for_app(appid: str, response: Response):
 
     response.status_code = 404
     return None
+
+
+@app.get("/addon/{appid}")
+def get_addons(appid: str):
+    addon_ids = apps.get_addons(appid)
+
+    return addon_ids

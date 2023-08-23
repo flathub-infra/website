@@ -180,3 +180,18 @@ def get_recently_added(limit: int = 100):
         if db.redis_conn.exists("types:desktop-application", f"apps:{appid}")
         or db.redis_conn.exists("types:desktop", f"apps:{appid}")
     ]
+
+
+def get_addons(appid: str):
+    result = []
+    if summary := db.get_json_key(f"summary:{appid}"):
+        extension_ids = list(summary["metadata"]["extensions"].keys())
+
+        apps = {app[5:] for app in db.redis_conn.smembers("types:addon")}
+
+        for app in apps:
+            for extension_id in extension_ids:
+                if app.startswith(extension_id):
+                    result.append(app)
+
+    return result
