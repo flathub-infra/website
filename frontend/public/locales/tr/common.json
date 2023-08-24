@@ -397,5 +397,7 @@
   "no-permissions": "İzin yok",
   "has-network-access": "Ağ erişimi var",
   "uses-system-services": "Sistem hizmetlerini kullanır",
-  "release-link-no-changelog": "Sürüm notları"
+  "release-link-no-changelog": "Sürüm notları",
+  "user-not-found": "Kullanıcı bulunamadı",
+  "close": "Kapat"
 }

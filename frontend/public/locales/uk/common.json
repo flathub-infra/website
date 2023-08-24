@@ -397,5 +397,7 @@
   "no-file-system-access": "Немає доступу до файлової системи",
   "can-read-all-your-data": "Може читати всі дані",
   "can-read-write-your-downloads": "Може читати/записувати завантаження",
-  "can-read-your-downloads": "Може читати завантаження"
+  "can-read-your-downloads": "Може читати завантаження",
+  "close": "Закрити",
+  "user-not-found": "Користувача не знайдено"
 }

@@ -397,5 +397,7 @@
   "can-access-system-devices": "Има достъп до системните устройства",
   "uses-a-legacy-windowing-system": "Използва остаряла прозоречна система",
   "uses-system-services": "Използва системните услуги",
-  "uses-session-services": "Използва сесийните услуги"
+  "uses-session-services": "Използва сесийните услуги",
+  "close": "Затваряне",
+  "user-not-found": "Потребителят не е намерен"
 }

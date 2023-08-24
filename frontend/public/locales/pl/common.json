@@ -397,5 +397,7 @@
   "appname-is-safety-rating-4": "{{appName}} jest niebezpieczny",
   "software-developer-verified": "Deweloper oprogramowania został zweryfikowany",
   "no-file-system-access": "Brak dostępu do systemu plików",
-  "no-user-device-access": "Brak dostępu do urządzenia użytkownika"
+  "no-user-device-access": "Brak dostępu do urządzenia użytkownika",
+  "user-not-found": "Nie znaleziono użytkownika",
+  "close": "Zamknij"
 }
