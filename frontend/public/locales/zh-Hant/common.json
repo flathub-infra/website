@@ -397,5 +397,6 @@
   "appname-is-safety-rating-3": "{{appName}} 可能不安全",
   "appname-is-safety-rating-4": "{{appName}} 不安全",
   "no-file-system-access": "沒有檔案系統存取權",
-  "software-developer-verified": "軟體開發者已驗證"
+  "software-developer-verified": "軟體開發者已驗證",
+  "close": "關閉"
 }

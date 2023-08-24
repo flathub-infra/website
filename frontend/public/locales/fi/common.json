@@ -395,5 +395,7 @@
   "can-access-hardware-devices": "Voi käyttää laitteita",
   "can-access-system-devices": "Voi käyttää järjestelmälaitteita",
   "can-read-all-your-data": "Lukuoikeus kaikkeen dataasi",
-  "can-read-write-all-your-data": "Luku- ja kirjoitusoikeus kaikkeen dataasi"
+  "can-read-write-all-your-data": "Luku- ja kirjoitusoikeus kaikkeen dataasi",
+  "close": "Sulje",
+  "user-not-found": "Käyttäjää ei löydy"
 }

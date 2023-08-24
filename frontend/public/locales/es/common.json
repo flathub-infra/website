@@ -397,5 +397,7 @@
   "appname-is-safety-rating-2": "{{appName}} es probablemente segura",
   "can-access-some-specific-files": "Puede acceder a ciertos archivos específicos",
   "can-access-and-change-user-settings": "Puede acceder y modificar la configuración del usuario",
-  "no-file-system-access": "Sin acceso al sistema de archivos del sistema"
+  "no-file-system-access": "Sin acceso al sistema de archivos del sistema",
+  "close": "Cerrar",
+  "user-not-found": "Usuario no encontrado"
 }
