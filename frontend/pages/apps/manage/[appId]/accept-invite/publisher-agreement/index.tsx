@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 import { acceptInvite } from "src/asyncs/directUpload"
 import PublisherAgreement from "src/components/user/PublisherAgreement"
 import { useUserDispatch } from "src/context/user-info"

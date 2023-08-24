@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, FunctionComponent } from "react"
 import Button from "./Button"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 import { HiXMark } from "react-icons/hi2"
 import clsx from "clsx"
 
@@ -70,8 +70,11 @@ const Modal: FunctionComponent<Props> = ({
                   <div className="absolute end-0 top-0 hidden pe-6 pt-6 sm:block">
                     <button
                       type="button"
-                      className="rounded-md bg-flathub-white text-flathub-spanish-gray hover:text-flathub-gray-x11 focus:outline-none focus:ring-2 focus:ring-flathub-celestial-blue
-                       focus:ring-offset-2 dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow hover:dark:text-flathub-spanish-gray"
+                      className={clsx(
+                        "rounded-md bg-flathub-white text-flathub-spanish-gray hover:text-flathub-gray-x11",
+                        "focus:outline-none focus:ring-2 focus:ring-flathub-gainsborow focus:dark:ring-flathub-arsenic focus:dark:ring-offset-flathub-arsenic focus:ring-offset-2 dark:bg-flathub-dark-gunmetal",
+                        "dark:text-flathub-gainsborow hover:dark:text-flathub-spanish-gray",
+                      )}
                       onClick={() => onClose()}
                     >
                       <span className="sr-only">{t("close")}</span>

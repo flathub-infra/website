@@ -3,7 +3,10 @@ export type AppstreamListItem = Pick<
   "id" | "summary" | "icon" | "name" | "metadata"
 >
 
-export interface Appstream {
+export type Appstream = DesktopAppstream | AddonAppstream
+
+export interface DesktopAppstream {
+  type: "desktop-application"
   description: string
   screenshots?: Screenshot[]
   releases: Release[]
@@ -24,6 +27,20 @@ export interface Appstream {
   bundle: Bundle
   metadata?: Metadata
   keywords: string[]
+}
+
+export interface AddonAppstream {
+  type: "addon"
+  content_rating: ContentRating
+  urls: Urls
+  icon?: any
+  id: string
+  name: string
+  summary: string
+  project_license?: string
+  extends: string
+  bundle: Bundle
+  metadata?: Metadata
 }
 
 interface ContentRating {

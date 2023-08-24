@@ -1,7 +1,11 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import { Appstream } from "../../types/Appstream"
+import {
+  AddonAppstream,
+  Appstream,
+  DesktopAppstream,
+} from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -32,14 +36,16 @@ import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
 import { useUserContext } from "src/context/user-info"
 import { VerticalStackedListBox } from "./VerticalStackedListBox"
+import Addons from "./Addons"
 
 interface Props {
-  app?: Appstream
+  app?: DesktopAppstream
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
   projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
+  addons: AddonAppstream[]
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -83,6 +89,7 @@ const Details: FunctionComponent<Props> = ({
   developerApps,
   projectgroupApps,
   verificationStatus,
+  addons,
 }) => {
   const { t } = useTranslation()
   const user = useUserContext()
@@ -140,6 +147,12 @@ const Details: FunctionComponent<Props> = ({
             <VerticalStackedListBox>
               <SafetyRating data={app} summary={summary} />
             </VerticalStackedListBox>
+          )}
+
+          {addons.length > 0 && (
+            <div>
+              <Addons addons={addons}></Addons>
+            </div>
           )}
 
           <AdditionalInfo

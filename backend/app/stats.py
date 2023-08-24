@@ -174,6 +174,8 @@ def get_installs_by_ids(ids: list[str]):
         app_stats = db.get_json_key(f"app_stats:{app_id}")
         if app_stats is None:
             continue
+
+        app_stats["id"] = app_id
         result[app_id] = app_stats
     return result
 

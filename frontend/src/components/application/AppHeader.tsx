@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import React from "react"
-import { Appstream } from "src/types/Appstream"
+import { DesktopAppstream } from "src/types/Appstream"
 import { VendingSetup } from "src/types/Vending"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import ButtonLink from "../ButtonLink"
@@ -14,7 +14,7 @@ export function AppHeader({
   vendingSetup,
   verificationStatus,
 }: {
-  app: Appstream
+  app: DesktopAppstream
   vendingSetup: VendingSetup
   verificationStatus: VerificationStatus
 }) {

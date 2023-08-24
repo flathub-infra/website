@@ -1,4 +1,4 @@
-import { Appstream } from "./types/Appstream"
+import { AddonAppstream, Appstream } from "./types/Appstream"
 import { Collection, Collections } from "./types/Collection"
 import { Category } from "./types/Category"
 import { LoginProvider } from "./types/Login"
@@ -29,6 +29,7 @@ import {
   SUBCATEGORY_URL,
   APPSTREAM_URL,
   RUNTIMES,
+  ADDONS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -97,6 +98,7 @@ export async function fetchAppStats(appId: string) {
   return axios.get<AppStats>(`${STATS_DETAILS(appId)}`).catch((error) => {
     return {
       data: {
+        id: appId,
         installs_per_day: {},
         installs_last_7_days: 0,
         installs_last_month: 0,
@@ -269,4 +271,29 @@ export async function fetchVerificationAvailableMethods(
 
 export async function fetchRuntimes() {
   return axios.get<{ [key: string]: number }>(RUNTIMES)
+}
+
+export async function fetchAddons(appid: string) {
+  const addonList = await axios.get<string[]>(ADDONS_URL(appid))
+
+  const addonAppstreams = await Promise.all(addonList.data.map(fetchAppstream))
+
+  const addonAppStats = await Promise.all(addonList.data.map(fetchAppStats))
+
+  const combined = addonAppstreams.map((item) => {
+    return {
+      id: item.data.id,
+      appstream: item.data,
+      stats: addonAppStats.find((stats) => stats.data.id === item.data.id)
+        ?.data,
+    }
+  })
+
+  console.log("\nAddons for ", appid, " fetched")
+
+  combined.sort((a, b) => {
+    return b.stats.installs_total - a.stats.installs_total
+  })
+
+  return combined.map((item) => item.appstream)
 }

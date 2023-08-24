@@ -1,5 +1,5 @@
-import { Fragment, FunctionComponent, ReactElement, useState } from "react"
-import { useTranslation } from "react-i18next"
+import { FunctionComponent, ReactElement, useState } from "react"
+import { useTranslation } from "next-i18next"
 import {
   Developer,
   getDevelopers,

@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react"
 import React from "react"
 
-import { HiCheckBadge } from "react-icons/hi2"
+import { HiMiniCheckBadge } from "react-icons/hi2"
 import { Trans, useTranslation } from "next-i18next"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import {
@@ -56,7 +56,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
           {...getReferenceProps}
           aria-label={t("app-is-verified")}
         >
-          <HiCheckBadge
+          <HiMiniCheckBadge
             className="h-5 w-5 text-flathub-celestial-blue"
             aria-label={t("app-is-verified")}
           />
