@@ -4,7 +4,11 @@ import {
   HiChevronLeft,
   HiMagnifyingGlassPlus,
 } from "react-icons/hi2"
-import { Appstream, mapScreenshot, pickScreenshot } from "../../types/Appstream"
+import {
+  DesktopAppstream,
+  mapScreenshot,
+  pickScreenshot,
+} from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Inline from "yet-another-react-lightbox/plugins/inline"
@@ -15,7 +19,7 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 
-export const CarouselStrip = ({ app }: { app: Appstream }) => {
+export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)

@@ -30,6 +30,7 @@ export const Generated = () => {
   }))
 
   const stats: AppStats = {
+    id: faker.string.uuid(),
     installs_last_7_days: faker.datatype.number({ min: 0, max: 100 }),
     installs_last_month: faker.datatype.number({ min: 0, max: 100 }),
     installs_per_day: {

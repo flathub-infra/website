@@ -62,6 +62,9 @@ export const SUBCATEGORY_URL = (
   }
 }
 
+export const ADDONS_URL = (appid: string): string =>
+  `${BASE_URI}/addon/${appid}`
+
 export const DEVELOPERS_URL: string = `${BASE_URI}/developer`
 
 export const DEVELOPER_URL = (

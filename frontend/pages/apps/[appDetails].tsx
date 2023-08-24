@@ -12,10 +12,13 @@ import {
   fetchVerificationStatus,
   fetchEolRebase,
   fetchEolMessage,
+  fetchAddons,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
+  AddonAppstream,
   Appstream,
+  DesktopAppstream,
   pickScreenshot,
   Screenshot,
 } from "../../src/types/Appstream"
@@ -36,14 +39,16 @@ export default function Details({
   projectgroupApps,
   verificationStatus,
   eolMessage,
+  addons,
 }: {
-  app: Appstream
+  app: DesktopAppstream
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
   projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
   eolMessage: string
+  addons: AddonAppstream[]
 }) {
   if (eolMessage) {
     return <EolMessageDetails message={eolMessage} />
@@ -83,6 +88,7 @@ export default function Details({
         developerApps={developerApps}
         projectgroupApps={projectgroupApps}
         verificationStatus={verificationStatus}
+        addons={addons}
       />
     </>
   )
@@ -147,6 +153,7 @@ export const getStaticProps: GetStaticProps = async ({
   const { data: verificationStatus } = await fetchVerificationStatus(
     appId as string,
   )
+  const addons = await fetchAddons(appId as string)
 
   return {
     props: {
@@ -161,6 +168,7 @@ export const getStaticProps: GetStaticProps = async ({
       ),
       verificationStatus,
       eolMessage,
+      addons,
     },
     revalidate: 900,
   }

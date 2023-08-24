@@ -365,6 +365,7 @@ def test_app_stats_by_id(client):
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
     expected = {
+        "id": "org.sugarlabs.Maze",
         "installs_total": 467,
         "installs_per_day": {
             three_days_ago.isoformat(): 460,

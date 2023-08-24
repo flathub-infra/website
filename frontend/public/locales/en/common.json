@@ -399,5 +399,8 @@
   "software-developer-verified": "Software developer is verified",
   "no-file-system-access": "No file system access",
   "no-user-device-access": "No user device access",
-  "user-not-found": "User not found"
+  "user-not-found": "User not found",
+  "add-ons": "Add-ons",
+  "addon-install-info": "How to install addons",
+  "addon-install-info-text": "Please use the flatpak manager supplied by your distribution to install add-ons."
 }

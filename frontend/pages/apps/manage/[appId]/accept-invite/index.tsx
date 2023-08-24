@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect } from "react"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 import {
   acceptInvite,
   declineInvite,
