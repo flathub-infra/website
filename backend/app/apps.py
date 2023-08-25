@@ -188,6 +188,7 @@ def get_addons(appid: str):
     if (
         summary
         and "metadata" in summary
+        and summary["metadata"]
         and "extensions" in summary["metadata"]
         and summary["metadata"]["extensions"]
     ):
