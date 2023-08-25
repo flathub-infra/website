@@ -1,5 +1,4 @@
-import { AddonAppstream, Appstream } from "./types/Appstream"
-import { Collection, Collections } from "./types/Collection"
+import { Appstream } from "./types/Appstream"
 import { Category } from "./types/Category"
 import { LoginProvider } from "./types/Login"
 
@@ -108,34 +107,36 @@ export async function fetchAppStats(appId: string) {
   })
 }
 
-export default async function fetchCollection(
-  collection: Collection,
+export async function fetchCollectionPopularLastMonth(
   page: number,
   per_page: number,
 ) {
-  let collectionURL: string = ""
-  switch (collection) {
-    case Collections.popular:
-      collectionURL = POPULAR_LAST_MONTH_URL(page, per_page)
-      break
-    case Collections.recentlyUpdated:
-      collectionURL = RECENTLY_UPDATED_URL(page, per_page)
-      break
-    case Collections.recentlyAdded:
-      collectionURL = RECENTLY_ADDED_URL(page, per_page)
-      break
-    case Collections.verified:
-      collectionURL = VERIFIED_APPS_URL(page, per_page)
-      break
-    default:
-      collectionURL = ""
-  }
-  if (collectionURL === "") {
-    console.log("Wrong collection parameter. Check your function call!")
-    return
-  }
+  return axios.get<MeilisearchResponse<AppsIndex>>(
+    POPULAR_LAST_MONTH_URL(page, per_page),
+  )
+}
 
-  return axios.get<MeilisearchResponse<AppsIndex>>(collectionURL)
+export async function fetchCollectionRecentlyUpdated(
+  page: number,
+  per_page: number,
+) {
+  return axios.get<MeilisearchResponse<AppsIndex>>(
+    RECENTLY_UPDATED_URL(page, per_page),
+  )
+}
+
+export async function fetchCollectionRecentlyAdded(
+  page: number,
+  per_page: number,
+) {
+  return axios.get<MeilisearchResponse<AppsIndex>>(
+    RECENTLY_ADDED_URL(page, per_page),
+  )
+}
+export async function fetchCollectionVerified(page: number, per_page: number) {
+  return axios.get<MeilisearchResponse<AppsIndex>>(
+    VERIFIED_APPS_URL(page, per_page),
+  )
 }
 
 export async function fetchCategories() {

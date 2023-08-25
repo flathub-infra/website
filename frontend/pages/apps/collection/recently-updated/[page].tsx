@@ -3,8 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import fetchCollection from "../../../../src/fetchers"
-import { Collections } from "../../../../src/types/Collection"
+import { fetchCollectionRecentlyUpdated } from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -44,8 +43,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCollection(
-    Collections.recentlyUpdated,
+  const { data: applications } = await fetchCollectionRecentlyUpdated(
     params.page as unknown as number,
     30,
   )
@@ -66,11 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: recentlyUpdated } = await fetchCollection(
-    Collections.recentlyUpdated,
-    1,
-    30,
-  )
+  const { data: recentlyUpdated } = await fetchCollectionRecentlyUpdated(1, 30)
 
   const paths: { params: { page?: string } }[] = []
   for (let i = 1; i <= recentlyUpdated.totalPages; i++) {
