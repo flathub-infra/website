@@ -3,15 +3,18 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import fetchCollection from "../../../../src/fetchers"
-import { Collections } from "../../../../src/types/Collection"
+import { fetchCollectionVerified } from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 
-export default function Verified({ applications }) {
+export default function Verified({
+  applications,
+}: {
+  applications: MeilisearchResponse<AppsIndex>
+}) {
   const { t } = useTranslation()
 
   return (
@@ -42,8 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCollection(
-    Collections.verified,
+  const { data: applications } = await fetchCollectionVerified(
     params.page as unknown as number,
     30,
   )
@@ -64,7 +66,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: verified } = await fetchCollection(Collections.verified, 1, 30)
+  const { data: verified } = await fetchCollectionVerified(1, 30)
 
   const paths: { params: { page?: string } }[] = []
   for (let i = 1; i <= verified.totalPages; i++) {

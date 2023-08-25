@@ -1,10 +1,15 @@
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import fetchCollection, { fetchCategory } from "../src/fetchers"
+import {
+  fetchCategory,
+  fetchCollectionPopularLastMonth,
+  fetchCollectionRecentlyAdded,
+  fetchCollectionRecentlyUpdated,
+  fetchCollectionVerified,
+} from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
-import { Collections } from "../src/types/Collection"
 import ApplicationSections from "../src/components/application/Sections"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
@@ -104,23 +109,19 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: recentlyUpdated } = await fetchCollection(
-    Collections.recentlyUpdated,
+  const { data: recentlyUpdated } = await fetchCollectionRecentlyUpdated(
     1,
     APPS_IN_PREVIEW_COUNT * 2,
   )
-  const { data: recentlyAdded } = await fetchCollection(
-    Collections.recentlyAdded,
+  const { data: recentlyAdded } = await fetchCollectionRecentlyAdded(
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const { data: popular } = await fetchCollection(
-    Collections.popular,
+  const { data: popular } = await fetchCollectionPopularLastMonth(
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const { data: verified } = await fetchCollection(
-    Collections.verified,
+  const { data: verified } = await fetchCollectionVerified(
     1,
     APPS_IN_PREVIEW_COUNT,
   )

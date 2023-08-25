@@ -3,15 +3,18 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import fetchCollection from "../../../../src/fetchers"
-import { Collections } from "../../../../src/types/Collection"
+import { fetchCollectionPopularLastMonth } from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 
-export default function PopularApps({ applications }) {
+export default function PopularApps({
+  applications,
+}: {
+  applications: MeilisearchResponse<AppsIndex>
+}) {
   const { t } = useTranslation()
   return (
     <>
@@ -40,8 +43,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCollection(
-    Collections.popular,
+  const { data: applications } = await fetchCollectionPopularLastMonth(
     params.page as unknown as number,
     30,
   )
@@ -62,7 +64,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: popular } = await fetchCollection(Collections.popular, 1, 30)
+  const { data: popular } = await fetchCollectionPopularLastMonth(1, 30)
 
   const paths: { params: { page?: string } }[] = []
   for (let i = 1; i <= popular.totalPages; i++) {
