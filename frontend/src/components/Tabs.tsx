@@ -4,12 +4,15 @@ import { clsx } from "clsx"
 import Badge from "./application/Badge"
 import { LayoutGroup, motion } from "framer-motion"
 
+export interface Tab {
+  name: string
+  content: JSX.Element
+  badge?: string | number
+  noPadding?: boolean
+}
+
 interface Props {
-  tabs: {
-    name: string
-    content: JSX.Element
-    badge?: string | number
-  }[]
+  tabs: Tab[]
 }
 
 /** A link placed at the top of a page's main container to return to some other page */
@@ -53,7 +56,10 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
           {tabs.map((tab, index) => (
             <Tab.Panel
               key={index}
-              className="rounded-b-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic"
+              className={clsx(
+                !tab.noPadding && "p-4",
+                "rounded-b-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
+              )}
             >
               {tab.content}
             </Tab.Panel>

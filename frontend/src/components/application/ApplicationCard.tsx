@@ -54,9 +54,9 @@ const ApplicationCard: FunctionComponent<Props> = ({
       passHref
       className={clsx(
         inACard
-          ? "dark:bg-flathub-gainsborow/10"
-          : "dark:bg-flathub-arsenic/70",
-        "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white p-4 shadow-md duration-500",
+          ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg"
+          : "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md",
+        "flex min-w-0 items-center gap-4 p-4 duration-500",
         "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline hover:shadow-xl dark:hover:bg-flathub-arsenic/90",
         "active:bg-flathub-gainsborow/40 active:shadow-sm active:dark:bg-flathub-arsenic",
         "h-full",

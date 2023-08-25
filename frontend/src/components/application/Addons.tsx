@@ -47,19 +47,13 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
   return (
     <>
       {addons && addons.length > 0 && (
-        <div
-          className={clsx(
-            "dark:bg-flathub-arsenic",
-            "flex flex-col min-w-0 gap-5 rounded-xl bg-flathub-white shadow-md duration-500",
-            "text-flathub-arsenic dark:text-flathub-gainsborow",
-          )}
-        >
-          <div className="flex gap-2 px-4 pt-3">
-            <h3 className={clsx("text-xl font-semibold")}>{t("add-ons")}</h3>
+        <>
+          <div className="flex gap-2 relative">
             <>
               <button
                 ref={reference}
                 {...getReferenceProps}
+                className="absolute top-0 right-0 mt-1 mr-1"
                 aria-label={t("addon-install-info")}
               >
                 <HiMiniInformationCircle
@@ -91,10 +85,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
           <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
             {addons.slice(0, 5).map((addon) => {
               return (
-                <div
-                  className="flex flex-col px-4 py-3 first:pt-0"
-                  key={addon.id}
-                >
+                <div className="flex flex-col px-4 py-3" key={addon.id}>
                   <div>
                     <h3 className="font-semibold">{addon.name}</h3>
                   </div>
@@ -117,7 +108,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
               </button>
             ) : null}
           </div>
-        </div>
+        </>
       )}
       <Modal
         shown={isModalOpen}

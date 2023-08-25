@@ -37,6 +37,7 @@ import { Description } from "./Description"
 import { useUserContext } from "src/context/user-info"
 import { VerticalStackedListBox } from "./VerticalStackedListBox"
 import Addons from "./Addons"
+import Tabs, { Tab } from "../Tabs"
 
 interface Props {
   app?: DesktopAppstream
@@ -109,6 +110,37 @@ const Details: FunctionComponent<Props> = ({
 
     const isModerator = user.info?.["is-moderator"] ?? false
 
+    const tabs: Tab[] = [
+      {
+        name: t("information"),
+        content: (
+          <AdditionalInfo
+            data={app}
+            summary={summary}
+            appId={app.id}
+            stats={stats}
+          ></AdditionalInfo>
+        ),
+      },
+    ]
+
+    if (addons?.length > 0) {
+      tabs.push({
+        name: t("add-ons"),
+        content: <Addons addons={addons}></Addons>,
+        noPadding: true,
+      })
+    }
+
+    // only show graph, if we have more then ten days of data
+    if (Object.keys(stats.installs_per_day).length > 10) {
+      tabs.push({
+        name: t("statistics"),
+        content: <AppStatistics stats={stats}></AppStatistics>,
+        noPadding: true,
+      })
+    }
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
@@ -149,18 +181,9 @@ const Details: FunctionComponent<Props> = ({
             </VerticalStackedListBox>
           )}
 
-          {addons.length > 0 && (
-            <div>
-              <Addons addons={addons}></Addons>
-            </div>
-          )}
-
-          <AdditionalInfo
-            data={app}
-            summary={summary}
-            appId={app.id}
-            stats={stats}
-          ></AdditionalInfo>
+          <div>
+            <Tabs tabs={tabs} />
+          </div>
 
           {developerApps && developerApps.totalHits > 0 && (
             <ApplicationSection
@@ -187,8 +210,6 @@ const Details: FunctionComponent<Props> = ({
               showMore={projectgroupApps.totalHits > 6}
             />
           )}
-
-          <AppStatistics stats={stats}></AppStatistics>
 
           <Tags keywords={app.keywords} />
         </div>

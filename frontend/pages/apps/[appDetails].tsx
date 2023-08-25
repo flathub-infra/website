@@ -17,7 +17,6 @@ import {
 import { NextSeo } from "next-seo"
 import {
   AddonAppstream,
-  Appstream,
   DesktopAppstream,
   pickScreenshot,
   Screenshot,
