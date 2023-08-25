@@ -185,7 +185,12 @@ def get_recently_added(limit: int = 100):
 def get_addons(appid: str):
     result = []
     summary = db.get_json_key(f"summary:{appid}")
-    if summary and "metadata" in summary and "extensions" in summary["metadata"]:
+    if (
+        summary
+        and "metadata" in summary
+        and "extensions" in summary["metadata"]
+        and summary["metadata"]["extensions"]
+    ):
         extension_ids = list(summary["metadata"]["extensions"].keys())
 
         apps = {app[5:] for app in db.redis_conn.smembers("types:addon")}
