@@ -7,6 +7,7 @@ import { ConditionalWrapper } from "src/utils/helpers"
 
 interface Props {
   appId?: string
+  inACard?: boolean
   items: {
     icon: string | JSX.Element
     header: string
@@ -16,7 +17,7 @@ interface Props {
   }[]
 }
 
-const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
+const ListBox: FunctionComponent<Props> = ({ appId, inACard, items }) => {
   const { trackEvent } = useMatomo()
   const { t } = useTranslation()
 
@@ -53,11 +54,14 @@ const ListBox: FunctionComponent<Props> = ({ appId, items }) => {
               >
                 <div
                   className={clsx(
-                    `grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center bg-flathub-white p-4 shadow-md first:rounded-tl-xl first:rounded-tr-xl last:rounded-bl-xl last:rounded-br-xl dark:bg-flathub-arsenic`,
+                    inACard
+                      ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 first:rounded-lg last:rounded-lg"
+                      : "bg-flathub-white dark:bg-flathub-arsenic shadow-md first:rounded-t-xl last:rounded-b-xl",
+                    `grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center p-4 dark:bg-flathub-arsenic`,
                     item.content.type === "text" &&
                       "grid-cols-[36px_calc(100%_-_36px)]",
                     item.content.type === "url" &&
-                      "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-arsenic/80 dark:active:bg-flathub-arsenic/50 transition",
+                      "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-gainsborow/20 dark:active:bg-flathub-gainsborow/30 transition",
                   )}
                 >
                   <div className="self-center text-2xl text-flathub-sonic-silver dark:text-flathub-spanish-gray">

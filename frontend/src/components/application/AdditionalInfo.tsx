@@ -44,6 +44,7 @@ const AdditionalInfo = ({
   return (
     <div className="relative flex flex-wrap gap-2">
       <ListBox
+        inACard
         appId={appId}
         items={[
           {
@@ -59,6 +60,7 @@ const AdditionalInfo = ({
         ]}
       ></ListBox>
       <ListBox
+        inACard
         appId={appId}
         items={[
           {
@@ -75,6 +77,7 @@ const AdditionalInfo = ({
       ></ListBox>
       {/* {data.content_rating} */}
       <ListBox
+        inACard
         appId={appId}
         items={[
           {
@@ -91,6 +94,7 @@ const AdditionalInfo = ({
         ]}
       ></ListBox>
       <ListBox
+        inACard
         appId={appId}
         items={[
           {
@@ -107,6 +111,7 @@ const AdditionalInfo = ({
       ></ListBox>
       {license && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             {
@@ -123,6 +128,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.homepage && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.homepage
@@ -141,6 +147,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.contact && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.contact
@@ -159,6 +166,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.help && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.help
@@ -177,6 +185,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.faq && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.faq
@@ -195,6 +204,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.translate && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.translate
@@ -213,6 +223,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.bugtracker && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.bugtracker
@@ -231,6 +242,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.vcs_browser && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.vcs_browser
@@ -249,6 +261,7 @@ const AdditionalInfo = ({
       )}
       {data.urls?.contribute && (
         <ListBox
+          inACard
           appId={appId}
           items={[
             data.urls.contribute
@@ -266,6 +279,7 @@ const AdditionalInfo = ({
         />
       )}
       <ListBox
+        inACard
         appId={appId}
         items={[
           {

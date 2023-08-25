@@ -24,11 +24,6 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     }
   }
 
-  // only show graph, if we have more then ten days of data
-  if (Object.keys(stats.installs_per_day).length < 10) {
-    return null
-  }
-
   // Remove current day
   installs_labels.pop()
   installs_data.pop()
@@ -42,7 +37,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
 
   return (
-    <div className="h-[300px] rounded-xl bg-flathub-white p-4 pb-16 shadow-md dark:bg-flathub-arsenic">
+    <div className="h-[300px] p-4 pb-16">
       <h3 className="my-4 mt-0 text-xl font-semibold">
         {t("installs-over-time")}
       </h3>
