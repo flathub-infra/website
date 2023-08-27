@@ -399,5 +399,8 @@
   "no-file-system-access": "Brak dostępu do systemu plików",
   "no-user-device-access": "Brak dostępu do urządzenia użytkownika",
   "user-not-found": "Nie znaleziono użytkownika",
-  "close": "Zamknij"
+  "close": "Zamknij",
+  "add-ons": "Dodatki",
+  "addon-install-info-text": "Aby zainstalować dodatki, użyj menedżera flatpak dostarczonego przez Twoją dystrybucją.",
+  "addon-install-info": "Jak zainstalować dodatki"
 }

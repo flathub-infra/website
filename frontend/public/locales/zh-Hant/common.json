@@ -398,5 +398,6 @@
   "appname-is-safety-rating-4": "{{appName}} 不安全",
   "no-file-system-access": "沒有檔案系統存取權",
   "software-developer-verified": "軟體開發者已驗證",
-  "close": "關閉"
+  "close": "關閉",
+  "user-not-found": "找不到使用者"
 }

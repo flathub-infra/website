@@ -397,5 +397,10 @@
   "appname-is-safety-rating-4": "Aplikace {{appName}} je nebezpečná",
   "software-developer-verified": "Vývojář softwaru je ověřený",
   "no-file-system-access": "Žádný přístup k souborovému systému",
-  "no-user-device-access": "Žádný přístup k uživatelským zařízením"
+  "no-user-device-access": "Žádný přístup k uživatelským zařízením",
+  "close": "Zavřít",
+  "add-ons": "Doplňky",
+  "addon-install-info": "Jak nainstalovat doplňky",
+  "user-not-found": "Uživatel nenalezen",
+  "addon-install-info-text": "K instalaci doplňků použijte správce flatpaku, který je součástí vaší distribuce."
 }

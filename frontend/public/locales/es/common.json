@@ -399,5 +399,8 @@
   "can-access-and-change-user-settings": "Puede acceder y modificar la configuración del usuario",
   "no-file-system-access": "Sin acceso al sistema de archivos del sistema",
   "close": "Cerrar",
-  "user-not-found": "Usuario no encontrado"
+  "user-not-found": "Usuario no encontrado",
+  "addon-install-info-text": "Por favor, use el gestor flatpak suministrado por su distribución para instalar complementos.",
+  "add-ons": "Complementos",
+  "addon-install-info": "Cómo instalar complementos"
 }

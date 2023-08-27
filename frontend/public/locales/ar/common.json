@@ -399,5 +399,8 @@
   "appname-is-safety-rating-4": "{{appName}} خطر",
   "can-read-your-downloads": "يقرأ تنزيلاتك",
   "close": "اغلاق",
-  "user-not-found": "لم يتم العثور على المستخدم"
+  "user-not-found": "لم يتم العثور على المستخدم",
+  "add-ons": "الإضافات",
+  "addon-install-info": "طريقة تثبيت الإضافات",
+  "addon-install-info-text": "استعمل مدير فلاتباك الموجود في توزيعتك لتثبِّت الإضافات."
 }
