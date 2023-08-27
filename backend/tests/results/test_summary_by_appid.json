@@ -2,12 +2,14 @@
   "arches": [
     "x86_64"
   ],
+  "branch": "stable",
   "timestamp": 1610973680,
   "download_size": 371,
   "installed_size": 1024,
   "metadata": {
     "name": "org.sugarlabs.Maze",
     "runtime": "org.freedesktop.Platform/x86_64/20.08",
+    "runtimeIsEol": false,
     "sdk": "org.freedesktop.Sdk/x86_64/20.08",
     "permissions": {}
   }

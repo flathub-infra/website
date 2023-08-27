@@ -182,9 +182,9 @@ def get_recently_added(limit: int = 100):
     ]
 
 
-def get_addons(appid: str):
+def get_addons(appid: str, branch: str = "stable"):
     result = []
-    summary = db.get_json_key(f"summary:{appid}")
+    summary = db.get_json_key(f"summary:{appid}:{branch}")
     if (
         summary
         and "metadata" in summary

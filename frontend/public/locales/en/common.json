@@ -387,6 +387,7 @@
   "can-read-write-your-downloads": "Can read/write your downloads",
   "can-read-your-downloads": "Can read your downloads",
   "can-access-some-specific-files": "Can access some specific files",
+  "uses-eol-runtime": "Uses an end-of-life runtime",
   "can-access-and-change-user-settings": "Can access and change user settings",
   "uses-a-legacy-windowing-system": "Uses a legacy windowing system",
   "can-aquire-arbitrary-permissions": "Can aquire arbitrary permissions",

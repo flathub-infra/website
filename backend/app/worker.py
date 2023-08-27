@@ -93,7 +93,7 @@ def update():
                     created_at = None
 
         if not created_at:
-            if metadata := db.get_json_key(f"summary:{appid}"):
+            if metadata := db.get_json_key(f"summary:{appid}:stable"):
                 created_at = metadata.get("timestamp")
             else:
                 created_at = int(datetime.utcnow().timestamp())

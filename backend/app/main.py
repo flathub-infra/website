@@ -165,8 +165,9 @@ def get_eol_rebase():
 @app.get("/eol/rebase/{appid}")
 def get_eol_rebase_appid(
     appid: str,
+    branch: str = "stable",
 ):
-    if value := db.get_json_key(f"eol_rebase:{appid}"):
+    if value := db.get_json_key(f"eol_rebase:{appid}:{branch}"):
         return value
 
 
@@ -178,8 +179,9 @@ def get_eol_message():
 @app.get("/eol/message/{appid}")
 def get_eol_message_appid(
     appid: str,
+    branch: str = "stable",
 ):
-    if value := db.get_json_key(f"eol_message:{appid}"):
+    if value := db.get_json_key(f"eol_message:{appid}:{branch}"):
         return value
 
 
@@ -341,8 +343,19 @@ def get_stats_for_app(appid: str, response: Response, all=False, days: int = 180
 
 
 @app.get("/summary/{appid}", status_code=200)
-def get_summary(appid: str, response: Response):
-    if value := db.get_json_key(f"summary:{appid}"):
+def get_summary(
+    appid: str,
+    response: Response,
+    branch: str = "stable",
+):
+    if value := db.get_json_key(f"summary:{appid}:{branch}"):
+        if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
+            appid, _, branch = value["metadata"]["runtime"].split("/")
+
+            value["metadata"]["runtimeIsEol"] = bool(
+                db.get_json_key(f"eol_message:{appid}:{branch}")
+            )
+
         return value
 
     response.status_code = 404

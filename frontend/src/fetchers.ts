@@ -57,7 +57,7 @@ export async function fetchAppstream(appId: string) {
 
 export async function fetchEolRebase(appId: string) {
   return axios
-    .get<string | undefined>(`${EOL_REBASE_URL(appId)}`)
+    .get<string | undefined>(`${EOL_REBASE_URL(appId, "stable")}`)
     .catch((error) => {
       if (error.response.status === 404) {
         return {
@@ -69,7 +69,7 @@ export async function fetchEolRebase(appId: string) {
 
 export async function fetchEolMessage(appId: string) {
   return axios
-    .get<string | undefined>(`${EOL_MESSAGE_URL(appId)}`)
+    .get<string | undefined>(`${EOL_MESSAGE_URL(appId, "stable")}`)
     .catch((error) => {
       return {
         data: undefined,
