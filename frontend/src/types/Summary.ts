@@ -38,6 +38,7 @@ interface Metadata {
   extensions: Extensions
   builtExtensions: string[]
   extraData: ExtraData
+  runtimeIsEol: boolean
 }
 
 export interface Summary {

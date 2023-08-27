@@ -29,7 +29,7 @@ def validate_ref(ref: str):
     ):
         return False
 
-    return True
+    return kind, appid, arch, branch
 
 
 def get_parent_id(appid: str):
@@ -103,7 +103,7 @@ def parse_metadata(ini: str):
 
 
 def update():
-    summary_dict = defaultdict(lambda: {"arches": []})
+    summary_dict = defaultdict(lambda: {"arches": [], "branch": "stable"})
     recently_updated_zset = {}
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
@@ -120,10 +120,10 @@ def update():
     xa_cache = metadata["xa.cache"]
 
     for ref, (_, _, info) in refs:
-        if not validate_ref(ref):
+        if not (valid_ref := validate_ref(ref)):
             continue
 
-        appid = ref.split("/")[1]
+        kind, appid, arch, branch = valid_ref
 
         timestamp_be_uint = struct.pack("<Q", info["ostree.commit.timestamp"])
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
@@ -132,10 +132,10 @@ def update():
         summary_dict[appid]["timestamp"] = timestamp
 
     for ref in xa_cache:
-        if not validate_ref(ref):
+        if not (valid_ref := validate_ref(ref)):
             continue
 
-        appid = ref.split("/")[1]
+        kind, appid, arch, branch = valid_ref
 
         download_size_be_uint = struct.pack("<Q", xa_cache[ref][1])
         download_size = struct.unpack(">Q", download_size_be_uint)[0]
@@ -143,6 +143,7 @@ def update():
         installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
+        summary_dict[appid]["branch"] = branch
         summary_dict[appid]["download_size"] = download_size
         summary_dict[appid]["installed_size"] = installed_size
         summary_dict[appid]["metadata"] = parse_metadata(xa_cache[ref][2])
@@ -171,12 +172,10 @@ def update():
     remote_refs_ret = subprocess.run(command, capture_output=True, text=True)
     if remote_refs_ret.returncode == 0:
         for ref in remote_refs_ret.stdout.splitlines():
-            if not validate_ref(ref):
+            if not (valid_ref := validate_ref(ref)):
                 continue
 
-            appid = ref.split("/")[1]
-            arch = ref.split("/")[2]
-
+            kind, appid, arch, branch = valid_ref
             summary_dict[appid]["arches"].append(arch)
 
     if recently_updated_zset:
@@ -211,7 +210,12 @@ def update():
     )
 
     db.redis_conn.mset(
-        {f"summary:{appid}": json.dumps(summary_dict[appid]) for appid in summary_dict}
+        {
+            f"summary:{appid}:{summary_dict[appid]['branch']}": json.dumps(
+                summary_dict[appid]
+            )
+            for appid in summary_dict
+        }
     )
 
     eol_rebase: dict[str, str] = {}
@@ -219,9 +223,7 @@ def update():
     for app, eol_dict in metadata["xa.sparse-cache"].items():
         flatpak_type, appid, arch, branch = app.split("/")
         if (
-            flatpak_type == "app"
-            and branch == "stable"
-            and not appid.endswith(".Debug")
+            not appid.endswith(".Debug")
             and not appid.endswith(".Locale")
             and not appid.endswith(".Sources")
         ):
@@ -230,9 +232,9 @@ def update():
                 if new_id in eol_rebase:
                     eol_rebase[new_id].append(appid)
                 else:
-                    eol_rebase[new_id] = [appid]
+                    eol_rebase[new_id] = [f"{appid}:{branch}"]
             elif "eol" in eol_dict:
-                eol_message[appid] = eol_dict["eol"]
+                eol_message[f"{appid}:{branch}"] = eol_dict["eol"]
 
     # Support changing of App ID multiple times
     while True:
@@ -255,10 +257,10 @@ def update():
 
     for appid, old_id_list in eol_rebase.items():
         for old_id in old_id_list:
-            db.redis_conn.mset({f"eol_rebase:{old_id}": json.dumps(appid)})
+            db.redis_conn.mset({f"eol_rebase:{old_id}:stable": json.dumps(appid)})
 
     for appid, message in eol_message.items():
-        db.redis_conn.mset({f"eol_message:{appid}": json.dumps(message)})
+        db.redis_conn.mset({f"eol_message:{appid}:stable": json.dumps(message)})
 
     # Build reverse lookup map for flathub-hooks
     reverse_lookup = {}

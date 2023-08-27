@@ -362,6 +362,15 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     })
   }
 
+  if (summary.metadata.runtimeIsEol) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      description: "uses-eol-runtime",
+      icon: HiOutlineExclamationTriangle,
+      showOnSummary: true,
+    })
+  }
+
   if (appSafetyRating.length === 0) {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
