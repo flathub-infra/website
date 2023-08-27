@@ -397,5 +397,10 @@
   "appname-is-safety-rating-2": "{{appName}} is waarschijnlijk veilig",
   "appname-is-safety-rating-3": "{{appName}} is mogelijk onveilig",
   "appname-is-safety-rating-4": "{{appName}} is onveilig",
-  "software-developer-verified": "Software­ontwikkelaar is geverifieerd"
+  "software-developer-verified": "Software­ontwikkelaar is geverifieerd",
+  "user-not-found": "Gebruiker niet gevonden",
+  "addon-install-info": "Uitbreidingen installeren",
+  "add-ons": "Uitbreidingen",
+  "addon-install-info-text": "Gebruik het Flatpak-beheer van uw distributie om uitbreidingen te installeren.",
+  "close": "Sluiten"
 }

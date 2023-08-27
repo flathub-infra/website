@@ -396,5 +396,11 @@
   "probably-safe": "Probablement fiable",
   "unsafe": "Non fiable",
   "potentially-unsafe": "Potentiellement non fiable",
-  "no-permissions": "Aucune permission"
+  "no-permissions": "Aucune permission",
+  "add-ons": "Modules d'extension",
+  "addon-install-info": "Comment installer des extensions",
+  "addon-install-info-text": "Veuillez utiliser le gestionnaire flatpak fourni par votre distribution pour installer les extensions.",
+  "no-user-device-access": "Pas d'accès au système de l'utilisateur",
+  "can-access-hardware-devices": "Peut accéder à des périphériques matériels",
+  "can-access-system-devices": "Peut accéder aux périphériques du système"
 }

@@ -21,7 +21,7 @@
   "more": "Mehr",
   "number-of-results": "{{number}} Ergebnisse",
   "installed-size": "Installierte Größe",
-  "download-size": "Download-Größe",
+  "download-size": "Download Größe",
   "available-architectures": "Verfügbare Architekturen",
   "downloads": "Downloads",
   "license": "Lizenz",
@@ -154,7 +154,7 @@
   "next-page": "Nächste Seite",
   "stripe-declined-insufficient_funds": "Die Karte ist nicht ausreichend gedeckt.",
   "previous-page": "Vorige Seite",
-  "vcs_browser": "Den Quelltext der App ansehen",
+  "vcs_browser": "Quelltext ansehen",
   "contribute": "Zu der App beitragen",
   "transaction-summary-updated": "Letzte Aktualisierung: {{date}}",
   "transaction-summary-id": "Kennzeichen: {{id}}",
@@ -397,5 +397,7 @@
   "appname-is-safety-rating-4": "{{appName}} ist unsicher",
   "software-developer-verified": "Softwareentwickler ist verifiziert",
   "no-file-system-access": "Kein Zugriff auf das Dateisystem",
-  "no-user-device-access": "Kein Zugriff auf Benutzergerät"
+  "no-user-device-access": "Kein Zugriff auf Benutzergerät",
+  "close": "Schließen",
+  "user-not-found": "Benutzer nicht gefunden"
 }

@@ -397,5 +397,10 @@
   "no-user-device-access": "Nincs felhasználói eszköz hozzáférés",
   "safe": "Biztonságos",
   "probably-safe": "Valószínűleg biztonságos",
-  "unsafe": "Nem biztonságos"
+  "unsafe": "Nem biztonságos",
+  "add-ons": "Kiegészítők",
+  "addon-install-info-text": "Kérjük, használja a disztribúciója által biztosított flatpak-kezelőt a kiegészítők telepítéséhez.",
+  "user-not-found": "Felhasználó nem található",
+  "close": "Bezárás",
+  "addon-install-info": "Kiegészítők telepítése"
 }

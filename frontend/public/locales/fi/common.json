@@ -397,5 +397,8 @@
   "can-read-all-your-data": "Lukuoikeus kaikkeen dataasi",
   "can-read-write-all-your-data": "Luku- ja kirjoitusoikeus kaikkeen dataasi",
   "close": "Sulje",
-  "user-not-found": "Käyttäjää ei löydy"
+  "user-not-found": "Käyttäjää ei löydy",
+  "add-ons": "Lisäosat",
+  "addon-install-info-text": "Käytä jakelusi Flatpak-hallintaohjelmaa asentaaksesi lisäosia.",
+  "addon-install-info": "Miten asentaa lisäosia"
 }
