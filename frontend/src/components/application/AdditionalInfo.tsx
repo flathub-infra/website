@@ -12,14 +12,11 @@ import {
   HiInbox,
   HiLanguage,
   HiLifebuoy,
-  HiScale,
   HiWrenchScrewdriver,
 } from "react-icons/hi2"
 import { BsHddFill, BsLaptop } from "react-icons/bs"
 import { AppStats } from "../../types/AppStats"
-import spdxLicenseList from "spdx-license-list/full"
 import { i18n, useTranslation } from "next-i18next"
-import { TFunction } from "i18next"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
 
@@ -35,11 +32,6 @@ const AdditionalInfo = ({
   stats: AppStats
 }) => {
   const { t } = useTranslation()
-  const license = getLicense(data.project_license, t)
-
-  const licenseIsLink = data.project_license?.startsWith(
-    "LicenseRef-proprietary=",
-  )
 
   return (
     <div className="relative flex flex-wrap gap-2">
@@ -93,34 +85,19 @@ const AdditionalInfo = ({
           },
         ]}
       ></ListBox>
-      <ListBox
-        inACard
-        appId={appId}
-        items={[
-          {
-            icon: <HiCloudArrowDown />,
-            header: t("installs"),
-            content: {
-              type: "text",
-              text: stats.installs_total.toLocaleString(
-                getIntlLocale(i18n.language),
-              ),
-            },
-          },
-        ]}
-      ></ListBox>
-      {license && (
+      {stats.installs_total !== 0 && (
         <ListBox
           inACard
           appId={appId}
           items={[
             {
-              icon: <HiScale />,
-              header: t("license"),
+              icon: <HiCloudArrowDown />,
+              header: t("installs"),
               content: {
-                type: licenseIsLink ? "url" : "text",
-                text: license,
-                trackAsEvent: "License",
+                type: "text",
+                text: stats.installs_total.toLocaleString(
+                  getIntlLocale(i18n.language),
+                ),
               },
             },
           ]}
@@ -297,37 +274,6 @@ const AdditionalInfo = ({
       ></ListBox>
     </div>
   )
-}
-
-function getLicense(
-  project_license: string | undefined,
-  t: TFunction<"translation", undefined>,
-): string | undefined {
-  if (!project_license) {
-    return undefined
-  }
-
-  if (project_license?.startsWith("LicenseRef-proprietary=")) {
-    return project_license?.replace(/LicenseRef-proprietary=/, "")
-  }
-  if (project_license?.startsWith("LicenseRef-proprietary")) {
-    return t("proprietary")
-  }
-
-  const splitLicense = project_license.split(" ")
-  if (splitLicense.length <= 1) {
-    return (
-      spdxLicenseList[project_license]?.name ?? project_license ?? t("unknown")
-    )
-  }
-
-  return splitLicense
-    .map((license) => {
-      if (spdxLicenseList[license]) {
-        return spdxLicenseList[license].name
-      }
-    })
-    .join(", ")
 }
 
 export default AdditionalInfo

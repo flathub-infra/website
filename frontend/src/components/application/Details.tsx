@@ -1,11 +1,7 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import {
-  AddonAppstream,
-  Appstream,
-  DesktopAppstream,
-} from "../../types/Appstream"
+import { AddonAppstream, DesktopAppstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -38,6 +34,7 @@ import { useUserContext } from "src/context/user-info"
 import { VerticalStackedListBox } from "./VerticalStackedListBox"
 import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
+import LicenseInfo from "./LicenseInfo"
 
 interface Props {
   app?: DesktopAppstream
@@ -108,8 +105,6 @@ const Details: FunctionComponent<Props> = ({
       (release) => release.type === undefined || release.type === "stable",
     )
 
-    const isModerator = user.info?.["is-moderator"] ?? false
-
     const tabs: Tab[] = [
       {
         name: t("information"),
@@ -175,11 +170,10 @@ const Details: FunctionComponent<Props> = ({
             <Releases latestRelease={stableReleases[0]}></Releases>
           )}
 
-          {(isModerator || !IS_PRODUCTION) && (
-            <VerticalStackedListBox>
-              <SafetyRating data={app} summary={summary} />
-            </VerticalStackedListBox>
-          )}
+          <VerticalStackedListBox>
+            <SafetyRating data={app} summary={summary} />
+            <LicenseInfo app={app} />
+          </VerticalStackedListBox>
 
           <div>
             <Tabs tabs={tabs} />
