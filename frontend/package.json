@@ -20,7 +20,7 @@
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@headlessui/react": "^1.7.16",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
-    "@sentry/nextjs": "^7.57.0",
+    "@sentry/nextjs": "^7.64.0",
     "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.54.2",
     "@tanstack/react-query": "^4.32.1",
