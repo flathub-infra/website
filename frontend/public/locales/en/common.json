@@ -404,5 +404,10 @@
   "add-ons": "Add-ons",
   "addon-install-info": "How to install addons",
   "addon-install-info-text": "Please use the flatpak manager supplied by your distribution to install add-ons.",
-  "information": "Information"
+  "information": "Information",
+  "proprietary-explanation": "This software is not developed in the open, so only its developers know how it works. It may be insecure in ways that are hard to detect, and it may change without oversight.",
+  "community-built": "Community built",
+  "community-built-explanation": "This software is developed in the open by a community of volunteers, and released under the <1>{{ license }}</1>.",
+  "learn-more": "Learn more",
+  "get-involved": "Get involved"
 }
