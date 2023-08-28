@@ -1,6 +1,4 @@
 import {
-  HiOutlineQuestionMarkCircle,
-  HiOutlineShieldCheck,
   HiOutlineExclamationTriangle,
   HiOutlineWifi,
   HiOutlineArrowDownTray,
@@ -11,6 +9,9 @@ import {
   HiOutlineVideoCameraSlash,
   HiOutlineVideoCamera,
   HiOutlineCpuChip,
+  HiExclamationTriangle,
+  HiQuestionMarkCircle,
+  HiShieldCheck,
 } from "react-icons/hi2"
 import { Appstream } from "./types/Appstream"
 import { Summary } from "./types/Summary"
@@ -47,19 +48,19 @@ export function safetyRatingToColor(safetyRating: SafetyRating): string {
 export function safetyRatingToIcon(safetyRating: SafetyRating): JSX.Element {
   switch (safetyRating) {
     case SafetyRating.safe:
-      return React.createElement(HiOutlineShieldCheck, {
+      return React.createElement(HiShieldCheck, {
         className: "w-full h-full",
       })
     case SafetyRating.probably_safe:
-      return React.createElement(HiOutlineShieldCheck, {
+      return React.createElement(HiShieldCheck, {
         className: "w-full h-full",
       })
     case SafetyRating.potentially_unsafe:
-      return React.createElement(HiOutlineQuestionMarkCircle, {
+      return React.createElement(HiQuestionMarkCircle, {
         className: "w-full h-full",
       })
     case SafetyRating.unsafe:
-      return React.createElement(HiOutlineExclamationTriangle, {
+      return React.createElement(HiExclamationTriangle, {
         className: "w-full h-full",
       })
   }
