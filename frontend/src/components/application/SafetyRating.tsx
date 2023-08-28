@@ -58,7 +58,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
     <>
       <button
         className={clsx(
-          "flex w-full flex-col items-center gap-1 rounded-xl p-4 duration-500 hover:bg-flathub-gainsborow/20",
+          "flex w-full flex-col items-center gap-1 rounded-xl p-4 duration-500 hover:bg-flathub-gainsborow/20 justify-center",
           "hover:shadow-xl active:bg-flathub-gainsborow/40 active:shadow-sm hover:dark:bg-flathub-dark-gunmetal/20 active:dark:bg-flathub-arsenic",
           "text-flathub-arsenic dark:text-flathub-gainsborow",
         )}
