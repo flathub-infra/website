@@ -1,3 +1,5 @@
+import clsx from "clsx"
+
 const Item = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
   return <li className={`flex justify-center w-full`}>{children}</li>
 }
@@ -8,7 +10,13 @@ export const VerticalStackedListBox = ({
   children: JSX.Element[] | JSX.Element
 }) => {
   return (
-    <ul className="flex shadow-md dark:bg-flathub-arsenic rounded-xl divide-x-4 dark:divide-flathub-dark-gunmetal flex-grow">
+    <ul
+      className={clsx(
+        "flex flex-col sm:flex-row rounded-xl flex-grow",
+        "shadow-md dark:bg-flathub-arsenic dark:divide-flathub-dark-gunmetal",
+        "sm:divide-x-4 sm:divide-y-0 divide-y-4",
+      )}
+    >
       {Array.isArray(children) ? (
         children.map((child, i) => <Item key={i}>{child}</Item>)
       ) : (
