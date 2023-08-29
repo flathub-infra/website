@@ -31,7 +31,7 @@ function getLicense(
     return t("proprietary")
   }
 
-  const splitLicense = project_license.split(" ")
+  const splitLicense = project_license.split(/\(|\)| /)
   if (splitLicense.length <= 1) {
     return (
       spdxLicenseList[project_license]?.name ?? project_license ?? t("unknown")
