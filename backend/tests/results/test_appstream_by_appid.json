@@ -57,7 +57,7 @@
     "HiDpiIcon"
   ],
   "project_license": "GPL-3.0-or-later",
-  "project_group": "SugarLabs",
+  "project_group": null,
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
     "type": "desktop-id"

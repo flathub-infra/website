@@ -18,7 +18,7 @@
         "Game"
       ],
       "developer_name": "Sugar Labs Community",
-      "project_group": "SugarLabs",
+      "project_group": null,
       "project_license": "GPL-3.0-or-later",
       "runtime": "org.gnome.Platform/x86_64/3.36",
       "verification_verified": false,
