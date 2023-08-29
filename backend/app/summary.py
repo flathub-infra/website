@@ -256,11 +256,11 @@ def update():
     )
 
     for appid, old_id_list in eol_rebase.items():
-        for old_id in old_id_list:
-            db.redis_conn.mset({f"eol_rebase:{old_id}:stable": json.dumps(appid)})
+        for old_id_and_branch in old_id_list:
+            db.redis_conn.mset({f"eol_rebase:{old_id_and_branch}": json.dumps(appid)})
 
-    for appid, message in eol_message.items():
-        db.redis_conn.mset({f"eol_message:{appid}:stable": json.dumps(message)})
+    for appid_and_branch, message in eol_message.items():
+        db.redis_conn.mset({f"eol_message:{appid_and_branch}": json.dumps(message)})
 
     # Build reverse lookup map for flathub-hooks
     reverse_lookup = {}

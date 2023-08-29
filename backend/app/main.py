@@ -350,10 +350,10 @@ def get_summary(
 ):
     if value := db.get_json_key(f"summary:{appid}:{branch}"):
         if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
-            appid, _, branch = value["metadata"]["runtime"].split("/")
+            runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split("/")
 
             value["metadata"]["runtimeIsEol"] = bool(
-                db.get_json_key(f"eol_message:{appid}:{branch}")
+                db.get_json_key(f"eol_message:{runtime_appid}:{runtime_branch}")
             )
 
         return value
