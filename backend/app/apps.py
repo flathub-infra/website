@@ -2,7 +2,6 @@ import json
 import re
 
 import gi
-from collections import defaultdict
 
 from . import db, schemas, search, utils
 

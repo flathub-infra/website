@@ -272,7 +272,7 @@ def appstream2dict(reponame: str):
             if app["metadata"].get("flathub::verification::verified") == "true":
                 split_id = appid.split(".")
                 id_components = len(split_id)
-                project_group = ".".join(split_id[0: id_components - 1])
+                project_group = ".".join(split_id[0 : id_components - 1])
                 app["project_group"] = project_group
 
         apps[appid] = app
