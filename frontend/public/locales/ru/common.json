@@ -397,5 +397,10 @@
   "appname-is-safety-rating-3": "{{appName}} потенциально опасно",
   "software-developer-verified": "Проверенный разработчик ПО",
   "no-file-system-access": "Нет доступа к файловой системе",
-  "no-user-device-access": "Нет доступа к устройствам пользователя"
+  "no-user-device-access": "Нет доступа к устройствам пользователя",
+  "add-ons": "Дополнения",
+  "addon-install-info": "Как установить дополнения",
+  "close": "Закрыть",
+  "user-not-found": "Пользователь не найден",
+  "addon-install-info-text": "Для установки дополнений используйте менеджер пакетов Flatpak от вашего издателя."
 }
