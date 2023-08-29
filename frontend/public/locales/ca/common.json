@@ -264,5 +264,6 @@
   "recently-added-description": "Noves aplicacions publicades a Flathub en els darrers dies.",
   "moderation-approved-by": "Aprovat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Rebutjat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
-  "consultants-description": "Serveis de consultoria per a l'enviament d'aplicacions a Flathub."
+  "consultants-description": "Serveis de consultoria per a l'enviament d'aplicacions a Flathub.",
+  "close": "Tancar"
 }

@@ -399,5 +399,8 @@
   "no-file-system-access": "沒有檔案系統存取權",
   "software-developer-verified": "軟體開發者已驗證",
   "close": "關閉",
-  "user-not-found": "找不到使用者"
+  "user-not-found": "找不到使用者",
+  "add-ons": "附加元件",
+  "addon-install-info": "如何安裝附加元件",
+  "addon-install-info-text": "請使用您散布版提供的 flatpak 管理員安裝附加元件。"
 }
