@@ -122,13 +122,13 @@ export function getSafetyRating(
     )
   ) {
     appSafetyRating.push({
-      safetyRating: SafetyRating.unsafe,
+      safetyRating: SafetyRating.potentially_unsafe,
       description: "uses-session-services",
       showOnSummary: true,
     })
   }
 
-  // decives
+  // devices
   if (
     summary.metadata.permissions.devices?.some((x) => x.toLowerCase() === "all")
   ) {
@@ -222,6 +222,15 @@ export function getSafetyRating(
     })
   }
 
+  if (summary.metadata.runtimeIsEol) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      description: "uses-eol-runtime",
+      icon: HiOutlineExclamationTriangle,
+      showOnSummary: true,
+    })
+  }
+
   if (
     !appstream.project_license ||
     appstream.project_license.startsWith("LicenseRef-proprietary")
@@ -278,7 +287,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     )
   ) {
     appSafetyRating.push({
-      safetyRating: SafetyRating.unsafe,
+      safetyRating: SafetyRating.potentially_unsafe,
       description: "can-read-write-all-your-data",
       icon: HiOutlineDocument,
       showOnSummary: true,
@@ -298,7 +307,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     )
   ) {
     appSafetyRating.push({
-      safetyRating: SafetyRating.unsafe,
+      safetyRating: SafetyRating.potentially_unsafe,
       description: "can-read-all-your-data",
       icon: HiOutlineDocument,
       showOnSummary: true,
@@ -359,15 +368,6 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       description: "can-access-some-specific-files",
       icon: HiOutlineDocument,
-      showOnSummary: true,
-    })
-  }
-
-  if (summary.metadata.runtimeIsEol) {
-    appSafetyRating.push({
-      safetyRating: SafetyRating.potentially_unsafe,
-      description: "uses-eol-runtime",
-      icon: HiOutlineExclamationTriangle,
       showOnSummary: true,
     })
   }
