@@ -400,7 +400,6 @@
   "no-permissions": "Թույլտվություններ չկան",
   "has-network-access": "Ունի ցանցային մուտք",
   "can-read-write-all-your-data": "Կարող է ընթերցել/գրառել ձեր բոլոր տվյալները",
-  "can-aquire-arbitrary-permissions": "Կարող է ձեռք բերել կամայական թույլտվություններ",
   "proprietary-code": "Սեփականատեր ունեցող կոդ",
   "auditable-code": "Աուդիտորական կոդ"
 }

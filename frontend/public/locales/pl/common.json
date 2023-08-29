@@ -388,7 +388,6 @@
   "can-read-your-downloads": "Może odczytywać pobrane pliki",
   "can-access-some-specific-files": "Może uzyskać dostęp do określonych plików",
   "uses-a-legacy-windowing-system": "Używa starszego systemu okienkowego",
-  "can-aquire-arbitrary-permissions": "Może uzyskać dowolne uprawnienia",
   "proprietary-code": "Kod zastrzeżony",
   "auditable-code": "Kod podlegający audytowi",
   "appname-is-safety-rating-1": "{{appName}} jest bezpieczny",

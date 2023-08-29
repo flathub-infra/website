@@ -395,7 +395,6 @@
   "proprietary-code": "Proprieta kodo",
   "auditable-code": "Ekzamenebla kodo",
   "uses-a-legacy-windowing-system": "Uzas malmodernan fenestrosistemon",
-  "can-aquire-arbitrary-permissions": "Povas akiri iujn ajn permesojn",
   "no-file-system-access": "Ne povas atingi la dosiersistemon",
   "no-user-device-access": "Ne povas atingi aparatojn de la uzanto"
 }

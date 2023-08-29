@@ -371,7 +371,6 @@
   "remove-developer": "Fejlesztő eltávolítása",
   "leave": "Kilépés",
   "invite-code-hint": "Ez a kód megadása egy másik fejlesztőnek, hogy Ők felkérhessék Önt az alkalmazáshoz.",
-  "can-aquire-arbitrary-permissions": "Tetszőleges engedélyeket szerezhet",
   "proprietary-code": "Kizárólagos kód",
   "auditable-code": "Ellenőrizhető kód",
   "potentially-unsafe": "Lehetséges, hogy nem biztonságos",

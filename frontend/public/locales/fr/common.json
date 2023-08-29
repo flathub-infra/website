@@ -381,7 +381,6 @@
   "can-access-and-change-user-settings": "Peut accéder aux paramètres utilisateur et les modifier",
   "auditable-code": "Code vérifiable",
   "proprietary-code": "Code propriétaire",
-  "can-aquire-arbitrary-permissions": "Peut obtenir des permissions arbitraires",
   "appname-is-safety-rating-3": "{{appName}} est potentiellement non fiable",
   "appname-is-safety-rating-4": "{{appName}} n’est pas fiable",
   "software-developer-verified": "Le développeur de l’application est vérifié",
