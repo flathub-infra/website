@@ -409,5 +409,6 @@
   "community-built": "Community built",
   "community-built-explanation": "This software is developed in the open by a community of volunteers, and released under the <1>{{ license }}</1>.",
   "learn-more": "Learn more",
-  "get-involved": "Get involved"
+  "get-involved": "Get involved",
+  "links": "Links"
 }

@@ -8,7 +8,7 @@ export interface Tab {
   name: string
   content: JSX.Element
   badge?: string | number
-  noPadding?: boolean
+  replacePadding?: string
 }
 
 interface Props {
@@ -41,7 +41,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                       <motion.div
                         layoutId="tab-indicator"
                         className={clsx(
-                          "absolute bottom-[-1px] left-0 right-0 h-1",
+                          "absolute bottom-[-1px] start-0 end-0 h-1",
                           "bg-flathub-celestial-blue",
                         )}
                       />
@@ -57,7 +57,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
             <Tab.Panel
               key={index}
               className={clsx(
-                !tab.noPadding && "p-4",
+                tab.replacePadding ?? "p-4",
                 "rounded-b-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
               )}
             >
