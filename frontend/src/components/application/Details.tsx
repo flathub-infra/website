@@ -136,6 +136,14 @@ const Details: FunctionComponent<Props> = ({
       })
     }
 
+    const children = [<LicenseInfo key={"license-info"} app={app} />]
+
+    if (summary !== null) {
+      children.unshift(
+        <SafetyRating key={"safety-rating"} data={app} summary={summary} />,
+      )
+    }
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
@@ -170,10 +178,7 @@ const Details: FunctionComponent<Props> = ({
             <Releases latestRelease={stableReleases[0]}></Releases>
           )}
 
-          <VerticalStackedListBox>
-            <SafetyRating data={app} summary={summary} />
-            <LicenseInfo app={app} />
-          </VerticalStackedListBox>
+          <VerticalStackedListBox>{children}</VerticalStackedListBox>
 
           <div>
             <Tabs tabs={tabs} />
