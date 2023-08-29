@@ -388,7 +388,6 @@
   "uses-system-services": "Использует системные службы",
   "can-access-hardware-devices": "Имеет доступ к аппаратным устройствам",
   "can-read-write-your-downloads": "Может читать/записывать ваши загрузки",
-  "can-aquire-arbitrary-permissions": "Может получать произвольные разрешения",
   "can-read-your-downloads": "Может читать ваши загрузки",
   "can-access-some-specific-files": "Имеет доступ к определённым файлам",
   "appname-is-safety-rating-1": "{{appName}} безопасно",

@@ -371,7 +371,6 @@
   "can-access-some-specific-files": "Kimi belirli dosyalara erişebilir",
   "can-access-and-change-user-settings": "Kullanıcı ayarlarına erişebilir ve değiştirebilir",
   "uses-a-legacy-windowing-system": "Eski pencere sistemini kullanır",
-  "can-aquire-arbitrary-permissions": "İsteğe bağlı izinler edinir",
   "proprietary-code": "Sahipli kod",
   "auditable-code": "Denetlenebilir kod",
   "appname-is-safety-rating-1": "{{appName}} güvenli",

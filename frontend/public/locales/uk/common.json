@@ -381,7 +381,6 @@
   "no-permissions": "Не потребує дозволів",
   "has-network-access": "Має мережевий доступ",
   "can-access-some-specific-files": "Може доступатися до певних файлів",
-  "can-aquire-arbitrary-permissions": "Може отримувати довільні дозволи",
   "uses-system-services": "Використовує системні служби",
   "uses-session-services": "Використовує служби сеансу",
   "auditable-code": "Код, який можна перевірити",

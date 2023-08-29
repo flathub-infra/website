@@ -385,7 +385,6 @@
   "can-read-all-your-data": "Puede leer todos sus datos",
   "can-read-write-your-downloads": "Puede leer/escribir sus descargas",
   "uses-a-legacy-windowing-system": "Usa un sistema de ventanas heredado",
-  "can-aquire-arbitrary-permissions": "Puede obtener permisos arbitrarios",
   "appname-is-safety-rating-1": "{{appName}} es segura",
   "appname-is-safety-rating-3": "{{appName}} es potencialmente insegura",
   "appname-is-safety-rating-4": "{{appName}} no es segura",

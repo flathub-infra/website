@@ -396,7 +396,6 @@
   "can-access-some-specific-files": "சில குறிப்பிட்ட கோப்புகளை அணுக முடியும்",
   "can-access-and-change-user-settings": "பயனர் அமைப்புகளை அணுகலாம் மற்றும் மாற்றலாம்",
   "uses-a-legacy-windowing-system": "மரபு சாளர அமைப்பைப் பயன்படுத்துகிறது",
-  "can-aquire-arbitrary-permissions": "தன்னிச்சையான அனுமதிகளை பெற முடியும்",
   "proprietary-code": "தனியுரிமைக் குறியீடு",
   "appname-is-safety-rating-2": "{{appName}} பாதுகாப்பாக இருக்கலாம்",
   "appname-is-safety-rating-4": "{{appName}} பாதுகாப்பற்றது",

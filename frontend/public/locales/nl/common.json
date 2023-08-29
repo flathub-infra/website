@@ -372,7 +372,6 @@
   "invite-developer-description": "Voer de uitnodigingscode van de ontwikkelaar in om ze uit te nodigen ontwikkelaar van deze app te worden. Ze kunnen de code vinden onder het {{developersTab}}-tabblad van hun accountpagina.",
   "invite-code-hint": "Geef deze code aan een andere ontwikkelaar zodat ze u kunnen uitnodigen voor hun app.",
   "uses-a-legacy-windowing-system": "Gebruikt een verouderd venstersysteem",
-  "can-aquire-arbitrary-permissions": "Kan arbitraire rechten verkrijgen",
   "no-file-system-access": "Geen toegang tot bestands­stysteem",
   "no-user-device-access": "Geen toegang tot gebruikers­apparaten",
   "safe": "Veilig",

@@ -393,7 +393,6 @@
   "can-access-and-change-user-settings": "可以存取並變更使用者設定",
   "uses-a-legacy-windowing-system": "使用舊式的視窗系統",
   "appname-is-safety-rating-2": "{{appName}} 可能安全",
-  "can-aquire-arbitrary-permissions": "可以獲得任意權限",
   "appname-is-safety-rating-3": "{{appName}} 可能不安全",
   "appname-is-safety-rating-4": "{{appName}} 不安全",
   "no-file-system-access": "沒有檔案系統存取權",

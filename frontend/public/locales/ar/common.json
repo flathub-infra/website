@@ -384,7 +384,6 @@
   "can-access-and-change-user-settings": "يصل ويغيِّر إعدادات المستخدم",
   "uses-a-legacy-windowing-system": "يستخدم نظام نوافذ عتيق",
   "can-access-system-devices": "يصل لأجهزة النظام",
-  "can-aquire-arbitrary-permissions": "يؤذَن له بأذونات كيفية",
   "auditable-code": "رمزه متاح للتدقيق",
   "software-developer-verified": "مطوِّر البرمجية موثَّق",
   "can-read-write-all-your-data": "يقرأ كلَّ بياناتك ويكتبها",
