@@ -85,6 +85,9 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
             plugins={[Inline]}
             slides={slides}
             index={currentScreenshot}
+            carousel={{
+              finite: slides?.length === 1,
+            }}
             styles={{
               button: { filter: "none" },
               container: {
