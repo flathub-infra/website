@@ -39,11 +39,12 @@ function getLicense(
   }
 
   return splitLicense
-    .map((license) => {
+    .reduce((names, license) => {
       if (spdxLicenseList[license]) {
-        return spdxLicenseList[license].name
+        return [...names, spdxLicenseList[license].name]
       }
-    })
+      return names
+    }, [])
     .join(", ")
 }
 
