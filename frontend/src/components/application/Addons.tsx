@@ -53,7 +53,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
               <button
                 ref={reference}
                 {...getReferenceProps}
-                className="absolute top-0 right-0 mt-1 mr-1"
+                className="absolute top-0 end-0 mt-1 me-1"
                 aria-label={t("addon-install-info")}
               >
                 <HiMiniInformationCircle

@@ -8,7 +8,7 @@ import { Summary } from "../../types/Summary"
 
 import Releases from "./Releases"
 
-import AdditionalInfo from "./AdditionalInfo"
+import SummaryInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
@@ -30,11 +30,11 @@ import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
 import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
-import { useUserContext } from "src/context/user-info"
 import { VerticalStackedListBox } from "./VerticalStackedListBox"
 import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
+import Links from "./Links"
 
 interface Props {
   app?: DesktopAppstream
@@ -90,7 +90,6 @@ const Details: FunctionComponent<Props> = ({
   addons,
 }) => {
   const { t } = useTranslation()
-  const user = useUserContext()
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["verification", app.id],
@@ -108,14 +107,13 @@ const Details: FunctionComponent<Props> = ({
     const tabs: Tab[] = [
       {
         name: t("information"),
-        content: (
-          <AdditionalInfo
-            data={app}
-            summary={summary}
-            appId={app.id}
-            stats={stats}
-          ></AdditionalInfo>
-        ),
+        content: <SummaryInfo summary={summary} stats={stats}></SummaryInfo>,
+        replacePadding: "p-0 pb-3",
+      },
+      {
+        name: t("links"),
+        content: <Links app={app} />,
+        replacePadding: "p-0",
       },
     ]
 
@@ -123,7 +121,7 @@ const Details: FunctionComponent<Props> = ({
       tabs.push({
         name: t("add-ons"),
         content: <Addons addons={addons}></Addons>,
-        noPadding: true,
+        replacePadding: "p-0",
       })
     }
 
@@ -132,7 +130,7 @@ const Details: FunctionComponent<Props> = ({
       tabs.push({
         name: t("statistics"),
         content: <AppStatistics stats={stats}></AppStatistics>,
-        noPadding: true,
+        replacePadding: "p-0",
       })
     }
 

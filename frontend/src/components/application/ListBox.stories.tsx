@@ -9,29 +9,13 @@ export default {
   component: ListBox,
 } as Meta<typeof ListBox>
 
-export const singleLink = () => {
-  const items = [
-    {
-      icon: <HiCodeBracket />,
-      header: faker.commerce.product(),
-      content: {
-        type: "url",
-        text: faker.commerce.productDescription(),
-        trackAsEvent: "url",
-      },
-    },
-  ]
-
-  return <ListBox items={items} />
-}
-
 export const singleText = () => {
   const items = [
     {
       icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
-        type: "text",
+        type: "text" as const,
         text: faker.commerce.productDescription(),
       },
     },
@@ -46,16 +30,7 @@ export const stacked = () => {
       icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
-        type: "url",
-        text: faker.commerce.productDescription(),
-        trackAsEvent: "url",
-      },
-    },
-    {
-      icon: <HiCodeBracket />,
-      header: faker.commerce.product(),
-      content: {
-        type: "text",
+        type: "text" as const,
         text: faker.commerce.productDescription(),
       },
     },
@@ -63,9 +38,16 @@ export const stacked = () => {
       icon: <HiCodeBracket />,
       header: faker.commerce.product(),
       content: {
-        type: "url",
+        type: "text" as const,
         text: faker.commerce.productDescription(),
-        trackAsEvent: "url",
+      },
+    },
+    {
+      icon: <HiCodeBracket />,
+      header: faker.commerce.product(),
+      content: {
+        type: "text" as const,
+        text: faker.commerce.productDescription(),
       },
     },
   ]
