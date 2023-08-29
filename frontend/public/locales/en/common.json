@@ -390,7 +390,7 @@
   "uses-eol-runtime": "Uses an end-of-life runtime",
   "can-access-and-change-user-settings": "Can access and change user settings",
   "uses-a-legacy-windowing-system": "Uses a legacy windowing system",
-  "can-aquire-arbitrary-permissions": "Can aquire arbitrary permissions",
+  "can-acquire-arbitrary-permissions": "Can acquire arbitrary permissions",
   "proprietary-code": "Proprietary code",
   "auditable-code": "Auditable code",
   "appname-is-safety-rating-1": "{{appName}} is safe",
