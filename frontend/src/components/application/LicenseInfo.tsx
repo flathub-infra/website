@@ -80,7 +80,8 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
     "LicenseRef-proprietary=",
   )
 
-  const isProprietary = app.project_license.startsWith("LicenseRef-proprietary")
+  const isProprietary =
+    app.project_license?.startsWith("LicenseRef-proprietary") ?? true
 
   const linkClicked = () => {
     trackEvent({
