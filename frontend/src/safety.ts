@@ -195,7 +195,7 @@ export function getSafetyRating(
     })
   }
 
-  // can aquire arbitrary permissions
+  // can acquire arbitrary permissions
   if (
     summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "xdg-data/flatpak/overrides:create",
@@ -209,7 +209,7 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "can-aquire-arbitrary-permissions",
+      description: "can-acquire-arbitrary-permissions",
       showOnSummary: true,
     })
   }
