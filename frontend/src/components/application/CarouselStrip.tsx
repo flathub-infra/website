@@ -71,7 +71,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {filteredScreenshots && filteredScreenshots?.length > 0 && (
           <Button
-            className="absolute bottom-3 end-3 z-10 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
+            className="absolute bottom-3 end-3 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
             onClick={() => setShowLightbox(true)}
             aria-label={t("zoom")}
             variant="secondary"
