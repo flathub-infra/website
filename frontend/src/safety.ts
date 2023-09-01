@@ -361,7 +361,8 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
         x.toLowerCase() === "host:ro" ||
         x.toLowerCase() === "xdg-download" ||
         x.toLowerCase() === "xdg-download:rw" ||
-        x.toLowerCase() === "xdg-download:ro",
+        x.toLowerCase() === "xdg-download:ro" ||
+        x.toLowerCase() === "xdg-config/kdeglobals:ro",
     )
   ) {
     appSafetyRating.push({
