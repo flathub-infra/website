@@ -33,6 +33,13 @@ def wait_for_redis():
         raise redis.exceptions.ConnectionError
 
 
+def search_by_key(key: str):
+    if value := list(redis_conn.scan_iter(f"{key}")):
+        return value
+
+    return []
+
+
 def get_json_key(key: str):
     if value := redis_conn.get(key):
         return orjson.loads(value)

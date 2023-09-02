@@ -1,3 +1,5 @@
+from typing import Optional
+
 import sentry_sdk
 from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -346,9 +348,18 @@ def get_stats_for_app(appid: str, response: Response, all=False, days: int = 180
 def get_summary(
     appid: str,
     response: Response,
-    branch: str = "stable",
+    branch: Optional[str] = None,
 ):
-    if value := db.get_json_key(f"summary:{appid}:{branch}"):
+    if not branch:
+        possible_branches = db.search_by_key(f"summary:{appid}:*")
+        if len(possible_branches) > 0:
+            key = possible_branches[0]
+        else:
+            key = f"summary:{appid}:{branch}"
+    else:
+        key = f"summary:{appid}:{branch}"
+
+    if value := db.get_json_key(key):
         if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
             runtime_appid, _, runtime_branch = value["metadata"]["runtime"].split("/")
 
