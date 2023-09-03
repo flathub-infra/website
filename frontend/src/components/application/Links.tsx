@@ -165,7 +165,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                     },
                     null,
                   )}
-                  <div className="flex flex-col px-4 py-3">
+                  <div className="flex flex-col px-4 py-3 break-all">
                     <div>
                       <span className="font-medium">{link.name}</span>
                     </div>
