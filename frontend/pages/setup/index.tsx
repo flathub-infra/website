@@ -14,6 +14,7 @@ export default function Setup({
 }: {
   instructions: {
     name: string
+    slug?: string
     logo: string
     info: string
     logo_dark?: string
@@ -90,7 +91,9 @@ export default function Setup({
           {instructionsFilteredAndSorted.map((instruction) => (
             <Link
               key={instruction.name}
-              href={`/setup/${encodeURIComponent(instruction.name)}`}
+              href={`/setup/${encodeURIComponent(
+                instruction.slug ?? instruction.name,
+              )}`}
               passHref
               className={clsx(
                 "flex min-w-0 items-center gap-4 rounded-xl bg-flathub-white px-4 shadow-md duration-500 dark:bg-flathub-arsenic/70",

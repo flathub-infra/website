@@ -6,6 +6,7 @@ export async function fetchSetupInstructions() {
 
   const parsedDistros: {
     name: string
+    slug?: string
     logo: string
     info: string
     logo_dark?: string
