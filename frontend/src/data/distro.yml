@@ -76,23 +76,11 @@
 - name: "Chrome OS"
   logo: "chrome-os.svg"
   info: >
-    <p>Flatpak applications can be installed on Chrome OS with the Crostini Linux compatibility layer. This is not available for all Chrome OS devices, so you should ensure your device is compatible before proceeding. A list of compatible devices is maintained <a href="https://www.reddit.com/r/Crostini/wiki/getstarted/crostini-enabled-devices">here</a>.</p>
+    <p>Flatpak applications can be installed on ChromeOS with the Crostini Linux compatibility layer. This is not available for all ChromeOS devices, so you should ensure your device is compatible before proceeding. A list of compatible devices is maintained <a href="https://www.reddit.com/r/Crostini/wiki/getstarted/crostini-enabled-devices">here</a>.</p>
     <ol class="distrotut">
       <li>
         <h2>Enable Linux support</h2>
-        <p>Navigate to <a href="chrome://os-settings">chrome://os-settings</a>, and scroll down to <strong>Developers</strong> and turn on <i>Linux development environment</i>. Chrome OS will take some time downloading and installing Linux.</p>
-      </li>
-      <li>
-        <h2>Enable nested containers</h2>
-        <p>2.1- Close the Linux environment, if it is already active.</p>
-        <p>2.2- Open a Chrome browser, then press Ctrl-Alt-T</p>
-        <p>2.3- In the <code>crosh</code> tab that will open, use these commands to enable nested containers:</p>
-        <pre><code>
-          <span class="unselectable">$</span> vmc start termina
-          <span class="unselectable">$</span> lxc config set penguin security.nesting true
-          <span class="unselectable">$</span> exit
-          <span class="unselectable">$</span> vmc stop termina
-        </code></pre>
+        <p>Navigate to <a href="chrome://os-settings">chrome://os-settings</a>, and scroll down to <strong>Developers</strong> and turn on <i>Linux development environment</i>. ChromeOS will take some time downloading and installing Linux.</p>
       </li>
       <li>
         <h2>Start a Linux terminal</h2>
@@ -123,21 +111,20 @@
   logo: "redhat.svg"
   info: >
     <ol class="distrotut">
-      <li>
-        <h2>Install Flatpak</h2>
-        <p>To install Flatpak on Red Hat Enterprise Linux, run the following in a terminal:</p>
+      <h2>Install Flatpak</h2>
+      <p>Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9 and newer. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
+      <p>To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run the following in a terminal:
+        <!-- Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it -->
         <pre><code>
           <span class="unselectable">$</span> sudo yum install flatpak
         </code></pre>
-      </li>
-      <!-- Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it -->
-      <li>
-        <h2>Add the Flathub repository</h2>
-        <p>Flathub is the best way to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-      <li>
-        <h2>Restart</h2>
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
-      </li>
+      </p>
+      <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+      <p>The above links should work on the default Red Hat Enterprise Linux Workstation 9 installation, but if they fail for some reason you can manually add the Flathub remote by running:
+        <pre><code>
+          <span class="unselectable">$</span> flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+        </code></pre>
+      </p>
     </ol>
 
 - name: "Linux Mint"
