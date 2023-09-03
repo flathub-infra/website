@@ -401,5 +401,14 @@
   "user-not-found": "Usuario no encontrado",
   "addon-install-info-text": "Por favor, use el gestor flatpak suministrado por su distribución para instalar complementos.",
   "add-ons": "Complementos",
-  "addon-install-info": "Cómo instalar complementos"
+  "addon-install-info": "Cómo instalar complementos",
+  "information": "Información",
+  "community-built": "Construido por la comunidad",
+  "community-built-explanation": "Este software lo desarrolla una comunidad abierta de voluntarios y se publica bajo la <1>{{ license }}</1>.",
+  "learn-more": "Aprender más",
+  "get-involved": "Involucrarse",
+  "links": "Enlaces",
+  "uses-eol-runtime": "Usa un tiempo de ejecución obsoleto",
+  "can-acquire-arbitrary-permissions": "Puede obtener permisos arbitrarios",
+  "proprietary-explanation": "Este software no se desarrolla en abierto por lo que solo sus desarrolladores saben cómo funciona. Puede ser difícil decir si el software es seguro o no y puede cambiar sin control."
 }

@@ -401,5 +401,14 @@
   "addon-install-info": "Uitbreidingen installeren",
   "add-ons": "Uitbreidingen",
   "addon-install-info-text": "Gebruik het Flatpak-beheer van uw distributie om uitbreidingen te installeren.",
-  "close": "Sluiten"
+  "close": "Sluiten",
+  "information": "Informatie",
+  "community-built": "Gemaakt door gemeenschap",
+  "uses-eol-runtime": "Maakt gebruik van een runtime die niet meer wordt ondersteund",
+  "can-acquire-arbitrary-permissions": "Kan willekeurige rechten verkrijgen",
+  "links": "Links",
+  "learn-more": "Meer te weten komen",
+  "get-involved": "Betrokken raken",
+  "community-built-explanation": "Deze software is in het openbaar ontwikkeld door een gemeenschap van vrijwilligers en vrijgegeven onder de <1>{{ license }}</1>.",
+  "proprietary-explanation": "Deze software is niet in het openbaar ontwikkeld, dus alleen de ontwikkelaars weten hoe het werkt. Het kan onveilig zijn op manieren die moeilijk te detecteren zijn, en het kan zonder toezicht veranderen."
 }

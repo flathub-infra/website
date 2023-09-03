@@ -401,5 +401,14 @@
   "addon-install-info-text": "Veuillez utiliser le gestionnaire flatpak fourni par votre distribution pour installer les extensions.",
   "no-user-device-access": "Pas d'accès au système de l'utilisateur",
   "can-access-hardware-devices": "Peut accéder à des périphériques matériels",
-  "can-access-system-devices": "Peut accéder aux périphériques du système"
+  "can-access-system-devices": "Peut accéder aux périphériques du système",
+  "information": "Information",
+  "can-acquire-arbitrary-permissions": "Peut obtenir des autorisations arbitraires",
+  "uses-eol-runtime": "Utilise une durée d'exécution de fin de vie",
+  "proprietary-explanation": "Ce logiciel n'est pas développé de manière ouverte, de sorte que seuls ses développeurs savent comment il fonctionne. Il peut présenter des failles de sécurité difficiles à détecter et être modifié sans contrôle.",
+  "community-built": "built de la communauté",
+  "community-built-explanation": "Ce logiciel est développé de manière ouverte par une communauté de bénévoles, et publié sous <1>{{ license }}</1>.",
+  "learn-more": "En savoir plus",
+  "get-involved": "S'engager",
+  "links": "Liens"
 }

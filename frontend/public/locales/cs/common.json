@@ -401,5 +401,14 @@
   "add-ons": "Doplňky",
   "addon-install-info": "Jak nainstalovat doplňky",
   "user-not-found": "Uživatel nenalezen",
-  "addon-install-info-text": "K instalaci doplňků použijte správce flatpaku, který je součástí vaší distribuce."
+  "addon-install-info-text": "K instalaci doplňků použijte správce flatpaku, který je součástí vaší distribuce.",
+  "learn-more": "Zjistit více",
+  "get-involved": "Zapojit se",
+  "can-acquire-arbitrary-permissions": "Může získat libovolná oprávnění",
+  "links": "Odkazy",
+  "uses-eol-runtime": "Používá běhové prostředí s ukončenou životností",
+  "information": "Informace",
+  "proprietary-explanation": "Tento software není vyvíjen otevřeně, takže jen jeho vývojáři ví jak funguje. Může být nezabezpečený způsobem, který je obtížné odhalit, a může se měnit bez dohledu.",
+  "community-built": "Vyvíjené komunitou",
+  "community-built-explanation": "Tento software je vyvíjen komunitou dobrovolníků a je uvolněn pod licencí <1>{{ license }}</1>."
 }

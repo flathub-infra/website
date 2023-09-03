@@ -401,5 +401,14 @@
   "addon-install-info-text": "Kérjük, használja a disztribúciója által biztosított flatpak-kezelőt a kiegészítők telepítéséhez.",
   "user-not-found": "Felhasználó nem található",
   "close": "Bezárás",
-  "addon-install-info": "Kiegészítők telepítése"
+  "addon-install-info": "Kiegészítők telepítése",
+  "information": "Tájékoztatás",
+  "community-built": "Közösségi építkezés",
+  "learn-more": "További információk",
+  "get-involved": "Részt vegyen",
+  "links": "Hivatkozások",
+  "uses-eol-runtime": "Élettartam végi futásidejű használata",
+  "can-acquire-arbitrary-permissions": "Tetszőleges engedélyeket szerezhet",
+  "community-built-explanation": "Ezt a szoftvert önkéntesek közössége fejlesztette ki, és a(z) <1>{{ license }}</1> alatt került kiadásra.",
+  "proprietary-explanation": "Ezt a szoftvert nem szabadon fejlesztették, így csak a fejlesztői ismerik a működését. Lehet, hogy nehezen észlelhető módon bizonytalan, és felügyelet nélkül megváltozhat."
 }
