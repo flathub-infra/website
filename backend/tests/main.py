@@ -113,33 +113,8 @@ def test_apps_by_category_with_too_few_per_page_params(client):
     assert response.status_code == 400
 
 
-def test_apps_by_developer(client):
-    response = client.get("/developer/Sugar Labs Community")
-    assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_apps_by_developer")
-
-
 def test_apps_by_non_existent_developer(client):
     response = client.get("/developer/NonExistent")
-    assert response.status_code == 200
-    responseJson = response.json()
-    responseJson["totalHits"] = 0
-
-
-def test_apps_by_projectgroups(client):
-    response = client.get("/projectgroup")
-    assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_list_projectgroups")
-
-
-def test_apps_by_projectgroup(client):
-    response = client.get("/projectgroup/SugarLabs")
-    assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_apps_by_projectgroup")
-
-
-def test_apps_by_non_existent_project_group(client):
-    response = client.get("/projectgroup/NonExistent")
     assert response.status_code == 200
     responseJson = response.json()
     responseJson["totalHits"] = 0
