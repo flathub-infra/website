@@ -59,9 +59,13 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const instructions = await fetchSetupInstructions()
 
-  const distroData = instructions.find(
+  let distroData = instructions.find(
     (instruction) => instruction.name === distro,
   )
+
+  if (!distroData) {
+    distroData = instructions.find((instruction) => instruction.slug === distro)
+  }
 
   if (!distroData) {
     return {
@@ -81,7 +85,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const instructions = await fetchSetupInstructions()
 
   const instructionUrl = instructions.map((instruction) => ({
-    params: { distro: instruction.name },
+    params: { distro: instruction.slug ?? instruction.name },
   }))
 
   const paths = instructionUrl.reduce((acc, path) => {
