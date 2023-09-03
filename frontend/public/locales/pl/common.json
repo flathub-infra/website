@@ -401,5 +401,14 @@
   "close": "Zamknij",
   "add-ons": "Dodatki",
   "addon-install-info-text": "Aby zainstalować dodatki, użyj menedżera flatpak dostarczonego przez Twoją dystrybucję.",
-  "addon-install-info": "Jak zainstalować dodatki"
+  "addon-install-info": "Jak zainstalować dodatki",
+  "information": "Informacja",
+  "community-built": "Zbudowany przez społeczność",
+  "learn-more": "Dowiedz się więcej",
+  "get-involved": "Dołącz do społeczności",
+  "links": "Odnośniki",
+  "uses-eol-runtime": "Używa wycofanego środowiska uruchomieniowego",
+  "can-acquire-arbitrary-permissions": "Może uzyskać dowolne uprawnienia",
+  "proprietary-explanation": "Oprogramowanie to nie jest rozwijane w sposób otwarty, więc tylko jego twórcy wiedzą, jak działa. Może być niezabezpieczone w sposób trudny do wykrycia i może się zmieniać bez nadzoru.",
+  "community-built-explanation": "Oprogramowanie to jest rozwijane przez społeczność wolontariuszy i udostępniane na licencji <1>{{ license }}</1>."
 }

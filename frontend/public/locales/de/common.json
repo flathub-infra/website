@@ -398,5 +398,12 @@
   "no-file-system-access": "Kein Zugriff auf das Dateisystem",
   "no-user-device-access": "Kein Zugriff auf Benutzergerät",
   "close": "Schließen",
-  "user-not-found": "Benutzer nicht gefunden"
+  "user-not-found": "Benutzer nicht gefunden",
+  "community-built-explanation": "Diese Software wird von einer Gemeinschaft von Freiwilligen entwickelt und unter der <1>{{ license }}</1> veröffentlicht.",
+  "can-acquire-arbitrary-permissions": "Kann beliebige Berechtigungen erlangen",
+  "links": "Links",
+  "uses-eol-runtime": "Verwendet eine ausgediente Laufzeitumgebung",
+  "information": "Information",
+  "proprietary-explanation": "Diese Software wird nicht öffentlich entwickelt, sodass nur ihre Entwickler die Funktionsweise kennen. Sie kann in einer schwer zu erkennenden Weise unsicher sein und sich unbemerkt verändern.",
+  "learn-more": "Mehr erfahren"
 }

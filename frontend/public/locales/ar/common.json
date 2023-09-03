@@ -401,5 +401,14 @@
   "user-not-found": "لم يتم العثور على المستخدم",
   "add-ons": "الإضافات",
   "addon-install-info": "طريقة تثبيت الإضافات",
-  "addon-install-info-text": "استعمل مدير فلاتباك الموجود في توزيعتك لتثبِّت الإضافات."
+  "addon-install-info-text": "استعمل مدير فلاتباك الموجود في توزيعتك لتثبِّت الإضافات.",
+  "uses-eol-runtime": "يستخدم بيئة تشغيل تكاد تُترك",
+  "can-acquire-arbitrary-permissions": "يؤذَن له بأذونات كيفية",
+  "information": "معلومات",
+  "proprietary-explanation": "لا تُطوَّر هذه البرمجية علنًا، فلا يعرف خفاياها إلا مطوِّروها، ولعل فيها شيئًا لا يُعرف يجعلها غير آمنة، وقد تتغيَّر دون إشراف.",
+  "community-built": "بناها مجتمع",
+  "community-built-explanation": "يطوِّر متطوِّعون هذه البرمجية علنًا، وينشرونها وفق <1>{{ license }}</1>.",
+  "learn-more": "استزد",
+  "get-involved": "ساهم",
+  "links": "روابط"
 }

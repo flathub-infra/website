@@ -400,5 +400,14 @@
   "user-not-found": "Käyttäjää ei löydy",
   "add-ons": "Lisäosat",
   "addon-install-info-text": "Käytä jakelusi Flatpak-hallintaohjelmaa asentaaksesi lisäosia.",
-  "addon-install-info": "Miten asentaa lisäosia"
+  "addon-install-info": "Miten asentaa lisäosia",
+  "information": "Tiedot",
+  "community-built": "Yhteisön rakentama",
+  "proprietary-explanation": "Tätä ohjelmistoa ei kehitetä avoimesti, joten vain ohjelman kehittäjät tietävät miten se toimii. Ohjelma saattaa muuttua yllättäen, ja tietoturvan tason määrittäminen on vaikeaa.",
+  "learn-more": "Lue lisää",
+  "get-involved": "Osallistu",
+  "can-acquire-arbitrary-permissions": "Voi hankkia mielivaltaisia oikeuksia",
+  "links": "Linkit",
+  "community-built-explanation": "Tätä ohjelmistoa kehitetään avoimesti vapaaehtoisyhteisön toimesta, ja se on julkaistu lisenssillä <1>{{ license }}</1>.",
+  "uses-eol-runtime": "Käyttää tuen ulkopuolelle asetettua runtime-kirjastoa"
 }

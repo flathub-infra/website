@@ -398,5 +398,17 @@
   "uses-system-services": "Sistem hizmetlerini kullanır",
   "release-link-no-changelog": "Sürüm notları",
   "user-not-found": "Kullanıcı bulunamadı",
-  "close": "Kapat"
+  "close": "Kapat",
+  "uses-eol-runtime": "Ömür sonu gelmiş çalışma zamanı kullanıyor",
+  "add-ons": "Eklentiler",
+  "can-acquire-arbitrary-permissions": "Gelişigüzel izinler edinir",
+  "links": "Bağlantılar",
+  "addon-install-info": "Eklentiler nasıl yüklenir",
+  "community-built-explanation": "Bu yazılım gönüllü bir topluluk tarafından açık olarak geliştirilmiş ve <1>{{ license }}</1> lisansı ile yayınlanmıştır.",
+  "community-built": "Topluluk inşası",
+  "learn-more": "Daha çoğunu öğren",
+  "addon-install-info-text": "Eklentileri kurmak için dağıtımınızca sağlanan flatpak yöneticisini kullanın.",
+  "information": "Bilgi",
+  "get-involved": "Siz de Katılın",
+  "proprietary-explanation": "Bu yazılım açık olarak geliştirilmemiştir, bu nedenle nasıl çalıştığını yalnızca geliştiricileri bilir. Tespit edilmesi zor şekillerde güvensiz olabilir ve gözetim olmaksızın değişebilir."
 }

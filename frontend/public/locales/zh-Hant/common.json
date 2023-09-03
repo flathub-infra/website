@@ -401,5 +401,14 @@
   "user-not-found": "找不到使用者",
   "add-ons": "附加元件",
   "addon-install-info": "如何安裝附加元件",
-  "addon-install-info-text": "請使用您散布版提供的 flatpak 管理員安裝附加元件。"
+  "addon-install-info-text": "請使用您散布版提供的 flatpak 管理員安裝附加元件。",
+  "information": "資訊",
+  "can-acquire-arbitrary-permissions": "可以取得任意權限",
+  "uses-eol-runtime": "使用已結束生命週期的執行時期",
+  "proprietary-explanation": "此軟體並非以開放的方式開發，因此僅有其開發者知道其如何運作。其可能以難以察覺的方式不安全，且可能在未受監督的狀況下發生變化。",
+  "community-built": "社群建構",
+  "learn-more": "取得更多資訊",
+  "links": "連結",
+  "community-built-explanation": "此軟體由志願者社群以開放的方式開發，並以 <1>{{ license }}</1> 釋出。",
+  "get-involved": "參與其中"
 }

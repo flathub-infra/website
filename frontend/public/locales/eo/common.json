@@ -396,5 +396,19 @@
   "auditable-code": "Ekzamenebla kodo",
   "uses-a-legacy-windowing-system": "Uzas malmodernan fenestrosistemon",
   "no-file-system-access": "Ne povas atingi la dosiersistemon",
-  "no-user-device-access": "Ne povas atingi aparatojn de la uzanto"
+  "no-user-device-access": "Ne povas atingi aparatojn de la uzanto",
+  "addon-install-info-text": "Por instali helpprogramojn, bonvole uzu la programadministrilon provizitan de via mastruma sistemo.",
+  "add-ons": "Helpprogramoj",
+  "addon-install-info": "Kiel instali helpprogramojn",
+  "close": "Fermi",
+  "user-not-found": "Uzanto ne troviĝis",
+  "uses-eol-runtime": "Uzas malaktualan rultempan medion",
+  "information": "Informoj",
+  "get-involved": "Partopreni",
+  "can-acquire-arbitrary-permissions": "Povas doni al si ajnajn permesojn",
+  "links": "Ligoj",
+  "learn-more": "Lerni plu",
+  "community-built": "Komunume evoluigata",
+  "proprietary-explanation": "Ĉi tiu programo estas kaŝite evoluigata, tiel ke nur ĝiaj aŭtoroj scias kiel ĝi funkcias. Ĝi povas esti nesekura je malfacile pruvebla maniero aŭ modifata nereviziite.",
+  "community-built-explanation": "Ĉi tiu programo estas evoluigata malkaŝite far komunumo de volontuloj kaj eldonita sub la permesilo <1>{{ license }}</1>."
 }
