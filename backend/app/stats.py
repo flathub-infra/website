@@ -282,6 +282,8 @@ def update(all_app_ids: list):
             }
 
         for old_id in old_id_list:
+            old_id = old_id.removesuffix(":stable")
+
             if old_id not in stats_apps_dict:
                 continue
 
