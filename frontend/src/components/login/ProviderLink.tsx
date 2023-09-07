@@ -54,8 +54,11 @@ const ProviderLink: FunctionComponent<Props> = ({
 
     if (res.ok) {
       const data: LoginRedirect = await res.json()
-      setReturnTo((router.query.returnTo as string) ?? "")
-      window.location.href = data.redirect
+      const returnTo = router.query.returnTo as string
+      if (returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI)) {
+        setReturnTo(returnTo ?? "")
+        window.location.href = data.redirect
+      }
     } else {
       toast.error(`${res.status} ${res.statusText}`)
       setClicked(false)
