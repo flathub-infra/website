@@ -823,7 +823,7 @@ def continue_oauth_flow(
             "Accept": "application/json",
         },
     ).json()
-    print("TOKENS: " + repr(login_result))
+
     if "error" in login_result:
         return JSONResponse(
             {
