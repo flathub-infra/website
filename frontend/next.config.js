@@ -4,7 +4,6 @@ const { withSentryConfig } = require("@sentry/nextjs")
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
-  prefetch-src 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   default-src 'none';
   form-action 'none';
   script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org https://js.stripe.com;
