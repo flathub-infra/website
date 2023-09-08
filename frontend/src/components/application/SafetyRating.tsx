@@ -30,7 +30,7 @@ const SafetyRatingIcon = ({
   return (
     <div
       className={clsx(
-        size === "small" ? "h-10 w-10" : "h-14 w-14",
+        size === "small" ? "h-10 w-10" : "h-16 w-16",
         "rounded-full p-2",
         safetyRatingToColor(highestSafetyRating),
       )}
@@ -95,7 +95,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
               size="large"
             />
           </div>
-          <div className="mt-2 w-full">
+          <div className="mt-8 w-full">
             <StackedListBox
               items={safetyRating
                 .sort((a, b) => b.safetyRating - a.safetyRating)

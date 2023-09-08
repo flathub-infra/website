@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react"
-import { Fragment, FunctionComponent } from "react"
+import { Fragment, FunctionComponent, useRef } from "react"
 import Button from "./Button"
 import { useTranslation } from "next-i18next"
-import { HiXMark } from "react-icons/hi2"
+import { HiMiniXMark, HiXMark } from "react-icons/hi2"
 import clsx from "clsx"
 
 interface Props {
@@ -35,11 +35,17 @@ const Modal: FunctionComponent<Props> = ({
   submitButton,
 }) => {
   const { t } = useTranslation()
+  const ref = useRef(null)
 
   return (
     <>
       <Transition.Root show={shown} as={Fragment}>
-        <Dialog as="div" className="relative z-40" onClose={onClose}>
+        <Dialog
+          as="div"
+          className="relative z-40"
+          onClose={onClose}
+          initialFocus={ref}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -71,19 +77,23 @@ const Modal: FunctionComponent<Props> = ({
                     <button
                       type="button"
                       className={clsx(
-                        "rounded-md bg-flathub-white text-flathub-spanish-gray hover:text-flathub-gray-x11",
-                        "focus:outline-none focus:ring-2 focus:ring-flathub-gainsborow focus:dark:ring-flathub-arsenic focus:dark:ring-offset-flathub-arsenic focus:ring-offset-2 dark:bg-flathub-dark-gunmetal",
-                        "dark:text-flathub-gainsborow hover:dark:text-flathub-spanish-gray",
+                        "h-7 w-7 flex justify-center items-center",
+                        "transition",
+                        "rounded-full",
+                        "bg-flathub-gainsborow hover:bg-flathub-gray-x11",
+                        "focus:outline-none focus:ring-2 focus:ring-flathub-celestial-blue",
+                        "hover:dark:bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
                       )}
                       onClick={() => onClose()}
                     >
                       <span className="sr-only">{t("close")}</span>
-                      <HiXMark className="h-6 w-6" aria-hidden="true" />
+                      <HiMiniXMark className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
 
                   <Dialog.Title
                     as="h3"
+                    ref={ref}
                     className={clsx(
                       centerTitle && "text-center",
                       "text-lg font-semibold pb-5",
