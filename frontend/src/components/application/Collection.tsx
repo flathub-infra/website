@@ -13,7 +13,6 @@ import { motion } from "framer-motion"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
-  perPage?: number
   title: string
   user?: UserState
   page?: number
@@ -59,10 +58,11 @@ const Header = ({
   )
 }
 
+// If you don't set a totalPages, we assume you donq't want pagination
+// So you likely want to pass all your applications at once
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
   title,
-  perPage = 30,
   user,
   page,
   totalPages,
@@ -103,11 +103,8 @@ const ApplicationCollection: FunctionComponent<Props> = ({
     )
   }
 
-  if (!page) {
+  if (!page && totalPages) {
     page = parseInt((router.query.page ?? "1") as string)
-  }
-  if (!totalPages) {
-    totalPages = Math.ceil(applications.length / perPage)
   }
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
 
@@ -149,7 +146,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         ))}
       </div>
 
-      <Pagination pages={pages} currentPage={page} />
+      {totalPages && <Pagination pages={pages} currentPage={page} />}
     </section>
   )
 }
