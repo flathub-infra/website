@@ -95,8 +95,8 @@ const Modal: FunctionComponent<Props> = ({
                     as="h3"
                     ref={ref}
                     className={clsx(
-                      centerTitle && "text-center",
-                      "text-lg font-semibold pb-5",
+                      centerTitle && "text-center ps-6",
+                      "text-lg font-semibold pb-5 pe-6",
                     )}
                   >
                     {title}
