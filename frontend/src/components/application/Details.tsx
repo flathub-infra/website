@@ -30,7 +30,7 @@ import { CarouselStrip } from "./CarouselStrip"
 import { useQuery } from "@tanstack/react-query"
 import { IS_PRODUCTION } from "src/env"
 import { Description } from "./Description"
-import { VerticalStackedListBox } from "./VerticalStackedListBox"
+import { HorizontalStackedListBox } from "./HorizontalStackedListBox"
 import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
@@ -176,7 +176,7 @@ const Details: FunctionComponent<Props> = ({
             <Releases latestRelease={stableReleases[0]}></Releases>
           )}
 
-          <VerticalStackedListBox>{children}</VerticalStackedListBox>
+          <HorizontalStackedListBox>{children}</HorizontalStackedListBox>
 
           <div>
             <Tabs tabs={tabs} />
