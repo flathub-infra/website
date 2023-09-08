@@ -16,6 +16,8 @@ import spdxLicenseList from "spdx-license-list"
 import { DesktopAppstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
 
+const isProprietaryRegex = /^LicenseRef-proprietary/i
+
 function getLicense(
   project_license: string | undefined,
   t: TFunction<"translation", undefined>,
@@ -24,10 +26,13 @@ function getLicense(
     return undefined
   }
 
-  if (project_license?.startsWith("LicenseRef-proprietary=")) {
-    return project_license?.replace(/LicenseRef-proprietary=/, "")
+  const regex = /^LicenseRef-proprietary=(.*)/i
+  const match = project_license.match(regex)
+  if (match) {
+    return match[1]
   }
-  if (project_license?.startsWith("LicenseRef-proprietary")) {
+
+  if (project_license.match(isProprietaryRegex)) {
     return t("proprietary")
   }
 
@@ -81,8 +86,7 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
     "LicenseRef-proprietary=",
   )
 
-  const isProprietary =
-    app.project_license?.startsWith("LicenseRef-proprietary") ?? true
+  const isProprietary = app.project_license?.match(isProprietaryRegex) ?? true
 
   const linkClicked = () => {
     trackEvent({

@@ -18,6 +18,8 @@ import { Summary } from "./types/Summary"
 import React from "react"
 import { IconType } from "react-icons"
 
+const isProprietaryRegex = /^LicenseRef-proprietary/i
+
 enum SafetyRating {
   safe = 1,
   probably_safe = 2,
@@ -233,7 +235,7 @@ export function getSafetyRating(
 
   if (
     !appstream.project_license ||
-    appstream.project_license.startsWith("LicenseRef-proprietary")
+    appstream.project_license.match(isProprietaryRegex)
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.probably_safe,
