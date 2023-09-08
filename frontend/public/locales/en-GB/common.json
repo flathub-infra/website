@@ -350,5 +350,12 @@
   "publisher-agreement": "Publisher Submission Agreement",
   "publisher-agreement-accept": "I accept the Publisher Submission Agreement",
   "arch": "Arch",
-  "release-link-no-changelog": "Release notes"
+  "release-link-no-changelog": "Release notes",
+  "invite-not-found": "Invite not found",
+  "close": "Close",
+  "decline": "Decline",
+  "invites": "Invites",
+  "accept-invite": "Accept Invite",
+  "developer-invited": "You have been invited to become a developer",
+  "accept": "Accept"
 }
