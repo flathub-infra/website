@@ -85,8 +85,8 @@ const Modal: FunctionComponent<Props> = ({
                   <Dialog.Title
                     as="h3"
                     className={clsx(
-                      centerTitle && "text-center",
-                      "text-lg font-semibold pb-5",
+                      centerTitle && "text-center ps-6",
+                      "text-lg font-semibold pb-5 pe-6",
                     )}
                   >
                     {title}
