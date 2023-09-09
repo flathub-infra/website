@@ -5,11 +5,15 @@ import os
 import re
 from typing import Any
 
+import gi
 import requests
 from lxml import etree
 from pydantic import BaseModel
 
 from . import config
+
+gi.require_version("AppStream", "1.0")
+from gi.repository import AppStream
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 
@@ -250,6 +254,15 @@ def appstream2dict(reponame: str):
                     # TODO: support translations
                     if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                         continue
+
+        # Determine whether the app is FOSS
+        app_licence = app.get("project_license", "")
+        app["is_free_license"] = app_licence and AppStream.license_is_free_license(
+            app_licence
+        )
+
+        if app["is_free_license"] == "":
+            app["is_free_license"] = False
 
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
