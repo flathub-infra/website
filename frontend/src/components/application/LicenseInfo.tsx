@@ -16,23 +16,23 @@ import spdxLicenseList from "spdx-license-list"
 import { DesktopAppstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
 
-const isProprietaryRegex = /^LicenseRef-proprietary/i
+const licenseRefRegex = /LicenseRef-proprietary=(.*)/i
 
 function getLicense(
   project_license: string | undefined,
+  is_free_license: boolean,
   t: TFunction<"translation", undefined>,
 ): string | undefined {
   if (!project_license) {
     return undefined
   }
 
-  const regex = /^LicenseRef-proprietary=(.*)/i
-  const match = project_license.match(regex)
+  const match = project_license.match(licenseRefRegex)
   if (match) {
     return match[1]
   }
 
-  if (project_license.match(isProprietaryRegex)) {
+  if (!is_free_license) {
     return t("proprietary")
   }
 
@@ -82,11 +82,9 @@ const IconInCircle = ({
 const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
   const { trackEvent } = useMatomo()
 
-  const licenseIsLink = app.project_license?.startsWith(
-    "LicenseRef-proprietary=",
-  )
+  const licenseIsLink = app.project_license?.match(licenseRefRegex)?.length > 0
 
-  const isProprietary = app.project_license?.match(isProprietaryRegex) ?? true
+  const isProprietary = !app.is_free_license ?? true
 
   const linkClicked = () => {
     trackEvent({
@@ -97,7 +95,7 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
   }
 
   const { t } = useTranslation()
-  const license = getLicense(app.project_license, t)
+  const license = getLicense(app.project_license, app.is_free_license, t)
 
   return (
     <div className="flex flex-col gap-1 justify-center items-center text-center p-4">

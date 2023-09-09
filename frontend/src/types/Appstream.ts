@@ -27,6 +27,7 @@ export interface DesktopAppstream {
   bundle: Bundle
   metadata?: Metadata
   keywords: string[]
+  is_free_license: boolean
 }
 
 export interface AddonAppstream {
@@ -41,6 +42,7 @@ export interface AddonAppstream {
   extends: string
   bundle: Bundle
   metadata?: Metadata
+  is_free_license: boolean
 }
 
 interface ContentRating {
