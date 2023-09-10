@@ -84,17 +84,19 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
         shown={isOpen}
         centerTitle
         onClose={() => setIsOpen(false)}
-        title={t(`appname-is-safety-rating-${highestSafetyRating}`, {
-          appName: data.name,
-        })}
-      >
-        <>
-          <div className="flex flex-col items-center gap-2">
+        aboveTitle={
+          <div className="flex flex-col items-center pb-2">
             <SafetyRatingIcon
               highestSafetyRating={highestSafetyRating}
               size="large"
             />
           </div>
+        }
+        title={t(`appname-is-safety-rating-${highestSafetyRating}`, {
+          appName: data.name,
+        })}
+      >
+        <>
           <div className="mt-8 w-full">
             <StackedListBox
               items={safetyRating
