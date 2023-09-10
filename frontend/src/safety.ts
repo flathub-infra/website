@@ -213,8 +213,8 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      title: "uses-a-legacy-windowing-system",
-      description: "uses-a-legacy-windowing-system-description",
+      title: "legacy-windowing-system",
+      description: "legacy-windowing-system-description",
       icon: HiOutlineComputerDesktop,
       showOnSummaryOrDetails: "both",
     })
