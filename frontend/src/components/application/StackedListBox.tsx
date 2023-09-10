@@ -15,11 +15,11 @@ export const StackedListBox = ({
           key={x.id}
           className="flex items-center gap-3 px-5 pb-2 pt-2 first:pt-0 last:pb-0"
         >
-          {x.icon}
-          <div className="flex flex-col">
-            <div>{x.header}</div>
+          <div>{x.icon}</div>
+          <div className="flex flex-col gap-1">
+            <div className="leading-none">{x.header}</div>
             {x.description && (
-              <div className="text-sm text-flathub-gray-x11 leading-none">
+              <div className="text-xs text-flathub-sonic-silver dark:text-flathub-gray-x11 leading-none">
                 {x.description}
               </div>
             )}

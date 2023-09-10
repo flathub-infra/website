@@ -74,7 +74,7 @@ const Modal: FunctionComponent<Props> = ({
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                <Dialog.Panel className="relative transform overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
                   <div className="absolute end-0 top-0 hidden pe-6 pt-6 sm:block">
                     <button
                       type="button"
@@ -99,8 +99,8 @@ const Modal: FunctionComponent<Props> = ({
                     as="h3"
                     ref={ref}
                     className={clsx(
-                      centerTitle && "text-center ps-6",
-                      "text-lg font-semibold pb-5 pe-6",
+                      centerTitle && "text-center ps-8",
+                      "text-lg font-semibold pb-5 pe-8",
                     )}
                   >
                     {title}
