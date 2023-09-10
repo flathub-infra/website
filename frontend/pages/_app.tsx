@@ -26,6 +26,7 @@ import { MotionConfig } from "framer-motion"
 
 const inter = Inter({
   subsets: ["latin"],
+  fallback: ["sans-serif"],
 })
 
 const App = ({ Component, pageProps }: AppProps) => {
