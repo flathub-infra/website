@@ -12,6 +12,7 @@ interface Props {
   description?: string
   onClose: () => void
   children?: React.ReactNode
+  aboveTitle?: React.ReactNode
   cancelButton?: {
     label?: string
     onClick: () => void
@@ -31,6 +32,7 @@ const Modal: FunctionComponent<Props> = ({
   description,
   onClose,
   children,
+  aboveTitle,
   cancelButton,
   submitButton,
 }) => {
@@ -90,6 +92,8 @@ const Modal: FunctionComponent<Props> = ({
                       <HiMiniXMark className="h-5 w-5" aria-hidden="true" />
                     </button>
                   </div>
+
+                  {aboveTitle}
 
                   <Dialog.Title
                     as="h3"
