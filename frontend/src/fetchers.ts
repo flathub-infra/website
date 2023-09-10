@@ -223,11 +223,10 @@ export async function fetchSearchQuery(
     value: string
   }[],
 ) {
-  const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
   return axios.post<MeilisearchResponseLimited<AppsIndex>>(
     SEARCH_APP,
     {
-      query: queryEncoded,
+      query: query,
       filters: selectedFilters,
     },
     {
