@@ -12,11 +12,14 @@ import {
   HiExclamationTriangle,
   HiQuestionMarkCircle,
   HiShieldCheck,
+  HiOutlineWrenchScrewdriver,
+  HiOutlineCog6Tooth,
 } from "react-icons/hi2"
 import { Appstream } from "./types/Appstream"
-import { Summary } from "./types/Summary"
+import { Summary, Permissions } from "./types/Summary"
 import React from "react"
 import { IconType } from "react-icons"
+import { BsWifiOff } from "react-icons/bs"
 
 enum SafetyRating {
   safe = 1,
@@ -27,9 +30,12 @@ enum SafetyRating {
 
 interface AppSafetyRating {
   safetyRating: SafetyRating
+  title: string
+  titleOptions?: { folder: string }
   description: string
+  descriptionOptions?: { folder: string }
   icon?: IconType
-  showOnSummary: boolean
+  showOnSummaryOrDetails: "summary" | "details" | "both"
 }
 
 export function safetyRatingToColor(safetyRating: SafetyRating): string {
@@ -96,9 +102,18 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.probably_safe,
+      title: "network-access",
       description: "has-network-access",
       icon: HiOutlineWifi,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
+    })
+  } else {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.safe,
+      title: "no-network-access",
+      description: "cannot-access-the-internet",
+      icon: BsWifiOff,
+      showOnSummaryOrDetails: "details",
     })
   }
 
@@ -110,8 +125,10 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "uses-system-services",
-      showOnSummary: true,
+      icon: HiOutlineCog6Tooth,
+      title: "uses-system-services",
+      description: "can-request-data-from-system-services",
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -123,8 +140,10 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "uses-session-services",
-      showOnSummary: true,
+      icon: HiOutlineCog6Tooth,
+      title: "uses-session-services",
+      description: "can-request-data-from-session-services",
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -134,16 +153,18 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
+      title: "user-device-access",
       description: "can-access-hardware-devices",
       icon: HiOutlineVideoCamera,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   } else {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
-      description: "no-user-device-access",
+      title: "no-user-device-access",
+      description: "no-user-device-access-description",
       icon: HiOutlineVideoCameraSlash,
-      showOnSummary: false,
+      showOnSummaryOrDetails: "details",
     })
   }
 
@@ -156,9 +177,10 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
+      title: "system-device-access",
       description: "can-access-system-devices",
       icon: HiOutlineCpuChip,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -173,8 +195,10 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
+      icon: HiOutlineWrenchScrewdriver,
+      title: "user-settings",
       description: "can-access-and-change-user-settings",
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -189,9 +213,10 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "uses-a-legacy-windowing-system",
+      title: "uses-a-legacy-windowing-system",
+      description: "uses-a-legacy-windowing-system-description",
       icon: HiOutlineComputerDesktop,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -209,41 +234,49 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
+      title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
-  if (appSafetyRating.length === 0) {
+  if (
+    appSafetyRating.filter((x) => x.safetyRating === SafetyRating.safe)
+      .length === appSafetyRating.length
+  ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
-      description: "no-permissions",
-      showOnSummary: true,
+      title: "no-permissions",
+      description: "no-permissions-description",
+      showOnSummaryOrDetails: "both",
     })
   }
 
   if (summary.metadata.runtimeIsEol) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "uses-eol-runtime",
+      title: "uses-eol-runtime",
+      description: "uses-eol-runtime-description",
       icon: HiOutlineExclamationTriangle,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
   if (!appstream.project_license || !appstream.is_free_license) {
     appSafetyRating.push({
       safetyRating: SafetyRating.probably_safe,
-      description: "proprietary-code",
+      title: "proprietary-code",
+      description: "proprietary-code-description",
       icon: HiOutlineExclamationTriangle,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   } else {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
-      description: "auditable-code",
+      title: "auditable-code",
+      description: "auditable-code-description",
       icon: HiOutlineCheckCircle,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -253,15 +286,17 @@ export function getSafetyRating(
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
-      description: "software-developer-verified",
+      title: "software-developer-verified",
+      description: "software-developer-verified-description",
       icon: HiOutlineCheckBadge,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
   return appSafetyRating
 }
 function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
+  // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
   const appSafetyRating: AppSafetyRating[] = []
   if (
     summary.metadata.permissions.filesystems?.some(
@@ -285,9 +320,10 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "can-read-write-all-your-data",
+      title: "home-folder-read-write-access",
+      description: "can-read-write-home-folder",
       icon: HiOutlineDocument,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -305,9 +341,10 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "can-read-all-your-data",
+      title: "full-file-system-read-access",
+      description: "can-read-all-data-on-file-system",
       icon: HiOutlineDocument,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -322,9 +359,10 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
+      title: "download-folder-read-write-access",
       description: "can-read-write-your-downloads",
       icon: HiOutlineArrowDownTray,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
@@ -336,47 +374,224 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
-      description: "can-read-your-downloads",
+      title: "download-folder-read-access",
+      description: "can-read-all-data-in-your-download-folder",
       icon: HiOutlineArrowDownTray,
-      showOnSummary: true,
+      showOnSummaryOrDetails: "both",
     })
   }
 
   //   can access some specific files
-  if (
-    summary.metadata.permissions.filesystems?.length > 0 &&
-    !summary.metadata.permissions.filesystems?.some(
-      (x) =>
-        x.toLowerCase() === "home" ||
-        x.toLowerCase() === "home:rw" ||
-        x.toLowerCase() === "~" ||
-        x.toLowerCase() === "~:rw" ||
-        x.toLowerCase() === "host" ||
-        x.toLowerCase() === "host:rw" ||
-        x.toLowerCase() === "home:ro" ||
-        x.toLowerCase() === "~:ro" ||
-        x.toLowerCase() === "host:ro" ||
-        x.toLowerCase() === "xdg-download" ||
-        x.toLowerCase() === "xdg-download:rw" ||
-        x.toLowerCase() === "xdg-download:ro" ||
-        x.toLowerCase() === "xdg-config/kdeglobals:ro",
-    )
-  ) {
-    appSafetyRating.push({
-      safetyRating: SafetyRating.potentially_unsafe,
-      description: "can-access-some-specific-files",
-      icon: HiOutlineDocument,
-      showOnSummary: true,
-    })
-  }
+  specificFileHandling(summary.metadata.permissions, appSafetyRating)
 
   if (appSafetyRating.length === 0) {
     appSafetyRating.push({
       safetyRating: SafetyRating.safe,
-      description: "no-file-system-access",
-      showOnSummary: false,
+      title: "no-file-system-access",
+      description: "no-file-system-access-description",
+      showOnSummaryOrDetails: "details",
     })
   }
 
   return appSafetyRating
+}
+
+function specificFileHandling(
+  permissions: Permissions,
+  appSafetyRating: AppSafetyRating[],
+) {
+  // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
+  const fileSystemsOther = [
+    { folder: "/", fullMatchKey: null, partialMatchKey: "system-folder-x" },
+    {
+      folder: "home/",
+      fullMatchKey: null,
+      partialMatchKey: "home-subfolder-x",
+    },
+    {
+      folder: "~/",
+      fullMatchKey: null,
+      partialMatchKey: "home-subfolder-x",
+    },
+    {
+      folder: "host-os",
+      fullMatchKey: "host-system-folders",
+      partialMatchKey: null,
+    },
+    {
+      folder: "host-etc",
+      fullMatchKey: "host-system-configuration-from-etc",
+      partialMatchKey: null,
+    },
+    {
+      folder: "xdg-desktop",
+      fullMatchKey: "desktop-folder",
+      partialMatchKey: "desktop-subfolder-x",
+    },
+    {
+      folder: "xdg-documents",
+      fullMatchKey: "documents-folder",
+      partialMatchKey: "documents-subfolder-x",
+    },
+    {
+      folder: "xdg-music",
+      fullMatchKey: "music-folder",
+      partialMatchKey: "music-subfolder-x",
+    },
+    {
+      folder: "xdg-pictures",
+      fullMatchKey: "pictures-folder",
+      partialMatchKey: "pictures-subfolder-x",
+    },
+    {
+      folder: "xdg-public-share",
+      fullMatchKey: "public-share-folder",
+      partialMatchKey: "public-share-subfolder-x",
+    },
+    {
+      folder: "xdg-videos",
+      fullMatchKey: "videos-folder",
+      partialMatchKey: "videos-subfolder-x",
+    },
+    {
+      folder: "xdg-templates",
+      fullMatchKey: "templates-folder",
+      partialMatchKey: "templates-subfolder-x",
+    },
+    {
+      folder: "xdg-cache",
+      fullMatchKey: "user-cache-folder",
+      partialMatchKey: "user-cache-subfolder-x",
+    },
+    {
+      folder: "xdg-config",
+      fullMatchKey: "user-configuration-folder",
+      partialMatchKey: "user-configuration-subfolder-x",
+    },
+    {
+      folder: "xdg-data",
+      fullMatchKey: "user-data-folder",
+      partialMatchKey: "user-data-subfolder-x",
+    },
+    {
+      folder: "xdg-run",
+      fullMatchKey: "user-runtime-folder",
+      partialMatchKey: "user-runtime-subfolder-x",
+    },
+  ]
+
+  const prefilteredPermissions = permissions.filesystems?.filter(
+    (x) =>
+      x.toLowerCase() !== "home" &&
+      x.toLowerCase() !== "home:rw" &&
+      x.toLowerCase() !== "~" &&
+      x.toLowerCase() !== "~:rw" &&
+      x.toLowerCase() !== "host" &&
+      x.toLowerCase() !== "host:rw" &&
+      x.toLowerCase() !== "home:ro" &&
+      x.toLowerCase() !== "~:ro" &&
+      x.toLowerCase() !== "host:ro" &&
+      x.toLowerCase() !== "xdg-download" &&
+      x.toLowerCase() !== "xdg-download:rw" &&
+      x.toLowerCase() !== "xdg-download:ro" &&
+      x.toLowerCase() !== "xdg-config/kdeglobals:ro",
+  )
+
+  if (prefilteredPermissions?.length > 0) {
+    let nonMatchedPermissions = prefilteredPermissions
+
+    fileSystemsOther.forEach((fileSystem) => {
+      const fullMatch = nonMatchedPermissions.filter(
+        (x) => x.toLowerCase() === fileSystem.folder.toLowerCase(),
+      )
+      if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
+        fullMatch.forEach((x) => {
+          appSafetyRating.push({
+            safetyRating: SafetyRating.potentially_unsafe,
+            title: fileSystem.fullMatchKey,
+            description: readWriteTranslationKey(x),
+            icon: HiOutlineDocument,
+            showOnSummaryOrDetails: "details",
+          })
+        })
+        nonMatchedPermissions = nonMatchedPermissions.filter(
+          (x) => x.toLowerCase() !== fileSystem.folder.toLowerCase(),
+        )
+      }
+
+      const partialMatch = nonMatchedPermissions.filter((x) =>
+        x.toLowerCase().startsWith(fileSystem.folder.toLowerCase()),
+      )
+      if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
+        partialMatch.forEach((x) => {
+          appSafetyRating.push({
+            safetyRating: SafetyRating.potentially_unsafe,
+            title: fileSystem.partialMatchKey,
+            titleOptions: { folder: trimPermission(x) },
+            description: readWriteTranslationKey(x),
+            icon: HiOutlineDocument,
+            showOnSummaryOrDetails: "details",
+          })
+        })
+        nonMatchedPermissions = nonMatchedPermissions.filter(
+          (x) => !x.toLowerCase().startsWith(fileSystem.folder.toLowerCase()),
+        )
+      }
+    })
+
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "can-access-some-specific-files",
+      description: "",
+      icon: HiOutlineDocument,
+      showOnSummaryOrDetails: "summary",
+    })
+  }
+}
+
+function readWriteTranslationKey(filesystemPermission: string): string {
+  if (isReadOnly(filesystemPermission)) {
+    return "can-read-all-data"
+  } else if (isReadWrite(filesystemPermission)) {
+    return "can-read-write-all-data"
+  } else if (isCreate(filesystemPermission)) {
+    return "can-create-files"
+  } else {
+    return "can-read-write-all-data"
+  }
+}
+
+function isReadOnly(filesystemPermission: string): boolean {
+  return filesystemPermission.endsWith(":ro")
+}
+
+function isReadWrite(filesystemPermission: string): boolean {
+  return filesystemPermission.endsWith(":rw")
+}
+
+function isCreate(filesystemPermission: string): boolean {
+  return filesystemPermission.endsWith(":create")
+}
+
+function trimPermission(filesystemPermission: string): string {
+  const startIndex = filesystemPermission.indexOf("/") + 1
+
+  if (isReadOnly(filesystemPermission)) {
+    return filesystemPermission.substring(
+      startIndex,
+      filesystemPermission.length - 3,
+    )
+  } else if (isReadWrite(filesystemPermission)) {
+    return filesystemPermission.substring(
+      startIndex,
+      filesystemPermission.length - 3,
+    )
+  } else if (isCreate(filesystemPermission)) {
+    return filesystemPermission.substring(
+      startIndex,
+      filesystemPermission.length - 7,
+    )
+  } else {
+    return filesystemPermission.substring(startIndex)
+  }
 }

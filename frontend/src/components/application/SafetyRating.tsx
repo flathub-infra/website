@@ -74,8 +74,12 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
         <div className="text-center">
           {safetyRating
             .filter((x) => x.safetyRating === highestSafetyRating)
-            .filter((x) => x.showOnSummary)
-            .map((x) => t(x.description))
+            .filter(
+              (x) =>
+                x.showOnSummaryOrDetails === "summary" ||
+                x.showOnSummaryOrDetails === "both",
+            )
+            .map((x) => t(x.title, x.titleOptions))
             .join("; ")}
         </div>
       </button>
@@ -98,18 +102,36 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
           <div className="mt-8 w-full">
             <StackedListBox
               items={safetyRating
+                .filter(
+                  (x) =>
+                    x.showOnSummaryOrDetails === "details" ||
+                    x.showOnSummaryOrDetails === "both",
+                )
                 .sort((a, b) => b.safetyRating - a.safetyRating)
-                .map(({ description, safetyRating, icon }, i) => ({
-                  id: i,
-                  header: t(description),
-                  icon: (
-                    <SafetyRatingIcon
-                      highestSafetyRating={safetyRating}
-                      size="small"
-                      icon={icon}
-                    />
-                  ),
-                }))}
+                .map(
+                  (
+                    {
+                      title,
+                      titleOptions,
+                      description,
+                      descriptionOptions,
+                      safetyRating,
+                      icon,
+                    },
+                    i,
+                  ) => ({
+                    id: i,
+                    header: t(title, titleOptions),
+                    description: t(description, descriptionOptions),
+                    icon: (
+                      <SafetyRatingIcon
+                        highestSafetyRating={safetyRating}
+                        size="small"
+                        icon={icon}
+                      />
+                    ),
+                  }),
+                )}
             />
           </div>
         </>

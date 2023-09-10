@@ -3,7 +3,7 @@ interface SessionBus {
   own: string[]
 }
 
-interface Permissions {
+export interface Permissions {
   shared: string[]
   sockets: string[]
   devices: string[]
