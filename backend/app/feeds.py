@@ -13,7 +13,14 @@ def generate_feed(key: str, title: str, description: str, link: str):
     feed.language("en")
 
     appids = db.redis_conn.zrevrange(key, 0, 10, withscores=True)
-    apps = [(db.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids]
+    appids_for_frontend = [
+        tuple((appid[0], appid[1]))
+        for appid in appids
+        if db.is_appid_for_frontend(appid[0])
+    ]
+    apps = [
+        (db.get_json_key(f"apps:{appid[0]}"), appid[1]) for appid in appids_for_frontend
+    ]
 
     for app, timestamp in reversed(apps):
         # sanity check: if index includes an app, but apps:ID is null, skip it
