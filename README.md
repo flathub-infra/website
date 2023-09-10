@@ -14,7 +14,7 @@ Pull requests are welcome. Please, create an issue first explaining what you wan
 
 ### Development
 
-You'll need `git`, `yarn`, `docker` and `docker-compose`.
+You'll need `git`, `yarn`, `docker` and `docker-compose-plugin`.
 
 Go to the folder where you manage your projects and checkout this project.
 
@@ -22,7 +22,7 @@ Then start the backend:
 
 ```sh
 cd backend
-docker-compose up
+docker compose up
 ```
 
 You might need to use `--build` to rebuild the images, when dependencies change.

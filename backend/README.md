@@ -1,7 +1,7 @@
 # Flathub website backend
 
 This is the fastapi based backend for https://www.flathub.org
-Not the backend for flathub itself. Go here, if your looking for that https://github.com/flathub/flathub
+Not the backend for flathub itself. Go here, if you're looking for that https://github.com/flathub/flathub
 
 ## Development
 
@@ -15,7 +15,7 @@ Not the backend for flathub itself. Go here, if your looking for that https://gi
 Start the database:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 You need to seed the database:
@@ -76,14 +76,14 @@ Once you have made your `models.py` change:
 1. Prepare your migration with:
 
    ```bash
-   docker-compose run backend alembic revision --autogenerate -m "Title of migration"
+   docker compose run backend alembic revision --autogenerate -m "Title of migration"
    ```
 
    If the command ran successfully, a new file will be created under `alembic/versions`.
 
 2. Run the migration after the file has been created via
    ```bash
-   docker-compose run backend alembic upgrade head
+   docker compose run backend alembic upgrade head
    ```
    This will update your local database.
 
@@ -98,10 +98,10 @@ simply stop and restart the `backend` container.
 If you encounter any issues with the database and migrations, then to save yourself time and frustration it might be better to reset your Docker environment with
 
 ```bash
-docker-compose down --volumes
+docker compose down --volumes
 ```
 
-After that, using `docker-compose up` will download and give you a fresh start from the last working migration.
+After that, using `docker compose up` will download and give you a fresh start from the last working migration.
 
 After these changes, it's possible that the endpoint will need an update. To do this, open another terminal session and run
 
@@ -116,12 +116,12 @@ If there's an update in `pyproject.toml` and `poetry.lock`, this means the depen
 To do this, you run:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 ## Search
 
-If you running this locally, you can use http://localhost:7700/ to test the search.
+If you're running this locally, you can use http://localhost:7700/ to test the search.
 
 ## Stripe
 
@@ -176,8 +176,7 @@ If you want webhooks to make it from the testing into the backend then run:
 ### Running the website with the right keys
 
 In the backend directory you can run `env STRIPE_PUBLIC_KEY=... STRIPE_SECRET_KEY=...
-STRIPE_WEBHOOK_KEY=... docker-compose up --build`
+STRIPE_WEBHOOK_KEY=... docker compose up --build`
 
 When everything has started, if you visit <http://localhost:8000/docs> you will
 see mention of Stripe if things are working properly.
-
