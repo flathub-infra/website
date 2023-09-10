@@ -400,7 +400,7 @@
   "no-user-device-access": "No user device access",
   "user-not-found": "User not found",
   "add-ons": "Add-ons",
-  "addon-install-info": "How to install addons",
+  "addon-install-info": "How to install add-ons",
   "addon-install-info-text": "Please use the flatpak manager supplied by your distribution to install add-ons.",
   "information": "Information",
   "proprietary-explanation": "This app is not developed in the open, so only its developers know how it works. It may be insecure in ways that are hard to detect, and it may change without oversight.",
