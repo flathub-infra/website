@@ -101,7 +101,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
         })}
       >
         <>
-          <div className="mt-8 w-full">
+          <div className="w-full">
             <StackedListBox
               items={safetyRating
                 .filter(
