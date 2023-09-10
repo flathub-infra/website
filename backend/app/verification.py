@@ -123,6 +123,11 @@ def _get_domain_name(appid: str) -> str:
         [tld, domain, username] = appid.split(".")[0:3]
         username = _demangle_name(username)
         return f"{username}.{domain}.{tld}".lower()
+    elif _matches_prefixes(appid, "io.sourceforge", "net.sourceforge"):
+        [tld, domain, projectname] = appid.split(".")[0:3]
+        projectname = _demangle_name(projectname)
+        # https://sourceforge.net/p/forge/documentation/Project%20Web%20Services/
+        return f"{projectname}.{domain}.io".lower()
     else:
         [tld, domain] = appid.split(".")[0:2]
         domain = _demangle_name(domain)
