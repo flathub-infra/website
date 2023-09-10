@@ -62,7 +62,7 @@ class Settings(BaseSettings):
     flat_manager_build_secret: str | None = base64.b64encode(b"secret").decode()
     # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
     # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
-    # when running docker-compose.
+    # when running docker compose.
     flat_manager_api: str | None = None
 
     # When set to True, moderation reviews will still be logged, but they do not have to be approved for the build to
