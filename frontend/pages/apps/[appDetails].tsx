@@ -15,12 +15,7 @@ import {
   fetchAddons,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
-import {
-  AddonAppstream,
-  DesktopAppstream,
-  pickScreenshot,
-  Screenshot,
-} from "../../src/types/Appstream"
+import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
 import { Summary } from "../../src/types/Summary"
 import { AppStats } from "../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
@@ -53,18 +48,6 @@ export default function Details({
     return <EolMessageDetails message={eolMessage} />
   }
 
-  const screenshots = app.screenshots
-    ? app.screenshots
-        .filter((screenshot) => pickScreenshot(screenshot))
-        .map((screenshot: Screenshot) => {
-          const pickedScreenshot = pickScreenshot(screenshot)
-          return {
-            url: pickedScreenshot.src,
-            alt: pickedScreenshot.caption,
-          }
-        })
-    : []
-
   return (
     <>
       <NextSeo
@@ -73,7 +56,6 @@ export default function Details({
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
-            ...screenshots,
             {
               url: app?.icon,
             },
