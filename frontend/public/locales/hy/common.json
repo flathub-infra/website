@@ -349,13 +349,10 @@
   "uses-system-services": "Օգտագործում է ԳՀ ծառայություններ",
   "uses-session-services": "Օգտագործում է սեսիայի ծառայություններ",
   "can-access-system-devices": "Հասանելիություն ունի համակարգի սարքերին",
-  "can-read-all-your-data": "Կարող է ընթերցնել ձեր բոլոր տվյալները",
   "can-read-write-your-downloads": "Կարող է ընթերցել/գրառել ձեր ներբեռնումները",
-  "can-read-your-downloads": "Կարող է ընթերցել ձեր ներբեռնումները",
   "can-access-some-specific-files": "Կարող է ունենալ հասանելիություն որոշ տեսակի նիշքերի",
   "can-access-and-change-user-settings": "Ունի հնարավորություն փոխելու օգտատիրոջ կարգավորումները",
   "software-developer-verified": "Ծրագրի մշակողը ստուգված է",
-  "uses-a-legacy-windowing-system": "Օգտագործում է ԳՀ, որի պատուհանը չի սպասարկվում",
   "appname-is-safety-rating-2": "{{appName}}֊ը հավանաբար ապահով է",
   "appname-is-safety-rating-1": "{{appName}}֊ն անվտանգ է",
   "appname-is-safety-rating-3": "{{appName}}֊ը պոտենցիալ վտանգավոր է",
@@ -399,7 +396,6 @@
   "new-direct-upload": "Ուղի վերբեռնման նոր հավելված",
   "no-permissions": "Թույլտվություններ չկան",
   "has-network-access": "Ունի ցանցային մուտք",
-  "can-read-write-all-your-data": "Կարող է ընթերցել/գրառել ձեր բոլոր տվյալները",
   "proprietary-code": "Սեփականատեր ունեցող կոդ",
   "auditable-code": "Աուդիտորական կոդ"
 }
