@@ -377,7 +377,6 @@
   "publisher-agreement-accept": "Jeg accepterer udgiveraftalen",
   "uses-eol-runtime": "Bruger en end-of-life runtime",
   "can-access-and-change-user-settings": "Kan tilgå og ændre brugerindstillinger",
-  "uses-a-legacy-windowing-system": "Bruger et ældre vinduessystem",
   "appname-is-safety-rating-2": "{{appName}} er sandsynligvis sikker",
   "appname-is-safety-rating-3": "{{appName}} er potentielt usikker",
   "user-not-found": "Bruger ikke fundet",
@@ -390,7 +389,6 @@
   "app-id-instructions": "App ID'er bruger reverse domain name-notation (RDNN). GNOME Maps bruger f.eks 'org.gnome.Maps'. Vælg et domæne, du har kontrol over, såsom projektets webside (eller, hvis du uploader som enkeltperson, din egen webside). Hvis der ikke er noget websted tilgængeligt, kan du også bruge et domæne, der er knyttet til en kildekode-hostingkonto, såsom 'io.github.<dit_brugernavn>.<app_navn>'.",
   "can-access-some-specific-files": "Kan tilgå nogle specifikke filer",
   "auditable-code": "Reviderbar kode",
-  "can-read-your-downloads": "Kan læse dine overførsler",
   "appname-is-safety-rating-1": "{{appName}} er sikker",
   "appname-is-safety-rating-4": "{{appName}} er usikker",
   "software-developer-verified": "Softwareudvikleren er verificeret",
@@ -408,7 +406,5 @@
   "uses-system-services": "Bruger systemtjenester",
   "uses-session-services": "Bruger sessiontjenester",
   "can-access-hardware-devices": "Kan tilgå hardwareenheder",
-  "can-access-system-devices": "Kan tilgå systemenheder",
-  "can-read-write-all-your-data": "Kan læse/skrive alle dine data",
-  "can-read-all-your-data": "Kan læse alle dine data"
+  "can-access-system-devices": "Kan tilgå systemenheder"
 }

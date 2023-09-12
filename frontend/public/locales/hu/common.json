@@ -377,15 +377,11 @@
   "no-permissions": "Nincsenek engedélyek",
   "has-network-access": "Hálózati hozzáféréssel rendelkezik",
   "uses-system-services": "Rendszerszolgáltatásokat használ",
-  "can-read-write-all-your-data": "Minden adatát olvashatja/írhatja",
   "can-read-write-your-downloads": "Minden letöltéseket olvashatja/írhatja",
-  "can-read-your-downloads": "Minden letöltéseket olvashatja",
   "uses-session-services": "Munkamenet-szolgáltatásokat használ",
   "can-access-some-specific-files": "Hozzáférhet bizonyos fájlokhoz",
   "can-access-hardware-devices": "Hozzáférhet hardvereszközökhöz",
-  "can-read-all-your-data": "Minden adatát olvashatja",
   "can-access-and-change-user-settings": "Hozzáférhet és módosíthat a felhasználói beállításokat",
-  "uses-a-legacy-windowing-system": "Örökölt ablakrendszert használ",
   "can-access-system-devices": "Hozzáférhet a rendszer eszközeihez",
   "appname-is-safety-rating-1": "{{appName}} biztonságos",
   "appname-is-safety-rating-2": "{{appName}} valószínűleg biztonságos",
@@ -409,6 +405,6 @@
   "links": "Hivatkozások",
   "uses-eol-runtime": "Élettartam végi futásidejű használata",
   "can-acquire-arbitrary-permissions": "Tetszőleges engedélyeket szerezhet",
-  "community-built-explanation": "Ezt a szoftvert önkéntesek közössége fejlesztette ki, és a(z) <1>{{ license }}</1> alatt került kiadásra.",
-  "proprietary-explanation": "Ezt a szoftvert nem szabadon fejlesztették, így csak a fejlesztői ismerik a működését. Lehet, hogy nehezen észlelhető módon bizonytalan, és felügyelet nélkül megváltozhat."
+  "community-built-explanation": "Ezt az alkalmazást önkéntesek közössége fejlesztette ki, és a(z) <1>{{ license }}</1> alatt került kiadásra.",
+  "proprietary-explanation": "Ezt az alkalmazást nem szabadon fejlesztették, így csak a fejlesztői ismerik a működését. Lehet, hogy nehezen észlelhető módon bizonytalan, és felügyelet nélkül megváltozhat."
 }

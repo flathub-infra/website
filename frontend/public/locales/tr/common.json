@@ -364,13 +364,9 @@
   "uses-session-services": "Oturum hizmetlerini kullanır",
   "can-access-hardware-devices": "Donanım aygıtlarına erişebilir",
   "can-access-system-devices": "Sistem aygıtlarına erişebilir",
-  "can-read-write-all-your-data": "Tüm verilerinizi okuyabilir/yazabilir",
-  "can-read-all-your-data": "Tüm verilerinizi okuyabilir",
   "can-read-write-your-downloads": "İndirmeler dizininizi okuyabilir/yazabilir",
-  "can-read-your-downloads": "İndirilenler dizininizi okuyabilir",
   "can-access-some-specific-files": "Kimi belirli dosyalara erişebilir",
   "can-access-and-change-user-settings": "Kullanıcı ayarlarına erişebilir ve değiştirebilir",
-  "uses-a-legacy-windowing-system": "Eski pencere sistemini kullanır",
   "proprietary-code": "Sahipli kod",
   "auditable-code": "Denetlenebilir kod",
   "appname-is-safety-rating-1": "{{appName}} güvenli",
@@ -404,11 +400,11 @@
   "can-acquire-arbitrary-permissions": "Gelişigüzel izinler edinir",
   "links": "Bağlantılar",
   "addon-install-info": "Eklentiler nasıl yüklenir",
-  "community-built-explanation": "Bu yazılım gönüllü bir topluluk tarafından açık olarak geliştirilmiş ve <1>{{ license }}</1> lisansı ile yayınlanmıştır.",
+  "community-built-explanation": "Bu uygulama gönüllü bir topluluk tarafından açık olarak geliştirilmiş ve <1>{{ license }}</1> lisansı ile yayınlanmıştır.",
   "community-built": "Topluluk inşası",
   "learn-more": "Daha çoğunu öğren",
   "addon-install-info-text": "Eklentileri kurmak için dağıtımınızca sağlanan flatpak yöneticisini kullanın.",
   "information": "Bilgi",
   "get-involved": "Siz de Katılın",
-  "proprietary-explanation": "Bu yazılım açık olarak geliştirilmemiştir, bu nedenle nasıl çalıştığını yalnızca geliştiricileri bilir. Tespit edilmesi zor şekillerde güvensiz olabilir ve gözetim olmaksızın değişebilir."
+  "proprietary-explanation": "Bu uygulama açık olarak geliştirilmemiştir, bu nedenle nasıl çalıştığını yalnızca geliştiricileri bilir. Tespit edilmesi zor şekillerde güvensiz olabilir ve gözetim olmaksızın değişebilir."
 }
