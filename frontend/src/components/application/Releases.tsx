@@ -7,6 +7,7 @@ import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
+import { sanitizeAppstreamDescription } from "src/utils/helpers"
 
 interface Props {
   latestRelease: Release | null
@@ -61,6 +62,10 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
     latestRelease.timestamp = undefined
   }
 
+  const descriptionSanitized = sanitizeAppstreamDescription(
+    latestRelease.description,
+  )
+
   return (
     <>
       {latestRelease && (
@@ -90,7 +95,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     )}
                 </div>
               </header>
-              {latestRelease.description ? (
+              {descriptionSanitized ? (
                 <div
                   {...getCollapseProps({ ref })}
                   className={clsx(
@@ -102,7 +107,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                 >
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: latestRelease.description,
+                      __html: descriptionSanitized,
                     }}
                   />
                   <ReleaseLink url={latestRelease.url} />

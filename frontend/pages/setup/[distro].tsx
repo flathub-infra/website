@@ -4,6 +4,7 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import { fetchSetupInstructions } from "src/distro-setup"
+import { sanitize } from "isomorphic-dompurify"
 
 export default function Setup({
   distroData,
@@ -25,6 +26,10 @@ export default function Setup({
     },
   ]
 
+  const infoSanitized = sanitize(distroData.info, {
+    USE_PROFILES: { html: true },
+  })
+
   return (
     <>
       <NextSeo
@@ -43,7 +48,7 @@ export default function Setup({
             <h1>{distroData.name}</h1>
             <div
               dangerouslySetInnerHTML={{
-                __html: distroData.info,
+                __html: infoSanitized,
               }}
             />
           </div>
