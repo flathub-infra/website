@@ -2,13 +2,15 @@ import { useCollapse } from "@collapsed/react"
 import clsx from "clsx"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "next-i18next"
+import { sanitizeAppstreamDescription } from "src/utils/helpers"
 
 export const Description = ({ app }) => {
   const { t } = useTranslation()
   const collapsedHeight = 356
 
   const description = useMemo(
-    () => (app.description ? app.description : ""),
+    () =>
+      app.description ? sanitizeAppstreamDescription(app.description) : "",
     [app.description],
   )
 
