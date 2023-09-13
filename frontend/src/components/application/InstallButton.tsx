@@ -88,7 +88,7 @@ export default function InstallButton({ appId }: { appId: string }) {
               </Trans>
             </p>
             <CodeCopy
-              text={`flatpak install flathub ${appId}`}
+              text={`flatpak install ${appId}`}
               nested
               onCopy={flatpakInstallCopied}
             />
