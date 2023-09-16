@@ -298,6 +298,8 @@ export function getSafetyRating(
 function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
   const appSafetyRating: AppSafetyRating[] = []
+  
+  // read/write all your data
   if (
     summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "host",
@@ -315,6 +317,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     })
   }
 
+  // read/write home folder
   if (
     summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "home",
@@ -341,12 +344,6 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   // read all your data
   if (
     summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "home:ro",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "~:ro",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "host:ro",
     )
   ) {
@@ -354,6 +351,24 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-access",
       description: "can-read-all-data-on-file-system",
+      icon: HiOutlineDocument,
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
+  // read home folder
+  if (
+    summary.metadata.permissions.filesystems?.some(
+      (x) => x.toLowerCase() === "home:ro",
+    ) ||
+    summary.metadata.permissions.filesystems?.some(
+      (x) => x.toLowerCase() === "~:ro",
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "home-folder-read-access",
+      description: "can-read-home-folder",
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
