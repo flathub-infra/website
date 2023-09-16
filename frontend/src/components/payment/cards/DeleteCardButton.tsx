@@ -3,41 +3,37 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import { deletePaymentCard } from "../../../asyncs/payment"
-import { useAsync } from "../../../hooks/useAsync"
 import { PaymentCard } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 interface Props {
   card: PaymentCard
-  onSuccess: (card: PaymentCard) => void
 }
 
-const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
+const DeleteCardButton: FunctionComponent<Props> = ({ card }) => {
   const { t } = useTranslation()
-
-  const [confirming, setConfirming] = useState(false)
+  const queryClient = useQueryClient()
 
   // The deletion request only happens once confirmed by secondary click
-  const onConfirm = useCallback(() => deletePaymentCard(card), [card])
-  const { execute, status, error } = useAsync(onConfirm, false)
+  const [confirming, setConfirming] = useState(false)
 
-  // If card was deleted backend, dispatch update to reflect in rendering
-  useEffect(() => {
-    if (status === "success") {
-      onSuccess(card)
-    }
-  }, [status, onSuccess, card])
-
-  // If deletion fails, user can always retry
-  useEffect(() => {
-    if (error) {
+  const deleteCard = useMutation<void, string>({
+    mutationFn: () => deletePaymentCard(card),
+    onSuccess: () => {
+      queryClient.setQueryData<PaymentCard[]>(["/walletinfo"], (cards) =>
+        cards.filter((c) => c.id != card.id),
+      )
+    },
+    // If deletion fails, user can always retry
+    onError: (error) => {
       toast.error(t(error))
       setConfirming(false)
-    }
-  }, [error, t])
+    },
+  })
 
-  if (status === "pending") {
+  if (deleteCard.isLoading) {
     return <Spinner size="s" />
   }
 
@@ -54,7 +50,7 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card, onSuccess }) => {
         </Button>
         <Button
           variant="destructive"
-          onClick={execute}
+          onClick={() => deleteCard.mutate()}
           aria-label={t("delete")}
           title={t("delete")}
         >

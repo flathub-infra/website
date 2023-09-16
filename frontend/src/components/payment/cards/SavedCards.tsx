@@ -1,54 +1,43 @@
 import { useTranslation } from "next-i18next"
-import {
-  FunctionComponent,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FunctionComponent, ReactNode, useCallback, useState } from "react"
 import { getPaymentCards } from "../../../asyncs/payment"
-import { useAsync } from "../../../hooks/useAsync"
 import { PaymentCard } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
+import { useQuery } from "@tanstack/react-query"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
 
-  const [cards, setCards] = useState<PaymentCard[]>()
+  const walletQuery = useQuery<PaymentCard[]>({
+    queryKey: ["/walletinfo"],
+    queryFn: getPaymentCards,
+  })
 
-  // Callback ensures components aren't rerendered until data changes
-  const removeCard = useCallback(
-    (toRemove: PaymentCard) => {
-      setCards(cards.filter((card) => card.id !== toRemove.id))
-    },
-    [cards],
-  )
-
-  // Saved cards fetched only when component mounts
-  const { status, value, error } = useAsync(getPaymentCards)
-  useEffect(() => setCards(value), [value])
-
-  // Component considered loading until cards fetched
-  if (["idle", "pending"].includes(status)) {
+  if (walletQuery.isLoading) {
     return <Spinner size="m" text={t("loading-saved-payment-methods")} />
   }
 
-  let content: ReactElement
-  if (error || !cards?.length) {
-    content = <p>{error ? t(error) : t("no-saved-payment-methods")}</p>
-  } else {
-    content = (
-      <div className="flex flex-col gap-5 md:flex-row">
-        {cards.map((card) => (
-          <div key={card.id} className="flex flex-col items-center gap-2">
-            <CardInfo card={card} />
-            <DeleteCardButton card={card} onSuccess={removeCard} />
-          </div>
-        ))}
-      </div>
-    )
+  let content: ReactNode
+  if (walletQuery.isError) {
+    content = <p>t(error)</p>
+  }
+
+  if (walletQuery.isSuccess) {
+    content =
+      walletQuery.data.length == 0 ? (
+        <p>{t("no-saved-payment-methods")}</p>
+      ) : (
+        <div className="flex flex-col gap-5 md:flex-row">
+          {walletQuery.data.map((card) => (
+            <div key={card.id} className="flex flex-col items-center gap-2">
+              <CardInfo card={card} />
+              <DeleteCardButton card={card} />
+            </div>
+          ))}
+        </div>
+      )
   }
 
   return (
