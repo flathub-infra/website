@@ -300,6 +300,23 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   const appSafetyRating: AppSafetyRating[] = []
   if (
     summary.metadata.permissions.filesystems?.some(
+      (x) => x.toLowerCase() === "host",
+    ) ||
+    summary.metadata.permissions.filesystems?.some(
+      (x) => x.toLowerCase() === "host:rw",
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "full-file-system-read-write-access",
+      description: "can-read-write-all-data-on-file-system",
+      icon: HiOutlineDocument,
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
+  if (
+    summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "home",
     ) ||
     summary.metadata.permissions.filesystems?.some(
@@ -310,12 +327,6 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     ) ||
     summary.metadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "~:rw",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "host",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "host:rw",
     )
   ) {
     appSafetyRating.push({
