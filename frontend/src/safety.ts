@@ -570,7 +570,9 @@ function specificFileHandling(
 
           const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
           highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel, dataContainmentLevel)
+            highestDataContainmentLevel,
+            dataContainmentLevel,
+          )
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
@@ -595,7 +597,9 @@ function specificFileHandling(
 
           const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
           highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel, dataContainmentLevel)
+            highestDataContainmentLevel,
+            dataContainmentLevel,
+          )
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
