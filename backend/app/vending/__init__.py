@@ -337,7 +337,7 @@ def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingSetu
 @router.post("app/{appid}/setup")
 def post_app_vending_setup(
     appid: str, setup: VendingSetup, login=Depends(login_state)
-) -> VendingDescriptor:
+) -> VendingSetup:
     """
     Create/update the vending status for a given application.  Returns an error
     if the appid is not known, or if it's already set up for vending with a
