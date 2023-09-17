@@ -28,12 +28,20 @@ enum SafetyRating {
   unsafe = 4,
 }
 
+enum DataContainmentLevel {
+  complete = 0,
+  can_read_data = 1,
+  can_read_write_data = 2,
+  can_send_data = 3,
+}
+
 interface AppSafetyRating {
   safetyRating: SafetyRating
   title: string
   titleOptions?: { folder: string }
   description: string
   descriptionOptions?: { folder: string }
+  dataContainmentLevel: DataContainmentLevel
   icon?: IconType
   showOnSummaryOrDetails: "summary" | "details" | "both"
 }
@@ -104,6 +112,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.probably_safe,
       title: "network-access",
       description: "has-network-access",
+      dataContainmentLevel: DataContainmentLevel.can_send_data,
       icon: HiOutlineWifi,
       showOnSummaryOrDetails: "both",
     })
@@ -112,6 +121,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "no-network-access",
       description: "cannot-access-the-internet",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: BsWifiOff,
       showOnSummaryOrDetails: "details",
     })
@@ -128,6 +138,7 @@ export function getSafetyRating(
       icon: HiOutlineCog6Tooth,
       title: "uses-system-services",
       description: "can-request-data-from-system-services",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -143,6 +154,7 @@ export function getSafetyRating(
       icon: HiOutlineCog6Tooth,
       title: "uses-session-services",
       description: "can-request-data-from-session-services",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -155,6 +167,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "user-device-access",
       description: "can-access-hardware-devices",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       icon: HiOutlineVideoCamera,
       showOnSummaryOrDetails: "both",
     })
@@ -163,6 +176,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "no-user-device-access",
       description: "no-user-device-access-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineVideoCameraSlash,
       showOnSummaryOrDetails: "details",
     })
@@ -179,6 +193,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "system-device-access",
       description: "can-access-system-devices",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       icon: HiOutlineCpuChip,
       showOnSummaryOrDetails: "both",
     })
@@ -198,6 +213,7 @@ export function getSafetyRating(
       icon: HiOutlineWrenchScrewdriver,
       title: "user-settings",
       description: "can-access-and-change-user-settings",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -215,6 +231,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "legacy-windowing-system",
       description: "legacy-windowing-system-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineComputerDesktop,
       showOnSummaryOrDetails: "both",
     })
@@ -236,6 +253,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -248,6 +266,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "no-permissions",
       description: "no-permissions-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -257,6 +276,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "uses-eol-runtime",
       description: "uses-eol-runtime-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineExclamationTriangle,
       showOnSummaryOrDetails: "both",
     })
@@ -267,6 +287,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.probably_safe,
       title: "proprietary-code",
       description: "proprietary-code-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineExclamationTriangle,
       showOnSummaryOrDetails: "both",
     })
@@ -275,6 +296,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "auditable-code",
       description: "auditable-code-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineCheckCircle,
       showOnSummaryOrDetails: "both",
     })
@@ -288,6 +310,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.safe,
       title: "software-developer-verified",
       description: "software-developer-verified-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       icon: HiOutlineCheckBadge,
       showOnSummaryOrDetails: "both",
     })
@@ -312,6 +335,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-write-access",
       description: "can-read-write-all-data-on-file-system",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
@@ -336,6 +360,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "home-folder-read-write-access",
       description: "can-read-write-home-folder",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
@@ -351,6 +376,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-access",
       description: "can-read-all-data-on-file-system",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
@@ -369,6 +395,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "home-folder-read-access",
       description: "can-read-home-folder",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "both",
     })
@@ -387,6 +414,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "download-folder-read-write-access",
       description: "can-read-write-your-downloads",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       icon: HiOutlineArrowDownTray,
       showOnSummaryOrDetails: "both",
     })
@@ -402,6 +430,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.potentially_unsafe,
       title: "download-folder-read-access",
       description: "can-read-all-data-in-your-download-folder",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       icon: HiOutlineArrowDownTray,
       showOnSummaryOrDetails: "both",
     })
@@ -415,6 +444,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
       safetyRating: SafetyRating.safe,
       title: "no-file-system-access",
       description: "no-file-system-access-description",
+      dataContainmentLevel: DataContainmentLevel.complete,
       showOnSummaryOrDetails: "details",
     })
   }
@@ -536,6 +566,7 @@ function specificFileHandling(
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
             description: readWriteTranslationKey(x),
+            dataContainmentLevel: DataContainmentLevel.can_read_write_data,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -555,6 +586,7 @@ function specificFileHandling(
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
             description: readWriteTranslationKey(x),
+            dataContainmentLevel: DataContainmentLevel.can_read_write_data,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -569,6 +601,7 @@ function specificFileHandling(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "can-access-some-specific-files",
       description: "",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "summary",
     })

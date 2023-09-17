@@ -50,9 +50,22 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
 
   const safetyRating = getSafetyRating(data, summary)
 
-  const highestSafetyRating = Math.max(
+  let highestSafetyRating = Math.max(
     ...Object.values(safetyRating).map((x) => x.safetyRating),
   )
+
+  const highestDataContainmentLevel = Math.max(
+    ...Object.values(safetyRating).map((x) => x.dataContainmentLevel),
+  )
+
+  // if the app can at most read user data, but has no means of writing or sending the user data,
+  // then the app's safety rating is adjusted accordingly
+  if (
+    highestSafetyRating > 2
+    &&
+    highestDataContainmentLevel <= 1) {
+    highestSafetyRating = 2
+  }
 
   return (
     <>
