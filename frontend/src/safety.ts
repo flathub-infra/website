@@ -566,8 +566,10 @@ function specificFileHandling(
       )
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
-          const description = readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          const description =
+          readWriteTranslationKeyToDescription(x)
+          const dataContainmentLevel =
+          readWriteTranslationKeyToDataContainmentLevel(x)
           highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
 
           appSafetyRating.push({
@@ -589,8 +591,10 @@ function specificFileHandling(
       )
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
-          const description = readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          const description =
+          readWriteTranslationKeyToDescription(x)
+          const dataContainmentLevel =
+          readWriteTranslationKeyToDataContainmentLevel(x)
           highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
 
           appSafetyRating.push({
@@ -620,7 +624,8 @@ function specificFileHandling(
   }
 }
 
-function readWriteTranslationKeyToDescription(filesystemPermission: string): string {
+function readWriteTranslationKeyToDescription(
+  filesystemPermission: string): string {
   if (isReadOnly(filesystemPermission)) {
     return "can-read-all-data"
   } else if (isReadWrite(filesystemPermission)) {
@@ -632,7 +637,8 @@ function readWriteTranslationKeyToDescription(filesystemPermission: string): str
   }
 }
 
-function readWriteTranslationKeyToDataContainmentLevel(filesystemPermission: string): DataContainmentLevel {
+function readWriteTranslationKeyToDataContainmentLevel(
+  filesystemPermission: string): DataContainmentLevel {
   if (isReadOnly(filesystemPermission)) {
     return DataContainmentLevel.can_read_data
   } else if (isReadWrite(filesystemPermission)) {
