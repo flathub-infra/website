@@ -629,13 +629,25 @@ function readWriteTranslationKey(
   filesystemPermission: string,
 ): {description: string, dataContainmentLevel: DataContainmentLevel} {
   if (isReadOnly(filesystemPermission)) {
-    return {description: "can-read-all-data", dataContainmentLevel: DataContainmentLevel.can_read_data}
+    return {
+      description: "can-read-all-data",
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
+    }
   } else if (isReadWrite(filesystemPermission)) {
-    return {description: "can-read-write-all-data", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
+    return {
+      description: "can-read-write-all-data",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+    }
   } else if (isCreate(filesystemPermission)) {
-    return {description: "can-create-files", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
+    return {
+      description: "can-create-files",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+    }
   } else {
-    return {description: "can-read-write-all-data", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
+    return {
+      description: "can-read-write-all-data",
+      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+    }
   }
 }
 
