@@ -834,7 +834,7 @@ class Transaction(Base):
         return db.session.query(Transaction).filter(Transaction.user_id == user.id)
 
     @classmethod
-    def by_user_and_id(cls, db, user: FlathubUser, txnid: str):
+    def by_user_and_id(cls, db, user: FlathubUser, txnid: str) -> "Transaction":
         return (
             db.session.query(Transaction)
             .filter(Transaction.user_id == user.id)
