@@ -264,8 +264,9 @@ class StripeWallet(WalletBase):
             if payment_method is not None:
                 payment_method = stripe.PaymentMethod.retrieve(payment_method)
                 card = self._cardinfo(payment_method)
-            if payment_intent["charges"]["total_count"] > 0:
-                receipt = payment_intent["charges"]["data"][0].get("receipt_url")
+            charges = payment_intent.get("charges")
+            if charges is not None and charges["total_count"] > 0:
+                receipt = charges["data"][0].get("receipt_url")
         except Exception as stripe_error:
             raise WalletError(error="not found") from stripe_error
 
