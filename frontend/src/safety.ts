@@ -184,16 +184,18 @@ export function getSafetyRating(
 
   // system devices
   if (
+    // shared memory
     summary.metadata.permissions.devices?.some(
       (x) => x.toLowerCase() === "shm",
     ) ||
+    // kernel-based virtual machine
     summary.metadata.permissions.devices?.some((x) => x.toLowerCase() === "kvm")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "system-device-access",
       description: "can-access-system-devices",
-      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+      dataContainmentLevel: DataContainmentLevel.full,
       icon: HiOutlineCpuChip,
       showOnSummaryOrDetails: "both",
     })
@@ -253,7 +255,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
-      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+      dataContainmentLevel: DataContainmentLevel.can_read_data,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -436,7 +438,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
     })
   }
 
-  //   can access some specific files
+  // can access some specific files
   specificFileHandling(summary.metadata.permissions, appSafetyRating)
 
   if (appSafetyRating.length === 0) {
@@ -553,6 +555,8 @@ function specificFileHandling(
       x.toLowerCase() !== "xdg-config/kdeglobals:ro",
   )
 
+  let highestDataContainmentLevel = DataContainmentLevel.full
+
   if (prefilteredPermissions?.length > 0) {
     let nonMatchedPermissions = prefilteredPermissions
 
@@ -562,11 +566,15 @@ function specificFileHandling(
       )
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
+          const description = readWriteTranslationKeyToDescription(x)
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
+
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
-            description: readWriteTranslationKey(x),
-            dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+            description: description,
+            dataContainmentLevel: dataContainmentLevel,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -581,12 +589,16 @@ function specificFileHandling(
       )
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
+          const description = readWriteTranslationKeyToDescription(x)
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
+
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
-            description: readWriteTranslationKey(x),
-            dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+            description: description,
+            dataContainmentLevel: dataContainmentLevel,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -601,14 +613,14 @@ function specificFileHandling(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "can-access-some-specific-files",
       description: "",
-      dataContainmentLevel: DataContainmentLevel.can_read_write_data,
+      dataContainmentLevel: highestDataContainmentLevel,
       icon: HiOutlineDocument,
       showOnSummaryOrDetails: "summary",
     })
   }
 }
 
-function readWriteTranslationKey(filesystemPermission: string): string {
+function readWriteTranslationKeyToDescription(filesystemPermission: string): string {
   if (isReadOnly(filesystemPermission)) {
     return "can-read-all-data"
   } else if (isReadWrite(filesystemPermission)) {
@@ -617,6 +629,18 @@ function readWriteTranslationKey(filesystemPermission: string): string {
     return "can-create-files"
   } else {
     return "can-read-write-all-data"
+  }
+}
+
+function readWriteTranslationKeyToDataContainmentLevel(filesystemPermission: string): DataContainmentLevel {
+  if (isReadOnly(filesystemPermission)) {
+    return DataContainmentLevel.can_read_data
+  } else if (isReadWrite(filesystemPermission)) {
+    return DataContainmentLevel.can_read_write_data
+  } else if (isCreate(filesystemPermission)) {
+    return DataContainmentLevel.can_read_write_data
+  } else {
+    return DataContainmentLevel.can_read_write_data
   }
 }
 
