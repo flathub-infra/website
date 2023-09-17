@@ -118,14 +118,14 @@ class StripeWallet(WalletBase):
 
         return [
             TransactionSummary(
-                id=txn.id,
+                id=str(txn.id),
                 value=txn.value,
                 currency=txn.currency,
                 kind=txn.kind,
                 status=txn.status,
                 reason=txn.reason,
-                created=txn.created.timestamp(),
-                updated=txn.updated.timestamp(),
+                created=int(txn.created.timestamp()),
+                updated=int(txn.updated.timestamp()),
             )
             for txn in txns
         ]
@@ -237,14 +237,14 @@ class StripeWallet(WalletBase):
             db.session.add(txn)
             db.session.commit()
         summary = TransactionSummary(
-            id=txn.id,
+            id=str(txn.id),
             value=txn.value,
             currency=txn.currency,
             kind=txn.kind,
             status=txn.status,
             reason=txn.reason,
-            created=txn.created.timestamp(),
-            updated=txn.updated.timestamp(),
+            created=int(txn.created.timestamp()),
+            updated=int(txn.updated.timestamp()),
         )
         details = [
             TransactionRow(
