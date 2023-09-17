@@ -130,31 +130,28 @@ or other aspects of the UI which might need wallet access, then you will need to
 launch the backend with Stripe credentials.  Here is how to go about setting up a
 suitable account with Stripe, and then preparing credentials for use.
 
-### Create and configure a Stripe account
+### Setting up a development Stripe account
 
 1. Visit <https://dashboard.stripe.com/login> and choose the "Sign-up" link.
-2. Enter an email, name, and password, and ensure that you choose the US as your
-   country.
-3. Tick the 'don't email me' box, and then submit the form
-4. Wait for the verification email, and use it to get your account verified.
-5. The first thing it'll ask you to do is activate payments - skip this.
-6. Visit the 'Connect' tab on the dashboard and hit 'Get Started' in the 'For Platforms' section
-7. Select 'Platform or Marketplace' and hit Continue
-8. Under 'Select products for your users' hit Start
-9. The two products you want are 'Connect' and 'Payments', hit 'Done'
-10. On the right, under 'Payments' hit 'Continue Setup'
-11. Choose 'Other' and press Continue
-12. Choose 'From your platform's website or app' and hit Continue
-13. Choose 'Both your platform's name and the seller/service provider's name' and hit Continue
-14. Choose 'Your platform' and hit Continue, then hit Submit
-15. Once that completes, find the 'Connect settings' link near the top and choose it
-16. Scroll down to Branding and fill it out with something reasonable
-17. Press the 'Save branding changes' button
-18. Visit 'Settings' 'Bank Accounts and Scheduling' and switch to manual payouts
-19. Visit the 'Balances' page, and, ensuring you're in test mode still, press 'Add to balance'
-20. Choose 'Connected accounts', add 100 dollars
+2. Create an account and choose the US as your country.
+3. Wait for the verification email and use it to verify your account.
+4. Stripe will first ask you to activate payments - skip this.
+5. Navigate to the 'Connect' page (it may be under a 'More' option).
+6. Fill out the 'Complete your platform profile' section, with options:
+    1. Select 'Other' and Continue
+    2. Select 'From your platform's website or app' and Continue
+    3. Select 'Both your platform's name and the seller/service provider's name' and Continue
+    4. Select 'Your platform' and Continue, then Submit
+7. Once that submits, click the 'Connect settings' link near the top of the page.
+8. Scroll down to 'Branding' section:
+    1. Complete the business name and icon fields.
+    2. Remember to use the 'Save branding changes' button.
+9. Navigate to the 'Payments' page.
+    1. Ensure that the test mode toggle (at the top of the page) is active.
+    2. Use the 'Create a payment' option to seed a balance of $100.
+    3. Use the test card details from <https://stripe.com/docs/testing>.
 
-Now things should work for testing
+This account will now be usable for testing payment and application vending workflows in local development.
 
 ### Acquiring your Stripe keys
 
