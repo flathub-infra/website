@@ -555,9 +555,8 @@ function specificFileHandling(
       x.toLowerCase() !== "xdg-config/kdeglobals:ro",
   )
 
-  let highestDataContainmentLevel = DataContainmentLevel.full
-
   if (prefilteredPermissions?.length > 0) {
+    let highestDataContainmentLevel = DataContainmentLevel.full
     let nonMatchedPermissions = prefilteredPermissions
 
     fileSystemsOther.forEach((fileSystem) => {
