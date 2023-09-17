@@ -565,8 +565,12 @@ function specificFileHandling(
       )
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
-          const description = readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          const description = readWriteTranslationKeyToDescription(
+            x,
+          )
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(
+            x,
+          )
           highestDataContainmentLevel = Math.max(
             highestDataContainmentLevel,
             dataContainmentLevel,
@@ -591,8 +595,12 @@ function specificFileHandling(
       )
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
-          const description = readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          const description = readWriteTranslationKeyToDescription(
+            x,
+          )
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(
+            x,
+          )
           highestDataContainmentLevel = Math.max(
             highestDataContainmentLevel,
             dataContainmentLevel,
