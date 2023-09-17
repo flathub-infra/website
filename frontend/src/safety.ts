@@ -565,22 +565,18 @@ function specificFileHandling(
       )
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
-          const description =
-            readWriteTranslationKeyToDescription(x)
-
-          const dataContainmentLevel =
-            readWriteTranslationKeyToDataContainmentLevel(x)
+          const translationResult = readWriteTranslationKey(x)
 
           highestDataContainmentLevel = Math.max(
             highestDataContainmentLevel,
-            dataContainmentLevel,
+            translationResult.dataContainmentLevel,
           )
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
-            description: description,
-            dataContainmentLevel: dataContainmentLevel,
+            description: translationResult.description,
+            dataContainmentLevel: translationResult.dataContainmentLevel,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -595,23 +591,19 @@ function specificFileHandling(
       )
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
-          const description =
-            readWriteTranslationKeyToDescription(x)
-
-          const dataContainmentLevel =
-            readWriteTranslationKeyToDataContainmentLevel(x)
+          const translationResult = readWriteTranslationKey(x)
 
           highestDataContainmentLevel = Math.max(
             highestDataContainmentLevel,
-            dataContainmentLevel,
+            translationResult.dataContainmentLevel,
           )
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
-            description: description,
-            dataContainmentLevel: dataContainmentLevel,
+            description: translationResult.description,
+            dataContainmentLevel: translationResult.dataContainmentLevel,
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
@@ -633,31 +625,17 @@ function specificFileHandling(
   }
 }
 
-function readWriteTranslationKeyToDescription(
+function readWriteTranslationKey(
   filesystemPermission: string,
-): string {
+): {description: string, dataContainmentLevel: DataContainmentLevel} {
   if (isReadOnly(filesystemPermission)) {
-    return "can-read-all-data"
+    return {description: "can-read-all-data", dataContainmentLevel: DataContainmentLevel.can_read_data}
   } else if (isReadWrite(filesystemPermission)) {
-    return "can-read-write-all-data"
+    return {description: "can-read-write-all-data", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
   } else if (isCreate(filesystemPermission)) {
-    return "can-create-files"
+    return {description: "can-create-files", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
   } else {
-    return "can-read-write-all-data"
-  }
-}
-
-function readWriteTranslationKeyToDataContainmentLevel(
-  filesystemPermission: string,
-): DataContainmentLevel {
-  if (isReadOnly(filesystemPermission)) {
-    return DataContainmentLevel.can_read_data
-  } else if (isReadWrite(filesystemPermission)) {
-    return DataContainmentLevel.can_read_write_data
-  } else if (isCreate(filesystemPermission)) {
-    return DataContainmentLevel.can_read_write_data
-  } else {
-    return DataContainmentLevel.can_read_write_data
+    return {description: "can-read-write-all-data", dataContainmentLevel: DataContainmentLevel.can_read_write_data}
   }
 }
 
