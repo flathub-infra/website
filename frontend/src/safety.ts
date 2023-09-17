@@ -566,11 +566,11 @@ function specificFileHandling(
       )
       if (fullMatch.length > 0 && fileSystem.fullMatchKey) {
         fullMatch.forEach((x) => {
-          const description =
-          readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel =
-          readWriteTranslationKeyToDataContainmentLevel(x)
-          highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
+          const description = readWriteTranslationKeyToDescription(x)
+
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          highestDataContainmentLevel = Math.max(
+            highestDataContainmentLevel, dataContainmentLevel)
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
@@ -591,11 +591,11 @@ function specificFileHandling(
       )
       if (partialMatch.length > 0 && fileSystem.partialMatchKey) {
         partialMatch.forEach((x) => {
-          const description =
-          readWriteTranslationKeyToDescription(x)
-          const dataContainmentLevel =
-          readWriteTranslationKeyToDataContainmentLevel(x)
-          highestDataContainmentLevel = Math.max(highestDataContainmentLevel, dataContainmentLevel)
+          const description = readWriteTranslationKeyToDescription(x)
+
+          const dataContainmentLevel = readWriteTranslationKeyToDataContainmentLevel(x)
+          highestDataContainmentLevel = Math.max(
+            highestDataContainmentLevel, dataContainmentLevel)
 
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
