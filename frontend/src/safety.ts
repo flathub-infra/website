@@ -627,7 +627,8 @@ function specificFileHandling(
 
 function readWriteTranslationKey(filesystemPermission: string): {
   description: string
-  dataContainmentLevel: DataContainmentLevel} {
+  dataContainmentLevel: DataContainmentLevel
+} {
   if (isReadOnly(filesystemPermission)) {
     return {
       description: "can-read-all-data",
