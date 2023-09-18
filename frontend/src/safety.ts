@@ -607,7 +607,8 @@ function specificFileHandling(
     appSafetyRating.push(...specificFileHandlingAppSafetyRating)
 
     const highestDataContainmentLevel = Math.max(
-      ...Object.values(specificFileHandlingAppSafetyRating).map((x) => x.dataContainmentLevel),
+      ...Object.values(specificFileHandlingAppSafetyRating).map(
+        (x) => x.dataContainmentLevel),
     )
 
     appSafetyRating.push({
