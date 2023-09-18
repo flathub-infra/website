@@ -567,11 +567,6 @@ function specificFileHandling(
         fullMatch.forEach((x) => {
           const translationResult = readWriteTranslationKey(x)
 
-          highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel,
-            translationResult.dataContainmentLevel,
-          )
-
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
@@ -580,6 +575,11 @@ function specificFileHandling(
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
+
+          highestDataContainmentLevel = Math.max(
+            highestDataContainmentLevel,
+            translationResult.dataContainmentLevel,
+          )
         })
         nonMatchedPermissions = nonMatchedPermissions.filter(
           (x) => x.toLowerCase() !== fileSystem.folder.toLowerCase(),
@@ -593,11 +593,6 @@ function specificFileHandling(
         partialMatch.forEach((x) => {
           const translationResult = readWriteTranslationKey(x)
 
-          highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel,
-            translationResult.dataContainmentLevel,
-          )
-
           appSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.partialMatchKey,
@@ -607,6 +602,11 @@ function specificFileHandling(
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
+
+          highestDataContainmentLevel = Math.max(
+            highestDataContainmentLevel,
+            translationResult.dataContainmentLevel,
+          )
         })
         nonMatchedPermissions = nonMatchedPermissions.filter(
           (x) => !x.toLowerCase().startsWith(fileSystem.folder.toLowerCase()),
