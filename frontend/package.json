@@ -67,7 +67,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/eslint-plugin-query": "^4.32.5",
     "@types/node": "^20.5.0",
-    "@types/react": "^18.0.26",
+    "@types/react": "^18.2.21",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.44.0",
     "eslint-config-next": "^13.4.19",
