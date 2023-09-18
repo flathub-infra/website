@@ -368,5 +368,12 @@
   "has-network-access": "ネットワークにアクセス",
   "uses-session-services": "セッションサービスの使用",
   "can-access-hardware-devices": "ハードウェアデバイスにアクセスが可能",
-  "can-access-system-devices": "システムデバイスにアクセスが可能"
+  "can-access-system-devices": "システムデバイスにアクセスが可能",
+  "get-involved": "参加しよう",
+  "close": "閉じる",
+  "remove-developer": "開発者を削除",
+  "remove": "削除",
+  "information": "情報",
+  "links": "リンク",
+  "learn-more": "詳細情報"
 }

@@ -429,5 +429,13 @@
   "templates-folder": "Sjabloon­map",
   "videos-subfolder-x": "Video-submap {{folder}}",
   "videos-folder": "Video­map",
-  "pictures-folder": "Afbeeldings­map"
+  "pictures-folder": "Afbeeldings­map",
+  "legacy-windowing-system-description": "Gebruikt een verouderd venster­systeem",
+  "user-data-subfolder-x": "Gebruikers­gegevens-submap {{folder}}",
+  "arbitrary-permissions": "Arbitraire rechten",
+  "user-configuration-folder": "Gebruikers­configuratie­map",
+  "network-access": "Netwerk­toegang",
+  "can-read-all-data": "Kan alle gegevens in de map lezen",
+  "user-configuration-subfolder-x": "Gebruikers­configuratie-submap {{folder}}",
+  "user-data-folder": "Gebruikers­gegevens­map"
 }
