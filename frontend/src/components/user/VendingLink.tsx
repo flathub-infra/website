@@ -1,12 +1,13 @@
+import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "react-toastify"
+import { VendingStatus } from "src/types/Vending"
 import {
   getDashboardLink,
   getOnboardingLink,
   getVendingStatus,
 } from "../../asyncs/vending"
-import { useAsync } from "../../hooks/useAsync"
 import Button from "../Button"
 import Spinner from "../Spinner"
 
@@ -18,65 +19,54 @@ import Spinner from "../Spinner"
  */
 const VendingLink: FunctionComponent = () => {
   const { t } = useTranslation()
+  const [onboarding, setOnboarding] = useState(false)
 
-  // Status fetched when component mounts to determine what user sees
-  const {
-    status: getStatusRequest,
-    value: status,
-    error: statusError,
-  } = useAsync(getVendingStatus)
+  // Serial queries needed to get the right vending link
+  // First check the user's existing status
+  const statusQuery = useQuery<VendingStatus, string>({
+    queryKey: ["/vending/status"],
+    queryFn: getVendingStatus,
+  })
 
-  const {
-    execute: getDashboard,
-    status: getDashboardRequest,
-    value: dashboardLink,
-    error: dashboardError,
-  } = useAsync(getDashboardLink, false)
-  const {
-    execute: getOnboarding,
-    status: getOnboardingRequest,
-    value: onboardingLink,
-    error: onboardingError,
-  } = useAsync(getOnboardingLink, false)
+  // Dashboard is accessible as soon as onboarding is submit
+  const dashboardQuery = useQuery<string, string>({
+    queryKey: ["/vending/status/dashboardlink"],
+    queryFn: getDashboardLink,
+    enabled: statusQuery.isSuccess && statusQuery.data.details_submitted,
+  })
 
-  // Dashboard is accessible once onboarding is submit
-  useEffect(() => {
-    if (status && status.details_submitted) {
-      getDashboard()
+  // Otherwise onboarding required still
+  // Can't pre-fetch link, it will create an account without user action
+  const startOnboard = useCallback(async () => {
+    if (onboarding) return
+
+    try {
+      setOnboarding(true)
+      const url = await getOnboardingLink()
+      window.location.href = url
+    } catch (error) {
+      toast.error(t(error))
+      setOnboarding(false)
     }
-  }, [status, getDashboard])
+  }, [onboarding, t])
 
-  // Redirect to onboard occurs if successfully retrieved, user sent back after
-  useEffect(() => {
-    if (onboardingLink) {
-      window.location.href = onboardingLink
-    }
-  }, [status, onboardingLink])
-
-  useEffect(() => {
-    if (onboardingError) {
-      toast.error(t(onboardingError))
-    }
-  }, [onboardingError, t])
-
-  // Multiple stages of loading
   if (
-    getStatusRequest === "pending" ||
-    getDashboardRequest === "pending" ||
-    ["pending", "success"].includes(getOnboardingRequest)
+    statusQuery.isLoading ||
+    dashboardQuery.isInitialLoading ||
+    // If onboarding used, show loading until redirected
+    onboarding
   ) {
     return <Spinner size="s" />
   }
 
-  if (statusError || dashboardError) {
-    return <p className="m-0">{t(statusError || dashboardError)}</p>
+  if (statusQuery.isError || dashboardQuery.isError) {
+    return <p className="m-0">{t(statusQuery.error || dashboardQuery.error)}</p>
   }
 
   // No status when onboarding hasn't begun
-  // Can't pre-fetch link, it will create an account without user action
-  if (!status || !status.details_submitted) {
+  if (!statusQuery.data || !statusQuery.data.details_submitted) {
     return (
-      <Button variant="primary" onClick={getOnboarding}>
+      <Button variant="primary" onClick={startOnboard}>
         {t("vending-onboard")}
       </Button>
     )
@@ -88,11 +78,11 @@ const VendingLink: FunctionComponent = () => {
         target="_blank"
         rel="noreferrer"
         className="no-underline hover:underline"
-        href={dashboardLink}
+        href={dashboardQuery.data}
       >
         {t("vending-dashboard")}
       </a>
-      {status.needs_attention ? (
+      {statusQuery.data.needs_attention ? (
         <p className="m-0 text-red-600">{t("requires-attention")}</p>
       ) : (
         <></>
