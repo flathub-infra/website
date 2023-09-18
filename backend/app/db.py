@@ -57,6 +57,14 @@ def get_project_groups():
     }
 
 
+def get_all_appids_for_frontend():
+    return {
+        appid[5:]
+        for appid in redis_conn.smembers("apps:index")
+        if is_appid_for_frontend(appid[5:])
+    }
+
+
 # keep in sync with show_in_frontend
 def is_appid_for_frontend(appid: str):
     if redis_conn.sismember("types:desktop", f"apps:{appid}"):
