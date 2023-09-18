@@ -556,7 +556,7 @@ function specificFileHandling(
   )
 
   if (prefilteredPermissions?.length > 0) {
-    let highestDataContainmentLevel = DataContainmentLevel.full
+    let specificFileHandlingAppSafetyRating: AppSafetyRating[] = []
     let nonMatchedPermissions = prefilteredPermissions
 
     fileSystemsOther.forEach((fileSystem) => {
@@ -567,7 +567,7 @@ function specificFileHandling(
         fullMatch.forEach((x) => {
           const translationResult = readWriteTranslationKey(x)
 
-          appSafetyRating.push({
+          specificFileHandlingAppSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.fullMatchKey,
             description: translationResult.description,
@@ -575,11 +575,6 @@ function specificFileHandling(
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
-
-          highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel,
-            translationResult.dataContainmentLevel,
-          )
         })
         nonMatchedPermissions = nonMatchedPermissions.filter(
           (x) => x.toLowerCase() !== fileSystem.folder.toLowerCase(),
@@ -593,7 +588,7 @@ function specificFileHandling(
         partialMatch.forEach((x) => {
           const translationResult = readWriteTranslationKey(x)
 
-          appSafetyRating.push({
+          specificFileHandlingAppSafetyRating.push({
             safetyRating: SafetyRating.potentially_unsafe,
             title: fileSystem.partialMatchKey,
             titleOptions: { folder: trimPermission(x) },
@@ -602,17 +597,18 @@ function specificFileHandling(
             icon: HiOutlineDocument,
             showOnSummaryOrDetails: "details",
           })
-
-          highestDataContainmentLevel = Math.max(
-            highestDataContainmentLevel,
-            translationResult.dataContainmentLevel,
-          )
         })
         nonMatchedPermissions = nonMatchedPermissions.filter(
           (x) => !x.toLowerCase().startsWith(fileSystem.folder.toLowerCase()),
         )
       }
     })
+
+    appSafetyRating.push(...specificFileHandlingAppSafetyRating)
+
+    const highestDataContainmentLevel = Math.max(
+      ...Object.values(specificFileHandlingAppSafetyRating).map((x) => x.dataContainmentLevel),
+    )
 
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
