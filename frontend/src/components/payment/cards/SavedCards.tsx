@@ -1,16 +1,16 @@
+import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, ReactNode, useCallback, useState } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { getPaymentCards } from "../../../asyncs/payment"
 import { PaymentCard } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
-import { useQuery } from "@tanstack/react-query"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
 
-  const walletQuery = useQuery<PaymentCard[]>({
+  const walletQuery = useQuery<PaymentCard[], string>({
     queryKey: ["/walletinfo"],
     queryFn: getPaymentCards,
   })
@@ -21,7 +21,7 @@ const SavedCards: FunctionComponent = () => {
 
   let content: ReactNode
   if (walletQuery.isError) {
-    content = <p>t(error)</p>
+    content = <p>{t(walletQuery.error)}</p>
   }
 
   if (walletQuery.isSuccess) {
