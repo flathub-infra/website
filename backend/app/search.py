@@ -137,11 +137,7 @@ def get_by_verified(page: int, hits_per_page: int):
 
 def get_by_developer(developer: str, page: int, hits_per_page: int):
     escaped_developer = (
-        developer.replace("'", "\\'")
-        .replace('"', '\\"')
-        .replace("(", "\\(")
-        .replace(")", "\\)")
-        .replace("/", "\\/")
+        developer.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
     )
 
     return client.index("apps").search(
