@@ -12,7 +12,7 @@ import sentry_sdk
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from . import apps, config, db, exceptions, search, stats, summary, utils
+from . import apps, config, db, exceptions, models, search, stats, summary, utils
 from .config import settings
 from .emails import (
     EmailInfo,
@@ -190,3 +190,31 @@ def send_email(email):
 @dramatiq.actor
 def send_one_email(message: str, dest: str):
     send_one_email_impl(message, dest)
+
+
+@dramatiq.actor
+def update_quality_moderation():
+    with WorkerDB() as sqldb:
+        appids = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+
+        if not appids:
+            return
+
+        appids_for_frontend = [
+            appid for appid in appids if appid and db.is_appid_for_frontend(appid)
+        ]
+
+        if not appids_for_frontend:
+            return
+
+        for appid in appids_for_frontend:
+            if value := db.get_json_key(f"apps:{appid}"):
+                # Check app name lenght
+                models.QualityModeration.upsert(
+                    sqldb, appid, 8, len(value["name"]) <= 20, None
+                )
+
+                # Check app summary lenght
+                models.QualityModeration.upsert(
+                    sqldb, appid, 11, len(value["summary"]) <= 35, None
+                )
