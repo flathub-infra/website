@@ -205,14 +205,16 @@ def get_popular(days: int | None):
     return popular
 
 
-def update(all_app_ids: list):
+def update():
     stats_apps_dict = defaultdict(lambda: {})
 
     edate = datetime.date.today()
     sdate = datetime.date(2018, 4, 29)
 
+    frontend_app_ids = db.get_all_appids_for_frontend()
+
     stats_total = _get_stats_for_period(sdate, edate)
-    stats_dict = _get_stats(len(all_app_ids))
+    stats_dict = _get_stats(len(frontend_app_ids))
 
     app_stats_per_day = _get_app_stats_per_day()
 
@@ -233,10 +235,7 @@ def update(all_app_ids: list):
         # Index 2 is the install count
         installs_last_month = sum([i[2] for i in dict.values()])
         stats_apps_dict[app_id]["installs_last_month"] = installs_last_month
-        if app_id in all_app_ids:
-            if not db.is_appid_for_frontend(app_id):
-                continue
-
+        if app_id in frontend_app_ids:
             stats_installs.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
