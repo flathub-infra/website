@@ -53,6 +53,9 @@ class FlathubUser(Base):
     is_moderator: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=text("false")
     )
+    is_quality_moderator: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, default=None
     )
@@ -1317,3 +1320,128 @@ class ModerationRequest(Base):
     handled_at = mapped_column(DateTime)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
+
+
+class QualityGuidelineCategory(Base):
+    """A category of quality guidelines"""
+
+    __tablename__ = "qualityguidelinecategory"
+
+    id = mapped_column(Integer, primary_key=True)
+    translation_key = mapped_column(String, nullable=False, unique=True)
+
+
+class QualityGuideline(Base):
+    """A quality guideline"""
+
+    __tablename__ = "qualityguideline"
+
+    id = mapped_column(Integer, primary_key=True)
+    category_id = mapped_column(
+        Integer, ForeignKey(QualityGuidelineCategory.id), nullable=False, index=True
+    )
+    translation_key = mapped_column(String, nullable=False, unique=True)
+    url = mapped_column(String, nullable=False, unique=True)
+    read_only = mapped_column(Boolean, nullable=False, server_default="false")
+    needed_to_pass_since = mapped_column(DateTime, nullable=True)
+
+
+class QualityModeration(Base):
+    """A moderation request for a quality guideline"""
+
+    __tablename__ = "qualitymoderation"
+
+    id = mapped_column(Integer, primary_key=True)
+    guideline_id = mapped_column(
+        Integer, ForeignKey(QualityGuideline.id), nullable=False, index=True
+    )
+    app_id = mapped_column(String, nullable=False, index=True)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
+    passed = mapped_column(Boolean, nullable=False)
+    comment = mapped_column(String)
+
+    @classmethod
+    def upsert(
+        cls,
+        db,
+        app_id: str,
+        guideline_id: int,
+        passed: bool,
+        updated_by: int | None,
+    ):
+        """
+        Insert or update a quality moderation
+        """
+        quality = (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == app_id)
+            .filter(QualityModeration.guideline_id == guideline_id)
+            .first()
+        )
+
+        if quality:
+            if quality.passed == passed:
+                return
+            quality.passed = passed
+            quality.updated_by = updated_by
+            quality.updated_at = datetime.now()
+        else:
+            quality = QualityModeration(
+                app_id=app_id,
+                guideline_id=guideline_id,
+                updated_by=updated_by,
+                passed=passed,
+                comment=None,
+            )
+            db.session.add(quality)
+
+        db.session.commit()
+
+    @classmethod
+    def by_appid(cls, db, appid: str) -> list["QualityModeration"]:
+        quality_from_db = (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == appid)
+            .all()
+        )
+
+        all_guidelines = db.session.query(QualityGuideline).all()
+
+        # Add all guidelines to the list
+        for guideline in all_guidelines:
+            if not any(
+                quality.guideline_id == guideline.id for quality in quality_from_db
+            ):
+                quality_from_db.append(
+                    QualityModeration(
+                        guideline_id=guideline.id,
+                        app_id=appid,
+                        updated_at=None,
+                        updated_by=None,
+                        passed=None,
+                        comment=None,
+                    )
+                )
+
+        # Add guideline data to quality moderation
+        for quality in quality_from_db:
+            quality.guideline = next(
+                guideline
+                for guideline in all_guidelines
+                if guideline.id == quality.guideline_id
+            )
+
+        # Get categories
+        categories = db.session.query(QualityGuidelineCategory).all()
+
+        # Add category data to quality moderation
+        for quality in quality_from_db:
+            for category in categories:
+                if quality.guideline.category_id == category.id:
+                    quality.guideline.category = category
+
+        # Sort by category_id then by guideline_id
+        quality_from_db.sort(key=lambda x: (x.guideline.category_id, x.guideline_id))
+
+        return quality_from_db
