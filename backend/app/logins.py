@@ -994,11 +994,16 @@ def get_userinfo(login: LoginStatusDep):
 
 @router.post("/refresh-dev-flatpaks")
 def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
-    if login.state == LoginState.LOGGED_OUT:
-        return Response(status_code=401)
+    if login.state == LoginState.LOGGED_OUT or login.user is None:
+        raise HTTPException(status_code=401, detail="not_logged_in")
 
     user = login.user
+
     account = models.GithubAccount.by_user(db, user)
+
+    # We need to have a github account to refresh dev flatpaks
+    if account is None:
+        raise HTTPException(status_code=401, detail="no_github_account")
 
     refresh_repo_list(account.token, account)
     db.session.commit()
