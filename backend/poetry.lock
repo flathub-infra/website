@@ -1818,17 +1818,18 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyam
 
 [[package]]
 name = "stripe"
-version = "5.5.0"
+version = "6.5.0"
 description = "Python bindings for the Stripe API"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+python-versions = ">=3.6"
 files = [
-    {file = "stripe-5.5.0-py2.py3-none-any.whl", hash = "sha256:b4947da66dbb3de8969004ba6398f9a019c6b1b3ffe6aa88d5b07ac560a52b28"},
-    {file = "stripe-5.5.0.tar.gz", hash = "sha256:04a9732b37a46228ecf0e496163a3edd93596b0e6200029fbc48911638627e19"},
+    {file = "stripe-6.5.0-py2.py3-none-any.whl", hash = "sha256:ac86d6428283bd3ca16c2e4538732850ce84c55f8b516e58f911c29112ee44e9"},
+    {file = "stripe-6.5.0.tar.gz", hash = "sha256:f5f4c76ab7b901f2631ef77741d069320f3328c1e31918dac7edb4aa04acb0fd"},
 ]
 
 [package.dependencies]
 requests = {version = ">=2.20", markers = "python_version >= \"3.0\""}
+typing-extensions = {version = ">=4.0.0", markers = "python_version >= \"3.7\""}
 
 [[package]]
 name = "typing-extensions"
@@ -2199,4 +2200,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "3211ac0d2058f47716d576e7fb942c97db0ce49b147b98d603ca7d7013bf96ea"
+content-hash = "27d7be8e28ae79de0456229bd21b2ffaf4e0c8e23618b9b8bff26dae91b87285"

@@ -146,10 +146,11 @@ suitable account with Stripe, and then preparing credentials for use.
 8. Scroll down to 'Branding' section:
     1. Complete the business name and icon fields.
     2. Remember to use the 'Save branding changes' button.
-9. Navigate to the 'Payments' page.
-    1. Ensure that the test mode toggle (at the top of the page) is active.
-    2. Use the 'Create a payment' option to seed a balance of $100.
-    3. Use the test card details from <https://stripe.com/docs/testing>.
+9. Navigate to the 'Payments' page and create a $100 top-up.
+    1. This seeds the account balance with some buffer to cover pay outs.
+    2. At time of writing, top-ups require using the API: <https://stripe.com/docs/api/topups/create>.
+    3. Alternatively you can use the test card details from <https://stripe.com/docs/testing> to
+    make a payment and wait for the amount to become available to pay out.
 
 This account will now be usable for testing payment and application vending workflows in local development.
 
@@ -168,7 +169,9 @@ should succeed.  Next run `stripe listen` and it will give you your webhook secr
 This is STRIPE_WEBHOOK_KEY.
 
 If you want webhooks to make it from the testing into the backend then run:
-`stripe listen --forward-to localhost:8000/wallet/webhook/stripe`.
+```bash
+stripe listen --forward-to localhost:8000/wallet/webhook/stripe
+```
 
 ### Running the website with the right keys
 
