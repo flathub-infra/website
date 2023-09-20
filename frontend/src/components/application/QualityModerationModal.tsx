@@ -7,7 +7,11 @@ import {
 import { UseQueryResult, useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
-import { QualityModeration } from "src/types/QualityModeration"
+import {
+  QualityGuideline,
+  QualityModeration,
+  QualityModerationResponse,
+} from "src/types/QualityModeration"
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { AxiosResponse } from "axios"
@@ -22,29 +26,22 @@ import {
 import MultiToggle from "../MultiToggle"
 
 const QualityCategories = ({
+  appId,
   query,
 }: {
-  query: UseQueryResult<AxiosResponse<QualityModeration[], any>, unknown>
+  appId: string
+  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
 
-  const uniqueCategories = Array.from(
-    new Set(
-      query.data?.data?.map(
-        (qualityModeration) =>
-          qualityModeration.guideline.category.translation_key,
-      ),
-    ),
-  )
-
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
-      {uniqueCategories?.map((category) => {
+      {query.data.data.categories?.map((category) => {
         return (
-          <div className="flex flex-col" key={category}>
+          <div className="flex flex-col" key={category.id}>
             <div>
               <h3 className="font-semibold pb-2 pt-4 first:pt-0">
-                {t(category)}
+                {t(`quality-guideline-category-${category.id}`)}
               </h3>
             </div>
             <div
@@ -52,19 +49,15 @@ const QualityCategories = ({
                 "flex flex-col text-sm gap-2 dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
               )}
             >
-              {query?.data?.data
-                ?.filter(
-                  (qualityModeration) =>
-                    qualityModeration.guideline.category.translation_key ===
-                    category,
-                )
-                .map((qualityModeration) => (
-                  <QualityItem
-                    key={qualityModeration.guideline.id}
-                    qualityModeration={qualityModeration}
-                    query={query}
-                  />
-                ))}
+              {category.guidelines.map((guideline) => (
+                <QualityItem
+                  key={guideline.id}
+                  appId={appId}
+                  qualityGuideline={guideline}
+                  qualityModeration={query.data.data.marks[guideline.id]}
+                  query={query}
+                />
+              ))}
             </div>
           </div>
         )
@@ -74,22 +67,24 @@ const QualityCategories = ({
 }
 
 const QualityItem = ({
+  appId,
   qualityModeration,
+  qualityGuideline,
   query,
 }: {
-  qualityModeration: QualityModeration
-  query: UseQueryResult<AxiosResponse<QualityModeration[], any>, unknown>
+  appId: string
+  qualityModeration?: QualityModeration
+  qualityGuideline: QualityGuideline
+  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
-  const [toggle, setToggle] = useState<boolean | null>(qualityModeration.passed)
+  const [toggle, setToggle] = useState<boolean | null>(
+    qualityModeration?.passed,
+  )
 
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>
-      postQualityModerationForApp(
-        qualityModeration.app_id,
-        qualityModeration.guideline.id,
-        passed,
-      ),
+      postQualityModerationForApp(appId, qualityGuideline.id, passed),
 
     onSuccess: (_data, variables) => {
       setToggle(variables.passed)
@@ -99,17 +94,13 @@ const QualityItem = ({
 
   return (
     <div className={clsx("flex items-center gap-1")}>
-      <div>{t(qualityModeration.guideline.translation_key)}</div>
-      <a
-        href={qualityModeration.guideline.url}
-        target="_blank"
-        rel="noreferrer"
-      >
+      <div>{t(`quality-guideline-${qualityGuideline.id}`)}</div>
+      <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
         <HiArrowTopRightOnSquare />
       </a>
       <div className="ml-auto">
-        {qualityModeration.guideline.read_only ? (
-          qualityModeration.passed ? (
+        {qualityGuideline.read_only ? (
+          qualityModeration?.passed ? (
             <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
           ) : (
             <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
@@ -191,7 +182,7 @@ export const QualityModerationModal = ({
             <span className="text-flathub-red">{t("server-error")}</span>
           </div>
         ) : (
-          <QualityCategories query={query} />
+          <QualityCategories appId={appId} query={query} />
         )}
       </div>
     </Modal>

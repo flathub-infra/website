@@ -479,7 +479,7 @@
   "quality-guideline-app-name-not-too-long": "Shorter then 20 characters",
   "quality-guideline-app-name-just-the-name": "Just the name",
   "quality-guideline-app-no-weird-formatting": "No weird formatting, punctuatio, lowercase, etc.",
-  "quality-guideline-category-summary": "Summary",
+  "quality-guideline-category-app-summary": "Summary",
   "quality-guideline-app-summary-not-too-long": "Shorter then 35 characters",
   "quality-guideline-app-summary-not-technical": "Somewhat understandable for a normal person",
   "quality-guideline-app-summary-no-weird-formatting": "No weird formatting or punctuatio",

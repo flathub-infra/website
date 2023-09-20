@@ -43,7 +43,10 @@ import {
   MeilisearchResponseLimited,
 } from "./meilisearch"
 import axios from "axios"
-import { QualityModeration } from "./types/QualityModeration"
+import {
+  QualityModeration,
+  QualityModerationResponse,
+} from "./types/QualityModeration"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -301,14 +304,17 @@ export async function fetchAddons(appid: string) {
 }
 
 export async function fetchQualityModerationForApp(appid: string) {
-  return axios.get<QualityModeration[]>(`${QUALITY_MODERATION_APP(appid)}`, {
-    withCredentials: true,
-  })
+  return axios.get<QualityModerationResponse>(
+    `${QUALITY_MODERATION_APP(appid)}`,
+    {
+      withCredentials: true,
+    },
+  )
 }
 
 export async function postQualityModerationForApp(
   appid: string,
-  guideline_id: number,
+  guideline_id: string,
   passed: boolean,
 ) {
   return axios.post(

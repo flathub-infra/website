@@ -210,10 +210,18 @@ def update_quality_moderation():
             if value := db.get_json_key(f"apps:{appid}"):
                 # Check app name lenght
                 models.QualityModeration.upsert(
-                    sqldb, appid, 8, len(value["name"]) <= 20, None
+                    sqldb,
+                    appid,
+                    "app-name-not-too-long",
+                    len(value["name"]) <= 20,
+                    None,
                 )
 
                 # Check app summary lenght
                 models.QualityModeration.upsert(
-                    sqldb, appid, 11, len(value["summary"]) <= 35, None
+                    sqldb,
+                    appid,
+                    "app-summary-not-too-long",
+                    len(value["summary"]) <= 35,
+                    None,
                 )
