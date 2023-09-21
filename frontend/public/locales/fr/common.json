@@ -460,5 +460,9 @@
   "user-data-folder": "Dossier de données utilisateur",
   "videos-folder": "Dossier vidéos",
   "can-read-all-data-in-your-download-folder": "Peut lire toutes les données contenues dans votre dossier de téléchargements",
-  "pictures-folder": "Dossier d'images"
+  "pictures-folder": "Dossier d'images",
+  "can-read-home-folder": "Peut lire toutes les données de votre dossier personnel",
+  "can-read-write-all-data-on-file-system": "Peut lire et écrire toutes les données du système de fichiers",
+  "full-file-system-read-write-access": "Accès en lecture/écriture à l'ensemble du système de fichiers",
+  "home-folder-read-access": "Accès en lecture au dossier personnel"
 }

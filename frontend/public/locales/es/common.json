@@ -460,5 +460,9 @@
   "user-data-folder": "Carpeta de datos de usuario",
   "videos-folder": "Carpeta Vídeos",
   "can-read-all-data-in-your-download-folder": "Puede leer todos los datos de su carpeta de descargas",
-  "pictures-folder": "Carpeta Imágenes"
+  "pictures-folder": "Carpeta Imágenes",
+  "can-read-home-folder": "Puede leer datos de su carpeta personal",
+  "can-read-write-all-data-on-file-system": "Puede leer y escribir todos los datos del sistema de archivos",
+  "full-file-system-read-write-access": "Acceso completo de lectura/escritura al sistema de archivos",
+  "home-folder-read-access": "Acceso de lectura a la carpeta personal"
 }

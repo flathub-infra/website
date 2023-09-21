@@ -460,5 +460,9 @@
   "legacy-windowing-system": "Veraltetes Anzeigesystem",
   "arbitrary-permissions": "Beliebige Berechtigungen",
   "no-permissions-description": "Diese Anwendung läuft vollständig in einer isolierten Umgebung",
-  "public-share-folder": "Öffentlich Ordner"
+  "public-share-folder": "Öffentlich Ordner",
+  "can-read-home-folder": "Kann alle Daten in deinem persönlichen Ordner lesen",
+  "can-read-write-all-data-on-file-system": "Kann alle Daten auf dem Dateisystem lesen und schreiben",
+  "full-file-system-read-write-access": "Vollständiger Dateisystem lese- und schreibezugriff",
+  "home-folder-read-access": "Lesezugriff auf den persönlichen Ordner"
 }

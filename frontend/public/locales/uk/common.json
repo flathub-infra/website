@@ -460,5 +460,9 @@
   "user-data-folder": "Тека даних користувача",
   "videos-folder": "Тека Відео",
   "can-read-all-data-in-your-download-folder": "Може зчитувати всі дані у вашій теці Завантаження",
-  "pictures-folder": "Тека Зображення"
+  "pictures-folder": "Тека Зображення",
+  "can-read-home-folder": "Може читати всі дані у вашій домашній теці",
+  "can-read-write-all-data-on-file-system": "Може читати й записувати всі дані у файловій системі",
+  "full-file-system-read-write-access": "Повний доступ до читання/запису файлової системи",
+  "home-folder-read-access": "Доступ до читання домашньої теки"
 }

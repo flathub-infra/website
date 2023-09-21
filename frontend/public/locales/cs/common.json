@@ -460,5 +460,9 @@
   "templates-folder": "Složka šablon",
   "user-configuration-subfolder-x": "Podsložka uživatelské konfigurace {{folder}}",
   "user-data-folder": "Složka uživatelských dat",
-  "can-read-all-data-in-your-download-folder": "Může číst a zapisovat všechna data ve vaší složce se staženými soubory"
+  "can-read-all-data-in-your-download-folder": "Může číst a zapisovat všechna data ve vaší složce se staženými soubory",
+  "can-read-home-folder": "Může číst všechna data ve vaší domovské složce",
+  "can-read-write-all-data-on-file-system": "Může číst a zapisovat všechna data ve vaší domovské složce",
+  "full-file-system-read-write-access": "Plný přístup k souborovému systému pro čtení/zápis",
+  "home-folder-read-access": "Přístup k domovské složce pouze pro čtení"
 }
