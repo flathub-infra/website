@@ -460,5 +460,9 @@
   "user-data-folder": "مجلَّد بيانات المستخدم",
   "videos-folder": "مجلَّد المقاطع",
   "can-read-all-data-in-your-download-folder": "يقرأ كلَّ بيانات مجلَّد التنزيلات",
-  "pictures-folder": "مجلَّد الصور"
+  "pictures-folder": "مجلَّد الصور",
+  "can-read-home-folder": "يقرأ كلَّ البيانات في مجلَّد المنزل",
+  "can-read-write-all-data-on-file-system": "يقرأ كلَّ البيانات في نظام الملفات ويكتبها",
+  "full-file-system-read-write-access": "يقرأ كامل نظام الملفات ويكتبه",
+  "home-folder-read-access": "يقرأ مجلَّد المنزل"
 }

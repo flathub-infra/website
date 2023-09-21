@@ -408,7 +408,7 @@
   "proprietary-explanation": "Это приложение не разрабатывается открыто, поэтому только его разработчики знают, как оно работает. Оно может быть небезопасно, и его изменения нельзя проверить.",
   "community-built-explanation": "Это приложение открыто разрабатывается сообществом волонтёров и выпускается под <1>{{ license }}</1>.",
   "legacy-windowing-system-description": "Использует устаревшую оконную систему",
-  "can-read-all-data-on-file-system": "Может читать все данные файловой системы",
+  "can-read-all-data-on-file-system": "Может читать все данные в файловой системе",
   "public-share-subfolder-x": "Подпапка общего доступа {{folder}}",
   "auditable-code-description": "Исходный код открыт и может быть проверен независимо, что делает приложение более безопасным",
   "user-data-subfolder-x": "Подпапка данных пользователя {{folder}}",
@@ -460,5 +460,9 @@
   "user-data-folder": "Папка данных пользователя",
   "videos-folder": "Папка видео",
   "can-read-all-data-in-your-download-folder": "Может читать все данные в папке загрузок",
-  "pictures-folder": "Папка изображений"
+  "pictures-folder": "Папка изображений",
+  "can-read-home-folder": "Может читать все данные в домашней папке",
+  "can-read-write-all-data-on-file-system": "Может читать и записывать все данные в файловой системе",
+  "full-file-system-read-write-access": "Полный доступ на чтение/запись файловой системы",
+  "home-folder-read-access": "Доступ на чтение домашней папки"
 }

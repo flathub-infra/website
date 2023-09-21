@@ -460,5 +460,9 @@
   "user-data-folder": "使用者資料資料夾",
   "videos-folder": "影片資料夾",
   "can-read-all-data-in-your-download-folder": "可以讀取您下載資料夾中的所有資料",
-  "pictures-folder": "圖片資料夾"
+  "pictures-folder": "圖片資料夾",
+  "can-read-home-folder": "可以讀取您家目錄中的所有資料",
+  "can-read-write-all-data-on-file-system": "可以讀取並寫入檔案系統中的所有資料",
+  "full-file-system-read-write-access": "完整檔案系統讀取/寫入權",
+  "home-folder-read-access": "家目錄讀取權"
 }

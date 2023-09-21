@@ -406,7 +406,7 @@
   "uses-eol-runtime": "Używa wycofanego środowiska uruchomieniowego",
   "can-acquire-arbitrary-permissions": "Może uzyskać dowolne uprawnienia",
   "proprietary-explanation": "Aplikacja ta nie jest rozwijana w sposób otwarty, więc tylko jej twórcy wiedzą, jak działa. Może być niezabezpieczona w sposób trudny do wykrycia i może się zmieniać bez nadzoru.",
-  "community-built-explanation": "Aplikacja ta jest rozwijana przez społeczność wolontariuszy i udostępniane na licencji <1>{{ license }}</1>.",
+  "community-built-explanation": "Aplikacja ta jest rozwijana przez społeczność wolontariuszy i udostępniana na licencji <1>{{ license }}</1>.",
   "legacy-windowing-system-description": "Wykorzystuje przestarzały system okienkowy",
   "can-read-all-data-on-file-system": "Może odczytywać wszystkie dane w systemie",
   "public-share-subfolder-x": "Podfolder udostępniony publicznie {{folder}}",
@@ -460,5 +460,9 @@
   "user-data-folder": "Folder danych użytkownika",
   "videos-folder": "Folder wideo",
   "can-read-all-data-in-your-download-folder": "Może odczytać wszystkie dane w folderze pobierania",
-  "pictures-folder": "Folder obrazów"
+  "pictures-folder": "Folder obrazów",
+  "can-read-home-folder": "Może odczytać wszystkie dane w folderze domowym",
+  "can-read-write-all-data-on-file-system": "Może odczytać wszystkie dane w systemie",
+  "full-file-system-read-write-access": "Pełny dostęp do odczytu/zapisu systemu plików",
+  "home-folder-read-access": "Dostęp do odczytu folderu domowego"
 }

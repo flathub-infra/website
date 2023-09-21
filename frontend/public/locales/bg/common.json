@@ -460,5 +460,9 @@
   "download-folder-read-write-access": "Достъп за четене и записване в папката за изтегляния",
   "no-file-system-access-description": "Няма никакъв достъп до файловата система",
   "download-folder-read-access": "Достъп за четене в папката за изтегляния",
-  "can-read-all-data-in-your-download-folder": "Може да чете всички данни в папката за изтегляния"
+  "can-read-all-data-in-your-download-folder": "Може да чете всички данни в папката за изтегляния",
+  "can-read-home-folder": "Може да чете всички данни в домашната папка",
+  "can-read-write-all-data-on-file-system": "Може да чете и записва всички данни във файловата система",
+  "full-file-system-read-write-access": "Пълен достъп за четене и записване във файловата система",
+  "home-folder-read-access": "Достъп за четене в домашната папка"
 }

@@ -434,7 +434,7 @@
   "uses-eol-runtime-description": "Az alkalmazás által használt futási környezet már nem kap biztonsági frissítéseket",
   "cannot-access-the-internet": "Nem fér hozzá az internethez",
   "home-folder-read-write-access": "Saját mappa olvasási/írási hozzáférése",
-  "full-file-system-read-access": "Teljes fájlrendszer olvasási hozzáférés",
+  "full-file-system-read-access": "Teljes fájlrendszer olvasási hozzáférése",
   "user-settings": "Felhasználói beállítások",
   "software-developer-verified-description": "A szoftverfejlesztő ellenőrizte személyazonosságát, ami nagyobb valószínűséggel biztonságosabbá teszi az alkalmazást",
   "user-device-access": "Felhasználói eszköz hozzáférése",
@@ -460,5 +460,9 @@
   "user-data-folder": "Felhasználói adatok mappa",
   "videos-folder": "Videók mappa",
   "can-read-all-data-in-your-download-folder": "Összes adat a letöltések mappában olvashat",
-  "pictures-folder": "Képek mappa"
+  "pictures-folder": "Képek mappa",
+  "can-read-home-folder": "Összes otthoni mappa adat olvashat",
+  "can-read-write-all-data-on-file-system": "Összes adat a fájlrendszerben olvashat és írhat",
+  "full-file-system-read-write-access": "Teljes fájlrendszer olvasási/írási hozzáférése",
+  "home-folder-read-access": "Otthoni mappa olvasási hozzáférése"
 }
