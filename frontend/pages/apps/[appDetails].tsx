@@ -24,6 +24,7 @@ import {
   MeilisearchResponse,
   removeAppIdFromSearchResponse,
 } from "src/meilisearch"
+import { QualityModeration } from "src/components/application/QualityModeration"
 
 export default function Details({
   app,
@@ -62,6 +63,7 @@ export default function Details({
           ],
         }}
       />
+      <QualityModeration appId={app.id} />
       <ApplicationDetails
         app={app}
         summary={summary}

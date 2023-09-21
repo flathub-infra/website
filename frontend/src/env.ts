@@ -230,3 +230,7 @@ export const MODERATION_APPS_URL: string = `${MODERATION_BASE_URL}/apps`
 export const MODERATION_APP_URL = (id: string) => `${MODERATION_APPS_URL}/${id}`
 export const MODERATION_REVIEW_URL = (id: number) =>
   `${MODERATION_BASE_URL}/requests/${id}/review`
+
+export const QUALITY_MODERATION_BASE_URL: string = `${BASE_URI}/quality-moderation`
+export const QUALITY_MODERATION_APP = (appid: string) =>
+  `${QUALITY_MODERATION_BASE_URL}/${appid}`

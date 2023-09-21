@@ -19,7 +19,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
-from . import utils
+from . import qualityGuidelineData, utils
 
 
 class Base(DeclarativeBase):
@@ -51,6 +51,9 @@ class FlathubUser(Base):
     default_account: Mapped[Optional[str]]
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_moderator: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
+    is_quality_moderator: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=text("false")
     )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
@@ -1317,3 +1320,96 @@ class ModerationRequest(Base):
     handled_at = mapped_column(DateTime)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
+
+
+class QualityModeration(Base):
+    """A moderation request for a quality guideline"""
+
+    __tablename__ = "qualitymoderation"
+
+    id = mapped_column(Integer, primary_key=True)
+    guideline_key = mapped_column(String, nullable=False, index=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
+    passed = mapped_column(Boolean, nullable=False)
+    comment = mapped_column(String)
+
+    @classmethod
+    def upsert(
+        cls,
+        db,
+        app_id: str,
+        guideline_key: str,
+        passed: bool,
+        updated_by: int | None,
+    ):
+        """
+        Insert or update a quality moderation
+        """
+        quality = (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == app_id)
+            .filter(QualityModeration.guideline_key == guideline_key)
+            .first()
+        )
+
+        if quality:
+            if quality.passed == passed:
+                return
+            quality.passed = passed
+            quality.updated_by = updated_by
+            quality.updated_at = datetime.now()
+        else:
+            quality = QualityModeration(
+                app_id=app_id,
+                guideline_key=guideline_key,
+                updated_by=updated_by,
+                passed=passed,
+                comment=None,
+            )
+            db.session.add(quality)
+
+        db.session.commit()
+
+    @classmethod
+    def by_appid(cls, db, appid: str) -> list["QualityModeration"]:
+        quality_from_db = (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == appid)
+            .all()
+        )
+
+        # Add all guidelines to the list
+        for guideline in qualityGuidelineData.guidelines:
+            if not any(
+                quality.guideline_key == guideline.translation_key
+                for quality in quality_from_db
+            ):
+                quality_from_db.append(
+                    QualityModeration(
+                        guideline_key=guideline.translation_key,
+                        app_id=appid,
+                        updated_at=None,
+                        updated_by=None,
+                        passed=None,
+                        comment=None,
+                    )
+                )
+
+        # Add guideline data to quality moderation
+        for quality in quality_from_db:
+            quality.guideline = next(
+                guideline
+                for guideline in qualityGuidelineData.guidelines
+                if quality.guideline_key == guideline.translation_key
+            )
+
+        # Sort by category then by guideline_key
+        quality_from_db.sort(
+            key=lambda quality: (quality.guideline.category.value, quality.guideline.id)
+        )
+
+        print(quality_from_db[0].guideline.category)
+
+        return quality_from_db

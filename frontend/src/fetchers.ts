@@ -29,6 +29,7 @@ import {
   APPSTREAM_URL,
   RUNTIMES,
   ADDONS_URL,
+  QUALITY_MODERATION_APP,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -42,6 +43,7 @@ import {
   MeilisearchResponseLimited,
 } from "./meilisearch"
 import axios from "axios"
+import { QualityModeration } from "./types/QualityModeration"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -296,4 +298,27 @@ export async function fetchAddons(appid: string) {
   })
 
   return combined.map((item) => item.appstream)
+}
+
+export async function fetchQualityModerationForApp(appid: string) {
+  return axios.get<QualityModeration[]>(`${QUALITY_MODERATION_APP(appid)}`, {
+    withCredentials: true,
+  })
+}
+
+export async function postQualityModerationForApp(
+  appid: string,
+  guideline_key: string,
+  passed: boolean,
+) {
+  return axios.post(
+    `${QUALITY_MODERATION_APP(appid)}`,
+    {
+      guideline_key,
+      passed,
+    },
+    {
+      withCredentials: true,
+    },
+  )
 }
