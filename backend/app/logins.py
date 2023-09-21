@@ -954,9 +954,11 @@ def get_userinfo(login: LoginStatusDep):
         user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
         db.session.commit()
 
+    default_account = user.get_default_account(db)
+
     ret = {
         "is-moderator": user.is_moderator,
-        "displayname": user.display_name,
+        "displayname": default_account.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
         "invited-flatpaks": set(),
