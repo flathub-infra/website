@@ -74,7 +74,7 @@ const QualityItem = ({
 }: {
   appId: string
   qualityModeration?: QualityModeration
-  qualityGuideline: QualityGuideline
+  qualityGuideline: QualityGuideline | undefined
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
@@ -111,7 +111,7 @@ const QualityItem = ({
               {
                 id: "not-set",
                 content: <HiQuestionMarkCircle className="w-6 h-6" />,
-                selected: toggle === null,
+                selected: toggle === undefined,
                 onClick: () => {},
                 disabled: true,
               },
