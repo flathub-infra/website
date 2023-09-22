@@ -208,7 +208,7 @@ def update_quality_moderation():
 
         for appid in appids_for_frontend:
             if value := db.get_json_key(f"apps:{appid}"):
-                # Check app name lenght
+                # Check app name length
                 models.QualityModeration.upsert(
                     sqldb,
                     appid,
@@ -217,7 +217,7 @@ def update_quality_moderation():
                     None,
                 )
 
-                # Check app summary lenght
+                # Check app summary length
                 models.QualityModeration.upsert(
                     sqldb,
                     appid,
