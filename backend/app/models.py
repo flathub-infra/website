@@ -1323,7 +1323,7 @@ class ModerationRequest(Base):
 
 
 class QualityModeration(Base):
-    """A moderation request for a quality guideline"""
+    """A moderated quality guideline for an app"""
 
     __tablename__ = "qualitymoderation"
 
