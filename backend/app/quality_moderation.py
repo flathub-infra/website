@@ -165,3 +165,59 @@ def set_quality_moderation_for_app(
     models.QualityModeration.upsert(
         db, app_id, body.guideline_id, body.passed, moderator.user.id
     )
+
+
+@router.get("/{app_id}/status")
+def get_quality_moderation_status_for_app(app_id: str):
+    return get_quality_moderation_status_for_appid(app_id)
+
+
+def get_quality_moderation_status_for_appid(app_id: str):
+    marks = models.QualityModeration.by_appid(db, app_id)
+    unrated = 0
+
+    checks = []
+
+    for category in GUIDELINES:
+        for guideline in category.guidelines:
+            if guideline.needed_to_pass_since > datetime.datetime.now():
+                continue
+
+            firstMatch = next(
+                (mark for mark in marks if mark.guideline_id == guideline.id), None
+            )
+
+            checks.append(
+                {
+                    "category": category.id,
+                    "guideline": guideline.id,
+                    "needed_to_pass_since": guideline.needed_to_pass_since,
+                    "passed": firstMatch.passed if firstMatch else None,
+                }
+            )
+
+            if firstMatch is None:
+                unrated += 1
+
+    passed = len(
+        [
+            item
+            for item in checks
+            if item["passed"] and item["needed_to_pass_since"] < datetime.datetime.now()
+        ]
+    )
+    not_passed = len(
+        [
+            item
+            for item in checks
+            if item["passed"] is False
+            and item["needed_to_pass_since"] < datetime.datetime.now()
+        ]
+    )
+
+    return {
+        "passes": unrated + not_passed == 0,
+        "unrated": unrated,
+        "passed": passed,
+        "not-passed": not_passed,
+    }
