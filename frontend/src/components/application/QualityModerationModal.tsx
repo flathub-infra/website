@@ -41,7 +41,7 @@ const QualityCategories = ({
           <div className="flex flex-col" key={category.id}>
             <div>
               <h3 className="font-semibold pb-2 pt-4 first:pt-0">
-                {t(`quality-guideline-category-${category.id}`)}
+                {t(`quality-guideline.${category.id}`)}
               </h3>
             </div>
             <div
@@ -94,7 +94,7 @@ const QualityItem = ({
 
   return (
     <div className={clsx("flex items-center gap-1")}>
-      <div>{t(`quality-guideline-${qualityGuideline.id}`)}</div>
+      <div>{t(`quality-guideline.${qualityGuideline.id}`)}</div>
       <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
         <HiArrowTopRightOnSquare />
       </a>
