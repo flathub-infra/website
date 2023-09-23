@@ -20,6 +20,7 @@ from . import (
     logins,
     moderation,
     purchases,
+    quality_moderation,
     schemas,
     search,
     stats,
@@ -67,6 +68,8 @@ invites.register_to_app(app)
 
 compat.register_to_app(app)
 
+quality_moderation.register_to_app(app)
+
 
 @app.on_event("startup")
 def startup_event():
@@ -76,6 +79,7 @@ def startup_event():
 @app.post("/update")
 async def update():
     worker.update.send()
+    worker.update_quality_moderation.send()
 
 
 @app.post("/update/stats")

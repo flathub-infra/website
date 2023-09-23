@@ -464,5 +464,27 @@
   "no-permissions-description": "App is fully sandboxed",
   "user-settings": "User settings",
   "can-request-data-from-session-services": "Can request data from session services",
-  "can-request-data-from-system-services": "Can request data from system services"
+  "can-request-data-from-system-services": "Can request data from system services",
+  "app-listing-quality": "App Listing Quality",
+  "quality-guideline": {
+    "general": "General",
+    "general-no-trademark-violations": "No trademark violations (name or icon)",
+    "app-icon": "App Icon",
+    "app-icon-size": "SVG or PNG of at least 256px",
+    "app-icon-footprint": "Doesn't fill too much or too little of the canvas",
+    "app-icon-contrast": "Good contrast on dark backgrounds",
+    "app-icon-detail": "Not too much detail",
+    "app-icon-no-baked-in-shadows": "No baked-in shadows",
+    "app-icon-in-line-with-contemporary-styles": "In line with contemporary styles",
+    "app-name": "App Name",
+    "app-name-not-too-long": "Shorter then 20 characters",
+    "app-name-just-the-name": "Just the name",
+    "app-no-weird-formatting": "No weird formatting, punctuatio, lowercase, etc.",
+    "app-summary": "Summary",
+    "app-summary-not-too-long": "Shorter then 35 characters",
+    "app-summary-not-technical": "Somewhat understandable for a normal person",
+    "app-summary-no-weird-formatting": "No weird formatting or punctuatio",
+    "app-summary-dont-repeat-app-name": "Doesn't repeat the app name",
+    "app-summary-dont-start-with-an-article": "Doesn't start with an article"
+  }
 }

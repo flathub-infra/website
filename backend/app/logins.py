@@ -958,6 +958,7 @@ def get_userinfo(login: LoginStatusDep):
 
     ret = {
         "is-moderator": user.is_moderator,
+        "is-quality-moderator": user.is_quality_moderator,
         "displayname": default_account.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),

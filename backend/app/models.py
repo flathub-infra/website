@@ -53,6 +53,9 @@ class FlathubUser(Base):
     is_moderator: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=text("false")
     )
+    is_quality_moderator: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, default=None
     )
@@ -1317,3 +1320,66 @@ class ModerationRequest(Base):
     handled_at = mapped_column(DateTime)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
+
+
+class QualityModeration(Base):
+    """A moderated quality guideline for an app"""
+
+    __tablename__ = "qualitymoderation"
+
+    id = mapped_column(Integer, primary_key=True)
+    guideline_id = mapped_column(String, nullable=False, index=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
+    passed = mapped_column(Boolean, nullable=False)
+    comment = mapped_column(String)
+
+    __table_args__ = (
+        Index("qualitymoderation_unique", app_id, guideline_id, unique=True),
+    )
+
+    @classmethod
+    def upsert(
+        cls,
+        db,
+        app_id: str,
+        guideline_id: str,
+        passed: bool,
+        updated_by: int | None,
+    ):
+        """
+        Insert or update a quality moderation
+        """
+        quality = (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == app_id)
+            .filter(QualityModeration.guideline_id == guideline_id)
+            .first()
+        )
+
+        if quality:
+            if quality.passed == passed:
+                return
+            quality.passed = passed
+            quality.updated_by = updated_by
+            quality.updated_at = datetime.now()
+        else:
+            quality = QualityModeration(
+                app_id=app_id,
+                guideline_id=guideline_id,
+                updated_by=updated_by,
+                passed=passed,
+                comment=None,
+            )
+            db.session.add(quality)
+
+        db.session.commit()
+
+    @classmethod
+    def by_appid(cls, db, appid: str) -> list["QualityModeration"]:
+        return (
+            db.session.query(QualityModeration)
+            .filter(QualityModeration.app_id == appid)
+            .all()
+        )
