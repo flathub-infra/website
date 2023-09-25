@@ -464,5 +464,27 @@
   "can-read-home-folder": "يقرأ كلَّ البيانات في مجلَّد المنزل",
   "can-read-write-all-data-on-file-system": "يقرأ كلَّ البيانات في نظام الملفات ويكتبها",
   "full-file-system-read-write-access": "يقرأ كامل نظام الملفات ويكتبه",
-  "home-folder-read-access": "يقرأ مجلَّد المنزل"
+  "home-folder-read-access": "يقرأ مجلَّد المنزل",
+  "quality-guideline": {
+    "app-icon-footprint": "لا يُكثَر فيها من ملء الرقعة ولا يقتصر",
+    "app-icon-detail": "ليست فيها تفاصيل كثيرة",
+    "general-no-trademark-violations": "لا تتعدَّى على علامة تجارية (اسم أو أيقونة)",
+    "app-name": "اسم التطبيق",
+    "app-summary-not-too-long": "طوله أقل من ٣٥ محرفًا",
+    "app-summary-no-weird-formatting": "ليس غريب التنسيق واستخدام علامات الترقيم",
+    "app-icon-contrast": "فيها تباين واضح مع الخلفيات داكنة اللون",
+    "app-summary-not-technical": "يفهمه من ليس له علم بتفاصيل الأمر",
+    "app-summary": "الملخص",
+    "app-summary-dont-repeat-app-name": "ليس فيه تكرير لاسم التطبيق",
+    "app-no-weird-formatting": "ليس غريب التنسيق، ولا فيه علامات ترقيم، ولا يخلط استخدام الأحرف الصغيرة والكبيرة، إلخ.",
+    "app-icon": "أيقونة التطبيق",
+    "app-icon-no-baked-in-shadows": "ليس في رسمها ظلال",
+    "general": "عام",
+    "app-name-just-the-name": "الاسم فقط",
+    "app-icon-in-line-with-contemporary-styles": "توافق رسم العصر",
+    "app-name-not-too-long": "طوله أقل من ٢٠ محرفًا",
+    "app-icon-size": "ملفُّ SVG أو PNG بدقة أقلها ٢٥٦ بكسل",
+    "app-summary-dont-start-with-an-article": "لا يبدأ بأداة تعريف"
+  },
+  "app-listing-quality": "جودة مسردة التطبيقات"
 }

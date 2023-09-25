@@ -464,5 +464,27 @@
   "can-read-home-folder": "Може да чете всички данни в домашната папка",
   "can-read-write-all-data-on-file-system": "Може да чете и записва всички данни във файловата система",
   "full-file-system-read-write-access": "Пълен достъп за четене и записване във файловата система",
-  "home-folder-read-access": "Достъп за четене в домашната папка"
+  "home-folder-read-access": "Достъп за четене в домашната папка",
+  "quality-guideline": {
+    "app-icon-footprint": "Не запълва твърде много или твърде малко пространство",
+    "app-icon-detail": "Няма много детайли",
+    "general-no-trademark-violations": "Няма нарушения на търговската марка (наименование или икона)",
+    "app-name": "Наименование",
+    "app-summary-not-too-long": "По-кратко от 35 символа",
+    "app-summary-no-weird-formatting": "Няма странно форматиране или пунктуация",
+    "app-icon-contrast": "Добър контраст на тъмен фон",
+    "app-summary-not-technical": "Разбираемо за обикновения потребител",
+    "app-summary": "Обобщение",
+    "app-summary-dont-repeat-app-name": "Наименованието не се повтаря",
+    "app-no-weird-formatting": "Няма странно форматиране, пунктуация, малки букви и др.",
+    "app-icon": "Икона",
+    "app-icon-no-baked-in-shadows": "Няма вградени сенки",
+    "general": "Общи",
+    "app-name-just-the-name": "Разбираемо",
+    "app-icon-in-line-with-contemporary-styles": "Има съвременен стил",
+    "app-name-not-too-long": "По-кратко от 20 символа",
+    "app-icon-size": "SVG или PNG файл от поне 256 пиксела",
+    "app-summary-dont-start-with-an-article": "Не започва като статия"
+  },
+  "app-listing-quality": "Свойства на приложението"
 }

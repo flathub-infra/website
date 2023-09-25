@@ -464,5 +464,27 @@
   "can-read-home-folder": "Puede leer datos de su carpeta personal",
   "can-read-write-all-data-on-file-system": "Puede leer y escribir todos los datos del sistema de archivos",
   "full-file-system-read-write-access": "Acceso completo de lectura/escritura al sistema de archivos",
-  "home-folder-read-access": "Acceso de lectura a la carpeta personal"
+  "home-folder-read-access": "Acceso de lectura a la carpeta personal",
+  "quality-guideline": {
+    "app-icon-footprint": "No llena demasiado o muy poco el lienzo",
+    "app-icon-detail": "Sin demasiados detalles",
+    "general-no-trademark-violations": "Sin violaciones de marcas registradas (nombre o ícono)",
+    "app-name": "Nombre de la aplicación",
+    "app-summary-not-too-long": "Menos de 35 caracteres",
+    "app-summary-no-weird-formatting": "Sin formato ni puntuación extraños",
+    "app-icon-contrast": "Buen contraste sobre fondos oscuros",
+    "app-summary-not-technical": "Comprensible para una persona sin conocimientos técnicos",
+    "app-summary": "Resumen",
+    "app-summary-dont-repeat-app-name": "No repite el nombre de la aplicación",
+    "app-no-weird-formatting": "Sin formatos raros, puntuación, minúsculas, etc.",
+    "app-icon": "Icono de la aplicación",
+    "app-icon-no-baked-in-shadows": "Sin sombras",
+    "general": "General",
+    "app-name-just-the-name": "Sólo el nombre",
+    "app-icon-in-line-with-contemporary-styles": "En línea con los estilos contemporáneos",
+    "app-name-not-too-long": "Menos de 20 caracteres",
+    "app-icon-size": "SVG o PNG de al menos 256px",
+    "app-summary-dont-start-with-an-article": "No empieza con un artículo"
+  },
+  "app-listing-quality": "Calidad de los listados de las aplicaciones"
 }

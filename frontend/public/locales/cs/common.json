@@ -406,7 +406,7 @@
   "information": "Informace",
   "proprietary-explanation": "Tato aplikace není vyvíjena otevřeně, takže jen její vývojáři ví jak funguje. Může být nezabezpečena způsobem, který je obtížné odhalit, a může se měnit bez dohledu.",
   "community-built": "Vyvíjené komunitou",
-  "community-built-explanation": "Tento aplikace je vyvíjena komunitou dobrovolníků a je uvolněna pod licencí <1>{{ license }}</1>.",
+  "community-built-explanation": "Tato aplikace je vyvíjena komunitou dobrovolníků a je uvolněna pod licencí <1>{{ license }}</1>.",
   "can-read-all-data-on-file-system": "Může číst všechna data v souborovém systému",
   "public-share-subfolder-x": "Podsložka veřejně sdílených {{folder}}",
   "desktop-folder": "Složka plochy",
@@ -464,5 +464,16 @@
   "can-read-home-folder": "Může číst všechna data ve vaší domovské složce",
   "can-read-write-all-data-on-file-system": "Může číst a zapisovat všechna data ve vaší domovské složce",
   "full-file-system-read-write-access": "Plný přístup k souborovému systému pro čtení/zápis",
-  "home-folder-read-access": "Přístup k domovské složce pouze pro čtení"
+  "home-folder-read-access": "Přístup k domovské složce pouze pro čtení",
+  "quality-guideline": {
+    "app-icon-footprint": "Nevyplňuje příliš velkou ani malou část oblasti",
+    "app-icon-detail": "Ne příliš mnoho podrobností",
+    "general-no-trademark-violations": "Žádné porušení ochranné známky (název nebo ikona)",
+    "app-icon-contrast": "Dobrý kontrast na tmavém pozadí",
+    "app-icon": "Ikona aplikace",
+    "app-icon-no-baked-in-shadows": "Žádné tmavé stíny",
+    "general": "Obecné",
+    "app-icon-size": "SVG nebo PNG o velikosti alespoň 256 pixelů"
+  },
+  "app-listing-quality": "Kvalita výpisu aplikací"
 }

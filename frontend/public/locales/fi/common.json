@@ -463,5 +463,27 @@
   "full-file-system-read-write-access": "Täysi tiedostojärjestelmän luku- ja kirjoitusoikeus",
   "download-folder-read-access": "Lataukset-kansion lukuoikeus",
   "home-folder-read-access": "Kotikansion lukuoikeus",
-  "can-read-all-data-in-your-download-folder": "Voi lukea kaikkea Lataukset-kansion dataa"
+  "can-read-all-data-in-your-download-folder": "Voi lukea kaikkea Lataukset-kansion dataa",
+  "quality-guideline": {
+    "app-icon-footprint": "Ei peitä piirtoaluetta liian paljon tai vähän",
+    "app-icon-detail": "Ei liian paljon yksityiskohtia",
+    "general-no-trademark-violations": "Ei tavaramerkkirikkomuksia (nimi tai kuvake)",
+    "app-name": "Sovelluksen nimi",
+    "app-summary-no-weird-formatting": "Ei outoa muotoilua tai outoa välimerkkien käyttöä",
+    "app-icon-contrast": "Hyvä kontrasti tummaa taustaa vasten",
+    "app-summary-not-technical": "Ymmärrettävissä ei-teknisen henkilön toimesta",
+    "app-summary": "Yhteenveto",
+    "app-summary-dont-repeat-app-name": "Ei sovelluksen nimen toistamista",
+    "app-no-weird-formatting": "Ei outoa muotoilua, välimerkkien käyttöä, pienillä kirjaimilla jne.",
+    "app-icon": "Sovelluskuvake",
+    "app-icon-no-baked-in-shadows": "Ei sisällytettyjä varjoja",
+    "general": "Yleiset",
+    "app-name-just-the-name": "Pelkkä nimi",
+    "app-icon-in-line-with-contemporary-styles": "Linjassa nykyaikaisten tyylien kanssa",
+    "app-icon-size": "SVG tai PNG, koko vähintään 256 px",
+    "app-summary-dont-start-with-an-article": "Ei ala artikkelilla",
+    "app-summary-not-too-long": "Vähemmän kuin 35 merkkiä",
+    "app-name-not-too-long": "Vähemmän kuin 20 merkkiä"
+  },
+  "app-listing-quality": "Sovelluslistauksen laatu"
 }
