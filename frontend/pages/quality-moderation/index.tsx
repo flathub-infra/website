@@ -49,30 +49,30 @@ export default function QualityModerationDashboard() {
           <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <table className="min-w-full divide-y divide-gray-300">
+                <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
                   <thead>
                     <tr>
                       <th
                         scope="col"
-                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold sm:pl-0"
+                        className="py-3.5 pl-4 pr-3 text-start text-sm font-semibold sm:pl-0"
                       >
                         ID
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold"
+                        className="px-3 py-3.5 text-start text-sm font-semibold"
                       >
                         Unrated
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold"
+                        className="px-3 py-3.5 text-start text-sm font-semibold"
                       >
                         Not Passed
                       </th>
                       <th
                         scope="col"
-                        className="px-3 py-3.5 text-left text-sm font-semibold"
+                        className="px-3 py-3.5 text-start text-sm font-semibold"
                       >
                         Passed
                       </th>
@@ -84,7 +84,7 @@ export default function QualityModerationDashboard() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
                     {query.data.data.apps.map((app) => (
                       <tr key={app.id}>
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">

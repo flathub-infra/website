@@ -8,10 +8,10 @@ import type { AppProps } from "next/app"
 
 import { UserInfoProvider } from "../src/context/user-info"
 import { IMAGE_BASE_URL, IS_PRODUCTION } from "../src/env"
-import { appWithTranslation, useTranslation } from "next-i18next"
+import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
 import "react-toastify/dist/ReactToastify.css"
-import { ToastContainer } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 
 import "../styles/main.scss"
 import { useRouter } from "next/router"
@@ -81,7 +81,14 @@ const App = ({ Component, pageProps }: AppProps) => {
                 <Component {...pageProps} />
               </Main>
             </UserInfoProvider>
-            <ToastContainer position="bottom-right" />
+            <ToastContainer
+              position={
+                i18n.dir() === "rtl"
+                  ? toast.POSITION.BOTTOM_LEFT
+                  : toast.POSITION.BOTTOM_RIGHT
+              }
+              rtl={i18n.dir() === "rtl"}
+            />
           </QueryClientProvider>
         </MotionConfig>
       </ThemeProvider>
