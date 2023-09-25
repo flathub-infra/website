@@ -219,6 +219,23 @@ export function getSafetyRating(
       showOnSummaryOrDetails: "both",
     })
   }
+  /* "fallback-x11" without "wayland" means X11 */
+  if (
+    summary.metadata.permissions.sockets?.some(
+      (x) => x.toLowerCase() === "fallback-x11",
+    ) &&
+    !summary.metadata.permissions.sockets?.some(
+      (x) => x.toLowerCase() === "wayland",
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "legacy-windowing-system",
+      description: "legacy-windowing-system-description",
+      icon: HiOutlineComputerDesktop,
+      showOnSummaryOrDetails: "both",
+    })
+  }
 
   // can acquire arbitrary permissions
   if (
