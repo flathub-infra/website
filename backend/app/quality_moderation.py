@@ -7,6 +7,7 @@ from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
 from . import models
+from .db import get_all_appids_for_frontend
 from .logins import LoginStatusDep
 
 router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
@@ -143,6 +144,21 @@ def quality_moderator_only(login: LoginStatusDep):
         raise HTTPException(status_code=403, detail="not_quality_moderator")
 
     return login
+
+
+@router.get("/status")
+def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
+    return {
+        "apps": [
+            {
+                "id": appId,
+                "quality-moderation-status": get_quality_moderation_status_for_appid(
+                    appId
+                ),
+            }
+            for appId in get_all_appids_for_frontend()
+        ]
+    }
 
 
 @router.get("/{app_id}")

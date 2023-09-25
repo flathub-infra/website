@@ -30,6 +30,7 @@ import {
   RUNTIMES,
   ADDONS_URL,
   QUALITY_MODERATION_APP,
+  QUALITY_MODERATION_DASHBOARD,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -44,7 +45,7 @@ import {
 } from "./meilisearch"
 import axios from "axios"
 import {
-  QualityModeration,
+  QualityModerationDashboardResponse,
   QualityModerationResponse,
 } from "./types/QualityModeration"
 
@@ -301,6 +302,15 @@ export async function fetchAddons(appid: string) {
   })
 
   return combined.map((item) => item.appstream)
+}
+
+export async function fetchQualityModerationDashboard() {
+  return axios.get<QualityModerationDashboardResponse>(
+    QUALITY_MODERATION_DASHBOARD,
+    {
+      withCredentials: true,
+    },
+  )
 }
 
 export async function fetchQualityModerationForApp(appid: string) {

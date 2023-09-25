@@ -22,3 +22,17 @@ export interface QualityModerationResponse {
   categories: QualityCategory[]
   marks: { [id: string]: QualityModeration }
 }
+
+export interface QualityModerationStatus {
+  passes: boolean
+  unrated: number
+  passed: number
+  "not-passed": number
+}
+
+export interface QualityModerationDashboardResponse {
+  apps: {
+    id: string
+    "quality-moderation-status": QualityModerationStatus
+  }[]
+}
