@@ -5,13 +5,7 @@ import Header from "./Header"
 import Footer from "./Footer"
 import { useRouter } from "next/router"
 
-const Main = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode
-  className: string
-}) => {
+const Main = ({ children }: { children: React.ReactNode }) => {
   const { trackPageView } = useMatomo()
   const router = useRouter()
 
@@ -33,7 +27,7 @@ const Main = ({
 
   return (
     <div
-      className={`${className} flex min-h-screen flex-col bg-flathub-lotion dark:bg-flathub-dark-gunmetal`}
+      className={`flex min-h-screen flex-col bg-flathub-lotion dark:bg-flathub-dark-gunmetal`}
     >
       <Header />
 
