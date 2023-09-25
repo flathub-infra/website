@@ -180,6 +180,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
     },
+    revalidate: 900,
   }
 }
 
