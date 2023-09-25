@@ -134,5 +134,9 @@
   "transaction-summary-created": "تاریخ ایجاد: {{date}}",
   "about-app-verification": "برنامه‌های تایید شده",
   "refresh": "تازه‌سازی",
-  "reporting-issues": "گزارش مشکلات"
+  "reporting-issues": "گزارش مشکلات",
+  "close": "بستن",
+  "apps": "برنامه‌ها",
+  "recently-added": "به تازگی اضافه شده",
+  "recently-updated": "به تازگی به روز شده"
 }

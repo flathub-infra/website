@@ -460,5 +460,16 @@
   "user-data-folder": "பயனர் தரவு கோப்புறை",
   "videos-folder": "காணொளி கோப்புறை",
   "can-read-all-data-in-your-download-folder": "உங்கள் பதிவிறக்கங்கள் கோப்புறையில் உள்ள அனைத்து தரவையும் படிக்க முடியும்",
-  "pictures-folder": "படங்கள் கோப்புறை"
+  "pictures-folder": "படங்கள் கோப்புறை",
+  "quality-guideline": {
+    "general-no-trademark-violations": "வர்த்தக முத்திரை மீறல்கள் இல்லை (பெயர் அல்லது சின்னம்)",
+    "app-icon": "பயன்பாட்டு சின்னம்",
+    "general": "பொது",
+    "app-icon-size": "SVG அல்லது PNG குறைந்தது 256px"
+  },
+  "can-read-home-folder": "உங்கள் முகப்பு கோப்புறையில் உள்ள எல்லா தரவையும் படிக்க முடியும்",
+  "can-read-write-all-data-on-file-system": "கோப்பு முறைமையில் உள்ள எல்லா தரவையும் படிக்கவும் எழுதவும் முடியும்",
+  "app-listing-quality": "பயன்பாட்டு பட்டியல் தரம்",
+  "full-file-system-read-write-access": "முழு கோப்பு முறைமை படிக்க/எழுதுவதற்கான அணுகல்",
+  "home-folder-read-access": "முகப்பு கோப்புறையை படிக்க அணுகல்"
 }
