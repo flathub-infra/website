@@ -98,7 +98,7 @@ const QualityItem = ({
       <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
         <HiArrowTopRightOnSquare />
       </a>
-      <div className="ml-auto">
+      <div className="ms-auto">
         {qualityGuideline.read_only ? (
           qualityModeration?.passed ? (
             <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
@@ -119,12 +119,16 @@ const QualityItem = ({
                 id: "not-passed",
                 content: <HiXMark className="w-6 h-6" />,
                 onClick: () => {
-                  toast.promise(mutation.mutateAsync({ passed: false }), {
-                    // Only for moderators, so no need to translate
-                    pending: "Setting not passed",
-                    success: "Not passed saved",
-                    error: t("server-error"),
-                  })
+                  toast.promise(
+                    mutation.mutateAsync({ passed: false }),
+                    {
+                      // Only for moderators, so no need to translate
+                      pending: "Setting not passed",
+                      success: "Not passed saved",
+                      error: t("server-error"),
+                    },
+                    { toastId: "quality-moderation" },
+                  )
                 },
                 selected: toggle === false,
               },
@@ -132,12 +136,18 @@ const QualityItem = ({
                 id: "passed",
                 content: <HiCheck className="w-6 h-6" />,
                 onClick: () => {
-                  toast.promise(mutation.mutateAsync({ passed: true }), {
-                    // Only for moderators, so no need to translate
-                    pending: "Setting passed",
-                    success: "Passed saved",
-                    error: t("server-error"),
-                  })
+                  toast.promise(
+                    mutation.mutateAsync({ passed: true }),
+                    {
+                      // Only for moderators, so no need to translate
+                      pending: "Setting passed",
+                      success: "Passed saved",
+                      error: t("server-error"),
+                    },
+                    {
+                      toastId: "quality-moderation",
+                    },
+                  )
                 },
                 selected: toggle === true,
               },

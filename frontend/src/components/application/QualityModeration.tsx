@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useUserContext } from "src/context/user-info"
 import Button from "../Button"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
-import SlideOver from "../SlideOver"
 
 export const QualityModeration = ({ appId }: { appId: string }) => {
   const user = useUserContext()
@@ -25,7 +24,7 @@ export const QualityModeration = ({ appId }: { appId: string }) => {
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center"></div>
         </div>
-        <div className="ml-auto">
+        <div className="ms-auto">
           <Button
             onClick={() => {
               setIsQualityModalOpen(true)

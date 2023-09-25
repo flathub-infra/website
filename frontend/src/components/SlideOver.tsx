@@ -14,24 +14,24 @@ export default function SlideOver({ shown, onClose, title, children }) {
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
-            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div className="pointer-events-none fixed inset-y-0 end-0 flex max-w-full ps-10">
               <Transition.Child
                 as={Fragment}
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
-                enterFrom="translate-x-full"
+                enterFrom="translate-x-full rtl:translate-x-[-100%]"
                 enterTo="translate-x-0"
                 leave="transform transition ease-in-out duration-500 sm:duration-700"
                 leaveFrom="translate-x-0"
-                leaveTo="translate-x-full"
+                leaveTo="translate-x-full rtl:translate-x-[-100%]"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                  <div className="flex h-full flex-col overflow-y-scroll bg-flathub-lotion dark:bg-flathub-dark-gunmetal py-6 shadow-xl">
+                  <div className="relative flex h-full flex-col overflow-y-scroll bg-flathub-lotion dark:bg-flathub-dark-gunmetal py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
                         <Dialog.Title className="text-base font-semibold leading-6">
                           {title}
                         </Dialog.Title>
-                        <div className="absolute end-0 top-0 pe-6 pt-6 sm:block">
+                        <div className="absolute end-0 top-0 pe-4 pt-6 block">
                           <button
                             type="button"
                             className={clsx(
