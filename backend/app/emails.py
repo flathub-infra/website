@@ -4,7 +4,7 @@ import json
 from email.mime.text import MIMEText
 from email.utils import formataddr
 from enum import Enum
-from smtplib import SMTP_SSL as SMTP
+from smtplib import SMTP
 from typing import Any
 
 import jwt
@@ -150,6 +150,7 @@ def send_one_email(message: str, dest: str):
         print(f"Would send email to {dest}:\n{message}\n")
     else:
         with SMTP(settings.smtp_host, settings.smtp_port) as smtp:
+            smtp.starttls()
             smtp.login(settings.smtp_username, settings.smtp_password)
             smtp.sendmail(settings.email_from, [dest], message)
 
