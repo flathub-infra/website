@@ -207,7 +207,7 @@ const Header = () => {
                     </Link>
                   </div>
                 </div>
-                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-4">
+                <search className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-4">
                   <div className="flex items-center px-6 py-4 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                     <div className="w-full xl:mx-auto xl:w-[400px]">
                       <SiteLinksSearchBoxJsonLd
@@ -233,7 +233,11 @@ const Header = () => {
                             <HiMagnifyingGlass className="h-5 w-5 text-flathub-spanish-gray" />
                           </button>
                         </div>
-                        <form id="search-form" onSubmit={onSubmit}>
+                        <form
+                          id="search-form"
+                          role="search"
+                          onSubmit={onSubmit}
+                        >
                           <input
                             id="search"
                             name="q'"
@@ -264,7 +268,7 @@ const Header = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </search>
                 <div className="flex items-center md:absolute md:inset-y-0 md:end-0 lg:hidden">
                   <MobileMenuButton
                     open={open}
