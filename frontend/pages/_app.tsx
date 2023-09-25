@@ -72,7 +72,12 @@ const App = ({ Component, pageProps }: AppProps) => {
         <MotionConfig reducedMotion="user">
           <QueryClientProvider client={queryClient}>
             <UserInfoProvider>
-              <Main className={inter.className}>
+              <style jsx global>{`
+                html {
+                  font-family: ${inter.style.fontFamily};
+                }
+              `}</style>
+              <Main>
                 <Component {...pageProps} />
               </Main>
             </UserInfoProvider>
