@@ -75,7 +75,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "postcss": "^8.4.25",
     "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.5.3",
+    "prettier-plugin-tailwindcss": "^0.5.4",
     "storybook": "^7.4.2",
     "storybook-react-i18next": "^2.0.9",
     "tailwindcss": "^3.3.3",
