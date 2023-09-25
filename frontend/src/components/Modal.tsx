@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react"
 import { Fragment, FunctionComponent, useRef } from "react"
 import Button from "./Button"
 import { useTranslation } from "next-i18next"
-import { HiMiniXMark, HiXMark } from "react-icons/hi2"
+import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
 
 interface Props {

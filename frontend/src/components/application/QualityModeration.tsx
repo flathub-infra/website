@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "src/context/user-info"
 import Button from "../Button"
-import { QualityModerationModal } from "./QualityModerationModal"
+import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
+import SlideOver from "../SlideOver"
 
 export const QualityModeration = ({ appId }: { appId: string }) => {
   const user = useUserContext()
@@ -34,7 +35,8 @@ export const QualityModeration = ({ appId }: { appId: string }) => {
           </Button>
         </div>
       </div>
-      <QualityModerationModal
+
+      <QualityModerationSlideOver
         appId={appId}
         isQualityModalOpen={isQualityModalOpen}
         setIsQualityModalOpen={setIsQualityModalOpen}

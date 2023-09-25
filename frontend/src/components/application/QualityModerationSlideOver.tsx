@@ -1,4 +1,3 @@
-import Modal from "../Modal"
 import { useTranslation } from "react-i18next"
 import {
   fetchQualityModerationForApp,
@@ -24,6 +23,7 @@ import {
   HiXMark,
 } from "react-icons/hi2"
 import MultiToggle from "../MultiToggle"
+import SlideOver from "../SlideOver"
 
 const QualityCategories = ({
   appId,
@@ -149,7 +149,7 @@ const QualityItem = ({
   )
 }
 
-export const QualityModerationModal = ({
+export const QualityModerationSlideOver = ({
   appId,
   isQualityModalOpen,
   setIsQualityModalOpen,
@@ -167,12 +167,12 @@ export const QualityModerationModal = ({
   })
 
   return (
-    <Modal
+    <SlideOver
       shown={isQualityModalOpen}
       onClose={() => setIsQualityModalOpen(false)}
       title={t("app-listing-quality")}
     >
-      <div className="overflow-y-auto max-h-[70vh]">
+      <div className="overflow-y-auto">
         {query.isLoading ? (
           <div className="flex justify-center">
             <Spinner size={"l"} />
@@ -185,6 +185,6 @@ export const QualityModerationModal = ({
           <QualityCategories appId={appId} query={query} />
         )}
       </div>
-    </Modal>
+    </SlideOver>
   )
 }
