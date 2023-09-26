@@ -1,24 +1,98 @@
 import { useQuery } from "@tanstack/react-query"
+import {
+  ColumnDef,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+import clsx from "clsx"
+import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
-import { ReactElement } from "react"
-import { HiCheckCircle, HiExclamationTriangle } from "react-icons/hi2"
+import { Fragment, ReactElement, useState } from "react"
+import {
+  HiCheckCircle,
+  HiExclamationTriangle,
+  HiMiniChevronDown,
+  HiMiniChevronUp,
+} from "react-icons/hi2"
 import Spinner from "src/components/Spinner"
 import { useUserContext } from "src/context/user-info"
 import { fetchQualityModerationDashboard } from "src/fetchers"
+import { QualityModerationDashboardRow } from "src/types/QualityModeration"
 
 export default function QualityModerationDashboard() {
   const { t } = useTranslation()
   const user = useUserContext()
+
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: "passed", desc: true },
+  ])
 
   const query = useQuery({
     queryKey: ["quality-moderation-dashboard"],
     queryFn: fetchQualityModerationDashboard,
     enabled: !!user.info?.["is-quality-moderator"],
   })
+
+  const columns: ColumnDef<QualityModerationDashboardRow>[] = [
+    {
+      id: "id",
+      header: "ID",
+      accessorFn: (row) => row.id,
+      cell: ({ row }) => (
+        <Link href={`/apps/${row.original.id}`}>{row.original.id}</Link>
+      ),
+    },
+    {
+      id: "unrated",
+      header: "Unrated",
+      accessorFn: (row) => row["quality-moderation-status"].unrated,
+      cell: ({ row }) => row.original["quality-moderation-status"].unrated,
+    },
+    {
+      id: "not-passed",
+      header: "Not Passed",
+      accessorFn: (row) => row["quality-moderation-status"]["not-passed"],
+      cell: ({ row }) =>
+        row.original["quality-moderation-status"]["not-passed"],
+    },
+    {
+      id: "passed",
+      header: "Passed",
+      accessorFn: (row) => row["quality-moderation-status"].passed,
+      cell: ({ row }) => row.original["quality-moderation-status"].passed,
+    },
+    {
+      id: "passes",
+      header: "Status",
+      accessorFn: (row) => row["quality-moderation-status"].passes,
+      cell: ({ row }) =>
+        row.original["quality-moderation-status"].passes ? (
+          <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
+        ) : (
+          <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
+        ),
+    },
+  ]
+  const table = useReactTable<QualityModerationDashboardRow>({
+    data: query?.data?.data?.apps ?? [],
+    columns: columns,
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getRowId: (row) => row.id,
+  })
+
+  const tableRows = table.getRowModel().rows
 
   let content: ReactElement
 
@@ -51,63 +125,94 @@ export default function QualityModerationDashboard() {
               <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                 <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
                   <thead>
-                    <tr>
-                      <th
-                        scope="col"
-                        className="py-3.5 pl-4 pr-3 text-start text-sm font-semibold sm:pl-0"
-                      >
-                        ID
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-start text-sm font-semibold"
-                      >
-                        Unrated
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-start text-sm font-semibold"
-                      >
-                        Not Passed
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3.5 text-start text-sm font-semibold"
-                      >
-                        Passed
-                      </th>
-                      <th
-                        scope="col"
-                        className="relative py-3.5 pl-3 pr-4 sm:pr-0"
-                      >
-                        Status
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                    {query.data.data.apps.map((app) => (
-                      <tr key={app.id}>
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">
-                          <Link href={`/apps/${app.id}`}>{app.id}</Link>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          {app["quality-moderation-status"].unrated}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          {app["quality-moderation-status"]["not-passed"]}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          {app["quality-moderation-status"].passed}
-                        </td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                          {app["quality-moderation-status"].passes ? (
-                            <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
-                          ) : (
-                            <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
-                          )}
-                        </td>
+                    {table.getHeaderGroups().map((headerGroup) => (
+                      <tr key={headerGroup.id} className="relative">
+                        {headerGroup.headers.map((header) => {
+                          return (
+                            <th
+                              key={header.id}
+                              colSpan={header.colSpan}
+                              className="py-13.5 h-20 text-sm font-normal first:rounded-tl-2xl last:rounded-tr-2xl sm:pl-0"
+                            >
+                              {header.isPlaceholder ? null : (
+                                <div className="flex w-full">
+                                  <button
+                                    type="button"
+                                    {...{
+                                      className: clsx(
+                                        header.column.getCanSort() &&
+                                          "cursor-pointer select-none",
+                                        "flex items-center justify-between gap-1",
+                                      ),
+                                      onClick:
+                                        header.column.getToggleSortingHandler(),
+                                    }}
+                                  >
+                                    {flexRender(
+                                      header.column.columnDef.header,
+                                      header.getContext(),
+                                    )}
+                                    {{
+                                      asc: (
+                                        <HiMiniChevronUp className="h-4 w-4" />
+                                      ),
+                                      desc: (
+                                        <HiMiniChevronDown className="h-4 w-4" />
+                                      ),
+                                    }[header.column.getIsSorted() as string] ??
+                                      null}
+                                  </button>
+                                </div>
+                              )}
+                            </th>
+                          )
+                        })}
                       </tr>
                     ))}
+                  </thead>
+                  <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+                    <LayoutGroup>
+                      <AnimatePresence>
+                        {tableRows.length === 0 && (
+                          <tr className="h-12">
+                            <td
+                              colSpan={columns.length}
+                              className="p-8 text-center"
+                            >
+                              No items
+                            </td>
+                          </tr>
+                        )}
+                        {tableRows.map((row, rowIndex) => {
+                          return (
+                            <Fragment key={row.id}>
+                              <motion.tr
+                                layoutId={row.id}
+                                key={row.id}
+                                transition={{ delay: 0 }}
+                                className={clsx("h-12 font-medium")}
+                              >
+                                {row.getVisibleCells().map((cell) => {
+                                  return (
+                                    <td
+                                      key={cell.id}
+                                      className={clsx(
+                                        "whitespace-nowrap py-5 text-sm",
+                                      )}
+                                    >
+                                      {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext(),
+                                      )}
+                                    </td>
+                                  )
+                                })}
+                              </motion.tr>
+                            </Fragment>
+                          )
+                        })}
+                      </AnimatePresence>
+                    </LayoutGroup>
                   </tbody>
                 </table>
               </div>
