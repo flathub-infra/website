@@ -30,9 +30,12 @@ export interface QualityModerationStatus {
   "not-passed": number
 }
 
+export interface QualityModerationDashboardRow {
+  id: string
+  name: string
+  "quality-moderation-status": QualityModerationStatus
+}
+
 export interface QualityModerationDashboardResponse {
-  apps: {
-    id: string
-    "quality-moderation-status": QualityModerationStatus
-  }[]
+  apps: QualityModerationDashboardRow[]
 }
