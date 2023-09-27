@@ -909,6 +909,7 @@ def continue_oauth_flow(
             template_data={
                 "provider": method,
                 "login": account.login,
+                "time": datetime.now().strftime("%A, %B %d, %Y at %I:%M:%S %p UTC"),
             },
         ).dict()
     )
