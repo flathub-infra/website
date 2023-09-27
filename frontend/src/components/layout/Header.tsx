@@ -16,6 +16,7 @@ import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
 import { UserInfo } from "src/types/Login"
 import { getUserName } from "src/verificationProvider"
+import { QueryClient } from "@tanstack/react-query"
 
 const navigation = [
   {
@@ -76,12 +77,14 @@ const Header = () => {
   const dispatch = useUserDispatch()
 
   const onLogout = useCallback(async () => {
+    const queryClient = new QueryClient()
     // Only make a request on first logout click
     if (clickedLogout) return
     setClickedLogout(true)
 
     try {
       logout(dispatch)
+      queryClient.clear()
     } catch (err) {
       toast.error(t(err))
       setClickedLogout(false)
