@@ -31,6 +31,7 @@ import {
   ADDONS_URL,
   QUALITY_MODERATION_APP,
   QUALITY_MODERATION_DASHBOARD,
+  QUALITY_MODERATION_APP_STATUS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -47,6 +48,7 @@ import axios from "axios"
 import {
   QualityModerationDashboardResponse,
   QualityModerationResponse,
+  QualityModerationStatus,
 } from "./types/QualityModeration"
 
 export async function fetchAppstreamList() {
@@ -307,6 +309,15 @@ export async function fetchAddons(appid: string) {
 export async function fetchQualityModerationDashboard() {
   return axios.get<QualityModerationDashboardResponse>(
     QUALITY_MODERATION_DASHBOARD,
+    {
+      withCredentials: true,
+    },
+  )
+}
+
+export async function fetchQualityModerationStatusForApp(appid: string) {
+  return axios.get<QualityModerationStatus>(
+    `${QUALITY_MODERATION_APP_STATUS(appid)}`,
     {
       withCredentials: true,
     },
