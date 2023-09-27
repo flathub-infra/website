@@ -234,4 +234,6 @@ export const MODERATION_REVIEW_URL = (id: number) =>
 export const QUALITY_MODERATION_BASE_URL: string = `${BASE_URI}/quality-moderation`
 export const QUALITY_MODERATION_APP = (appid: string) =>
   `${QUALITY_MODERATION_BASE_URL}/${appid}`
+export const QUALITY_MODERATION_APP_STATUS = (appid: string) =>
+  `${QUALITY_MODERATION_BASE_URL}/${appid}/status`
 export const QUALITY_MODERATION_DASHBOARD: string = `${QUALITY_MODERATION_BASE_URL}/status`
