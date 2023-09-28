@@ -464,5 +464,27 @@
   "can-read-home-folder": "Összes otthoni mappa adat olvashat",
   "can-read-write-all-data-on-file-system": "Összes adat a fájlrendszerben olvashat és írhat",
   "full-file-system-read-write-access": "Teljes fájlrendszer olvasási/írási hozzáférése",
-  "home-folder-read-access": "Otthoni mappa olvasási hozzáférése"
+  "home-folder-read-access": "Otthoni mappa olvasási hozzáférése",
+  "quality-guideline": {
+    "app-icon-footprint": "Nem tölti ki túl sokat vagy túl keveset a vászonból",
+    "app-icon-detail": "Nem túl sok részlet",
+    "general-no-trademark-violations": "Nincsenek védjegysértések (név vagy ikon)",
+    "app-name": "Alkalmazás neve",
+    "app-summary-not-too-long": "Rövidebb, mint 35 karakter",
+    "app-summary-no-weird-formatting": "Nincs furcsa formázás vagy írásjel",
+    "app-icon-contrast": "Jó kontraszt a sötét háttérben",
+    "app-summary-not-technical": "Érthető egy nem műszaki ember számára",
+    "app-summary": "Összegzés",
+    "app-summary-dont-repeat-app-name": "Alkalmazás neve nem ismétli meg",
+    "app-no-weird-formatting": "Nincs furcsa formázás, írásjelek, kisbetűk stb.",
+    "app-icon": "Alkalmazásikon",
+    "app-icon-no-baked-in-shadows": "Nincsenek besütött árnyékok",
+    "general": "Általános",
+    "app-name-just-the-name": "Csak a név",
+    "app-icon-in-line-with-contemporary-styles": "A kortárs stílusokkal összhangban",
+    "app-name-not-too-long": "Rövidebb, mint 20 karakter",
+    "app-icon-size": "SVG vagy PNG legalább 256 képpont",
+    "app-summary-dont-start-with-an-article": "Nem kezdődik egy cikkel"
+  },
+  "app-listing-quality": "Alkalmazáslista minősége"
 }

@@ -485,5 +485,6 @@
     "app-summary-not-too-long": "Vähemmän kuin 35 merkkiä",
     "app-name-not-too-long": "Vähemmän kuin 20 merkkiä"
   },
-  "app-listing-quality": "Sovelluslistauksen laatu"
+  "app-listing-quality": "Sovelluslistauksen laatu",
+  "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä."
 }
