@@ -82,7 +82,7 @@
   "legacy-windowing-system": "Legacy 윈도우 시스템",
   "account-deletion-token-mismatch": "계정 삭제 요청을 인증하지 못했습니다.",
   "app-is-verified": "이 앱은 인증 되었습니다",
-  "rss-apps": "RSS 앱이 필요하세요? <2>Flathub </2>에서 우수한 앱을 찾아보세요.",
+  "rss-apps": "<2>RSS 앱</2>이 필요하세요? Flathub에서 우수한 앱을 찾아보세요.",
   "arbitrary-permissions": "임의 사용 권한",
   "transaction-summary-status": "상태 : {{status}}",
   "flathub-description": "수백 개의 리눅스 앱과 게임을 찾아서 설치하세요. Firefox, Telegram, RetroArch, GIMP 그리고 더 많은 것들을 즐겨보세요!",
@@ -324,7 +324,7 @@
   "publisher-agreement": "배포자 제출 계약서",
   "can-read-write-all-data": "디렉토리의 모든 데이터를 읽고 쓸 수 있습니다",
   "refresh": "새로 고침",
-  "recently-updated-description": "Flathub에 최근 업데이트된 앱을 안내받기 .",
+  "recently-updated-description": "Flathub에 최근 업데이트된 앱을 안내받기.",
   "graphics-and-photography": "그래픽 & 포토",
   "games": "게임",
   "stripe-declined-generic_decline": "이 카드는 알 수 없는 이유로 거절당했습니다.",
@@ -464,5 +464,9 @@
   "can-read-home-folder": "Home 폴더의 모든 데이터를 읽을 수 있습니다",
   "can-read-write-all-data-on-file-system": "파일 시스템의 모든 데이터를 읽고 쓸 수 있습니다",
   "full-file-system-read-write-access": "전체 파일 시스템 읽기/쓰기 액세스",
-  "home-folder-read-access": "Home 폴더 읽기 엑세스"
+  "home-folder-read-access": "Home 폴더 읽기 엑세스",
+  "quality-guideline": {
+    "app-icon": "앱 아이콘",
+    "app-icon-size": "최소 256px 이상 SVG 또는 PNG"
+  }
 }

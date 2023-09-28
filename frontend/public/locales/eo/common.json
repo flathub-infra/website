@@ -460,5 +460,23 @@
   "host-system-folders": "Dosierujoj de gastiga sistemo",
   "can-request-data-from-system-services": "Povas peti datenojn de sistemaj servoj",
   "cache-subfolder-x": "Subdosierujo {{folder}} de staplujo",
-  "can-request-data-from-session-services": "Povas peti datenojn de seancaj servoj"
+  "can-request-data-from-session-services": "Povas peti datenojn de seancaj servoj",
+  "quality-guideline": {
+    "app-icon-detail": "Sen troaj detaloj",
+    "general-no-trademark-violations": "Ne malobservas regulojn pri markoj (en nomo aŭ piktogramo)",
+    "app-name": "Nomo de programo",
+    "app-summary-not-too-long": "Malpli longa ol 35 skribsignoj",
+    "app-summary-not-technical": "Komprenebla por nefakuloj",
+    "app-summary": "Resumo",
+    "app-summary-dont-repeat-app-name": "Nomo de la programo ne ripetiĝas",
+    "app-icon": "Programa piktogramo",
+    "app-icon-no-baked-in-shadows": "Sen neforigebla ombro",
+    "general": "Ĝenerale",
+    "app-name-just-the-name": "Nur la nomo",
+    "app-name-not-too-long": "Malpli longa ol 20 skribsignoj",
+    "app-icon-size": "SVG- aŭ PNG-bildo de grando almenaŭ 256 bilderoj",
+    "app-summary-dont-start-with-an-article": "Ne komenciĝas per artikolo"
+  },
+  "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
+  "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo"
 }

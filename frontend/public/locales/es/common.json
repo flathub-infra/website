@@ -470,7 +470,7 @@
     "app-icon-detail": "Sin demasiados detalles",
     "general-no-trademark-violations": "Sin violaciones de marcas registradas (nombre o ícono)",
     "app-name": "Nombre de la aplicación",
-    "app-summary-not-too-long": "Menos de 35 caracteres",
+    "app-summary-not-too-long": "Inferior a 35 caracteres",
     "app-summary-no-weird-formatting": "Sin formato ni puntuación extraños",
     "app-icon-contrast": "Buen contraste sobre fondos oscuros",
     "app-summary-not-technical": "Comprensible para una persona sin conocimientos técnicos",
@@ -482,7 +482,7 @@
     "general": "General",
     "app-name-just-the-name": "Sólo el nombre",
     "app-icon-in-line-with-contemporary-styles": "En línea con los estilos contemporáneos",
-    "app-name-not-too-long": "Menos de 20 caracteres",
+    "app-name-not-too-long": "Inferior a 20 caracteres",
     "app-icon-size": "SVG o PNG de al menos 256px",
     "app-summary-dont-start-with-an-article": "No empieza con un artículo"
   },

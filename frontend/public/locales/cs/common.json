@@ -473,7 +473,18 @@
     "app-icon": "Ikona aplikace",
     "app-icon-no-baked-in-shadows": "Žádné tmavé stíny",
     "general": "Obecné",
-    "app-icon-size": "SVG nebo PNG o velikosti alespoň 256 pixelů"
+    "app-icon-size": "SVG nebo PNG o velikosti alespoň 256 pixelů",
+    "app-name": "Název aplikace",
+    "app-summary-not-too-long": "Kratší než 35 znaků",
+    "app-summary-no-weird-formatting": "Žádné podivné formátování nebo interpunkce",
+    "app-summary-not-technical": "Pochopitelné pro netechnickou osobu",
+    "app-summary": "Souhrn",
+    "app-summary-dont-repeat-app-name": "Neopakuje název aplikace",
+    "app-no-weird-formatting": "Žádné podivné formátování, interpunkce, malá písmena atd.",
+    "app-name-just-the-name": "Jen název",
+    "app-icon-in-line-with-contemporary-styles": "V souladu se současnými styly",
+    "app-name-not-too-long": "Kratší než 20 znaků",
+    "app-summary-dont-start-with-an-article": "Nezačíná článkem"
   },
   "app-listing-quality": "Kvalita výpisu aplikací"
 }
