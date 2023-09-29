@@ -73,7 +73,7 @@ const QualityCategories = ({
                       <HiChevronUp
                         className={clsx(
                           "transition",
-                          isExpanded ? "transform rotate-180" : "",
+                          !isExpanded ? "transform rotate-180" : "",
                         )}
                       />
                     </Button>
