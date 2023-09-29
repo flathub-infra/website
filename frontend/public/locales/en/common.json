@@ -473,7 +473,7 @@
     "app-icon-size": "SVG or PNG of at least 256px",
     "app-icon-footprint": "Doesn't fill too much or too little of the canvas",
     "app-icon-contrast": "Good contrast on dark backgrounds",
-    "app-icon-detail": "Not too much detail",
+    "app-icon-detail": "Not too much or too little detail",
     "app-icon-no-baked-in-shadows": "No baked-in shadows",
     "app-icon-in-line-with-contemporary-styles": "In line with contemporary styles",
     "app-name": "App Name",
