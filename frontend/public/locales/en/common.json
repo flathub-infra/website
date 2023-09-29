@@ -485,6 +485,8 @@
     "app-summary-not-technical": "Understandable for a non-technical person",
     "app-summary-no-weird-formatting": "No weird formatting or punctuation",
     "app-summary-dont-repeat-app-name": "Doesn't repeat the app name",
-    "app-summary-dont-start-with-an-article": "Doesn't start with an article"
+    "app-summary-dont-start-with-an-article": "Doesn't start with an article",
+    "show-icon": "Show icon",
+    "hide-icon": "Hide icon"
   }
 }

@@ -18,21 +18,29 @@ import {
   HiArrowTopRightOnSquare,
   HiCheck,
   HiCheckCircle,
+  HiChevronUp,
   HiExclamationTriangle,
   HiQuestionMarkCircle,
   HiXMark,
 } from "react-icons/hi2"
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
+import LogoImage from "../LogoImage"
+import Image from "next/image"
+import { useCollapse } from "@collapsed/react"
+import Button from "../Button"
 
 const QualityCategories = ({
   appId,
+  appIcon,
   query,
 }: {
   appId: string
+  appIcon: string
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
@@ -49,6 +57,42 @@ const QualityCategories = ({
                 "flex flex-col text-sm gap-2 dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
               )}
             >
+              {category.id === "app-icon" && (
+                <div>
+                  <button {...getToggleProps()}>
+                    <Button
+                      variant="secondary"
+                      className="flex items-center gap-1"
+                    >
+                      <span>
+                        {t(
+                          isExpanded
+                            ? "quality-guideline.hide-icon"
+                            : "quality-guideline.show-icon",
+                        )}
+                      </span>
+                      <HiChevronUp
+                        className={clsx(
+                          "transition",
+                          isExpanded ? "transform rotate-180" : "",
+                        )}
+                      />
+                    </Button>
+                  </button>
+                  <section {...getCollapseProps()}>
+                    <div className="flex">
+                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white ">
+                        <LogoImage iconUrl={appIcon} appName="" />
+                        <Image src="/img/icon-grid.png" alt="" layout="fill" />
+                      </div>
+                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal">
+                        <LogoImage iconUrl={appIcon} appName="" />
+                        <Image src="/img/icon-grid.png" alt="" layout="fill" />
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              )}
               {category.guidelines.map((guideline) => (
                 <QualityItem
                   key={guideline.id}
@@ -161,10 +205,12 @@ const QualityItem = ({
 
 export const QualityModerationSlideOver = ({
   appId,
+  appIcon,
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
   appId: string
+  appIcon: string
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
 }) => {
@@ -192,7 +238,7 @@ export const QualityModerationSlideOver = ({
             <span className="text-flathub-red">{t("server-error")}</span>
           </div>
         ) : (
-          <QualityCategories appId={appId} query={query} />
+          <QualityCategories appId={appId} query={query} appIcon={appIcon} />
         )}
       </div>
     </SlideOver>

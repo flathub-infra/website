@@ -46,7 +46,13 @@ const QualityModerationStatusComponent = ({
   }
 }
 
-export const QualityModeration = ({ appId }: { appId: string }) => {
+export const QualityModeration = ({
+  appId,
+  appIcon,
+}: {
+  appId: string
+  appIcon: string
+}) => {
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -101,6 +107,7 @@ export const QualityModeration = ({ appId }: { appId: string }) => {
 
       <QualityModerationSlideOver
         appId={appId}
+        appIcon={appIcon}
         isQualityModalOpen={isQualityModalOpen}
         setIsQualityModalOpen={setIsQualityModalOpen}
       />
