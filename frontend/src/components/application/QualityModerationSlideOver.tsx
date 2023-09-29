@@ -26,9 +26,9 @@ import {
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
-import Image from "next/image"
 import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
+import { IconGrid } from "./IconGrid"
 
 const QualityCategories = ({
   appId,
@@ -81,13 +81,17 @@ const QualityCategories = ({
                   </button>
                   <section {...getCollapseProps()}>
                     <div className="flex">
-                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white ">
+                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white border text-flathub-black">
                         <LogoImage iconUrl={appIcon} appName="" />
-                        <Image src="/img/icon-grid.png" alt="" layout="fill" />
+                        <div className="z-10">
+                          <IconGrid />
+                        </div>
                       </div>
-                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal">
+                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal border text-flathub-white">
                         <LogoImage iconUrl={appIcon} appName="" />
-                        <Image src="/img/icon-grid.png" alt="" layout="fill" />
+                        <div className="z-10">
+                          <IconGrid />
+                        </div>
                       </div>
                     </div>
                   </section>
