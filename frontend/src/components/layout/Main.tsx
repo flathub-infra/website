@@ -31,7 +31,7 @@ const Main = ({ children }: { children: React.ReactNode }) => {
     >
       <Header />
 
-      <main className="pt-16">{children}</main>
+      <main className="pt-[68px]">{children}</main>
 
       <Footer />
     </div>

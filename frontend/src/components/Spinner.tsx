@@ -1,12 +1,18 @@
+import clsx from "clsx"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 
 interface Props {
   size: "s" | "m" | "l"
   text?: string // Message to display underneath
+  orientation?: "col" | "row"
 }
 
-const Spinner: FunctionComponent<Props> = ({ size, text = undefined }) => {
+const Spinner: FunctionComponent<Props> = ({
+  size,
+  text = undefined,
+  orientation = "col",
+}) => {
   const { t } = useTranslation()
   if (!text) {
     text = t("loading")
@@ -30,7 +36,13 @@ const Spinner: FunctionComponent<Props> = ({ size, text = undefined }) => {
   // Made to spin via CSS animation
   return (
     // Spinner will always be centered and padded relative to its size
-    <div className={`flex flex-col items-center ${spinnerSize}`}>
+    <div
+      className={clsx(
+        `flex items-center gap-1`,
+        spinnerSize,
+        orientation === "col" ? "flex-col" : "flex-row",
+      )}
+    >
       <svg
         width={widthAndHeight}
         height={widthAndHeight}
@@ -51,7 +63,7 @@ const Spinner: FunctionComponent<Props> = ({ size, text = undefined }) => {
           />
         </path>
       </svg>
-      {text ? <p>{text}</p> : <></>}
+      {text ? <div>{text}</div> : <></>}
     </div>
   )
 }
