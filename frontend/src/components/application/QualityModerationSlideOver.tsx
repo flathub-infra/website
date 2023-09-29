@@ -11,7 +11,7 @@ import {
   QualityModeration,
   QualityModerationResponse,
 } from "src/types/QualityModeration"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AxiosResponse } from "axios"
 import {
   HiArrowTopRightOnSquare,
@@ -41,8 +41,36 @@ const QualityCategories = ({
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
+  const passAllMutation = useMutation({
+    mutationFn: () => {
+      return Promise.all(
+        query.data.data.categories?.flatMap((category) =>
+          category.guidelines
+            .filter((guideline) => !guideline.read_only)
+            .map((guideline) =>
+              postQualityModerationForApp(appId, guideline.id, true),
+            ),
+        ) ?? [],
+      )
+    },
+
+    onSuccess: (_data, variables) => {
+      query.refetch()
+    },
+  })
+
+  console.log(query.data.data)
+
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
+      <Button
+        variant="secondary"
+        onClick={() => {
+          passAllMutation.mutateAsync()
+        }}
+      >
+        Pass all
+      </Button>
       {query.data.data.categories?.map((category) => {
         return (
           <div className="flex flex-col" key={category.id}>
@@ -128,6 +156,10 @@ const QualityItem = ({
   const [toggle, setToggle] = useState<boolean | null>(
     qualityModeration?.passed,
   )
+
+  useEffect(() => {
+    setToggle(qualityModeration?.passed)
+  }, [qualityModeration])
 
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>
