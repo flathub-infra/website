@@ -1,13 +1,18 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import Image from "../components/Image"
+import FlathubImage from "../components/Image"
 
 interface Props {
   iconUrl: string
   appName: string
+  size?: "128" | "256"
 }
 
-const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
+const LogoImage: FunctionComponent<Props> = ({
+  iconUrl,
+  appName,
+  size = "128",
+}) => {
   const { t } = useTranslation()
 
   return (
@@ -15,18 +20,19 @@ const LogoImage: FunctionComponent<Props> = ({ iconUrl, appName }) => {
       {iconUrl &&
       (iconUrl.startsWith("https://dl.flathub.org") ||
         iconUrl.startsWith("https://flathub.org")) ? (
-        <Image
+        <FlathubImage
           src={iconUrl}
           alt={t("app-logo", { "app-name": appName })}
-          layout="fill"
           aria-hidden
+          width={size}
+          height={size}
+          style={{ maxHeight: "auto", maxWidth: "100%" }}
         />
       ) : (
         <div className="flex h-full w-full items-center justify-center dark:invert p-1">
-          <Image
+          <FlathubImage
             src="/img/logo/flathub-logo-mini.svg"
             alt={t("app-logo", { "app-name": appName })}
-            layout="fixed"
             width={110}
             height={108}
             aria-hidden

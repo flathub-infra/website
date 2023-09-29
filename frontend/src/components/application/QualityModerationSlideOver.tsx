@@ -82,14 +82,14 @@ const QualityCategories = ({
                   <section {...getCollapseProps()}>
                     <div className="flex">
                       <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white border text-flathub-black">
-                        <LogoImage iconUrl={appIcon} appName="" />
-                        <div className="z-10">
+                        <LogoImage iconUrl={appIcon} appName="" size="256" />
+                        <div className="z-10 absolute">
                           <IconGrid />
                         </div>
                       </div>
                       <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal border text-flathub-white">
-                        <LogoImage iconUrl={appIcon} appName="" />
-                        <div className="z-10">
+                        <LogoImage iconUrl={appIcon} appName="" size="256" />
+                        <div className="z-10 absolute">
                           <IconGrid />
                         </div>
                       </div>

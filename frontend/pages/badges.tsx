@@ -1,4 +1,4 @@
-import Image from "../src/components/Image"
+import FlathubImage from "../src/components/Image"
 import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
 import cc0 from "/public/img/CC0.png"
@@ -88,7 +88,7 @@ const Badges = () => {
             rel="license"
             href="http://creativecommons.org/publicdomain/zero/1.0/"
           >
-            <Image src={cc0} alt="CC0" />
+            <FlathubImage src={cc0} alt="CC0" />
           </a>
           <br />
           <Trans i18nKey={"common:badge-copyright"}>
@@ -116,7 +116,7 @@ const Badges = () => {
               text={badgeExampleCode}
             ></CodeCopy>
             <a href="https://flathub.org/apps/org.gimp.GIMP">
-              <Image
+              <FlathubImage
                 width={240}
                 height={80}
                 alt="Download on Flathub"
