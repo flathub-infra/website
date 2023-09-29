@@ -77,7 +77,7 @@ export const QualityModeration = ({
     <>
       <div
         className={clsx(
-          "flex px-8 py-3 h-16",
+          "flex px-8 h-16 items-center",
           query.data?.data.passes
             ? "bg-flathub-celestial-blue/40"
             : query.data?.data["not-passed"] === 0
@@ -88,7 +88,7 @@ export const QualityModeration = ({
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center">
             {query.isLoading ? (
-              <Spinner size={"s"} />
+              <Spinner size={"s"} orientation="row" />
             ) : (
               <QualityModerationStatusComponent status={query?.data?.data} />
             )}
