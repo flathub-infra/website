@@ -12,7 +12,6 @@ import {
   QualityModerationResponse,
 } from "src/types/QualityModeration"
 import { useState } from "react"
-import { toast } from "react-toastify"
 import { AxiosResponse } from "axios"
 import {
   HiArrowTopRightOnSquare,
@@ -167,16 +166,7 @@ const QualityItem = ({
                 id: "not-passed",
                 content: <HiXMark className="w-6 h-6" />,
                 onClick: () => {
-                  toast.promise(
-                    mutation.mutateAsync({ passed: false }),
-                    {
-                      // Only for moderators, so no need to translate
-                      pending: "Setting not passed",
-                      success: "Not passed saved",
-                      error: t("server-error"),
-                    },
-                    { toastId: "quality-moderation" },
-                  )
+                  mutation.mutateAsync({ passed: false })
                 },
                 selected: toggle === false,
               },
@@ -184,18 +174,7 @@ const QualityItem = ({
                 id: "passed",
                 content: <HiCheck className="w-6 h-6" />,
                 onClick: () => {
-                  toast.promise(
-                    mutation.mutateAsync({ passed: true }),
-                    {
-                      // Only for moderators, so no need to translate
-                      pending: "Setting passed",
-                      success: "Passed saved",
-                      error: t("server-error"),
-                    },
-                    {
-                      toastId: "quality-moderation",
-                    },
-                  )
+                  mutation.mutateAsync({ passed: true })
                 },
                 selected: toggle === true,
               },
