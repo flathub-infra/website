@@ -161,6 +161,7 @@ const QualityItem = ({
                 selected: toggle === undefined,
                 onClick: () => {},
                 disabled: true,
+                color: "bg-flathub-gainsborow",
               },
               {
                 id: "not-passed",
@@ -169,6 +170,7 @@ const QualityItem = ({
                   mutation.mutateAsync({ passed: false })
                 },
                 selected: toggle === false,
+                color: "bg-flathub-electric-red",
               },
               {
                 id: "passed",
