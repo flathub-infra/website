@@ -4,7 +4,7 @@ import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
 import { IMAGE_BASE_URL } from "../../../env"
 import { PaymentCard } from "../../../types/Payment"
-import Image from "../../Image"
+import Image from "next/image"
 
 interface Props {
   card: PaymentCard
