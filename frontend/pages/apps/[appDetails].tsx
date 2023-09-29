@@ -63,7 +63,7 @@ export default function Details({
           ],
         }}
       />
-      <QualityModeration appId={app.id} />
+      <QualityModeration appId={app.id} appIcon={app.icon} />
       <ApplicationDetails
         app={app}
         summary={summary}

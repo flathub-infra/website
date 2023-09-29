@@ -24,7 +24,7 @@ export default function SlideOver({ shown, onClose, title, children }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full rtl:translate-x-[-100%]"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
+                <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
                   <div className="relative flex h-full flex-col overflow-y-scroll bg-flathub-lotion dark:bg-flathub-dark-gunmetal py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
