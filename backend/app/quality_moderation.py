@@ -58,7 +58,7 @@ GUIDELINES = [
             ),
             Guideline(
                 "app-icon-detail",
-                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#not-too-much-detail",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#not-too-much-or-too-little-detail",
                 datetime.datetime(2023, 9, 1),
             ),
             Guideline(
