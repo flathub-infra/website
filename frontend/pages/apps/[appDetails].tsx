@@ -25,6 +25,7 @@ import {
   removeAppIdFromSearchResponse,
 } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
+import { useState } from "react"
 
 export default function Details({
   app,
@@ -45,6 +46,8 @@ export default function Details({
   eolMessage: string
   addons: AddonAppstream[]
 }) {
+  const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
+
   if (eolMessage) {
     return <EolMessageDetails message={eolMessage} />
   }
@@ -63,7 +66,12 @@ export default function Details({
           ],
         }}
       />
-      <QualityModeration appId={app.id} appIcon={app.icon} />
+      <QualityModeration
+        appId={app.id}
+        appIcon={app.icon}
+        isQualityModalOpen={isQualityModalOpen}
+        setIsQualityModalOpen={setIsQualityModalOpen}
+      />
       <ApplicationDetails
         app={app}
         summary={summary}
@@ -72,6 +80,7 @@ export default function Details({
         projectgroupApps={projectgroupApps}
         verificationStatus={verificationStatus}
         addons={addons}
+        isQualityModalOpen={isQualityModalOpen}
       />
     </>
   )

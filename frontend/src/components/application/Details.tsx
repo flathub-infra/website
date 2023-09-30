@@ -44,6 +44,7 @@ interface Props {
   projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
+  isQualityModalOpen: boolean
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -88,6 +89,7 @@ const Details: FunctionComponent<Props> = ({
   projectgroupApps,
   verificationStatus,
   addons,
+  isQualityModalOpen,
 }) => {
   const { t } = useTranslation()
 
@@ -167,10 +169,11 @@ const Details: FunctionComponent<Props> = ({
           app={app}
           vendingSetup={vendingSetup}
           verificationStatus={verificationStatus}
+          isQualityModalOpen={isQualityModalOpen}
         />
         <CarouselStrip app={app} />
         <div className="col-start-2 flex flex-col gap-6">
-          <Description app={app} />
+          <Description app={app} isQualityModalOpen={isQualityModalOpen} />
 
           {stableReleases && stableReleases.length > 0 && (
             <Releases latestRelease={stableReleases[0]}></Releases>

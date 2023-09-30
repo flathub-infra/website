@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "next-i18next"
 import { sanitizeAppstreamDescription } from "src/utils/helpers"
 
-export const Description = ({ app }) => {
+export const Description = ({ app, isQualityModalOpen }) => {
   const { t } = useTranslation()
   const collapsedHeight = 356
 
@@ -29,7 +29,16 @@ export const Description = ({ app }) => {
   return (
     <>
       <div>
-        <h2 className="my-4 text-xl font-semibold ">{app.summary}</h2>
+        <h2 className="my-4 text-xl font-semibold ">
+          {app.summary.length > 35 && isQualityModalOpen ? (
+            <>
+              <span>{app.summary.slice(0, 35)}</span>
+              <mark>{app.summary.slice(35, app.summary.length)}</mark>
+            </>
+          ) : (
+            app.summary
+          )}
+        </h2>
         {scrollHeight > collapsedHeight && (
           <div
             {...getCollapseProps({ ref })}
