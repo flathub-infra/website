@@ -213,7 +213,7 @@ def update_quality_moderation():
                     sqldb,
                     appid,
                     "app-name-not-too-long",
-                    len(value["name"]) <= 20,
+                    "name" in value and len(value["name"]) <= 20,
                     None,
                 )
 
@@ -222,7 +222,7 @@ def update_quality_moderation():
                     sqldb,
                     appid,
                     "app-summary-not-too-long",
-                    len(value["summary"]) <= 35,
+                    "summary" in value and len(value["summary"]) <= 35,
                     None,
                 )
 
@@ -230,6 +230,6 @@ def update_quality_moderation():
                     sqldb,
                     appid,
                     "screenshots-multiple-screenshots",
-                    len(value["screenshots"]) >= 2,
+                    "screenshots" in value and len(value["screenshots"]) >= 2,
                     None,
                 )
