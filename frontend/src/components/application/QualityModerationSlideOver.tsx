@@ -84,26 +84,25 @@ const QualityCategories = ({
             >
               {category.id === "app-icon" && (
                 <div>
-                  <button {...getToggleProps()}>
-                    <Button
-                      variant="secondary"
-                      className="flex items-center gap-1"
-                    >
-                      <span>
-                        {t(
-                          isExpanded
-                            ? "quality-guideline.hide-icon"
-                            : "quality-guideline.show-icon",
-                        )}
-                      </span>
-                      <HiChevronUp
-                        className={clsx(
-                          "transition",
-                          !isExpanded ? "transform rotate-180" : "",
-                        )}
-                      />
-                    </Button>
-                  </button>
+                  <Button
+                    variant="secondary"
+                    className="flex items-center gap-1"
+                    {...getToggleProps()}
+                  >
+                    <span>
+                      {t(
+                        isExpanded
+                          ? "quality-guideline.hide-icon"
+                          : "quality-guideline.show-icon",
+                      )}
+                    </span>
+                    <HiChevronUp
+                      className={clsx(
+                        "transition",
+                        !isExpanded ? "transform rotate-180" : "",
+                      )}
+                    />
+                  </Button>
                   <section {...getCollapseProps()}>
                     <div className="flex">
                       <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white border text-flathub-black">
