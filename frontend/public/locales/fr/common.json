@@ -464,5 +464,14 @@
   "can-read-home-folder": "Peut lire toutes les données de votre dossier personnel",
   "can-read-write-all-data-on-file-system": "Peut lire et écrire toutes les données du système de fichiers",
   "full-file-system-read-write-access": "Accès en lecture/écriture à l'ensemble du système de fichiers",
-  "home-folder-read-access": "Accès en lecture au dossier personnel"
+  "home-folder-read-access": "Accès en lecture au dossier personnel",
+  "quality-guideline": {
+    "app-icon-footprint": "Ne remplit ni trop ni pas assez la zone",
+    "general-no-trademark-violations": "Aucune violation de marque (nom ou icône)",
+    "app-icon-contrast": "Bon contraste sur les fonds sombres",
+    "app-icon": "Icône de l'application",
+    "general": "Général",
+    "app-icon-size": "SVG ou PNG d'au moins 256px"
+  },
+  "app-listing-quality": "Qualité du référencement de l'application"
 }

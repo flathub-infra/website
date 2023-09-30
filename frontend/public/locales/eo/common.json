@@ -475,8 +475,16 @@
     "app-name-just-the-name": "Nur la nomo",
     "app-name-not-too-long": "Malpli longa ol 20 skribsignoj",
     "app-icon-size": "SVG- aŭ PNG-bildo de grando almenaŭ 256 bilderoj",
-    "app-summary-dont-start-with-an-article": "Ne komenciĝas per artikolo"
+    "app-summary-dont-start-with-an-article": "Ne komenciĝas per artikolo",
+    "app-icon-footprint": "Ne troe nek maltroe plenigas la spacon",
+    "app-summary-no-weird-formatting": "Sen strangaj aranĝado aŭ interpunkcio",
+    "app-icon-contrast": "Sufiĉa kontrasto sur malhela fono",
+    "app-no-weird-formatting": "Sen strangaj aranĝado, interpunkcio, minusklaĵoj ktp",
+    "app-icon-in-line-with-contemporary-styles": "Konforma al nuntempaj stiloj"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
-  "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo"
+  "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
+  "app-listing-quality": "Kvalito de programa registraĵo",
+  "full-file-system-read-write-access": "Plena lega/modifa aliro al la dosiersistemo",
+  "home-folder-read-access": "Lega aliro al hejma dosierujo"
 }
