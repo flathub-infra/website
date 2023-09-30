@@ -49,13 +49,16 @@ const QualityModerationStatusComponent = ({
 export const QualityModeration = ({
   appId,
   appIcon,
+  isQualityModalOpen,
+  setIsQualityModalOpen,
 }: {
   appId: string
   appIcon: string
+  isQualityModalOpen: boolean
+  setIsQualityModalOpen: (isOpen: boolean) => void
 }) => {
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
-  const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId }],

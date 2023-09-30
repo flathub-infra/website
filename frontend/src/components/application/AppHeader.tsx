@@ -13,10 +13,12 @@ export function AppHeader({
   app,
   vendingSetup,
   verificationStatus,
+  isQualityModalOpen,
 }: {
   app: DesktopAppstream
   vendingSetup: VendingSetup
   verificationStatus: VerificationStatus
+  isQualityModalOpen: boolean
 }) {
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
@@ -38,7 +40,14 @@ export function AppHeader({
       <div className="flex flex-col mx-3 my-auto gap-1">
         <div className="flex items-center justify-center space-x-3 sm:justify-start">
           <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start">
-            {app.name}
+            {app.name.length > 20 && isQualityModalOpen ? (
+              <>
+                <span>{app.name.slice(0, 20)}</span>{" "}
+                <mark>{app.name.slice(20, app.name.length)}</mark>
+              </>
+            ) : (
+              app.name
+            )}
           </h1>
         </div>
         {app.developer_name?.trim().length > 0 && (
