@@ -17,6 +17,7 @@ import {
 import clsx from "clsx"
 import React from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
+import { ProjectUrl } from "src/types/ProjectUrl"
 
 interface Props {
   app: DesktopAppstream
@@ -26,7 +27,11 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
 
-  const links = []
+  const links: {
+    content: { text: string; trackAsEvent: ProjectUrl }
+    icon: JSX.Element
+    name: string
+  }[] = []
 
   if (app.urls?.homepage) {
     links.push({
@@ -154,7 +159,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                     "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-gainsborow/20 dark:active:bg-flathub-gainsborow/30 transition",
                     "last:rounded-b-xl",
                   )}
-                  key={link.id}
+                  key={link.name}
                 >
                   {React.createElement(
                     link.icon.type,

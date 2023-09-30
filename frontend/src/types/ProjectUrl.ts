@@ -8,3 +8,4 @@ export type ProjectUrl =
   | "Homepage"
   | "VCS_Browser"
   | "Contribute"
+  | "Manifest"
