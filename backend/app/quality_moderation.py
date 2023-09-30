@@ -125,6 +125,47 @@ GUIDELINES = [
             ),
         ],
     ),
+    GuidelineCategory(
+        "screenshots",
+        [
+            Guideline(
+                "screenshots-multiple-screenshots",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#multiple-screenshots",
+                datetime.datetime(2023, 9, 30),
+                read_only=True,
+            ),
+            Guideline(
+                "screenshots-just-the-app-window",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#just-the-app-window",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-take-screenshots-on-linux",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#take-screenshots-on-linux",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-default-settings",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#default-settings",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-not-maximized",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#not-maximized",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-include-window-shadow",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#include-window-shadow",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-reasonable-window-size",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#reasonable-window-size",
+                datetime.datetime(2023, 9, 30),
+            ),
+        ],
+    ),
 ]
 
 

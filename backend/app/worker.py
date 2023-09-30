@@ -225,3 +225,11 @@ def update_quality_moderation():
                     len(value["summary"]) <= 35,
                     None,
                 )
+
+                models.QualityModeration.upsert(
+                    sqldb,
+                    appid,
+                    "screenshots-multiple-screenshots",
+                    len(value["screenshots"]) >= 2,
+                    None,
+                )

@@ -487,6 +487,14 @@
     "app-summary-dont-repeat-app-name": "Doesn't repeat the app name",
     "app-summary-dont-start-with-an-article": "Doesn't start with an article",
     "show-icon": "Show icon",
-    "hide-icon": "Hide icon"
+    "hide-icon": "Hide icon",
+    "screenshots": "Screenshots",
+    "screenshots-multiple-screenshots": "More then two screenshots",
+    "screenshots-just-the-app-window": "Just the app window",
+    "screenshots-take-screenshots-on-linux": "Screenshots taken on Linux",
+    "screenshots-default-settings": "Default settings",
+    "screenshots-not-maximized": "Not maximized",
+    "screenshots-include-window-shadow": "Include window shadow",
+    "screenshots-reasonable-window-size": "Reasonable window size"
   }
 }
