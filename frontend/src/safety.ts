@@ -94,6 +94,11 @@ export function getSafetyRating(
 ): AppSafetyRating[] {
   let appSafetyRating: AppSafetyRating[] = []
 
+  // Should only happen for runtimes etc
+  if (!summary.metadata) {
+    return appSafetyRating
+  }
+
   // network
   if (
     summary.metadata.permissions.shared?.some(
