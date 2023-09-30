@@ -441,5 +441,26 @@
   "user-runtime-subfolder-x": "Runtime-submap {{folder}} van gebruiker",
   "can-read-home-folder": "Kan alle gegevens uit uw persoonlijke map lezen",
   "can-read-write-all-data-on-file-system": "Kan alle gegevens op het bestands­systeem lezen en schrijven",
-  "user-runtime-folder": "Runtime-map van gebruiker"
+  "user-runtime-folder": "Runtime-map van gebruiker",
+  "quality-guideline": {
+    "app-icon-detail": "Niet te veel details",
+    "app-name": "App-naam",
+    "app-summary-not-too-long": "Korter dan 35 tekens",
+    "app-summary": "Omschrijving",
+    "app-icon": "App-icoon",
+    "app-icon-no-baked-in-shadows": "Geen ingebakken schaduws",
+    "general": "Algemeen",
+    "app-name-just-the-name": "Enkel de naam",
+    "app-name-not-too-long": "Korter dan 20 tekens"
+  },
+  "system-device-access": "Toegang tot systeem­apparaten",
+  "no-permissions-description": "App is volledig in een zandbak",
+  "cannot-access-the-internet": "Geen toegang tot het internet",
+  "home-folder-read-write-access": "Lees- en schrijf­toegang tot gebruikersmap",
+  "user-settings": "Gebruikers­instellingen",
+  "user-device-access": "Toegang tot gebruikers­apparaten",
+  "download-folder-read-write-access": "Lees- en schrijf­toegang tot downloadmap",
+  "app-listing-quality": "App-kwaliteit",
+  "download-folder-read-access": "Lees­toegang tot download­map",
+  "home-folder-read-access": "Lees­toegang tot gebruikers­map"
 }

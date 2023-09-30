@@ -271,7 +271,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifique su derecho a usar el identificador de la aplicación <1>{{id}}</1> iniciando la sesión en la cuenta <3>{{login_name}}</3> (o, si <5>{{login_name}}</5> es una organización, una cuenta con acceso a ella) en <7>{{login_provider}}</7>.",
   "browse": "Navegar",
   "setup-flathub": "Configurar Flathub",
-  "setup-flathub-description": "Configure Flathub para instalar y actualizar las aplicaciones de su sistema.",
+  "setup-flathub-description": "Configura Flathub para instalar y actualizar las aplicaciones en tu sistema.",
   "apps": "Aplicaciones",
   "count-desktop-apps": "Total de aplicaciones de escritorio",
   "rss-apps": "¿Necesita una aplicación RSS? Encuentre las mejores en <2>Flathub</2>.",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "En línea con los estilos contemporáneos",
     "app-name-not-too-long": "Inferior a 20 caracteres",
     "app-icon-size": "SVG o PNG de al menos 256px",
-    "app-summary-dont-start-with-an-article": "No empieza con un artículo"
+    "app-summary-dont-start-with-an-article": "No empieza con un artículo",
+    "screenshots-include-window-shadow": "Incluir la sombra de la ventana",
+    "screenshots-multiple-screenshots": "Más de dos capturas de pantalla",
+    "hide-icon": "Ocultar el icono",
+    "screenshots-default-settings": "Parámetros por defecto",
+    "screenshots-reasonable-window-size": "Tamaño razonable de la ventana",
+    "screenshots": "Capturas de pantalla",
+    "screenshots-take-screenshots-on-linux": "Capturas de pantalla tomadas en Linux",
+    "screenshots-not-maximized": "Sin maximizar",
+    "show-icon": "Mostrar el icono",
+    "screenshots-just-the-app-window": "Sólo la ventana de la aplicación"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones"
 }

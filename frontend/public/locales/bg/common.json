@@ -467,7 +467,7 @@
   "home-folder-read-access": "Достъп за четене в домашната папка",
   "quality-guideline": {
     "app-icon-footprint": "Не запълва твърде много или твърде малко пространство",
-    "app-icon-detail": "Няма много детайли",
+    "app-icon-detail": "Няма твърде много или твърде малко детайли",
     "general-no-trademark-violations": "Няма нарушения на търговската марка (наименование или икона)",
     "app-name": "Наименование",
     "app-summary-not-too-long": "По-кратко от 35 символа",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "Има съвременен стил",
     "app-name-not-too-long": "По-кратко от 20 символа",
     "app-icon-size": "SVG или PNG файл от поне 256 пиксела",
-    "app-summary-dont-start-with-an-article": "Не започва като статия"
+    "app-summary-dont-start-with-an-article": "Не започва като статия",
+    "screenshots-include-window-shadow": "Включват сянката на прозореца",
+    "screenshots-multiple-screenshots": "Има повече от две",
+    "hide-icon": "Скриване на иконата",
+    "screenshots-default-settings": "Настроени са по подразбиране",
+    "screenshots-reasonable-window-size": "Подходящ размер на прозореца",
+    "screenshots": "Снимки",
+    "screenshots-take-screenshots-on-linux": "Направени на Линукс",
+    "screenshots-not-maximized": "Не са максимизирани",
+    "show-icon": "Показване на иконата",
+    "screenshots-just-the-app-window": "Само прозореца на приложението"
   },
   "app-listing-quality": "Свойства на приложението"
 }

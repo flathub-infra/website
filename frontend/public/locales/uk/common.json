@@ -270,8 +270,8 @@
   "settings": "Налаштування",
   "login-provider-verification-main-instruction-unknown-is-organization": "Підтвердьте своє право на використання ID застосунку <1>{{id}}</1>, увійшовши в обліковий запис <3>{{login_name}}</3> (або, якщо <5>{{login_name}}</5> — це організація, в обліковий запис з доступом до неї) на <7>{{login_provider}}</7>.",
   "browse": "Огляд",
-  "setup-flathub": "Налаштувати Flathub",
-  "setup-flathub-description": "Налаштуйте Flathub для встановлення й оновлення застосунків у вашій системі.",
+  "setup-flathub": "Установити Flathub",
+  "setup-flathub-description": "Установіть Flathub для встановлення й оновлення застосунків у вашій системі.",
   "apps": "Застосунки",
   "count-desktop-apps": "Усього застосунків для комп'ютерів",
   "rss-apps": "Вам потрібен застосунок для RSS? Знайдіть найкращий на <2>Flathub</2>.",
@@ -467,7 +467,7 @@
   "home-folder-read-access": "Доступ до читання домашньої теки",
   "quality-guideline": {
     "app-icon-footprint": "Не заповнює забагато або замало полотна",
-    "app-icon-detail": "Не дуже багато деталей",
+    "app-icon-detail": "Не забагато і не замало деталей",
     "general-no-trademark-violations": "Відсутність порушень прав на торговельну марку (назву або піктограму)",
     "app-name": "Назва застосунку",
     "app-summary-not-too-long": "До 35 символів",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "Згідно з сучасними стилями",
     "app-name-not-too-long": "Коротше ніж 20 символів",
     "app-icon-size": "SVG або PNG принаймні 256px",
-    "app-summary-dont-start-with-an-article": "Не починається зі статті"
+    "app-summary-dont-start-with-an-article": "Не починається зі статті",
+    "screenshots-include-window-shadow": "Включити тінь вікна",
+    "screenshots-multiple-screenshots": "Більше ніж два знімки екрана",
+    "hide-icon": "Сховати піктограму",
+    "screenshots-default-settings": "Усталені налаштування",
+    "screenshots-reasonable-window-size": "Доцільний розмір вікна",
+    "screenshots": "Знімки екрана",
+    "screenshots-take-screenshots-on-linux": "Знімки екрана зроблені на Linux",
+    "screenshots-not-maximized": "Не розгорнутий",
+    "show-icon": "Показати піктограму",
+    "screenshots-just-the-app-window": "Лише вікно застосунку"
   },
   "app-listing-quality": "Якість лістингу застосунків"
 }

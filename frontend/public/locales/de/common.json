@@ -467,7 +467,7 @@
   "home-folder-read-access": "Lesezugriff auf den persönlichen Ordner",
   "quality-guideline": {
     "app-icon-footprint": "Füllt die Leinwand nicht zu viel oder zu wenig",
-    "app-icon-detail": "Nicht zu viel Detail",
+    "app-icon-detail": "Nicht zu viel oder zu wenig Detail",
     "general-no-trademark-violations": "Keine Markenverletzungen (Name oder Symbol)",
     "app-name": "App-Name",
     "app-summary-not-too-long": "Kürzer als 35 Zeichen",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "Im Einklang mit zeitgenössischen Stilen",
     "app-name-not-too-long": "Kürzer als 20 Zeichen",
     "app-icon-size": "SVG oder PNG mit mindestens 256px",
-    "app-summary-dont-start-with-an-article": "Beginnt nicht mit einem Artikel"
+    "app-summary-dont-start-with-an-article": "Beginnt nicht mit einem Artikel",
+    "screenshots-include-window-shadow": "Mit Fensterschatten",
+    "screenshots-multiple-screenshots": "Mehr als zwei Bildschirmfotos",
+    "hide-icon": "Symbol verstecken",
+    "screenshots-default-settings": "Standardeinstellungen",
+    "screenshots-reasonable-window-size": "Akzeptable Fenster Größe",
+    "screenshots": "Bildschirmfotos",
+    "screenshots-take-screenshots-on-linux": "Bildschirmfotos aufgenommen auf Linux",
+    "screenshots-not-maximized": "Nicht maximiert",
+    "show-icon": "Symbol anzeigen",
+    "screenshots-just-the-app-window": "Nur das App-Fenster"
   },
   "app-listing-quality": "Qualität des Applistings"
 }
