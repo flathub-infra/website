@@ -467,7 +467,7 @@
   "home-folder-read-access": "Přístup k domovské složce pouze pro čtení",
   "quality-guideline": {
     "app-icon-footprint": "Nevyplňuje příliš velkou ani malou část oblasti",
-    "app-icon-detail": "Ne příliš mnoho podrobností",
+    "app-icon-detail": "Ani příliš mnoho, ani příliš málo detailů",
     "general-no-trademark-violations": "Žádné porušení ochranné známky (název nebo ikona)",
     "app-icon-contrast": "Dobrý kontrast na tmavém pozadí",
     "app-icon": "Ikona aplikace",
@@ -484,7 +484,17 @@
     "app-name-just-the-name": "Jen název",
     "app-icon-in-line-with-contemporary-styles": "V souladu se současnými styly",
     "app-name-not-too-long": "Kratší než 20 znaků",
-    "app-summary-dont-start-with-an-article": "Nezačíná článkem"
+    "app-summary-dont-start-with-an-article": "Nezačíná článkem",
+    "screenshots-include-window-shadow": "Zahrnuje stín okna",
+    "screenshots-multiple-screenshots": "Více než dva snímky obrazovky",
+    "hide-icon": "Skrýt ikonu",
+    "screenshots-default-settings": "Výchozí nastavení",
+    "screenshots-reasonable-window-size": "Přiměřená velikost okna",
+    "screenshots": "Snímky obrazovky",
+    "screenshots-take-screenshots-on-linux": "Snímky obrazovky uskutečněné na Linuxu",
+    "screenshots-not-maximized": "Nemaximalizované",
+    "show-icon": "Zobrazit ikonu",
+    "screenshots-just-the-app-window": "Jen okno aplikace"
   },
   "app-listing-quality": "Kvalita výpisu aplikací"
 }
