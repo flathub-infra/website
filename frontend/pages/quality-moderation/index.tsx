@@ -8,6 +8,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
+import { format, parseISO } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
@@ -78,6 +79,17 @@ export default function QualityModerationDashboard() {
         ) : (
           <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
         ),
+    },
+    {
+      id: "moderation-last-updated",
+      header: "Moderation Last Updated",
+      accessorFn: (row) => row["quality-moderation-status"]["last-updated"],
+      cell: ({ row }) => {
+        const date = parseISO(
+          row.original["quality-moderation-status"]["last-updated"],
+        )
+        return format(date, "Pp")
+      },
     },
   ]
   const table = useReactTable<QualityModerationDashboardRow>({
