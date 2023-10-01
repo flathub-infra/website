@@ -493,8 +493,10 @@
     "screenshots-just-the-app-window": "Just the app window",
     "screenshots-take-screenshots-on-linux": "Screenshots taken on Linux",
     "screenshots-default-settings": "Default settings",
-    "screenshots-not-maximized": "Not maximized",
-    "screenshots-include-window-shadow": "Include window shadow",
-    "screenshots-reasonable-window-size": "Reasonable window size"
+    "screenshots-include-window-shadow-and-rounded-corners": "Include window shadow and rounded corners",
+    "screenshots-reasonable-window-size": "Reasonable window size",
+    "screenshots-good-content": "Good content",
+    "screenshots-up-to-date": "Up to date",
+    "screenshots-tag-screenshots-with-correct-language": "Tag screenshots with correct language"
   }
 }
