@@ -462,7 +462,7 @@
   "cache-subfolder-x": "Subdosierujo {{folder}} de staplujo",
   "can-request-data-from-session-services": "Povas peti datenojn de seancaj servoj",
   "quality-guideline": {
-    "app-icon-detail": "Sen troaj detaloj",
+    "app-icon-detail": "Ne tro multe nek tro malmulte da detaloj",
     "general-no-trademark-violations": "Ne malobservas regulojn pri markoj (en nomo aŭ piktogramo)",
     "app-name": "Nomo de programo",
     "app-summary-not-too-long": "Malpli longa ol 35 skribsignoj",
@@ -480,7 +480,17 @@
     "app-summary-no-weird-formatting": "Sen strangaj aranĝado aŭ interpunkcio",
     "app-icon-contrast": "Sufiĉa kontrasto sur malhela fono",
     "app-no-weird-formatting": "Sen strangaj aranĝado, interpunkcio, minusklaĵoj ktp",
-    "app-icon-in-line-with-contemporary-styles": "Konforma al nuntempaj stiloj"
+    "app-icon-in-line-with-contemporary-styles": "Konforma al nuntempaj stiloj",
+    "screenshots-include-window-shadow": "Inkluzivi fenestran ombron",
+    "screenshots-multiple-screenshots": "Pli ol du ekrankopioj",
+    "hide-icon": "Kaŝi piktogramon",
+    "screenshots-default-settings": "Implicitaj agordoj",
+    "screenshots-reasonable-window-size": "Ne tro granda nek tro malgranda fenestro",
+    "screenshots": "Ekrankopioj",
+    "screenshots-take-screenshots-on-linux": "Ekrankopioj farita sur Linux",
+    "screenshots-not-maximized": "Ne maksimumigita fenestro",
+    "show-icon": "Montri piktogramon",
+    "screenshots-just-the-app-window": "Nur la programa fenestro"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
