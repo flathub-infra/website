@@ -135,6 +135,11 @@ GUIDELINES = [
                 read_only=True,
             ),
             Guideline(
+                "screenshots-tag-screenshots-with-correct-language",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#tag-screenshots-with-correct-language",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
                 "screenshots-just-the-app-window",
                 "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#just-the-app-window",
                 datetime.datetime(2023, 9, 30),
@@ -150,18 +155,23 @@ GUIDELINES = [
                 datetime.datetime(2023, 9, 30),
             ),
             Guideline(
-                "screenshots-not-maximized",
-                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#not-maximized",
-                datetime.datetime(2023, 9, 30),
-            ),
-            Guideline(
-                "screenshots-include-window-shadow",
-                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#include-window-shadow",
+                "screenshots-include-window-shadow-and-rounded-corners",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#include-window-shadow-and-rounded-corners",
                 datetime.datetime(2023, 9, 30),
             ),
             Guideline(
                 "screenshots-reasonable-window-size",
                 "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#reasonable-window-size",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-good-content",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#good-content",
+                datetime.datetime(2023, 9, 30),
+            ),
+            Guideline(
+                "screenshots-up-to-date",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#up-to-date",
                 datetime.datetime(2023, 9, 30),
             ),
         ],
