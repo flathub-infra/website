@@ -44,6 +44,12 @@
       @apply outline-flathub-celestial-blue;
     }
   }
+
+    mark {
+      @apply rounded-sm;
+      @apply bg-flathub-electric-red/40;
+      @apply text-current
+    }
 }
 
 :root {
