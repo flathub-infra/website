@@ -260,6 +260,7 @@ def get_quality_moderation_status_for_appid(app_id: str):
                     "guideline": guideline.id,
                     "needed_to_pass_since": guideline.needed_to_pass_since,
                     "passed": firstMatch.passed if firstMatch else None,
+                    "updated_at": firstMatch.updated_at if firstMatch else None,
                 }
             )
 
@@ -282,9 +283,13 @@ def get_quality_moderation_status_for_appid(app_id: str):
         ]
     )
 
+    def last_updated(checks):
+        return max([check.updated_at for check in checks] + [datetime.datetime.min])
+
     return {
         "passes": unrated + not_passed == 0,
         "unrated": unrated,
         "passed": passed,
         "not-passed": not_passed,
+        "last-updated": last_updated(marks),
     }
