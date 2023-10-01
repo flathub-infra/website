@@ -236,7 +236,7 @@ const LoginVerification: FunctionComponent<Props> = ({
               organization. You can grant this permission
               <a
                 className="no-underline hover:underline"
-                href={githubOrgAccessLink.data.link}
+                href={githubOrgAccessLink?.data?.link}
                 target="_blank"
                 rel="noreferrer"
               >
