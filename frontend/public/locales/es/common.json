@@ -271,7 +271,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifique su derecho a usar el identificador de la aplicación <1>{{id}}</1> iniciando la sesión en la cuenta <3>{{login_name}}</3> (o, si <5>{{login_name}}</5> es una organización, una cuenta con acceso a ella) en <7>{{login_provider}}</7>.",
   "browse": "Navegar",
   "setup-flathub": "Configurar Flathub",
-  "setup-flathub-description": "Configura Flathub para instalar y actualizar las aplicaciones en tu sistema.",
+  "setup-flathub-description": "Configure Flathub para instalar y actualizar aplicaciones en su sistema.",
   "apps": "Aplicaciones",
   "count-desktop-apps": "Total de aplicaciones de escritorio",
   "rss-apps": "¿Necesita una aplicación RSS? Encuentre las mejores en <2>Flathub</2>.",
@@ -467,8 +467,8 @@
   "home-folder-read-access": "Acceso de lectura a la carpeta personal",
   "quality-guideline": {
     "app-icon-footprint": "No llena demasiado o muy poco el lienzo",
-    "app-icon-detail": "Sin demasiados detalles",
-    "general-no-trademark-violations": "Sin violaciones de marcas registradas (nombre o ícono)",
+    "app-icon-detail": "Ni demasiados ni pocos detalles",
+    "general-no-trademark-violations": "Sin infracciones de marcas registradas (nombre o icono)",
     "app-name": "Nombre de la aplicación",
     "app-summary-not-too-long": "Inferior a 35 caracteres",
     "app-summary-no-weird-formatting": "Sin formato ni puntuación extraños",
@@ -478,9 +478,9 @@
     "app-summary-dont-repeat-app-name": "No repite el nombre de la aplicación",
     "app-no-weird-formatting": "Sin formatos raros, puntuación, minúsculas, etc.",
     "app-icon": "Icono de la aplicación",
-    "app-icon-no-baked-in-shadows": "Sin sombras",
+    "app-icon-no-baked-in-shadows": "Sin sombras integradas",
     "general": "General",
-    "app-name-just-the-name": "Sólo el nombre",
+    "app-name-just-the-name": "Solo el nombre",
     "app-icon-in-line-with-contemporary-styles": "En línea con los estilos contemporáneos",
     "app-name-not-too-long": "Inferior a 20 caracteres",
     "app-icon-size": "SVG o PNG de al menos 256px",
@@ -488,13 +488,13 @@
     "screenshots-include-window-shadow": "Incluir la sombra de la ventana",
     "screenshots-multiple-screenshots": "Más de dos capturas de pantalla",
     "hide-icon": "Ocultar el icono",
-    "screenshots-default-settings": "Parámetros por defecto",
-    "screenshots-reasonable-window-size": "Tamaño razonable de la ventana",
+    "screenshots-default-settings": "Configuración predeterminada",
+    "screenshots-reasonable-window-size": "Tamaño de la ventana razonable",
     "screenshots": "Capturas de pantalla",
     "screenshots-take-screenshots-on-linux": "Capturas de pantalla tomadas en Linux",
     "screenshots-not-maximized": "Sin maximizar",
     "show-icon": "Mostrar el icono",
-    "screenshots-just-the-app-window": "Sólo la ventana de la aplicación"
+    "screenshots-just-the-app-window": "Solo la ventana de la aplicación"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones"
 }
