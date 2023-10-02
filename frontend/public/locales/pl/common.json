@@ -38,7 +38,7 @@
   "flathub-description": "Znajdź i zainstaluj setki aplikacji i gier dla Linuksa. Ciesz się Firefoxem, Telegramem, RetroArchem, GIMPem i wieloma innymi!",
   "an-error-occurred-server": "{{errorCode}} - Wystąpił błąd serwera.",
   "whoops": "Ups!",
-  "login": "Zaloguj",
+  "login": "Zaloguj się",
   "retry-or-go-home": "Spróbuj ponownie lub wróć do <2>strony głównej</2>.",
   "submitting-apps": "Publikowanie aplikacji",
   "reporting-issues": "Zgłaszanie błędów",
@@ -467,7 +467,7 @@
   "home-folder-read-access": "Dostęp do odczytu folderu domowego",
   "quality-guideline": {
     "app-icon-footprint": "Nie wypełnia zbyt dużej ani zbyt małej części powierzchni",
-    "app-icon-detail": "Nie za dużo szczegółów",
+    "app-icon-detail": "Nie za dużo i nie za mało szczegółów",
     "general-no-trademark-violations": "Brak naruszeń znaków towarowych (nazwa lub ikona)",
     "app-name": "Nazwa aplikacji",
     "app-summary-not-too-long": "Krótsza niż 35 znaków",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "Zgodnie ze współczesnymi stylami",
     "app-name-not-too-long": "Krótsza niż 20 znaków",
     "app-icon-size": "SVG lub PNG o rozmiarze co najmniej 256 pikseli",
-    "app-summary-dont-start-with-an-article": "Nie rozpoczyna się od artykułu"
+    "app-summary-dont-start-with-an-article": "Nie rozpoczyna się od artykułu",
+    "screenshots-include-window-shadow": "Uwzględnij cień okna",
+    "screenshots-multiple-screenshots": "Więcej niż dwa zrzuty ekranu",
+    "hide-icon": "Ukryj ikonę",
+    "screenshots-default-settings": "Domyślne ustawienia",
+    "screenshots-reasonable-window-size": "Rozsądny rozmiar okna",
+    "screenshots": "Zrzuty ekranu",
+    "screenshots-take-screenshots-on-linux": "Zrzuty ekranu wykonane na systemie Linux",
+    "screenshots-not-maximized": "Nie zmaksymalizowane",
+    "show-icon": "Wyświetl ikonę",
+    "screenshots-just-the-app-window": "Tylko okno aplikacji"
   },
   "app-listing-quality": "Jakość listingu aplikacji"
 }
