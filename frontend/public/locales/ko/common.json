@@ -64,7 +64,7 @@
   "user-runtime-subfolder-x": "사용자 런타임 하위 폴더 {{folder}}",
   "verification-instructions": "앱 ID를 확인하여 앱 개발자가 Flathub 업로드를 승인했음을 표시합니다. 앱 도메인에 있는 웹사이트나 소스코드 호스팅 사이트의 앱 계정에 대한 접근을 확인하여 앱에 대한 통제권이 있음을 증명해야 합니다. 확인된 로고는 앱 이름, 배포자 이름, 앱 ID가 확인된 방식과 함께 표시됩니다.",
   "submit-payment": "거래 승인",
-  "setup-flathub": "Setup Flathub",
+  "setup-flathub": "Set Up Flathub",
   "requires-attention": "주의가 필요합니다",
   "token-redeem-placeholder": "소유권 토큰을 입력해 주세요",
   "create-tokens": "토큰 만들기",
