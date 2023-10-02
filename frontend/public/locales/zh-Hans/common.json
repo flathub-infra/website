@@ -413,7 +413,7 @@
   "auditable-code-description": "源代码是公开的，可以独立审核，这使得应用程序更有可能是安全的",
   "quality-guideline": {
     "app-icon-footprint": "不会填充太多或太少的画布",
-    "app-icon-detail": "无过多描述",
+    "app-icon-detail": "细节不多也不少",
     "general-no-trademark-violations": "无商标侵权（名字或图标）",
     "app-name": "应用名称",
     "app-summary-not-too-long": "少于 35 个字符",
@@ -430,7 +430,17 @@
     "app-icon-in-line-with-contemporary-styles": "符合当代风格",
     "app-name-not-too-long": "少于 20 个字符",
     "app-icon-size": "至少为 256px 的 SVG 或 PNG 图片",
-    "app-summary-dont-start-with-an-article": "不以文章开头"
+    "app-summary-dont-start-with-an-article": "不以文章开头",
+    "screenshots-include-window-shadow": "包括窗口阴影",
+    "screenshots-multiple-screenshots": "两张以上截图",
+    "hide-icon": "隐藏图标",
+    "screenshots-default-settings": "默认设置",
+    "screenshots-reasonable-window-size": "合理的窗口大小",
+    "screenshots": "截屏",
+    "screenshots-take-screenshots-on-linux": "在 Linux 上截图",
+    "screenshots-not-maximized": "没有最大化",
+    "show-icon": "显示图标",
+    "screenshots-just-the-app-window": "只有应用窗口"
   },
   "user-data-subfolder-x": "用户数据子目录 {{folder}}",
   "desktop-folder": "桌面目录",
