@@ -466,7 +466,7 @@
   "can-read-all-data-in-your-download-folder": "Voi lukea kaikkea Lataukset-kansion dataa",
   "quality-guideline": {
     "app-icon-footprint": "Ei peitä piirtoaluetta liian paljon tai vähän",
-    "app-icon-detail": "Ei liian paljon yksityiskohtia",
+    "app-icon-detail": "Ei liian paljon tai liian vähän yksityiskohtia",
     "general-no-trademark-violations": "Ei tavaramerkkirikkomuksia (nimi tai kuvake)",
     "app-name": "Sovelluksen nimi",
     "app-summary-no-weird-formatting": "Ei outoa muotoilua tai outoa välimerkkien käyttöä",
@@ -483,7 +483,17 @@
     "app-icon-size": "SVG tai PNG, koko vähintään 256 px",
     "app-summary-dont-start-with-an-article": "Ei ala artikkelilla",
     "app-summary-not-too-long": "Vähemmän kuin 35 merkkiä",
-    "app-name-not-too-long": "Vähemmän kuin 20 merkkiä"
+    "app-name-not-too-long": "Vähemmän kuin 20 merkkiä",
+    "screenshots-include-window-shadow": "Sisällytä ikkunan varjo",
+    "screenshots-multiple-screenshots": "Enemmän kuin kaksi kuvakaappausta",
+    "hide-icon": "Piilota kuvake",
+    "screenshots-default-settings": "Oletusasetukset",
+    "screenshots-reasonable-window-size": "Kohtuullinen ikkunan koko",
+    "screenshots": "Kuvakaappaukset",
+    "screenshots-take-screenshots-on-linux": "Kuvakaappaukset Linux-ympäristössä otettuna",
+    "screenshots-not-maximized": "Ei suurennettuna",
+    "show-icon": "Näytä kuvake",
+    "screenshots-just-the-app-window": "Vain sovelluksen ikkuna"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä."
