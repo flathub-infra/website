@@ -337,7 +337,9 @@ def get_stats(response: Response):
 
 
 @app.get("/stats/{appid}", status_code=200)
-def get_stats_for_app(appid: str, response: Response, all=False, days: int = 180):
+def get_stats_for_app(
+    appid: str, response: Response, all: bool = False, days: int = 180
+):
     if value := stats.get_installs_by_ids([appid]).get(appid, None):
         if all:
             return value
