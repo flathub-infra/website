@@ -467,7 +467,7 @@
   "home-folder-read-access": "家目錄讀取權",
   "quality-guideline": {
     "app-icon-footprint": "畫布的填充量不要過多或過少",
-    "app-icon-detail": "沒有太多細節",
+    "app-icon-detail": "沒有太多或太少細節",
     "general-no-trademark-violations": "無商標侵權（名稱或圖示）",
     "app-name": "應用程式名稱",
     "app-summary-not-too-long": "短於 35 個字元",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "符合當代風格",
     "app-name-not-too-long": "短於 20 個字元",
     "app-icon-size": "至少 256px 的 SVG 或 PNG",
-    "app-summary-dont-start-with-an-article": "不要用一篇文章開始"
+    "app-summary-dont-start-with-an-article": "不要用一篇文章開始",
+    "screenshots-include-window-shadow": "包含視窗陰影",
+    "screenshots-multiple-screenshots": "多於兩個螢幕截圖",
+    "hide-icon": "隱藏圖示",
+    "screenshots-default-settings": "預設設定",
+    "screenshots-reasonable-window-size": "合理的視窗大小",
+    "screenshots": "螢幕截圖",
+    "screenshots-take-screenshots-on-linux": "在 Linux 上擷取的螢幕截圖",
+    "screenshots-not-maximized": "不最大化",
+    "show-icon": "顯示圖示",
+    "screenshots-just-the-app-window": "只有應用程式視窗"
   },
   "app-listing-quality": "應用程式清單品質"
 }
