@@ -1115,7 +1115,10 @@ def register_to_app(app: FastAPI):
     This also enables session middleware and the database middleware
     """
     app.add_middleware(
-        SessionMiddleware, secret_key=config.settings.session_secret_key, max_age=86400
+        SessionMiddleware,
+        secret_key=config.settings.session_secret_key,
+        max_age=86400,
+        https_only=True,
     )
     app.add_middleware(DBSessionMiddleware, db_url=config.settings.database_url)
     app.include_router(router)
