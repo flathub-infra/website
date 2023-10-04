@@ -467,7 +467,7 @@
   "home-folder-read-access": "Otthoni mappa olvasási hozzáférése",
   "quality-guideline": {
     "app-icon-footprint": "Nem tölti ki túl sokat vagy túl keveset a vászonból",
-    "app-icon-detail": "Nem túl sok részlet",
+    "app-icon-detail": "Nem túl sok vagy túl kevés részlet",
     "general-no-trademark-violations": "Nincsenek védjegysértések (név vagy ikon)",
     "app-name": "Alkalmazás neve",
     "app-summary-not-too-long": "Rövidebb, mint 35 karakter",
@@ -484,7 +484,17 @@
     "app-icon-in-line-with-contemporary-styles": "A kortárs stílusokkal összhangban",
     "app-name-not-too-long": "Rövidebb, mint 20 karakter",
     "app-icon-size": "SVG vagy PNG legalább 256 képpont",
-    "app-summary-dont-start-with-an-article": "Nem kezdődik egy cikkel"
+    "app-summary-dont-start-with-an-article": "Nem kezdődik egy cikkel",
+    "screenshots-include-window-shadow": "Tartalmazzon ablak árnyékot",
+    "screenshots-multiple-screenshots": "Kettőnél több képernyőkép",
+    "hide-icon": "Ikon elrejtése",
+    "screenshots-default-settings": "Alapbeállítások",
+    "screenshots-reasonable-window-size": "Megfelelő ablakméret",
+    "screenshots": "Képernyőképek",
+    "screenshots-take-screenshots-on-linux": "Linuxon készült képernyőképek",
+    "screenshots-not-maximized": "Nincs maximalizálva",
+    "show-icon": "Ikon megjelenítése",
+    "screenshots-just-the-app-window": "Csak az alkalmazásablak"
   },
   "app-listing-quality": "Alkalmazáslista minősége"
 }
