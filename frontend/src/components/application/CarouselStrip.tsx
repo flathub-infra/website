@@ -13,7 +13,6 @@ import {
 import Lightbox from "yet-another-react-lightbox"
 import Inline from "yet-another-react-lightbox/plugins/inline"
 import "yet-another-react-lightbox/styles.css"
-import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import Captions from "yet-another-react-lightbox/plugins/captions"
 import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
@@ -59,7 +58,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
           controller={{ closeOnBackdropClick: true }}
           open={showLightbox}
           close={() => setShowLightbox(false)}
-          plugins={[Zoom, Captions]}
+          plugins={[Captions]}
           slides={slides}
           index={currentScreenshot}
           render={{
