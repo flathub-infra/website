@@ -82,7 +82,7 @@ def flathub_fee(total: int, currency: str) -> int:
     return int(max(flat_rate, variable_rate) + 0.5)
 
 
-def compute_shares(appid: str, appshare: int) -> list[tuple[str, int]]:
+def compute_shares(app_id: str, appshare: int) -> list[tuple[str, int]]:
     """
     Find the percentage shares for the platform(s) for the given app
     Where platforms are deps of deps, their shares are scaled appropriately
@@ -93,14 +93,14 @@ def compute_shares(appid: str, appshare: int) -> list[tuple[str, int]]:
     * ValueError if appshare is less than 10 or higher than 100
     * KeyError if the platform isn't known
     """
-    if (app := appdb.get_json_key(f"apps:{appid}")) is None:
-        raise ValueError(f"Unknown app: {appid}")
+    if (app := appdb.get_json_key(f"apps:{app_id}")) is None:
+        raise ValueError(f"Unknown app: {app_id}")
     if appshare < 10 or appshare > 100:
         raise ValueError(
             f"Application share of {appshare} is not between 10 and 100 percent"
         )
     remaining = 100 - appshare
-    ret = [(appid, appshare)]
+    ret = [(app_id, appshare)]
     platform = app.get("bundle", {}).get("runtime")
     while remaining > 0 and platform:
         if (slash := platform.find("/")) != -1:
@@ -112,12 +112,12 @@ def compute_shares(appid: str, appshare: int) -> list[tuple[str, int]]:
         remaining = remaining - share
         platform = plaf.depends
     if remaining != 0:
-        ret[0] = (appid, appshare + remaining)
+        ret[0] = (app_id, appshare + remaining)
     return ret
 
 
 def compute_app_shares(
-    total: int, currency: str, appid: str, appshare: int
+    total: int, currency: str, app_id: str, appshare: int
 ) -> list[tuple[str, int]]:
     """
     Compute the shares that the app, flathub, and any platform(s) take from
@@ -140,12 +140,12 @@ def compute_app_shares(
             f"Application share of {appshare} is not between 10 and 100 percent"
         )
     ret = []
-    shares = compute_shares(appid, appshare)
+    shares = compute_shares(app_id, appshare)
     to_split = remaining
     while remaining > 0 and len(shares) > 0:
-        (appid, share) = shares.pop(0)
+        (app_id, share) = shares.pop(0)
         share = int(((to_split * share) / 100) + 0.5)
-        ret.append((appid, share))
+        ret.append((app_id, share))
         remaining -= share
     if remaining != 0:
         # Apply adjustments to application fee

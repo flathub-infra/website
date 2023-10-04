@@ -13,6 +13,6 @@ def update():
     if r.status_code == 200:
         exceptions = r.json()
         db.redis_conn.mset(
-            {f"exc:{appid}": json.dumps(exceptions[appid]) for appid in exceptions}
+            {f"exc:{app_id}": json.dumps(exceptions[app_id]) for app_id in exceptions}
         )
         db.redis_conn.set("exc", r.text)

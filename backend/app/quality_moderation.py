@@ -1,7 +1,7 @@
 import datetime
 from dataclasses import dataclass
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
@@ -189,7 +189,7 @@ def register_to_app(app: FastAPI):
 
 
 def quality_moderator_only(login: LoginStatusDep):
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=401, detail="not_logged_in")
     if not login.user.is_quality_moderator:
         raise HTTPException(status_code=403, detail="not_quality_moderator")
@@ -214,7 +214,13 @@ def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
 
 @router.get("/{app_id}")
 def get_quality_moderation_for_app(
-    app_id: str, _moderator=Depends(quality_moderator_only)
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    _moderator=Depends(quality_moderator_only),
 ):
     items = models.QualityModeration.by_appid(db, app_id)
     return {
@@ -225,8 +231,13 @@ def get_quality_moderation_for_app(
 
 @router.post("/{app_id}")
 def set_quality_moderation_for_app(
-    app_id: str,
     body: UpsertQualityModeration,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
     moderator=Depends(quality_moderator_only),
 ):
     models.QualityModeration.upsert(
@@ -235,7 +246,14 @@ def set_quality_moderation_for_app(
 
 
 @router.get("/{app_id}/status")
-def get_quality_moderation_status_for_app(app_id: str):
+def get_quality_moderation_status_for_app(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    )
+):
     return get_quality_moderation_status_for_appid(app_id)
 
 

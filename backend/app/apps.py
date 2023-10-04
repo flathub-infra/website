@@ -12,7 +12,7 @@ clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
 
 
-def add_to_search(appid: str, app: dict) -> dict:
+def add_to_search(app_id: str, app: dict) -> dict:
     search_description = re.sub(clean_html_re, "", app["description"])
 
     search_keywords = app.get("keywords")
@@ -33,14 +33,14 @@ def add_to_search(appid: str, app: dict) -> dict:
 
     # order of the dict is important for attritbute ranking
     return {
-        "id": utils.get_clean_app_id(appid),
+        "id": utils.get_clean_app_id(app_id),
         "type": type,
         "name": app["name"],
         "summary": app["summary"],
         "keywords": search_keywords,
         "project_license": project_license,
         "is_free_license": AppStream.license_is_free_license(project_license),
-        "app_id": appid,
+        "app_id": app_id,
         "description": search_description,
         "icon": app["icon"],
         "categories": categories,
@@ -105,43 +105,43 @@ def load_appstream():
             p.delete(f"types:{type}")
 
         search_apps = []
-        for appid in apps:
-            redis_key = f"apps:{appid}"
+        for app_id in apps:
+            redis_key = f"apps:{app_id}"
 
-            if show_in_frontend(apps[appid]):
-                search_apps.append(add_to_search(appid, apps[appid]))
+            if show_in_frontend(apps[app_id]):
+                search_apps.append(add_to_search(app_id, apps[app_id]))
 
-                if developer_name := apps[appid].get("developer_name"):
+                if developer_name := apps[app_id].get("developer_name"):
                     p.sadd("developers:index", developer_name)
 
-                if project_group := apps[appid].get("project_group"):
+                if project_group := apps[app_id].get("project_group"):
                     p.sadd("projectgroups:index", project_group)
 
-            p.set(redis_key, json.dumps(apps[appid]))
+            p.set(redis_key, json.dumps(apps[app_id]))
 
-            if type := apps[appid].get("type"):
+            if type := apps[app_id].get("type"):
                 p.sadd("types:index", type)
                 p.sadd(f"types:{type}", redis_key)
 
             # only used for compat
-            if categories := apps[appid].get("categories"):
+            if categories := apps[app_id].get("categories"):
                 for category in categories:
                     p.sadd(f"categories:{category}", redis_key)
 
         search.create_or_update_apps(search_apps)
 
         apps_to_delete_from_search = []
-        for appid in current_apps - set(apps):
+        for app_id in current_apps - set(apps):
             p.delete(
-                f"apps:{appid}",
-                f"summary:{appid}",
-                f"app_stats:{appid}",
+                f"apps:{app_id}",
+                f"summary:{app_id}",
+                f"app_stats:{app_id}",
             )
-            apps_to_delete_from_search.append(utils.get_clean_app_id(appid))
+            apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
         search.delete_apps(apps_to_delete_from_search)
 
         p.delete("apps:index")
-        p.sadd("apps:index", *[f"apps:{appid}" for appid in apps])
+        p.sadd("apps:index", *[f"apps:{app_id}" for app_id in apps])
         p.execute()
 
 
@@ -164,10 +164,10 @@ def list_desktop_appstream():
 def get_recently_updated(limit: int = 100):
     zset = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
     return [
-        appid
-        for appid in zset
-        if db.redis_conn.exists("types:desktop-application", f"apps:{appid}")
-        or db.redis_conn.exists("types:desktop", f"apps:{appid}")
+        app_id
+        for app_id in zset
+        if db.redis_conn.exists("types:desktop-application", f"apps:{app_id}")
+        or db.redis_conn.exists("types:desktop", f"apps:{app_id}")
     ]
 
 
@@ -175,16 +175,16 @@ def get_recently_updated(limit: int = 100):
 def get_recently_added(limit: int = 100):
     zset = db.redis_conn.zrevrange("new_apps_zset", 0, limit - 1)
     return [
-        appid
-        for appid in zset
-        if db.redis_conn.exists("types:desktop-application", f"apps:{appid}")
-        or db.redis_conn.exists("types:desktop", f"apps:{appid}")
+        app_id
+        for app_id in zset
+        if db.redis_conn.exists("types:desktop-application", f"apps:{app_id}")
+        or db.redis_conn.exists("types:desktop", f"apps:{app_id}")
     ]
 
 
-def get_addons(appid: str, branch: str = "stable"):
+def get_addons(app_id: str, branch: str = "stable"):
     result = []
-    summary = db.get_json_key(f"summary:{appid}:{branch}")
+    summary = db.get_json_key(f"summary:{app_id}:{branch}")
     if (
         summary
         and "metadata" in summary

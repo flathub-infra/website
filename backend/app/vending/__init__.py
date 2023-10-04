@@ -14,7 +14,7 @@ from typing import Literal
 
 import gi
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request, Response
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
@@ -168,7 +168,7 @@ class VendingApplicationInformation(BaseModel):
     Information about an app, including tax code etc
     """
 
-    appid: str
+    app_id: str
     kind: Literal["GAME", "PRODUCTIVITY", "GENERIC"]
     kind_reason: str
     foss: bool
@@ -311,8 +311,16 @@ def get_global_vending_config() -> VendingConfig:
     )
 
 
-@router.get("app/{appid}/setup")
-def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingSetup:
+@router.get("app/{app_id}/setup")
+def get_app_vending_setup(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
+) -> VendingSetup:
     """
     Retrieve the vending status for a given application.  Returns a no
     content response if the appid has no vending setup.
@@ -321,7 +329,7 @@ def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingSetu
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, appid)
+    vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
         return Response(status_code=204)
 
@@ -334,9 +342,16 @@ def get_app_vending_setup(appid: str, login=Depends(login_state)) -> VendingSetu
     )
 
 
-@router.post("app/{appid}/setup")
+@router.post("app/{app_id}/setup")
 def post_app_vending_setup(
-    appid: str, setup: VendingSetup, login=Depends(login_state)
+    setup: VendingSetup,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
 ) -> VendingSetup:
     """
     Create/update the vending status for a given application.  Returns an error
@@ -353,18 +368,18 @@ def post_app_vending_setup(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    if appid not in login["user"].dev_flatpaks(db):
+    if app_id not in login["user"].dev_flatpaks(db):
         raise VendingError(error="permission-denied")
 
     stripe_account = StripeExpressAccount.by_user(db, login["user"])
     if not stripe_account:
         raise VendingError(error="not-onboarded")
 
-    vend = ApplicationVendingConfig.by_appid(db, appid)
+    vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend and setup.recommended_donation > 0:
         vend = ApplicationVendingConfig(
             user=login["user"].id,
-            appid=appid,
+            appid=app_id,
             currency=setup.currency,
             appshare=setup.appshare,
             recommended_donation=setup.recommended_donation,
@@ -387,14 +402,22 @@ def post_app_vending_setup(
         raise VendingError(error="bad-values") from base_exc
 
     # Update the app metadata in the repository
-    worker.republish_app.send(appid)
+    worker.republish_app.send(app_id)
 
-    return get_app_vending_setup(appid, login)
+    return get_app_vending_setup(app_id, login)
 
 
-@router.post("app/{appid}")
+@router.post("app/{app_id}")
 def post_app_vending_status(
-    request: Request, appid: str, data: ProposedPayment, login=Depends(login_state)
+    request: Request,
+    data: ProposedPayment,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
 ) -> VendingOutput:
     """
     Construct a transaction for the given application with the proposed payment.
@@ -408,7 +431,7 @@ def post_app_vending_status(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, appid)
+    vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
         raise VendingError(error="not-found")
     if vend.currency != data.currency:
@@ -418,7 +441,7 @@ def post_app_vending_status(
 
     try:
         shares = prices.compute_app_shares(
-            data.amount, data.currency, appid, vend.appshare
+            data.amount, data.currency, app_id, vend.appshare
         )
     except ValueError as val_err:
         raise VendingError(error="bad-app-share") from val_err
@@ -455,9 +478,16 @@ class TokenList(BaseModel):
     tokens: list[TokenModel]
 
 
-@router.get("app/{appid}/tokens")
+@router.get("app/{app_id}/tokens")
 def get_redeemable_tokens(
-    request: Request, appid: str, login=Depends(login_state)
+    request: Request,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
 ) -> TokenList:
     """
     Retrieve the redeemable tokens for the given application.
@@ -470,11 +500,11 @@ def get_redeemable_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    if appid not in login["user"].dev_flatpaks(db):
+    if app_id not in login["user"].dev_flatpaks(db):
         raise VendingError(error="permission-denied")
 
     tokens = []
-    for token in RedeemableAppToken.by_appid(db, appid, True):
+    for token in RedeemableAppToken.by_appid(db, app_id, True):
         tokens.append(
             TokenModel(
                 id=str(token.id),
@@ -489,9 +519,17 @@ def get_redeemable_tokens(
     return TokenList(status="ok", total=len(tokens), tokens=tokens)
 
 
-@router.post("app/{appid}/tokens")
+@router.post("app/{app_id}/tokens")
 def create_tokens(
-    request: Request, appid: str, data: list[str], login=Depends(login_state)
+    request: Request,
+    data: list[str],
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
 ) -> list[TokenModel]:
     """
     Create some tokens for the given appid.
@@ -502,7 +540,7 @@ def create_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, appid)
+    vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
         raise VendingError(error="invalid-appid")
     if vend.user != login["user"].id:
@@ -510,7 +548,7 @@ def create_tokens(
 
     tokens = []
     for name in data:
-        token = RedeemableAppToken.create(db, appid, name)
+        token = RedeemableAppToken.create(db, app_id, name)
         tokens.append(
             TokenModel(
                 id=str(token.id),
@@ -530,9 +568,17 @@ class TokenCancellation(BaseModel):
     status: str
 
 
-@router.post("app/{appid}/tokens/cancel")
+@router.post("app/{app_id}/tokens/cancel")
 def cancel_tokens(
-    request: Request, appid: str, data: list[str], login=Depends(login_state)
+    request: Request,
+    data: list[str],
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    login=Depends(login_state),
 ) -> list[TokenCancellation]:
     """
     Cancel a set of tokens
@@ -541,7 +587,7 @@ def cancel_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, appid)
+    vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
         raise VendingError(error="invalid-appid")
     if vend.user != login["user"].id:
@@ -549,7 +595,7 @@ def cancel_tokens(
 
     ret = []
     for token_str in data:
-        token = RedeemableAppToken.by_appid_and_token(db, appid, token_str)
+        token = RedeemableAppToken.by_appid_and_token(db, app_id, token_str)
         if token is None:
             ret.append(TokenCancellation(token=token_str, status="invalid"))
         else:
@@ -558,7 +604,7 @@ def cancel_tokens(
                 db.session.commit()
                 ret.append(TokenCancellation(token=token_str, status="cancelled"))
             except Exception as base_exc:
-                print(f"Failure cancelling {token_str} for {appid}: {base_exc}")
+                print(f"Failure cancelling {token_str} for {app_id}: {base_exc}")
                 ret.append(TokenCancellation(token=token_str, status="error"))
 
     return ret
@@ -569,9 +615,17 @@ class RedemptionResult(BaseModel):
     reason: str
 
 
-@router.post("app/{appid}/tokens/redeem/{token}")
+@router.post("app/{app_id}/tokens/redeem/{token}")
 def redeem_token(
-    request: Request, appid: str, token: str, login=Depends(login_state)
+    request: Request,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    token: str = Path(min_length=6, example="abc123"),
+    login=Depends(login_state),
 ) -> RedemptionResult:
     """
     This redeems the given token for the logged in user.
@@ -582,7 +636,7 @@ def redeem_token(
     if not login["state"].logged_in():
         return RedemptionResult(status="failure", reason="not-logged-in")
 
-    dbtoken = RedeemableAppToken.by_appid_and_token(db, appid, token)
+    dbtoken = RedeemableAppToken.by_appid_and_token(db, app_id, token)
     if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
         if dbtoken.redeem(db, login["user"]):
             db.session.commit()
@@ -596,16 +650,23 @@ def redeem_token(
 # Tax and other real-world problems are associated with things like an
 # application's type, licence, etc.
 # This heuristic tries to tell us about the app, and why we made that decision
-@router.get("app/{appid}/info")
-def app_info(appid: str) -> VendingApplicationInformation:
+@router.get("app/{app_id}/info")
+def app_info(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+) -> VendingApplicationInformation:
     """
     This determines the vending info for the app and returns it
     """
 
-    appstream = get_json_key(f"apps:{appid}")
+    appstream = get_json_key(f"apps:{app_id}")
     if appstream is None:
-        raise HTTPException(status_code=404, detail=f"Application {appid} not found")
-    print(f"Found {appid}: {repr(appstream)}")
+        raise HTTPException(status_code=404, detail=f"Application {app_id} not found")
+    print(f"Found {app_id}: {repr(appstream)}")
 
     kind = "GENERIC"
     kind_reason = "unknown"
@@ -632,7 +693,7 @@ def app_info(appid: str) -> VendingApplicationInformation:
         kind_reason = f"Unable to categorise based on {repr(app_cats)}"
 
     return VendingApplicationInformation(
-        appid=appid,
+        app_id=app_id,
         kind=kind,
         kind_reason=kind_reason,
         foss=foss,

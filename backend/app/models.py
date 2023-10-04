@@ -1145,13 +1145,13 @@ class ApplicationVendingConfig(Base):
     )
 
     @classmethod
-    def by_appid(cls, db, appid: str) -> Optional["ApplicationVendingConfig"]:
+    def by_appid(cls, db, app_id: str) -> Optional["ApplicationVendingConfig"]:
         """
         Retrieve vending configuration (if available) for a given appid
         """
         return (
             db.session.query(ApplicationVendingConfig)
-            .filter(ApplicationVendingConfig.appid == appid)
+            .filter(ApplicationVendingConfig.appid == app_id)
             .first()
         )
 
@@ -1210,7 +1210,7 @@ class RedeemableAppToken(Base):
     changed = mapped_column(DateTime, nullable=False)
 
     @classmethod
-    def by_appid(cls, db, appid: str, all: bool) -> list["RedeemableAppToken"]:
+    def by_appid(cls, db, app_id: str, all: bool) -> list["RedeemableAppToken"]:
         """
         Retrieve tokens for the given app.
 
@@ -1218,7 +1218,7 @@ class RedeemableAppToken(Base):
         which have not yet been redeemed.
         """
         query = db.session.query(RedeemableAppToken).filter(
-            RedeemableAppToken.appid == appid
+            RedeemableAppToken.appid == app_id
         )
         if not all:
             query = query.filter(RedeemableAppToken.token is not None)
@@ -1226,14 +1226,14 @@ class RedeemableAppToken(Base):
 
     @classmethod
     def by_appid_and_token(
-        cls, db, appid: str, token: str
+        cls, db, app_id: str, token: str
     ) -> Optional["RedeemableAppToken"]:
         """
         Retrieve a specific token instance, or None if not found
         """
         return (
             db.session.query(RedeemableAppToken)
-            .filter(RedeemableAppToken.appid == appid)
+            .filter(RedeemableAppToken.appid == app_id)
             .filter(RedeemableAppToken.token == token)
             .first()
         )
@@ -1276,17 +1276,17 @@ class RedeemableAppToken(Base):
         db.session.flush()
 
     @classmethod
-    def create(self, db, appid: str, name: str) -> "RedeemableAppToken":
+    def create(self, db, app_id: str, name: str) -> "RedeemableAppToken":
         """
         Create a new redeemable app token
         """
 
         now = datetime.now()
         token = str(uuid4())
-        while self.by_appid_and_token(db, appid, token) is not None:
+        while self.by_appid_and_token(db, app_id, token) is not None:
             token = str(uuid4())
         token = RedeemableAppToken(
-            appid=appid,
+            appid=app_id,
             created=now,
             changed=now,
             state=RedeemableAppTokenState.UNREDEEMED,
@@ -1377,9 +1377,9 @@ class QualityModeration(Base):
         db.session.commit()
 
     @classmethod
-    def by_appid(cls, db, appid: str) -> list["QualityModeration"]:
+    def by_appid(cls, db, app_id: str) -> list["QualityModeration"]:
         return (
             db.session.query(QualityModeration)
-            .filter(QualityModeration.app_id == appid)
+            .filter(QualityModeration.app_id == app_id)
             .all()
         )

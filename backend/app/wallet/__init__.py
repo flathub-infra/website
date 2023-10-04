@@ -83,7 +83,7 @@ def get_transactions(
     request: Request,
     login=Depends(login_state),
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
-    since: str = None,
+    since: str | None = None,
     limit: int = 100,
 ) -> JSONResponse | list[TransactionSummary]:
     """

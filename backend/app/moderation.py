@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 
 import jwt
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel, validator
@@ -25,14 +25,14 @@ class ModerationRequestType(str, Enum):
 
 
 def moderator_only(login: LoginStatusDep):
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=401, detail="not_logged_in")
     if not login.user.is_moderator:
         raise HTTPException(status_code=403, detail="not_moderator")
 
 
 class ModerationAppItem(BaseModel):
-    appid: str
+    app_id: str
     is_new_submission: bool
     updated_at: datetime | None = None
     request_types: list[ModerationRequestType]
@@ -45,7 +45,7 @@ class ModerationAppsResponse(BaseModel):
 
 class ModerationRequestResponse(BaseModel):
     id: int
-    appid: str
+    app_id: str
     created_at: int
 
     build_id: int
@@ -106,8 +106,13 @@ def get_moderation_apps(
 
 @router.get("/apps/{app_id}", status_code=200, response_model_exclude_none=True)
 def get_moderation_app(
-    app_id: str,
     login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
     include_outdated: bool = False,
     include_handled: bool = False,
     limit: int = 100,
@@ -115,7 +120,7 @@ def get_moderation_app(
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
 
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=401, detail="not_logged_in")
     if not login.user.is_moderator and app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(status_code=403, detail="not_app_developer")
@@ -149,7 +154,7 @@ def get_moderation_app(
         requests=[
             ModerationRequestResponse(
                 id=row.id,
-                appid=row.appid,
+                app_id=row.appid,
                 request_type=row.request_type,
                 request_data=json.loads(row.request_data),
                 build_id=row.build_id,

@@ -296,8 +296,8 @@ def process_remote_icon(media_base_url, app, icons_data):
         app["icon"] = f"{media_base_url}/{app['icon']}"
 
 
-def get_clean_app_id(appid: str):
-    return re.sub(clean_id_re, "_", appid)
+def get_clean_app_id(app_id: str):
+    return re.sub(clean_id_re, "_", app_id)
 
 
 class Platform(BaseModel):
@@ -365,17 +365,17 @@ PLATFORMS = _load_platforms(False)
 PLATFORMS_WITH_STRIPE = _load_platforms(True)
 
 
-def is_valid_app_id(appid: str) -> bool:
+def is_valid_app_id(app_id: str) -> bool:
     """Ensures that an app ID is correctly formed. The requirements are taken from the D-Bus spec for well-known bus
     names [1], except we require at least 3 segments rather than 2.
 
     [1] https://dbus.freedesktop.org/doc/dbus-specification.html#message-protocol-names-bus
     """
 
-    if len(appid) > 255:
+    if len(app_id) > 255:
         return False
 
-    elements = appid.split(".")
+    elements = app_id.split(".")
     if len(elements) < 3:
         return False
     return all(re.match("^[A-Za-z_][\\w\\-]*$", element) for element in elements)
