@@ -53,7 +53,9 @@ def delete_apps(app_id_list):
 
 
 def get_by_selected_categories(
-    selected_categories: list[schemas.MainCategory], page: int, hits_per_page: int
+    selected_categories: list[schemas.MainCategory],
+    page: int | None,
+    hits_per_page: int | None,
 ):
     category_list = [
         f"categories = {category.value}" for category in selected_categories
@@ -73,8 +75,8 @@ def get_by_selected_categories(
 def get_by_selected_category_and_subcategory(
     selected_category: schemas.MainCategory,
     selected_subcategory: str,
-    page: int,
-    hits_per_page: int,
+    page: int | None,
+    hits_per_page: int | None,
 ):
     return client.index("apps").search(
         "",
@@ -90,7 +92,7 @@ def get_by_selected_category_and_subcategory(
     )
 
 
-def get_by_installs_last_month(page: int, hits_per_page: int):
+def get_by_installs_last_month(page: int | None, hits_per_page: int | None):
     return client.index("apps").search(
         "",
         {
@@ -101,7 +103,7 @@ def get_by_installs_last_month(page: int, hits_per_page: int):
     )
 
 
-def get_by_added_at(page: int, hits_per_page: int):
+def get_by_added_at(page: int | None, hits_per_page: int | None):
     return client.index("apps").search(
         "",
         {
@@ -112,7 +114,7 @@ def get_by_added_at(page: int, hits_per_page: int):
     )
 
 
-def get_by_updated_at(page: int, hits_per_page: int):
+def get_by_updated_at(page: int | None, hits_per_page: int | None):
     return client.index("apps").search(
         "",
         {
@@ -123,7 +125,7 @@ def get_by_updated_at(page: int, hits_per_page: int):
     )
 
 
-def get_by_verified(page: int, hits_per_page: int):
+def get_by_verified(page: int | None, hits_per_page: int | None):
     return client.index("apps").search(
         "",
         {
@@ -135,7 +137,7 @@ def get_by_verified(page: int, hits_per_page: int):
     )
 
 
-def get_by_developer(developer: str, page: int, hits_per_page: int):
+def get_by_developer(developer: str, page: int | None, hits_per_page: int | None):
     escaped_developer = (
         developer.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
     )
@@ -151,7 +153,9 @@ def get_by_developer(developer: str, page: int, hits_per_page: int):
     )
 
 
-def get_by_project_group(project_group: str, page: int, hits_per_page: int):
+def get_by_project_group(
+    project_group: str, page: int | None, hits_per_page: int | None
+):
     return client.index("apps").search(
         "",
         {

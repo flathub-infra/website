@@ -942,7 +942,7 @@ def get_userinfo(login: LoginStatusDep):
 
     dev-flatpaks is filtered against IDs available in AppStream
     """
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         return Response(status_code=204)
     user = login.user
 
@@ -1042,7 +1042,7 @@ def get_deleteuser(login: LoginStatusDep):
     Otherwise they will get an option to delete their account
     and data.
     """
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         return Response(status_code=403)
     user = login.user
 
@@ -1067,7 +1067,7 @@ def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusD
     }
     ```
     """
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         return Response(status_code=403)
     user = login.user
 
@@ -1083,7 +1083,7 @@ def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusD
 
 @router.post("/accept-publisher-agreement")
 def do_agree_to_publisher_agreement(login: LoginStatusDep):
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         return Response(status_code=403)
 
     login.user.accepted_publisher_agreement_at = func.now()
@@ -1097,7 +1097,7 @@ def do_change_default_account(
 ):
     """Changes the user's default account, which determines which display name and email we use."""
 
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
     account = login.user.get_connected_account(db, provider)

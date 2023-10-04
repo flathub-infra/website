@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import requests
-from fastapi import APIRouter, BackgroundTasks, FastAPI
+from fastapi import APIRouter, BackgroundTasks, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 
 from . import apps, db, search, stats
@@ -13,13 +13,13 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-def get_repo_creation_date(appid: str) -> str | None:
-    key = f"created_at:{appid}"
+def get_repo_creation_date(app_id: str) -> str | None:
+    key = f"created_at:{app_id}"
     if created_at := db.redis_conn.get(key):
         return created_at
     else:
         try:
-            github_repo = requests.get(f"https://api.github.com/repos/flathub/{appid}")
+            github_repo = requests.get(f"https://api.github.com/repos/flathub/{app_id}")
             github_repo.raise_for_status()
             created_at = github_repo.json().get("created_at")
             db.redis_conn.set(key, created_at)
@@ -31,16 +31,16 @@ def get_repo_creation_date(appid: str) -> str | None:
 def get_short_app(key: str):
     compat_app = None
     if app := db.get_json_key(key):
-        appid = key[5:]
+        app_id = key[5:]
         compat_app = {
-            "flatpakAppId": appid,
+            "flatpakAppId": app_id,
             "name": app.get("name"),
             "summary": app.get("summary"),
             "iconDesktopUrl": app.get("icon"),
             "iconMobileUrl": app.get("icon"),
             "currentReleaseVersion": None,
             "currentReleaseDate": None,
-            "inStoreSinceDate": db.redis_conn.get(f"created_at:{appid}"),
+            "inStoreSinceDate": db.redis_conn.get(f"created_at:{app_id}"),
         }
 
     return compat_app
@@ -50,8 +50,8 @@ def list_apps_in_index(index="types:desktop"):
     appids = sorted(db.redis_conn.smembers(index))
     ret = []
 
-    for appid in appids:
-        if app := get_short_app(appid):
+    for app_id in appids:
+        if app := get_short_app(app_id):
             ret.append(app)
 
     return ret
@@ -63,7 +63,12 @@ def get_apps():
 
 
 @router.get("/apps/category/{category}")
-def get_apps_in_category(category: str):
+def get_apps_in_category(
+    category: str = Path(
+        min_length=2,
+        example="Games",
+    )
+):
     return list_apps_in_index(f"categories:{category}")
 
 
@@ -71,7 +76,7 @@ def get_apps_in_category(category: str):
 @router.get("/apps/collection/recently-updated/50")
 def get_recently_updated():
     recent = apps.get_recently_updated(50)
-    compat = [get_short_app(f"apps:{appid}") for appid in recent]
+    compat = [get_short_app(f"apps:{app_id}") for app_id in recent]
     return [app for app in compat if app]
 
 
@@ -79,7 +84,7 @@ def get_recently_updated():
 @router.get("/apps/collection/new/50")
 def get_recently_added():
     added = apps.get_recently_added(50)
-    compat = [get_short_app(f"apps:{appid}") for appid in added]
+    compat = [get_short_app(f"apps:{app_id}") for app_id in added]
     return [app for app in compat if app]
 
 
@@ -87,12 +92,12 @@ def get_recently_added():
 @router.get("/apps/collection/popular/50")
 def get_popular_apps():
     popular = stats.get_popular(30)
-    compat = [get_short_app(f"apps:{appid}") for appid in popular[0:50]]
+    compat = [get_short_app(f"apps:{app_id}") for app_id in popular[0:50]]
     return [app for app in compat if app]
 
 
 @router.get("/apps/search/{query}")
-def get_search(query: str):
+def get_search(query: str = Path(min_length=2)):
     results = [
         {
             "id": app["app_id"],
@@ -123,15 +128,23 @@ def get_search(query: str):
     return ret
 
 
-@router.get("/apps/{appid}")
-def get_single_app(appid: str, background_tasks: BackgroundTasks):
-    if app := db.get_json_key(f"apps:{appid}"):
+@router.get("/apps/{app_id}")
+def get_single_app(
+    background_tasks: BackgroundTasks,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+):
+    if app := db.get_json_key(f"apps:{app_id}"):
         compat_app = {
-            "flatpakAppId": appid,
+            "flatpakAppId": app_id,
             "name": app.get("name"),
             "summary": app.get("summary"),
             "description": app.get("description"),
-            "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{appid}.flatpakref",
+            "downloadFlatpakRefUrl": f"https://dl.flathub.org/repo/appstream/{app_id}.flatpakref",
             "projectLicense": app.get("project_license"),
             "iconDesktopUrl": app.get("icon"),
             "iconMobileUrl": app.get("icon"),
@@ -162,10 +175,10 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
                     release_ts
                 ).strftime("%Y-%m-%d")
 
-        if created_at := db.redis_conn.get(f"created_at:{appid}"):
+        if created_at := db.redis_conn.get(f"created_at:{app_id}"):
             compat_app["inStoreSinceDate"] = created_at
         else:
-            background_tasks.add_task(get_repo_creation_date, appid)
+            background_tasks.add_task(get_repo_creation_date, app_id)
 
         if screenshots := app.get("screenshots"):
             screenshots = list(filter(None, screenshots))
@@ -183,9 +196,9 @@ def get_single_app(appid: str, background_tasks: BackgroundTasks):
                 filename = list(screenshot["sizes"].values())[0].split("/")[-1]
                 compat_screenshots.append(
                     {
-                        "imgDesktopUrl": f"https://dl.flathub.org/repo/screenshots/{appid}-stable/{full_size}/{filename}",
-                        "imgMobileUrl": f"https://dl.flathub.org/repo/screenshots/{appid}-stable/{full_size}/{filename}",
-                        "thumbUrl": f"https://dl.flathub.org/repo/screenshots/{appid}-stable/{thumb_size}/{filename}",
+                        "imgDesktopUrl": f"https://dl.flathub.org/repo/screenshots/{app_id}-stable/{full_size}/{filename}",
+                        "imgMobileUrl": f"https://dl.flathub.org/repo/screenshots/{app_id}-stable/{full_size}/{filename}",
+                        "thumbUrl": f"https://dl.flathub.org/repo/screenshots/{app_id}-stable/{thumb_size}/{filename}",
                     }
                 )
             compat_app["screenshots"] = compat_screenshots

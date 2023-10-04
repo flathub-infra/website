@@ -32,9 +32,9 @@ def validate_ref(ref: str):
     return kind, appid, arch, branch
 
 
-def get_parent_id(appid: str):
+def get_parent_id(app_id: str):
     if reverse_lookup := db.get_json_key("summary:reverse_lookup"):
-        if parent := reverse_lookup.get(appid):
+        if parent := reverse_lookup.get(app_id):
             return parent
 
     return None
@@ -123,19 +123,19 @@ def update():
         if not (valid_ref := validate_ref(ref)):
             continue
 
-        kind, appid, arch, branch = valid_ref
+        kind, app_id, arch, branch = valid_ref
 
         timestamp_be_uint = struct.pack("<Q", info["ostree.commit.timestamp"])
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
-        recently_updated_zset[appid] = timestamp
-        summary_dict[appid]["timestamp"] = timestamp
+        recently_updated_zset[app_id] = timestamp
+        summary_dict[app_id]["timestamp"] = timestamp
 
     for ref in xa_cache:
         if not (valid_ref := validate_ref(ref)):
             continue
 
-        kind, appid, arch, branch = valid_ref
+        kind, app_id, arch, branch = valid_ref
 
         download_size_be_uint = struct.pack("<Q", xa_cache[ref][1])
         download_size = struct.unpack(">Q", download_size_be_uint)[0]
@@ -143,19 +143,19 @@ def update():
         installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
-        summary_dict[appid]["branch"] = branch
-        summary_dict[appid]["download_size"] = download_size
-        summary_dict[appid]["installed_size"] = installed_size
-        summary_dict[appid]["metadata"] = parse_metadata(xa_cache[ref][2])
+        summary_dict[app_id]["branch"] = branch
+        summary_dict[app_id]["download_size"] = download_size
+        summary_dict[app_id]["installed_size"] = installed_size
+        summary_dict[app_id]["metadata"] = parse_metadata(xa_cache[ref][2])
 
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
         # and download sizes
         if (
-            summary_dict[appid]["metadata"]
-            and "extra-data" in summary_dict[appid]["metadata"]
+            summary_dict[app_id]["metadata"]
+            and "extra-data" in summary_dict[app_id]["metadata"]
         ):
-            summary_dict[appid]["installed_size"] += download_size
+            summary_dict[app_id]["installed_size"] += download_size
 
     # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
@@ -175,24 +175,24 @@ def update():
             if not (valid_ref := validate_ref(ref)):
                 continue
 
-            kind, appid, arch, branch = valid_ref
-            summary_dict[appid]["arches"].append(arch)
+            kind, app_id, arch, branch = valid_ref
+            summary_dict[app_id]["arches"].append(arch)
 
     if recently_updated_zset:
         db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
         updated: list = []
 
-        for appid in recently_updated_zset:
-            if appid not in current_apps:
+        for app_id in recently_updated_zset:
+            if app_id not in current_apps:
                 continue
 
-            if not db.is_appid_for_frontend(appid):
+            if not db.is_appid_for_frontend(app_id):
                 continue
 
             updated.append(
                 {
-                    "id": utils.get_clean_app_id(appid),
-                    "updated_at": recently_updated_zset[appid],
+                    "id": utils.get_clean_app_id(app_id),
+                    "updated_at": recently_updated_zset[app_id],
                 }
             )
 
@@ -201,40 +201,40 @@ def update():
     search.create_or_update_apps(
         [
             {
-                "id": utils.get_clean_app_id(appid),
-                "arches": summary_dict[appid]["arches"],
+                "id": utils.get_clean_app_id(app_id),
+                "arches": summary_dict[app_id]["arches"],
             }
-            for appid in summary_dict
-            if db.is_appid_for_frontend(appid)
+            for app_id in summary_dict
+            if db.is_appid_for_frontend(app_id)
         ]
     )
 
     db.redis_conn.mset(
         {
-            f"summary:{appid}:{summary_dict[appid]['branch']}": json.dumps(
-                summary_dict[appid]
+            f"summary:{app_id}:{summary_dict[app_id]['branch']}": json.dumps(
+                summary_dict[app_id]
             )
-            for appid in summary_dict
+            for app_id in summary_dict
         }
     )
 
     eol_rebase: dict[str, str] = {}
     eol_message: dict[str, str] = {}
     for app, eol_dict in metadata["xa.sparse-cache"].items():
-        flatpak_type, appid, arch, branch = app.split("/")
+        flatpak_type, app_id, arch, branch = app.split("/")
         if (
-            not appid.endswith(".Debug")
-            and not appid.endswith(".Locale")
-            and not appid.endswith(".Sources")
+            not app_id.endswith(".Debug")
+            and not app_id.endswith(".Locale")
+            and not app_id.endswith(".Sources")
         ):
             if "eolr" in eol_dict:
                 new_id = eol_dict["eolr"].split("/")[1]
                 if new_id in eol_rebase:
-                    eol_rebase[new_id].append(appid)
+                    eol_rebase[new_id].append(app_id)
                 else:
-                    eol_rebase[new_id] = [f"{appid}:{branch}"]
+                    eol_rebase[new_id] = [f"{app_id}:{branch}"]
             elif "eol" in eol_dict:
-                eol_message[f"{appid}:{branch}"] = eol_dict["eol"]
+                eol_message[f"{app_id}:{branch}"] = eol_dict["eol"]
 
     # Support changing of App ID multiple times
     while True:
@@ -255,9 +255,9 @@ def update():
         {"eol_rebase": json.dumps(eol_rebase), "eol_message": json.dumps(eol_message)}
     )
 
-    for appid, old_id_list in eol_rebase.items():
+    for app_id, old_id_list in eol_rebase.items():
         for old_id_and_branch in old_id_list:
-            db.redis_conn.mset({f"eol_rebase:{old_id_and_branch}": json.dumps(appid)})
+            db.redis_conn.mset({f"eol_rebase:{old_id_and_branch}": json.dumps(app_id)})
 
     for appid_and_branch, message in eol_message.items():
         db.redis_conn.mset({f"eol_message:{appid_and_branch}": json.dumps(message)})
@@ -265,7 +265,7 @@ def update():
     # Build reverse lookup map for flathub-hooks
     reverse_lookup = {}
     for ref in xa_cache:
-        appid = ref.split("/")[1]
+        app_id = ref.split("/")[1]
 
         ini = xa_cache[ref][2]
         parser = configParserCustom.ConfigParserMultiOpt()
@@ -279,7 +279,7 @@ def update():
                 else:
                     built_ext = build["built-extensions"].split(";")
                 for ext in filter(len, built_ext):
-                    reverse_lookup[ext] = appid
+                    reverse_lookup[ext] = app_id
 
     db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
 

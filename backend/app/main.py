@@ -108,9 +108,9 @@ def get_categories():
 @app.get("/category/{category}")
 def get_category(
     category: schemas.MainCategory,
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -127,9 +127,9 @@ def get_category(
 def get_subcategory(
     category: schemas.MainCategory,
     subcategory: str,
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -152,9 +152,9 @@ def get_developers():
 @app.get("/developer/{developer:path}")
 def get_developer(
     developer: str,
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -172,12 +172,12 @@ def get_eol_rebase():
     return db.get_json_key("eol_rebase")
 
 
-@app.get("/eol/rebase/{appid}")
+@app.get("/eol/rebase/{app_id}")
 def get_eol_rebase_appid(
-    appid: str,
+    app_id: str,
     branch: str = "stable",
 ):
-    if value := db.get_json_key(f"eol_rebase:{appid}:{branch}"):
+    if value := db.get_json_key(f"eol_rebase:{app_id}:{branch}"):
         return value
 
 
@@ -186,12 +186,12 @@ def get_eol_message():
     return db.get_json_key("eol_message")
 
 
-@app.get("/eol/message/{appid}")
+@app.get("/eol/message/{app_id}")
 def get_eol_message_appid(
-    appid: str,
+    app_id: str,
     branch: str = "stable",
 ):
-    if value := db.get_json_key(f"eol_message:{appid}:{branch}"):
+    if value := db.get_json_key(f"eol_message:{app_id}:{branch}"):
         return value
 
 
@@ -203,9 +203,9 @@ def get_project_groups():
 @app.get("/projectgroup/{project_group}")
 def get_project_group(
     project_group: str,
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -223,9 +223,9 @@ def list_appstream():
     return apps.list_desktop_appstream()
 
 
-@app.get("/appstream/{appid}", status_code=200)
-def get_appstream(appid: str, response: Response):
-    if value := db.get_json_key(f"apps:{appid}"):
+@app.get("/appstream/{app_id}", status_code=200)
+def get_appstream(app_id: str, response: Response):
+    if value := db.get_json_key(f"apps:{app_id}"):
         return value
 
     response.status_code = 404
@@ -244,9 +244,9 @@ def get_runtime_list():
 
 @app.get("/collection/recently-updated")
 def get_recently_updated(
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -261,9 +261,9 @@ def get_recently_updated(
 
 @app.get("/collection/recently-added")
 def get_recently_added(
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -278,9 +278,9 @@ def get_recently_added(
 
 @app.get("/collection/verified")
 def get_verified(
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -295,9 +295,9 @@ def get_verified(
 
 @app.get("/popular/last-month")
 def get_popular_last_month(
-    page: int = None,
-    per_page: int = None,
-    response: Response = Response,
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
         page is not None and per_page is None
@@ -336,11 +336,11 @@ def get_stats(response: Response):
     return None
 
 
-@app.get("/stats/{appid}", status_code=200)
+@app.get("/stats/{app_id}", status_code=200)
 def get_stats_for_app(
-    appid: str, response: Response, all: bool = False, days: int = 180
+    app_id: str, response: Response, all: bool = False, days: int = 180
 ):
-    if value := stats.get_installs_by_ids([appid]).get(appid, None):
+    if value := stats.get_installs_by_ids([app_id]).get(app_id, None):
         if all:
             return value
 
@@ -354,20 +354,20 @@ def get_stats_for_app(
     return None
 
 
-@app.get("/summary/{appid}", status_code=200)
+@app.get("/summary/{app_id}", status_code=200)
 def get_summary(
-    appid: str,
+    app_id: str,
     response: Response,
     branch: Optional[str] = None,
 ):
     if not branch:
-        possible_branches = db.search_by_key(f"summary:{appid}:*")
+        possible_branches = db.search_by_key(f"summary:{app_id}:*")
         if len(possible_branches) > 0:
             key = possible_branches[0]
         else:
-            key = f"summary:{appid}:{branch}"
+            key = f"summary:{app_id}:{branch}"
     else:
-        key = f"summary:{appid}:{branch}"
+        key = f"summary:{app_id}:{branch}"
 
     if value := db.get_json_key(key):
         if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
@@ -398,17 +398,17 @@ def get_exceptions():
     return db.get_json_key("exc")
 
 
-@app.get("/exceptions/{appid}")
-def get_exceptions_for_app(appid: str, response: Response):
-    if exc := db.get_json_key(f"exc:{appid}"):
+@app.get("/exceptions/{app_id}")
+def get_exceptions_for_app(app_id: str, response: Response):
+    if exc := db.get_json_key(f"exc:{app_id}"):
         return exc
 
     response.status_code = 404
     return None
 
 
-@app.get("/addon/{appid}")
-def get_addons(appid: str):
-    addon_ids = apps.get_addons(appid)
+@app.get("/addon/{app_id}")
+def get_addons(app_id: str):
+    addon_ids = apps.get_addons(app_id)
 
     return addon_ids

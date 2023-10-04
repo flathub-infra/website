@@ -59,22 +59,22 @@ def get_project_groups():
 
 def get_all_appids_for_frontend():
     return {
-        appid[5:]
-        for appid in redis_conn.smembers("apps:index")
-        if is_appid_for_frontend(appid[5:])
+        app_id[5:]
+        for app_id in redis_conn.smembers("apps:index")
+        if is_appid_for_frontend(app_id[5:])
     }
 
 
 # keep in sync with show_in_frontend
-def is_appid_for_frontend(appid: str):
-    if redis_conn.sismember("types:desktop", f"apps:{appid}"):
+def is_appid_for_frontend(app_id: str):
+    if redis_conn.sismember("types:desktop", f"apps:{app_id}"):
         return True
 
-    if redis_conn.sismember("types:desktop-application", f"apps:{appid}"):
+    if redis_conn.sismember("types:desktop-application", f"apps:{app_id}"):
         return True
 
     # get app from redis
-    if app := get_json_key(f"apps:{appid}"):
+    if app := get_json_key(f"apps:{app_id}"):
         if (
             app.get("type") == "console-application"
             and app.get("icon")

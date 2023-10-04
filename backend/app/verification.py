@@ -5,7 +5,7 @@ from uuid import uuid4
 import github
 import gitlab
 import requests
-from fastapi import APIRouter, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
 from github.GithubException import UnknownObjectException
@@ -60,27 +60,27 @@ class ErrorDetail(str, Enum):
 # Utility functions
 
 
-def _matches_prefixes(appid: str, *prefixes) -> bool:
-    return any(appid.startswith(prefix + ".") for prefix in prefixes)
+def _matches_prefixes(app_id: str, *prefixes) -> bool:
+    return any(app_id.startswith(prefix + ".") for prefix in prefixes)
 
 
-def _get_provider_username(appid: str) -> tuple["LoginProvider", str]:
-    if _matches_prefixes(appid, "com.github", "io.github"):
-        return (LoginProvider.GITHUB, _demangle_name(appid.split(".")[2]))
-    elif _matches_prefixes(appid, "com.gitlab", "io.gitlab"):
-        return (LoginProvider.GITLAB, _demangle_name(appid.split(".")[2]))
-    elif _matches_prefixes(appid, "org.gnome.gitlab"):
-        return (LoginProvider.GNOME_GITLAB, _demangle_name(appid.split(".")[3]))
-    elif _matches_prefixes(appid, "org.gnome.World"):
-        if maintainers := _get_gnome_world_doap_maintainers(appid):
+def _get_provider_username(app_id: str) -> tuple["LoginProvider", str] | None:
+    if _matches_prefixes(app_id, "com.github", "io.github"):
+        return (LoginProvider.GITHUB, _demangle_name(app_id.split(".")[2]))
+    elif _matches_prefixes(app_id, "com.gitlab", "io.gitlab"):
+        return (LoginProvider.GITLAB, _demangle_name(app_id.split(".")[2]))
+    elif _matches_prefixes(app_id, "org.gnome.gitlab"):
+        return (LoginProvider.GNOME_GITLAB, _demangle_name(app_id.split(".")[3]))
+    elif _matches_prefixes(app_id, "org.gnome.World"):
+        if maintainers := _get_gnome_world_doap_maintainers(app_id):
             return (LoginProvider.GNOME_GITLAB, maintainers[0])
         else:
             return None
-    elif _matches_prefixes(appid, "org.gnome.design"):
+    elif _matches_prefixes(app_id, "org.gnome.design"):
         return (LoginProvider.GNOME_GITLAB, "World/design")
-    elif _matches_prefixes(appid, "org.gnome"):
+    elif _matches_prefixes(app_id, "org.gnome"):
         return (LoginProvider.GNOME_GITLAB, "GNOME")
-    elif _matches_prefixes(appid, "org.kde"):
+    elif _matches_prefixes(app_id, "org.kde"):
         return (LoginProvider.KDE_GITLAB, "teams/flathub")
     else:
         return None
@@ -113,24 +113,24 @@ def _demangle_name(name: str) -> str:
     return name
 
 
-def _get_domain_name(appid: str) -> str:
-    if _matches_prefixes(appid, "com.github", "com.gitlab"):
+def _get_domain_name(app_id: str) -> str | None:
+    if _matches_prefixes(app_id, "com.github", "com.gitlab"):
         # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's
         # main website.
         return None
-    elif _matches_prefixes(appid, "io.github", "io.gitlab", "page.codeberg"):
+    elif _matches_prefixes(app_id, "io.github", "io.gitlab", "page.codeberg"):
         # You can, however, verify by putting a file on your *.github.io or *.gitlab.io site
-        [tld, domain, username] = appid.split(".")[0:3]
+        [tld, domain, username] = app_id.split(".")[0:3]
         username = _demangle_name(username)
         return f"{username}.{domain}.{tld}".lower()
     else:
-        [tld, domain] = appid.split(".")[0:2]
+        [tld, domain] = app_id.split(".")[0:2]
         domain = _demangle_name(domain)
         return f"{domain}.{tld}".lower()
 
 
-def _get_gnome_world_doap_maintainers(appid: str) -> list[str]:
-    repo_name = appid.split(".")[-1].lower()
+def _get_gnome_world_doap_maintainers(app_id: str) -> list[str]:
+    repo_name = app_id.split(".")[-1].lower()
     if repo_name == "pikabackup":
         repo_name = "pika-backup"
 
@@ -177,8 +177,8 @@ class CheckWebsiteVerification:
     """Downloads a domain's verified apps list and checks for a token. This is split into a dependency so it can be
     tested separately."""
 
-    def __call__(self, appid: str, token: str):
-        domain = _get_domain_name(appid)
+    def __call__(self, app_id: str, token: str):
+        domain = _get_domain_name(app_id)
         if domain is None:
             return WebsiteVerificationResult(
                 verified=False, detail=ErrorDetail.INVALID_METHOD
@@ -237,14 +237,14 @@ class VerificationStatus(BaseModel):
     detail: str | None = None
 
 
-def _is_github_app(appid: str) -> bool:
+def _is_github_app(app_id: str) -> bool:
     """Determines whether the app is a non-archived repo in github.com/flathub."""
     try:
         gh = github.Github(
             config.settings.github_client_id, config.settings.github_client_secret
         )
         try:
-            repo = gh.get_repo(f"flathub/{appid}")
+            repo = gh.get_repo(f"flathub/{app_id}")
             if repo.archived:
                 return False
         except UnknownObjectException:
@@ -257,11 +257,11 @@ def _is_github_app(appid: str) -> bool:
         raise HTTPException(status_code=500, detail="Failed to connect to GitHub")
 
 
-def is_appid_runtime(appid: str) -> str | bool:
+def is_appid_runtime(app_id: str) -> str | bool:
     # All runtimes are pushed by verified vendors, but they might be using anything
     # matching tld.vendor.*, so we need to test refs against one specific ID
     # Extensions are special case maintained by other developers
-    split_appid = appid.split(".")
+    split_appid = app_id.split(".")
     if (
         split_appid[0] == "org"
         and split_appid[1] in ("gnome", "kde", "freedesktop")
@@ -270,17 +270,17 @@ def is_appid_runtime(appid: str) -> str | bool:
         if split_appid[3:4] == "Extension":
             return False
         else:
-            appid = ".".join([split_appid[0], split_appid[1], "Sdk"])
-            return appid
+            app_id = ".".join([split_appid[0], split_appid[1], "Sdk"])
+            return app_id
     return False
 
 
-def _get_existing_verification(appid: str) -> models.AppVerification | None:
-    if runtime_id := is_appid_runtime(appid):
-        appid = runtime_id
+def _get_existing_verification(app_id: str) -> models.AppVerification | None:
+    if runtime_id := is_appid_runtime(app_id):
+        app_id = runtime_id
 
     # Get all verification rows for this app
-    verifications = models.AppVerification.all_by_app(sqldb, appid)
+    verifications = models.AppVerification.all_by_app(sqldb, app_id)
 
     # Manual unverification overrides any other verifications
     unverified = [
@@ -300,13 +300,13 @@ def _get_existing_verification(appid: str) -> models.AppVerification | None:
         return None
 
 
-def _check_app_id(appid: str, new_app: bool, login: LoginInformation):
+def _check_app_id(app_id: str, new_app: bool, login: LoginInformation):
     """Make sure the given user has development access to the given flatpak."""
 
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    if not utils.is_valid_app_id(appid):
+    if not utils.is_valid_app_id(app_id):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
     if new_app:
@@ -315,21 +315,21 @@ def _check_app_id(appid: str, new_app: bool, login: LoginInformation):
                 status_code=403, detail=ErrorDetail.MUST_ACCEPT_PUBLISHER_AGREEMENT
             )
 
-        if models.DirectUploadApp.by_app_id(sqldb, appid) is not None:
+        if models.DirectUploadApp.by_app_id(sqldb, app_id) is not None:
             raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
 
-        if _is_github_app(appid):
+        if _is_github_app(app_id):
             raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
 
-        if _matches_prefixes(appid, "com.github", "com.gitlab"):
+        if _matches_prefixes(app_id, "com.github", "com.gitlab"):
             # Do not allow new apps with com.github.* or com.gitlab.* app IDs. If GitHub or GitLab themselves want to
             # submit an app, they should ask for manual verification.
             raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
     else:
-        if appid not in login.user.dev_flatpaks(sqldb):
+        if app_id not in login.user.dev_flatpaks(sqldb):
             raise HTTPException(status_code=401, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
-    existing = _get_existing_verification(appid)
+    existing = _get_existing_verification(app_id)
 
     if existing is None:
         return
@@ -345,15 +345,22 @@ def get_verified_apps():
 
 
 @router.get(
-    "/{appid}/status",
+    "/{app_id}/status",
     status_code=200,
     response_model=VerificationStatus,
     response_model_exclude_none=True,
 )
-def get_verification_status(appid: str) -> VerificationStatus:
+def get_verification_status(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    )
+) -> VerificationStatus:
     """Gets the verification status of the given app."""
 
-    verification = _get_existing_verification(appid)
+    verification = _get_existing_verification(app_id)
 
     if verification is None:
         return VerificationStatus(verified=False)
@@ -370,10 +377,10 @@ def get_verification_status(appid: str) -> VerificationStatus:
                 verified=True,
                 timestamp=str(int(verification.verified_timestamp.timestamp())),
                 method=VerificationMethod.WEBSITE,
-                website=_get_domain_name(appid),
+                website=_get_domain_name(app_id),
             )
         case "login_provider":
-            (provider, username) = _get_provider_username(appid)
+            (provider, username) = _get_provider_username(app_id)
             return VerificationStatus(
                 verified=True,
                 timestamp=str(int(verification.verified_timestamp.timestamp())),
@@ -382,6 +389,8 @@ def get_verification_status(appid: str) -> VerificationStatus:
                 login_name=username,
                 login_is_organization=verification.login_is_organization,
             )
+
+    return VerificationStatus(verified=False)
 
 
 class AvailableMethodType(Enum):
@@ -415,24 +424,32 @@ class AvailableMethods(BaseModel):
 
 
 @router.get(
-    "/{appid}/available-methods",
+    "/{app_id}/available-methods",
     status_code=200,
     response_model=AvailableMethods,
     response_model_exclude_none=True,
 )
 def get_available_methods(
-    appid: str,
     login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
     new_app: bool = False,
 ):
     """Gets the ways an app may be verified."""
 
-    _check_app_id(appid, new_app, login)
+    if not login.user or not login.state.logged_in():
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
+
+    _check_app_id(app_id, new_app, login)
 
     methods = []
 
-    if domain := _get_domain_name(appid):
-        verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
+    if domain := _get_domain_name(app_id):
+        verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
         if (
             verification is not None
             and verification.method == "website"
@@ -448,8 +465,8 @@ def get_available_methods(
             )
         )
 
-    if _get_provider_username(appid) is not None:
-        available_method = _check_login_provider_verification(appid, new_app, login)
+    if _get_provider_username(app_id) is not None:
+        available_method = _check_login_provider_verification(app_id, new_app, login)
         methods.append(available_method)
 
     return AvailableMethods(methods=methods)
@@ -605,11 +622,11 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
 
 
 def _check_login_provider_verification(
-    appid: str, new_app: bool, login: LoginInformation
+    app_id: str, new_app: bool, login: LoginInformation
 ) -> AvailableMethod:
-    _check_app_id(appid, new_app, login)
+    _check_app_id(app_id, new_app, login)
 
-    provider_username = _get_provider_username(appid)
+    provider_username = _get_provider_username(app_id)
     if provider_username is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
@@ -645,8 +662,8 @@ def _check_login_provider_verification(
         raise HTTPException(status_code=500)
 
 
-def _create_direct_upload_app(user: models.FlathubUser, appid: str):
-    direct_upload_app = models.DirectUploadApp(app_id=appid)
+def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
+    direct_upload_app = models.DirectUploadApp(app_id=app_id)
     sqldb.session.add(direct_upload_app)
     sqldb.session.flush()
     app_developer = models.DirectUploadAppDeveloper(
@@ -655,12 +672,24 @@ def _create_direct_upload_app(user: models.FlathubUser, appid: str):
     sqldb.session.add(app_developer)
 
 
-@router.post("/{appid}/verify-by-login-provider", status_code=200)
-def verify_by_login_provider(appid: str, login: LoginStatusDep, new_app: bool = False):
+@router.post("/{app_id}/verify-by-login-provider", status_code=200)
+def verify_by_login_provider(
+    login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+    new_app: bool = False,
+):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
 
-    available_method = _check_login_provider_verification(appid, new_app, login)
+    if not login.user or not login.state.logged_in():
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
+
+    available_method = _check_login_provider_verification(app_id, new_app, login)
 
     if available_method.login_status != AvailableLoginMethodStatus.READY:
         match available_method.login_status:
@@ -683,7 +712,7 @@ def verify_by_login_provider(appid: str, login: LoginStatusDep, new_app: bool = 
         )
 
     verification = models.AppVerification(
-        app_id=appid,
+        app_id=app_id,
         account=login.user.id,
         method="login_provider",
         verified=True,
@@ -693,11 +722,11 @@ def verify_by_login_provider(appid: str, login: LoginStatusDep, new_app: bool = 
     sqldb.session.merge(verification)
 
     if new_app:
-        _create_direct_upload_app(login.user, appid)
+        _create_direct_upload_app(login.user, app_id)
 
     sqldb.session.commit()
 
-    worker.republish_app.send(appid)
+    worker.republish_app.send(app_id)
 
 
 class LinkResponse(BaseModel):
@@ -718,25 +747,33 @@ class WebsiteVerificationToken(BaseModel):
 
 
 @router.post(
-    "/{appid}/setup-website-verification",
+    "/{app_id}/setup-website-verification",
     status_code=200,
     response_model=WebsiteVerificationToken,
 )
 def setup_website_verification(
-    appid: str,
     login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
     new_app: bool = False,
 ):
     """Creates a token for the user to verify the app via website."""
 
-    _check_app_id(appid, new_app, login)
+    if not login.user or not login.state.logged_in():
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    domain = _get_domain_name(appid)
+    _check_app_id(app_id, new_app, login)
+
+    domain = _get_domain_name(app_id)
 
     if domain is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
+    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
 
     if (
         verification is None
@@ -744,7 +781,7 @@ def setup_website_verification(
         or verification.token is None
     ):
         verification = models.AppVerification(
-            app_id=appid,
+            app_id=app_id,
             account=login.user.id,
             method="website",
             verified=False,
@@ -757,22 +794,30 @@ def setup_website_verification(
 
 
 @router.post(
-    "/{appid}/confirm-website-verification",
+    "/{app_id}/confirm-website-verification",
     status_code=200,
     response_model=WebsiteVerificationResult,
     response_model_exclude_none=True,
 )
 def confirm_website_verification(
-    appid: str,
     login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
     new_app: bool = False,
     check=Depends(CheckWebsiteVerification),
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
 
-    _check_app_id(appid, new_app, login)
+    if not login.user or not login.state.logged_in():
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
+    _check_app_id(app_id, new_app, login)
+
+    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
 
     if (
         verification is None
@@ -781,35 +826,43 @@ def confirm_website_verification(
     ):
         raise HTTPException(status_code=400, detail=ErrorDetail.MUST_SET_UP_FIRST)
 
-    result = check(appid, verification.token)
+    result = check(app_id, verification.token)
 
     if result.verified:
         verification.verified = True
         verification.verified_timestamp = func.now()
 
         if new_app:
-            _create_direct_upload_app(login.user, appid)
+            _create_direct_upload_app(login.user, app_id)
 
         sqldb.session.commit()
 
-        worker.republish_app.send(appid)
+        worker.republish_app.send(app_id)
 
     return result
 
 
-@router.post("/{appid}/unverify", status_code=204)
-def unverify(appid: str, login: LoginStatusDep):
+@router.post("/{app_id}/unverify", status_code=204)
+def unverify(
+    login: LoginStatusDep,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        regex=r"^[A-Za-z_][\w\-\.]+$",
+        example="org.gnome.Glade",
+    ),
+):
     """If the current account has verified the given app, mark it as no longer verified."""
 
-    if not login.state.logged_in():
+    if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, appid, login.user)
+    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
     if verification is not None:
         sqldb.session.delete(verification)
         sqldb.session.commit()
 
-    worker.republish_app.send(appid)
+    worker.republish_app.send(app_id)
 
 
 def register_to_app(app: FastAPI):

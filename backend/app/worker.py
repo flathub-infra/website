@@ -70,15 +70,15 @@ def update():
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     apps_created_at = {}
 
-    for appid in current_apps:
-        if not db.is_appid_for_frontend(appid):
+    for app_id in current_apps:
+        if not db.is_appid_for_frontend(app_id):
             continue
 
         # created_at keys were used by the old backend to store the repository
         # creation date; attempt to re-use that by checking if it's string
         # and converting it to Unix timestamp, then rewriting to that form in
         # Redis
-        if created_at := db.redis_conn.get(f"created_at:{appid}"):
+        if created_at := db.redis_conn.get(f"created_at:{app_id}"):
             if isinstance(created_at, str):
                 with contextlib.suppress(ValueError):
                     created_at = int(created_at)
@@ -92,29 +92,29 @@ def update():
                     created_at = None
 
         if not created_at:
-            if metadata := db.get_json_key(f"summary:{appid}:stable"):
+            if metadata := db.get_json_key(f"summary:{app_id}:stable"):
                 created_at = metadata.get("timestamp")
             else:
                 created_at = int(datetime.utcnow().timestamp())
 
         if created_at:
-            db.redis_conn.set(f"created_at:{appid}", created_at)
-            apps_created_at[appid] = float(created_at)
+            db.redis_conn.set(f"created_at:{app_id}", created_at)
+            apps_created_at[app_id] = float(created_at)
 
     if apps_created_at:
         db.redis_conn.zadd("new_apps_zset", apps_created_at)
 
     search_added_at = []
-    for appid, value in apps_created_at.items():
-        if appid not in current_apps:
+    for app_id, value in apps_created_at.items():
+        if app_id not in current_apps:
             continue
 
-        if not db.is_appid_for_frontend(appid):
+        if not db.is_appid_for_frontend(app_id):
             continue
 
         search_added_at.append(
             {
-                "id": utils.get_clean_app_id(appid),
+                "id": utils.get_clean_app_id(app_id),
                 "added_at": int(value),
             }
         )
@@ -138,7 +138,7 @@ def _create_flat_manager_token(use: str, scopes: list[str], **kwargs):
 
 
 @dramatiq.actor
-def republish_app(appid: str):
+def republish_app(app_id: str):
     from .vending import VendingError
 
     if not settings.flat_manager_build_secret or not settings.flat_manager_api:
@@ -147,7 +147,7 @@ def republish_app(appid: str):
     repos = ["stable"]
 
     token = _create_flat_manager_token(
-        "republish_app", ["republish"], apps=[appid], repos=repos
+        "republish_app", ["republish"], apps=[app_id], repos=repos
     )
 
     with requests.Session() as session:
@@ -156,7 +156,7 @@ def republish_app(appid: str):
                 response = session.post(
                     f"{settings.flat_manager_api}/api/v1/repo/{repo}/republish",
                     headers={"Authorization": token},
-                    json={"app": appid},
+                    json={"app": app_id},
                 )
 
                 if response.status_code != 200:
@@ -200,18 +200,18 @@ def update_quality_moderation():
             return
 
         appids_for_frontend = [
-            appid for appid in appids if appid and db.is_appid_for_frontend(appid)
+            app_id for app_id in appids if app_id and db.is_appid_for_frontend(app_id)
         ]
 
         if not appids_for_frontend:
             return
 
-        for appid in appids_for_frontend:
-            if value := db.get_json_key(f"apps:{appid}"):
+        for app_id in appids_for_frontend:
+            if value := db.get_json_key(f"apps:{app_id}"):
                 # Check app name length
                 models.QualityModeration.upsert(
                     sqldb,
-                    appid,
+                    app_id,
                     "app-name-not-too-long",
                     "name" in value and len(value["name"]) <= 20,
                     None,
@@ -220,7 +220,7 @@ def update_quality_moderation():
                 # Check app summary length
                 models.QualityModeration.upsert(
                     sqldb,
-                    appid,
+                    app_id,
                     "app-summary-not-too-long",
                     "summary" in value and len(value["summary"]) <= 35,
                     None,
@@ -228,7 +228,7 @@ def update_quality_moderation():
 
                 models.QualityModeration.upsert(
                     sqldb,
-                    appid,
+                    app_id,
                     "screenshots-multiple-screenshots",
                     "screenshots" in value and len(value["screenshots"]) >= 2,
                     None,
