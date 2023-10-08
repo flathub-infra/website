@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 
 export default function SlideOver({ shown, onClose, title, children }) {
   const { t } = useTranslation()

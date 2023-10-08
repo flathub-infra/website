@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next"
 import {
   fetchQualityModerationForApp,
   postQualityModerationForApp,
@@ -28,6 +27,7 @@ import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
 import { IconGrid } from "./IconGrid"
+import { useTranslation } from "next-i18next"
 
 const QualityCategories = ({
   appId,
