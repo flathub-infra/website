@@ -229,7 +229,7 @@ def update_quality_moderation():
                 models.QualityModeration.upsert(
                     sqldb,
                     app_id,
-                    "screenshots-multiple-screenshots",
-                    "screenshots" in value and len(value["screenshots"]) >= 2,
+                    "screenshots-at-least-one-screenshot",
+                    "screenshots" in value and len(value["screenshots"]) >= 1,
                     None,
                 )
