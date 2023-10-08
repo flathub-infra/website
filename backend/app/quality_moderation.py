@@ -130,8 +130,8 @@ GUIDELINES = [
         "screenshots",
         [
             Guideline(
-                "screenshots-multiple-screenshots",
-                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#multiple-screenshots",
+                "screenshots-at-least-one-screenshot",
+                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#at-least-one-screenshot",
                 datetime.datetime(2023, 9, 30),
                 read_only=True,
             ),
