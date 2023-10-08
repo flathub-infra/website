@@ -41,11 +41,12 @@ GUIDELINES = [
     GuidelineCategory(
         "app-icon",
         [
-            Guideline(
-                "app-icon-size",
-                "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#icon-size",
-                datetime.datetime(2023, 9, 1),
-            ),
+            # This guideline can't be checked, as currently icons are a maximal size of 128x128
+            # Guideline(
+            #     "app-icon-size",
+            #     "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#icon-size",
+            #     datetime.datetime(2023, 9, 1),
+            # ),
             Guideline(
                 "app-icon-footprint",
                 "https://docs.flathub.org/docs/for-app-authors/appdata-guidelines/quality-guidelines/#reasonable-footprint",
