@@ -231,8 +231,13 @@ def login_state(request: Request) -> LoginInformation:
 LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
-@router.get("/login")
-def get_login_kinds():
+class LoginMethod(BaseModel):
+    method: str
+    name: str
+
+
+@router.get("/login", tags=["login"])
+def get_login_kinds() -> list[LoginMethod]:
     """
     Retrieve the login methods available from the backend.
 
@@ -244,22 +249,10 @@ def get_login_kinds():
     frontends with localisation may choose to render other text instead.
     """
     return [
-        {
-            "method": "github",
-            "name": "GitHub",
-        },
-        {
-            "method": "gitlab",
-            "name": "GitLab",
-        },
-        {
-            "method": "gnome",
-            "name": "GNOME GitLab",
-        },
-        {
-            "method": "kde",
-            "name": "KDE GitLab",
-        },
+        LoginMethod(method="github", name="GitHub"),
+        LoginMethod(method="gitlab", name="GitLab"),
+        LoginMethod(method="gnome", name="GNOME GitLab"),
+        LoginMethod(method="kde", name="KDE GitLab"),
     ]
 
 

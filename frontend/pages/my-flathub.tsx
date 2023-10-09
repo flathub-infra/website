@@ -6,7 +6,7 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
-import { fetchLoginProviders } from "../src/fetchers"
+import { LoginService } from "../src/api"
 import { LoginProvider } from "../src/types/Login"
 import { IS_PRODUCTION } from "src/env"
 import Tabs from "src/components/Tabs"
@@ -126,7 +126,7 @@ export default function Userpage({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: providers } = await fetchLoginProviders()
+  const providers = await LoginService.getLoginKindsAuthLoginGet()
 
   return {
     props: {

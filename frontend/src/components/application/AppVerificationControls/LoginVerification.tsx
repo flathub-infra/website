@@ -5,10 +5,8 @@ import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
-import {
-  fetchGithubRequestOrgAccessLink,
-  fetchLoginProviders,
-} from "src/fetchers"
+import { fetchGithubRequestOrgAccessLink } from "src/fetchers"
+import { LoginService } from "src/api"
 import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
@@ -37,9 +35,7 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const { data: providers } = useQuery({
     queryKey: ["login-providers"],
-    queryFn: async () => {
-      return fetchLoginProviders()
-    },
+    queryFn: () => LoginService.getLoginKindsAuthLoginGet(),
   })
 
   const { data: githubOrgAccessLink } = useQuery({
@@ -195,7 +191,7 @@ const LoginVerification: FunctionComponent<Props> = ({
       break
 
     case "not_logged_in":
-      const provider = providers?.data.filter(
+      const provider = providers?.filter(
         (provider) => provider.method === method.login_provider,
       )[0]
 
