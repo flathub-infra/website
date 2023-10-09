@@ -24,6 +24,10 @@ import { Error } from "../src/components/Error"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MotionConfig } from "framer-motion"
 
+// Set the correct base path for the API client
+import { OpenAPI } from "../src/api"
+OpenAPI.BASE = process.env.NEXT_PUBLIC_API_BASE_URI
+
 const inter = Inter({
   subsets: ["latin"],
   fallback: ["sans-serif"],

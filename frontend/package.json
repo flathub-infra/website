@@ -13,7 +13,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postbuild": "next-sitemap",
-    "update-setup-instructions": "./setup-instructions.sh"
+    "update-setup-instructions": "./setup-instructions.sh",
+    "openapi-codegen": "openapi -i http://localhost:8000/openapi.json -o ./src/api -c axios"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
@@ -74,6 +75,7 @@
     "eslint-config-next": "^13.5.3",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "openapi-typescript-codegen": "^0.25.0",
     "postcss": "^8.4.31",
     "prettier": "^3.0.0",
     "prettier-plugin-tailwindcss": "^0.5.4",
