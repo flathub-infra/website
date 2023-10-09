@@ -61,7 +61,7 @@
     "@storybook/addon-actions": "^7.2.3",
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.5",
-    "@storybook/addon-links": "^7.4.5",
+    "@storybook/addon-links": "^7.4.6",
     "@storybook/nextjs": "^7.4.0",
     "@storybook/react": "^7.3.2",
     "@storybook/testing-library": "^0.2.0",
