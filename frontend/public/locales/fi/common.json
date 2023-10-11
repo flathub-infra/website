@@ -484,16 +484,17 @@
     "app-summary-dont-start-with-an-article": "Ei ala artikkelilla",
     "app-summary-not-too-long": "Vähemmän kuin 35 merkkiä",
     "app-name-not-too-long": "Vähemmän kuin 20 merkkiä",
-    "screenshots-include-window-shadow": "Sisällytä ikkunan varjo",
-    "screenshots-multiple-screenshots": "Enemmän kuin kaksi kuvakaappausta",
     "hide-icon": "Piilota kuvake",
     "screenshots-default-settings": "Oletusasetukset",
     "screenshots-reasonable-window-size": "Kohtuullinen ikkunan koko",
     "screenshots": "Kuvakaappaukset",
     "screenshots-take-screenshots-on-linux": "Kuvakaappaukset Linux-ympäristössä otettuna",
-    "screenshots-not-maximized": "Ei suurennettuna",
     "show-icon": "Näytä kuvake",
-    "screenshots-just-the-app-window": "Vain sovelluksen ikkuna"
+    "screenshots-just-the-app-window": "Vain sovelluksen ikkuna",
+    "screenshots-tag-screenshots-with-correct-language": "Lisää kuvakaappauksiin kielikohtaiset tunnisteet",
+    "screenshots-good-content": "Hyvä sisältö",
+    "screenshots-up-to-date": "Ajan tasalla",
+    "screenshots-include-window-shadow-and-rounded-corners": "Sisällytä ikkunan varjo ja pyöristetyt kulmat"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä."

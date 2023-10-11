@@ -382,5 +382,22 @@
   "potentially-unsafe": "Potencialmente inseguro",
   "uses-session-services": "Usa serviços de sessão",
   "community-built": "Construído pela comunidade",
-  "uses-eol-runtime": "Usa um runtime em fim de vida útil"
+  "uses-eol-runtime": "Usa um runtime em fim de vida útil",
+  "invite-not-found": "Convite não encontrado",
+  "remove-developer": "Remover desenvolvedor",
+  "invite-not-found-description": "O convite que você está tentando aceitar ou recusar não existe. Pode ter sido cancelado ou recusado.",
+  "invite-code": "Seu código de convite é:",
+  "direct-upload": "Upload direto",
+  "decline": "Recusar",
+  "invites": "Convites",
+  "leave": "Sair",
+  "invite-pending": "Convite pendente",
+  "accept-invite": "Aceitar convite",
+  "developer-invited": "Você foi convidado a se tornar um desenvolvedor",
+  "community-repository": "Repositório da Comunidade",
+  "invited-apps": "Convites",
+  "accept": "Aceitar",
+  "invite-developer": "Convidar desenvolvedor",
+  "primary-developer": "Desenvolvedor primário",
+  "invite": "Convidar"
 }

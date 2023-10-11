@@ -485,16 +485,17 @@
     "app-name-not-too-long": "Krótsza niż 20 znaków",
     "app-icon-size": "SVG lub PNG o rozmiarze co najmniej 256 pikseli",
     "app-summary-dont-start-with-an-article": "Nie rozpoczyna się od artykułu",
-    "screenshots-include-window-shadow": "Uwzględnij cień okna",
-    "screenshots-multiple-screenshots": "Więcej niż dwa zrzuty ekranu",
     "hide-icon": "Ukryj ikonę",
     "screenshots-default-settings": "Domyślne ustawienia",
     "screenshots-reasonable-window-size": "Rozsądny rozmiar okna",
     "screenshots": "Zrzuty ekranu",
     "screenshots-take-screenshots-on-linux": "Zrzuty ekranu wykonane na systemie Linux",
-    "screenshots-not-maximized": "Nie zmaksymalizowane",
     "show-icon": "Wyświetl ikonę",
-    "screenshots-just-the-app-window": "Tylko okno aplikacji"
+    "screenshots-just-the-app-window": "Tylko okno aplikacji",
+    "screenshots-tag-screenshots-with-correct-language": "Oznacz zrzuty ekranu odpowiednim językiem",
+    "screenshots-good-content": "Dobra treść",
+    "screenshots-up-to-date": "Aktualne",
+    "screenshots-include-window-shadow-and-rounded-corners": "Dołącz cień okna i zaokrąglone rogi"
   },
   "app-listing-quality": "Jakość listingu aplikacji"
 }
