@@ -485,16 +485,17 @@
     "app-name-not-too-long": "Коротше ніж 20 символів",
     "app-icon-size": "SVG або PNG принаймні 256px",
     "app-summary-dont-start-with-an-article": "Не починається зі статті",
-    "screenshots-include-window-shadow": "Включити тінь вікна",
-    "screenshots-multiple-screenshots": "Більше ніж два знімки екрана",
     "hide-icon": "Сховати піктограму",
     "screenshots-default-settings": "Усталені налаштування",
     "screenshots-reasonable-window-size": "Доцільний розмір вікна",
     "screenshots": "Знімки екрана",
     "screenshots-take-screenshots-on-linux": "Знімки екрана зроблені на Linux",
-    "screenshots-not-maximized": "Не розгорнутий",
     "show-icon": "Показати піктограму",
-    "screenshots-just-the-app-window": "Лише вікно застосунку"
+    "screenshots-just-the-app-window": "Лише вікно застосунку",
+    "screenshots-tag-screenshots-with-correct-language": "Позначити знімки екрана правильною мовою",
+    "screenshots-good-content": "Хороші матеріали",
+    "screenshots-up-to-date": "Актуально",
+    "screenshots-include-window-shadow-and-rounded-corners": "Включати тіні вікон і округлі кути"
   },
   "app-listing-quality": "Якість лістингу застосунків"
 }

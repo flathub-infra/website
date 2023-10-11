@@ -485,16 +485,17 @@
     "app-name-not-too-long": "По-кратко от 20 символа",
     "app-icon-size": "SVG или PNG файл от поне 256 пиксела",
     "app-summary-dont-start-with-an-article": "Не започва като статия",
-    "screenshots-include-window-shadow": "Включват сянката на прозореца",
-    "screenshots-multiple-screenshots": "Има повече от две",
     "hide-icon": "Скриване на иконата",
-    "screenshots-default-settings": "Настроени са по подразбиране",
+    "screenshots-default-settings": "Настройки по подразбиране",
     "screenshots-reasonable-window-size": "Подходящ размер на прозореца",
     "screenshots": "Снимки",
     "screenshots-take-screenshots-on-linux": "Направени на Линукс",
-    "screenshots-not-maximized": "Не са максимизирани",
     "show-icon": "Показване на иконата",
-    "screenshots-just-the-app-window": "Само прозореца на приложението"
+    "screenshots-just-the-app-window": "Само прозореца на приложението",
+    "screenshots-tag-screenshots-with-correct-language": "Маркирани с правилния език",
+    "screenshots-good-content": "Добро съдържание",
+    "screenshots-up-to-date": "Актуални",
+    "screenshots-include-window-shadow-and-rounded-corners": "Включват сянката на прозореца и заоблените ъгли"
   },
   "app-listing-quality": "Свойства на приложението"
 }

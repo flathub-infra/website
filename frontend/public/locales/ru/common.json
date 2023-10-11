@@ -485,16 +485,17 @@
     "app-name-not-too-long": "Короче 20 символов",
     "app-icon-size": "SVG или PNG размером не менее 256 px",
     "app-summary-dont-start-with-an-article": "Не начинается со статьи",
-    "screenshots-include-window-shadow": "Включает тень окна",
-    "screenshots-multiple-screenshots": "Более двух скриншотов",
     "hide-icon": "Скрыть значок",
     "screenshots-default-settings": "Стандартные настройки",
     "screenshots-reasonable-window-size": "Разумный размер окна",
     "screenshots": "Скриншоты",
     "screenshots-take-screenshots-on-linux": "Скриншоты сделаны на Linux",
-    "screenshots-not-maximized": "В оконном режиме",
     "show-icon": "Отображать значок",
-    "screenshots-just-the-app-window": "Содержит только окно приложения"
+    "screenshots-just-the-app-window": "Содержит только окно приложения",
+    "screenshots-tag-screenshots-with-correct-language": "Метки скриншотов на корректном языке",
+    "screenshots-good-content": "Хорошее содержимое",
+    "screenshots-up-to-date": "Актуальны",
+    "screenshots-include-window-shadow-and-rounded-corners": "Включает тень окна и закруглённые углы"
   },
   "app-listing-quality": "Качество выдачи приложений"
 }

@@ -485,16 +485,17 @@
     "app-name-not-too-long": "短於 20 個字元",
     "app-icon-size": "至少 256px 的 SVG 或 PNG",
     "app-summary-dont-start-with-an-article": "不要用一篇文章開始",
-    "screenshots-include-window-shadow": "包含視窗陰影",
-    "screenshots-multiple-screenshots": "多於兩個螢幕截圖",
     "hide-icon": "隱藏圖示",
     "screenshots-default-settings": "預設設定",
     "screenshots-reasonable-window-size": "合理的視窗大小",
     "screenshots": "螢幕截圖",
     "screenshots-take-screenshots-on-linux": "在 Linux 上擷取的螢幕截圖",
-    "screenshots-not-maximized": "不最大化",
     "show-icon": "顯示圖示",
-    "screenshots-just-the-app-window": "只有應用程式視窗"
+    "screenshots-just-the-app-window": "只有應用程式視窗",
+    "screenshots-tag-screenshots-with-correct-language": "使用正確的語言標記螢幕截圖",
+    "screenshots-good-content": "好內容",
+    "screenshots-up-to-date": "最新",
+    "screenshots-include-window-shadow-and-rounded-corners": "包含視窗陰影與圓角"
   },
   "app-listing-quality": "應用程式清單品質"
 }

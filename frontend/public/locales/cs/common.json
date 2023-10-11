@@ -485,16 +485,17 @@
     "app-icon-in-line-with-contemporary-styles": "V souladu se současnými styly",
     "app-name-not-too-long": "Kratší než 20 znaků",
     "app-summary-dont-start-with-an-article": "Nezačíná článkem",
-    "screenshots-include-window-shadow": "Zahrnuje stín okna",
-    "screenshots-multiple-screenshots": "Více než dva snímky obrazovky",
     "hide-icon": "Skrýt ikonu",
     "screenshots-default-settings": "Výchozí nastavení",
     "screenshots-reasonable-window-size": "Přiměřená velikost okna",
     "screenshots": "Snímky obrazovky",
     "screenshots-take-screenshots-on-linux": "Snímky obrazovky uskutečněné na Linuxu",
-    "screenshots-not-maximized": "Nemaximalizované",
     "show-icon": "Zobrazit ikonu",
-    "screenshots-just-the-app-window": "Jen okno aplikace"
+    "screenshots-just-the-app-window": "Jen okno aplikace",
+    "screenshots-tag-screenshots-with-correct-language": "Označte snímek obrazovky správným jazykem",
+    "screenshots-good-content": "Dobrý obsah",
+    "screenshots-up-to-date": "Aktuální",
+    "screenshots-include-window-shadow-and-rounded-corners": "Zahrnuje stín okna a zaoblené rohy"
   },
   "app-listing-quality": "Kvalita výpisu aplikací"
 }
