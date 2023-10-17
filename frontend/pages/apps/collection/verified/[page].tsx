@@ -66,15 +66,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: verified } = await fetchCollectionVerified(1, 30)
-
-  const paths: { params: { page?: string } }[] = []
-  for (let i = 1; i <= verified.totalPages; i++) {
-    paths.push({ params: { page: i.toString() } })
-  }
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }

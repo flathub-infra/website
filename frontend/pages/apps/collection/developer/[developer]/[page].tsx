@@ -72,32 +72,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: developers } = await fetchDevelopers()
-
-  async function getDeveloperAsync(developer: string) {
-    return {
-      developer: developer,
-      data: (await fetchDeveloperApps(developer, 1, 30)).data,
-    }
-  }
-
-  const pagesByDevelopersPromises = developers.map(getDeveloperAsync)
-
-  const pagesByDevelopers = await Promise.all(pagesByDevelopersPromises)
-
-  let paths: { params: { developer: string; page?: string } }[] = []
-  pagesByDevelopers
-    .filter((app) => app.data)
-    .forEach((app) => {
-      for (let i = 1; i <= app.data.totalPages; i++) {
-        paths.push({
-          params: { developer: app.developer, page: i.toString() },
-        })
-      }
-    })
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }
