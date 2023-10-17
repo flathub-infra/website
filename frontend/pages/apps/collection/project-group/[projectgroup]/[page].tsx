@@ -72,32 +72,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: projectgroups } = await fetchProjectgroups()
-
-  async function getCategoryAsync(projectgroup: string) {
-    return {
-      projectgroup: projectgroup,
-      data: (await fetchProjectgroupApps(projectgroup, 1, 30)).data,
-    }
-  }
-
-  const pagesByProjectgroupsPromises = projectgroups.map(getCategoryAsync)
-
-  const pagesByProjectgroups = await Promise.all(pagesByProjectgroupsPromises)
-
-  let paths: { params: { projectgroup: string; page?: string } }[] = []
-  pagesByProjectgroups
-    .filter((app) => app.data)
-    .forEach((app) => {
-      for (let i = 1; i <= app.data.totalPages; i++) {
-        paths.push({
-          params: { projectgroup: app.projectgroup, page: i.toString() },
-        })
-      }
-    })
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }

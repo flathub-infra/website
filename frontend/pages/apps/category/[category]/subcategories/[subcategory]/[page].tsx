@@ -97,56 +97,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const categories = Object.keys(Category) as Category[]
-
-  const subcategories = categories
-    .map((category) => {
-      return getSubcategory(category)?.map((subcategory) => {
-        return {
-          category: category,
-          subcategory: subcategory,
-        }
-      })
-    })
-    .flat()
-    .filter((subcategory) => subcategory)
-
-  async function getSubcategoryAsync(subcategory) {
-    return {
-      category: subcategory.category,
-      subcategory: subcategory.subcategory,
-      data: (
-        await fetchSubcategory(
-          subcategory.category,
-          subcategory.subcategory,
-          1,
-          30,
-        )
-      ).data,
-    }
-  }
-
-  const pagesBySubcategoriesPromises = subcategories.map(getSubcategoryAsync)
-
-  const pagesBySubcategories = await Promise.all(pagesBySubcategoriesPromises)
-
-  let paths: {
-    params: { category: string; subcategory: string; page?: string }
-  }[] = []
-  pagesBySubcategories.forEach((app) => {
-    for (let i = 1; i <= app.data.totalPages; i++) {
-      paths.push({
-        params: {
-          category: app.category,
-          subcategory: app.subcategory,
-          page: i.toString(),
-        },
-      })
-    }
-  })
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }

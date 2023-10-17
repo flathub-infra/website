@@ -126,28 +126,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: categories } = await fetchCategories()
-
-  async function getCategoryAsync(category: Category) {
-    return {
-      category: category,
-      data: (await fetchCategory(category, 1, 30)).data,
-    }
-  }
-
-  const pagesByCategoriesPromises = categories.map(getCategoryAsync)
-
-  const pagesByCategories = await Promise.all(pagesByCategoriesPromises)
-
-  let paths: { params: { category: string; page?: string } }[] = []
-  pagesByCategories.forEach((app) => {
-    for (let i = 1; i <= app.data.totalPages; i++) {
-      paths.push({ params: { category: app.category, page: i.toString() } })
-    }
-  })
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }

@@ -64,15 +64,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: popular } = await fetchCollectionPopularLastMonth(1, 30)
-
-  const paths: { params: { page?: string } }[] = []
-  for (let i = 1; i <= popular.totalPages; i++) {
-    paths.push({ params: { page: i.toString() } })
-  }
-
   return {
-    paths: paths,
+    paths: [],
     fallback: "blocking",
   }
 }
