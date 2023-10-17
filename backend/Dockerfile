@@ -5,14 +5,14 @@ RUN apt-get update && \
         python3 python3-dev python3-pip python-is-python3 python3-venv build-essential libpq-dev libcairo2-dev libgirepository1.0-dev \
         gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
 
-RUN python -m pip install --break-system-packages pipx && \
+RUN python -m pip install --no-cache-dir --break-system-packages pipx && \
     pipx install poetry
 
 COPY pyproject.toml poetry.lock /
 
 RUN /root/.local/bin/poetry export -f requirements.txt --output requirements.txt && \
     python -m venv /venv && \
-    /venv/bin/python -m pip install -r requirements.txt
+    /venv/bin/python -m pip install --no-cache-dir -r requirements.txt
 
 FROM debian:testing-slim
 ARG SENTRY_RELEASE
@@ -29,7 +29,7 @@ RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakre
     flatpak --user remote-add flathub-beta https://flathub.org/beta-repo/flathub-beta.flatpakrepo
 
 COPY --from=builder /venv /venv
-ADD . /app
+COPY . /app
 WORKDIR /app
 
 ENV SENTRY_RELEASE="$SENTRY_RELEASE"
