@@ -354,8 +354,8 @@ def get_verification_status(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     )
 ) -> VerificationStatus:
     """Gets the verification status of the given app."""
@@ -434,8 +434,8 @@ def get_available_methods(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
 ):
@@ -678,8 +678,8 @@ def verify_by_login_provider(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
 ):
@@ -756,8 +756,8 @@ def setup_website_verification(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
 ):
@@ -804,8 +804,8 @@ def confirm_website_verification(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
     check=Depends(CheckWebsiteVerification),
@@ -848,8 +848,8 @@ def unverify(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     """If the current account has verified the given app, mark it as no longer verified."""

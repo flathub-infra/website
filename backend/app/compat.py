@@ -66,7 +66,7 @@ def get_apps():
 def get_apps_in_category(
     category: str = Path(
         min_length=2,
-        example="Games",
+        examples=["Games"],
     )
 ):
     return list_apps_in_index(f"categories:{category}")
@@ -134,8 +134,8 @@ def get_single_app(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if app := db.get_json_key(f"apps:{app_id}"):

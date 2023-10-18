@@ -72,8 +72,8 @@ def get_invite_status(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ) -> InviteStatus:
     if not login.user or not login.state.logged_in():
@@ -101,8 +101,8 @@ def invite_developer(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
@@ -164,8 +164,8 @@ def accept_invite(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
@@ -211,8 +211,8 @@ def decline_invite(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
@@ -251,8 +251,8 @@ def leave_team(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
@@ -297,8 +297,8 @@ def get_developers(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ) -> DevelopersResponse:
     if not login.user or not login.state.logged_in():
@@ -338,8 +338,8 @@ def remove_developer(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
@@ -365,8 +365,8 @@ def revoke_invite(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ):
     if not login.user or not login.state.logged_in():
