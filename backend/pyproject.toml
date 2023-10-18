@@ -35,7 +35,7 @@ jinja2 = "^3.1.2"
 pydantic-settings = "^2.0.3"
 
 [tool.poetry.dev-dependencies]
-black = "^23.9"
+black = "^23.10"
 pytest = "^7.4.2"
 ruff = "^0.1.0"
 
