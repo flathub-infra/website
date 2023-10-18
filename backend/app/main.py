@@ -1,7 +1,7 @@
 from typing import Optional
 
 import sentry_sdk
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Path, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from sentry_sdk.integrations.fastapi import FastApiIntegration
@@ -174,7 +174,12 @@ def get_eol_rebase():
 
 @app.get("/eol/rebase/{app_id}")
 def get_eol_rebase_appid(
-    app_id: str,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
     branch: str = "stable",
 ):
     if value := db.get_json_key(f"eol_rebase:{app_id}:{branch}"):
@@ -188,7 +193,12 @@ def get_eol_message():
 
 @app.get("/eol/message/{app_id}")
 def get_eol_message_appid(
-    app_id: str,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
     branch: str = "stable",
 ):
     if value := db.get_json_key(f"eol_message:{app_id}:{branch}"):
@@ -224,7 +234,15 @@ def list_appstream():
 
 
 @app.get("/appstream/{app_id}", status_code=200)
-def get_appstream(app_id: str, response: Response):
+def get_appstream(
+    response: Response,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+):
     if value := db.get_json_key(f"apps:{app_id}"):
         return value
 
@@ -338,7 +356,15 @@ def get_stats(response: Response):
 
 @app.get("/stats/{app_id}", status_code=200)
 def get_stats_for_app(
-    app_id: str, response: Response, all: bool = False, days: int = 180
+    response: Response,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    all: bool = False,
+    days: int = 180,
 ):
     if value := stats.get_installs_by_ids([app_id]).get(app_id, None):
         if all:
@@ -356,8 +382,13 @@ def get_stats_for_app(
 
 @app.get("/summary/{app_id}", status_code=200)
 def get_summary(
-    app_id: str,
     response: Response,
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
     branch: Optional[str] = None,
 ):
     if not branch:
