@@ -316,8 +316,8 @@ def get_app_vending_setup(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> VendingSetup:
@@ -348,8 +348,8 @@ def post_app_vending_setup(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> VendingSetup:
@@ -414,8 +414,8 @@ def post_app_vending_status(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> VendingOutput:
@@ -484,8 +484,8 @@ def get_redeemable_tokens(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> TokenList:
@@ -526,8 +526,8 @@ def create_tokens(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> list[TokenModel]:
@@ -575,8 +575,8 @@ def cancel_tokens(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     login=Depends(login_state),
 ) -> list[TokenCancellation]:
@@ -621,10 +621,10 @@ def redeem_token(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
-    token: str = Path(min_length=6, example="abc123"),
+    token: str = Path(min_length=6, examples=["abc123"]),
     login=Depends(login_state),
 ) -> RedemptionResult:
     """
@@ -655,8 +655,8 @@ def app_info(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
 ) -> VendingApplicationInformation:
     """

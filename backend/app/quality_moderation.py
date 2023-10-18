@@ -218,8 +218,8 @@ def get_quality_moderation_for_app(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     _moderator=Depends(quality_moderator_only),
 ):
@@ -236,8 +236,8 @@ def set_quality_moderation_for_app(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     ),
     moderator=Depends(quality_moderator_only),
 ):
@@ -251,8 +251,8 @@ def get_quality_moderation_status_for_app(
     app_id: str = Path(
         min_length=6,
         max_length=255,
-        regex=r"^[A-Za-z_][\w\-\.]+$",
-        example="org.gnome.Glade",
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
     )
 ):
     return get_quality_moderation_status_for_appid(app_id)
