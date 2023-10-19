@@ -189,9 +189,10 @@ const Header = () => {
         as="header"
         className={({ open }) =>
           clsx(
-            open ? "fixed inset-0 overflow-y-auto" : "",
-            "fixed z-40 w-full lg:overflow-y-visible transition duration-500 ease-in-out",
-            isScrolled ? "bg-flathub-white dark:bg-flathub-arsenic shadow" : "",
+            open &&
+              "fixed inset-0 overflow-y-auto bg-flathub-white dark:bg-flathub-arsenic",
+            "fixed z-40 w-full lg:overflow-y-visible transition ease-in-out",
+            isScrolled && "bg-flathub-white dark:bg-flathub-arsenic shadow",
           )
         }
       >
