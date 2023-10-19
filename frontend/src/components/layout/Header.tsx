@@ -75,6 +75,20 @@ const Header = () => {
   const size = useWindowSize()
   const [clickedLogout, setClickedLogout] = useState(false)
   const dispatch = useUserDispatch()
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true)
+      } else {
+        setIsScrolled(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const onLogout = useCallback(async () => {
     const queryClient = new QueryClient()
@@ -176,7 +190,8 @@ const Header = () => {
         className={({ open }) =>
           clsx(
             open ? "fixed inset-0 overflow-y-auto" : "",
-            "fixed z-40 w-full bg-flathub-white shadow dark:bg-flathub-arsenic lg:overflow-y-visible",
+            "fixed z-40 w-full lg:overflow-y-visible transition duration-500 ease-in-out",
+            isScrolled ? "bg-flathub-white dark:bg-flathub-arsenic shadow" : "",
           )
         }
       >
@@ -253,8 +268,8 @@ const Header = () => {
                             value={query}
                             className={clsx(
                               "peer",
-                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal",
-                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-flathub-granite-gray dark:focus:placeholder-flathub-sonic-silver dark:focus:outline-none",
+                              "block w-full rounded-full bg-flathub-gainsborow/50 py-2 ps-10 text-sm text-flathub-dark-gunmetal focus:border-flathub-dark-gunmetal dark:bg-flathub-granite-gray/70",
+                              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-flathub-sonic-silver dark:focus:placeholder-flathub-spanish-gray dark:focus:outline-none",
                               "focus:ring-1 focus:ring-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:focus:border-flathub-gainsborow",
                               "dark:focus:text-white dark:focus:ring-flathub-gainsborow sm:text-sm",
                               "pe-2",
@@ -265,7 +280,7 @@ const Header = () => {
                           {!query && (
                             <div className="pointer-events-none absolute inset-y-0 end-0 hidden items-center pe-5 peer-focus:hidden md:flex">
                               <kbd
-                                className="flex h-5 w-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-arsenic dark:text-flathub-gainsborow"
+                                className="flex h-5 w-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-sonic-silver dark:text-flathub-gainsborow"
                                 aria-hidden="true"
                               >
                                 /
