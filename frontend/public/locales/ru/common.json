@@ -495,7 +495,8 @@
     "screenshots-tag-screenshots-with-correct-language": "Метки скриншотов на корректном языке",
     "screenshots-good-content": "Хорошее содержимое",
     "screenshots-up-to-date": "Актуальны",
-    "screenshots-include-window-shadow-and-rounded-corners": "Включает тень окна и закруглённые углы"
+    "screenshots-include-window-shadow-and-rounded-corners": "Включает тень окна и закруглённые углы",
+    "screenshots-at-least-one-screenshot": "Хотя бы один скриншот"
   },
   "app-listing-quality": "Качество выдачи приложений"
 }

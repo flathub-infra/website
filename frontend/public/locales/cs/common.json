@@ -495,7 +495,8 @@
     "screenshots-tag-screenshots-with-correct-language": "Označte snímek obrazovky správným jazykem",
     "screenshots-good-content": "Dobrý obsah",
     "screenshots-up-to-date": "Aktuální",
-    "screenshots-include-window-shadow-and-rounded-corners": "Zahrnuje stín okna a zaoblené rohy"
+    "screenshots-include-window-shadow-and-rounded-corners": "Zahrnuje stín okna a zaoblené rohy",
+    "screenshots-at-least-one-screenshot": "Alespoň jeden snímek obrazovky"
   },
   "app-listing-quality": "Kvalita výpisu aplikací"
 }

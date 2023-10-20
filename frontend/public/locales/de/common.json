@@ -495,7 +495,8 @@
     "screenshots-tag-screenshots-with-correct-language": "Bildschirmfotos mit korrekter Sprache markiert",
     "screenshots-good-content": "Guter Inhalt",
     "screenshots-up-to-date": "Aktuell",
-    "screenshots-include-window-shadow-and-rounded-corners": "Mit Fensterschatten und abgerundeten Ecken"
+    "screenshots-include-window-shadow-and-rounded-corners": "Mit Fensterschatten und abgerundeten Ecken",
+    "screenshots-at-least-one-screenshot": "Mindestens ein Bildschirmfoto"
   },
   "app-listing-quality": "Qualität des Applistings"
 }
