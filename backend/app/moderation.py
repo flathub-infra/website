@@ -46,7 +46,7 @@ class ModerationAppsResponse(BaseModel):
 class ModerationRequestResponse(BaseModel):
     id: int
     app_id: str
-    created_at: int
+    created_at: datetime
 
     build_id: int
     job_id: int
@@ -57,7 +57,7 @@ class ModerationRequestResponse(BaseModel):
     is_new_submission: bool
 
     handled_by: str | None = None
-    handled_at: int | None = None
+    handled_at: datetime | None = None
     is_approved: bool | None = None
     comment: str | None = None
 
@@ -161,11 +161,11 @@ def get_moderation_app(
                 job_id=row.job_id,
                 is_approved=row.is_approved,
                 handled_by=handled_by_name,
-                handled_at=row.handled_at.timestamp() if row.handled_at else None,
+                handled_at=row.handled_at if row.handled_at else None,
                 comment=row.comment,
                 is_outdated=row.is_outdated,
                 is_new_submission=row.is_new_submission,
-                created_at=row.created_at.timestamp(),
+                created_at=row.created_at,
             )
             for row, handled_by_name in query
         ],
