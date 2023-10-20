@@ -99,6 +99,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
       <>
         <Button
           variant="primary"
+          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
           onClick={() => {
             submit(true)
           }}
@@ -107,6 +108,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
         </Button>
         <Button
           variant="secondary"
+          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
           onClick={() => {
             setModalState("approve")
             setModalVisible(true)
@@ -116,6 +118,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
         </Button>
         <Button
           variant="destructive"
+          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
           onClick={() => {
             setModalState("reject")
             setModalVisible(true)
@@ -204,7 +207,9 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
         {children}
 
-        <div className="flex space-x-3 pt-4">{buttons}</div>
+        <div className="sm:flex sm:flex-row-reverse space-x-3 pt-4">
+          {buttons}
+        </div>
       </div>
     </>
   )

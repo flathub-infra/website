@@ -10,6 +10,7 @@ import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
+import Link from "next/link"
 
 interface Props {
   appId: string
@@ -73,7 +74,9 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     <div className="space-y-8">
       <div>
         <h1 className="mt-8 text-4xl font-extrabold">{appstream.name}</h1>
-        <div className="text-sm opacity-75">Moderation Dashboard</div>
+        <Link href={`/apps/${appstream.id}`} className="text-sm opacity-75">
+          {appstream.id}
+        </Link>
       </div>
 
       <div className="flex space-x-8">
