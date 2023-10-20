@@ -8,7 +8,7 @@ import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import Badge from "../application/Badge"
-import { formatDistance } from "date-fns"
+import { formatDistance, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
 
@@ -72,10 +72,10 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   } else if (status === "success") {
     buttons = <></>
   } else if (request.handled_at) {
-    const date = new Date(request.handled_at).toLocaleDateString(
+    const date = parseISO(request.handled_at).toLocaleDateString(
       getIntlLocale(i18n.language),
     )
-    const dateRel = formatDistance(new Date(request.handled_at), new Date(), {
+    const dateRel = formatDistance(parseISO(request.handled_at), new Date(), {
       addSuffix: true,
       locale: getLocale(i18n.language),
     })
@@ -189,7 +189,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             )}
           </h2>
           <span className="ms-2 text-gray-500 dark:text-gray-400">
-            {new Date(request.created_at).toLocaleDateString(
+            {parseISO(request.created_at).toLocaleDateString(
               getIntlLocale(i18n.language),
             )}
           </span>

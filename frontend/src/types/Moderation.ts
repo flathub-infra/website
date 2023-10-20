@@ -3,7 +3,7 @@ export type ModerationRequestType = "appdata"
 export interface ModerationAppItem {
   appid: string
   is_new_submission: boolean
-  updated_at: Date
+  updated_at: string
   request_types: ModerationRequestType[]
 }
 
@@ -15,7 +15,7 @@ export interface ModerationApps {
 export interface ModerationRequestBase {
   id: number
   appid: string
-  created_at: Date
+  created_at: string
 
   build_id: number
   job_id: number
@@ -24,7 +24,7 @@ export interface ModerationRequestBase {
   is_new_submission: boolean
 
   handled_by?: string
-  handled_at?: Date
+  handled_at?: string
   is_approved?: boolean
   comment?: string
 }
