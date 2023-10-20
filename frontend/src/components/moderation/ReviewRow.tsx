@@ -72,17 +72,13 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   } else if (status === "success") {
     buttons = <></>
   } else if (request.handled_at) {
-    const date = new Date(request.handled_at * 1000).toLocaleDateString(
+    const date = new Date(request.handled_at).toLocaleDateString(
       getIntlLocale(i18n.language),
     )
-    const dateRel = formatDistance(
-      new Date(request.handled_at * 1000),
-      new Date(),
-      {
-        addSuffix: true,
-        locale: getLocale(i18n.language),
-      },
-    )
+    const dateRel = formatDistance(new Date(request.handled_at), new Date(), {
+      addSuffix: true,
+      locale: getLocale(i18n.language),
+    })
     const message = t(
       request.is_approved ? "moderation-approved-by" : "moderation-rejected-by",
       { handledBy: request.handled_by, handledAt: date, handledAtRel: dateRel },
@@ -193,7 +189,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             )}
           </h2>
           <span className="ms-2 text-gray-500 dark:text-gray-400">
-            {new Date(request.created_at * 1000).toLocaleDateString(
+            {new Date(request.created_at).toLocaleDateString(
               getIntlLocale(i18n.language),
             )}
           </span>
