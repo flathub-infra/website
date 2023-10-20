@@ -32,7 +32,7 @@ def moderator_only(login: LoginStatusDep):
 
 
 class ModerationAppItem(BaseModel):
-    app_id: str
+    appid: str
     is_new_submission: bool
     updated_at: datetime | None = None
     request_types: list[ModerationRequestType]
