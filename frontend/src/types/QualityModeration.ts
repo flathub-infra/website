@@ -2,7 +2,7 @@ export interface QualityModeration {
   guideline_id: string
   app_id: string
   updated_at: Date
-  updated_by: Date
+  updated_by: string
   passed: boolean
   comment: string
 }
