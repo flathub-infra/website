@@ -494,7 +494,8 @@
     "screenshots-tag-screenshots-with-correct-language": "Lisää kuvakaappauksiin kielikohtaiset tunnisteet",
     "screenshots-good-content": "Hyvä sisältö",
     "screenshots-up-to-date": "Ajan tasalla",
-    "screenshots-include-window-shadow-and-rounded-corners": "Sisällytä ikkunan varjo ja pyöristetyt kulmat"
+    "screenshots-include-window-shadow-and-rounded-corners": "Sisällytä ikkunan varjo ja pyöristetyt kulmat",
+    "screenshots-at-least-one-screenshot": "Vähintään yksi kuvakaappaus"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä."

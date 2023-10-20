@@ -495,7 +495,8 @@
     "screenshots-tag-screenshots-with-correct-language": "Etiquetar las capturas de pantalla con el idioma correcto",
     "screenshots-good-content": "Buen contenido",
     "screenshots-include-window-shadow-and-rounded-corners": "Incluir la sombra de la ventana y las esquinas redondeadas",
-    "screenshots-up-to-date": "Actualizadas"
+    "screenshots-up-to-date": "Actualizadas",
+    "screenshots-at-least-one-screenshot": "Al menos una captura de pantalla"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones"
 }

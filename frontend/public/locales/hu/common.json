@@ -491,7 +491,12 @@
     "screenshots": "Képernyőképek",
     "screenshots-take-screenshots-on-linux": "Linuxon készült képernyőképek",
     "show-icon": "Ikon megjelenítése",
-    "screenshots-just-the-app-window": "Csak az alkalmazásablak"
+    "screenshots-just-the-app-window": "Csak az alkalmazásablak",
+    "screenshots-at-least-one-screenshot": "Legalább egy képernyőkép",
+    "screenshots-tag-screenshots-with-correct-language": "Képernyőképek címkézése a megfelelő nyelvvel",
+    "screenshots-good-content": "Jó tartalom",
+    "screenshots-up-to-date": "Naprakész",
+    "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat"
   },
   "app-listing-quality": "Alkalmazáslista minősége"
 }
