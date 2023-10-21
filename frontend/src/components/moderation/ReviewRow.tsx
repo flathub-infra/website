@@ -187,7 +187,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             {title}
             {request.is_outdated && (
               <span className="ms-2">
-                <Badge text={t("moderation-outdated")} />
+                <Badge text={t("moderation-outdated")} inACard={true} />
               </span>
             )}
           </h2>
