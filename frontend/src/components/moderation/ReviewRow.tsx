@@ -94,21 +94,22 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
         )}
       </div>
     )
-  } else if (user.info?.["is-moderator"]) {
+  } else if (user.info && user.info["is-moderator"]) {
     buttons = (
       <>
         <Button
-          variant="primary"
-          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
+          variant="destructive"
+          className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            submit(true)
+            setModalState("reject")
+            setModalVisible(true)
           }}
         >
-          Approve
+          Reject
         </Button>
         <Button
           variant="secondary"
-          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
+          className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
             setModalState("approve")
             setModalVisible(true)
@@ -117,14 +118,13 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           Approve With Comment
         </Button>
         <Button
-          variant="destructive"
-          className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
+          variant="primary"
+          className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            setModalState("reject")
-            setModalVisible(true)
+            submit(true)
           }}
         >
-          Reject
+          Approve
         </Button>
       </>
     )
@@ -191,23 +191,35 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
               </span>
             )}
           </h2>
-          <span className="ms-2 text-gray-500 dark:text-gray-400">
-            {parseISO(request.created_at).toLocaleDateString(
-              getIntlLocale(i18n.language),
-            )}
-          </span>
-          <Link
-            id={`review-${request.id}`}
-            href={`#review-${request.id}`}
-            className="ms-3 text-gray-500 dark:text-gray-400"
-          >
-            #{request.id}
-          </Link>
+          <div className="ms-auto flex gap-2 flex-col text-sm leading-none">
+            <div className="ms-auto flex gap-2">
+              <span className="text-gray-500 dark:text-gray-400">
+                {parseISO(request.created_at).toLocaleDateString(
+                  getIntlLocale(i18n.language),
+                )}
+              </span>
+              <Link
+                id={`review-${request.id}`}
+                href={`#review-${request.id}`}
+                className="ms-3 text-gray-500 dark:text-gray-400"
+              >
+                #{request.id}
+              </Link>
+            </div>
+            <div className="ms-auto flex gap-2">
+              <span className="text-gray-500 dark:text-gray-400">
+                {t("moderation-build-id")}
+              </span>
+              <span className="text-gray-500 dark:text-gray-400">
+                {request.build_id}
+              </span>
+            </div>
+          </div>
         </span>
 
         {children}
 
-        <div className="sm:flex sm:flex-row-reverse space-x-3 pt-4">
+        <div className="flex flex-col sm:flex-row-reverse gap-2 pt-4">
           {buttons}
         </div>
       </div>

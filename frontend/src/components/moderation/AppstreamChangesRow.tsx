@@ -24,7 +24,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
       <table className="w-full table-fixed">
         <thead>
           <tr className="text-left">
-            <th className="w-60">{t("moderation-key")}</th>
+            <th>{t("moderation-key")}</th>
             {!request.is_new_submission && <th>{t("moderation-old-value")}</th>}
             <th>
               {request.is_new_submission
