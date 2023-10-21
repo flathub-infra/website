@@ -1,6 +1,7 @@
 import "../styles/main.scss"
 import i18n from "./i18next"
 import { languages, getLanguageName } from "../src/localize"
+import { withThemeByDataAttribute } from "@storybook/addon-themes"
 
 function createLocales() {
   const locales = {}
@@ -21,4 +22,16 @@ export const parameters = {
   i18n,
   locale: "en",
   locales: createLocales(),
+}
+
+export default {
+  decorators: [
+    withThemeByDataAttribute({
+      themes: {
+        light: "light",
+        dark: "dark",
+      },
+      defaultTheme: "dark",
+    }),
+  ],
 }
