@@ -12,7 +12,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Annotated
+from typing import Annotated, Literal, Union
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -232,7 +232,13 @@ LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
 class LoginMethod(BaseModel):
-    method: str
+    method: Union[
+        Literal["github"],
+        Literal["gitlab"],
+        Literal["gnome"],
+        Literal["kde"],
+        # Literal["google"],
+    ]
     name: str
 
 
