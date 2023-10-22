@@ -5,6 +5,7 @@ import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
 import { walletApi } from "src/api"
+import { isAxiosError } from "axios"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -21,7 +22,7 @@ const SavedCards: FunctionComponent = () => {
 
   let content: ReactNode
   if (walletQuery.isError) {
-    content = <p>{walletQuery.error as string}</p>
+    content = <p>{t("failed-to-load-refresh")}</p>
   }
 
   if (walletQuery.isSuccess) {

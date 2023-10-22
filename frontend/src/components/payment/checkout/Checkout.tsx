@@ -8,9 +8,9 @@ import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 import { useQuery } from "@tanstack/react-query"
 import { walletApi } from "src/api"
+import { isAxiosError } from "axios"
 
 enum Stage {
-  Loading,
   TermsAgreement,
   CardSelect,
   CardInput,
@@ -30,7 +30,7 @@ const Checkout: FunctionComponent<{
   const [currentStage, setStage] = useState(
     transaction.summary.kind === "purchase"
       ? Stage.TermsAgreement
-      : Stage.Loading,
+      : Stage.CardSelect,
   )
   const [termsAgreed, setTermsAgreed] = useState(
     transaction.summary.kind === "purchase" ? false : true,
@@ -58,12 +58,6 @@ const Checkout: FunctionComponent<{
     return <Spinner size="m" />
   }
 
-  if (!walletQuery.isSuccess) {
-    return <></>
-  }
-
-  const { cards } = walletQuery.data.data
-
   const transactionCancelButton = (
     <TransactionCancelButton
       id={transactionId}
@@ -75,6 +69,9 @@ const Checkout: FunctionComponent<{
       }
     />
   )
+
+  const { data, error } = walletQuery
+  const cards = data?.data.cards ?? []
 
   let flowContent: ReactElement
   switch (currentStage) {
@@ -92,7 +89,7 @@ const Checkout: FunctionComponent<{
           transaction={transaction}
           clientSecret={clientSecret}
           cards={cards}
-          error={walletQuery.isError ? "some error" : null}
+          error={walletQuery.isError ? "failed-to-load-refresh" : null}
           submit={() =>
             router.push(`${detailsPage}/${transactionId}`, undefined, {
               locale: router.locale,
