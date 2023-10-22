@@ -1,3 +1,4 @@
+import { CardInfo } from "src/codegen"
 import {
   REMOVE_CARD_URL,
   TRANSACTIONS_URL,
@@ -5,40 +6,14 @@ import {
   TRANSACTION_SAVE_CARD_URL,
   TRANSACTION_SET_CARD_URL,
   TRANSACTION_SET_PENDING_URL,
-  WALLET_INFO_URL,
 } from "../env"
-import {
-  NewTransaction,
-  PaymentCard,
-  Transaction,
-  WalletInfo,
-} from "../types/Payment"
-
-/**
- * Performs API request to retrieve details of all cards the user has saved
- * @returns array of saved cards
- */
-export async function getPaymentCards(): Promise<PaymentCard[]> {
-  let res: Response
-  try {
-    res = await fetch(WALLET_INFO_URL, { credentials: "include" })
-  } catch {
-    throw "failed-to-load-refresh"
-  }
-
-  if (res.ok) {
-    const data: WalletInfo = await res.json()
-    return data.cards
-  } else {
-    throw "failed-to-load-refresh"
-  }
-}
+import { NewTransaction, Transaction } from "../types/Payment"
 
 /**
  * Performs API request to delete a saved payment card
  * @param card the card to be deleted
  */
-export async function deletePaymentCard(card: PaymentCard): Promise<void> {
+export async function deletePaymentCard(card: CardInfo): Promise<void> {
   let res: Response
   try {
     res = await fetch(REMOVE_CARD_URL, {
@@ -167,7 +142,7 @@ export async function setTransactionSaveCard(
 
 export async function setTransactionUseCard(
   transactionId: string,
-  card: PaymentCard,
+  card: CardInfo,
 ): Promise<void> {
   let res: Response
   try {

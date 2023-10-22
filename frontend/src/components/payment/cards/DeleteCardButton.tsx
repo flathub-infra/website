@@ -3,16 +3,14 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import { deletePaymentCard } from "../../../asyncs/payment"
-import { PaymentCard } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { CardInfo, WalletInfo } from "src/codegen"
 
-interface Props {
-  card: PaymentCard
-}
-
-const DeleteCardButton: FunctionComponent<Props> = ({ card }) => {
+const DeleteCardButton: FunctionComponent<{
+  card: CardInfo
+}> = ({ card }) => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
 
@@ -22,9 +20,10 @@ const DeleteCardButton: FunctionComponent<Props> = ({ card }) => {
   const deleteCard = useMutation<void, string>({
     mutationFn: () => deletePaymentCard(card),
     onSuccess: () => {
-      queryClient.setQueryData<PaymentCard[]>(["/walletinfo"], (cards) =>
-        cards.filter((c) => c.id != card.id),
-      )
+      queryClient.setQueryData<WalletInfo>(["/walletinfo"], (wallet) => ({
+        ...wallet,
+        cards: wallet.cards.filter((c) => c.id != card.id),
+      }))
     },
     // If deletion fails, user can always retry
     onError: (error) => {

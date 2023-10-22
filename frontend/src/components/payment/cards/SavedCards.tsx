@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactNode } from "react"
-import { getPaymentCards } from "../../../asyncs/payment"
-import { PaymentCard } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
+import { walletApi } from "src/api"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
 
-  const walletQuery = useQuery<PaymentCard[], string>({
+  const walletQuery = useQuery({
     queryKey: ["/walletinfo"],
-    queryFn: getPaymentCards,
+    queryFn: () =>
+      walletApi.getWalletinfoWalletWalletinfoGet({ withCredentials: true }),
   })
 
   if (walletQuery.isLoading) {
@@ -21,16 +21,16 @@ const SavedCards: FunctionComponent = () => {
 
   let content: ReactNode
   if (walletQuery.isError) {
-    content = <p>{t(walletQuery.error)}</p>
+    content = <p>{walletQuery.error as string}</p>
   }
 
   if (walletQuery.isSuccess) {
     content =
-      walletQuery.data.length == 0 ? (
+      walletQuery.data.data.cards.length == 0 ? (
         <p>{t("no-saved-payment-methods")}</p>
       ) : (
         <div className="flex flex-col gap-5 md:flex-row">
-          {walletQuery.data.map((card) => (
+          {walletQuery.data.data.cards.map((card) => (
             <div key={card.id} className="flex flex-col items-center gap-2">
               <CardInfo card={card} />
               <DeleteCardButton card={card} />

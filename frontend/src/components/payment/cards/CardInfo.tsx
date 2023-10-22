@@ -3,11 +3,11 @@ import { useTheme } from "next-themes"
 import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
 import { IMAGE_BASE_URL } from "../../../env"
-import { PaymentCard } from "../../../types/Payment"
 import Image from "next/image"
+import { CardInfo as TCardInfo } from "src/codegen"
 
 interface Props {
-  card: PaymentCard
+  card: TCardInfo
   onClick?: MouseEventHandler
   className?: string
 }
