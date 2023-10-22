@@ -2,7 +2,7 @@ import React from "react"
 import { Meta } from "@storybook/react"
 import CardInfo from "./CardInfo"
 import { faker } from "@faker-js/faker"
-import { PaymentCard } from "src/types/Payment"
+import { CardInfo as TCardInfo } from "../../../codegen"
 
 export default {
   title: "Components/Payment/Cards/CardInfo",
@@ -10,7 +10,7 @@ export default {
 } as Meta<typeof CardInfo>
 
 export const mastercard = () => {
-  const card: PaymentCard = {
+  const card: TCardInfo = {
     brand: "mastercard",
     last4: "4242",
     country: "JP",
@@ -23,7 +23,7 @@ export const mastercard = () => {
 }
 
 export const amex = () => {
-  const card: PaymentCard = {
+  const card: TCardInfo = {
     brand: "amex",
     last4: "4242",
     country: "US",
@@ -36,7 +36,7 @@ export const amex = () => {
 }
 
 export const visa = () => {
-  const card: PaymentCard = {
+  const card: TCardInfo = {
     brand: "visa",
     last4: "4242",
     country: "DE",

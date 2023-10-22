@@ -1,18 +1,13 @@
 import { useRouter } from "next/router"
-import { FunctionComponent, ReactElement, useEffect, useState } from "react"
-import { getPaymentCards } from "../../../asyncs/payment"
-import { useAsync } from "../../../hooks/useAsync"
-import { PaymentCard, TransactionDetailed } from "../../../types/Payment"
+import { FunctionComponent, ReactElement, useState } from "react"
+import { TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import TransactionCancelButton from "../transactions/TransactionCancelButton"
 import CardSelect from "./CardSelect"
 import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
-
-interface Props {
-  transaction: TransactionDetailed
-  clientSecret: string
-}
+import { useQuery } from "@tanstack/react-query"
+import { walletApi } from "src/api"
 
 enum Stage {
   Loading,
@@ -23,7 +18,10 @@ enum Stage {
 
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
-const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
+const Checkout: FunctionComponent<{
+  transaction: TransactionDetailed
+  clientSecret: string
+}> = ({ transaction, clientSecret }) => {
   const router = useRouter()
 
   const { id: transactionId } = transaction.summary
@@ -39,24 +37,32 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
   )
 
   // Cards should only be retrieved once
-  const {
-    value: cards,
-    status,
-    error,
-  } = useAsync<PaymentCard[]>(getPaymentCards)
+  const walletQuery = useQuery({
+    queryKey: ["/walletinfo"],
+    queryFn: async () => {
+      const wallet = await walletApi.getWalletinfoWalletWalletinfoGet({
+        withCredentials: true,
+      })
 
-  useEffect(() => {
-    if (!termsAgreed) return
-
-    if (status === "success") {
       // User may have no saved cards to select from
-      setStage(cards.length ? Stage.CardSelect : Stage.CardInput)
-    }
+      setStage(
+        wallet.data.cards.length > 0 ? Stage.CardSelect : Stage.CardInput,
+      )
 
-    if (status === "error") {
-      setStage(Stage.CardSelect)
-    }
-  }, [status, cards, termsAgreed])
+      return wallet
+    },
+    enabled: termsAgreed,
+  })
+
+  if (walletQuery.isLoading) {
+    return <Spinner size="m" />
+  }
+
+  if (!walletQuery.isSuccess) {
+    return <></>
+  }
+
+  const { cards } = walletQuery.data.data
 
   const transactionCancelButton = (
     <TransactionCancelButton
@@ -86,7 +92,7 @@ const Checkout: FunctionComponent<Props> = ({ transaction, clientSecret }) => {
           transaction={transaction}
           clientSecret={clientSecret}
           cards={cards}
-          error={error}
+          error={walletQuery.isError ? "some error" : null}
           submit={() =>
             router.push(`${detailsPage}/${transactionId}`, undefined, {
               locale: router.locale,
