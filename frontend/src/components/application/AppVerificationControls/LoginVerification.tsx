@@ -11,7 +11,7 @@ import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { loginApi } from "src/api"
+import { authApi } from "src/api"
 
 interface Props {
   appId: string
@@ -35,7 +35,7 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const { data: providers } = useQuery({
     queryKey: ["login-providers"],
-    queryFn: loginApi.getLoginMethodsAuthLoginGet,
+    queryFn: authApi.getLoginMethodsAuthLoginGet,
   })
 
   const { data: githubOrgAccessLink } = useQuery({

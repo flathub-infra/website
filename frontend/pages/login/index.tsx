@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import LoginProviders from "../../src/components/login/Providers"
 import { useUserContext } from "../../src/context/user-info"
 import { useTranslation } from "next-i18next"
-import { loginApi } from "src/api"
+import { authApi } from "src/api"
 
 export default function DeveloperLoginPortal({ providers, locale }) {
   const { t } = useTranslation()
@@ -40,7 +40,7 @@ export default function DeveloperLoginPortal({ providers, locale }) {
 
 // Providers won't change often so fetch at build time for now
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const providers = await loginApi.getLoginMethodsAuthLoginGet()
+  const providers = await authApi.getLoginMethodsAuthLoginGet()
 
   return {
     props: {

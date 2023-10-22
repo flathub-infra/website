@@ -15,7 +15,7 @@ import { useRouter } from "next/router"
 import ButtonLink from "src/components/ButtonLink"
 import CodeCopy from "src/components/application/CodeCopy"
 import { HiMiniPlus } from "react-icons/hi2"
-import { loginApi } from "src/api"
+import { authApi } from "src/api"
 
 export default function Userpage({
   providers,
@@ -126,7 +126,7 @@ export default function Userpage({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const providers = await loginApi.getLoginMethodsAuthLoginGet()
+  const providers = await authApi.getLoginMethodsAuthLoginGet()
 
   return {
     props: {
