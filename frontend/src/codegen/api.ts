@@ -420,6 +420,25 @@ export interface LinkResponse {
 /**
  * 
  * @export
+ * @interface LoginMethod
+ */
+export interface LoginMethod {
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginMethod
+     */
+    'method': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof LoginMethod
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
  * @enum {string}
  */
 
@@ -2574,36 +2593,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             if (license !== undefined) {
                 localVarQueryParameter['license'] = license;
             }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
-         * @summary Get Login Kinds
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getLoginKindsAuthLoginGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/login`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
 
 
     
@@ -5276,16 +5265,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
-         * @summary Get Login Kinds
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getLoginKindsAuthLoginGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginKindsAuthLoginGet(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * Get a list of moderation requests for an app.
          * @summary Get Moderation App
          * @param {string} appId 
@@ -6376,15 +6355,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(appId: string, license?: string | null, options?: any): AxiosPromise<boolean> {
             return localVarFp.getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(appId, license, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
-         * @summary Get Login Kinds
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getLoginKindsAuthLoginGet(options?: any): AxiosPromise<void> {
-            return localVarFp.getLoginKindsAuthLoginGet(options).then((request) => request(axios, basePath));
         },
         /**
          * Get a list of moderation requests for an app.
@@ -7491,17 +7461,6 @@ export class DefaultApi extends BaseAPI {
     }
 
     /**
-     * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
-     * @summary Get Login Kinds
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public getLoginKindsAuthLoginGet(options?: AxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).getLoginKindsAuthLoginGet(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Get a list of moderation requests for an app.
      * @summary Get Moderation App
      * @param {string} appId 
@@ -8267,6 +8226,105 @@ export class DefaultApi extends BaseAPI {
      */
     public webhookWalletWebhookFakewalletPost(options?: AxiosRequestConfig) {
         return DefaultApiFp(this.configuration).webhookWalletWebhookFakewalletPost(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * LoginApi - axios parameter creator
+ * @export
+ */
+export const LoginApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
+         * @summary Get Login Methods
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLoginMethodsAuthLoginGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * LoginApi - functional programming interface
+ * @export
+ */
+export const LoginApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = LoginApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
+         * @summary Get Login Methods
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getLoginMethodsAuthLoginGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<LoginMethod>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginMethodsAuthLoginGet(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * LoginApi - factory interface
+ * @export
+ */
+export const LoginApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = LoginApiFp(configuration)
+    return {
+        /**
+         * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
+         * @summary Get Login Methods
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getLoginMethodsAuthLoginGet(options?: any): AxiosPromise<Array<LoginMethod>> {
+            return localVarFp.getLoginMethodsAuthLoginGet(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * LoginApi - object-oriented interface
+ * @export
+ * @class LoginApi
+ * @extends {BaseAPI}
+ */
+export class LoginApi extends BaseAPI {
+    /**
+     * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
+     * @summary Get Login Methods
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof LoginApi
+     */
+    public getLoginMethodsAuthLoginGet(options?: AxiosRequestConfig) {
+        return LoginApiFp(this.configuration).getLoginMethodsAuthLoginGet(options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -6,7 +6,6 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import UserApps from "../src/components/user/UserApps"
-import { fetchLoginProviders } from "../src/fetchers"
 import { LoginProvider } from "../src/types/Login"
 import { IS_PRODUCTION } from "src/env"
 import Tabs from "src/components/Tabs"
@@ -16,6 +15,7 @@ import { useRouter } from "next/router"
 import ButtonLink from "src/components/ButtonLink"
 import CodeCopy from "src/components/application/CodeCopy"
 import { HiMiniPlus } from "react-icons/hi2"
+import { loginApi } from "src/api"
 
 export default function Userpage({
   providers,
@@ -126,12 +126,12 @@ export default function Userpage({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: providers } = await fetchLoginProviders()
+  const providers = await loginApi.getLoginMethodsAuthLoginGet()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      providers,
+      providers: providers.data,
     },
     revalidate: 900,
   }

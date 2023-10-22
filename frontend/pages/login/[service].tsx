@@ -8,11 +8,11 @@ import { toast } from "react-toastify"
 import { login } from "../../src/asyncs/login"
 import Spinner from "../../src/components/Spinner"
 import { useUserContext, useUserDispatch } from "../../src/context/user-info"
-import { fetchLoginProviders } from "../../src/fetchers"
 import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { isInternalRedirect } from "../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
+import { loginApi } from "src/api"
 
 export default function AuthReturnPage({ services }: { services: string[] }) {
   // Must access query params to POST to backend for oauth verification
@@ -102,9 +102,8 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data } = await fetchLoginProviders()
-
-  const services = data.map((d) => d.method)
+  const providers = await loginApi.getLoginMethodsAuthLoginGet()
+  const services = providers.data.map((d) => d.method)
 
   return {
     props: {
