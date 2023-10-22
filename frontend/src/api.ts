@@ -9,7 +9,6 @@ import {
   InviteApi,
   ModerationApi,
   PurchaseApi,
-  UpdateApi,
   VerificationApi,
   WalletApi,
 } from "./codegen"
@@ -35,8 +34,6 @@ export const inviteApi = new InviteApi(apiConfig)
 export const compatApi = new CompatApi(apiConfig)
 
 export const qualityModerationApi = new ModerationApi(apiConfig)
-
-export const updateApi = new UpdateApi(apiConfig)
 
 export const appApi = new AppApi(apiConfig)
 
