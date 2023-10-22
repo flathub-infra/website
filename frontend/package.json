@@ -13,7 +13,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postbuild": "next-sitemap",
-    "update-setup-instructions": "./setup-instructions.sh"
+    "update-setup-instructions": "./setup-instructions.sh",
+    "openapi-codegen": "./openapi-codegen.sh"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",

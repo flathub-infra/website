@@ -5,8 +5,8 @@ import Router from "next/router"
 import { useEffect } from "react"
 import LoginProviders from "../../src/components/login/Providers"
 import { useUserContext } from "../../src/context/user-info"
-import { fetchLoginProviders } from "../../src/fetchers"
 import { useTranslation } from "next-i18next"
+import { authApi } from "src/api"
 
 export default function DeveloperLoginPortal({ providers, locale }) {
   const { t } = useTranslation()
@@ -40,14 +40,12 @@ export default function DeveloperLoginPortal({ providers, locale }) {
 
 // Providers won't change often so fetch at build time for now
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: providers } = await fetchLoginProviders()
+  const providers = await authApi.getLoginMethodsAuthLoginGet()
 
-  // If request failed at build time, this page becomes a 404
   return {
-    notFound: !providers,
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      providers,
+      providers: providers.data,
       locale,
     },
   }

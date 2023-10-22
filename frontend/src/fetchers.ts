@@ -245,10 +245,6 @@ export async function fetchSearchQuery(
   )
 }
 
-export async function fetchLoginProviders() {
-  return axios.get<LoginProvider[]>(LOGIN_PROVIDERS_URL)
-}
-
 export async function fetchGithubRequestOrgAccessLink() {
   return axios.get<{ link: string }>(REQUEST_ORG_ACCESS_LINK_GITHUB)
 }

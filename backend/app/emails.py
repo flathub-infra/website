@@ -165,7 +165,7 @@ class BuildNotificationRequest(BaseModel):
     diagnostics: list[Any]
 
 
-@router.post("/build-notification")
+@router.post("/build-notification", tags=["email"])
 def build_notification(
     request: BuildNotificationRequest,
     authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
@@ -214,7 +214,7 @@ if settings.env != "production":
         ) as f:
             return json.load(f)
 
-    @router.get("/preview", response_class=HTMLResponse)
+    @router.get("/preview", response_class=HTMLResponse, tags=["email"])
     def preview_templates():
         preview_data = _get_preview_data()
         previews = [
@@ -223,7 +223,7 @@ if settings.env != "production":
         ]
         return "<ul>" + "\n".join(previews) + "</ul>"
 
-    @router.get("/preview/{name}", response_class=HTMLResponse)
+    @router.get("/preview/{name}", response_class=HTMLResponse, tags=["email"])
     def preview_template(name: str):
         preview_data = _get_preview_data()
         if name not in preview_data:

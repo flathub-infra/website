@@ -31,7 +31,12 @@ class StorefrontInfo(BaseModel):
     is_free_software: bool = False
 
 
-@router.get("/storefront-info", status_code=200, response_model_exclude_none=True)
+@router.get(
+    "/storefront-info",
+    status_code=200,
+    response_model_exclude_none=True,
+    tags=["purchase"],
+)
 def get_storefront_info(app_id: str) -> StorefrontInfo:
     """
     This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
@@ -74,7 +79,7 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     return result
 
 
-@router.get("/storefront-info/is-free-software", status_code=200)
+@router.get("/storefront-info/is-free-software", status_code=200, tags=["purchase"])
 def get_is_free_software(app_id: str, license: str | None = None) -> bool:
     """
     Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
@@ -87,7 +92,7 @@ def get_is_free_software(app_id: str, license: str | None = None) -> bool:
     return False
 
 
-@router.post("/generate-update-token", status_code=200)
+@router.post("/generate-update-token", status_code=200, tags=["purchase"])
 def get_update_token(login=Depends(logins.login_state)):
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
@@ -143,7 +148,7 @@ def _check_purchases(appids: list[str], user_id: int):
         )
 
 
-@router.post("/check-purchases", status_code=200)
+@router.post("/check-purchases", status_code=200, tags=["purchase"])
 def check_purchases(appids: list[str], login=Depends(logins.login_state)):
     """
     Checks whether the logged in user is able to download all of the given app refs.
@@ -174,7 +179,7 @@ def check_purchases(appids: list[str], login=Depends(logins.login_state)):
     return JSONResponse({"status": "ok"})
 
 
-@router.post("/generate-download-token", status_code=200)
+@router.post("/generate-download-token", status_code=200, tags=["purchase"])
 def get_download_token(appids: list[str], update_token: str = Body(None)):
     """
     Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.

@@ -47,6 +47,14 @@ Then you should be able to start the dev server and see changes to the code:
 yarn dev
 ```
 
+### Generating api client
+
+We're generating the api client from the openapi spec. To do so, make sure the backend is running and then run:
+
+```sh
+yarn openapi-codegen
+```
+
 ### Storybook
 
 You can also start the storybook via:

@@ -57,12 +57,12 @@ def list_apps_in_index(index="types:desktop"):
     return ret
 
 
-@router.get("/apps")
+@router.get("/apps", tags=["compat"])
 def get_apps():
     return list_apps_in_index()
 
 
-@router.get("/apps/category/{category}")
+@router.get("/apps/category/{category}", tags=["compat"])
 def get_apps_in_category(
     category: str = Path(
         min_length=2,
@@ -72,31 +72,31 @@ def get_apps_in_category(
     return list_apps_in_index(f"categories:{category}")
 
 
-@router.get("/apps/collection/recently-updated")
-@router.get("/apps/collection/recently-updated/50")
+@router.get("/apps/collection/recently-updated", tags=["compat"])
+@router.get("/apps/collection/recently-updated/50", tags=["compat"])
 def get_recently_updated():
     recent = apps.get_recently_updated(50)
     compat = [get_short_app(f"apps:{app_id}") for app_id in recent]
     return [app for app in compat if app]
 
 
-@router.get("/apps/collection/new")
-@router.get("/apps/collection/new/50")
+@router.get("/apps/collection/new", tags=["compat"])
+@router.get("/apps/collection/new/50", tags=["compat"])
 def get_recently_added():
     added = apps.get_recently_added(50)
     compat = [get_short_app(f"apps:{app_id}") for app_id in added]
     return [app for app in compat if app]
 
 
-@router.get("/apps/collection/popular")
-@router.get("/apps/collection/popular/50")
+@router.get("/apps/collection/popular", tags=["compat"])
+@router.get("/apps/collection/popular/50", tags=["compat"])
 def get_popular_apps():
     popular = stats.get_popular(30)
     compat = [get_short_app(f"apps:{app_id}") for app_id in popular[0:50]]
     return [app for app in compat if app]
 
 
-@router.get("/apps/search/{query}")
+@router.get("/apps/search/{query}", tags=["compat"])
 def get_search(query: str = Path(min_length=2)):
     results = [
         {
@@ -128,7 +128,7 @@ def get_search(query: str = Path(min_length=2)):
     return ret
 
 
-@router.get("/apps/{app_id}")
+@router.get("/apps/{app_id}", tags=["compat"])
 def get_single_app(
     background_tasks: BackgroundTasks,
     app_id: str = Path(

@@ -5,15 +5,13 @@ import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
-import {
-  fetchGithubRequestOrgAccessLink,
-  fetchLoginProviders,
-} from "src/fetchers"
+import { fetchGithubRequestOrgAccessLink } from "src/fetchers"
 import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
+import { authApi } from "src/api"
 
 interface Props {
   appId: string
@@ -37,9 +35,7 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const { data: providers } = useQuery({
     queryKey: ["login-providers"],
-    queryFn: async () => {
-      return fetchLoginProviders()
-    },
+    queryFn: authApi.getLoginMethodsAuthLoginGet,
   })
 
   const { data: githubOrgAccessLink } = useQuery({

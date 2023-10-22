@@ -231,8 +231,13 @@ def login_state(request: Request) -> LoginInformation:
 LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
-@router.get("/login")
-def get_login_kinds():
+class LoginMethod(BaseModel):
+    method: str
+    name: str
+
+
+@router.get("/login", tags=["auth"])
+def get_login_methods() -> list[LoginMethod]:
     """
     Retrieve the login methods available from the backend.
 
@@ -244,26 +249,14 @@ def get_login_kinds():
     frontends with localisation may choose to render other text instead.
     """
     return [
-        {
-            "method": "github",
-            "name": "GitHub",
-        },
-        {
-            "method": "gitlab",
-            "name": "GitLab",
-        },
-        {
-            "method": "gnome",
-            "name": "GNOME GitLab",
-        },
-        {
-            "method": "kde",
-            "name": "KDE GitLab",
-        },
+        LoginMethod(method="github", name="GitHub"),
+        LoginMethod(method="gitlab", name="GitLab"),
+        LoginMethod(method="gnome", name="GNOME GitLab"),
+        LoginMethod(method="kde", name="KDE GitLab"),
     ]
 
 
-@router.get("/login/github")
+@router.get("/login/github", tags=["auth"])
 def start_github_flow(request: Request, login: LoginStatusDep):
     """
     Starts a github login flow.  This will set session cookie values and
@@ -292,7 +285,7 @@ def start_github_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/gitlab")
+@router.get("/login/gitlab", tags=["auth"])
 def start_gitlab_flow(request: Request, login: LoginStatusDep):
     """
     Starts a gitlab login flow.  This will set session cookie values and
@@ -321,7 +314,7 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/gnome")
+@router.get("/login/gnome", tags=["auth"])
 def start_gnome_flow(request: Request, login: LoginStatusDep):
     """
     Starts a GNOME login flow.  This will set session cookie values and
@@ -350,7 +343,7 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
     )
 
 
-@router.get("/login/kde")
+@router.get("/login/kde", tags=["auth"])
 def start_kde_flow(request: Request, login=Depends(login_state)):
     return start_oauth_flow(
         request,
@@ -368,7 +361,7 @@ def start_kde_flow(request: Request, login=Depends(login_state)):
     )
 
 
-# @router.get("/login/google")
+# @router.get("/login/google", tags=["auth"])
 # def start_google_flow(request: Request, login=Depends(login_state)):
 #     """
 #     Starts a google login flow.  This will set session cookie values and
@@ -467,7 +460,7 @@ class ProviderInfo:
     email: str | None = None
 
 
-@router.post("/login/github")
+@router.post("/login/github", tags=["auth"])
 def continue_github_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -545,7 +538,7 @@ def _gitlab_provider_info(url, tokens) -> ProviderInfo:
     )
 
 
-@router.post("/login/gitlab")
+@router.post("/login/gitlab", tags=["auth"])
 def continue_gitlab_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -601,7 +594,7 @@ def continue_gitlab_flow(
     )
 
 
-@router.post("/login/gnome")
+@router.post("/login/gnome", tags=["auth"])
 def continue_gnome_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -657,7 +650,7 @@ def continue_gnome_flow(
     )
 
 
-@router.post("/login/google")
+@router.post("/login/google", tags=["auth"])
 def continue_google_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -725,7 +718,7 @@ def continue_google_flow(
     )
 
 
-@router.post("/login/kde")
+@router.post("/login/kde", tags=["auth"])
 def continue_kde_flow(
     data: OauthLoginResponse, request: Request, login: LoginStatusDep
 ):
@@ -920,7 +913,7 @@ def continue_oauth_flow(
     }
 
 
-@router.get("/userinfo")
+@router.get("/userinfo", tags=["auth"])
 def get_userinfo(login: LoginStatusDep):
     """
     Retrieve the current login's user information.  If the user is not logged in
@@ -996,7 +989,7 @@ def get_userinfo(login: LoginStatusDep):
     return ret
 
 
-@router.post("/refresh-dev-flatpaks")
+@router.post("/refresh-dev-flatpaks", tags=["auth"])
 def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
     if login.state == LoginState.LOGGED_OUT or login.user is None:
         raise HTTPException(status_code=401, detail="not_logged_in")
@@ -1016,7 +1009,7 @@ def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
     return {"dev-flatpaks": sorted(dev_flatpaks)}
 
 
-@router.post("/logout")
+@router.post("/logout", tags=["auth"])
 def do_logout(request: Request, login: LoginStatusDep):
     """
     Clear the login state.  This will discard tokens which access socials,
@@ -1034,7 +1027,7 @@ def do_logout(request: Request, login: LoginStatusDep):
     return {}
 
 
-@router.get("/deleteuser")
+@router.get("/deleteuser", tags=["auth"])
 def get_deleteuser(login: LoginStatusDep):
     """
     Delete a user's login information.
@@ -1053,7 +1046,7 @@ def get_deleteuser(login: LoginStatusDep):
     }
 
 
-@router.post("/deleteuser")
+@router.post("/deleteuser", tags=["auth"])
 def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusDep):
     """
     Clear the login state. This will then delete the user's account
@@ -1081,7 +1074,7 @@ def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusD
     return ret
 
 
-@router.post("/accept-publisher-agreement")
+@router.post("/accept-publisher-agreement", tags=["auth"])
 def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
         return Response(status_code=403)
@@ -1090,7 +1083,7 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
     db.session.commit()
 
 
-@router.post("/change-default-account", status_code=204)
+@router.post("/change-default-account", status_code=204, tags=["auth"])
 def do_change_default_account(
     provider: models.ConnectedAccountProvider,
     login: LoginStatusDep,
