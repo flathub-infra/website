@@ -1,14 +1,14 @@
 import datetime
 from dataclasses import dataclass
 
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
+from fastapi import APIRouter, Depends, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
-from . import models
 from .db import get_all_appids_for_frontend
-from .logins import LoginStatusDep
+from .login_info import quality_moderator_only
+from .models import QualityModeration
 
 router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
 
@@ -189,15 +189,6 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
-def quality_moderator_only(login: LoginStatusDep):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
-    if not login.user.is_quality_moderator:
-        raise HTTPException(status_code=403, detail="not_quality_moderator")
-
-    return login
-
-
 @router.get("/status", tags=["quality-moderation"])
 def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
     return {
@@ -205,7 +196,7 @@ def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
             {
                 "id": appId,
                 "quality-moderation-status": get_quality_moderation_status_for_appid(
-                    appId
+                    db, appId
                 ),
             }
             for appId in get_all_appids_for_frontend()
@@ -223,7 +214,7 @@ def get_quality_moderation_for_app(
     ),
     _moderator=Depends(quality_moderator_only),
 ):
-    items = models.QualityModeration.by_appid(db, app_id)
+    items = QualityModeration.by_appid(db, app_id)
     return {
         "categories": GUIDELINES,
         "marks": {item.guideline_id: item for item in items},
@@ -241,7 +232,7 @@ def set_quality_moderation_for_app(
     ),
     moderator=Depends(quality_moderator_only),
 ):
-    models.QualityModeration.upsert(
+    QualityModeration.upsert(
         db, app_id, body.guideline_id, body.passed, moderator.user.id
     )
 
@@ -255,11 +246,11 @@ def get_quality_moderation_status_for_app(
         examples=["org.gnome.Glade"],
     )
 ):
-    return get_quality_moderation_status_for_appid(app_id)
+    return get_quality_moderation_status_for_appid(db, app_id)
 
 
-def get_quality_moderation_status_for_appid(app_id: str):
-    marks = models.QualityModeration.by_appid(db, app_id)
+def get_quality_moderation_status_for_appid(db, app_id: str):
+    marks = QualityModeration.by_appid(db, app_id)
     unrated = 0
 
     checks = []

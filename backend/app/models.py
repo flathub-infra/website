@@ -7,6 +7,7 @@ from fastapi import HTTPException
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
+    Date,
     DateTime,
     Enum,
     ForeignKey,
@@ -1383,3 +1384,106 @@ class QualityModeration(Base):
             .filter(QualityModeration.app_id == app_id)
             .all()
         )
+
+
+class AppOfTheDay(Base):
+    """A curated app of the day"""
+
+    __tablename__ = "appoftheday"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    date = mapped_column(Date, nullable=False, index=True, unique=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    __table_args__ = (Index("appoftheday_unique", app_id, date, unique=True),)
+
+    @classmethod
+    def by_date(cls, db, date: Date) -> Optional["AppOfTheDay"]:
+        return db.session.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
+
+    @classmethod
+    def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
+        app = AppOfTheDay(
+            app_id=app_id,
+            date=date,
+        )
+        db.session.add(app)
+        db.session.commit()
+        return app
+
+    @classmethod
+    def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
+        latest_date = (
+            db.session.query(AppOfTheDay)
+            .filter(AppOfTheDay.app_id == app_id)
+            .order_by(AppOfTheDay.date.desc())
+            .first()
+        )
+
+        if latest_date:
+            return latest_date.date
+
+        return datetime.min.date()
+
+
+class AppsOfTheWeek(Base):
+    """Curated apps of the week usually five"""
+
+    __tablename__ = "appsoftheweek"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    weekNumber = mapped_column(Integer, nullable=False, index=True)
+    year = mapped_column(Integer, nullable=False, index=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    created_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=False)
+    position = mapped_column(Integer, nullable=False)
+
+    __table_args__ = (
+        Index("appsoftheweek_unique", app_id, weekNumber, year, unique=True),
+    )
+
+    @classmethod
+    def by_week(cls, db, weekNumber: int, year: int) -> list["AppsOfTheWeek"]:
+        return (
+            db.session.query(AppsOfTheWeek)
+            .filter(AppsOfTheWeek.weekNumber == weekNumber)
+            .filter(AppsOfTheWeek.year == year)
+            .order_by(AppsOfTheWeek.position)
+            .all()
+        )
+
+    @classmethod
+    def upsert(
+        cls,
+        db,
+        app_id: str,
+        weekNumber: int,
+        year: int,
+        position: int,
+        user_id: int,
+    ) -> Optional["AppsOfTheWeek"]:
+        app = (
+            db.session.query(AppsOfTheWeek)
+            .filter(AppsOfTheWeek.position == position)
+            .filter(AppsOfTheWeek.weekNumber == weekNumber)
+            .filter(AppsOfTheWeek.year == year)
+            .first()
+        )
+        if app:
+            app.app_id = app_id
+            app.created_by = user_id
+            db.session.commit()
+            return app
+        else:
+            app = AppsOfTheWeek(
+                app_id=app_id,
+                weekNumber=weekNumber,
+                year=year,
+                created_by=user_id,
+                position=position,
+            )
+            db.session.add(app)
+            db.session.commit()
+            return app
