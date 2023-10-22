@@ -20,6 +20,7 @@ from .walletbase import (
     TransactionSortOrder,
     TransactionSummary,
     WalletError,
+    WalletInfo,
 )
 
 try:
@@ -48,7 +49,7 @@ router = APIRouter(prefix="/wallet")
 
 
 @router.get("/walletinfo", tags=["wallet"])
-def get_walletinfo(request: Request, login=Depends(login_state)):
+def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
     """
     Retrieve the wallet for the currently logged in user.
 

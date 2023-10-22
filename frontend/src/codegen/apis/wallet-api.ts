@@ -49,6 +49,8 @@ import { Transaction } from "../model"
 import { TransactionSaveCard } from "../model"
 // @ts-ignore
 import { TransactionSortOrder } from "../model"
+// @ts-ignore
+import { WalletInfo } from "../model"
 /**
  * WalletApi - axios parameter creator
  * @export
@@ -78,45 +80,6 @@ export const WalletApiAxiosParamCreator = function (
         `{${"txn"}}`,
         encodeURIComponent(String(txn)),
       )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Clear the fake wallet details
-     * @summary Clear Fake
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    clearFakeWalletClearfakePost: async (
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/wallet/clearfake`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -675,10 +638,10 @@ export const WalletApiAxiosParamCreator = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookWalletWebhookFakewalletPost: async (
+    webhookWalletWebhookStripePost: async (
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/wallet/webhook/fakewallet`
+      const localVarPath = `/wallet/webhook/stripe`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -736,26 +699,6 @@ export const WalletApiFp = function (configuration?: Configuration) {
           txn,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     * Clear the fake wallet details
-     * @summary Clear Fake
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async clearFakeWalletClearfakePost(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.clearFakeWalletClearfakePost(options)
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -900,7 +843,7 @@ export const WalletApiFp = function (configuration?: Configuration) {
     async getWalletinfoWalletWalletinfoGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WalletInfo>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getWalletinfoWalletWalletinfoGet(
@@ -1025,15 +968,13 @@ export const WalletApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async webhookWalletWebhookFakewalletPost(
+    async webhookWalletWebhookStripePost(
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
-        await localVarAxiosParamCreator.webhookWalletWebhookFakewalletPost(
-          options,
-        )
+        await localVarAxiosParamCreator.webhookWalletWebhookStripePost(options)
       return createRequestFunction(
         localVarAxiosArgs,
         globalAxios,
@@ -1068,17 +1009,6 @@ export const WalletApiFactory = function (
     ): AxiosPromise<void> {
       return localVarFp
         .cancelTransactionWalletTransactionsTxnCancelPost(txn, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Clear the fake wallet details
-     * @summary Clear Fake
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    clearFakeWalletClearfakePost(options?: any): AxiosPromise<void> {
-      return localVarFp
-        .clearFakeWalletClearfakePost(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -1162,7 +1092,7 @@ export const WalletApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getWalletinfoWalletWalletinfoGet(options?: any): AxiosPromise<void> {
+    getWalletinfoWalletWalletinfoGet(options?: any): AxiosPromise<WalletInfo> {
       return localVarFp
         .getWalletinfoWalletWalletinfoGet(options)
         .then((request) => request(axios, basePath))
@@ -1245,9 +1175,9 @@ export const WalletApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookWalletWebhookFakewalletPost(options?: any): AxiosPromise<void> {
+    webhookWalletWebhookStripePost(options?: any): AxiosPromise<void> {
       return localVarFp
-        .webhookWalletWebhookFakewalletPost(options)
+        .webhookWalletWebhookStripePost(options)
         .then((request) => request(axios, basePath))
     },
   }
@@ -1274,19 +1204,6 @@ export class WalletApi extends BaseAPI {
   ) {
     return WalletApiFp(this.configuration)
       .cancelTransactionWalletTransactionsTxnCancelPost(txn, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Clear the fake wallet details
-   * @summary Clear Fake
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WalletApi
-   */
-  public clearFakeWalletClearfakePost(options?: AxiosRequestConfig) {
-    return WalletApiFp(this.configuration)
-      .clearFakeWalletClearfakePost(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -1475,9 +1392,9 @@ export class WalletApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WalletApi
    */
-  public webhookWalletWebhookFakewalletPost(options?: AxiosRequestConfig) {
+  public webhookWalletWebhookStripePost(options?: AxiosRequestConfig) {
     return WalletApiFp(this.configuration)
-      .webhookWalletWebhookFakewalletPost(options)
+      .webhookWalletWebhookStripePost(options)
       .then((request) => request(this.axios, this.basePath))
   }
 }
