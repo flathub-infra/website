@@ -10,6 +10,7 @@ from sentry_sdk.integrations.sqlalchemy import SqlalchemyIntegration
 from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
+    app_picks,
     apps,
     compat,
     config,
@@ -73,6 +74,7 @@ invites.register_to_app(app)
 compat.register_to_app(app)
 
 quality_moderation.register_to_app(app)
+app_picks.register_to_app(app)
 
 
 @app.on_event("startup")
