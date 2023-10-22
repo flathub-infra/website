@@ -80,18 +80,18 @@ def startup_event():
     db.wait_for_redis()
 
 
-@app.post("/update")
+@app.post("/update", tags=["update"])
 async def update():
     worker.update.send()
     worker.update_quality_moderation.send()
 
 
-@app.post("/update/stats")
+@app.post("/update/stats", tags=["update"])
 async def update_stats():
     worker.update_stats.send()
 
 
-@app.post("/update/process-pending-transfers")
+@app.post("/update/process-pending-transfers", tags=["update"])
 def process_transfers():
     """
     Process any pending transfers which may be in the system
@@ -100,12 +100,12 @@ def process_transfers():
     return Response(None, status_code=200)
 
 
-@app.get("/categories")
+@app.get("/categories", tags=["app"])
 def get_categories():
     return [category.value for category in schemas.MainCategory]
 
 
-@app.get("/category/{category}")
+@app.get("/category/{category}", tags=["app"])
 def get_category(
     category: schemas.MainCategory,
     page: int | None = None,
@@ -123,7 +123,7 @@ def get_category(
     return result
 
 
-@app.get("/category/{category}/subcategories/{subcategory}")
+@app.get("/category/{category}/subcategories/{subcategory}", tags=["app"])
 def get_subcategory(
     category: schemas.MainCategory,
     subcategory: str,
@@ -144,12 +144,12 @@ def get_subcategory(
     return result
 
 
-@app.get("/developer")
+@app.get("/developer", tags=["app"])
 def get_developers():
     return db.get_developers()
 
 
-@app.get("/developer/{developer:path}")
+@app.get("/developer/{developer:path}", tags=["app"])
 def get_developer(
     developer: str,
     page: int | None = None,
@@ -167,12 +167,12 @@ def get_developer(
     return result
 
 
-@app.get("/eol/rebase")
+@app.get("/eol/rebase", tags=["app"])
 def get_eol_rebase():
     return db.get_json_key("eol_rebase")
 
 
-@app.get("/eol/rebase/{app_id}")
+@app.get("/eol/rebase/{app_id}", tags=["app"])
 def get_eol_rebase_appid(
     app_id: str = Path(
         min_length=6,
@@ -186,12 +186,12 @@ def get_eol_rebase_appid(
         return value
 
 
-@app.get("/eol/message")
+@app.get("/eol/message", tags=["app"])
 def get_eol_message():
     return db.get_json_key("eol_message")
 
 
-@app.get("/eol/message/{app_id}")
+@app.get("/eol/message/{app_id}", tags=["app"])
 def get_eol_message_appid(
     app_id: str = Path(
         min_length=6,
@@ -205,12 +205,12 @@ def get_eol_message_appid(
         return value
 
 
-@app.get("/projectgroup")
+@app.get("/projectgroup", tags=["app"])
 def get_project_groups():
     return db.get_project_groups()
 
 
-@app.get("/projectgroup/{project_group}")
+@app.get("/projectgroup/{project_group}", tags=["app"])
 def get_project_group(
     project_group: str,
     page: int | None = None,
@@ -228,12 +228,12 @@ def get_project_group(
     return result
 
 
-@app.get("/appstream")
+@app.get("/appstream", tags=["app"])
 def list_appstream():
     return apps.list_desktop_appstream()
 
 
-@app.get("/appstream/{app_id}", status_code=200)
+@app.get("/appstream/{app_id}", status_code=200, tags=["app"])
 def get_appstream(
     response: Response,
     app_id: str = Path(
@@ -250,17 +250,17 @@ def get_appstream(
     return None
 
 
-@app.post("/search")
+@app.post("/search", tags=["app"])
 def post_search(query: search.SearchQuery):
     return search.search_apps_post(query)
 
 
-@app.get("/runtimes")
+@app.get("/runtimes", tags=["app"])
 def get_runtime_list():
     return search.get_runtime_list()
 
 
-@app.get("/collection/recently-updated")
+@app.get("/collection/recently-updated", tags=["app"])
 def get_recently_updated(
     page: int | None = None,
     per_page: int | None = None,
@@ -277,7 +277,7 @@ def get_recently_updated(
     return result
 
 
-@app.get("/collection/recently-added")
+@app.get("/collection/recently-added", tags=["app"])
 def get_recently_added(
     page: int | None = None,
     per_page: int | None = None,
@@ -294,7 +294,7 @@ def get_recently_added(
     return result
 
 
-@app.get("/collection/verified")
+@app.get("/collection/verified", tags=["app"])
 def get_verified(
     page: int | None = None,
     per_page: int | None = None,
@@ -311,7 +311,7 @@ def get_verified(
     return result
 
 
-@app.get("/popular/last-month")
+@app.get("/popular/last-month", tags=["app"])
 def get_popular_last_month(
     page: int | None = None,
     per_page: int | None = None,
@@ -328,24 +328,24 @@ def get_popular_last_month(
     return result
 
 
-@app.get("/feed/recently-updated")
+@app.get("/feed/recently-updated", tags=["feed"])
 def get_recently_updated_apps_feed():
     return Response(
         content=feeds.get_recently_updated_apps_feed(), media_type="application/rss+xml"
     )
 
 
-@app.get("/feed/new")
+@app.get("/feed/new", tags=["feed"])
 def get_new_apps_feed():
     return Response(content=feeds.get_new_apps_feed(), media_type="application/rss+xml")
 
 
-@app.get("/status", status_code=200)
+@app.get("/status", status_code=200, tags=["healthcheck"])
 def healthcheck():
     return {"status": "OK"}
 
 
-@app.get("/stats", status_code=200)
+@app.get("/stats", status_code=200, tags=["app"])
 def get_stats(response: Response):
     if value := db.get_json_key("stats"):
         return value
@@ -354,7 +354,7 @@ def get_stats(response: Response):
     return None
 
 
-@app.get("/stats/{app_id}", status_code=200)
+@app.get("/stats/{app_id}", status_code=200, tags=["app"])
 def get_stats_for_app(
     response: Response,
     app_id: str = Path(
@@ -380,7 +380,7 @@ def get_stats_for_app(
     return None
 
 
-@app.get("/summary/{app_id}", status_code=200)
+@app.get("/summary/{app_id}", status_code=200, tags=["app"])
 def get_summary(
     response: Response,
     app_id: str = Path(
@@ -414,7 +414,7 @@ def get_summary(
     return None
 
 
-@app.get("/platforms", status_code=200)
+@app.get("/platforms", status_code=200, tags=["app"])
 def get_platforms() -> dict[str, utils.Platform]:
     """
     Return a mapping from org-name to platform aliases and dependencies which are
@@ -424,12 +424,12 @@ def get_platforms() -> dict[str, utils.Platform]:
     return utils.PLATFORMS
 
 
-@app.get("/exceptions")
+@app.get("/exceptions", tags=["app"])
 def get_exceptions():
     return db.get_json_key("exc")
 
 
-@app.get("/exceptions/{app_id}")
+@app.get("/exceptions/{app_id}", tags=["app"])
 def get_exceptions_for_app(app_id: str, response: Response):
     if exc := db.get_json_key(f"exc:{app_id}"):
         return exc
@@ -438,7 +438,7 @@ def get_exceptions_for_app(app_id: str, response: Response):
     return None
 
 
-@app.get("/addon/{app_id}")
+@app.get("/addon/{app_id}", tags=["app"])
 def get_addons(app_id: str):
     addon_ids = apps.get_addons(app_id)
 

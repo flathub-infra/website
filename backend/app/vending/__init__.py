@@ -190,7 +190,7 @@ async def vendingerror_exception_handler(_request: Request, exc: VendingError):
 router = APIRouter(prefix="/vending")
 
 
-@router.get("/status")
+@router.get("/status", tags=["vending"])
 def status(login=Depends(login_state)) -> VendingStatus:
     """
     Retrieve the vending status of the logged in user.
@@ -225,7 +225,7 @@ def status(login=Depends(login_state)) -> VendingStatus:
     )
 
 
-@router.post("/status/onboarding")
+@router.post("/status/onboarding", tags=["vending"])
 def start_onboarding(data: VendingOnboardingRequest, login=Depends(login_state)):
     """
     Start or continue the onboarding process.
@@ -264,7 +264,7 @@ def start_onboarding(data: VendingOnboardingRequest, login=Depends(login_state))
         raise VendingError("stripe-account-create-failed") from error
 
 
-@router.get("/status/dashboardlink")
+@router.get("/status/dashboardlink", tags=["vending"])
 def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
     """
     Retrieve a link to the logged in user's Stripe express dashboard.
@@ -286,7 +286,7 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
         raise VendingError("stripe-link-create-failed") from error
 
 
-@router.get("/config")
+@router.get("/config", tags=["vending"])
 def get_global_vending_config() -> VendingConfig:
     """
     Retrieve the configuration values needed to calculate application
@@ -311,7 +311,7 @@ def get_global_vending_config() -> VendingConfig:
     )
 
 
-@router.get("app/{app_id}/setup")
+@router.get("app/{app_id}/setup", tags=["vending"])
 def get_app_vending_setup(
     app_id: str = Path(
         min_length=6,
@@ -342,7 +342,7 @@ def get_app_vending_setup(
     )
 
 
-@router.post("app/{app_id}/setup")
+@router.post("app/{app_id}/setup", tags=["vending"])
 def post_app_vending_setup(
     setup: VendingSetup,
     app_id: str = Path(
@@ -407,7 +407,7 @@ def post_app_vending_setup(
     return get_app_vending_setup(app_id, login)
 
 
-@router.post("app/{app_id}")
+@router.post("app/{app_id}", tags=["vending"])
 def post_app_vending_status(
     request: Request,
     data: ProposedPayment,
@@ -478,7 +478,7 @@ class TokenList(BaseModel):
     tokens: list[TokenModel]
 
 
-@router.get("app/{app_id}/tokens")
+@router.get("app/{app_id}/tokens", tags=["vending"])
 def get_redeemable_tokens(
     request: Request,
     app_id: str = Path(
@@ -519,7 +519,7 @@ def get_redeemable_tokens(
     return TokenList(status="ok", total=len(tokens), tokens=tokens)
 
 
-@router.post("app/{app_id}/tokens")
+@router.post("app/{app_id}/tokens", tags=["vending"])
 def create_tokens(
     request: Request,
     data: list[str],
@@ -568,7 +568,7 @@ class TokenCancellation(BaseModel):
     status: str
 
 
-@router.post("app/{app_id}/tokens/cancel")
+@router.post("app/{app_id}/tokens/cancel", tags=["vending"])
 def cancel_tokens(
     request: Request,
     data: list[str],
@@ -615,7 +615,7 @@ class RedemptionResult(BaseModel):
     reason: str
 
 
-@router.post("app/{app_id}/tokens/redeem/{token}")
+@router.post("app/{app_id}/tokens/redeem/{token}", tags=["vending"])
 def redeem_token(
     request: Request,
     app_id: str = Path(
@@ -650,7 +650,7 @@ def redeem_token(
 # Tax and other real-world problems are associated with things like an
 # application's type, licence, etc.
 # This heuristic tries to tell us about the app, and why we made that decision
-@router.get("app/{app_id}/info")
+@router.get("app/{app_id}/info", tags=["vending"])
 def app_info(
     app_id: str = Path(
         min_length=6,

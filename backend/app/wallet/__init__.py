@@ -47,7 +47,7 @@ async def walleterror_exception_handler(_request: Request, exc: WalletError):
 router = APIRouter(prefix="/wallet")
 
 
-@router.get("/walletinfo")
+@router.get("/walletinfo", tags=["wallet"])
 def get_walletinfo(request: Request, login=Depends(login_state)):
     """
     Retrieve the wallet for the currently logged in user.
@@ -61,7 +61,7 @@ def get_walletinfo(request: Request, login=Depends(login_state)):
     return Wallet().info(request, login["user"])
 
 
-@router.post("/removecard")
+@router.post("/removecard", tags=["wallet"])
 def post_removecard(request: Request, card: CardInfo, login=Depends(login_state)):
     """
     Remove a card from a user's wallet.
@@ -78,7 +78,7 @@ def post_removecard(request: Request, card: CardInfo, login=Depends(login_state)
     return Response(None, status_code=201)
 
 
-@router.get("/transactions", response_model=None)
+@router.get("/transactions", response_model=None, tags=["wallet"])
 def get_transactions(
     request: Request,
     login=Depends(login_state),
@@ -101,7 +101,7 @@ def get_transactions(
     return Wallet().transactions(request, login["user"], sort, since, limit)
 
 
-@router.get("/transactions/{txn}")
+@router.get("/transactions/{txn}", tags=["wallet"])
 def get_transaction_by_id(
     txn: str, request: Request, login=Depends(login_state)
 ) -> Transaction:
@@ -120,7 +120,7 @@ def get_transaction_by_id(
     return Wallet().transaction(request, login["user"], transaction=txn)
 
 
-@router.post("/transactions")
+@router.post("/transactions", tags=["wallet"])
 def create_transaction(
     request: Request, data: NascentTransaction, login=Depends(login_state)
 ):
@@ -141,7 +141,7 @@ def create_transaction(
     }
 
 
-@router.post("/transactions/{txn}/setcard")
+@router.post("/transactions/{txn}/setcard", tags=["wallet"])
 def set_transaction_card(
     txn: str, data: CardInfo, request: Request, login=Depends(login_state)
 ):
@@ -159,7 +159,7 @@ def set_transaction_card(
     return {"status": "ok"}
 
 
-@router.post("/transactions/{txn}/cancel")
+@router.post("/transactions/{txn}/cancel", tags=["wallet"])
 def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
     """
     Cancel a transaction in the `new` or `retry` states.
@@ -179,7 +179,7 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
 # Stripe specific endpoints which are necessary
 
 
-@router.get("/stripedata")
+@router.get("/stripedata", tags=["wallet"])
 def get_stripedata():
     """
     Return the stripe public key to use in the frontend.  Since this is not
@@ -188,7 +188,7 @@ def get_stripedata():
     return Wallet().stripedata()
 
 
-@router.get("/transactions/{txn}/stripe")
+@router.get("/transactions/{txn}/stripe", tags=["wallet"])
 def get_txn_stripedata(txn: str, request: Request, login=Depends(login_state)):
     """
     Return the Stripe data associated with the given transaction.
@@ -204,7 +204,7 @@ def get_txn_stripedata(txn: str, request: Request, login=Depends(login_state)):
     return Wallet().get_transaction_stripedata(request, login["user"], txn)
 
 
-@router.post("/transactions/{txn}/savecard")
+@router.post("/transactions/{txn}/savecard", tags=["wallet"])
 def set_savecard(
     txn: str, data: TransactionSaveCard, request: Request, login=Depends(login_state)
 ):
@@ -228,7 +228,7 @@ def set_savecard(
     return Response(None, status_code=201)
 
 
-@router.post("/transactions/{txn}/setpending")
+@router.post("/transactions/{txn}/setpending", tags=["wallet"])
 def set_pending(txn: str, request: Request, login=Depends(login_state)):
     """
     Set the transaction as 'pending' so that we can recover if Stripe
@@ -246,7 +246,7 @@ def set_pending(txn: str, request: Request, login=Depends(login_state)):
 
 if settings.stripe_public_key in [None, ""]:
 
-    @router.post("/clearfake")
+    @router.post("/clearfake", tags=["wallet"])
     def clear_fake(request: Request):
         "Clear the fake wallet details"
         for key in ["txns", "fake-card-ok-del", "fake-card-exp-del"]:
@@ -255,7 +255,7 @@ if settings.stripe_public_key in [None, ""]:
         return Response(None, status_code=201)
 
 
-@router.post("/webhook/" + Wallet.webhook_name())
+@router.post("/webhook/" + Wallet.webhook_name(), tags=["wallet"])
 async def webhook(request: Request):
     """
     This endpoint is intended to deal with webhooks coming back from payment

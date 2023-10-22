@@ -198,7 +198,7 @@ def quality_moderator_only(login: LoginStatusDep):
     return login
 
 
-@router.get("/status")
+@router.get("/status", tags=["quality-moderation"])
 def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
     return {
         "apps": [
@@ -213,7 +213,7 @@ def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
     }
 
 
-@router.get("/{app_id}")
+@router.get("/{app_id}", tags=["quality-moderation"])
 def get_quality_moderation_for_app(
     app_id: str = Path(
         min_length=6,
@@ -230,7 +230,7 @@ def get_quality_moderation_for_app(
     }
 
 
-@router.post("/{app_id}")
+@router.post("/{app_id}", tags=["quality-moderation"])
 def set_quality_moderation_for_app(
     body: UpsertQualityModeration,
     app_id: str = Path(
@@ -246,7 +246,7 @@ def set_quality_moderation_for_app(
     )
 
 
-@router.get("/{app_id}/status")
+@router.get("/{app_id}/status", tags=["quality-moderation"])
 def get_quality_moderation_status_for_app(
     app_id: str = Path(
         min_length=6,

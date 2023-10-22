@@ -67,7 +67,9 @@ class ModerationApp(BaseModel):
     requests_count: int
 
 
-@router.get("/apps", status_code=200, response_model_exclude_none=True)
+@router.get(
+    "/apps", status_code=200, response_model_exclude_none=True, tags=["moderation"]
+)
 def get_moderation_apps(
     new_submissions: bool | None = None,
     limit: int = 100,
@@ -104,7 +106,12 @@ def get_moderation_apps(
     )
 
 
-@router.get("/apps/{app_id}", status_code=200, response_model_exclude_none=True)
+@router.get(
+    "/apps/{app_id}",
+    status_code=200,
+    response_model_exclude_none=True,
+    tags=["moderation"],
+)
 def get_moderation_app(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -193,7 +200,10 @@ class ReviewRequestResponse(BaseModel):
 
 
 @router.post(
-    "/submit_review_request", status_code=200, response_model_exclude_none=True
+    "/submit_review_request",
+    status_code=200,
+    response_model_exclude_none=True,
+    tags=["moderation"],
 )
 def submit_review_request(
     appdata: ReviewRequest,
@@ -311,7 +321,7 @@ class Review(BaseModel):
         return v
 
 
-@router.post("/requests/{id}/review", status_code=204)
+@router.post("/requests/{id}/review", status_code=204, tags=["moderation"])
 def submit_review(
     id: int,
     review: Review,

@@ -349,6 +349,7 @@ def get_verified_apps():
     status_code=200,
     response_model=VerificationStatus,
     response_model_exclude_none=True,
+    tags=["verification"],
 )
 def get_verification_status(
     app_id: str = Path(
@@ -428,6 +429,7 @@ class AvailableMethods(BaseModel):
     status_code=200,
     response_model=AvailableMethods,
     response_model_exclude_none=True,
+    tags=["verification"],
 )
 def get_available_methods(
     login: LoginStatusDep,
@@ -672,7 +674,9 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
     sqldb.session.add(app_developer)
 
 
-@router.post("/{app_id}/verify-by-login-provider", status_code=200)
+@router.post(
+    "/{app_id}/verify-by-login-provider", status_code=200, tags=["verification"]
+)
 def verify_by_login_provider(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -733,7 +737,11 @@ class LinkResponse(BaseModel):
     link: str
 
 
-@router.get("/request-organization-access/github", response_model=LinkResponse)
+@router.get(
+    "/request-organization-access/github",
+    response_model=LinkResponse,
+    tags=["verification"],
+)
 def request_organization_access_github():
     """Returns the URL to request access to the organization so we can verify the user's membership."""
     return LinkResponse(
@@ -750,6 +758,7 @@ class WebsiteVerificationToken(BaseModel):
     "/{app_id}/setup-website-verification",
     status_code=200,
     response_model=WebsiteVerificationToken,
+    tags=["verification"],
 )
 def setup_website_verification(
     login: LoginStatusDep,
@@ -798,6 +807,7 @@ def setup_website_verification(
     status_code=200,
     response_model=WebsiteVerificationResult,
     response_model_exclude_none=True,
+    tags=["verification"],
 )
 def confirm_website_verification(
     login: LoginStatusDep,
@@ -842,7 +852,7 @@ def confirm_website_verification(
     return result
 
 
-@router.post("/{app_id}/unverify", status_code=204)
+@router.post("/{app_id}/unverify", status_code=204, tags=["verification"])
 def unverify(
     login: LoginStatusDep,
     app_id: str = Path(

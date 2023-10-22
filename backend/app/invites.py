@@ -66,7 +66,7 @@ class InviteStatus(BaseModel):
     is_direct_upload_app: bool = True
 
 
-@router.get("/{app_id}")
+@router.get("/{app_id}", tags=["invite"])
 def get_invite_status(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -94,7 +94,7 @@ def get_invite_status(
     raise HTTPException(status_code=404, detail=ErrorDetail.INVITE_NOT_FOUND)
 
 
-@router.post("/{app_id}/invite", status_code=204)
+@router.post("/{app_id}/invite", status_code=204, tags=["invite"])
 def invite_developer(
     invite_code: str,
     login: LoginStatusDep,
@@ -158,7 +158,7 @@ def invite_developer(
     )
 
 
-@router.post("/{app_id}/accept", status_code=204)
+@router.post("/{app_id}/accept", status_code=204, tags=["invite"])
 def accept_invite(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -205,7 +205,7 @@ def accept_invite(
     )
 
 
-@router.post("/{app_id}/decline", status_code=204)
+@router.post("/{app_id}/decline", status_code=204, tags=["invite"])
 def decline_invite(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -245,7 +245,7 @@ def decline_invite(
     )
 
 
-@router.post("/{app_id}/leave", status_code=204)
+@router.post("/{app_id}/leave", status_code=204, tags=["invite"])
 def leave_team(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -291,7 +291,7 @@ class DevelopersResponse(BaseModel):
     invites: list[Developer]
 
 
-@router.get("/{app_id}/developers")
+@router.get("/{app_id}/developers", tags=["invite"])
 def get_developers(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -331,7 +331,7 @@ def get_developers(
     )
 
 
-@router.post("/{app_id}/remove-developer", status_code=204)
+@router.post("/{app_id}/remove-developer", status_code=204, tags=["invite"])
 def remove_developer(
     developer_id: int,
     login: LoginStatusDep,
@@ -358,7 +358,7 @@ def remove_developer(
     sqldb.session.commit()
 
 
-@router.post("/{app_id}/revoke", status_code=204)
+@router.post("/{app_id}/revoke", status_code=204, tags=["invite"])
 def revoke_invite(
     invite_id: int,
     login: LoginStatusDep,
