@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface PricingInfo
+ */
+export interface PricingInfo {
+  /**
+   *
+   * @type {number}
+   * @memberof PricingInfo
+   */
+  recommended_donation: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof PricingInfo
+   */
+  minimum_payment: number | null
+}

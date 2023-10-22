@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface Filter
+ */
+export interface Filter {
+  /**
+   *
+   * @type {string}
+   * @memberof Filter
+   */
+  filterType: string
+  /**
+   *
+   * @type {string}
+   * @memberof Filter
+   */
+  value: string
+}

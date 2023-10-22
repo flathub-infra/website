@@ -12,6 +12,23 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const MainCategory = {
+  Audiovideo: "audiovideo",
+  Development: "development",
+  Education: "education",
+  Game: "game",
+  Graphics: "graphics",
+  Network: "network",
+  Office: "office",
+  Science: "science",
+  System: "system",
+  Utility: "utility",
+} as const
+
+export type MainCategory = (typeof MainCategory)[keyof typeof MainCategory]

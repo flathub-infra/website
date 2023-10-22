@@ -12,6 +12,18 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const VerificationMethod = {
+  None: "none",
+  Manual: "manual",
+  Website: "website",
+  LoginProvider: "login_provider",
+} as const
+
+export type VerificationMethod =
+  (typeof VerificationMethod)[keyof typeof VerificationMethod]

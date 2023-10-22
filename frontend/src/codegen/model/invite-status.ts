@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface InviteStatus
+ */
+export interface InviteStatus {
+  /**
+   *
+   * @type {boolean}
+   * @memberof InviteStatus
+   */
+  is_pending: boolean
+  /**
+   *
+   * @type {boolean}
+   * @memberof InviteStatus
+   */
+  is_direct_upload_app: boolean
+}

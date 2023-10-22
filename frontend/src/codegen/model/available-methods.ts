@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface AvailableMethods
+ */
+export interface AvailableMethods {
+  /**
+   *
+   * @type {}
+   * @memberof AvailableMethods
+   */
+  methods: null
+  /**
+   *
+   * @type {string}
+   * @memberof AvailableMethods
+   */
+  detail: string | null
+}

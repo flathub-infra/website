@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface Review
+ */
+export interface Review {
+  /**
+   *
+   * @type {boolean}
+   * @memberof Review
+   */
+  approve: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof Review
+   */
+  comment?: string | null
+}

@@ -12,6 +12,16 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface UserDeleteRequest
+ */
+export interface UserDeleteRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof UserDeleteRequest
+   */
+  token: string
+}

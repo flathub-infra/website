@@ -12,6 +12,16 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const AvailableMethodType = {
+  Website: "website",
+  LoginProvider: "login_provider",
+} as const
+
+export type AvailableMethodType =
+  (typeof AvailableMethodType)[keyof typeof AvailableMethodType]

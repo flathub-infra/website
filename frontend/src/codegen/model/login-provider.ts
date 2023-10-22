@@ -12,6 +12,17 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const LoginProvider = {
+  Github: "github",
+  Gitlab: "gitlab",
+  Gnome: "gnome",
+  Kde: "kde",
+} as const
+
+export type LoginProvider = (typeof LoginProvider)[keyof typeof LoginProvider]

@@ -12,6 +12,19 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const ConnectedAccountProvider = {
+  Github: "github",
+  Gitlab: "gitlab",
+  Gnome: "gnome",
+  Google: "google",
+  Kde: "kde",
+} as const
+
+export type ConnectedAccountProvider =
+  (typeof ConnectedAccountProvider)[keyof typeof ConnectedAccountProvider]

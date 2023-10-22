@@ -12,6 +12,16 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface ReviewRequestResponse
+ */
+export interface ReviewRequestResponse {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ReviewRequestResponse
+   */
+  requires_review: boolean
+}

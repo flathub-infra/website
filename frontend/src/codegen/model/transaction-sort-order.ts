@@ -12,6 +12,16 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ * Sorting of transactions, either most-recent first, or oldest first
+ * @export
+ * @enum {string}
+ */
+
+export const TransactionSortOrder = {
+  Recent: "recent",
+  Oldest: "oldest",
+} as const
+
+export type TransactionSortOrder =
+  (typeof TransactionSortOrder)[keyof typeof TransactionSortOrder]

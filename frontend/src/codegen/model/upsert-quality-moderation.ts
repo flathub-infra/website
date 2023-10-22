@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface UpsertQualityModeration
+ */
+export interface UpsertQualityModeration {
+  /**
+   *
+   * @type {string}
+   * @memberof UpsertQualityModeration
+   */
+  guideline_id: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpsertQualityModeration
+   */
+  passed: boolean
+}

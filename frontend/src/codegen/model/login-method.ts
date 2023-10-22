@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface LoginMethod
+ */
+export interface LoginMethod {
+  /**
+   *
+   * @type {string}
+   * @memberof LoginMethod
+   */
+  method: string
+  /**
+   *
+   * @type {string}
+   * @memberof LoginMethod
+   */
+  name: string
+}

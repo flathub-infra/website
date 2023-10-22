@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface SearchQuery
+ */
+export interface SearchQuery {
+  /**
+   *
+   * @type {string}
+   * @memberof SearchQuery
+   */
+  query: string
+  /**
+   *
+   * @type {}
+   * @memberof SearchQuery
+   */
+  filters?: null
+}

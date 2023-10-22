@@ -12,6 +12,22 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+/**
+ *
+ * @export
+ * @interface OauthLoginResponseSuccess
+ */
+export interface OauthLoginResponseSuccess {
+  /**
+   *
+   * @type {string}
+   * @memberof OauthLoginResponseSuccess
+   */
+  code: string
+  /**
+   *
+   * @type {string}
+   * @memberof OauthLoginResponseSuccess
+   */
+  state: string
+}

@@ -12,6 +12,20 @@
  * Do not edit the class manually.
  */
 
-export * from "./api"
-export * from "./configuration"
-export * from "./model"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ValidationError } from "./validation-error"
+
+/**
+ *
+ * @export
+ * @interface HTTPValidationError
+ */
+export interface HTTPValidationError {
+  /**
+   *
+   * @type {Array<ValidationError>}
+   * @memberof HTTPValidationError
+   */
+  detail?: Array<ValidationError>
+}
