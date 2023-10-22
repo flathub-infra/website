@@ -7,7 +7,7 @@ And we present the full /auth/ sub-namespace
 """
 
 
-from fastapi import APIRouter, Depends, FastAPI, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 
 from ..config import settings
@@ -56,9 +56,7 @@ def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
     This will return a list of cards which the user has saved to their account.
     """
     if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
+        raise HTTPException(status_code=403, detail="Not logged in")
     return Wallet().info(request, login["user"])
 
 
