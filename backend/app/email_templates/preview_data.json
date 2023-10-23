@@ -3,7 +3,8 @@
     "category": "security_login",
     "data": {
       "provider": "github",
-      "login": "testuser"
+      "login": "testuser",
+      "time": "2017-01-01T00:00:00Z"
     }
   },
   "moderation_held": {
@@ -116,7 +117,9 @@
           "is_warning": false,
           "category": "unexpected_files_in_screenshot_branch",
           "data": {
-            "files": ["screenshot.png"]
+            "files": [
+              "screenshot.png"
+            ]
           }
         }
       ],
