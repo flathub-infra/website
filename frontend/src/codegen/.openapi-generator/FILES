@@ -1,5 +1,6 @@
 api.ts
 apis/app-api.ts
+apis/app-picks-api.ts
 apis/auth-api.ts
 apis/compat-api.ts
 apis/email-api.ts
@@ -17,6 +18,9 @@ base.ts
 common.ts
 configuration.ts
 index.ts
+model/app-of-the-day.ts
+model/app-of-the-week.ts
+model/apps-of-the-week.ts
 model/available-login-method-status.ts
 model/available-method-type.ts
 model/available-method.ts
@@ -32,6 +36,7 @@ model/filter.ts
 model/httpvalidation-error.ts
 model/index.ts
 model/invite-status.ts
+model/keys.ts
 model/link-response.ts
 model/login-method.ts
 model/login-provider.ts
@@ -49,6 +54,7 @@ model/platform.ts
 model/pricing-info.ts
 model/proposed-payment.ts
 model/redemption-result.ts
+model/request-data.ts
 model/review-item.ts
 model/review-request-response.ts
 model/review-request.ts
@@ -63,6 +69,7 @@ model/transaction-save-card.ts
 model/transaction-sort-order.ts
 model/transaction-summary.ts
 model/transaction.ts
+model/upsert-app-of-the-week.ts
 model/upsert-quality-moderation.ts
 model/user-delete-request.ts
 model/validation-error-loc-inner.ts

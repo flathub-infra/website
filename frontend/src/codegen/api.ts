@@ -13,6 +13,7 @@
  */
 
 export * from "./apis/app-api"
+export * from "./apis/app-picks-api"
 export * from "./apis/auth-api"
 export * from "./apis/compat-api"
 export * from "./apis/email-api"

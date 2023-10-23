@@ -41,9 +41,9 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
             <tr key={key}>
               <td>{key}</td>
               {!request.is_new_submission && (
-                <td>{request.request_data.current_values[key]}</td>
+                <td>{request.request_data.current_values[key] as string}</td>
               )}
-              <td>{request.request_data.keys[key]}</td>
+              <td>{request.request_data.keys[key] as string}</td>
             </tr>
           ))}
         </tbody>
