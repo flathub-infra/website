@@ -1,16 +1,18 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import { ModerationAppdataRequest } from "src/types/Moderation"
 import ReviewRow from "./ReviewRow"
+import { ModerationRequestResponse } from "src/codegen"
 
 interface Props {
-  request: ModerationAppdataRequest
+  request: ModerationRequestResponse
 }
 
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   const { t } = useTranslation()
 
-  const keys = Object.keys(request.request_data.keys)
+  const keys = request.request_data
+    ? Object.keys(request.request_data?.keys)
+    : []
 
   return (
     <ReviewRow

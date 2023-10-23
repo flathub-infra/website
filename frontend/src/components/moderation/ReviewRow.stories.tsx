@@ -2,8 +2,8 @@ import React from "react"
 import { Meta } from "@storybook/react"
 import ReviewRow from "./ReviewRow"
 import { t } from "i18next"
-import { ModerationAppdataRequest } from "../../types/Moderation"
 import { faker } from "@faker-js/faker"
+import { ModerationRequestResponse } from "../../codegen/model"
 
 export default {
   title: "Components/ReviewRow",
@@ -11,7 +11,7 @@ export default {
 } as Meta<typeof ReviewRow>
 
 export const Primary = () => {
-  const request: ModerationAppdataRequest = {
+  const request: ModerationRequestResponse = {
     request_type: "appdata",
     request_data: {
       keys: {
@@ -22,7 +22,7 @@ export const Primary = () => {
       },
     },
     id: 1,
-    appid: "tv.abc.TestApp",
+    app_id: "tv.abc.TestApp",
     created_at: faker.date.past().toISOString(),
 
     build_id: faker.number.int(),
@@ -34,7 +34,7 @@ export const Primary = () => {
     handled_by: "Kolja",
     handled_at: faker.date.past().toISOString(),
     is_approved: false,
-    comment: undefined,
+    comment: null,
   }
 
   return (
