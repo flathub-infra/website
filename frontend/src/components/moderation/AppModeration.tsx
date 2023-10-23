@@ -10,12 +10,14 @@ import Link from "next/link"
 import { ModerationRequestResponse } from "src/codegen"
 import { useQuery } from "@tanstack/react-query"
 import { moderationApi } from "src/api"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   appId: string
 }
 
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
+  const { t } = useTranslation()
   const router = useRouter()
 
   const [includeOutdatedQuery, setIncludeOutdatedQuery] = useState<boolean>(
@@ -68,7 +70,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   } else if (query.isError || appInfoQuery.isError) {
     return (
       <InlineError
-        error={(query.error as string) ?? (appInfoQuery.error as string)}
+        error={t((query.error as string) ?? (appInfoQuery.error as string))}
         shown={true}
       />
     )

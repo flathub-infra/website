@@ -8,8 +8,10 @@ import Spinner from "../Spinner"
 import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
 import { moderationApi } from "src/api"
+import { useTranslation } from "next-i18next"
 
 const ModerationTabs: FunctionComponent = () => {
+  const { t } = useTranslation()
   const user = useUserContext()
   const router = useRouter()
 
@@ -45,7 +47,7 @@ const ModerationTabs: FunctionComponent = () => {
   if (query.isLoading) {
     return <Spinner size="m" />
   } else if (query.isError) {
-    return <InlineError error={query.error as string} shown={true} />
+    return <InlineError error={t(query.error as string)} shown={true} />
   } else {
     const link = (appid: string) => `/moderation/${appid}`
 
