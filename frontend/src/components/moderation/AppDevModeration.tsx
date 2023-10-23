@@ -45,7 +45,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
   if (query.isLoading) {
     return <Spinner size="m" />
   } else if (query.isError) {
-    return <InlineError error={query.error as string} shown={true} />
+    return <InlineError error={t(query.error as string)} shown={true} />
   }
 
   const pages = Array.from(

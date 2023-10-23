@@ -128,7 +128,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
 
     case "error":
       content = (
-        <InlineError error={developersQuery.error as string} shown={true} />
+        <InlineError error={t(developersQuery.error as string)} shown={true} />
       )
       break
   }
