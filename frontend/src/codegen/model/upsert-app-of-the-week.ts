@@ -12,26 +12,34 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { Keys } from "./keys"
-
 /**
  *
  * @export
- * @interface RequestData
+ * @interface UpsertAppOfTheWeek
  */
-export interface RequestData {
+export interface UpsertAppOfTheWeek {
   /**
    *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
+   * @type {string}
+   * @memberof UpsertAppOfTheWeek
    */
-  keys: { [key: string]: Keys }
+  app_id: string
   /**
    *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
+   * @type {number}
+   * @memberof UpsertAppOfTheWeek
    */
-  current_values: { [key: string]: Keys }
+  weekNumber: number
+  /**
+   *
+   * @type {number}
+   * @memberof UpsertAppOfTheWeek
+   */
+  year: number
+  /**
+   *
+   * @type {number}
+   * @memberof UpsertAppOfTheWeek
+   */
+  position: number
 }

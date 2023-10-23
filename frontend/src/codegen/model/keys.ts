@@ -12,26 +12,9 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { Keys } from "./keys"
-
 /**
  *
  * @export
- * @interface RequestData
+ * @interface Keys
  */
-export interface RequestData {
-  /**
-   *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
-   */
-  keys: { [key: string]: Keys }
-  /**
-   *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
-   */
-  current_values: { [key: string]: Keys }
-}
+export interface Keys {}

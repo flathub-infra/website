@@ -12,26 +12,22 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { Keys } from "./keys"
-
 /**
  *
  * @export
- * @interface RequestData
+ * @interface AppOfTheWeek
  */
-export interface RequestData {
+export interface AppOfTheWeek {
   /**
    *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
+   * @type {string}
+   * @memberof AppOfTheWeek
    */
-  keys: { [key: string]: Keys }
+  app_id: string
   /**
    *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
+   * @type {number}
+   * @memberof AppOfTheWeek
    */
-  current_values: { [key: string]: Keys }
+  position: number
 }

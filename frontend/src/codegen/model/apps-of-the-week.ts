@@ -14,24 +14,18 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { Keys } from "./keys"
+import { AppOfTheWeek } from "./app-of-the-week"
 
 /**
  *
  * @export
- * @interface RequestData
+ * @interface AppsOfTheWeek
  */
-export interface RequestData {
+export interface AppsOfTheWeek {
   /**
    *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
+   * @type {Array<AppOfTheWeek>}
+   * @memberof AppsOfTheWeek
    */
-  keys: { [key: string]: Keys }
-  /**
-   *
-   * @type {{ [key: string]: Keys; }}
-   * @memberof RequestData
-   */
-  current_values: { [key: string]: Keys }
+  apps: Array<AppOfTheWeek>
 }

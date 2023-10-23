@@ -3,6 +3,7 @@ import itertools
 import json
 from datetime import datetime
 from enum import Enum
+from typing import Optional
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
@@ -37,8 +38,8 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, str]
-    current_values: dict[str, str]
+    keys: dict[str, Optional[str]]
+    current_values: dict[str, Optional[str]]
 
 
 class ModerationRequestResponse(BaseModel):
