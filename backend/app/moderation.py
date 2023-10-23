@@ -166,8 +166,8 @@ def get_moderation_app(
                 job_id=row.job_id,
                 is_approved=row.is_approved,
                 handled_by=handled_by_name,
-                handled_at=row.handled_at
-                if datetime.fromtimestamp(row.handled_at)
+                handled_at=datetime.fromtimestamp(row.handled_at)
+                if row.handled_at
                 else None,
                 comment=row.comment,
                 is_outdated=row.is_outdated,
