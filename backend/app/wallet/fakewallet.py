@@ -16,8 +16,8 @@ from fastapi import Request, Response
 from app.models import FlathubUser
 
 from .walletbase import (
-    CardInfo,
     NascentTransaction,
+    PaymentCardInfo,
     StripeKeys,
     Transaction,
     TransactionRow,
@@ -30,7 +30,7 @@ from .walletbase import (
     WalletInfo,
 )
 
-FAKE_CARD_EXP = CardInfo.parse_obj(
+FAKE_CARD_EXP = PaymentCardInfo.parse_obj(
     {
         "id": "fake_card_exp",
         "brand": "visa",
@@ -41,7 +41,7 @@ FAKE_CARD_EXP = CardInfo.parse_obj(
     }
 )
 
-FAKE_CARD_OK = CardInfo.parse_obj(
+FAKE_CARD_OK = PaymentCardInfo.parse_obj(
     {
         "id": "fake_card_ok",
         "brand": "mastercard",
@@ -130,7 +130,7 @@ class FakeWallet(WalletBase):
             "cards": cards,
         }
 
-    def remove_card(self, request: Request, user: FlathubUser, card: CardInfo):
+    def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
         to_del = None
         if card == FAKE_CARD_EXP:
             to_del = "exp"
@@ -233,7 +233,11 @@ class FakeWallet(WalletBase):
         return id
 
     def set_transaction_card(
-        self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
+        card: PaymentCardInfo,
     ):
         txns = self._get_user_transactions(request)
         transaction = txns.get(transaction, FAKE_TXN_DICT.get(transaction))

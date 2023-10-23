@@ -5,7 +5,7 @@ import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
 import Button from "../../Button"
 import { TransactionDetailed } from "../../../types/Payment"
-import { CardInfo } from "../../../codegen"
+import { PaymentCardInfo } from "../../../codegen"
 
 export default {
   title: "Components/Payment/CardSelect",
@@ -44,7 +44,7 @@ export const Generated = () => {
     receipt: "15",
   }
 
-  const cards: CardInfo[] = [
+  const cards: PaymentCardInfo[] = [
     {
       id: "1",
       brand: "visa",

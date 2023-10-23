@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { CardInfo } from "./card-info"
+import { PaymentCardInfo } from "./payment-card-info"
 // May contain unused imports in some cases
 // @ts-ignore
 import { TransactionRow } from "./transaction-row"
@@ -36,10 +36,10 @@ export interface Transaction {
   summary: TransactionSummary
   /**
    *
-   * @type {CardInfo}
+   * @type {PaymentCardInfo}
    * @memberof Transaction
    */
-  card: CardInfo | null
+  card: PaymentCardInfo | null
   /**
    *
    * @type {Array<TransactionRow>}

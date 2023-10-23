@@ -15,43 +15,43 @@
 /**
  *
  * @export
- * @interface CardInfo
+ * @interface PaymentCardInfo
  */
-export interface CardInfo {
+export interface PaymentCardInfo {
   /**
    *
    * @type {string}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   id: string
   /**
    *
    * @type {string}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   brand: string
   /**
    *
    * @type {string}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   country: string
   /**
    *
    * @type {number}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   exp_month: number
   /**
    *
    * @type {number}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   exp_year: number
   /**
    *
    * @type {string}
-   * @memberof CardInfo
+   * @memberof PaymentCardInfo
    */
   last4: string
 }

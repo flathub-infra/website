@@ -38,11 +38,11 @@ import {
   RequiredError,
 } from "../base"
 // @ts-ignore
-import { CardInfo } from "../model"
-// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { NascentTransaction } from "../model"
+// @ts-ignore
+import { PaymentCardInfo } from "../model"
 // @ts-ignore
 import { Transaction } from "../model"
 // @ts-ignore
@@ -401,19 +401,19 @@ export const WalletApiAxiosParamCreator = function (
     /**
      * Remove a card from a user\'s wallet.  The provided information must exactly match a card as would be returned from the wallet info endpoint.
      * @summary Post Removecard
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postRemovecardWalletRemovecardPost: async (
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'cardInfo' is not null or undefined
+      // verify required parameter 'paymentCardInfo' is not null or undefined
       assertParamExists(
         "postRemovecardWalletRemovecardPost",
-        "cardInfo",
-        cardInfo,
+        "paymentCardInfo",
+        paymentCardInfo,
       )
       const localVarPath = `/wallet/removecard`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -442,7 +442,7 @@ export const WalletApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        cardInfo,
+        paymentCardInfo,
         localVarRequestOptions,
         configuration,
       )
@@ -571,13 +571,13 @@ export const WalletApiAxiosParamCreator = function (
      * Set the card associated with a transaction.  The posted card must exactly match one of the cards returned by the wallet info endpoint or else the update may not succeed
      * @summary Set Transaction Card
      * @param {string} txn
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setTransactionCardWalletTransactionsTxnSetcardPost: async (
       txn: string,
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
@@ -586,11 +586,11 @@ export const WalletApiAxiosParamCreator = function (
         "txn",
         txn,
       )
-      // verify required parameter 'cardInfo' is not null or undefined
+      // verify required parameter 'paymentCardInfo' is not null or undefined
       assertParamExists(
         "setTransactionCardWalletTransactionsTxnSetcardPost",
-        "cardInfo",
-        cardInfo,
+        "paymentCardInfo",
+        paymentCardInfo,
       )
       const localVarPath = `/wallet/transactions/{txn}/setcard`.replace(
         `{${"txn"}}`,
@@ -622,7 +622,7 @@ export const WalletApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        cardInfo,
+        paymentCardInfo,
         localVarRequestOptions,
         configuration,
       )
@@ -859,19 +859,19 @@ export const WalletApiFp = function (configuration?: Configuration) {
     /**
      * Remove a card from a user\'s wallet.  The provided information must exactly match a card as would be returned from the wallet info endpoint.
      * @summary Post Removecard
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async postRemovecardWalletRemovecardPost(
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.postRemovecardWalletRemovecardPost(
-          cardInfo,
+          paymentCardInfo,
           options,
         )
       return createRequestFunction(
@@ -938,13 +938,13 @@ export const WalletApiFp = function (configuration?: Configuration) {
      * Set the card associated with a transaction.  The posted card must exactly match one of the cards returned by the wallet info endpoint or else the update may not succeed
      * @summary Set Transaction Card
      * @param {string} txn
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async setTransactionCardWalletTransactionsTxnSetcardPost(
       txn: string,
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options?: AxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
@@ -952,7 +952,7 @@ export const WalletApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setTransactionCardWalletTransactionsTxnSetcardPost(
           txn,
-          cardInfo,
+          paymentCardInfo,
           options,
         )
       return createRequestFunction(
@@ -1100,16 +1100,16 @@ export const WalletApiFactory = function (
     /**
      * Remove a card from a user\'s wallet.  The provided information must exactly match a card as would be returned from the wallet info endpoint.
      * @summary Post Removecard
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     postRemovecardWalletRemovecardPost(
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options?: any,
     ): AxiosPromise<void> {
       return localVarFp
-        .postRemovecardWalletRemovecardPost(cardInfo, options)
+        .postRemovecardWalletRemovecardPost(paymentCardInfo, options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -1152,19 +1152,19 @@ export const WalletApiFactory = function (
      * Set the card associated with a transaction.  The posted card must exactly match one of the cards returned by the wallet info endpoint or else the update may not succeed
      * @summary Set Transaction Card
      * @param {string} txn
-     * @param {CardInfo} cardInfo
+     * @param {PaymentCardInfo} paymentCardInfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     setTransactionCardWalletTransactionsTxnSetcardPost(
       txn: string,
-      cardInfo: CardInfo,
+      paymentCardInfo: PaymentCardInfo,
       options?: any,
     ): AxiosPromise<void> {
       return localVarFp
         .setTransactionCardWalletTransactionsTxnSetcardPost(
           txn,
-          cardInfo,
+          paymentCardInfo,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -1308,17 +1308,17 @@ export class WalletApi extends BaseAPI {
   /**
    * Remove a card from a user\'s wallet.  The provided information must exactly match a card as would be returned from the wallet info endpoint.
    * @summary Post Removecard
-   * @param {CardInfo} cardInfo
+   * @param {PaymentCardInfo} paymentCardInfo
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WalletApi
    */
   public postRemovecardWalletRemovecardPost(
-    cardInfo: CardInfo,
+    paymentCardInfo: PaymentCardInfo,
     options?: AxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
-      .postRemovecardWalletRemovecardPost(cardInfo, options)
+      .postRemovecardWalletRemovecardPost(paymentCardInfo, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -1366,20 +1366,20 @@ export class WalletApi extends BaseAPI {
    * Set the card associated with a transaction.  The posted card must exactly match one of the cards returned by the wallet info endpoint or else the update may not succeed
    * @summary Set Transaction Card
    * @param {string} txn
-   * @param {CardInfo} cardInfo
+   * @param {PaymentCardInfo} paymentCardInfo
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof WalletApi
    */
   public setTransactionCardWalletTransactionsTxnSetcardPost(
     txn: string,
-    cardInfo: CardInfo,
+    paymentCardInfo: PaymentCardInfo,
     options?: AxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .setTransactionCardWalletTransactionsTxnSetcardPost(
         txn,
-        cardInfo,
+        paymentCardInfo,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

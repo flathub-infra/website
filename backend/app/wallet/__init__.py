@@ -13,8 +13,8 @@ from fastapi.responses import JSONResponse
 from ..config import settings
 from ..logins import login_state
 from .walletbase import (
-    CardInfo,
     NascentTransaction,
+    PaymentCardInfo,
     Transaction,
     TransactionSaveCard,
     TransactionSortOrder,
@@ -61,7 +61,9 @@ def get_walletinfo(request: Request, login=Depends(login_state)) -> WalletInfo:
 
 
 @router.post("/removecard", tags=["wallet"])
-def post_removecard(request: Request, card: CardInfo, login=Depends(login_state)):
+def post_removecard(
+    request: Request, card: PaymentCardInfo, login=Depends(login_state)
+):
     """
     Remove a card from a user's wallet.
 
@@ -142,7 +144,7 @@ def create_transaction(
 
 @router.post("/transactions/{txn}/setcard", tags=["wallet"])
 def set_transaction_card(
-    txn: str, data: CardInfo, request: Request, login=Depends(login_state)
+    txn: str, data: PaymentCardInfo, request: Request, login=Depends(login_state)
 ):
     """
     Set the card associated with a transaction.
