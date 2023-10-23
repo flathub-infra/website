@@ -3,7 +3,6 @@ import { useTranslation } from "next-i18next"
 import { Fragment, FunctionComponent, ReactElement, useState } from "react"
 import { submitReview } from "src/asyncs/moderation"
 import { getIntlLocale, getLocale } from "src/localize"
-import { ModerationRequest } from "src/types/Moderation"
 import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
@@ -11,10 +10,11 @@ import Badge from "../application/Badge"
 import { formatDistance, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
+import { ModerationRequestResponse } from "src/codegen/model"
 
 interface Props {
   title: string
-  request: ModerationRequest
+  request: ModerationRequestResponse
   children: ReactElement
 }
 

@@ -226,8 +226,6 @@ export const REFRESH_DEV_FLATPAKS = `${BASE_URI}/auth/refresh-dev-flatpaks`
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
 
 export const MODERATION_BASE_URL: string = `${BASE_URI}/moderation`
-export const MODERATION_APPS_URL: string = `${MODERATION_BASE_URL}/apps`
-export const MODERATION_APP_URL = (id: string) => `${MODERATION_APPS_URL}/${id}`
 export const MODERATION_REVIEW_URL = (id: number) =>
   `${MODERATION_BASE_URL}/requests/${id}/review`
 

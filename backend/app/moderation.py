@@ -1,7 +1,6 @@
 import base64
 import itertools
 import json
-import typing as T
 from datetime import datetime
 from enum import Enum
 
@@ -37,6 +36,11 @@ class ModerationAppsResponse(BaseModel):
     apps_count: int
 
 
+class RequestData(BaseModel):
+    keys: dict[str, str]
+    current_values: dict[str, str]
+
+
 class ModerationRequestResponse(BaseModel):
     id: int
     app_id: str
@@ -47,7 +51,7 @@ class ModerationRequestResponse(BaseModel):
     is_outdated: bool
 
     request_type: ModerationRequestType
-    request_data: T.Any | None = None
+    request_data: RequestData | None = None
     is_new_submission: bool
 
     handled_by: str | None = None

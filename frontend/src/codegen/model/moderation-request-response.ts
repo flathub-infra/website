@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { RequestData } from "./request-data"
+
 /**
  *
  * @export
@@ -62,10 +66,10 @@ export interface ModerationRequestResponse {
   request_type: string
   /**
    *
-   * @type {}
+   * @type {RequestData}
    * @memberof ModerationRequestResponse
    */
-  request_data: null
+  request_data: RequestData | null
   /**
    *
    * @type {boolean}

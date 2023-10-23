@@ -1,81 +1,95 @@
-import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { FunctionComponent, useCallback } from "react"
+import { FunctionComponent, useEffect, useState } from "react"
 import { getAppsInfo } from "src/asyncs/app"
-import { getModerationApp } from "src/asyncs/moderation"
-import { useAsync } from "src/hooks/useAsync"
-import { ModerationRequest } from "src/types/Moderation"
 import { setQueryParams } from "src/utils/queryParams"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import Link from "next/link"
+import { ModerationRequestResponse } from "src/codegen"
+import { useQuery } from "@tanstack/react-query"
+import { moderationApi } from "src/api"
 
 interface Props {
   appId: string
 }
 
 const AppModeration: FunctionComponent<Props> = ({ appId }) => {
-  const { t } = useTranslation()
   const router = useRouter()
 
-  const includeOutdated = router.query.includeOutdated
-  const includeHandled = router.query.includeHandled
-
-  const {
-    error: appstreamError,
-    status: appstreamStatus,
-    value: appstream,
-  } = useAsync(
-    useCallback(async () => (await getAppsInfo([appId]))[0], [appId]),
-    true,
+  const [includeOutdatedQuery, setIncludeOutdatedQuery] = useState<boolean>(
+    router.query.includeOutdated === "true",
   )
+
+  const [includeHandledQuery, setIncludeHandledQuery] = useState<boolean>(
+    router.query.includeHandled === "true",
+  )
+
+  const appInfoQuery = useQuery({
+    queryKey: ["app", appId],
+    queryFn: () => getAppsInfo([appId]),
+    enabled: !!appId,
+  })
 
   const PAGE_SIZE = 10
   const currentPage = parseInt((router.query.page as string) ?? "1") ?? 1
 
-  const {
-    error,
-    status,
-    value: moderationApp,
-  } = useAsync(
-    useCallback(
-      async () =>
-        await getModerationApp(
-          appId,
-          includeOutdated === "true",
-          includeHandled === "true",
-          PAGE_SIZE,
-          (currentPage - 1) * PAGE_SIZE,
-        ),
-      [appId, currentPage, includeHandled, includeOutdated],
-    ),
-    true,
-  )
+  const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 
-  if (
-    status === "pending" ||
-    appstreamStatus === "pending" ||
-    status === "idle" ||
-    appstreamStatus === "idle"
-  ) {
+  useEffect(() => {
+    setOffset((currentPage - 1) * PAGE_SIZE)
+  }, [currentPage])
+
+  const query = useQuery({
+    queryKey: [
+      "moderation",
+      appId,
+      includeOutdatedQuery,
+      includeHandledQuery,
+      offset,
+    ],
+    queryFn: () =>
+      moderationApi.getModerationAppModerationAppsAppIdGet(
+        appId,
+        includeOutdatedQuery,
+        includeHandledQuery,
+        PAGE_SIZE,
+        offset,
+        {
+          withCredentials: true,
+        },
+      ),
+    enabled: !!appId,
+  })
+
+  if (query.isLoading || appInfoQuery.isLoading) {
     return <Spinner size="m" />
-  } else if (status === "error" || appstreamStatus === "error") {
-    return <InlineError error={error ?? appstreamError} shown={true} />
+  } else if (query.isError || appInfoQuery.isError) {
+    return (
+      <InlineError
+        error={(query.error as string) ?? (appInfoQuery.error as string)}
+        shown={true}
+      />
+    )
   }
 
   const pages = Array.from(
-    { length: Math.ceil((moderationApp.requests_count ?? 1) / PAGE_SIZE) },
+    { length: Math.ceil((query.data.data.requests_count ?? 1) / PAGE_SIZE) },
     (_, i) => i + 1,
   )
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="mt-8 text-4xl font-extrabold">{appstream.name}</h1>
-        <Link href={`/apps/${appstream.id}`} className="text-sm opacity-75">
-          {appstream.id}
+        <h1 className="mt-8 text-4xl font-extrabold">
+          {appInfoQuery.data[0].name}
+        </h1>
+        <Link
+          href={`/apps/${appInfoQuery.data[0].id}`}
+          className="text-sm opacity-75"
+        >
+          {appInfoQuery.data[0].id}
         </Link>
       </div>
 
@@ -84,10 +98,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           <input
             id="include-outdated"
             type="checkbox"
-            checked={includeOutdated === "true"}
+            checked={includeOutdatedQuery}
             onChange={() => {
               setQueryParams(router, {
-                includeOutdated: includeOutdated ? undefined : "true",
+                includeOutdated: includeOutdatedQuery ? undefined : "true",
                 page: "1",
               })
             }}
@@ -101,10 +115,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           <input
             id="include-handled"
             type="checkbox"
-            checked={includeHandled === "true"}
+            checked={includeHandledQuery}
             onChange={() => {
               setQueryParams(router, {
-                includeHandled: includeHandled ? undefined : "true",
+                includeHandled: includeHandledQuery ? undefined : "true",
                 page: "1",
               })
             }}
@@ -115,12 +129,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         </span>
       </div>
 
-      {moderationApp.requests.length === 0 && (
+      {query.data.data.requests.length === 0 && (
         <div>No reviews to show for this app.</div>
       )}
 
       <div className="flex flex-col space-y-4">
-        {moderationApp.requests.map(getReviewRow)}
+        {query.data.data.requests.map(getReviewRow)}
       </div>
 
       <Pagination currentPage={currentPage} pages={pages} />
@@ -130,7 +144,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
 
 export default AppModeration
 
-export const getReviewRow = (request: ModerationRequest) => {
+export const getReviewRow = (request: ModerationRequestResponse) => {
   switch (request.request_type) {
     case "appdata":
       return <AppstreamChangesRow key={request.id} request={request} />
