@@ -40,6 +40,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 
   useEffect(() => {
+    setIncludeOutdatedQuery(router.query.includeOutdated === "true")
+  }, [router.query.includeOutdated])
+
+  useEffect(() => {
+    setIncludeHandledQuery(router.query.includeHandled === "true")
+  }, [router.query.includeHandled])
+
+  useEffect(() => {
     setOffset((currentPage - 1) * PAGE_SIZE)
   }, [currentPage])
 
