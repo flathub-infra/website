@@ -6,10 +6,10 @@ import { deletePaymentCard } from "../../../asyncs/payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CardInfo, WalletInfo } from "src/codegen"
+import { PaymentCardInfo, WalletInfo } from "src/codegen"
 
 const DeleteCardButton: FunctionComponent<{
-  card: CardInfo
+  card: PaymentCardInfo
 }> = ({ card }) => {
   const { t } = useTranslation()
   const queryClient = useQueryClient()

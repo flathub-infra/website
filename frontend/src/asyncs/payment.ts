@@ -1,4 +1,4 @@
-import { CardInfo } from "src/codegen"
+import { PaymentCardInfo } from "src/codegen"
 import {
   REMOVE_CARD_URL,
   TRANSACTIONS_URL,
@@ -13,7 +13,7 @@ import { NewTransaction, Transaction } from "../types/Payment"
  * Performs API request to delete a saved payment card
  * @param card the card to be deleted
  */
-export async function deletePaymentCard(card: CardInfo): Promise<void> {
+export async function deletePaymentCard(card: PaymentCardInfo): Promise<void> {
   let res: Response
   try {
     res = await fetch(REMOVE_CARD_URL, {
@@ -142,7 +142,7 @@ export async function setTransactionSaveCard(
 
 export async function setTransactionUseCard(
   transactionId: string,
-  card: CardInfo,
+  card: PaymentCardInfo,
 ): Promise<void> {
   let res: Response
   try {

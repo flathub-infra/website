@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { CardInfo } from "./card-info"
+import { PaymentCardInfo } from "./payment-card-info"
 
 /**
  *
@@ -30,8 +30,8 @@ export interface WalletInfo {
   status: string
   /**
    *
-   * @type {Array<CardInfo>}
+   * @type {Array<PaymentCardInfo>}
    * @memberof WalletInfo
    */
-  cards: Array<CardInfo>
+  cards: Array<PaymentCardInfo>
 }

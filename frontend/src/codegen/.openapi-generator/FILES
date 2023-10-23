@@ -23,7 +23,6 @@ model/available-method.ts
 model/available-methods.ts
 model/body-get-download-token-purchases-generate-download-token-post.ts
 model/build-notification-request.ts
-model/card-info.ts
 model/connected-account-provider.ts
 model/data.ts
 model/developer.ts
@@ -45,6 +44,7 @@ model/nascent-transaction-summary.ts
 model/nascent-transaction.ts
 model/oauth-login-response-failure.ts
 model/oauth-login-response-success.ts
+model/payment-card-info.ts
 model/platform.ts
 model/pricing-info.ts
 model/proposed-payment.ts

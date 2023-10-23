@@ -11,12 +11,12 @@ import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
-import { CardInfo as TCardInfo } from "src/codegen"
+import { PaymentCardInfo } from "src/codegen"
 
 interface Props {
   transaction: TransactionDetailed
   clientSecret: string
-  cards: TCardInfo[]
+  cards: PaymentCardInfo[]
   error: string
   submit: () => void
   skip: () => void
@@ -36,7 +36,7 @@ const CardSelect: FunctionComponent<Props> = ({
   const stripe = useStripe()
 
   const [confirmed, setConfirmed] = useState(false)
-  const [useCard, setUseCard] = useState<TCardInfo>(null)
+  const [useCard, setUseCard] = useState<PaymentCardInfo>(null)
 
   // User must confirm card selection so their intent to pay is explicit
   useEffect(() => {

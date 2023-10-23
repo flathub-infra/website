@@ -16,8 +16,8 @@ from ..config import settings
 from ..models import FlathubUser, StripeCustomer
 from ..utils import PLATFORMS_WITH_STRIPE
 from .walletbase import (
-    CardInfo,
     NascentTransaction,
+    PaymentCardInfo,
     StripeKeys,
     Transaction,
     TransactionRow,
@@ -62,8 +62,8 @@ class StripeWallet(WalletBase):
             return StripeCustomer.by_user(db, user)
         return cust
 
-    def _cardinfo(self, card: dict) -> CardInfo | None:
-        return CardInfo(
+    def _cardinfo(self, card: dict) -> PaymentCardInfo | None:
+        return PaymentCardInfo(
             id=card["id"],
             brand=card["card"]["brand"].lower().replace(" ", ""),
             exp_month=card["card"]["exp_month"],
@@ -80,7 +80,7 @@ class StripeWallet(WalletBase):
             cards=[self._cardinfo(card) for card in pms["data"]],
         )
 
-    def remove_card(self, request: Request, user: FlathubUser, card: CardInfo):
+    def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
         customer = self._get_customer(user)
         pms = stripe.Customer.list_payment_methods(customer.stripe_cust, type="card")
         cards = [self._cardinfo(card) for card in pms["data"]]
@@ -318,7 +318,11 @@ class StripeWallet(WalletBase):
         return str(txn.id)
 
     def set_transaction_card(
-        self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
+        card: PaymentCardInfo,
     ):
         customer = self._get_customer(user)
         pms = stripe.Customer.list_payment_methods(customer.stripe_cust, type="card")

@@ -4,10 +4,10 @@ import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
 import { IMAGE_BASE_URL } from "../../../env"
 import Image from "next/image"
-import { CardInfo as TCardInfo } from "src/codegen"
+import { PaymentCardInfo } from "src/codegen"
 
 interface Props {
-  card: TCardInfo
+  card: PaymentCardInfo
   onClick?: MouseEventHandler
   className?: string
 }

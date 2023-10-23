@@ -15,7 +15,7 @@ from pydantic import BaseModel
 from ..models import FlathubUser
 
 
-class CardInfo(BaseModel):
+class PaymentCardInfo(BaseModel):
     id: str
     brand: str
     country: str
@@ -47,7 +47,7 @@ class TransactionRow(BaseModel):
 
 class Transaction(BaseModel):
     summary: TransactionSummary
-    card: CardInfo | None = None
+    card: PaymentCardInfo | None = None
     details: list[TransactionRow]
     receipt: str | None = None
 
@@ -85,7 +85,7 @@ class WalletError(Exception):
 
 class WalletInfo(BaseModel):
     status: str
-    cards: list[CardInfo]
+    cards: list[PaymentCardInfo]
 
 
 class StripeKeys(BaseModel):
@@ -96,7 +96,7 @@ class StripeKeys(BaseModel):
 class TransactionStripeData(BaseModel):
     status: str
     client_secret: str
-    card: CardInfo | None = None
+    card: PaymentCardInfo | None = None
 
 
 TransactionSaveCardKind = Literal["off_session", "on_session"]
@@ -140,7 +140,7 @@ class WalletBase:
         """
         raise NotImplementedError
 
-    def remove_card(self, request: Request, user: FlathubUser, card: CardInfo):
+    def remove_card(self, request: Request, user: FlathubUser, card: PaymentCardInfo):
         """
         Attempt to remove `card` from the user's wallet.  If it's present then
         it is removed and if it's not present, or something else goes wrong then
@@ -212,7 +212,11 @@ class WalletBase:
         raise NotImplementedError
 
     def set_transaction_card(
-        self, request: Request, user: FlathubUser, transaction: str, card: CardInfo
+        self,
+        request: Request,
+        user: FlathubUser,
+        transaction: str,
+        card: PaymentCardInfo,
     ):
         """
         Set the card associated with a transaction.  The card should match one

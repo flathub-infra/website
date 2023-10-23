@@ -1,4 +1,4 @@
-import { CardInfo } from "src/codegen"
+import { PaymentCardInfo } from "src/codegen"
 import { APIResponseOk } from "./API"
 
 // Corresponds to objects from `/wallet/transactions`
@@ -23,7 +23,7 @@ export interface Transaction {
 
 export interface TransactionDetailed {
   summary: Transaction
-  card?: CardInfo
+  card?: PaymentCardInfo
   details: Payout[]
   receipt?: string
 }
