@@ -188,13 +188,16 @@
         <pre><code>
           <span class="unselectable">#</span> apt install flatpak
         </code></pre>
-        <p>For Debian Jessie and Stretch, a flatpak package is available in the <a href="https://backports.debian.org/Instructions/">official backports repository</a>. </p>
       </li>
       <li>
         <h2>Install the Software Flatpak plugin</h2>
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
         <pre><code>
           <span class="unselectable">#</span> apt install gnome-software-plugin-flatpak
+        </code></pre>
+        <p>If you are running KDE Plasma, you can install the Flatpak plugin for KDE Discover instead:</p>
+        <pre><code>
+          <span class="unselectable">#</span> apt install plasma-discover-backend-flatpak
         </code></pre>
       </li>
       <li>
@@ -360,7 +363,18 @@
         <h2>Install Flatpak</h2>
         <p>Flatpak can be installed from the community repository. Run the following in a terminal:</p>
         <pre><code>
-          <span class="unselectable">$</span> sudo apk add flatpak
+          <span class="unselectable">$</span> doas apk add flatpak
+        </code></pre>
+      </li>
+      <li>
+        <h2>Install the Software Flatpak plugin</h2>
+        <p>You can install the Flatpak plugin for either the GNOME Software (since v3.13) or KDE Discover (since v3.11), making it possible to install apps without needing the command line. To install, for GNOME Software run:</p>
+        <pre><code>
+          <span class="unselectable">$</span> doas apk add gnome-software-plugin-flatpak
+        </code></pre>
+        <p>And for KDE Discover, run this instead:</p>
+        <pre><code>
+          <span class="unselectable">$</span> doas apk add discover-backend-flatpak
         </code></pre>
       </li>
       <li>
@@ -372,8 +386,7 @@
       </li>
       <li>
         <h2>Restart</h2>
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
-        <p>Note: graphical installation of Flatpak apps may not be possible with Alpine.</p>
+        <p>To complete the setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
       </li>
     </ol>
 
