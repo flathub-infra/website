@@ -27,7 +27,7 @@ PyJWT = "^2.7.0"
 meilisearch = "^0.28.3"
 orjson = "^3.9.9"
 python-multipart = "^0.0.6"
-dramatiq = {extras = ["redis", "watch"], version = "^1.14.2"}
+dramatiq = {extras = ["redis", "watch"], version = "^1.15.0"}
 sqlalchemy = "2.0.22"
 sentry-dramatiq = "^0.3.3"
 psycopg2 = "^2.9.9"

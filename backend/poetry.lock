@@ -378,28 +378,28 @@ dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [[package]]
 name = "dramatiq"
-version = "1.14.2"
+version = "1.15.0"
 description = "Background Processing for Python 3."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "dramatiq-1.14.2-py3-none-any.whl", hash = "sha256:cbde4da5016f31fd9db3bb66f02090d6291ce4c2f2093e2783ed91da947d05f4"},
-    {file = "dramatiq-1.14.2.tar.gz", hash = "sha256:8f1a615d4c8f9ea43d60a5c85457e1ec8c0e8d3d85ba72467a959dbff483af1d"},
+    {file = "dramatiq-1.15.0-py3-none-any.whl", hash = "sha256:74fea420b46d8a2c8e59e4a89e21c31ca565fd13759ecf218cb1e17fe26fb6fc"},
+    {file = "dramatiq-1.15.0.tar.gz", hash = "sha256:b220e93d7ab980a573267c824fa99eb2f1fdc711aa48b0810b89bfa49b868280"},
 ]
 
 [package.dependencies]
 prometheus-client = ">=0.2"
-redis = {version = ">=2.0,<5.0", optional = true, markers = "extra == \"redis\""}
+redis = {version = ">=2.0,<6.0", optional = true, markers = "extra == \"redis\""}
 watchdog = {version = "*", optional = true, markers = "extra == \"watch\""}
 watchdog-gevent = {version = "*", optional = true, markers = "extra == \"watch\""}
 
 [package.extras]
-all = ["gevent (>=1.1)", "pika (>=1.0,<2.0)", "pylibmc (>=1.5,<2.0)", "redis (>=2.0,<5.0)", "watchdog", "watchdog-gevent"]
-dev = ["alabaster", "bumpversion", "flake8", "flake8-bugbear", "flake8-quotes", "gevent (>=1.1)", "hiredis", "isort", "pika (>=1.0,<2.0)", "pylibmc (>=1.5,<2.0)", "pytest", "pytest-benchmark[histogram]", "pytest-cov", "redis (>=2.0,<5.0)", "sphinx (<1.8)", "sphinxcontrib-napoleon", "tox", "twine", "watchdog", "watchdog-gevent", "wheel"]
+all = ["gevent (>=1.1)", "pika (>=1.0,<2.0)", "pylibmc (>=1.5,<2.0)", "redis (>=2.0,<6.0)", "watchdog", "watchdog-gevent"]
+dev = ["alabaster", "bumpversion", "flake8", "flake8-bugbear", "flake8-quotes", "gevent (>=1.1)", "hiredis", "isort", "pika (>=1.0,<2.0)", "pylibmc (>=1.5,<2.0)", "pytest", "pytest-benchmark[histogram]", "pytest-cov", "redis (>=2.0,<6.0)", "sphinx", "sphinxcontrib-napoleon", "tox", "twine", "watchdog", "watchdog-gevent", "wheel"]
 gevent = ["gevent (>=1.1)"]
 memcached = ["pylibmc (>=1.5,<2.0)"]
 rabbitmq = ["pika (>=1.0,<2.0)"]
-redis = ["redis (>=2.0,<5.0)"]
+redis = ["redis (>=2.0,<6.0)"]
 watch = ["watchdog", "watchdog-gevent"]
 
 [[package]]
@@ -2197,4 +2197,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a25c2df8036e5648cc189662c16a883873ae6d414fd0f968807f9b9972d7ace9"
+content-hash = "56f3ffcf1a554ae769a5ec80d327a170441700531213a835bb573b47b965c891"
