@@ -183,6 +183,7 @@ const QualityItem = ({
           )
         ) : (
           <MultiToggle
+            size="sm"
             items={[
               {
                 id: "not-set",

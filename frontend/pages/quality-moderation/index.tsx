@@ -15,13 +15,14 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
-import { Fragment, ReactElement, useState } from "react"
+import { Fragment, ReactElement, useEffect, useState } from "react"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
   HiMiniChevronDown,
   HiMiniChevronUp,
 } from "react-icons/hi2"
+import MultiToggle from "src/components/MultiToggle"
 import Spinner from "src/components/Spinner"
 import { useUserContext } from "src/context/user-info"
 import { fetchQualityModerationDashboard } from "src/fetchers"
@@ -30,6 +31,8 @@ import { QualityModerationDashboardRow } from "src/types/QualityModeration"
 export default function QualityModerationDashboard() {
   const { t } = useTranslation()
   const user = useUserContext()
+
+  const [filteredBy, setFilteredBy] = useState<"all" | "passed" | "todo">("all")
 
   const [sorting, setSorting] = useState<SortingState>([
     { id: "passed", desc: true },
@@ -92,8 +95,31 @@ export default function QualityModerationDashboard() {
       },
     },
   ]
+
+  const [data, setData] = useState<QualityModerationDashboardRow[]>([])
+
+  useEffect(() => {
+    if (filteredBy === "all") {
+      setData(query?.data?.data?.apps ?? [])
+    } else if (filteredBy === "passed") {
+      setData(
+        query?.data?.data?.apps.filter(
+          (app) => app["quality-moderation-status"].passes,
+        ) ?? [],
+      )
+    } else if (filteredBy === "todo") {
+      setData(
+        query?.data?.data?.apps.filter(
+          (app) =>
+            app["quality-moderation-status"]["not-passed"] === 0 &&
+            app["quality-moderation-status"].unrated > 0,
+        ) ?? [],
+      )
+    }
+  }, [filteredBy, query?.data?.data?.apps])
+
   const table = useReactTable<QualityModerationDashboardRow>({
-    data: query?.data?.data?.apps ?? [],
+    data,
     columns: columns,
     state: {
       sorting,
@@ -132,103 +158,121 @@ export default function QualityModerationDashboard() {
         </h1>
 
         <div className="px-4 sm:px-6 lg:px-8">
-          <div className="mt-8 flow-root">
-            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                  <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                      <tr key={headerGroup.id} className="relative">
-                        {headerGroup.headers.map((header) => {
-                          return (
-                            <th
-                              key={header.id}
-                              colSpan={header.colSpan}
-                              className="py-13.5 h-20 text-sm font-normal first:rounded-tl-2xl last:rounded-tr-2xl sm:pl-0"
-                            >
-                              {header.isPlaceholder ? null : (
-                                <div className="flex w-full">
-                                  <button
-                                    type="button"
-                                    {...{
-                                      className: clsx(
-                                        header.column.getCanSort() &&
-                                          "cursor-pointer select-none",
-                                        "flex items-center justify-between gap-1",
-                                      ),
-                                      onClick:
-                                        header.column.getToggleSortingHandler(),
-                                    }}
-                                  >
-                                    {flexRender(
-                                      header.column.columnDef.header,
-                                      header.getContext(),
-                                    )}
-                                    {{
-                                      asc: (
-                                        <HiMiniChevronUp className="h-4 w-4" />
-                                      ),
-                                      desc: (
-                                        <HiMiniChevronDown className="h-4 w-4" />
-                                      ),
-                                    }[header.column.getIsSorted() as string] ??
-                                      null}
-                                  </button>
-                                </div>
-                              )}
-                            </th>
-                          )
-                        })}
-                      </tr>
-                    ))}
-                  </thead>
-                  <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                    <LayoutGroup>
-                      <AnimatePresence>
-                        {tableRows.length === 0 && (
-                          <tr className="h-12">
-                            <td
-                              colSpan={columns.length}
-                              className="p-8 text-center"
-                            >
-                              No items
-                            </td>
-                          </tr>
-                        )}
-                        {tableRows.map((row, rowIndex) => {
-                          return (
-                            <Fragment key={row.id}>
-                              <motion.tr
-                                layoutId={row.id}
-                                key={row.id}
-                                transition={{ delay: 0 }}
-                                className={clsx("h-12 font-medium")}
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <MultiToggle
+              size="lg"
+              items={[
+                {
+                  id: "all",
+                  content: <span>All</span>,
+                  selected: filteredBy === "all",
+                  onClick: () => setFilteredBy("all"),
+                },
+                {
+                  id: "passed",
+                  content: <span>Passed</span>,
+                  selected: filteredBy === "passed",
+                  onClick: () => setFilteredBy("passed"),
+                },
+                {
+                  id: "todo",
+                  content: <span>Todo</span>,
+                  selected: filteredBy === "todo",
+                  onClick: () => setFilteredBy("todo"),
+                },
+              ]}
+            />
+
+            <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id} className="relative">
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <th
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          className="py-13.5 h-20 text-sm font-normal first:rounded-tl-2xl last:rounded-tr-2xl sm:pl-0"
+                        >
+                          {header.isPlaceholder ? null : (
+                            <div className="flex w-full">
+                              <button
+                                type="button"
+                                {...{
+                                  className: clsx(
+                                    header.column.getCanSort() &&
+                                      "cursor-pointer select-none",
+                                    "flex items-center justify-between gap-1",
+                                  ),
+                                  onClick:
+                                    header.column.getToggleSortingHandler(),
+                                }}
                               >
-                                {row.getVisibleCells().map((cell) => {
-                                  return (
-                                    <td
-                                      key={cell.id}
-                                      className={clsx(
-                                        "whitespace-nowrap py-5 text-sm",
-                                      )}
-                                    >
-                                      {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext(),
-                                      )}
-                                    </td>
-                                  )
-                                })}
-                              </motion.tr>
-                            </Fragment>
-                          )
-                        })}
-                      </AnimatePresence>
-                    </LayoutGroup>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext(),
+                                )}
+                                {{
+                                  asc: <HiMiniChevronUp className="h-4 w-4" />,
+                                  desc: (
+                                    <HiMiniChevronDown className="h-4 w-4" />
+                                  ),
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </button>
+                            </div>
+                          )}
+                        </th>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </thead>
+              <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+                <LayoutGroup>
+                  <AnimatePresence>
+                    {tableRows.length === 0 && (
+                      <tr className="h-12">
+                        <td
+                          colSpan={columns.length}
+                          className="p-8 text-center"
+                        >
+                          No items
+                        </td>
+                      </tr>
+                    )}
+                    {tableRows.map((row, rowIndex) => {
+                      return (
+                        <Fragment key={row.id}>
+                          <motion.tr
+                            layoutId={row.id}
+                            key={row.id}
+                            transition={{ delay: 0 }}
+                            className={clsx("h-12 font-medium")}
+                          >
+                            {row.getVisibleCells().map((cell) => {
+                              return (
+                                <td
+                                  key={cell.id}
+                                  className={clsx(
+                                    "whitespace-nowrap py-5 text-sm",
+                                  )}
+                                >
+                                  {flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext(),
+                                  )}
+                                </td>
+                              )
+                            })}
+                          </motion.tr>
+                        </Fragment>
+                      )
+                    })}
+                  </AnimatePresence>
+                </LayoutGroup>
+              </tbody>
+            </table>
           </div>
         </div>
       </>
