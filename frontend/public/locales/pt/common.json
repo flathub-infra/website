@@ -350,5 +350,14 @@
   "publisher-agreement": "Acordo de submissão do editor",
   "publisher-agreement-accept": "Aceito o Acordo de Submissão do Editor",
   "arch": "Arch",
-  "release-link-no-changelog": "Notas de lançamento"
+  "release-link-no-changelog": "Notas de lançamento",
+  "legacy-windowing-system-description": "Usa um sistema de janelas legado",
+  "close": "Fechar",
+  "user-runtime-subfolder-x": "Subpasta de runtime do usuário {{folder}}",
+  "uses-eol-runtime-description": "O runtime usado por este app não está mais recebendo atualizações de segurança",
+  "full-file-system-read-access": "Acesso total de leitura ao sistema de arquivos",
+  "user-runtime-folder": "Pasta de runtime do usuário",
+  "can-read-write-all-data": "Pode ler e gravar todos os dados no diretório",
+  "full-file-system-read-write-access": "Acesso total de leitura/gravação ao sistema de arquivos",
+  "uses-eol-runtime": "Usa um runtime em fim de vida"
 }
