@@ -8,9 +8,7 @@ import {
   useState,
 } from "react"
 import { toast } from "react-toastify"
-import { getAppVendingSetup, setAppVendingSetup } from "../../../asyncs/vending"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
-import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
@@ -20,6 +18,8 @@ import Spinner from "../../Spinner"
 import Toggle from "../../Toggle"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { vendingApi } from "src/api"
 
 interface Props {
   app: Appstream
@@ -37,11 +37,10 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const [requirePayment, setRequirePayment] = useState(false)
 
   // Need existing app vending configuration to initialise controls
-  const {
-    status,
-    value: vendingSetup,
-    error,
-  } = useAsync(useCallback(() => getAppVendingSetup(app.id), [app.id]))
+  const vendingSetup = useQuery({
+    queryKey: ["appVendingSetup", app.id],
+    queryFn: () => vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id),
+  })
 
   // State shared by controls lifted to this parent for final submission
   const [appShare, setAppShare] = useState(50)
@@ -57,17 +56,17 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Controls should initialise to existing setup once known
   useEffect(() => {
-    if (vendingSetup) {
+    if (vendingSetup.data) {
       const decimalRecommendation = Math.max(
-        vendingSetup.recommended_donation / 100,
+        vendingSetup.data.data.recommended_donation / 100,
         FLATHUB_MIN_PAYMENT,
       )
       const decimalMinimum = Math.max(
-        vendingSetup.minimum_payment / 100,
+        vendingSetup.data.data.minimum_payment / 100,
         FLATHUB_MIN_PAYMENT,
       )
 
-      setAppShare(vendingSetup.appshare)
+      setAppShare(vendingSetup.data.data.appshare)
       setRecommendedDonation({
         live: decimalRecommendation,
         settled: decimalRecommendation,
@@ -76,20 +75,17 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         live: decimalMinimum,
         settled: decimalMinimum,
       })
-      setRequirePayment(vendingSetup.minimum_payment > 0)
-      setVendingEnabled(vendingSetup.recommended_donation > 0)
+      setRequirePayment(vendingSetup.data.data.minimum_payment > 0)
+      setVendingEnabled(vendingSetup.data.data.recommended_donation > 0)
     }
-  }, [vendingSetup])
+  }, [vendingSetup.data])
 
   // Tell backend to update the setup on submission
-  const {
-    execute: submit,
-    status: submitStatus,
-    error: submitError,
-  } = useAsync(
-    useCallback(
-      () =>
-        setAppVendingSetup(app.id, {
+  const setAppVendingSetupMutation = useMutation({
+    mutationFn: () => {
+      return vendingApi.postAppVendingSetupVendingappAppIdSetupPost(
+        app.id,
+        {
           currency: "usd",
           appshare: appShare,
           minimum_payment:
@@ -97,37 +93,26 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           recommended_donation: vendingEnabled
             ? recommendedDonation.settled * 100
             : 0,
-        }),
-      [
-        app.id,
-        appShare,
-        minPayment,
-        recommendedDonation,
-        vendingEnabled,
-        requirePayment,
-      ],
-    ),
-    false,
-  )
-
-  // Submission success feedback lets user know if their changes took effect
-  useEffect(() => {
-    if (submitStatus == "success") {
+        },
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: (data) => {
       toast.success(t("app-vending-settings-confirmed"))
-    }
-  }, [t, submitStatus])
-  useEffect(() => {
-    if (submitError) {
-      toast.error(t(submitError))
-    }
-  }, [t, submitError])
+    },
+    onError: (error) => {
+      toast.error(t(error as string))
+    },
+  })
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      submit()
+      setAppVendingSetupMutation.mutate()
     },
-    [submit],
+    [setAppVendingSetupMutation],
   )
 
   const isValidRecommended =
@@ -139,16 +124,13 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     isValidRecommended &&
     (!requirePayment || minPayment.live >= FLATHUB_MIN_PAYMENT)
 
-  if (
-    ["pending", "idle"].includes(status) ||
-    ["pending"].includes(submitStatus)
-  ) {
+  if (vendingSetup.isLoading || setAppVendingSetupMutation.isLoading) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
-  if (error) {
-    content = <p>{t(error)}</p>
+  if (vendingSetup.isError) {
+    content = <p>{t(vendingSetup.error as string)}</p>
   } else {
     content = (
       <form

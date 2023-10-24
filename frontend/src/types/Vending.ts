@@ -50,15 +50,6 @@ export interface VendingSplit extends APIResponseOk {
   splits: VendingShare[]
 }
 
-export interface VendingOutput extends APIResponseOk {
-  transaction: string
-}
-
-export interface ProposedPayment {
-  currency: string
-  amount: number
-}
-
 export interface VendingToken {
   id: string
   state: "unredeemed" | "redeemed" | "cancelled"
@@ -71,14 +62,4 @@ export interface VendingToken {
 export interface VendingTokenList extends APIResponseOk {
   total: number
   tokens: VendingToken[]
-}
-
-export interface VendingTokenCancellation {
-  token: string
-  status: "invalid" | "cancelled" | "error"
-}
-
-export interface VendingTokenRedemption {
-  status: "success" | "failure"
-  reason: string
 }

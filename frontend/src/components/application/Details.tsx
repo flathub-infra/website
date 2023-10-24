@@ -15,8 +15,6 @@ import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import ApplicationSection from "./ApplicationSection"
 import { calculateHumanReadableSize } from "../../size"
 
-import { getAppVendingSetup } from "../../asyncs/vending"
-
 import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   AppsIndex,
@@ -35,6 +33,7 @@ import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
+import { vendingApi } from "src/api"
 
 interface Props {
   app?: DesktopAppstream
@@ -94,9 +93,9 @@ const Details: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const { data: vendingSetup } = useQuery({
-    queryKey: ["verification", app.id],
-    queryFn: async () => {
-      return getAppVendingSetup(app.id)
+    queryKey: ["appVendingSetup", app.id],
+    queryFn: () => {
+      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id)
     },
     enabled: !!app.id && !IS_PRODUCTION,
   })
@@ -168,7 +167,7 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
-          vendingSetup={vendingSetup}
+          vendingSetup={vendingSetup.data}
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />

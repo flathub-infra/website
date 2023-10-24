@@ -1,26 +1,19 @@
 import {
-  VENDING_APP_SETUP_URL,
   VENDING_APP_SPLIT_URL,
   VENDING_APP_STATUS_URL,
   VENDING_DASHBOARD_URL,
   VENDING_ONBOARDING_URL,
   VENDING_STATUS_URL,
-  VENDING_TOKENS_CANCEL_URL,
-  VENDING_TOKENS_REDEEM_URL,
   VENDING_TOKENS_URL,
 } from "../env"
 import { APIResponseError } from "../types/API"
 import {
-  ProposedPayment,
   VendingDescriptor,
-  VendingOutput,
   VendingRedirect,
   VendingSetup,
   VendingSplit,
   VendingStatus,
-  VendingTokenCancellation,
   VendingTokenList,
-  VendingTokenRedemption,
 } from "../types/Vending"
 
 // API responds with this status code if onboarding has not begun
@@ -33,6 +26,7 @@ const DEFAULT_STATUS: VendingStatus = {
   needs_attention: false,
 }
 
+// todo move to backend
 const DEFAULT_SETUP: VendingSetup = {
   currency: "usd",
   appshare: 50,
@@ -142,69 +136,6 @@ export async function getAppVendingStatus(
   }
 }
 
-/**
- * Get the vending setup of an application (for use by app author).
- * @param appId identifer of an application (e.g. "org.flatpak.qtdemo")
- * @returns application's vending setup (or a default setup)
- */
-export async function getAppVendingSetup(appId: string): Promise<VendingSetup> {
-  let res: Response
-  try {
-    res = await fetch(VENDING_APP_SETUP_URL(appId), { credentials: "include" })
-  } catch {
-    throw "failed-to-load-refresh"
-  }
-
-  // No content indicates there is no valid setup set
-  if (res.status === 204) {
-    return DEFAULT_SETUP
-  }
-
-  if (res.ok) {
-    const data: VendingSetup = await res.json()
-    return data
-  } else {
-    throw "failed-to-load-refresh"
-  }
-}
-
-/**
- * Configure the vending setup of an application (for use by app author).
- * @param appId identifer of an application (e.g. "org.flatpak.qtdemo")
- * @param setup desired setup for application's vending
- * @returns application's vending setup
- */
-export async function setAppVendingSetup(
-  appId: string,
-  setup: VendingSetup,
-): Promise<VendingDescriptor> {
-  let res: Response
-  try {
-    res = await fetch(VENDING_APP_SETUP_URL(appId), {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(setup),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  // No content indicates the setup was cleared
-  if (res.status === 204) {
-    return DEFAULT_DESCRIPTOR
-  }
-
-  if (res.ok) {
-    const data: VendingDescriptor = await res.json()
-    return data
-  } else {
-    throw "network-error-try-again"
-  }
-}
-
 export async function getAppVendingSplit(
   appId: string,
   currency: string,
@@ -222,39 +153,6 @@ export async function getAppVendingSplit(
     return data
   } else {
     throw "network-error-try-again"
-  }
-}
-
-export async function initiateAppPayment(
-  appId: string,
-  payment: ProposedPayment,
-): Promise<VendingOutput> {
-  let res: Response
-  try {
-    res = await fetch(VENDING_APP_STATUS_URL(appId), {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payment),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    const data: VendingOutput = await res.json()
-    return data
-  } else {
-    // Some errors come with an explanation from backend, others are unexpected
-    const data: APIResponseError = await res.json()
-
-    const msg = {
-      "stripe-payment-intent-build-failed": "payment-provider-error",
-    }[data.error]
-
-    throw msg ?? "network-error-try-again"
   }
 }
 
@@ -305,66 +203,6 @@ export async function createVendingTokens(
 
     const msg = {
       "permission-denied": "permission-denied",
-    }[data.error]
-
-    throw msg ?? "network-error-try-again"
-  }
-}
-
-export async function cancelVendingTokens(
-  appId: string,
-  tokens: string[],
-): Promise<VendingTokenCancellation[]> {
-  let res: Response
-  try {
-    res = await fetch(VENDING_TOKENS_CANCEL_URL(appId), {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tokens),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    const data: VendingTokenCancellation[] = await res.json()
-    return data
-  } else {
-    const data: APIResponseError = await res.json()
-
-    const msg = {
-      "permission-denied": "permission-denied",
-    }[data.error]
-
-    throw msg ?? "network-error-try-again"
-  }
-}
-
-export async function redeemVendingToken(
-  appId: string,
-  token: string,
-): Promise<VendingTokenRedemption> {
-  let res: Response
-  try {
-    res = await fetch(VENDING_TOKENS_REDEEM_URL(appId, token), {
-      method: "POST",
-      credentials: "include",
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    const data: VendingTokenRedemption = await res.json()
-    return data
-  } else {
-    const data: APIResponseError = await res.json()
-
-    const msg = {
-      "already-owned": "network-error-try-again",
     }[data.error]
 
     throw msg ?? "network-error-try-again"

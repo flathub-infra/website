@@ -10,6 +10,7 @@ import {
   ModerationApi,
   PurchaseApi,
   QualityModerationApi,
+  VendingApi,
   VerificationApi,
   WalletApi,
 } from "./codegen"
@@ -41,3 +42,5 @@ export const appApi = new AppApi(apiConfig)
 export const feedApi = new FeedApi(apiConfig)
 
 export const healthcheckApi = new HealthcheckApi(apiConfig)
+
+export const vendingApi = new VendingApi(apiConfig)

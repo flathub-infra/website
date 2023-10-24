@@ -159,9 +159,6 @@ const APP_VENDING_BASE_URL = `${BASE_URI}/vendingapp`
 export const VENDING_APP_STATUS_URL = (appId: string) => {
   return `${APP_VENDING_BASE_URL}/${appId}`
 }
-export const VENDING_APP_SETUP_URL = (appId: string) => {
-  return `${APP_VENDING_BASE_URL}/${appId}/setup`
-}
 export const VENDING_APP_SPLIT_URL = (
   appId: string,
   currency: string,
@@ -171,12 +168,6 @@ export const VENDING_APP_SPLIT_URL = (
 }
 export const VENDING_TOKENS_URL = (appId: string) => {
   return `${APP_VENDING_BASE_URL}/${appId}/tokens`
-}
-export const VENDING_TOKENS_CANCEL_URL = (appId: string) => {
-  return `${VENDING_TOKENS_URL(appId)}/cancel`
-}
-export const VENDING_TOKENS_REDEEM_URL = (appId: string, token: string) => {
-  return `${VENDING_TOKENS_URL(appId)}/redeem/${token}`
 }
 
 export const IS_PRODUCTION: boolean =
