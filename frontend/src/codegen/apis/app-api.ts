@@ -1321,7 +1321,7 @@ export const AppApiFp = function (configuration?: Configuration) {
       appId: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getAddonsAddonAppIdGet(appId, options)
@@ -1366,7 +1366,7 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getCategoriesCategoriesGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getCategoriesCategoriesGet(options)
@@ -1448,7 +1448,7 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getDevelopersDeveloperGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDevelopersDeveloperGet(options)
@@ -1472,7 +1472,7 @@ export const AppApiFp = function (configuration?: Configuration) {
       branch?: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolMessageAppidEolMessageAppIdGet(
@@ -1496,7 +1496,10 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getEolMessageEolMessageGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<{ [key: string]: string }>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolMessageEolMessageGet(options)
@@ -1520,7 +1523,7 @@ export const AppApiFp = function (configuration?: Configuration) {
       branch?: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolRebaseAppidEolRebaseAppIdGet(
@@ -1544,7 +1547,10 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getEolRebaseEolRebaseGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<{ [key: string]: any }>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolRebaseEolRebaseGet(options)
@@ -1691,7 +1697,7 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getProjectGroupsProjectgroupGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getProjectGroupsProjectgroupGet(options)
@@ -1767,7 +1773,10 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getRuntimeListRuntimesGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<{ [key: string]: number }>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRuntimeListRuntimesGet(options)
@@ -1928,7 +1937,7 @@ export const AppApiFp = function (configuration?: Configuration) {
     async listAppstreamAppstreamGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.listAppstreamAppstreamGet(options)
@@ -1985,7 +1994,10 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAddonsAddonAppIdGet(appId: string, options?: any): AxiosPromise<void> {
+    getAddonsAddonAppIdGet(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<Array<string>> {
       return localVarFp
         .getAddonsAddonAppIdGet(appId, options)
         .then((request) => request(axios, basePath))
@@ -2011,7 +2023,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCategoriesCategoriesGet(options?: any): AxiosPromise<void> {
+    getCategoriesCategoriesGet(options?: any): AxiosPromise<Array<string>> {
       return localVarFp
         .getCategoriesCategoriesGet(options)
         .then((request) => request(axios, basePath))
@@ -2060,7 +2072,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getDevelopersDeveloperGet(options?: any): AxiosPromise<void> {
+    getDevelopersDeveloperGet(options?: any): AxiosPromise<Array<string>> {
       return localVarFp
         .getDevelopersDeveloperGet(options)
         .then((request) => request(axios, basePath))
@@ -2077,7 +2089,7 @@ export const AppApiFactory = function (
       appId: string,
       branch?: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<string> {
       return localVarFp
         .getEolMessageAppidEolMessageAppIdGet(appId, branch, options)
         .then((request) => request(axios, basePath))
@@ -2088,7 +2100,9 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEolMessageEolMessageGet(options?: any): AxiosPromise<void> {
+    getEolMessageEolMessageGet(
+      options?: any,
+    ): AxiosPromise<{ [key: string]: string }> {
       return localVarFp
         .getEolMessageEolMessageGet(options)
         .then((request) => request(axios, basePath))
@@ -2105,7 +2119,7 @@ export const AppApiFactory = function (
       appId: string,
       branch?: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<string> {
       return localVarFp
         .getEolRebaseAppidEolRebaseAppIdGet(appId, branch, options)
         .then((request) => request(axios, basePath))
@@ -2116,7 +2130,9 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getEolRebaseEolRebaseGet(options?: any): AxiosPromise<void> {
+    getEolRebaseEolRebaseGet(
+      options?: any,
+    ): AxiosPromise<{ [key: string]: any }> {
       return localVarFp
         .getEolRebaseEolRebaseGet(options)
         .then((request) => request(axios, basePath))
@@ -2207,7 +2223,9 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getProjectGroupsProjectgroupGet(options?: any): AxiosPromise<void> {
+    getProjectGroupsProjectgroupGet(
+      options?: any,
+    ): AxiosPromise<Array<string>> {
       return localVarFp
         .getProjectGroupsProjectgroupGet(options)
         .then((request) => request(axios, basePath))
@@ -2252,7 +2270,9 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getRuntimeListRuntimesGet(options?: any): AxiosPromise<void> {
+    getRuntimeListRuntimesGet(
+      options?: any,
+    ): AxiosPromise<{ [key: string]: number }> {
       return localVarFp
         .getRuntimeListRuntimesGet(options)
         .then((request) => request(axios, basePath))
@@ -2354,7 +2374,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listAppstreamAppstreamGet(options?: any): AxiosPromise<void> {
+    listAppstreamAppstreamGet(options?: any): AxiosPromise<Array<string>> {
       return localVarFp
         .listAppstreamAppstreamGet(options)
         .then((request) => request(axios, basePath))

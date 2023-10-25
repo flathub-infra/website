@@ -14,8 +14,6 @@ import {
   DEVELOPER_URL,
   PROJECTGROUP_URL,
   VENDING_CONFIG_URL,
-  EOL_REBASE_URL,
-  EOL_MESSAGE_URL,
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
@@ -51,28 +49,6 @@ export async function fetchAppstream(appId: string) {
       data: null,
     }
   })
-}
-
-export async function fetchEolRebase(appId: string) {
-  return axios
-    .get<string | undefined>(`${EOL_REBASE_URL(appId, "stable")}`)
-    .catch((error) => {
-      if (error.response.status === 404) {
-        return {
-          data: undefined,
-        }
-      }
-    })
-}
-
-export async function fetchEolMessage(appId: string) {
-  return axios
-    .get<string | undefined>(`${EOL_MESSAGE_URL(appId, "stable")}`)
-    .catch((error) => {
-      return {
-        data: undefined,
-      }
-    })
 }
 
 export async function fetchSummary(appId: string) {

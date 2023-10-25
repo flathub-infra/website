@@ -41,7 +41,7 @@ export interface QualityModerationType {
    * @type {number}
    * @memberof QualityModerationType
    */
-  updated_by: number
+  updated_by: number | null
   /**
    *
    * @type {boolean}

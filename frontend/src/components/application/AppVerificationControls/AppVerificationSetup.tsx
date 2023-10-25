@@ -89,7 +89,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     onVerified?.()
   }, [onVerified, query])
 
-  if (["pending", "idle"].includes(status)) {
+  if (query.isLoading || verificationAvailableMethods.isLoading) {
     return <Spinner size="m" />
   }
 
