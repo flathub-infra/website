@@ -9,10 +9,8 @@ import {
   fetchSummary,
   fetchDeveloperApps,
   fetchProjectgroupApps,
-  fetchVerificationStatus,
-  fetchEolRebase,
-  fetchEolMessage,
   fetchAddons,
+  fetchVerificationStatus,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
@@ -26,6 +24,7 @@ import {
 } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
+import { appApi } from "src/api"
 
 export default function Details({
   app,
@@ -99,7 +98,9 @@ export const getStaticProps: GetStaticProps = async ({
     ? appId.slice(0, appId.length - ".flatpakref".length)
     : appId
 
-  const { data: eolRebaseTo } = await fetchEolRebase(appId as string)
+  const { data: eolRebaseTo } = await appApi.getEolRebaseAppidEolRebaseAppIdGet(
+    appId as string,
+  )
 
   if (eolRebaseTo) {
     const prefix = locale && locale !== defaultLocale ? `/${locale}` : ``
@@ -127,7 +128,9 @@ export const getStaticProps: GetStaticProps = async ({
   const app = await (await fetchAppstream(appId as string)).data
 
   if (!app) {
-    eolMessage = (await fetchEolMessage(appId as string)).data
+    eolMessage = (
+      await appApi.getEolMessageAppidEolMessageAppIdGet(appId as string)
+    ).data
   }
 
   if (!app && !eolMessage) {
