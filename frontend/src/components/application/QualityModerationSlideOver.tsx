@@ -1,15 +1,6 @@
-import {
-  fetchQualityModerationForApp,
-  postQualityModerationForApp,
-} from "src/fetchers"
 import { UseQueryResult, useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
-import {
-  QualityGuideline,
-  QualityModeration,
-  QualityModerationResponse,
-} from "src/types/QualityModeration"
 import { useEffect, useState } from "react"
 import { AxiosResponse } from "axios"
 import {
@@ -28,6 +19,12 @@ import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
 import { IconGrid } from "./IconGrid"
 import { useTranslation } from "next-i18next"
+import { qualityModerationApi } from "src/api"
+import {
+  Guideline,
+  QualityModerationResponse,
+  QualityModerationType,
+} from "src/codegen"
 
 const QualityCategories = ({
   appId,
@@ -48,7 +45,13 @@ const QualityCategories = ({
           category.guidelines
             .filter((guideline) => !guideline.read_only)
             .map((guideline) =>
-              postQualityModerationForApp(appId, guideline.id, true),
+              qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
+                appId,
+                { guideline_id: guideline.id, passed: true },
+                {
+                  withCredentials: true,
+                },
+              ),
             ),
         ) ?? [],
       )
@@ -145,8 +148,8 @@ const QualityItem = ({
   query,
 }: {
   appId: string
-  qualityModeration?: QualityModeration
-  qualityGuideline: QualityGuideline | undefined
+  qualityModeration?: QualityModerationType
+  qualityGuideline: Guideline | undefined
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
 }) => {
   const { t } = useTranslation()
@@ -160,7 +163,13 @@ const QualityItem = ({
 
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>
-      postQualityModerationForApp(appId, qualityGuideline.id, passed),
+      qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
+        appId,
+        { guideline_id: qualityGuideline.id, passed },
+        {
+          withCredentials: true,
+        },
+      ),
 
     onSuccess: (_data, variables) => {
       setToggle(variables.passed)
@@ -194,7 +203,7 @@ const QualityItem = ({
                 color: "bg-flathub-gainsborow",
               },
               {
-                id: "not-passed",
+                id: "not_passed",
                 content: <HiXMark className="w-6 h-6" />,
                 onClick: () => {
                   mutation.mutateAsync({ passed: false })
@@ -233,7 +242,13 @@ export const QualityModerationSlideOver = ({
 
   const query = useQuery({
     queryKey: ["qualityModeration", appId],
-    queryFn: () => fetchQualityModerationForApp(appId),
+    queryFn: () =>
+      qualityModerationApi.getQualityModerationForAppQualityModerationAppIdGet(
+        appId,
+        {
+          withCredentials: true,
+        },
+      ),
     enabled: !!appId,
   })
 

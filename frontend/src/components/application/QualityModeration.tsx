@@ -3,15 +3,15 @@ import { useUserContext } from "src/context/user-info"
 import Button from "../Button"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import { useQuery } from "@tanstack/react-query"
-import { fetchQualityModerationStatusForApp } from "src/fetchers"
 import Spinner from "../Spinner"
 import clsx from "clsx"
-import { QualityModerationStatus } from "src/types/QualityModeration"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
   HiQuestionMarkCircle,
 } from "react-icons/hi2"
+import { qualityModerationApi } from "src/api"
+import { QualityModerationStatus } from "src/codegen"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -29,7 +29,7 @@ const QualityModerationStatusComponent = ({
         <span>High quality app data</span>
       </div>
     )
-  } else if (status["not-passed"] === 0) {
+  } else if (status.not_passed === 0) {
     return (
       <div className="flex gap-1">
         <HiQuestionMarkCircle className="text-2xl" />
@@ -40,7 +40,7 @@ const QualityModerationStatusComponent = ({
     return (
       <div className="flex gap-1">
         <HiExclamationTriangle className="text-2xl" />
-        <span>Failing {status["not-passed"]} checks</span>
+        <span>Failing {status.not_passed} checks</span>
       </div>
     )
   }
@@ -62,7 +62,10 @@ export const QualityModeration = ({
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId }],
-    queryFn: () => fetchQualityModerationStatusForApp(appId),
+    queryFn: () =>
+      qualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
+        appId,
+      ),
     enabled: isQualityModerator,
   })
 
@@ -83,7 +86,7 @@ export const QualityModeration = ({
           "flex px-8 h-16 items-center",
           query.data?.data.passes
             ? "bg-flathub-celestial-blue/40"
-            : query.data?.data["not-passed"] === 0
+            : query.data?.data["not_passed"] === 0
             ? "bg-flathub-gainsborow/40"
             : "bg-flathub-electric-red/40",
         )}

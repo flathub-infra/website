@@ -1,6 +1,5 @@
 import { Appstream } from "./types/Appstream"
 import { Category } from "./types/Category"
-import { LoginProvider } from "./types/Login"
 
 import {
   POPULAR_LAST_MONTH_URL,
@@ -14,7 +13,6 @@ import {
   STATS,
   DEVELOPER_URL,
   PROJECTGROUP_URL,
-  LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
   EOL_REBASE_URL,
   EOL_MESSAGE_URL,
@@ -29,9 +27,6 @@ import {
   APPSTREAM_URL,
   RUNTIMES,
   ADDONS_URL,
-  QUALITY_MODERATION_APP,
-  QUALITY_MODERATION_DASHBOARD,
-  QUALITY_MODERATION_APP_STATUS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -45,11 +40,6 @@ import {
   MeilisearchResponseLimited,
 } from "./meilisearch"
 import axios from "axios"
-import {
-  QualityModerationDashboardResponse,
-  QualityModerationResponse,
-  QualityModerationStatus,
-} from "./types/QualityModeration"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -300,48 +290,4 @@ export async function fetchAddons(appid: string) {
   })
 
   return combined.map((item) => item.appstream)
-}
-
-export async function fetchQualityModerationDashboard() {
-  return axios.get<QualityModerationDashboardResponse>(
-    QUALITY_MODERATION_DASHBOARD,
-    {
-      withCredentials: true,
-    },
-  )
-}
-
-export async function fetchQualityModerationStatusForApp(appid: string) {
-  return axios.get<QualityModerationStatus>(
-    `${QUALITY_MODERATION_APP_STATUS(appid)}`,
-    {
-      withCredentials: true,
-    },
-  )
-}
-
-export async function fetchQualityModerationForApp(appid: string) {
-  return axios.get<QualityModerationResponse>(
-    `${QUALITY_MODERATION_APP(appid)}`,
-    {
-      withCredentials: true,
-    },
-  )
-}
-
-export async function postQualityModerationForApp(
-  appid: string,
-  guideline_id: string,
-  passed: boolean,
-) {
-  return axios.post(
-    `${QUALITY_MODERATION_APP(appid)}`,
-    {
-      guideline_id,
-      passed,
-    },
-    {
-      withCredentials: true,
-    },
-  )
 }
