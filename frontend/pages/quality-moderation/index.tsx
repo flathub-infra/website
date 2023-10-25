@@ -22,11 +22,11 @@ import {
   HiMiniChevronDown,
   HiMiniChevronUp,
 } from "react-icons/hi2"
+import { qualityModerationApi } from "src/api"
+import { QualityModerationDashboardRow } from "src/codegen"
 import MultiToggle from "src/components/MultiToggle"
 import Spinner from "src/components/Spinner"
 import { useUserContext } from "src/context/user-info"
-import { fetchQualityModerationDashboard } from "src/fetchers"
-import { QualityModerationDashboardRow } from "src/types/QualityModeration"
 
 export default function QualityModerationDashboard() {
   const { t } = useTranslation()
@@ -40,7 +40,12 @@ export default function QualityModerationDashboard() {
 
   const query = useQuery({
     queryKey: ["quality-moderation-dashboard"],
-    queryFn: fetchQualityModerationDashboard,
+    queryFn: () =>
+      qualityModerationApi.getQualityModerationStatusQualityModerationStatusGet(
+        {
+          withCredentials: true,
+        },
+      ),
     enabled: !!user.info?.["is-quality-moderator"],
   })
 
@@ -56,28 +61,27 @@ export default function QualityModerationDashboard() {
     {
       id: "unrated",
       header: "Unrated",
-      accessorFn: (row) => row["quality-moderation-status"].unrated,
-      cell: ({ row }) => row.original["quality-moderation-status"].unrated,
+      accessorFn: (row) => row.quality_moderation_status.unrated,
+      cell: ({ row }) => row.original.quality_moderation_status.unrated,
     },
     {
-      id: "not-passed",
+      id: "not_passed",
       header: "Not Passed",
-      accessorFn: (row) => row["quality-moderation-status"]["not-passed"],
-      cell: ({ row }) =>
-        row.original["quality-moderation-status"]["not-passed"],
+      accessorFn: (row) => row.quality_moderation_status.not_passed,
+      cell: ({ row }) => row.original.quality_moderation_status.not_passed,
     },
     {
       id: "passed",
       header: "Passed",
-      accessorFn: (row) => row["quality-moderation-status"].passed,
-      cell: ({ row }) => row.original["quality-moderation-status"].passed,
+      accessorFn: (row) => row.quality_moderation_status.passed,
+      cell: ({ row }) => row.original.quality_moderation_status.passed,
     },
     {
       id: "passes",
       header: "Status",
-      accessorFn: (row) => row["quality-moderation-status"].passes,
+      accessorFn: (row) => row.quality_moderation_status.passes,
       cell: ({ row }) =>
-        row.original["quality-moderation-status"].passes ? (
+        row.original.quality_moderation_status.passes ? (
           <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
         ) : (
           <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
@@ -86,10 +90,10 @@ export default function QualityModerationDashboard() {
     {
       id: "moderation-last-updated",
       header: "Moderation Last Updated",
-      accessorFn: (row) => row["quality-moderation-status"]["last-updated"],
+      accessorFn: (row) => row.quality_moderation_status.last_updated,
       cell: ({ row }) => {
         const date = parseISO(
-          row.original["quality-moderation-status"]["last-updated"],
+          row.original.quality_moderation_status.last_updated,
         )
         return format(date, "Pp")
       },
@@ -104,15 +108,15 @@ export default function QualityModerationDashboard() {
     } else if (filteredBy === "passed") {
       setData(
         query?.data?.data?.apps.filter(
-          (app) => app["quality-moderation-status"].passes,
+          (app) => app.quality_moderation_status.passes,
         ) ?? [],
       )
     } else if (filteredBy === "todo") {
       setData(
         query?.data?.data?.apps.filter(
           (app) =>
-            app["quality-moderation-status"]["not-passed"] === 0 &&
-            app["quality-moderation-status"].unrated > 0,
+            app.quality_moderation_status.not_passed === 0 &&
+            app.quality_moderation_status.unrated > 0,
         ) ?? [],
       )
     }

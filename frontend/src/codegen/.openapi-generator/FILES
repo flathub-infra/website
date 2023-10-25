@@ -33,6 +33,8 @@ model/developer.ts
 model/developers-response.ts
 model/error-detail.ts
 model/filter.ts
+model/guideline-category.ts
+model/guideline.ts
 model/httpvalidation-error.ts
 model/index.ts
 model/invite-status.ts
@@ -53,6 +55,11 @@ model/payment-card-info.ts
 model/platform.ts
 model/pricing-info.ts
 model/proposed-payment.ts
+model/quality-moderation-dashboard-response.ts
+model/quality-moderation-dashboard-row.ts
+model/quality-moderation-response.ts
+model/quality-moderation-status.ts
+model/quality-moderation-type.ts
 model/redemption-result.ts
 model/request-data.ts
 model/review-item.ts

@@ -40,6 +40,12 @@ import {
 // @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
+import { QualityModerationDashboardResponse } from "../model"
+// @ts-ignore
+import { QualityModerationResponse } from "../model"
+// @ts-ignore
+import { QualityModerationStatus } from "../model"
+// @ts-ignore
 import { UpsertQualityModeration } from "../model"
 /**
  * QualityModerationApi - axios parameter creator
@@ -275,7 +281,10 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
       appId: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<QualityModerationResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getQualityModerationForAppQualityModerationAppIdGet(
@@ -300,7 +309,10 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
       appId: string,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<QualityModerationStatus>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
@@ -323,7 +335,10 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     async getQualityModerationStatusQualityModerationStatusGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<QualityModerationDashboardResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getQualityModerationStatusQualityModerationStatusGet(
@@ -388,7 +403,7 @@ export const QualityModerationApiFactory = function (
     getQualityModerationForAppQualityModerationAppIdGet(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<QualityModerationResponse> {
       return localVarFp
         .getQualityModerationForAppQualityModerationAppIdGet(appId, options)
         .then((request) => request(axios, basePath))
@@ -403,7 +418,7 @@ export const QualityModerationApiFactory = function (
     getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<QualityModerationStatus> {
       return localVarFp
         .getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
           appId,
@@ -419,7 +434,7 @@ export const QualityModerationApiFactory = function (
      */
     getQualityModerationStatusQualityModerationStatusGet(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<QualityModerationDashboardResponse> {
       return localVarFp
         .getQualityModerationStatusQualityModerationStatusGet(options)
         .then((request) => request(axios, basePath))

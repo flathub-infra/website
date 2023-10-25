@@ -189,19 +189,52 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
+class QualityModerationStatus(BaseModel):
+    passes: bool
+    unrated: int
+    passed: int
+    not_passed: int
+    last_updated: datetime.datetime
+
+
+class QualityModerationDashboardRow(BaseModel):
+    id: str
+    quality_moderation_status: QualityModerationStatus
+
+
+class QualityModerationDashboardResponse(BaseModel):
+    apps: list[QualityModerationDashboardRow]
+
+
+class QualityModerationType(BaseModel):
+    guideline_id: str
+    app_id: str
+    updated_at: datetime.datetime
+    updated_by: int | None
+    passed: bool
+    comment: str | None
+
+
+class QualityModerationResponse(BaseModel):
+    categories: list[GuidelineCategory]
+    marks: dict[str, QualityModerationType]
+
+
 @router.get("/status", tags=["quality-moderation"])
-def get_quality_moderation_status(_moderator=Depends(quality_moderator_only)):
-    return {
-        "apps": [
-            {
-                "id": appId,
-                "quality-moderation-status": get_quality_moderation_status_for_appid(
+def get_quality_moderation_status(
+    _moderator=Depends(quality_moderator_only),
+) -> QualityModerationDashboardResponse:
+    return QualityModerationDashboardResponse(
+        apps=[
+            QualityModerationDashboardRow(
+                id=appId,
+                quality_moderation_status=get_quality_moderation_status_for_appid(
                     db, appId
                 ),
-            }
+            )
             for appId in get_all_appids_for_frontend()
         ]
-    }
+    )
 
 
 @router.get("/{app_id}", tags=["quality-moderation"])
@@ -213,12 +246,22 @@ def get_quality_moderation_for_app(
         examples=["org.gnome.Glade"],
     ),
     _moderator=Depends(quality_moderator_only),
-):
-    items = QualityModeration.by_appid(db, app_id)
-    return {
-        "categories": GUIDELINES,
-        "marks": {item.guideline_id: item for item in items},
-    }
+) -> QualityModerationResponse:
+    items = [
+        QualityModerationType(
+            guideline_id=item.guideline_id,
+            app_id=item.app_id,
+            updated_at=item.updated_at,
+            updated_by=item.updated_by,
+            passed=item.passed,
+            comment=item.comment,
+        )
+        for item in QualityModeration.by_appid(db, app_id)
+    ]
+    return QualityModerationResponse(
+        categories=GUIDELINES,
+        marks={item.guideline_id: item for item in items},
+    )
 
 
 @router.post("/{app_id}", tags=["quality-moderation"])
@@ -245,11 +288,11 @@ def get_quality_moderation_status_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     )
-):
+) -> QualityModerationStatus:
     return get_quality_moderation_status_for_appid(db, app_id)
 
 
-def get_quality_moderation_status_for_appid(db, app_id: str):
+def get_quality_moderation_status_for_appid(db, app_id: str) -> QualityModerationStatus:
     marks = QualityModeration.by_appid(db, app_id)
     unrated = 0
 
@@ -296,10 +339,10 @@ def get_quality_moderation_status_for_appid(db, app_id: str):
     def last_updated(checks):
         return max([check.updated_at for check in checks] + [datetime.datetime.min])
 
-    return {
-        "passes": unrated + not_passed == 0,
-        "unrated": unrated,
-        "passed": passed,
-        "not-passed": not_passed,
-        "last-updated": last_updated(marks),
-    }
+    return QualityModerationStatus(
+        passes=unrated + not_passed == 0,
+        unrated=unrated,
+        passed=passed,
+        not_passed=not_passed,
+        last_updated=last_updated(marks),
+    )

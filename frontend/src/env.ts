@@ -228,10 +228,3 @@ export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/
 export const MODERATION_BASE_URL: string = `${BASE_URI}/moderation`
 export const MODERATION_REVIEW_URL = (id: number) =>
   `${MODERATION_BASE_URL}/requests/${id}/review`
-
-export const QUALITY_MODERATION_BASE_URL: string = `${BASE_URI}/quality-moderation`
-export const QUALITY_MODERATION_APP = (appid: string) =>
-  `${QUALITY_MODERATION_BASE_URL}/${appid}`
-export const QUALITY_MODERATION_APP_STATUS = (appid: string) =>
-  `${QUALITY_MODERATION_BASE_URL}/${appid}/status`
-export const QUALITY_MODERATION_DASHBOARD: string = `${QUALITY_MODERATION_BASE_URL}/status`
