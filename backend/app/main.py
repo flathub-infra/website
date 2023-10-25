@@ -103,7 +103,7 @@ def process_transfers():
 
 
 @app.get("/categories", tags=["app"])
-def get_categories():
+def get_categories() -> list[str]:
     return [category.value for category in schemas.MainCategory]
 
 
@@ -147,7 +147,7 @@ def get_subcategory(
 
 
 @app.get("/developer", tags=["app"])
-def get_developers():
+def get_developers() -> set[str]:
     return db.get_developers()
 
 
@@ -170,8 +170,11 @@ def get_developer(
 
 
 @app.get("/eol/rebase", tags=["app"])
-def get_eol_rebase():
-    return db.get_json_key("eol_rebase")
+def get_eol_rebase() -> dict[str, list[str]]:
+    eol_rebase = db.get_json_key("eol_rebase")
+    if eol_rebase is None:
+        return {}
+    return eol_rebase
 
 
 @app.get("/eol/rebase/{app_id}", tags=["app"])
@@ -183,14 +186,17 @@ def get_eol_rebase_appid(
         examples=["org.gnome.Glade"],
     ),
     branch: str = "stable",
-):
+) -> Optional[str]:
     if value := db.get_json_key(f"eol_rebase:{app_id}:{branch}"):
         return value
 
 
 @app.get("/eol/message", tags=["app"])
-def get_eol_message():
-    return db.get_json_key("eol_message")
+def get_eol_message() -> dict[str, str]:
+    eol_messages = db.get_json_key("eol_message")
+    if eol_messages is None:
+        return {}
+    return eol_messages
 
 
 @app.get("/eol/message/{app_id}", tags=["app"])
@@ -202,13 +208,13 @@ def get_eol_message_appid(
         examples=["org.gnome.Glade"],
     ),
     branch: str = "stable",
-):
+) -> Optional[str]:
     if value := db.get_json_key(f"eol_message:{app_id}:{branch}"):
         return value
 
 
 @app.get("/projectgroup", tags=["app"])
-def get_project_groups():
+def get_project_groups() -> set[str]:
     return db.get_project_groups()
 
 
@@ -231,7 +237,7 @@ def get_project_group(
 
 
 @app.get("/appstream", tags=["app"])
-def list_appstream():
+def list_appstream() -> list[str]:
     return apps.list_desktop_appstream()
 
 
@@ -258,7 +264,7 @@ def post_search(query: search.SearchQuery):
 
 
 @app.get("/runtimes", tags=["app"])
-def get_runtime_list():
+def get_runtime_list() -> dict[str, int]:
     return search.get_runtime_list()
 
 
@@ -441,7 +447,7 @@ def get_exceptions_for_app(app_id: str, response: Response):
 
 
 @app.get("/addon/{app_id}", tags=["app"])
-def get_addons(app_id: str):
+def get_addons(app_id: str) -> list[str]:
     addon_ids = apps.get_addons(app_id)
 
     return addon_ids
