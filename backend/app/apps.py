@@ -182,7 +182,7 @@ def get_recently_added(limit: int = 100):
     ]
 
 
-def get_addons(app_id: str, branch: str = "stable"):
+def get_addons(app_id: str, branch: str = "stable") -> list[str]:
     result = []
     summary = db.get_json_key(f"summary:{app_id}:{branch}")
     if (
