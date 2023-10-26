@@ -203,6 +203,7 @@ class QualityModerationDashboardRow(BaseModel):
     id: str
     quality_moderation_status: QualityModerationStatus
     appstream: Any | None = None
+    installs_last_7_days: int | None = None
 
 
 class Pagination(BaseModel):
@@ -248,7 +249,22 @@ def get_quality_moderation_status(
         for appId in get_all_appids_for_frontend()
     ]
 
-    apps.sort(key=lambda app: (app.quality_moderation_status.passed,), reverse=True)
+    for app in apps:
+        app_stats = get_json_key(f"app_stats:{app.id}")
+        app.installs_last_7_days = (
+            app_stats["installs_last_7_days"]
+            if app_stats and "installs_last_7_days" in app_stats
+            else None
+        )
+
+    # sort by passed, then by weekly downloads
+    apps.sort(
+        key=lambda app: (
+            app.quality_moderation_status.passes,
+            app.installs_last_7_days or 0,
+        ),
+        reverse=True,
+    )
 
     if filter == "passing":
         apps = [app for app in apps if app.quality_moderation_status.passes]

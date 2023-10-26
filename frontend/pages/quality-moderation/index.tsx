@@ -146,6 +146,11 @@ export default function QualityModerationDashboard() {
         return formatDistanceToNow(date, { addSuffix: true })
       },
     },
+    {
+      id: "installs-last-7-days",
+      header: "Installs Last 7 Days",
+      accessorFn: (row) => row.installs_last_7_days,
+    },
   ]
 
   const [data, setData] = useState<QualityModerationDashboardResponse>()
