@@ -71,27 +71,19 @@ export default function QualityModerationDashboard() {
 
   const columns: ColumnDef<QualityModerationDashboardRow>[] = [
     {
-      id: "id",
-      header: "Link",
-      accessorFn: (row) => row.id,
-      cell: ({ row }) => (
-        <Link href={`/apps/${row.original.id}`}>
-          <HiArrowTopRightOnSquare className="w-6 h-6 text-flathub-celestial-blue" />
-        </Link>
-      ),
-    },
-    {
       id: "icon",
       header: "Icon",
       cell: ({ row }) =>
         (row.original.appstream as Appstream).icon && (
-          <div className="relative m-2 flex h-[64px] min-w-[64px] self-center drop-shadow-md">
-            <LogoImage
-              size="64"
-              iconUrl={(row.original.appstream as Appstream).icon}
-              appName={(row.original.appstream as Appstream).name}
-            />
-          </div>
+          <Link href={`/apps/${row.original.id}`}>
+            <div className="relative m-2 flex h-[64px] min-w-[64px] self-center drop-shadow-md">
+              <LogoImage
+                size="64"
+                iconUrl={(row.original.appstream as Appstream).icon}
+                appName={(row.original.appstream as Appstream).name}
+              />
+            </div>
+          </Link>
         ),
     },
     {
@@ -99,7 +91,9 @@ export default function QualityModerationDashboard() {
       header: "Name",
       cell: ({ row }) => (
         <div>
-          <div>{(row.original.appstream as Appstream).name}</div>
+          <Link href={`/apps/${row.original.id}`}>
+            {(row.original.appstream as Appstream).name}
+          </Link>
           <div className="text-xs dark:text-flathub-gray-x11 text-flathub-sonic-silver">
             {(row.original.appstream as Appstream).summary}
           </div>
