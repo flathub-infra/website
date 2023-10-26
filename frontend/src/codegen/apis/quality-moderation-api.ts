@@ -158,10 +158,16 @@ export const QualityModerationApiAxiosParamCreator = function (
     /**
      *
      * @summary Get Quality Moderation Status
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {GetQualityModerationStatusQualityModerationStatusGetFilterEnum} [filter]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getQualityModerationStatusQualityModerationStatusGet: async (
+      page?: number,
+      pageSize?: number,
+      filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/quality-moderation/status`
@@ -179,6 +185,18 @@ export const QualityModerationApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (page !== undefined) {
+        localVarQueryParameter["page"] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter["page_size"] = pageSize
+      }
+
+      if (filter !== undefined) {
+        localVarQueryParameter["filter"] = filter
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -329,10 +347,16 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get Quality Moderation Status
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {GetQualityModerationStatusQualityModerationStatusGetFilterEnum} [filter]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getQualityModerationStatusQualityModerationStatusGet(
+      page?: number,
+      pageSize?: number,
+      filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
       options?: AxiosRequestConfig,
     ): Promise<
       (
@@ -342,6 +366,9 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getQualityModerationStatusQualityModerationStatusGet(
+          page,
+          pageSize,
+          filter,
           options,
         )
       return createRequestFunction(
@@ -429,14 +456,25 @@ export const QualityModerationApiFactory = function (
     /**
      *
      * @summary Get Quality Moderation Status
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {GetQualityModerationStatusQualityModerationStatusGetFilterEnum} [filter]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getQualityModerationStatusQualityModerationStatusGet(
+      page?: number,
+      pageSize?: number,
+      filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
       options?: any,
     ): AxiosPromise<QualityModerationDashboardResponse> {
       return localVarFp
-        .getQualityModerationStatusQualityModerationStatusGet(options)
+        .getQualityModerationStatusQualityModerationStatusGet(
+          page,
+          pageSize,
+          filter,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
     /**
@@ -510,15 +548,26 @@ export class QualityModerationApi extends BaseAPI {
   /**
    *
    * @summary Get Quality Moderation Status
+   * @param {number} [page]
+   * @param {number} [pageSize]
+   * @param {GetQualityModerationStatusQualityModerationStatusGetFilterEnum} [filter]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof QualityModerationApi
    */
   public getQualityModerationStatusQualityModerationStatusGet(
+    page?: number,
+    pageSize?: number,
+    filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
     options?: AxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
-      .getQualityModerationStatusQualityModerationStatusGet(options)
+      .getQualityModerationStatusQualityModerationStatusGet(
+        page,
+        pageSize,
+        filter,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 
@@ -545,3 +594,14 @@ export class QualityModerationApi extends BaseAPI {
       .then((request) => request(this.axios, this.basePath))
   }
 }
+
+/**
+ * @export
+ */
+export const GetQualityModerationStatusQualityModerationStatusGetFilterEnum = {
+  All: "all",
+  Passing: "passing",
+  Todo: "todo",
+} as const
+export type GetQualityModerationStatusQualityModerationStatusGetFilterEnum =
+  (typeof GetQualityModerationStatusQualityModerationStatusGetFilterEnum)[keyof typeof GetQualityModerationStatusQualityModerationStatusGetFilterEnum]

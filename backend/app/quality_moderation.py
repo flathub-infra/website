@@ -1,12 +1,14 @@
 import datetime
 from dataclasses import dataclass
+from math import ceil
+from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
-from .db import get_all_appids_for_frontend
+from .db import get_all_appids_for_frontend, get_json_key
 from .login_info import quality_moderator_only
 from .models import QualityModeration
 
@@ -200,10 +202,19 @@ class QualityModerationStatus(BaseModel):
 class QualityModerationDashboardRow(BaseModel):
     id: str
     quality_moderation_status: QualityModerationStatus
+    appstream: Any | None = None
+
+
+class Pagination(BaseModel):
+    page: int
+    page_size: int
+    total: int
+    total_pages: int
 
 
 class QualityModerationDashboardResponse(BaseModel):
     apps: list[QualityModerationDashboardRow]
+    pagination: Pagination
 
 
 class QualityModerationType(BaseModel):
@@ -222,19 +233,49 @@ class QualityModerationResponse(BaseModel):
 
 @router.get("/status", tags=["quality-moderation"])
 def get_quality_moderation_status(
+    page: int = 1,
+    page_size: int = 25,
+    filter: Literal["all", "passing", "todo"] = "all",
     _moderator=Depends(quality_moderator_only),
 ) -> QualityModerationDashboardResponse:
-    return QualityModerationDashboardResponse(
-        apps=[
-            QualityModerationDashboardRow(
-                id=appId,
-                quality_moderation_status=get_quality_moderation_status_for_appid(
-                    db, appId
-                ),
-            )
-            for appId in get_all_appids_for_frontend()
+    apps = [
+        QualityModerationDashboardRow(
+            id=appId,
+            quality_moderation_status=get_quality_moderation_status_for_appid(
+                db, appId
+            ),
+        )
+        for appId in get_all_appids_for_frontend()
+    ]
+
+    apps.sort(key=lambda app: (app.quality_moderation_status.passed,), reverse=True)
+
+    if filter == "passing":
+        apps = [app for app in apps if app.quality_moderation_status.passes]
+    elif filter == "todo":
+        apps = [
+            app
+            for app in apps
+            if app.quality_moderation_status.not_passed == 0
+            and app.quality_moderation_status.unrated > 0
         ]
+
+    all_quality_apps = QualityModerationDashboardResponse(
+        apps=apps,
+        pagination=Pagination(
+            page=page,
+            page_size=page_size,
+            total=len(apps),
+            total_pages=ceil(len(apps) / page_size),
+        ),
     )
+
+    all_quality_apps.apps = apps[(page - 1) * page_size : page * page_size]
+
+    for app in all_quality_apps.apps:
+        app.appstream = get_json_key(f"apps:{app.id}")
+
+    return all_quality_apps
 
 
 @router.get("/{app_id}", tags=["quality-moderation"])

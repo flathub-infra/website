@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query"
 import {
   ColumnDef,
-  SortingState,
   flexRender,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
-import { format, parseISO } from "date-fns"
+import { formatDistanceToNow, parseISO } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
@@ -17,45 +16,95 @@ import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { Fragment, ReactElement, useEffect, useState } from "react"
 import {
+  HiArrowTopRightOnSquare,
   HiCheckCircle,
   HiExclamationTriangle,
   HiMiniChevronDown,
   HiMiniChevronUp,
 } from "react-icons/hi2"
 import { qualityModerationApi } from "src/api"
-import { QualityModerationDashboardRow } from "src/codegen"
+import {
+  GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
+  QualityModerationDashboardResponse,
+  QualityModerationDashboardRow,
+} from "src/codegen"
+import LogoImage from "src/components/LogoImage"
 import MultiToggle from "src/components/MultiToggle"
+import Pagination from "src/components/Pagination"
 import Spinner from "src/components/Spinner"
 import { useUserContext } from "src/context/user-info"
+import { Appstream } from "src/types/Appstream"
 
 export default function QualityModerationDashboard() {
   const { t } = useTranslation()
   const user = useUserContext()
 
-  const [filteredBy, setFilteredBy] = useState<"all" | "passed" | "todo">("all")
+  const pageSize = 30
 
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "passed", desc: true },
-  ])
+  const [page, setPage] = useState(1)
+
+  const [filteredBy, setFilteredBy] =
+    useState<GetQualityModerationStatusQualityModerationStatusGetFilterEnum>(
+      "all",
+    )
+
+  const setFilter = (
+    filter: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
+  ) => {
+    setFilteredBy(filter)
+    setPage(1)
+  }
 
   const query = useQuery({
-    queryKey: ["quality-moderation-dashboard"],
+    queryKey: ["quality-moderation-dashboard", page, pageSize, filteredBy],
     queryFn: () =>
       qualityModerationApi.getQualityModerationStatusQualityModerationStatusGet(
+        page,
+        pageSize,
+        filteredBy,
         {
           withCredentials: true,
         },
       ),
     enabled: !!user.info?.["is-quality-moderator"],
+    placeholderData: (previousData, previousQuery) => previousData,
   })
 
   const columns: ColumnDef<QualityModerationDashboardRow>[] = [
     {
       id: "id",
-      header: "ID",
+      header: "Link",
       accessorFn: (row) => row.id,
       cell: ({ row }) => (
-        <Link href={`/apps/${row.original.id}`}>{row.original.id}</Link>
+        <Link href={`/apps/${row.original.id}`}>
+          <HiArrowTopRightOnSquare className="w-6 h-6 text-flathub-celestial-blue" />
+        </Link>
+      ),
+    },
+    {
+      id: "icon",
+      header: "Icon",
+      cell: ({ row }) =>
+        (row.original.appstream as Appstream).icon && (
+          <div className="relative m-2 flex h-[64px] min-w-[64px] self-center drop-shadow-md">
+            <LogoImage
+              size="64"
+              iconUrl={(row.original.appstream as Appstream).icon}
+              appName={(row.original.appstream as Appstream).name}
+            />
+          </div>
+        ),
+    },
+    {
+      id: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div>
+          <div>{(row.original.appstream as Appstream).name}</div>
+          <div className="text-xs dark:text-flathub-gray-x11 text-flathub-sonic-silver">
+            {(row.original.appstream as Appstream).summary}
+          </div>
+        </div>
       ),
     },
     {
@@ -95,46 +144,31 @@ export default function QualityModerationDashboard() {
         const date = parseISO(
           row.original.quality_moderation_status.last_updated,
         )
-        return format(date, "Pp")
+        return formatDistanceToNow(date, { addSuffix: true })
       },
     },
   ]
 
-  const [data, setData] = useState<QualityModerationDashboardRow[]>([])
+  const [data, setData] = useState<QualityModerationDashboardResponse>()
 
   useEffect(() => {
-    if (filteredBy === "all") {
-      setData(query?.data?.data?.apps ?? [])
-    } else if (filteredBy === "passed") {
-      setData(
-        query?.data?.data?.apps.filter(
-          (app) => app.quality_moderation_status.passes,
-        ) ?? [],
-      )
-    } else if (filteredBy === "todo") {
-      setData(
-        query?.data?.data?.apps.filter(
-          (app) =>
-            app.quality_moderation_status.not_passed === 0 &&
-            app.quality_moderation_status.unrated > 0,
-        ) ?? [],
-      )
-    }
-  }, [filteredBy, query?.data?.data?.apps])
+    setData(query?.data?.data)
+  }, [query?.data])
 
   const table = useReactTable<QualityModerationDashboardRow>({
-    data,
+    data: data?.apps ?? [],
     columns: columns,
-    state: {
-      sorting,
-    },
-    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row.id,
   })
 
   const tableRows = table.getRowModel().rows
+
+  const pages = Array.from(
+    { length: data?.pagination?.total_pages ?? 1 },
+    (_, i) => i + 1,
+  )
 
   let content: ReactElement
 
@@ -169,20 +203,35 @@ export default function QualityModerationDashboard() {
                 {
                   id: "all",
                   content: <span>All</span>,
-                  selected: filteredBy === "all",
-                  onClick: () => setFilteredBy("all"),
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
+                  onClick: () =>
+                    setFilter(
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
+                    ),
                 },
                 {
                   id: "passed",
-                  content: <span>Passed</span>,
-                  selected: filteredBy === "passed",
-                  onClick: () => setFilteredBy("passed"),
+                  content: <span>Passing</span>,
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
+                  onClick: () =>
+                    setFilter(
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
+                    ),
                 },
                 {
                   id: "todo",
                   content: <span>Todo</span>,
-                  selected: filteredBy === "todo",
-                  onClick: () => setFilteredBy("todo"),
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
+                  onClick: () =>
+                    setFilter(
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
+                    ),
                 },
               ]}
             />
@@ -277,6 +326,7 @@ export default function QualityModerationDashboard() {
                 </LayoutGroup>
               </tbody>
             </table>
+            <Pagination currentPage={page} pages={pages} onClick={setPage} />
           </div>
         </div>
       </>

@@ -51,6 +51,7 @@ model/nascent-transaction-summary.ts
 model/nascent-transaction.ts
 model/oauth-login-response-failure.ts
 model/oauth-login-response-success.ts
+model/pagination.ts
 model/payment-card-info.ts
 model/platform.ts
 model/pricing-info.ts

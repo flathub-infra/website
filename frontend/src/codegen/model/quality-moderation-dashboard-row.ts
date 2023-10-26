@@ -34,4 +34,10 @@ export interface QualityModerationDashboardRow {
    * @memberof QualityModerationDashboardRow
    */
   quality_moderation_status: QualityModerationStatus
+  /**
+   *
+   * @type {}
+   * @memberof QualityModerationDashboardRow
+   */
+  appstream: null
 }
