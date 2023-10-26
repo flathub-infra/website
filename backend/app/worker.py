@@ -12,7 +12,18 @@ import sentry_sdk
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from . import apps, config, db, exceptions, models, search, stats, summary, utils
+from . import (
+    apps,
+    config,
+    db,
+    exceptions,
+    logins,
+    models,
+    search,
+    stats,
+    summary,
+    utils,
+)
 from .config import settings
 from .emails import (
     EmailInfo,
@@ -233,3 +244,10 @@ def update_quality_moderation():
                     "screenshots" in value and len(value["screenshots"]) >= 1,
                     None,
                 )
+
+
+@dramatiq.actor
+def refresh_github_repo_list(gh_access_token: str, accountId: int):
+    with WorkerDB() as sqldb:
+        logins.refresh_repo_list(sqldb, gh_access_token, accountId)
+        sqldb.session.commit()

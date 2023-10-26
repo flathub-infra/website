@@ -49,7 +49,7 @@ class UserDeleteRequest(BaseModel):
     token: str
 
 
-def refresh_repo_list(gh_access_token: str, account: models.GithubAccount):
+def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
     gh = Github(gh_access_token)
     ghuser = gh.get_user()
     user_repos = [
@@ -69,7 +69,7 @@ def refresh_repo_list(gh_access_token: str, account: models.GithubAccount):
     ]
 
     repos = list(set(user_repos + gh_team_repos))
-    models.GithubRepository.unify_repolist(db, account, repos)
+    models.GithubRepository.unify_repolist(sqldb, accountId, repos)
 
 
 def _refresh_token(
@@ -432,8 +432,8 @@ def continue_github_flow(
             email=email,
         )
 
-    def github_postlogin(tokens, account):
-        refresh_repo_list(tokens["access_token"], account)
+    def github_postlogin(tokens, account: models.GithubAccount):
+        worker.refresh_github_repo_list.send(tokens["access_token"], account.id)
 
     return continue_oauth_flow(
         request,
@@ -929,7 +929,7 @@ def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
     if account is None:
         raise HTTPException(status_code=401, detail="no_github_account")
 
-    refresh_repo_list(account.token, account)
+    refresh_repo_list(db, account.token, account.id)
     db.session.commit()
 
     dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
