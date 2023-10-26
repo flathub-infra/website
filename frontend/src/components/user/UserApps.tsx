@@ -21,14 +21,17 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
 
   const [page, setPage] = useState(1)
 
+  const [offset, setOffset] = useState((page - 1) * pageSize)
+
+  useEffect(() => {
+    setOffset((page - 1) * pageSize)
+  }, [page])
+
   const queryDevApplications = useQuery({
     queryKey: [`${variant}-apps`, page],
     queryFn: async () => {
       return getAppsInfo(
-        user.info[`${variant}-flatpaks`].slice(
-          page * pageSize,
-          (page + 1) * pageSize,
-        ),
+        user.info[`${variant}-flatpaks`].slice(offset, offset + pageSize),
       )
     },
     enabled: !!user.info,
@@ -71,7 +74,9 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
       : undefined
 
   const pages = Array.from(
-    { length: Math.floor(user.info[`${variant}-flatpaks`].length / pageSize) },
+    {
+      length: Math.ceil(user.info[`${variant}-flatpaks`].length / pageSize),
+    },
     (_, i) => i + 1,
   )
 
