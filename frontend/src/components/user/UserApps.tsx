@@ -71,7 +71,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
       : undefined
 
   const pages = Array.from(
-    { length: Math.ceil(user.info[`${variant}-flatpaks`].length / pageSize) },
+    { length: Math.floor(user.info[`${variant}-flatpaks`].length / pageSize) },
     (_, i) => i + 1,
   )
 
