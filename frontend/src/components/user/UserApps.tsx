@@ -1,10 +1,11 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect } from "react"
+import { FunctionComponent, useEffect, useState } from "react"
 import { getAppsInfo, refreshDevFlatpaks } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
 import { useQuery } from "@tanstack/react-query"
+import Pagination from "../Pagination"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
@@ -16,12 +17,22 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
   const user = useUserContext()
   const userDispatch = useUserDispatch()
 
+  const pageSize = 30
+
+  const [page, setPage] = useState(1)
+
   const queryDevApplications = useQuery({
-    queryKey: [`${variant}-apps`],
+    queryKey: [`${variant}-apps`, page],
     queryFn: async () => {
-      return getAppsInfo(user.info[`${variant}-flatpaks`])
+      return getAppsInfo(
+        user.info[`${variant}-flatpaks`].slice(
+          page * pageSize,
+          (page + 1) * pageSize,
+        ),
+      )
     },
     enabled: !!user.info,
+    placeholderData: (previousData, previousQuery) => previousData,
   })
 
   const queryRefreshDev = useQuery({
@@ -59,17 +70,25 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
       ? (app_id: string) => `/apps/manage/${app_id}/accept-invite`
       : undefined
 
+  const pages = Array.from(
+    { length: Math.ceil(user.info[`${variant}-flatpaks`].length / pageSize) },
+    (_, i) => i + 1,
+  )
+
   return (
-    <ApplicationCollection
-      user={user}
-      title={title}
-      applications={queryDevApplications.data}
-      customButtons={customButtons}
-      onRefresh={variant === "dev" && queryRefreshDev.refetch}
-      inACard
-      showId
-      link={link}
-    />
+    <>
+      <ApplicationCollection
+        user={user}
+        title={title}
+        applications={queryDevApplications.data}
+        customButtons={customButtons}
+        onRefresh={variant === "dev" && queryRefreshDev.refetch}
+        inACard
+        showId
+        link={link}
+      />
+      <Pagination currentPage={page} pages={pages} onClick={setPage} />
+    </>
   )
 }
 
