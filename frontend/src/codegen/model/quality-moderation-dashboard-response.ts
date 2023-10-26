@@ -14,6 +14,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { Pagination } from "./pagination"
+// May contain unused imports in some cases
+// @ts-ignore
 import { QualityModerationDashboardRow } from "./quality-moderation-dashboard-row"
 
 /**
@@ -28,4 +31,10 @@ export interface QualityModerationDashboardResponse {
    * @memberof QualityModerationDashboardResponse
    */
   apps: Array<QualityModerationDashboardRow>
+  /**
+   *
+   * @type {Pagination}
+   * @memberof QualityModerationDashboardResponse
+   */
+  pagination: Pagination
 }

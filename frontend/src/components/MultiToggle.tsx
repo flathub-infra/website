@@ -35,7 +35,10 @@ const MultiToggle = ({
               className={clsx(
                 item.selected
                   ? "text-flathub-white"
-                  : "enabled:text-flathub-gainsborow enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-gainsborow enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray enabled:dark:hover:text-flathub-lotion",
+                  : clsx(
+                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-gainsborow",
+                      "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray enabled:dark:hover:text-flathub-lotion",
+                    ),
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
                 "h-full w-full rounded-full transition",

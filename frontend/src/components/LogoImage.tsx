@@ -5,7 +5,7 @@ import FlathubImage from "../components/Image"
 interface Props {
   iconUrl: string
   appName: string
-  size?: "128" | "256"
+  size?: "64" | "128" | "256"
 }
 
 const LogoImage: FunctionComponent<Props> = ({
