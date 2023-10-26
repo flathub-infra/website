@@ -353,6 +353,13 @@ export default function QualityModerationDashboard() {
                 </LayoutGroup>
               </tbody>
             </table>
+            {data && (
+              <div>
+                <div className="ms-auto w-fit">
+                  {data.pagination.total} apps
+                </div>
+              </div>
+            )}
             <Pagination currentPage={page} pages={pages} />
           </div>
         </div>
