@@ -6,9 +6,14 @@ import { clsx } from "clsx"
 interface Props {
   currentPage: number
   pages: number[]
+  onClick?: (page: number) => void
 }
 
-const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
+const Pagination: FunctionComponent<Props> = ({
+  currentPage,
+  pages,
+  onClick,
+}) => {
   const router = useRouter()
 
   if (pages.length < 2) {
@@ -33,24 +38,38 @@ const Pagination: FunctionComponent<Props> = ({ currentPage, pages }) => {
                 <div className={`w-12 text-center`}>...</div>
               )}
 
-              <Link
-                href={{
-                  pathname: router.pathname,
-                  query: {
-                    ...router.query,
-                    page: curr.toString(),
-                  },
-                }}
-                aria-current={isActive ? "page" : null}
-                className={clsx(
-                  isActive
-                    ? `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`
-                    : "",
-                  "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
-                )}
-              >
-                <span className="m-auto">{curr}</span>
-              </Link>
+              {onClick && (
+                <button
+                  onClick={() => onClick(curr)}
+                  className={clsx(
+                    isActive &&
+                      `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`,
+                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
+                  )}
+                >
+                  <span className="m-auto">{curr}</span>
+                </button>
+              )}
+
+              {!onClick && (
+                <Link
+                  href={{
+                    pathname: router.pathname,
+                    query: {
+                      ...router.query,
+                      page: curr.toString(),
+                    },
+                  }}
+                  aria-current={isActive ? "page" : null}
+                  className={clsx(
+                    isActive &&
+                      `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`,
+                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
+                  )}
+                >
+                  <span className="m-auto">{curr}</span>
+                </Link>
+              )}
             </React.Fragment>
           )
         })}
