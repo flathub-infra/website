@@ -14,6 +14,7 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { Fragment, ReactElement, useEffect, useState } from "react"
 import {
   HiArrowTopRightOnSquare,
@@ -38,22 +39,20 @@ import { Appstream } from "src/types/Appstream"
 export default function QualityModerationDashboard() {
   const { t } = useTranslation()
   const user = useUserContext()
+  const router = useRouter()
 
   const pageSize = 30
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState<number>(
+    router?.query?.page ? Number(router.query.page) : 1,
+  )
 
   const [filteredBy, setFilteredBy] =
     useState<GetQualityModerationStatusQualityModerationStatusGetFilterEnum>(
-      "all",
+      (router.query
+        .filter as GetQualityModerationStatusQualityModerationStatusGetFilterEnum) ??
+        "all",
     )
-
-  const setFilter = (
-    filter: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
-  ) => {
-    setFilteredBy(filter)
-    setPage(1)
-  }
 
   const query = useQuery({
     queryKey: ["quality-moderation-dashboard", page, pageSize, filteredBy],
@@ -152,6 +151,18 @@ export default function QualityModerationDashboard() {
   const [data, setData] = useState<QualityModerationDashboardResponse>()
 
   useEffect(() => {
+    setPage(router?.query?.page ? Number(router.query.page) : 1)
+  }, [router.query.page])
+
+  useEffect(() => {
+    setFilteredBy(
+      (router.query
+        .filter as GetQualityModerationStatusQualityModerationStatusGetFilterEnum) ??
+        "all",
+    )
+  }, [router.query.filter])
+
+  useEffect(() => {
     setData(query?.data?.data)
   }, [query?.data])
 
@@ -206,10 +217,15 @@ export default function QualityModerationDashboard() {
                   selected:
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
-                  onClick: () =>
-                    setFilter(
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
-                    ),
+                  onClick: () => {
+                    delete router.query.filter
+
+                    router.query.page = "1"
+
+                    router.push({
+                      query: router.query,
+                    })
+                  },
                 },
                 {
                   id: "passed",
@@ -217,10 +233,16 @@ export default function QualityModerationDashboard() {
                   selected:
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
-                  onClick: () =>
-                    setFilter(
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
-                    ),
+                  onClick: () => {
+                    router.query.filter =
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing
+
+                    router.query.page = "1"
+
+                    router.push({
+                      query: router.query,
+                    })
+                  },
                 },
                 {
                   id: "todo",
@@ -228,14 +250,19 @@ export default function QualityModerationDashboard() {
                   selected:
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
-                  onClick: () =>
-                    setFilter(
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
-                    ),
+                  onClick: () => {
+                    router.query.filter =
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo
+
+                    router.query.page = "1"
+
+                    router.push({
+                      query: router.query,
+                    })
+                  },
                 },
               ]}
             />
-
             <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
               <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
@@ -326,7 +353,7 @@ export default function QualityModerationDashboard() {
                 </LayoutGroup>
               </tbody>
             </table>
-            <Pagination currentPage={page} pages={pages} onClick={setPage} />
+            <Pagination currentPage={page} pages={pages} />
           </div>
         </div>
       </>
