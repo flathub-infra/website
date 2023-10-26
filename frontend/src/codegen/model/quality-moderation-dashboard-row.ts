@@ -40,4 +40,10 @@ export interface QualityModerationDashboardRow {
    * @memberof QualityModerationDashboardRow
    */
   appstream: null
+  /**
+   *
+   * @type {number}
+   * @memberof QualityModerationDashboardRow
+   */
+  installs_last_7_days: number | null
 }
