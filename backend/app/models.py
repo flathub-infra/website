@@ -257,10 +257,10 @@ class GithubRepository(Base):
     reponame = mapped_column(String, nullable=False)
 
     @staticmethod
-    def unify_repolist(db, account: GithubAccount, repolist: list[str]):
+    def unify_repolist(db, accountId: int, repolist: list[str]):
         all_names = set(repolist)
         existing = db.session.query(GithubRepository).filter_by(
-            github_account=account.id
+            github_account=accountId
         )
         to_remove = [repo for repo in existing if repo.reponame not in all_names]
         existing_names = set(repo.reponame for repo in existing)
@@ -268,7 +268,7 @@ class GithubRepository(Base):
         for repo in to_remove:
             db.session.delete(repo)
         for repo in to_add:
-            new_repo = GithubRepository(github_account=account.id, reponame=repo)
+            new_repo = GithubRepository(github_account=accountId, reponame=repo)
             db.session.add(new_repo)
         db.session.flush()
 
