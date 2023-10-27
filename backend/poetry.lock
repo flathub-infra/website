@@ -2,13 +2,13 @@
 
 [[package]]
 name = "alembic"
-version = "1.12.0"
+version = "1.12.1"
 description = "A database migration tool for SQLAlchemy."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "alembic-1.12.0-py3-none-any.whl", hash = "sha256:03226222f1cf943deee6c85d9464261a6c710cd19b4fe867a3ad1f25afda610f"},
-    {file = "alembic-1.12.0.tar.gz", hash = "sha256:8e7645c32e4f200675e69f0745415335eb59a3663f5feb487abfa0b30c45888b"},
+    {file = "alembic-1.12.1-py3-none-any.whl", hash = "sha256:47d52e3dfb03666ed945becb723d6482e52190917fdb47071440cfdba05d92cb"},
+    {file = "alembic-1.12.1.tar.gz", hash = "sha256:bca5877e9678b454706347bc10b97cb7d67f300320fa5c3a94423e8266e2823f"},
 ]
 
 [package.dependencies]
@@ -2197,4 +2197,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "453ce206bc7f26818ad4b88fc69557fe7cf694f9c56b35a3d4603565aaba9bfe"
+content-hash = "a19a81c089d861f22fcccae9581c2fc5a025bf24655f5e1e1c3bb4c305dba88d"
