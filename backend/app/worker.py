@@ -247,7 +247,7 @@ def update_quality_moderation():
 
 
 @dramatiq.actor
-def refresh_github_repo_list(gh_access_token: str, accountId: int):
+def refresh_github_repo_list(gh_access_token: str):
     with WorkerDB() as sqldb:
-        logins.refresh_repo_list(sqldb, gh_access_token, accountId)
+        logins.refresh_repo_list(sqldb, gh_access_token)
         sqldb.session.commit()
