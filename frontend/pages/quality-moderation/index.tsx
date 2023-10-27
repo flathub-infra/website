@@ -145,6 +145,20 @@ export default function QualityModerationDashboard() {
       header: "Installs Last 7 Days",
       accessorFn: (row) => row.installs_last_7_days,
     },
+    {
+      id: "review-requested",
+      header: "Review Requested",
+      accessorFn: (row) => row.quality_moderation_status.review_requested_at,
+      cell: ({ row }) => {
+        if (!row.original.quality_moderation_status.review_requested_at) {
+          return null
+        }
+        const date = parseISO(
+          row.original.quality_moderation_status.review_requested_at,
+        )
+        return formatDistanceToNow(date, { addSuffix: true })
+      },
+    },
   ]
 
   const [data, setData] = useState<QualityModerationDashboardResponse>()

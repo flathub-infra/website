@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useUserContext } from "src/context/user-info"
 import Button from "../Button"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import {
@@ -12,6 +12,7 @@ import {
 } from "react-icons/hi2"
 import { qualityModerationApi } from "src/api"
 import { QualityModerationStatus } from "src/codegen"
+import { useTranslation } from "next-i18next"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -44,6 +45,57 @@ const QualityModerationStatusComponent = ({
       </div>
     )
   }
+}
+
+const ReviewButton = ({
+  review_requested_at,
+  status,
+  app_id,
+  buttonClicked,
+}: {
+  review_requested_at?: string
+  status?: QualityModerationStatus
+  app_id: string
+  buttonClicked?: () => void
+}) => {
+  const { t } = useTranslation()
+
+  const requestReviewMutation = useMutation({
+    mutationFn: () =>
+      qualityModerationApi.requestReviewForAppQualityModerationAppIdRequestReviewPost(
+        app_id,
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: () => {
+      buttonClicked?.()
+    },
+  })
+
+  if (status?.passes) {
+    return null
+  }
+
+  if (!review_requested_at) {
+    return (
+      <Button
+        className="mr-2"
+        variant="secondary"
+        onClick={() => {
+          requestReviewMutation.mutate()
+        }}
+      >
+        {t("quality-guideline.request-review")}
+      </Button>
+    )
+  }
+
+  return (
+    <Button className="mr-2" variant="secondary" disabled>
+      {t("quality-guideline.review-requested")}
+    </Button>
+  )
 }
 
 export const QualityModeration = ({
@@ -101,6 +153,14 @@ export const QualityModeration = ({
           </div>
         </div>
         <div className="ms-auto">
+          <ReviewButton
+            app_id={appId}
+            status={query?.data?.data}
+            review_requested_at={query?.data?.data?.review_requested_at}
+            buttonClicked={() => {
+              query.refetch()
+            }}
+          />
           <Button
             onClick={() => {
               setIsQualityModalOpen(true)

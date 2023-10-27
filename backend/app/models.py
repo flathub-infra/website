@@ -1386,6 +1386,44 @@ class QualityModeration(Base):
         )
 
 
+class QualityModerationRequest(Base):
+    """A request to review an app's quality guidelines, probably after changes"""
+
+    __tablename__ = "qualitymoderationrequest"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True, unique=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    created_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
+
+    @classmethod
+    def by_appid(cls, db, app_id: str) -> Optional["QualityModerationRequest"]:
+        return (
+            db.session.query(QualityModerationRequest)
+            .filter(QualityModerationRequest.app_id == app_id)
+            .first()
+        )
+
+    @classmethod
+    def create(cls, db, app_id: str, user_id: int) -> "QualityModerationRequest":
+        request = QualityModerationRequest(
+            app_id=app_id,
+            created_by=user_id,
+        )
+        db.session.add(request)
+        db.session.commit()
+        return request
+
+    @classmethod
+    def delete(cls, db, app_id: str) -> None:
+        db.session.execute(
+            delete(QualityModerationRequest).where(
+                QualityModerationRequest.app_id == app_id
+            )
+        )
+        db.session.commit()
+
+
 class AppOfTheDay(Base):
     """A curated app of the day"""
 

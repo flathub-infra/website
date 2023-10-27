@@ -498,6 +498,8 @@
     "screenshots-reasonable-window-size": "Reasonable window size",
     "screenshots-good-content": "Good content",
     "screenshots-up-to-date": "Up to date",
-    "screenshots-tag-screenshots-with-correct-language": "Tag screenshots with correct language"
+    "screenshots-tag-screenshots-with-correct-language": "Tag screenshots with correct language",
+    "request-review": "Request Review",
+    "review-requested": "Review Requested"
   }
 }

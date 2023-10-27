@@ -62,16 +62,43 @@ const QualityCategories = ({
     },
   })
 
+  const dismissReviewMutation = useMutation({
+    mutationFn: () =>
+      qualityModerationApi.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+        appId,
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: () => {
+      query.refetch()
+    },
+  })
+
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
-      <Button
-        variant="secondary"
-        onClick={() => {
-          passAllMutation.mutateAsync()
-        }}
-      >
-        Pass all
-      </Button>
+      <div className="flex gap-3">
+        {query.data.data.review_requested_at && (
+          <Button
+            variant="primary"
+            className="w-full"
+            onClick={() => {
+              dismissReviewMutation.mutateAsync()
+            }}
+          >
+            Dismiss review request
+          </Button>
+        )}
+        <Button
+          variant="secondary"
+          className="w-full"
+          onClick={() => {
+            passAllMutation.mutateAsync()
+          }}
+        >
+          Pass all
+        </Button>
+      </div>
       {query.data.data.categories?.map((category) => {
         return (
           <div className="flex flex-col" key={category.id}>

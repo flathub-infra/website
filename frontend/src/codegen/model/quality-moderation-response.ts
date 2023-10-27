@@ -37,4 +37,10 @@ export interface QualityModerationResponse {
    * @memberof QualityModerationResponse
    */
   marks: { [key: string]: QualityModerationType }
+  /**
+   *
+   * @type {string}
+   * @memberof QualityModerationResponse
+   */
+  review_requested_at: string | null
 }
