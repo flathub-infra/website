@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from .db import get_all_appids_for_frontend, get_json_key
 from .login_info import quality_moderator_only
-from .models import QualityModeration
+from .models import QualityModeration, QualityModerationRequest
 
 router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
 
@@ -197,6 +197,7 @@ class QualityModerationStatus(BaseModel):
     passed: int
     not_passed: int
     last_updated: datetime.datetime
+    review_requested_at: datetime.datetime | None = None
 
 
 class QualityModerationDashboardRow(BaseModel):
@@ -230,6 +231,7 @@ class QualityModerationType(BaseModel):
 class QualityModerationResponse(BaseModel):
     categories: list[GuidelineCategory]
     marks: dict[str, QualityModerationType]
+    review_requested_at: datetime.datetime | None = None
 
 
 @router.get("/status", tags=["quality-moderation"])
@@ -257,9 +259,10 @@ def get_quality_moderation_status(
             else None
         )
 
-    # sort by passed, then by weekly downloads
+    # sort by review_requested, passed, then by weekly downloads
     apps.sort(
         key=lambda app: (
+            app.quality_moderation_status.review_requested_at is not None,
             app.quality_moderation_status.passes,
             app.installs_last_7_days or 0,
         ),
@@ -315,9 +318,13 @@ def get_quality_moderation_for_app(
         )
         for item in QualityModeration.by_appid(db, app_id)
     ]
+
+    review_request = QualityModerationRequest.by_appid(db, app_id)
+
     return QualityModerationResponse(
         categories=GUIDELINES,
         marks={item.guideline_id: item for item in items},
+        review_requested_at=review_request.created_at if review_request else None,
     )
 
 
@@ -346,7 +353,35 @@ def get_quality_moderation_status_for_app(
         examples=["org.gnome.Glade"],
     )
 ) -> QualityModerationStatus:
-    return get_quality_moderation_status_for_appid(db, app_id)
+    app_quality_status = get_quality_moderation_status_for_appid(db, app_id)
+
+    return app_quality_status
+
+
+@router.post("/{app_id}/request-review", tags=["quality-moderation"])
+def request_review_for_app(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    moderator=Depends(quality_moderator_only),
+):
+    QualityModerationRequest.create(db, app_id, moderator.user.id)
+
+
+@router.delete("/{app_id}/request-review", tags=["quality-moderation"])
+def delete_review_request_for_app(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    moderator=Depends(quality_moderator_only),
+):
+    QualityModerationRequest.delete(db, app_id)
 
 
 def get_quality_moderation_status_for_appid(db, app_id: str) -> QualityModerationStatus:
@@ -396,10 +431,15 @@ def get_quality_moderation_status_for_appid(db, app_id: str) -> QualityModeratio
     def last_updated(checks):
         return max([check.updated_at for check in checks] + [datetime.datetime.min])
 
+    app_quality_request = QualityModerationRequest.by_appid(db, app_id)
+
     return QualityModerationStatus(
         passes=unrated + not_passed == 0,
         unrated=unrated,
         passed=passed,
         not_passed=not_passed,
         last_updated=last_updated(marks),
+        review_requested_at=app_quality_request.created_at
+        if app_quality_request
+        else None,
     )

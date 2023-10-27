@@ -48,4 +48,10 @@ export interface QualityModerationStatus {
    * @memberof QualityModerationStatus
    */
   last_updated: string
+  /**
+   *
+   * @type {string}
+   * @memberof QualityModerationStatus
+   */
+  review_requested_at: string | null
 }

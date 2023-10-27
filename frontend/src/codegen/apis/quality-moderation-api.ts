@@ -57,6 +57,57 @@ export const QualityModerationApiAxiosParamCreator = function (
   return {
     /**
      *
+     * @summary Delete Review Request For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
+        "appId",
+        appId,
+      )
+      const localVarPath =
+        `/quality-moderation/{app_id}/request-review`.replace(
+          `{${"app_id"}}`,
+          encodeURIComponent(String(appId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
      * @summary Get Quality Moderation For App
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -214,6 +265,57 @@ export const QualityModerationApiAxiosParamCreator = function (
     },
     /**
      *
+     * @summary Request Review For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    requestReviewForAppQualityModerationAppIdRequestReviewPost: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "requestReviewForAppQualityModerationAppIdRequestReviewPost",
+        "appId",
+        appId,
+      )
+      const localVarPath =
+        `/quality-moderation/{app_id}/request-review`.replace(
+          `{${"app_id"}}`,
+          encodeURIComponent(String(appId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -288,6 +390,31 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator =
     QualityModerationApiAxiosParamCreator(configuration)
   return {
+    /**
+     *
+     * @summary Delete Review Request For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
     /**
      *
      * @summary Get Quality Moderation For App
@@ -380,6 +507,31 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Request Review For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async requestReviewForAppQualityModerationAppIdRequestReviewPost(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.requestReviewForAppQualityModerationAppIdRequestReviewPost(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -420,6 +572,24 @@ export const QualityModerationApiFactory = function (
 ) {
   const localVarFp = QualityModerationApiFp(configuration)
   return {
+    /**
+     *
+     * @summary Delete Review Request For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+          appId,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
     /**
      *
      * @summary Get Quality Moderation For App
@@ -479,6 +649,24 @@ export const QualityModerationApiFactory = function (
     },
     /**
      *
+     * @summary Request Review For App
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    requestReviewForAppQualityModerationAppIdRequestReviewPost(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .requestReviewForAppQualityModerationAppIdRequestReviewPost(
+          appId,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -508,6 +696,26 @@ export const QualityModerationApiFactory = function (
  * @extends {BaseAPI}
  */
 export class QualityModerationApi extends BaseAPI {
+  /**
+   *
+   * @summary Delete Review Request For App
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualityModerationApi
+   */
+  public deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return QualityModerationApiFp(this.configuration)
+      .deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+        appId,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    *
    * @summary Get Quality Moderation For App
@@ -566,6 +774,26 @@ export class QualityModerationApi extends BaseAPI {
         page,
         pageSize,
         filter,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Request Review For App
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualityModerationApi
+   */
+  public requestReviewForAppQualityModerationAppIdRequestReviewPost(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return QualityModerationApiFp(this.configuration)
+      .requestReviewForAppQualityModerationAppIdRequestReviewPost(
+        appId,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
