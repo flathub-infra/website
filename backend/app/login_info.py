@@ -94,3 +94,16 @@ def moderator_only(login: LoginStatusDep):
         raise HTTPException(status_code=401, detail="not_logged_in")
     if not login.user.is_moderator:
         raise HTTPException(status_code=403, detail="not_moderator")
+
+
+def quality_moderator_or_app_author_only(app_id: str, login: LoginStatusDep):
+    if not login.state.logged_in():
+        raise HTTPException(status_code=401, detail="not_logged_in")
+
+    if login.user and login.user.is_quality_moderator:
+        return login
+
+    if login.user and app_id in login.user.dev_flatpaks(db):
+        return login
+
+    raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")

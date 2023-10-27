@@ -25,15 +25,25 @@ import {
   QualityModerationResponse,
   QualityModerationType,
 } from "src/codegen"
+import {
+  useFloating,
+  autoPlacement,
+  offset,
+  useHover,
+  useInteractions,
+  useRole,
+} from "@floating-ui/react-dom-interactions"
 
 const QualityCategories = ({
   appId,
   appIcon,
   query,
+  mode,
 }: {
   appId: string
   appIcon: string
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  mode: "developer" | "moderator"
 }) => {
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
@@ -77,28 +87,30 @@ const QualityCategories = ({
 
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
-      <div className="flex gap-3">
-        {query.data.data.review_requested_at && (
+      {mode === "moderator" && (
+        <div className="flex gap-3">
+          {query.data.data.review_requested_at && (
+            <Button
+              variant="primary"
+              className="w-full"
+              onClick={() => {
+                dismissReviewMutation.mutateAsync()
+              }}
+            >
+              Dismiss review request
+            </Button>
+          )}
           <Button
-            variant="primary"
+            variant="secondary"
             className="w-full"
             onClick={() => {
-              dismissReviewMutation.mutateAsync()
+              passAllMutation.mutateAsync()
             }}
           >
-            Dismiss review request
+            Pass all
           </Button>
-        )}
-        <Button
-          variant="secondary"
-          className="w-full"
-          onClick={() => {
-            passAllMutation.mutateAsync()
-          }}
-        >
-          Pass all
-        </Button>
-      </div>
+        </div>
+      )}
       {query.data.data.categories?.map((category) => {
         return (
           <div className="flex flex-col" key={category.id}>
@@ -153,6 +165,7 @@ const QualityCategories = ({
               )}
               {category.guidelines.map((guideline) => (
                 <QualityItem
+                  mode={mode}
                   key={guideline.id}
                   appId={appId}
                   qualityGuideline={guideline}
@@ -169,11 +182,13 @@ const QualityCategories = ({
 }
 
 const QualityItem = ({
+  mode,
   appId,
   qualityModeration,
   qualityGuideline,
   query,
 }: {
+  mode: "developer" | "moderator"
   appId: string
   qualityModeration?: QualityModerationType
   qualityGuideline: Guideline | undefined
@@ -211,12 +226,8 @@ const QualityItem = ({
         <HiArrowTopRightOnSquare />
       </a>
       <div className="ms-auto">
-        {qualityGuideline.read_only ? (
-          qualityModeration?.passed ? (
-            <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
-          ) : (
-            <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
-          )
+        {qualityGuideline.read_only || mode === "developer" ? (
+          <ReadOnlyItem toggle={toggle} />
         ) : (
           <MultiToggle
             size="sm"
@@ -254,12 +265,80 @@ const QualityItem = ({
   )
 }
 
+const ReadOnlyItem = ({ toggle }) => {
+  const { t } = useTranslation()
+
+  const [isOpen, setIsOpen] = useState(false)
+  const { x, y, reference, floating, strategy, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    middleware: [autoPlacement(), offset(6)],
+  })
+  const hover = useHover(context, { move: false })
+  const role = useRole(context, { role: "tooltip" })
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, role])
+
+  const status =
+    toggle === undefined ? "pending" : toggle === true ? "passed" : "not-passed"
+
+  let content = <HiQuestionMarkCircle className="w-6 h-6" />
+  if (status === "passed") {
+    content = <HiCheckCircle className="w-6 h-6 text-flathub-celestial-blue" />
+  } else if (status === "not-passed") {
+    content = (
+      <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
+    )
+  }
+
+  let hoverText = "quality-guideline.pending"
+  if (status === "passed") {
+    hoverText = "quality-guideline.passed"
+  } else if (status === "not-passed") {
+    hoverText = "quality-guideline.not-passed"
+  }
+
+  return (
+    <>
+      <button
+        ref={reference}
+        className="flex items-center justify-center"
+        aria-label="read-only"
+        {...getReferenceProps}
+      >
+        {content}
+      </button>
+      {isOpen && (
+        <div
+          ref={floating}
+          style={{
+            position: strategy,
+            top: y ?? 0,
+            left: x ?? 0,
+          }}
+          className={clsx(
+            "text-xs font-semibold",
+            "z-20 mx-1 max-w-sm rounded-xl p-4",
+            "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
+            "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",
+          )}
+          {...getFloatingProps()}
+        >
+          {t(hoverText)}
+        </div>
+      )}
+    </>
+  )
+}
+
 export const QualityModerationSlideOver = ({
+  mode,
   appId,
   appIcon,
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
+  mode: "developer" | "moderator"
   appId: string
   appIcon: string
   isQualityModalOpen: boolean
@@ -295,7 +374,12 @@ export const QualityModerationSlideOver = ({
             <span className="text-flathub-red">{t("server-error")}</span>
           </div>
         ) : (
-          <QualityCategories appId={appId} query={query} appIcon={appIcon} />
+          <QualityCategories
+            appId={appId}
+            query={query}
+            appIcon={appIcon}
+            mode={mode}
+          />
         )}
       </div>
     </SlideOver>

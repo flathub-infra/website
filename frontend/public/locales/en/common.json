@@ -499,7 +499,15 @@
     "screenshots-good-content": "Good content",
     "screenshots-up-to-date": "Up to date",
     "screenshots-tag-screenshots-with-correct-language": "Tag screenshots with correct language",
+    "pending": "Pending",
+    "passed": "Passed",
+    "not-passed": "Not passed",
     "request-review": "Request Review",
-    "review-requested": "Review Requested"
+    "review-requested": "Review Requested",
+    "details": "Details",
+    "high-quality-app-data": "High quality app data",
+    "app-data-review-pending": "App data review pending",
+    "failing-x-checks_one": "Failing {{count}} check",
+    "failing-x-checks_other": "Failing {{count}} checks"
   }
 }

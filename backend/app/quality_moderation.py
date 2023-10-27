@@ -9,7 +9,7 @@ from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
 from .db import get_all_appids_for_frontend, get_json_key
-from .login_info import quality_moderator_only
+from .login_info import quality_moderator_only, quality_moderator_or_app_author_only
 from .models import QualityModeration, QualityModerationRequest
 
 router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
@@ -305,7 +305,7 @@ def get_quality_moderation_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    _moderator=Depends(quality_moderator_only),
+    _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationResponse:
     items = [
         QualityModerationType(
@@ -351,7 +351,8 @@ def get_quality_moderation_status_for_app(
         max_length=255,
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
-    )
+    ),
+    _moderator=Depends(quality_moderator_or_app_author_only),
 ) -> QualityModerationStatus:
     app_quality_status = get_quality_moderation_status_for_appid(db, app_id)
 
@@ -366,7 +367,7 @@ def request_review_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    moderator=Depends(quality_moderator_or_app_author_only),
 ):
     QualityModerationRequest.create(db, app_id, moderator.user.id)
 
@@ -379,7 +380,7 @@ def delete_review_request_for_app(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    moderator=Depends(quality_moderator_only),
+    _moderator=Depends(quality_moderator_only),
 ):
     QualityModerationRequest.delete(db, app_id)
 

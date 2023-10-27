@@ -7,7 +7,11 @@ import Spinner from "../Spinner"
 import clsx from "clsx"
 import {
   HiCheckCircle,
+  HiCog6Tooth,
+  HiEnvelope,
+  HiEnvelopeOpen,
   HiExclamationTriangle,
+  HiEye,
   HiQuestionMarkCircle,
 } from "react-icons/hi2"
 import { qualityModerationApi } from "src/api"
@@ -19,6 +23,8 @@ const QualityModerationStatusComponent = ({
 }: {
   status: undefined | QualityModerationStatus
 }) => {
+  const { t } = useTranslation()
+
   if (!status) {
     return null
   }
@@ -27,21 +33,25 @@ const QualityModerationStatusComponent = ({
     return (
       <div className="flex gap-1">
         <HiCheckCircle className="text-2xl" />
-        <span>High quality app data</span>
+        <span>{t("quality-guideline.high-quality-app-data")}</span>
       </div>
     )
   } else if (status.not_passed === 0) {
     return (
       <div className="flex gap-1">
         <HiQuestionMarkCircle className="text-2xl" />
-        <span>App data review pending</span>
+        <span>{t("quality-guideline.app-data-review-pending")}</span>
       </div>
     )
   } else {
     return (
       <div className="flex gap-1">
         <HiExclamationTriangle className="text-2xl" />
-        <span>Failing {status.not_passed} checks</span>
+        <span>
+          {t("quality-guideline.failing-x-checks", {
+            count: status.not_passed,
+          })}
+        </span>
       </div>
     )
   }
@@ -52,11 +62,13 @@ const ReviewButton = ({
   status,
   app_id,
   buttonClicked,
+  mode,
 }: {
   review_requested_at?: string
   status?: QualityModerationStatus
   app_id: string
   buttonClicked?: () => void
+  mode?: "moderator" | "developer"
 }) => {
   const { t } = useTranslation()
 
@@ -77,23 +89,37 @@ const ReviewButton = ({
     return null
   }
 
+  if (mode === "moderator" && !review_requested_at) {
+    return null
+  }
+
   if (!review_requested_at) {
     return (
       <Button
-        className="mr-2"
+        className="mr-2 flex items-center gap-1"
         variant="secondary"
         onClick={() => {
           requestReviewMutation.mutate()
         }}
       >
-        {t("quality-guideline.request-review")}
+        <HiEnvelopeOpen className="w-5 h-5" />
+        <div className="hidden sm:block">
+          {t("quality-guideline.request-review")}
+        </div>
       </Button>
     )
   }
 
   return (
-    <Button className="mr-2" variant="secondary" disabled>
-      {t("quality-guideline.review-requested")}
+    <Button
+      className="mr-2 flex items-center gap-1"
+      variant="secondary"
+      disabled
+    >
+      <HiEnvelope className="w-5 h-5" />
+      <div className="hidden sm:block">
+        {t("quality-guideline.review-requested")}
+      </div>
     </Button>
   )
 }
@@ -109,16 +135,23 @@ export const QualityModeration = ({
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (isOpen: boolean) => void
 }) => {
+  const { t } = useTranslation()
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
+
+  const requirement =
+    isQualityModerator || user.info?.["dev-flatpaks"].includes(appId)
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId }],
     queryFn: () =>
       qualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
         appId,
+        {
+          withCredentials: true,
+        },
       ),
-    enabled: isQualityModerator,
+    enabled: requirement,
   })
 
   useEffect(() => {
@@ -127,9 +160,11 @@ export const QualityModeration = ({
     }
   }, [user.info])
 
-  if (!isQualityModerator && query.isLoading) {
+  if (!requirement) {
     return null
   }
+
+  const mode = isQualityModerator ? "moderator" : "developer"
 
   return (
     <>
@@ -152,7 +187,7 @@ export const QualityModeration = ({
             )}
           </div>
         </div>
-        <div className="ms-auto">
+        <div className="ms-auto flex">
           <ReviewButton
             app_id={appId}
             status={query?.data?.data}
@@ -160,18 +195,34 @@ export const QualityModeration = ({
             buttonClicked={() => {
               query.refetch()
             }}
+            mode={mode}
           />
           <Button
             onClick={() => {
               setIsQualityModalOpen(true)
             }}
+            className="flex items-center gap-1"
           >
-            Manage
+            {mode === "moderator" && (
+              <>
+                <HiCog6Tooth className="w-5 h-5" />
+                <div className="hidden sm:block">Moderate</div>
+              </>
+            )}
+            {mode === "developer" && (
+              <>
+                <HiEye className="w-5 h-5" />
+                <div className="hidden sm:block">
+                  {t("quality-guideline.details")}
+                </div>
+              </>
+            )}
           </Button>
         </div>
       </div>
 
       <QualityModerationSlideOver
+        mode={mode}
         appId={appId}
         appIcon={appIcon}
         isQualityModalOpen={isQualityModalOpen}
