@@ -49,7 +49,7 @@ class UserDeleteRequest(BaseModel):
     token: str
 
 
-def refresh_repo_list(sqldb, gh_access_token: str):
+def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
     gh = Github(gh_access_token)
     ghuser = gh.get_user()
     user_repos = [
@@ -69,7 +69,7 @@ def refresh_repo_list(sqldb, gh_access_token: str):
     ]
 
     repos = list(set(user_repos + gh_team_repos))
-    models.GithubRepository.unify_repolist(sqldb, ghuser.id, repos)
+    models.GithubRepository.unify_repolist(sqldb, accountId, repos)
 
 
 def _refresh_token(
@@ -432,8 +432,8 @@ def continue_github_flow(
             email=email,
         )
 
-    def github_postlogin(tokens, _account: models.GithubAccount):
-        worker.refresh_github_repo_list.send(tokens["access_token"])
+    def github_postlogin(tokens, account: models.GithubAccount):
+        worker.refresh_github_repo_list.send(tokens["access_token"], account.id)
 
     return continue_oauth_flow(
         request,
@@ -499,7 +499,7 @@ def continue_gitlab_flow(
     def gitlab_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://gitlab.com", tokens)
 
-    def gitlab_postlogin(_tokens, _account):
+    def gitlab_postlogin(tokens, account):
         pass
 
     return continue_oauth_flow(
@@ -555,7 +555,7 @@ def continue_gnome_flow(
     def gnome_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://gitlab.gnome.org", tokens)
 
-    def gnome_postlogin(_tokens, _account):
+    def gnome_postlogin(tokens, account):
         pass
 
     return continue_oauth_flow(
@@ -623,7 +623,7 @@ def continue_google_flow(
             avatar_url=gguser.get("picture"),
         )
 
-    def google_postlogin(_tokens, _account):
+    def google_postlogin(tokens, account):
         pass
 
     return continue_oauth_flow(
@@ -652,7 +652,7 @@ def continue_kde_flow(
     def kde_userdata(tokens) -> ProviderInfo:
         return _gitlab_provider_info("https://invent.kde.org", tokens)
 
-    def kde_postlogin(_tokens, _account):
+    def kde_postlogin(tokens, account):
         pass
 
     return continue_oauth_flow(
@@ -929,7 +929,7 @@ def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
     if account is None:
         raise HTTPException(status_code=401, detail="no_github_account")
 
-    refresh_repo_list(db, account.token)
+    refresh_repo_list(db, account.token, account.id)
     db.session.commit()
 
     dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
