@@ -139,8 +139,9 @@ export const QualityModeration = ({
   const user = useUserContext()
   const [isQualityModerator, setIsQualityModerator] = useState(false)
 
-  const requirement =
-    isQualityModerator || user.info?.["dev-flatpaks"].includes(appId)
+  // todo allow developers to see their own app's status
+  // isQualityModerator || user.info?.["dev-flatpaks"].includes(appId)
+  const requirement = isQualityModerator
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId }],
