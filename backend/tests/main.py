@@ -501,11 +501,11 @@ def test_verification_status_invalid(client):
 
 def test_verification_requires_login(client):
     response = client.post("/verification/org.gnome.Maps/setup-website-verification")
-    assert response.status_code == 403
+    assert response.status_code == 401
     assert response.json()["detail"] == "not_logged_in"
 
     response = client.post("/verification/org.gnome.Maps/verify-by-login-provider")
-    assert response.status_code == 403
+    assert response.status_code == 401
     assert response.json()["detail"] == "not_logged_in"
 
 

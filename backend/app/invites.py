@@ -1,12 +1,13 @@
 from enum import Enum
 
-from fastapi import APIRouter, FastAPI, HTTPException, Path
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
 from . import worker
 from .db import get_json_key
 from .emails import EmailCategory, EmailInfo
+from .login_info import logged_in
 from .logins import LoginStatusDep
 from .models import (
     DirectUploadApp,
@@ -68,7 +69,7 @@ class InviteStatus(BaseModel):
 
 @router.get("/{app_id}", tags=["invite"])
 def get_invite_status(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -76,9 +77,6 @@ def get_invite_status(
         examples=["org.gnome.Glade"],
     ),
 ) -> InviteStatus:
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = DirectUploadApp.by_app_id(sqldb, app_id)
     if app is None:
         return InviteStatus(is_pending=False, is_direct_upload_app=False)
@@ -97,7 +95,7 @@ def get_invite_status(
 @router.post("/{app_id}/invite", status_code=204, tags=["invite"])
 def invite_developer(
     invite_code: str,
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -105,9 +103,6 @@ def invite_developer(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     _check_permission(app, login.user, require_primary=True)
 
@@ -207,7 +202,7 @@ def accept_invite(
 
 @router.post("/{app_id}/decline", status_code=204, tags=["invite"])
 def decline_invite(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -215,9 +210,6 @@ def decline_invite(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     invite = DirectUploadAppInvite.by_developer_and_app(sqldb, login.user, app)
     if invite is None:
@@ -247,7 +239,7 @@ def decline_invite(
 
 @router.post("/{app_id}/leave", status_code=204, tags=["invite"])
 def leave_team(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -255,9 +247,6 @@ def leave_team(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     developer = _check_permission(app, login.user)
 
@@ -293,7 +282,7 @@ class DevelopersResponse(BaseModel):
 
 @router.get("/{app_id}/developers", tags=["invite"])
 def get_developers(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -301,9 +290,6 @@ def get_developers(
         examples=["org.gnome.Glade"],
     ),
 ) -> DevelopersResponse:
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     _check_permission(app, login.user)
 
@@ -334,7 +320,7 @@ def get_developers(
 @router.post("/{app_id}/remove-developer", status_code=204, tags=["invite"])
 def remove_developer(
     developer_id: int,
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -342,9 +328,6 @@ def remove_developer(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     _check_permission(app, login.user, require_primary=True)
 
@@ -361,7 +344,7 @@ def remove_developer(
 @router.post("/{app_id}/revoke", status_code=204, tags=["invite"])
 def revoke_invite(
     invite_id: int,
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -369,9 +352,6 @@ def revoke_invite(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
     app = _get_app(app_id)
     _check_permission(app, login.user, require_primary=True)
 

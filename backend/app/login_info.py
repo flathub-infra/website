@@ -80,26 +80,31 @@ def login_state(request: Request) -> LoginInformation:
 LoginStatusDep = Annotated[LoginInformation, Depends(login_state)]
 
 
-def quality_moderator_only(login: LoginStatusDep):
-    if not login.user or not login.state.logged_in():
+def logged_in(login: LoginStatusDep):
+    if login.state == LoginState.LOGGED_OUT or login.user is None:
         raise HTTPException(status_code=401, detail="not_logged_in")
+
+    return login
+
+
+def quality_moderator_only(login=Depends(logged_in)):
     if not login.user.is_quality_moderator:
         raise HTTPException(status_code=403, detail="not_quality_moderator")
 
     return login
 
 
-def moderator_only(login: LoginStatusDep):
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
+def moderator_only(login=Depends(logged_in)):
     if not login.user.is_moderator:
         raise HTTPException(status_code=403, detail="not_moderator")
 
 
-def quality_moderator_or_app_author_only(app_id: str, login: LoginStatusDep):
-    if not login.state.logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
+def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
+    if not login.user.is_moderator and app_id not in login.user.dev_flatpaks(db):
+        raise HTTPException(status_code=403, detail="not_app_developer")
 
+
+def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
     if login.user and login.user.is_quality_moderator:
         return login
 

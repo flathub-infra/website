@@ -13,7 +13,8 @@ from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
-from .logins import LoginInformation, LoginStatusDep, refresh_oauth_token
+from .login_info import logged_in
+from .logins import LoginInformation, refresh_oauth_token
 
 
 class ErrorDetail(str, Enum):
@@ -300,11 +301,12 @@ def _get_existing_verification(app_id: str) -> models.AppVerification | None:
         return None
 
 
-def _check_app_id(app_id: str, new_app: bool, login: LoginInformation):
+def _check_app_id(
+    app_id: str,
+    new_app: bool,
+    login=Depends(logged_in),
+):
     """Make sure the given user has development access to the given flatpak."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     if not utils.is_valid_app_id(app_id):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
@@ -327,7 +329,7 @@ def _check_app_id(app_id: str, new_app: bool, login: LoginInformation):
             raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
     else:
         if app_id not in login.user.dev_flatpaks(sqldb):
-            raise HTTPException(status_code=401, detail=ErrorDetail.NOT_APP_DEVELOPER)
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
     existing = _get_existing_verification(app_id)
 
@@ -432,7 +434,7 @@ class AvailableMethods(BaseModel):
     tags=["verification"],
 )
 def get_available_methods(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -442,9 +444,6 @@ def get_available_methods(
     new_app: bool = False,
 ):
     """Gets the ways an app may be verified."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     _check_app_id(app_id, new_app, login)
 
@@ -678,7 +677,7 @@ def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
     "/{app_id}/verify-by-login-provider", status_code=200, tags=["verification"]
 )
 def verify_by_login_provider(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -689,9 +688,6 @@ def verify_by_login_provider(
 ):
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     available_method = _check_login_provider_verification(app_id, new_app, login)
 
@@ -761,7 +757,7 @@ class WebsiteVerificationToken(BaseModel):
     tags=["verification"],
 )
 def setup_website_verification(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -771,9 +767,6 @@ def setup_website_verification(
     new_app: bool = False,
 ):
     """Creates a token for the user to verify the app via website."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     _check_app_id(app_id, new_app, login)
 
@@ -810,7 +803,7 @@ def setup_website_verification(
     tags=["verification"],
 )
 def confirm_website_verification(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -821,9 +814,6 @@ def confirm_website_verification(
     check=Depends(CheckWebsiteVerification),
 ):
     """Checks website verification, and if it succeeds, marks the app as verified for the current account."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     _check_app_id(app_id, new_app, login)
 
@@ -854,7 +844,7 @@ def confirm_website_verification(
 
 @router.post("/{app_id}/unverify", status_code=204, tags=["verification"])
 def unverify(
-    login: LoginStatusDep,
+    login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -863,9 +853,6 @@ def unverify(
     ),
 ):
     """If the current account has verified the given app, mark it as no longer verified."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_LOGGED_IN)
 
     verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
     if verification is not None:
