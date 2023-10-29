@@ -15,7 +15,7 @@ from sqlalchemy import func, not_, or_
 from . import config, models, worker
 from .db import get_json_key
 from .emails import EmailCategory, EmailInfo
-from .login_info import moderator_only
+from .login_info import moderator_only, moderator_or_app_author_only
 from .logins import LoginStatusDep
 
 router = APIRouter(prefix="/moderation")
@@ -112,7 +112,7 @@ def get_moderation_apps(
     tags=["moderation"],
 )
 def get_moderation_app(
-    login: LoginStatusDep,
+    _login=Depends(moderator_or_app_author_only),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -125,12 +125,6 @@ def get_moderation_app(
     offset: int = 0,
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
-
-    if not login.user or not login.state.logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
-    if not login.user.is_moderator and app_id not in login.user.dev_flatpaks(sqldb):
-        raise HTTPException(status_code=403, detail="not_app_developer")
-
     query = (
         sqldb.session.query(models.ModerationRequest, models.FlathubUser.display_name)
         .filter_by(appid=app_id)

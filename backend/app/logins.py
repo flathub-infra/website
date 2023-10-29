@@ -27,7 +27,13 @@ from starlette.middleware.sessions import SessionMiddleware
 from . import config, models, worker
 from . import db as apps_db
 from .emails import EmailCategory, EmailInfo
-from .login_info import LoginInformation, LoginState, LoginStatusDep, login_state
+from .login_info import (
+    LoginInformation,
+    LoginState,
+    LoginStatusDep,
+    logged_in,
+    login_state,
+)
 
 
 class OauthLoginResponseSuccess(BaseModel):
@@ -917,10 +923,9 @@ def get_userinfo(login: LoginStatusDep):
 
 
 @router.post("/refresh-dev-flatpaks", tags=["auth"])
-def do_refresh_dev_flatpaks(request: Request, login: LoginStatusDep):
-    if login.state == LoginState.LOGGED_OUT or login.user is None:
-        raise HTTPException(status_code=401, detail="not_logged_in")
-
+def do_refresh_dev_flatpaks(
+    login=Depends(logged_in),
+):
     user = login.user
 
     account = models.GithubAccount.by_user(db, user)
