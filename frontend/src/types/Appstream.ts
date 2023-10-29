@@ -26,7 +26,7 @@ export interface DesktopAppstream {
   launchable: Launchable
   bundle: Bundle
   metadata?: Metadata
-  keywords: string[]
+  keywords?: string[]
   is_free_license: boolean
 }
 
