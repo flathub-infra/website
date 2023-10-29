@@ -152,6 +152,7 @@ const Details: FunctionComponent<Props> = ({
           priceCurrency=""
           operatingSystem="LINUX"
           applicationCategory={categoryToSeoCategories(app.categories)}
+          keywords={app.keywords.join(", ")}
         />
         {app.categories?.includes("Game") && (
           <VideoGameJsonLd
