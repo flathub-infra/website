@@ -2914,14 +2914,6 @@
     use-resize-observer "^9.1.0"
     util-deprecate "^1.0.2"
 
-"@storybook/core-client@7.4.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@storybook/core-client/-/core-client-7.4.0.tgz#b2b683ebc44d0dfaa7a886f7bb1a5fc74a3d0965"
-  integrity sha512-AhysJS2HnydB8Jc+BMVzK5VLHa1liJjxroNsd+ZTgGUhD7R8wvozrswQgY4MLFtcaLwN/wDWlK2YavSBqmc94Q==
-  dependencies:
-    "@storybook/client-logger" "7.4.0"
-    "@storybook/preview-api" "7.4.0"
-
 "@storybook/core-client@7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@storybook/core-client/-/core-client-7.5.1.tgz#06bc3711767fa131800d1a0827dd120e89019ccd"
@@ -3482,7 +3474,7 @@
   resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-7.5.1.tgz#1dd868782f2ed52828691a221b0f9e99f5427ef8"
   integrity sha512-bzTIfLm91O9h3rPYJLtRbmsPARerY3z7MoyvadGp8TikvIvf+WyT/vHujw+20SxnqiZVq5Jv65FFlxc46GGB1Q==
 
-"@storybook/react@7.5.1":
+"@storybook/react@7.5.1", "@storybook/react@^7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.5.1.tgz#56227f2dbb7c3a5fafc7f3e61a3e4268ec1c5fde"
   integrity sha512-IG97c30fFSmPyGpJ1awHC/+9XnCTqleeOQwROXjroMHSm8m/JTWpHMVLyM1x7b6VAnBhNHWJ+oXLZe/hXkXfpA==
@@ -3497,33 +3489,6 @@
     "@types/escodegen" "^0.0.6"
     "@types/estree" "^0.0.51"
     "@types/node" "^18.0.0"
-    acorn "^7.4.1"
-    acorn-jsx "^5.3.1"
-    acorn-walk "^7.2.0"
-    escodegen "^2.1.0"
-    html-tags "^3.1.0"
-    lodash "^4.17.21"
-    prop-types "^15.7.2"
-    react-element-to-jsx-string "^15.0.0"
-    ts-dedent "^2.0.0"
-    type-fest "~2.19"
-    util-deprecate "^1.0.2"
-
-"@storybook/react@^7.3.2":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-7.4.0.tgz#18d29aa49f0b784b46613d26a243caf473177403"
-  integrity sha512-QWsFw/twsNkcWI6brW06sugQQ5dV+fJm4IrEeI28cA4cBHK9G9HKOwCHoXDUWikzZx48XYMpNfs/WyIkuGmEqg==
-  dependencies:
-    "@storybook/client-logger" "7.4.0"
-    "@storybook/core-client" "7.4.0"
-    "@storybook/docs-tools" "7.4.0"
-    "@storybook/global" "^5.0.0"
-    "@storybook/preview-api" "7.4.0"
-    "@storybook/react-dom-shim" "7.4.0"
-    "@storybook/types" "7.4.0"
-    "@types/escodegen" "^0.0.6"
-    "@types/estree" "^0.0.51"
-    "@types/node" "^16.0.0"
     acorn "^7.4.1"
     acorn-jsx "^5.3.1"
     acorn-walk "^7.2.0"
