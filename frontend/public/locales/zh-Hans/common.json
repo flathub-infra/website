@@ -441,7 +441,8 @@
     "screenshots-tag-screenshots-with-correct-language": "使用正确的语言标记屏幕截图",
     "screenshots-good-content": "精彩内容",
     "screenshots-up-to-date": "最新",
-    "screenshots-include-window-shadow-and-rounded-corners": "包括窗口阴影和圆角"
+    "screenshots-include-window-shadow-and-rounded-corners": "包括窗口阴影和圆角",
+    "screenshots-at-least-one-screenshot": "至少一张截图"
   },
   "user-data-subfolder-x": "用户数据子目录 {{folder}}",
   "desktop-folder": "桌面目录",
@@ -497,5 +498,6 @@
   "user-data-folder": "用户数据目录",
   "videos-folder": "视频目录",
   "can-read-all-data-in-your-download-folder": "能读取您的下载目录的所有数据",
-  "pictures-folder": "图片目录"
+  "pictures-folder": "图片目录",
+  "moderation-build-id": "构建 ID"
 }

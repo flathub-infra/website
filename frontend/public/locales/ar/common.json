@@ -498,5 +498,6 @@
     "screenshots-include-window-shadow-and-rounded-corners": "فيها ظلُّ النافذة وزواياها مستديرة",
     "screenshots-at-least-one-screenshot": "لقطة واحدة على الأقل"
   },
-  "app-listing-quality": "جودة مسردة التطبيقات"
+  "app-listing-quality": "جودة مسردة التطبيقات",
+  "moderation-build-id": "معرِّف التصريفة"
 }

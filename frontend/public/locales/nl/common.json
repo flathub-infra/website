@@ -498,5 +498,6 @@
   "can-read-write-all-data": "Kan alle gegevens in de map lezen en schrijven",
   "full-file-system-read-write-access": "Volledige lees- en schrijf­toegang tot bestands­systeem",
   "can-request-data-from-session-services": "Kan gegevens opvragen bij sessie­diensten",
-  "can-read-all-data-in-your-download-folder": "Kan alle gegevens in uw downloadsmap lezen"
+  "can-read-all-data-in-your-download-folder": "Kan alle gegevens in uw downloadsmap lezen",
+  "moderation-build-id": "Versie-ID"
 }

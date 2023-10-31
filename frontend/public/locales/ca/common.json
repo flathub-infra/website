@@ -339,5 +339,7 @@
   "accept": "Accepta",
   "login-provider-verification-not-org-member": "Actualment heu iniciat la sessió a <1>{{login_provider}}</1> com a <3>{{current_name}}</3>. Aquest compte no és membre de l'organització <5>{{organization}}</5>. Per verificar aquesta aplicació, heu de sol·licitar privilegis d'administrador a l'organització o iniciar sessió en un compte que ja els tingui.",
   "moderation-appstream-changes": "Canvis d'Appstream",
-  "invite": "Convida a"
+  "invite": "Convida a",
+  "moderation-build-id": "ID de la compilació",
+  "primary-developer": "Desenvolupador principal"
 }

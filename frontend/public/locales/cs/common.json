@@ -496,7 +496,18 @@
     "screenshots-good-content": "Dobrý obsah",
     "screenshots-up-to-date": "Aktuální",
     "screenshots-include-window-shadow-and-rounded-corners": "Zahrnuje stín okna a zaoblené rohy",
-    "screenshots-at-least-one-screenshot": "Alespoň jeden snímek obrazovky"
+    "screenshots-at-least-one-screenshot": "Alespoň jeden snímek obrazovky",
+    "failing-x-checks_one": "Neúspěšná kontrola {{count}}",
+    "high-quality-app-data": "Vysoce kvalitní data aplikace",
+    "pending": "Čekající",
+    "details": "Podrobnosti",
+    "review-requested": "Požadované přezkoumání",
+    "failing-x-checks_other": "Neúspěšných {{count}} kontrol",
+    "not-passed": "Nebylo přijato",
+    "app-data-review-pending": "Čeká se na přezkoumání dat aplikace",
+    "passed": "Přijato",
+    "request-review": "Žádost o přezkoumání"
   },
-  "app-listing-quality": "Kvalita výpisu aplikací"
+  "app-listing-quality": "Kvalita výpisu aplikací",
+  "moderation-build-id": "ID sestavení"
 }

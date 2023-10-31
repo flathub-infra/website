@@ -498,5 +498,6 @@
     "screenshots-include-window-shadow-and-rounded-corners": "包含視窗陰影與圓角",
     "screenshots-at-least-one-screenshot": "至少一個螢幕截圖"
   },
-  "app-listing-quality": "應用程式清單品質"
+  "app-listing-quality": "應用程式清單品質",
+  "moderation-build-id": "建構 ID"
 }
