@@ -498,5 +498,6 @@
   "videos-folder": "Pasta de Vídeos",
   "arch": "Arquitetura",
   "can-read-all-data-in-your-download-folder": "Pode ler todos os dados na pasta de downloads",
-  "pictures-folder": "Pasta de Imagens"
+  "pictures-folder": "Pasta de Imagens",
+  "moderation-build-id": "ID da compilação"
 }

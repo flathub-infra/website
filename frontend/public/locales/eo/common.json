@@ -498,5 +498,6 @@
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
   "app-listing-quality": "Kvalito de programa registraĵo",
   "full-file-system-read-write-access": "Plena lega/modifa aliro al la dosiersistemo",
-  "home-folder-read-access": "Lega aliro al hejma dosierujo"
+  "home-folder-read-access": "Lega aliro al hejma dosierujo",
+  "moderation-build-id": "Versia identigilo"
 }

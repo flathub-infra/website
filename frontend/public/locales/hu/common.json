@@ -498,5 +498,6 @@
     "screenshots-up-to-date": "Naprakész",
     "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat"
   },
-  "app-listing-quality": "Alkalmazáslista minősége"
+  "app-listing-quality": "Alkalmazáslista minősége",
+  "moderation-build-id": "Összeállítás-azonosító"
 }

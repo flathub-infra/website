@@ -496,7 +496,18 @@
     "screenshots-good-content": "Хорошее содержимое",
     "screenshots-up-to-date": "Актуальны",
     "screenshots-include-window-shadow-and-rounded-corners": "Включает тень окна и закруглённые углы",
-    "screenshots-at-least-one-screenshot": "Хотя бы один скриншот"
+    "screenshots-at-least-one-screenshot": "Хотя бы один скриншот",
+    "failing-x-checks_one": "Сбой {{count}} проверки",
+    "high-quality-app-data": "Высокое качество данных приложения",
+    "pending": "В ожидании",
+    "details": "Подробности",
+    "review-requested": "Запрошенная рецензия",
+    "failing-x-checks_other": "Сбой {{count}} проверок",
+    "not-passed": "Не пройдено",
+    "app-data-review-pending": "Ожидается рецензия данных приложения",
+    "passed": "Пройдено",
+    "request-review": "Запрос рецензии"
   },
-  "app-listing-quality": "Качество выдачи приложений"
+  "app-listing-quality": "Качество выдачи приложений",
+  "moderation-build-id": "ID сборки"
 }

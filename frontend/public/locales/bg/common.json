@@ -496,7 +496,18 @@
     "screenshots-good-content": "Добро съдържание",
     "screenshots-up-to-date": "Актуални",
     "screenshots-include-window-shadow-and-rounded-corners": "Включват сянката на прозореца и заоблените ъгли",
-    "screenshots-at-least-one-screenshot": "Поне една"
+    "screenshots-at-least-one-screenshot": "Поне една",
+    "failing-x-checks_one": "{{count}} неуспешна проверка",
+    "high-quality-app-data": "Отлични данни на приложението",
+    "pending": "Изчаква рецензия",
+    "details": "Подробности",
+    "review-requested": "Заявена рецензия",
+    "failing-x-checks_other": "{{count}} неуспешни проверки",
+    "not-passed": "Неуспешна рецензия",
+    "app-data-review-pending": "Данните на приложението изчакват рецензия",
+    "passed": "Успешна рецензия",
+    "request-review": "Заявяване на рецензия"
   },
-  "app-listing-quality": "Свойства на приложението"
+  "app-listing-quality": "Свойства на приложението",
+  "moderation-build-id": "Идентификатор на версията"
 }
