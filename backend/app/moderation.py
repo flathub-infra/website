@@ -375,7 +375,7 @@ def submit_review(
         )
         if remaining == 0:
             # Tell flat-manager that the job is approved
-            worker.review_check.send(request.job_id, "Passed", None)
+            worker.review_check.send(request.job_id, "Passed", None, request.build_id)
     else:
         # If any request is rejected, the job is rejected
         worker.review_check.send(

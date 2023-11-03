@@ -159,6 +159,7 @@ def review_check(
     job_id: int,
     status: T.Literal["Passed"] | T.Literal["Failed"],
     reason: str | None,
+    build_id: int | None = None,
 ):
     token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
     requests.post(
@@ -166,6 +167,16 @@ def review_check(
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
     )
+
+    if status == "Passed" and build_id:
+        token = utils.create_flat_manager_token(
+            "review_check_publish_approved", ["publish"]
+        )
+        requests.post(
+            f"{settings.flat_manager_api}/api/v1/build/{build_id}/publish",
+            json={},
+            headers={"Authorization": token},
+        )
 
 
 @dramatiq.actor
