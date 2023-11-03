@@ -229,8 +229,10 @@ def submit_review_request(
     r = req.get(build_extended_url, headers=build_extended_headers)
     r.raise_for_status()
 
+    # Skip beta and test builds
     build_extended = r.json()
-    if build_extended.get("repo") == "test":
+    build_target_repo = build_extended.get("repo")
+    if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
 
     new_requests: list[models.ModerationRequest] = []
