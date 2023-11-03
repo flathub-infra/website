@@ -220,7 +220,7 @@ def submit_review_request(
         repos=["stable", "beta", "test"],
     )
     build_extended_url = (
-        f"{config.settings.flat_manager_api}/api/v1/builds/{appdata.build_id}/extended"
+        f"{config.settings.flat_manager_api}/api/v1/build/{appdata.build_id}/extended"
     )
     build_extended_headers = {
         "Authorization": f"{flat_manager_token}",
