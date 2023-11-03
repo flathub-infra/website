@@ -1,11 +1,9 @@
-import base64
 import contextlib
 import typing as T
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import dramatiq
 import dramatiq.brokers.redis
-import jwt
 import requests
 import sentry_dramatiq
 import sentry_sdk
@@ -25,15 +23,9 @@ from . import (
     utils,
 )
 from .config import settings
-from .emails import (
-    EmailInfo,
-)
-from .emails import (
-    send_email as send_email_impl,
-)
-from .emails import (
-    send_one_email as send_one_email_impl,
-)
+from .emails import EmailInfo
+from .emails import send_email as send_email_impl
+from .emails import send_one_email as send_one_email_impl
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
@@ -133,21 +125,6 @@ def update():
     search.create_or_update_apps(search_added_at)
 
 
-def _create_flat_manager_token(use: str, scopes: list[str], **kwargs):
-    return "Bearer " + jwt.encode(
-        {
-            "sub": "build",
-            "scope": scopes,
-            "iat": datetime.utcnow(),
-            "exp": datetime.utcnow() + timedelta(minutes=5),
-            "name": f"Backend token for internal use ({use})",
-            **kwargs,
-        },
-        base64.b64decode(settings.flat_manager_build_secret),
-        algorithm="HS256",
-    )
-
-
 @dramatiq.actor
 def republish_app(app_id: str):
     from .vending import VendingError
@@ -157,7 +134,7 @@ def republish_app(app_id: str):
 
     repos = ["stable"]
 
-    token = _create_flat_manager_token(
+    token = utils.create_flat_manager_token(
         "republish_app", ["republish"], apps=[app_id], repos=repos
     )
 
@@ -183,7 +160,7 @@ def review_check(
     status: T.Literal["Passed"] | T.Literal["Failed"],
     reason: str | None,
 ):
-    token = _create_flat_manager_token("review_check", ["reviewcheck"])
+    token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
     requests.post(
         f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
         json={"new-status": {"status": status, "reason": reason}},
