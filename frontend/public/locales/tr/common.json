@@ -437,7 +437,22 @@
     "show-icon": "Simgeyi göster",
     "app-icon-size": "SVG ya da PNG, en az 256px boyutunda",
     "app-summary-dont-start-with-an-article": "The gibi article ile başlama",
-    "screenshots-just-the-app-window": "Yalnızca uygulama penceresi"
+    "screenshots-just-the-app-window": "Yalnızca uygulama penceresi",
+    "failing-x-checks_one": "{{count}} denetim başarısız oldu",
+    "screenshots-at-least-one-screenshot": "En az bir ekran görüntüsü",
+    "screenshots-tag-screenshots-with-correct-language": "Ekran görüntülerini geçerli dille etiketleyin",
+    "high-quality-app-data": "Yüksek kaliteli uygulama verisi",
+    "pending": "Beklemede",
+    "details": "Ayrıntılar",
+    "review-requested": "İnceleme Talep Edildi",
+    "screenshots-good-content": "İyi içerik",
+    "screenshots-up-to-date": "Güncel",
+    "failing-x-checks_other": "{{count}} denetim başarısız oldu",
+    "not-passed": "Geçemedi",
+    "screenshots-include-window-shadow-and-rounded-corners": "Pencere gölgelerini ve yuvarlatılmış köşeleri içerin",
+    "app-data-review-pending": "Uygulama verisi inceleme bekliyor",
+    "passed": "Geçti",
+    "request-review": "İnceleme Talep Et"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {{folder}}",
   "desktop-folder": "Masaüstü klasörü",
@@ -493,5 +508,6 @@
   "user-data-folder": "Kullanıcı veri klasörü",
   "videos-folder": "Videolar klasörü",
   "can-read-all-data-in-your-download-folder": "İndirilenler klasöründeki tüm verileri okuyabilir",
-  "pictures-folder": "Resimler klasörü"
+  "pictures-folder": "Resimler klasörü",
+  "moderation-build-id": "İnşa Kimliği"
 }

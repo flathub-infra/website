@@ -492,7 +492,17 @@
     "screenshots-tag-screenshots-with-correct-language": "ஸ்கிரீன்ஷாட்களை சரியான மொழியுடன் குறியிடவும்",
     "screenshots-good-content": "நல்ல உள்ளடக்கம்",
     "screenshots-up-to-date": "புதுப்பித்த நிலையில் இருக்க வேண்டும்",
-    "screenshots-include-window-shadow-and-rounded-corners": "சாளர நிழல் மற்றும் வட்டமான மூலைகளைச் சேர்க்கவும்"
+    "screenshots-include-window-shadow-and-rounded-corners": "சாளர நிழல் மற்றும் வட்டமான மூலைகளைச் சேர்க்கவும்",
+    "failing-x-checks_one": "{{count}} சரிபார்ப்பில் தோல்வி",
+    "high-quality-app-data": "உயர்தர பயன்பாட்டுத் தரவு",
+    "pending": "நிலுவையிலுள்ளது",
+    "details": "விவரங்கள்",
+    "review-requested": "மதிப்பாய்வு கோரப்பட்டது",
+    "failing-x-checks_other": "{{count}} சோதனைகள் தோல்வியடைகிறது",
+    "not-passed": "தேர்ச்சி பெறவில்லை",
+    "app-data-review-pending": "பயன்பாட்டுத் தரவு மதிப்பாய்வு நிலுவையில் உள்ளது",
+    "passed": "தேர்ச்சி பெற்றது",
+    "request-review": "மதிப்பாய்வைக் கோருங்கள்"
   },
   "can-read-home-folder": "உங்கள் முகப்பு கோப்புறையில் உள்ள எல்லா தரவையும் படிக்க முடியும்",
   "can-read-write-all-data-on-file-system": "கோப்பு முறைமையில் உள்ள எல்லா தரவையும் படிக்கவும் எழுதவும் முடியும்",

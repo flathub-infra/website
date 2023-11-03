@@ -496,7 +496,17 @@
     "screenshots-good-content": "Buen contenido",
     "screenshots-include-window-shadow-and-rounded-corners": "Incluir la sombra de la ventana y las esquinas redondeadas",
     "screenshots-up-to-date": "Actualizadas",
-    "screenshots-at-least-one-screenshot": "Al menos una captura de pantalla"
+    "screenshots-at-least-one-screenshot": "Al menos una captura de pantalla",
+    "failing-x-checks_one": "Fallo en la comprobación {{count}}",
+    "high-quality-app-data": "Datos de la aplicación en alta calidad",
+    "pending": "Pendiente",
+    "details": "Detalles",
+    "review-requested": "Revisión solicitada",
+    "failing-x-checks_other": "Fallando {{count}} comprobaciones",
+    "not-passed": "No aprobado",
+    "app-data-review-pending": "Pendiente la revisión de los datos de la aplicación",
+    "passed": "Aprobado",
+    "request-review": "Solicitud de revisión"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación"

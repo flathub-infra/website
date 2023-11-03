@@ -406,7 +406,7 @@
   "get-involved": "Долучитись",
   "links": "Посилання",
   "uses-eol-runtime": "Використовує середовище виконання, у якого завершується період підтримки",
-  "proprietary-explanation": "Цей застосунок не розробляється у відкритому доступі, тому лише його розробники знають, як воно працює. Воно може мати вразливості, які важко виявити, і може змінюватися без нагляду.",
+  "proprietary-explanation": "Цей застосунок не розробляється у відкритому доступі, тому лише його розробники знають, як він працює. Він може мати вразливості, які важко виявити, і може змінюватися без нагляду.",
   "legacy-windowing-system-description": "Використовує застарілу віконну систему",
   "can-read-all-data-on-file-system": "Може читати всі дані файлової системи",
   "public-share-subfolder-x": "Підтека спільного доступу {{folder}}",
@@ -496,7 +496,18 @@
     "screenshots-good-content": "Хороші матеріали",
     "screenshots-up-to-date": "Актуально",
     "screenshots-include-window-shadow-and-rounded-corners": "Включати тіні вікон і округлі кути",
-    "screenshots-at-least-one-screenshot": "Принаймні один знімок екрана"
+    "screenshots-at-least-one-screenshot": "Принаймні один знімок екрана",
+    "failing-x-checks_one": "Збій {{count}} перевірки",
+    "high-quality-app-data": "Висока якість даних застосунку",
+    "pending": "Очікується",
+    "details": "Подробиці",
+    "review-requested": "Запит на розгляд надіслано",
+    "failing-x-checks_other": "Збій {{count}} перевірок",
+    "not-passed": "Не пройдено",
+    "app-data-review-pending": "Очікується розгляд даних застосунку",
+    "passed": "Пройдено",
+    "request-review": "Запит на розгляд"
   },
-  "app-listing-quality": "Якість лістингу застосунків"
+  "app-listing-quality": "Якість лістингу застосунків",
+  "moderation-build-id": "ID збірки"
 }
