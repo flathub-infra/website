@@ -6,6 +6,7 @@ from enum import Enum
 from typing import Optional
 
 import jwt
+import requests as req
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
@@ -212,6 +213,20 @@ def submit_review_request(
             raise HTTPException(status_code=403, detail="invalid_scope")
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid_token")
+
+    build_extended_url = (
+        f"{config.settings.flat_manager_api}/api/v1/builds/{appdata.build_id}/extended"
+    )
+    build_extended_headers = {
+        "Authorization": f"Bearer {flat_manager_secret}",
+        "Content-Type": "application/json",
+    }
+    r = req.get(build_extended_url, headers=build_extended_headers)
+
+    if r.status_code == 200:
+        build_extended = r.json()
+        if build_extended["repo"] == "test":
+            return ReviewRequestResponse(requires_review=False)
 
     new_requests: list[models.ModerationRequest] = []
 
