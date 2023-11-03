@@ -223,7 +223,7 @@ def submit_review_request(
         f"{config.settings.flat_manager_api}/api/v1/builds/{appdata.build_id}/extended"
     )
     build_extended_headers = {
-        "Authorization": f"Bearer {flat_manager_token}",
+        "Authorization": f"{flat_manager_token}",
         "Content-Type": "application/json",
     }
     r = req.get(build_extended_url, headers=build_extended_headers)
