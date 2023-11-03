@@ -13,7 +13,7 @@ from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
-from . import config, models, worker
+from . import config, models, utils, worker
 from .db import get_json_key
 from .emails import EmailCategory, EmailInfo
 from .login_info import moderator_only, moderator_or_app_author_only
@@ -214,19 +214,24 @@ def submit_review_request(
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid_token")
 
+    flat_manager_token = utils.create_flat_manager_token(
+        "process_review_request",
+        ["build"],
+        repos=["stable", "beta", "test"],
+    )
     build_extended_url = (
         f"{config.settings.flat_manager_api}/api/v1/builds/{appdata.build_id}/extended"
     )
     build_extended_headers = {
-        "Authorization": f"Bearer {config.settings.flat_manager_secret}",
+        "Authorization": f"Bearer {flat_manager_token}",
         "Content-Type": "application/json",
     }
     r = req.get(build_extended_url, headers=build_extended_headers)
+    r.raise_for_status()
 
-    if r.status_code == 200:
-        build_extended = r.json()
-        if build_extended["repo"] == "test":
-            return ReviewRequestResponse(requires_review=False)
+    build_extended = r.json()
+    if build_extended.get("repo") == "test":
+        return ReviewRequestResponse(requires_review=False)
 
     new_requests: list[models.ModerationRequest] = []
 
