@@ -492,7 +492,17 @@
     "screenshots-good-content": "Bona enhavo",
     "screenshots-up-to-date": "Ĝisdata",
     "screenshots-include-window-shadow-and-rounded-corners": "Inkluzivi fenestran ombron kaj rondajn angulojn",
-    "screenshots-at-least-one-screenshot": "Almenaŭ unu ekrankopio"
+    "screenshots-at-least-one-screenshot": "Almenaŭ unu ekrankopio",
+    "failing-x-checks_one": "{{count}} kriterio ne plenumiĝis",
+    "high-quality-app-data": "Altkvalitaj programaj metadatenoj",
+    "pending": "Reviziota",
+    "details": "Detaloj",
+    "review-requested": "Revizio petita",
+    "failing-x-checks_other": "{{count}} kriterioj ne plenumiĝis",
+    "not-passed": "Netaŭga",
+    "app-data-review-pending": "Reviziotaj programaj metadatenoj",
+    "passed": "Taŭga",
+    "request-review": "Peti revizion"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
