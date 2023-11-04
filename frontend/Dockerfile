@@ -1,4 +1,4 @@
-FROM node:16 as dev
+FROM node:18 as dev
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -7,7 +7,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 CMD ["yarn", "dev"]
 
-FROM node:16 as builder
+FROM node:18 as builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG ENABLE_SENTRY=false
 ARG SENTRY_AUTH_TOKEN
@@ -18,7 +18,7 @@ COPY . .
 
 RUN yarn build
 
-FROM node:16-slim as prod
+FROM node:18-slim as prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 
 ENV NODE_ENV production

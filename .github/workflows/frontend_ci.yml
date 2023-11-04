@@ -4,13 +4,13 @@ on:
   push:
     branches: main
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend_ci.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend_ci.yml"
   pull_request:
     branches: main
     paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend_ci.yml'
+      - "frontend/**"
+      - ".github/workflows/frontend_ci.yml"
   workflow_dispatch:
 
 jobs:
@@ -35,7 +35,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: "18"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
