@@ -30,21 +30,49 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = (phase) => ({
+  output: "export",
   experimental: {
     scrollRestoration: true,
   },
   i18n,
   images: {
-    domains: [
-      "flathub.org",
-      "dl.flathub.org",
-      "avatars.githubusercontent.com",
-      "gitlab.com",
-      "gitlab.gnome.org",
-      "lh3.googleusercontent.com",
-      "secure.gravatar.com",
-      "invent.kde.org",
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "flathub.org",
+      },
+      {
+        protocol: "https",
+        hostname: "dl.flathub.org",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "gitlab.com",
+      },
+      {
+        protocol: "https",
+        hostname: "gitlab.gnome.org",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+      },
+      {
+        protocol: "https",
+        hostname: "invent.kde.org",
+      },
     ],
   },
   output: "standalone",
