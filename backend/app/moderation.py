@@ -376,16 +376,16 @@ def submit_review(
         remaining = (
             sqldb.session.query(models.ModerationRequest)
             .filter_by(job_id=request.job_id)
-            .filter(models.ModerationRequest.is_approved is not True)
+            .filter(models.ModerationRequest.is_approved is False)
             .count()
         )
         if remaining == 0:
             # Tell flat-manager that the job is approved
-            worker.review_check.send(request.job_id, "Passed", None, request.build_id)
+            worker.review_check.send(request.build_id, "Passed", None)
     else:
         # If any request is rejected, the job is rejected
         worker.review_check.send(
-            request.job_id, "Failed", "The review was rejected by a moderator."
+            request.build_id, "Failed", "The review was rejected by a moderator."
         )
 
     worker.send_email.send(

@@ -156,20 +156,19 @@ def republish_app(app_id: str):
 
 @dramatiq.actor
 def review_check(
-    job_id: int,
+    build_id: int,
     status: T.Literal["Passed"] | T.Literal["Failed"],
     reason: str | None,
-    build_id: int | None = None,
 ):
     token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
     r = requests.post(
-        f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
+        f"{settings.flat_manager_api}/api/v1/job/{build_id}/check/review",
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
     )
     r.raise_for_status()
 
-    if status == "Passed" and build_id:
+    if status == "Passed":
         token = utils.create_flat_manager_token(
             "review_check_publish_approved", ["publish"]
         )
