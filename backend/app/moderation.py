@@ -231,7 +231,8 @@ def submit_review_request(
 
     # Skip beta and test builds
     build_extended = r.json()
-    build_target_repo = build_extended.get("repo")
+    build_metadata = build_extended.get("build")
+    build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
 
