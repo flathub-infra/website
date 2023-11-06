@@ -268,7 +268,11 @@ def submit_review_request(
 
         # Don't consider the first "official" buildbot build as a new submission
         # as it has been already reviewed manually on GitHub
-        if is_new_submission and build_metadata.get("token_name") in ("default", "flathub-ci", "buildbot"):
+        if is_new_submission and build_metadata.get("token_name") in (
+            "default",
+            "flathub-ci",
+            "buildbot",
+        ):
             continue
 
         if len(keys) > 0:
