@@ -63,7 +63,7 @@
     "@storybook/addon-essentials": "^7.4.0",
     "@storybook/addon-interactions": "^7.4.5",
     "@storybook/addon-links": "^7.4.6",
-    "@storybook/addon-themes": "^7.5.1",
+    "@storybook/addon-themes": "^7.5.2",
     "@storybook/nextjs": "^7.5.1",
     "@storybook/react": "^7.5.1",
     "@storybook/testing-library": "^0.2.0",
