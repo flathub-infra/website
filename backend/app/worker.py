@@ -162,21 +162,23 @@ def review_check(
     build_id: int | None = None,
 ):
     token = utils.create_flat_manager_token("review_check", ["reviewcheck"])
-    requests.post(
+    r = requests.post(
         f"{settings.flat_manager_api}/api/v1/job/{job_id}/check/review",
         json={"new-status": {"status": status, "reason": reason}},
         headers={"Authorization": token},
     )
+    r.raise_for_status()
 
     if status == "Passed" and build_id:
         token = utils.create_flat_manager_token(
             "review_check_publish_approved", ["publish"]
         )
-        requests.post(
+        r = requests.post(
             f"{settings.flat_manager_api}/api/v1/build/{build_id}/publish",
             json={},
             headers={"Authorization": token},
         )
+        r.raise_for_status()
 
 
 @dramatiq.actor
