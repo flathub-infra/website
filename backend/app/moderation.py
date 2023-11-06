@@ -269,8 +269,7 @@ def submit_review_request(
             # Don't consider the first "official" buildbot build as a new submission
             # as it has been already reviewed manually on GitHub
             if build_metadata.get("token_name") == "default":
-                is_new_submission = False
-                continue
+                return ReviewRequestResponse(requires_review=False)
 
         if len(keys) > 0:
             # Create a moderation request
