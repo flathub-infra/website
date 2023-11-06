@@ -171,7 +171,7 @@ def review_check(
 
     if status == "Passed" and build_id:
         token = utils.create_flat_manager_token(
-            "review_check_publish_approved", ["publish"]
+            "review_check_publish_approved", ["publish"], repos=["stable"]
         )
         r = requests.post(
             f"{settings.flat_manager_api}/api/v1/build/{build_id}/publish",
