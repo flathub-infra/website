@@ -376,7 +376,7 @@ def submit_review(
         remaining = (
             sqldb.session.query(models.ModerationRequest)
             .filter_by(job_id=request.job_id)
-            .filter(models.ModerationRequest.is_approved is not True)
+            .filter(models.ModerationRequest.is_approved is None)
             .count()
         )
         if remaining == 0:
