@@ -496,7 +496,17 @@
     "screenshots-tag-screenshots-with-correct-language": "Képernyőképek címkézése a megfelelő nyelvvel",
     "screenshots-good-content": "Jó tartalom",
     "screenshots-up-to-date": "Naprakész",
-    "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat"
+    "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat",
+    "failing-x-checks_one": "{{count}} ellenőrzés sikertelensége",
+    "high-quality-app-data": "Kiváló minőségű alkalmazásadatok",
+    "pending": "Függőben levő",
+    "details": "Részletek",
+    "review-requested": "Felülvizsgálat kérve",
+    "failing-x-checks_other": "{{count}} ellenőrzés sikertelensége",
+    "not-passed": "Nem telt el",
+    "app-data-review-pending": "Alkalmazásadatok felülvizsgálata függőben lévő",
+    "passed": "Átment",
+    "request-review": "Felülvizsgálat kérése"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító"
