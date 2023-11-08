@@ -92,7 +92,7 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream():
-    apps = utils.appstream2dict("repo")
+    apps = utils.appstream2dict()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_types = db.redis_conn.smembers("types:index")
