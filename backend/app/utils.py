@@ -62,9 +62,7 @@ def appstream2dict(appstream_base_url=None) -> dict[str, dict]:
         r = requests.get(appstream_url, stream=True)
         appstream = gzip.decompress(r.raw.data)
     else:
-        appstream_url = (
-            "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
-        )
+        appstream_url = "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
         r = requests.get(appstream_url, stream=True)
         appstream = gzip.decompress(r.raw.data)
 
