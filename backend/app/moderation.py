@@ -249,9 +249,6 @@ def submit_review_request(
             "project_group": app_data.get("project_group"),
             "project_license": app_data.get("project_license"),
         }
-        print(f"{app_id=}")
-        print(f"{app_data=}")
-        print(f"{keys=}")
         current_values = {}
 
         # Check if the app data matches the current appstream
