@@ -186,7 +186,6 @@ class ReviewItem(BaseModel):
 class ReviewRequest(BaseModel):
     build_id: int
     job_id: int
-    app_metadata: dict[str, ReviewItem]
 
 
 class ReviewRequestResponse(BaseModel):
@@ -200,7 +199,7 @@ class ReviewRequestResponse(BaseModel):
     tags=["moderation"],
 )
 def submit_review_request(
-    appdata: ReviewRequest,
+    review_request: ReviewRequest,
     authorization: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
 ) -> ReviewRequestResponse:
     try:
@@ -219,9 +218,7 @@ def submit_review_request(
         ["build"],
         repos=["stable", "beta", "test"],
     )
-    build_extended_url = (
-        f"{config.settings.flat_manager_api}/api/v1/build/{appdata.build_id}/extended"
-    )
+    build_extended_url = f"{config.settings.flat_manager_api}/api/v1/build/{review_request.build_id}/extended"
     build_extended_headers = {
         "Authorization": f"{flat_manager_token}",
         "Content-Type": "application/json",
@@ -238,16 +235,19 @@ def submit_review_request(
 
     new_requests: list[models.ModerationRequest] = []
 
-    for app_id, item in appdata.app_metadata.items():
+    appstream = utils.appstream2dict(
+        f"https://dl.flathub.org/build-repo/{review_request.build_id}"
+    )
+
+    for app_id, app_data in appstream.items():
         is_new_submission = True
 
         keys = {
-            "name": item.name,
-            "summary": item.summary,
-            "developer_name": item.developer_name,
-            "project_group": item.project_group,
-            "project_license": item.project_license,
-            "compulsory_for_desktop": item.compulsory_for_desktop,
+            "name": app_data.get("name"),
+            "summary": app_data.get("summary"),
+            "developer_name": app_data.get("developer_name"),
+            "project_group": app_data.get("project_group"),
+            "project_license": app_data.get("project_license"),
         }
         current_values = {}
 
@@ -260,7 +260,6 @@ def submit_review_request(
             current_values["developer_name"] = app.get("developer_name")
             current_values["project_group"] = app.get("project_group")
             current_values["project_license"] = app.get("project_license")
-            current_values["compulsory_for_desktop"] = app.get("compulsory_for_desktop")
 
             for key, value in current_values.items():
                 if value == keys[key]:
@@ -285,8 +284,8 @@ def submit_review_request(
                 ),
                 is_new_submission=is_new_submission,
                 is_outdated=False,
-                build_id=appdata.build_id,
-                job_id=appdata.job_id,
+                build_id=review_request.build_id,
+                job_id=review_request.job_id,
             )
             new_requests.append(request)
 
@@ -316,10 +315,10 @@ def submit_review_request(
                         user_id=None,
                         app_id=app_id,
                         category=EmailCategory.MODERATION_HELD,
-                        subject=f"Build #{appdata.build_id} held for review",
+                        subject=f"Build #{review_request.build_id} held for review",
                         template_data={
-                            "build_id": appdata.build_id,
-                            "job_id": appdata.job_id,
+                            "build_id": review_request.build_id,
+                            "job_id": review_request.job_id,
                             "requests": [
                                 {
                                     "request_type": request.request_type,
