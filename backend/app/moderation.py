@@ -232,11 +232,15 @@ def submit_review_request(
     build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
+    build_refs = build_metadata.get("build_refs")
+    build_ref_arches = {
+        build_ref.get("ref_name").split("/")[2] for build_ref in build_refs
+    }
 
     new_requests: list[models.ModerationRequest] = []
 
     appstream = utils.appstream2dict(
-        f"https://dl.flathub.org/build-repo/{review_request.build_id}"
+        f"https://dl.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arches[0]}/appstream.xml"
     )
 
     for app_id, app_data in appstream.items():

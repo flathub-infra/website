@@ -43,7 +43,7 @@ class Hasher:
         return self.hasher.hexdigest()
 
 
-def appstream2dict(appstream_base_url=None) -> dict[str, dict]:
+def appstream2dict(appstream_url=None) -> dict[str, dict]:
     if config.settings.appstream_repos:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
@@ -57,12 +57,11 @@ def appstream2dict(appstream_base_url=None) -> dict[str, dict]:
                 appstream = gzip.decompress(file.read())
             else:
                 appstream = file.read()
-    elif appstream_base_url:
-        appstream_url = f"{appstream_base_url}/appstream/x86_64/appstream.xml.gz"
-        r = requests.get(appstream_url, stream=True)
-        appstream = gzip.decompress(r.raw.data)
     else:
-        appstream_url = "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
+        if not appstream_url:
+            appstream_url = (
+                "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
+            )
         r = requests.get(appstream_url, stream=True)
         appstream = gzip.decompress(r.raw.data)
 
