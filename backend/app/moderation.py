@@ -234,14 +234,21 @@ def submit_review_request(
         return ReviewRequestResponse(requires_review=False)
     build_refs = build_extended.get("build_refs")
     build_ref_arches = {
-        build_ref.get("ref_name").split("/")[2] for build_ref in build_refs
+        build_ref.get("ref_name").split("/")[2]
+        for build_ref in build_refs
+        if len(build_ref.get("ref_name").split("/")) == 4
     }
 
     new_requests: list[models.ModerationRequest] = []
 
-    appstream = utils.appstream2dict(
-        f"https://dl.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arches[0]}/appstream.xml"
-    )
+    try:
+        build_ref_arch = build_ref_arches.pop()
+        appstream = utils.appstream2dict(
+            f"https://dl.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml"
+        )
+    except KeyError:
+        # if build_ref_arches has no elements, something went terribly wrong with the build in general
+        return ReviewRequestResponse(requires_review=True)
 
     for app_id, app_data in appstream.items():
         is_new_submission = True
