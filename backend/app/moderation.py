@@ -232,7 +232,7 @@ def submit_review_request(
     build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
-    build_refs = build_metadata.get("build_refs")
+    build_refs = build_extended.get("build_refs")
     build_ref_arches = {
         build_ref.get("ref_name").split("/")[2] for build_ref in build_refs
     }
