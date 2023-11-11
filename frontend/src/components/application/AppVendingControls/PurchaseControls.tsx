@@ -40,23 +40,24 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   const vendingSetup = useQuery({
     queryKey: ["appVendingSetup", app.id],
-    queryFn: () => {
-      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
-      })
-    },
-    enabled: !!app.id,
-  })
+    queryFn: async () => {
+      const setup = await vendingApi.getAppVendingSetupVendingappAppIdSetupGet(
+        app.id,
+        {
+          withCredentials: true,
+        },
+      )
 
-  useEffect(() => {
-    if (vendingSetup.isSuccess) {
-      const decimalValue = vendingSetup.data.data.recommended_donation / 100
+      const decimalValue = setup.data.recommended_donation / 100
       setAmount({
         live: decimalValue,
         settled: decimalValue,
       })
-    }
-  }, [vendingSetup.data.data.recommended_donation, vendingSetup.isSuccess])
+
+      return setup
+    },
+    enabled: !!app.id,
+  })
 
   // Prepare submission logic to create a transaction
   const submitPurchaseMutation = useMutation({
