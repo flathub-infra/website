@@ -1,11 +1,5 @@
 import { APIResponseOk } from "./API"
 
-export interface VendingStatus extends APIResponseOk {
-  can_take_payments: boolean
-  needs_attention: boolean
-  details_submitted: boolean
-}
-
 export interface VendingRedirect extends APIResponseOk {
   target_url: string
 }
@@ -31,18 +25,6 @@ export interface VendingDescriptor extends APIResponseOk {
   fee_fixed_cost: number
   fee_cost_percent: number
   fee_prefer_percent: number
-}
-
-/**
- * `appshare` is an integer representing percentage of payment going towards the app.
- * `recommended_donation` is an integer for suggested price in cents.
- * `minimum_payment` is an integer for minimum price in cents.
- */
-export interface VendingSetup {
-  currency: string
-  appshare: number
-  recommended_donation: number
-  minimum_payment: number
 }
 
 export interface VendingSplit extends APIResponseOk {

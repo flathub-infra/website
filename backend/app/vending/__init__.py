@@ -226,7 +226,9 @@ def status(login=Depends(login_state)) -> VendingStatus:
 
 
 @router.post("/status/onboarding", tags=["vending"])
-def start_onboarding(data: VendingOnboardingRequest, login=Depends(login_state)):
+def start_onboarding(
+    data: VendingOnboardingRequest, login=Depends(login_state)
+) -> VendingRedirect:
     """
     Start or continue the onboarding process.
     """

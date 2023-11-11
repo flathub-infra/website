@@ -996,7 +996,10 @@ export const VendingApiFp = function (configuration?: Configuration) {
       vendingOnboardingRequest: VendingOnboardingRequest,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<VendingRedirect>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.startOnboardingVendingStatusOnboardingPost(
@@ -1222,7 +1225,7 @@ export const VendingApiFactory = function (
     startOnboardingVendingStatusOnboardingPost(
       vendingOnboardingRequest: VendingOnboardingRequest,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<VendingRedirect> {
       return localVarFp
         .startOnboardingVendingStatusOnboardingPost(
           vendingOnboardingRequest,

@@ -12,10 +12,6 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { ReviewItem } from "./review-item"
-
 /**
  *
  * @export
@@ -34,10 +30,4 @@ export interface ReviewRequest {
    * @memberof ReviewRequest
    */
   job_id: number
-  /**
-   *
-   * @type {{ [key: string]: ReviewItem; }}
-   * @memberof ReviewRequest
-   */
-  app_metadata: { [key: string]: ReviewItem }
 }
