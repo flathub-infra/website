@@ -16,7 +16,7 @@ export function AppHeader({
   isQualityModalOpen,
 }: {
   app: DesktopAppstream
-  vendingSetup: VendingSetup
+  vendingSetup: VendingSetup | undefined
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean
 }) {

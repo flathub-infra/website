@@ -169,7 +169,7 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
-          vendingSetup={vendingSetup.data}
+          vendingSetup={vendingSetup?.data}
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />
