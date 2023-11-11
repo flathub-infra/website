@@ -204,7 +204,12 @@ def status(login=Depends(login_state)) -> VendingStatus:
         )
     account = StripeExpressAccount.by_user(db, login["user"])
     if account is None:
-        return Response(None, status_code=201)
+        return VendingStatus(
+            status="no-stripe-account",
+            can_take_payments=False,
+            needs_attention=False,
+            details_submitted=False,
+        )
 
     can_take_money = False
     try:
