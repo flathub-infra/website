@@ -1,11 +1,11 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useEffect } from "react"
+import { FunctionComponent } from "react"
 import { toast } from "react-toastify"
-import { cancelVendingTokens } from "../../../../asyncs/vending"
-import { useAsync } from "../../../../hooks/useAsync"
 import { VendingToken } from "../../../../types/Vending"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
+import { useMutation } from "@tanstack/react-query"
+import { vendingApi } from "src/api"
 
 interface Props {
   token: VendingToken
@@ -20,43 +20,41 @@ const TokenCancelButton: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const {
-    execute: onClick,
-    value,
-    status,
-    error,
-  } = useAsync(
-    useCallback(
-      () => cancelVendingTokens(appId, [token.token]),
-      [appId, token.token],
-    ),
-    false,
-  )
+  const cancelVendingTokens = useMutation({
+    mutationFn: () => {
+      return vendingApi.cancelTokensVendingappAppIdTokensCancelPost(
+        appId,
+        [token.id],
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: (data) => {
+      if (data.data[0].status === "cancelled") {
+        setState("cancelled")
+        toast.success(t("token-cancelled"))
+      }
+    },
+    onError: (error) => {
+      toast.error(t(error as string))
+    },
+  })
 
-  useEffect(() => {
-    if (error) {
-      toast.error(t(error))
-    }
-  }, [t, error])
-
-  useEffect(() => {
-    if (value?.[0].status === "cancelled") {
-      setState("cancelled")
-      toast.success(t("token-cancelled"))
-    }
-  }, [value, setState, t])
-
-  if (status === "pending") {
+  if (cancelVendingTokens.isLoading) {
     return <Spinner size="s" />
   }
 
   // Button is spent after successful use
-  if (status === "success" && value?.[0].status === "cancelled") {
+  if (
+    cancelVendingTokens.isSuccess &&
+    cancelVendingTokens.data.data[0].status === "cancelled"
+  ) {
     return <></>
   }
 
   return (
-    <Button variant="destructive" onClick={onClick}>
+    <Button variant="destructive" onClick={() => cancelVendingTokens.mutate()}>
       {t("cancel")}
     </Button>
   )

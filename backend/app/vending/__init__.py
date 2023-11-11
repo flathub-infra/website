@@ -14,7 +14,7 @@ from typing import Literal
 
 import gi
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
@@ -204,7 +204,12 @@ def status(login=Depends(login_state)) -> VendingStatus:
         )
     account = StripeExpressAccount.by_user(db, login["user"])
     if account is None:
-        return Response(None, status_code=201)
+        return VendingStatus(
+            status="no-stripe-account",
+            can_take_payments=False,
+            needs_attention=False,
+            details_submitted=False,
+        )
 
     can_take_money = False
     try:
@@ -226,7 +231,9 @@ def status(login=Depends(login_state)) -> VendingStatus:
 
 
 @router.post("/status/onboarding", tags=["vending"])
-def start_onboarding(data: VendingOnboardingRequest, login=Depends(login_state)):
+def start_onboarding(
+    data: VendingOnboardingRequest, login=Depends(login_state)
+) -> VendingRedirect:
     """
     Start or continue the onboarding process.
     """
@@ -322,8 +329,7 @@ def get_app_vending_setup(
     login=Depends(login_state),
 ) -> VendingSetup:
     """
-    Retrieve the vending status for a given application.  Returns a no
-    content response if the appid has no vending setup.
+    Retrieve the vending status for a given application.
     """
 
     if not login["state"].logged_in():
@@ -331,7 +337,13 @@ def get_app_vending_setup(
 
     vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
-        return Response(status_code=204)
+        return VendingSetup(
+            status="no-config",
+            currency="usd",
+            appshare=50,
+            recommended_donation=0,
+            minimum_payment=0,
+        )
 
     return VendingSetup(
         status="ok",

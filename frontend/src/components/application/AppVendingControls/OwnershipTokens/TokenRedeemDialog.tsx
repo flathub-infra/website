@@ -1,12 +1,11 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "react-toastify"
-import { VendingTokenRedemption } from "src/types/Vending"
-import { redeemVendingToken } from "../../../../asyncs/vending"
-import { useAsync } from "../../../../hooks/useAsync"
 import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
+import { useMutation } from "@tanstack/react-query"
+import { vendingApi } from "src/api"
 
 interface Props {
   app: Appstream
@@ -21,41 +20,36 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
   const [text, setText] = useState("")
 
   const textUpdate = useCallback((event) => setText(event.target.value), [])
-  const {
-    execute: onSubmit,
-    value,
-    status,
-    error,
-  } = useAsync<VendingTokenRedemption>(
-    useCallback(() => {
+
+  const redeemVendingToken = useMutation({
+    mutationFn: () => {
       // Strip leading and trailing whitespace characters
       const token = text.trim()
 
       setText("")
 
-      return token !== ""
-        ? redeemVendingToken(app.id, token)
-        : Promise.resolve(null)
-    }, [app.id, text]),
-    false,
-  )
+      return vendingApi.redeemTokenVendingappAppIdTokensRedeemTokenPost(
+        app.id,
+        token,
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: (data) => {
+      if (data.data?.status === "failure") {
+        toast.error(t("token-failed"))
+      }
+      if (data.data?.status === "success") {
+        toast.success(t("token-redeemed"))
+      }
+    },
+    onError: (error) => {
+      toast.error(t(error as string))
+    },
+  })
 
-  useEffect(() => {
-    if (error) {
-      toast.error(t(error))
-    }
-  }, [t, error])
-
-  useEffect(() => {
-    if (value?.status === "failure") {
-      toast.error(t("token-failed"))
-    }
-    if (value?.status === "success") {
-      toast.success(t("token-redeemed"))
-    }
-  }, [value, t])
-
-  if (status === "pending") {
+  if (redeemVendingToken.isLoading) {
     return <Spinner size={"s"} />
   }
 
@@ -68,7 +62,12 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
         onChange={textUpdate}
         className="w-80 rounded-xl bg-flathub-gainsborow p-2 dark:bg-flathub-dark-gunmetal"
       />
-      <Button onClick={onSubmit}>{t("redeem-token")}</Button>
+      <Button
+        disabled={text.trim().length === 0}
+        onClick={() => redeemVendingToken.mutate()}
+      >
+        {t("redeem-token")}
+      </Button>
     </div>
   )
 }

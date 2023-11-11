@@ -8,9 +8,7 @@ import {
   useState,
 } from "react"
 import { toast } from "react-toastify"
-import { getAppVendingSetup, initiateAppPayment } from "../../../asyncs/vending"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
-import { useAsync } from "../../../hooks/useAsync"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
@@ -19,6 +17,8 @@ import Button from "../../Button"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { vendingApi } from "src/api"
 
 interface Props {
   app: Appstream
@@ -38,97 +38,89 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     settled: 0,
   })
 
-  const {
-    status,
-    value: vendingSetup,
-    error,
-  } = useAsync(useCallback(() => getAppVendingSetup(app.id), [app.id]))
+  const vendingSetup = useQuery({
+    queryKey: ["appVendingSetup", app.id],
+    queryFn: () => {
+      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+        withCredentials: true,
+      })
+    },
+    enabled: !!app.id,
+  })
 
   useEffect(() => {
-    if (vendingSetup) {
-      const decimalValue = vendingSetup.recommended_donation / 100
+    if (vendingSetup.isSuccess) {
+      const decimalValue = vendingSetup.data.data.recommended_donation / 100
       setAmount({
         live: decimalValue,
         settled: decimalValue,
       })
     }
-  }, [vendingSetup])
+  }, [vendingSetup.data.data.recommended_donation, vendingSetup.isSuccess])
 
   // Prepare submission logic to create a transaction
-  const {
-    execute: submit,
-    status: submitStatus,
-    value: submitValue,
-    error: submitError,
-  } = useAsync(
-    useCallback(
-      () =>
-        initiateAppPayment(app.id, {
+  const submitPurchaseMutation = useMutation({
+    mutationFn: () => {
+      return vendingApi.postAppVendingStatusVendingappAppIdPost(
+        app.id,
+        {
           currency: "usd",
           amount: amount.settled * 100,
-        }),
-      [app.id, amount],
-    ),
-    false,
-  )
+        },
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: (data) => {
+      router.push(`/payment/${data.data.transaction}`, undefined, {
+        locale: router.locale,
+      })
+    },
+    onError: (error) => {
+      toast.error(t(error as string))
+    },
+  })
 
   const handleSubmit = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      submit()
+      submitPurchaseMutation.mutate()
     },
-    [submit],
+    [submitPurchaseMutation],
   )
 
-  // Feedback on submission informs user of failure/success
-  useEffect(() => {
-    if (submitError) {
-      toast.error(t(submitError))
-    }
-  }, [submitError, t])
-
-  useEffect(() => {
-    if (submitValue) {
-      router.push(`/payment/${submitValue.transaction}`, undefined, {
-        locale: router.locale,
-      })
-    }
-  }, [submitValue, router])
-
-  if (error) {
+  if (vendingSetup.isError) {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(error)}</p>
+        <p>{t(vendingSetup.error as string)}</p>
       </>
     )
   }
 
   // Prevent control interaction while initalising and awaiting submission redirection
-  if (
-    ["pending", "idle"].includes(status) ||
-    ["pending", "success"].includes(submitStatus)
-  ) {
+  if (vendingSetup.isLoading || submitPurchaseMutation.isLoading) {
     return <Spinner size="s" />
   }
 
   // Obtain currency values for display
   const prettyMinimum = formatCurrency(
-    vendingSetup.minimum_payment / 100,
+    vendingSetup.data.data.minimum_payment / 100,
     i18n.language,
   )
   const prettyRecommended = formatCurrency(
-    vendingSetup.recommended_donation / 100,
+    vendingSetup.data.data.recommended_donation / 100,
     i18n.language,
   )
 
   const canSubmit =
-    amount.live * 100 >= vendingSetup.minimum_payment &&
+    amount.live * 100 >= vendingSetup.data.data.minimum_payment &&
     amount.live >= FLATHUB_MIN_PAYMENT &&
     amount.live <= STRIPE_MAX_PAYMENT
 
   // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.minimum_payment === 0
+  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
 
   return (
     <form
@@ -156,7 +148,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       <Currency.MinMaxError
         value={amount}
         minimum={Math.max(
-          vendingSetup.minimum_payment / 100,
+          vendingSetup.data.data.minimum_payment / 100,
           FLATHUB_MIN_PAYMENT,
         )}
         maximum={STRIPE_MAX_PAYMENT}
@@ -164,7 +156,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       <VendingSharesPreview
         price={amount.live * 100}
         app={app}
-        appShare={vendingSetup.appshare}
+        appShare={vendingSetup.data.data.appshare}
         vendingConfig={vendingConfig}
       />
       <div>

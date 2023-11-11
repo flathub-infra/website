@@ -1,15 +1,10 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useState } from "react"
 import { toast } from "react-toastify"
-import { VendingStatus } from "src/types/Vending"
-import {
-  getDashboardLink,
-  getOnboardingLink,
-  getVendingStatus,
-} from "../../asyncs/vending"
 import Button from "../Button"
 import Spinner from "../Spinner"
+import { vendingApi } from "src/api"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
@@ -23,32 +18,44 @@ const VendingLink: FunctionComponent = () => {
 
   // Serial queries needed to get the right vending link
   // First check the user's existing status
-  const statusQuery = useQuery<VendingStatus, string>({
+  const statusQuery = useQuery({
     queryKey: ["/vending/status"],
-    queryFn: getVendingStatus,
+    queryFn: () =>
+      vendingApi.statusVendingStatusGet({
+        withCredentials: true,
+      }),
   })
 
   // Dashboard is accessible as soon as onboarding is submit
-  const dashboardQuery = useQuery<string, string>({
+  const dashboardQuery = useQuery({
     queryKey: ["/vending/status/dashboardlink"],
-    queryFn: getDashboardLink,
-    enabled: statusQuery.isSuccess && statusQuery.data.details_submitted,
+    queryFn: () =>
+      vendingApi.getDashboardLinkVendingStatusDashboardlinkGet({
+        withCredentials: true,
+      }),
+
+    enabled: statusQuery.isSuccess && statusQuery.data.data.details_submitted,
   })
 
-  // Otherwise onboarding required still
-  // Can't pre-fetch link, it will create an account without user action
-  const startOnboard = useCallback(async () => {
-    if (onboarding) return
-
-    try {
+  const generateOnboardingLinkMutation = useMutation({
+    mutationFn: () =>
+      vendingApi.startOnboardingVendingStatusOnboardingPost(
+        {
+          return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/my-flathub`,
+        },
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: (data) => {
       setOnboarding(true)
-      const url = await getOnboardingLink()
-      window.location.href = url
-    } catch (error) {
-      toast.error(t(error))
+      window.location.href = data.data.target_url
+    },
+    onError: (error) => {
+      toast.error(t(error as string))
       setOnboarding(false)
-    }
-  }, [onboarding, t])
+    },
+  })
 
   if (
     statusQuery.isLoading ||
@@ -60,13 +67,24 @@ const VendingLink: FunctionComponent = () => {
   }
 
   if (statusQuery.isError || dashboardQuery.isError) {
-    return <p className="m-0">{t(statusQuery.error || dashboardQuery.error)}</p>
+    return (
+      <p className="m-0">
+        {t((statusQuery.error || dashboardQuery.error) as string)}
+      </p>
+    )
   }
 
   // No status when onboarding hasn't begun
-  if (!statusQuery.data || !statusQuery.data.details_submitted) {
+  if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
     return (
-      <Button variant="primary" onClick={startOnboard}>
+      <Button
+        variant="primary"
+        onClick={() => {
+          if (onboarding) return
+
+          generateOnboardingLinkMutation.mutate()
+        }}
+      >
         {t("vending-onboard")}
       </Button>
     )
@@ -78,11 +96,11 @@ const VendingLink: FunctionComponent = () => {
         target="_blank"
         rel="noreferrer"
         className="no-underline hover:underline"
-        href={dashboardQuery.data}
+        href={dashboardQuery.data.data.target_url}
       >
         {t("vending-dashboard")}
       </a>
-      {statusQuery.data.needs_attention ? (
+      {statusQuery.data.data.needs_attention ? (
         <p className="m-0 text-red-600">{t("requires-attention")}</p>
       ) : (
         <></>
