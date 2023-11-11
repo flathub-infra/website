@@ -41,7 +41,9 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const vendingSetup = useQuery({
     queryKey: ["appVendingSetup", app.id],
     queryFn: () => {
-      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id)
+      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+        withCredentials: true,
+      })
     },
     enabled: !!app.id,
   })

@@ -39,7 +39,10 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   // Need existing app vending configuration to initialise controls
   const vendingSetup = useQuery({
     queryKey: ["appVendingSetup", app.id],
-    queryFn: () => vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id),
+    queryFn: () =>
+      vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+        withCredentials: true,
+      }),
   })
 
   // State shared by controls lifted to this parent for final submission

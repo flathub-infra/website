@@ -95,7 +95,9 @@ const Details: FunctionComponent<Props> = ({
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],
     queryFn: () => {
-      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id)
+      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+        withCredentials: true,
+      })
     },
     enabled: !!app.id && !IS_PRODUCTION,
   })
