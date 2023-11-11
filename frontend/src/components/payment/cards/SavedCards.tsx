@@ -12,8 +12,11 @@ const SavedCards: FunctionComponent = () => {
 
   const walletQuery = useQuery({
     queryKey: ["/walletinfo"],
-    queryFn: () =>
-      walletApi.getWalletinfoWalletWalletinfoGet({ withCredentials: true }),
+    queryFn: ({ signal }) =>
+      walletApi.getWalletinfoWalletWalletinfoGet({
+        withCredentials: true,
+        signal,
+      }),
   })
 
   if (walletQuery.isLoading) {

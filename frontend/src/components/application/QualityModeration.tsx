@@ -145,11 +145,12 @@ export const QualityModeration = ({
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId }],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       qualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
         appId,
         {
           withCredentials: true,
+          signal: signal,
         },
       ),
     enabled: requirement,

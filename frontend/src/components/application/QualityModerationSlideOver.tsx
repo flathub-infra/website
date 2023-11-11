@@ -348,11 +348,12 @@ export const QualityModerationSlideOver = ({
 
   const query = useQuery({
     queryKey: ["qualityModeration", appId],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       qualityModerationApi.getQualityModerationForAppQualityModerationAppIdGet(
         appId,
         {
           withCredentials: true,
+          signal,
         },
       ),
     enabled: !!appId,

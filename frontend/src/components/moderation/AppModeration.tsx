@@ -59,7 +59,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
       includeHandledQuery,
       offset,
     ],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       moderationApi.getModerationAppModerationAppsAppIdGet(
         appId,
         includeOutdatedQuery,
@@ -68,6 +68,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         offset,
         {
           withCredentials: true,
+          signal,
         },
       ),
     enabled: !!appId,

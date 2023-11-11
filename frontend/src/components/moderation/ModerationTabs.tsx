@@ -22,13 +22,14 @@ const ModerationTabs: FunctionComponent = () => {
 
   const query = useQuery({
     queryKey: ["moderation", currentPage],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const apps = await moderationApi.getModerationAppsModerationAppsGet(
         undefined,
         PAGE_SIZE,
         offset,
         {
           withCredentials: true,
+          signal,
         },
       )
 
