@@ -14,7 +14,7 @@ from typing import Literal
 
 import gi
 import stripe
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db
 from pydantic import BaseModel
@@ -329,8 +329,7 @@ def get_app_vending_setup(
     login=Depends(login_state),
 ) -> VendingSetup:
     """
-    Retrieve the vending status for a given application.  Returns a no
-    content response if the appid has no vending setup.
+    Retrieve the vending status for a given application.
     """
 
     if not login["state"].logged_in():
@@ -338,7 +337,13 @@ def get_app_vending_setup(
 
     vend = ApplicationVendingConfig.by_appid(db, app_id)
     if not vend:
-        return Response(status_code=204)
+        return VendingSetup(
+            status="no-config",
+            currency="usd",
+            appshare=50,
+            recommended_donation=0,
+            minimum_payment=0,
+        )
 
     return VendingSetup(
         status="ok",
