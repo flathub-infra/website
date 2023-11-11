@@ -56,13 +56,14 @@ export default function QualityModerationDashboard() {
 
   const query = useQuery({
     queryKey: ["quality-moderation-dashboard", page, pageSize, filteredBy],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       qualityModerationApi.getQualityModerationStatusQualityModerationStatusGet(
         page,
         pageSize,
         filteredBy,
         {
           withCredentials: true,
+          signal,
         },
       ),
     enabled: !!user.info?.["is-quality-moderator"],

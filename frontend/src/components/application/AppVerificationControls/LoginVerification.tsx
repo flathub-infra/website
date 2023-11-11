@@ -35,7 +35,7 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const { data: providers } = useQuery({
     queryKey: ["login-providers"],
-    queryFn: authApi.getLoginMethodsAuthLoginGet,
+    queryFn: ({ signal }) => authApi.getLoginMethodsAuthLoginGet({ signal }),
   })
 
   const { data: githubOrgAccessLink } = useQuery({

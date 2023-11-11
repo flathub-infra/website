@@ -39,9 +39,10 @@ const Checkout: FunctionComponent<{
   // Cards should only be retrieved once
   const walletQuery = useQuery({
     queryKey: ["/walletinfo"],
-    queryFn: async () => {
+    queryFn: async ({ signal }) => {
       const wallet = await walletApi.getWalletinfoWalletWalletinfoGet({
         withCredentials: true,
+        signal,
       })
 
       // User may have no saved cards to select from

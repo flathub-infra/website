@@ -28,7 +28,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
 
   const query = useQuery({
     queryKey: ["moderation", app.id, offset],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       moderationApi.getModerationAppModerationAppsAppIdGet(
         app.id,
         true,
@@ -37,6 +37,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
         offset,
         {
           withCredentials: true,
+          signal,
         },
       ),
     enabled: !!app.id,
