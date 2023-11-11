@@ -69,7 +69,7 @@ const VendingLink: FunctionComponent = () => {
   if (statusQuery.isError || dashboardQuery.isError) {
     return (
       <p className="m-0">
-        {t((statusQuery.error as string) || (dashboardQuery.error as string))}
+        {t((statusQuery.error || dashboardQuery.error) as string)}
       </p>
     )
   }
