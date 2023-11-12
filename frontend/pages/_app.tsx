@@ -48,7 +48,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <DefaultSeo
           dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
           titleTemplate="%s | Flathub"
-          defaultTitle="Flathub"
+          defaultTitle={t("flathub-apps-for-linux")}
           description={t("flathub-description")}
           languageAlternates={languages.map((lang) => ({
             hrefLang: lang,
@@ -61,7 +61,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             type: "website",
             locale: bcpToPosixLocale(router.locale),
             url: process.env.NEXT_PUBLIC_SITE_BASE_URI,
-            siteName: "Flathub",
+            siteName: t("flathub-apps-for-linux"),
             images: [
               {
                 url: `${IMAGE_BASE_URL}card.webp`,
