@@ -145,6 +145,17 @@ const Details: FunctionComponent<Props> = ({
       )
     }
 
+    // Remove duplicates
+    const keywordSet = new Set(
+      (app.keywords ?? []).map((keyword) => keyword.toLowerCase()),
+    )
+
+    if (!keywordSet.has("linux")) {
+      keywordSet.add("linux")
+    }
+
+    const keywords = Array.from(keywordSet)
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
@@ -153,7 +164,7 @@ const Details: FunctionComponent<Props> = ({
           priceCurrency=""
           operatingSystem="LINUX"
           applicationCategory={categoryToSeoCategories(app.categories)}
-          keywords={app.keywords?.join(", ")}
+          keywords={keywords.join(", ")}
         />
         {app.categories?.includes("Game") && (
           <VideoGameJsonLd
@@ -213,7 +224,7 @@ const Details: FunctionComponent<Props> = ({
             />
           )}
 
-          <Tags keywords={app.keywords} />
+          <Tags keywords={keywords} />
         </div>
       </div>
     )
