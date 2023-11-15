@@ -201,6 +201,7 @@ def create_upload_token(
             "prefixes": [app_id],
             "iat": issued_at,
             "exp": expires_at,
+            "token_type": "app",
         },
         base64.b64decode(config.settings.flat_manager_build_secret),
         algorithm="HS256",
