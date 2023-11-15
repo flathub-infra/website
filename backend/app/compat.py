@@ -67,7 +67,7 @@ def get_apps_in_category(
     category: str = Path(
         min_length=2,
         examples=["Games"],
-    )
+    ),
 ):
     return list_apps_in_index(f"categories:{category}")
 

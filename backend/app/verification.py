@@ -359,7 +359,7 @@ def get_verification_status(
         max_length=255,
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
-    )
+    ),
 ) -> VerificationStatus:
     """Gets the verification status of the given app."""
 
