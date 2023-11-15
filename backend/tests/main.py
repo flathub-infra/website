@@ -30,8 +30,8 @@ class Override:
         from app import main
 
         self._dependency = dependency
-        self._original = main.app.dependency_overrides.get(dependency, None)
-        main.app.dependency_overrides[dependency] = replacement
+        self._original = main.router.dependency_overrides.get(dependency, None)
+        main.router.dependency_overrides[dependency] = replacement
 
     def __enter__(self):
         pass
@@ -40,9 +40,9 @@ class Override:
         from app import main
 
         if self._original is None:
-            del main.app.dependency_overrides[self._dependency]
+            del main.router.dependency_overrides[self._dependency]
         else:
-            main.app.dependency_overrides[self._dependency] = self._replacement
+            main.router.dependency_overrides[self._dependency] = self._replacement
 
 
 def _get_expected_json_result(test_name):
@@ -67,7 +67,7 @@ def _get_expected_text_result(test_name):
 def client():
     from app import main
 
-    with TestClient(main.app) as client_:
+    with TestClient(main.router) as client_:
         yield client_
 
 

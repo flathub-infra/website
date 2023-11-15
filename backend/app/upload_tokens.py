@@ -76,7 +76,7 @@ def _jti(token: models.UploadToken) -> str:
     return f"backend_{token.id}"
 
 
-@router.get("/{app_id}", status_code=200)
+@router.get("/{app_id}", status_code=200, tags=["upload-tokens"])
 def get_upload_tokens(
     app_id: str, include_expired: bool = False, login=Depends(login_state)
 ) -> TokensResponse:
@@ -120,7 +120,7 @@ class UploadTokenRequest(BaseModel):
     repos: list[str]
 
 
-@router.post("/{app_id}", status_code=200)
+@router.post("/{app_id}", status_code=200, tags=["upload-tokens"])
 def create_upload_token(
     app_id: str,
     request: UploadTokenRequest,
@@ -216,7 +216,7 @@ def create_upload_token(
     )
 
 
-@router.post("/{token_id}/revoke", status_code=204)
+@router.post("/{token_id}/revoke", status_code=204, tags=["upload-tokens"])
 def revoke_upload_token(token_id: int, login=Depends(login_state)):
     if config.settings.flat_manager_api is None:
         raise HTTPException(
