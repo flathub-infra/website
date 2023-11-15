@@ -85,8 +85,10 @@ services:
     container_name: pgadmin
     image: docker.io/dpage/pgadmin4:latest
     environment:
-      - PGADMIN_DEFAULT_EMAIL=pgadmin4@pgadmin.org
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.org
       - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - ./pgadmin-servers.json:/pgadmin4/servers.json
     ports:
       - "5050:80"
     depends_on:
