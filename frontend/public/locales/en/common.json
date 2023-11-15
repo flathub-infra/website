@@ -479,7 +479,6 @@
   "full-file-system-read-write-access": "Full file system read/write access",
   "can-read-write-home-folder": "Can read and write all data in your home folder",
   "can-read-write-all-data": "Can read and write all data in the directory",
-  "can-create-files": "Can create files in the directory",
   "download-folder-read-write-access": "Download folder read/write access",
   "download-folder-read-access": "Download folder read access",
   "can-read-all-data-in-your-download-folder": "Can read all data in your downloads folder",

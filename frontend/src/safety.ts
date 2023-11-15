@@ -603,7 +603,7 @@ function readWriteTranslationKey(filesystemPermission: string): string {
   } else if (isReadWrite(filesystemPermission)) {
     return "can-read-write-all-data"
   } else if (isCreate(filesystemPermission)) {
-    return "can-create-files"
+    return "can-read-write-all-data"
   } else {
     return "can-read-write-all-data"
   }
