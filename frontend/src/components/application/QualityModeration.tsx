@@ -176,8 +176,8 @@ export const QualityModeration = ({
           query.data?.data.passes
             ? "bg-flathub-celestial-blue/40"
             : query.data?.data["not_passed"] === 0
-            ? "bg-flathub-gainsborow/40"
-            : "bg-flathub-electric-red/40",
+              ? "bg-flathub-gainsborow/40"
+              : "bg-flathub-electric-red/40",
         )}
       >
         <div className="flex items-center justify-center">
