@@ -1,6 +1,6 @@
 import enum
 from datetime import datetime, timedelta
-from typing import Optional, Union
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -1361,6 +1361,27 @@ class QualityModeration(Base):
     __table_args__ = (
         Index("qualitymoderation_unique", app_id, guideline_id, unique=True),
     )
+
+    @classmethod
+    def group_by_guideline(cls, db) -> list[dict[str, Any]]:
+        """
+        Return a list of guideline ids and the number of apps which have failed that guideline
+        """
+
+        return [
+            {
+                "guideline_id": row.guideline_id,
+                "not_passed": row.not_passed,
+            }
+            for row in db.session.query(
+                QualityModeration.guideline_id,
+                func.sum(func.cast(~QualityModeration.passed, Integer)).label(
+                    "not_passed"
+                ),
+            )
+            .group_by(QualityModeration.guideline_id)
+            .all()
+        ]
 
     @classmethod
     def upsert(
