@@ -61,10 +61,6 @@ export default function AppManagementPage({
         name: t("ownership-tokens"),
         content: <AppVendingControls.OwnershipTokens app={app} />,
       },
-      {
-        name: t("upload-tokens"),
-        content: <UploadTokenControls app={app} />,
-      },
     )
   }
 
@@ -80,6 +76,11 @@ export default function AppManagementPage({
         content: <AppDevelopersControls app={app} />,
       })
     }
+
+    tabs.push({
+      name: t("upload-tokens"),
+      content: <UploadTokenControls app={app} />,
+    })
   }
 
   // User must be a developer of the app to see these controls
