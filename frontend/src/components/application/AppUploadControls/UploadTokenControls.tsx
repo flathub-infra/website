@@ -7,11 +7,11 @@ import {
   getUploadTokens,
   revokeUploadToken,
 } from "src/asyncs/upload_tokens"
-import { useAsync } from "src/hooks/useAsync"
 import Spinner from "src/components/Spinner"
 import { getIntlLocale } from "src/localize"
 import { i18n } from "next-i18next"
 import ConfirmDialog from "src/components/ConfirmDialog"
+import { useQuery } from "@tanstack/react-query"
 
 export default function UploadTokenControls({ app }) {
   const { t } = useTranslation()
@@ -20,17 +20,11 @@ export default function UploadTokenControls({ app }) {
   const [repo, setRepo] = useState<Repo>("beta")
   const [showExpired, setShowExpired] = useState(false)
 
-  const {
-    execute: refreshTokens,
-    value: tokens,
-    status,
-  } = useAsync(
-    useCallback(
-      () => getUploadTokens(app.id, showExpired),
-      [app.id, showExpired],
-    ),
-    true,
-  )
+  const query = useQuery({
+    queryKey: ["upload-tokens", app.id, showExpired],
+    queryFn: () => getUploadTokens(app.id, showExpired),
+    enabled: !!app.id,
+  })
 
   const [tokenToRevoke, setTokenToRevoke] = useState<number | undefined>(
     undefined,
@@ -39,14 +33,14 @@ export default function UploadTokenControls({ app }) {
   const revoke = useCallback(() => {
     revokeUploadToken(tokenToRevoke).then(() => {
       setTokenToRevoke(undefined)
-      refreshTokens()
+      query.refetch()
     })
-  }, [tokenToRevoke, refreshTokens])
+  }, [tokenToRevoke, query])
 
   let content: ReactElement
-  if (status === "pending" || status === "idle") {
+  if (query.isLoading) {
     content = <Spinner size="m" />
-  } else if (status === "error") {
+  } else if (query.status === "error") {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (
@@ -60,7 +54,7 @@ export default function UploadTokenControls({ app }) {
           >
             {t("new-beta-token")}
           </Button>
-          {tokens.is_direct_upload_app && (
+          {query.data.is_direct_upload_app && (
             <Button
               onClick={() => {
                 setRepo("stable")
@@ -72,11 +66,11 @@ export default function UploadTokenControls({ app }) {
           )}
         </div>
 
-        {tokens.tokens.length === 0 && (
+        {query.data.tokens.length === 0 && (
           <p className="mt-6">{t("no-tokens-to-show")}</p>
         )}
 
-        {tokens.tokens.length > 0 && (
+        {query.data.tokens.length > 0 && (
           <div className="overflow-x-auto w-full">
             <table className="mt-6 w-full">
               <thead>
@@ -108,7 +102,7 @@ export default function UploadTokenControls({ app }) {
                 </tr>
               </thead>
               <tbody>
-                {tokens.tokens.map((token) => (
+                {query.data.tokens.map((token) => (
                   <tr key={token.id}>
                     <td className="pe-5">{token.id}</td>
                     <td className="pe-5">{token.comment}</td>
@@ -163,7 +157,7 @@ export default function UploadTokenControls({ app }) {
       <NewTokenDialog
         visible={modalVisible}
         cancel={() => setModalVisible(false)}
-        created={() => refreshTokens()}
+        created={() => query.refetch()}
         app_id={app.id}
         repo={repo}
       />
@@ -177,7 +171,7 @@ export default function UploadTokenControls({ app }) {
         onCancelled={() => setTokenToRevoke(undefined)}
       >
         {t("revoke-token-description", {
-          name: tokens?.tokens.find((token) => token.id === tokenToRevoke)
+          name: query.data?.tokens.find((token) => token.id === tokenToRevoke)
             ?.comment,
         })}
       </ConfirmDialog>
