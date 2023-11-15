@@ -33,8 +33,8 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
     modalState === "reject"
       ? "Reject"
       : comment
-      ? "Approve With Comment"
-      : "Approve"
+        ? "Approve With Comment"
+        : "Approve"
 
   const [status, setStatus] = useState<
     "idle" | "pending" | "error" | "success"
