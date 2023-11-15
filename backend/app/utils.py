@@ -226,8 +226,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                 continue
-            if elem.tag == "languages":
-                continue
 
             if len(elem) == 0 and len(elem.attrib) == 0:
                 app[elem.tag] = elem.text
@@ -258,6 +256,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     # TODO: support translations
                     if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                         continue
+
+                    attrs = {}
+                    attrs["value"] = tag.text
+                    for attr in tag.attrib:
+                        attrs[attr] = tag.attrib[attr]
+
+                    app[elem.tag].append(attrs.copy())
 
         # Determine whether the app is FOSS
         app_licence = app.get("project_license", "")
