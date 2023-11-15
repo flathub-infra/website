@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 set -x
 
 today="$(date -d "today" +"%Y/%m/%d.json")"
@@ -23,5 +23,5 @@ for container in backend worker; do
     docker compose exec $container flatpak --user update
 done
 
-docker compose exec backend pip3 install pytest httpx
-docker compose exec backend python3 -m pytest -vvvv tests/main.py
+docker compose exec backend /venv/bin/python -m pip install pytest httpx
+docker compose exec backend /venv/bin/python -m pytest -vvvv tests/main.py
