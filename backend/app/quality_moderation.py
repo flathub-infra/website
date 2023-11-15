@@ -302,6 +302,14 @@ def get_quality_moderation_status(
     return all_quality_apps
 
 
+@router.get("/failed-by-guideline", tags=["quality-moderation"])
+def get_quality_moderation_stats(
+    _moderator=Depends(quality_moderator_only)
+) -> list[FailedByGuideline]:
+    print(_moderator)
+    return QualityModeration.group_by_guideline(db)
+
+
 @router.get("/{app_id}", tags=["quality-moderation"])
 def get_quality_moderation_for_app(
     app_id: str = Path(
@@ -347,13 +355,6 @@ def set_quality_moderation_for_app(
     QualityModeration.upsert(
         db, app_id, body.guideline_id, body.passed, moderator.user.id
     )
-
-
-@router.get("/failed-by-guideline", tags=["quality-moderation"])
-def get_quality_moderation_stats(
-    _moderator=Depends(quality_moderator_only)
-) -> list[FailedByGuideline]:
-    return QualityModeration.group_by_guideline(db)
 
 
 @router.get("/{app_id}/status", tags=["quality-moderation"])
