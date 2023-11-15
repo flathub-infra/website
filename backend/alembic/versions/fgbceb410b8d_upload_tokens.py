@@ -1,7 +1,7 @@
 """upload_tokens
 
-Revision ID: fdbceb410b8d
-Revises: 554c998365fb
+Revision ID: fgbceb410b8d
+Revises: ff2ed634a1e9
 Create Date: 2023-06-15 18:24:00.730252
 
 """
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'fdbceb410b8d'
-down_revision = '554c998365fb'
+revision = 'fgbceb410b8d'
+down_revision = 'ff2ed634a1e9'
 branch_labels = None
 depends_on = None
 
