@@ -244,7 +244,7 @@ export const VendingApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve the vending status for a given application.  Returns a no content response if the appid has no vending setup.
+     * Retrieve the vending status for a given application.
      * @summary Get App Vending Setup
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -802,7 +802,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Retrieve the vending status for a given application.  Returns a no content response if the appid has no vending setup.
+     * Retrieve the vending status for a given application.
      * @summary Get App Vending Setup
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -1101,7 +1101,7 @@ export const VendingApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve the vending status for a given application.  Returns a no content response if the appid has no vending setup.
+     * Retrieve the vending status for a given application.
      * @summary Get App Vending Setup
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -1310,7 +1310,7 @@ export class VendingApi extends BaseAPI {
   }
 
   /**
-   * Retrieve the vending status for a given application.  Returns a no content response if the appid has no vending setup.
+   * Retrieve the vending status for a given application.
    * @summary Get App Vending Setup
    * @param {string} appId
    * @param {*} [options] Override http request option.

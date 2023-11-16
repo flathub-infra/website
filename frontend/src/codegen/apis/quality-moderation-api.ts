@@ -38,6 +38,8 @@ import {
   RequiredError,
 } from "../base"
 // @ts-ignore
+import { FailedByGuideline } from "../model"
+// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { QualityModerationDashboardResponse } from "../model"
@@ -127,6 +129,45 @@ export const QualityModerationApiAxiosParamCreator = function (
         `{${"app_id"}}`,
         encodeURIComponent(String(appId)),
       )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
+     * @summary Get Quality Moderation Stats
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getQualityModerationStatsQualityModerationFailedByGuidelineGet: async (
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/quality-moderation/failed-by-guideline`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -445,6 +486,31 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Get Quality Moderation Stats
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getQualityModerationStatsQualityModerationFailedByGuidelineGet(
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<FailedByGuideline>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getQualityModerationStatsQualityModerationFailedByGuidelineGet(
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     *
      * @summary Get Quality Moderation Status For App
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -607,6 +673,19 @@ export const QualityModerationApiFactory = function (
     },
     /**
      *
+     * @summary Get Quality Moderation Stats
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getQualityModerationStatsQualityModerationFailedByGuidelineGet(
+      options?: any,
+    ): AxiosPromise<Array<FailedByGuideline>> {
+      return localVarFp
+        .getQualityModerationStatsQualityModerationFailedByGuidelineGet(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Get Quality Moderation Status For App
      * @param {string} appId
      * @param {*} [options] Override http request option.
@@ -730,6 +809,21 @@ export class QualityModerationApi extends BaseAPI {
   ) {
     return QualityModerationApiFp(this.configuration)
       .getQualityModerationForAppQualityModerationAppIdGet(appId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get Quality Moderation Stats
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualityModerationApi
+   */
+  public getQualityModerationStatsQualityModerationFailedByGuidelineGet(
+    options?: AxiosRequestConfig,
+  ) {
+    return QualityModerationApiFp(this.configuration)
+      .getQualityModerationStatsQualityModerationFailedByGuidelineGet(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
