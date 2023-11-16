@@ -17,6 +17,9 @@ import { useTheme } from "next-themes"
 import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
+import { qualityModerationApi } from "src/api"
+import { useQuery } from "@tanstack/react-query"
+import { useUserContext } from "src/context/user-info"
 
 const countries = registerIsoCountriesLocales()
 
@@ -66,6 +69,20 @@ const Statistics = ({
 }): JSX.Element => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
+
+  const user = useUserContext()
+
+  const query = useQuery({
+    queryKey: ["failed-by-guideline"],
+    queryFn: () =>
+      qualityModerationApi.getQualityModerationStatsQualityModerationFailedByGuidelineGet(
+        {
+          withCredentials: true,
+        },
+      ),
+    enabled: !!user.info?.["is-quality-moderator"],
+  })
+
   let country_data: { country: string; value: number }[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
@@ -224,6 +241,29 @@ const Statistics = ({
           />
         </div>
         <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
+        {!!user.info?.["is-quality-moderator"] && query.data?.data && (
+          <>
+            <h2 className="mb-6 mt-12 text-2xl font-bold">
+              Failed by guideline
+            </h2>
+            <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+              <Bar
+                data={{
+                  labels: query.data.data.map((x) =>
+                    t(`quality-guideline.${x.guideline_id}`),
+                  ),
+                  datasets: [
+                    {
+                      data: query.data.data.map((x) => x.not_passed),
+                      backgroundColor: ["rgb(74, 144, 217)"],
+                    },
+                  ],
+                }}
+                options={barOptions}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   )

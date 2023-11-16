@@ -304,9 +304,8 @@ def get_quality_moderation_status(
 
 @router.get("/failed-by-guideline", tags=["quality-moderation"])
 def get_quality_moderation_stats(
-    _moderator=Depends(quality_moderator_only)
+    _moderator=Depends(quality_moderator_only),
 ) -> list[FailedByGuideline]:
-    print(_moderator)
     return QualityModeration.group_by_guideline(db)
 
 
