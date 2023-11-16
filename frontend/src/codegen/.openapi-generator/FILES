@@ -11,6 +11,7 @@ apis/moderation-api.ts
 apis/purchase-api.ts
 apis/quality-moderation-api.ts
 apis/update-api.ts
+apis/upload-tokens-api.ts
 apis/vending-api.ts
 apis/verification-api.ts
 apis/wallet-api.ts
@@ -32,6 +33,7 @@ model/data.ts
 model/developer.ts
 model/developers-response.ts
 model/error-detail.ts
+model/failed-by-guideline.ts
 model/filter.ts
 model/guideline-category.ts
 model/guideline.ts
@@ -49,6 +51,7 @@ model/moderation-apps-response.ts
 model/moderation-request-response.ts
 model/nascent-transaction-summary.ts
 model/nascent-transaction.ts
+model/new-token-response.ts
 model/oauth-login-response-failure.ts
 model/oauth-login-response-success.ts
 model/pagination.ts
@@ -71,11 +74,14 @@ model/storefront-info.ts
 model/token-cancellation.ts
 model/token-list.ts
 model/token-model.ts
+model/token-response.ts
+model/tokens-response.ts
 model/transaction-row.ts
 model/transaction-save-card.ts
 model/transaction-sort-order.ts
 model/transaction-summary.ts
 model/transaction.ts
+model/upload-token-request.ts
 model/upsert-app-of-the-week.ts
 model/upsert-quality-moderation.ts
 model/user-delete-request.ts
