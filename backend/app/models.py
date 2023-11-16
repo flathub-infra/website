@@ -1380,6 +1380,7 @@ class QualityModeration(Base):
                 ),
             )
             .group_by(QualityModeration.guideline_id)
+            .order_by(func.sum(func.cast(~QualityModeration.passed, Integer)).desc())
             .all()
         ]
 
