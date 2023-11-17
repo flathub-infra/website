@@ -18,6 +18,9 @@ import { UserInfo } from "src/types/Login"
 import { getUserName } from "src/verificationProvider"
 import { QueryClient } from "@tanstack/react-query"
 
+import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
+import logoMini from "public/img/logo/flathub-logo-mini.svg"
+
 const navigation = [
   {
     name: "publish",
@@ -203,7 +206,7 @@ const Header = () => {
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <LogoJsonLd
-                      logo={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}/img/logo/flathub-logo-toolbar.svg`}
+                      logo={logoToolbarSvg}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                     />
                     <Link href="/" passHref>
@@ -213,7 +216,7 @@ const Header = () => {
                       >
                         <div className="hidden lg:block">
                           <Image
-                            src="/img/logo/flathub-logo-toolbar.svg"
+                            src={logoToolbarSvg}
                             alt="Flathub Logo"
                             width={88}
                             height={24}
@@ -221,7 +224,7 @@ const Header = () => {
                         </div>
                         <div className="block lg:hidden">
                           <Image
-                            src="/img/logo/flathub-logo-mini.svg"
+                            src={logoMini}
                             alt="Flathub Logo"
                             width={24}
                             height={22}

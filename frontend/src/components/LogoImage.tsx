@@ -2,6 +2,8 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import FlathubImage from "../components/Image"
 
+import logoMini from "public/img/logo/flathub-logo-mini.svg"
+
 interface Props {
   iconUrl: string
   appName: string
@@ -31,7 +33,7 @@ const LogoImage: FunctionComponent<Props> = ({
       ) : (
         <div className="flex h-full w-full items-center justify-center dark:invert p-1">
           <FlathubImage
-            src="/img/logo/flathub-logo-mini.svg"
+            src={logoMini}
             alt={t("app-logo", { "app-name": appName })}
             width={110}
             height={108}
