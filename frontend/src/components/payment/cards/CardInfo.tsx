@@ -2,9 +2,13 @@ import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { FunctionComponent, MouseEventHandler } from "react"
 import ReactCountryFlag from "react-country-flag"
-import { IMAGE_BASE_URL } from "../../../env"
 import Image from "next/image"
 import { PaymentCardInfo } from "src/codegen"
+
+import amex from "public/img/payment-methods/amex.svg"
+import mastercard from "public/img/payment-methods/mastercard.svg"
+import visa from "public/img/payment-methods/visa.svg"
+import visaDark from "public/img/payment-methods/visa-dark.svg"
 
 interface Props {
   card: PaymentCardInfo
@@ -13,8 +17,16 @@ interface Props {
 }
 
 function getBrandImage(brand: string, theme: string): string {
-  const dark = theme === "dark" && brand === "visa" ? "-dark" : ""
-  return `${IMAGE_BASE_URL}payment-methods/${brand}${dark}.svg`
+  switch (brand) {
+    case "visa":
+      return theme === "dark" ? visaDark.src : visa.src
+    case "mastercard":
+      return mastercard.src
+    case "amex":
+      return amex.src
+    default:
+      return ""
+  }
 }
 
 const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {

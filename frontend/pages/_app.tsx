@@ -7,7 +7,7 @@ import { ThemeProvider } from "next-themes"
 import type { AppProps } from "next/app"
 
 import { UserInfoProvider } from "../src/context/user-info"
-import { IMAGE_BASE_URL, IS_PRODUCTION } from "../src/env"
+import { IS_PRODUCTION } from "../src/env"
 import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
 import "react-toastify/dist/ReactToastify.css"
@@ -23,6 +23,8 @@ import * as Sentry from "@sentry/react"
 import { Error } from "../src/components/Error"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MotionConfig } from "framer-motion"
+
+import cardImage from "../public/img/card.webp"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -64,7 +66,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             siteName: t("flathub-apps-for-linux"),
             images: [
               {
-                url: `${IMAGE_BASE_URL}card.webp`,
+                url: cardImage.src,
               },
             ],
           }}
