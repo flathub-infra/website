@@ -3,7 +3,7 @@ import re
 
 import gi
 
-from . import db, schemas, search, utils
+from . import db, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -91,7 +91,7 @@ def show_in_frontend(app: dict) -> bool:
     return False
 
 
-def load_appstream():
+def load_appstream(sqldb):
     apps = utils.appstream2dict()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
@@ -105,6 +105,7 @@ def load_appstream():
             p.delete(f"types:{type}")
 
         search_apps = []
+        postgres_apps = []
         for app_id in apps:
             redis_key = f"apps:{app_id}"
 
@@ -128,7 +129,17 @@ def load_appstream():
                 for category in categories:
                     p.sadd(f"categories:{category}", redis_key)
 
+            postgres_apps.append(
+                {
+                    "app_id": app_id,
+                    "type": apps[app_id].get("type"),
+                }
+            )
+
         search.create_or_update_apps(search_apps)
+
+        for app in postgres_apps:
+            models.Apps.set_app(sqldb, app["app_id"], app["type"])
 
         apps_to_delete_from_search = []
         for app_id in current_apps - set(apps):
@@ -139,6 +150,9 @@ def load_appstream():
             )
             apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
         search.delete_apps(apps_to_delete_from_search)
+
+        for app_id in current_apps - set(apps):
+            models.Apps.delete_app(sqldb, app_id)
 
         p.delete("apps:index")
         p.sadd("apps:index", *[f"apps:{app_id}" for app_id in apps])

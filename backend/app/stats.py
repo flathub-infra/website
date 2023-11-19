@@ -8,7 +8,7 @@ import requests
 
 from app import utils
 
-from . import config, db, search
+from . import config, db, models, search
 
 StatsType = dict[str, dict[str, list[int]]]
 POPULAR_DAYS_NUM = 7
@@ -205,7 +205,7 @@ def get_popular(days: int | None):
     return popular
 
 
-def update():
+def update(sqldb):
     stats_apps_dict = defaultdict(lambda: {})
 
     edate = datetime.date.today()
@@ -253,6 +253,13 @@ def update():
         stats_apps_dict[app_id]["installs_last_7_days"] = sum(
             [i[2] for i in dict.values()]
         )
+
+    [
+        models.Apps.set_downloads(
+            sqldb, app_id, stats_apps_dict[app_id].get("installs_last_7_days", 0)
+        )
+        for app_id in stats_apps_dict
+    ]
 
     # Make sure the Apps has all Keys
     for app_id in stats_apps_dict:

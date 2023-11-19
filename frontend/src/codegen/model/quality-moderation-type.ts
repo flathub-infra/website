@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { Guideline } from "./guideline"
+
 /**
  *
  * @export
@@ -24,6 +28,12 @@ export interface QualityModerationType {
    * @memberof QualityModerationType
    */
   guideline_id: string
+  /**
+   *
+   * @type {Guideline}
+   * @memberof QualityModerationType
+   */
+  guideline: Guideline
   /**
    *
    * @type {string}
@@ -47,7 +57,7 @@ export interface QualityModerationType {
    * @type {boolean}
    * @memberof QualityModerationType
    */
-  passed: boolean
+  passed: boolean | null
   /**
    *
    * @type {string}

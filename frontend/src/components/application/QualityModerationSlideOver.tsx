@@ -5,10 +5,12 @@ import { useEffect, useState } from "react"
 import { AxiosResponse } from "axios"
 import {
   HiArrowTopRightOnSquare,
+  HiArrowsPointingOut,
   HiCheck,
   HiCheckCircle,
   HiChevronUp,
   HiExclamationTriangle,
+  HiMiniWindow,
   HiQuestionMarkCircle,
   HiXMark,
 } from "react-icons/hi2"
@@ -51,19 +53,17 @@ const QualityCategories = ({
   const passAllMutation = useMutation({
     mutationFn: () => {
       return Promise.all(
-        query.data.data.categories?.flatMap((category) =>
-          category.guidelines
-            .filter((guideline) => !guideline.read_only)
-            .map((guideline) =>
-              qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
-                appId,
-                { guideline_id: guideline.id, passed: true },
-                {
-                  withCredentials: true,
-                },
-              ),
+        query.data.data.guidelines
+          .filter((guideline) => !guideline.guideline.read_only)
+          .map((guideline) =>
+            qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
+              appId,
+              { guideline_id: guideline.guideline_id, passed: true },
+              {
+                withCredentials: true,
+              },
             ),
-        ) ?? [],
+          ) ?? [],
       )
     },
 
@@ -84,6 +84,10 @@ const QualityCategories = ({
       query.refetch()
     },
   })
+
+  const categories = new Set<string>(
+    query.data.data.guidelines.map((guideline) => guideline.guideline.category),
+  )
 
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
@@ -111,20 +115,29 @@ const QualityCategories = ({
           </Button>
         </div>
       )}
-      {query.data.data.categories?.map((category) => {
+      {Array.from(categories).map((category) => {
         return (
-          <div className="flex flex-col" key={category.id}>
-            <div>
+          <div className="flex flex-col" key={category}>
+            <div className="flex items-center justify-between">
               <h3 className="font-semibold pb-2 pt-4 first:pt-0">
-                {t(`quality-guideline.${category.id}`)}
+                {t(`quality-guideline.${category}`)}
               </h3>
+              {category === "screenshots" && (
+                <ScreenShotTypeItem
+                  mode={mode}
+                  key={category}
+                  appId={appId}
+                  query={query}
+                  is_fullscreen_app={query.data.data.is_fullscreen_app}
+                />
+              )}
             </div>
             <div
               className={clsx(
                 "flex flex-col text-sm gap-2 dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
               )}
             >
-              {category.id === "app-icon" && (
+              {category === "app-icon" && (
                 <div>
                   <Button
                     variant="secondary"
@@ -163,16 +176,18 @@ const QualityCategories = ({
                   </section>
                 </div>
               )}
-              {category.guidelines.map((guideline) => (
-                <QualityItem
-                  mode={mode}
-                  key={guideline.id}
-                  appId={appId}
-                  qualityGuideline={guideline}
-                  qualityModeration={query.data.data.marks[guideline.id]}
-                  query={query}
-                />
-              ))}
+              {query.data.data.guidelines
+                .filter((a) => a.guideline.category === category)
+                .map((guideline) => (
+                  <QualityItem
+                    mode={mode}
+                    key={guideline.guideline_id}
+                    appId={appId}
+                    qualityGuideline={guideline.guideline}
+                    qualityModeration={guideline}
+                    query={query}
+                  />
+                ))}
             </div>
           </div>
         )
@@ -260,6 +275,81 @@ const QualityItem = ({
             ]}
           />
         )}
+      </div>
+    </div>
+  )
+}
+
+const ScreenShotTypeItem = ({
+  mode,
+  appId,
+  is_fullscreen_app,
+  query,
+}: {
+  mode: "developer" | "moderator"
+  appId: string
+  is_fullscreen_app: boolean
+  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+}) => {
+  const { t } = useTranslation()
+  const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
+
+  useEffect(() => {
+    setToggle(is_fullscreen_app)
+  }, [is_fullscreen_app])
+
+  const mutation = useMutation({
+    mutationFn: ({ is_fullscreen_app }: { is_fullscreen_app: boolean }) =>
+      qualityModerationApi.setFullscreenAppQualityModerationAppIdFullscreenPost(
+        appId,
+        is_fullscreen_app,
+        {
+          withCredentials: true,
+        },
+      ),
+
+    onSuccess: (_data, variables) => {
+      setToggle(variables.is_fullscreen_app)
+      query.refetch()
+    },
+  })
+
+  if (mode === "developer") {
+    return null
+  }
+
+  return (
+    <div className={clsx("flex items-center gap-1")}>
+      <div className="ms-auto">
+        <MultiToggle
+          size="sm"
+          items={[
+            {
+              id: "default",
+              content: (
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <HiMiniWindow className="w-5 h-5" />
+                </div>
+              ),
+              onClick: () => {
+                mutation.mutateAsync({ is_fullscreen_app: false })
+              },
+              selected: toggle === false,
+            },
+            {
+              id: "fullscreen",
+              content: (
+                <div className="w-6 h-6 flex items-center justify-center">
+                  <HiArrowsPointingOut className="w-5 h-5" />
+                </div>
+              ),
+              onClick: () => {
+                mutation.mutateAsync({ is_fullscreen_app: true })
+              },
+              selected: toggle === true,
+            },
+          ]}
+        />
       </div>
     </div>
   )

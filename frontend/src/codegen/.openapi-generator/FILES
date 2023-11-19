@@ -35,7 +35,6 @@ model/developers-response.ts
 model/error-detail.ts
 model/failed-by-guideline.ts
 model/filter.ts
-model/guideline-category.ts
 model/guideline.ts
 model/httpvalidation-error.ts
 model/index.ts

@@ -38,6 +38,12 @@ export interface Guideline {
   needed_to_pass_since: string
   /**
    *
+   * @type {string}
+   * @memberof Guideline
+   */
+  category: string
+  /**
+   *
    * @type {boolean}
    * @memberof Guideline
    */
