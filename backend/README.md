@@ -42,6 +42,18 @@ If you change any files, the server should restart and you should be able to see
 If you want to explore the endpoints, you can use the UI:
 https://localhost:8000/docs
 
+### Development
+
+If you want to work on the code, you should setup a venv and install the dependencies:
+
+```bash
+poetry config virtualenvs.in-project true
+
+poetry install
+```
+
+This should allow code completion and type checking to work, if you setup the interpreter in your IDE.
+
 ### Accessing redis
 
 You can use a redis tool of your choice to interact with the database.
@@ -53,14 +65,18 @@ Smoke tests are executed against non-production data for reproducibility. To
 reproduce CI setup, first recreate the environment:
 
 ```
+
 docker compose down -v
 docker compose --env-file .env.ci up --build
+
 ```
 
 After that finishes, execute the helper script:
 
 ```
+
 bash tests/run_tests.sh
+
 ```
 
 ## How to make changes to the SQL database schema
@@ -79,7 +95,9 @@ Once you have made your `models.py` change:
    docker compose run backend alembic revision --autogenerate -m "Title of migration"
    ```
 
-   If the command ran successfully, a new file will be created under `alembic/versions`.
+````
+
+If the command ran successfully, a new file will be created under `alembic/versions`.
 
 2. Run the migration after the file has been created via
    ```bash
@@ -127,7 +145,7 @@ If you're running this locally, you can use http://localhost:7700/ to test the s
 
 If you want to use the parts of the backend which use Stripe, e.g. for testing vending
 or other aspects of the UI which might need wallet access, then you will need to
-launch the backend with Stripe credentials.  Here is how to go about setting up a
+launch the backend with Stripe credentials. Here is how to go about setting up a
 suitable account with Stripe, and then preparing credentials for use.
 
 ### Setting up a development Stripe account
@@ -138,19 +156,19 @@ suitable account with Stripe, and then preparing credentials for use.
 4. Stripe will first ask you to activate payments - skip this.
 5. Navigate to the 'Connect' page (it may be under a 'More' option).
 6. Fill out the 'Complete your platform profile' section, with options:
-    1. Select 'Other' and Continue
-    2. Select 'From your platform's website or app' and Continue
-    3. Select 'Both your platform's name and the seller/service provider's name' and Continue
-    4. Select 'Your platform' and Continue, then Submit
+   1. Select 'Other' and Continue
+   2. Select 'From your platform's website or app' and Continue
+   3. Select 'Both your platform's name and the seller/service provider's name' and Continue
+   4. Select 'Your platform' and Continue, then Submit
 7. Once that submits, click the 'Connect settings' link near the top of the page.
 8. Scroll down to 'Branding' section:
-    1. Complete the business name and icon fields.
-    2. Remember to use the 'Save branding changes' button.
+   1. Complete the business name and icon fields.
+   2. Remember to use the 'Save branding changes' button.
 9. Navigate to the 'Payments' page and create a $100 top-up.
-    1. This seeds the account balance with some buffer to cover pay outs.
-    2. At time of writing, top-ups require using the API: <https://stripe.com/docs/api/topups/create>.
-    3. Alternatively you can use the test card details from <https://stripe.com/docs/testing> to
-    make a payment and wait for the amount to become available to pay out.
+   1. This seeds the account balance with some buffer to cover pay outs.
+   2. At time of writing, top-ups require using the API: <https://stripe.com/docs/api/topups/create>.
+   3. Alternatively you can use the test card details from <https://stripe.com/docs/testing> to
+      make a payment and wait for the amount to become available to pay out.
 
 This account will now be usable for testing payment and application vending workflows in local development.
 
@@ -163,12 +181,13 @@ This account will now be usable for testing payment and application vending work
 4. Click on the Secret key once to reveal, and a second time to copy, paste it into your notes.
    This is STRIPE_SECRET_KEY
 
-To acquire your webhook key, you can use the stripe CLI tool.  Install it
+To acquire your webhook key, you can use the stripe CLI tool. Install it
 and then run `stripe login` - complete the login in your browser and the CLI
-should succeed.  Next run `stripe listen` and it will give you your webhook secret.
+should succeed. Next run `stripe listen` and it will give you your webhook secret.
 This is STRIPE_WEBHOOK_KEY.
 
 If you want webhooks to make it from the testing into the backend then run:
+
 ```bash
 stripe listen --forward-to localhost:8000/wallet/webhook/stripe
 ```
@@ -180,3 +199,4 @@ STRIPE_WEBHOOK_KEY=... docker compose up --build`
 
 When everything has started, if you visit <http://localhost:8000/docs> you will
 see mention of Stripe if things are working properly.
+````
