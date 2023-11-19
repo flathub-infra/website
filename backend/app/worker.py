@@ -61,12 +61,14 @@ class WorkerDB:
 
 @dramatiq.actor(time_limit=1000 * 60 * 60)
 def update_stats():
-    stats.update()
+    with WorkerDB() as sqldb:
+        stats.update(sqldb)
 
 
 @dramatiq.actor
 def update():
-    apps.load_appstream()
+    with WorkerDB() as sqldb:
+        apps.load_appstream(sqldb)
     summary.update()
     exceptions.update()
 

@@ -357,6 +357,68 @@ export const QualityModerationApiAxiosParamCreator = function (
     },
     /**
      *
+     * @summary Set Fullscreen App
+     * @param {string} appId
+     * @param {boolean} isFullscreenApp
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setFullscreenAppQualityModerationAppIdFullscreenPost: async (
+      appId: string,
+      isFullscreenApp: boolean,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "setFullscreenAppQualityModerationAppIdFullscreenPost",
+        "appId",
+        appId,
+      )
+      // verify required parameter 'isFullscreenApp' is not null or undefined
+      assertParamExists(
+        "setFullscreenAppQualityModerationAppIdFullscreenPost",
+        "isFullscreenApp",
+        isFullscreenApp,
+      )
+      const localVarPath = `/quality-moderation/{app_id}/fullscreen`.replace(
+        `{${"app_id"}}`,
+        encodeURIComponent(String(appId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (isFullscreenApp !== undefined) {
+        localVarQueryParameter["is_fullscreen_app"] = isFullscreenApp
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -598,6 +660,34 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Set Fullscreen App
+     * @param {string} appId
+     * @param {boolean} isFullscreenApp
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setFullscreenAppQualityModerationAppIdFullscreenPost(
+      appId: string,
+      isFullscreenApp: boolean,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.setFullscreenAppQualityModerationAppIdFullscreenPost(
+          appId,
+          isFullscreenApp,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -746,6 +836,27 @@ export const QualityModerationApiFactory = function (
     },
     /**
      *
+     * @summary Set Fullscreen App
+     * @param {string} appId
+     * @param {boolean} isFullscreenApp
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setFullscreenAppQualityModerationAppIdFullscreenPost(
+      appId: string,
+      isFullscreenApp: boolean,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setFullscreenAppQualityModerationAppIdFullscreenPost(
+          appId,
+          isFullscreenApp,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Set Quality Moderation For App
      * @param {string} appId
      * @param {UpsertQualityModeration} upsertQualityModeration
@@ -888,6 +999,29 @@ export class QualityModerationApi extends BaseAPI {
     return QualityModerationApiFp(this.configuration)
       .requestReviewForAppQualityModerationAppIdRequestReviewPost(
         appId,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Set Fullscreen App
+   * @param {string} appId
+   * @param {boolean} isFullscreenApp
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof QualityModerationApi
+   */
+  public setFullscreenAppQualityModerationAppIdFullscreenPost(
+    appId: string,
+    isFullscreenApp: boolean,
+    options?: AxiosRequestConfig,
+  ) {
+    return QualityModerationApiFp(this.configuration)
+      .setFullscreenAppQualityModerationAppIdFullscreenPost(
+        appId,
+        isFullscreenApp,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

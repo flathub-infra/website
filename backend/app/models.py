@@ -1,9 +1,11 @@
 import enum
 from datetime import datetime, timedelta
+from math import ceil
 from typing import Any, Optional, Union
 from uuid import uuid4
 
 from fastapi import HTTPException
+from pydantic import BaseModel
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
@@ -14,13 +16,29 @@ from sqlalchemy import (
     Index,
     Integer,
     String,
+    and_,
     delete,
     func,
+    or_,
     text,
 )
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import (
+    DeclarativeBase,
+    Mapped,
+    mapped_column,
+    relationship,
+)
 
 from . import utils
+
+
+class QualityModerationStatus(BaseModel):
+    passes: bool
+    unrated: int
+    passed: int
+    not_passed: int
+    last_updated: datetime | None
+    review_requested_at: datetime | None = None
 
 
 class Base(DeclarativeBase):
@@ -1345,13 +1363,50 @@ class ModerationRequest(Base):
     comment = mapped_column(String)
 
 
+class GuidelineCategory(Base):
+    """A category of quality guidelines for an app"""
+
+    __tablename__ = "guideline_category"
+
+    id = mapped_column(String, primary_key=True)
+    order = mapped_column(Integer, nullable=False)
+
+
+class Guideline(Base):
+    """A quality guideline for an app"""
+
+    __tablename__ = "guideline"
+
+    id = mapped_column(String, primary_key=True)
+    url = mapped_column(String, nullable=False)
+    needed_to_pass_since = mapped_column(Date, nullable=False)
+    read_only = mapped_column(Boolean, nullable=False, default=False)
+    show_on_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
+    order = mapped_column(Integer, nullable=False)
+
+    guideline_category_id = mapped_column(
+        String, ForeignKey("guideline_category.id"), nullable=False, index=True
+    )
+
+    guideline_category = relationship(GuidelineCategory)
+
+
+class QualityModerationDashboardRow(BaseModel):
+    id: str
+    quality_moderation_status: QualityModerationStatus
+    appstream: Any | None = None
+    installs_last_7_days: int | None = None
+
+
 class QualityModeration(Base):
     """A moderated quality guideline for an app"""
 
     __tablename__ = "qualitymoderation"
 
     id = mapped_column(Integer, primary_key=True)
-    guideline_id = mapped_column(String, nullable=False, index=True)
+    guideline_id = mapped_column(ForeignKey(Guideline.id), nullable=False, index=True)
+    guideline = relationship(Guideline)
+    # todo add a foreign key later
     app_id = mapped_column(String, nullable=False, index=True)
     updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
     updated_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
@@ -1422,11 +1477,88 @@ class QualityModeration(Base):
         db.session.commit()
 
     @classmethod
-    def by_appid(cls, db, app_id: str) -> list["QualityModeration"]:
+    def by_appid(cls, db, app_id: str) -> list["Any"]:
         return (
-            db.session.query(QualityModeration)
-            .filter(QualityModeration.app_id == app_id)
+            db.session.query(Guideline, QualityModeration, Apps)
+            .join(
+                QualityModeration,
+                and_(
+                    Guideline.id == QualityModeration.guideline_id,
+                    QualityModeration.app_id == app_id,
+                ),
+                isouter=True,
+            )
+            .join(
+                Apps,
+                and_(
+                    Apps.app_id == app_id,
+                    or_(
+                        Apps.is_fullscreen_app == False,  # noqa: E712
+                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .order_by(Guideline.order)
+            .filter(Guideline.needed_to_pass_since <= datetime.now().date())
             .all()
+        )
+
+    @classmethod
+    def by_appid_summarized(cls, db, app_id: str) -> QualityModerationStatus:
+        """
+        Return a summary of the quality moderation status for an app
+        """
+        status = (
+            db.session.query(Guideline)
+            .join(
+                QualityModeration,
+                and_(
+                    Guideline.id == QualityModeration.guideline_id,
+                    QualityModeration.app_id == app_id,
+                ),
+                isouter=True,
+            )
+            .join(
+                Apps,
+                and_(
+                    Apps.app_id == app_id,
+                    or_(
+                        Apps.is_fullscreen_app == False,  # noqa: E712
+                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .filter(Guideline.needed_to_pass_since <= datetime.now().date())
+            .with_entities(
+                func.count(Guideline.id),
+                func.sum(func.cast(QualityModeration.passed, Integer)),
+                func.sum(func.cast(~QualityModeration.passed, Integer)),
+                func.max(QualityModeration.updated_at),
+            )
+            .first()
+        )
+
+        app_quality_request = QualityModerationRequest.by_appid(db, app_id)
+
+        if status is None:
+            return QualityModerationStatus(
+                passes=False,
+                unrated=0,
+                passed=0,
+                not_passed=0,
+                last_updated=datetime.now(),
+                review_requested_at=None,
+            )
+
+        return QualityModerationStatus(
+            passes=status[0] == status[1],
+            unrated=status[0] - status[1] - status[2],
+            passed=status[1],
+            not_passed=status[2],
+            last_updated=status[3],
+            review_requested_at=app_quality_request.created_at
+            if app_quality_request
+            else None,
         )
 
 
@@ -1569,3 +1701,221 @@ class AppsOfTheWeek(Base):
             db.session.add(app)
             db.session.commit()
             return app
+
+
+class Pagination(BaseModel):
+    page: int
+    page_size: int
+    total: int
+    total_pages: int
+
+
+class QualityModerationDashboardResponse(BaseModel):
+    apps: list[QualityModerationDashboardRow]
+    pagination: Pagination
+
+
+class Apps(Base):
+    """An app"""
+
+    __tablename__ = "apps"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True, unique=True)
+    type = mapped_column(
+        Enum(
+            "desktop",
+            "localization",
+            "console-application",
+            "generic",
+            "runtime",
+            "addon",
+            name="app_type",
+        ),
+        nullable=False,
+    )
+    installs_last_7_days = mapped_column(Integer, nullable=False, default=0)
+    is_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    __table_args__ = (Index("apps_unique", app_id, unique=True),)
+
+    @classmethod
+    def by_appid(cls, db, app_id: str) -> Optional["Apps"]:
+        return db.session.query(Apps).filter(Apps.app_id == app_id).first()
+
+    @classmethod
+    def set_app(cls, db, app_id: str, type) -> Optional["Apps"]:
+        app = Apps.by_appid(db, app_id)
+
+        if app:
+            if app.type == type:
+                return app
+            app.type = type
+            db.session.commit()
+            return app
+        else:
+            app = Apps(
+                app_id=app_id,
+                type=type,
+            )
+            db.session.add(app)
+            db.session.commit()
+            return app
+
+    @classmethod
+    def delete_app(cls, db, app_id: str) -> None:
+        db.session.execute(delete(Apps).where(Apps.app_id == app_id))
+        db.session.commit()
+
+    @classmethod
+    def set_downloads(cls, db, app_id: str, downloads: int) -> None:
+        app = Apps.by_appid(db, app_id)
+        if app and app.installs_last_7_days != downloads:
+            app.installs_last_7_days = downloads
+            db.session.commit()
+
+    @classmethod
+    def get_fullscreen_app(cls, db, app_id: str) -> bool:
+        app = Apps.by_appid(db, app_id)
+        if app:
+            return app.is_fullscreen_app
+        return False
+
+    @classmethod
+    def set_fullscreen_app(cls, db, app_id: str, is_fullscreen_app: bool) -> None:
+        app = Apps.by_appid(db, app_id)
+        if app and app.is_fullscreen_app != is_fullscreen_app:
+            db.session.execute(
+                delete(QualityModeration).where(
+                    and_(
+                        QualityModeration.app_id == app_id,
+                        QualityModeration.guideline_id.startswith("screenshots-"),
+                    )
+                )
+            )
+            db.session.commit()
+
+            app.is_fullscreen_app = is_fullscreen_app
+            db.session.commit()
+
+    @classmethod
+    def status_summarized(
+        cls, db, page, page_size, filter
+    ) -> QualityModerationDashboardResponse:
+        """
+        Return a summary of the quality moderation status for all apps
+        """
+        query = (
+            db.session.query(
+                Apps.app_id,
+                func.coalesce(
+                    func.count(Guideline.id)
+                    == func.sum(func.cast(QualityModeration.passed, Integer)),
+                    False,
+                ),
+                func.coalesce(
+                    func.count(Guideline.id)
+                    - func.sum(func.cast(QualityModeration.passed, Integer))
+                    - func.sum(func.cast(~QualityModeration.passed, Integer)),
+                    0,
+                ),
+                func.coalesce(
+                    func.sum(func.cast(QualityModeration.passed, Integer)), 0
+                ),
+                func.coalesce(
+                    func.sum(func.cast(~QualityModeration.passed, Integer)), 0
+                ),
+                func.coalesce(func.max(QualityModeration.updated_at), datetime.min),
+                func.max(QualityModerationRequest.created_at),
+                Apps.installs_last_7_days,
+            )
+            .join(
+                Guideline,
+                and_(
+                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    or_(
+                        Apps.is_fullscreen_app == False,  # noqa: E712
+                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .join(
+                QualityModeration,
+                and_(
+                    QualityModeration.guideline_id == Guideline.id,
+                    QualityModeration.app_id == Apps.app_id,
+                ),
+                isouter=True,
+            )
+            .join(
+                QualityModerationRequest,
+                QualityModerationRequest.app_id == Apps.app_id,
+                isouter=True,
+            )
+            .where(
+                or_(
+                    Apps.type == "desktop",
+                    Apps.type == "console-application",
+                )
+            )
+            .having(func.max(QualityModeration.updated_at).isnot(None))
+            .group_by(Apps.app_id, Apps.installs_last_7_days)
+            # sort by review_requested, passed, then by weekly downloads
+            .order_by(
+                func.max(QualityModerationRequest.created_at).desc(),
+                func.sum(func.cast(QualityModeration.passed, Integer)).desc(),
+                Apps.installs_last_7_days.desc(),
+            )
+        )
+
+        if filter == "passing":
+            query = query.having(
+                func.count(Guideline.id)
+                == func.sum(func.cast(QualityModeration.passed, Integer))
+            )
+        elif filter == "todo":
+            query = query.having(
+                and_(
+                    func.sum(func.cast(~QualityModeration.passed, Integer)) == 0,
+                    func.count(Guideline.id)
+                    > func.sum(func.cast(QualityModeration.passed, Integer)),
+                )
+            )
+
+        query_count = query.count()
+
+        query = query.slice((page - 1) * page_size, (page) * page_size)
+
+        return QualityModerationDashboardResponse(
+            apps=[
+                QualityModerationDashboardRow(
+                    id=app_id,
+                    quality_moderation_status=QualityModerationStatus(
+                        passes=passes,
+                        unrated=unrated,
+                        passed=passed,
+                        not_passed=not_passed,
+                        last_updated=last_updated,
+                        review_requested_at=review_requested_at,
+                    ),
+                    installs_last_7_days=installs_last_7_days,
+                )
+                for (
+                    app_id,
+                    passes,
+                    unrated,
+                    passed,
+                    not_passed,
+                    last_updated,
+                    review_requested_at,
+                    installs_last_7_days,
+                ) in query.all()
+            ],
+            pagination=Pagination(
+                page=page,
+                page_size=page_size,
+                total=query_count,
+                total_pages=ceil(query_count / page_size),
+            ),
+        )

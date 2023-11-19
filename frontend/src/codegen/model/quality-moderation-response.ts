@@ -14,9 +14,6 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { GuidelineCategory } from "./guideline-category"
-// May contain unused imports in some cases
-// @ts-ignore
 import { QualityModerationType } from "./quality-moderation-type"
 
 /**
@@ -27,16 +24,16 @@ import { QualityModerationType } from "./quality-moderation-type"
 export interface QualityModerationResponse {
   /**
    *
-   * @type {Array<GuidelineCategory>}
+   * @type {Array<QualityModerationType>}
    * @memberof QualityModerationResponse
    */
-  categories: Array<GuidelineCategory>
+  guidelines: Array<QualityModerationType>
   /**
    *
-   * @type {{ [key: string]: QualityModerationType; }}
+   * @type {boolean}
    * @memberof QualityModerationResponse
    */
-  marks: { [key: string]: QualityModerationType }
+  is_fullscreen_app: boolean
   /**
    *
    * @type {string}

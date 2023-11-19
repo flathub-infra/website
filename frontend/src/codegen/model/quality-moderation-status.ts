@@ -47,7 +47,7 @@ export interface QualityModerationStatus {
    * @type {string}
    * @memberof QualityModerationStatus
    */
-  last_updated: string
+  last_updated: string | null
   /**
    *
    * @type {string}
