@@ -254,12 +254,10 @@ def update(sqldb):
             [i[2] for i in dict.values()]
         )
 
-    [
+    for app_id in stats_apps_dict:
         models.Apps.set_downloads(
             sqldb, app_id, stats_apps_dict[app_id].get("installs_last_7_days", 0)
         )
-        for app_id in stats_apps_dict
-    ]
 
     # Make sure the Apps has all Keys
     for app_id in stats_apps_dict:
