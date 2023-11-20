@@ -457,7 +457,6 @@
   "software-developer-verified-description": "Ohjelmistokehittäjä on vahvistanut identiteettinsä, jonka vuoksi sovellus on suuremmalla todennäköisyydellä turvallinen",
   "user-device-access": "Pääsy käyttäjän laitteisiin",
   "download-folder-read-write-access": "Lataukset-kansion luku- ja kirjoitusoikeus",
-  "can-create-files": "Voi luoda tiedostoja kansioon",
   "can-read-all-data": "Voi lukea kaikkea kansion dataa",
   "can-read-write-all-data": "Voi lukea ja kirjoittaa kaikkea kansion dataa",
   "full-file-system-read-write-access": "Täysi tiedostojärjestelmän luku- ja kirjoitusoikeus",
@@ -497,10 +496,10 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Sisällytä ikkunan varjo ja pyöristetyt kulmat",
     "screenshots-at-least-one-screenshot": "Vähintään yksi kuvakaappaus",
     "failing-x-checks_one": "{{count}} tarkistus epäonnistuu",
+    "failing-x-checks_other": "{{count}} tarkistusta epäonnistuu",
     "pending": "Odottaa",
     "details": "Tiedot",
     "review-requested": "Katselmointia pyydetty",
-    "failing-x-checks_other": "{{count}} tarkistusta epäonnistuu",
     "not-passed": "Ei läpäisty",
     "passed": "Läpäisty",
     "request-review": "Pyydä katselmointia",
@@ -509,5 +508,6 @@
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
-  "moderation-build-id": "Koontitunniste"
+  "moderation-build-id": "Koontitunniste",
+  "flathub-apps-for-linux": "Flathub - Sovellukset Linuxille"
 }

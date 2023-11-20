@@ -442,7 +442,6 @@
   "cache-folder": "快取資料夾",
   "documents-folder": "文件資料夾",
   "public-share-folder": "公開分享資料夾",
-  "can-create-files": "可以在目錄中建立檔案",
   "no-file-system-access-description": "完全無法存取檔案系統",
   "can-read-all-data": "可以讀取目錄中所有的資料",
   "host-system-folders": "主機系統資料夾",
@@ -497,17 +496,17 @@
     "screenshots-up-to-date": "最新",
     "screenshots-include-window-shadow-and-rounded-corners": "包含視窗陰影與圓角",
     "screenshots-at-least-one-screenshot": "至少一個螢幕截圖",
-    "failing-x-checks_one": "{{count}} 次檢查失敗",
+    "failing-x-checks_other": "{{count}} 次檢查失敗",
     "high-quality-app-data": "高品質應用程式資料",
     "pending": "擱置中",
     "details": "詳細資訊",
     "review-requested": "已請求審閱",
-    "failing-x-checks_other": "{{count}} 次檢查失敗",
     "not-passed": "未通過",
     "app-data-review-pending": "應用程式資料審閱擱置中",
     "passed": "通過",
     "request-review": "請求審閱"
   },
   "app-listing-quality": "應用程式清單品質",
-  "moderation-build-id": "建構 ID"
+  "moderation-build-id": "建構 ID",
+  "flathub-apps-for-linux": "Flathub - 適用於 Linux 的應用程式"
 }

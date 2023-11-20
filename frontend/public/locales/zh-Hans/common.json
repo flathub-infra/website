@@ -477,7 +477,6 @@
   "cache-folder": "缓存目录",
   "documents-folder": "文档目录",
   "public-share-folder": "共享目录",
-  "can-create-files": "能在此文件夹创建文件",
   "no-file-system-access-description": "不能访问任何文件系统",
   "can-read-all-data": "可以读取此文件夹的全部数据",
   "host-system-folders": "宿主的系统目录",

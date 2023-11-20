@@ -442,7 +442,6 @@
   "cache-folder": "Gyorsítótár mappa",
   "documents-folder": "Dokumentumok mappa",
   "public-share-folder": "Nyilvános megosztási mappa",
-  "can-create-files": "Fájl létrehozása a könyvtárban",
   "no-file-system-access-description": "Egyáltalán nem fér hozzá a fájlrendszerhez",
   "can-read-all-data": "Összes adat a könyvtárban olvashat",
   "host-system-folders": "Gazdarendszer mappái",
@@ -498,16 +497,17 @@
     "screenshots-up-to-date": "Naprakész",
     "screenshots-include-window-shadow-and-rounded-corners": "Tartalmazza az ablak árnyékát és a lekerekített sarkokat",
     "failing-x-checks_one": "{{count}} ellenőrzés sikertelensége",
+    "failing-x-checks_other": "{{count}} ellenőrzés sikertelensége",
     "high-quality-app-data": "Kiváló minőségű alkalmazásadatok",
     "pending": "Függőben levő",
     "details": "Részletek",
     "review-requested": "Felülvizsgálat kérve",
-    "failing-x-checks_other": "{{count}} ellenőrzés sikertelensége",
     "not-passed": "Nem telt el",
     "app-data-review-pending": "Alkalmazásadatok felülvizsgálata függőben lévő",
     "passed": "Átment",
     "request-review": "Felülvizsgálat kérése"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
-  "moderation-build-id": "Összeállítás-azonosító"
+  "moderation-build-id": "Összeállítás-azonosító",
+  "flathub-apps-for-linux": "Flathub – Alkalmazások Linuxra"
 }

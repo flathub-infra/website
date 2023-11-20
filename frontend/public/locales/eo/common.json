@@ -435,7 +435,6 @@
   "user-device-access": "Aliro al aparato de la uzanto",
   "download-folder-read-write-access": "Lega/modifa permesoj en elŝutujo",
   "documents-folder": "Dokumentujo",
-  "can-create-files": "Povas krei dosierojn en la dosierujo",
   "no-file-system-access-description": "Ne povas iel ajn aliri la dosiersistemon",
   "can-read-all-data": "Povas legi ĉiajn datenojn en la dosierujo",
   "music-folder": "Muzikujo",
@@ -494,11 +493,11 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Inkluzivi fenestran ombron kaj rondajn angulojn",
     "screenshots-at-least-one-screenshot": "Almenaŭ unu ekrankopio",
     "failing-x-checks_one": "{{count}} kriterio ne plenumiĝis",
+    "failing-x-checks_other": "{{count}} kriterioj ne plenumiĝis",
     "high-quality-app-data": "Altkvalitaj programaj metadatenoj",
     "pending": "Reviziota",
     "details": "Detaloj",
     "review-requested": "Revizio petita",
-    "failing-x-checks_other": "{{count}} kriterioj ne plenumiĝis",
     "not-passed": "Netaŭga",
     "app-data-review-pending": "Reviziotaj programaj metadatenoj",
     "passed": "Taŭga",
@@ -509,5 +508,6 @@
   "app-listing-quality": "Kvalito de programa registraĵo",
   "full-file-system-read-write-access": "Plena lega/modifa aliro al la dosiersistemo",
   "home-folder-read-access": "Lega aliro al hejma dosierujo",
-  "moderation-build-id": "Versia identigilo"
+  "moderation-build-id": "Versia identigilo",
+  "flathub-apps-for-linux": "Flathub – Programoj por Linux"
 }
