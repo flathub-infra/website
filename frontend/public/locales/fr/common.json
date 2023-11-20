@@ -442,7 +442,6 @@
   "cache-folder": "Dossier de cache",
   "documents-folder": "Dossier Documents",
   "public-share-folder": "Dossier de partage public",
-  "can-create-files": "Peut créer des fichiers dans le répertoire",
   "no-file-system-access-description": "Impossible d'accéder au système de fichiers",
   "can-read-all-data": "Peut lire toutes les données du répertoire",
   "host-system-folders": "Dossiers du système hôte",

@@ -434,7 +434,6 @@
   "download-folder-read-write-access": "Lese-/Schreibzugriff auf den Download Ordner",
   "cache-folder": "Cache Ordner",
   "documents-folder": "Dokumente Ordner",
-  "can-create-files": "Kann Dateien im Verzeichnis erstellen",
   "no-file-system-access-description": "Kann nicht auf das Dateisystem zugreifen",
   "can-read-all-data": "Kann alle Daten in dem Verzeichnis lesen",
   "host-system-folders": "Host-System Ordner",
@@ -497,17 +496,18 @@
     "screenshots-up-to-date": "Aktuell",
     "screenshots-include-window-shadow-and-rounded-corners": "Mit Fensterschatten und abgerundeten Ecken",
     "screenshots-at-least-one-screenshot": "Mindestens ein Bildschirmfoto",
-    "failing-x-checks_one": "{{count}} Prüfung fehlgeschlagen",
+    "failing-x-checks_one": "Eine Prüfung fehlgeschlagen",
+    "failing-x-checks_other": "{{count}} Prüfungen fehlgeschlagen",
     "high-quality-app-data": "Hochwertige App-Daten",
     "pending": "Anstehend",
     "details": "Detail",
     "review-requested": "Review angefragt",
-    "failing-x-checks_other": "{{count}} Prüfungen fehlgeschlagen",
     "not-passed": "Nicht bestanden",
-    "app-data-review-pending": "Add-Daten review ausstehend",
+    "app-data-review-pending": "App-Daten review ausstehend",
     "passed": "Bestanden",
     "request-review": "Review anfragen"
   },
   "app-listing-quality": "Qualität des Applistings",
-  "moderation-build-id": "Build ID"
+  "moderation-build-id": "Build ID",
+  "flathub-apps-for-linux": "Flathub - Apps für Linux"
 }

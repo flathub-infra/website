@@ -448,7 +448,6 @@
   "user-device-access": "Přístup k uživatelskému zařízení",
   "download-folder-read-write-access": "Přístup ke složce se staženými soubory pro čtení/zápis",
   "cache-folder": "Složka mezipaměti",
-  "can-create-files": "Může vytvářet soubory ve složce",
   "no-file-system-access-description": "Nemůže vůbec přistupovat k souborovému systému",
   "can-read-all-data": "Může číst všechna data ve složce",
   "can-request-data-from-system-services": "Může si vyžádat data ze systémových služeb",
@@ -498,16 +497,18 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Zahrnuje stín okna a zaoblené rohy",
     "screenshots-at-least-one-screenshot": "Alespoň jeden snímek obrazovky",
     "failing-x-checks_one": "Neúspěšná kontrola {{count}}",
+    "failing-x-checks_few": "",
+    "failing-x-checks_other": "Neúspěšných {{count}} kontrol",
     "high-quality-app-data": "Vysoce kvalitní data aplikace",
     "pending": "Čekající",
     "details": "Podrobnosti",
     "review-requested": "Požadované přezkoumání",
-    "failing-x-checks_other": "Neúspěšných {{count}} kontrol",
     "not-passed": "Nebylo přijato",
     "app-data-review-pending": "Čeká se na přezkoumání dat aplikace",
     "passed": "Přijato",
     "request-review": "Žádost o přezkoumání"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
-  "moderation-build-id": "ID sestavení"
+  "moderation-build-id": "ID sestavení",
+  "flathub-apps-for-linux": "Flathub - aplikace pro Linux"
 }

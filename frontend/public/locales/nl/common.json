@@ -473,7 +473,17 @@
     "show-icon": "Pictogram tonen",
     "app-icon-size": "SVG of PNG van tenminste 256px",
     "app-summary-dont-start-with-an-article": "Begint niet met een artikel",
-    "screenshots-just-the-app-window": "Enkel het app-venster"
+    "screenshots-just-the-app-window": "Enkel het app-venster",
+    "high-quality-app-data": "Hoge kwaliteit app-gegevens",
+    "pending": "In behandeling",
+    "details": "Details",
+    "review-requested": "Review aangevraagd",
+    "failing-x-checks_one": "{{count}} falende controle",
+    "failing-x-checks_other": "{{count}} falende controles",
+    "not-passed": "Gefaald",
+    "app-data-review-pending": "Review van app-gegevens in afwachting",
+    "passed": "Geslaagd",
+    "request-review": "Review aanvragen"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -492,12 +502,12 @@
   "uses-eol-runtime-description": "De runtime die door deze app wordt gebruikt ontvangt geen beveiligingsupdates meer",
   "full-file-system-read-access": "Volledige lees­toegang tot bestands­systeem",
   "software-developer-verified-description": "De software­ontwikkelaar heeft hun identiteit geverifieerd, waardoor de app waarschijnlijker veilig is",
-  "can-create-files": "Kan bestanden in de map aanmaken",
   "no-file-system-access-description": "Heeft geen toegang tot het bestands­systeem",
   "can-request-data-from-system-services": "Kan gegevens opvragen bij systeem­diensten",
   "can-read-write-all-data": "Kan alle gegevens in de map lezen en schrijven",
   "full-file-system-read-write-access": "Volledige lees- en schrijf­toegang tot bestands­systeem",
   "can-request-data-from-session-services": "Kan gegevens opvragen bij sessie­diensten",
   "can-read-all-data-in-your-download-folder": "Kan alle gegevens in uw downloadsmap lezen",
-  "moderation-build-id": "Versie-ID"
+  "moderation-build-id": "Versie-ID",
+  "flathub-apps-for-linux": "Flathub - Apps voor Linux"
 }

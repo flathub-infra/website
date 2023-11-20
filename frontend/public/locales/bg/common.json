@@ -434,7 +434,6 @@
   "cache-folder": "Папка за кеш памет",
   "documents-folder": "Папка за документи",
   "public-share-folder": "Папка за споделяне",
-  "can-create-files": "Може да създава файлове в директорията",
   "can-read-all-data": "Може да чете всички данни в директорията",
   "host-system-folders": "Системни папки",
   "can-request-data-from-system-services": "Може да изисква данни от системните услуги",
@@ -498,16 +497,17 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Включват сянката на прозореца и заоблените ъгли",
     "screenshots-at-least-one-screenshot": "Поне една",
     "failing-x-checks_one": "{{count}} неуспешна проверка",
+    "failing-x-checks_other": "{{count}} неуспешни проверки",
     "high-quality-app-data": "Отлични данни на приложението",
     "pending": "Изчаква рецензия",
     "details": "Подробности",
     "review-requested": "Заявена рецензия",
-    "failing-x-checks_other": "{{count}} неуспешни проверки",
     "not-passed": "Неуспешна рецензия",
     "app-data-review-pending": "Данните на приложението изчакват рецензия",
     "passed": "Успешна рецензия",
     "request-review": "Заявяване на рецензия"
   },
   "app-listing-quality": "Свойства на приложението",
-  "moderation-build-id": "Идентификатор на версията"
+  "moderation-build-id": "Идентификатор на версията",
+  "flathub-apps-for-linux": "„Flathub“ – Приложения за Линукс"
 }

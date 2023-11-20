@@ -442,7 +442,6 @@
   "cache-folder": "தற்காலிக சேமிப்பு கோப்புறை",
   "documents-folder": "ஆவணங்கள் கோப்புறை",
   "public-share-folder": "பொது பகிர்வு கோப்புறை",
-  "can-create-files": "கோப்பகத்தில் கோப்புகளை உருவாக்க முடியும்",
   "no-file-system-access-description": "கோப்பு முறைமையை அணுகவே முடியாது",
   "can-read-all-data": "கோப்பகத்தில் உள்ள எல்லா தரவையும் படிக்க முடியும்",
   "host-system-folders": "புரவலன் அமைப்பு கோப்புறைகள்",
@@ -494,11 +493,11 @@
     "screenshots-up-to-date": "புதுப்பித்த நிலையில் இருக்க வேண்டும்",
     "screenshots-include-window-shadow-and-rounded-corners": "சாளர நிழல் மற்றும் வட்டமான மூலைகளைச் சேர்க்கவும்",
     "failing-x-checks_one": "{{count}} சரிபார்ப்பில் தோல்வி",
+    "failing-x-checks_other": "{{count}} சோதனைகள் தோல்வியடைகிறது",
     "high-quality-app-data": "உயர்தர பயன்பாட்டுத் தரவு",
     "pending": "நிலுவையிலுள்ளது",
     "details": "விவரங்கள்",
     "review-requested": "மதிப்பாய்வு கோரப்பட்டது",
-    "failing-x-checks_other": "{{count}} சோதனைகள் தோல்வியடைகிறது",
     "not-passed": "தேர்ச்சி பெறவில்லை",
     "app-data-review-pending": "பயன்பாட்டுத் தரவு மதிப்பாய்வு நிலுவையில் உள்ளது",
     "passed": "தேர்ச்சி பெற்றது",
@@ -509,5 +508,6 @@
   "app-listing-quality": "பயன்பாட்டு பட்டியல் தரம்",
   "full-file-system-read-write-access": "முழு கோப்பு முறைமை படிக்க/எழுதுவதற்கான அணுகல்",
   "home-folder-read-access": "முகப்பு கோப்புறையை படிக்க அணுகல்",
-  "moderation-build-id": "கட்டிட அடையாளம்"
+  "moderation-build-id": "கட்டிட அடையாளம்",
+  "flathub-apps-for-linux": "Flathub - லினக்ஸிற்கான பயன்பாடுகள்"
 }

@@ -442,7 +442,6 @@
   "cache-folder": "مجلَّد الخابية",
   "documents-folder": "مجلَّد المستندات",
   "public-share-folder": "مجلَّد المشاركة العامة",
-  "can-create-files": "يُنشِئ الملفَّات في الدليل",
   "no-file-system-access-description": "لا يصل لنظام الملفَّات أبدًا",
   "can-read-all-data": "يقرأ كلَّ البيانات في الدليل",
   "host-system-folders": "مجلَّدات نظام المضيف",
@@ -497,17 +496,22 @@
     "screenshots-up-to-date": "حديثة",
     "screenshots-include-window-shadow-and-rounded-corners": "فيها ظلُّ النافذة وزواياها مستديرة",
     "screenshots-at-least-one-screenshot": "لقطة واحدة على الأقل",
-    "failing-x-checks_one": "يفشل في {{count}} اختبار",
+    "failing-x-checks_zero": "لا يفشل في أيِّ اختبار",
+    "failing-x-checks_one": "يفشل في اختبار واحد",
+    "failing-x-checks_two": "يفشل في اختبارين",
+    "failing-x-checks_few": "يفشل في {{count}} اختبارات",
+    "failing-x-checks_many": "يفشل في {{count}} اختبارًا",
+    "failing-x-checks_other": "يفشل في {{count}} اختبار",
     "high-quality-app-data": "بيانات التطبيق حسنة",
     "pending": "يُعالَج",
     "details": "التفاصيل",
     "review-requested": "طُلبَت المراجعة",
-    "failing-x-checks_other": "يفشل في {{count}} اختبارات",
     "not-passed": "فشل",
     "app-data-review-pending": "ننتظر مراجعة بيانات التطبيق",
     "passed": "نجح",
     "request-review": "اطلب المراجعة"
   },
   "app-listing-quality": "جودة مسردة التطبيقات",
-  "moderation-build-id": "معرِّف التصريفة"
+  "moderation-build-id": "معرِّف التصريفة",
+  "flathub-apps-for-linux": "فلاتهوب - تطبيقات لنظام تشغيل لينكس"
 }
