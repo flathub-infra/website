@@ -1,0 +1,13 @@
+on:
+  schedule:
+    - cron: "0 0 * * *"
+name: link check
+jobs:
+  linkinator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: JustinBeckwith/linkinator-action@v1
+        with:
+          paths: https://flathub.org
+          recurse: true
