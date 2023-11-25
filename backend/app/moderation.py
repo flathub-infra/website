@@ -98,6 +98,7 @@ def get_moderation_apps(
             models.ModerationRequest.is_outdated.is_(False),
         )
         .group_by(models.ModerationRequest.appid)
+        .order_by(func.max(models.ModerationRequest.created_at).desc())
     )
 
     if new_submissions is not None:
