@@ -43,9 +43,10 @@ const ModerationTabs: FunctionComponent = () => {
   const query = useQuery({
     queryKey: [
       "moderation",
-      currentPage,
       filterNewSubmissionsQuery,
       showHandledQuery,
+      PAGE_SIZE,
+      offset,
     ],
     queryFn: async ({ signal }) => {
       const apps = await moderationApi.getModerationAppsModerationAppsGet(
