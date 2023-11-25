@@ -42,5 +42,5 @@ export interface QualityModerationResponse {
    * @type {string}
    * @memberof QualityModerationResponse
    */
-  review_requested_at: string | null
+  review_requested_at?: string | null
 }

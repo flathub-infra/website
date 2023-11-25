@@ -35,7 +35,7 @@ export interface ModerationAppItem {
    * @type {string}
    * @memberof ModerationAppItem
    */
-  updated_at: string | null
+  updated_at?: string | null
   /**
    *
    * @type {Array<string>}

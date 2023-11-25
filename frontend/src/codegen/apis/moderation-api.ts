@@ -135,6 +135,7 @@ export const ModerationApiAxiosParamCreator = function (
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
      * @param {boolean | null} [newSubmissions]
+     * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
      * @param {*} [options] Override http request option.
@@ -142,6 +143,7 @@ export const ModerationApiAxiosParamCreator = function (
      */
     getModerationAppsModerationAppsGet: async (
       newSubmissions?: boolean | null,
+      showHandled?: boolean,
       limit?: number,
       offset?: number,
       options: AxiosRequestConfig = {},
@@ -164,6 +166,10 @@ export const ModerationApiAxiosParamCreator = function (
 
       if (newSubmissions !== undefined) {
         localVarQueryParameter["new_submissions"] = newSubmissions
+      }
+
+      if (showHandled !== undefined) {
+        localVarQueryParameter["show_handled"] = showHandled
       }
 
       if (limit !== undefined) {
@@ -359,6 +365,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
      * @param {boolean | null} [newSubmissions]
+     * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
      * @param {*} [options] Override http request option.
@@ -366,6 +373,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
      */
     async getModerationAppsModerationAppsGet(
       newSubmissions?: boolean | null,
+      showHandled?: boolean,
       limit?: number,
       offset?: number,
       options?: AxiosRequestConfig,
@@ -378,6 +386,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getModerationAppsModerationAppsGet(
           newSubmissions,
+          showHandled,
           limit,
           offset,
           options,
@@ -493,6 +502,7 @@ export const ModerationApiFactory = function (
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
      * @param {boolean | null} [newSubmissions]
+     * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
      * @param {*} [options] Override http request option.
@@ -500,6 +510,7 @@ export const ModerationApiFactory = function (
      */
     getModerationAppsModerationAppsGet(
       newSubmissions?: boolean | null,
+      showHandled?: boolean,
       limit?: number,
       offset?: number,
       options?: any,
@@ -507,6 +518,7 @@ export const ModerationApiFactory = function (
       return localVarFp
         .getModerationAppsModerationAppsGet(
           newSubmissions,
+          showHandled,
           limit,
           offset,
           options,
@@ -594,6 +606,7 @@ export class ModerationApi extends BaseAPI {
    * Get a list of apps with unhandled moderation requests.
    * @summary Get Moderation Apps
    * @param {boolean | null} [newSubmissions]
+   * @param {boolean} [showHandled]
    * @param {number} [limit]
    * @param {number} [offset]
    * @param {*} [options] Override http request option.
@@ -602,6 +615,7 @@ export class ModerationApi extends BaseAPI {
    */
   public getModerationAppsModerationAppsGet(
     newSubmissions?: boolean | null,
+    showHandled?: boolean,
     limit?: number,
     offset?: number,
     options?: AxiosRequestConfig,
@@ -609,6 +623,7 @@ export class ModerationApi extends BaseAPI {
     return ModerationApiFp(this.configuration)
       .getModerationAppsModerationAppsGet(
         newSubmissions,
+        showHandled,
         limit,
         offset,
         options,

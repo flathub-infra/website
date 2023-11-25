@@ -39,11 +39,11 @@ export interface QualityModerationDashboardRow {
    * @type {}
    * @memberof QualityModerationDashboardRow
    */
-  appstream: null
+  appstream?: null
   /**
    *
    * @type {number}
    * @memberof QualityModerationDashboardRow
    */
-  installs_last_7_days: number | null
+  installs_last_7_days?: number | null
 }

@@ -41,5 +41,5 @@ export interface Guideline {
    * @type {boolean}
    * @memberof Guideline
    */
-  read_only: boolean
+  read_only?: boolean
 }

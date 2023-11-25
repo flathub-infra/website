@@ -23,11 +23,11 @@ export interface PricingInfo {
    * @type {number}
    * @memberof PricingInfo
    */
-  recommended_donation: number | null
+  recommended_donation?: number | null
   /**
    *
    * @type {number}
    * @memberof PricingInfo
    */
-  minimum_payment: number | null
+  minimum_payment?: number | null
 }
