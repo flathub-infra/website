@@ -72,6 +72,7 @@ class ModerationApp(BaseModel):
 )
 def get_moderation_apps(
     new_submissions: bool | None = None,
+    show_handled: bool = False,
     limit: int = 100,
     offset: int = 0,
     _moderator=Depends(moderator_only),
@@ -90,7 +91,12 @@ def get_moderation_apps(
                 "request_types"
             ),
         )
-        .filter_by(handled_at=None, is_outdated=False)
+        .filter(
+            models.ModerationRequest.handled_at.is_(None)
+            if show_handled is False
+            else models.ModerationRequest.handled_at.isnot(None),
+            models.ModerationRequest.is_outdated.is_(False),
+        )
         .group_by(models.ModerationRequest.appid)
     )
 
