@@ -39,35 +39,35 @@ export interface AvailableMethod {
    * @type {string}
    * @memberof AvailableMethod
    */
-  website: string | null
+  website?: string | null
   /**
    *
    * @type {string}
    * @memberof AvailableMethod
    */
-  website_token: string | null
+  website_token?: string | null
   /**
    *
    * @type {LoginProvider}
    * @memberof AvailableMethod
    */
-  login_provider: LoginProvider | null
+  login_provider?: LoginProvider | null
   /**
    *
    * @type {string}
    * @memberof AvailableMethod
    */
-  login_name: string | null
+  login_name?: string | null
   /**
    *
    * @type {boolean}
    * @memberof AvailableMethod
    */
-  login_is_organization: boolean | null
+  login_is_organization?: boolean | null
   /**
    *
    * @type {AvailableLoginMethodStatus}
    * @memberof AvailableMethod
    */
-  login_status: AvailableLoginMethodStatus | null
+  login_status?: AvailableLoginMethodStatus | null
 }

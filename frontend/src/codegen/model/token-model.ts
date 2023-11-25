@@ -41,7 +41,7 @@ export interface TokenModel {
    * @type {string}
    * @memberof TokenModel
    */
-  token: string | null
+  token?: string | null
   /**
    *
    * @type {string}

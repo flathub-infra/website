@@ -13,7 +13,7 @@
  */
 
 /**
- *      Configuration for a vended application
+ * Configuration for a vended application
  * @export
  * @interface VendingSetup
  */
