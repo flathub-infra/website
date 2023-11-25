@@ -37,10 +37,10 @@ export default function ModerationDashboard() {
     )
   } else {
     content = (
-      <>
-        <h1 className="my-8 text-4xl font-extrabold">Moderation Dashboard</h1>
+      <div className="space-y-8">
+        <h1 className="mt-8 text-4xl font-extrabold">Pending Reviews</h1>
         <ModerationTabs />
-      </>
+      </div>
     )
   }
 
