@@ -11,6 +11,7 @@ import { ModerationRequestResponse } from "src/codegen"
 import { useQuery } from "@tanstack/react-query"
 import { moderationApi } from "src/api"
 import { useTranslation } from "next-i18next"
+import Breadcrumbs from "../Breadcrumbs"
 
 interface Props {
   appId: string
@@ -92,6 +93,16 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
 
   return (
     <div className="space-y-8">
+      <Breadcrumbs
+        pages={[
+          { name: "Moderation", href: "/moderation", current: false },
+          {
+            name: appInfoQuery.data[0].name,
+            href: `/moderation/${appInfoQuery.data[0].id}`,
+            current: true,
+          },
+        ]}
+      />
       <div>
         <h1 className="mt-8 text-4xl font-extrabold">
           {appInfoQuery.data[0].name}
