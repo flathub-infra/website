@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent, useEffect, useState } from "react"
 import { getAppsInfo } from "src/asyncs/app"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "../InlineError"
@@ -9,6 +9,7 @@ import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
 import { moderationApi } from "src/api"
 import { useTranslation } from "next-i18next"
+import { setQueryParams } from "src/utils/queryParams"
 
 const ModerationTabs: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -20,11 +21,36 @@ const ModerationTabs: FunctionComponent = () => {
 
   const [offset, setOffset] = useState((currentPage - 1) * PAGE_SIZE)
 
+  const [filterNewSubmissionsQuery, setFilterNewSubmissionsQuery] =
+    useState<boolean>(router.query.filterNew === "true")
+
+  const [showHandledQuery, setShowHandledQuery] = useState<boolean>(
+    router.query.includeHandled === "true",
+  )
+
+  useEffect(() => {
+    setFilterNewSubmissionsQuery(router.query.filterNew === "true")
+  }, [router.query.filterNew])
+
+  useEffect(() => {
+    setShowHandledQuery(router.query.includeHandled === "true")
+  }, [router.query.includeHandled])
+
+  useEffect(() => {
+    setOffset((currentPage - 1) * PAGE_SIZE)
+  }, [currentPage])
+
   const query = useQuery({
-    queryKey: ["moderation", currentPage],
+    queryKey: [
+      "moderation",
+      currentPage,
+      filterNewSubmissionsQuery,
+      showHandledQuery,
+    ],
     queryFn: async ({ signal }) => {
       const apps = await moderationApi.getModerationAppsModerationAppsGet(
-        undefined,
+        filterNewSubmissionsQuery,
+        showHandledQuery,
         PAGE_SIZE,
         offset,
         {
@@ -50,20 +76,59 @@ const ModerationTabs: FunctionComponent = () => {
   } else if (query.isError) {
     return <InlineError error={t(query.error as string)} shown={true} />
   } else {
-    const link = (appid: string) => `/moderation/${appid}`
+    const link = (appid: string) => {
+      if (showHandledQuery) return `/moderation/${appid}?includeHandled=true`
+
+      return `/moderation/${appid}`
+    }
 
     return (
-      <div>
+      <>
+        <div className="flex space-x-8">
+          <span>
+            <input
+              id="filter-new"
+              type="checkbox"
+              checked={filterNewSubmissionsQuery}
+              onChange={() => {
+                setQueryParams(router, {
+                  filterNew: filterNewSubmissionsQuery ? undefined : "true",
+                  page: "1",
+                })
+              }}
+            />
+            <label htmlFor="filter-new" className="ms-2">
+              Only show new submissions
+            </label>
+          </span>
+
+          <span>
+            <input
+              id="include-handled"
+              type="checkbox"
+              checked={showHandledQuery}
+              onChange={() => {
+                setQueryParams(router, {
+                  includeHandled: showHandledQuery ? undefined : "true",
+                  page: "1",
+                })
+              }}
+            />
+            <label htmlFor="include-handled" className="ms-2">
+              Include handled requests
+            </label>
+          </span>
+        </div>
         <ApplicationCollection
           user={user}
-          title="Pending Reviews"
+          title={undefined}
           applications={query.data.appstream}
           totalHits={query.data.apps.apps_count}
           link={link}
         />
 
         <Pagination currentPage={currentPage} pages={pages} />
-      </div>
+      </>
     )
   }
 }
