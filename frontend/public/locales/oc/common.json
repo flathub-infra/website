@@ -170,5 +170,11 @@
   "use-new-card": "Utilizar una carta novèla",
   "use-saved-card": "Utilizar una carta gardada",
   "requires-attention": "Demanda vòstra atencion",
-  "view-wallet": "Veire lo pòrtafuèlha"
+  "view-wallet": "Veire lo pòrtafuèlha",
+  "moderation-key": "Clau",
+  "close": "Tampar",
+  "moderation-outdated": "Obsolèt",
+  "moderation-appstream": "Appstream",
+  "recently-added": "Apondon recent",
+  "moderation-value": "Valor"
 }

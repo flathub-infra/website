@@ -509,5 +509,19 @@
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
   "moderation-build-id": "Koontitunniste",
-  "flathub-apps-for-linux": "Flathub - Sovellukset Linuxille"
+  "flathub-apps-for-linux": "Flathub - Sovellukset Linuxille",
+  "issued-to": "Myönnetty kohteelle",
+  "issued": "Myönnetty",
+  "token-name": "Poletin nimi",
+  "revoke-token": "Mitätöi poletti",
+  "scopes": "Skoopit",
+  "name": "Nimi",
+  "create-token": "Luo poletti",
+  "no-tokens-to-show": "Ei poletteja näytettäväksi.",
+  "revoke-token-description": "Haluatko varmasti mitätöidä poletin '{{name}}'?",
+  "revoke": "Mitätöi",
+  "show-expired-tokens": "Näytä vanhentuneet poletit",
+  "upload-tokens": "Lähetä poletit",
+  "expires": "Vanhenee",
+  "revoked": "Mitätöity"
 }

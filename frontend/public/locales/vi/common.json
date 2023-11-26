@@ -43,7 +43,7 @@
   "utilities": "Tiện ích",
   "manual-install-instructions": "Bạn hãy làm theo <2>hướng dẫn thiết lập cho bản phân phối Linux của bạn</2> trước khi cài đặt",
   "popular-apps": "Ứng dụng phổ biến",
-  "login-with-provider": "Đăng nhập với {{provider}}",
+  "login-with-provider": "Đăng nhập bằng {{provider}}",
   "by": "bởi {{developer}}",
   "donate": "Quyên góp",
   "other-apps-by-developer": "Ứng dụng khác của {{developer}}",
