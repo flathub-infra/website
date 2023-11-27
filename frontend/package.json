@@ -71,7 +71,7 @@
     "@tanstack/eslint-plugin-query": "^4.34.1",
     "@types/node": "^20.5.0",
     "@types/react": "^18.2.31",
-    "autoprefixer": "^10.4.15",
+    "autoprefixer": "^10.4.16",
     "eslint": "^8.51.0",
     "eslint-config-next": "^13.5.3",
     "eslint-config-prettier": "^9.0.0",
