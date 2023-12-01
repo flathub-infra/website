@@ -8,9 +8,11 @@ import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
 import { sanitizeAppstreamDescription } from "src/utils/helpers"
+import { Summary } from "src/types/Summary"
 
 interface Props {
   latestRelease: Release | null
+  summary: Summary
 }
 
 const ReleaseLink = ({
@@ -41,7 +43,7 @@ const ReleaseLink = ({
   )
 }
 
-const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
+const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
   const ref = useRef(null)
   const { t, i18n } = useTranslation()
   const collapsedHeight = 46
@@ -78,21 +80,39 @@ const Releases: FunctionComponent<Props> = ({ latestRelease }) => {
                     "version-number": latestRelease.version,
                   })}
                 </h3>
-                <div
-                  className="text-sm"
-                  title={
-                    latestRelease.timestamp &&
-                    new Date(latestRelease.timestamp * 1000).toLocaleDateString(
-                      getIntlLocale(i18n.language),
-                    )
-                  }
-                >
-                  {latestRelease.timestamp &&
-                    formatDistance(
-                      new Date(latestRelease.timestamp * 1000),
-                      new Date(),
-                      { addSuffix: true, locale: getLocale(i18n.language) },
-                    )}
+                <div className="flex gap-1">
+                  {latestRelease.timestamp && (
+                    <div
+                      className="text-sm"
+                      title={new Date(
+                        latestRelease.timestamp * 1000,
+                      ).toLocaleDateString(getIntlLocale(i18n.language))}
+                    >
+                      {formatDistance(
+                        new Date(latestRelease.timestamp * 1000),
+                        new Date(),
+                        { addSuffix: true, locale: getLocale(i18n.language) },
+                      )}
+                    </div>
+                  )}
+                  {summary.timestamp && (
+                    <div
+                      className="text-sm"
+                      title={new Date(
+                        summary.timestamp * 1000,
+                      ).toLocaleDateString(getIntlLocale(i18n.language))}
+                    >
+                      (
+                      {t("build-x", {
+                        "build-ago": formatDistance(
+                          new Date(summary.timestamp * 1000),
+                          new Date(),
+                          { addSuffix: true, locale: getLocale(i18n.language) },
+                        ),
+                      })}
+                      )
+                    </div>
+                  )}
                 </div>
               </header>
               {descriptionSanitized ? (

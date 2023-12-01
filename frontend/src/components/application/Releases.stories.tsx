@@ -14,7 +14,11 @@ export const noChangelogProvided = () => {
     version: faker.system.semver(),
   }
 
-  return <Releases latestRelease={latestRelease} />
+  const summary = {
+    timestamp: faker.date.recent().getTime(),
+  }
+
+  return <Releases latestRelease={latestRelease} summary={summary} />
 }
 
 export const withChangelog = () => {
@@ -23,7 +27,11 @@ export const withChangelog = () => {
     description: faker.lorem.paragraphs(3),
   }
 
-  return <Releases latestRelease={latestRelease} />
+  const summary = {
+    timestamp: faker.date.recent().getTime(),
+  }
+
+  return <Releases latestRelease={latestRelease} summary={summary} />
 }
 
 export const withTimestamp = () => {
@@ -33,7 +41,11 @@ export const withTimestamp = () => {
     timestamp: faker.date.recent().getTime() / 1000,
   }
 
-  return <Releases latestRelease={latestRelease} />
+  const summary = {
+    timestamp: faker.date.recent().getTime(),
+  }
+
+  return <Releases latestRelease={latestRelease} summary={summary} />
 }
 
 export const withUrl = () => {
@@ -44,5 +56,9 @@ export const withUrl = () => {
     url: faker.internet.url(),
   }
 
-  return <Releases latestRelease={latestRelease} />
+  const summary = {
+    timestamp: faker.date.recent().getTime(),
+  }
+
+  return <Releases latestRelease={latestRelease} summary={summary} />
 }

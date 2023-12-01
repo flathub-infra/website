@@ -189,7 +189,7 @@ const Details: FunctionComponent<Props> = ({
           <Description app={app} isQualityModalOpen={isQualityModalOpen} />
 
           {stableReleases && stableReleases.length > 0 && (
-            <Releases latestRelease={stableReleases[0]}></Releases>
+            <Releases latestRelease={stableReleases[0]} summary={summary} />
           )}
 
           <HorizontalStackedListBox>{children}</HorizontalStackedListBox>
