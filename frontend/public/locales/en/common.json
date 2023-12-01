@@ -489,6 +489,7 @@
   "can-request-data-from-system-services": "Can request data from system services",
   "app-listing-quality": "App Listing Quality",
   "flathub-apps-for-linux": "Flathub - Apps for Linux",
+  "build-x": "Build {{build-ago}}",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
