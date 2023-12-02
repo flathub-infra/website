@@ -18,7 +18,13 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 
-export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
+export const CarouselStrip = ({
+  app,
+  isQualityModalOpen,
+}: {
+  app: DesktopAppstream
+  isQualityModalOpen: boolean
+}) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
@@ -115,6 +121,24 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
             }}
           />
         </div>
+        {isQualityModalOpen && filteredScreenshots?.length > 0 && (
+          <div className="flex flex-col items-center justify-center pb-6">
+            {t("screenshot-sizes")}
+            {filteredScreenshots?.map((screenshot, index) => {
+              const x = pickScreenshot(screenshot)
+              return (
+                <div key={x.src} className="flex items-center gap-1">
+                  {index === currentIndex && (
+                    <div className="text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+                      {<HiChevronRight />}
+                    </div>
+                  )}
+                  {`${x.height}x${x.width}`}
+                </div>
+              )
+            })}
+          </div>
+        )}
         {filteredScreenshots?.length > 1 && (
           <div>
             <ul className="flex list-none justify-center gap-4 pb-8">

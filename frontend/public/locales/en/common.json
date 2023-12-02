@@ -490,6 +490,7 @@
   "app-listing-quality": "App Listing Quality",
   "flathub-apps-for-linux": "Flathub - Apps for Linux",
   "build-x": "Built {{build-ago}}",
+  "screenshot-sizes": "Screenshot sizes",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
