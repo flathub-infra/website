@@ -4,7 +4,8 @@ import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import { fetchSetupInstructions } from "src/distro-setup"
-import { sanitize } from "isomorphic-dompurify"
+import { distroMap } from "src/components/setup/Distros"
+import React from "react"
 
 export default function Setup({
   distroData,
@@ -26,10 +27,6 @@ export default function Setup({
     },
   ]
 
-  const infoSanitized = sanitize(distroData.info, {
-    USE_PROFILES: { html: true },
-  })
-
   return (
     <>
       <NextSeo
@@ -46,11 +43,7 @@ export default function Setup({
         <div className="prose mx-auto dark:prose-invert prose-pre:rounded-xl">
           <div key={distroData.name} className="space-y-4">
             <h1>{distroData.name}</h1>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: infoSanitized,
-              }}
-            />
+            {distroMap.get(distroData.name.replaceAll("/", ""))}
           </div>
         </div>
       </div>
