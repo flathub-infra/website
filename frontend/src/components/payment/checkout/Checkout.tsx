@@ -55,7 +55,7 @@ const Checkout: FunctionComponent<{
     enabled: termsAgreed,
   })
 
-  if (walletQuery.isLoading) {
+  if (walletQuery.isPending) {
     return <Spinner size="m" />
   }
 

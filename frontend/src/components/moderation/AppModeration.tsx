@@ -75,12 +75,12 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     enabled: !!appId,
   })
 
-  if (query.isLoading || appInfoQuery.isLoading) {
+  if (query.isPending || appInfoQuery.isPending) {
     return <Spinner size="m" />
   } else if (query.isError || appInfoQuery.isError) {
     return (
       <InlineError
-        error={t((query.error as string) ?? (appInfoQuery.error as string))}
+        error={t(query.error.message ?? appInfoQuery.error.message)}
         shown={true}
       />
     )

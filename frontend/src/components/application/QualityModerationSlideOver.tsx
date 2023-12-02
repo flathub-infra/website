@@ -366,7 +366,7 @@ export const QualityModerationSlideOver = ({
       title={t("app-listing-quality")}
     >
       <div className="overflow-y-auto">
-        {query.isLoading ? (
+        {query.isPending ? (
           <div className="flex justify-center">
             <Spinner size={"l"} />
           </div>

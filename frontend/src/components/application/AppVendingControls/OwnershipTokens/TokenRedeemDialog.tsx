@@ -45,11 +45,11 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
       }
     },
     onError: (error) => {
-      toast.error(t(error as string))
+      toast.error(t(error.message))
     },
   })
 
-  if (redeemVendingToken.isLoading) {
+  if (redeemVendingToken.isPending) {
     return <Spinner size={"s"} />
   }
 

@@ -182,7 +182,7 @@ export const QualityModeration = ({
       >
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center">
-            {query.isLoading ? (
+            {query.isPending ? (
               <Spinner size={"s"} orientation="row" />
             ) : (
               <QualityModerationStatusComponent status={query?.data?.data} />

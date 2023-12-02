@@ -72,10 +72,10 @@ const ModerationTabs: FunctionComponent = () => {
     (_, i) => i + 1,
   )
 
-  if (query.isLoading) {
+  if (query.isPending) {
     return <Spinner size="m" />
   } else if (query.isError) {
-    return <InlineError error={t(query.error as string)} shown={true} />
+    return <InlineError error={t(query.error.message)} shown={true} />
   } else {
     const link = (appid: string) => {
       if (showHandledQuery) return `/moderation/${appid}?includeHandled=true`
