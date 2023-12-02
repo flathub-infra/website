@@ -1,11 +1,12 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
-import { getAppsInfo, refreshDevFlatpaks } from "../../asyncs/app"
+import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
+import { authApi } from "src/api"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
@@ -38,12 +39,12 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
     placeholderData: (previousData, previousQuery) => previousData,
   })
 
-  const queryRefreshDev = useQuery({
-    queryKey: ["refresh-dev"],
-    queryFn: async () => {
-      return refreshDevFlatpaks()
-    },
-    enabled: false,
+  const queryRefreshDev = useMutation({
+    mutationKey: ["refresh-dev-flatpaks"],
+    mutationFn: async () =>
+      authApi.doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost({
+        withCredentials: true,
+      }),
   })
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
     }
   }, [queryRefreshDev.data, userDispatch])
 
-  if (queryDevApplications.isPending || queryRefreshDev.isLoading) {
+  if (queryDevApplications.isPending || queryRefreshDev.isPending) {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }
 
@@ -84,7 +85,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
         title={title}
         applications={queryDevApplications.data}
         customButtons={customButtons}
-        onRefresh={variant === "dev" && queryRefreshDev.refetch}
+        onRefresh={variant === "dev" && queryRefreshDev.mutate}
         inACard
         showId
         link={link}

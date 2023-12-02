@@ -212,8 +212,6 @@ export const UPLOAD_TOKEN_CREATE_URL = (appId: string): string =>
 export const UPLOAD_TOKEN_REVOKE_URL = (tokenId: number): string =>
   `${BASE_URI}/upload-tokens/${tokenId}/revoke`
 
-export const REFRESH_DEV_FLATPAKS = `${BASE_URI}/auth/refresh-dev-flatpaks`
-
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
 
 export const MODERATION_BASE_URL: string = `${BASE_URI}/moderation`
