@@ -510,5 +510,11 @@
   },
   "app-listing-quality": "Качество выдачи приложений",
   "moderation-build-id": "ID сборки",
-  "flathub-apps-for-linux": "Flathub - Приложения для Linux"
+  "flathub-apps-for-linux": "Flathub - Приложения для Linux",
+  "token-name": "Имя токена",
+  "new-beta-token": "Новый бета токен",
+  "create-token": "Создать токен",
+  "no-tokens-to-show": "Нет токенов для показа.",
+  "upload-tokens": "Загрузить токены",
+  "new-stable-token": "Новый стабильный токен"
 }

@@ -523,5 +523,7 @@
   "show-expired-tokens": "Näytä vanhentuneet poletit",
   "upload-tokens": "Lähetä poletit",
   "expires": "Vanhenee",
-  "revoked": "Mitätöity"
+  "revoked": "Mitätöity",
+  "new-beta-token": "Uusi beetapoletti",
+  "new-stable-token": "Uusi vakaa poletti"
 }
