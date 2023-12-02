@@ -6,7 +6,6 @@ import {
   APP_VERIFICATION_UNVERIFY,
   APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER,
   CHECK_PURCHASES_URL,
-  REFRESH_DEV_FLATPAKS,
   TOKEN_GENERATION_URL,
 } from "../env"
 import { Appstream } from "../types/Appstream"
@@ -124,22 +123,6 @@ export async function unverifyApp(appId: string): Promise<void> {
   } catch {
     throw "network-error-try-again"
   }
-}
-
-/**
- * Refreshes the user's dev flatpaks list.
- */
-export async function refreshDevFlatpaks() {
-  return axios.post<{
-    "dev-flatpaks": string[]
-  }>(
-    REFRESH_DEV_FLATPAKS,
-    {},
-    {
-      method: "POST",
-      withCredentials: true,
-    },
-  )
 }
 
 /**
