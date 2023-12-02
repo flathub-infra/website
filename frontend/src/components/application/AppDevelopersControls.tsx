@@ -41,7 +41,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   let content: ReactElement
 
   switch (developersQuery.status) {
-    case "loading":
+    case "pending":
       content = <Spinner size="l" />
       break
 
@@ -128,7 +128,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
 
     case "error":
       content = (
-        <InlineError error={t(developersQuery.error as string)} shown={true} />
+        <InlineError error={t(developersQuery.error.message)} shown={true} />
       )
       break
   }

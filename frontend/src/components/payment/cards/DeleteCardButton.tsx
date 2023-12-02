@@ -32,7 +32,7 @@ const DeleteCardButton: FunctionComponent<{
     },
   })
 
-  if (deleteCard.isLoading) {
+  if (deleteCard.isPending) {
     return <Spinner size="s" />
   }
 

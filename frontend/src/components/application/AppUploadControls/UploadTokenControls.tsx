@@ -38,7 +38,7 @@ export default function UploadTokenControls({ app }) {
   }, [tokenToRevoke, query])
 
   let content: ReactElement
-  if (query.isLoading) {
+  if (query.isPending) {
     content = <Spinner size="m" />
   } else if (query.status === "error") {
     content = <p>{t("error-occurred")}</p>

@@ -79,7 +79,7 @@ const LoginVerification: FunctionComponent<Props> = ({
   const try_again = (
     <div>
       <Button onClick={() => verify.mutate()}>{t("try-again")}</Button>
-      {verify.status === "loading" && (
+      {verify.isPending && (
         <div className="flex flex-col items-start">
           <Spinner size="s" text={t("verifying")} />
         </div>

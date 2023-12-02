@@ -435,7 +435,7 @@ const SearchPanel = ({
 }) => {
   const { t } = useTranslation()
 
-  if (searchResult.isLoading) {
+  if (searchResult.isPending) {
     return (
       <div className="m-auto">
         <Spinner size="l" />

@@ -52,14 +52,14 @@ const VendingLink: FunctionComponent = () => {
       window.location.href = data.data.target_url
     },
     onError: (error) => {
-      toast.error(t(error as string))
+      toast.error(t(error.message))
       setOnboarding(false)
     },
   })
 
   if (
-    statusQuery.isLoading ||
-    dashboardQuery.isInitialLoading ||
+    statusQuery.isPending ||
+    dashboardQuery.isLoading ||
     // If onboarding used, show loading until redirected
     onboarding
   ) {
@@ -69,7 +69,7 @@ const VendingLink: FunctionComponent = () => {
   if (statusQuery.isError || dashboardQuery.isError) {
     return (
       <p className="m-0">
-        {t((statusQuery.error || dashboardQuery.error) as string)}
+        {t(statusQuery.error.message || dashboardQuery.error.message)}
       </p>
     )
   }

@@ -53,7 +53,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 
   useEffect(() => {
     if (loginQuery.error) {
-      toast.error(t(loginQuery.error as string))
+      toast.error(t(loginQuery.error.message))
     }
   }, [t, loginQuery.error])
 

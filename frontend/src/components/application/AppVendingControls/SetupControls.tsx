@@ -106,7 +106,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
     onError: (error) => {
-      toast.error(t(error as string))
+      toast.error(t(error.message))
     },
   })
 
@@ -127,13 +127,13 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     isValidRecommended &&
     (!requirePayment || minPayment.live >= FLATHUB_MIN_PAYMENT)
 
-  if (vendingSetup.isLoading || setAppVendingSetupMutation.isLoading) {
+  if (vendingSetup.isPending || setAppVendingSetupMutation.isPending) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
   if (vendingSetup.isError) {
-    content = <p>{t(vendingSetup.error as string)}</p>
+    content = <p>{t(vendingSetup.error.message)}</p>
   } else {
     content = (
       <form

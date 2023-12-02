@@ -121,7 +121,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           {t("continue")}
         </Button>
 
-        {confirmWebsiteVerificationMutation.isLoading && (
+        {confirmWebsiteVerificationMutation.isPending && (
           <div className="flex flex-col items-start">
             <Spinner size="s" text={t("verifying")} />
           </div>
@@ -143,7 +143,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
         </p>
         <Button
           onClick={() => setupWebsiteVerificationMutation.mutate()}
-          disabled={setupWebsiteVerificationMutation.isLoading}
+          disabled={setupWebsiteVerificationMutation.isPending}
         >
           {t("begin")}
         </Button>

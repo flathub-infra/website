@@ -19,7 +19,7 @@ const SavedCards: FunctionComponent = () => {
       }),
   })
 
-  if (walletQuery.isLoading) {
+  if (walletQuery.isPending) {
     return <Spinner size="m" text={t("loading-saved-payment-methods")} />
   }
 

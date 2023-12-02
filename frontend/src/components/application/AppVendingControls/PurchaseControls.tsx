@@ -79,7 +79,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       })
     },
     onError: (error) => {
-      toast.error(t(error as string))
+      toast.error(t(error.message))
     },
   })
 
@@ -95,13 +95,13 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     return (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(vendingSetup.error as string)}</p>
+        <p>{t(vendingSetup.error.message)}</p>
       </>
     )
   }
 
   // Prevent control interaction while initalising and awaiting submission redirection
-  if (vendingSetup.isLoading || submitPurchaseMutation.isLoading) {
+  if (vendingSetup.isPending || submitPurchaseMutation.isPending) {
     return <Spinner size="s" />
   }
 

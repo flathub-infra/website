@@ -37,11 +37,11 @@ const TokenCancelButton: FunctionComponent<Props> = ({
       }
     },
     onError: (error) => {
-      toast.error(t(error as string))
+      toast.error(t(error.message))
     },
   })
 
-  if (cancelVendingTokens.isLoading) {
+  if (cancelVendingTokens.isPending) {
     return <Spinner size="s" />
   }
 

@@ -28,7 +28,7 @@ const DeleteButton: FunctionComponent = () => {
   // Alert user to network errors preventing deletion
   useEffect(() => {
     if (deleteUserMutation.error) {
-      toast.error(t(deleteUserMutation.error as string))
+      toast.error(t(deleteUserMutation.error.message))
     }
   }, [deleteUserMutation.error, t])
 
@@ -38,7 +38,7 @@ const DeleteButton: FunctionComponent = () => {
     }
   }, [deleteUserMutation.data])
 
-  if (deleteUserMutation.isLoading) {
+  if (deleteUserMutation.isPending) {
     return <Spinner size="s" />
   }
 

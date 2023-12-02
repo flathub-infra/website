@@ -89,13 +89,13 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     onVerified?.()
   }, [onVerified, query])
 
-  if (query.isLoading || verificationAvailableMethods.isLoading) {
+  if (query.isPending || verificationAvailableMethods.isPending) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
   if (query.error) {
-    content = <InlineError shown={true} error={query.error as string} />
+    content = <InlineError shown={true} error={query.error.message} />
   } else if (verificationAvailableMethods.data?.data.detail) {
     let errorCode: string
     switch (verificationAvailableMethods.data?.data.detail) {
@@ -149,7 +149,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           <Notice>{t("verification-warning")}</Notice>
         </div>
 
-        {verificationAvailableMethods.isLoading ? (
+        {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
           verificationAvailableMethods.data?.data.methods.map((methodType) => {

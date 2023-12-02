@@ -211,7 +211,7 @@ export default function QualityModerationDashboard() {
         </Trans>
       </>
     )
-  } else if (query.isLoading) {
+  } else if (query.isPending) {
     content = <Spinner size="m" />
   } else {
     content = (
