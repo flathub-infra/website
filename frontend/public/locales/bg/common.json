@@ -531,5 +531,6 @@
   "upload-tokens": "Добавяне на жетони",
   "new-stable-token": "Нова стабилна версия на жетона",
   "expires": "Изтича на",
-  "revoked": "Отменен"
+  "revoked": "Отменен",
+  "build-x": "Създадена {{build-ago}}"
 }

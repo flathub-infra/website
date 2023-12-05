@@ -512,7 +512,7 @@
   "flathub-apps-for-linux": "Flathub – Programoj por Linux",
   "issued-to": "Eldonita al",
   "id": "Identigilo",
-  "token-created": "Kopiu la jenan ĵetonon kaj tenu ĝin sekure, ekzemple en la sekretujo de sistemo de kontinua integrado. Ĝia posedanto rajtas legi kaj modifi la kunmetojn de via programo.",
+  "token-created": "Kopiu la jenan ĵetonon kaj tenu ĝin sekure, ekzemple en la sekretujo de sistemo de kontinua integrado. Ĝia posedanto rajtas legi kaj modifi la versiojn de via programo.",
   "issued": "Eldonita",
   "scope-build": "Krei kaj atingi kunmetojn kaj taskojn",
   "token-name": "Nomo de ĵetono",
@@ -521,15 +521,16 @@
   "name": "Nomo",
   "new-beta-token": "Nova betaversia ĵetono",
   "create-token": "Krei ĵetonon",
-  "scope-publish": "Eldoni la kunmeton",
+  "scope-publish": "Eldoni la version",
   "no-tokens-to-show": "Jen neniu ĵetono.",
   "revoke-token-description": "Ĉu vi certe volas nevalidigi la ĵetonon «{{name}}»?",
   "revoke": "Nevalidigi",
   "show-expired-tokens": "Montri eksvalidiĝintajn ĵetonojn",
-  "scope-upload": "Alŝuti dosierojn al la kunmeto",
+  "scope-upload": "Alŝuti dosierojn al la versio",
   "repo": "Deponejo",
   "upload-tokens": "Alŝuti ĵetonojn",
   "new-stable-token": "Nova stabila ĵetono",
   "expires": "Eksvalidiĝas je",
-  "revoked": "Nevalidigita"
+  "revoked": "Nevalidigita",
+  "build-x": "Versio {{build-ago}}"
 }

@@ -532,5 +532,6 @@
   "upload-tokens": "Nahrát tokeny",
   "new-stable-token": "Nový stabilní token",
   "expires": "Platnost skončí",
-  "revoked": "Zrušeno"
+  "revoked": "Zrušeno",
+  "build-x": "Sestaveno {{build-ago}}"
 }
