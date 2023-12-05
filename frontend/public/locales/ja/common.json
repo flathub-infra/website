@@ -285,7 +285,7 @@
   "moderation-pending-reviews": "審査待ち",
   "moderation-rejected-by": "{{handledBy}}により却下されました。{{handledAt}} ({{handledAtRel}})",
   "moderation-outdated": "古い",
-  "moderation-appstream-changes": "Appstream の変更",
+  "moderation-appstream-changes": "アップストリームの変更",
   "moderation-appstream": "Appstream",
   "moderation-no-review-requests": "このアプリには審査はありません。",
   "app-share": "アプリの共有",

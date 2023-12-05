@@ -531,5 +531,6 @@
   "upload-tokens": "Tokens uploaden",
   "new-stable-token": "Nieuw stabiel token",
   "expires": "Verloopt op",
-  "revoked": "Ingetrokken"
+  "revoked": "Ingetrokken",
+  "build-x": "Bouwpoging {{build-ago}}"
 }

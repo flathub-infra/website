@@ -530,5 +530,6 @@
   "upload-tokens": "上傳權杖",
   "new-stable-token": "新的穩定權杖",
   "expires": "過期",
-  "revoked": "已撤銷"
+  "revoked": "已撤銷",
+  "build-x": "建構於 {{build-ago}}"
 }
