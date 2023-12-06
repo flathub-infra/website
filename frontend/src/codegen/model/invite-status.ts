@@ -29,5 +29,5 @@ export interface InviteStatus {
    * @type {boolean}
    * @memberof InviteStatus
    */
-  is_direct_upload_app?: boolean
+  is_direct_upload_app: boolean
 }

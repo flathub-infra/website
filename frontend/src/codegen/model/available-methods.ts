@@ -23,11 +23,11 @@ export interface AvailableMethods {
    * @type {}
    * @memberof AvailableMethods
    */
-  methods?: null
+  methods: null
   /**
    *
    * @type {string}
    * @memberof AvailableMethods
    */
-  detail?: string | null
+  detail: string | null
 }

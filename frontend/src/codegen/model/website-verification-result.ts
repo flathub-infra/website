@@ -33,11 +33,11 @@ export interface WebsiteVerificationResult {
    * @type {ErrorDetail}
    * @memberof WebsiteVerificationResult
    */
-  detail?: ErrorDetail | null
+  detail: ErrorDetail | null
   /**
    *
    * @type {number}
    * @memberof WebsiteVerificationResult
    */
-  status_code?: number | null
+  status_code: number | null
 }
