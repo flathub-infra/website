@@ -39,7 +39,7 @@ export interface Transaction {
    * @type {PaymentCardInfo}
    * @memberof Transaction
    */
-  card?: PaymentCardInfo | null
+  card: PaymentCardInfo | null
   /**
    *
    * @type {Array<TransactionRow>}
@@ -51,5 +51,5 @@ export interface Transaction {
    * @type {string}
    * @memberof Transaction
    */
-  receipt?: string | null
+  receipt: string | null
 }

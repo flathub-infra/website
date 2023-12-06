@@ -69,7 +69,7 @@ export interface ModerationRequestResponse {
    * @type {RequestData}
    * @memberof ModerationRequestResponse
    */
-  request_data?: RequestData | null
+  request_data: RequestData | null
   /**
    *
    * @type {boolean}
@@ -81,23 +81,23 @@ export interface ModerationRequestResponse {
    * @type {string}
    * @memberof ModerationRequestResponse
    */
-  handled_by?: string | null
+  handled_by: string | null
   /**
    *
    * @type {string}
    * @memberof ModerationRequestResponse
    */
-  handled_at?: string | null
+  handled_at: string | null
   /**
    *
    * @type {boolean}
    * @memberof ModerationRequestResponse
    */
-  is_approved?: boolean | null
+  is_approved: boolean | null
   /**
    *
    * @type {string}
    * @memberof ModerationRequestResponse
    */
-  comment?: string | null
+  comment: string | null
 }

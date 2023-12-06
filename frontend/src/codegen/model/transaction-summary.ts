@@ -53,19 +53,19 @@ export interface TransactionSummary {
    * @type {string}
    * @memberof TransactionSummary
    */
-  reason?: string | null
+  reason: string | null
   /**
    *
    * @type {number}
    * @memberof TransactionSummary
    */
-  created?: number | null
+  created: number | null
   /**
    *
    * @type {number}
    * @memberof TransactionSummary
    */
-  updated?: number | null
+  updated: number | null
 }
 
 export const TransactionSummaryKindEnum = {

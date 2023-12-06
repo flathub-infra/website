@@ -41,5 +41,5 @@ export interface Developer {
    * @type {boolean}
    * @memberof Developer
    */
-  is_primary?: boolean | null
+  is_primary: boolean | null
 }

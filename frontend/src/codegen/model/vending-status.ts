@@ -13,7 +13,7 @@
  */
 
 /**
- * The status object says whether the user is capable of receiving payments, and also whether or not there are pending onboarding operations to complete
+ *      The status object says whether the user is capable of receiving payments,     and also whether or not there are pending onboarding operations to complete
  * @export
  * @interface VendingStatus
  */
