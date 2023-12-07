@@ -133,7 +133,7 @@ export const CarouselStrip = ({
                       {<HiChevronRight />}
                     </div>
                   )}
-                  {`${x.height}x${x.width}`}
+                  {`${x.width}x${x.height}`}
                 </div>
               )
             })}
