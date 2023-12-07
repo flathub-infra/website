@@ -154,6 +154,10 @@ const Details: FunctionComponent<Props> = ({
       keywordSet.add("linux")
     }
 
+    if (!keywordSet.has("flatpak")) {
+      keywordSet.add("flatpak")
+    }
+
     const keywords = Array.from(keywordSet)
 
     return (
