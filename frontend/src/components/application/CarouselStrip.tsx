@@ -44,10 +44,6 @@ export const CarouselStrip = ({
     return null
   }
 
-  const filteredScreenshots = app.screenshots?.filter((screenshot) =>
-    pickScreenshot(screenshot),
-  )
-
   const slides = app.screenshots?.map(mapScreenshot).map((screenshot) => {
     return {
       ...screenshot,
@@ -59,7 +55,7 @@ export const CarouselStrip = ({
 
   return (
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
-      {filteredScreenshots && (
+      {slides && (
         <Lightbox
           controller={{ closeOnBackdropClick: true }}
           open={showLightbox}
@@ -74,7 +70,7 @@ export const CarouselStrip = ({
         />
       )}
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
-        {filteredScreenshots && filteredScreenshots?.length > 0 && (
+        {slides && slides?.length > 0 && (
           <Button
             className="absolute bottom-3 end-3 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
             onClick={() => setShowLightbox(true)}
@@ -121,28 +117,27 @@ export const CarouselStrip = ({
             }}
           />
         </div>
-        {isQualityModalOpen && filteredScreenshots?.length > 0 && (
+        {isQualityModalOpen && slides?.length > 0 && (
           <div className="flex flex-col items-center justify-center pb-6">
             {t("screenshot-sizes")}
-            {filteredScreenshots?.map((screenshot, index) => {
-              const x = pickScreenshot(screenshot)
+            {slides?.map((screenshot, index) => {
               return (
-                <div key={x.src} className="flex items-center gap-1">
+                <div key={screenshot.src} className="flex items-center gap-1">
                   {index === currentIndex && (
                     <div className="text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
                       {<HiChevronRight />}
                     </div>
                   )}
-                  {`${x.width}x${x.height}`}
+                  {`${screenshot.width}x${screenshot.height}`}
                 </div>
               )
             })}
           </div>
         )}
-        {filteredScreenshots?.length > 1 && (
+        {slides?.length > 1 && (
           <div>
             <ul className="flex list-none justify-center gap-4 pb-8">
-              {filteredScreenshots?.map((screenshot, index) => (
+              {slides?.map((screenshot, index) => (
                 <li
                   key={index}
                   role="button"

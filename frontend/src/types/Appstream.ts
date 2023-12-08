@@ -164,7 +164,7 @@ export function mapScreenshot(screenshot: Screenshot) {
   }
 
   return {
-    ...screenshotVariant[0],
+    ...pickScreenshot(screenshot),
     srcSet: screenshotVariant,
   }
 }
