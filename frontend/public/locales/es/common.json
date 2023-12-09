@@ -518,7 +518,7 @@
   "scope-build": "Crear y acceder a compilaciones y trabajos",
   "token-name": "Nombre del testigo",
   "revoke-token": "Revocar el testigo",
-  "build-x": "Construida {{build-ago}}",
+  "build-x": "Compilada {{build-ago}}",
   "scopes": "Ámbitos",
   "name": "Nombre",
   "new-beta-token": "Nuevo testigo beta",
@@ -533,5 +533,6 @@
   "upload-tokens": "Subir los testigos",
   "new-stable-token": "Nuevo testigo estable",
   "expires": "Expira",
-  "revoked": "Revocado"
+  "revoked": "Revocado",
+  "screenshot-sizes": "Tamaños de las capturas de pantalla"
 }

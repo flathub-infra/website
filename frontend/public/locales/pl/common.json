@@ -532,5 +532,7 @@
   "upload-tokens": "Prześlij tokeny",
   "new-stable-token": "Nowy token w wersji stabilnej",
   "expires": "Wygasa",
-  "revoked": "Wycofany"
+  "revoked": "Wycofany",
+  "screenshot-sizes": "Rozmiary zrzutów ekranu",
+  "build-x": "Zbudowano {{build-ago}}"
 }

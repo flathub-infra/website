@@ -399,7 +399,7 @@
   "close": "Bezárás",
   "addon-install-info": "Kiegészítők telepítése",
   "information": "Tájékoztatás",
-  "community-built": "Közösségi építkezés",
+  "community-built": "Közösségi összeállítás",
   "learn-more": "További információk",
   "get-involved": "Részt vegyen",
   "links": "Hivatkozások",
@@ -531,5 +531,7 @@
   "upload-tokens": "Jelvények feltöltése",
   "new-stable-token": "Új stabil jelvény",
   "expires": "Lejár",
-  "revoked": "Visszavonva"
+  "revoked": "Visszavonva",
+  "screenshot-sizes": "Képernyőkép méretei",
+  "build-x": "Összeállítva {{build-ago}}"
 }

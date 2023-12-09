@@ -533,5 +533,6 @@
   "new-stable-token": "Nový stabilní token",
   "expires": "Platnost skončí",
   "revoked": "Zrušeno",
-  "build-x": "Sestaveno {{build-ago}}"
+  "build-x": "Sestaveno {{build-ago}}",
+  "screenshot-sizes": "Velikosti snímků obrazovky"
 }
