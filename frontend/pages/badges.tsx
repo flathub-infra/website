@@ -9,8 +9,9 @@ import { Trans, useTranslation } from "next-i18next"
 const flathubBadge = "https://dl.flathub.org/assets/badges/flathub-badge-en.png"
 const flathubBadgeInverted =
   "https://dl.flathub.org/assets/badges/flathub-badge-i-en.png"
-const badgeExampleCode =
-  "<a href='https://flathub.org/apps/org.gimp.GIMP'><img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png'/></a>"
+const badgeExampleCode = `<a href='https://flathub.org/apps/org.gimp.GIMP'>
+  <img width='240' alt='Download on Flathub' src='https://dl.flathub.org/assets/badges/flathub-badge-en.png'/>
+</a>`
 const badgeExampleCodeMoinMoin =
   "[[https://flathub.org/apps/org.gimp.GIMP|{{https://dl.flathub.org/assets/badges/flathub-badge-en.png|Download on Flathub|width=240,align=middle}}]]"
 

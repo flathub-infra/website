@@ -288,13 +288,13 @@
       </li>
       <li>
         <h2>Install the Discover Flatpak backend</h2>
-        <p>The Flatpak plugin for the Software app makes it possible to install apps without needing the command line (available on Kubuntu 18.04 and newer). To install on 18.04, run:</p>
-        <terminal-command>
-          sudo apt install plasma-discover-flatpak-backend
-        </terminal-command>
-        <p>On Kubuntu 20.04 or later, you should run this instead:</p>
+        <p>The Flatpak plugin for the Software app makes it possible to install apps without needing the command line (available on Kubuntu 18.04 and newer). To install on 20.04 or later, run:</p>
         <terminal-command>
           sudo apt install plasma-discover-backend-flatpak
+        </terminal-command>
+        <p>On Kubuntu 18.04, you should run this instead:</p>
+        <terminal-command>
+          sudo apt install plasma-discover-flatpak-backend
         </terminal-command>
       </li>
       <li>

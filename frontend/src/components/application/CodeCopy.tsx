@@ -31,6 +31,7 @@ const CodeCopy: FunctionComponent<Props> = ({
   return (
     <div
       className={clsx(
+        "whitespace-pre-line",
         `relative mx-0 mb-3 mt-0 block overflow-auto break-words p-2 pe-10 text-sm`,
         "font-mono",
         className,
@@ -41,7 +42,7 @@ const CodeCopy: FunctionComponent<Props> = ({
     >
       {text}
       <CopyToClipboard
-        text={text}
+        text={text.trim()}
         onCopy={() => {
           setCopied(true)
           if (onCopy) onCopy()

@@ -10,12 +10,14 @@ export const Ubuntu = () => (
         To install Flatpak on Ubuntu 18.10 (Cosmic Cuttlefish) or later, simply
         run:
       </p>{" "}
-      <CodeCopy text="sudo apt install flatpak" />{" "}
+      <CodeCopy text={`sudo apt install flatpak`} />{" "}
       <p>
         With older Ubuntu versions, the official Flatpak PPA is the recommended
         way to install Flatpak. To install it, run the following in a terminal:
       </p>{" "}
-      <CodeCopy text="      sudo add-apt-repository ppa:flatpak/stable      sudo apt update      sudo apt install flatpak    " />{" "}
+      <CodeCopy
+        text={`      sudo add-apt-repository ppa:flatpak/stable\n      sudo apt update\n      sudo apt install flatpak\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -24,7 +26,7 @@ export const Ubuntu = () => (
         The Flatpak plugin for the Software app makes it possible to install
         apps without needing the command line. To install, run:
       </p>{" "}
-      <CodeCopy text="sudo apt install gnome-software-plugin-flatpak" />{" "}
+      <CodeCopy text={`sudo apt install gnome-software-plugin-flatpak`} />{" "}
       <p>
         Note: the Software app is distributed as a Snap since Ubuntu 20.04 and
         does not support graphical installation of Flatpak apps. Installing the
@@ -36,7 +38,9 @@ export const Ubuntu = () => (
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -75,7 +79,9 @@ export const Fedora = () => (
       installations, but if they fail for some reason you can manually add the
       Flathub remote by running:
     </p>{" "}
-    <CodeCopy text="    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo  " />
+    <CodeCopy
+      text={`    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n  `}
+    />
   </ol>
 )
 distroMap.set("Fedora", <Fedora />)
@@ -166,7 +172,7 @@ export const Chrome_OS = () => (
       {" "}
       <h2>Install Flatpak</h2>{" "}
       <p>To install Flatpak, run the following in the terminal:</p>{" "}
-      <CodeCopy text="      sudo apt install flatpak    " />{" "}
+      <CodeCopy text={`      sudo apt install flatpak\n    `} />{" "}
       <p>
         A more up to date flatpak package is available in the{" "}
         <a href="https://backports.debian.org/Instructions/">
@@ -179,7 +185,9 @@ export const Chrome_OS = () => (
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -215,7 +223,7 @@ export const Red_Hat_Enterprise_Linux = () => (
       the following in a terminal:
     </p>{" "}
     {/*  Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it  */}{" "}
-    <CodeCopy text="sudo yum install flatpak" />{" "}
+    <CodeCopy text={`sudo yum install flatpak`} />{" "}
     <p>
       Now all you have to do is{" "}
       <a href="https://flathub.org/">install some apps</a>!
@@ -225,7 +233,9 @@ export const Red_Hat_Enterprise_Linux = () => (
       Workstation 9 installation, but if they fail for some reason you can
       manually add the Flathub remote by running:
     </p>{" "}
-    <CodeCopy text="    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo  " />
+    <CodeCopy
+      text={`    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n  `}
+    />
   </ol>
 )
 distroMap.set("Red Hat Enterprise Linux", <Red_Hat_Enterprise_Linux />)
@@ -268,13 +278,15 @@ export const OpenSUSE = () => (
         the list.
       </p>{" "}
       <p>Alternatively, install Flatpak from the command line using Zypper:</p>{" "}
-      <CodeCopy text="sudo zypper install flatpak" />{" "}
+      <CodeCopy text={`sudo zypper install flatpak`} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -295,7 +307,7 @@ export const Arch = () => (
       {" "}
       <h2>Install Flatpak</h2>{" "}
       <p>To install Flatpak, run the following in a terminal:</p>{" "}
-      <CodeCopy text="sudo pacman -S flatpak" />{" "}
+      <CodeCopy text={`sudo pacman -S flatpak`} />{" "}
     </li>{" "}
     {/*  On arch, Flathub is added when the Flatpak package is installed.  */}{" "}
     {/*  Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there\'s no need to separately install it  */}{" "}
@@ -321,7 +333,7 @@ export const Debian = () => (
         A flatpak package is available in Debian Buster and newer. To install
         it, run the following as root:
       </p>{" "}
-      <CodeCopy text="apt install flatpak" />{" "}
+      <CodeCopy text={`apt install flatpak`} />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -330,18 +342,20 @@ export const Debian = () => (
         If you are running GNOME, it is also a good idea to install the Flatpak
         plugin for GNOME Software. To do this, run:
       </p>{" "}
-      <CodeCopy text="apt install gnome-software-plugin-flatpak" />{" "}
+      <CodeCopy text={`apt install gnome-software-plugin-flatpak`} />{" "}
       <p>
         If you are running KDE Plasma, you can install the Flatpak plugin for
         KDE Discover instead:
       </p>{" "}
-      <CodeCopy text="apt install plasma-discover-backend-flatpak" />{" "}
+      <CodeCopy text={`apt install plasma-discover-backend-flatpak`} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -368,7 +382,7 @@ export const Rocky_Linux = () => (
         step. To install Flatpak on Rocky Linux, run the following in a
         terminal:
       </p>{" "}
-      <CodeCopy text="sudo dnf install flatpak" />{" "}
+      <CodeCopy text={`sudo dnf install flatpak`} />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -384,7 +398,9 @@ export const Rocky_Linux = () => (
         </a>
         , or run the following in a terminal:
       </p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -477,14 +493,19 @@ export const Gentoo = () => (
         To install Flatpak, enable the ~amd64 keyword for sys-apps/flatpak,
         acct-user/flatpak and acct-group/flatpak:
       </p>{" "}
-      <CodeCopy text="      echo -e \'sys-apps/flatpak ~amd64\acct-user/flatpak ~amd64\acct-group/flatpak ~amd64\dev-util/ostree ~amd64\' >> /etc/portage/package.accept_keywords/flatpak    " />{" "}
-      <p>Then, install Flatpak:</p> <CodeCopy text="emerge sys-apps/flatpak" />{" "}
+      <CodeCopy
+        text={`      echo -e \'sys-apps/flatpak ~amd64\\nacct-user/flatpak ~amd64\\nacct-group/flatpak ~amd64\\ndev-util/ostree ~amd64\' >> /etc/portage/package.accept_keywords/flatpak\n    `}
+      />{" "}
+      <p>Then, install Flatpak:</p>{" "}
+      <CodeCopy text={`emerge sys-apps/flatpak`} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -512,12 +533,14 @@ export const Kubuntu = () => (
         To install Flatpak on Kubuntu 18.10 (Cosmic Cuttlefish) or later, simply
         run:
       </p>{" "}
-      <CodeCopy text="sudo apt install flatpak" />{" "}
+      <CodeCopy text={`sudo apt install flatpak`} />{" "}
       <p>
         With older Kubuntu versions, the official Flatpak PPA is the recommended
         way to install Flatpak. To install it, run the following in a terminal:
       </p>{" "}
-      <CodeCopy text="      sudo add-apt-repository ppa:alexlarsson/flatpak      sudo apt update      sudo apt install flatpak    " />{" "}
+      <CodeCopy
+        text={`      sudo add-apt-repository ppa:alexlarsson/flatpak\n      sudo apt update\n      sudo apt install flatpak\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -525,17 +548,23 @@ export const Kubuntu = () => (
       <p>
         The Flatpak plugin for the Software app makes it possible to install
         apps without needing the command line (available on Kubuntu 18.04 and
-        newer). To install on 18.04, run:
+        newer). To install on 20.04 or later, run:
       </p>{" "}
-      <CodeCopy text="      sudo apt install plasma-discover-flatpak-backend    " />{" "}
-      <p>On Kubuntu 20.04 or later, you should run this instead:</p>{" "}
-      <CodeCopy text="      sudo apt install plasma-discover-backend-flatpak    " />{" "}
+      <CodeCopy
+        text={`      sudo apt install plasma-discover-backend-flatpak\n    `}
+      />{" "}
+      <p>On Kubuntu 18.04, you should run this instead:</p>{" "}
+      <CodeCopy
+        text={`      sudo apt install plasma-discover-flatpak-backend\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -556,13 +585,15 @@ export const Solus = () => (
       {" "}
       <h2>Install Flatpak</h2>{" "}
       <p>To install Flatpak, run the following in a terminal:</p>{" "}
-      <CodeCopy text="      sudo eopkg install flatpak    " />{" "}
+      <CodeCopy text={`      sudo eopkg install flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -590,7 +621,7 @@ export const Alpine = () => (
         Flatpak can be installed from the community repository. Run the
         following in a terminal:
       </p>{" "}
-      <CodeCopy text="      doas apk add flatpak    " />{" "}
+      <CodeCopy text={`      doas apk add flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -600,15 +631,19 @@ export const Alpine = () => (
         v3.13) or KDE Discover (since v3.11), making it possible to install apps
         without needing the command line. To install, for GNOME Software run:
       </p>{" "}
-      <CodeCopy text="      doas apk add gnome-software-plugin-flatpak    " />{" "}
+      <CodeCopy
+        text={`      doas apk add gnome-software-plugin-flatpak\n    `}
+      />{" "}
       <p>And for KDE Discover, run this instead:</p>{" "}
-      <CodeCopy text="      doas apk add discover-backend-flatpak    " />{" "}
+      <CodeCopy text={`      doas apk add discover-backend-flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -632,17 +667,19 @@ export const Mageia = () => (
         A flatpak package is available for Mageia 6 and newer. To install with
         DNF, run the following as root:
       </p>{" "}
-      <CodeCopy text="      dnf install flatpak    " />{" "}
+      <CodeCopy text={`      dnf install flatpak\n    `} />{" "}
       <p>
         Or, to install with <code>urpmi</code>, run:
       </p>{" "}
-      <CodeCopy text="      urpmi flatpak    " />{" "}
+      <CodeCopy text={`      urpmi flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -672,13 +709,15 @@ export const Pop_OS = () => (
       {" "}
       <h2>Install Flatpak</h2>{" "}
       <p>To install Flatpak on Pop!_OS 19.10 and earlier, simply run:</p>{" "}
-      <CodeCopy text="      sudo apt install flatpak    " />{" "}
+      <CodeCopy text={`      sudo apt install flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -730,13 +769,15 @@ export const Raspberry_Pi_OS = () => (
         A flatpak package is available in Raspberry Pi OS (previously called
         Raspbian) Stretch and newer. To install it, run the following as root:
       </p>{" "}
-      <CodeCopy text="      apt install flatpak    " />{" "}
+      <CodeCopy text={`      apt install flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
       <p>
         <b>Important note:</b> As of March 2021, Raspberry Pi computers still
         ship with the 32-bit version of Raspberry Pi OS. However Flathub started
@@ -769,7 +810,7 @@ export const Clear_Linux = () => (
       Flatpak is installed and Flathub repository is pre-configured by default
       on Clear Linux when installing the desktop bundle.
     </p>{" "}
-    <CodeCopy text="    sudo swupd bundle-add desktop  " />{" "}
+    <CodeCopy text={`    sudo swupd bundle-add desktop\n  `} />{" "}
     <p>
       Now all you have to do is{" "}
       <a href="https://flathub.org/">install some apps</a>!
@@ -784,13 +825,15 @@ export const Void_Linux = () => (
     <li>
       {" "}
       <h2>Install Flatpak</h2> <p>To install Flatpak, run the following:</p>{" "}
-      <CodeCopy text="      sudo xbps-install -S flatpak    " />{" "}
+      <CodeCopy text={`      sudo xbps-install -S flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -816,9 +859,9 @@ export const NixOS = () => (
         <code>services.flatpak.enable</code> to <code>true</code> by putting the
         following into your <code>/etc/nixos/configuration.nix</code>:{" "}
       </p>{" "}
-      <CodeCopy text="      services.flatpak.enable = true;    " />{" "}
+      <CodeCopy text={`      services.flatpak.enable = true;\n    `} />{" "}
       <p>Then, rebuild and switch to the new configuration with:</p>{" "}
-      <CodeCopy text="      sudo nixos-rebuild switch    " />{" "}
+      <CodeCopy text={`      sudo nixos-rebuild switch\n    `} />{" "}
       <p>
         For more details see the{" "}
         <a href="https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak">
@@ -831,7 +874,9 @@ export const NixOS = () => (
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -878,9 +923,11 @@ export const Turkman_Linux = () => (
         To install Flatpak on Turkman Linux, run the following in a terminal:
       </p>{" "}
       <p>Emerge way</p>{" "}
-      <CodeCopy text="      ymp install build-base --no-emerge      ymp install flatpak    " />{" "}
+      <CodeCopy
+        text={`      ymp install build-base --no-emerge\n      ymp install flatpak\n    `}
+      />{" "}
       <p>No emerge way</p>{" "}
-      <CodeCopy text="      ymp install flatpak --no-emerge    " />{" "}
+      <CodeCopy text={`      ymp install flatpak --no-emerge\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -888,13 +935,17 @@ export const Turkman_Linux = () => (
       <p>
         To enable services on Turkman Linux, run the following in a terminal:
       </p>{" "}
-      <CodeCopy text="      rc-service add devfs      rc-service add fuse      rc-service add hostname    " />{" "}
+      <CodeCopy
+        text={`      rc-service add devfs\n      rc-service add fuse\n      rc-service add hostname\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="       flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`       flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -918,13 +969,15 @@ export const Ataraxia_Linux = () => (
     <li>
       {" "}
       <h2>Install Flatpak</h2> <p>To install Flatpak, run the following:</p>{" "}
-      <CodeCopy text="      sudo neko em flatpak    " />{" "}
+      <CodeCopy text={`      sudo neko em flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -955,19 +1008,23 @@ export const Deepin = () => (
     <li>
       {" "}
       <h2>Install Flatpak</h2> <p>To install Flatpak, run the following:</p>{" "}
-      <CodeCopy text="      sudo apt install flatpak    " />{" "}
+      <CodeCopy text={`      sudo apt install flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Install the Deepin themes</h2>{" "}
       <p>To install light and dark themes, run:</p>{" "}
-      <CodeCopy text="      flatpak install flathub org.gtk.Gtk3theme.deepin      flatpak install flathub org.gtk.Gtk3theme.deepin-dark    " />{" "}
+      <CodeCopy
+        text={`      flatpak install flathub org.gtk.Gtk3theme.deepin\n      flatpak install flathub org.gtk.Gtk3theme.deepin-dark\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -991,7 +1048,7 @@ export const Pardus = () => (
         A flatpak package is available in Pardus 2019 and newer. To install it,
         run the following as root:
       </p>{" "}
-      <CodeCopy text="      apt install flatpak    " />{" "}
+      <CodeCopy text={`      apt install flatpak\n    `} />{" "}
       <p>
         For Pardus 2017 and older versions, a flatpak package is available in
         the{" "}
@@ -1008,13 +1065,17 @@ export const Pardus = () => (
         If you are running GNOME, it is also a good idea to install the Flatpak
         plugin for GNOME Software. To do this, run:
       </p>{" "}
-      <CodeCopy text="      apt install gnome-software-plugin-flatpak    " />{" "}
+      <CodeCopy
+        text={`      apt install gnome-software-plugin-flatpak\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -1066,13 +1127,15 @@ export const Pisi_GNULinux = () => (
         A flatpak package is available in Pisi 2.1 and newer. To install it, run
         the following as root:
       </p>{" "}
-      <CodeCopy text="      sudo pisi it flatpak    " />{" "}
+      <CodeCopy text={`      sudo pisi it flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -1100,15 +1163,17 @@ export const EndeavourOS = () => (
         To install Flatpak on EndeavorOS, you must first make sure your
         installation is up to date, run the following in a terminal:
       </p>{" "}
-      <CodeCopy text="      sudo pacman -Syu    " />{" "}
+      <CodeCopy text={`      sudo pacman -Syu\n    `} />{" "}
       <p>Then install Flatpak:</p>{" "}
-      <CodeCopy text="      sudo pacman -S flatpak    " />{" "}
+      <CodeCopy text={`      sudo pacman -S flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
@@ -1156,13 +1221,15 @@ export const GNU_Guix = () => (
         Flatpak can be installed from GNU Guix\'s default repositories. Run the
         following in a terminal:
       </p>{" "}
-      <CodeCopy text="      guix install flatpak    " />{" "}
+      <CodeCopy text={`      guix install flatpak\n    `} />{" "}
     </li>{" "}
     <li>
       {" "}
       <h2>Add the Flathub repository</h2>{" "}
       <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>{" "}
-      <CodeCopy text="      flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo    " />{" "}
+      <CodeCopy
+        text={`      flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo\n    `}
+      />{" "}
     </li>{" "}
     <li>
       {" "}
