@@ -532,5 +532,6 @@
   "new-stable-token": "Nova stabila ĵetono",
   "expires": "Eksvalidiĝas je",
   "revoked": "Nevalidigita",
-  "build-x": "Versio {{build-ago}}"
+  "build-x": "Kunmetita {{build-ago}}",
+  "screenshot-sizes": "Grandoj de ekrankopioj"
 }

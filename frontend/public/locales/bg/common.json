@@ -532,5 +532,6 @@
   "new-stable-token": "Нова стабилна версия на жетона",
   "expires": "Изтича на",
   "revoked": "Отменен",
-  "build-x": "Създадена {{build-ago}}"
+  "build-x": "Създадена {{build-ago}}",
+  "screenshot-sizes": "Размери на снимката"
 }

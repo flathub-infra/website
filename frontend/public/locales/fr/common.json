@@ -402,7 +402,7 @@
   "can-acquire-arbitrary-permissions": "Peut obtenir des autorisations arbitraires",
   "uses-eol-runtime": "Utilise une durée d'exécution de fin de vie",
   "proprietary-explanation": "Ce logiciel n'est pas développé de manière ouverte, de sorte que seuls ses développeurs savent comment il fonctionne. Il peut présenter des failles de sécurité difficiles à détecter et être modifié sans contrôle.",
-  "community-built": "built de la communauté",
+  "community-built": "Construit par la communauté",
   "community-built-explanation": "Ce logiciel est développé de manière ouverte par une communauté de bénévoles, et publié sous <1>{{ license }}</1>.",
   "learn-more": "En savoir plus",
   "get-involved": "S'engager",
@@ -517,7 +517,7 @@
   "scope-build": "Créer et accéder aux builds et tâches",
   "token-name": "Nom du jeton",
   "revoke-token": "Révoquer le jeton",
-  "build-x": "Build {{build-ago}}",
+  "build-x": "Construit {{build-ago}}",
   "scopes": "Champs d'application",
   "name": "Nom",
   "new-beta-token": "Nouveau jeton bêta",
@@ -533,5 +533,6 @@
   "upload-tokens": "Téléverser des jetons",
   "new-stable-token": "Nouveau jeton stable",
   "expires": "Expire le",
-  "revoked": "Révoqué"
+  "revoked": "Révoqué",
+  "screenshot-sizes": "Tailles de capture d'écran"
 }
