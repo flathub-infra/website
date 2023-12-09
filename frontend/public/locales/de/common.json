@@ -58,7 +58,7 @@
   "whoops": "Ups!",
   "login": "Anmelden",
   "submitting-apps": "Apps einreichen",
-  "submitting-apps-block": "<0>App-Entwickler können ihre Apps <2>einreichen</2>, um sie allen Flathub-Nutzern zugänglich zu machen. Damit wird die App auch auf einen Schlag auf dem gesamten Linux-Desktop-Ecosystem verfügbar.</0><p>Zur Zeit müssen Apps entweder legal weiterverteilt werden dürfen oder als Download von Drittanbietern verfügbar sein. Wenn du Teil eines proprietäres App-Entwickler-Teams bist und Flathub nutzen möchtest, würden wir gerne mit euch sprechen.</p>",
+  "submitting-apps-block": "<0>App-Entwickler können ihre Apps <2>einreichen</2>, um sie allen Flathub-Nutzern zugänglich zu machen. Damit wird die App auch auf einen Schlag auf dem gesamten Linux-Desktop-Ecosystem verfügbar.</0><p>Zur Zeit müssen Apps entweder legal weiterverteilt werden dürfen oder als Download von Drittanbietern verfügbar sein. Wenn du Teil eines proprietären App-Entwickler-Teams bist und Flathub nutzen möchtest, würden wir gerne mit euch sprechen.</p>",
   "about-block": "<0>Flathub ist der Ort, um Apps für das gesamte Linux-Desktop-Ökosystem zu erhalten und zu veröffentlichen. <1>Flatpak</1> ermöglicht, dass Flathub-Apps auf fast jeder Linux-Distribution laufen.</0><1>Folge der <2>Schnellstart-Anleitung</2>, um Flathub zu nutzen und Zugang zu einer wachsenden Sammlung von Flatpaks zu erhalten.</1>",
   "reporting-issues": "Fehler melden",
   "reporting-issues-block": "<0>Sicherheits- oder Rechtsprobleme können an das <2>Flathub-Team</2> gemeldet werden.</0>",
