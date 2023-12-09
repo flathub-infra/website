@@ -36,6 +36,12 @@ do
   sed -i '1s/^.//' "src/components/setup/${slug_name}.tsx"
   sed -i '$ s/.$//' "src/components/setup/${slug_name}.tsx"
 
+  # Replace all >\n with >
+  sed -i 's/>\\n/>/g' "src/components/setup/${slug_name}.tsx"
+
+  # Replace all :\n with :
+  sed -i 's/:\\n/:/g' "src/components/setup/${slug_name}.tsx"
+
   # Convert comment to JSX comment
   sed -i 's/<!--/{\/* /g' "src/components/setup/${slug_name}.tsx"
   sed -i 's/-->/ *\/}/g' "src/components/setup/${slug_name}.tsx"
@@ -47,8 +53,6 @@ do
   # Replace all \" with "
   sed -i 's/\\\"/\"/g' "src/components/setup/${slug_name}.tsx"
 
-  # Replace all \n with nothing
-  sed -i 's/\\n//g' "src/components/setup/${slug_name}.tsx"
 
   # Replace class= with className=
   sed -i 's/class=/className=/g' "src/components/setup/${slug_name}.tsx"
@@ -57,7 +61,7 @@ do
   sed -i "1s/^/export const ${name} = () => /" "src/components/setup/${slug_name}.tsx"
 
   # Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
-  sed -i 's/<terminal-command>\([^<]*\)<\/terminal-command>/<CodeCopy text="\1" \/>/g' "src/components/setup/${slug_name}.tsx"
+  sed -i 's/<terminal-command>\([^<]*\)<\/terminal-command>/<CodeCopy text={`\1`} \/>/g' "src/components/setup/${slug_name}.tsx"
 
   # Postfix with distroMap.set("Fedora", <Fedora />)
   sed -i "$ a\distroMap.set(\"${original_name}\", <${name} \/>);" "src/components/setup/${slug_name}.tsx"

@@ -10,3 +10,33 @@ export default {
 export const Generated = () => {
   return <CodeCopy text={"This is the code, that will be copied"} />
 }
+
+export const GeneratedNested = () => {
+  return <CodeCopy text={"This is the code, that will be copied"} nested />
+}
+
+export const GeneratedWithOnCopy = () => {
+  return (
+    <CodeCopy
+      text={"This is the code, that will be copied"}
+      onCopy={() => alert("Copied")}
+    />
+  )
+}
+
+export const GeneratedWithMultipleLines = () => {
+  return (
+    <CodeCopy
+      text={`This is the code,
+  that will be copied
+  with multiple lines`}
+    />
+  )
+}
+export const GeneratedWithMultipleLines2 = () => {
+  return (
+    <CodeCopy
+      text={`This is the code,\n that will be copied\n  with multiple lines`}
+    />
+  )
+}
