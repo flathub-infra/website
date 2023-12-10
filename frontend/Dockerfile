@@ -2,7 +2,7 @@ FROM node:18 as dev
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+RUN yarn install --immutable
 
 COPY . .
 CMD ["yarn", "dev"]
