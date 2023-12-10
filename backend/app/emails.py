@@ -44,6 +44,8 @@ class EmailInfo(BaseModel):
     category: EmailCategory
     subject: str
     template_data: dict[str, Any]
+    # Only works when app_id is set and email is not user specific
+    inform_moderators: bool = False
 
 
 def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
@@ -129,6 +131,13 @@ def send_email(info: EmailInfo, db):
                 db, direct_upload_app
             )
             for _dev, user in by_direct_upload:
+                messages.append(_create_message(user, info, db))
+
+        if info.inform_moderators:
+            moderators = db.session.query(models.FlathubUser).filter_by(
+                is_moderator=True
+            )
+            for user in moderators:
                 messages.append(_create_message(user, info, db))
 
     if info.user_id is not None:
