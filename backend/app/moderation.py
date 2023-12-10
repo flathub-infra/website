@@ -332,6 +332,7 @@ def submit_review_request(
                     EmailInfo(
                         user_id=None,
                         app_id=app_id,
+                        inform_moderators=True,
                         category=EmailCategory.MODERATION_HELD,
                         subject=f"Build #{review_request.build_id} held for review",
                         template_data={
@@ -413,6 +414,7 @@ def submit_review(
         EmailInfo(
             user_id=None,
             app_id=request.appid,
+            inform_moderators=True,
             category=EmailCategory.MODERATION_APPROVED
             if request.is_approved
             else EmailCategory.MODERATION_REJECTED,
