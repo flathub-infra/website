@@ -37,8 +37,11 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Corepack enable
+        run: corepack enable
+
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Lint
         run: yarn lint
