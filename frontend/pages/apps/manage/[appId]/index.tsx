@@ -64,12 +64,12 @@ export default function AppManagementPage({
     )
   }
 
-  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
-    tabs.push({
-      name: t("moderation-pending-reviews"),
-      content: <AppDevModeration app={app} />,
-    })
+  tabs.push({
+    name: t("moderation-pending-reviews"),
+    content: <AppDevModeration app={app} />,
+  })
 
+  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
     if (inviteQuery.data?.data?.is_direct_upload_app) {
       tabs.push({
         name: t("developers"),
