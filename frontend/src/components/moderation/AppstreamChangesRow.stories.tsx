@@ -1,24 +1,23 @@
 import React from "react"
 import { Meta } from "@storybook/react"
-import ReviewRow from "./ReviewRow"
-import { t } from "i18next"
+import AppstreamChangesRow from "./AppstreamChangesRow"
 import { faker } from "@faker-js/faker"
 import { ModerationRequestResponse } from "../../codegen/model"
 
 export default {
-  title: "Components/Moderation/ReviewRow",
-  component: ReviewRow,
-} as Meta<typeof ReviewRow>
+  title: "Components/Moderation/AppstreamChangesRow",
+  component: AppstreamChangesRow,
+} as Meta<typeof AppstreamChangesRow>
 
 export const Primary = () => {
   const request: ModerationRequestResponse = {
     request_type: "appdata",
     request_data: {
       keys: {
-        Name: "Test App",
+        name: "My Awesome Test App",
       },
       current_values: {
-        Name: "Test App",
+        name: "Test App",
       },
     },
     id: 1,
@@ -29,7 +28,7 @@ export const Primary = () => {
     job_id: faker.number.int(),
     is_outdated: false,
 
-    is_new_submission: true,
+    is_new_submission: false,
 
     handled_by: "Kolja",
     handled_at: faker.date.past().toISOString(),
@@ -37,9 +36,5 @@ export const Primary = () => {
     comment: null,
   }
 
-  return (
-    <ReviewRow title={t("moderation-appstream")} request={request}>
-      <div>Show table here</div>
-    </ReviewRow>
-  )
+  return <AppstreamChangesRow request={request} />
 }
