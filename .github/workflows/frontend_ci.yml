@@ -38,12 +38,18 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install --frozen-lockfile
 
       - name: Lint
-        run: yarn lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
 
       - name: Build application
-        run: yarn build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
         env:
           CI: true
