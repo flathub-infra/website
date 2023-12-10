@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
-import { Appstream } from "src/types/Appstream"
 import { getReviewRow } from "./AppModeration"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
@@ -10,10 +9,10 @@ import { useQuery } from "@tanstack/react-query"
 import { moderationApi } from "src/api"
 
 interface Props {
-  app: Appstream
+  appId: string
 }
 
-export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
+export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
   const router = useRouter()
   const { t } = useTranslation()
 
@@ -27,10 +26,10 @@ export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
   }, [currentPage])
 
   const query = useQuery({
-    queryKey: ["moderation", app.id, offset],
+    queryKey: ["moderation", appId, offset],
     queryFn: ({ signal }) =>
       moderationApi.getModerationAppModerationAppsAppIdGet(
-        app.id,
+        appId,
         true,
         true,
         PAGE_SIZE,
@@ -40,7 +39,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ app }) => {
           signal,
         },
       ),
-    enabled: !!app.id,
+    enabled: !!appId,
   })
 
   if (query.isPending) {

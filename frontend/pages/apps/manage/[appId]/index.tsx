@@ -66,7 +66,7 @@ export default function AppManagementPage({
 
   tabs.push({
     name: t("moderation-pending-reviews"),
-    content: <AppDevModeration app={app} />,
+    content: <AppDevModeration appId={app.id} />,
   })
 
   if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
