@@ -5,7 +5,8 @@ RUN corepack enable
 FROM base as dev
 
 WORKDIR /app
-COPY package.json yarn.lock .yarnrc.yml .yarn ./
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn/releases .yarn/releases
 RUN yarn install --immutable
 
 COPY . .
