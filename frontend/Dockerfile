@@ -1,4 +1,8 @@
-FROM node:18 as dev
+FROM node:18 as base
+
+RUN npm install -g yarn@4
+
+FROM base as dev
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -7,7 +11,7 @@ RUN yarn install --immutable
 COPY . .
 CMD ["yarn", "dev"]
 
-FROM node:18 as builder
+FROM base as builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG ENABLE_SENTRY=false
 ARG SENTRY_AUTH_TOKEN
@@ -26,7 +30,7 @@ ENV PORT 3000
 EXPOSE 3000
 
 RUN addgroup --system --gid 1001 nextjs && \
-    adduser --system --uid 1001 nextjs
+  adduser --system --uid 1001 nextjs
 
 WORKDIR /app
 COPY --from=builder /app/public ./public
