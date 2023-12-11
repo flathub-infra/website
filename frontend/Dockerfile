@@ -1,6 +1,6 @@
 FROM node:18 as base
 
-RUN npm install -g yarn@4
+RUN corepack enable
 
 FROM base as dev
 
