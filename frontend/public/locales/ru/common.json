@@ -516,5 +516,6 @@
   "create-token": "Создать токен",
   "no-tokens-to-show": "Нет токенов для показа.",
   "upload-tokens": "Загрузить токены",
-  "new-stable-token": "Новый стабильный токен"
+  "new-stable-token": "Новый стабильный токен",
+  "build-x": "Собран {{build-ago}}"
 }

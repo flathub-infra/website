@@ -525,5 +525,6 @@
   "expires": "Vanhenee",
   "revoked": "Mitätöity",
   "new-beta-token": "Uusi beetapoletti",
-  "new-stable-token": "Uusi vakaa poletti"
+  "new-stable-token": "Uusi vakaa poletti",
+  "screenshot-sizes": "Kuvakaappausten koot"
 }

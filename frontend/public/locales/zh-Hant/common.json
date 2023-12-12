@@ -531,5 +531,6 @@
   "new-stable-token": "新的穩定權杖",
   "expires": "過期",
   "revoked": "已撤銷",
-  "build-x": "建構於 {{build-ago}}"
+  "build-x": "建構於 {{build-ago}}",
+  "screenshot-sizes": "螢幕截圖大小"
 }
