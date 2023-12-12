@@ -12,6 +12,8 @@ First of all thanks for considering contributing to this project!
 
 Pull requests are welcome. Please, create an issue first explaining what you want to do and how.
 
+If you want to contribute translations, please check out the instructions below.
+
 ### Development
 
 You'll need `git`, `yarn`, `docker` and `docker-compose-plugin`.
