@@ -1757,13 +1757,13 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyam
 
 [[package]]
 name = "stripe"
-version = "7.8.1"
+version = "7.8.2"
 description = "Python bindings for the Stripe API"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "stripe-7.8.1-py2.py3-none-any.whl", hash = "sha256:1889786b43d46b9fc5f70cdd7c16ef6d7e584ddc0440bfeb3e3e68a1aecd3510"},
-    {file = "stripe-7.8.1.tar.gz", hash = "sha256:9c16227c075144d8f623de6a649c669ec575db0d13a354a3ca3f4cb21fbe8b59"},
+    {file = "stripe-7.8.2-py2.py3-none-any.whl", hash = "sha256:06c4729c71d0e2c3f10b34a8b995454b191c138e394f214f3adf780e5b13be98"},
+    {file = "stripe-7.8.2.tar.gz", hash = "sha256:9be13e00b7c1cc773fcf1e56616f084cf97b1cbe2f0fd9679f2698fc7e4803ed"},
 ]
 
 [package.dependencies]
