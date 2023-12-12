@@ -15,6 +15,7 @@ import {
   HiOutlineWrenchScrewdriver,
   HiOutlineCog6Tooth,
 } from "react-icons/hi2"
+import { IoGameControllerOutline } from "react-icons/io5"
 import { Appstream } from "./types/Appstream"
 import { Summary, Permissions } from "./types/Summary"
 import React from "react"
@@ -161,6 +162,18 @@ export function getSafetyRating(
       title: "user-device-access",
       description: "can-access-hardware-devices",
       icon: HiOutlineVideoCamera,
+      showOnSummaryOrDetails: "both",
+    })
+  } else if (
+    summary.metadata.permissions.devices?.some(
+      (x) => x.toLowerCase() === "input",
+    )
+  ) {
+    appSafetyRating.push({
+      safetyRating: SafetyRating.probably_safe,
+      title: "user-device-access",
+      description: "can-access-input-devices",
+      icon: IoGameControllerOutline,
       showOnSummaryOrDetails: "both",
     })
   } else {
