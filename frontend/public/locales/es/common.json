@@ -534,5 +534,6 @@
   "new-stable-token": "Nuevo testigo estable",
   "expires": "Expira",
   "revoked": "Revocado",
-  "screenshot-sizes": "Tamaños de las capturas de pantalla"
+  "screenshot-sizes": "Tamaños de las capturas de pantalla",
+  "can-access-input-devices": "Puede acceder a dispositivos de entrada como teclados, ratones o mandos de juegos"
 }
