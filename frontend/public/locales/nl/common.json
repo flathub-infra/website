@@ -532,5 +532,7 @@
   "new-stable-token": "Nieuw stabiel token",
   "expires": "Verloopt op",
   "revoked": "Ingetrokken",
-  "build-x": "Bouwpoging {{build-ago}}"
+  "build-x": "{{build-ago}} gebouwd",
+  "screenshot-sizes": "Scherm­afdruk­groottes",
+  "can-access-input-devices": "Heeft toegang tot invoer­apparaten zoals toetsen­borden, muizen of game­controllers"
 }

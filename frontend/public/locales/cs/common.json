@@ -534,5 +534,6 @@
   "expires": "Platnost skončí",
   "revoked": "Zrušeno",
   "build-x": "Sestaveno {{build-ago}}",
-  "screenshot-sizes": "Velikosti snímků obrazovky"
+  "screenshot-sizes": "Velikosti snímků obrazovky",
+  "can-access-input-devices": "Může přistupovat ke vstupním zařízením jako je klávesnice, myš nebo herní ovladač"
 }
