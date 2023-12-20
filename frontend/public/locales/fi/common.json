@@ -526,5 +526,6 @@
   "revoked": "Mitätöity",
   "new-beta-token": "Uusi beetapoletti",
   "new-stable-token": "Uusi vakaa poletti",
-  "screenshot-sizes": "Kuvakaappausten koot"
+  "screenshot-sizes": "Kuvakaappausten koot",
+  "can-access-input-devices": "Voi käyttää syötelaitteita kuten näppäimistöjä, hiiriä ja peliohjaimia"
 }

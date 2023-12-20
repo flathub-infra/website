@@ -532,5 +532,6 @@
   "expires": "過期",
   "revoked": "已撤銷",
   "build-x": "建構於 {{build-ago}}",
-  "screenshot-sizes": "螢幕截圖大小"
+  "screenshot-sizes": "螢幕截圖大小",
+  "can-access-input-devices": "可存取鍵盤、滑鼠或遊戲控制器等輸入設備"
 }

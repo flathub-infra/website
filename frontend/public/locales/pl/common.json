@@ -534,5 +534,6 @@
   "expires": "Wygasa",
   "revoked": "Wycofany",
   "screenshot-sizes": "Rozmiary zrzutów ekranu",
-  "build-x": "Zbudowano {{build-ago}}"
+  "build-x": "Zbudowano {{build-ago}}",
+  "can-access-input-devices": "Może uzyskać dostęp do urządzeń wejściowych, takich jak klawiatury, myszy lub kontrolery do gier"
 }

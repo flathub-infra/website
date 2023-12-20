@@ -484,7 +484,7 @@
   "accept-invite": "招待を承認",
   "no-tokens-to-show": "表示できるトークンなし。",
   "proprietary-explanation": "このアプリの開発はオープンではありません。そのため、このアプリがどう動作しているかは開発者しか知りません。検出を難しくしており安全でなかったり、監視なく機能が変更される可能性があります。",
-  "host-system-folders": "ホストシステムホルダー",
+  "host-system-folders": "ホストシステムフォルダー",
   "token-creation-placeholder": "名前の一覧を改行で区切って入力し、それぞれが新しい所有者トークンを識別します。",
   "can-request-data-from-system-services": "システムサービスにデータを要求可能",
   "revoke-token-description": "本当にトークン「{{name}}」を取り消しますか？",
@@ -525,5 +525,6 @@
   "invite-developer": "開発者を招待",
   "uses-eol-runtime": "サポート切れのランタイムを使用",
   "primary-developer": "主要開発者",
-  "invite": "招待"
+  "invite": "招待",
+  "host-system-configuration-from-etc": "/etc のホストシステムの設定ファイル"
 }

@@ -530,5 +530,8 @@
   "upload-tokens": "Unggah Token",
   "new-stable-token": "Token Stabil Baru",
   "expires": "Kedaluwarsa",
-  "revoked": "Dicabut"
+  "revoked": "Dicabut",
+  "screenshot-sizes": "Ukuran tangkapan layar",
+  "build-x": "Dibangun {{build-ago}}",
+  "can-access-input-devices": "Dapat mengakses perangkat input seperti keyboard, mouse, atau pengontrol game"
 }

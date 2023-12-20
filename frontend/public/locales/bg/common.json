@@ -532,6 +532,7 @@
   "new-stable-token": "Нова стабилна версия на жетона",
   "expires": "Изтича на",
   "revoked": "Отменен",
-  "build-x": "Създадена {{build-ago}}",
-  "screenshot-sizes": "Размери на снимката"
+  "build-x": "създадена {{build-ago}}",
+  "screenshot-sizes": "Размери на снимката",
+  "can-access-input-devices": "Има достъп до входните устройства като клавиатури, мишки или контролери за игри"
 }
