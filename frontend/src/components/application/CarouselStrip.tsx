@@ -120,18 +120,26 @@ export const CarouselStrip = ({
         {isQualityModalOpen && slides?.length > 0 && (
           <div className="flex flex-col items-center justify-center pb-6">
             {t("screenshot-sizes")}
-            {slides?.map((screenshot, index) => {
-              return (
-                <div key={screenshot.src} className="flex items-center gap-1">
-                  {index === currentIndex && (
-                    <div className="text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-                      {<HiChevronRight />}
-                    </div>
-                  )}
-                  {`${screenshot.width}x${screenshot.height}`}
-                </div>
-              )
-            })}
+            <div className="flex gap-2 lg:flex-row flex-col">
+              {slides?.map((screenshot, index) => {
+                return (
+                  <div
+                    key={screenshot.src}
+                    className={clsx(
+                      "lg:after:content-['|'] lg:after:last:content-[''] lg:after:ml-2",
+                    )}
+                  >
+                    <span
+                      className={clsx(
+                        index === currentIndex && "font-semibold",
+                      )}
+                    >
+                      {`${screenshot.width}x${screenshot.height}`}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         )}
         {slides?.length > 1 && (
