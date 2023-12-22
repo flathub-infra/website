@@ -43,6 +43,11 @@ let userNavigation = [
     href: "/quality-moderation",
     condition: (user: UserInfo) => user?.["is-quality-moderator"],
   },
+  {
+    name: "App picks",
+    href: "/app-picks",
+    condition: (user: UserInfo) => user?.["is-quality-moderator"],
+  },
 ]
 
 if (!IS_PRODUCTION)
