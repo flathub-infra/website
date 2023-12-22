@@ -1,5 +1,6 @@
 import {
   AppApi,
+  AppPicksApi,
   AuthApi,
   CompatApi,
   Configuration,
@@ -44,3 +45,5 @@ export const feedApi = new FeedApi(apiConfig)
 export const healthcheckApi = new HealthcheckApi(apiConfig)
 
 export const vendingApi = new VendingApi(apiConfig)
+
+export const appPicks = new AppPicksApi(apiConfig)
