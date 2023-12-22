@@ -2,6 +2,7 @@ import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
 import {
+  fetchAppstream,
   fetchCategory,
   fetchCollectionPopularLastMonth,
   fetchCollectionRecentlyAdded,
@@ -20,6 +21,12 @@ import {
 } from "src/meilisearch"
 import { Category, categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
+import { HeroBanner } from "src/components/application/HeroBanner"
+import { DesktopAppstream } from "src/types/Appstream"
+import clsx from "clsx"
+import { AppOfTheDay } from "src/components/application/AppOfTheDay"
+import { appPicks } from "src/api"
+import { formatISO } from "date-fns"
 
 const categoryOrder = [
   Category.Office,
@@ -40,6 +47,8 @@ export default function Home({
   popular,
   verified,
   topAppsByCategory,
+  heroBannerAppstreams,
+  appOfTheDayAppstream,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -49,39 +58,67 @@ export default function Home({
     category: Category
     apps: MeilisearchResponse<AppsIndex>
   }[]
+  heroBannerAppstreams: DesktopAppstream[]
+  appOfTheDayAppstream: DesktopAppstream
 }) {
   const { t } = useTranslation()
   return (
     <>
       <NextSeo description={t("flathub-description")} />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <div className="flex justify-between gap-3">
-          <div className="prose dark:prose-invert max-w-none">
-            <h1 className="mb-0 text-4xl font-extrabold">
-              {t("the-linux-app-store")}
-            </h1>
-            <p className="introduction mb-8 mt-2 max-w-2xl text-lg font-light">
-              {t("flathub-index-description")}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <ButtonLink
-                variant="secondary"
-                href={"/setup"}
-                passHref
-                aria-label={t("setup-flathub-description")}
-              >
-                {t("setup-flathub")}
-              </ButtonLink>
-              {!IS_PRODUCTION && (
-                <ButtonLink
-                  variant="secondary"
-                  href={"/donate"}
-                  passHref
-                  aria-label={t("donate-to", { project: "Flathub" })}
-                >
-                  {t("donate-to", { project: "Flathub" })}
-                </ButtonLink>
+        {heroBannerAppstreams.length > 0 && (
+          <HeroBanner appstreams={heroBannerAppstreams} />
+        )}
+        <div className="flex flex-col lg:flex-row gap-10">
+          <div className="lg:w-1/2">
+            <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
+          </div>
+          <div
+            className={clsx(
+              "lg:w-1/2",
+              "rounded-xl",
+              "flex min-w-0 items-center gap-4",
+              "bg-repeat-y",
+              "bg-[url('/img/card-background.svg')]",
+              "shadow-md",
+              "overflow-hidden",
+            )}
+          >
+            <div
+              className={clsx(
+                "flex justify-between gap-3",
+                "dark:bg-flathub-arsenic/90",
+                "p-8 w-full h-full",
               )}
+            >
+              <div className="prose dark:prose-invert max-w-none">
+                <div className="mb-0 text-2xl font-extrabold">
+                  {t("the-linux-app-store")}
+                </div>
+                <p className="introduction mb-8 mt-2 max-w-2xl font-light">
+                  {t("flathub-index-description")}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <ButtonLink
+                    variant="secondary"
+                    href={"/setup"}
+                    passHref
+                    aria-label={t("setup-flathub-description")}
+                  >
+                    {t("setup-flathub")}
+                  </ButtonLink>
+                  {!IS_PRODUCTION && (
+                    <ButtonLink
+                      variant="secondary"
+                      href={"/donate"}
+                      passHref
+                      aria-label={t("donate-to", { project: "Flathub" })}
+                    >
+                      {t("donate-to", { project: "Flathub" })}
+                    </ButtonLink>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -153,6 +190,22 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
+  const heroBannerIds =
+    await appPicks.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
+      formatISO(new Date(), { representation: "date" }),
+    )
+  const appOfTheDay = await appPicks.getAppOfTheDayAppPicksAppOfTheDayDateGet(
+    formatISO(new Date(), { representation: "date" }),
+  )
+
+  const heroBannerAppstreams = await Promise.all(
+    heroBannerIds.data.apps.map((app) => fetchAppstream(app.app_id)),
+  ).then((apps) => apps.map((app) => app.data))
+
+  const appOfTheDayAppstream = await fetchAppstream(
+    appOfTheDay.data.app_id,
+  ).then((app) => app.data)
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -161,6 +214,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popular,
       verified,
       topAppsByCategory,
+      heroBannerAppstreams,
+      appOfTheDayAppstream,
     },
     revalidate: 900,
   }
