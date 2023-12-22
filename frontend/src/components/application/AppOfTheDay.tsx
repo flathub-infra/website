@@ -22,10 +22,9 @@ export const AppOfTheDay = ({
         "flex min-w-0 items-center gap-4 p-8 pb-0 duration-500",
         "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline dark:hover:bg-flathub-arsenic/90",
         "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
-        "h-full",
         "shadow-md",
-        "flex flex-col",
         "text-flathub-dark-gunmetal dark:text-flathub-gainsborow",
+        "h-48",
       )}
     >
       <div className="flex w-full h-full">
