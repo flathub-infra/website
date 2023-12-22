@@ -183,7 +183,7 @@ export default function AppPicks() {
         </Trans>
       </>
     )
-  } else if (query.isLoading || queryQualityApps.isLoading) {
+  } else if (query.isPending || queryQualityApps.isPending) {
     content = <Spinner size="m" />
   } else if (query.isError || queryQualityApps.isError) {
     content = (
