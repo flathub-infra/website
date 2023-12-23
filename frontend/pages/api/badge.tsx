@@ -1,0 +1,186 @@
+import type { NextApiRequest, NextApiResponse } from "next"
+import { promises as fs } from "fs"
+import path from "path"
+
+import * as resvg from "@resvg/resvg-wasm"
+import i18next from "i18next"
+import { languages } from "src/localize"
+import satori from "satori"
+
+let wasmInitialized = false
+
+function getTranslationsForKey(key: string) {
+  return languages.reduce((messages, currentLang) => {
+    messages[currentLang] = i18next.t(key, { lng: currentLang })
+    return messages
+  }, {})
+}
+
+type ResponseData = {
+  message: string
+}
+
+async function createInterSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/Inter-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "Inter-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseData>,
+) {
+  if (!wasmInitialized) {
+    const wasmPath = path.join(
+      process.cwd(),
+      "node_modules/@resvg/resvg-wasm/index_bg.wasm",
+    )
+    const wasmBuffer = await fs.readFile(wasmPath)
+    const wasmArrayBuffer = new Uint8Array(wasmBuffer).buffer
+    try {
+      await resvg.initWasm(wasmArrayBuffer)
+      wasmInitialized = true
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const ns = ["common"]
+  const supportedLngs = languages
+  const resources = ns.reduce((acc, n) => {
+    supportedLngs.forEach((lng) => {
+      if (!acc[lng]) acc[lng] = {}
+      acc[lng] = {
+        ...acc[lng],
+        [n]: require(`../../public/locales/${lng}/${n}.json`),
+      }
+    })
+    return acc
+  }, {})
+
+  i18next.init({
+    lng: "en",
+    fallbackLng: "en",
+    defaultNS: "common",
+    supportedLngs,
+    resources,
+  })
+
+  const locale = req.query.locale || "en"
+  const light = req.query.light === "" || false
+  const asSvg = req.query.svg === "" || false
+
+  const getItOnArray = getTranslationsForKey("get-it-on")
+  const getItOn = getItOnArray[locale as string].toUpperCase()
+
+  const svg = await satori(
+    <div
+      style={{
+        display: "flex",
+        backgroundColor: light ? "white" : "black",
+        width: "100%",
+        height: "100%",
+        color: light ? "black" : "white",
+        borderColor: light ? "black" : "#888A85",
+        borderWidth: "2px",
+        borderStyle: "solid",
+        borderRadius: "16px",
+        alignItems: "center",
+        gap: "16px",
+        paddingLeft: "32px",
+        paddingRight: "32px",
+      }}
+    >
+      <svg
+        width="36.885"
+        height="36"
+        version="1.1"
+        viewBox="0 0 66.885 64"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g transform="translate(-30.558 -32)">
+          <g
+            transform="matrix(1.7016 0 0 1.7016 -237.69 -115.36)"
+            fill="currentColor"
+          >
+            <circle cx="166.69" cy="95.647" r="9.0478" stroke-width=".58767" />
+            <rect
+              x="158.41"
+              y="107.8"
+              width="16.412"
+              height="16.412"
+              rx="4.3765"
+              ry="4.3765"
+              stroke-width=".58767"
+            />
+            <path
+              transform="matrix(.9259 .53457 .53457 -.9259 99.826 110.69)"
+              d="m69.514 58.833h-1.7806-10.247a2.4441 2.4441 60 0 1-2.1167-3.6662l6.0139-10.416a2.4441 2.4441 2.522e-7 0 1 4.2333 0l6.0139 10.416a2.4441 2.4441 120 0 1-2.1167 3.6662z"
+              stroke-width=".55348"
+            />
+            <path
+              d="m194.99 116.11c0 0.87946-0.70801 1.5875-1.5875 1.5875h-12.7c-0.87946 0-1.5875-0.70802-1.5875-1.5875s0.70802-1.5875 1.5875-1.5875h12.7c0.87946 0 1.5875 0.70801 1.5875 1.5875zm-7.9375-7.9375c0.87946 0 1.5875 0.70802 1.5875 1.5875v12.7c0 0.87946-0.70802 1.5875-1.5875 1.5875-0.87947 0-1.5875-0.70802-1.5875-1.5875v-12.7c0-0.87947 0.70802-1.5875 1.5875-1.5875z"
+              stroke-width="5.8767"
+            />
+          </g>
+        </g>
+      </svg>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: "Inter-SemiBold",
+          fontSize: "12px",
+          lineHeight: "16px",
+        }}
+      >
+        {getItOn}
+        <span
+          style={{
+            fontFamily: "Inter-SemiBold",
+            fontSize: "29px",
+            fontStyle: "normal",
+            lineHeight: "30px",
+            letterSpacing: "0px",
+          }}
+        >
+          Flathub
+        </span>
+      </div>
+    </div>,
+    {
+      width: 240,
+      height: 80,
+      fonts: [(await createInterSemiBold()) as any],
+    },
+  )
+
+  res.setHeader("Cache-Control", "public, max-age=31536000, immutable")
+  if (asSvg) {
+    res.setHeader("Content-Type", "image/svg+xml")
+    res.end(svg)
+    return
+  }
+
+  const renderer = new resvg.Resvg(svg, {
+    fitTo: {
+      mode: "width",
+      value: 240,
+    },
+  })
+  const image = renderer.render()
+
+  const pngBuffer = image.asPng()
+
+  res.setHeader("Content-Type", "image/png")
+  res.end(pngBuffer)
+}
