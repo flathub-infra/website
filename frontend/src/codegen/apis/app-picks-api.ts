@@ -154,6 +154,60 @@ export const AppPicksApiAxiosParamCreator = function (
       }
     },
     /**
+     * Sets an app of the day
+     * @summary Set App Of The Day
+     * @param {AppOfTheDay} appOfTheDay
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAppOfTheDayAppPicksAppOfTheDayPost: async (
+      appOfTheDay: AppOfTheDay,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appOfTheDay' is not null or undefined
+      assertParamExists(
+        "setAppOfTheDayAppPicksAppOfTheDayPost",
+        "appOfTheDay",
+        appOfTheDay,
+      )
+      const localVarPath = `/app-picks/app-of-the-day`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        appOfTheDay,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Sets an app of the week
      * @summary Set App Of The Week
      * @param {UpsertAppOfTheWeek} upsertAppOfTheWeek
@@ -268,6 +322,31 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
       )
     },
     /**
+     * Sets an app of the day
+     * @summary Set App Of The Day
+     * @param {AppOfTheDay} appOfTheDay
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setAppOfTheDayAppPicksAppOfTheDayPost(
+      appOfTheDay: AppOfTheDay,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.setAppOfTheDayAppPicksAppOfTheDayPost(
+          appOfTheDay,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Sets an app of the week
      * @summary Set App Of The Week
      * @param {UpsertAppOfTheWeek} upsertAppOfTheWeek
@@ -337,6 +416,21 @@ export const AppPicksApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Sets an app of the day
+     * @summary Set App Of The Day
+     * @param {AppOfTheDay} appOfTheDay
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAppOfTheDayAppPicksAppOfTheDayPost(
+      appOfTheDay: AppOfTheDay,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setAppOfTheDayAppPicksAppOfTheDayPost(appOfTheDay, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Sets an app of the week
      * @summary Set App Of The Week
      * @param {UpsertAppOfTheWeek} upsertAppOfTheWeek
@@ -392,6 +486,23 @@ export class AppPicksApi extends BaseAPI {
   ) {
     return AppPicksApiFp(this.configuration)
       .getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(date, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Sets an app of the day
+   * @summary Set App Of The Day
+   * @param {AppOfTheDay} appOfTheDay
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppPicksApi
+   */
+  public setAppOfTheDayAppPicksAppOfTheDayPost(
+    appOfTheDay: AppOfTheDay,
+    options?: AxiosRequestConfig,
+  ) {
+    return AppPicksApiFp(this.configuration)
+      .setAppOfTheDayAppPicksAppOfTheDayPost(appOfTheDay, options)
       .then((request) => request(this.axios, this.basePath))
   }
 

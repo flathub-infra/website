@@ -10,11 +10,13 @@ export const FlathubCombobox = <
   selected,
   setSelected,
   label,
+  disabled,
 }: {
   items: T[]
   selected: T
   setSelected: (item: T) => void
   label?: string
+  disabled?: boolean
 }) => {
   const [query, setQuery] = useState("")
 
@@ -26,7 +28,12 @@ export const FlathubCombobox = <
         })
 
   return (
-    <Combobox as="div" value={selected} onChange={setSelected}>
+    <Combobox
+      as="div"
+      value={selected}
+      onChange={setSelected}
+      disabled={disabled}
+    >
       {label && (
         <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">
           {label}
@@ -38,6 +45,7 @@ export const FlathubCombobox = <
             "w-full rounded-md border-0 bg-flathub-white dark:bg-flathub-arsenic py-1.5 pl-3 pr-10",
             "text-gray-900 dark:text-flathub-lotion shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-0 focus:ring-2 focus:ring-inset",
             "focus:ring-flathub-celestial-blue sm:text-sm sm:leading-6",
+            disabled && "bg-flathub-gainsborow dark:bg-flathub-granite-gray",
           )}
           onChange={(event) => setQuery(event.target.value)}
           displayValue={(item: T) => item?.name}
