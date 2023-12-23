@@ -30,17 +30,17 @@ export interface StorefrontInfo {
    * @type {VerificationStatus}
    * @memberof StorefrontInfo
    */
-  verification: VerificationStatus | null
+  verification?: VerificationStatus | null
   /**
    *
    * @type {PricingInfo}
    * @memberof StorefrontInfo
    */
-  pricing: PricingInfo | null
+  pricing?: PricingInfo | null
   /**
    *
    * @type {boolean}
    * @memberof StorefrontInfo
    */
-  is_free_software: boolean
+  is_free_software?: boolean
 }

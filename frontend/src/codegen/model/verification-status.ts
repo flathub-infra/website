@@ -36,41 +36,41 @@ export interface VerificationStatus {
    * @type {string}
    * @memberof VerificationStatus
    */
-  timestamp: string | null
+  timestamp?: string | null
   /**
    *
    * @type {VerificationMethod}
    * @memberof VerificationStatus
    */
-  method: VerificationMethod | null
+  method?: VerificationMethod | null
   /**
    *
    * @type {string}
    * @memberof VerificationStatus
    */
-  website: string | null
+  website?: string | null
   /**
    *
    * @type {LoginProvider}
    * @memberof VerificationStatus
    */
-  login_provider: LoginProvider | null
+  login_provider?: LoginProvider | null
   /**
    *
    * @type {string}
    * @memberof VerificationStatus
    */
-  login_name: string | null
+  login_name?: string | null
   /**
    *
    * @type {boolean}
    * @memberof VerificationStatus
    */
-  login_is_organization: boolean | null
+  login_is_organization?: boolean | null
   /**
    *
    * @type {string}
    * @memberof VerificationStatus
    */
-  detail: string | null
+  detail?: string | null
 }

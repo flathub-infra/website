@@ -13,7 +13,7 @@
  */
 
 /**
- *      Result from attempting to make a proposed payment
+ * Result from attempting to make a proposed payment
  * @export
  * @interface VendingOutput
  */
