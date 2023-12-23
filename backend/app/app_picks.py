@@ -17,6 +17,7 @@ def register_to_app(app: FastAPI):
 
 class AppOfTheDay(BaseModel):
     app_id: str
+    day: datetime.date
 
 
 @router.get("/app-of-the-day/{date}", tags=["app-picks"])
@@ -31,9 +32,9 @@ def get_app_of_the_day(
     app_of_the_day = models.AppOfTheDay.by_date(db, date)
 
     if app_of_the_day is None:
-        return AppOfTheDay(app_id="org.gnome.Totem")
+        return AppOfTheDay(app_id="org.gnome.Totem", day=date)
 
-    return AppOfTheDay(app_id=app_of_the_day.app_id)
+    return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
 
 
 class AppOfTheWeek(BaseModel):
@@ -83,3 +84,12 @@ def set_app_of_the_week(
     models.AppsOfTheWeek.upsert(
         db, body.app_id, body.weekNumber, body.year, body.position, moderator.user.id
     )
+
+
+@router.post("/app-of-the-day", tags=["app-picks"])
+def set_app_of_the_day(
+    body: AppOfTheDay,
+    _moderator=Depends(quality_moderator_only),
+):
+    """Sets an app of the day"""
+    models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)

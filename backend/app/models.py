@@ -1618,11 +1618,16 @@ class AppOfTheDay(Base):
 
     @classmethod
     def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
-        app = AppOfTheDay(
-            app_id=app_id,
-            date=date,
-        )
-        db.session.add(app)
+        app = AppOfTheDay.by_date(db, date)
+        if app:
+            app.app_id = app_id
+        else:
+            app = AppOfTheDay(
+                app_id=app_id,
+                date=date,
+            )
+            db.session.add(app)
+
         db.session.commit()
         return app
 
