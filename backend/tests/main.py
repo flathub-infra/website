@@ -402,16 +402,39 @@ def test_valid_app_ids():
 def test_verification_domain_names():
     from app.verification import _get_domain_name
 
+    # Invalid as we don't want .com
     assert _get_domain_name("com.github.Example") is None
     assert _get_domain_name("com.gitlab.Example") is None
 
+    # Github
     assert _get_domain_name("io.github.example.App") == "example.github.io"
+    # Gitlab
     assert _get_domain_name("io.gitlab.example.App") == "example.gitlab.io"
 
+    # Codeberg
+    assert _get_domain_name("page.codeberg.example.App") == "example.codeberg.page"
+    assert _get_domain_name("page.codeberg._0example.App") == "0example.codeberg.page"
+
+    # Sourceforge
+    assert _get_domain_name("io.sourceforge.example.App") == "example.sourceforge.io"
+    assert _get_domain_name("io.sourceforge.example.App") == "example.sourceforge.io"
+    assert (
+        _get_domain_name("net.sourceforge._0example.App") == "0example.sourceforge.io"
+    )
+    assert (
+        _get_domain_name("net.sourceforge._0example.App") == "0example.sourceforge.io"
+    )
+
+    # Normal top-level domain
     assert _get_domain_name("org.flathub.TestApp") == "flathub.org"
     assert _get_domain_name("org._0example.TestApp") == "0example.org"
     assert _get_domain_name("org.example_website.TestApp") == "example-website.org"
     assert _get_domain_name("org._0_example.TestApp") == "0-example.org"
+    assert _get_domain_name("tv.kodi.Kodi") == "kodi.tv"
+    assert _get_domain_name("com.fyralabs.SkiffDesktop") == "fyralabs.com"
+    assert _get_domain_name("org.ppsspp.PPSSPP") == "ppsspp.org"
+    assert _get_domain_name("net.kuribo64.melonDS") == "kuribo64.net"
+    assert _get_domain_name("org.mozilla.firefox") == "mozilla.org"
 
 
 @pytest.mark.xfail
