@@ -24,4 +24,10 @@ export interface AppOfTheDay {
    * @memberof AppOfTheDay
    */
   app_id: string
+  /**
+   *
+   * @type {string}
+   * @memberof AppOfTheDay
+   */
+  day: string
 }

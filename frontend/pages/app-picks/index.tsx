@@ -19,8 +19,7 @@ import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
 import { appPicks, qualityModerationApi } from "src/api"
-import { AppOfTheDay } from "src/components/application/AppOfTheDay"
-import { UserState } from "src/types/Login"
+import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -142,53 +141,6 @@ export default function AppPicks() {
   })
 
   const startOfThisWeek = startOfISOWeek(date)
-  const queryAppOfTheDayMonday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 0),
-    user,
-  )
-  const queryAppOfTheDayTuesday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 1),
-    user,
-  )
-  const queryAppOfTheDayWednesday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 2),
-    user,
-  )
-  const queryAppOfTheDayThursday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 3),
-    user,
-  )
-  const queryAppOfTheDayFriday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 4),
-    user,
-  )
-  const queryAppOfTheDaySaturday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 5),
-    user,
-  )
-  const queryAppOfTheDaySunday = GetAppOfTheDay(
-    addDays(startOfThisWeek, 6),
-    user,
-  )
-
-  function GetAppOfTheDay(date: Date, user: UserState) {
-    return useQuery({
-      queryKey: ["app-of-the-day", date],
-      queryFn: async () => {
-        const getAppsOfTheDay =
-          await appPicks.getAppOfTheDayAppPicksAppOfTheDayDateGet(
-            formatISO(date, { representation: "date" }),
-          )
-
-        const getAppOfTheDayInfo = await fetchAppstream(
-          getAppsOfTheDay.data.app_id,
-        )
-
-        return getAppOfTheDayInfo
-      },
-      enabled: !!user.info?.["is-quality-moderator"],
-    })
-  }
 
   useEffect(() => {
     if (queryQualityApps.data) {
@@ -261,7 +213,7 @@ export default function AppPicks() {
           For week {getISOWeek(date)} of {date.getFullYear()}
         </div>
         <div className="text-sm">
-          {startOfISOWeek(date).toDateString()} to{" "}
+          {startOfThisWeek.toDateString()} to{" "}
           {endOfISOWeek(date).toDateString()}
         </div>
 
@@ -369,69 +321,34 @@ export default function AppPicks() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-          <div>
-            Monday
-            {queryAppOfTheDayMonday.data &&
-            !queryAppOfTheDayMonday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDayMonday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Tuesday
-            {queryAppOfTheDayTuesday.data &&
-            !queryAppOfTheDayTuesday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDayTuesday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Wednesday
-            {queryAppOfTheDayWednesday.data &&
-            !queryAppOfTheDayWednesday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDayWednesday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Thursday
-            {queryAppOfTheDayThursday.data &&
-            !queryAppOfTheDayThursday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDayThursday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Friday
-            {queryAppOfTheDayFriday.data &&
-            !queryAppOfTheDayFriday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDayFriday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Saturday
-            {queryAppOfTheDaySaturday.data &&
-            !queryAppOfTheDaySaturday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDaySaturday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
-          <div>
-            Sunday
-            {queryAppOfTheDaySunday.data &&
-            !queryAppOfTheDaySunday.isFetching ? (
-              <AppOfTheDay appOfTheDay={queryAppOfTheDaySunday.data.data} />
-            ) : (
-              <Spinner size="m" />
-            )}
-          </div>
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 0)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 1)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 2)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 3)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 4)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 5)}
+            selectableApps={selectableApps}
+          />
+          <AppOfTheDayChanger
+            day={addDays(startOfThisWeek, 6)}
+            selectableApps={selectableApps}
+          />
         </div>
       </>
     )
