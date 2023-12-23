@@ -71,12 +71,12 @@ export default function AppPicks() {
         },
       )
 
-      await query.refetch()
+      await queryAppsOfTheWeek.refetch()
     },
   })
 
-  const query = useQuery({
-    queryKey: ["app-of-the-week", date],
+  const queryAppsOfTheWeek = useQuery({
+    queryKey: ["apps-of-the-week", date],
     queryFn: async () => {
       const getAppsOfTheWeek =
         await appPicks.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
@@ -212,7 +212,7 @@ export default function AppPicks() {
     fifthApp?.id,
     firstApp?.id,
     fourthApp?.id,
-    query.data,
+    queryAppsOfTheWeek.data,
     queryQualityApps.data,
     secondApp?.id,
     thirdApp?.id,
@@ -234,9 +234,9 @@ export default function AppPicks() {
         </Trans>
       </>
     )
-  } else if (query.isPending || queryQualityApps.isPending) {
+  } else if (queryAppsOfTheWeek.isPending || queryQualityApps.isPending) {
     content = <Spinner size="m" />
-  } else if (query.isError || queryQualityApps.isError) {
+  } else if (queryAppsOfTheWeek.isError || queryQualityApps.isError) {
     content = (
       <>
         <h1 className="my-8">{t("whoops")}</h1>
@@ -257,7 +257,7 @@ export default function AppPicks() {
     content = (
       <>
         <h1 className="mt-8 text-4xl font-extrabold">App picks</h1>
-        <div className="text-sm">
+        <div className="text-sm flex">
           For week {getISOWeek(date)} of {date.getFullYear()}
         </div>
         <div className="text-sm">
@@ -359,8 +359,9 @@ export default function AppPicks() {
         </div>
 
         <h2 className="text-2xl my-4">Preview</h2>
-        {query.data.length > 0 && !query.isFetching ? (
-          <HeroBanner appstreams={query.data} />
+        {queryAppsOfTheWeek.data.length > 0 &&
+        !queryAppsOfTheWeek.isFetching ? (
+          <HeroBanner appstreams={queryAppsOfTheWeek.data} />
         ) : (
           <div className="text-sm">
             No apps for this week. Please select apps above.
