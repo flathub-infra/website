@@ -1,12 +1,10 @@
-import { Dialog, Transition } from "@headlessui/react"
-import { Fragment, FunctionComponent, ReactElement, useState } from "react"
-import { useTranslation } from "react-i18next"
+import { FunctionComponent, ReactElement, useState } from "react"
+import { useTranslation } from "next-i18next"
 import {
   NewTokenResponse,
   Repo,
   createUploadToken,
 } from "src/asyncs/upload_tokens"
-import Button from "src/components/Button"
 import Spinner from "src/components/Spinner"
 import CodeCopy from "../CodeCopy"
 import Modal from "src/components/Modal"
