@@ -68,7 +68,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
       <FlathubCombobox
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}
         items={selectableApps}
-        selected={queryAppOfTheDay.data?.data}
+        selected={queryAppOfTheDay.data?.data ?? null}
         setSelected={changeAppOfTheDay}
       />
     </div>
