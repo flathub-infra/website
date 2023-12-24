@@ -101,9 +101,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 export default Sentry.withErrorBoundary(appWithTranslation(App), {
   fallback: ({ error, componentStack, resetError }) => (
     <Fragment>
-      <div>You have encountered an error</div>
-      <div>{error.toString()}</div>
-      <div>{componentStack}</div>
+      <h3>You have encountered an error</h3>
+      <p>{error.toString()}</p>
+      <p>{componentStack}</p>
       <button
         onClick={() => {
           resetError()
