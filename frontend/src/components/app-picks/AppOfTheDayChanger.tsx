@@ -29,7 +29,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
   const mutateAppOfTheDay = useMutation({
     mutationKey: ["app-of-the-day", "monday"],
-    mutationFn: async (app: { id: string; name: string; day: Date }) => {
+    mutationFn: async (app: { id: string; day: Date }) => {
       await appPicks.setAppOfTheDayAppPicksAppOfTheDayPost(
         {
           app_id: app.id,
@@ -44,6 +44,19 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
     },
   })
 
+  const changeAppOfTheDay = async (app: {
+    id: string
+    name: string
+  }): Promise<void> => {
+    if (app) {
+      mutateAppOfTheDay.mutateAsync({
+        id: app.id,
+        day: day,
+      })
+      await queryAppOfTheDay.refetch()
+    }
+  }
+
   return (
     <div>
       {format(day, "EEEE")}
@@ -56,16 +69,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}
         items={selectableApps}
         selected={queryAppOfTheDay.data?.data}
-        setSelected={async (app) => {
-          if (app) {
-            mutateAppOfTheDay.mutateAsync({
-              id: app.id,
-              name: app.name,
-              day: day,
-            })
-            await queryAppOfTheDay.refetch()
-          }
-        }}
+        setSelected={changeAppOfTheDay}
       />
     </div>
   )
