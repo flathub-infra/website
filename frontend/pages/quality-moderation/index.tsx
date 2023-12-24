@@ -17,7 +17,6 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { Fragment, ReactElement, useEffect, useState } from "react"
 import {
-  HiArrowTopRightOnSquare,
   HiCheckCircle,
   HiExclamationTriangle,
   HiMiniChevronDown,
@@ -383,13 +382,13 @@ export default function QualityModerationDashboard() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="Quality Moderation Dashboard" />
+      <NextSeo title="Quality Moderation Dashboard" noindex />
       {content}
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
