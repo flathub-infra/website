@@ -46,13 +46,13 @@ export default function ModerationDashboard() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="Moderation Dashboard" />
+      <NextSeo title="Moderation Dashboard" noindex />
       {content}
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

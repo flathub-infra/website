@@ -5,7 +5,6 @@ import {
   formatISO,
   getISOWeek,
   startOfISOWeek,
-  startOfWeek,
 } from "date-fns"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
@@ -353,13 +352,13 @@ export default function AppPicks() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="App picks" />
+      <NextSeo title="App picks" noindex />
       {content}
     </div>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
