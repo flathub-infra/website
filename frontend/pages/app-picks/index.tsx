@@ -321,7 +321,7 @@ export default function AppPicks() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-          <AppOfTheDayChanger
+          {/* <AppOfTheDayChanger
             day={addDays(startOfThisWeek, 0)}
             selectableApps={selectableApps}
           />
@@ -348,7 +348,7 @@ export default function AppPicks() {
           <AppOfTheDayChanger
             day={addDays(startOfThisWeek, 6)}
             selectableApps={selectableApps}
-          />
+          /> */}
         </div>
       </>
     )
