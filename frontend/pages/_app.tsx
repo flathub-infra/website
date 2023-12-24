@@ -20,11 +20,11 @@ import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
 import * as Sentry from "@sentry/react"
-import { Error } from "../src/components/Error"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MotionConfig } from "framer-motion"
 
 import cardImage from "../public/img/card.webp"
+import { Fragment } from "react"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -99,5 +99,18 @@ const App = ({ Component, pageProps }: AppProps) => {
 }
 
 export default Sentry.withErrorBoundary(appWithTranslation(App), {
-  fallback: <Error />,
+  fallback: ({ error, componentStack, resetError }) => (
+    <Fragment>
+      <div>You have encountered an error</div>
+      <div>{error.toString()}</div>
+      <div>{componentStack}</div>
+      <button
+        onClick={() => {
+          resetError()
+        }}
+      >
+        Click here to retry!
+      </button>
+    </Fragment>
+  ),
 })
