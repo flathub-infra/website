@@ -2,12 +2,10 @@ import type { NextApiRequest, NextApiResponse } from "next"
 import { promises as fs } from "fs"
 import path from "path"
 
-import * as resvg from "@resvg/resvg-wasm"
+import { Resvg } from "@resvg/resvg-js"
 import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
-
-let wasmInitialized = false
 
 function getTranslationsForKey(key: string) {
   return languages.reduce((messages, currentLang) => {
@@ -39,21 +37,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
 ) {
-  if (!wasmInitialized) {
-    const wasmPath = path.join(
-      process.cwd(),
-      "node_modules/@resvg/resvg-wasm/index_bg.wasm",
-    )
-    const wasmBuffer = await fs.readFile(wasmPath)
-    const wasmArrayBuffer = new Uint8Array(wasmBuffer).buffer
-    try {
-      await resvg.initWasm(wasmArrayBuffer)
-      wasmInitialized = true
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
   const ns = ["common"]
   const supportedLngs = languages
   const resources = ns.reduce((acc, n) => {
@@ -171,7 +154,7 @@ export default async function handler(
     return
   }
 
-  const renderer = new resvg.Resvg(svg, {
+  const renderer = new Resvg(svg, {
     fitTo: {
       mode: "width",
       value: 240,
