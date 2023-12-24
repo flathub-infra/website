@@ -292,9 +292,6 @@ export default function AppPicks() {
 
         <div className="flex justify-between pt-4">
           <Button
-            disabled={
-              addDays(startOfISOWeek(date), -1) < startOfWeek(new Date())
-            }
             onClick={() => {
               setDate(addDays(startOfISOWeek(date), -1))
             }}
@@ -321,7 +318,7 @@ export default function AppPicks() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-          {/* <AppOfTheDayChanger
+          <AppOfTheDayChanger
             day={addDays(startOfThisWeek, 0)}
             selectableApps={selectableApps}
           />
@@ -348,7 +345,7 @@ export default function AppPicks() {
           <AppOfTheDayChanger
             day={addDays(startOfThisWeek, 6)}
             selectableApps={selectableApps}
-          /> */}
+          />
         </div>
       </>
     )

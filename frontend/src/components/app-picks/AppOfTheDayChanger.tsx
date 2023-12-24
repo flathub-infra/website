@@ -60,10 +60,10 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   return (
     <div>
       {format(day, "EEEE")}
-      {queryAppOfTheDay.data && !queryAppOfTheDay.isFetching ? (
-        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data.data} />
-      ) : (
+      {queryAppOfTheDay.isFetching ? (
         <Spinner size="m" />
+      ) : (
+        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data.data} />
       )}
       <FlathubCombobox
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}
