@@ -7416,14 +7416,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "axios@npm:1.6.1"
+"axios@npm:^1.6.2":
+  version: 1.6.2
+  resolution: "axios@npm:1.6.2"
   dependencies:
     follow-redirects: "npm:^1.15.0"
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
-  checksum: ca2c6f56659a7f19e4a99082f549fe151952f6fd8aa72ed148559ab2d6a32ce37cd5dc72ce6d4d3cd91f0c1e2617c7c95c20077e5e244a79f319a6c0ce41204f
+  checksum: 9b77e030e85e4f9cbcba7bb52fbff67d6ce906c92d213e0bd932346a50140faf83733bf786f55bd58301bd92f9973885c7b87d6348023e10f7eaf286d0791a1d
   languageName: node
   linkType: hard
 
@@ -10299,7 +10299,7 @@ __metadata:
     "@types/node": "npm:^20.5.0"
     "@types/react": "npm:^18.2.38"
     autoprefixer: "npm:^10.4.16"
-    axios: "npm:^1.6.1"
+    axios: "npm:^1.6.2"
     boring-avatars: "npm:^1.10.1"
     chart.js: "npm:^4.4.0"
     chartjs-adapter-date-fns: "npm:^3.0.0"
