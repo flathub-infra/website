@@ -282,7 +282,6 @@
   "consultants": "Savjetnici",
   "tags-colon": "Oznake:",
   "consultants-description": "Savjetničke usluge za predlaganje aplikacija Flathubu.",
-  "something-went-wrong": "Dogodila se greška",
   "adventure": "Pustolovina",
   "blocks": "Blokovi",
   "board": "Ploče",
@@ -360,5 +359,8 @@
   "developer-invited": "Pozvan si da postaneš programer",
   "invited-apps": "Pozivnice",
   "accept": "Prihvati",
-  "invite": "Poziv"
+  "invite": "Pozovi",
+  "remove": "Ukloni",
+  "leave-confirmation": "Stvarno želiš napustiti aplikaciju {{app}}?",
+  "leave": "Napusti"
 }

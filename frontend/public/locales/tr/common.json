@@ -305,7 +305,6 @@
   "midi": "Midi",
   "recorder": "Kaydedici",
   "tags-colon": "Etiketler:",
-  "something-went-wrong": "Bir şeyler yanlış gitti",
   "flos": "Özgür Açık Kaynak",
   "moderation-key": "Anahtar",
   "moderation-pending-reviews": "Bekleyen İncelemeler",
@@ -534,5 +533,6 @@
   "new-stable-token": "Yeni Kararlı Jetonu",
   "can-access-input-devices": "Klavye, fare veya oyun kumandası gibi girdi aygıtlarına erişebilir",
   "expires": "Sona erme",
-  "revoked": "İptal edilmiş"
+  "revoked": "İptal edilmiş",
+  "app-of-the-day": "Günün Uygulaması"
 }

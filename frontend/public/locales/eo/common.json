@@ -282,7 +282,6 @@
   "tags-colon": "Etikedoj:",
   "consultants-description": "Konsultaj servoj por submeti programojn al Flathub.",
   "consultants": "Konsultejoj",
-  "something-went-wrong": "Io fiaskis",
   "emulators": "Imitiloj",
   "simulation": "Simulaj",
   "tv": "Televido",
@@ -534,5 +533,6 @@
   "revoked": "Nevalidigita",
   "build-x": "Kunmetita {{build-ago}}",
   "screenshot-sizes": "Grandoj de ekrankopioj",
-  "can-access-input-devices": "Povas atingi enigilojn kiel klavarojn, musojn aŭ stirstangojn"
+  "can-access-input-devices": "Povas atingi enigilojn kiel klavarojn, musojn aŭ stirstangojn",
+  "app-of-the-day": "Programo de la tago"
 }

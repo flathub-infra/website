@@ -282,7 +282,6 @@
   "consultants": "Konsultanci",
   "consultants-description": "Usługi konsultacyjne w sprawie zgłaszania aplikacji do Flathub.",
   "tags-colon": "Tagi:",
-  "something-went-wrong": "Coś poszło nie tak",
   "sports": "Sportowe",
   "kids": "Dla dzieci",
   "card": "Karciane",
@@ -535,5 +534,7 @@
   "revoked": "Wycofany",
   "screenshot-sizes": "Rozmiary zrzutów ekranu",
   "build-x": "Zbudowano {{build-ago}}",
-  "can-access-input-devices": "Może uzyskać dostęp do urządzeń wejściowych, takich jak klawiatury, myszy lub kontrolery do gier"
+  "can-access-input-devices": "Może uzyskać dostęp do urządzeń wejściowych, takich jak klawiatury, myszy lub kontrolery do gier",
+  "app-of-the-day": "Aplikacja dnia",
+  "get-it-on": "Pobierz z"
 }

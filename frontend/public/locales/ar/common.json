@@ -282,7 +282,6 @@
   "consultants-description": "استشارات حيال وضع التطبيقات في فلاتهب.",
   "consultants": "المستشارون",
   "tags-colon": "الوسوم:",
-  "something-went-wrong": "حدث خطأ ما",
   "action": "إثارة",
   "adventure": "مغامرة",
   "blocks": "كُتَل",
@@ -538,5 +537,7 @@
   "revoked": "منقوض",
   "build-x": "تاريخ إنشاء التصريفة {{build-ago}}",
   "screenshot-sizes": "مقاسات اللقطات",
-  "can-access-input-devices": "يمكنه الوصول إلى أجهزة الإدخال مثل لوحات المفاتيح أو الفأرة أو وحدات التحكم في الألعاب"
+  "can-access-input-devices": "يمكنه الوصول إلى أجهزة الإدخال مثل لوحات المفاتيح أو الفأرة أو وحدات التحكم في الألعاب",
+  "get-it-on": "من عند",
+  "app-of-the-day": "تطبيق اليوم"
 }
