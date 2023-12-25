@@ -281,7 +281,6 @@
   "consultants": "Konsultit",
   "consultants-description": "Konsultointipalvelut sovellusten lähettämiseksi Flathubiin.",
   "tags-colon": "Tunnisteet:",
-  "something-went-wrong": "Jokin meni pieleen",
   "card": "Kortti",
   "sports": "Urheilu",
   "logic": "Logiikka",
@@ -527,5 +526,12 @@
   "new-beta-token": "Uusi beetapoletti",
   "new-stable-token": "Uusi vakaa poletti",
   "screenshot-sizes": "Kuvakaappausten koot",
-  "can-access-input-devices": "Voi käyttää syötelaitteita kuten näppäimistöjä, hiiriä ja peliohjaimia"
+  "can-access-input-devices": "Voi käyttää syötelaitteita kuten näppäimistöjä, hiiriä ja peliohjaimia",
+  "id": "ID",
+  "token-created": "Kopioi tämä poletti ja säilytä se turvallisessa sijainnissa, kuten CI-putken salaisuussäilössä. Se mahdollistaa luku- ja kirjoitusoikeuden sovelluksesi koosteisiin.",
+  "scope-build": "Luo ja käytä käännöskoosteita ja töitä",
+  "build-x": "Koostettu {{build-ago}}",
+  "scope-publish": "Julkaise kooste",
+  "scope-upload": "Lähetä tiedostoja koosteeseen",
+  "repo": "Tietovarasto"
 }

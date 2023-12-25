@@ -282,7 +282,6 @@
   "consultants-description": "Adviesdiensten voor het indienen van apps bij Flathub.",
   "consultants": "Adviseurs",
   "tags-colon": "Tags:",
-  "something-went-wrong": "Er is iets misgegaan",
   "arcade": "Arcade",
   "blocks": "Blokken",
   "board": "Bordspel",
@@ -534,5 +533,7 @@
   "revoked": "Ingetrokken",
   "build-x": "{{build-ago}} gebouwd",
   "screenshot-sizes": "Scherm­afdruk­groottes",
-  "can-access-input-devices": "Heeft toegang tot invoer­apparaten zoals toetsen­borden, muizen of game­controllers"
+  "can-access-input-devices": "Heeft toegang tot invoer­apparaten zoals toetsen­borden, muizen of game­controllers",
+  "app-of-the-day": "App van de dag",
+  "get-it-on": "Ontdek het op"
 }

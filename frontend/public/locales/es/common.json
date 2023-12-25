@@ -282,7 +282,6 @@
   "consultants-description": "Servicios de consultoría para enviar aplicaciones a Flathub.",
   "consultants": "Consultores",
   "tags-colon": "Etiquetas:",
-  "something-went-wrong": "Algo salió mal",
   "action": "Acción",
   "adventure": "Aventura",
   "logic": "Lógica",
@@ -535,5 +534,7 @@
   "expires": "Expira",
   "revoked": "Revocado",
   "screenshot-sizes": "Tamaños de las capturas de pantalla",
-  "can-access-input-devices": "Puede acceder a dispositivos de entrada como teclados, ratones o mandos de juegos"
+  "can-access-input-devices": "Puede acceder a dispositivos de entrada como teclados, ratones o mandos de juegos",
+  "get-it-on": "Consíguelo en",
+  "app-of-the-day": "Aplicación del día"
 }

@@ -92,7 +92,6 @@
   "status-cancelled": "Avbröts",
   "stripe-declined-insufficient_funds": "Kortet har inte tillräckligt med pengar.",
   "expiry": "Utgångsdatum",
-  "something-went-wrong": "Någonting gick fel",
   "transaction-summary-type": "Typ: {{type}}",
   "no-apps": "Inga appar att visa.",
   "new-app": "Ny app",

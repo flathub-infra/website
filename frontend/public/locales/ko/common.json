@@ -133,7 +133,6 @@
   "login-provider-verification": "로그인 공급자 인증",
   "invite-code": "초대 코드는 다음과 같습니다:",
   "no-network-access": "네트워크 접속 불가",
-  "something-went-wrong": "뭔가 잘못됐어요",
   "transaction-summary-type": "종류 : {{type}}",
   "contribute-translations": "번역에 기여하기",
   "appname-is-safety-rating-1": "{{appName}}은 안전합니다",

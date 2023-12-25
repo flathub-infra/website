@@ -206,7 +206,6 @@
   "login-provider-verification": "Xác minh nhà cung cấp đăng nhập",
   "invite-code": "Mã mời của bạn là:",
   "no-network-access": "Không truy cập mạng",
-  "something-went-wrong": "Có lỗi xảy ra",
   "transaction-summary-type": "Loại: {{type}}",
   "appname-is-safety-rating-1": "{{appName}} an toàn",
   "no-apps": "Không có ứng dụng nào để hiển thị.",

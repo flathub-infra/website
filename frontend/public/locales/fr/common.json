@@ -277,7 +277,6 @@
   "tv": "TV",
   "audio-video-editing": "Montage audio et vidéo",
   "player": "Lecteur",
-  "something-went-wrong": "Quelque chose n'a pas marché",
   "moderation-value": "Valeur",
   "moderation-dev-description": "Certaines modifications des métadonnées d'une application, comme son nom ou sa description, doivent être examinées par l'équipe de Flathub. Vous pouvez consulter le statut des demandes de révision actuelles et passées ici.",
   "moderation-outdated": "Obsolètes",
