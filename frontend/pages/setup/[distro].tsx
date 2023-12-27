@@ -3,15 +3,11 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "src/components/Breadcrumbs"
-import { fetchSetupInstructions } from "src/distro-setup"
+import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { distroMap } from "src/components/setup/Distros"
 import React from "react"
 
-export default function Setup({
-  distroData,
-}: {
-  distroData: { name: string; logo: string; info: string; logo_dark?: string }
-}) {
+export default function Setup({ distroData }: { distroData: DistroSetup }) {
   const { t } = useTranslation()
 
   const pages = [
