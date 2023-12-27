@@ -146,9 +146,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
                 className="h-40 w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
                 value={comment}
                 placeholder={
-                  modalState === "reject"
-                    ? t("moderation-comment")
-                    : t("moderation-comment-optional")
+                  modalState === "reject" ? "Comment" : "Comment (optional)"
                 }
                 onInput={(e) =>
                   setComment((e.target as HTMLTextAreaElement).value)
