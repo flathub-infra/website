@@ -5,20 +5,14 @@ import Link from "next/link"
 import { useTranslation } from "next-i18next"
 import clsx from "clsx"
 import { useTheme } from "next-themes"
-import { fetchSetupInstructions } from "src/distro-setup"
+import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
 
 export default function Setup({
   instructions,
 }: {
-  instructions: {
-    name: string
-    slug?: string
-    logo: string
-    info: string
-    logo_dark?: string
-  }[]
+  instructions: DistroSetup[]
 }) {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
