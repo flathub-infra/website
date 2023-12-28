@@ -10350,7 +10350,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.0.0"
     framer-motion: "npm:^10.16.4"
     i18n-iso-countries: "npm:^7.7.0"
-    i18next: "npm:^23.2.8"
+    i18next: "npm:^23.7.11"
     isomorphic-dompurify: "npm:^1.8.0"
     next: "npm:^14.0.1"
     next-i18next: "npm:^15.1.1"
@@ -11336,12 +11336,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.2.8":
-  version: 23.2.8
-  resolution: "i18next@npm:23.2.8"
+"i18next@npm:^23.7.11":
+  version: 23.7.11
+  resolution: "i18next@npm:23.7.11"
   dependencies:
-    "@babel/runtime": "npm:^7.22.5"
-  checksum: 819002ff8820ad11197e1ae0753409cd12fabad25349a19bd3c103b8b85cf9fd28059c6ea090848dc3301d6bcf8a1a21135cc18b8370a9f48daf54d3015295cc
+    "@babel/runtime": "npm:^7.23.2"
+  checksum: 66f166bebbde565d4e0ed98b0f046f49d97c591fa8e4919bd9badfb6be3b1057ec137b9332beb4835b2d6714af243726dc3996d60f54949cfd23c839b0f8a3b6
   languageName: node
   linkType: hard
 
