@@ -56,3 +56,5 @@ jobs:
           SENTRY_PROJECT: backend
         with:
           environment: production
+          ignore_missing: true
+          ignore_empty: true
