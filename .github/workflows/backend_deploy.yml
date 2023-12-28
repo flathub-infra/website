@@ -12,6 +12,8 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     concurrency:
       group: build_push_docker_backend
       cancel-in-progress: true
