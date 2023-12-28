@@ -7,7 +7,7 @@ license = "Apache-2.0"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-fastapi = "^0.106.0"
+fastapi = "^0.108.0"
 uvicorn = "^0.25.0"
 sentry-sdk = "^1.39.1"
 lxml = "^4.9.4"
