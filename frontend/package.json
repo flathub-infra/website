@@ -35,7 +35,7 @@
     "date-fns": "^2.30.0",
     "framer-motion": "^10.16.4",
     "i18n-iso-countries": "^7.7.0",
-    "i18next": "^23.2.8",
+    "i18next": "^23.7.11",
     "isomorphic-dompurify": "^1.8.0",
     "next": "^14.0.1",
     "next-i18next": "^15.1.1",
