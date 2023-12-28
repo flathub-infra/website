@@ -42,8 +42,8 @@ jobs:
             ENABLE_SENTRY=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
           tags: |
-            ghcr.io/flathub/frontend:${{ github.sha }}-prod
-            ghcr.io/flathub/frontend:prod
+            ghcr.io/flathub-infra/frontend:${{ github.sha }}
+            ghcr.io/flathub-infra/frontend:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git

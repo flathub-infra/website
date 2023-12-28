@@ -37,8 +37,8 @@ jobs:
           file: backend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ghcr.io/flathub/backend:${{ github.sha }}
-            ghcr.io/flathub/backend:latest
+            ghcr.io/flathub-infra/backend:${{ github.sha }}
+            ghcr.io/flathub-infra/backend:latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
