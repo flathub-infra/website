@@ -108,36 +108,32 @@ distroMap.set("Ubuntu", <Ubuntu />)
 
 export const Fedora = () => (
   <ol className="distrotut">
+    {/*  Flatpak has been installed by default on Fedora Workstation since F25. Previous versions are past end of life, so don’t need to be mentioned.  */}{" "}
     <p>
-      {/*  Flatpak has been installed by default on Fedora Workstation since F25. Previous versions are past end of life, so don’t need to be mentioned.  */}{" "}
-      <p>
-        Flatpak is installed by default on Fedora Workstation, Fedora
-        Silverblue, and Fedora Kinoite. To get started, all you need to do is
-        enable Flathub, which is the best way to get Flatpak apps. Just download
-        and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>{" "}
-      <p>
-        The above links should work on the default GNOME and KDE Fedora
-        installations, but if they fail for some reason you can manually add the
-        Flathub remote by running:
-      </p>{" "}
-      <CodeCopy
-        text={`
-  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      Flatpak is installed by default on Fedora Workstation, Fedora Silverblue,
+      and Fedora Kinoite. To get started, all you need to do is enable Flathub,
+      which is the best way to get Flatpak apps. Just download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
+    </p>{" "}
+    <p>
+      The above links should work on the default GNOME and KDE Fedora
+      installations, but if they fail for some reason you can manually add the
+      Flathub remote by running:
+    </p>{" "}
+    <CodeCopy
+      text={`flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 `}
-      />
-    </p>
+    />
   </ol>
 )
 distroMap.set("Fedora", <Fedora />)
@@ -203,18 +199,16 @@ distroMap.set("Manjaro", <Manjaro />)
 
 export const Endless_OS = () => (
   <ol className="distrotut">
+    <h2>
+      Flatpak support is built into Endless OS 3.0.0 and newer—no setup
+      required!
+    </h2>{" "}
     <p>
-      <h2>
-        Flatpak support is built into Endless OS 3.0.0 and newer—no setup
-        required!
-      </h2>{" "}
-      <p>
-        If you are using an older version,{" "}
-        <a href="https://community.endlessos.com/t/upgrade-from-endless-os-2-x-to-endless-os-3/967">
-          upgrade to Endless OS 3
-        </a>
-        .
-      </p>
+      If you are using an older version,{" "}
+      <a href="https://community.endlessos.com/t/upgrade-from-endless-os-2-x-to-endless-os-3/967">
+        upgrade to Endless OS 3
+      </a>
+      .
     </p>
   </ol>
 )
@@ -280,16 +274,14 @@ export const Chrome_OS = () => (
       ]}
     />
     <p>
-      <p>
-        Flatpak applications can be installed on ChromeOS with the Crostini
-        Linux compatibility layer. This is not available for all ChromeOS
-        devices, so you should ensure your device is compatible before
-        proceeding. A list of compatible devices is maintained{" "}
-        <a href="https://www.reddit.com/r/Crostini/wiki/getstarted/crostini-enabled-devices">
-          here
-        </a>
-        .
-      </p>
+      Flatpak applications can be installed on ChromeOS with the Crostini Linux
+      compatibility layer. This is not available for all ChromeOS devices, so
+      you should ensure your device is compatible before proceeding. A list of
+      compatible devices is maintained{" "}
+      <a href="https://www.reddit.com/r/Crostini/wiki/getstarted/crostini-enabled-devices">
+        here
+      </a>
+      .
     </p>
 
     <li>
@@ -347,57 +339,52 @@ distroMap.set("Chrome OS", <Chrome_OS />)
 
 export const Red_Hat_Enterprise_Linux = () => (
   <ol className="distrotut">
+    <h2>Install Flatpak</h2>{" "}
     <p>
-      <h2>Install Flatpak</h2>{" "}
-      <p>
-        Flatpak is installed by default on Red Hat Enterprise Linux Workstation
-        9 and newer. To get started, all you need to do is enable Flathub, which
-        is the best way to get Flatpak apps. Just download and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older,
-        run the following in a terminal:
-      </p>{" "}
-      {/*  Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it  */}{" "}
-      <CodeCopy text={`sudo yum install flatpak`} />{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>{" "}
-      <p>
-        The above links should work on the default Red Hat Enterprise Linux
-        Workstation 9 installation, but if they fail for some reason you can
-        manually add the Flathub remote by running:
-      </p>{" "}
-      <CodeCopy
-        text={` flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo `}
-      />
-    </p>
+      Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9
+      and newer. To get started, all you need to do is enable Flathub, which is
+      the best way to get Flatpak apps. Just download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run
+      the following in a terminal:
+    </p>{" "}
+    {/*  Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it  */}{" "}
+    <CodeCopy text={`sudo yum install flatpak`} />{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
+    </p>{" "}
+    <p>
+      The above links should work on the default Red Hat Enterprise Linux
+      Workstation 9 installation, but if they fail for some reason you can
+      manually add the Flathub remote by running:
+    </p>{" "}
+    <CodeCopy
+      text={` flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo `}
+    />
   </ol>
 )
 distroMap.set("Red Hat Enterprise Linux", <Red_Hat_Enterprise_Linux />)
 
 export const Linux_Mint = () => (
   <ol className="distrotut">
+    <h2>
+      Flatpak support is built into Linux Mint 18.3 and newer—no setup required!
+    </h2>{" "}
     <p>
-      <h2>
-        Flatpak support is built into Linux Mint 18.3 and newer—no setup
-        required!
-      </h2>{" "}
-      <p>
-        If you are using an older version,{" "}
-        <a href="https://blog.linuxmint.com/?p=3462">
-          upgrade to Linux Mint 18.3
-        </a>
-        .
-      </p>
+      If you are using an older version,{" "}
+      <a href="https://blog.linuxmint.com/?p=3462">
+        upgrade to Linux Mint 18.3
+      </a>
+      .
     </p>
   </ol>
 )
@@ -717,22 +704,20 @@ distroMap.set("Rocky Linux", <Rocky_Linux />)
 export const CentOS = () => (
   <ol className="distrotut">
     <p>
-      <p>
-        Flatpak is installed by default on CentOS 7 and newer, when using GNOME.
-        To get started, all you need to do is enable Flathub, which is the best
-        way to get Flatpak apps. Just download and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>
+      Flatpak is installed by default on CentOS 7 and newer, when using GNOME.
+      To get started, all you need to do is enable Flathub, which is the best
+      way to get Flatpak apps. Just download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
     </p>
   </ol>
 )
@@ -741,22 +726,20 @@ distroMap.set("CentOS", <CentOS />)
 export const EuroLinux = () => (
   <ol className="distrotut">
     <p>
-      <p>
-        Flatpak is installed by default on EuroLinux 8 and newer, when using
-        GNOME. To get started, all you need to do is enable Flathub, which is
-        the best way to get Flatpak apps. Just download and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>
+      Flatpak is installed by default on EuroLinux 8 and newer, when using
+      GNOME. To get started, all you need to do is enable Flathub, which is the
+      best way to get Flatpak apps. Just download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
     </p>
   </ol>
 )
@@ -765,22 +748,20 @@ distroMap.set("EuroLinux", <EuroLinux />)
 export const AlmaLinux = () => (
   <ol className="distrotut">
     <p>
-      <p>
-        Flatpak is installed by default on AlmaLinux 8 and newer, when using
-        GNOME. To get started, all you need to do is enable Flathub, which is
-        the best way to get Flatpak apps. Just download and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>
+      Flatpak is installed by default on AlmaLinux 8 and newer, when using
+      GNOME. To get started, all you need to do is enable Flathub, which is the
+      best way to get Flatpak apps. Just download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
     </p>
   </ol>
 )
@@ -1278,22 +1259,18 @@ export const Pop_OS = () => (
         },
       ]}
     />
+    <h2>
+      Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!
+    </h2>{" "}
     <p>
-      <h2>
-        Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!
-      </h2>{" "}
-      <p>
-        If you are using an older version, you can refer to the instructions
-        below.
-      </p>
+      If you are using an older version, you can refer to the instructions
+      below.
     </p>
-
     <li>
       <h2>Install Flatpak</h2>
       <p>To install Flatpak on Pop!_OS 19.10 and earlier, simply run:</p>{" "}
       <CodeCopy text={`sudo apt install flatpak`} />
     </li>
-
     <li>
       <h2>Add the Flathub repository</h2>
       <p>
@@ -1311,7 +1288,6 @@ export const Pop_OS = () => (
         text={` flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo `}
       />
     </li>
-
     <li>
       <h2>Restart</h2>
       <p>
@@ -1449,19 +1425,16 @@ distroMap.set("Raspberry Pi OS", <Raspberry_Pi_OS />)
 export const Clear_Linux = () => (
   <ol className="distrotut">
     <p>
-      <p>
-        Flatpak is installed and Flathub repository is pre-configured by default
-        on Clear Linux when installing the desktop bundle.
-      </p>{" "}
-      <CodeCopy
-        text={`
-  sudo swupd bundle-add desktop
+      Flatpak is installed and Flathub repository is pre-configured by default
+      on Clear Linux when installing the desktop bundle.
+    </p>{" "}
+    <CodeCopy
+      text={`sudo swupd bundle-add desktop
 `}
-      />{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>
+    />{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
     </p>
   </ol>
 )
@@ -1619,22 +1592,20 @@ distroMap.set("NixOS", <NixOS />)
 export const PureOS = () => (
   <ol className="distrotut">
     <p>
-      <p>
-        Flatpak is installed by default on PureOS. To get started, all you need
-        to do is enable Flathub, which is the best way to get Flatpak apps. Just
-        download and install the{" "}
-        <a
-          className="btn btn-default"
-          href="https://dl.flathub.org/repo/flathub.flatpakrepo"
-        >
-          Flathub repository file
-        </a>
-        .
-      </p>{" "}
-      <p>
-        Now all you have to do is{" "}
-        <a href="https://flathub.org/">install some apps</a>!
-      </p>
+      Flatpak is installed by default on PureOS. To get started, all you need to
+      do is enable Flathub, which is the best way to get Flatpak apps. Just
+      download and install the{" "}
+      <a
+        className="btn btn-default"
+        href="https://dl.flathub.org/repo/flathub.flatpakrepo"
+      >
+        Flathub repository file
+      </a>
+      .
+    </p>{" "}
+    <p>
+      Now all you have to do is{" "}
+      <a href="https://flathub.org/">install some apps</a>!
     </p>
   </ol>
 )
@@ -1809,10 +1780,8 @@ distroMap.set("Ataraxia Linux", <Ataraxia_Linux />)
 
 export const Zorin_OS = () => (
   <ol className="distrotut">
-    <p>
-      <h2>Flatpak support is built into Zorin OS</h2>{" "}
-      <p>You can use the Software Store app to download flatpak apps.</p>
-    </p>
+    <h2>Flatpak support is built into Zorin OS</h2>{" "}
+    <p>You can use the Software Store app to download flatpak apps.</p>
   </ol>
 )
 distroMap.set("Zorin OS", <Zorin_OS />)
@@ -2231,21 +2200,17 @@ export const KDE_neon = () => (
         },
       ]}
     />
+    <h2>
+      Flatpak support is built into KDE neon 19 and newer—no setup required!
+    </h2>{" "}
     <p>
-      <h2>
-        Flatpak support is built into KDE neon 19 and newer—no setup required!
-      </h2>{" "}
-      <p>
-        If you are using an older version, you can refer to the instructions
-        below.
-      </p>
+      If you are using an older version, you can refer to the instructions
+      below.
     </p>
-
     <li>
       <h2>Enable Flatpak</h2>
       Open Discover and click on Settings (lower left corner).
     </li>
-
     <li>
       <h2>Check Flatpak settings</h2>
       <p>Check that in the Flatpak section the box is checked.</p>
