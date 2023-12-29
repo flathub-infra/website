@@ -87,6 +87,7 @@ export type Language =
   | "hy"
   | "ko"
   | "sv"
+  | "pa"
 
 export const languages: Language[] = [
   "en",
@@ -133,6 +134,7 @@ export const languages: Language[] = [
   "hy",
   "ko",
   "sv",
+  "pa",
 ]
 
 export function getLocale(language: string): Locale {
@@ -225,6 +227,8 @@ export function getLocale(language: string): Locale {
       return ko
     case "sv":
       return sv
+    case "pa":
+      return enUS // date-fns has no Punjabi locale
 
     default:
       return enGB
@@ -321,6 +325,8 @@ export function bcpToPosixLocale(language: string): string {
       return "ko_KR"
     case "sv":
       return "sv_SE"
+    case "pa":
+      return "pa_IN"
 
     default:
       return "en_US"
@@ -417,6 +423,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇰🇷"
     case "sv":
       return "🇸🇪"
+    case "pa":
+      return "🇮🇳"
   }
 }
 
@@ -510,6 +518,8 @@ export function getLanguageName(language: Language): string {
       return "한국어"
     case "sv":
       return "Svenska"
+    case "pa":
+      return "ਪੰਜਾਬੀ"
 
     default:
       return assertUnreachable(language)
@@ -626,6 +636,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("ko")
     case "sv":
       return new Intl.Locale("sv")
+    case "pa":
+      return new Intl.Locale("pa")
   }
 }
 
@@ -673,6 +685,7 @@ export function registerIsoCountriesLocales() {
   countries.registerLocale(require("i18n-iso-countries/langs/hy.json"))
   countries.registerLocale(require("i18n-iso-countries/langs/ko.json"))
   countries.registerLocale(require("i18n-iso-countries/langs/sv.json"))
+  // No translations for pa
 
   return countries
 }

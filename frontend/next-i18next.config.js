@@ -49,6 +49,7 @@ module.exports = {
       "hy",
       "ko",
       "sv",
+      "pa",
     ],
   },
   // debug: true,
