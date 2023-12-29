@@ -60,7 +60,7 @@ do
   # Write the introduction to a temporary file
   if [ "$introduction" != "null" ]
   then
-    echo "<p>$introduction</p>" >> "src/components/setup/${slug_name}.tsx"
+    echo "$introduction" >> "src/components/setup/${slug_name}.tsx"
   fi
 
 
