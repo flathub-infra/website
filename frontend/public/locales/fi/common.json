@@ -533,5 +533,6 @@
   "build-x": "Koostettu {{build-ago}}",
   "scope-publish": "Julkaise kooste",
   "scope-upload": "Lähetä tiedostoja koosteeseen",
-  "repo": "Tietovarasto"
+  "repo": "Tietovarasto",
+  "app-of-the-day": "Päivän sovellus"
 }
