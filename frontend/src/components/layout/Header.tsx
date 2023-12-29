@@ -20,6 +20,7 @@ import { QueryClient } from "@tanstack/react-query"
 
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
+import logoEmail from "public/img/logo/logo-horizontal-email.png"
 
 const navigation = [
   {
@@ -211,7 +212,7 @@ const Header = () => {
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <LogoJsonLd
-                      logo={logoToolbarSvg}
+                      logo={logoEmail.src}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                     />
                     <Link href="/" passHref>
