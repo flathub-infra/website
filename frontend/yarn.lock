@@ -10142,7 +10142,7 @@ __metadata:
     sass: "npm:^1.69.5"
     satori: "npm:^0.10.11"
     sharp: "npm:^0.33.1"
-    spdx-license-list: "npm:^6.6.0"
+    spdx-license-list: "npm:^6.8.0"
     storybook: "npm:^7.4.5"
     storybook-react-i18next: "npm:^2.0.9"
     swiper: "npm:^10.3.1"
@@ -15555,10 +15555,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"spdx-license-list@npm:^6.6.0":
-  version: 6.6.0
-  resolution: "spdx-license-list@npm:6.6.0"
-  checksum: a8355686b5a1147960eea58ac94e31cb09738cbdcc7a51a8a9116e425e6c6d361f1b23d70ad454ece53d9b8e52cb14ea2ad2f263cef5ca1301c4ede315628ad6
+"spdx-license-list@npm:^6.8.0":
+  version: 6.8.0
+  resolution: "spdx-license-list@npm:6.8.0"
+  checksum: c880449c522217d1c9965fe758fe479b03179115b281fe6d321c4a0793e770d50bfb62b76f77ab4b32ba921f58f84ca20d3d88ad20eed6d66e85106499c643ee
   languageName: node
   linkType: hard
 
