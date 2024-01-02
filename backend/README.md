@@ -1,7 +1,7 @@
 # Flathub website backend
 
 This is the fastapi based backend for https://www.flathub.org
-Not the backend for flathub itself. Go here, if you're looking for that https://github.com/flathub/flathub
+Not the backend for flathub itself. Go here, if you're looking for that https://github.com/flathub-infra/ is your best bet.
 
 ## Development
 
