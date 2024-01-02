@@ -98,7 +98,6 @@ def load_appstream(sqldb):
 
     with db.redis_conn.pipeline() as p:
         p.delete("developers:index")
-        p.delete("projectgroups:index")
         p.delete("types:index")
         for type in current_types:
             p.delete(f"types:{type}")
