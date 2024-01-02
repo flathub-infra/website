@@ -1,5 +1,5 @@
-[![Backend CI](https://github.com/flathub/website/actions/workflows/backend_ci.yml/badge.svg)](https://github.com/flathub/website/actions/workflows/backend_ci.yml)
-[![Frontend CI](https://github.com/flathub/website/actions/workflows/frontend_ci.yml/badge.svg)](https://github.com/flathub/website/actions/workflows/frontend_ci.yml)
+[![Backend CI](https://github.com/flathub-infra/website/actions/workflows/backend_ci.yml/badge.svg)](https://github.com/flathub-infra/website/actions/workflows/backend_ci.yml)
+[![Frontend CI](https://github.com/flathub-infra/website/actions/workflows/frontend_ci.yml/badge.svg)](https://github.com/flathub-infra/website/actions/workflows/frontend_ci.yml)
 [![Translation status](https://hosted.weblate.org/widgets/flathub/-/frontend/svg-badge.svg)](https://hosted.weblate.org/engage/flathub/)
 
 # flathub.org

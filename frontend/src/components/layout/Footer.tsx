@@ -158,7 +158,7 @@ const Footer = () => {
             </a>
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
-              href="https://github.com/flathub/website"
+              href="https://github.com/flathub-infra/website"
               target="_blank"
               rel="noreferrer"
             >
