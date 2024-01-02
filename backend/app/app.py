@@ -130,29 +130,6 @@ def get_eol_message_appid(
         return value
 
 
-@router.get("/projectgroup", tags=["app"])
-def get_project_groups() -> set[str]:
-    return db.get_project_groups()
-
-
-@router.get("/projectgroup/{project_group}", tags=["app"])
-def get_project_group(
-    project_group: str,
-    page: int | None = None,
-    per_page: int | None = None,
-    response: Response = Response(),
-):
-    if (page is None and per_page is not None) or (
-        page is not None and per_page is None
-    ):
-        response.status_code = 400
-        return response
-
-    result = search.get_by_project_group(project_group, page, per_page)
-
-    return result
-
-
 @router.get("/appstream", tags=["app"])
 def list_appstream() -> list[str]:
     return apps.list_desktop_appstream()

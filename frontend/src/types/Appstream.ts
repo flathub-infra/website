@@ -21,7 +21,6 @@ export interface DesktopAppstream {
   kudos: string[]
   mimetypes: string[]
   project_license?: string
-  project_group?: string
   provides: string[]
   launchable: Launchable
   bundle: Bundle

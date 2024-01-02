@@ -142,9 +142,6 @@ export const getStaticProps: GetStaticProps = async ({
   const { data: summary } = await fetchSummary(appId as string)
   const { data: stats } = await fetchAppStats(appId as string)
   const { data: developerApps } = await fetchDeveloperApps(app?.developer_name)
-  const { data: projectgroupApps } = await fetchProjectgroupApps(
-    app?.project_group,
-  )
   const { data: verificationStatus } = await fetchVerificationStatus(
     appId as string,
   )

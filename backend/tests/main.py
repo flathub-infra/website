@@ -138,13 +138,6 @@ def test_apps_by_projectgroup(client):
     assert response.json() == _get_expected_json_result("test_apps_by_projectgroup")
 
 
-def test_apps_by_non_existent_project_group(client):
-    response = client.get("/projectgroup/NonExistent")
-    assert response.status_code == 200
-    responseJson = response.json()
-    responseJson["totalHits"] = 0
-
-
 def test_appstream_by_appid(client):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200

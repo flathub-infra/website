@@ -215,19 +215,6 @@ const Details: FunctionComponent<Props> = ({
             />
           )}
 
-          {projectgroupApps && projectgroupApps.totalHits > 0 && (
-            <ApplicationSection
-              href={`/apps/collection/project-group/${app.project_group}`}
-              title={t("other-apps-by-projectgroup", {
-                projectgroup: app.project_group,
-              })}
-              applications={projectgroupApps.hits
-                .slice(0, 6)
-                .map(mapAppsIndexToAppstreamListItem)}
-              showMore={projectgroupApps.totalHits > 6}
-            />
-          )}
-
           <Tags keywords={keywords} />
         </div>
       </div>

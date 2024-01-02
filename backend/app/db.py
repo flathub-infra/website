@@ -51,12 +51,6 @@ def get_developers():
     return {developer for developer in redis_conn.smembers("developers:index")}
 
 
-def get_project_groups():
-    return {
-        project_group for project_group in redis_conn.smembers("projectgroups:index")
-    }
-
-
 def get_all_appids_for_frontend():
     return {
         app_id[5:]

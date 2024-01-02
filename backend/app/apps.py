@@ -47,7 +47,6 @@ def add_to_search(app_id: str, app: dict) -> dict:
         "main_categories": main_categories,
         "sub_categories": sub_categories,
         "developer_name": app.get("developer_name"),
-        "project_group": app.get("project_group"),
         "verification_verified": app.get("metadata", {}).get(
             "flathub::verification::verified", False
         ),
@@ -114,9 +113,6 @@ def load_appstream(sqldb):
 
                 if developer_name := apps[app_id].get("developer_name"):
                     p.sadd("developers:index", developer_name)
-
-                if project_group := apps[app_id].get("project_group"):
-                    p.sadd("projectgroups:index", project_group)
 
             p.set(redis_key, json.dumps(apps[app_id]))
 

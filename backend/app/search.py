@@ -32,7 +32,6 @@ client.index("apps").update_filterable_attributes(
         "main_categories",
         "sub_categories",
         "developer_name",
-        "project_group",
         "verification_verified",
         "is_free_license",
         "runtime",
@@ -146,20 +145,6 @@ def get_by_developer(developer: str, page: int | None, hits_per_page: int | None
         "",
         {
             "filter": [f"developer_name = '{escaped_developer}'"],
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
-    )
-
-
-def get_by_project_group(
-    project_group: str, page: int | None, hits_per_page: int | None
-):
-    return client.index("apps").search(
-        "",
-        {
-            "filter": [f"project_group = '{quote(project_group)}'"],
             "sort": ["installs_last_month:desc"],
             "hitsPerPage": hits_per_page or 250,
             "page": page or 1,

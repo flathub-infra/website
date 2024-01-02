@@ -36,7 +36,6 @@ export interface AppsIndex {
   icon: string
   categories: string[] | null
   developer_name: string | null
-  project_group: string | null
   verification_verified: string
   verification_method: "website" | "manual" | "login_provider" | null
   verification_login_name: string | null
