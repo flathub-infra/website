@@ -44,12 +44,6 @@ export interface ReviewItem {
   project_license?: string | null
   /**
    *
-   * @type {string}
-   * @memberof ReviewItem
-   */
-  project_group?: string | null
-  /**
-   *
    * @type {boolean}
    * @memberof ReviewItem
    */

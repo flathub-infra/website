@@ -12,7 +12,6 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
-  PROJECTGROUP_URL,
   VENDING_CONFIG_URL,
   APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
@@ -20,7 +19,6 @@ import {
   VERIFIED_APPS_URL,
   CATEGORIES_URL,
   DEVELOPERS_URL,
-  PROJECTGROUPS_URL,
   SUBCATEGORY_URL,
   APPSTREAM_URL,
   RUNTIMES,
@@ -159,33 +157,6 @@ export async function fetchDeveloperApps(
     .catch((error) => {
       return {
         data: null,
-      }
-    })
-}
-
-export async function fetchProjectgroups() {
-  return axios.get<string[]>(PROJECTGROUPS_URL)
-}
-
-export async function fetchProjectgroupApps(
-  projectgroup: string | undefined,
-  page?: number,
-  per_page?: number,
-) {
-  if (!projectgroup) {
-    console.log("No project-group specified")
-    return { data: null }
-  }
-
-  return axios
-    .get<MeilisearchResponse<AppsIndex>>(
-      PROJECTGROUP_URL(projectgroup, page, per_page),
-    )
-    .catch((error) => {
-      if (error.response.status === 404) {
-        return {
-          data: null,
-        }
       }
     })
 }

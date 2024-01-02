@@ -186,7 +186,6 @@ class ReviewItem(BaseModel):
     summary: str | None = None
     developer_name: str | None = None
     project_license: str | None = None
-    project_group: str | None = None
     compulsory_for_desktop: bool | None = None
 
 
@@ -264,7 +263,6 @@ def submit_review_request(
             "name": app_data.get("name"),
             "summary": app_data.get("summary"),
             "developer_name": app_data.get("developer_name"),
-            "project_group": app_data.get("project_group"),
             "project_license": app_data.get("project_license"),
         }
         current_values = {}
@@ -276,7 +274,6 @@ def submit_review_request(
             current_values["name"] = app.get("name")
             current_values["summary"] = app.get("summary")
             current_values["developer_name"] = app.get("developer_name")
-            current_values["project_group"] = app.get("project_group")
             current_values["project_license"] = app.get("project_license")
 
             for key, value in current_values.items():

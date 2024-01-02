@@ -702,107 +702,6 @@ export const AppApiAxiosParamCreator = function (
     },
     /**
      *
-     * @summary Get Project Group
-     * @param {string} projectGroup
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectGroupProjectgroupProjectGroupGet: async (
-      projectGroup: string,
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'projectGroup' is not null or undefined
-      assertParamExists(
-        "getProjectGroupProjectgroupProjectGroupGet",
-        "projectGroup",
-        projectGroup,
-      )
-      const localVarPath = `/projectgroup/{project_group}`.replace(
-        `{${"project_group"}}`,
-        encodeURIComponent(String(projectGroup)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      if (page !== undefined) {
-        localVarQueryParameter["page"] = page
-      }
-
-      if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     *
-     * @summary Get Project Groups
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectGroupsProjectgroupGet: async (
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/projectgroup`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     *
      * @summary Get Recently Added
      * @param {number | null} [page]
      * @param {number | null} [perPage]
@@ -1659,57 +1558,6 @@ export const AppApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @summary Get Project Group
-     * @param {string} projectGroup
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getProjectGroupProjectgroupProjectGroupGet(
-      projectGroup: string,
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getProjectGroupProjectgroupProjectGroupGet(
-          projectGroup,
-          page,
-          perPage,
-          options,
-        )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     *
-     * @summary Get Project Groups
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getProjectGroupsProjectgroupGet(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getProjectGroupsProjectgroupGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     *
      * @summary Get Recently Added
      * @param {number | null} [page]
      * @param {number | null} [perPage]
@@ -2195,43 +2043,6 @@ export const AppApiFactory = function (
     },
     /**
      *
-     * @summary Get Project Group
-     * @param {string} projectGroup
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectGroupProjectgroupProjectGroupGet(
-      projectGroup: string,
-      page?: number | null,
-      perPage?: number | null,
-      options?: any,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .getProjectGroupProjectgroupProjectGroupGet(
-          projectGroup,
-          page,
-          perPage,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     *
-     * @summary Get Project Groups
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectGroupsProjectgroupGet(
-      options?: any,
-    ): AxiosPromise<Array<string>> {
-      return localVarFp
-        .getProjectGroupsProjectgroupGet(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     *
      * @summary Get Recently Added
      * @param {number | null} [page]
      * @param {number | null} [perPage]
@@ -2626,45 +2437,6 @@ export class AppApi extends BaseAPI {
   ) {
     return AppApiFp(this.configuration)
       .getPopularLastMonthPopularLastMonthGet(page, perPage, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   *
-   * @summary Get Project Group
-   * @param {string} projectGroup
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  public getProjectGroupProjectgroupProjectGroupGet(
-    projectGroup: string,
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
-  ) {
-    return AppApiFp(this.configuration)
-      .getProjectGroupProjectgroupProjectGroupGet(
-        projectGroup,
-        page,
-        perPage,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   *
-   * @summary Get Project Groups
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  public getProjectGroupsProjectgroupGet(options?: AxiosRequestConfig) {
-    return AppApiFp(this.configuration)
-      .getProjectGroupsProjectgroupGet(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
