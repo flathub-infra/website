@@ -532,5 +532,8 @@
   "expires": "Lejár",
   "revoked": "Visszavonva",
   "screenshot-sizes": "Képernyőkép méretei",
-  "build-x": "Összeállítva {{build-ago}}"
+  "build-x": "Összeállítva {{build-ago}}",
+  "get-it-on": "Szerezd meg a következőről:",
+  "app-of-the-day": "A nap alkalmazása",
+  "can-access-input-devices": "Hozzáférhet beviteli eszközökhöz, például billentyűzetekhez, egerekhez vagy játékvezérlőkhöz"
 }
