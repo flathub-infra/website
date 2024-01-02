@@ -1558,26 +1558,6 @@ export const AppApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @summary Get Project Groups
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getProjectGroupsProjectgroupGet(
-      options?: AxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.getProjectGroupsProjectgroupGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
-    },
-    /**
-     *
      * @summary Get Recently Added
      * @param {number | null} [page]
      * @param {number | null} [perPage]
@@ -2063,19 +2043,6 @@ export const AppApiFactory = function (
     },
     /**
      *
-     * @summary Get Project Groups
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getProjectGroupsProjectgroupGet(
-      options?: any,
-    ): AxiosPromise<Array<string>> {
-      return localVarFp
-        .getProjectGroupsProjectgroupGet(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     *
      * @summary Get Recently Added
      * @param {number | null} [page]
      * @param {number | null} [perPage]
@@ -2470,19 +2437,6 @@ export class AppApi extends BaseAPI {
   ) {
     return AppApiFp(this.configuration)
       .getPopularLastMonthPopularLastMonthGet(page, perPage, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   *
-   * @summary Get Project Groups
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof AppApi
-   */
-  public getProjectGroupsProjectgroupGet(options?: AxiosRequestConfig) {
-    return AppApiFp(this.configuration)
-      .getProjectGroupsProjectgroupGet(options)
       .then((request) => request(this.axios, this.basePath))
   }
 

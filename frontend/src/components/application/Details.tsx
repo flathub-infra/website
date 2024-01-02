@@ -40,7 +40,6 @@ interface Props {
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
-  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
   isQualityModalOpen: boolean
@@ -85,7 +84,6 @@ const Details: FunctionComponent<Props> = ({
   summary,
   stats,
   developerApps,
-  projectgroupApps,
   verificationStatus,
   addons,
   isQualityModalOpen,

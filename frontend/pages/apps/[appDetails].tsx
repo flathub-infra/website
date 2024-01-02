@@ -8,7 +8,6 @@ import {
   fetchAppStats,
   fetchSummary,
   fetchDeveloperApps,
-  fetchProjectgroupApps,
   fetchAddons,
   fetchVerificationStatus,
 } from "../../src/fetchers"
@@ -31,7 +30,6 @@ export default function Details({
   summary,
   stats,
   developerApps,
-  projectgroupApps,
   verificationStatus,
   eolMessage,
   addons,
@@ -40,7 +38,6 @@ export default function Details({
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
-  projectgroupApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
   eolMessage: string
   addons: AddonAppstream[]
@@ -76,7 +73,6 @@ export default function Details({
         summary={summary}
         stats={stats}
         developerApps={developerApps}
-        projectgroupApps={projectgroupApps}
         verificationStatus={verificationStatus}
         addons={addons}
         isQualityModalOpen={isQualityModalOpen}
@@ -154,10 +150,6 @@ export const getStaticProps: GetStaticProps = async ({
       summary,
       stats,
       developerApps: removeAppIdFromSearchResponse(developerApps, app?.id),
-      projectgroupApps: removeAppIdFromSearchResponse(
-        projectgroupApps,
-        app?.id,
-      ),
       verificationStatus,
       eolMessage,
       addons,
