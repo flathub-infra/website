@@ -1,4 +1,4 @@
-from urllib.parse import quote, unquote
+from urllib.parse import unquote
 
 import meilisearch
 from pydantic import BaseModel
