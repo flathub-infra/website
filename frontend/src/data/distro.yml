@@ -433,9 +433,9 @@
       text: '
         <p>To enable services on Turkman Linux, run the following in a terminal:</p>
         <terminal-command>
-          rc-service add devfs\n
-          rc-service add fuse\n
-          rc-service add hostname\n
+          rc-update add devfs\n
+          rc-update add fuse\n
+          rc-update add hostname\n
         </terminal-command>'
     - name: Add the Flathub repository
       text: "
