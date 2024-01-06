@@ -19,9 +19,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -33,9 +31,7 @@
     <p>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
     <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
     <p>The above links should work on the default GNOME and KDE Fedora installations, but if they fail for some reason you can manually add the Flathub remote by running:</p>
-    <terminal-command>
-      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    </terminal-command>
+    <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
 
 - name: Manjaro
   logo: "manjaro.svg"
@@ -70,16 +66,12 @@
     - name: Install Flatpak
       text: '
         <p>To install Flatpak, run the following in the terminal:</p>
-        <terminal-command>
-          sudo apt install flatpak
-        </terminal-command>
+        <terminal-command>sudo apt install flatpak</terminal-command>
         <p>A more up to date flatpak package is available in the <a href="https://backports.debian.org/Instructions/">Debian backports repository</a>. </p>'
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart Linux. You can do this by right-clicking terminal, and then clicking "Shut down Linux". Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -93,9 +85,7 @@
     <terminal-command>sudo yum install flatpak</terminal-command>
     <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
     <p>The above links should work on the default Red Hat Enterprise Linux Workstation 9 installation, but if they fail for some reason you can manually add the Flathub remote by running:</p>
-    <terminal-command>
-      flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-    </terminal-command>
+    <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
 
 - name: Linux Mint
   logo: "mint.svg"
@@ -115,9 +105,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -149,9 +137,7 @@
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>'
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -166,9 +152,7 @@
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>'
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -203,9 +187,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -227,19 +209,13 @@
     - name: Install the Discover Flatpak backend
       text: "
         <p>The Flatpak plugin for the Software app makes it possible to install apps without needing the command line (available on Kubuntu 18.04 and newer). To install on 20.04 or later, run:</p>
-        <terminal-command>
-          sudo apt install plasma-discover-backend-flatpak
-        </terminal-command>
+        <terminal-command>sudo apt install plasma-discover-backend-flatpak</terminal-command>
         <p>On Kubuntu 18.04, you should run this instead:</p>
-        <terminal-command>
-          sudo apt install plasma-discover-flatpak-backend
-        </terminal-command>"
+        <terminal-command>sudo apt install plasma-discover-flatpak-backend</terminal-command>"
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>'
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -254,9 +230,7 @@
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>'
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -278,9 +252,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class='btn btn-default' href='https://dl.flathub.org/repo/flathub.flatpakrepo'>Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete the setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -297,9 +269,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class='btn btn-default' href='https://dl.flathub.org/repo/flathub.flatpakrepo'>Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -318,9 +288,7 @@
     - name: Add the Flathub repository
       text:
         "<p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class='btn btn-default' href='https://dl.flathub.org/repo/flathub.flatpakrepo'>Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>
-          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text:
         '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -341,15 +309,11 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Raspberry Pi OS (previously called Raspbian) Stretch and newer. To install it, run the following as root:</p>
-        <terminal-command>
-          apt install flatpak
-        </terminal-command>"
+        <terminal-command>apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
         <p><b>Important note:</b> As of March 2021, Raspberry Pi computers still ship with the 32-bit version of Raspberry Pi OS. However Flathub started phasing out support for that architecture. If you consider Flathub as an important source of applications, it is recommended to use Raspberry Pi OS 64-bit as newer applications are more likely to be available for that platform.</p>"
     - name: Restart
       text:
@@ -360,9 +324,7 @@
   logo: "clearlinux.svg"
   introduction: >
     <p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p>
-    <terminal-command>
-      sudo swupd bundle-add desktop
-    </terminal-command>
+    <terminal-command>sudo swupd bundle-add desktop</terminal-command>
     <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
 
 - name: Void Linux
@@ -376,9 +338,7 @@
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -389,20 +349,14 @@
     - name: Install Flatpak
       text: "
         <p>To install Flatpak, set NixOS option <code>services.flatpak.enable</code> to <code>true</code> by putting the following into your <code>/etc/nixos/configuration.nix</code>:</p>
-        <terminal-command>
-          services.flatpak.enable = true;
-        </terminal-command>
+        <terminal-command>services.flatpak.enable = true;</terminal-command>
         <p>Then, rebuild and switch to the new configuration with:</p>
-        <terminal-command>
-          sudo nixos-rebuild switch
-        </terminal-command>
+        <terminal-command>sudo nixos-rebuild switch</terminal-command>
         <p>For more details see the <a href='https://nixos.org/manual/nixos/stable/index.html#module-services-flatpak'>NixOS documentation</a>.</p>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -426,23 +380,19 @@
           ymp install flatpak\n
         </terminal-command>
         <p>No emerge way</p>
-        <terminal-command>
-          ymp install flatpak --no-emerge
-        </terminal-command>'
+        <terminal-command>ymp install flatpak --no-emerge</terminal-command>'
     - name: Enable services
       text: '
         <p>To enable services on Turkman Linux, run the following in a terminal:</p>
         <terminal-command>
-          rc-service add devfs\n
-          rc-service add fuse\n
-          rc-service add hostname\n
+          rc-update add devfs\n
+          rc-update add fuse\n
+          rc-update add hostname\n
         </terminal-command>'
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -455,15 +405,11 @@
     - name: Install Flatpak
       text: "
         <p>To install Flatpak on Ataraxia Linux, run the following in a terminal:</p>
-        <terminal-command>
-          sudo neko em flatpak
-        </terminal-command>"
+        <terminal-command>sudo neko em flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -480,15 +426,11 @@
     - name: Install Flatpak
       text: "
         <p>To install Flatpak on Deepin, run the following in a terminal:</p>
-        <terminal-command>
-          sudo apt install flatpak
-        </terminal-command>"
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Install the Deepin themes
       text: '
         <p>To install light and dark themes, run:</p>
@@ -506,22 +448,16 @@
     - name: Install Flatpak
       text: '
         <p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p>
-        <terminal-command>
-          apt install flatpak
-        </terminal-command>
+        <terminal-command>apt install flatpak</terminal-command>
         <p>For Pardus 2017 and older versions, a flatpak package is available in the <a href="https://backports.debian.org/Instructions/">official backports repository</a>. </p>'
     - name: Install the Software Flatpak plugin
       text: "
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>
-          apt install gnome-software-plugin-flatpak
-        </terminal-command>"
+        <terminal-command>apt install gnome-software-plugin-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
@@ -545,15 +481,11 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Pisi 2.1 and newer. To install it, run the following as root:</p>
-        <terminal-command>
-          sudo pisi it flatpak
-        </terminal-command>"
+        <terminal-command>sudo pisi it flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -566,19 +498,13 @@
     - name: Install Flatpak
       text: "
         <p>To install Flatpak on EndeavorOS, you must first make sure your installation is up to date, run the following in a terminal:</p>
-        <terminal-command>
-          sudo pacman -Syu
-        </terminal-command>
+        <terminal-command>sudo pacman -Syu</terminal-command>
         <p>Then install Flatpak:</p>
-        <terminal-command>
-          sudo pacman -S flatpak
-        </terminal-command>"
+        <terminal-command>sudo pacman -S flatpak</terminal-command>"
     - name: Add the Flathub repository
       text:
         "<p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text:
         '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
@@ -602,15 +528,11 @@
     - name: Install Flatpak
       text: "
         <p>To install Flatpak on GNU Guix, run the following in a terminal:</p>
-        <terminal-command>
-          guix install flatpak
-        </terminal-command>"
+        <terminal-command>guix install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
-        <terminal-command>
-          flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-        </terminal-command>"
+        <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
