@@ -38,11 +38,13 @@ const Badges = () => {
             className="p-2 rounded-sm w-full sm:max-w-[240px]"
             onChange={(e) => setLocale(e.target.value)}
           >
-            {languages.map((language) => (
-              <option key={language} value={language}>
-                {getLanguageName(language)}
-              </option>
-            ))}
+            {languages
+              .filter((language) => !["ar", "fa"].includes(language))
+              .map((language) => (
+                <option key={language} value={language}>
+                  {getLanguageName(language)}
+                </option>
+              ))}
           </select>
         </div>
 
