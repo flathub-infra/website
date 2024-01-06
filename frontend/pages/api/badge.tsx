@@ -33,6 +33,21 @@ async function createInterSemiBold() {
   }
 }
 
+async function createNotoTCSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansTC-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansTC-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
@@ -143,7 +158,10 @@ export default async function handler(
     {
       width: 240,
       height: 80,
-      fonts: [(await createInterSemiBold()) as any],
+      fonts: [
+        (await createInterSemiBold()) as any,
+        (await createNotoTCSemiBold()) as any,
+      ],
     },
   )
 
