@@ -3,7 +3,7 @@ import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { fetchRuntimes, fetchStats } from "../src/fetchers"
-import { Stats as Statistics } from "../src/types/Stats"
+import { Stats } from "../src/types/Stats"
 import styles from "./statistics.module.scss"
 import "chart.js/auto"
 import { Bar, Line } from "react-chartjs-2"
@@ -64,7 +64,7 @@ const Statistics = ({
   stats,
   runtimes,
 }: {
-  stats: Statistics
+  stats: Stats
   runtimes: { [key: string]: number }
 }): JSX.Element => {
   const { t } = useTranslation()

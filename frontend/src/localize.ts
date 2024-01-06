@@ -40,6 +40,7 @@ import {
   hy,
   ko,
   sv,
+  Locale,
 } from "date-fns/locale"
 
 export type Language =
