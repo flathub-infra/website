@@ -1,6 +1,6 @@
 import { formatDistance } from "date-fns"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect, useMemo, useRef, useState } from "react"
+import { FunctionComponent, useEffect, useRef, useState } from "react"
 import { getIntlLocale, getLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
