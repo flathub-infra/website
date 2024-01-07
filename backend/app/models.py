@@ -1094,6 +1094,58 @@ class UserOwnedApp(Base):
 FlathubUser.TABLES_FOR_DELETE.append(UserOwnedApp)
 
 
+class UserCollectedApp(Base):
+    __tablename__ = "user_collected_app"
+
+    app_id = mapped_column(String, nullable=False, primary_key=True)
+    account = mapped_column(
+        Integer,
+        ForeignKey(FlathubUser.id, ondelete="CASCADE"),
+        nullable=False,
+        primary_key=True,
+    )
+    created = mapped_column(DateTime, nullable=False)
+
+    @staticmethod
+    def add_app(db, user_id: int, app_id: str):
+        app = UserCollectedApp(app_id=app_id, account=user_id, created=datetime.now())
+        db.session.add(app)
+        db.session.flush()
+
+    @staticmethod
+    def remove_app(db, user_id: int, app_id: str):
+        db.session.execute(
+            delete(UserCollectedApp)
+            .where(UserCollectedApp.account == user_id)
+            .where(UserCollectedApp.app_id == app_id)
+        )
+
+    @staticmethod
+    def user_collected_app(db, user_id: int, app_id: str):
+        return (
+            db.session.query(UserCollectedApp)
+            .filter_by(account=user_id, app_id=app_id)
+            .first()
+            is not None
+        )
+
+    @staticmethod
+    def all_collected_by_user(db, user: FlathubUser):
+        return db.session.query(UserCollectedApp).filter_by(account=user.id)
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        """
+        Delete any app ownerships associated with this user
+        """
+        db.session.execute(
+            delete(UserCollectedApp).where(UserCollectedApp.account == user.id)
+        )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(UserCollectedApp)
+
+
 # Vending related tables, including Stripe-only stuff
 
 

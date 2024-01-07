@@ -56,6 +56,57 @@ export const AuthApiAxiosParamCreator = function (
 ) {
   return {
     /**
+     * Add an app to a users collection. The appid is the ID of the app to add.
+     * @summary Add To Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    addToCollectionAuthAddToCollectionPost: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "addToCollectionAuthAddToCollectionPost",
+        "appId",
+        appId,
+      )
+      const localVarPath = `/auth/add-to-collection`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (appId !== undefined) {
+        localVarQueryParameter["app_id"] = appId
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Process the result of the Github oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the github oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from github\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
      * @summary Continue Github Flow
      * @param {Data} data
@@ -645,6 +696,57 @@ export const AuthApiAxiosParamCreator = function (
       }
     },
     /**
+     * Remove an app from a users collection. The appid is the ID of the app to remove.
+     * @summary Remove From Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    removeFromCollectionAuthRemoveFromCollectionPost: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "removeFromCollectionAuthRemoveFromCollectionPost",
+        "appId",
+        appId,
+      )
+      const localVarPath = `/auth/remove-from-collection`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (appId !== undefined) {
+        localVarQueryParameter["app_id"] = appId
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Starts a github login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to Github  Upon return from Github to the frontend, the frontend should POST to this endpoint with the relevant data from Github  If the user is already logged in, and has a valid github token stored, then this will return an error instead.
      * @summary Start Github Flow
      * @param {*} [options] Override http request option.
@@ -810,6 +912,31 @@ export const AuthApiAxiosParamCreator = function (
 export const AuthApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = AuthApiAxiosParamCreator(configuration)
   return {
+    /**
+     * Add an app to a users collection. The appid is the ID of the app to add.
+     * @summary Add To Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async addToCollectionAuthAddToCollectionPost(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.addToCollectionAuthAddToCollectionPost(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
     /**
      * Process the result of the Github oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the github oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from github\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
      * @summary Continue Github Flow
@@ -1113,6 +1240,31 @@ export const AuthApiFp = function (configuration?: Configuration) {
       )
     },
     /**
+     * Remove an app from a users collection. The appid is the ID of the app to remove.
+     * @summary Remove From Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async removeFromCollectionAuthRemoveFromCollectionPost(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.removeFromCollectionAuthRemoveFromCollectionPost(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Starts a github login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to Github  Upon return from Github to the frontend, the frontend should POST to this endpoint with the relevant data from Github  If the user is already logged in, and has a valid github token stored, then this will return an error instead.
      * @summary Start Github Flow
      * @param {*} [options] Override http request option.
@@ -1210,6 +1362,21 @@ export const AuthApiFactory = function (
 ) {
   const localVarFp = AuthApiFp(configuration)
   return {
+    /**
+     * Add an app to a users collection. The appid is the ID of the app to add.
+     * @summary Add To Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    addToCollectionAuthAddToCollectionPost(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .addToCollectionAuthAddToCollectionPost(appId, options)
+        .then((request) => request(axios, basePath))
+    },
     /**
      * Process the result of the Github oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the github oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from github\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
      * @summary Continue Github Flow
@@ -1388,6 +1555,21 @@ export const AuthApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Remove an app from a users collection. The appid is the ID of the app to remove.
+     * @summary Remove From Collection
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    removeFromCollectionAuthRemoveFromCollectionPost(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .removeFromCollectionAuthRemoveFromCollectionPost(appId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Starts a github login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to Github  Upon return from Github to the frontend, the frontend should POST to this endpoint with the relevant data from Github  If the user is already logged in, and has a valid github token stored, then this will return an error instead.
      * @summary Start Github Flow
      * @param {*} [options] Override http request option.
@@ -1441,6 +1623,23 @@ export const AuthApiFactory = function (
  * @extends {BaseAPI}
  */
 export class AuthApi extends BaseAPI {
+  /**
+   * Add an app to a users collection. The appid is the ID of the app to add.
+   * @summary Add To Collection
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public addToCollectionAuthAddToCollectionPost(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return AuthApiFp(this.configuration)
+      .addToCollectionAuthAddToCollectionPost(appId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * Process the result of the Github oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the github oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from github\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
    * @summary Continue Github Flow
@@ -1639,6 +1838,23 @@ export class AuthApi extends BaseAPI {
   public getUserinfoAuthUserinfoGet(options?: AxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .getUserinfoAuthUserinfoGet(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Remove an app from a users collection. The appid is the ID of the app to remove.
+   * @summary Remove From Collection
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AuthApi
+   */
+  public removeFromCollectionAuthRemoveFromCollectionPost(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return AuthApiFp(this.configuration)
+      .removeFromCollectionAuthRemoveFromCollectionPost(appId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 

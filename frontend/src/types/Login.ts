@@ -20,6 +20,7 @@ export interface UserInfo {
   "dev-flatpaks": string[]
   "owned-flatpaks": string[]
   "invited-flatpaks": string[]
+  "collected-flatpaks": string[]
   "invite-code": string
   auths: Record<VerificationProvider, AuthInfo>
   "default-account"?: string

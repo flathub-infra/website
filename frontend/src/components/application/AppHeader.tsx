@@ -1,13 +1,17 @@
 import { useTranslation } from "next-i18next"
-import React from "react"
+import React, { useCallback, useEffect } from "react"
 import { DesktopAppstream } from "src/types/Appstream"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
+import { useUserContext } from "src/context/user-info"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
+import Button from "../Button"
+import { useMutation } from "@tanstack/react-query"
+import { authApi } from "src/api"
 
 export function AppHeader({
   app,
@@ -20,6 +24,23 @@ export function AppHeader({
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean
 }) {
+  const addToCollectionMutation = useMutation({
+    mutationKey: ["add-to-collection", app.id],
+    mutationFn: (appId: string) =>
+      authApi.addToCollectionAuthAddToCollectionPost(appId, {
+        withCredentials: true,
+      }),
+  })
+
+  const removeFromCollectionMutation = useMutation({
+    mutationKey: ["remove-from-collection", app.id],
+    mutationFn: (appId: string) =>
+      authApi.removeFromCollectionAuthRemoveFromCollectionPost(appId, {
+        withCredentials: true,
+      }),
+  })
+
+  const user = useUserContext()
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
 
@@ -27,6 +48,17 @@ export function AppHeader({
     e.preventDefault()
     trackEvent({ category: "App", action: "Donate", name: app.id })
     window.location.href = app.urls.donation
+  }
+  const [isCollected, setIsCollected] = React.useState(false)
+
+  useEffect(() => {
+    if (!user.loading) {
+      setIsCollected(user.info?.["collected-flatpaks"].includes(app.id))
+    }
+  }, [app.id, user.info, user.loading])
+
+  if (user.loading) {
+    return null
   }
 
   return (
@@ -61,6 +93,19 @@ export function AppHeader({
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ms-auto">
+        {user.info && (
+          <Button
+            className="w-52 sm:w-32 md:w-40"
+            onClick={() => {
+              isCollected
+                ? removeFromCollectionMutation.mutate(app.id)
+                : addToCollectionMutation.mutate(app.id)
+              setIsCollected(!isCollected)
+            }}
+          >
+            {t(isCollected ? "uncollect" : "collect")}
+          </Button>
+        )}
         <InstallButton appId={app.id} />
         {app.urls?.donation && (
           <ButtonLink

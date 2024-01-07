@@ -11,6 +11,7 @@ import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from http import HTTPStatus
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -846,6 +847,44 @@ def continue_oauth_flow(
     }
 
 
+@router.post("/add-to-collection", tags=["auth"])
+def add_to_collection(
+    app_id: str,
+    login=Depends(logged_in),
+):
+    """
+    Add an app to a users collection. The appid is the ID of the app to add.
+    """
+
+    try:
+        models.UserCollectedApp.add_app(db, login["user"].id, app_id)
+        db.session.commit()
+
+        return Response(status_code=HTTPStatus.OK)
+    except Exception:
+        db.session.rollback()
+        return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
+
+
+@router.post("/remove-from-collection", tags=["auth"])
+def remove_from_collection(
+    app_id: str,
+    login=Depends(logged_in),
+):
+    """
+    Remove an app from a users collection. The appid is the ID of the app to remove.
+    """
+
+    try:
+        models.UserCollectedApp.remove_app(db, login["user"].id, app_id)
+        db.session.commit()
+
+        return Response(status_code=HTTPStatus.OK)
+    except Exception:
+        db.session.rollback()
+        return Response(status_code=HTTPStatus.INTERNAL_SERVER_ERROR)
+
+
 @router.get("/userinfo", tags=["auth"])
 def get_userinfo(login: LoginStatusDep):
     """
@@ -889,6 +928,7 @@ def get_userinfo(login: LoginStatusDep):
         "displayname": default_account.display_name,
         "dev-flatpaks": set(),
         "owned-flatpaks": set(),
+        "collected-flatpaks": set(),
         "invited-flatpaks": set(),
         "invite-code": user.invite_code,
         "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
@@ -903,6 +943,11 @@ def get_userinfo(login: LoginStatusDep):
         for app in models.UserOwnedApp.all_owned_by_user(db, user)
         if app.app_id in appstream
     }
+    collected_flatpaks = {
+        app.app_id
+        for app in models.UserCollectedApp.all_collected_by_user(db, user)
+        if app.app_id in appstream
+    }
     invited_flatpaks = [
         app.app_id
         for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
@@ -910,6 +955,7 @@ def get_userinfo(login: LoginStatusDep):
 
     ret["dev-flatpaks"] = sorted(ret["dev-flatpaks"].union(dev_flatpaks))
     ret["owned-flatpaks"] = sorted(owned_flatpaks)
+    ret["collected-flatpaks"] = sorted(collected_flatpaks)
     ret["invited-flatpaks"] = sorted(invited_flatpaks)
 
     for account in user.connected_accounts(db):
