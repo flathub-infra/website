@@ -1540,7 +1540,12 @@ class QualityModeration(Base):
 
         app_quality_request = QualityModerationRequest.by_appid(db, app_id)
 
-        if status is None:
+        if (
+            status[0] is None
+            or status[1] is None
+            or status[2] is None
+            or status[3] is None
+        ):
             return QualityModerationStatus(
                 passes=False,
                 unrated=0,
