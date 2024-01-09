@@ -311,5 +311,8 @@
   "moderation-appstream-changes": "Modifiche all'Appstream",
   "invite-developer": "Invita uno sviluppatore",
   "primary-developer": "Sviluppatore principale",
-  "invite": "Invito"
+  "invite": "Invito",
+  "remove": "Rimuovi",
+  "remove-developer-confirmation": "Vuoi davvero rimuovere {{developer}} da {{app}}?",
+  "name": "Nome"
 }
