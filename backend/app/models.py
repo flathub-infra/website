@@ -1868,7 +1868,7 @@ class Apps(Base):
             .group_by(Apps.app_id, Apps.installs_last_7_days)
             # sort by review_requested, passed, then by weekly downloads
             .order_by(
-                func.max(QualityModerationRequest.created_at).desc(),
+                func.max(QualityModerationRequest.created_at).desc().nulls_last(),
                 func.sum(func.cast(QualityModeration.passed, Integer)).desc(),
                 Apps.installs_last_7_days.desc(),
             )
@@ -1881,10 +1881,13 @@ class Apps(Base):
             )
         elif filter == "todo":
             query = query.having(
-                and_(
-                    func.sum(func.cast(~QualityModeration.passed, Integer)) == 0,
-                    func.count(Guideline.id)
-                    > func.sum(func.cast(QualityModeration.passed, Integer)),
+                or_(
+                    func.max(QualityModerationRequest.created_at).isnot(None),
+                    and_(
+                        func.sum(func.cast(~QualityModeration.passed, Integer)) == 0,
+                        func.count(Guideline.id)
+                        > func.sum(func.cast(QualityModeration.passed, Integer)),
+                    ),
                 )
             )
 
