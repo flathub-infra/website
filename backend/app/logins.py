@@ -821,11 +821,13 @@ def continue_oauth_flow(
             )
         db.session.add(account)
     request.session["user-id"] = account.user
+
+    # The session is now ready
+    db.session.commit()
+
     # Let's find the set of repos the user has write access to in the flathub
     # org since we have a functional token
     postlogin_handler(login_result, account)
-    # The session is now ready
-    db.session.commit()
 
     worker.send_email.send(
         EmailInfo(
