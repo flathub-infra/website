@@ -159,9 +159,6 @@ export const STRIPE_MAX_PAYMENT = 999999.99
 // Flathub enforces a minimum payment amount of $1 to cover fees
 export const FLATHUB_MIN_PAYMENT = 1
 
-export const APP_VERIFICATION_STATUS = (id: string): string =>
-  `${BASE_URI}/verification/${id}/status`
-
 export const APP_VERIFICATION_AVAILABLE_METHODS = (
   id: string,
   newApp: boolean,
