@@ -152,7 +152,7 @@ export const QualityModeration = ({
           signal: signal,
         },
       ),
-    enabled: requirement,
+    enabled: !!requirement,
   })
 
   useEffect(() => {
