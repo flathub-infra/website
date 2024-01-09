@@ -193,7 +193,7 @@ class CheckWebsiteVerification:
             )
 
         try:
-            headers = {"User-Agent": "python-requests (Flathub token verification)"}
+            headers = {"User-Agent": "Flathub bot"}
             r = requests.get(
                 f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt",
                 timeout=5,
