@@ -504,19 +504,24 @@ const Header = () => {
                         </div>
                       </div>
                       <div className="mx-auto mt-3 max-w-3xl space-y-1 px-2 sm:px-4">
-                        {userNavigation.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            passHref
-                            className="block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
-                            onClick={() => {
-                              close()
-                            }}
-                          >
-                            {t(item.name)}
-                          </Link>
-                        ))}
+                        {userNavigation
+                          .filter(
+                            (nav) =>
+                              !nav.condition || nav.condition(user?.info),
+                          )
+                          .map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              passHref
+                              className="block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5"
+                              onClick={() => {
+                                close()
+                              }}
+                            >
+                              {t(item.name)}
+                            </Link>
+                          ))}
                         <button
                           key={"logout"}
                           onClick={() => {
