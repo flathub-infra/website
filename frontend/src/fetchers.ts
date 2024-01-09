@@ -13,7 +13,6 @@ import {
   STATS,
   DEVELOPER_URL,
   VENDING_CONFIG_URL,
-  APP_VERIFICATION_STATUS,
   APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
@@ -28,7 +27,6 @@ import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
 import { VendingConfig } from "./types/Vending"
-import { VerificationStatus } from "./types/VerificationStatus"
 import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
 import {
   AppsIndex,
@@ -192,12 +190,6 @@ export async function fetchVendingConfig() {
       data: null,
     }
   })
-}
-
-export async function fetchVerificationStatus(appId: string) {
-  return axios.get<VerificationStatus | undefined>(
-    `${APP_VERIFICATION_STATUS(appId)}`,
-  )
 }
 
 export async function fetchVerificationAvailableMethods(

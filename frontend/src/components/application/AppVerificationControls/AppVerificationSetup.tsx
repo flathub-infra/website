@@ -2,12 +2,8 @@ import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { unverifyApp } from "src/asyncs/app"
 import { Notice } from "src/components/Notice"
-import {
-  fetchVerificationAvailableMethods,
-  fetchVerificationStatus,
-} from "src/fetchers"
+import { fetchVerificationAvailableMethods } from "src/fetchers"
 import { Appstream } from "src/types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import Button from "../../Button"
 import ConfirmDialog from "../../ConfirmDialog"
@@ -16,6 +12,8 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
+import { verificationApi } from "src/api"
+import { VerificationStatus } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -69,7 +67,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   const query = useQuery({
     queryKey: ["verification", app.id],
     queryFn: async () => {
-      return fetchVerificationStatus(app.id)
+      return verificationApi.getVerificationStatusVerificationAppIdStatusGet(
+        app.id,
+      )
     },
     enabled: !!app.id,
   })

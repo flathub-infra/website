@@ -9,7 +9,6 @@ import {
   fetchSummary,
   fetchDeveloperApps,
   fetchAddons,
-  fetchVerificationStatus,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
@@ -23,7 +22,7 @@ import {
 } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
-import { appApi } from "src/api"
+import { appApi, verificationApi } from "src/api"
 
 export default function Details({
   app,
@@ -138,9 +137,10 @@ export const getStaticProps: GetStaticProps = async ({
   const { data: summary } = await fetchSummary(appId as string)
   const { data: stats } = await fetchAppStats(appId as string)
   const { data: developerApps } = await fetchDeveloperApps(app?.developer_name)
-  const { data: verificationStatus } = await fetchVerificationStatus(
-    appId as string,
-  )
+  const { data: verificationStatus } =
+    await verificationApi.getVerificationStatusVerificationAppIdStatusGet(
+      appId as string,
+    )
   const addons = await fetchAddons(appId as string)
 
   return {
