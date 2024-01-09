@@ -193,8 +193,11 @@ class CheckWebsiteVerification:
             )
 
         try:
+            headers = {"User-Agent": "python-requests (Flathub token verification)"}
             r = requests.get(
-                f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt", timeout=5
+                f"https://{domain}/.well-known/org.flathub.VerifiedApps.txt",
+                timeout=5,
+                headers=headers,
             )
         except requests.exceptions.ConnectionError:
             return WebsiteVerificationResult(
