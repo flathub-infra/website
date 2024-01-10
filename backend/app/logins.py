@@ -785,12 +785,14 @@ def continue_oauth_flow(
         userid = {}
         userid[f"{method}_userid"] = provider_data.id
         account = account_model(
-            user=user.id,
+            **userid,
             token=login_result["access_token"],
+            last_used=datetime.now(),
+            user=user.id,
             login=provider_data.login,
             avatar_url=provider_data.avatar_url,
-            last_used=datetime.now(),
-            **userid,
+            display_name=provider_data.name,
+            email=provider_data.email,
         )
         if "refresh_token" in login_result:
             account.refresh_token = login_result["refresh_token"]
@@ -808,12 +810,12 @@ def continue_oauth_flow(
             return JSONResponse(
                 {"status": "error", "error": "User already logged in?"}, status_code=500
             )
-        account.login = provider_data.login
-        account.display_name = provider_data.name
-        account.avatar_url = provider_data.avatar_url
-        account.email = provider_data.email
         account.token = login_result["access_token"]
         account.last_used = datetime.now()
+        account.login = provider_data.login
+        account.avatar_url = provider_data.avatar_url
+        account.display_name = provider_data.name
+        account.email = provider_data.email
         if "refresh_token" in login_result:
             account.refresh_token = login_result["refresh_token"]
             account.token_expiry = datetime.now() + timedelta(
