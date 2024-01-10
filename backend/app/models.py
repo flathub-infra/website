@@ -131,7 +131,8 @@ class FlathubUser(Base):
         hasher = utils.Hasher()
         # Add user info to be hashed
         hasher.add_number(user.id)
-        hasher.add_string(user.display_name)
+        if user.display_name is not None:
+            hasher.add_string(user.display_name)
         # Delete hash
         for table in user.TABLES_FOR_DELETE:
             table.delete_hash(hasher, db, user)
