@@ -33,6 +33,7 @@ model/data.ts
 model/developer.ts
 model/developers-response.ts
 model/error-detail.ts
+model/error-return.ts
 model/failed-by-guideline.ts
 model/filter.ts
 model/guideline.ts

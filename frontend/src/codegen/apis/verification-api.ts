@@ -40,6 +40,8 @@ import {
 // @ts-ignore
 import { AvailableMethods } from "../model"
 // @ts-ignore
+import { ErrorReturn } from "../model"
+// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { LinkResponse } from "../model"
@@ -612,7 +614,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
       newApp?: boolean,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorReturn>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
@@ -761,7 +763,7 @@ export const VerificationApiFactory = function (
       appId: string,
       newApp?: boolean,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ErrorReturn> {
       return localVarFp
         .verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
           appId,

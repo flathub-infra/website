@@ -1,6 +1,5 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import { verifyApp } from "src/asyncs/app"
 import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
@@ -11,7 +10,7 @@ import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { authApi } from "src/api"
+import { authApi, verificationApi } from "src/api"
 
 interface Props {
   appId: string
@@ -56,9 +55,16 @@ const LoginVerification: FunctionComponent<Props> = ({
     mutationFn: useCallback(async () => {
       setError("")
 
-      const result = await verifyApp(appId, isNewApp ?? false)
-      if (result?.detail) {
-        switch (result.detail) {
+      const result =
+        await verificationApi.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
+          appId,
+          isNewApp ?? false,
+          {
+            withCredentials: true,
+          },
+        )
+      if (result?.data.detail) {
+        switch (result.data.detail) {
           case "user_does_not_exist":
           case "provider_denied_access":
           case "not_org_member":
@@ -66,7 +72,7 @@ const LoginVerification: FunctionComponent<Props> = ({
             setError(t("login-provider-verification-failed"))
             break
           default:
-            setError(t("error-code", { code: result.detail }))
+            setError(t("error-code", { code: result.data.detail }))
             break
         }
         onReloadNeeded()

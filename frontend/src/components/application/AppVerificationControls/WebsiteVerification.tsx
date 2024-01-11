@@ -1,16 +1,13 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import {
-  confirmWebsiteVerification,
-  setupWebsiteVerification,
-  WebsiteVerificationConfirmResult,
-} from "src/asyncs/app"
 import Button from "src/components/Button"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
 import { VerificationMethodWebsite } from "src/types/VerificationAvailableMethods"
 import { FlathubDisclosure } from "../../Disclosure"
 import { useMutation } from "@tanstack/react-query"
+import { verificationApi } from "src/api"
+import { WebsiteVerificationResult } from "src/codegen"
 
 interface Props {
   appId: string
@@ -29,24 +26,38 @@ const WebsiteVerification: FunctionComponent<Props> = ({
 
   const [returnedToken, setReturnedToken] = useState<string>(null)
   const [confirmResult, setConfirmResult] =
-    useState<WebsiteVerificationConfirmResult>(null)
+    useState<WebsiteVerificationResult>(null)
 
   const setupWebsiteVerificationMutation = useMutation({
     mutationKey: ["website-verification", appId, isNewApp ?? false],
     mutationFn: useCallback(async () => {
-      const result = await setupWebsiteVerification(appId, isNewApp)
-      setReturnedToken(result.token)
+      const result =
+        await verificationApi.setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
+          appId,
+          isNewApp,
+          {
+            withCredentials: true,
+          },
+        )
+      setReturnedToken(result.data.token)
     }, [appId, setReturnedToken, isNewApp]),
   })
 
   const confirmWebsiteVerificationMutation = useMutation({
     mutationKey: ["confirm-website-verification", appId, isNewApp ?? false],
     mutationFn: useCallback(async () => {
-      const result = await confirmWebsiteVerification(appId, isNewApp)
-      if (result.verified) {
+      const result =
+        await verificationApi.confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
+          appId,
+          isNewApp,
+          {
+            withCredentials: true,
+          },
+        )
+      if (result.data.verified) {
         onVerified()
       } else {
-        setConfirmResult(result)
+        setConfirmResult(result.data)
       }
     }, [appId, onVerified, setConfirmResult, isNewApp]),
   })
