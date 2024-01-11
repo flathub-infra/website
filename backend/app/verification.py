@@ -13,7 +13,7 @@ from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
-from .login_info import logged_in
+from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
 
 
@@ -854,7 +854,7 @@ def confirm_website_verification(
 
 @router.post("/{app_id}/unverify", status_code=204, tags=["verification"])
 def unverify(
-    login=Depends(logged_in),
+    login=Depends(app_author_only),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -864,12 +864,20 @@ def unverify(
 ):
     """If the current account has verified the given app, mark it as no longer verified."""
 
-    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
-    if verification is not None:
-        sqldb.session.delete(verification)
-        sqldb.session.commit()
+    existing = _get_existing_verification(app_id)
 
-    worker.republish_app.send(app_id)
+    if existing is None:
+        raise HTTPException(status_code=404)
+    elif existing.method == "manual":
+        raise HTTPException(status_code=403, detail=ErrorDetail.BLOCKED_BY_ADMINS)
+    else:
+        verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
+
+        if verification is not None:
+            sqldb.session.delete(verification)
+            sqldb.session.commit()
+
+        worker.republish_app.send(app_id)
 
 
 def register_to_app(app: FastAPI):

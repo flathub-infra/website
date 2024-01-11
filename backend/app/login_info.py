@@ -104,6 +104,13 @@ def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
         raise HTTPException(status_code=403, detail="not_app_developer")
 
 
+def app_author_only(app_id: str, login=Depends(logged_in)):
+    if login.user and app_id in login.user.dev_flatpaks(db):
+        return login
+
+    raise HTTPException(status_code=403, detail="not_app_author")
+
+
 def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
     if login.user and login.user.is_quality_moderator:
         return login
