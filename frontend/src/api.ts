@@ -11,6 +11,7 @@ import {
   ModerationApi,
   PurchaseApi,
   QualityModerationApi,
+  UploadTokensApi,
   VendingApi,
   VerificationApi,
   WalletApi,
@@ -47,3 +48,5 @@ export const healthcheckApi = new HealthcheckApi(apiConfig)
 export const vendingApi = new VendingApi(apiConfig)
 
 export const appPicks = new AppPicksApi(apiConfig)
+
+export const uploadTokensApi = new UploadTokensApi(apiConfig)

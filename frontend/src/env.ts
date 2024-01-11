@@ -157,16 +157,6 @@ export const STRIPE_MAX_PAYMENT = 999999.99
 // Flathub enforces a minimum payment amount of $1 to cover fees
 export const FLATHUB_MIN_PAYMENT = 1
 
-export const UPLOAD_TOKENS_URL = (
-  appId: string,
-  includeExpired: boolean,
-): string =>
-  `${BASE_URI}/upload-tokens/${appId}?include_expired=${includeExpired}`
-export const UPLOAD_TOKEN_CREATE_URL = (appId: string): string =>
-  `${BASE_URI}/upload-tokens/${appId}`
-export const UPLOAD_TOKEN_REVOKE_URL = (tokenId: number): string =>
-  `${BASE_URI}/upload-tokens/${tokenId}/revoke`
-
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
 
 export const MODERATION_BASE_URL: string = `${BASE_URI}/moderation`

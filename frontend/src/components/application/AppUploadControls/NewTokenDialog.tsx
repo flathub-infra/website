@@ -1,13 +1,11 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
-import {
-  NewTokenResponse,
-  Repo,
-  createUploadToken,
-} from "src/asyncs/upload_tokens"
 import Spinner from "src/components/Spinner"
 import CodeCopy from "../CodeCopy"
 import Modal from "src/components/Modal"
+import { uploadTokensApi } from "src/api"
+import { NewTokenResponse } from "src/codegen"
+import { Repo } from "src/types/UploadTokens"
 
 interface Props {
   app_id: string
@@ -36,10 +34,21 @@ const NewTokenDialog: FunctionComponent<Props> = ({
 
   const createToken = async () => {
     setState("pending")
-    const response = await createUploadToken(app_id, comment, scopes, [repo])
-    setToken(response.token)
+    const response =
+      await uploadTokensApi.createUploadTokenUploadTokensAppIdPost(
+        app_id,
+        {
+          comment,
+          scopes,
+          repos: [repo],
+        },
+        {
+          withCredentials: true,
+        },
+      )
+    setToken(response.data.token)
     setState("copy-token")
-    created?.(response)
+    created?.(response.data)
   }
 
   const setScope = (scope: string, checked: boolean) => {
