@@ -30,12 +30,14 @@ model/body-get-download-token-purchases-generate-download-token-post.ts
 model/build-notification-request.ts
 model/connected-account-provider.ts
 model/data.ts
+model/delete-user-result.ts
 model/developer.ts
 model/developers-response.ts
 model/error-detail.ts
 model/error-return.ts
 model/failed-by-guideline.ts
 model/filter.ts
+model/get-delete-user-result.ts
 model/guideline.ts
 model/httpvalidation-error.ts
 model/index.ts

@@ -1,42 +1,53 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
-import { deleteAccount } from "../../asyncs/login"
-import { requestDeletion } from "../../asyncs/user"
 import { useUserDispatch } from "../../context/user-info"
 import Button from "../Button"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
+import { authApi } from "src/api"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
   const dispatch = useUserDispatch()
 
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState<string>()
 
-  // Get token first, then use to delete
-  const nextAction = token
-    ? () => deleteAccount(dispatch, token)
-    : requestDeletion
+  const prepareDeleteUserMutation = useMutation({
+    mutationKey: ["prepare-delete"],
+    mutationFn: async () =>
+      authApi.getDeleteuserAuthDeleteuserGet({
+        withCredentials: true,
+      }),
+    onSuccess: (data) => {
+      setToken(data.data.token)
+    },
+    onError: (e) => {
+      toast.error(t("network-error-try-again"))
+    },
+  })
 
   const deleteUserMutation = useMutation({
     mutationKey: ["delete"],
-    mutationFn: async () => await nextAction(),
+    mutationFn: async () =>
+      authApi.doDeleteuserAuthDeleteuserPost(
+        { token },
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: () => {
+      dispatch({ type: "logout" })
+    },
+    onError: (e: { response: { data: { detail: string } } }) => {
+      if (e.response.data?.detail === "token mismatch") {
+        toast.error(t("account-deletion-token-mismatch"))
+      } else {
+        toast.error(t("network-error-try-again"))
+      }
+    },
   })
-
-  // Alert user to network errors preventing deletion
-  useEffect(() => {
-    if (deleteUserMutation.error) {
-      toast.error(t(deleteUserMutation.error.message))
-    }
-  }, [deleteUserMutation.error, t])
-
-  useEffect(() => {
-    if (deleteUserMutation.data) {
-      setToken(deleteUserMutation.data)
-    }
-  }, [deleteUserMutation.data])
 
   if (deleteUserMutation.isPending) {
     return <Spinner size="s" />
@@ -44,7 +55,10 @@ const DeleteButton: FunctionComponent = () => {
 
   return (
     <>
-      <Button onClick={() => deleteUserMutation.mutate()} variant="destructive">
+      <Button
+        onClick={() => prepareDeleteUserMutation.mutate()}
+        variant="destructive"
+      >
         {t("delete-account")}
       </Button>
 

@@ -1,12 +1,6 @@
 import { ParsedUrlQuery } from "querystring"
 import { Dispatch } from "react"
-import {
-  ACCEPT_PUBLISHER_AGREEMENT_URL,
-  LOGIN_PROVIDERS_URL,
-  LOGOUT_URL,
-  USER_DELETION_URL,
-  USER_INFO_URL,
-} from "../env"
+import { LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_INFO_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserInfo, UserStateAction } from "../types/Login"
 
@@ -121,61 +115,6 @@ export async function logout(
     dispatch({ type: "logout" })
   } else {
     dispatch({ type: "interrupt" })
-    throw "network-error-try-again"
-  }
-}
-
-/**
- * Performs a POST request to the API to complete user deletion.
- * Throws localized string ID on error.
- * @param dispatch Reducer dispatch function used to update user context
- * @param token The string token returned by deletion initiation request
- */
-export async function deleteAccount(
-  dispatch: Dispatch<UserStateAction>,
-  token: string,
-): Promise<void> {
-  let res: Response
-  try {
-    res = await fetch(USER_DELETION_URL, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token }),
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    dispatch({ type: "logout" })
-  } else {
-    const data: APIResponseError = await res.json()
-
-    const msg = {
-      "token mismatch": "account-deletion-token-mismatch",
-    }[data.error]
-
-    throw msg ?? "network-error-try-again"
-  }
-}
-
-export async function acceptPublisherAgreement(
-  dispatch: Dispatch<UserStateAction>,
-) {
-  let res: Response
-  try {
-    res = await fetch(ACCEPT_PUBLISHER_AGREEMENT_URL, {
-      method: "POST",
-      credentials: "include",
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    await getUserData(dispatch)
-  } else {
     throw "network-error-try-again"
   }
 }

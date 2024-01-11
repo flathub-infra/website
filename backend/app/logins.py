@@ -963,8 +963,13 @@ def do_logout(request: Request, login: LoginStatusDep):
     return {}
 
 
+class GetDeleteUserResult(BaseModel):
+    status: str
+    token: str
+
+
 @router.get("/deleteuser", tags=["auth"])
-def get_deleteuser(login: LoginStatusDep):
+def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
     """
     Delete a user's login information.
     If they're not logged in, they'll get a `403` return.
@@ -972,18 +977,17 @@ def get_deleteuser(login: LoginStatusDep):
     and data.
     """
     if not login.user or not login.state.logged_in():
-        return Response(status_code=403)
+        raise HTTPException(status_code=403, detail="Not logged in")
     user = login.user
 
     token = models.FlathubUser.generate_token(db, user)
-    return {
-        "status": "ok",
-        "token": token,
-    }
+    return GetDeleteUserResult(status="ok", token=token)
 
 
 @router.post("/deleteuser", tags=["auth"])
-def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusDep):
+def do_deleteuser(
+    request: Request, data: UserDeleteRequest, login: LoginStatusDep
+) -> models.DeleteUserResult:
     """
     Clear the login state. This will then delete the user's account
     and associated data. Unless there is an error.
@@ -997,15 +1001,15 @@ def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusD
     ```
     """
     if not login.user or not login.state.logged_in():
-        return Response(status_code=403)
+        raise HTTPException(status_code=403, detail="Not logged in")
     user = login.user
 
     ret = models.FlathubUser.delete_user(db, user, data.token)
 
-    if ret["status"] == "ok":
+    if ret.status == "ok":
         request.session.clear()
     else:
-        return JSONResponse(ret, status_code=400)
+        raise HTTPException(status_code=400, detail=ret.status)
 
     return ret
 
@@ -1013,7 +1017,7 @@ def do_deleteuser(request: Request, data: UserDeleteRequest, login: LoginStatusD
 @router.post("/accept-publisher-agreement", tags=["auth"])
 def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
-        return Response(status_code=403)
+        raise HTTPException(status_code=403, detail="Not logged in")
 
     login.user.accepted_publisher_agreement_at = func.now()
     db.session.commit()

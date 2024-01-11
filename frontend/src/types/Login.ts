@@ -1,5 +1,4 @@
 import { VerificationProvider } from "src/verificationProvider"
-import { APIResponseOk } from "./API"
 
 export interface LoginProvider {
   method: string
@@ -38,9 +37,4 @@ export interface UserStateAction {
   type: "loading" | "interrupt" | "login" | "logout" | "update-dev-flatpaks"
   info?: UserInfo
   devFlatpaks?: string[]
-}
-
-// GET /auth/deleteuser
-export interface UserDeletionToken extends APIResponseOk {
-  token: string
 }

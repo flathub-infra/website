@@ -1,11 +1,12 @@
 import { FunctionComponent, useState } from "react"
-import { acceptPublisherAgreement } from "src/asyncs/login"
 import Button from "../Button"
 import { useTranslation } from "next-i18next"
 import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../login/LoginGuard"
+import { authApi } from "src/api"
+import { getUserData } from "src/asyncs/login"
 
 interface Props {
   continueText?: string
@@ -20,7 +21,6 @@ const PublisherAgreement: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
   const userDispatch = useUserDispatch()
-  const router = useRouter()
 
   const [accepted, setAccepted] = useState(false)
 
@@ -155,7 +155,12 @@ const PublisherAgreement: FunctionComponent<Props> = ({
         disabled={!accepted}
         onClick={async () => {
           if (accepted) {
-            await acceptPublisherAgreement(userDispatch)
+            await authApi.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
+              {
+                withCredentials: true,
+              },
+            )
+            await getUserData(userDispatch)
             onAccept()
           }
         }}
