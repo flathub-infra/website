@@ -2,9 +2,10 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
-import { acceptInvite } from "src/asyncs/directUpload"
 import PublisherAgreement from "src/components/user/PublisherAgreement"
 import { useUserDispatch } from "src/context/user-info"
+import { inviteApi } from "src/api"
+import { getUserData } from "src/asyncs/login"
 
 interface Props {
   appId: string
@@ -19,7 +20,10 @@ const PublisherAgreementPage = ({ appId }: Props) => {
     <PublisherAgreement
       continueText={t("accept-invite")}
       onAccept={async () => {
-        await acceptInvite(appId, userDispatch)
+        await inviteApi.acceptInviteInvitesAppIdAcceptPost(appId, {
+          withCredentials: true,
+        })
+        await getUserData(userDispatch)
         router.push(`/apps/manage/${appId}`)
       }}
       onCancel={() => {

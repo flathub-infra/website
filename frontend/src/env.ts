@@ -85,29 +85,6 @@ export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
 export const CHECK_PURCHASES_URL: string = `${BASE_URI}/purchases/check-purchases`
 export const TOKEN_GENERATION_URL: string = `${BASE_URI}/purchases/generate-update-token`
 
-export const INVITE_STATUS_URL = (appId: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(appId)}`
-export const INVITE_DEVELOPER_URL = (appId: string, inviteCode: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(
-    appId,
-  )}/invite?invite_code=${inviteCode}`
-export const ACCEPT_INVITE_URL = (appId: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(appId)}/accept`
-export const DECLINE_INVITE_URL = (appId: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(appId)}/decline`
-export const LEAVE_TEAM_URL = (appId: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(appId)}/leave`
-export const GET_DEVELOPERS_URL = (appId: string) =>
-  `${BASE_URI}/invites/${encodeURIComponent(appId)}/developers`
-export const REMOVE_DEVELOPER_URL = (appId: string, developerId: number) =>
-  `${BASE_URI}/invites/${encodeURIComponent(
-    appId,
-  )}/remove-developer?developer_id=${developerId}`
-export const REVOKE_INVITE_URL = (appId: string, inviteId: number) =>
-  `${BASE_URI}/invites/${encodeURIComponent(
-    appId,
-  )}/revoke?invite_id=${inviteId}`
-
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
 export const REMOVE_CARD_URL: string = `${WALLET_BASE_URL}/removecard`
 export const WALLET_INFO_URL: string = `${WALLET_BASE_URL}/walletinfo`
