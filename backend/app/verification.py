@@ -175,6 +175,10 @@ def _get_gnome_world_doap_maintainers(app_id: str) -> list[str]:
 router = APIRouter(prefix="/verification")
 
 
+class ErrorReturn(BaseModel):
+    detail: ErrorDetail
+
+
 class WebsiteVerificationResult(BaseModel):
     verified: bool
     detail: ErrorDetail | None = None
@@ -695,7 +699,7 @@ def verify_by_login_provider(
         examples=["org.gnome.Glade"],
     ),
     new_app: bool = False,
-):
+) -> ErrorReturn | None:
     """If the current account is eligible to verify the given account via SSO, and the app is not already verified by
     someone else, marks the app as verified."""
 

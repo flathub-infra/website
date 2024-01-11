@@ -1,13 +1,5 @@
-import axios, { Axios, AxiosResponse } from "axios"
-import {
-  APP_DETAILS,
-  APP_VERIFICATION_CONFIRM_WEBSITE,
-  APP_VERIFICATION_SETUP_WEBSITE,
-  APP_VERIFICATION_UNVERIFY,
-  APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER,
-  CHECK_PURCHASES_URL,
-  TOKEN_GENERATION_URL,
-} from "../env"
+import axios, { AxiosResponse } from "axios"
+import { APP_DETAILS, CHECK_PURCHASES_URL, TOKEN_GENERATION_URL } from "../env"
 import { Appstream } from "../types/Appstream"
 
 /**
@@ -40,86 +32,6 @@ export async function generateUpdateToken() {
     })
 
     return await res.json()
-  } catch {
-    throw "network-error-try-again"
-  }
-}
-
-/**
- * Tries to verify the given appId with social login.
- */
-export async function verifyApp(
-  appId: string,
-  isNewApp: boolean,
-): Promise<{ detail: string }> {
-  try {
-    let res = await fetch(
-      APP_VERIFICATION_VERIFY_BY_LOGIN_PROVIDER(appId, isNewApp),
-      {
-        method: "POST",
-        credentials: "include",
-      },
-    )
-
-    return await res.json()
-  } catch {
-    throw "network-error-try-again"
-  }
-}
-
-/**
- * Tries to set up website verification for the given app ID. The token to use will be returned on success.
- */
-export async function setupWebsiteVerification(
-  appId: string,
-  isNewApp: boolean,
-): Promise<{ token?: string; detail?: string }> {
-  try {
-    let res = await fetch(APP_VERIFICATION_SETUP_WEBSITE(appId, isNewApp), {
-      method: "POST",
-      credentials: "include",
-    })
-
-    return await res.json()
-  } catch {
-    throw "network-error-try-again"
-  }
-}
-
-export interface WebsiteVerificationConfirmResult {
-  verified: boolean
-  detail?: string
-  status_code?: number
-}
-
-/**
- * Tries to confirm website verification for the given app ID.
- */
-export async function confirmWebsiteVerification(
-  appId: string,
-  isNewApp: boolean,
-): Promise<WebsiteVerificationConfirmResult> {
-  try {
-    let res = await fetch(APP_VERIFICATION_CONFIRM_WEBSITE(appId, isNewApp), {
-      method: "POST",
-      credentials: "include",
-    })
-
-    return await res.json()
-  } catch {
-    throw "network-error-try-again"
-  }
-}
-
-/**
- * Unverifies the given app.
- */
-export async function unverifyApp(appId: string): Promise<void> {
-  try {
-    await fetch(APP_VERIFICATION_UNVERIFY(appId), {
-      method: "POST",
-      credentials: "include",
-    })
   } catch {
     throw "network-error-try-again"
   }

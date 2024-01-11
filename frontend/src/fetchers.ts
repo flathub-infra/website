@@ -13,7 +13,6 @@ import {
   STATS,
   DEVELOPER_URL,
   VENDING_CONFIG_URL,
-  APP_VERIFICATION_AVAILABLE_METHODS,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
   CATEGORIES_URL,
@@ -190,16 +189,6 @@ export async function fetchVendingConfig() {
       data: null,
     }
   })
-}
-
-export async function fetchVerificationAvailableMethods(
-  appId: string,
-  isNewApp: boolean,
-) {
-  return axios.get<VerificationAvailableMethods | undefined>(
-    `${APP_VERIFICATION_AVAILABLE_METHODS(appId, isNewApp ?? false)}`,
-    { withCredentials: true },
-  )
 }
 
 export async function fetchRuntimes() {

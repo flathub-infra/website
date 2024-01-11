@@ -1,8 +1,6 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import { unverifyApp } from "src/asyncs/app"
 import { Notice } from "src/components/Notice"
-import { fetchVerificationAvailableMethods } from "src/fetchers"
 import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import Button from "../../Button"
@@ -14,6 +12,8 @@ import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
 import { verificationApi } from "src/api"
 import { VerificationStatus } from "src/codegen"
+import { VerificationAvailableMethods } from "src/types/VerificationAvailableMethods"
+import { AxiosResponse } from "axios"
 
 interface Props {
   app: Appstream
@@ -77,7 +77,13 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   const verificationAvailableMethods = useQuery({
     queryKey: ["verification-available-methods", app.id],
     queryFn: async () => {
-      return fetchVerificationAvailableMethods(app.id, isNewApp)
+      return verificationApi.getAvailableMethodsVerificationAppIdAvailableMethodsGet(
+        app.id,
+        isNewApp,
+        {
+          withCredentials: true,
+        },
+      ) as Promise<AxiosResponse<VerificationAvailableMethods | undefined>>
     },
     enabled: query.data && !query.data.data.verified,
   })
@@ -132,9 +138,13 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             actionVariant="destructive"
             onConfirmed={() => {
               setConfirmUnverify(false)
-              unverifyApp(app.id).then(() => {
-                query.refetch()
-              })
+              verificationApi
+                .unverifyVerificationAppIdUnverifyPost(app.id, {
+                  withCredentials: true,
+                })
+                .then(() => {
+                  query.refetch()
+                })
             }}
             onCancelled={() => setConfirmUnverify(false)}
           />
