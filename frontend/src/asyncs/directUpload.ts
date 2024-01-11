@@ -11,7 +11,7 @@ import {
 } from "src/env"
 import { UserStateAction } from "src/types/Login"
 import { getUserData } from "./login"
-import axios, { Axios, AxiosResponse } from "axios"
+import axios from "axios"
 
 export interface InviteStatus {
   is_pending: boolean
