@@ -42,6 +42,10 @@ import { ConnectedAccountProvider } from "../model"
 // @ts-ignore
 import { Data } from "../model"
 // @ts-ignore
+import { DeleteUserResult } from "../model"
+// @ts-ignore
+import { GetDeleteUserResult } from "../model"
+// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { LoginMethod } from "../model"
@@ -993,7 +997,10 @@ export const AuthApiFp = function (configuration?: Configuration) {
       userDeleteRequest: UserDeleteRequest,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<DeleteUserResult>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.doDeleteuserAuthDeleteuserPost(
@@ -1058,7 +1065,10 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async getDeleteuserAuthDeleteuserGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<GetDeleteUserResult>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDeleteuserAuthDeleteuserGet(options)
@@ -1323,7 +1333,7 @@ export const AuthApiFactory = function (
     doDeleteuserAuthDeleteuserPost(
       userDeleteRequest: UserDeleteRequest,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<DeleteUserResult> {
       return localVarFp
         .doDeleteuserAuthDeleteuserPost(userDeleteRequest, options)
         .then((request) => request(axios, basePath))
@@ -1358,7 +1368,9 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getDeleteuserAuthDeleteuserGet(options?: any): AxiosPromise<void> {
+    getDeleteuserAuthDeleteuserGet(
+      options?: any,
+    ): AxiosPromise<GetDeleteUserResult> {
       return localVarFp
         .getDeleteuserAuthDeleteuserGet(options)
         .then((request) => request(axios, basePath))

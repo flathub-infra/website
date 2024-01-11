@@ -82,10 +82,8 @@ export const APPS_IN_PREVIEW_COUNT: number = 12
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 export const USER_INFO_URL: string = `${BASE_URI}/auth/userinfo`
 export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
-export const USER_DELETION_URL: string = `${BASE_URI}/auth/deleteuser`
 export const CHECK_PURCHASES_URL: string = `${BASE_URI}/purchases/check-purchases`
 export const TOKEN_GENERATION_URL: string = `${BASE_URI}/purchases/generate-update-token`
-export const ACCEPT_PUBLISHER_AGREEMENT_URL: string = `${BASE_URI}/auth/accept-publisher-agreement`
 
 export const INVITE_STATUS_URL = (appId: string) =>
   `${BASE_URI}/invites/${encodeURIComponent(appId)}`

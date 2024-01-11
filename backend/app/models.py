@@ -62,6 +62,11 @@ class ConnectedAccountProvider(str, enum.Enum):
     KDE = "kde"
 
 
+class DeleteUserResult(BaseModel):
+    status: str
+    message: Optional[str] = None
+
+
 class FlathubUser(Base):
     __tablename__ = "flathubuser"
 
@@ -139,14 +144,14 @@ class FlathubUser(Base):
         return hasher.hash()
 
     @staticmethod
-    def delete_user(db, user, token: str) -> dict:
+    def delete_user(db, user, token: str) -> DeleteUserResult:
         """
         Attempt to delete the given user, we expect the user's token to match, otherwise
         we will return an error.
         """
         current_token = FlathubUser.generate_token(db, user)
         if token != current_token:
-            return {"status": "error", "error": "token mismatch"}
+            raise HTTPException(status_code=403, detail="token mismatch")
         for table in user.TABLES_FOR_DELETE:
             table.delete_user(db, user)
 
@@ -159,10 +164,7 @@ class FlathubUser(Base):
         db.session.commit()
 
         # And we're done
-        return {
-            "status": "ok",
-            "message": "deleted",
-        }
+        return DeleteUserResult(status="ok", message="deleted")
 
     def dev_flatpaks(self, db):
         """
