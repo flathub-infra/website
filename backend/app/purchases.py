@@ -4,7 +4,7 @@ from uuid import uuid4
 
 import gi
 import jwt
-from fastapi import APIRouter, Body, Depends, FastAPI
+from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from gi.repository import AppStream  # type: ignore
@@ -92,8 +92,12 @@ def get_is_free_software(app_id: str, license: str | None = None) -> bool:
     return False
 
 
+class GenerateUpdateTokenResponse(BaseModel):
+    token: str
+
+
 @router.post("/generate-update-token", status_code=200, tags=["purchase"])
-def get_update_token(login=Depends(logins.login_state)):
+def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenResponse:
     """
     Generates an update token for a user account. This token allows the user to generate download tokens for apps they
     already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
@@ -101,7 +105,7 @@ def get_update_token(login=Depends(logins.login_state)):
     """
 
     if not login["state"].logged_in():
-        return JSONResponse({"detail": "not_logged_in"}, status_code=401)
+        raise HTTPException(status_code=401, detail="not_logged_in")
     user = login["user"]
 
     encoded = jwt.encode(
@@ -114,9 +118,7 @@ def get_update_token(login=Depends(logins.login_state)):
         algorithm="HS256",
     )
 
-    return {
-        "token": encoded,
-    }
+    return GenerateUpdateTokenResponse(token=encoded)
 
 
 def _check_purchases(appids: list[str], user_id: int):

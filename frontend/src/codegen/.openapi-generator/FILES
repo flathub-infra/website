@@ -37,6 +37,7 @@ model/error-detail.ts
 model/error-return.ts
 model/failed-by-guideline.ts
 model/filter.ts
+model/generate-update-token-response.ts
 model/get-delete-user-result.ts
 model/guideline.ts
 model/httpvalidation-error.ts
