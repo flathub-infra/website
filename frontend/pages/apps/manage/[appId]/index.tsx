@@ -4,7 +4,6 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
-import { getInviteStatus } from "src/asyncs/directUpload"
 import Tabs from "src/components/Tabs"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
@@ -17,6 +16,7 @@ import { useUserContext } from "../../../../src/context/user-info"
 import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
+import { inviteApi } from "src/api"
 
 export default function AppManagementPage({
   app,
@@ -42,7 +42,10 @@ export default function AppManagementPage({
 
   const inviteQuery = useQuery({
     queryKey: ["invite-status", app.id],
-    queryFn: () => getInviteStatus(app.id),
+    queryFn: () =>
+      inviteApi.getInviteStatusInvitesAppIdGet(app.id, {
+        withCredentials: true,
+      }),
     enabled: !!app.id,
   })
 

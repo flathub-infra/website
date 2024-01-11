@@ -1,13 +1,5 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
-import {
-  Developer,
-  getDevelopers,
-  inviteDeveloper,
-  leaveTeam,
-  removeDeveloper,
-  revokeInvite,
-} from "src/asyncs/directUpload"
 import { Appstream } from "src/types/Appstream"
 import Button from "../Button"
 import InlineError from "../InlineError"
@@ -17,6 +9,9 @@ import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
+import { inviteApi } from "src/api"
+import { getUserData } from "src/asyncs/login"
+import { Developer } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -29,14 +24,15 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
 
   const developersQuery = useQuery({
     queryKey: ["developers", app.id],
-    queryFn: () => getDevelopers(app.id),
+    queryFn: () => inviteApi.getDevelopersInvitesAppIdDevelopersGet(app.id),
   })
 
   const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
   const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
 
-  const selfIsPrimary = developersQuery.data?.developers.find((d) => d.is_self)
-    ?.is_primary
+  const selfIsPrimary = developersQuery.data.data.developers.find(
+    (d) => d.is_self,
+  )?.is_primary
 
   let content: ReactElement
 
@@ -49,7 +45,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       content = (
         <div className="space-y-6">
           <div className="space-y-3">
-            {developersQuery.data.developers.map((developer) => (
+            {developersQuery.data.data.developers.map((developer) => (
               <DeveloperRow
                 key={developer.id}
                 developer={developer}
@@ -62,10 +58,10 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
           </div>
 
           <div className="space-y-3">
-            {developersQuery.data.invites.length > 0 && (
+            {developersQuery.data.data.invites.length > 0 && (
               <h3 className="text-xl font-bold">{t("invites")}</h3>
             )}
-            {developersQuery.data.invites.map((developer) => (
+            {developersQuery.data.data.invites.map((developer) => (
               <DeveloperRow
                 key={developer.id}
                 developer={developer}
@@ -113,7 +109,10 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
                 description={t("leave-confirmation", { app: app.name })}
                 actionVariant="destructive"
                 onConfirmed={async () => {
-                  await leaveTeam(app.id, userDispatch)
+                  await inviteApi.leaveTeamInvitesAppIdLeavePost(app.id, {
+                    withCredentials: true,
+                  })
+                  await getUserData(userDispatch)
                   setLeaveDialogVisible(false)
                   router.push("/my-flathub")
                 }}
@@ -202,9 +201,21 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         actionVariant="destructive"
         onConfirmed={async () => {
           if (isInvite) {
-            await revokeInvite(app.id, developer.id)
+            await inviteApi.revokeInviteInvitesAppIdRevokePost(
+              app.id,
+              developer.id,
+              {
+                withCredentials: true,
+              },
+            )
           } else {
-            await removeDeveloper(app.id, developer.id)
+            await inviteApi.removeDeveloperInvitesAppIdRemoveDeveloperPost(
+              app.id,
+              developer.id,
+              {
+                withCredentials: true,
+              },
+            )
           }
           setDialogVisible(false)
           refresh()
@@ -250,7 +261,13 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
         label: t("invite"),
         onClick: async () => {
           try {
-            await inviteDeveloper(app.id, inviteCode)
+            await inviteApi.inviteDeveloperInvitesAppIdInvitePost(
+              app.id,
+              inviteCode,
+              {
+                withCredentials: true,
+              },
+            )
           } catch (e) {
             setError(e.replaceAll("_", "-"))
             return

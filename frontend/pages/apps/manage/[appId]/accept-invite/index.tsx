@@ -5,15 +5,12 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect } from "react"
 import { useTranslation } from "next-i18next"
-import {
-  acceptInvite,
-  declineInvite,
-  getInviteStatus,
-} from "src/asyncs/directUpload"
 import Button from "src/components/Button"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
+import { inviteApi } from "src/api"
+import { getUserData } from "src/asyncs/login"
 
 export default function AcceptInvitePage({ app }) {
   const { t } = useTranslation()
@@ -29,7 +26,10 @@ export default function AcceptInvitePage({ app }) {
 
   const inviteQuery = useQuery({
     queryKey: ["invite-status", app.id],
-    queryFn: () => getInviteStatus(app.id),
+    queryFn: () =>
+      inviteApi.getInviteStatusInvitesAppIdGet(app.id, {
+        withCredentials: true,
+      }),
     enabled: !!app.id,
   })
 
@@ -45,7 +45,10 @@ export default function AcceptInvitePage({ app }) {
             <Button
               onClick={async () => {
                 if (user.info?.["accepted-publisher-agreement-at"]) {
-                  await acceptInvite(app.id, userDispatch)
+                  await inviteApi.acceptInviteInvitesAppIdAcceptPost(app.id, {
+                    withCredentials: true,
+                  })
+                  await getUserData(userDispatch)
                 } else {
                   router.push(
                     `/apps/manage/${app.id}/accept-invite/publisher-agreement`,
@@ -59,7 +62,10 @@ export default function AcceptInvitePage({ app }) {
 
             <Button
               onClick={async () => {
-                await declineInvite(app.id, userDispatch)
+                await inviteApi.declineInviteInvitesAppIdDeclinePost(app.id, {
+                  withCredentials: true,
+                })
+                await getUserData(userDispatch)
                 router.push("/my-flathub")
               }}
               className="block w-full"
