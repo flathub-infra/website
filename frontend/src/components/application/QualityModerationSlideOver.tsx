@@ -370,7 +370,7 @@ const ReadOnlyItem = ({ toggle }) => {
   const { getReferenceProps, getFloatingProps } = useInteractions([hover, role])
 
   const status =
-    toggle === undefined ? "pending" : toggle === true ? "passed" : "not-passed"
+    toggle === null ? "pending" : toggle === true ? "passed" : "not-passed"
 
   let content = <HiQuestionMarkCircle className="w-6 h-6" />
   if (status === "passed") {
