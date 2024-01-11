@@ -5,9 +5,10 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
-import { checkPurchases, generateUpdateToken } from "../../src/asyncs/app"
 import Spinner from "../../src/components/Spinner"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
+import { purchaseApi } from "src/api"
+import { checkPurchases } from "src/asyncs/app"
 
 const PERMITTED_REDIRECTS = [
   /^http:\/\/localhost:\d+\/$/,
@@ -44,12 +45,15 @@ export default function Purchase() {
     checkPurchases(appIDs)
       .then((result) => {
         if (result["status"] === "ok") {
-          generateUpdateToken()
+          purchaseApi
+            .getUpdateTokenPurchasesGenerateUpdateTokenPost({
+              withCredentials: true,
+            })
             .then((result) =>
               fetch(
                 redirect.toString() +
                   "success?token=" +
-                  encodeURIComponent(result.token),
+                  encodeURIComponent(result.data.token),
               ),
             )
             .then(() => {

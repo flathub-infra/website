@@ -40,6 +40,8 @@ import {
 // @ts-ignore
 import { BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost } from "../model"
 // @ts-ignore
+import { GenerateUpdateTokenResponse } from "../model"
+// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { StorefrontInfo } from "../model"
@@ -428,7 +430,10 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
     async getUpdateTokenPurchasesGenerateUpdateTokenPost(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<GenerateUpdateTokenResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getUpdateTokenPurchasesGenerateUpdateTokenPost(
@@ -532,7 +537,7 @@ export const PurchaseApiFactory = function (
      */
     getUpdateTokenPurchasesGenerateUpdateTokenPost(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<GenerateUpdateTokenResponse> {
       return localVarFp
         .getUpdateTokenPurchasesGenerateUpdateTokenPost(options)
         .then((request) => request(axios, basePath))
