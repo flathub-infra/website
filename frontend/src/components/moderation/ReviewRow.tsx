@@ -1,7 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { Fragment, FunctionComponent, ReactElement, useState } from "react"
-import { submitReview } from "src/asyncs/moderation"
 import { getIntlLocale, getLocale } from "src/localize"
 import Button from "../Button"
 import InlineError from "../InlineError"
@@ -11,6 +10,8 @@ import { formatDistance, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
 import { ModerationRequestResponse } from "src/codegen/model"
+import { moderationApi } from "src/api"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   title: string
@@ -41,20 +42,30 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   >("idle")
   const [error, setError] = useState<string>()
 
-  const submit = async (approve: boolean) => {
-    setStatus("pending")
-    try {
-      await submitReview(request.id, approve, comment)
+  const mutation = useMutation({
+    mutationKey: ["review", request.id, modalState],
+    mutationFn: (approve: boolean) =>
+      moderationApi.submitReviewModerationRequestsIdReviewPost(
+        request.id,
+        {
+          approve,
+          comment,
+        },
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: () => {
       setStatus("success")
-    } catch (e) {
+    },
+    onError: (e) => {
       setStatus("error")
-      setError(e)
-      return
-    }
-  }
+      setError(e as unknown as string)
+    },
+  })
 
   const confirm = () => {
-    submit(modalState === "approve")
+    mutation.mutate(modalState === "approve")
     setModalVisible(false)
     setComment(undefined)
   }
@@ -121,7 +132,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           variant="primary"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            submit(true)
+            mutation.mutate(true)
           }}
         >
           Approve

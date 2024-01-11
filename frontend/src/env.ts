@@ -168,7 +168,3 @@ export const UPLOAD_TOKEN_REVOKE_URL = (tokenId: number): string =>
   `${BASE_URI}/upload-tokens/${tokenId}/revoke`
 
 export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
-
-export const MODERATION_BASE_URL: string = `${BASE_URI}/moderation`
-export const MODERATION_REVIEW_URL = (id: number) =>
-  `${MODERATION_BASE_URL}/requests/${id}/review`
