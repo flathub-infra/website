@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query"
 import { uploadTokensApi } from "src/api"
 import { Repo } from "src/types/UploadTokens"
 
-export default function UploadTokenControls({ app }) {
+export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const { t } = useTranslation()
 
   const [modalVisible, setModalVisible] = useState(false)
@@ -174,11 +174,12 @@ export default function UploadTokenControls({ app }) {
         onConfirmed={() => revoke()}
         onCancelled={() => setTokenToRevoke(undefined)}
       >
-        {t("revoke-token-description", {
-          name: query.data.data.tokens.find(
-            (token) => token.id === tokenToRevoke,
-          )?.comment,
-        })}
+        {query?.data &&
+          t("revoke-token-description", {
+            name: query.data?.data?.tokens.find(
+              (token) => token.id === tokenToRevoke,
+            )?.comment,
+          })}
       </ConfirmDialog>
     </>
   )
