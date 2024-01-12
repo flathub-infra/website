@@ -63,7 +63,7 @@ const LoginVerification: FunctionComponent<Props> = ({
             withCredentials: true,
           },
         )
-      if (result?.data.detail) {
+      if (result?.data?.detail) {
         switch (result.data.detail) {
           case "user_does_not_exist":
           case "provider_denied_access":
