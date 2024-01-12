@@ -3,12 +3,12 @@ import { useTranslation } from "next-i18next"
 import { useState } from "react"
 import { FunctionComponent } from "react"
 import { HiChevronDown, HiChevronUp } from "react-icons/hi2"
-import { VendingToken } from "../../../../types/Vending"
 import TokenCancelButton from "./TokenCancelButton"
+import { TokenModel } from "src/codegen"
 
 interface Props {
   open: boolean
-  token: VendingToken
+  token: TokenModel
   appId: string
 }
 

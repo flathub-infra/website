@@ -7,11 +7,12 @@ import {
   useEffect,
   useState,
 } from "react"
-import { getVendingTokens } from "../../../../asyncs/vending"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
+import { vendingApi } from "src/api"
+import { TokenList } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -23,7 +24,7 @@ interface Props {
 const TokenList: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
 
-  const [tokens, setTokens] = useState(null)
+  const [tokens, setTokens] = useState<TokenList>(null)
   const [status, setStatus] = useState<
     "idle" | "pending" | "success" | "error"
   >("idle")
@@ -31,8 +32,11 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
 
   const doFetch = useCallback(async () => {
     try {
-      const fetch = await getVendingTokens(app.id)
-      setTokens(fetch)
+      const fetch =
+        await vendingApi.getRedeemableTokensVendingappAppIdTokensGet(app.id, {
+          withCredentials: true,
+        })
+      setTokens(fetch.data)
       setStatus("success")
     } catch (err) {
       setStatus("error")

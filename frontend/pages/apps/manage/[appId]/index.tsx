@@ -13,9 +13,10 @@ import { IS_PRODUCTION } from "src/env"
 import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../../src/context/user-info"
-import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
+import { fetchAppstream } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
+import { vendingApi } from "src/api"
 import { inviteApi } from "src/api"
 
 export default function AppManagementPage({
@@ -132,7 +133,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
-    fetchVendingConfig(),
+    vendingApi.getGlobalVendingConfigVendingConfigGet(),
   ])
 
   return {
