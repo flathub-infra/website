@@ -11,7 +11,6 @@ import Image from "next/image"
 import { Fragment } from "react"
 import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
-import { logout } from "src/asyncs/login"
 import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
 import { UserInfo } from "src/types/Login"
@@ -21,6 +20,7 @@ import { QueryClient } from "@tanstack/react-query"
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
+import { authApi } from "src/api"
 
 const navigation = [
   {
@@ -106,9 +106,13 @@ const Header = () => {
     setClickedLogout(true)
 
     try {
-      logout(dispatch)
+      await authApi.doLogoutAuthLogoutPost({
+        withCredentials: true,
+      })
+      dispatch({ type: "logout" })
       queryClient.clear()
     } catch (err) {
+      dispatch({ type: "interrupt" })
       toast.error(t(err))
       setClickedLogout(false)
     }
