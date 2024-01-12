@@ -1,9 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { Fragment, FunctionComponent, useCallback, useState } from "react"
-import { createVendingTokens } from "../../../../asyncs/vending"
 import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
+import { vendingApi } from "src/api"
 
 interface Props {
   app: Appstream
@@ -30,7 +30,9 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     const names = text.split(/\s*\n\s*/).filter((name) => name !== "")
 
     if (names.length > 0) {
-      await createVendingTokens(app.id, names)
+      await vendingApi.createTokensVendingappAppIdTokensPost(app.id, names, {
+        withCredentials: true,
+      })
       updateCallback()
       setText("")
     }

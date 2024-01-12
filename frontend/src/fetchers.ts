@@ -12,7 +12,6 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
-  VENDING_CONFIG_URL,
   REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
   CATEGORIES_URL,
@@ -25,8 +24,6 @@ import {
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { Stats } from "./types/Stats"
-import { VendingConfig } from "./types/Vending"
-import { VerificationAvailableMethods } from "./types/VerificationAvailableMethods"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -181,14 +178,6 @@ export async function fetchSearchQuery(
 
 export async function fetchGithubRequestOrgAccessLink() {
   return axios.get<{ link: string }>(REQUEST_ORG_ACCESS_LINK_GITHUB)
-}
-
-export async function fetchVendingConfig() {
-  return axios.get<VendingConfig | null>(VENDING_CONFIG_URL).catch((error) => {
-    return {
-      data: null,
-    }
-  })
 }
 
 export async function fetchRuntimes() {

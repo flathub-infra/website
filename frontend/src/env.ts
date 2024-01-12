@@ -108,23 +108,6 @@ export const TRANSACTION_CANCEL_URL = (transaction: string) => {
   return `${TRANSACTION_INFO_URL(transaction)}/cancel`
 }
 
-export const VENDING_CONFIG_URL = `${BASE_URI}/vending/config`
-
-const APP_VENDING_BASE_URL = `${BASE_URI}/vendingapp`
-export const VENDING_APP_STATUS_URL = (appId: string) => {
-  return `${APP_VENDING_BASE_URL}/${appId}`
-}
-export const VENDING_APP_SPLIT_URL = (
-  appId: string,
-  currency: string,
-  value: number,
-) => {
-  return `${APP_VENDING_BASE_URL}/${appId}/${currency}/${value}`
-}
-export const VENDING_TOKENS_URL = (appId: string) => {
-  return `${APP_VENDING_BASE_URL}/${appId}/tokens`
-}
-
 export const IS_PRODUCTION: boolean =
   process.env.NEXT_PUBLIC_IS_PRODUCTION === "true"
 

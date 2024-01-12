@@ -1,14 +1,14 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { toast } from "react-toastify"
-import { VendingToken } from "../../../../types/Vending"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { vendingApi } from "src/api"
+import { TokenModel } from "src/codegen"
 
 interface Props {
-  token: VendingToken
+  token: TokenModel
   appId: string
   setState: React.Dispatch<React.SetStateAction<string>>
 }
