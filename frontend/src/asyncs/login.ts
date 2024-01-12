@@ -1,6 +1,6 @@
 import { ParsedUrlQuery } from "querystring"
 import { Dispatch } from "react"
-import { LOGIN_PROVIDERS_URL, LOGOUT_URL, USER_INFO_URL } from "../env"
+import { LOGIN_PROVIDERS_URL, USER_INFO_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserInfo, UserStateAction } from "../types/Login"
 
@@ -87,34 +87,5 @@ export async function getUserData(
     }
   } else {
     dispatch({ type: "interrupt" })
-  }
-}
-
-/**
- * Performs the logout API action and updates the client-side context.
- * Throws localized string ID on error.
- * @param dispatch Reducer dispatch function used to update user context
- */
-export async function logout(
-  dispatch: Dispatch<UserStateAction>,
-): Promise<void> {
-  dispatch({ type: "loading" })
-
-  let res: Response
-  try {
-    res = await fetch(LOGOUT_URL, {
-      method: "POST",
-      credentials: "include",
-    })
-  } catch {
-    dispatch({ type: "interrupt" })
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    dispatch({ type: "logout" })
-  } else {
-    dispatch({ type: "interrupt" })
-    throw "network-error-try-again"
   }
 }

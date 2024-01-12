@@ -81,7 +81,6 @@ export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 export const USER_INFO_URL: string = `${BASE_URI}/auth/userinfo`
-export const LOGOUT_URL: string = `${BASE_URI}/auth/logout`
 export const CHECK_PURCHASES_URL: string = `${BASE_URI}/purchases/check-purchases`
 
 export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
