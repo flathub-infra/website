@@ -24,13 +24,16 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
 
   const developersQuery = useQuery({
     queryKey: ["developers", app.id],
-    queryFn: () => inviteApi.getDevelopersInvitesAppIdDevelopersGet(app.id),
+    queryFn: () =>
+      inviteApi.getDevelopersInvitesAppIdDevelopersGet(app.id, {
+        withCredentials: true,
+      }),
   })
 
   const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
   const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
 
-  const selfIsPrimary = developersQuery.data.data.developers.find(
+  const selfIsPrimary = developersQuery.data?.data.developers.find(
     (d) => d.is_self,
   )?.is_primary
 
