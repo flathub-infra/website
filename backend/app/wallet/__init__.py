@@ -7,8 +7,11 @@ And we present the full /auth/ sub-namespace
 """
 
 
+from typing import List
+
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 
 from ..config import settings
 from ..logins import login_state
@@ -79,14 +82,14 @@ def post_removecard(
     return Response(None, status_code=201)
 
 
-@router.get("/transactions", response_model=None, tags=["wallet"])
+@router.get("/transactions", response_model=List[TransactionSummary], tags=["wallet"])
 def get_transactions(
     request: Request,
     login=Depends(login_state),
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
     since: str | None = None,
     limit: int = 100,
-) -> JSONResponse | list[TransactionSummary]:
+) -> List[TransactionSummary]:
     """
     Return a list of transactions associated with this user.
 
@@ -94,9 +97,7 @@ def get_transactions(
     summaries will be returned.
     """
     if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
+        raise HTTPException(status_code=403, detail="Not logged in")
     limit = min(limit, 100)
 
     return Wallet().transactions(request, login["user"], sort, since, limit)
@@ -114,17 +115,20 @@ def get_transaction_by_id(
     if available.
     """
     if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
+        raise HTTPException(status_code=403, detail="Not logged in")
 
     return Wallet().transaction(request, login["user"], transaction=txn)
+
+
+class PostTransactionResponse(BaseModel):
+    status: str
+    id: str
 
 
 @router.post("/transactions", tags=["wallet"])
 def create_transaction(
     request: Request, data: NascentTransaction, login=Depends(login_state)
-):
+) -> PostTransactionResponse:
     """
     Create a new transaction, return the ID.
 
@@ -132,14 +136,9 @@ def create_transaction(
     return the ID of the newly created wallet, otherwise it'll return an error
     """
     if not login["state"].logged_in():
-        return JSONResponse(
-            {"status": "error", "error": "not logged in"}, status_code=403
-        )
+        raise HTTPException(status_code=403, detail="Not logged in")
     ret = Wallet().create_transaction(request, login["user"], data)
-    return {
-        "status": "ok",
-        "id": ret,
-    }
+    return PostTransactionResponse(status="ok", id=ret)
 
 
 @router.post("/transactions/{txn}/setcard", tags=["wallet"])

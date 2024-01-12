@@ -2,16 +2,13 @@ import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import {
-  setTransactionPending,
-  setTransactionUseCard,
-} from "../../../asyncs/payment"
 import { TransactionDetailed } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
 import { PaymentCardInfo } from "src/codegen"
+import { walletApi } from "src/api"
 
 interface Props {
   transaction: TransactionDetailed
@@ -43,8 +40,15 @@ const CardSelect: FunctionComponent<Props> = ({
     async function onConfirm() {
       const { id } = transaction.summary
 
-      setTransactionUseCard(id, useCard)
-        .then(() => setTransactionPending(id))
+      walletApi
+        .setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
+          withCredentials: true,
+        })
+        .then(() =>
+          walletApi.setPendingWalletTransactionsTxnSetpendingPost(id, {
+            withCredentials: true,
+          }),
+        )
         .then(async () => {
           const result = await stripe.confirmCardPayment(clientSecret, {
             payment_method: useCard.id,

@@ -2,12 +2,12 @@ import { useTranslation } from "next-i18next"
 import Router from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { initiateDonation } from "../../asyncs/payment"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
 import Button from "../Button"
 import * as Currency from "../currency"
 import Spinner from "../Spinner"
+import { walletApi } from "src/api"
 
 interface Props {
   org: string
@@ -21,14 +21,34 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
     settled: FLATHUB_MIN_PAYMENT,
   })
   const [submit, setSubmit] = useState(false)
-  const [transaction, setTransaction] = useState("")
+  const [transaction, setTransaction] = useState<string>("")
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     setSubmit(true)
-    initiateDonation(org, amount.settled * 100)
-      .then(setTransaction)
+    walletApi
+      .createTransactionWalletTransactionsPost(
+        {
+          summary: {
+            value: amount.settled * 100,
+            currency: "usd",
+            kind: "donation",
+          },
+          details: [
+            {
+              recipient: org,
+              amount: amount.settled * 100,
+              currency: "usd",
+              kind: "donation",
+            },
+          ],
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((result) => setTransaction(result.data.id))
       .catch((err) => {
         toast.error(t(err))
         setSubmit(false)

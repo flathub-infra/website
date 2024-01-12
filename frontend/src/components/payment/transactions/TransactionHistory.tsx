@@ -6,13 +6,8 @@ import {
   HiExclamationTriangle,
 } from "react-icons/hi2"
 import { toast } from "react-toastify"
-import { getTransactions } from "../../../asyncs/payment"
 import { useUserContext } from "../../../context/user-info"
-import {
-  Transaction,
-  TransactionDetailed,
-  TransactionStatus,
-} from "../../../types/Payment"
+import { TransactionDetailed, TransactionStatus } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { FlathubDisclosure } from "./../../Disclosure"
@@ -22,6 +17,9 @@ import { clsx } from "clsx"
 import ButtonLink from "src/components/ButtonLink"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { TRANSACTION_INFO_URL } from "src/env"
+import { walletApi } from "src/api"
+import { TransactionSummary } from "src/codegen"
+import { AxiosResponse } from "axios"
 
 const perPage = 10
 
@@ -30,7 +28,7 @@ const TransactionPanel = ({
   needsAttention,
   setStatus,
 }: {
-  transaction: Transaction
+  transaction: TransactionSummary
   needsAttention: boolean
   setStatus: Dispatch<TransactionStatus>
 }) => {
@@ -120,11 +118,9 @@ const TransactionPanel = ({
 const TransactionDisclosure = ({
   transaction,
 }: {
-  transaction: Transaction
+  transaction: TransactionSummary
 }) => {
-  const [shownStatus, setStatus] = useState<TransactionStatus>(
-    transaction.status,
-  )
+  const [shownStatus, setStatus] = useState<string>(transaction.status)
   const needsAttention = ["new", "retry"].includes(shownStatus)
   return (
     <FlathubDisclosure
@@ -148,7 +144,7 @@ const TransactionHeader = ({
   transaction,
   needsAttention,
 }: {
-  transaction: Transaction
+  transaction: TransactionSummary
   needsAttention: boolean
 }) => {
   const { t, i18n } = useTranslation()
@@ -195,18 +191,18 @@ const TransactionHistory: FunctionComponent = () => {
   // Total count of transactions unknown, end determined when encountered
   const [page, setPage] = useState(0)
   const [endPage, setEndPage] = useState<number>(null)
-  const [transactions, setTransactions] = useState<Transaction[]>(null)
+  const [transactions, setTransactions] = useState<TransactionSummary[]>(null)
   const [error, setError] = useState("")
 
   useEffect(() => {
-    function addNewPage(newPage: Transaction[]) {
+    function addNewPage(newPage: AxiosResponse<TransactionSummary[], any>) {
       // Upon reaching no more transactions, stop traversing
-      if (page > 0 && newPage.length === 0) {
+      if (page > 0 && newPage.data.length === 0) {
         setEndPage(page - 1)
         setPage(page - 1)
         toast.info(t("no-more-transactions"))
       } else {
-        setTransactions([...(transactions ?? []), ...newPage])
+        setTransactions([...(transactions ?? []), ...newPage.data])
       }
     }
 
@@ -218,14 +214,32 @@ const TransactionHistory: FunctionComponent = () => {
     if (user.info && isNewPage()) {
       if (page > 0) {
         const since = transactions.at(-1)
-        getTransactions("recent", perPage, since.id)
+        walletApi
+          .getTransactionsWalletTransactionsGet(
+            "recent",
+            perPage.toString(),
+            Number(since.id),
+            {
+              withCredentials: true,
+            },
+          )
           .then(addNewPage)
           .catch(setError)
       } else {
         // Fetch the first page only if we've not tried before, otherwise if
         // the user has no transactions we keep re-fetching.
         if (page == 0 && transactions === null) {
-          getTransactions("recent", perPage).then(addNewPage).catch(setError)
+          walletApi
+            .getTransactionsWalletTransactionsGet(
+              "recent",
+              perPage.toString(),
+              undefined,
+              {
+                withCredentials: true,
+              },
+            )
+            .then(addNewPage)
+            .catch(setError)
         }
       }
     }
