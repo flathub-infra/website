@@ -85,6 +85,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         },
       ) as Promise<AxiosResponse<VerificationAvailableMethods | undefined>>
     },
+    retry: false,
     enabled: query.data && !query.data.data.verified,
   })
 
