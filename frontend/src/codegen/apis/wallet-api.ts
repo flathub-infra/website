@@ -44,11 +44,15 @@ import { NascentTransaction } from "../model"
 // @ts-ignore
 import { PaymentCardInfo } from "../model"
 // @ts-ignore
+import { PostTransactionResponse } from "../model"
+// @ts-ignore
 import { Transaction } from "../model"
 // @ts-ignore
 import { TransactionSaveCard } from "../model"
 // @ts-ignore
 import { TransactionSortOrder } from "../model"
+// @ts-ignore
+import { TransactionSummary } from "../model"
 // @ts-ignore
 import { WalletInfo } from "../model"
 /**
@@ -717,7 +721,10 @@ export const WalletApiFp = function (configuration?: Configuration) {
       nascentTransaction: NascentTransaction,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PostTransactionResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.createTransactionWalletTransactionsPost(
@@ -793,7 +800,10 @@ export const WalletApiFp = function (configuration?: Configuration) {
       limit?: number,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<TransactionSummary>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getTransactionsWalletTransactionsGet(
@@ -1021,7 +1031,7 @@ export const WalletApiFactory = function (
     createTransactionWalletTransactionsPost(
       nascentTransaction: NascentTransaction,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<PostTransactionResponse> {
       return localVarFp
         .createTransactionWalletTransactionsPost(nascentTransaction, options)
         .then((request) => request(axios, basePath))
@@ -1066,7 +1076,7 @@ export const WalletApiFactory = function (
       since?: string | null,
       limit?: number,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<Array<TransactionSummary>> {
       return localVarFp
         .getTransactionsWalletTransactionsGet(sort, since, limit, options)
         .then((request) => request(axios, basePath))

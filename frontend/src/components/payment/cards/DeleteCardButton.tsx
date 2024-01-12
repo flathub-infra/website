@@ -1,12 +1,12 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useEffect, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
-import { deletePaymentCard } from "../../../asyncs/payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { PaymentCardInfo, WalletInfo } from "src/codegen"
+import { walletApi } from "src/api"
 
 const DeleteCardButton: FunctionComponent<{
   card: PaymentCardInfo
@@ -17,8 +17,11 @@ const DeleteCardButton: FunctionComponent<{
   // The deletion request only happens once confirmed by secondary click
   const [confirming, setConfirming] = useState(false)
 
-  const deleteCard = useMutation<void, string>({
-    mutationFn: () => deletePaymentCard(card),
+  const deleteCard = useMutation({
+    mutationFn: () =>
+      walletApi.postRemovecardWalletRemovecardPost(card, {
+        withCredentials: true,
+      }),
     onSuccess: () => {
       queryClient.setQueryData<WalletInfo>(["/walletinfo"], (wallet) => ({
         ...wallet,
@@ -27,7 +30,7 @@ const DeleteCardButton: FunctionComponent<{
     },
     // If deletion fails, user can always retry
     onError: (error) => {
-      toast.error(t(error))
+      toast.error(t(error as unknown as string))
       setConfirming(false)
     },
   })

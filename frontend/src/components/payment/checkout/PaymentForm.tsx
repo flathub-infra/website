@@ -2,13 +2,10 @@ import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
 import { toast } from "react-toastify"
-import {
-  setTransactionPending,
-  setTransactionSaveCard,
-} from "../../../asyncs/payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
+import { walletApi } from "src/api"
 
 interface Props {
   transactionId: string
@@ -95,10 +92,21 @@ const PaymentForm: FunctionComponent<Props> = ({
     setProcessing(true)
 
     if (checked) {
-      await setTransactionSaveCard(transactionId)
+      await walletApi.setSavecardWalletTransactionsTxnSavecardPost(
+        transactionId,
+        { save_card: "on_session" },
+        {
+          withCredentials: true,
+        },
+      )
     }
 
-    await setTransactionPending(transactionId)
+    await walletApi.setPendingWalletTransactionsTxnSetpendingPost(
+      transactionId,
+      {
+        withCredentials: true,
+      },
+    )
 
     const result = await stripe.confirmPayment({
       elements,

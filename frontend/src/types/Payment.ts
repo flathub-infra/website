@@ -1,5 +1,4 @@
 import { PaymentCardInfo } from "src/codegen"
-import { APIResponseOk } from "./API"
 
 // Corresponds to objects from `/wallet/transactions`
 type TransactionKind = "donation" | "purchase"
@@ -10,7 +9,7 @@ export type TransactionStatus =
   | "success"
   | "cancelled"
 
-export interface Transaction {
+interface Transaction {
   id: string
   value: number
   currency: string
@@ -33,8 +32,4 @@ export interface Payout {
   amount: number
   currency: string
   kind: TransactionKind
-}
-
-export interface NewTransaction extends APIResponseOk {
-  id: string
 }

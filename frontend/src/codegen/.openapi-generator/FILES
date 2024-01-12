@@ -60,6 +60,7 @@ model/oauth-login-response-success.ts
 model/pagination.ts
 model/payment-card-info.ts
 model/platform.ts
+model/post-transaction-response.ts
 model/pricing-info.ts
 model/proposed-payment.ts
 model/quality-moderation-dashboard-response.ts
