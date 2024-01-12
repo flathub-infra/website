@@ -50,7 +50,7 @@ export default function AppManagementPage({
     enabled: !!app.id,
   })
 
-  if (!IS_PRODUCTION) {
+  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
     tabs.push(
       {
         name: t("payment"),
