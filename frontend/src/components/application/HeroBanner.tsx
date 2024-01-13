@@ -11,6 +11,7 @@ import { register } from "swiper/element/bundle"
 // import required modules
 import { Autoplay, Navigation } from "swiper/modules"
 import { useEffect, useRef } from "react"
+import { useTheme } from "next-themes"
 
 export const HeroBanner = ({
   appstreams,
@@ -18,6 +19,7 @@ export const HeroBanner = ({
   appstreams: DesktopAppstream[]
 }) => {
   const swiperRef = useRef(null)
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     register()
@@ -34,6 +36,24 @@ export const HeroBanner = ({
       navigation: true,
       className:
         "h-[208px] md:h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
+      injectStyles: [
+        `
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+          background-color: hsla(0, 0%, 100%, 0.2);
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+          width: 24px;
+          height: 24px;
+          padding: 8px 8px;
+          border-radius: 100%;
+          color: ${
+            resolvedTheme === "dark" ? "rgb(222, 221, 218)" : "rgb(36, 31, 49)"
+          };
+          transition: all 0.2s ease-in-out;
+        }
+      `,
+      ],
     }
 
     Object.assign(swiperRef.current, params)
