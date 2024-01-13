@@ -11,6 +11,13 @@ gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree
 
 
+class JSONSetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return json.JSONEncoder.default(self, obj)
+
+
 # "valid" here means it would be displayed on flathub.org
 def validate_ref(ref: str):
     fields = ref.split("/")
@@ -102,18 +109,17 @@ def parse_metadata(ini: str):
     return metadata
 
 
-def update():
-    summary_dict = defaultdict(lambda: {"arches": [], "branch": "stable"})
+def parse_summary(summary):
+    summary_dict = defaultdict(lambda: {"arches": set(), "branch": "stable"})
     recently_updated_zset = {}
-    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
-    repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
-    repo = OSTree.Repo.new(repo_file)
-    repo.open(None)
+    if isinstance(summary, bytes):
+        summary_data = GLib.Bytes.new(summary)
+    else:
+        summary_data = summary
 
-    status, summary, signatures = repo.remote_fetch_summary("flathub", None)
     data = GLib.Variant.new_from_bytes(
-        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary, True
+        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary_data, True
     )
 
     refs, metadata = data.unpack()
@@ -147,6 +153,7 @@ def update():
         summary_dict[app_id]["download_size"] = download_size
         summary_dict[app_id]["installed_size"] = installed_size
         summary_dict[app_id]["metadata"] = parse_metadata(xa_cache[ref][2])
+        summary_dict[app_id]["arches"].add(arch)
 
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
@@ -156,6 +163,19 @@ def update():
             and "extra-data" in summary_dict[app_id]["metadata"]
         ):
             summary_dict[app_id]["installed_size"] += download_size
+
+    return summary_dict, recently_updated_zset, metadata
+
+
+def update():
+    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+
+    repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
+    repo = OSTree.Repo.new(repo_file)
+    repo.open(None)
+
+    _, summary, _ = repo.remote_fetch_summary("flathub", None)
+    summary_dict, recently_updated_zset, metadata = parse_summary(summary)
 
     # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
@@ -175,8 +195,8 @@ def update():
             if not (valid_ref := validate_ref(ref)):
                 continue
 
-            kind, app_id, arch, branch = valid_ref
-            summary_dict[app_id]["arches"].append(arch)
+            _, app_id, arch, branch = valid_ref
+            summary_dict[app_id]["arches"].add(arch)
 
     if recently_updated_zset:
         db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
@@ -202,7 +222,7 @@ def update():
         [
             {
                 "id": utils.get_clean_app_id(app_id),
-                "arches": summary_dict[app_id]["arches"],
+                "arches": list(summary_dict[app_id]["arches"]),
             }
             for app_id in summary_dict
             if db.is_appid_for_frontend(app_id)
@@ -212,7 +232,7 @@ def update():
     db.redis_conn.mset(
         {
             f"summary:{app_id}:{summary_dict[app_id]['branch']}": json.dumps(
-                summary_dict[app_id]
+                summary_dict[app_id], cls=JSONSetEncoder
             )
             for app_id in summary_dict
         }
@@ -264,10 +284,10 @@ def update():
 
     # Build reverse lookup map for flathub-hooks
     reverse_lookup = {}
-    for ref in xa_cache:
+    for ref in metadata["xa.cache"]:
         app_id = ref.split("/")[1]
 
-        ini = xa_cache[ref][2]
+        ini = metadata["xa.cache"][ref][2]
         parser = configParserCustom.ConfigParserMultiOpt()
         parser.read_string(ini)
 
