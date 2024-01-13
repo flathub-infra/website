@@ -18,6 +18,7 @@ from .db import get_json_key
 from .emails import EmailCategory, EmailInfo
 from .login_info import moderator_only, moderator_or_app_author_only
 from .logins import LoginStatusDep
+from .summary import parse_summary
 
 router = APIRouter(prefix="/moderation")
 
@@ -238,6 +239,7 @@ def submit_review_request(
     build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
+
     build_refs = build_extended.get("build_refs")
     build_ref_arches = {
         build_ref.get("ref_name").split("/")[2]
@@ -249,14 +251,21 @@ def submit_review_request(
 
     try:
         build_ref_arch = build_ref_arches.pop()
-        appstream = utils.appstream2dict(
+        build_appstream = utils.appstream2dict(
             f"https://dl.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml.gz"
         )
     except KeyError:
         # if build_ref_arches has no elements, something went terribly wrong with the build in general
         return ReviewRequestResponse(requires_review=True)
 
-    for app_id, app_data in appstream.items():
+    r = req.get(f"https://dl.flathub.org/build-repo/{review_request.build_id}/summary")
+    r.raise_for_status()
+    if not isinstance(r.content, bytes):
+        # If the summary file is not a binary file, something also went wrong
+        return ReviewRequestResponse(requires_review=True)
+    build_summary, _, _ = parse_summary(r.content)
+
+    for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
         keys = {
@@ -288,6 +297,21 @@ def submit_review_request(
             "buildbot",
         ):
             continue
+
+        if current_summary := get_json_key(f"summary:{app_id}:stable"):
+            # todo: figure out what to do if permissions are None
+            current_permissions = current_summary.get("permissions")
+            current_extradata = bool(current_summary.get("extra-data"))
+
+            build_permissions = build_summary.get("permissions")
+            build_extradata = bool(build_summary.get("extra-data"))
+
+            if current_extradata != build_extradata:
+                keys["extra-data"] = build_extradata
+
+            for perm in current_permissions:
+                if current_permissions.get(perm) != build_permissions(perm):
+                    keys[perm] = build_permissions[perm]
 
         if len(keys) > 0:
             # Create a moderation request
