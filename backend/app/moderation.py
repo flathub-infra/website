@@ -299,7 +299,6 @@ def submit_review_request(
             continue
 
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
-            # todo: figure out what to do if permissions are None
             current_permissions = current_summary.get("permissions")
             current_extradata = bool(current_summary.get("extra-data"))
 
@@ -309,9 +308,11 @@ def submit_review_request(
             if current_extradata != build_extradata:
                 keys["extra-data"] = build_extradata
 
-            for perm in current_permissions:
-                if current_permissions.get(perm) != build_permissions(perm):
-                    keys[perm] = build_permissions[perm]
+            if current_permissions and build_permissions:
+                if current_permissions != build_permissions:
+                    for perm in current_permissions:
+                        if current_permissions.get(perm) != build_permissions.get(perm):
+                            keys[perm] = build_permissions[perm]
 
         if len(keys) > 0:
             # Create a moderation request
