@@ -90,7 +90,7 @@ export function computeAppShares(
 
   while (remaining > 0 && sharesCopy.length > 0) {
     const [appId, share] = sharesCopy.shift()
-    const split = Math.round((toSplit * share) / 100)
+    const split = Math.floor((toSplit * share) / 100)
     splits.push([appId, split])
     remaining -= split
   }
