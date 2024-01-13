@@ -21,7 +21,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
     <>
       <Tab.Group>
         <LayoutGroup id={tabs.map((tab) => tab.name).join("-")}>
-          <Tab.List className="flex gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
+          <Tab.List className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
             {tabs.map((tab, index) => (
               <Tab key={index} as={Fragment}>
                 {({ selected }) => (
