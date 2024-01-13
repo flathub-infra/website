@@ -5,7 +5,6 @@ from uuid import uuid4
 import gi
 import jwt
 from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
-from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
@@ -121,7 +120,12 @@ def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenRe
     return GenerateUpdateTokenResponse(token=encoded)
 
 
-def _check_purchases(appids: list[str], user_id: int):
+class CheckPurchasesResponse(BaseModel):
+    detail: str
+    missing_appids: list[str] | None = None
+
+
+def _check_purchases(appids: list[str], user_id: int) -> CheckPurchasesResponse | None:
     def canon_app_id(app_id: str):
         # For .Locale, .Debug, etc. refs, we only check the base app ID. However, when we generate the token, we still
         # need to include the suffixed version.
@@ -141,17 +145,20 @@ def _check_purchases(appids: list[str], user_id: int):
     ]
 
     if len(unowned) != 0:
-        return JSONResponse(
-            {
-                "detail": "purchase_necessary",
-                "missing_appids": unowned,
-            },
-            status_code=403,
+        CheckPurchasesResponse(
+            detail="purchase_necessary",
+            missing_appids=unowned,
         )
 
 
+class CheckPurchasesResponseSuccess(BaseModel):
+    status: str = "ok"
+
+
 @router.post("/check-purchases", status_code=200, tags=["purchase"])
-def check_purchases(appids: list[str], login=Depends(logins.login_state)):
+def check_purchases(
+    appids: list[str], login=Depends(logins.login_state)
+) -> CheckPurchasesResponse | CheckPurchasesResponseSuccess:
     """
     Checks whether the logged in user is able to download all of the given app refs.
 
@@ -160,7 +167,7 @@ def check_purchases(appids: list[str], login=Depends(logins.login_state)):
     """
 
     if not login["state"].logged_in():
-        return JSONResponse({"detail": "not_logged_in"}, status_code=401)
+        raise HTTPException(status_code=401, detail="not_logged_in")
 
     # We get full ref names, e.g. app/org.gnome.Maps/x86_64/master, but we just want the app ID part.
     try:
@@ -168,21 +175,23 @@ def check_purchases(appids: list[str], login=Depends(logins.login_state)):
             app_id.split("/")[1] if "/" in app_id else app_id for app_id in appids
         ]
     except IndexError:
-        return JSONResponse(
-            {
-                "detail": "invalid_app_id",
-            },
-            status_code=400,
-        )
+        raise HTTPException(status_code=400, detail="invalid_app_id")
 
     if error := _check_purchases(appids, login["user"].id):
         return error
 
-    return JSONResponse({"status": "ok"})
+    return CheckPurchasesResponseSuccess()
+
+
+class GetDownloadTokenResponse(BaseModel):
+    token: str
+    update_token: str
 
 
 @router.post("/generate-download-token", status_code=200, tags=["purchase"])
-def get_download_token(appids: list[str], update_token: str = Body(None)):
+def get_download_token(
+    appids: list[str], update_token: str = Body(None)
+) -> CheckPurchasesResponse | GetDownloadTokenResponse:
     """
     Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
     "app/org.gnome.Maps/x86_64/stable".
@@ -195,22 +204,12 @@ def get_download_token(appids: list[str], update_token: str = Body(None)):
             algorithms=["HS256"],
         )
     except jwt.PyJWTError:
-        return JSONResponse(
-            {
-                "detail": "invalid_token",
-            },
-            status_code=401,
-        )
+        raise HTTPException(status_code=401, detail="invalid_token")
 
     try:
         appids = [app_id.split("/")[1] for app_id in appids]
     except IndexError:
-        return JSONResponse(
-            {
-                "detail": "invalid_app_id",
-            },
-            status_code=400,
-        )
+        raise HTTPException(status_code=400, detail="invalid_app_id")
 
     if error := _check_purchases(appids, claims["user-id"]):
         return error
@@ -237,10 +236,7 @@ def get_download_token(appids: list[str], update_token: str = Body(None)):
         algorithm="HS256",
     )
 
-    return {
-        "token": encoded,
-        "update-token": new_update_token,
-    }
+    return GetDownloadTokenResponse(token=encoded, update_token=new_update_token)
 
 
 def register_to_app(app: FastAPI):

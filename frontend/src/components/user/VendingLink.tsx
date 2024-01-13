@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
 import Button from "../Button"
 import Spinner from "../Spinner"

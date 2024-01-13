@@ -8,7 +8,6 @@ import { toast } from "react-toastify"
 import Spinner from "../../src/components/Spinner"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { purchaseApi } from "src/api"
-import { checkPurchases } from "src/asyncs/app"
 
 const PERMITTED_REDIRECTS = [
   /^http:\/\/localhost:\d+\/$/,
@@ -42,9 +41,12 @@ export default function Purchase() {
       return
     }
 
-    checkPurchases(appIDs)
+    purchaseApi
+      .checkPurchasesPurchasesCheckPurchasesPost(appIDs, {
+        withCredentials: true,
+      })
       .then((result) => {
-        if (result["status"] === "ok") {
+        if (result.data.status === "ok") {
           purchaseApi
             .getUpdateTokenPurchasesGenerateUpdateTokenPost({
               withCredentials: true,
@@ -64,7 +66,7 @@ export default function Purchase() {
             })
             .catch(() => toast.error(t("app-install-error-try-again")))
         } else {
-          switch (result.detail) {
+          switch (result.data.detail) {
             case "not_logged_in":
               setPendingTransaction({
                 redirect,
@@ -78,7 +80,7 @@ export default function Purchase() {
               setPendingTransaction({
                 redirect,
                 appIDs,
-                missingAppIDs: result.missing_appids,
+                missingAppIDs: result.data.missing_appids,
               })
               router.push("/purchase/checkout", undefined, {
                 locale: router.locale,
@@ -90,14 +92,28 @@ export default function Purchase() {
           }
         }
       })
-      .catch((err) => toast.error(t(err)))
+      .catch((err) => {
+        switch (err.detail) {
+          case "not_logged_in":
+            setPendingTransaction({
+              redirect,
+              appIDs,
+              missingAppIDs: [],
+            })
+            router.push("/login", undefined, { locale: router.locale })
+            break
+
+          default:
+            toast.error(t(err))
+        }
+      })
   }, [pendingTransaction, router, setPendingTransaction, t])
 
   return (
     <>
       <NextSeo title={t("purchase-apps-title")} noindex={true} />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <Spinner size="m" />;
+        <Spinner size="m" />
       </div>
     </>
   )
