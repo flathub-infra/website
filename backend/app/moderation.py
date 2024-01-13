@@ -304,17 +304,17 @@ def submit_review_request(
             )
             new_requests.append(request)
 
+    # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
+    # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
+    app_ids = set(request.appid for request in new_requests)
+    for app_id in app_ids:
+        sqldb.session.query(models.ModerationRequest).filter_by(
+            appid=app_id, is_outdated=False
+        ).update({"is_outdated": True})
+
     if len(new_requests) == 0:
         return ReviewRequestResponse(requires_review=False)
     else:
-        # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
-        # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
-        app_ids = set(request.appid for request in new_requests)
-        for app_id in app_ids:
-            sqldb.session.query(models.ModerationRequest).filter_by(
-                appid=app_id, is_outdated=False
-            ).update({"is_outdated": True})
-
         for request in new_requests:
             sqldb.session.add(request)
         sqldb.session.commit()
