@@ -1,5 +1,4 @@
 import "chart.js/auto"
-import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { FunctionComponent, useMemo } from "react"
 import { Bar } from "react-chartjs-2"
@@ -7,12 +6,29 @@ import { Appstream } from "../../../types/Appstream"
 import { VendingConfig } from "../../../types/Vending"
 import { stackedBarData } from "../../../utils/charts"
 import { computeAppShares, computeShares } from "../../../utils/vending"
+import { ChartType, Tooltip, TooltipPositionerFunction } from "chart.js"
 
 interface Props {
   price: number
   app: Appstream
   appShare: number
   vendingConfig: VendingConfig
+}
+
+declare module "chart.js" {
+  interface TooltipPositionerMap {
+    center: TooltipPositionerFunction<ChartType>
+  }
+}
+
+Tooltip.positioners.center = function (items) {
+  if (items.length) {
+    const { x, y } = items[0].element
+    const { base } = items[0].element.getProps(["base"])
+    const width = !base ? 0 : x - base
+    return { x: x - width / 2, y: y, xAlign: "center", yAlign: "bottom" }
+  }
+  return false
 }
 
 /**
@@ -26,7 +42,6 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   appShare,
   vendingConfig,
 }) => {
-  const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
   // Don't re-run computations unnecessarily
@@ -93,7 +108,12 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
             tooltip: {
               callbacks: {
                 label: (context) => `$${context.parsed.x.toFixed(2)}`,
+                title: (context) => {
+                  const appId = context[0].dataset.label
+                  return appId == app.id ? app.name : appId
+                },
               },
+              position: "center",
             },
           },
         }}
