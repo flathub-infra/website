@@ -1,12 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import {
-  FormEvent,
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FormEvent, FunctionComponent, useCallback, useState } from "react"
 import { toast } from "react-toastify"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"

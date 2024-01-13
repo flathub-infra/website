@@ -44,6 +44,10 @@ import { GenerateUpdateTokenResponse } from "../model"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
+import { ResponseCheckPurchasesPurchasesCheckPurchasesPost } from "../model"
+// @ts-ignore
+import { ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost } from "../model"
+// @ts-ignore
 import { StorefrontInfo } from "../model"
 /**
  * PurchaseApi - axios parameter creator
@@ -329,7 +333,10 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
       requestBody: Array<string>,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseCheckPurchasesPurchasesCheckPurchasesPost>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.checkPurchasesPurchasesCheckPurchasesPost(
@@ -354,7 +361,10 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
       bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDownloadTokenPurchasesGenerateDownloadTokenPost(
@@ -470,7 +480,7 @@ export const PurchaseApiFactory = function (
     checkPurchasesPurchasesCheckPurchasesPost(
       requestBody: Array<string>,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ResponseCheckPurchasesPurchasesCheckPurchasesPost> {
       return localVarFp
         .checkPurchasesPurchasesCheckPurchasesPost(requestBody, options)
         .then((request) => request(axios, basePath))
@@ -485,7 +495,7 @@ export const PurchaseApiFactory = function (
     getDownloadTokenPurchasesGenerateDownloadTokenPost(
       bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost> {
       return localVarFp
         .getDownloadTokenPurchasesGenerateDownloadTokenPost(
           bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,

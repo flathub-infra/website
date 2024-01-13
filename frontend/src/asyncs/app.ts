@@ -1,25 +1,6 @@
 import axios, { AxiosResponse } from "axios"
-import { APP_DETAILS, CHECK_PURCHASES_URL } from "../env"
+import { APP_DETAILS } from "../env"
 import { Appstream } from "../types/Appstream"
-
-/**
- * Checks whether the logged in user owns all of the given apps.
- * @param appids A list of app IDs to check
- */
-export async function checkPurchases(appids: string[]) {
-  try {
-    let res = await fetch(CHECK_PURCHASES_URL, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(appids),
-    })
-
-    return await res.json()
-  } catch {
-    throw "network-error-try-again"
-  }
-}
 
 /**
  * Fetches the appstream data for a set of apps (e.g. the user's).
