@@ -307,8 +307,8 @@ def submit_review_request(
             current_permissions = current_summary.get("permissions")
             current_extradata = bool(current_summary.get("extra-data"))
 
-            build_permissions = build_summary.get("permissions")
-            build_extradata = bool(build_summary.get("extra-data"))
+            build_permissions = build_summary.get(app_id, {}).get("permissions")
+            build_extradata = bool(build_summary.get(app_id, {}).get("extra-data"))
 
             if current_extradata != build_extradata:
                 keys["extra-data"] = build_extradata
@@ -327,7 +327,6 @@ def submit_review_request(
                             )
 
         sentry_sdk.set_context("review_request", sentry_context)
-        print(f"review_request_permissions: {sentry_context}")
 
         if len(keys) > 0:
             # Create a moderation request
