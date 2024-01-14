@@ -174,5 +174,6 @@
   "about-app-verification": "Verifiserte programmer",
   "user-wallet": "Brukers lommebok",
   "release-link": "Hent mer informasjon",
-  "failed-to-load-refresh": "Ressursen feilet under innlasting. Prøv igjen."
+  "failed-to-load-refresh": "Ressursen feilet under innlasting. Prøv igjen.",
+  "close": "Lukk"
 }
