@@ -33,6 +33,7 @@ export const CarouselStrip = ({
 
   useEffect(() => {
     setCurrentScreenshot(0)
+    setCurrentIndex(0)
   }, [app.id])
 
   const lightboxState = ref.current?.getLightboxState()
@@ -85,7 +86,7 @@ export const CarouselStrip = ({
             controller={{ ref }}
             plugins={[Inline]}
             slides={slides}
-            index={currentScreenshot}
+            index={slides?.length > currentScreenshot ? currentScreenshot : 0}
             carousel={{
               finite: slides?.length === 1,
             }}
