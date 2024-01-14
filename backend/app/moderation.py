@@ -7,6 +7,7 @@ from typing import Optional
 
 import jwt
 import requests as req
+import sentry_sdk
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
@@ -265,6 +266,8 @@ def submit_review_request(
         return ReviewRequestResponse(requires_review=True)
     build_summary, _, _ = parse_summary(r.content)
 
+    sentry_context = {"build_summary": build_summary}
+
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
@@ -299,6 +302,8 @@ def submit_review_request(
             continue
 
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
+            sentry_context[f"summary:{app_id}:stable"] = current_summary
+
             current_permissions = current_summary.get("permissions")
             current_extradata = bool(current_summary.get("extra-data"))
 
@@ -312,7 +317,16 @@ def submit_review_request(
                 if current_permissions != build_permissions:
                     for perm in current_permissions:
                         if current_permissions.get(perm) != build_permissions.get(perm):
-                            keys[perm] = build_permissions[perm]
+                            current_perm_set = set(current_permissions[perm])
+                            build_perm_set = set(build_permissions[perm])
+                            keys[f"{perm}_added"] = list(
+                                build_perm_set - current_perm_set
+                            )
+                            keys[f"{perm}_removed"] = list(
+                                current_perm_set - build_perm_set
+                            )
+
+        sentry_sdk.set_context("review_request", sentry_context)
 
         if len(keys) > 0:
             # Create a moderation request
