@@ -15,8 +15,12 @@ import { useTheme } from "next-themes"
 
 export const HeroBanner = ({
   appstreams,
+  currentIndex,
+  autoplay = true,
 }: {
   appstreams: DesktopAppstream[]
+  currentIndex?: number
+  autoplay?: boolean
 }) => {
   const swiperRef = useRef(null)
   const { resolvedTheme } = useTheme()
@@ -28,11 +32,11 @@ export const HeroBanner = ({
       modules: [Navigation, Autoplay],
       slidesPerView: 1,
       centeredSlides: true,
-      autoplay: {
+      autoplay: autoplay && {
         delay: 5000,
         disableOnInteraction: true,
       },
-      loop: true,
+      loop: autoplay, // there is a bug that mixes up the indices when looping, so disable this for moderation
       navigation: true,
       className:
         "h-[208px] md:h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
@@ -59,7 +63,11 @@ export const HeroBanner = ({
     Object.assign(swiperRef.current, params)
 
     swiperRef.current.initialize()
-  }, [])
+  })
+
+  if (swiperRef.current && currentIndex !== -1) {
+    swiperRef.current.swiper.slideTo(currentIndex)
+  }
 
   return (
     <swiper-container init={false} ref={swiperRef}>

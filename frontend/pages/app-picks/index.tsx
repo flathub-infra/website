@@ -25,6 +25,7 @@ export default function AppPicks() {
   const user = useUserContext()
 
   const [date, setDate] = useState(new Date())
+  const [currentIndex, setCurrentIndex] = useState(-1)
 
   const [selectableApps, setSelectableApps] = useState<
     { id: string; name: string }[]
@@ -70,6 +71,10 @@ export default function AppPicks() {
       )
 
       await queryAppsOfTheWeek.refetch()
+      return app
+    },
+    onSuccess: (app) => {
+      setCurrentIndex(app.position - 1)
     },
   })
 
@@ -307,9 +312,12 @@ export default function AppPicks() {
         </div>
 
         <h2 className="text-2xl my-4">Preview</h2>
-        {queryAppsOfTheWeek.data.length > 0 &&
-        !queryAppsOfTheWeek.isFetching ? (
-          <HeroBanner appstreams={queryAppsOfTheWeek.data} />
+        {queryAppsOfTheWeek.data.length > 0 && !queryAppsOfTheWeek.isPending ? (
+          <HeroBanner
+            appstreams={queryAppsOfTheWeek.data}
+            currentIndex={currentIndex}
+            autoplay={false}
+          />
         ) : (
           <div className="text-sm">
             No apps for this week. Please select apps above.
