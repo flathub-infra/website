@@ -75,7 +75,8 @@ export default function Userpage({
               </>
             )}
 
-            {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
+            {(!IS_PRODUCTION || user.info?.["is-moderator"]) &&
+            user.info["dev-flatpaks"].length ? (
               <div className="mx-2 my-auto">
                 <h3 className="my-4 text-xl font-semibold">
                   {t("accepting-payment")}
