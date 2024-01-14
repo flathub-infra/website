@@ -7,7 +7,6 @@ from typing import Optional
 
 import jwt
 import requests as req
-import sentry_sdk
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
@@ -41,8 +40,8 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, Optional[str] | Optional[list]]
-    current_values: dict[str, Optional[str]]
+    keys: dict[str, Optional[str] | Optional[list] | Optional[dict]]
+    current_values: dict[str, Optional[str] | Optional[list] | Optional[dict]]
 
 
 class ModerationRequestResponse(BaseModel):
@@ -315,22 +314,13 @@ def submit_review_request(
             )
 
             if current_extradata != build_extradata:
+                current_values["extra-data"] = current_extradata
                 keys["extra-data"] = build_extradata
 
             if current_permissions and build_permissions:
                 if current_permissions != build_permissions:
-                    for perm in current_permissions:
-                        if current_permissions.get(perm) != build_permissions.get(perm):
-                            current_perm_set = set(current_permissions[perm])
-                            build_perm_set = set(build_permissions[perm])
-                            keys[f"{perm}_added"] = list(
-                                build_perm_set - current_perm_set
-                            )
-                            keys[f"{perm}_removed"] = list(
-                                current_perm_set - build_perm_set
-                            )
-
-        sentry_sdk.set_context("review_request", sentry_context)
+                    current_values["permissions"] = current_permissions
+                    keys["permissions"] = build_permissions
 
         if len(keys) > 0:
             # Create a moderation request
