@@ -304,11 +304,15 @@ def submit_review_request(
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
-            current_permissions = current_summary.get("permissions")
-            current_extradata = bool(current_summary.get("extra-data"))
+            current_metadata = current_summary.get("metadata", {})
+            current_permissions = current_metadata.get("permissions")
+            current_extradata = bool(current_metadata.get("extra-data"))
 
-            build_permissions = build_summary.get(app_id, {}).get("permissions")
-            build_extradata = bool(build_summary.get(app_id, {}).get("extra-data"))
+            build_summary_metadata = build_summary.get(app_id, {}).get("metadata", {})
+            build_permissions = build_summary_metadata.get("permissions")
+            build_extradata = bool(
+                build_summary_metadata.get(app_id, {}).get("extra-data")
+            )
 
             if current_extradata != build_extradata:
                 keys["extra-data"] = build_extradata
