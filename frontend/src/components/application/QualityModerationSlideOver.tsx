@@ -166,7 +166,7 @@ const QualityCategories = ({
                           <IconGrid />
                         </div>
                       </div>
-                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal border text-flathub-white">
+                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-[#3D3D3C] border text-flathub-white">
                         <LogoImage iconUrl={appIcon} appName="" size="256" />
                         <div className="z-10 absolute">
                           <IconGrid />
