@@ -6,6 +6,23 @@ import { ModerationRequestResponse } from "src/codegen"
 interface Props {
   request: ModerationRequestResponse
 }
+function alignArrays(a: string[], b: string[]): { a: string[]; b: string[] } {
+  const orig = [a, b]
+
+  const template = Array.from(
+    new Set(orig.reduce((a, b) => a.concat(b))),
+  ).sort()
+
+  const result = orig.map((row) =>
+    row.slice(0).reduce((output, val) => {
+      const idx = template.indexOf(val)
+      output[idx] = val
+      return output
+    }, Array(template.length).fill(null)),
+  )
+
+  return { a: result[0], b: result[1] }
+}
 
 const ArrayWithNewlines = ({ array }: { array: string[] }) => {
   return (
@@ -73,6 +90,11 @@ const DiffRow = ({
               return null
             }
 
+            const { a: currentValueList, b: newValueList } = alignArrays(
+              currenValues[key],
+              newValues[key],
+            )
+
             return (
               <tr key={key}>
                 <td className="align-top">
@@ -80,11 +102,11 @@ const DiffRow = ({
                 </td>
                 {!request.is_new_submission && (
                   <td className="align-top">
-                    <ArrayWithNewlines array={currenValues[key].toSorted()} />
+                    <ArrayWithNewlines array={currentValueList} />
                   </td>
                 )}
                 <td className="align-top">
-                  <ArrayWithNewlines array={newValues[key].toSorted()} />
+                  <ArrayWithNewlines array={newValueList} />
                 </td>
               </tr>
             )
