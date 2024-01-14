@@ -41,7 +41,7 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, Optional[str]]
+    keys: dict[str, Optional[str] | Optional[list]]
     current_values: dict[str, Optional[str]]
 
 
