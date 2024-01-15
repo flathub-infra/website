@@ -24,7 +24,7 @@ router = APIRouter(prefix="/moderation")
 
 
 class ModerationRequestType(str, Enum):
-    APPDATA = "appdata"
+    APPDATA = "Metadata"
 
 
 class ModerationAppItem(BaseModel):
