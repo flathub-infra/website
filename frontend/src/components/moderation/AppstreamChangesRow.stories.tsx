@@ -75,10 +75,6 @@ export const PermissionChange = () => {
         },
       },
       current_values: {
-        name: "Vim",
-        summary: "The ubiquitous text editor",
-        developer_name: "Bram Moolenaar et al.",
-        project_license: "Vim",
         permissions: {
           shared: ["network", "ipc"],
           sockets: ["x11"],
@@ -112,10 +108,6 @@ export const PermissionChangeAdded = () => {
         },
       },
       current_values: {
-        name: "Vim",
-        summary: "The ubiquitous text editor",
-        developer_name: "Bram Moolenaar et al.",
-        project_license: "Vim",
         permissions: {
           shared: ["network", "ipc"],
           filesystems: ["/var/tmp", "/tmp", "host"],
@@ -147,10 +139,6 @@ export const PermissionChangeRemoval = () => {
         },
       },
       current_values: {
-        name: "Vim",
-        summary: "The ubiquitous text editor",
-        developer_name: "Bram Moolenaar et al.",
-        project_license: "Vim",
         permissions: {
           shared: ["network", "ipc"],
           sockets: ["x11"],
@@ -184,10 +172,6 @@ export const PermissionObjectChangeAdded = () => {
         },
       },
       current_values: {
-        name: "Vim",
-        summary: "The ubiquitous text editor",
-        developer_name: "Bram Moolenaar et al.",
-        project_license: "Vim",
         permissions: {
           shared: ["network", "ipc"],
           sockets: ["x11"],
@@ -219,10 +203,6 @@ export const PermissionObjectChangeRemoval = () => {
         },
       },
       current_values: {
-        name: "Vim",
-        summary: "The ubiquitous text editor",
-        developer_name: "Bram Moolenaar et al.",
-        project_license: "Vim",
         permissions: {
           shared: ["network", "ipc"],
           sockets: ["x11"],

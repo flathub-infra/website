@@ -54,22 +54,6 @@ const DiffRow = ({
     | string
     | [key: string, value: string[] | [key: string, value: string[]]]
 
-  // handle simple strings
-  if (
-    (typeof currentValues === "string" || typeof newValues === "string") &&
-    currentValues !== newValues
-  ) {
-    return (
-      <tr>
-        <td className="align-top">{valueKey}</td>
-        {!request.is_new_submission && (
-          <td className="align-top">{currentValues}</td>
-        )}
-        <td className="align-top">{newValues}</td>
-      </tr>
-    )
-  }
-
   // handle mapped strings
   if (typeof currentValues === "object" || typeof newValues === "object") {
     const uniqueKeys = Array.from(
@@ -161,14 +145,27 @@ const DiffRow = ({
       </>
     )
   }
+
+  return (
+    <tr>
+      <td className="align-top">{valueKey}</td>
+      {!request.is_new_submission && (
+        <td className="align-top">{currentValues?.toString()}</td>
+      )}
+      <td className="align-top">{newValues?.toString()}</td>
+    </tr>
+  )
 }
 
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   const { t } = useTranslation()
 
-  const keys = request.request_data
-    ? Object.keys(request.request_data?.keys)
-    : []
+  const uniqueKeys = Array.from(
+    new Set([
+      ...Object.keys(request.request_data?.keys ?? {}),
+      ...Object.keys(request.request_data?.current_values ?? {}),
+    ]),
+  ).sort()
 
   return (
     <ReviewRow
@@ -193,7 +190,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
         </thead>
 
         <tbody>
-          {keys.map((key) => (
+          {uniqueKeys.map((key) => (
             <DiffRow key={key} valueKey={key.toString()} request={request} />
           ))}
         </tbody>
