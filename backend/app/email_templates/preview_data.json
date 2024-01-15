@@ -44,6 +44,7 @@
           "request_type": "appdata",
           "request_data": {
             "keys": {
+              "extra-data": false,
               "permissions": {
                 "shared": [
                   "network"
@@ -68,6 +69,7 @@
               "summary": "The ubiquitous text editor",
               "developer_name": "Bram Moolenaar et al.",
               "project_license": "Vim",
+              "extra-data": true,
               "permissions": {
                 "shared": [
                   "network",
