@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent } from "react"
+import { Fragment, FunctionComponent } from "react"
 import ReviewRow from "./ReviewRow"
 import { ModerationRequestResponse } from "src/codegen"
 
@@ -25,18 +25,12 @@ function alignArrays(a: string[], b: string[]): { a: string[]; b: string[] } {
 }
 
 const ArrayWithNewlines = ({ array }: { array: string[] }) => {
-  return (
-    <>
-      {array.map((v) => {
-        return (
-          <>
-            {v}
-            <br />
-          </>
-        )
-      })}
-    </>
-  )
+  return array.map((v) => (
+    <Fragment key={v}>
+      {v}
+      <br />
+    </Fragment>
+  ))
 }
 
 const DiffRow = ({
@@ -79,6 +73,7 @@ const DiffRow = ({
               currentValues[key],
               newValues[key],
             )
+
             return (
               <tr key={key}>
                 <td className="align-top">
@@ -115,31 +110,25 @@ const DiffRow = ({
               ]),
             ).sort()
 
-            return (
-              <>
-                {uniqueSubKeys.map((subKey) => {
-                  return (
-                    <tr key={subKey}>
-                      <td className="align-top">
-                        {valueKey} {subKey}
-                      </td>
-                      {!request.is_new_submission && (
-                        <td className="align-top">
-                          <ArrayWithNewlines
-                            array={currentValues[key]?.[subKey] ?? []}
-                          />
-                        </td>
-                      )}
-                      <td className="align-top">
-                        <ArrayWithNewlines
-                          array={newValues[key]?.[subKey] ?? []}
-                        />
-                      </td>
-                    </tr>
-                  )
-                })}
-              </>
-            )
+            return uniqueSubKeys.map((subKey) => {
+              return (
+                <tr key={subKey}>
+                  <td className="align-top">
+                    {valueKey} {subKey}
+                  </td>
+                  {!request.is_new_submission && (
+                    <td className="align-top">
+                      <ArrayWithNewlines
+                        array={currentValues[key]?.[subKey] ?? []}
+                      />
+                    </td>
+                  )}
+                  <td className="align-top">
+                    <ArrayWithNewlines array={newValues[key]?.[subKey] ?? []} />
+                  </td>
+                </tr>
+              )
+            })
           }
         })}
       </>
