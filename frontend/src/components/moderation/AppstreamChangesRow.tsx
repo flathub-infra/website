@@ -160,12 +160,7 @@ const DiffRow = ({
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   const { t } = useTranslation()
 
-  const uniqueKeys = Array.from(
-    new Set([
-      ...Object.keys(request.request_data?.keys ?? {}),
-      ...Object.keys(request.request_data?.current_values ?? {}),
-    ]),
-  ).sort()
+  const keys = Object.keys(request.request_data?.keys).sort()
 
   return (
     <ReviewRow
@@ -190,7 +185,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
         </thead>
 
         <tbody>
-          {uniqueKeys.map((key) => (
+          {keys.map((key) => (
             <DiffRow key={key} valueKey={key.toString()} request={request} />
           ))}
         </tbody>
