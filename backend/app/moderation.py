@@ -275,7 +275,7 @@ def submit_review_request(
         keys = {
             "name": app_data.get("name"),
             "summary": app_data.get("summary"),
-            "developer_name": app_data.get("developer_name"),
+            "developer_name": app_data.get("developer_name", "none"),
             "project_license": app_data.get("project_license"),
         }
         current_values = {}
@@ -286,7 +286,7 @@ def submit_review_request(
 
             current_values["name"] = app.get("name")
             current_values["summary"] = app.get("summary")
-            current_values["developer_name"] = app.get("developer_name")
+            current_values["developer_name"] = app.get("developer_name", "none")
             current_values["project_license"] = app.get("project_license")
 
             for key, value in current_values.items():
