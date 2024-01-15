@@ -305,22 +305,36 @@ def submit_review_request(
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
-            current_metadata = current_summary.get("metadata", {})
-            current_permissions = current_metadata.get("permissions")
-            current_extradata = bool(current_metadata.get("extra-data"))
+            if current_metadata := current_summary.get("metadata", {}):
+                current_permissions = current_metadata.get("permissions")
+                current_extradata = bool(current_metadata.get("extra-data"))
 
-            build_summary_metadata = build_summary.get(app_id, {}).get("metadata", {})
-            build_permissions = build_summary_metadata.get("permissions")
-            build_extradata = bool(build_summary_metadata.get("extra-data"))
+                build_summary_metadata = build_summary.get(app_id, {}).get(
+                    "metadata", {}
+                )
+                build_permissions = build_summary_metadata.get("permissions")
+                build_extradata = bool(build_summary_metadata.get("extra-data"))
 
-            if current_extradata != build_extradata:
-                current_values["extra-data"] = current_extradata
-                keys["extra-data"] = build_extradata
+                if current_extradata != build_extradata:
+                    current_values["extra-data"] = current_extradata
+                    keys["extra-data"] = build_extradata
 
-            if current_permissions and build_permissions:
-                if current_permissions != build_permissions:
-                    current_values["permissions"] = current_permissions
-                    keys["permissions"] = build_permissions
+                if current_permissions and build_permissions:
+                    if current_permissions != build_permissions:
+                        for perm in current_permissions:
+                            current_perm = current_permissions[perm]
+                            build_perm = build_permissions.get(perm)
+
+                            if isinstance(current_perm, list):
+                                if current_permissions[perm] != build_perm:
+                                    current_values[perm] = current_perm
+                                    keys[perm] = build_perm
+
+                            if isinstance(current_perm, dict):
+                                for key in current_perm:
+                                    if current_perm[key] != build_perm[key]:
+                                        current_values[f"{perm} {key}"] = current_perm
+                                        keys[f"{perm} {key}"] = build_perm
 
         if len(keys) > 0:
             # Create a moderation request
