@@ -92,3 +92,147 @@ export const PermissionChange = () => {
 
   return <AppstreamChangesRow request={request} />
 }
+
+export const PermissionChangeAdded = () => {
+  const request: ModerationRequestResponse = {
+    id: 277,
+    app_id: "org.vim.Vim",
+    created_at: "2024-01-14T20:26:07.457480",
+    build_id: 76133,
+    job_id: 127665,
+    is_outdated: false,
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        permissions: {
+          shared: ["network"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+      current_values: {
+        name: "Vim",
+        summary: "The ubiquitous text editor",
+        developer_name: "Bram Moolenaar et al.",
+        project_license: "Vim",
+        permissions: {
+          shared: ["network", "ipc"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+    },
+    is_new_submission: false,
+  }
+
+  return <AppstreamChangesRow request={request} />
+}
+
+export const PermissionChangeRemoval = () => {
+  const request: ModerationRequestResponse = {
+    id: 277,
+    app_id: "org.vim.Vim",
+    created_at: "2024-01-14T20:26:07.457480",
+    build_id: 76133,
+    job_id: 127665,
+    is_outdated: false,
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        permissions: {
+          shared: ["network"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+      current_values: {
+        name: "Vim",
+        summary: "The ubiquitous text editor",
+        developer_name: "Bram Moolenaar et al.",
+        project_license: "Vim",
+        permissions: {
+          shared: ["network", "ipc"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+    },
+    is_new_submission: false,
+  }
+
+  return <AppstreamChangesRow request={request} />
+}
+
+export const PermissionObjectChangeAdded = () => {
+  const request: ModerationRequestResponse = {
+    id: 277,
+    app_id: "org.vim.Vim",
+    created_at: "2024-01-14T20:26:07.457480",
+    build_id: 76133,
+    job_id: 127665,
+    is_outdated: false,
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        permissions: {
+          shared: ["network"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+      current_values: {
+        name: "Vim",
+        summary: "The ubiquitous text editor",
+        developer_name: "Bram Moolenaar et al.",
+        project_license: "Vim",
+        permissions: {
+          shared: ["network", "ipc"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+        },
+      },
+    },
+    is_new_submission: false,
+  }
+
+  return <AppstreamChangesRow request={request} />
+}
+
+export const PermissionObjectChangeRemoval = () => {
+  const request: ModerationRequestResponse = {
+    id: 277,
+    app_id: "org.vim.Vim",
+    created_at: "2024-01-14T20:26:07.457480",
+    build_id: 76133,
+    job_id: 127665,
+    is_outdated: false,
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        permissions: {
+          shared: ["network"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+        },
+      },
+      current_values: {
+        name: "Vim",
+        summary: "The ubiquitous text editor",
+        developer_name: "Bram Moolenaar et al.",
+        project_license: "Vim",
+        permissions: {
+          shared: ["network", "ipc"],
+          sockets: ["x11"],
+          filesystems: ["/var/tmp", "/tmp", "host"],
+          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        },
+      },
+    },
+    is_new_submission: false,
+  }
+
+  return <AppstreamChangesRow request={request} />
+}

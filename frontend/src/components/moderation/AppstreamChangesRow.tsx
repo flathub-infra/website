@@ -7,7 +7,7 @@ interface Props {
   request: ModerationRequestResponse
 }
 function alignArrays(a: string[], b: string[]): { a: string[]; b: string[] } {
-  const orig = [a, b]
+  const orig = [a ?? [], b ?? []]
 
   const template = Array.from(
     new Set(orig.reduce((a, b) => a.concat(b))),
@@ -47,7 +47,7 @@ const DiffRow = ({
   request: ModerationRequestResponse
 }) => {
   // can be string or string[]
-  const currenValues = request.request_data.current_values[valueKey] as
+  const currentValues = request.request_data.current_values[valueKey] as
     | string
     | [key: string, value: string[] | [key: string, value: string[]]]
   const newValues = request.request_data.keys[valueKey] as
@@ -56,15 +56,14 @@ const DiffRow = ({
 
   // handle simple strings
   if (
-    typeof currenValues === "string" &&
-    typeof newValues === "string" &&
-    currenValues !== newValues
+    (typeof currentValues === "string" || typeof newValues === "string") &&
+    currentValues !== newValues
   ) {
     return (
       <tr>
         <td className="align-top">{valueKey}</td>
         {!request.is_new_submission && (
-          <td className="align-top">{currenValues}</td>
+          <td className="align-top">{currentValues}</td>
         )}
         <td className="align-top">{newValues}</td>
       </tr>
@@ -72,29 +71,30 @@ const DiffRow = ({
   }
 
   // handle mapped strings
-  if (
-    typeof currenValues === "object" &&
-    typeof newValues === "object" &&
-    currenValues !== null &&
-    newValues !== null
-  ) {
+  if (typeof currentValues === "object" || typeof newValues === "object") {
+    const uniqueKeys = Array.from(
+      new Set([...Object.keys(currentValues), ...Object.keys(newValues)]),
+    ).sort()
+
     return (
       <>
-        {Object.keys(currenValues).map((key) => {
+        {uniqueKeys.map((key) => {
           // handle arrays
-          if (Array.isArray(currenValues[key])) {
+          if (
+            Array.isArray(currentValues[key]) ||
+            Array.isArray(newValues[key])
+          ) {
             if (
-              JSON.stringify(currenValues[key]) ===
+              JSON.stringify(currentValues[key]) ===
               JSON.stringify(newValues[key])
             ) {
               return null
             }
 
             const { a: currentValueList, b: newValueList } = alignArrays(
-              currenValues[key],
+              currentValues[key],
               newValues[key],
             )
-
             return (
               <tr key={key}>
                 <td className="align-top">
@@ -113,17 +113,27 @@ const DiffRow = ({
           }
 
           //handle sub mapped strings
-          if (typeof currenValues[key] === "object") {
+          if (
+            typeof currentValues[key] === "object" ||
+            typeof newValues[key] === "object"
+          ) {
             if (
-              JSON.stringify(currenValues[key]) ===
+              JSON.stringify(currentValues[key]) ===
               JSON.stringify(newValues[key])
             ) {
               return null
             }
 
+            const uniqueSubKeys = Array.from(
+              new Set([
+                ...Object.keys(currentValues[key] ?? {}),
+                ...Object.keys(newValues[key] ?? {}),
+              ]),
+            ).sort()
+
             return (
               <>
-                {Object.keys(currenValues[key]).map((subKey) => {
+                {uniqueSubKeys.map((subKey) => {
                   return (
                     <tr key={subKey}>
                       <td className="align-top">
@@ -132,12 +142,14 @@ const DiffRow = ({
                       {!request.is_new_submission && (
                         <td className="align-top">
                           <ArrayWithNewlines
-                            array={currenValues[key][subKey]}
+                            array={currentValues[key]?.[subKey] ?? []}
                           />
                         </td>
                       )}
                       <td className="align-top">
-                        <ArrayWithNewlines array={newValues[key][subKey]} />
+                        <ArrayWithNewlines
+                          array={newValues[key]?.[subKey] ?? []}
+                        />
                       </td>
                     </tr>
                   )
