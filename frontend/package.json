@@ -32,7 +32,7 @@
     "chart.js": "^4.4.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^2.0.0",
-    "date-fns": "^3.1.0",
+    "date-fns": "^3.2.0",
     "framer-motion": "^10.16.4",
     "i18n-iso-countries": "^7.7.0",
     "i18next": "^23.7.16",
