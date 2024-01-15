@@ -311,9 +311,7 @@ def submit_review_request(
 
             build_summary_metadata = build_summary.get(app_id, {}).get("metadata", {})
             build_permissions = build_summary_metadata.get("permissions")
-            build_extradata = bool(
-                build_summary_metadata.get(app_id, {}).get("extra-data")
-            )
+            build_extradata = bool(build_summary_metadata.get("extra-data"))
 
             if current_extradata != build_extradata:
                 current_values["extra-data"] = current_extradata
