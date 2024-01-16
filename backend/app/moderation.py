@@ -333,8 +333,8 @@ def submit_review_request(
                             if isinstance(current_perm, dict):
                                 for key in current_perm:
                                     if current_perm[key] != build_perm[key]:
-                                        current_values[f"{perm} {key}"] = current_perm
-                                        keys[f"{perm} {key}"] = build_perm
+                                        current_values[f"{perm} {key}"] = current_perm[perm][key]
+                                        keys[f"{perm} {key}"] = build_perm.get(perm, {}).get(key)
 
         if len(keys) > 0:
             # Create a moderation request
