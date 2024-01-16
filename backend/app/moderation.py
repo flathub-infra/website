@@ -319,6 +319,8 @@ def submit_review_request(
                     current_values["extra-data"] = current_extradata
                     keys["extra-data"] = build_extradata
 
+                keys = {}
+                current_values = {}
                 if current_permissions and build_permissions:
                     if current_permissions != build_permissions:
                         for perm in current_permissions:
@@ -331,10 +333,11 @@ def submit_review_request(
                                     keys[perm] = build_perm
 
                             if isinstance(current_perm, dict):
-                                for key in current_perm:
-                                    if current_perm[key] != build_perm[key]:
-                                        current_values[f"{perm} {key}"] = current_perm
-                                        keys[f"{perm} {key}"] = build_perm
+                                dict_keys = current_perm.keys() | build_perm.keys()
+                                for key in dict_keys:
+                                    if current_perm.get(key) != build_perm.get(key):
+                                        current_values[f"{key}-{perm}"] = current_perm.get(key)
+                                        keys[f"{key}-{perm}"] = build_perm.get(key)
 
         if len(keys) > 0:
             # Create a moderation request
