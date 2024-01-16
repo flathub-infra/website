@@ -11,12 +11,18 @@ export const FlathubCombobox = <
   setSelected,
   label,
   disabled,
+  renderItem,
 }: {
   items: T[]
   selected: T
   setSelected: (item: T) => void
   label?: string
   disabled?: boolean
+  renderItem?: (
+    active: boolean,
+    selected: boolean,
+    item: T,
+  ) => React.ReactElement
 }) => {
   const [query, setQuery] = useState("")
 
@@ -77,39 +83,43 @@ export const FlathubCombobox = <
                   )
                 }
               >
-                {({ active, selected }) => (
-                  <>
-                    <span
-                      className={clsx(
-                        "block truncate",
-                        selected && "font-semibold",
-                      )}
-                    >
-                      {item.name}
-                    </span>
-
-                    {item.subtitle && (
-                      <span
-                        className={clsx("block truncate text-sm opacity-70")}
-                      >
-                        {item.subtitle}
-                      </span>
-                    )}
-
-                    {selected && (
+                {({ active, selected }) =>
+                  renderItem ? (
+                    renderItem(active, selected, item)
+                  ) : (
+                    <>
                       <span
                         className={clsx(
-                          "absolute inset-y-0 right-0 flex items-center pr-4",
-                          active
-                            ? "text-white"
-                            : "text-flathub-bg-flathub-celestial-blue",
+                          "block truncate",
+                          selected && "font-semibold",
                         )}
                       >
-                        <HiCheck className="h-5 w-5" aria-hidden="true" />
+                        {item.name}
                       </span>
-                    )}
-                  </>
-                )}
+
+                      {item.subtitle && (
+                        <span
+                          className={clsx("block truncate text-sm opacity-70")}
+                        >
+                          {item.subtitle}
+                        </span>
+                      )}
+
+                      {selected && (
+                        <span
+                          className={clsx(
+                            "absolute inset-y-0 right-0 flex items-center pr-4",
+                            active
+                              ? "text-white"
+                              : "text-flathub-bg-flathub-celestial-blue",
+                          )}
+                        >
+                          <HiCheck className="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      )}
+                    </>
+                  )
+                }
               </Combobox.Option>
             ))}
           </Combobox.Options>
