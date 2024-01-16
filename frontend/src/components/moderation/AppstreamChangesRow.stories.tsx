@@ -67,20 +67,11 @@ export const PermissionChange = () => {
     request_type: "appdata",
     request_data: {
       keys: {
-        permissions: {
-          shared: ["network"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        shared: ["network"],
       },
       current_values: {
-        permissions: {
-          shared: ["network", "ipc"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        shared: ["network", "ipc"],
+        sockets: ["x11"],
       },
     },
     is_new_submission: false,
@@ -100,19 +91,12 @@ export const PermissionChangeAdded = () => {
     request_type: "appdata",
     request_data: {
       keys: {
-        permissions: {
-          shared: ["network"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        shared: ["network", "ipc"],
+        sockets: ["x11"],
       },
       current_values: {
-        permissions: {
-          shared: ["network", "ipc"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        shared: ["network"],
+        sockets: ["x11"],
       },
     },
     is_new_submission: false,
@@ -123,28 +107,24 @@ export const PermissionChangeAdded = () => {
 
 export const PermissionChangeRemoval = () => {
   const request: ModerationRequestResponse = {
-    id: 277,
+    id: 284,
     app_id: "org.vim.Vim",
-    created_at: "2024-01-14T20:26:07.457480",
-    build_id: 76133,
-    job_id: 127665,
+    created_at: "2024-01-15T15:54:53.392205",
+    build_id: 76271,
+    job_id: 127964,
     is_outdated: false,
     request_type: "appdata",
     request_data: {
       keys: {
-        permissions: {
-          shared: ["network"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        shared: ["network"],
       },
       current_values: {
-        permissions: {
-          shared: ["network", "ipc"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
-        },
+        name: "Vim",
+        summary: "The ubiquitous text editor",
+        developer_name: "Bram Moolenaar et al.",
+        project_license: "Vim",
+        shared: ["network", "ipc"],
+        sockets: ["x11"],
       },
     },
     is_new_submission: false,
@@ -164,19 +144,13 @@ export const PermissionObjectChangeAdded = () => {
     request_type: "appdata",
     request_data: {
       keys: {
-        permissions: {
-          shared: ["network"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        shared: ["network"],
+        "session-bus talk": {
+          talk: ["org.freedesktop.flatpak"],
         },
       },
       current_values: {
-        permissions: {
-          shared: ["network", "ipc"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-        },
+        shared: ["network", "ipc"],
       },
     },
     is_new_submission: false,
@@ -196,18 +170,15 @@ export const PermissionObjectChangeRemoval = () => {
     request_type: "appdata",
     request_data: {
       keys: {
-        permissions: {
-          shared: ["network"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-        },
+        shared: ["network"],
+        sockets: ["x11"],
       },
       current_values: {
-        permissions: {
-          shared: ["network", "ipc"],
-          sockets: ["x11"],
-          filesystems: ["/var/tmp", "/tmp", "host"],
-          "session-bus": { talk: ["org.freedesktop.flatpak"] },
+        shared: ["network", "ipc"],
+        sockets: ["x11"],
+        filesystems: ["/var/tmp", "/tmp", "host"],
+        "session-bus talk": {
+          talk: ["org.freedesktop.flatpak"],
         },
       },
     },
