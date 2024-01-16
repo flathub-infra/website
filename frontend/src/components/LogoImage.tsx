@@ -7,7 +7,7 @@ import logoMini from "public/img/logo/flathub-logo-mini.svg"
 interface Props {
   iconUrl: string
   appName: string
-  size?: "64" | "128" | "256"
+  size?: "24" | "64" | "128" | "256"
 }
 
 const LogoImage: FunctionComponent<Props> = ({

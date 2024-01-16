@@ -19,6 +19,9 @@ import { useUserContext } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
 import { appPicks, qualityModerationApi } from "src/api"
 import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
+import clsx from "clsx"
+import { HiCheck } from "react-icons/hi2"
+import LogoImage from "src/components/LogoImage"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -28,31 +31,42 @@ export default function AppPicks() {
   const [currentIndex, setCurrentIndex] = useState(-1)
 
   const [selectableApps, setSelectableApps] = useState<
-    { id: string; name: string }[]
+    { id: string; name: string; subtitle: string; icon: string }[]
   >([])
 
-  const [firstApp, setFirstApp] = useState<{ id: string; name: string } | null>(
-    null,
-  )
+  const [firstApp, setFirstApp] = useState<{
+    id: string
+    name: string
+    subtitle: string
+    icon: string
+  } | null>(null)
 
   const [secondApp, setSecondApp] = useState<{
     id: string
     name: string
+    subtitle: string
+    icon: string
   } | null>(null)
 
   const [thirdApp, setThirdApp] = useState<{
     id: string
     name: string
+    subtitle: string
+    icon: string
   } | null>(null)
 
   const [fourthApp, setFourthApp] = useState<{
     id: string
     name: string
+    subtitle: string
+    icon: string
   } | null>(null)
 
   const [fifthApp, setFifthApp] = useState<{
     id: string
     name: string
+    subtitle: string
+    icon: string
   } | null>(null)
 
   const mutateAppForWeek = useMutation({
@@ -101,6 +115,8 @@ export default function AppPicks() {
           return {
             id: appInfo.data.id,
             name: appInfo.data.name,
+            subtitle: appInfo.data.subtitle,
+            icon: appInfo.data.icon,
           }
         } else {
           return null
@@ -158,7 +174,8 @@ export default function AppPicks() {
           return {
             id: app.data.id,
             name: app.data.name,
-            subtitle: app.data.id,
+            subtitle: app.data.summary,
+            icon: app.data.icon,
           }
         })
 
@@ -225,6 +242,9 @@ export default function AppPicks() {
           <FlathubCombobox
             items={selectableApps}
             selected={firstApp}
+            renderItem={(active, selected, item) => (
+              <ComboboxItem active={active} selected={selected} item={item} />
+            )}
             setSelected={(app) => {
               setFirstApp(app)
               if (app) {
@@ -239,6 +259,9 @@ export default function AppPicks() {
           <FlathubCombobox
             items={selectableApps}
             selected={secondApp}
+            renderItem={(active, selected, item) => (
+              <ComboboxItem active={active} selected={selected} item={item} />
+            )}
             setSelected={(app) => {
               setSecondApp(app)
               if (app) {
@@ -253,6 +276,9 @@ export default function AppPicks() {
           <FlathubCombobox
             items={selectableApps}
             selected={thirdApp}
+            renderItem={(active, selected, item) => (
+              <ComboboxItem active={active} selected={selected} item={item} />
+            )}
             setSelected={(app) => {
               setThirdApp(app)
               if (app) {
@@ -267,6 +293,9 @@ export default function AppPicks() {
           <FlathubCombobox
             items={selectableApps}
             selected={fourthApp}
+            renderItem={(active, selected, item) => (
+              <ComboboxItem active={active} selected={selected} item={item} />
+            )}
             setSelected={(app) => {
               setFourthApp(app)
               if (app) {
@@ -281,6 +310,9 @@ export default function AppPicks() {
           <FlathubCombobox
             items={selectableApps}
             selected={fifthApp}
+            renderItem={(active, selected, item) => (
+              <ComboboxItem active={active} selected={selected} item={item} />
+            )}
             setSelected={(app) => {
               setFifthApp(app)
               if (app) {
@@ -372,4 +404,40 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale, ["common"])),
     },
   }
+}
+
+const ComboboxItem = ({
+  active,
+  selected,
+  item,
+}: {
+  active: boolean
+  selected: boolean
+  item: { id: string; name: string; subtitle: string; icon: string }
+}): ReactElement => {
+  return (
+    <div className="flex gap-2 items-center">
+      <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
+      <div className="flex flex-col">
+        <span className={clsx("block truncate", selected && "font-semibold")}>
+          {item.name}
+        </span>
+        {item.subtitle && (
+          <span className={clsx("block truncate text-sm opacity-70")}>
+            {item.subtitle}
+          </span>
+        )}
+        {selected && (
+          <span
+            className={clsx(
+              "absolute inset-y-0 right-0 flex items-center pr-4",
+              active ? "text-white" : "text-flathub-bg-flathub-celestial-blue",
+            )}
+          >
+            <HiCheck className="h-5 w-5" aria-hidden="true" />
+          </span>
+        )}
+      </div>
+    </div>
+  )
 }

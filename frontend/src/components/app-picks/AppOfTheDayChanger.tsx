@@ -6,6 +6,10 @@ import Spinner from "../Spinner"
 import { FlathubCombobox } from "../Combobox"
 import { appPicks } from "src/api"
 import { useUserContext } from "src/context/user-info"
+import { ReactElement } from "react"
+import clsx from "clsx"
+import { HiCheck } from "react-icons/hi2"
+import LogoImage from "../LogoImage"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()
@@ -70,7 +74,46 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
         items={selectableApps}
         selected={queryAppOfTheDay.data?.data ?? null}
         setSelected={changeAppOfTheDay}
+        renderItem={(active, selected, item) => (
+          <ComboboxItem active={active} selected={selected} item={item} />
+        )}
       />
+    </div>
+  )
+}
+
+const ComboboxItem = ({
+  active,
+  selected,
+  item,
+}: {
+  active: boolean
+  selected: boolean
+  item: { id: string; name: string; subtitle: string; icon: string }
+}): ReactElement => {
+  return (
+    <div className="flex gap-2 items-center">
+      <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
+      <div className="flex flex-col">
+        <span className={clsx("block truncate", selected && "font-semibold")}>
+          {item.name}
+        </span>
+        {item.subtitle && (
+          <span className={clsx("block truncate text-sm opacity-70")}>
+            {item.subtitle}
+          </span>
+        )}
+        {selected && (
+          <span
+            className={clsx(
+              "absolute inset-y-0 right-0 flex items-center pr-4",
+              active ? "text-white" : "text-flathub-bg-flathub-celestial-blue",
+            )}
+          >
+            <HiCheck className="h-5 w-5" aria-hidden="true" />
+          </span>
+        )}
+      </div>
     </div>
   )
 }
