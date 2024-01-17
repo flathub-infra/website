@@ -1365,6 +1365,8 @@ class ModerationRequest(Base):
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
 
+    build_log_url = mapped_column(String)
+
 
 class GuidelineCategory(Base):
     """A category of quality guidelines for an app"""
