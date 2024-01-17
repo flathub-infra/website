@@ -11,11 +11,12 @@ import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from typing import List, Optional
 from urllib.parse import urlencode
 from uuid import uuid4
 
 import requests
-from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
@@ -850,8 +851,33 @@ def continue_oauth_flow(
     }
 
 
+class AuthInfo(BaseModel):
+    login: str
+    avatar: str
+
+
+class Auths(BaseModel):
+    github: Optional[AuthInfo] = None
+    gitlab: Optional[AuthInfo] = None
+    gnome: Optional[AuthInfo] = None
+    kde: Optional[AuthInfo] = None
+
+
+class UserInfo(BaseModel):
+    is_moderator: bool
+    is_quality_moderator: bool
+    displayname: str
+    dev_flatpaks: List[str] = []
+    owned_flatpaks: List[str] = []
+    invited_flatpaks: List[str] = []
+    invite_code: str
+    accepted_publisher_agreement_at: Optional[datetime]
+    default_account: None
+    auths: Auths
+
+
 @router.get("/userinfo", tags=["auth"])
-def get_userinfo(login: LoginStatusDep):
+def get_userinfo(login: LoginStatusDep) -> UserInfo:
     """
     Retrieve the current login's user information.  If the user is not logged in
     you will get a `204` return.  Otherwise you will receive JSON describing the
@@ -860,9 +886,9 @@ def get_userinfo(login: LoginStatusDep):
     ```
     {
         "displayname": "Mx Human Person",
-        "dev-flatpaks": [ "org.people.human.Appname" ],
-        "owned-flatpaks": [ "org.foo.bar.Appname" ],
-        "accepted-publisher-agreement-at": "2023-06-23T20:38:28.553028"
+        "dev_flatpaks": [ "org.people.human.Appname" ],
+        "owned_flatpaks": [ "org.foo.bar.Appname" ],
+        "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
     }
     ```
 
@@ -870,10 +896,11 @@ def get_userinfo(login: LoginStatusDep):
     name, and avatar.  If they have some other login, details for that login
     will be provided.
 
-    dev-flatpaks is filtered against IDs available in AppStream
+    dev_flatpaks is filtered against IDs available in AppStream
     """
     if not login.user or not login.state.logged_in():
-        return Response(status_code=204)
+        raise HTTPException(status_code=204, detail="Not logged in")
+
     user = login.user
 
     if user.invite_code is None:
@@ -887,19 +914,6 @@ def get_userinfo(login: LoginStatusDep):
 
     default_account = user.get_default_account(db)
 
-    ret = {
-        "is-moderator": user.is_moderator,
-        "is-quality-moderator": user.is_quality_moderator,
-        "displayname": default_account.display_name,
-        "dev-flatpaks": set(),
-        "owned-flatpaks": set(),
-        "invited-flatpaks": set(),
-        "invite-code": user.invite_code,
-        "accepted-publisher-agreement-at": user.accepted_publisher_agreement_at,
-        "default-account": user.default_account,
-    }
-    ret["auths"] = {}
-
     appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
     dev_flatpaks = user.dev_flatpaks(db)
     owned_flatpaks = {
@@ -912,24 +926,36 @@ def get_userinfo(login: LoginStatusDep):
         for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
     ]
 
-    ret["dev-flatpaks"] = sorted(ret["dev-flatpaks"].union(dev_flatpaks))
-    ret["owned-flatpaks"] = sorted(owned_flatpaks)
-    ret["invited-flatpaks"] = sorted(invited_flatpaks)
-
+    auths = {}
     for account in user.connected_accounts(db):
-        ret["auths"][account.provider] = {}
+        auths[account.provider] = {}
         if account.login:
-            ret["auths"][account.provider]["login"] = account.login
+            auths[account.provider]["login"] = account.login
         if account.avatar_url:
-            ret["auths"][account.provider]["avatar"] = account.avatar_url
+            auths[account.provider]["avatar"] = account.avatar_url
 
-    return ret
+    return UserInfo(
+        is_moderator=user.is_moderator,
+        is_quality_moderator=user.is_quality_moderator,
+        displayname=default_account.display_name,
+        dev_flatpaks=sorted(dev_flatpaks),
+        owned_flatpaks=sorted(owned_flatpaks),
+        invited_flatpaks=sorted(invited_flatpaks),
+        invite_code=user.invite_code,
+        accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
+        default_account=user.default_account,
+        auths=auths,
+    )
+
+
+class RefreshDevFlatpaksReturn(BaseModel):
+    dev_flatpaks: List[str]
 
 
 @router.post("/refresh-dev-flatpaks", tags=["auth"])
 def do_refresh_dev_flatpaks(
     login=Depends(logged_in),
-):
+) -> RefreshDevFlatpaksReturn:
     user = login.user
 
     account = models.GithubAccount.by_user(db, user)
@@ -942,7 +968,7 @@ def do_refresh_dev_flatpaks(
     db.session.commit()
 
     dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
-    return {"dev-flatpaks": sorted(dev_flatpaks)}
+    return RefreshDevFlatpaksReturn(dev_flatpaks=sorted(dev_flatpaks))
 
 
 @router.post("/logout", tags=["auth"])

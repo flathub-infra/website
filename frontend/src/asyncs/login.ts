@@ -1,8 +1,11 @@
 import { ParsedUrlQuery } from "querystring"
 import { Dispatch } from "react"
-import { LOGIN_PROVIDERS_URL, USER_INFO_URL } from "../env"
+import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
-import { UserInfo, UserStateAction } from "../types/Login"
+import { UserStateAction } from "../types/Login"
+import { authApi } from "src/api"
+import { AxiosResponse } from "axios"
+import { UserInfo } from "src/codegen"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -64,28 +67,23 @@ export async function getUserData(
   dispatch({ type: "loading" })
 
   // On network error just assume user state is unchanged
-  let res: Response
+  let res: AxiosResponse<UserInfo, any>
   try {
     // Gets data for user with current session cookie
-    res = await fetch(USER_INFO_URL, { credentials: "include" })
-  } catch {
-    dispatch({ type: "interrupt" })
-    return
-  }
+    res = await authApi.getUserinfoAuthUserinfoGet({ withCredentials: true })
 
-  // Assuming a bad status indicates unchanged user state
-  if (res.ok) {
+    // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in
     if (res.status === 204) {
       dispatch({ type: "logout" })
     } else {
-      const info: UserInfo = await res.json()
+      const info: UserInfo = res.data
       dispatch({
         type: "login",
         info,
       })
     }
-  } else {
+  } catch {
     dispatch({ type: "interrupt" })
   }
 }

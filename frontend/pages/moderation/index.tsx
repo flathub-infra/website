@@ -21,7 +21,7 @@ export default function ModerationDashboard() {
     } else {
       router.replace(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
     }
-  } else if (!user.info["is-moderator"]) {
+  } else if (!user.info.is_moderator) {
     content = (
       <>
         <h1 className="my-8">{t("whoops")}</h1>

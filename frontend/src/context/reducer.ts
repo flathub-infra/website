@@ -30,7 +30,7 @@ export function contextReducer(
         ...state,
         info: {
           ...state.info,
-          "dev-flatpaks": action.devFlatpaks,
+          dev_flatpaks: action.devFlatpaks,
         },
       }
     default:

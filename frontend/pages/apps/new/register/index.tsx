@@ -24,14 +24,14 @@ export default function AppRegistrationPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (userInfo && !userInfo.info?.["accepted-publisher-agreement-at"]) {
+    if (userInfo && !userInfo.info?.accepted_publisher_agreement_at) {
       router.replace("/apps/new/publisher-agreement")
     }
   }, [userInfo, router])
 
   let content: ReactElement
 
-  if (!userInfo.info?.["accepted-publisher-agreement-at"]) {
+  if (!userInfo.info?.accepted_publisher_agreement_at) {
     content = <Spinner size="m" />
   } else {
     content = (

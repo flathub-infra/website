@@ -36,7 +36,7 @@ export default function Userpage({
     return null
   }
 
-  const inviteCode = user.info["invite-code"].replace(/(.{3})(?!$)/g, "$1-")
+  const inviteCode = user.info.invite_code.replace(/(.{3})(?!$)/g, "$1-")
 
   const tabs = [
     {
@@ -47,7 +47,7 @@ export default function Userpage({
             <UserApps
               variant="dev"
               customButtons={
-                (!IS_PRODUCTION || user.info?.["is-moderator"]) && (
+                (!IS_PRODUCTION || user.info?.is_moderator) && (
                   <ButtonLink
                     className="w-full sm:w-auto"
                     passHref
@@ -60,7 +60,7 @@ export default function Userpage({
               }
             />
 
-            {(!IS_PRODUCTION || user.info?.["is-moderator"]) && (
+            {(!IS_PRODUCTION || user.info?.is_moderator) && (
               <>
                 <div>
                   <UserApps variant="invited" />
@@ -75,7 +75,7 @@ export default function Userpage({
               </>
             )}
 
-            {!IS_PRODUCTION && user.info["dev-flatpaks"].length ? (
+            {!IS_PRODUCTION && user.info.dev_flatpaks.length ? (
               <div className="mx-2 my-auto">
                 <h3 className="my-4 text-xl font-semibold">
                   {t("accepting-payment")}

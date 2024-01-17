@@ -21,7 +21,10 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
 
   // Accounts may or may not be present in user information
   const linkedAccounts = logins
-    .filter((provider) => provider.method in user.info.auths)
+    .filter(
+      (provider) =>
+        provider.method in user.info.auths && user.info.auths[provider.method],
+    )
     .map((provider) => {
       const authData = user.info.auths[provider.method]
 

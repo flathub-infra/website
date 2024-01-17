@@ -80,7 +80,7 @@ const Statistics = ({
           withCredentials: true,
         },
       ),
-    enabled: !!user.info?.["is-quality-moderator"],
+    enabled: !!user.info?.is_quality_moderator,
   })
 
   let country_data: { country: string; value: number }[] = []
@@ -241,7 +241,7 @@ const Statistics = ({
           />
         </div>
         <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
-        {!!user.info?.["is-quality-moderator"] && query.data?.data && (
+        {!!user.info?.is_quality_moderator && query.data?.data && (
           <>
             <h2 className="mb-6 mt-12 text-2xl font-bold">
               Failed by guideline

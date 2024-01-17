@@ -32,7 +32,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
     queryKey: [`${variant}-apps`, page],
     queryFn: async () => {
       return getAppsInfo(
-        user.info[`${variant}-flatpaks`].slice(offset, offset + pageSize),
+        user.info[`${variant}_flatpaks`].slice(offset, offset + pageSize),
       )
     },
     enabled: !!user.info,
@@ -51,7 +51,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
     if (queryRefreshDev.data) {
       userDispatch({
         type: "update-dev-flatpaks",
-        devFlatpaks: queryRefreshDev.data.data["dev-flatpaks"],
+        devFlatpaks: queryRefreshDev.data.data.dev_flatpaks,
       })
     }
   }, [queryRefreshDev.data, userDispatch])
@@ -73,7 +73,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
 
   const pages = Array.from(
     {
-      length: Math.ceil(user.info[`${variant}-flatpaks`].length / pageSize),
+      length: Math.ceil(user.info[`${variant}_flatpaks`].length / pageSize),
     },
     (_, i) => i + 1,
   )

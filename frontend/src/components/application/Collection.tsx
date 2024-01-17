@@ -132,16 +132,15 @@ const ApplicationCollection: FunctionComponent<Props> = ({
               inACard={inACard}
               showId={showId}
             />
-            {!user?.loading &&
-              user?.info?.["dev-flatpaks"].includes(app.id) && (
-                <ButtonLink
-                  passHref
-                  href={`/apps/manage/${app.id}`}
-                  className="w-full"
-                >
-                  {t("developer-settings")}
-                </ButtonLink>
-              )}
+            {!user?.loading && user?.info?.dev_flatpaks.includes(app.id) && (
+              <ButtonLink
+                passHref
+                href={`/apps/manage/${app.id}`}
+                className="w-full"
+              >
+                {t("developer-settings")}
+              </ButtonLink>
+            )}
           </motion.div>
         ))}
       </div>

@@ -131,7 +131,7 @@ export default function AppPicks() {
 
       return getAppOfTheWeekInfo
     },
-    enabled: !!user.info?.["is-quality-moderator"],
+    enabled: !!user.info?.is_quality_moderator,
   })
 
   const queryQualityApps = useQuery({
@@ -157,7 +157,7 @@ export default function AppPicks() {
 
       return passingApps
     },
-    enabled: !!user.info?.["is-quality-moderator"],
+    enabled: !!user.info?.is_quality_moderator,
   })
 
   const startOfThisWeek = startOfISOWeek(date)
@@ -193,7 +193,7 @@ export default function AppPicks() {
 
   let content: ReactElement
 
-  if (!user.info || !user.info["is-quality-moderator"]) {
+  if (!user.info || !user.info.is_quality_moderator) {
     content = (
       <>
         <h1 className="my-8">{t("whoops")}</h1>
