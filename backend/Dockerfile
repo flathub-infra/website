@@ -22,7 +22,8 @@ EXPOSE 8000
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
+        python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
+        libgirepository-1.0-1 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
