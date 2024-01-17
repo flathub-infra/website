@@ -251,6 +251,7 @@ def submit_review_request(
     build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
+    build_log_url = build_metadata.get("build_log_url")
 
     build_refs = build_extended.get("build_refs")
     build_ref_arches = {
@@ -366,6 +367,7 @@ def submit_review_request(
                 is_outdated=False,
                 build_id=review_request.build_id,
                 job_id=review_request.job_id,
+                build_log_url=build_log_url,
             )
             new_requests.append(request)
 
