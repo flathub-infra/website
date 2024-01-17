@@ -49,7 +49,6 @@ class EmailInfo(BaseModel):
     inform_only_moderators: bool = False
 
 
-
 def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
     data = {
         "env": settings.env,

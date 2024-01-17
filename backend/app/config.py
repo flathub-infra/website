@@ -76,6 +76,7 @@ class Settings(BaseSettings):
     smtp_password: str | None = None
     email_from: str | None = None
     email_from_name: str | None = "Flathub"
+    github_bot_token: str | None = None
 
 
 settings = Settings()

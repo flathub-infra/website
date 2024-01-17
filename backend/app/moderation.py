@@ -10,9 +10,9 @@ import requests as req
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
+from github import Github
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
-from github import Github
 
 from . import config, models, utils, worker
 from .db import get_json_key
@@ -89,9 +89,11 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         return
 
     title = f"Change in build {build_id} rejected"
-    body = (f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team, and rejected for the following reason:\n"
-            "\n"
-            f"> {comment}")
+    body = (
+        f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team, and rejected for the following reason:\n"
+        "\n"
+        f"> {comment}"
+    )
     repo.create_issue(title=title, body=body)
 
 
@@ -503,7 +505,7 @@ def submit_review(
 
     if request.is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject=f"Change in build #{request.build_id} approved"
+        subject = f"Change in build #{request.build_id} approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
         subject = f"Change in build #{request.build_id} rejected"
