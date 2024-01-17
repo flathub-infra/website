@@ -19,6 +19,7 @@ from .emails import EmailCategory, EmailInfo
 from .login_info import moderator_only, moderator_or_app_author_only
 from .logins import LoginStatusDep
 from .summary import parse_summary
+from .verification import get_verification_status
 
 router = APIRouter(prefix="/moderation")
 
@@ -471,17 +472,26 @@ def submit_review(
             request.job_id, "Failed", "The review was rejected by a moderator."
         )
 
+    inform_only_moderators = False
+    verification_status = get_verification_status(request.appid)
+    if not verification_status.verified:
+        inform_only_moderators = True
+
+    if request.is_approved:
+        category = EmailCategory.MODERATION_APPROVED
+        subject=f"Change in build #{request.build_id} approved"
+    else:
+        category = EmailCategory.MODERATION_REJECTED
+        subject = f"Change in build #{request.build_id} rejected"
+
     worker.send_email.send(
         EmailInfo(
             user_id=None,
             app_id=request.appid,
             inform_moderators=True,
-            category=EmailCategory.MODERATION_APPROVED
-            if request.is_approved
-            else EmailCategory.MODERATION_REJECTED,
-            subject=f"Change in build #{request.build_id} approved"
-            if request.is_approved
-            else f"Change in build #{request.build_id} rejected",
+            inform_only_moderators=inform_only_moderators,
+            category=category,
+            subject=subject,
             template_data={
                 "build_id": request.build_id,
                 "job_id": request.job_id,
