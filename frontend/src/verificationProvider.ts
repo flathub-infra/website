@@ -1,4 +1,4 @@
-import { AuthInfo, UserInfo } from "./types/Login"
+import { Auths, UserInfo } from "./codegen"
 
 export type VerificationProvider = "github" | "gitlab" | "gnome" | "kde"
 
@@ -10,7 +10,7 @@ export function getUserName(info: UserInfo): string | undefined {
   return info.displayname ?? getFirstAuth(info.auths).login
 }
 
-function getFirstAuth(auths: Record<VerificationProvider, AuthInfo>) {
+function getFirstAuth(auths: Auths) {
   if (auths.github) {
     return auths.github
   }

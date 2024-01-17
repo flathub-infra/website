@@ -105,7 +105,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
         )}
       </div>
     )
-  } else if (user.info && user.info["is-moderator"]) {
+  } else if (user.info && user.info.is_moderator) {
     buttons = (
       <>
         <Button

@@ -13,7 +13,6 @@ import { Menu, Popover, Transition } from "@headlessui/react"
 import { toast } from "react-toastify"
 import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
-import { UserInfo } from "src/types/Login"
 import { getUserName } from "src/verificationProvider"
 import { QueryClient } from "@tanstack/react-query"
 
@@ -21,6 +20,7 @@ import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { authApi } from "src/api"
+import { UserInfo } from "src/codegen"
 
 const navigation = [
   {
@@ -37,17 +37,17 @@ let userNavigation = [
   {
     name: "Moderation Dashboard",
     href: "/moderation",
-    condition: (user: UserInfo) => user?.["is-moderator"],
+    condition: (user: UserInfo) => user?.is_moderator,
   },
   {
     name: "Quality Moderation Dashboard",
     href: "/quality-moderation",
-    condition: (user: UserInfo) => user?.["is-quality-moderator"],
+    condition: (user: UserInfo) => user?.is_quality_moderator,
   },
   {
     name: "App picks",
     href: "/app-picks",
-    condition: (user: UserInfo) => user?.["is-quality-moderator"],
+    condition: (user: UserInfo) => user?.is_quality_moderator,
   },
 ]
 

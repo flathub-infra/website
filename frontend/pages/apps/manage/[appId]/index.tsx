@@ -50,7 +50,7 @@ export default function AppManagementPage({
     enabled: !!app.id,
   })
 
-  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
+  if (!IS_PRODUCTION || user.info?.is_moderator) {
     tabs.push(
       {
         name: t("payment"),
@@ -73,7 +73,7 @@ export default function AppManagementPage({
     content: <AppDevModeration appId={app.id} />,
   })
 
-  if (!IS_PRODUCTION || user.info?.["is-moderator"]) {
+  if (!IS_PRODUCTION || user.info?.is_moderator) {
     if (inviteQuery.data?.data?.is_direct_upload_app) {
       tabs.push({
         name: t("developers"),
@@ -89,7 +89,7 @@ export default function AppManagementPage({
 
   // User must be a developer of the app to see these controls
   let content: ReactElement
-  if (user.info?.["dev-flatpaks"].includes(app.id)) {
+  if (user.info?.dev_flatpaks.includes(app.id)) {
     content = (
       <>
         <div className="space-y-8">

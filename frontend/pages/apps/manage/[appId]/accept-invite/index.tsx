@@ -19,7 +19,7 @@ export default function AcceptInvitePage({ app }) {
   const userDispatch = useUserDispatch()
 
   useEffect(() => {
-    if (user.info?.["dev-flatpaks"].includes(app.id)) {
+    if (user.info?.dev_flatpaks.includes(app.id)) {
       router.push(`/apps/manage/${app.id}`)
     }
   }, [app.id, router, user.info])
@@ -44,7 +44,7 @@ export default function AcceptInvitePage({ app }) {
           <div className="mt-8 w-1/2 space-y-4">
             <Button
               onClick={async () => {
-                if (user.info?.["accepted-publisher-agreement-at"]) {
+                if (user.info?.accepted_publisher_agreement_at) {
                   await inviteApi.acceptInviteInvitesAppIdAcceptPost(app.id, {
                     withCredentials: true,
                   })

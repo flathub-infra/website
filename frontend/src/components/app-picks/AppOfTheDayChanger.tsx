@@ -28,7 +28,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
       return getAppOfTheDayInfo
     },
-    enabled: !!user.info?.["is-quality-moderator"],
+    enabled: !!user.info?.is_quality_moderator,
   })
 
   const mutateAppOfTheDay = useMutation({

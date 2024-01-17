@@ -50,7 +50,11 @@ import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { LoginMethod } from "../model"
 // @ts-ignore
+import { RefreshDevFlatpaksReturn } from "../model"
+// @ts-ignore
 import { UserDeleteRequest } from "../model"
+// @ts-ignore
+import { UserInfo } from "../model"
 /**
  * AuthApi - axios parameter creator
  * @export
@@ -610,7 +614,7 @@ export const AuthApiAxiosParamCreator = function (
       }
     },
     /**
-     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev-flatpaks\": [ \"org.people.human.Appname\" ],     \"owned-flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted-publisher-agreement-at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev-flatpaks is filtered against IDs available in AppStream
+     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev_flatpaks\": [ \"org.people.human.Appname\" ],     \"owned_flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted_publisher-agreement_at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev_flatpaks is filtered against IDs available in AppStream
      * @summary Get Userinfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1043,7 +1047,10 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<RefreshDevFlatpaksReturn>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
@@ -1103,7 +1110,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
       )
     },
     /**
-     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev-flatpaks\": [ \"org.people.human.Appname\" ],     \"owned-flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted-publisher-agreement-at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev-flatpaks is filtered against IDs available in AppStream
+     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev_flatpaks\": [ \"org.people.human.Appname\" ],     \"owned_flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted_publisher-agreement_at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev_flatpaks is filtered against IDs available in AppStream
      * @summary Get Userinfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -1111,7 +1118,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
     async getUserinfoAuthUserinfoGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserInfo>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getUserinfoAuthUserinfoGet(options)
@@ -1357,7 +1364,7 @@ export const AuthApiFactory = function (
      */
     doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<RefreshDevFlatpaksReturn> {
       return localVarFp
         .doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(options)
         .then((request) => request(axios, basePath))
@@ -1389,12 +1396,12 @@ export const AuthApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev-flatpaks\": [ \"org.people.human.Appname\" ],     \"owned-flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted-publisher-agreement-at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev-flatpaks is filtered against IDs available in AppStream
+     * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev_flatpaks\": [ \"org.people.human.Appname\" ],     \"owned_flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted_publisher-agreement_at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev_flatpaks is filtered against IDs available in AppStream
      * @summary Get Userinfo
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getUserinfoAuthUserinfoGet(options?: any): AxiosPromise<void> {
+    getUserinfoAuthUserinfoGet(options?: any): AxiosPromise<UserInfo> {
       return localVarFp
         .getUserinfoAuthUserinfoGet(options)
         .then((request) => request(axios, basePath))
@@ -1642,7 +1649,7 @@ export class AuthApi extends BaseAPI {
   }
 
   /**
-   * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev-flatpaks\": [ \"org.people.human.Appname\" ],     \"owned-flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted-publisher-agreement-at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev-flatpaks is filtered against IDs available in AppStream
+   * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev_flatpaks\": [ \"org.people.human.Appname\" ],     \"owned_flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted_publisher-agreement_at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev_flatpaks is filtered against IDs available in AppStream
    * @summary Get Userinfo
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

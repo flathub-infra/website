@@ -65,7 +65,7 @@ export default function QualityModerationDashboard() {
           signal,
         },
       ),
-    enabled: !!user.info?.["is-quality-moderator"],
+    enabled: !!user.info?.is_quality_moderator,
     placeholderData: (previousData, previousQuery) => previousData,
   })
 
@@ -196,7 +196,7 @@ export default function QualityModerationDashboard() {
 
   let content: ReactElement
 
-  if (!user.info || !user.info["is-quality-moderator"]) {
+  if (!user.info || !user.info.is_quality_moderator) {
     content = (
       <>
         <h1 className="my-8">{t("whoops")}</h1>

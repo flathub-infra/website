@@ -1,4 +1,4 @@
-import { VerificationProvider } from "src/verificationProvider"
+import { UserInfo } from "src/codegen"
 
 export interface LoginProvider {
   method: string
@@ -7,23 +7,6 @@ export interface LoginProvider {
 
 export interface LoginRedirect {
   redirect: string
-}
-
-// Corresponds to body returned by `/auth/userinfo`
-export interface AuthInfo {
-  avatar?: string
-  login?: string
-}
-export interface UserInfo {
-  displayname?: string
-  "dev-flatpaks": string[]
-  "owned-flatpaks": string[]
-  "invited-flatpaks": string[]
-  "invite-code": string
-  auths: Record<VerificationProvider, AuthInfo>
-  "default-account"?: string
-  "is-moderator": boolean
-  "accepted-publisher-agreement-at": string | null
 }
 
 // State houses user info, along with whether it's currently mid-request
