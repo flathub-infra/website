@@ -12,6 +12,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
+from github import Github
 
 from . import config, models, utils, worker
 from .db import get_json_key
@@ -69,6 +70,29 @@ class ModerationRequestResponse(BaseModel):
 class ModerationApp(BaseModel):
     requests: list[ModerationRequestResponse]
     requests_count: int
+
+
+def create_github_build_rejection_issue(request: models.ModerationRequest):
+    gh_token = config.settings.github_bot_token
+    if not gh_token:
+        return
+
+    gh = Github(gh_token)
+
+    app_id = request.appid
+    build_id = request.build_id
+    build_log_url = request.build_log_url
+    comment = request.comment
+
+    repo = gh.get_repo(f"flathub/{app_id}")
+    if not repo:
+        return
+
+    title = f"Change in build {build_id} rejected"
+    body = (f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team, and rejected for the following reason:\n"
+            "\n"
+            f"> {comment}")
+    repo.create_issue(title=title, body=body)
 
 
 def sort_lists_in_dict(data: dict) -> dict:
@@ -476,8 +500,6 @@ def submit_review(
 
     inform_only_moderators = False
     verification_status = get_verification_status(request.appid)
-    if not verification_status.verified:
-        inform_only_moderators = True
 
     if request.is_approved:
         category = EmailCategory.MODERATION_APPROVED
@@ -485,6 +507,10 @@ def submit_review(
     else:
         category = EmailCategory.MODERATION_REJECTED
         subject = f"Change in build #{request.build_id} rejected"
+
+    if not verification_status.verified:
+        inform_only_moderators = True
+        create_github_build_rejection_issue(request)
 
     worker.send_email.send(
         EmailInfo(
