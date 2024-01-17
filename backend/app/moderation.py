@@ -70,6 +70,15 @@ class ModerationApp(BaseModel):
     requests_count: int
 
 
+def sort_lists_in_dict(data: dict) -> dict:
+    if isinstance(data, dict):
+        for key, value in data.items():
+            data[key] = sort_lists_in_dict(value)
+    elif isinstance(data, list):
+        data.sort()
+    return data
+
+
 @router.get(
     "/apps", status_code=200, response_model_exclude_none=True, tags=["moderation"]
 )
@@ -342,6 +351,9 @@ def submit_review_request(
                                         keys[f"{key}-{perm}"] = build_perm.get(key)
 
         if len(keys) > 0:
+            keys = sort_lists_in_dict(keys)
+            current_values = sort_lists_in_dict(current_values)
+
             # Create a moderation request
             request = models.ModerationRequest(
                 appid=app_id,
