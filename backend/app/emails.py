@@ -46,6 +46,8 @@ class EmailInfo(BaseModel):
     template_data: dict[str, Any]
     # Only works when app_id is set and email is not user specific
     inform_moderators: bool = False
+    inform_only_moderators: bool = False
+
 
 
 def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
@@ -108,32 +110,33 @@ def send_email(info: EmailInfo, db):
     messages: list[tuple[str, MIMEText]] = []
 
     if info.app_id is not None:
-        # Get the developers of the app
-        by_github_repo = (
-            db.session.query(models.FlathubUser)
-            .filter(
-                models.FlathubUser.id.in_(
-                    select(models.GithubAccount.user).where(
-                        models.GithubAccount.id
-                        == models.GithubRepository.github_account,
-                        models.GithubRepository.reponame == info.app_id,
+        if not info.inform_only_moderators:
+            # Get the developers of the app
+            by_github_repo = (
+                db.session.query(models.FlathubUser)
+                .filter(
+                    models.FlathubUser.id.in_(
+                        select(models.GithubAccount.user).where(
+                            models.GithubAccount.id
+                            == models.GithubRepository.github_account,
+                            models.GithubRepository.reponame == info.app_id,
+                        )
                     )
                 )
+                .all()
             )
-            .all()
-        )
-        for user in by_github_repo:
-            messages.append(_create_message(user, info, db))
-
-        direct_upload_app = models.DirectUploadApp.by_app_id(db, info.app_id)
-        if direct_upload_app is not None:
-            by_direct_upload = models.DirectUploadAppDeveloper.by_app(
-                db, direct_upload_app
-            )
-            for _dev, user in by_direct_upload:
+            for user in by_github_repo:
                 messages.append(_create_message(user, info, db))
 
-        if info.inform_moderators:
+            direct_upload_app = models.DirectUploadApp.by_app_id(db, info.app_id)
+            if direct_upload_app is not None:
+                by_direct_upload = models.DirectUploadAppDeveloper.by_app(
+                    db, direct_upload_app
+                )
+                for _dev, user in by_direct_upload:
+                    messages.append(_create_message(user, info, db))
+
+        if info.inform_only_moderators or info.inform_moderators:
             moderators = db.session.query(models.FlathubUser).filter_by(
                 is_moderator=True
             )
