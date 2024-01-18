@@ -6,9 +6,8 @@ import { useRouter } from "next/router"
 import Breadcrumbs from "src/components/Breadcrumbs"
 
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import { fetchCategories, fetchCategory } from "../../../../src/fetchers"
+import { fetchCategory } from "../../../../src/fetchers"
 import {
-  Category,
   categoryToName,
   getSubcategory,
   subcategoryToName,

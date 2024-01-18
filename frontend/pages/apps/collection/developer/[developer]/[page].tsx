@@ -3,10 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../../src/components/application/Collection"
-import {
-  fetchDeveloperApps,
-  fetchDevelopers,
-} from "../../../../../src/fetchers"
+import { fetchDeveloperApps } from "../../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,

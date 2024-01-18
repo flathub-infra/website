@@ -9,7 +9,6 @@ export const SUMMARY_DETAILS = (id: string): string =>
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
 export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP: string = `${BASE_URI}/search`
-export const RUNTIMES: string = `${BASE_URI}/runtimes`
 
 export const POPULAR_LAST_MONTH_URL = (
   page?: number,
@@ -33,7 +32,6 @@ export const VERIFIED_APPS_URL = (page?: number, per_page?: number): string =>
   page && per_page
     ? `${BASE_URI}/collection/verified?page=${page}&per_page=${per_page}`
     : `${BASE_URI}/collection/verified`
-export const CATEGORIES_URL: string = `${BASE_URI}/categories`
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,
@@ -57,11 +55,6 @@ export const SUBCATEGORY_URL = (
     return `${BASE_URI}/category/${category}/subcategories/${subcategory}`
   }
 }
-
-export const ADDONS_URL = (appid: string): string =>
-  `${BASE_URI}/addon/${appid}`
-
-export const DEVELOPERS_URL: string = `${BASE_URI}/developer`
 
 export const DEVELOPER_URL = (
   developer: string,
@@ -99,5 +92,3 @@ export const IS_PRODUCTION: boolean =
 export const STRIPE_MAX_PAYMENT = 999999.99
 // Flathub enforces a minimum payment amount of $1 to cover fees
 export const FLATHUB_MIN_PAYMENT = 1
-
-export const REQUEST_ORG_ACCESS_LINK_GITHUB: string = `${BASE_URI}/verification/request-organization-access/github`
