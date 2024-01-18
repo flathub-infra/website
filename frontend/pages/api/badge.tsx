@@ -48,6 +48,21 @@ async function createNotoTCSemiBold() {
   }
 }
 
+async function createNotoTamilSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansTamil-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansTamil-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
@@ -161,6 +176,7 @@ export default async function handler(
       fonts: [
         (await createInterSemiBold()) as any,
         (await createNotoTCSemiBold()) as any,
+        (await createNotoTamilSemiBold()) as any,
       ],
     },
   )
