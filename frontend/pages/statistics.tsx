@@ -2,7 +2,7 @@ import { NextSeo } from "next-seo"
 import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { fetchRuntimes, fetchStats } from "../src/fetchers"
+import { fetchStats } from "../src/fetchers"
 import { Stats } from "../src/types/Stats"
 import styles from "./statistics.module.scss"
 import "chart.js/auto"
@@ -17,7 +17,7 @@ import { useTheme } from "next-themes"
 import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
-import { qualityModerationApi } from "src/api"
+import { appApi, qualityModerationApi } from "src/api"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 
@@ -272,7 +272,7 @@ const Statistics = ({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const { data: stats } = await fetchStats()
 
-  const { data: runtimes } = await fetchRuntimes()
+  const { data: runtimes } = await appApi.getRuntimeListRuntimesGet()
 
   return {
     props: {

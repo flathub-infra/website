@@ -10,7 +10,6 @@ import { fetchSubcategory } from "../../../../../../src/fetchers"
 import {
   Category,
   categoryToName,
-  getSubcategory,
   subcategoryToName,
 } from "../../../../../../src/types/Category"
 import {

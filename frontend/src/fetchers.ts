@@ -12,14 +12,9 @@ import {
   STATS_DETAILS,
   STATS,
   DEVELOPER_URL,
-  REQUEST_ORG_ACCESS_LINK_GITHUB,
   VERIFIED_APPS_URL,
-  CATEGORIES_URL,
-  DEVELOPERS_URL,
   SUBCATEGORY_URL,
   APPSTREAM_URL,
-  RUNTIMES,
-  ADDONS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -30,6 +25,7 @@ import {
   MeilisearchResponseLimited,
 } from "./meilisearch"
 import axios from "axios"
+import { appApi } from "./api"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -105,10 +101,6 @@ export async function fetchCollectionVerified(page: number, per_page: number) {
   )
 }
 
-export async function fetchCategories() {
-  return axios.get<Category[]>(CATEGORIES_URL)
-}
-
 export async function fetchCategory(
   category: keyof typeof Category,
   page?: number,
@@ -128,10 +120,6 @@ export async function fetchSubcategory(
   return axios.get<MeilisearchResponse<AppsIndex>>(
     SUBCATEGORY_URL(category, subcategory, page, per_page),
   )
-}
-
-export async function fetchDevelopers() {
-  return axios.get<string[]>(DEVELOPERS_URL)
 }
 
 export async function fetchDeveloperApps(
@@ -176,16 +164,8 @@ export async function fetchSearchQuery(
   )
 }
 
-export async function fetchGithubRequestOrgAccessLink() {
-  return axios.get<{ link: string }>(REQUEST_ORG_ACCESS_LINK_GITHUB)
-}
-
-export async function fetchRuntimes() {
-  return axios.get<{ [key: string]: number }>(RUNTIMES)
-}
-
 export async function fetchAddons(appid: string) {
-  const addonList = await axios.get<string[]>(ADDONS_URL(appid))
+  const addonList = await appApi.getAddonsAddonAppIdGet(appid)
 
   const addonAppstreams = await Promise.all(addonList.data.map(fetchAppstream))
 

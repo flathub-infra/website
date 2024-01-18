@@ -4,7 +4,6 @@ import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
-import { fetchGithubRequestOrgAccessLink } from "src/fetchers"
 import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
@@ -40,7 +39,7 @@ const LoginVerification: FunctionComponent<Props> = ({
   const { data: githubOrgAccessLink } = useQuery({
     queryKey: ["github-org-access-link"],
     queryFn: async () => {
-      return fetchGithubRequestOrgAccessLink()
+      return verificationApi.requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet()
     },
   })
 
