@@ -866,7 +866,7 @@ class Auths(BaseModel):
 class UserInfo(BaseModel):
     is_moderator: bool
     is_quality_moderator: bool
-    displayname: str
+    displayname: Optional[str] = None
     dev_flatpaks: List[str] = []
     owned_flatpaks: List[str] = []
     invited_flatpaks: List[str] = []
