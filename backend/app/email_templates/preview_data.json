@@ -12,6 +12,7 @@
     "data": {
       "build_id": 123,
       "job_id": 456,
+      "build_log_url": "https://flathub.org",
       "requests": [
         {
           "request_type": "appdata",
@@ -33,6 +34,7 @@
     "data": {
       "build_id": 123,
       "job_id": 456,
+      "build_log_url": "https://flathub.org",
       "requests": [
         {
           "id": 277,
@@ -102,6 +104,7 @@
     "data": {
       "build_id": 123,
       "job_id": 456,
+      "build_log_url": "https://flathub.org",
       "request": {
         "request_type": "appdata",
         "request_data": {
@@ -121,6 +124,7 @@
     "data": {
       "build_id": 123,
       "job_id": 456,
+      "build_log_url": "https://flathub.org/builds",
       "request": {
         "request_type": "appdata",
         "request_data": {
