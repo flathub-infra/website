@@ -834,13 +834,13 @@ files = [
 
 [[package]]
 name = "meilisearch"
-version = "0.28.4"
+version = "0.29.0"
 description = "The python client for Meilisearch API."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "meilisearch-0.28.4-py3-none-any.whl", hash = "sha256:279706671fc5a1bc1e98e066c216f85a8f72bbb26de388aafefe3062b22cbaf9"},
-    {file = "meilisearch-0.28.4.tar.gz", hash = "sha256:db915654b14ed230fc7ca4285e4eae643e7673aee15d79c9cf287ef446f5c2cf"},
+    {file = "meilisearch-0.29.0-py3-none-any.whl", hash = "sha256:1f7c92b5d2f7e4add6d65298cdb8957715de519baa1bdc09fdd2a4a0101d6859"},
+    {file = "meilisearch-0.29.0.tar.gz", hash = "sha256:70b3e2ce63c50050cc29e02a04647c380e2ee6b79a557a64273c66687e1a2d2f"},
 ]
 
 [package.dependencies]
@@ -2124,4 +2124,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8a02dc6270382b274d1ad55106bc9420ad31725b914168f127ce0ff4ad05a819"
+content-hash = "53f297e10b71267d62f1831b40d2de0ca8c36175548a7ffea9cf153a9652eff9"
