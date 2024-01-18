@@ -6,7 +6,8 @@ import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import Badge from "../application/Badge"
-import { formatDistance, parseISO } from "date-fns"
+import { UTCDate } from "@date-fns/utc"
+import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
 import { ModerationRequestResponse } from "src/codegen/model"
@@ -83,7 +84,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
     const date = parseISO(request.handled_at).toLocaleDateString(
       getIntlLocale(i18n.language),
     )
-    const dateRel = formatDistance(parseISO(request.handled_at), new Date(), {
+    const dateRel = formatDistanceToNow(new UTCDate(request.handled_at), {
       addSuffix: true,
       locale: getLocale(i18n.language),
     })

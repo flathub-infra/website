@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
+    "@date-fns/utc": "^1.1.1",
     "@floating-ui/react-dom-interactions": "^0.13.3",
     "@headlessui/react": "^1.7.17",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
