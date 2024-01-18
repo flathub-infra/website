@@ -99,9 +99,9 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         "| --- | --- | --- |\n"
     )
 
-    for field in request.request_data['keys']:
-        old_val = request.request_data['current_values'][field]
-        new_val = request.request_data['keys'][field]
+    for field in request.request_data["keys"]:
+        old_val = request.request_data["current_values"][field]
+        new_val = request.request_data["keys"][field]
         body += f"| {field} | {old_val} | {new_val} |\n"
 
     repo.create_issue(title=title, body=body)
