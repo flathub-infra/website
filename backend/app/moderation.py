@@ -522,9 +522,9 @@ def submit_review(
         category = EmailCategory.MODERATION_REJECTED
         subject = f"Change in build #{request.build_id} rejected"
 
-    if not verification_status.verified:
-        inform_only_moderators = True
-        create_github_build_rejection_issue(request)
+        if not verification_status.verified:
+            inform_only_moderators = True
+            create_github_build_rejection_issue(request)
 
     worker.send_email.send(
         EmailInfo(
