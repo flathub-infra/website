@@ -44,13 +44,10 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
   const mutation = useMutation({
     mutationKey: ["review", request.id, modalState],
-    mutationFn: (approve: boolean) =>
+    mutationFn: (body: { approve: boolean; comment?: string }) =>
       moderationApi.submitReviewModerationRequestsIdReviewPost(
         request.id,
-        {
-          approve,
-          comment,
-        },
+        body,
         {
           withCredentials: true,
         },
@@ -65,7 +62,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   })
 
   const confirm = () => {
-    mutation.mutate(modalState === "approve")
+    mutation.mutate({ approve: modalState === "approve", comment: comment })
     setModalVisible(false)
     setComment(undefined)
   }
@@ -132,7 +129,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           variant="primary"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            mutation.mutate(true)
+            mutation.mutate({ approve: true, comment })
           }}
         >
           Approve
