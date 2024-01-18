@@ -439,6 +439,7 @@ def submit_review_request(
                         template_data={
                             "build_id": review_request.build_id,
                             "job_id": review_request.job_id,
+                            "build_log_url": request.build_log_url,
                             "requests": [
                                 {
                                     "request_type": request.request_type,
@@ -536,6 +537,7 @@ def submit_review(
             template_data={
                 "build_id": request.build_id,
                 "job_id": request.job_id,
+                "build_log_url": request.build_log_url,
                 "request": {
                     "request_type": request.request_type,
                     "request_data": json.loads(request.request_data),
