@@ -4,7 +4,7 @@
 
 {% block content %}
 
-A change in build #{{ build_id }} of {% include "app_name_and_id.html" %} has been reviewed and approved by the Flathub team.
+A change in build <a href="{{ build_log_url }}">#{{ build_id }}</a> of {% include "app_name_and_id.html" %} has been reviewed and approved by the Flathub team.
 
 {% if comment %}
   <h2>Comment:</h2>
