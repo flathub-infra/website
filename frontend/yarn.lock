@@ -2856,6 +2856,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@date-fns/utc@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@date-fns/utc@npm:1.1.1"
+  checksum: ee2dbff5596928406e9bce4b07b41a9e232c2e4529feeb481adc944eb9afc748ed757bd90e71ce530d8d4c89f2814696082be212a2e7bffdceae70e7435724fd
+  languageName: node
+  linkType: hard
+
 "@discoveryjs/json-ext@npm:^0.5.3":
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
@@ -10738,6 +10745,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.23.7"
     "@collapsed/react": "npm:^4.0.1"
+    "@date-fns/utc": "npm:^1.1.1"
     "@faker-js/faker": "npm:^8.3.1"
     "@floating-ui/react-dom-interactions": "npm:^0.13.3"
     "@headlessui/react": "npm:^1.7.17"

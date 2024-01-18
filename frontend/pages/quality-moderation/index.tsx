@@ -7,7 +7,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
-import { formatDistanceToNow, parseISO } from "date-fns"
+import { formatDistanceToNow } from "date-fns"
+import { getLocale } from "src/localize"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
@@ -16,6 +17,7 @@ import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { Fragment, ReactElement, useEffect, useState } from "react"
+import { UTCDate } from "@date-fns/utc"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
@@ -36,7 +38,7 @@ import { useUserContext } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
 
 export default function QualityModerationDashboard() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const user = useUserContext()
   const router = useRouter()
 
@@ -134,10 +136,13 @@ export default function QualityModerationDashboard() {
       header: "Moderation Last Updated",
       accessorFn: (row) => row.quality_moderation_status.last_updated,
       cell: ({ row }) => {
-        const date = parseISO(
+        const date = new UTCDate(
           row.original.quality_moderation_status.last_updated,
         )
-        return formatDistanceToNow(date, { addSuffix: true })
+        return formatDistanceToNow(date, {
+          addSuffix: true,
+          locale: getLocale(i18n.language),
+        })
       },
     },
     {
@@ -153,10 +158,13 @@ export default function QualityModerationDashboard() {
         if (!row.original.quality_moderation_status.review_requested_at) {
           return null
         }
-        const date = parseISO(
+        const date = new UTCDate(
           row.original.quality_moderation_status.review_requested_at,
         )
-        return formatDistanceToNow(date, { addSuffix: true })
+        return formatDistanceToNow(date, {
+          addSuffix: true,
+          locale: getLocale(i18n.language),
+        })
       },
     },
   ]
