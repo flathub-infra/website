@@ -93,7 +93,18 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team, and rejected for the following reason:\n"
         "\n"
         f"> {comment}"
+        "\n"
+        "## Changes\n"
+        "| Field | Old value | New value |\n"
+        "| --- | --- | --- |\n"
     )
+
+    keys = request.request_data.keys.keys() | request.request_data.current_values.keys()
+    for key in keys:
+        old_val = request.request_data.current_values.get(key)
+        new_val = request.request_data.keys.get(key)
+        body += f"| {key} | {old_val} | {new_val} |\n"
+
     repo.create_issue(title=title, body=body)
 
 
