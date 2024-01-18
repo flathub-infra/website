@@ -58,7 +58,7 @@ const ConfirmDialog: FunctionComponent<PropsWithChildren<Props>> = ({
               <Dialog.Description>{description}</Dialog.Description>
             )}
 
-            {entry ? toEnter : <></>}
+            {entry && toEnter}
 
             {children}
 
