@@ -112,13 +112,23 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
                     <td className="pe-5">{token.comment}</td>
                     <td className="pe-5">{token.repos.join(", ")}</td>
                     <td className="pe-5">{token.scopes.join(", ")}</td>
-                    <td className="pe-5">
+                    <td
+                      className="pe-5"
+                      title={new Date(token.issued_at * 1000).toLocaleString(
+                        getIntlLocale(i18n.language),
+                      )}
+                    >
                       {new Date(token.issued_at * 1000).toLocaleDateString(
                         getIntlLocale(i18n.language),
                       )}
                     </td>
                     <td className="pe-5">{token.issued_to}</td>
-                    <td className="pe-5">
+                    <td
+                      className="pe-5"
+                      title={new Date(token.expires_at * 1000).toLocaleString(
+                        getIntlLocale(i18n.language),
+                      )}
+                    >
                       {new Date(token.expires_at * 1000).toLocaleDateString(
                         getIntlLocale(i18n.language),
                       )}

@@ -81,21 +81,25 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   } else if (status === "success") {
     buttons = <></>
   } else if (request.handled_at) {
-    const date = parseISO(request.handled_at).toLocaleDateString(
-      getIntlLocale(i18n.language),
-    )
+    const date = parseISO(request.handled_at)
     const dateRel = formatDistanceToNow(new UTCDate(request.handled_at), {
       addSuffix: true,
       locale: getLocale(i18n.language),
     })
     const message = t(
       request.is_approved ? "moderation-approved-by" : "moderation-rejected-by",
-      { handledBy: request.handled_by, handledAt: date, handledAtRel: dateRel },
+      {
+        handledBy: request.handled_by,
+        handledAt: date.toLocaleDateString(getIntlLocale(i18n.language)),
+        handledAtRel: dateRel,
+      },
     )
 
     buttons = (
       <div>
-        <div>{message}</div>
+        <div title={date.toLocaleString(getIntlLocale(i18n.language))}>
+          {message}
+        </div>
         {request.comment && (
           <blockquote className="mt-2 border-s-4 border-flathub-sonic-silver ps-2">
             {request.comment}
@@ -200,7 +204,12 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           </h2>
           <div className="ms-auto flex gap-2 flex-col text-sm leading-none">
             <div className="ms-auto flex gap-2">
-              <span className="text-gray-500 dark:text-gray-400">
+              <span
+                className="text-gray-500 dark:text-gray-400"
+                title={parseISO(request.created_at).toLocaleString(
+                  getIntlLocale(i18n.language),
+                )}
+              >
                 {parseISO(request.created_at).toLocaleDateString(
                   getIntlLocale(i18n.language),
                 )}

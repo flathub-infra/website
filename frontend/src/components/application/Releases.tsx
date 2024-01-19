@@ -85,9 +85,9 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                   {latestRelease.timestamp && (
                     <div
                       className="text-sm"
-                      title={new Date(
+                      title={new UTCDate(
                         latestRelease.timestamp * 1000,
-                      ).toLocaleDateString(getIntlLocale(i18n.language))}
+                      ).toLocaleString(i18n.language)}
                     >
                       {formatDistanceToNow(
                         new UTCDate(latestRelease.timestamp * 1000),
