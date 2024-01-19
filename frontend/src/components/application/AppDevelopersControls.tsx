@@ -12,6 +12,7 @@ import Modal from "../Modal"
 import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
 import { Developer } from "src/codegen"
+import { abort } from "process"
 
 interface Props {
   app: Appstream
@@ -48,32 +49,44 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       content = (
         <div className="space-y-6">
           <div className="space-y-3">
-            {developersQuery.data.data.developers.map((developer) => (
-              <DeveloperRow
-                key={developer.id}
-                developer={developer}
-                app={app}
-                refresh={() => developersQuery.refetch()}
-                selfIsPrimary={selfIsPrimary}
-                isInvite={false}
-              />
-            ))}
+            {developersQuery.data.data.developers
+              .sort((a, b) => {
+                const sortByPrimary =
+                  Number(b.is_primary) - Number(a.is_primary)
+
+                if (sortByPrimary !== 0) {
+                  return sortByPrimary
+                }
+                return a.name.localeCompare(b.name)
+              })
+              .map((developer) => (
+                <DeveloperRow
+                  key={developer.id}
+                  developer={developer}
+                  app={app}
+                  refresh={() => developersQuery.refetch()}
+                  selfIsPrimary={selfIsPrimary}
+                  isInvite={false}
+                />
+              ))}
           </div>
 
           <div className="space-y-3">
             {developersQuery.data.data.invites.length > 0 && (
               <h3 className="text-xl font-bold">{t("invites")}</h3>
             )}
-            {developersQuery.data.data.invites.map((developer) => (
-              <DeveloperRow
-                key={developer.id}
-                developer={developer}
-                app={app}
-                refresh={() => developersQuery.refetch()}
-                selfIsPrimary={selfIsPrimary}
-                isInvite={true}
-              />
-            ))}
+            {developersQuery.data.data.invites
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((developer) => (
+                <DeveloperRow
+                  key={developer.id}
+                  developer={developer}
+                  app={app}
+                  refresh={() => developersQuery.refetch()}
+                  selfIsPrimary={selfIsPrimary}
+                  isInvite={true}
+                />
+              ))}
           </div>
 
           {selfIsPrimary && (

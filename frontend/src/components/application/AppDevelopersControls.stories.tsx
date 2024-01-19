@@ -21,19 +21,21 @@ export default {
   component: AppDevelopersControls,
 } as Meta<typeof AppDevelopersControls>
 
+function fakeDeveloper(isSelf: boolean = false, isPrimary: boolean = false) {
+  return {
+    id: faker.number.int(),
+    is_self: isSelf,
+    name: faker.person.fullName(),
+    is_primary: isPrimary,
+  }
+}
+
 export const PrimaryDeveloperOnly = {
   decorators: [
     (Story) => {
       queryClient.setQueryData(["developers", app.id], {
         data: {
-          developers: [
-            {
-              id: faker.number.int(),
-              is_self: true,
-              name: "My name",
-              is_primary: true,
-            },
-          ],
+          developers: [fakeDeveloper(true, true)],
           invites: [],
         } as DevelopersResponse,
       })
@@ -47,32 +49,19 @@ export const PrimaryDeveloperOnly = {
   render: () => <AppDevelopersControls app={app} />,
 }
 
-export const WithTwoInvites = {
+export const WithInvites = {
   decorators: [
     (Story) => {
       queryClient.setQueryData(["developers", app.id], {
         data: {
-          developers: [
-            {
-              id: faker.number.int(),
-              is_self: true,
-              name: faker.person.fullName(),
-              is_primary: true,
-            },
-          ],
+          developers: [fakeDeveloper(true, true)],
           invites: [
-            {
-              id: faker.number.int(),
-              is_self: false,
-              name: faker.person.fullName(),
-              is_primary: false,
-            },
-            {
-              id: faker.number.int(),
-              is_self: false,
-              name: faker.person.fullName(),
-              is_primary: false,
-            },
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
           ],
         } as DevelopersResponse,
       })
@@ -86,30 +75,20 @@ export const WithTwoInvites = {
   render: () => <AppDevelopersControls app={app} />,
 }
 
-export const WithTwoOtherDevs = {
+export const WithOtherDevs = {
   decorators: [
     (Story) => {
       queryClient.setQueryData(["developers", app.id], {
         data: {
           developers: [
-            {
-              id: faker.number.int(),
-              is_self: true,
-              name: faker.person.fullName(),
-              is_primary: true,
-            },
-            {
-              id: faker.number.int(),
-              is_self: false,
-              name: faker.person.fullName(),
-              is_primary: false,
-            },
-            {
-              id: faker.number.int(),
-              is_self: false,
-              name: faker.person.fullName(),
-              is_primary: false,
-            },
+            fakeDeveloper(true, true),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
+            fakeDeveloper(),
           ],
           invites: [],
         } as DevelopersResponse,
@@ -142,12 +121,7 @@ export const NotPrimaryDev = {
               name: faker.person.fullName(),
               is_primary: true,
             },
-            {
-              id: faker.number.int(),
-              is_self: false,
-              name: faker.person.fullName(),
-              is_primary: false,
-            },
+            fakeDeveloper(),
           ],
           invites: [],
         } as DevelopersResponse,
