@@ -120,9 +120,7 @@ const Header = () => {
 
   useEffect(() => {
     if (user.info) {
-      const avatarUrl = Object.values(user.info.auths).find(
-        (auth) => auth.avatar,
-      ).avatar
+      const avatarUrl = user.info.default_account.avatar
 
       setUserAvatarUrl(avatarUrl)
     }
@@ -489,11 +487,7 @@ const Header = () => {
                         <div className="flex-shrink-0">
                           <Image
                             className="rounded-full"
-                            src={
-                              Object.values(user.info.auths).find(
-                                (auth) => auth.avatar,
-                              ).avatar
-                            }
+                            src={user.info.default_account.avatar}
                             width="38"
                             height="38"
                             alt={t("user-avatar", {
