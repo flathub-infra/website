@@ -872,7 +872,7 @@ class UserInfo(BaseModel):
     invited_flatpaks: List[str] = []
     invite_code: str
     accepted_publisher_agreement_at: Optional[datetime]
-    default_account: None
+    default_account: AuthInfo
     auths: Auths
 
 
@@ -912,7 +912,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
         user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
         db.session.commit()
 
-    default_account = user.get_default_account(db)
+    default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
 
     appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
     dev_flatpaks = user.dev_flatpaks(db)
@@ -934,16 +934,20 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
         if account.avatar_url:
             auths[account.provider]["avatar"] = account.avatar_url
 
+    defaultAccountInfo = AuthInfo(
+        avatar=default_account.avatar_url, login=default_account.login
+    )
+
     return UserInfo(
         is_moderator=user.is_moderator,
         is_quality_moderator=user.is_quality_moderator,
-        displayname=default_account.display_name,
+        displayname=default_account.display_name if default_account else None,
         dev_flatpaks=sorted(dev_flatpaks),
         owned_flatpaks=sorted(owned_flatpaks),
         invited_flatpaks=sorted(invited_flatpaks),
         invite_code=user.invite_code,
         accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
-        default_account=user.default_account,
+        default_account=defaultAccountInfo,
         auths=auths,
     )
 
