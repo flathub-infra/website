@@ -177,7 +177,13 @@ const TransactionHeader = ({
         </div>
       </div>
       <div className="flex items-center gap-1 text-sm font-medium">
-        <div>{prettyUpdated}</div>
+        <div
+          title={new Date(updated * 1000).toLocaleString(
+            getIntlLocale(i18n.language),
+          )}
+        >
+          {prettyUpdated}
+        </div>
         <div>{t(`status-${shownStatus}`)}</div>
       </div>
     </div>
