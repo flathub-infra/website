@@ -14,6 +14,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { AuthInfo } from "./auth-info"
+// May contain unused imports in some cases
+// @ts-ignore
 import { Auths } from "./auths"
 
 /**
@@ -39,7 +42,7 @@ export interface UserInfo {
    * @type {string}
    * @memberof UserInfo
    */
-  displayname: string
+  displayname?: string | null
   /**
    *
    * @type {Array<string>}
@@ -72,10 +75,10 @@ export interface UserInfo {
   accepted_publisher_agreement_at: string | null
   /**
    *
-   * @type {any}
+   * @type {AuthInfo}
    * @memberof UserInfo
    */
-  default_account: any | null
+  default_account: AuthInfo
   /**
    *
    * @type {Auths}
