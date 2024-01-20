@@ -62,7 +62,9 @@ def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
     user_repos = [
         repo.full_name.removeprefix("flathub/")
         for repo in ghuser.get_repos(affiliation="collaborator")
-        if repo.full_name.startswith("flathub/") and repo.permissions.push
+        if repo.full_name.startswith("flathub/")
+        and repo.permissions.push
+        and not repo.archived
     ]
 
     gh_teams = [
@@ -72,7 +74,7 @@ def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
         repo.full_name.removeprefix("flathub/")
         for team in gh_teams
         for repo in team.get_repos()
-        if repo.permissions.push
+        if repo.permissions.push and not repo.archived
     ]
 
     repos = list(set(user_repos + gh_team_repos))
