@@ -29,5 +29,5 @@ export interface AuthInfo {
    * @type {string}
    * @memberof AuthInfo
    */
-  avatar: string
+  avatar?: string | null
 }

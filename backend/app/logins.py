@@ -853,7 +853,7 @@ def continue_oauth_flow(
 
 class AuthInfo(BaseModel):
     login: str
-    avatar: str
+    avatar: Optional[str] = None
 
 
 class Auths(BaseModel):
