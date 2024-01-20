@@ -2,7 +2,6 @@ import { formatDistanceToNow } from "date-fns"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useRef, useState } from "react"
 import { getIntlLocale, getLocale } from "../../localize"
-import { UTCDate } from "@date-fns/utc"
 
 import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
@@ -85,12 +84,12 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                   {latestRelease.timestamp && (
                     <div
                       className="text-sm"
-                      title={new UTCDate(
+                      title={new Date(
                         latestRelease.timestamp * 1000,
                       ).toLocaleString(i18n.language)}
                     >
                       {formatDistanceToNow(
-                        new UTCDate(latestRelease.timestamp * 1000),
+                        new Date(latestRelease.timestamp * 1000),
                         { addSuffix: true, locale: getLocale(i18n.language) },
                       )}
                     </div>
@@ -105,7 +104,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                       (
                       {t("build-x", {
                         "build-ago": formatDistanceToNow(
-                          new UTCDate(summary.timestamp * 1000),
+                          new Date(summary.timestamp * 1000),
                           { addSuffix: true, locale: getLocale(i18n.language) },
                         ),
                       })}
