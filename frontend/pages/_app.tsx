@@ -22,6 +22,7 @@ import { Inter } from "next/font/google"
 import * as Sentry from "@sentry/react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { MotionConfig } from "framer-motion"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import cardImage from "../public/img/card.webp"
 import { Fragment } from "react"
@@ -91,6 +92,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               }
               rtl={i18n.dir() === "rtl"}
             />
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
         </MotionConfig>
       </ThemeProvider>
