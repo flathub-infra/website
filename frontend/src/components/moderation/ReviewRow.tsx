@@ -6,7 +6,6 @@ import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import Badge from "../application/Badge"
-import { UTCDate } from "@date-fns/utc"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
@@ -81,8 +80,8 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   } else if (status === "success") {
     buttons = <></>
   } else if (request.handled_at) {
-    const date = parseISO(request.handled_at)
-    const dateRel = formatDistanceToNow(new UTCDate(request.handled_at), {
+    const date = parseISO(request.handled_at + "Z")
+    const dateRel = formatDistanceToNow(date, {
       addSuffix: true,
       locale: getLocale(i18n.language),
     })
@@ -206,11 +205,11 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
             <div className="ms-auto flex gap-2">
               <span
                 className="text-gray-500 dark:text-gray-400"
-                title={parseISO(request.created_at).toLocaleString(
+                title={parseISO(request.created_at + "Z").toLocaleString(
                   getIntlLocale(i18n.language),
                 )}
               >
-                {parseISO(request.created_at).toLocaleDateString(
+                {parseISO(request.created_at + "Z").toLocaleDateString(
                   getIntlLocale(i18n.language),
                 )}
               </span>

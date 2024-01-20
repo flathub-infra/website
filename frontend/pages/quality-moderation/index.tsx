@@ -7,8 +7,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
-import { formatDistanceToNow } from "date-fns"
-import { getIntlLocale, getLocale } from "src/localize"
+import { formatDistanceToNow, parseISO } from "date-fns"
+import { getLocale } from "src/localize"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
@@ -17,7 +17,6 @@ import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { Fragment, ReactElement, useEffect, useState } from "react"
-import { UTCDate } from "@date-fns/utc"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
@@ -134,10 +133,10 @@ export default function QualityModerationDashboard() {
     {
       id: "moderation-last-updated",
       header: "Moderation Last Updated",
-      accessorFn: (row) => row.quality_moderation_status.last_updated,
+      accessorFn: (row) => row.quality_moderation_status.last_updated + "Z",
       cell: ({ row }) => {
-        const date = new UTCDate(
-          row.original.quality_moderation_status.last_updated,
+        const date = parseISO(
+          row.original.quality_moderation_status.last_updated + "Z",
         )
         return (
           <span title={date.toLocaleString(i18n.language)}>
@@ -157,13 +156,14 @@ export default function QualityModerationDashboard() {
     {
       id: "review-requested",
       header: "Review Requested",
-      accessorFn: (row) => row.quality_moderation_status.review_requested_at,
+      accessorFn: (row) =>
+        row.quality_moderation_status.review_requested_at + "Z",
       cell: ({ row }) => {
         if (!row.original.quality_moderation_status.review_requested_at) {
           return null
         }
-        const date = new UTCDate(
-          row.original.quality_moderation_status.review_requested_at,
+        const date = parseISO(
+          row.original.quality_moderation_status.review_requested_at + "Z",
         )
         return (
           <span title={date.toLocaleString(i18n.language)}>
