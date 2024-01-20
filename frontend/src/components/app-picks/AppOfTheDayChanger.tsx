@@ -106,7 +106,7 @@ const ComboboxItem = ({
         {selected && (
           <span
             className={clsx(
-              "absolute inset-y-0 right-0 flex items-center pr-4",
+              "absolute inset-y-0 right-0 flex items-center pe-4",
               active ? "text-white" : "text-flathub-bg-flathub-celestial-blue",
             )}
           >

@@ -155,7 +155,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                   title={t("open-in-new-tab")}
                   className={clsx(
                     "px-4",
-                    "text-flathub-dark-gunmetal dark:text-flathub-gainsborow flex items-center text-left",
+                    "text-flathub-dark-gunmetal dark:text-flathub-gainsborow flex items-center text-start",
                     "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-gainsborow/20 dark:active:bg-flathub-gainsborow/30 transition",
                     "last:rounded-b-xl",
                   )}
