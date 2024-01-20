@@ -17,6 +17,7 @@ import {
 import { qualityModerationApi } from "src/api"
 import { QualityModerationStatus } from "src/codegen"
 import { useTranslation } from "next-i18next"
+import Modal from "../Modal"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -72,6 +73,8 @@ const ReviewButton = ({
 }) => {
   const { t } = useTranslation()
 
+  const [modalVisible, setModalVisible] = useState(false)
+
   const requestReviewMutation = useMutation({
     mutationFn: () =>
       qualityModerationApi.requestReviewForAppQualityModerationAppIdRequestReviewPost(
@@ -82,6 +85,7 @@ const ReviewButton = ({
       ),
     onSuccess: () => {
       buttonClicked?.()
+      setModalVisible(false)
     },
   })
 
@@ -99,13 +103,32 @@ const ReviewButton = ({
         className="me-2 flex items-center gap-1"
         variant="secondary"
         onClick={() => {
-          requestReviewMutation.mutate()
+          setModalVisible(true)
         }}
       >
         <HiEnvelopeOpen className="w-5 h-5" />
         <div className="hidden sm:block">
           {t("quality-guideline.request-review")}
         </div>
+
+        <Modal
+          shown={modalVisible}
+          onClose={() => setModalVisible(false)}
+          title={t("quality-guideline.request-a-review-question")}
+          cancelButton={{
+            onClick: () => {
+              setModalVisible(false)
+            },
+          }}
+          submitButton={{
+            onClick: () => {
+              requestReviewMutation.mutate()
+            },
+            label: t("quality-guideline.request-review"),
+          }}
+        >
+          <span>{t("quality-guideline.request-review-description")}</span>
+        </Modal>
       </Button>
     )
   }
