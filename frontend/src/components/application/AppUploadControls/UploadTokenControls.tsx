@@ -79,28 +79,28 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
             <table className="mt-6 w-full">
               <thead>
                 <tr>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("id")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("name")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("repo")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("scopes")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("issued")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("issued-to")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("expires")}
                   </th>
-                  <th className="text-left pe-5 whitespace-nowrap">
+                  <th className="text-start pe-5 whitespace-nowrap">
                     {t("status")}
                   </th>
                 </tr>

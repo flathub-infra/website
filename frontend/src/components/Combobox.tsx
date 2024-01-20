@@ -48,7 +48,7 @@ export const FlathubCombobox = <
       <div className="relative mt-2">
         <Combobox.Input
           className={clsx(
-            "w-full rounded-md border-0 bg-flathub-white dark:bg-flathub-arsenic py-1.5 pl-3 pr-10",
+            "w-full rounded-md border-0 bg-flathub-white dark:bg-flathub-arsenic py-1.5 ps-3 pe-10",
             "text-gray-900 dark:text-flathub-lotion shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-0 focus:ring-2 focus:ring-inset",
             "focus:ring-flathub-celestial-blue sm:text-sm sm:leading-6",
             disabled && "bg-flathub-gainsborow dark:bg-flathub-granite-gray",
@@ -76,7 +76,7 @@ export const FlathubCombobox = <
                 value={item}
                 className={({ active }) =>
                   clsx(
-                    "relative cursor-default select-none py-2 pl-3 pr-9",
+                    "relative cursor-default select-none py-2 ps-3 pe-9",
                     active
                       ? "bg-flathub-celestial-blue text-flathub-white"
                       : "text-flathub-dark-gunmetal dark:text-flathub-lotion",
@@ -108,7 +108,7 @@ export const FlathubCombobox = <
                       {selected && (
                         <span
                           className={clsx(
-                            "absolute inset-y-0 right-0 flex items-center pr-4",
+                            "absolute inset-y-0 right-0 flex items-center pe-4",
                             active
                               ? "text-white"
                               : "text-flathub-bg-flathub-celestial-blue",

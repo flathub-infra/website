@@ -96,7 +96,7 @@ const ReviewButton = ({
   if (!review_requested_at) {
     return (
       <Button
-        className="mr-2 flex items-center gap-1"
+        className="me-2 flex items-center gap-1"
         variant="secondary"
         onClick={() => {
           requestReviewMutation.mutate()
@@ -112,7 +112,7 @@ const ReviewButton = ({
 
   return (
     <Button
-      className="mr-2 flex items-center gap-1"
+      className="me-2 flex items-center gap-1"
       variant="secondary"
       disabled
     >

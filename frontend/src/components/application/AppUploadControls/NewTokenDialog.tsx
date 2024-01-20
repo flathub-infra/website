@@ -89,7 +89,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
                 <input
                   id={`scope-${scope}`}
                   type="checkbox"
-                  className="mr-2"
+                  className="me-2"
                   checked={scopes.includes(scope)}
                   onChange={(event) => setScope(scope, event.target.checked)}
                   disabled={scope === "build"}

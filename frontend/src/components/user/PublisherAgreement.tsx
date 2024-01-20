@@ -26,7 +26,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
 
   const content = (
     <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
-      <h1 className="mb-8 mt-8 text-left text-4xl font-extrabold">
+      <h1 className="mb-8 mt-8 text-start text-4xl font-extrabold">
         {t("publisher-agreement")}
       </h1>
 

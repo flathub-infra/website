@@ -127,7 +127,7 @@ export const CarouselStrip = ({
                   <div
                     key={screenshot.src}
                     className={clsx(
-                      "lg:after:content-['|'] lg:after:last:content-[''] lg:after:ml-2",
+                      "lg:after:content-['|'] lg:after:last:content-[''] lg:after:ms-2",
                     )}
                   >
                     <span
