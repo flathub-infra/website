@@ -529,6 +529,8 @@
     "passed": "Passed",
     "not-passed": "Not passed",
     "request-review": "Request Review",
+    "request-a-review-question": "Do you want to request a review?",
+    "request-review-description": "Our team will review your app for quality problems. Please check back in a few days.",
     "review-requested": "Review Requested",
     "details": "Details",
     "high-quality-app-data": "High quality app data",
