@@ -60,7 +60,9 @@ def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
     gh = Github(gh_access_token)
     ghuser = gh.get_user()
     user_repos = [
-        repo.full_name.removeprefix("flathub/")
+        models.GithubRepo(
+            name=repo.full_name.removeprefix("flathub/"), archived=repo.archived
+        )
         for repo in ghuser.get_repos(affiliation="collaborator")
         if repo.full_name.startswith("flathub/") and repo.permissions.push
     ]
@@ -68,13 +70,17 @@ def refresh_repo_list(sqldb, gh_access_token: str, accountId: int):
     gh_teams = [
         team for team in ghuser.get_teams() if team.organization.login == "flathub"
     ]
+
     gh_team_repos = [
-        repo.full_name.removeprefix("flathub/")
+        models.GithubRepo(
+            name=repo.full_name.removeprefix("flathub/"), archived=repo.archived
+        )
         for team in gh_teams
         for repo in team.get_repos()
         if repo.permissions.push
     ]
 
+    gh_team_repos[0].name
     repos = list(set(user_repos + gh_team_repos))
     models.GithubRepository.unify_repolist(sqldb, accountId, repos)
 

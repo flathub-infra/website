@@ -268,6 +268,11 @@ class GithubFlowToken(Base):
         db.session.flush()
 
 
+class GithubRepo(BaseModel):
+    name: str
+    archived: bool
+
+
 class GithubRepository(Base):
     __tablename__ = "githubrepository"
 
@@ -278,24 +283,60 @@ class GithubRepository(Base):
     reponame = mapped_column(String, nullable=False)
 
     @staticmethod
-    def unify_repolist(db, accountId: int, repolist: list[str]):
-        all_names = set(repolist)
+    def unify_repolist(db, accountId: int, repolist: list[GithubRepo]):
+        all_repo_names = set([repo.name for repo in repolist])
         existing = db.session.query(GithubRepository).filter_by(
             github_account=accountId
         )
-        to_remove = [repo for repo in existing if repo.reponame not in all_names]
+        GithubRepository2.update_repolist(db, repolist)
+        to_remove = [
+            repo.name for repo in existing if repo.reponame not in all_repo_names
+        ]
         existing_names = set(repo.reponame for repo in existing)
-        to_add = [repo for repo in repolist if repo not in existing_names]
-        for repo in to_remove:
-            db.session.delete(repo)
-        for repo in to_add:
-            new_repo = GithubRepository(github_account=accountId, reponame=repo)
+        to_add = [repo.name for repo in repolist if repo not in existing_names]
+        for reponame in to_remove:
+            db.session.delete(reponame)
+        for reponame in to_add:
+            new_repo = GithubRepository(github_account=accountId, reponame=reponame)
             db.session.add(new_repo)
         db.session.flush()
 
+
+class GithubRepository2(Base):
+    __tablename__ = "githubrepository2"
+
+    id = mapped_column(Integer, primary_key=True)
+    reponame = mapped_column(String, nullable=False, unique=True)
+    archived = mapped_column(Boolean, default=False)
+
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
     @staticmethod
-    def all_by_account(db, account: GithubAccount) -> list["GithubRepository"]:
-        return db.session.query(GithubRepository).filter_by(github_account=account.id)
+    def update_repolist(db, repolist: list[GithubRepo]):
+        all_repos = [repo for repo in repolist]
+
+        current_repos = (
+            db.session.query(GithubRepository2)
+            .filter(GithubRepository2.reponame.in_(repolist))
+            .all()
+        )
+        for repo in all_repos:
+            repo_exists_in_db = next(x for x in current_repos if x.name == repo.name)
+
+            if repo_exists_in_db:
+                if repo_exists_in_db.archived == repo.archived:
+                    return
+                repo_exists_in_db.archived = repo.archived
+                repo_exists_in_db.updated_at = datetime.now()
+            else:
+                repo_exists_in_db = GithubRepository2(
+                    name=repo.name,
+                    archived=repo.archived,
+                )
+            db.session.add(repo_exists_in_db)
+
+        db.session.commit()
 
 
 class GitlabFlowToken(Base):
