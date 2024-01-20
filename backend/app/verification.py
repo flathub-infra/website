@@ -183,9 +183,10 @@ def _archive_github_repo(app_id: str):
     gh = Github(gh_token)
     repo = gh.get_repo(app_id)
     if repo.archived:
-        return
+        return False
 
     repo.edit(archived=True)
+    return True
 
 
 # Routes
@@ -945,6 +946,19 @@ def archive(
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
         )
 
+    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
+    if direct_upload_app is not None:
+        if direct_upload_app.archived:
+            return
+
+        direct_upload_app.archived = True
+        sqldb.session.commit()
+
+    if not direct_upload_app:
+        gh_repo_changed = _archive_github_repo(app_id)
+        if not gh_repo_changed:
+            return
+
     if app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(
             status_code=403,
@@ -966,15 +980,7 @@ def archive(
         token.revoked = True
         sqldb.session.commit()
 
-    worker.republish_app.send(app_id)
-
-    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
-    if direct_upload_app is not None:
-        direct_upload_app.archived = True
-        sqldb.session.commit()
-
-    if not direct_upload_app:
-        _archive_github_repo(app_id)
+    worker.republish_app.send(app_id, request.endoflife, request.endoflife_rebase)
 
 
 def register_to_app(app: FastAPI):
