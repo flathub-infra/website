@@ -10,12 +10,13 @@ from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
 from github import Github
 from github.GithubException import UnknownObjectException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
+from .upload_tokens import _jti
 
 
 class ErrorDetail(str, Enum):
@@ -57,6 +58,8 @@ class ErrorDetail(str, Enum):
     APP_ALREADY_EXISTS = "app_already_exists"
     # The user has not agreed to the publisher agreement
     MUST_ACCEPT_PUBLISHER_AGREEMENT = "must_accept_publisher_agreement"
+    # The flat-manager variables are not configured
+    FLAT_MANAGER_NOT_CONFIGURED = "flat_manager_not_configured"
 
 
 # Utility functions
@@ -264,6 +267,11 @@ class VerificationStatus(BaseModel):
     login_name: str | None = None
     login_is_organization: bool | None = None
     detail: str | None = None
+
+
+class ArchiveRequest(BaseModel):
+    endoflife: str
+    endoflife_rebase: str | None = None
 
 
 def _is_github_app(app_id: str) -> bool:
@@ -916,6 +924,55 @@ def enroll(
     is_verified = _get_existing_verification(app_id)
     if is_verified and not is_direct_upload:
         _create_direct_upload_app(login.user, app_id)
+        _archive_github_repo(app_id)
+
+
+@router.post("/{app_id}/archive", status_code=204, tags=["verification"])
+def archive(
+    request: ArchiveRequest,
+    login=Depends(logged_in),
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+):
+    if not config.settings.flat_manager_api:
+        raise HTTPException(
+            status_code=500,
+            detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
+        )
+
+    if app_id not in login.user.dev_flatpaks(sqldb):
+        raise HTTPException(
+            status_code=403,
+            detail=ErrorDetail.NOT_APP_DEVELOPER,
+        )
+    upload_tokens = models.UploadToken.by_app_id(sqldb, app_id)
+    flat_manager_jwt = utils.create_flat_manager_token(
+        "revoke_upload_token", ["tokenmanagement"], sub=""
+    )
+    for token in upload_tokens:
+        response = requests.post(
+            config.settings.flat_manager_api + "/api/v1/tokens/revoke",
+            headers={"Authorization": flat_manager_jwt},
+            json={"token_ids": [_jti(token)]},
+        )
+
+        if not response.ok:
+            raise HTTPException(status_code=500)
+        token.revoked = True
+        sqldb.session.commit()
+
+    worker.republish_app.send(app_id)
+
+    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
+    if direct_upload_app is not None:
+        direct_upload_app.archived = True
+        sqldb.session.commit()
+
+    if not direct_upload_app:
         _archive_github_repo(app_id)
 
 
