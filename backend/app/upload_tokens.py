@@ -126,7 +126,9 @@ def create_upload_token(
     request: UploadTokenRequest,
     login=Depends(login_state),
 ) -> NewTokenResponse:
-    if config.settings.flat_manager_api is None:
+    if not (
+        config.settings.flat_manager_api and config.settings.flat_manager_build_secret
+    ):
         raise HTTPException(
             status_code=500,
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
