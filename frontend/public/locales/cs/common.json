@@ -311,7 +311,7 @@
   "moderation-approved-by": "Schválil {{handledBy}} na adrese {{handledAt}} {{handledAtRel}}",
   "moderation-rejected-by": "Zamítnul {{handledBy}} na adrese {{handledAt}} {{handledAtRel}}",
   "not-verified": "Neověřeno",
-  "moderation-pending-reviews": "Čekající recenze",
+  "moderation-pending-reviews": "Čekající kontroly",
   "moderation-appstream-changes": "Změny Appstream",
   "moderation-appstream": "Appstream",
   "moderation-old-value": "Stará hodnota",
