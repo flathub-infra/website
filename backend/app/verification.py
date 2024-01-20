@@ -8,6 +8,7 @@ import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
+from github import Github
 from github.GithubException import UnknownObjectException
 from pydantic import BaseModel
 from sqlalchemy.sql import func
@@ -169,6 +170,19 @@ def _get_gnome_world_doap_maintainers(app_id: str) -> list[str]:
                     if account_name is not None:
                         maintainers.append(account_name.text)
     return maintainers
+
+
+def _archive_github_repo(app_id: str):
+    gh_token = config.settings.github_bot_token
+    if not gh_token:
+        return
+
+    gh = Github(gh_token)
+    repo = gh.get_repo(app_id)
+    if repo.archived:
+        return
+
+    repo.edit(archived=True)
 
 
 # Routes
@@ -882,6 +896,27 @@ def unverify(
             sqldb.session.commit()
 
         worker.republish_app.send(app_id)
+
+
+@router.post("/{app_id}/enroll", status_code=204, tags=["verification"])
+def enroll(
+    login=Depends(logged_in),
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+):
+    is_direct_upload = models.DirectUploadApp.by_app_id(sqldb, app_id) is not None
+
+    if is_direct_upload:
+        return
+
+    is_verified = _get_existing_verification(app_id)
+    if is_verified and not is_direct_upload:
+        _create_direct_upload_app(login.user, app_id)
+        _archive_github_repo(app_id)
 
 
 def register_to_app(app: FastAPI):
