@@ -74,7 +74,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <ThemeProvider attribute="class">
         <DefaultSeo
           dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
-          titleTemplate="%s | Flathub"
+          titleTemplate="%s | {t('Flathub')}"
           defaultTitle={t("flathub-apps-for-linux")}
           description={t("flathub-description")}
           languageAlternates={languages
