@@ -26,10 +26,10 @@ function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
 
 const ArrayWithNewlines = ({ array }: { array: string[] }) => {
   return array.map((v, i) => (
-    <Fragment key={i}>
+    <span key={i} className="break-all">
       {v}
       <br />
-    </Fragment>
+    </span>
   ))
 }
 
