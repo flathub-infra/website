@@ -873,7 +873,8 @@ def confirm_website_verification(
 
         sqldb.session.commit()
 
-        worker.republish_app.send(app_id)
+        if not new_app:
+            worker.republish_app.send(app_id)
 
     return result
 
