@@ -181,7 +181,8 @@ class FlathubUser(Base):
 
         direct_upload = DirectUploadAppDeveloper.by_developer(db, self)
         for _dev, app in direct_upload:
-            flatpaks.add(app.app_id)
+            if not app.archived:
+                flatpaks.add(app.app_id)
 
         return flatpaks
 
