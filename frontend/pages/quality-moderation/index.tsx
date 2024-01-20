@@ -301,7 +301,7 @@ export default function QualityModerationDashboard() {
                         <th
                           key={header.id}
                           colSpan={header.colSpan}
-                          className="py-13.5 h-20 text-sm font-normal first:rounded-tl-2xl last:rounded-tr-2xl sm:ps-0"
+                          className="h-20 text-sm font-normal"
                         >
                           {header.isPlaceholder ? null : (
                             <div className="flex w-full">
