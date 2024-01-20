@@ -178,7 +178,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
     >
       <table className="w-full table-fixed">
         <thead>
-          <tr className="text-start">
+          <tr className="text-left rtl:text-right">
             <th>{t("moderation-key")}</th>
             {!request.is_new_submission && <th>{t("moderation-old-value")}</th>}
             <th>
