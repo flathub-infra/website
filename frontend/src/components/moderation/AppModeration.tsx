@@ -103,18 +103,16 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           },
         ]}
       />
-      <div>
-        <h1 className="mt-8 text-4xl font-extrabold">
-          {appInfoQuery.data[0].name}
-        </h1>
+      <div className="flex flex-col">
+        <h1 className="text-4xl font-extrabold">{appInfoQuery.data[0].name}</h1>
         <Link
           href={`/apps/${appInfoQuery.data[0].id}`}
-          className="text-sm opacity-75"
+          className="text-sm no-underline hover:underline"
         >
           {appInfoQuery.data[0].id}
         </Link>
         <a
-          className="text-sm opacity-75"
+          className="text-sm no-underline hover:underline"
           href={
             appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
             `https://github.com/flathub/${appInfoQuery.data[0].id}`
