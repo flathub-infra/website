@@ -20,7 +20,6 @@ from .emails import EmailCategory, EmailInfo
 from .login_info import moderator_only, moderator_or_app_author_only
 from .logins import LoginStatusDep
 from .summary import parse_summary
-from .verification import get_verification_status
 
 router = APIRouter(prefix="/moderation")
 
@@ -517,7 +516,6 @@ def submit_review(
         )
 
     inform_only_moderators = False
-    verification_status = get_verification_status(request.appid)
 
     issue = None
     if request.is_approved:
@@ -527,7 +525,7 @@ def submit_review(
         category = EmailCategory.MODERATION_REJECTED
         subject = f"Change in build #{request.build_id} rejected"
 
-        if not verification_status.verified:
+        if not models.DirectUploadApp.by_app_id(sqldb, request.appid):
             inform_only_moderators = True
             issue = create_github_build_rejection_issue(request)
 
