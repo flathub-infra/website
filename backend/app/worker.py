@@ -1,6 +1,7 @@
 import contextlib
 import typing as T
 from datetime import datetime
+from typing import Optional
 
 import dramatiq
 import dramatiq.brokers.redis
@@ -128,7 +129,9 @@ def update():
 
 
 @dramatiq.actor
-def republish_app(app_id: str):
+def republish_app(
+    app_id: str, endoflife: Optional[str] = None, endoflife_rebase: Optional[str] = None
+):
     from .vending import VendingError
 
     if not settings.flat_manager_build_secret or not settings.flat_manager_api:
@@ -143,10 +146,16 @@ def republish_app(app_id: str):
     with requests.Session() as session:
         for repo in repos:
             try:
+                payload = {"app": app_id}
+                if endoflife:
+                    payload["endoflife"] = endoflife
+                if endoflife_rebase:
+                    payload["endoflife_rebase"] = endoflife_rebase
+
                 response = session.post(
                     f"{settings.flat_manager_api}/api/v1/repo/{repo}/republish",
                     headers={"Authorization": token},
-                    json={"app": app_id},
+                    json=payload,
                 )
 
                 if response.status_code != 200:
