@@ -72,7 +72,7 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer"
             >
-              Mastodon
+              {t("Mastodon")}
             </a>
           </div>
         </div>
@@ -109,7 +109,7 @@ const Footer = () => {
 
         <div className="m-3 min-w-[200px] sm:space-y-3">
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
-            Flathub
+            {t("Flathub")}
           </div>
           <div className="flex flex-col sm:space-y-3">
             <Link
