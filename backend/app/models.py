@@ -861,6 +861,10 @@ class UploadToken(Base):
     def by_id(db, token_id: int) -> Optional["UploadToken"]:
         return db.session.query(UploadToken).filter_by(id=token_id).first()
 
+    @staticmethod
+    def by_app_id(db, app_id: str) -> list["UploadToken"]:
+        return db.session.query(UploadToken).filter_by(app_id=app_id).all()
+
 
 # Wallet related content
 
