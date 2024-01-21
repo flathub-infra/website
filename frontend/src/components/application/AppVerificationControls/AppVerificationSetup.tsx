@@ -130,7 +130,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 
               <ConfirmDialog
                 isVisible={confirmUnverify}
-                prompt={t("unverify-app-prompt", { appId: app.id })}
+                prompt={t("unverify", { appId: app.id })}
                 action={t("unverify")}
                 actionVariant="destructive"
                 onConfirmed={() => {
@@ -144,7 +144,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                     })
                 }}
                 onCancelled={() => setConfirmUnverify(false)}
-              />
+              >
+                {t("unverify-app-prompt", { appId: app.id })}
+              </ConfirmDialog>
             </div>
           )
         }
