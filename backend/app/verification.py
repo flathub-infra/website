@@ -763,7 +763,8 @@ def verify_by_login_provider(
 
     sqldb.session.commit()
 
-    worker.republish_app.send(app_id)
+    if not new_app:
+        worker.republish_app.send(app_id)
 
 
 class LinkResponse(BaseModel):
