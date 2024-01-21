@@ -30,36 +30,34 @@ const WebsiteVerification: FunctionComponent<Props> = ({
 
   const setupWebsiteVerificationMutation = useMutation({
     mutationKey: ["website-verification", appId, isNewApp ?? false],
-    mutationFn: useCallback(async () => {
-      const result =
-        await verificationApi.setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
-          appId,
-          isNewApp,
-          {
-            withCredentials: true,
-          },
-        )
-      setReturnedToken(result.data.token)
-    }, [appId, setReturnedToken, isNewApp]),
+    mutationFn: () =>
+      verificationApi.setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
+        appId,
+        isNewApp,
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: (result) => setReturnedToken(result.data.token),
   })
 
   const confirmWebsiteVerificationMutation = useMutation({
     mutationKey: ["confirm-website-verification", appId, isNewApp ?? false],
-    mutationFn: useCallback(async () => {
-      const result =
-        await verificationApi.confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
-          appId,
-          isNewApp,
-          {
-            withCredentials: true,
-          },
-        )
+    mutationFn: () =>
+      verificationApi.confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
+        appId,
+        isNewApp,
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: (result) => {
       if (result.data.verified) {
         onVerified()
       } else {
         setConfirmResult(result.data)
       }
-    }, [appId, onVerified, setConfirmResult, isNewApp]),
+    },
   })
 
   const token = returnedToken ?? method.website_token

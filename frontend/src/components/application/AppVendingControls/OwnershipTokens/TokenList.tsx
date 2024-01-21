@@ -1,18 +1,13 @@
 import { Disclosure } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
-import {
-  FunctionComponent,
-  ReactElement,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 import { vendingApi } from "src/api"
-import { TokenList } from "src/codegen"
+import { TokenList as TokenListType } from "src/codegen"
+import { useQuery } from "@tanstack/react-query"
 
 interface Props {
   app: Appstream
@@ -24,37 +19,27 @@ interface Props {
 const TokenList: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
 
-  const [tokens, setTokens] = useState<TokenList>(null)
-  const [status, setStatus] = useState<
-    "idle" | "pending" | "success" | "error"
-  >("idle")
-  const [error, setError] = useState(null)
+  const [tokens, setTokens] = useState<TokenListType>(null)
 
-  const doFetch = useCallback(async () => {
-    try {
+  const query = useQuery({
+    queryKey: ["redeemable-tokens", app.id],
+    queryFn: async () => {
       const fetch =
         await vendingApi.getRedeemableTokensVendingappAppIdTokensGet(app.id, {
           withCredentials: true,
         })
       setTokens(fetch.data)
-      setStatus("success")
-    } catch (err) {
-      setStatus("error")
-      setError(err)
-    }
-  }, [app.id])
+    },
+    enabled: !!app.id,
+  })
 
-  useEffect(() => {
-    doFetch()
-  }, [app.id, doFetch])
-
-  if (["pending", "idle"].includes(status)) {
+  if (query.isPending) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
-  if (error) {
-    content = <p>{t(error)}</p>
+  if (query.isError) {
+    content = <p>{t(query.error.message)}</p>
   } else {
     content = (
       <div className="flex flex-col gap-2 rounded-2xl bg-flathub-white p-2 dark:bg-flathub-arsenic">
@@ -65,7 +50,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
             )}
           </Disclosure>
         ))}
-        <TokenCreateDialog app={app} updateCallback={doFetch} />
+        <TokenCreateDialog app={app} updateCallback={query.refetch} />
       </div>
     )
   }

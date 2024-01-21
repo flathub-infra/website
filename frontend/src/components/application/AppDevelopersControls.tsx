@@ -7,12 +7,12 @@ import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
 import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
 import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
 import { Developer } from "src/codegen"
-import { abort } from "process"
+import { AxiosError } from "axios"
 
 interface Props {
   app: Appstream
@@ -29,6 +29,19 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
       inviteApi.getDevelopersInvitesAppIdDevelopersGet(app.id, {
         withCredentials: true,
       }),
+  })
+
+  const leaveTeamInviteMutation = useMutation({
+    mutationKey: ["leave-team-invite-app", app.id],
+    mutationFn: () =>
+      inviteApi.leaveTeamInvitesAppIdLeavePost(app.id, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+      setLeaveDialogVisible(false)
+      router.push("/my-flathub")
+    },
   })
 
   const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
@@ -124,14 +137,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
                 action={t("leave")}
                 description={t("leave-confirmation", { app: app.name })}
                 actionVariant="destructive"
-                onConfirmed={async () => {
-                  await inviteApi.leaveTeamInvitesAppIdLeavePost(app.id, {
-                    withCredentials: true,
-                  })
-                  await getUserData(userDispatch)
-                  setLeaveDialogVisible(false)
-                  router.push("/my-flathub")
-                }}
+                onConfirmed={leaveTeamInviteMutation.mutate}
                 onCancelled={() => setLeaveDialogVisible(false)}
               />
             </>
@@ -175,6 +181,34 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  const revokeInviteMutation = useMutation({
+    mutationKey: ["revoke-invite-app", app.id, developer.id],
+    mutationFn: () =>
+      inviteApi.revokeInviteInvitesAppIdRevokePost(app.id, developer.id, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      setDialogVisible(false)
+      refresh()
+    },
+  })
+
+  const removeDeveloperInviteMutation = useMutation({
+    mutationKey: ["remove-developer-invite-app", app.id, developer.id],
+    mutationFn: () =>
+      inviteApi.removeDeveloperInvitesAppIdRemoveDeveloperPost(
+        app.id,
+        developer.id,
+        {
+          withCredentials: true,
+        },
+      ),
+    onSuccess: async () => {
+      setDialogVisible(false)
+      refresh()
+    },
+  })
+
   const [dialogVisible, setDialogVisible] = useState(false)
 
   return (
@@ -215,26 +249,12 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         })}
         action={t("remove")}
         actionVariant="destructive"
-        onConfirmed={async () => {
+        onConfirmed={() => {
           if (isInvite) {
-            await inviteApi.revokeInviteInvitesAppIdRevokePost(
-              app.id,
-              developer.id,
-              {
-                withCredentials: true,
-              },
-            )
+            revokeInviteMutation.mutate()
           } else {
-            await inviteApi.removeDeveloperInvitesAppIdRemoveDeveloperPost(
-              app.id,
-              developer.id,
-              {
-                withCredentials: true,
-              },
-            )
+            removeDeveloperInviteMutation.mutate()
           }
-          setDialogVisible(false)
-          refresh()
         }}
         onCancelled={() => setDialogVisible(false)}
       />
@@ -261,6 +281,22 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
 
   const [error, setError] = useState<string | null>(null)
 
+  const inviteDeveloperMutation = useMutation({
+    mutationKey: ["invite-developer-app", app.id, inviteCode],
+    mutationFn: () =>
+      inviteApi.inviteDeveloperInvitesAppIdInvitePost(app.id, inviteCode, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      refresh()
+      closeDialog()
+      resetModal()
+    },
+    onError: (e: AxiosError<{ detail: string }>) => {
+      setError(e.response.data.detail.replaceAll("_", "-"))
+    },
+  })
+
   const resetModal = () => {
     setInviteCode("")
     setError(null)
@@ -275,23 +311,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
       }}
       submitButton={{
         label: t("invite"),
-        onClick: async () => {
-          try {
-            await inviteApi.inviteDeveloperInvitesAppIdInvitePost(
-              app.id,
-              inviteCode,
-              {
-                withCredentials: true,
-              },
-            )
-          } catch (e) {
-            setError(e.replaceAll("_", "-"))
-            return
-          }
-          refresh()
-          closeDialog()
-          resetModal()
-        },
+        onClick: () => inviteDeveloperMutation.mutate(),
         disabled: inviteCode.length === 0,
       }}
       cancelButton={{

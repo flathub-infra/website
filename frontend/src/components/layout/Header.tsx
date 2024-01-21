@@ -14,13 +14,14 @@ import { toast } from "react-toastify"
 import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
 import { getUserName } from "src/verificationProvider"
-import { QueryClient } from "@tanstack/react-query"
+import { QueryClient, useMutation } from "@tanstack/react-query"
 
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { authApi } from "src/api"
 import { UserInfo } from "src/codegen"
+import { AxiosError } from "axios"
 
 const navigation = [
   {
@@ -99,24 +100,31 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const onLogout = useCallback(async () => {
-    const queryClient = new QueryClient()
+  const queryClient = new QueryClient()
+
+  const logoutMutation = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: () =>
+      authApi.doLogoutAuthLogoutPost({
+        withCredentials: true,
+      }),
+    onSuccess: () => {
+      dispatch({ type: "logout" })
+      queryClient.clear()
+    },
+    onError: (err: AxiosError) => {
+      dispatch({ type: "interrupt" })
+      setClickedLogout(false)
+    },
+  })
+
+  const onLogout = () => {
     // Only make a request on first logout click
     if (clickedLogout) return
     setClickedLogout(true)
 
-    try {
-      await authApi.doLogoutAuthLogoutPost({
-        withCredentials: true,
-      })
-      dispatch({ type: "logout" })
-      queryClient.clear()
-    } catch (err) {
-      dispatch({ type: "interrupt" })
-      toast.error(t(err))
-      setClickedLogout(false)
-    }
-  }, [clickedLogout, dispatch, t])
+    logoutMutation.mutate()
+  }
 
   useEffect(() => {
     if (user.info) {

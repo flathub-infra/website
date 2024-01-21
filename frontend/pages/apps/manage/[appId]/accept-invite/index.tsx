@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
@@ -33,6 +33,29 @@ export default function AcceptInvitePage({ app }) {
     enabled: !!app.id,
   })
 
+  const acceptInviteMutation = useMutation({
+    mutationKey: ["accept-invite", app.id],
+    mutationFn: () =>
+      inviteApi.acceptInviteInvitesAppIdAcceptPost(app.id, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+    },
+  })
+
+  const declineInviteMutation = useMutation({
+    mutationKey: ["decline-invite", app.id],
+    mutationFn: () =>
+      inviteApi.declineInviteInvitesAppIdDeclinePost(app.id, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+      router.push("/my-flathub")
+    },
+  })
+
   let content: ReactElement
 
   if (inviteQuery.data?.data?.is_pending) {
@@ -45,10 +68,7 @@ export default function AcceptInvitePage({ app }) {
             <Button
               onClick={async () => {
                 if (user.info?.accepted_publisher_agreement_at) {
-                  await inviteApi.acceptInviteInvitesAppIdAcceptPost(app.id, {
-                    withCredentials: true,
-                  })
-                  await getUserData(userDispatch)
+                  acceptInviteMutation.mutate()
                 } else {
                   router.push(
                     `/apps/manage/${app.id}/accept-invite/publisher-agreement`,
@@ -61,12 +81,8 @@ export default function AcceptInvitePage({ app }) {
             </Button>
 
             <Button
-              onClick={async () => {
-                await inviteApi.declineInviteInvitesAppIdDeclinePost(app.id, {
-                  withCredentials: true,
-                })
-                await getUserData(userDispatch)
-                router.push("/my-flathub")
+              onClick={() => {
+                declineInviteMutation.mutate()
               }}
               className="block w-full"
               variant="secondary"

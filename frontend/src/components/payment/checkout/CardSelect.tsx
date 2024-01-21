@@ -1,7 +1,6 @@
 import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
-import { toast } from "react-toastify"
 import { TransactionDetailed } from "../../../types/Payment"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
@@ -9,6 +8,8 @@ import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
 import { PaymentCardInfo } from "src/codegen"
 import { walletApi } from "src/api"
+import { useMutation } from "@tanstack/react-query"
+import { AxiosError } from "axios"
 
 interface Props {
   transaction: TransactionDetailed
@@ -35,46 +36,56 @@ const CardSelect: FunctionComponent<Props> = ({
   const [confirmed, setConfirmed] = useState(false)
   const [useCard, setUseCard] = useState<PaymentCardInfo>(null)
 
+  const mutation = useMutation({
+    mutationFn: async ({ id }: { id: string }) => {
+      await walletApi.setTransactionCardWalletTransactionsTxnSetcardPost(
+        id,
+        useCard,
+        {
+          withCredentials: true,
+        },
+      )
+      return await walletApi.setPendingWalletTransactionsTxnSetpendingPost(id, {
+        withCredentials: true,
+      })
+    },
+    onSuccess: async () => {
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: useCard.id,
+      })
+
+      if (result.error) {
+        handleStripeError(result.error)
+      } else {
+        submit()
+      }
+    },
+    onError: (err: AxiosError) => {
+      setConfirmed(false)
+    },
+  })
+
   // User must confirm card selection so their intent to pay is explicit
   useEffect(() => {
-    async function onConfirm() {
-      const { id } = transaction.summary
-
-      walletApi
-        .setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
-          withCredentials: true,
-        })
-        .then(() =>
-          walletApi.setPendingWalletTransactionsTxnSetpendingPost(id, {
-            withCredentials: true,
-          }),
-        )
-        .then(async () => {
-          const result = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: useCard.id,
-          })
-
-          if (result.error) {
-            handleStripeError(result.error)
-          } else {
-            submit()
-          }
-        })
-        .catch((err) => {
-          toast.error(t(err))
-          setConfirmed(false)
-        })
-    }
-
     // Payment confirmation can only occur once a card is selected
     if (confirmed && !useCard) {
       setConfirmed(false)
     }
 
     if (stripe && useCard && confirmed) {
-      onConfirm()
+      mutation.mutate({ id: transaction.summary.id })
     }
-  }, [transaction, confirmed, clientSecret, cards, submit, stripe, useCard, t])
+  }, [
+    transaction,
+    confirmed,
+    clientSecret,
+    cards,
+    submit,
+    stripe,
+    useCard,
+    t,
+    mutation,
+  ])
 
   let cardSection: ReactElement
   if (error) {

@@ -55,6 +55,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Prepare submission logic to create a transaction
   const submitPurchaseMutation = useMutation({
+    mutationKey: ["vending-status-app", app.id, amount.settled * 100],
     mutationFn: () => {
       return vendingApi.postAppVendingStatusVendingappAppIdPost(
         app.id,

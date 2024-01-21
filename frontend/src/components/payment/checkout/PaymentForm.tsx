@@ -1,11 +1,12 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
-import { toast } from "react-toastify"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
 import { walletApi } from "src/api"
+import { useMutation } from "@tanstack/react-query"
+import { AxiosError } from "axios"
 
 interface Props {
   transactionId: string
@@ -29,6 +30,44 @@ const PaymentForm: FunctionComponent<Props> = ({
   // UI control state
   const [checked, setChecked] = useState(false)
   const [processing, setProcessing] = useState(false)
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      setProcessing(true)
+
+      if (checked) {
+        await walletApi.setSavecardWalletTransactionsTxnSavecardPost(
+          transactionId,
+          { save_card: "on_session" },
+          {
+            withCredentials: true,
+          },
+        )
+      }
+      return await walletApi.setPendingWalletTransactionsTxnSetpendingPost(
+        transactionId,
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: async () => {
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: callbackPage,
+        },
+      })
+
+      // Redirect will have occurred otherwise
+      if (result.error) {
+        handleStripeError(result.error)
+      }
+    },
+    onError: (err: AxiosError) => {
+      setProcessing(false)
+    },
+  })
 
   return (
     <form
@@ -82,43 +121,7 @@ const PaymentForm: FunctionComponent<Props> = ({
       return
     }
 
-    submit().catch((err) => {
-      toast.error(t(err))
-      setProcessing(false)
-    })
-  }
-
-  async function submit() {
-    setProcessing(true)
-
-    if (checked) {
-      await walletApi.setSavecardWalletTransactionsTxnSavecardPost(
-        transactionId,
-        { save_card: "on_session" },
-        {
-          withCredentials: true,
-        },
-      )
-    }
-
-    await walletApi.setPendingWalletTransactionsTxnSetpendingPost(
-      transactionId,
-      {
-        withCredentials: true,
-      },
-    )
-
-    const result = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: callbackPage,
-      },
-    })
-
-    // Redirect will have occurred otherwise
-    if (result.error) {
-      handleStripeError(result.error)
-    }
+    mutation.mutate()
   }
 }
 

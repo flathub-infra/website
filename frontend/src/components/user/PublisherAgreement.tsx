@@ -2,11 +2,11 @@ import { FunctionComponent, useState } from "react"
 import Button from "../Button"
 import { useTranslation } from "next-i18next"
 import { useUserDispatch } from "src/context/user-info"
-import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../login/LoginGuard"
 import { authApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   continueText?: string
@@ -23,6 +23,19 @@ const PublisherAgreement: FunctionComponent<Props> = ({
   const userDispatch = useUserDispatch()
 
   const [accepted, setAccepted] = useState(false)
+
+  const mutation = useMutation({
+    mutationKey: ["agree-to-publisher-agreement"],
+    mutationFn: () =>
+      authApi.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost({
+        withCredentials: true,
+      }),
+
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+      onAccept()
+    },
+  })
 
   const content = (
     <div className="prose flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
@@ -153,15 +166,9 @@ const PublisherAgreement: FunctionComponent<Props> = ({
       <Button
         className="mt-6"
         disabled={!accepted}
-        onClick={async () => {
+        onClick={() => {
           if (accepted) {
-            await authApi.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
-              {
-                withCredentials: true,
-              },
-            )
-            await getUserData(userDispatch)
-            onAccept()
+            mutation.mutate()
           }
         }}
       >

@@ -1,6 +1,5 @@
-import { Dialog, Transition } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
-import { Fragment, FunctionComponent, ReactElement, useState } from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale, getLocale } from "src/localize"
 import Button from "../Button"
 import InlineError from "../InlineError"
@@ -39,9 +38,6 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         ? "Approve With Comment"
         : "Approve"
 
-  const [status, setStatus] = useState<
-    "idle" | "pending" | "error" | "success"
-  >("idle")
   const [error, setError] = useState<string>()
 
   const mutation = useMutation({
@@ -56,10 +52,8 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
       ),
     onSuccess: (data) => {
       setIssueUrl(data.data?.github_issue_url)
-      setStatus("success")
     },
     onError: (e) => {
-      setStatus("error")
       setError(e as unknown as string)
     },
   })
@@ -76,11 +70,11 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
   }
 
   let buttons: ReactElement
-  if (status === "pending") {
+  if (mutation.isPending) {
     buttons = <Spinner size="m" />
-  } else if (status === "error") {
+  } else if (mutation.isError) {
     buttons = <InlineError error={error} shown={true} />
-  } else if (status === "success") {
+  } else if (mutation.isSuccess) {
     buttons = (
       <>
         {issueUrl && (

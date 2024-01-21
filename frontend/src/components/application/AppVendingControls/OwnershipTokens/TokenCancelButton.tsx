@@ -20,7 +20,8 @@ const TokenCancelButton: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const cancelVendingTokens = useMutation({
+  const cancelVendingTokensMutation = useMutation({
+    mutationKey: ["cancel-token", appId, token.id],
     mutationFn: () => {
       return vendingApi.cancelTokensVendingappAppIdTokensCancelPost(
         appId,
@@ -41,20 +42,23 @@ const TokenCancelButton: FunctionComponent<Props> = ({
     },
   })
 
-  if (cancelVendingTokens.isPending) {
+  if (cancelVendingTokensMutation.isPending) {
     return <Spinner size="s" />
   }
 
   // Button is spent after successful use
   if (
-    cancelVendingTokens.isSuccess &&
-    cancelVendingTokens.data.data[0].status === "cancelled"
+    cancelVendingTokensMutation.isSuccess &&
+    cancelVendingTokensMutation.data.data[0].status === "cancelled"
   ) {
     return <></>
   }
 
   return (
-    <Button variant="destructive" onClick={() => cancelVendingTokens.mutate()}>
+    <Button
+      variant="destructive"
+      onClick={() => cancelVendingTokensMutation.mutate()}
+    >
       {t("cancel")}
     </Button>
   )

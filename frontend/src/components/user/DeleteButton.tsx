@@ -38,7 +38,7 @@ const DeleteButton: FunctionComponent = () => {
   })
 
   const deleteUserMutation = useMutation({
-    mutationKey: ["delete"],
+    mutationKey: ["delete", token],
     mutationFn: async () =>
       authApi.doDeleteuserAuthDeleteuserPost(
         { token },

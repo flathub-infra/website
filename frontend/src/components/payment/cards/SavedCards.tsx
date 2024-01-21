@@ -5,7 +5,6 @@ import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
 import { walletApi } from "src/api"
-import { isAxiosError } from "axios"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()

@@ -26,7 +26,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
   }, [currentPage])
 
   const query = useQuery({
-    queryKey: ["moderation", appId, offset],
+    queryKey: ["moderation", appId, PAGE_SIZE, offset],
     queryFn: ({ signal }) =>
       moderationApi.getModerationAppModerationAppsAppIdGet(
         appId,

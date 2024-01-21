@@ -4,6 +4,7 @@ import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
 import { vendingApi } from "src/api"
 import Modal from "src/components/Modal"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   app: Appstream
@@ -22,21 +23,22 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
   const [shown, setShown] = useState(false)
   const [text, setText] = useState("")
 
-  const textUpdate = useCallback((event) => setText(event.target.value), [])
-  const onSubmit = useCallback(async () => {
-    setShown(false)
+  const names = text.split(/\s*\n\s*/).filter((name) => name !== "")
 
-    // Strip leading and trailing whitespace characters
-    const names = text.split(/\s*\n\s*/).filter((name) => name !== "")
-
-    if (names.length > 0) {
-      await vendingApi.createTokensVendingappAppIdTokensPost(app.id, names, {
+  const createVendingTokensMutation = useMutation({
+    mutationKey: ["create-token", app.id, names],
+    mutationFn: () => {
+      return vendingApi.createTokensVendingappAppIdTokensPost(app.id, names, {
         withCredentials: true,
       })
+    },
+    onSuccess: () => {
       updateCallback()
       setText("")
-    }
-  }, [app.id, text, updateCallback])
+    },
+  })
+
+  const textUpdate = useCallback((event) => setText(event.target.value), [])
 
   return (
     <>
@@ -48,7 +50,15 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
           setShown(false)
           setText("")
         }}
-        submitButton={{ onClick: onSubmit }}
+        submitButton={{
+          onClick: () => {
+            setShown(false)
+
+            if (names.length > 0) {
+              createVendingTokensMutation.mutate()
+            }
+          },
+        }}
       >
         <textarea
           placeholder={t("token-creation-placeholder")}

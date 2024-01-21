@@ -6,6 +6,7 @@ import PublisherAgreement from "src/components/user/PublisherAgreement"
 import { useUserDispatch } from "src/context/user-info"
 import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   appId: string
@@ -16,16 +17,22 @@ const PublisherAgreementPage = ({ appId }: Props) => {
   const router = useRouter()
   const userDispatch = useUserDispatch()
 
+  const acceptInviteMutation = useMutation({
+    mutationKey: ["accept-invite", appId],
+    mutationFn: () =>
+      inviteApi.acceptInviteInvitesAppIdAcceptPost(appId, {
+        withCredentials: true,
+      }),
+    onSuccess: async () => {
+      await getUserData(userDispatch)
+      router.push(`/apps/manage/${appId}`)
+    },
+  })
+
   return (
     <PublisherAgreement
       continueText={t("accept-invite")}
-      onAccept={async () => {
-        await inviteApi.acceptInviteInvitesAppIdAcceptPost(appId, {
-          withCredentials: true,
-        })
-        await getUserData(userDispatch)
-        router.push(`/apps/manage/${appId}`)
-      }}
+      onAccept={acceptInviteMutation.mutate}
       onCancel={() => {
         router.back()
       }}
