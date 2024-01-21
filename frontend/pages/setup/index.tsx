@@ -2,6 +2,7 @@ import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
+import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import clsx from "clsx"
 import { useTheme } from "next-themes"
@@ -96,13 +97,15 @@ export default function Setup({
                 "px-8 py-6",
               )}
             >
-              <img
+              <Image
                 className="h-24 w-24"
                 src={
                   resolvedTheme === "light"
                     ? instruction.logo
                     : instruction.logo_dark ?? instruction.logo
                 }
+                width={96}
+                height={96}
                 alt={instruction.name}
               />
               <span className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
