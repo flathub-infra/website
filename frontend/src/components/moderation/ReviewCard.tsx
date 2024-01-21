@@ -12,6 +12,7 @@ import Link from "next/link"
 import { ModerationRequestResponse } from "src/codegen/model"
 import { moderationApi } from "src/api"
 import { useMutation } from "@tanstack/react-query"
+import Modal from "../Modal"
 
 interface Props {
   title: string
@@ -19,7 +20,7 @@ interface Props {
   children: ReactElement
 }
 
-const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
+const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
   const { t, i18n } = useTranslation()
   const user = useUserContext()
 
@@ -27,6 +28,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   const [modalVisible, setModalVisible] = useState(false)
 
   const [comment, setComment] = useState<string | undefined>(undefined)
+  const [issueUrl, setIssueUrl] = useState<string>()
 
   const modalTitle = modalState === "reject" ? "Reject" : "Approve"
 
@@ -43,7 +45,7 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   const [error, setError] = useState<string>()
 
   const mutation = useMutation({
-    mutationKey: ["review", request.id, modalState],
+    mutationKey: ["review", request.id],
     mutationFn: (body: { approve: boolean; comment?: string }) =>
       moderationApi.submitReviewModerationRequestsIdReviewPost(
         request.id,
@@ -52,7 +54,8 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
           withCredentials: true,
         },
       ),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      setIssueUrl(data.data?.github_issue_url)
       setStatus("success")
     },
     onError: (e) => {
@@ -78,7 +81,20 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   } else if (status === "error") {
     buttons = <InlineError error={error} shown={true} />
   } else if (status === "success") {
-    buttons = <></>
+    buttons = (
+      <>
+        {issueUrl && (
+          <a
+            href={issueUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm no-underline hover:underline"
+          >
+            Created github issue issue
+          </a>
+        )}
+      </>
+    )
   } else if (request.handled_at) {
     const date = parseISO(request.handled_at + "Z")
     const dateRel = formatDistanceToNow(date, {
@@ -146,50 +162,26 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
 
   return (
     <>
-      <Transition appear show={modalVisible} as={Fragment}>
-        <Dialog as="div" className="z-20" onClose={cancel}>
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-
-          <div className="fixed inset-0 flex items-center justify-center p-4">
-            <Dialog.Panel className="inline-flex w-full flex-col justify-center space-y-6 rounded-xl bg-flathub-gainsborow p-14 shadow-md dark:bg-flathub-dark-gunmetal md:w-2/3 lg:w-1/2">
-              <Dialog.Title className="m-0">{modalTitle}</Dialog.Title>
-
-              <textarea
-                className="h-40 w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
-                value={comment}
-                placeholder={
-                  modalState === "reject" ? "Comment" : "Comment (optional)"
-                }
-                onInput={(e) =>
-                  setComment((e.target as HTMLTextAreaElement).value)
-                }
-              />
-
-              <div className="mt-3 grid grid-cols-2 gap-6">
-                <Button
-                  className="col-start-1"
-                  onClick={cancel}
-                  variant="secondary"
-                  aria-label={t("cancel")}
-                  title={t("cancel")}
-                >
-                  {t("cancel")}
-                </Button>
-                <Button
-                  className="col-start-2"
-                  onClick={confirm}
-                  variant={modalState === "approve" ? "primary" : "destructive"}
-                  aria-label={confirmText}
-                  title={confirmText}
-                  disabled={modalState === "reject" && !comment}
-                >
-                  {confirmText}
-                </Button>
-              </div>
-            </Dialog.Panel>
-          </div>
-        </Dialog>
-      </Transition>
+      <Modal
+        shown={modalVisible}
+        title={modalTitle}
+        onClose={cancel}
+        cancelButton={{ onClick: cancel }}
+        submitButton={{
+          onClick: confirm,
+          label: confirmText,
+          disabled: modalState === "reject" && !comment,
+        }}
+      >
+        <textarea
+          className="h-40 w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+          value={comment}
+          placeholder={
+            modalState === "reject" ? "Comment" : "Comment (optional)"
+          }
+          onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
+        />
+      </Modal>
 
       <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
         <span className="flex">
@@ -242,4 +234,4 @@ const ReviewRow: FunctionComponent<Props> = ({ title, request, children }) => {
   )
 }
 
-export default ReviewRow
+export default ReviewCard
