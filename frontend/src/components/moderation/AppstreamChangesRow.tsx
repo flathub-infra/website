@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
-import { Fragment, FunctionComponent } from "react"
-import ReviewRow from "./ReviewRow"
+import { FunctionComponent } from "react"
+import ReviewCard from "./ReviewCard"
 import { ModerationRequestResponse } from "src/codegen"
 
 interface Props {
@@ -168,7 +168,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
   ).sort()
 
   return (
-    <ReviewRow
+    <ReviewCard
       title={
         request.is_new_submission
           ? t("moderation-appstream")
@@ -195,7 +195,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {
           ))}
         </tbody>
       </table>
-    </ReviewRow>
+    </ReviewCard>
   )
 }
 

@@ -59,6 +59,7 @@ export * from "./response-get-download-token-purchases-generate-download-token-p
 export * from "./review"
 export * from "./review-request"
 export * from "./review-request-response"
+export * from "./review-response"
 export * from "./search-query"
 export * from "./storefront-info"
 export * from "./token-cancellation"

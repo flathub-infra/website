@@ -1,14 +1,33 @@
 import React from "react"
 import { Meta } from "@storybook/react"
-import ReviewRow from "./ReviewRow"
+import ReviewCard from "./ReviewCard"
 import { t } from "i18next"
 import { faker } from "@faker-js/faker"
 import { ModerationRequestResponse } from "../../codegen/model"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: Infinity, refetchOnMount: true } },
+})
+
+const request_id = 1
 
 export default {
   title: "Components/Moderation/ReviewRow",
-  component: ReviewRow,
-} as Meta<typeof ReviewRow>
+  component: ReviewCard,
+  decorators: [
+    (Story) => {
+      queryClient.setQueryData(["review", request_id], {
+        data: { github_issue_url: "https://www.flathub.org" },
+      })
+      return (
+        <QueryClientProvider client={queryClient}>
+          <Story />
+        </QueryClientProvider>
+      )
+    },
+  ],
+} as Meta<typeof ReviewCard>
 
 export const Primary = () => {
   const request: ModerationRequestResponse = {
@@ -21,7 +40,7 @@ export const Primary = () => {
         Name: "Test App",
       },
     },
-    id: 1,
+    id: request_id,
     app_id: "tv.abc.TestApp",
     created_at: faker.date.past().toISOString(),
 
@@ -38,8 +57,8 @@ export const Primary = () => {
   }
 
   return (
-    <ReviewRow title={t("moderation-appstream")} request={request}>
+    <ReviewCard title={t("moderation-appstream")} request={request}>
       <div>Show table here</div>
-    </ReviewRow>
+    </ReviewCard>
   )
 }

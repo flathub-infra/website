@@ -80,6 +80,7 @@ model/response-check-purchases-purchases-check-purchases-post.ts
 model/response-get-download-token-purchases-generate-download-token-post.ts
 model/review-request-response.ts
 model/review-request.ts
+model/review-response.ts
 model/review.ts
 model/search-query.ts
 model/storefront-info.ts

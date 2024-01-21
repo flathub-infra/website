@@ -49,6 +49,8 @@ import { Review } from "../model"
 import { ReviewRequest } from "../model"
 // @ts-ignore
 import { ReviewRequestResponse } from "../model"
+// @ts-ignore
+import { ReviewResponse } from "../model"
 /**
  * ModerationApi - axios parameter creator
  * @export
@@ -411,7 +413,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
       review: Review,
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReviewResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.submitReviewModerationRequestsIdReviewPost(
@@ -537,7 +539,7 @@ export const ModerationApiFactory = function (
       id: number,
       review: Review,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ReviewResponse> {
       return localVarFp
         .submitReviewModerationRequestsIdReviewPost(id, review, options)
         .then((request) => request(axios, basePath))

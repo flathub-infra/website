@@ -105,7 +105,7 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         new_val = request_data["keys"][field]
         body += f"| {field} | {old_val} | {new_val} |\n"
 
-    repo.create_issue(title=title, body=body)
+    return repo.create_issue(title=title, body=body)
 
 
 def sort_lists_in_dict(data: dict) -> dict:
@@ -466,13 +466,17 @@ class Review(BaseModel):
         return v
 
 
-@router.post("/requests/{id}/review", status_code=204, tags=["moderation"])
+class ReviewResponse(BaseModel):
+    github_issue_url: str
+
+
+@router.post("/requests/{id}/review", status_code=200, tags=["moderation"])
 def submit_review(
     id: int,
     review: Review,
     login: LoginStatusDep,
     _moderator=Depends(moderator_only),
-):
+) -> ReviewResponse | None:
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
     marked as successful in flat-manager."""
 
@@ -515,6 +519,7 @@ def submit_review(
     inform_only_moderators = False
     verification_status = get_verification_status(request.appid)
 
+    issue = None
     if request.is_approved:
         category = EmailCategory.MODERATION_APPROVED
         subject = f"Change in build #{request.build_id} approved"
@@ -524,7 +529,7 @@ def submit_review(
 
         if not verification_status.verified:
             inform_only_moderators = True
-            create_github_build_rejection_issue(request)
+            issue = create_github_build_rejection_issue(request)
 
     worker.send_email.send(
         EmailInfo(
@@ -547,6 +552,8 @@ def submit_review(
             },
         ).dict()
     )
+
+    return ReviewResponse(github_issue_url=issue.url) if issue else None
 
 
 def register_to_app(app: FastAPI):
