@@ -18,6 +18,7 @@ const DeleteCardButton: FunctionComponent<{
   const [confirming, setConfirming] = useState(false)
 
   const deleteCard = useMutation({
+    mutationKey: ["remove-card", card.id],
     mutationFn: () =>
       walletApi.postRemovecardWalletRemovecardPost(card, {
         withCredentials: true,

@@ -58,6 +58,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
       appId,
       includeOutdatedQuery,
       includeHandledQuery,
+      PAGE_SIZE,
       offset,
     ],
     queryFn: ({ signal }) =>

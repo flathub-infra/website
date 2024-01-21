@@ -6,6 +6,7 @@ import Modal from "src/components/Modal"
 import { uploadTokensApi } from "src/api"
 import { NewTokenResponse } from "src/codegen"
 import { Repo } from "src/types/UploadTokens"
+import { useMutation } from "@tanstack/react-query"
 
 interface Props {
   app_id: string
@@ -32,10 +33,10 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   const [scopes, setScopes] = useState(["build", "upload", "publish"])
   const [token, setToken] = useState("")
 
-  const createToken = async () => {
-    setState("pending")
-    const response =
-      await uploadTokensApi.createUploadTokenUploadTokensAppIdPost(
+  const createUploadTokenMutation = useMutation({
+    mutationKey: ["create-upload-token", app_id, scopes, repo, comment],
+    mutationFn: () =>
+      uploadTokensApi.createUploadTokenUploadTokensAppIdPost(
         app_id,
         {
           comment,
@@ -45,11 +46,13 @@ const NewTokenDialog: FunctionComponent<Props> = ({
         {
           withCredentials: true,
         },
-      )
-    setToken(response.data.token)
-    setState("copy-token")
-    created?.(response.data)
-  }
+      ),
+    onSuccess: (response) => {
+      setToken(response.data.token)
+      setState("copy-token")
+      created?.(response.data)
+    },
+  })
 
   const setScope = (scope: string, checked: boolean) => {
     if (checked) {
@@ -106,7 +109,10 @@ const NewTokenDialog: FunctionComponent<Props> = ({
       }
       submitButton = {
         label: t("create-token"),
-        onClick: createToken,
+        onClick: () => {
+          setState("pending")
+          createUploadTokenMutation.mutate()
+        },
         disabled: !comment,
       }
       break

@@ -51,17 +51,18 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const verify = useMutation({
     mutationKey: ["verify-app", appId, isNewApp ?? false],
-    mutationFn: useCallback(async () => {
+    mutationFn: async () => {
       setError("")
 
-      const result =
-        await verificationApi.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
-          appId,
-          isNewApp ?? false,
-          {
-            withCredentials: true,
-          },
-        )
+      return await verificationApi.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
+        appId,
+        isNewApp ?? false,
+        {
+          withCredentials: true,
+        },
+      )
+    },
+    onSuccess: (result) => {
       if (result?.data?.detail) {
         switch (result.data.detail) {
           case "user_does_not_exist":
@@ -78,7 +79,7 @@ const LoginVerification: FunctionComponent<Props> = ({
       } else {
         onVerified()
       }
-    }, [appId, onReloadNeeded, onVerified, t, isNewApp]),
+    },
   })
 
   const try_again = (
