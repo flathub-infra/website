@@ -909,8 +909,10 @@ def unverify(
         worker.republish_app.send(app_id)
 
 
-@router.post("/{app_id}/enroll", status_code=204, tags=["verification"])
-def enroll(
+@router.post(
+    "/{app_id}/switch_to_direct_upload", status_code=204, tags=["verification"]
+)
+def switch_to_direct_upload(
     login=Depends(app_author_only),
     app_id: str = Path(
         min_length=6,
