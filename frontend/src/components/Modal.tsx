@@ -22,6 +22,7 @@ interface Props {
     label?: string
     onClick: () => void
     disabled?: boolean
+    variant?: "primary" | "secondary" | "destructive"
   }
 }
 
@@ -118,7 +119,7 @@ const Modal: FunctionComponent<Props> = ({
                       <Button
                         className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
                         onClick={submitButton.onClick}
-                        variant="primary"
+                        variant={submitButton.variant ?? "primary"}
                         aria-label={submitButton.label ?? t("submit")}
                         disabled={submitButton.disabled}
                       >

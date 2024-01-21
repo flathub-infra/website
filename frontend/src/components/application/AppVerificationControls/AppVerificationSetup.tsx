@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query"
 import { verificationApi } from "src/api"
 import { VerificationStatus } from "src/codegen"
 import { VerificationAvailableMethods } from "src/types/VerificationAvailableMethods"
-import { AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 
 interface Props {
   app: Appstream
@@ -74,7 +74,10 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     enabled: !!app.id,
   })
 
-  const verificationAvailableMethods = useQuery({
+  const verificationAvailableMethods = useQuery<
+    AxiosResponse<VerificationAvailableMethods | undefined>,
+    AxiosError<{ detail: string }>
+  >({
     queryKey: ["verification-available-methods", app.id],
     queryFn: async () => {
       return verificationApi.getAvailableMethodsVerificationAppIdAvailableMethodsGet(
@@ -103,9 +106,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   let content: ReactElement
   if (query.error) {
     content = <InlineError shown={true} error={query.error.message} />
-  } else if (verificationAvailableMethods.data?.data.detail) {
+  } else if (verificationAvailableMethods.error?.response?.data?.detail) {
     let errorCode: string
-    switch (verificationAvailableMethods.data?.data.detail) {
+    switch (verificationAvailableMethods.error.response.data.detail) {
       case "app_already_exists":
         errorCode = t("app-already-exists")
         break
@@ -114,7 +117,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         break
       default:
         errorCode = t("error-code", {
-          code: verificationAvailableMethods.data.data.detail,
+          code: verificationAvailableMethods.error?.response.data.detail,
         })
     }
     content = <InlineError shown={true} error={errorCode} />
