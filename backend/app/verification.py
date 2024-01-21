@@ -910,7 +910,7 @@ def unverify(
 
 @router.post("/{app_id}/enroll", status_code=204, tags=["verification"])
 def enroll(
-    login=Depends(logged_in),
+    login=Depends(app_author_only),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -932,7 +932,7 @@ def enroll(
 @router.post("/{app_id}/archive", status_code=204, tags=["verification"])
 def archive(
     request: ArchiveRequest,
-    login=Depends(logged_in),
+    login=Depends(app_author_only),
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -944,12 +944,6 @@ def archive(
         raise HTTPException(
             status_code=500,
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
-        )
-
-    if app_id not in login.user.dev_flatpaks(sqldb):
-        raise HTTPException(
-            status_code=403,
-            detail=ErrorDetail.NOT_APP_DEVELOPER,
         )
 
     upload_tokens = models.UploadToken.by_app_id(sqldb, app_id)
