@@ -107,53 +107,57 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   if (query.error) {
     content = <InlineError shown={true} error={query.error.message} />
   } else if (verificationAvailableMethods.error?.response?.data?.detail) {
-    let errorCode: string
     switch (verificationAvailableMethods.error.response.data.detail) {
       case "app_already_exists":
-        errorCode = t("app-already-exists")
+        content = <InlineError shown={true} error={t("app-already-exists")} />
         break
       case "malformed_app_id":
-        errorCode = t("malformed-app-id")
+        content = <InlineError shown={true} error={t("malformed-app-id")} />
+        break
+      case "app_already_verified":
+        if (isNewApp) {
+          content = <InlineError shown={true} error={t("app-already-exists")} />
+        } else {
+          content = (
+            <div>
+              <StatusInfo status={query.data.data} />
+
+              <br />
+
+              <Button className="mt-3" onClick={() => setConfirmUnverify(true)}>
+                {t("unverify")}
+              </Button>
+
+              <ConfirmDialog
+                isVisible={confirmUnverify}
+                prompt={t("unverify-app-prompt", { appId: app.id })}
+                action={t("unverify")}
+                actionVariant="destructive"
+                onConfirmed={() => {
+                  setConfirmUnverify(false)
+                  verificationApi
+                    .unverifyVerificationAppIdUnverifyPost(app.id, {
+                      withCredentials: true,
+                    })
+                    .then(() => {
+                      query.refetch()
+                    })
+                }}
+                onCancelled={() => setConfirmUnverify(false)}
+              />
+            </div>
+          )
+        }
         break
       default:
-        errorCode = t("error-code", {
-          code: verificationAvailableMethods.error?.response.data.detail,
-        })
-    }
-    content = <InlineError shown={true} error={errorCode} />
-  } else if (query.data?.data.verified) {
-    if (isNewApp) {
-      content = <InlineError shown={true} error={t("app-already-exists")} />
-    } else {
-      content = (
-        <div>
-          <StatusInfo status={query.data.data} />
-
-          <br />
-
-          <Button className="mt-3" onClick={() => setConfirmUnverify(true)}>
-            {t("unverify")}
-          </Button>
-
-          <ConfirmDialog
-            isVisible={confirmUnverify}
-            prompt={t("unverify-app-prompt", { appId: app.id })}
-            action={t("unverify")}
-            actionVariant="destructive"
-            onConfirmed={() => {
-              setConfirmUnverify(false)
-              verificationApi
-                .unverifyVerificationAppIdUnverifyPost(app.id, {
-                  withCredentials: true,
-                })
-                .then(() => {
-                  query.refetch()
-                })
-            }}
-            onCancelled={() => setConfirmUnverify(false)}
+        content = (
+          <InlineError
+            shown={true}
+            error={t("error-code", {
+              code: verificationAvailableMethods.error?.response.data.detail,
+            })}
           />
-        </div>
-      )
+        )
     }
   } else {
     content = (
