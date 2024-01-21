@@ -946,24 +946,12 @@ def archive(
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
         )
 
-    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
-    if direct_upload_app is not None:
-        if direct_upload_app.archived:
-            return
-
-        direct_upload_app.archived = True
-        sqldb.session.commit()
-
-    if not direct_upload_app:
-        gh_repo_changed = _archive_github_repo(app_id)
-        if not gh_repo_changed:
-            return
-
     if app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(
             status_code=403,
             detail=ErrorDetail.NOT_APP_DEVELOPER,
         )
+
     upload_tokens = models.UploadToken.by_app_id(sqldb, app_id)
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""
@@ -979,6 +967,19 @@ def archive(
             raise HTTPException(status_code=500)
         token.revoked = True
         sqldb.session.commit()
+
+    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
+    if direct_upload_app is not None:
+        if direct_upload_app.archived:
+            return
+
+        direct_upload_app.archived = True
+        sqldb.session.commit()
+
+    if not direct_upload_app:
+        gh_repo_changed = _archive_github_repo(app_id)
+        if not gh_repo_changed:
+            return
 
     worker.republish_app.send(app_id, request.endoflife, request.endoflife_rebase)
 
