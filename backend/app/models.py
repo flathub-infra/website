@@ -759,10 +759,13 @@ class DirectUploadAppDeveloper(Base):
         """
         If you are the primary developer of a backend app, you may not delete your account.
         """
-        apps = DirectUploadAppDeveloper.by_developer(db, user).filter(
-            DirectUploadAppDeveloper.is_primary
-        )
-        if apps.count() > 0:
+        apps = [
+            app
+            for app in DirectUploadAppDeveloper.by_developer(db, user)
+            if app[0].is_primary
+        ]
+
+        if len(apps) > 0:
             raise HTTPException(status_code=403, detail="cannot_abandon_app")
 
     @staticmethod
