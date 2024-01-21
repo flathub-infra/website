@@ -966,7 +966,7 @@ def archive(
         sqldb.session.commit()
 
     direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
-    if direct_upload_app is not None:
+    if direct_upload_app:
         if direct_upload_app.archived:
             return
 
