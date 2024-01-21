@@ -7,6 +7,7 @@ import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { authApi } from "src/api"
+import { AxiosError } from "axios"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -23,8 +24,15 @@ const DeleteButton: FunctionComponent = () => {
     onSuccess: (data) => {
       setToken(data.data.token)
     },
-    onError: (e) => {
-      toast.error(t("network-error-try-again"))
+    onError: (e: AxiosError<{ detail: string }>) => {
+      switch (e.response?.data?.detail) {
+        case "cannot_abandon_app":
+          toast.error(t("cannot-abandon-app"))
+          break
+
+        default:
+          toast.error(t("network-error-try-again"))
+      }
     },
   })
 
@@ -40,7 +48,7 @@ const DeleteButton: FunctionComponent = () => {
     onSuccess: () => {
       dispatch({ type: "logout" })
     },
-    onError: (e: { response: { data: { detail: string } } }) => {
+    onError: (e: AxiosError<{ detail: string }>) => {
       if (e.response.data?.detail === "token mismatch") {
         toast.error(t("account-deletion-token-mismatch"))
       } else {
