@@ -14,6 +14,7 @@ const DeleteButton: FunctionComponent = () => {
   const dispatch = useUserDispatch()
 
   const [token, setToken] = useState<string>()
+  const [text, setText] = useState("")
 
   const prepareDeleteUserMutation = useMutation({
     mutationKey: ["prepare-delete"],
@@ -61,6 +62,8 @@ const DeleteButton: FunctionComponent = () => {
     return <Spinner size="s" />
   }
 
+  const entry = t("delete-account-entry")
+
   return (
     <>
       <Button
@@ -73,11 +76,25 @@ const DeleteButton: FunctionComponent = () => {
       <ConfirmDialog
         isVisible={!!token}
         prompt={t("delete-account-prompt")}
-        entry={t("delete-account-entry")}
         action={t("delete-account")}
         onConfirmed={deleteUserMutation.mutate}
-        onCancelled={() => setToken("")}
-      />
+        onCancelled={() => {
+          setToken("")
+          setText("")
+        }}
+        description={t("entry-confirmation-prompt", {
+          text: entry,
+        })}
+        submitDisabled={entry && text !== entry}
+      >
+        <div>
+          <input
+            className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+            value={text}
+            onInput={(e) => setText((e.target as HTMLInputElement).value)}
+          />
+        </div>
+      </ConfirmDialog>
     </>
   )
 }
