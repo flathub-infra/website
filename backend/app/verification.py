@@ -10,7 +10,7 @@ from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
 from github import Github
 from github.GithubException import UnknownObjectException
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
