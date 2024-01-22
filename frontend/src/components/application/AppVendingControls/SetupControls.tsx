@@ -20,6 +20,7 @@ import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { vendingApi } from "src/api"
+import { AxiosError } from "axios"
 
 interface Props {
   app: Appstream
@@ -85,8 +86,8 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   // Tell backend to update the setup on submission
   const setAppVendingSetupMutation = useMutation({
-    mutationFn: () => {
-      return vendingApi.postAppVendingSetupVendingappAppIdSetupPost(
+    mutationFn: () =>
+      vendingApi.postAppVendingSetupVendingappAppIdSetupPost(
         app.id,
         {
           currency: "usd",
@@ -100,13 +101,12 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         {
           withCredentials: true,
         },
-      )
-    },
+      ),
     onSuccess: (data) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
-    onError: (error) => {
-      toast.error(t(error.message))
+    onError: (error: AxiosError<{ status: string; error: string }>) => {
+      toast.error(t(error.response.data.error))
     },
   })
 
