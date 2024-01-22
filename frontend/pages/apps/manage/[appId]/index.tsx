@@ -18,6 +18,7 @@ import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
 import { vendingApi } from "src/api"
 import { inviteApi } from "src/api"
+import DangerZoneControls from "src/components/application/DangerZoneControls"
 
 export default function AppManagementPage({
   app,
@@ -84,6 +85,11 @@ export default function AppManagementPage({
     tabs.push({
       name: t("upload-tokens"),
       content: <UploadTokenControls app={app} />,
+    })
+
+    tabs.push({
+      name: t("danger-zone"),
+      content: <DangerZoneControls app={app} />,
     })
   }
 

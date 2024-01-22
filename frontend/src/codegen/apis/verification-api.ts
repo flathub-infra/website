@@ -38,6 +38,8 @@ import {
   RequiredError,
 } from "../base"
 // @ts-ignore
+import { ArchiveRequest } from "../model"
+// @ts-ignore
 import { AvailableMethods } from "../model"
 // @ts-ignore
 import { ErrorReturn } from "../model"
@@ -59,6 +61,67 @@ export const VerificationApiAxiosParamCreator = function (
   configuration?: Configuration,
 ) {
   return {
+    /**
+     *
+     * @summary Archive
+     * @param {string} appId
+     * @param {ArchiveRequest} archiveRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    archiveVerificationAppIdArchivePost: async (
+      appId: string,
+      archiveRequest: ArchiveRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists("archiveVerificationAppIdArchivePost", "appId", appId)
+      // verify required parameter 'archiveRequest' is not null or undefined
+      assertParamExists(
+        "archiveVerificationAppIdArchivePost",
+        "archiveRequest",
+        archiveRequest,
+      )
+      const localVarPath = `/verification/{app_id}/archive`.replace(
+        `{${"app_id"}}`,
+        encodeURIComponent(String(appId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        archiveRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
     /**
      * Checks website verification, and if it succeeds, marks the app as verified for the current account.
      * @summary Confirm Website Verification
@@ -320,6 +383,57 @@ export const VerificationApiAxiosParamCreator = function (
         }
       },
     /**
+     *
+     * @summary Switch To Direct Upload
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost",
+        "appId",
+        appId,
+      )
+      const localVarPath =
+        `/verification/{app_id}/switch_to_direct_upload`.replace(
+          `{${"app_id"}}`,
+          encodeURIComponent(String(appId)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * If the current account has verified the given app, mark it as no longer verified.
      * @summary Unverify
      * @param {string} appId
@@ -433,6 +547,34 @@ export const VerificationApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator =
     VerificationApiAxiosParamCreator(configuration)
   return {
+    /**
+     *
+     * @summary Archive
+     * @param {string} appId
+     * @param {ArchiveRequest} archiveRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async archiveVerificationAppIdArchivePost(
+      appId: string,
+      archiveRequest: ArchiveRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.archiveVerificationAppIdArchivePost(
+          appId,
+          archiveRequest,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
     /**
      * Checks website verification, and if it succeeds, marks the app as verified for the current account.
      * @summary Confirm Website Verification
@@ -577,6 +719,31 @@ export const VerificationApiFp = function (configuration?: Configuration) {
       )
     },
     /**
+     *
+     * @summary Switch To Direct Upload
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * If the current account has verified the given app, mark it as no longer verified.
      * @summary Unverify
      * @param {string} appId
@@ -643,6 +810,23 @@ export const VerificationApiFactory = function (
 ) {
   const localVarFp = VerificationApiFp(configuration)
   return {
+    /**
+     *
+     * @summary Archive
+     * @param {string} appId
+     * @param {ArchiveRequest} archiveRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    archiveVerificationAppIdArchivePost(
+      appId: string,
+      archiveRequest: ArchiveRequest,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .archiveVerificationAppIdArchivePost(appId, archiveRequest, options)
+        .then((request) => request(axios, basePath))
+    },
     /**
      * Checks website verification, and if it succeeds, marks the app as verified for the current account.
      * @summary Confirm Website Verification
@@ -737,6 +921,24 @@ export const VerificationApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     *
+     * @summary Switch To Direct Upload
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+          appId,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * If the current account has verified the given app, mark it as no longer verified.
      * @summary Unverify
      * @param {string} appId
@@ -782,6 +984,25 @@ export const VerificationApiFactory = function (
  * @extends {BaseAPI}
  */
 export class VerificationApi extends BaseAPI {
+  /**
+   *
+   * @summary Archive
+   * @param {string} appId
+   * @param {ArchiveRequest} archiveRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VerificationApi
+   */
+  public archiveVerificationAppIdArchivePost(
+    appId: string,
+    archiveRequest: ArchiveRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return VerificationApiFp(this.configuration)
+      .archiveVerificationAppIdArchivePost(appId, archiveRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * Checks website verification, and if it succeeds, marks the app as verified for the current account.
    * @summary Confirm Website Verification
@@ -880,6 +1101,26 @@ export class VerificationApi extends BaseAPI {
       .setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
         appId,
         newApp,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Switch To Direct Upload
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof VerificationApi
+   */
+  public switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return VerificationApiFp(this.configuration)
+      .switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
+        appId,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

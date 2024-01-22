@@ -22,6 +22,7 @@ index.ts
 model/app-of-the-day.ts
 model/app-of-the-week.ts
 model/apps-of-the-week.ts
+model/archive-request.ts
 model/auth-info.ts
 model/auths.ts
 model/available-login-method-status.ts
