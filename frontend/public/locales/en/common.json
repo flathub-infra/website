@@ -494,6 +494,7 @@
   "get-it-on": "Get it on",
   "app-of-the-day": "App of the Day",
   "cannot-abandon-app": "Cannot abandon app",
+  "invalid-app-id": "Invalid app id",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
