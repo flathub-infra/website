@@ -81,7 +81,6 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
   return (
     <>
       <ApplicationCollection
-        user={user}
         title={title}
         applications={queryDevApplications.data}
         customButtons={customButtons}

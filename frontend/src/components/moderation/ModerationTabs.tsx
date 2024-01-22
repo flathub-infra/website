@@ -121,7 +121,6 @@ const ModerationTabs: FunctionComponent = () => {
           </span>
         </div>
         <ApplicationCollection
-          user={user}
           title={undefined}
           applications={query.data.appstream}
           totalHits={query.data.apps.apps_count}
