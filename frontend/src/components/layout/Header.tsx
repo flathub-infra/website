@@ -49,10 +49,9 @@ let userNavigation = [
     href: "/app-picks",
     condition: (user: UserInfo) => user?.is_quality_moderator,
   },
+  !IS_PRODUCTION && { name: "view-wallet", href: "/wallet" },
+  { name: "settings", href: "/settings" },
 ]
-
-if (!IS_PRODUCTION)
-  userNavigation.push({ name: "view-wallet", href: "/wallet" })
 
 const MobileMenuButton = ({ open, close, width }) => {
   const { t } = useTranslation()
