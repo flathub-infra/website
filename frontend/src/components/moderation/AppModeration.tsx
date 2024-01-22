@@ -108,12 +108,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
         <h1 className="text-4xl font-extrabold">{appInfoQuery.data[0].name}</h1>
         <Link
           href={`/apps/${appInfoQuery.data[0].id}`}
+          target="_blank"
           className="text-sm no-underline hover:underline"
         >
           {appInfoQuery.data[0].id}
         </Link>
         <a
           className="text-sm no-underline hover:underline"
+          target="_blank"
           href={
             appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
             `https://github.com/flathub/${appInfoQuery.data[0].id}`
