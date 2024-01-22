@@ -19,17 +19,12 @@ interface Props {
 const TokenList: FunctionComponent<Props> = ({ app }) => {
   const { t } = useTranslation()
 
-  const [tokens, setTokens] = useState<TokenListType>(null)
-
   const query = useQuery({
     queryKey: ["redeemable-tokens", app.id],
-    queryFn: async () => {
-      const fetch =
-        await vendingApi.getRedeemableTokensVendingappAppIdTokensGet(app.id, {
-          withCredentials: true,
-        })
-      setTokens(fetch.data)
-    },
+    queryFn: () =>
+      vendingApi.getRedeemableTokensVendingappAppIdTokensGet(app.id, {
+        withCredentials: true,
+      }),
     enabled: !!app.id,
   })
 
@@ -43,7 +38,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
   } else {
     content = (
       <div className="flex flex-col gap-2 rounded-2xl bg-flathub-white p-2 dark:bg-flathub-arsenic">
-        {tokens?.tokens.map((token) => (
+        {query.data?.data?.tokens?.map((token) => (
           <Disclosure key={token.id}>
             {({ open }) => (
               <TokenListItem open={open} token={token} appId={app.id} />

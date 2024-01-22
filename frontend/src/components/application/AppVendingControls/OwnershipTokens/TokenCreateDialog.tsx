@@ -5,6 +5,8 @@ import Button from "../../../Button"
 import { vendingApi } from "src/api"
 import Modal from "src/components/Modal"
 import { useMutation } from "@tanstack/react-query"
+import { toast } from "react-toastify"
+import { AxiosError } from "axios"
 
 interface Props {
   app: Appstream
@@ -35,6 +37,10 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
     onSuccess: () => {
       updateCallback()
       setText("")
+      setShown(false)
+    },
+    onError: (err: AxiosError<{ error }>) => {
+      toast.error(t(err.response.data.error))
     },
   })
 
@@ -52,19 +58,16 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
         }}
         submitButton={{
           onClick: () => {
-            setShown(false)
-
-            if (names.length > 0) {
-              createVendingTokensMutation.mutate()
-            }
+            createVendingTokensMutation.mutate()
           },
+          disabled: names.length === 0,
         }}
       >
         <textarea
           placeholder={t("token-creation-placeholder")}
           value={text}
           onChange={textUpdate}
-          className="h-40 rounded-xl p-3"
+          className="h-40 rounded-xl p-3 w-full"
         />
       </Modal>
     </>
