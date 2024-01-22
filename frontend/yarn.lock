@@ -6842,7 +6842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^18.2.38":
+"@types/react@npm:*, @types/react@npm:>=16":
   version: 18.2.38
   resolution: "@types/react@npm:18.2.38"
   dependencies:
@@ -6850,6 +6850,17 @@ __metadata:
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
   checksum: 56edd4756081b677e38ee23ad6d340658c5e2468785cb20968318cec357e1ea7ccf3ecd9534981741192dd1b894200acfaf0f1551b4795c6077668f6afc19345
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.2.48":
+  version: 18.2.48
+  resolution: "@types/react@npm:18.2.48"
+  dependencies:
+    "@types/prop-types": "npm:*"
+    "@types/scheduler": "npm:*"
+    csstype: "npm:^3.0.2"
+  checksum: 7e89f18ea2928b1638f564b156d692894dcb9352a7e0a807873c97e858abe1f23dbd165a25dd088a991344e973fdeef88ba5724bfb64504b74072cbc9c220c3a
   languageName: node
   linkType: hard
 
@@ -10779,7 +10790,7 @@ __metadata:
     "@tanstack/react-query-devtools": "npm:^5.17.19"
     "@tanstack/react-table": "npm:^8.11.2"
     "@types/node": "npm:^20.10.7"
-    "@types/react": "npm:^18.2.38"
+    "@types/react": "npm:^18.2.48"
     autoprefixer: "npm:^10.4.16"
     axios: "npm:^1.6.3"
     boring-avatars: "npm:^1.10.1"
