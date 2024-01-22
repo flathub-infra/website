@@ -63,12 +63,14 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
           disabled: names.length === 0,
         }}
       >
-        <textarea
-          placeholder={t("token-creation-placeholder")}
-          value={text}
-          onChange={textUpdate}
-          className="h-40 rounded-xl p-3 w-full"
-        />
+        <div className="space-y-3">
+          <div>{t("token-creation-placeholder")}</div>
+          <textarea
+            value={text}
+            onChange={textUpdate}
+            className="h-40 rounded-xl p-3 w-full"
+          />
+        </div>
       </Modal>
     </>
   )
