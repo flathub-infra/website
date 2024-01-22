@@ -37,6 +37,7 @@ export const ErrorDetail = {
   MustSetUpFirst: "must_set_up_first",
   AppAlreadyExists: "app_already_exists",
   MustAcceptPublisherAgreement: "must_accept_publisher_agreement",
+  FlatManagerNotConfigured: "flat_manager_not_configured",
 } as const
 
 export type ErrorDetail = (typeof ErrorDetail)[keyof typeof ErrorDetail]

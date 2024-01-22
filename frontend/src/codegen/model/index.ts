@@ -1,6 +1,7 @@
 export * from "./app-of-the-day"
 export * from "./app-of-the-week"
 export * from "./apps-of-the-week"
+export * from "./archive-request"
 export * from "./auth-info"
 export * from "./auths"
 export * from "./available-login-method-status"
