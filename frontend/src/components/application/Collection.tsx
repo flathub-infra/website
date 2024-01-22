@@ -4,9 +4,7 @@ import { FunctionComponent } from "react"
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
 
 import { useTranslation } from "next-i18next"
-import { UserState } from "src/types/Login"
 import Button from "../Button"
-import ButtonLink from "../ButtonLink"
 import Pagination from "../Pagination"
 import ApplicationCard from "./ApplicationCard"
 import { motion } from "framer-motion"
@@ -14,7 +12,6 @@ import { motion } from "framer-motion"
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
   title: string
-  user?: UserState
   page?: number
   totalPages?: number
   totalHits?: number
@@ -63,7 +60,6 @@ const Header = ({
 const ApplicationCollection: FunctionComponent<Props> = ({
   applications,
   title,
-  user,
   page,
   totalPages,
   totalHits,
