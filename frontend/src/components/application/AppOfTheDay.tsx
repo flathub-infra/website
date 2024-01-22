@@ -17,11 +17,13 @@ export const AppOfTheDay = ({
     <Link
       href={`/apps/${appOfTheDay.id}`}
       passHref
+      style={{ backgroundImage: `url(${appOfTheDay.icon})` }}
       className={clsx(
-        "bg-flathub-white dark:bg-flathub-arsenic rounded-xl",
+        "bg-[length:1px_1px]",
+        "rounded-xl",
         "flex min-w-0 items-center gap-4 p-8 pb-0 duration-500",
-        "hover:cursor-pointer hover:bg-flathub-gainsborow/20 hover:no-underline dark:hover:bg-flathub-arsenic/90",
-        "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
+        "hover:cursor-pointer hover:saturate-150",
+        "active:saturate-200",
         "shadow-md",
         "text-flathub-dark-gunmetal dark:text-flathub-gainsborow",
         "h-48",
