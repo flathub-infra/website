@@ -68,8 +68,8 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
 
   const link =
     variant === "invited"
-      ? (app_id: string) => `/apps/manage/${app_id}/accept-invite`
-      : undefined
+      ? (appId: string) => `/apps/manage/${appId}/accept-invite`
+      : (appId: string) => `/apps/manage/${appId}`
 
   const pages = Array.from(
     {
