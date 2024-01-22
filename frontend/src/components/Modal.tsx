@@ -117,7 +117,7 @@ const Modal: FunctionComponent<Props> = ({
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     {submitButton && (
                       <Button
-                        className="inline-flex w-full justify-center px-3 py-2 sm:ms-3 sm:w-auto"
+                        className="w-full px-3 py-2 sm:ms-3 sm:w-auto"
                         onClick={submitButton.onClick}
                         variant={submitButton.variant ?? "primary"}
                         aria-label={submitButton.label ?? t("submit")}
@@ -128,7 +128,7 @@ const Modal: FunctionComponent<Props> = ({
                     )}
                     {cancelButton && (
                       <Button
-                        className="mt-3 inline-flex w-full justify-center px-3 py-2 sm:mt-0 sm:w-auto"
+                        className="mt-3 w-full px-3 py-2 sm:mt-0 sm:w-auto"
                         onClick={cancelButton.onClick}
                         variant="secondary"
                         aria-label={cancelButton.label ?? t("cancel")}
