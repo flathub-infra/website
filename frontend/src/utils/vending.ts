@@ -35,7 +35,7 @@ export function computeShares(
 
   const shares: VendingShare[] = [[app.id, appShare]]
 
-  let platform = app.bundle.runtime
+  let platform = app.bundle?.runtime
 
   while (remaining > 0 && platform) {
     if (platform.includes("/")) {
