@@ -9,6 +9,7 @@ import {
   fetchSummary,
   fetchDeveloperApps,
   fetchAddons,
+  fetchAppReviews,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
@@ -142,7 +143,16 @@ export const getStaticProps: GetStaticProps = async ({
       appId as string,
     )
   const addons = await fetchAddons(appId as string)
+  
+  // force
 
+  verificationStatus.verified = true
+  let reviews = null;
+  if (verificationStatus.verified) {
+   const reviewsResponse = await fetchAppReviews(appId as string)
+   reviews = reviewsResponse.data
+  }
+  
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -153,6 +163,7 @@ export const getStaticProps: GetStaticProps = async ({
       verificationStatus,
       eolMessage,
       addons,
+      reviews
     },
     revalidate: 900,
   }

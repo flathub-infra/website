@@ -15,6 +15,7 @@ import {
   VERIFIED_APPS_URL,
   SUBCATEGORY_URL,
   APPSTREAM_URL,
+  APP_REVIEWS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -52,6 +53,16 @@ export async function fetchStats() {
     return {
       data: null,
     }
+  })
+}
+
+export async function fetchAppReviews(appId: string) {
+  return axios.get<AppStats>(`${APP_REVIEWS(appId)}`).catch((error) => {
+      return {
+      data: {
+          average_rating: -1,
+      },
+      }
   })
 }
 
