@@ -87,7 +87,7 @@ export const HeroBanner = ({
           >
             <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
               <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
-                <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[96px] lg:w-[96px]">
+                <div className="relative flex h-[64px] w-[64px] sm:h-[96px] sm:w-[96px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                   <LogoImage iconUrl={app.icon} appName={app.name} />
                 </div>
                 <div className="flex pt-4">
