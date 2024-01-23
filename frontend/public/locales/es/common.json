@@ -505,7 +505,9 @@
     "not-passed": "No aprobado",
     "app-data-review-pending": "Pendiente la revisión de los datos de la aplicación",
     "passed": "Aprobado",
-    "request-review": "Solicitud de revisión"
+    "request-review": "Solicitud de revisión",
+    "request-a-review-question": "¿Desea solicitar una revisión?",
+    "request-review-description": "Nuestro equipo revisará tu aplicación en busca de problemas de calidad. Por favor, vuelve a comprobarlo en unos días."
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
@@ -536,5 +538,9 @@
   "screenshot-sizes": "Tamaños de las capturas de pantalla",
   "can-access-input-devices": "Puede acceder a dispositivos de entrada como teclados, ratones o mandos de juegos",
   "get-it-on": "Consígalo en",
-  "app-of-the-day": "Aplicación del día"
+  "app-of-the-day": "Aplicación del día",
+  "invalid-appid": "Id. de aplicación no válida",
+  "not-onboarded": "Por favor, suba primero",
+  "not-logged-in": "No ha iniciado sesión",
+  "cannot-abandon-app": "No se puede abandonar la aplicación"
 }
