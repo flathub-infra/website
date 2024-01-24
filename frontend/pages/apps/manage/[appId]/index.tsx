@@ -19,6 +19,8 @@ import { VendingConfig } from "../../../../src/types/Vending"
 import { vendingApi } from "src/api"
 import { inviteApi } from "src/api"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
+import Breadcrumbs from "src/components/Breadcrumbs"
+import Link from "next/link"
 
 export default function AppManagementPage({
   app,
@@ -29,6 +31,15 @@ export default function AppManagementPage({
 }) {
   const { t } = useTranslation()
   const user = useUserContext()
+
+  const pages = [
+    { name: t("my-flathub"), current: false, href: "/my-flathub" },
+    {
+      name: t("manage-x", { "app-name": app.name }),
+      current: true,
+      href: `/apps/manage/${app.id}`,
+    },
+  ]
 
   const tabs = [
     {
@@ -99,9 +110,14 @@ export default function AppManagementPage({
     content = (
       <>
         <div className="space-y-8">
+          <Breadcrumbs pages={pages} />
           <div>
-            <h1 className="mt-8 text-4xl font-extrabold">{app.name}</h1>
-            <div className="text-sm opacity-75">{t("developer-settings")}</div>
+            <Link
+              href={`/apps/${app.id}`}
+              className="no-underline hover:underline"
+            >
+              <h1 className="mt-8 text-4xl font-extrabold">{app.name}</h1>
+            </Link>
           </div>
           <div>
             <Tabs tabs={tabs} />

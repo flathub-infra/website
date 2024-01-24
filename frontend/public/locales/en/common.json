@@ -506,6 +506,7 @@
   "archive": "Archive",
   "enter-end-of-life-message": "Enter end-of-life message",
   "rebase-onto-other-app": "Enter app ID your application will be rebased into",
+  "manage-x": "Manage {{app-name}}",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
