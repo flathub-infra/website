@@ -47,9 +47,9 @@ export const HeroBanner = ({
         }
         .swiper-button-next,
         .swiper-button-prev {
-          width: 24px;
-          height: 24px;
-          padding: 8px 8px;
+          width: 32px;
+          height: 32px;
+          padding: 10px 10px;
           border-radius: 100%;
           color: ${
             resolvedTheme === "dark" ? "rgb(222, 221, 218)" : "rgb(36, 31, 49)"
