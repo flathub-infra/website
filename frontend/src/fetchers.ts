@@ -10,7 +10,6 @@ import {
   SEARCH_APP,
   SUMMARY_DETAILS,
   STATS_DETAILS,
-  STATS,
   DEVELOPER_URL,
   VERIFIED_APPS_URL,
   SUBCATEGORY_URL,
@@ -18,7 +17,6 @@ import {
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
-import { Stats } from "./types/Stats"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -41,14 +39,6 @@ export async function fetchAppstream(appId: string) {
 
 export async function fetchSummary(appId: string) {
   return axios.get<Summary>(`${SUMMARY_DETAILS(appId)}`).catch((error) => {
-    return {
-      data: null,
-    }
-  })
-}
-
-export async function fetchStats() {
-  return axios.get<Stats>(`${STATS}`).catch((error) => {
     return {
       data: null,
     }

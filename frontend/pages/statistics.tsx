@@ -2,8 +2,6 @@ import { NextSeo } from "next-seo"
 import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { fetchStats } from "../src/fetchers"
-import { Stats } from "../src/types/Stats"
 import styles from "./statistics.module.scss"
 import "chart.js/auto"
 import { Bar, Line } from "react-chartjs-2"
@@ -20,6 +18,7 @@ import { useRouter } from "next/router"
 import { appApi, qualityModerationApi } from "src/api"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
+import { StatsResult } from "src/codegen"
 
 const countries = registerIsoCountriesLocales()
 
@@ -64,7 +63,7 @@ const Statistics = ({
   stats,
   runtimes,
 }: {
-  stats: Stats
+  stats: StatsResult
   runtimes: { [key: string]: number }
 }): JSX.Element => {
   const { t } = useTranslation()
@@ -270,7 +269,7 @@ const Statistics = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: stats } = await fetchStats()
+  const { data: stats } = await appApi.getStatsStatsGet()
 
   const { data: runtimes } = await appApi.getRuntimeListRuntimesGet()
 
