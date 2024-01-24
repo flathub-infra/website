@@ -503,7 +503,9 @@
     "not-passed": "未通過",
     "app-data-review-pending": "應用程式資料審閱擱置中",
     "passed": "通過",
-    "request-review": "請求審閱"
+    "request-review": "請求審閱",
+    "request-a-review-question": "您想要請求審閱嗎？",
+    "request-review-description": "我們的團隊將會審閱您的應用程式是否有品質問題。請過幾天再回來檢查。"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",
@@ -534,5 +536,9 @@
   "screenshot-sizes": "螢幕截圖大小",
   "can-access-input-devices": "可存取鍵盤、滑鼠或遊戲控制器等輸入設備",
   "get-it-on": "取得自",
-  "app-of-the-day": "每日應用程式"
+  "app-of-the-day": "每日應用程式",
+  "cannot-abandon-app": "無法放棄應用程式",
+  "invalid-appid": "無效的應用程式 ID",
+  "not-onboarded": "請先登入",
+  "not-logged-in": "您尚未登入"
 }

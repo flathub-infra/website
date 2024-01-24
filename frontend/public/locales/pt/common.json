@@ -409,7 +409,9 @@
     "request-review": "Solicitar revisão",
     "app-icon-size": "SVG ou PNG de pelo menos 256px",
     "app-summary-dont-start-with-an-article": "Não começa com um artigo",
-    "screenshots-just-the-app-window": "Apenas a janela do app"
+    "screenshots-just-the-app-window": "Apenas a janela do app",
+    "request-a-review-question": "Deseja solicitar uma revisão?",
+    "request-review-description": "A nossa equipa irá analisar a sua aplicação para detetar problemas de qualidade. Volte a contactar-nos dentro de alguns dias."
   },
   "user-data-subfolder-x": "Subpasta de dados do utilizador {{folder}}",
   "can-acquire-arbitrary-permissions": "Pode adquirir permissões arbitrárias",
@@ -536,5 +538,9 @@
   "primary-developer": "Programador primário",
   "invite": "Convidar",
   "get-it-on": "Obter no",
-  "app-of-the-day": "Aplicação do dia"
+  "app-of-the-day": "Aplicação do dia",
+  "cannot-abandon-app": "Não é possível abandonar a aplicação",
+  "invalid-appid": "ID de aplicação inválida",
+  "not-onboarded": "Por favor, embarque primeiro",
+  "not-logged-in": "Não tem sessão iniciada"
 }
