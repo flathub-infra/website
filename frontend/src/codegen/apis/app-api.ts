@@ -45,6 +45,8 @@ import { MainCategory } from "../model"
 import { Platform } from "../model"
 // @ts-ignore
 import { SearchQuery } from "../model"
+// @ts-ignore
+import { StatsResult } from "../model"
 /**
  * AppApi - axios parameter creator
  * @export
@@ -1675,7 +1677,7 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getStatsStatsGet(
       options?: AxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatsResult>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getStatsStatsGet(options)
@@ -2113,7 +2115,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatsStatsGet(options?: any): AxiosPromise<void> {
+    getStatsStatsGet(options?: any): AxiosPromise<StatsResult> {
       return localVarFp
         .getStatsStatsGet(options)
         .then((request) => request(axios, basePath))

@@ -83,6 +83,7 @@ model/review-request.ts
 model/review-response.ts
 model/review.ts
 model/search-query.ts
+model/stats-result.ts
 model/storefront-info.ts
 model/token-cancellation.ts
 model/token-list.ts

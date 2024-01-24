@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
+from pydantic import BaseModel
 
 from . import (
     apps,
@@ -230,8 +231,18 @@ def get_popular_last_month(
     return result
 
 
+class StatsResult(BaseModel):
+    countries: dict[str, int]
+    downloads_per_day: dict[str, int]
+    updates_per_day: dict[str, int]
+    delta_downloads_per_day: dict[str, int]
+    downloads: int
+    number_of_apps: int
+    category_totals: dict[str, int]
+
+
 @router.get("/stats", status_code=200, tags=["app"])
-def get_stats(response: Response):
+def get_stats(response: Response) -> StatsResult | None:
     if value := db.get_json_key("stats"):
         return value
 

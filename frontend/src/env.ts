@@ -7,7 +7,6 @@ export const APP_DETAILS = (id: string): string => `${APPSTREAM_URL}/${id}`
 export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
-export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP: string = `${BASE_URI}/search`
 
 export const POPULAR_LAST_MONTH_URL = (
