@@ -375,11 +375,14 @@ def submit_review_request(
                             build_perm = build_permissions.get(perm)
 
                             if isinstance(current_perm, list):
-                                if current_permissions[perm] != build_perm:
+                                if current_perm != build_perm:
                                     current_values[perm] = current_perm
                                     keys[perm] = build_perm
 
                             if isinstance(current_perm, dict):
+                                if build_perm is None:
+                                    build_perm = {}
+
                                 dict_keys = current_perm.keys() | build_perm.keys()
                                 for key in dict_keys:
                                     if current_perm.get(key) != build_perm.get(key):
