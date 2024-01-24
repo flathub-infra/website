@@ -505,7 +505,9 @@
     "not-passed": "Nie zaliczono",
     "app-data-review-pending": "Trwa weryfikacja danych aplikacji",
     "passed": "Zaliczono",
-    "request-review": "Poproś o sprawdzenie"
+    "request-review": "Poproś o sprawdzenie",
+    "request-a-review-question": "Czy chcesz poprosić o weryfikację?",
+    "request-review-description": "Nasz zespół sprawdzi aplikację pod kątem problemów z jakością. Wróć do nas za kilka dni."
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
@@ -536,5 +538,9 @@
   "build-x": "Zbudowano {{build-ago}}",
   "can-access-input-devices": "Może uzyskać dostęp do urządzeń wejściowych, takich jak klawiatury, myszy lub kontrolery do gier",
   "app-of-the-day": "Aplikacja dnia",
-  "get-it-on": "Pobierz z"
+  "get-it-on": "Pobierz z",
+  "cannot-abandon-app": "Nie można porzucić aplikacji",
+  "invalid-appid": "Nieprawidłowy identyfikator aplikacji",
+  "not-onboarded": "Najpierw należy przejść przez proces rejestracji",
+  "not-logged-in": "Nie jesteś zalogowany"
 }

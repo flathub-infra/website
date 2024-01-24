@@ -504,7 +504,9 @@
     "not-passed": "Nem telt el",
     "app-data-review-pending": "Alkalmazásadatok felülvizsgálata függőben lévő",
     "passed": "Átment",
-    "request-review": "Felülvizsgálat kérése"
+    "request-review": "Felülvizsgálat kérése",
+    "request-a-review-question": "Szeretnél kérni felülvizsgálatot?",
+    "request-review-description": "Csapatunk felülvizsgálja az alkalmazás minőségi hibáit. Kérjük, nézzen vissza néhány nap múlva."
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -535,5 +537,9 @@
   "build-x": "Összeállítva {{build-ago}}",
   "get-it-on": "Letöltés",
   "app-of-the-day": "A nap alkalmazása",
-  "can-access-input-devices": "Hozzáférhet beviteli eszközökhöz, például billentyűzetekhez, egerekhez vagy játékvezérlőkhöz"
+  "can-access-input-devices": "Hozzáférhet beviteli eszközökhöz, például billentyűzetekhez, egerekhez vagy játékvezérlőkhöz",
+  "invalid-appid": "Érvénytelen alkalmazásazonosító",
+  "not-onboarded": "Kérjük, először lépjen be a fedélzetre",
+  "not-logged-in": "Nem vagy bejelentkezve",
+  "cannot-abandon-app": "Nem lehet elhagyni az alkalmazást"
 }
