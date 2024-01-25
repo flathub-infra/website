@@ -32,6 +32,8 @@ class ErrorDetail(str, Enum):
     NOT_DIRECT_UPLOAD_APP = "not_direct_upload_app"
     # The token was not found
     TOKEN_NOT_FOUND = "token_not_found"
+    # The app has been archived
+    APP_ARCHIVED = "app_archived"
 
 
 class TokenResponse(BaseModel):
@@ -139,9 +141,12 @@ def create_upload_token(
     if app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
+    if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
+        if direct_upload_app.archived:
+            raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
+
     if "stable" in request.repos:
         # Only direct upload apps may create tokens for the stable repo.
-        direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
         if direct_upload_app is None:
             raise HTTPException(
                 status_code=403,
