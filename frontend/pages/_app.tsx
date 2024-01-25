@@ -25,7 +25,7 @@ import { MotionConfig } from "framer-motion"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import cardImage from "../public/img/card.webp"
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,7 +35,7 @@ const inter = Inter({
 const App = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation()
 
-  const queryClient = new QueryClient()
+  const [queryClient] = useState(() => new QueryClient({}))
 
   const router = useRouter()
   const instance = createInstance({
