@@ -1,13 +1,12 @@
 import { useTranslation } from "next-i18next"
 import React from "react"
 import { DesktopAppstream } from "src/types/Appstream"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
-import { VendingSetup } from "src/codegen"
+import { VendingSetup, VerificationStatus } from "src/codegen"
 
 export function AppHeader({
   app,

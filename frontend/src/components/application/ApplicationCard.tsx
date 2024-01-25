@@ -4,9 +4,9 @@ import LogoImage from "../LogoImage"
 
 import { AppstreamListItem } from "../../types/Appstream"
 import { clsx } from "clsx"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
+import { VerificationStatus } from "src/codegen"
 
 interface Props {
   application: AppstreamListItem
@@ -39,7 +39,7 @@ const ApplicationCard: FunctionComponent<Props> = ({
           application.metadata?.[
             "flathub::verification::login_is_organization"
           ] === "true",
-        timestamp: 0,
+        timestamp: "",
         detail: "",
       }
     : {

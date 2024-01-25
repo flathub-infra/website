@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
-import { VerificationStatus } from "./types/VerificationStatus"
 import { verificationProviderToHumanReadable } from "./verificationProvider"
+import { VerificationStatus } from "./codegen"
 
 export const VerificationText = (verificationStatus: VerificationStatus) => {
   const { t } = useTranslation()

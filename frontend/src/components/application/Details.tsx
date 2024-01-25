@@ -19,7 +19,6 @@ import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 import ApplicationSection from "./ApplicationSection"
 import { calculateHumanReadableSize } from "../../size"
 
-import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -39,6 +38,7 @@ import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
 import { vendingApi } from "src/api"
 import { formatISO } from "date-fns"
+import { VerificationStatus } from "src/codegen"
 
 interface Props {
   app?: DesktopAppstream

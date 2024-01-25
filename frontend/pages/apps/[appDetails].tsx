@@ -14,7 +14,6 @@ import { NextSeo } from "next-seo"
 import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
 import { Summary } from "../../src/types/Summary"
 import { AppStats } from "../../src/types/AppStats"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -23,6 +22,7 @@ import {
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { appApi, verificationApi } from "src/api"
+import { VerificationStatus } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import { isValidAppId } from "src/utils/helpers"
 
