@@ -305,13 +305,13 @@ def submit_review_request(
         )
     except KeyError:
         # if build_ref_arches has no elements, something went terribly wrong with the build in general
-        return ReviewRequestResponse(requires_review=True)
+        raise HTTPException(status_code=500, detail="invalid_build")
 
     r = req.get(f"https://dl.flathub.org/build-repo/{review_request.build_id}/summary")
     r.raise_for_status()
     if not isinstance(r.content, bytes):
         # If the summary file is not a binary file, something also went wrong
-        return ReviewRequestResponse(requires_review=True)
+        raise HTTPException(status_code=500, detail="invalid_summary_file")
     build_summary, _, _ = parse_summary(r.content)
 
     sentry_context = {"build_summary": build_summary}
