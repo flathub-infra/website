@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from . import config, models, utils, worker
 from .emails import EmailCategory, EmailInfo
-from .logins import login_state, do_refresh_dev_flatpaks
+from .logins import login_state
 
 router = APIRouter(prefix="/upload-tokens")
 
@@ -138,17 +138,16 @@ def create_upload_token(
 
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-
-    dev_flatpaks = do_refresh_dev_flatpaks()
-    if app_id not in dev_flatpaks.get("dev_flatpaks", []):
+    if app_id not in login.user.dev_flatpaks(sqldb):
         raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
     if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
         if direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
-    else:
+
+    if "stable" in request.repos:
         # Only direct upload apps may create tokens for the stable repo.
-        if "stable" in request.repos:
+        if direct_upload_app is None:
             raise HTTPException(
                 status_code=403,
                 detail=ErrorDetail.NOT_DIRECT_UPLOAD_APP,
