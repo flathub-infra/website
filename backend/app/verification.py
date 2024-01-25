@@ -181,7 +181,7 @@ def _archive_github_repo(app_id: str):
         return
 
     gh = Github(gh_token)
-    repo = gh.get_repo(app_id)
+    repo = gh.get_repo(f"flathub/{app_id}")
     if repo.archived:
         return False
 
