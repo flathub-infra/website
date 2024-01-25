@@ -680,6 +680,8 @@ class DirectUploadApp(Base):
     id = mapped_column(Integer, primary_key=True)
     app_id = mapped_column(String, nullable=False, unique=True, index=True)
     archived = mapped_column(Boolean, nullable=False, default=False)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    first_seen_at = mapped_column(DateTime, nullable=True, default=None)
 
     @staticmethod
     def by_app_id(db, app_id: str) -> Optional["DirectUploadApp"]:

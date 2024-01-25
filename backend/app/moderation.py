@@ -349,6 +349,14 @@ def submit_review_request(
         ):
             continue
 
+        if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
+            if not direct_upload_app.first_seen_at:
+                direct_upload_app.first_seen_at = datetime.utcnow()
+                is_new_submission = True
+                current_values = {"direct upload": False}
+                keys = {"direct upload": True}
+                sqldb.session.commit()
+
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
