@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from . import config, models, utils, worker
 from .emails import EmailCategory, EmailInfo
-from .logins import login_state, do_refresh_dev_flatpaks
+from .logins import do_refresh_dev_flatpaks, login_state
 
 router = APIRouter(prefix="/upload-tokens")
 
