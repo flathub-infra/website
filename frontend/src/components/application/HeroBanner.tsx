@@ -45,11 +45,16 @@ export const HeroBanner = ({
         .swiper-button-next:hover, .swiper-button-prev:hover {
           background-color: hsla(0, 0%, 100%, 0.2);
         }
+        .swiper-button-next {
+          padding: 16px 14px 16px 18px;
+        }
+        .swiper-button-prev {
+          padding: 16px 18px 16px 14px;
+        }
         .swiper-button-next,
         .swiper-button-prev {
-          width: 32px;
-          height: 32px;
-          padding: 10px 10px;
+          width: 28px;
+          height: 28px;
           border-radius: 100%;
           color: ${
             resolvedTheme === "dark" ? "rgb(222, 221, 218)" : "rgb(36, 31, 49)"
