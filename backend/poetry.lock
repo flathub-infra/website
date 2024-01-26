@@ -341,13 +341,13 @@ dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [[package]]
 name = "dramatiq"
-version = "1.15.0"
+version = "1.16.0"
 description = "Background Processing for Python 3."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "dramatiq-1.15.0-py3-none-any.whl", hash = "sha256:74fea420b46d8a2c8e59e4a89e21c31ca565fd13759ecf218cb1e17fe26fb6fc"},
-    {file = "dramatiq-1.15.0.tar.gz", hash = "sha256:b220e93d7ab980a573267c824fa99eb2f1fdc711aa48b0810b89bfa49b868280"},
+    {file = "dramatiq-1.16.0-py3-none-any.whl", hash = "sha256:650860af82a98905ee03f7cc94b7c356f89528e3008c213aee6a35e2faecde05"},
+    {file = "dramatiq-1.16.0.tar.gz", hash = "sha256:00a676a96d0f47ea4ba59a82018dd3d8885fb8cec7765dc8209142f4b493870e"},
 ]
 
 [package.dependencies]
@@ -2128,4 +2128,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7829e6407352f6331370e1aae2036dfb4e4756cfd959b52581e5138cc13ec03b"
+content-hash = "97fbc87e3c7e885a4d6c9ccf808ff18b805e678873904a8b317e0aea5da57450"
