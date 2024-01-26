@@ -8,7 +8,7 @@ import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
-import AppRating from "./AppRating";
+import AppRating from "./AppRating"
 
 export function AppHeader({
   app,
@@ -67,7 +67,10 @@ export function AppHeader({
               <div className="border-l h-4"></div>
             </>
           )}
-          <Verification appId={app.id} verificationStatus={verificationStatus} />
+          <Verification
+            appId={app.id}
+            verificationStatus={verificationStatus}
+          />
         </div>
       </div>
 
