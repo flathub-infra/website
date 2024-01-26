@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import timedelta
+from pydantic import BaseModel
 
 import logging
 import requests
@@ -13,7 +14,10 @@ REVIEWS_CACHE_KEY = 'odrs_reviews'
 @dataclass
 class AppReview: 
     average_rating: float
-    
+
+class LoadRatingsQuery(BaseModel):
+  query: list[str]
+
 def _update_reviews():
     try:
         reviews = requests.get(f'{ODRS_BASE_URL}/ratings', timeout=15).json()
@@ -25,13 +29,13 @@ def _update_reviews():
     return reviews
 
 
-def get_reviews(ids: list[str]) -> list[AppReview]:
+def get_reviews(ids: list[str]) -> dict[str, AppReview]:
     reviews = db.get_json_key(REVIEWS_CACHE_KEY)
     if not reviews: 
         reviews = _update_reviews()
 
         if not reviews:
-            return []
+            return {}
 
     keys_weight  = {
         "star0": 0,
@@ -42,13 +46,14 @@ def get_reviews(ids: list[str]) -> list[AppReview]:
         "star5": 5,
     }
     
-    result = []
+    result = {}
+
     ids_left = ids.copy()
-    for r, review in reviews.items():
+    for app_id, review in reviews.items():
         if not ids_left:
             break
         
-        if r not in ids:
+        if app_id not in ids:
             continue
         
         weight = 0
@@ -57,6 +62,7 @@ def get_reviews(ids: list[str]) -> list[AppReview]:
         
         average_rating = round(weight / review['total'], 1)
         app_review = AppReview(average_rating=average_rating)
-        result.append(app_review)
-        
+        result[app_id] = app_review
+        ids_left.remove(app_id)
+
     return result

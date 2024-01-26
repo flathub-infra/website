@@ -330,6 +330,7 @@ def get_addons(app_id: str) -> list[str]:
 
     return addon_ids
 
+
 @router.get("/reviews/{app_id}", status_code=200, tags=["app"])
 def get_reviews_for_app(
     response: Response,
@@ -340,9 +341,19 @@ def get_reviews_for_app(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if value := app_reviews.get_reviews([app_id]):
-        return value[0]
+    reviews = app_reviews.get_reviews([app_id])
+    if app_id in reviews:
+        return reviews[app_id]
 
     response.status_code = 404
     return None
 
+@router.post("/load_multiple_ratings", tags=["app"])
+def post_load_multiple_ratings(query: app_reviews.LoadRatingsQuery):
+    reviews = app_reviews.get_reviews(query.query)
+    
+    result = {}
+    for r, review in reviews.items():
+        result[r] = { 'average_rating': review.average_rating }
+
+    return { 'ratings': result }
