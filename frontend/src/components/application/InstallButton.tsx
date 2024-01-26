@@ -59,7 +59,7 @@ export default function InstallButton({ appId }: { appId: string }) {
           )}
         >
           <span className="sr-only">Open options</span>
-          <HiChevronDown className="h-5 w-5" aria-hidden="true" />
+          <HiChevronDown className="size-5" aria-hidden="true" />
         </Popover.Button>
         <Transition
           as={Fragment}

@@ -504,7 +504,7 @@ const SearchPanel = ({
                 >
                   <div className="flex gap-3">
                     <HiOutlineFunnel
-                      className={clsx("h-6 w-6 transform duration-150")}
+                      className={clsx("size-6 transform duration-150")}
                     />
                     {t("filters")}
                   </div>

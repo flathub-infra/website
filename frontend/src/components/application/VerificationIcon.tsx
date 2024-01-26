@@ -57,7 +57,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
           aria-label={t("app-is-verified")}
         >
           <HiMiniCheckBadge
-            className="h-5 w-5 text-flathub-celestial-blue"
+            className="size-5 text-flathub-celestial-blue"
             aria-label={t("app-is-verified")}
           />
         </button>

@@ -57,7 +57,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
                 aria-label={t("addon-install-info")}
               >
                 <HiMiniInformationCircle
-                  className="h-5 w-5"
+                  className="size-5"
                   aria-label={t("addon-install-info")}
                 />
               </button>

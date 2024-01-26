@@ -27,7 +27,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
             checked={checked}
             onChange={invertCheck}
             aria-describedby="card-description"
-            className="h-4 w-4"
+            className="size-4"
           />
         </div>
         <div className="ms-3 text-sm">

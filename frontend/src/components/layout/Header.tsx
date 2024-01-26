@@ -69,9 +69,9 @@ const MobileMenuButton = ({ open, close, width }) => {
     <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
       <span className="sr-only">{t("open-menu")}</span>
       {open ? (
-        <HiXMark className="block h-6 w-6" aria-hidden="true" />
+        <HiXMark className="block size-6" aria-hidden="true" />
       ) : (
-        <HiBars3 className="block h-6 w-6" aria-hidden="true" />
+        <HiBars3 className="block size-6" aria-hidden="true" />
       )}
     </Popover.Button>
   )
@@ -274,7 +274,7 @@ const Header = () => {
                             tabIndex={-1}
                             onClick={onClickSearch}
                           >
-                            <HiMagnifyingGlass className="h-5 w-5 text-flathub-spanish-gray" />
+                            <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
                           </button>
                         </div>
                         <form
@@ -301,7 +301,7 @@ const Header = () => {
                           {!query && (
                             <div className="pointer-events-none absolute inset-y-0 end-0 hidden items-center pe-5 peer-focus:hidden md:flex">
                               <kbd
-                                className="flex h-5 w-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-sonic-silver dark:text-flathub-gainsborow"
+                                className="flex size-5 items-center justify-center rounded border-2 border-flathub-gray-x11/60 font-sans text-xs text-flathub-arsenic dark:border-flathub-sonic-silver dark:text-flathub-gainsborow"
                                 aria-hidden="true"
                               >
                                 /

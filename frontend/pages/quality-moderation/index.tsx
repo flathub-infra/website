@@ -322,9 +322,9 @@ export default function QualityModerationDashboard() {
                                   header.getContext(),
                                 )}
                                 {{
-                                  asc: <HiMiniChevronUp className="h-4 w-4" />,
+                                  asc: <HiMiniChevronUp className="size-4" />,
                                   desc: (
-                                    <HiMiniChevronDown className="h-4 w-4" />
+                                    <HiMiniChevronDown className="size-4" />
                                   ),
                                 }[header.column.getIsSorted() as string] ??
                                   null}

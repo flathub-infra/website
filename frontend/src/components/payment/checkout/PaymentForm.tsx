@@ -85,7 +85,7 @@ const PaymentForm: FunctionComponent<Props> = ({
                 id="save-card"
                 type="checkbox"
                 aria-describedby="card-description"
-                className="h-4 w-4"
+                className="size-4"
                 checked={checked}
                 onChange={() => setChecked(!checked)}
               />
