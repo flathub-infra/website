@@ -19,6 +19,7 @@ interface Props {
   app: Appstream
   isNewApp: boolean
   onVerified?: () => void
+  showHeader?: boolean
 }
 
 const StatusInfo = ({ status }: { status: VerificationStatus }) => {
@@ -61,6 +62,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   app,
   isNewApp,
   onVerified,
+  showHeader = true,
 }) => {
   const { t } = useTranslation()
 
@@ -204,7 +206,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 
   return (
     <>
-      <h2 className="mb-6 text-2xl font-bold">{t("verification")}</h2>
+      {showHeader && (
+        <h2 className="mb-6 text-2xl font-bold">{t("verification")}</h2>
+      )}
       {content}
     </>
   )

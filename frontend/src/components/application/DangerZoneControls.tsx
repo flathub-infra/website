@@ -8,6 +8,7 @@ import { uploadTokensApi, verificationApi } from "src/api"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
+import { Notice } from "../Notice"
 
 const SwitchToDirectUpload = ({ app }: { app: { id: string } }) => {
   const { t } = useTranslation()
@@ -134,19 +135,16 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (
-      <div className="flex flex-col gap-3">
-        {!query.data.data.is_direct_upload_app && (
-          <SwitchToDirectUpload app={app} />
-        )}
-        <ArchiveApp app={app} />
-      </div>
+      <Notice variant="danger">
+        <div className="flex flex-col gap-3">
+          {!query.data.data.is_direct_upload_app && (
+            <SwitchToDirectUpload app={app} />
+          )}
+          <ArchiveApp app={app} />
+        </div>
+      </Notice>
     )
   }
 
-  return (
-    <>
-      <h2 className="mb-6 text-2xl font-bold">{t("danger-zone")}</h2>
-      {content}
-    </>
-  )
+  return <>{content}</>
 }

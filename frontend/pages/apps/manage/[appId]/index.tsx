@@ -4,7 +4,6 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement } from "react"
-import Tabs from "src/components/Tabs"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
@@ -21,6 +20,48 @@ import { inviteApi } from "src/api"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import Link from "next/link"
+import { Disclosure, Transition } from "@headlessui/react"
+import LogoImage from "src/components/LogoImage"
+import { HiChevronUp } from "react-icons/hi2"
+import { motion } from "framer-motion"
+
+const SettingsDisclosure = ({ sectionTitle, children }) => {
+  const variants = {
+    open: { rotate: 0 },
+    closed: { rotate: 180 },
+  }
+
+  return (
+    <Disclosure as={"div"} className="pt-4">
+      {({ open }) => (
+        <>
+          <Disclosure.Button className="w-full flex items-start justify-between">
+            <div className="flex text-xl font-semibold gap-3">
+              {sectionTitle}
+            </div>
+            <motion.span
+              animate={open ? "open" : "closed"}
+              variants={variants}
+              className="ml-6 flex h-7 items-center"
+            >
+              <HiChevronUp className="h-6 w-6" aria-hidden="true" />
+            </motion.span>
+          </Disclosure.Button>
+          <Transition
+            enter="transition duration-100 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-75 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0"
+          >
+            <Disclosure.Panel className={"pt-6"}>{children}</Disclosure.Panel>
+          </Transition>
+        </>
+      )}
+    </Disclosure>
+  )
+}
 
 export default function AppManagementPage({
   app,
@@ -41,18 +82,6 @@ export default function AppManagementPage({
     },
   ]
 
-  const tabs = [
-    {
-      name: t("verification"),
-      content: (
-        <AppVerificationControls.AppVerificationSetup
-          app={app}
-          isNewApp={false}
-        />
-      ),
-    },
-  ]
-
   const inviteQuery = useQuery({
     queryKey: ["invite-status", app.id],
     queryFn: () =>
@@ -62,48 +91,6 @@ export default function AppManagementPage({
     enabled: !!app.id,
   })
 
-  if (!IS_PRODUCTION || user.info?.is_moderator) {
-    tabs.push(
-      {
-        name: t("payment"),
-        content: (
-          <AppVendingControls.SetupControls
-            app={app}
-            vendingConfig={vendingConfig}
-          />
-        ),
-      },
-      {
-        name: t("ownership-tokens"),
-        content: <AppVendingControls.OwnershipTokens app={app} />,
-      },
-    )
-  }
-
-  tabs.push({
-    name: t("moderation-pending-reviews"),
-    content: <AppDevModeration appId={app.id} />,
-  })
-
-  if (!IS_PRODUCTION || user.info?.is_moderator) {
-    if (inviteQuery.data?.data?.is_direct_upload_app) {
-      tabs.push({
-        name: t("developers"),
-        content: <AppDevelopersControls app={app} />,
-      })
-    }
-
-    tabs.push({
-      name: t("upload-tokens"),
-      content: <UploadTokenControls app={app} />,
-    })
-
-    tabs.push({
-      name: t("danger-zone"),
-      content: <DangerZoneControls app={app} />,
-    })
-  }
-
   // User must be a developer of the app to see these controls
   let content: ReactElement
   if (user.info?.dev_flatpaks.includes(app.id)) {
@@ -111,16 +98,61 @@ export default function AppManagementPage({
       <>
         <div className="space-y-8">
           <Breadcrumbs pages={pages} />
-          <div>
-            <Link
-              href={`/apps/${app.id}`}
-              className="no-underline hover:underline"
-            >
-              <h1 className="mt-8 text-4xl font-extrabold">{app.name}</h1>
-            </Link>
-          </div>
-          <div>
-            <Tabs tabs={tabs} />
+          <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
+            <>
+              <div className="space-y-12 w-full divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
+                <Link
+                  href={`/apps/${app.id}`}
+                  className="no-underline hover:underline flex gap-3 items-center"
+                >
+                  <LogoImage iconUrl={app.icon} appName={app.name} size="64" />
+                  <h1 className="text-4xl font-extrabold">{app.name}</h1>
+                </Link>
+                <div className="space-y-3  divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
+                  <SettingsDisclosure sectionTitle={t("verification")}>
+                    <AppVerificationControls.AppVerificationSetup
+                      app={app}
+                      isNewApp={false}
+                      showHeader={false}
+                    />
+                  </SettingsDisclosure>
+                  {(!IS_PRODUCTION || user.info?.is_moderator) && (
+                    <>
+                      <SettingsDisclosure sectionTitle={t("accepting-payment")}>
+                        <AppVendingControls.SetupControls
+                          app={app}
+                          vendingConfig={vendingConfig}
+                        />
+                      </SettingsDisclosure>
+                      <SettingsDisclosure sectionTitle={t("ownership-tokens")}>
+                        <AppVendingControls.OwnershipTokens app={app} />
+                      </SettingsDisclosure>
+                    </>
+                  )}
+                  <SettingsDisclosure
+                    sectionTitle={t("moderation-pending-reviews")}
+                  >
+                    <AppDevModeration appId={app.id} />
+                  </SettingsDisclosure>
+
+                  {(!IS_PRODUCTION || user.info?.is_moderator) && (
+                    <>
+                      {inviteQuery.data?.data?.is_direct_upload_app && (
+                        <SettingsDisclosure sectionTitle={t("developers")}>
+                          <AppDevelopersControls app={app} />
+                        </SettingsDisclosure>
+                      )}
+                      <SettingsDisclosure sectionTitle={t("upload-tokens")}>
+                        <UploadTokenControls app={app} />
+                      </SettingsDisclosure>
+                      <SettingsDisclosure sectionTitle={t("danger-zone")}>
+                        <DangerZoneControls app={app} />
+                      </SettingsDisclosure>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
           </div>
         </div>
       </>
