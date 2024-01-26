@@ -9,8 +9,10 @@ interface Props {
 const AppRating: FunctionComponent<Props> = ({ rating }) => {
   return (
     <div className="flex flex-row gap-1 items-center">
-      <HiStar className="text-yellow-400"></HiStar>
-      {rating.toFixed(1)}
+      <HiStar className="text-yellow-400 "></HiStar>
+      <span className="text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+        {rating.toFixed(1)}
+      </span>
     </div>
   )
 }

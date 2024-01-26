@@ -7,6 +7,7 @@ import { clsx } from "clsx"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
+import AppRating from "./AppRating";
 
 interface Props {
   application: AppstreamListItem
@@ -74,6 +75,14 @@ const ApplicationCard: FunctionComponent<Props> = ({
             appId={application.id}
             verificationStatus={verificationStatus}
           />
+          {verificationStatus.verified && (
+            <div className="bg-flathub-dark-gunmetal dark:bg-flathub-gainsborow h-1 w-1 mx-1 self-center rounded-full"></div>
+          )}
+          {verificationStatus.verified && (
+            <div className="flex flex-row items-center text-sm">
+              <AppRating rating={4}></AppRating>
+            </div>
+          )}
         </div>
         {showId && application.id !== application.name && (
           <div className="text-sm text-flathub-spanish-gray truncate leading-none">
