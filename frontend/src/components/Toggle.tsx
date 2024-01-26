@@ -21,13 +21,13 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
         enabled
           ? "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue"
           : "bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
-        `relative inline-flex h-6 w-11 items-center rounded-full`,
+        `relative inline-flex size-61 items-center rounded-full`,
       )}
     >
       <span
         className={clsx(
           enabled ? "translate-x-6" : "translate-x-1",
-          `inline-block h-4 w-4 transform rounded-full bg-white transition duration-200 ease-in-out`,
+          `inline-block size-4 transform rounded-full bg-white transition duration-200 ease-in-out`,
         )}
       />
     </Switch>

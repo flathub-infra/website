@@ -15,7 +15,7 @@ export const FlathubDisclosure: FunctionComponent<{
             <HiChevronRight
               className={clsx(
                 open ? "rotate-90 " : "",
-                "h-6 w-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
+                "size-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
               )}
             />
             {buttonItems}

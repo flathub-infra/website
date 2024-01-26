@@ -154,7 +154,7 @@ export const CarouselStrip = ({
                   tabIndex={0}
                   className={clsx(
                     index !== currentIndex && "opacity-50",
-                    "h-2 w-2 cursor-pointer rounded-full bg-flathub-dark-gunmetal transition duration-200 dark:bg-flathub-gainsborow",
+                    "size-2 cursor-pointer rounded-full bg-flathub-dark-gunmetal transition duration-200 dark:bg-flathub-gainsborow",
                     "hover:opacity-100",
                   )}
                   value={index}

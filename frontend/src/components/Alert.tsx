@@ -21,7 +21,7 @@ const Alert: FunctionComponent<Props> = ({ icon, headline, message, type }) => {
         <div className="flex">
           <div className="flex-shrink-0">
             {React.createElement(icon, {
-              className: `h-5 w-5 ${iconColor}`,
+              className: `size-5 ${iconColor}`,
               "aria-hidden": "true",
             })}
           </div>

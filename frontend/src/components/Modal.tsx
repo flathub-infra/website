@@ -80,7 +80,7 @@ const Modal: FunctionComponent<Props> = ({
                     <button
                       type="button"
                       className={clsx(
-                        "h-7 w-7 flex justify-center items-center",
+                        "size-7 flex justify-center items-center",
                         "transition",
                         "rounded-full",
                         "bg-flathub-gainsborow hover:bg-flathub-gray-x11",
@@ -90,7 +90,7 @@ const Modal: FunctionComponent<Props> = ({
                       onClick={() => onClose()}
                     >
                       <span className="sr-only">{t("close")}</span>
-                      <HiMiniXMark className="h-5 w-5" aria-hidden="true" />
+                      <HiMiniXMark className="size-5" aria-hidden="true" />
                     </button>
                   </div>
 

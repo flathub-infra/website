@@ -29,7 +29,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
                 href="/"
                 className="text-flathub-sonic-silver hover:text-flathub-granite-gray dark:text-flathub-gray-x11 dark:hover:text-flathub-gainsborow"
               >
-                <HiHome className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
+                <HiHome className="size-5 flex-shrink-0" aria-hidden="true" />
                 <span className="sr-only">{t("home")}</span>
               </Link>
             </div>
@@ -38,7 +38,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
             <li key={page.name}>
               <div className="flex items-center">
                 <HiChevronRight
-                  className="h-5 w-5 flex-shrink-0 text-flathub-sonic-silver dark:text-flathub-gray-x11"
+                  className="size-5 flex-shrink-0 text-flathub-sonic-silver dark:text-flathub-gray-x11"
                   aria-hidden="true"
                 />
                 <Link
