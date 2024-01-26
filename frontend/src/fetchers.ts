@@ -28,7 +28,7 @@ import {
 } from "./meilisearch"
 import axios from "axios"
 import { appApi } from "./api"
-import { AppReviews, LoadMultiAppRatings } from "./types/AppReviews";
+import { AppReviews } from "./types/AppReviews"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -66,24 +66,6 @@ export async function fetchAppReviews(appId: string) {
       },
     }
   })
-}
-
-export async function fetchMultipleAppsRatings(appIds: string[]) {
-  return axios
-    .post<LoadMultiAppRatings>(
-      `${MULTI_APPS_RATINGS}`,
-      { query: appIds },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    )
-    .catch((error) => {
-      return {
-        data: { ratings: {} },
-      }
-    })
 }
 
 export async function fetchAppStats(appId: string) {

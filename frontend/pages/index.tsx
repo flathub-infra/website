@@ -7,7 +7,6 @@ import {
   fetchCollectionRecentlyAdded,
   fetchCollectionRecentlyUpdated,
   fetchCollectionVerified,
-  fetchMultipleAppsRatings,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
@@ -21,7 +20,6 @@ import {
 } from "src/meilisearch"
 import { Category, categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
-import { AppRating } from "src/types/AppReviews"
 
 const categoryOrder = [
   Category.Office,
@@ -154,26 +152,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       (app) => !recentlyAdded.hits.some((addedApp) => addedApp.id === app.id),
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
-
-  const allAppsIds: Set<string> = new Set()
-  const allApps = [
-    ...recentlyUpdated.hits,
-    ...recentlyAdded.hits,
-    ...popular.hits,
-    ...verified.hits,
-  ]
-
-  allApps.forEach((app) => {
-    if (app.verification_verified === "true") {
-      allAppsIds.add(app.app_id)
-    }
-  })
-
-  const ratings = await fetchMultipleAppsRatings(Array.from(allAppsIds))
-
-  allApps.forEach((app) => {
-    app.rating = ratings.data.ratings[app.app_id] ?? null
-  })
 
   return {
     props: {

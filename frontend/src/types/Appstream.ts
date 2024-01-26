@@ -29,7 +29,6 @@ export interface DesktopAppstream {
   metadata?: Metadata
   keywords?: string[]
   is_free_license: boolean
-  rating: AppRating | null
 }
 
 export interface AddonAppstream {

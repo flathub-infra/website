@@ -347,13 +347,3 @@ def get_reviews_for_app(
 
     response.status_code = 404
     return None
-
-@router.post("/load_multiple_ratings", tags=["app"])
-def post_load_multiple_ratings(query: app_reviews.LoadRatingsQuery):
-    reviews = app_reviews.get_reviews(query.query)
-    
-    result = {}
-    for r, review in reviews.items():
-        result[r] = { 'average_rating': review.average_rating }
-
-    return { 'ratings': result }
