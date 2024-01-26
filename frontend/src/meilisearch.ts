@@ -1,3 +1,4 @@
+import { AppRating } from "./types/AppReviews";
 import { AppstreamListItem } from "./types/Appstream"
 
 export interface MeilisearchResponse<T> {
@@ -43,6 +44,7 @@ export interface AppsIndex {
   verification_website: string | null
   verification_timestamp: string | null
   verification_login_is_organization: string | null
+  rating: AppRating | null
 }
 
 export function mapAppsIndexToAppstreamListItem(
@@ -54,6 +56,7 @@ export function mapAppsIndexToAppstreamListItem(
     summary: app.summary,
     icon: app.icon,
     metadata: {
+      "flathub::rating": app.rating?.average_rating ?? -1,
       "flathub::verification::verified": app.verification_verified,
       "flathub::verification::method": app.verification_method,
       "flathub::verification::login_name": app.verification_login_name,

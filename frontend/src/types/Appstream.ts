@@ -1,3 +1,5 @@
+import { AppRating } from "./AppReviews";
+
 export type AppstreamListItem = Pick<
   Appstream,
   "id" | "summary" | "icon" | "name" | "metadata"
@@ -27,6 +29,7 @@ export interface DesktopAppstream {
   metadata?: Metadata
   keywords?: string[]
   is_free_license: boolean
+  rating: AppRating | null
 }
 
 export interface AddonAppstream {
@@ -193,6 +196,7 @@ export interface Bundle {
 
 export interface Metadata {
   "flathub::manifest"?: string
+  "flathub::rating"?: number
   "flathub::verification::verified": string | undefined
   "flathub::verification::method":
     | undefined
