@@ -77,7 +77,7 @@ export default function Home({
     } else {
       router.replace(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
     }
-  } else if (!user.info.is_moderator) {
+  } else if (!user.info.is_quality_moderator) {
     content = (
       <>
         <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
