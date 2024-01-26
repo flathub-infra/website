@@ -93,7 +93,6 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream(sqldb):
-    print('qwe')
     apps = utils.appstream2dict()
     
     reviews = app_reviews.get_reviews(list(apps.keys()))
