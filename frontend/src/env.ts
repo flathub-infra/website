@@ -8,6 +8,7 @@ export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
 export const APP_REVIEWS = (id: string): string => `${BASE_URI}/reviews/${id}`
+export const MULTI_APPS_RATINGS = `${BASE_URI}/load_multiple_ratings`
 export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP: string = `${BASE_URI}/search`
 

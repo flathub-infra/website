@@ -7,6 +7,7 @@ import {
   fetchCollectionRecentlyAdded,
   fetchCollectionRecentlyUpdated,
   fetchCollectionVerified,
+  fetchMultipleAppsRatings,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
@@ -20,6 +21,7 @@ import {
 } from "src/meilisearch"
 import { Category, categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
+import { AppRating } from "src/types/AppReviews"
 
 const categoryOrder = [
   Category.Office,
@@ -40,6 +42,7 @@ export default function Home({
   popular,
   verified,
   topAppsByCategory,
+  ratings,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -49,6 +52,7 @@ export default function Home({
     category: Category
     apps: MeilisearchResponse<AppsIndex>
   }[]
+  ratings: { [key: string]: AppRating }
 }) {
   const { t } = useTranslation()
   return (
@@ -153,6 +157,22 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
+  const allAppsIds: Set<string> = new Set()
+  const allApps = [
+    ...recentlyUpdated.hits,
+    ...recentlyAdded.hits,
+    ...popular.hits,
+    ...verified.hits,
+  ]
+
+  allApps.forEach((app) => {
+    if (app.verification_verified === "true") {
+      allAppsIds.add(app.id)
+    }
+  })
+
+  const ratings = await fetchMultipleAppsRatings(Array.from(allAppsIds))
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -161,6 +181,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popular,
       verified,
       topAppsByCategory,
+      ratings,
     },
     revalidate: 900,
   }

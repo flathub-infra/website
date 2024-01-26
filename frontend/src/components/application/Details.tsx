@@ -89,7 +89,7 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
   addons,
   isQualityModalOpen,
-  reviews,
+  reviews = {},
 }) => {
   const { t } = useTranslation()
 
@@ -185,7 +185,7 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
-          rating={reviews.average_rating}
+          rating={reviews.average_rating ?? -1}
           vendingSetup={vendingSetup?.data}
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}

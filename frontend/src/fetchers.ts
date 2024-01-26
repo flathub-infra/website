@@ -16,6 +16,7 @@ import {
   SUBCATEGORY_URL,
   APPSTREAM_URL,
   APP_REVIEWS,
+  MULTI_APPS_RATINGS,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -65,6 +66,24 @@ export async function fetchAppReviews(appId: string) {
       },
     }
   })
+}
+
+export async function fetchMultipleAppsRatings(appIds: string[]) {
+  return axios
+    .post<AppReviews>(
+      `${MULTI_APPS_RATINGS}`,
+      { query: appIds },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+    .catch((error) => {
+      return {
+        data: { ratings: {} },
+      }
+    })
 }
 
 export async function fetchAppStats(appId: string) {
