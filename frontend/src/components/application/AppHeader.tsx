@@ -8,17 +8,20 @@ import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
+import AppRating from "./AppRating";
 
 export function AppHeader({
   app,
   vendingSetup,
   verificationStatus,
   isQualityModalOpen,
+  rating = -1,
 }: {
   app: DesktopAppstream
   vendingSetup: VendingSetup | undefined
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean
+  rating: number
 }) {
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
@@ -57,7 +60,15 @@ export function AppHeader({
             })}
           </div>
         )}
-        <Verification appId={app.id} verificationStatus={verificationStatus} />
+        <div className="flex flex-row items-center gap-2">
+          {rating > 0 && (
+            <>
+              <AppRating rating={rating} />
+              <div className="border-l h-4"></div>
+            </>
+          )}
+          <Verification appId={app.id} verificationStatus={verificationStatus} />
+        </div>
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ms-auto">

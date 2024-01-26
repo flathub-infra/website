@@ -34,6 +34,7 @@ import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
 import { vendingApi } from "src/api"
+import { AppReviews } from "src/types/AppReviews";
 
 interface Props {
   app?: DesktopAppstream
@@ -43,6 +44,7 @@ interface Props {
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
   isQualityModalOpen: boolean
+  reviews: AppReviews
 }
 
 function categoryToSeoCategories(categories: string[]) {
@@ -87,6 +89,7 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
   addons,
   isQualityModalOpen,
+  reviews,
 }) => {
   const { t } = useTranslation()
 
@@ -182,6 +185,7 @@ const Details: FunctionComponent<Props> = ({
         )}
         <AppHeader
           app={app}
+          rating={reviews.average_rating}
           vendingSetup={vendingSetup?.data}
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}

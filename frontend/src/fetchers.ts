@@ -27,6 +27,7 @@ import {
 } from "./meilisearch"
 import axios from "axios"
 import { appApi } from "./api"
+import { AppReviews } from "./types/AppReviews";
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -57,12 +58,12 @@ export async function fetchStats() {
 }
 
 export async function fetchAppReviews(appId: string) {
-  return axios.get<AppStats>(`${APP_REVIEWS(appId)}`).catch((error) => {
-      return {
+  return axios.get<AppReviews>(`${APP_REVIEWS(appId)}`).catch((error) => {
+    return {
       data: {
-          average_rating: -1,
+        average_rating: -1,
       },
-      }
+    }
   })
 }
 

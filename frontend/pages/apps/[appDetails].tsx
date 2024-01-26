@@ -24,6 +24,7 @@ import {
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { appApi, verificationApi } from "src/api"
+import { AppReviews } from "src/types/AppReviews";
 
 export default function Details({
   app,
@@ -33,6 +34,7 @@ export default function Details({
   verificationStatus,
   eolMessage,
   addons,
+  reviews,
 }: {
   app: DesktopAppstream
   summary?: Summary
@@ -40,6 +42,7 @@ export default function Details({
   developerApps: MeilisearchResponse<AppsIndex>
   verificationStatus: VerificationStatus
   eolMessage: string
+  reviews: AppReviews
   addons: AddonAppstream[]
 }) {
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -72,6 +75,7 @@ export default function Details({
         app={app}
         summary={summary}
         stats={stats}
+        reviews={reviews}
         developerApps={developerApps}
         verificationStatus={verificationStatus}
         addons={addons}
@@ -143,16 +147,13 @@ export const getStaticProps: GetStaticProps = async ({
       appId as string,
     )
   const addons = await fetchAddons(appId as string)
-  
-  // force
 
-  verificationStatus.verified = true
-  let reviews = null;
+  let reviews: AppReviews = { average_rating: -1 }
   if (verificationStatus.verified) {
-   const reviewsResponse = await fetchAppReviews(appId as string)
-   reviews = reviewsResponse.data
+    const reviewsResponse = await fetchAppReviews(appId as string)
+    reviews = reviewsResponse.data
   }
-  
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -163,7 +164,7 @@ export const getStaticProps: GetStaticProps = async ({
       verificationStatus,
       eolMessage,
       addons,
-      reviews
+      reviews,
     },
     revalidate: 900,
   }
