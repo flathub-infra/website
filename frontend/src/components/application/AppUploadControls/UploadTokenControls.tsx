@@ -165,7 +165,6 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
 
   return (
     <>
-      <h2 className="mb-6 text-2xl font-bold">{t("upload-tokens")}</h2>
       {content}
 
       <NewTokenDialog

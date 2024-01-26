@@ -6,7 +6,6 @@ import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 import { vendingApi } from "src/api"
-import { TokenList as TokenListType } from "src/codegen"
 import { useQuery } from "@tanstack/react-query"
 
 interface Props {
@@ -37,7 +36,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
     content = <p>{t(query.error.message)}</p>
   } else {
     content = (
-      <div className="flex flex-col gap-2 rounded-2xl bg-flathub-white p-2 dark:bg-flathub-arsenic">
+      <div className="flex flex-col gap-2 rounded-2xl bg-flathub-white dark:bg-flathub-arsenic">
         {query.data?.data?.tokens?.map((token) => (
           <Disclosure key={token.id}>
             {({ open }) => (
@@ -50,12 +49,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
     )
   }
 
-  return (
-    <>
-      <h2 className="mb-6 text-2xl font-bold">{t("ownership-tokens")}</h2>
-      {content}
-    </>
-  )
+  return <>{content}</>
 }
 
 export default TokenList
