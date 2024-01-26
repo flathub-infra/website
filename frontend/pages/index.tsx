@@ -42,7 +42,6 @@ export default function Home({
   popular,
   verified,
   topAppsByCategory,
-  ratings,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -52,7 +51,6 @@ export default function Home({
     category: Category
     apps: MeilisearchResponse<AppsIndex>
   }[]
-  ratings: { [key: string]: AppRating }
 }) {
   const { t } = useTranslation()
   return (
@@ -167,11 +165,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   allApps.forEach((app) => {
     if (app.verification_verified === "true") {
-      allAppsIds.add(app.id)
+      allAppsIds.add(app.app_id)
     }
   })
 
   const ratings = await fetchMultipleAppsRatings(Array.from(allAppsIds))
+
+  allApps.forEach((app) => {
+    app.rating = ratings.data.ratings[app.app_id] ?? null
+  })
 
   return {
     props: {
@@ -181,7 +183,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popular,
       verified,
       topAppsByCategory,
-      ratings,
     },
     revalidate: 900,
   }
