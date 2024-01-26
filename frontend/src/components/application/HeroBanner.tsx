@@ -85,8 +85,7 @@ export const HeroBanner = ({
             className={clsx(
               "bg-[length:1px_1px]",
               "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
-              "hover:cursor-pointer hover:saturate-150",
-              "active:saturate-200",
+              "hover:cursor-grab",
               "h-full",
             )}
           >
