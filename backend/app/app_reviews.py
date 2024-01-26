@@ -1,17 +1,38 @@
 from dataclasses import dataclass
+from datetime import timedelta
+
+import logging
 import requests
+import orjson
+
+from . import db
 
 ODRS_BASE_URL = 'https://odrs.gnome.org/1.0/reviews/api'
+REVIEWS_CACHE_KEY = 'odrs_reviews'
 
 @dataclass
 class AppReview: 
     average_rating: float
+    
+def _update_reviews():
+    try:
+        reviews = requests.get(f'{ODRS_BASE_URL}/ratings', timeout=15).json()
+        db.redis_conn.set(REVIEWS_CACHE_KEY, orjson.dumps(reviews), ex=timedelta(days=1))
+    except Exception as e:
+        logging.exception(e)
+        return None
+
+    return reviews
+
 
 def get_reviews(ids: list[str]) -> list[AppReview]:
-    # print(f'{ODRS_BASE_URL}/ratings')
-    # return
-    reviews = requests.get(f'{ODRS_BASE_URL}/ratings').json()
-    
+    reviews = db.get_json_key(REVIEWS_CACHE_KEY)
+    if not reviews: 
+        reviews = _update_reviews()
+
+        if not reviews:
+            return []
+
     keys_weight  = {
         "star0": 0,
         "star1": 1,

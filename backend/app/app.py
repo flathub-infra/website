@@ -4,13 +4,13 @@ from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
 
 from . import (
+    app_reviews,
     apps,
     db,
     schemas,
     search,
     stats,
-    utils,
-    reviews
+    utils
 )
 
 router = APIRouter(default_response_class=ORJSONResponse)
@@ -331,7 +331,7 @@ def get_addons(app_id: str) -> list[str]:
     return addon_ids
 
 @router.get("/reviews/{app_id}", status_code=200, tags=["app"])
-def get_stats_for_app(
+def get_reviews_for_app(
     response: Response,
     app_id: str = Path(
         min_length=6,
@@ -340,7 +340,7 @@ def get_stats_for_app(
         examples=["org.gnome.Glade"],
     ),
 ):
-    if value := reviews.get_reviews([app_id]):
+    if value := app_reviews.get_reviews([app_id]):
         return value[0]
 
     response.status_code = 404
