@@ -1,9 +1,8 @@
 import json
 import re
-
 import gi
 
-from . import db, models, schemas, search, utils
+from . import db, models, schemas, search, utils, app_reviews
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -68,6 +67,9 @@ def add_to_search(app_id: str, app: dict) -> dict:
         "verification_timestamp": app.get("metadata", {}).get(
             "flathub::verification::timestamp", None
         ),
+        "rating": app.get("metadata", {}).get(
+            "flathub::rating", -1
+        ),
         "runtime": app.get("bundle", {}).get("runtime", None),
     }
 
@@ -91,7 +93,19 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream(sqldb):
+    print('qwe')
     apps = utils.appstream2dict()
+    
+    reviews = app_reviews.get_reviews(list(apps.keys()))
+    
+    for app_id in reviews:
+        if not app_id in apps:
+            continue
+
+        if not 'metadata' in apps[app_id]:
+            apps[app_id]['metadata'] = {}
+
+        apps[app_id]['metadata']['flathub::rating'] = reviews[app_id].average_rating
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_types = db.redis_conn.smembers("types:index")
