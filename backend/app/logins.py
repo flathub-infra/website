@@ -836,6 +836,7 @@ def continue_oauth_flow(
 
     worker.send_email.send(
         EmailInfo(
+            message_id=f"{login.user.id}/login/{datetime.now().isoformat()}",
             user_id=account.user,
             category=EmailCategory.SECURITY_LOGIN,
             subject="New login to Flathub account",

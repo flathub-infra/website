@@ -39,11 +39,13 @@ class EmailCategory(str, Enum):
 
 
 class EmailInfo(BaseModel):
+    message_id: str
     user_id: int | None = None
     app_id: str | None = None
     category: EmailCategory
     subject: str
     template_data: dict[str, Any]
+    references: str | None = None
     # Only works when app_id is set and email is not user specific
     inform_moderators: bool = False
     inform_only_moderators: bool = False
@@ -97,9 +99,17 @@ def _create_message(
 
     message = EmailMessage()
     message.set_content(text)
+    message.make_related()
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
     message["To"] = formataddr((to_name, email))
+    message["X-Flathub-Reason"] = info.category
+
+    message["Message-ID"] = info.message_id
+
+    if info.references:
+        message["In-Reply-To"] = info.references
+        message["References"] = info.references
 
     return (email, message)
 
@@ -213,6 +223,7 @@ def build_notification(
 
     worker.send_email.send(
         EmailInfo(
+            message_id=f"{request.build_repo}/{request.build_id}",
             app_id=request.app_id,
             category=EmailCategory.BUILD_NOTIFICATION,
             subject=subject,
@@ -251,6 +262,7 @@ if settings.env != "production":
             raise HTTPException(status_code=404)
 
         info = EmailInfo(
+            message_id="test",
             category=preview_data[name]["category"],
             subject="Test email",
             app_id="com.example.Test",
