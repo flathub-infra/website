@@ -38,6 +38,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nextjs /app/src/data ./src/data
 RUN chown -R 1001:0 /app/.next && chgrp -R 0 /app && chmod -R g=u /app
 
 USER nextjs
