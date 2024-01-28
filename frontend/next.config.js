@@ -38,8 +38,6 @@ const nextConfig = (phase) => ({
   experimental: {
     scrollRestoration: true,
   },
-  cacheHandler: process.env.NODE_ENV === "production" ? require.resolve("./cache-handler.js") : undefined,
-  cacheMaxMemorySize: 0,
   i18n,
   images: {
     remotePatterns: [
