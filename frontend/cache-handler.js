@@ -46,12 +46,9 @@ IncrementalCache.onCreation(async () => {
     async set(key, value, ttl) {
       assertClientIsReady()
 
-      await client.set(
-        key,
-        JSON.stringify(value, replaceJsonWithBase64),
-        "EX",
-        1800,
-      )
+      await client.set(key, JSON.stringify(value, replaceJsonWithBase64), {
+        EX: 1800,
+      })
     },
     async getRevalidatedTags() {
       assertClientIsReady()
