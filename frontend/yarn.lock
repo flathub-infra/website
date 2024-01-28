@@ -3677,7 +3677,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neshca/json-replacer-reviver@npm:*":
+"@neshca/json-replacer-reviver@npm:*, @neshca/json-replacer-reviver@npm:^1.1.0":
   version: 1.1.0
   resolution: "@neshca/json-replacer-reviver@npm:1.1.0"
   checksum: aac0955d1990b135478212bb146bf8e6501342bcdeedcd1b113302044cf4ec615b18182c82057fabee28ccc30a0e9ebd5df40a459e8a67091a998eddb78961e9
@@ -10913,6 +10913,7 @@ __metadata:
     "@headlessui/react": "npm:^1.7.17"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@neshca/cache-handler": "npm:^0.6.8"
+    "@neshca/json-replacer-reviver": "npm:^1.1.0"
     "@resvg/resvg-js": "npm:^2.6.0"
     "@sentry/nextjs": "npm:^7.86.0"
     "@storybook/addon-actions": "npm:^7.6.7"
