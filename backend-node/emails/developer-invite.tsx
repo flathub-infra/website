@@ -1,16 +1,13 @@
 import { Text } from "@react-email/components";
-import { format } from "date-fns";
-import { Base } from "./base";
+import { Base, buildAppName } from "./base";
 
 interface DeveloperInviteEmailProps {
-  appId?: string;
+  appId: string;
   appName?: string;
-  category: string;
+  category: "developer_invite";
   subject: string;
-  provider: string;
-  login: string;
-  time: string;
   previewText: string;
+  inviter: string;
 }
 
 export const DeveloperInviteEmail = ({
@@ -18,12 +15,12 @@ export const DeveloperInviteEmail = ({
   appId,
   appName,
   subject,
-  provider,
-  login,
-  time,
   previewText,
+  inviter,
 }: DeveloperInviteEmailProps) => {
-  const formattedTime = format(time, "PPPPpppp");
+  const appNameAndId = buildAppName(appId, appName);
+
+  const frontendUrl = process.env.FRONTEND_URL ?? "https://flathub.org";
 
   return (
     <Base
@@ -33,37 +30,26 @@ export const DeveloperInviteEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>Someone recently logged into your account on Flathub.</Text>
-      <Text className="-mt-4">
-        If this was you, there's nothing for you to do right now.
-      </Text>
       <Text>
-        <b>Time: </b>
-        {formattedTime}
+        {inviter} has invited you to join them as a developer of {appNameAndId}{" "}
+        on Flathub. To accept this invite, click the link below or go to the
+        Developers tab of your Flathub account settings.
       </Text>
-      <Text className="-mt-4">
-        <b>Account: </b>
-        {login}
-      </Text>
-      <Text className="-mt-4">
-        <b>Login provider: </b>
-        {provider}
-      </Text>
-      <Text>
-        If it wasn't you, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
-      </Text>
+
+      <a href={`${frontendUrl}/apps/manage/${appId}/accept-invite`}>
+        Accept Invite
+      </a>
     </Base>
   );
 };
 
 DeveloperInviteEmail.PreviewProps = {
-  subject: "New login on Flathub",
-  category: "security_login",
-  provider: "github",
-  login: "testuser",
-  time: "2017-01-01T00:00:00Z",
-  previewText: "New login to Flathub account",
+  appId: "org.flatpak.Hello",
+  appName: "Hello",
+  subject: "Invited to app",
+  previewText: "You have been invited",
+  category: "developer_invite",
+  inviter: "testuser",
 } as DeveloperInviteEmailProps;
 
 export default DeveloperInviteEmail;

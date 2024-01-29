@@ -3,8 +3,6 @@ import { format } from "date-fns";
 import { Base } from "./base";
 
 interface SecurityLoginEmailProps {
-  appId?: string;
-  appName?: string;
   category: "security_login";
   subject: string;
   provider: string;
@@ -15,8 +13,6 @@ interface SecurityLoginEmailProps {
 
 export const SecurityLoginEmail = ({
   category,
-  appId,
-  appName,
   subject,
   provider,
   login,
@@ -26,13 +22,7 @@ export const SecurityLoginEmail = ({
   const formattedTime = format(time, "PPPPpppp");
 
   return (
-    <Base
-      previewText={previewText}
-      subject={subject}
-      category={category}
-      appId={appId}
-      appName={appName}
-    >
+    <Base previewText={previewText} subject={subject} category={category}>
       <Text>Someone recently logged into your account on Flathub.</Text>
       <Text className="-mt-4">
         If this was you, there's nothing for you to do right now.
