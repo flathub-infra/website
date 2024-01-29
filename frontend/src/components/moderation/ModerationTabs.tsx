@@ -50,8 +50,8 @@ const ModerationTabs: FunctionComponent = () => {
     ],
     queryFn: async ({ signal }) => {
       const apps = await moderationApi.getModerationAppsModerationAppsGet(
-        filterNewSubmissionsQuery,
-        showHandledQuery,
+        filterNewSubmissionsQuery === false ? undefined : true,
+        showHandledQuery === false ? undefined : true,
         PAGE_SIZE,
         offset,
         {
