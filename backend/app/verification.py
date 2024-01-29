@@ -930,6 +930,7 @@ def switch_to_direct_upload(
     if is_verified and not is_direct_upload:
         _create_direct_upload_app(login.user, app_id)
         _archive_github_repo(app_id)
+        sqldb.session.commit()
 
 
 @router.post("/{app_id}/archive", status_code=204, tags=["verification"])
