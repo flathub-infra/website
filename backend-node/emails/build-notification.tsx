@@ -120,7 +120,7 @@ const Diagnostic = ({
             </Text>
             <ul>
               {diagnostic.data?.urls.map((url) => (
-                <li>{url}</li>
+                <li key={url}>{url}</li>
               ))}
             </ul>
           </Section>
@@ -136,7 +136,7 @@ const Diagnostic = ({
             </Text>
             <ul>
               {diagnostic.data?.urls.map((url) => (
-                <li>{url}</li>
+                <li key={url}>{url}</li>
               ))}
             </ul>
           </Section>
@@ -165,7 +165,7 @@ const Diagnostic = ({
             <Text>The following files do not match the expected app ID:</Text>
             <ul>
               {diagnostic.data?.files?.map((file) => (
-                <li>{file}</li>
+                <li key={file}>{file}</li>
               ))}
             </ul>
             <Text>
@@ -189,8 +189,8 @@ const Diagnostic = ({
                 </tr>
               </thead>
               <tbody>
-                {diagnostic.data?.executables?.map((file) => (
-                  <tr>
+                {diagnostic.data?.executables?.map((file, i) => (
+                  <tr key={i}>
                     <td>
                       <code>{file.path}</code>
                     </td>
@@ -246,8 +246,8 @@ export const BuildNotificationEmail = ({
           <Heading as={"h2"}>Errors</Heading>
           {diagnostics
             .filter((diagnostic) => diagnostic.isError)
-            .map((diagnostic) => (
-              <Diagnostic appId={appId} diagnostic={diagnostic} />
+            .map((diagnostic, i) => (
+              <Diagnostic key={i} appId={appId} diagnostic={diagnostic} />
             ))}
         </Section>
       )}
@@ -256,8 +256,8 @@ export const BuildNotificationEmail = ({
           <Heading as={"h2"}>Warnings</Heading>
           {diagnostics
             .filter((diagnostic) => diagnostic.isWarning)
-            .map((diagnostic) => (
-              <Diagnostic appId={appId} diagnostic={diagnostic} />
+            .map((diagnostic, i) => (
+              <Diagnostic key={i} appId={appId} diagnostic={diagnostic} />
             ))}
         </Section>
       )}

@@ -1,16 +1,13 @@
 import { Text } from "@react-email/components";
-import { format } from "date-fns";
-import { Base } from "./base";
+import { Base, buildAppName } from "./base";
 
 interface DeveloperInviteDeclinedEmailProps {
-  appId?: string;
+  appId: string;
   appName?: string;
-  category: string;
+  category: "developer_invite_declined";
   subject: string;
-  provider: string;
-  login: string;
-  time: string;
   previewText: string;
+  login: string;
 }
 
 export const DeveloperInviteDeclinedEmail = ({
@@ -18,12 +15,10 @@ export const DeveloperInviteDeclinedEmail = ({
   appId,
   appName,
   subject,
-  provider,
-  login,
-  time,
   previewText,
+  login,
 }: DeveloperInviteDeclinedEmailProps) => {
-  const formattedTime = format(time, "PPPPpppp");
+  const appNameAndId = buildAppName(appId, appName);
 
   return (
     <Base
@@ -33,37 +28,20 @@ export const DeveloperInviteDeclinedEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>Someone recently logged into your account on Flathub.</Text>
-      <Text className="-mt-4">
-        If this was you, there's nothing for you to do right now.
-      </Text>
       <Text>
-        <b>Time: </b>
-        {formattedTime}
-      </Text>
-      <Text className="-mt-4">
-        <b>Account: </b>
-        {login}
-      </Text>
-      <Text className="-mt-4">
-        <b>Login provider: </b>
-        {provider}
-      </Text>
-      <Text>
-        If it wasn't you, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
+        {login} declined their invite to {appNameAndId}.
       </Text>
     </Base>
   );
 };
 
 DeveloperInviteDeclinedEmail.PreviewProps = {
-  subject: "New login on Flathub",
-  category: "security_login",
-  provider: "github",
+  appId: "org.flatpak.Hello",
+  appName: "Hello",
+  subject: "Invite declined",
+  previewText: "A user declined their invite",
+  category: "developer_invite_declined",
   login: "testuser",
-  time: "2017-01-01T00:00:00Z",
-  previewText: "New login to Flathub account",
 } as DeveloperInviteDeclinedEmailProps;
 
 export default DeveloperInviteDeclinedEmail;

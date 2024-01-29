@@ -1,16 +1,17 @@
 import { Text } from "@react-email/components";
-import { format } from "date-fns";
-import { Base } from "./base";
+import { Base, buildAppName } from "./base";
 
 interface UploadTokenCreatedEmailProps {
-  appId?: string;
+  appId: string;
   appName?: string;
-  category: string;
+  category: "upload_token_created";
   subject: string;
-  provider: string;
-  login: string;
-  time: string;
   previewText: string;
+  issuedTo: string;
+  comment: string;
+  scopes: string[];
+  repos: string[];
+  expiresAt: string;
 }
 
 export const UploadTokenCreatedEmail = ({
@@ -18,12 +19,14 @@ export const UploadTokenCreatedEmail = ({
   appId,
   appName,
   subject,
-  provider,
-  login,
-  time,
   previewText,
+  issuedTo,
+  comment,
+  scopes,
+  repos,
+  expiresAt,
 }: UploadTokenCreatedEmailProps) => {
-  const formattedTime = format(time, "PPPPpppp");
+  const appNameAndId = buildAppName(appId, appName);
 
   return (
     <Base
@@ -33,37 +36,50 @@ export const UploadTokenCreatedEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>Someone recently logged into your account on Flathub.</Text>
-      <Text className="-mt-4">
-        If this was you, there's nothing for you to do right now.
-      </Text>
       <Text>
-        <b>Time: </b>
-        {formattedTime}
+        {issuedTo} has created a new upload token for {appNameAndId}.
       </Text>
-      <Text className="-mt-4">
-        <b>Account: </b>
-        {login}
-      </Text>
-      <Text className="-mt-4">
-        <b>Login provider: </b>
-        {provider}
-      </Text>
+
+      <ul>
+        <li>
+          <strong>Token name: </strong>
+          {comment}
+        </li>
+
+        <li>
+          <strong>Scopes: </strong>
+          {scopes.join(", ")}
+        </li>
+
+        <li>
+          <strong>Repos: </strong>
+          {repos.join(", ")}
+        </li>
+
+        <li>
+          <strong>Expires: </strong>
+          {expiresAt}
+        </li>
+      </ul>
+
       <Text>
-        If it wasn't you, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
+        If you do not recognize this activity, please contact us immediately.
       </Text>
     </Base>
   );
 };
 
 UploadTokenCreatedEmail.PreviewProps = {
-  subject: "New login on Flathub",
-  category: "security_login",
-  provider: "github",
-  login: "testuser",
-  time: "2017-01-01T00:00:00Z",
-  previewText: "New login to Flathub account",
+  appId: "org.test.Test",
+  appName: "Test",
+  subject: "Upload token created",
+  previewText: "There is a new upload token",
+  category: "upload_token_created",
+  comment: "Upload token for org.flatpak.Hello",
+  issuedTo: "Test User",
+  scopes: ["build", "upload", "publish"],
+  repos: ["stable", "beta"],
+  expiresAt: "31 July 2023",
 } as UploadTokenCreatedEmailProps;
 
 export default UploadTokenCreatedEmail;

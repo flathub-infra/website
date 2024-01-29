@@ -1,6 +1,4 @@
-import ModerationHeldEmail, {
-  ModerationHeldEmailProps,
-} from "./moderation-held";
+import ModerationHeldEmail, { ModerationEmailProps } from "./moderation-held";
 
 ModerationHeldEmail.PreviewProps = {
   appId: "org.test.Test",
@@ -9,7 +7,6 @@ ModerationHeldEmail.PreviewProps = {
   previewText: "Your app was held",
   category: "moderation_held",
   buildId: 123,
-  jobId: 456,
   buildLogUrl: "https://flathub.org",
   requests: [
     {
@@ -46,6 +43,6 @@ ModerationHeldEmail.PreviewProps = {
     },
   ],
   requests_count: 1,
-} as ModerationHeldEmailProps;
+} as ModerationEmailProps;
 
 export default ModerationHeldEmail;

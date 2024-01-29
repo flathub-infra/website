@@ -19,14 +19,13 @@ function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
   return { a: result[0], b: result[1] };
 }
 
-export interface ModerationHeldEmailProps {
-  appId?: string;
+export interface ModerationEmailProps {
+  appId: string;
   appName?: string;
-  category: string;
+  category: "moderation_approved" | "moderation_held" | "moderation_rejected";
   subject: string;
   previewText: string;
   buildId: number;
-  jobId: number;
   buildLogUrl: string;
   requests: Request[];
 }
@@ -184,7 +183,7 @@ const DiffRow = ({
   }
 };
 
-const ModerationRequestItem = ({ request }: { request: Request }) => {
+export const ModerationRequestItem = ({ request }: { request: Request }) => {
   const currentValuesFiltered = Object.keys(
     request.requestData?.currentValues ?? {}
   ).filter(
@@ -229,10 +228,9 @@ export const ModerationHeldEmail = ({
   subject,
   previewText,
   buildId,
-  jobId,
   buildLogUrl,
   requests,
-}: ModerationHeldEmailProps) => {
+}: ModerationEmailProps) => {
   const appNameAndId = buildAppName(appId, appName);
 
   return (
@@ -254,8 +252,8 @@ export const ModerationHeldEmail = ({
         rejected.
       </Text>
       <Heading as={"h2"}>Changes:</Heading>
-      {requests.map((request) => (
-        <ModerationRequestItem request={request} />
+      {requests.map((request, i) => (
+        <ModerationRequestItem key={i} request={request} />
       ))}
     </Base>
   );
@@ -268,7 +266,6 @@ ModerationHeldEmail.PreviewProps = {
   previewText: "Your app was held",
   category: "moderation_held",
   buildId: 123,
-  jobId: 456,
   buildLogUrl: "https://flathub.org/",
   requests: [
     {
@@ -284,6 +281,6 @@ ModerationHeldEmail.PreviewProps = {
       isNewSubmission: false,
     },
   ],
-} as ModerationHeldEmailProps;
+} as ModerationEmailProps;
 
 export default ModerationHeldEmail;

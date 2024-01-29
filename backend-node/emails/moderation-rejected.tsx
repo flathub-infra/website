@@ -1,29 +1,26 @@
-import { Text } from "@react-email/components";
-import { format } from "date-fns";
-import { Base } from "./base";
-
-interface ModerationRejectedEmailProps {
-  appId?: string;
-  appName?: string;
-  category: string;
-  subject: string;
-  provider: string;
-  login: string;
-  time: string;
-  previewText: string;
-}
+import { Heading, Text } from "@react-email/components";
+import { Base, buildAppName } from "./base";
+import {
+  ModerationEmailProps,
+  ModerationRequestItem,
+  Request,
+} from "./moderation-held";
 
 export const ModerationRejectedEmail = ({
   category,
   appId,
   appName,
   subject,
-  provider,
-  login,
-  time,
   previewText,
-}: ModerationRejectedEmailProps) => {
-  const formattedTime = format(time, "PPPPpppp");
+  buildId,
+  buildLogUrl,
+  request,
+  comment,
+}: Omit<ModerationEmailProps, "requests"> & {
+  request: Request;
+  comment: string;
+}) => {
+  const appNameAndId = buildAppName(appId, appName);
 
   return (
     <Base
@@ -33,37 +30,44 @@ export const ModerationRejectedEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>Someone recently logged into your account on Flathub.</Text>
-      <Text className="-mt-4">
-        If this was you, there's nothing for you to do right now.
-      </Text>
       <Text>
-        <b>Time: </b>
-        {formattedTime}
+        A change in build <a href={buildLogUrl}>#{buildId}</a> of {appNameAndId}{" "}
+        has been reviewed by the Flathub team, and the build has been rejected
+        for the following reason.
       </Text>
-      <Text className="-mt-4">
-        <b>Account: </b>
-        {login}
-      </Text>
-      <Text className="-mt-4">
-        <b>Login provider: </b>
-        {provider}
-      </Text>
-      <Text>
-        If it wasn't you, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
-      </Text>
+      {comment && (
+        <>
+          <Heading as="h2">Comment:</Heading>
+          <blockquote>{comment}</blockquote>
+        </>
+      )}
+      <Heading as="h2">Change:</Heading>
+      <ModerationRequestItem request={request} />
     </Base>
   );
 };
 
 ModerationRejectedEmail.PreviewProps = {
-  subject: "New login on Flathub",
-  category: "security_login",
-  provider: "github",
-  login: "testuser",
-  time: "2017-01-01T00:00:00Z",
-  previewText: "New login to Flathub account",
-} as ModerationRejectedEmailProps;
+  appId: "org.test.Test",
+  appName: "Test",
+  subject: "App was rejected",
+  previewText: "Your app failed review",
+  category: "moderation_rejected",
+  buildId: 123,
+  buildLogUrl: "https://flathub.org/builds",
+  request: {
+    requestType: "appdata",
+    requestData: {
+      keys: {
+        name: "My Awesome Test App",
+      },
+      currentValues: {
+        name: "Test App",
+      },
+    },
+    isNewSubmission: false,
+  },
+  comment: "Please use a better name for your app.",
+} as Omit<ModerationEmailProps, "requests">;
 
 export default ModerationRejectedEmail;
