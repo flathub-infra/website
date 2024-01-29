@@ -349,13 +349,17 @@ def submit_review_request(
         ):
             continue
 
+        keys = {}
+        current_values = {}
+
         if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
             if not direct_upload_app.first_seen_at:
                 direct_upload_app.first_seen_at = datetime.utcnow()
+                sqldb.session.commit()
+
                 is_new_submission = True
                 current_values = {"direct upload": False}
                 keys = {"direct upload": True}
-                sqldb.session.commit()
 
         if current_summary := get_json_key(f"summary:{app_id}:stable"):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
@@ -374,8 +378,6 @@ def submit_review_request(
                     current_values["extra-data"] = current_extradata
                     keys["extra-data"] = build_extradata
 
-                keys = {}
-                current_values = {}
                 if current_permissions and build_permissions:
                     if current_permissions != build_permissions:
                         for perm in current_permissions:
