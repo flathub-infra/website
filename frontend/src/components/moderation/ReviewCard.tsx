@@ -12,6 +12,7 @@ import { ModerationRequestResponse } from "src/codegen/model"
 import { moderationApi } from "src/api"
 import { useMutation } from "@tanstack/react-query"
 import Modal from "../Modal"
+import CodeCopy from "../application/CodeCopy"
 
 interface Props {
   title: string
@@ -219,6 +220,14 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         </span>
 
         {children}
+
+        {user.info && user.info.is_moderator && (
+          <CodeCopy
+            className="mt-8"
+            nested
+            text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
+          />
+        )}
 
         <div className="flex flex-col sm:flex-row-reverse gap-2 pt-4">
           {buttons}
