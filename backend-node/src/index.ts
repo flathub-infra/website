@@ -42,9 +42,6 @@ const EmailBody = z.object({
   messageId: z.string().min(3).openapi({
     example: "1212121",
   }),
-  references: z.string().min(3).optional().openapi({
-    example: "1212121",
-  }),
   from: z.string().min(3).openapi({
     example: "noreply@flathub.org",
   }),
@@ -90,6 +87,9 @@ const EmailBody = z.object({
       buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
       comment: z.string().openapi({ example: "There is something wrong" }),
       request: RequestSchema,
+      references: z.string().min(3).openapi({
+        example: "1212121",
+      }),
     }),
     z.object({
       category: z
@@ -111,6 +111,9 @@ const EmailBody = z.object({
       buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
       comment: z.string().openapi({ example: "There is something wrong" }),
       request: RequestSchema,
+      references: z.string().min(3).openapi({
+        example: "1212121",
+      }),
     }),
     z.object({
       category: z
@@ -135,6 +138,9 @@ const EmailBody = z.object({
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       login: z.string().min(2).openapi({ example: "testuser" }),
+      references: z.string().min(3).openapi({
+        example: "1212121",
+      }),
     }),
     z.object({
       category: z
@@ -143,6 +149,9 @@ const EmailBody = z.object({
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       login: z.string().min(2).openapi({ example: "testuser" }),
+      references: z.string().min(3).openapi({
+        example: "1212121",
+      }),
     }),
     z.object({
       category: z
@@ -180,7 +189,7 @@ const route = createRoute({
 const app = new OpenAPIHono();
 
 app.openapi(route, async (c) => {
-  const { messageId, references, from, to, subject, messageInfo, previewText } =
+  const { messageId, from, to, subject, messageInfo, previewText } =
     c.req.valid("json");
 
   let emailHtml = undefined;
@@ -278,7 +287,8 @@ app.openapi(route, async (c) => {
     to,
     subject,
     emailHtml,
-    references,
+    references:
+      "references" in messageInfo ? messageInfo.references : undefined,
   });
 
   c.status(204);
