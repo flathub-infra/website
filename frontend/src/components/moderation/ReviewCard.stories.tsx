@@ -13,7 +13,7 @@ const queryClient = new QueryClient({
 const request_id = 1
 
 export default {
-  title: "Components/Moderation/ReviewRow",
+  title: "Components/Moderation/ReviewCard",
   component: ReviewCard,
   decorators: [
     (Story) => {
