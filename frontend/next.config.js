@@ -34,11 +34,15 @@ const sentryWebpackPluginOptions = {
  * @type {import('next').NextConfig}
  */
 const nextConfig = (phase) => ({
-  output: "export",
+  output: "standalone",
   experimental: {
     scrollRestoration: true,
   },
   i18n,
+  cacheHandler:
+    process.env.NODE_ENV === "production"
+      ? require.resolve("./cache-handler.js")
+      : undefined,
   images: {
     remotePatterns: [
       {
@@ -75,7 +79,6 @@ const nextConfig = (phase) => ({
       },
     ],
   },
-  output: "standalone",
   async redirects() {
     return [
       {
