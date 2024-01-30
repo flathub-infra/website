@@ -11,12 +11,12 @@ import { formatDistanceToNow, parseISO } from "date-fns"
 import { getLocale } from "src/localize"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { Fragment, ReactElement, useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
@@ -28,16 +28,17 @@ import {
   GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
   QualityModerationDashboardResponse,
   QualityModerationDashboardRow,
+  UserInfo,
 } from "src/codegen"
 import LogoImage from "src/components/LogoImage"
 import MultiToggle from "src/components/MultiToggle"
 import Pagination from "src/components/Pagination"
-import Spinner from "src/components/Spinner"
 import { useUserContext } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
+import LoginGuard from "src/components/login/LoginGuard"
 
 export default function QualityModerationDashboard() {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const user = useUserContext()
   const router = useRouter()
 
@@ -67,7 +68,7 @@ export default function QualityModerationDashboard() {
         },
       ),
     enabled: !!user.info?.is_quality_moderator,
-    placeholderData: (previousData, previousQuery) => previousData,
+    placeholderData: (previousData) => previousData,
   })
 
   const columns: ColumnDef<QualityModerationDashboardRow>[] = [
@@ -210,196 +211,174 @@ export default function QualityModerationDashboard() {
     (_, i) => i + 1,
   )
 
-  let content: ReactElement
-
-  if (!user.info || !user.info.is_quality_moderator) {
-    content = (
-      <>
-        <h1 className="my-8">{t("whoops")}</h1>
-        <p>{t("unauthorized-to-view")}</p>
-        <Trans i18nKey={"common:retry-or-go-home"}>
-          You might want to retry or go back{" "}
-          <a className="no-underline hover:underline" href=".">
-            home
-          </a>
-          .
-        </Trans>
-      </>
-    )
-  } else if (query.isPending) {
-    content = <Spinner size="m" />
-  } else {
-    content = (
-      <>
-        <h1 className="my-8 text-4xl font-extrabold">
-          Quality Moderation Dashboard
-        </h1>
-
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <MultiToggle
-              size="lg"
-              items={[
-                {
-                  id: "all",
-                  content: <span>All</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
-                  onClick: () => {
-                    delete router.query.filter
-
-                    router.query.page = "1"
-
-                    router.push({
-                      query: router.query,
-                    })
-                  },
-                },
-                {
-                  id: "passed",
-                  content: <span>Passing</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
-                  onClick: () => {
-                    router.query.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing
-
-                    router.query.page = "1"
-
-                    router.push({
-                      query: router.query,
-                    })
-                  },
-                },
-                {
-                  id: "todo",
-                  content: <span>Todo</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
-                  onClick: () => {
-                    router.query.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo
-
-                    router.query.page = "1"
-
-                    router.push({
-                      query: router.query,
-                    })
-                  },
-                },
-              ]}
-            />
-            <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-              <thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id} className="relative">
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <th
-                          key={header.id}
-                          colSpan={header.colSpan}
-                          className="h-20 text-sm font-normal"
-                        >
-                          {header.isPlaceholder ? null : (
-                            <div className="flex w-full">
-                              <button
-                                type="button"
-                                {...{
-                                  className: clsx(
-                                    header.column.getCanSort() &&
-                                      "cursor-pointer select-none",
-                                    "flex items-center justify-between gap-1",
-                                  ),
-                                  onClick:
-                                    header.column.getToggleSortingHandler(),
-                                }}
-                              >
-                                {flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
-                                {{
-                                  asc: <HiMiniChevronUp className="size-4" />,
-                                  desc: (
-                                    <HiMiniChevronDown className="size-4" />
-                                  ),
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
-                              </button>
-                            </div>
-                          )}
-                        </th>
-                      )
-                    })}
-                  </tr>
-                ))}
-              </thead>
-              <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                <LayoutGroup>
-                  <AnimatePresence>
-                    {tableRows.length === 0 && (
-                      <tr className="h-12">
-                        <td
-                          colSpan={columns.length}
-                          className="p-8 text-center"
-                        >
-                          No items
-                        </td>
-                      </tr>
-                    )}
-                    {tableRows.map((row, rowIndex) => {
-                      return (
-                        <Fragment key={row.id}>
-                          <motion.tr
-                            layoutId={row.id}
-                            key={row.id}
-                            transition={{ delay: 0 }}
-                            className={clsx("h-12 font-medium")}
-                          >
-                            {row.getVisibleCells().map((cell) => {
-                              return (
-                                <td
-                                  key={cell.id}
-                                  className={clsx(
-                                    "whitespace-nowrap py-5 text-sm",
-                                  )}
-                                >
-                                  {flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext(),
-                                  )}
-                                </td>
-                              )
-                            })}
-                          </motion.tr>
-                        </Fragment>
-                      )
-                    })}
-                  </AnimatePresence>
-                </LayoutGroup>
-              </tbody>
-            </table>
-            {data && (
-              <div>
-                <div className="ms-auto w-fit">
-                  {data.pagination.total} apps
-                </div>
-              </div>
-            )}
-            <Pagination currentPage={page} pages={pages} />
-          </div>
-        </div>
-      </>
-    )
-  }
-
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="Quality Moderation Dashboard" noindex />
-      {content}
+      <>
+        <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+          <h1 className="my-8 text-4xl font-extrabold">
+            Quality Moderation Dashboard
+          </h1>
+
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <MultiToggle
+                size="lg"
+                items={[
+                  {
+                    id: "all",
+                    content: <span>All</span>,
+                    selected:
+                      filteredBy ===
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
+                    onClick: () => {
+                      delete router.query.filter
+
+                      router.query.page = "1"
+
+                      router.push({
+                        query: router.query,
+                      })
+                    },
+                  },
+                  {
+                    id: "passed",
+                    content: <span>Passing</span>,
+                    selected:
+                      filteredBy ===
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
+                    onClick: () => {
+                      router.query.filter =
+                        GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing
+
+                      router.query.page = "1"
+
+                      router.push({
+                        query: router.query,
+                      })
+                    },
+                  },
+                  {
+                    id: "todo",
+                    content: <span>Todo</span>,
+                    selected:
+                      filteredBy ===
+                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
+                    onClick: () => {
+                      router.query.filter =
+                        GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo
+
+                      router.query.page = "1"
+
+                      router.push({
+                        query: router.query,
+                      })
+                    },
+                  },
+                ]}
+              />
+              <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+                <thead>
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id} className="relative">
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <th
+                            key={header.id}
+                            colSpan={header.colSpan}
+                            className="h-20 text-sm font-normal"
+                          >
+                            {header.isPlaceholder ? null : (
+                              <div className="flex w-full">
+                                <button
+                                  type="button"
+                                  {...{
+                                    className: clsx(
+                                      header.column.getCanSort() &&
+                                        "cursor-pointer select-none",
+                                      "flex items-center justify-between gap-1",
+                                    ),
+                                    onClick:
+                                      header.column.getToggleSortingHandler(),
+                                  }}
+                                >
+                                  {flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext(),
+                                  )}
+                                  {{
+                                    asc: <HiMiniChevronUp className="size-4" />,
+                                    desc: (
+                                      <HiMiniChevronDown className="size-4" />
+                                    ),
+                                  }[header.column.getIsSorted() as string] ??
+                                    null}
+                                </button>
+                              </div>
+                            )}
+                          </th>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+                  <LayoutGroup>
+                    <AnimatePresence>
+                      {tableRows.length === 0 && (
+                        <tr className="h-12">
+                          <td
+                            colSpan={columns.length}
+                            className="p-8 text-center"
+                          >
+                            No items
+                          </td>
+                        </tr>
+                      )}
+                      {tableRows.map((row) => {
+                        return (
+                          <Fragment key={row.id}>
+                            <motion.tr
+                              layoutId={row.id}
+                              key={row.id}
+                              transition={{ delay: 0 }}
+                              className={clsx("h-12 font-medium")}
+                            >
+                              {row.getVisibleCells().map((cell) => {
+                                return (
+                                  <td
+                                    key={cell.id}
+                                    className={clsx(
+                                      "whitespace-nowrap py-5 text-sm",
+                                    )}
+                                  >
+                                    {flexRender(
+                                      cell.column.columnDef.cell,
+                                      cell.getContext(),
+                                    )}
+                                  </td>
+                                )
+                              })}
+                            </motion.tr>
+                          </Fragment>
+                        )
+                      })}
+                    </AnimatePresence>
+                  </LayoutGroup>
+                </tbody>
+              </table>
+              {data && (
+                <div>
+                  <div className="ms-auto w-fit">
+                    {data.pagination.total} apps
+                  </div>
+                </div>
+              )}
+              <Pagination currentPage={page} pages={pages} />
+            </div>
+          </div>
+        </LoginGuard>
+      </>
     </div>
   )
 }

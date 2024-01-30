@@ -57,9 +57,10 @@ const ProviderLink: FunctionComponent<Props> = ({
       const returnTo = router.query.returnTo as string
       if (returnTo) {
         setReturnTo(
-          returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI)
+          returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
+            returnTo.startsWith("/")
             ? returnTo
-            : "",
+            : undefined,
         )
       }
       window.location.href = data.redirect

@@ -12,7 +12,7 @@ import {
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
 import ApplicationSections from "../src/components/application/Sections"
-import { Trans, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
 import {
   AppsIndex,
@@ -27,10 +27,8 @@ import clsx from "clsx"
 import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { appPicks } from "src/api"
 import { formatISO } from "date-fns"
-import { useRouter } from "next/router"
-import { useUserContext } from "src/context/user-info"
-import Spinner from "src/components/Spinner"
-import { ReactElement } from "react"
+import LoginGuard from "src/components/login/LoginGuard"
+import { UserInfo } from "src/codegen"
 
 const categoryOrder = [
   Category.Office,
@@ -66,118 +64,90 @@ export default function Home({
   appOfTheDayAppstream: DesktopAppstream
 }) {
   const { t } = useTranslation()
-  const user = useUserContext()
-  const router = useRouter()
-
-  let content: ReactElement
-
-  if (!user.info) {
-    if (user.loading) {
-      content = <Spinner size="m" />
-    } else {
-      router.replace(`/login?returnTo=${encodeURIComponent(router.asPath)}`)
-    }
-  } else if (!user.info.is_quality_moderator) {
-    content = (
-      <>
-        <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-          <h1 className="my-8">{t("whoops")}</h1>
-          <p>{t("unauthorized-to-view")}</p>
-          <Trans i18nKey={"common:retry-or-go-home"}>
-            You might want to retry or go back{" "}
-            <a className="no-underline hover:underline" href=".">
-              home
-            </a>
-            .
-          </Trans>
-        </div>
-      </>
-    )
-  } else {
-    content = (
-      <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        {heroBannerAppstreams.length > 0 && (
-          <HeroBanner appstreams={heroBannerAppstreams} />
-        )}
-        <div className="flex flex-col lg:flex-row gap-10">
-          <div className="lg:w-1/2">
-            <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
-          </div>
-          <div
-            className={clsx(
-              "lg:w-1/2",
-              "rounded-xl",
-              "flex min-w-0 items-center gap-4",
-              "bg-repeat-y",
-              "bg-[url('/img/card-background.svg')]",
-              "shadow-md",
-              "overflow-hidden",
-            )}
-          >
-            <div
-              className={clsx(
-                "flex justify-between gap-3",
-                "dark:bg-flathub-arsenic/90",
-                "p-8 w-full h-full",
-              )}
-            >
-              <div className="prose dark:prose-invert max-w-none">
-                <div className="mb-0 text-2xl font-extrabold">
-                  {t("the-linux-app-store")}
-                </div>
-                <p className="introduction mb-8 mt-2 max-w-2xl font-light">
-                  {t("flathub-index-description")}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <ButtonLink
-                    variant="secondary"
-                    href={"/setup"}
-                    passHref
-                    aria-label={t("setup-flathub-description")}
-                  >
-                    {t("setup-flathub")}
-                  </ButtonLink>
-                  {!IS_PRODUCTION && (
-                    <ButtonLink
-                      variant="secondary"
-                      href={"/donate"}
-                      passHref
-                      aria-label={t("donate-to", { project: "Flathub" })}
-                    >
-                      {t("donate-to", { project: "Flathub" })}
-                    </ButtonLink>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <ApplicationSections
-          popular={popular}
-          recentlyUpdated={recentlyUpdated}
-          recentlyAdded={recentlyAdded}
-          verified={verified}
-        ></ApplicationSections>
-
-        {topAppsByCategory.map((sectionData, i) => (
-          <ApplicationSection
-            key={`categorySection${i}`}
-            href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
-            applications={sectionData.apps.hits.map((app) =>
-              mapAppsIndexToAppstreamListItem(app),
-            )}
-            title={categoryToName(sectionData.category, t)}
-          />
-        ))}
-      </div>
-    )
-  }
 
   return (
     <>
       <NextSeo description={t("flathub-description")} />
-      {content}
+      <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+        <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+          {heroBannerAppstreams.length > 0 && (
+            <HeroBanner appstreams={heroBannerAppstreams} />
+          )}
+          <div className="flex flex-col lg:flex-row gap-10">
+            <div className="lg:w-1/2">
+              <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
+            </div>
+            <div
+              className={clsx(
+                "lg:w-1/2",
+                "rounded-xl",
+                "flex min-w-0 items-center gap-4",
+                "bg-repeat-y",
+                "bg-[url('/img/card-background.svg')]",
+                "shadow-md",
+                "overflow-hidden",
+              )}
+            >
+              <div
+                className={clsx(
+                  "flex justify-between gap-3",
+                  "dark:bg-flathub-arsenic/90",
+                  "p-8 w-full h-full",
+                )}
+              >
+                <div className="prose dark:prose-invert max-w-none">
+                  <div className="mb-0 text-2xl font-extrabold">
+                    {t("the-linux-app-store")}
+                  </div>
+                  <p className="introduction mb-8 mt-2 max-w-2xl font-light">
+                    {t("flathub-index-description")}
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <ButtonLink
+                      variant="secondary"
+                      href={"/setup"}
+                      passHref
+                      aria-label={t("setup-flathub-description")}
+                    >
+                      {t("setup-flathub")}
+                    </ButtonLink>
+                    {!IS_PRODUCTION && (
+                      <ButtonLink
+                        variant="secondary"
+                        href={"/donate"}
+                        passHref
+                        aria-label={t("donate-to", { project: "Flathub" })}
+                      >
+                        {t("donate-to", { project: "Flathub" })}
+                      </ButtonLink>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ApplicationSections
+            popular={popular}
+            recentlyUpdated={recentlyUpdated}
+            recentlyAdded={recentlyAdded}
+            verified={verified}
+          ></ApplicationSections>
+
+          {topAppsByCategory.map((sectionData, i) => (
+            <ApplicationSection
+              key={`categorySection${i}`}
+              href={`/apps/category/${encodeURIComponent(
+                sectionData.category,
+              )}`}
+              applications={sectionData.apps.hits.map((app) =>
+                mapAppsIndexToAppstreamListItem(app),
+              )}
+              title={categoryToName(sectionData.category, t)}
+            />
+          ))}
+        </LoginGuard>
+      </div>
     </>
   )
 }

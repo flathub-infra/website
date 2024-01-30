@@ -56,6 +56,10 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
     }
   }, [queryRefreshDev.data, userDispatch])
 
+  if (user.loading || !user.info) {
+    return null
+  }
+
   if (queryDevApplications.isPending || queryRefreshDev.isPending) {
     return <Spinner size="m" text={t("loading-user-apps")} />
   }

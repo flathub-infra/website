@@ -6,8 +6,6 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
-import { useUserContext } from "src/context/user-info"
-import { useRouter } from "next/router"
 import { authApi } from "src/api"
 
 export default function Settings({
@@ -16,18 +14,6 @@ export default function Settings({
   providers: LoginProvider[]
 }) {
   const { t } = useTranslation()
-  const user = useUserContext()
-  const router = useRouter()
-
-  if (!router.isReady || user.loading) {
-    return null
-  }
-
-  // Nothing to show if not logged in
-  if (!user.info && !user.loading) {
-    router.push("/login", undefined, { locale: router.locale })
-    return null
-  }
 
   return (
     <>
