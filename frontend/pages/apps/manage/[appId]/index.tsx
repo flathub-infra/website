@@ -1,9 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
 import { GetStaticPaths, GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
-import { ReactElement } from "react"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
@@ -24,6 +23,7 @@ import { Disclosure, Transition } from "@headlessui/react"
 import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
+import { UserInfo } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -91,11 +91,12 @@ export default function AppManagementPage({
     enabled: !!app.id,
   })
 
-  // User must be a developer of the app to see these controls
-  let content: ReactElement
-  if (user.info?.dev_flatpaks.includes(app.id)) {
-    content = (
-      <>
+  return (
+    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <NextSeo title={t(app.name)} noindex />
+      <LoginGuard
+        condition={(info: UserInfo) => info.dev_flatpaks.includes(app.id)}
+      >
         <div className="space-y-8">
           <Breadcrumbs pages={pages} />
           <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
@@ -155,28 +156,7 @@ export default function AppManagementPage({
             </>
           </div>
         </div>
-      </>
-    )
-  } else {
-    content = (
-      <>
-        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t("unauthorized-to-view")}</p>
-        <Trans i18nKey={"common:retry-or-go-home"}>
-          You might want to retry or go back{" "}
-          <a className="no-underline hover:underline" href=".">
-            home
-          </a>
-          .
-        </Trans>{" "}
-      </>
-    )
-  }
-
-  return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={t(app.name)} noindex />
-      <LoginGuard>{content}</LoginGuard>
+      </LoginGuard>
     </div>
   )
 }

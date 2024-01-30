@@ -22,6 +22,8 @@ import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
+import LoginGuard from "src/components/login/LoginGuard"
+import { UserInfo } from "src/codegen"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -193,21 +195,7 @@ export default function AppPicks() {
 
   let content: ReactElement
 
-  if (!user.info || !user.info.is_quality_moderator) {
-    content = (
-      <>
-        <h1 className="my-8">{t("whoops")}</h1>
-        <p>{t("unauthorized-to-view")}</p>
-        <Trans i18nKey={"common:retry-or-go-home"}>
-          You might want to retry or go back{" "}
-          <a className="no-underline hover:underline" href=".">
-            home
-          </a>
-          .
-        </Trans>
-      </>
-    )
-  } else if (queryAppsOfTheWeek.isPending || queryQualityApps.isPending) {
+  if (queryAppsOfTheWeek.isPending || queryQualityApps.isPending) {
     content = <Spinner size="m" />
   } else if (queryAppsOfTheWeek.isError || queryQualityApps.isError) {
     content = (
@@ -393,7 +381,9 @@ export default function AppPicks() {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="App picks" noindex />
-      {content}
+      <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+        {content}
+      </LoginGuard>
     </div>
   )
 }
