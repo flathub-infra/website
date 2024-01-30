@@ -64,7 +64,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   return (
     <div>
       {format(day, "EEEE")}
-      {queryAppOfTheDay.isFetching ? (
+      {queryAppOfTheDay.isPending ? (
         <Spinner size="m" />
       ) : (
         <AppOfTheDay appOfTheDay={queryAppOfTheDay.data.data} />
