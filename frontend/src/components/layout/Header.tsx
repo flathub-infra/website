@@ -3,7 +3,11 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 import { useWindowSize } from "src/hooks/useWindowSize"
-import { LogoJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
+import {
+  LogoJsonLd,
+  OrganizationJsonLd,
+  SiteLinksSearchBoxJsonLd,
+} from "next-seo"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
@@ -222,9 +226,17 @@ const Header = () => {
               <div className="relative flex justify-between lg:gap-8 xl:grid xl:grid-cols-12">
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
-                    <LogoJsonLd
-                      logo={logoEmail.src}
+                    <OrganizationJsonLd
+                      name="Flathub"
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
+                      logo={logoEmail.src}
+                      sameAs={[
+                        "https://wikipedia.org/wiki/Flathub",
+                        "https://fosstodon.org/@FlatpakApps",
+                        "https://discourse.flathub.org/",
+                        "https://github.com/flathub",
+                        "https://github.com/flathub-infra",
+                      ]}
                     />
                     <Link href="/" passHref>
                       <div
