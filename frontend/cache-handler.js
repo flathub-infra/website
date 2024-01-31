@@ -1,32 +1,43 @@
+//@ts-check
+
 const { IncrementalCache } = require("@neshca/cache-handler")
 const createRedisHandler =
   require("@neshca/cache-handler/redis-strings").default
 const createLruHandler = require("@neshca/cache-handler/local-lru").default
 const { createClient } = require("redis")
 
-const client = createClient({
-  url: "redis://localhost:6379", // based on backend/README.md
-})
+IncrementalCache.onCreation(async ({ buildId }) => {
+  let redisHandler
 
-// Ignore Redis errors: https://github.com/redis/node-redis?tab=readme-ov-file#events
-client.on("error", () => {})
+  if (buildId) {
+    /** @type {import('redis').RedisClientType} */
+    const client = createClient({
+      url: process.env.REDIS_URL ?? "redis://localhost:6379",
+    })
 
-IncrementalCache.onCreation(async () => {
-  console.info("Connecting to Redis...")
-  await client.connect()
-  console.info("Connected to Redis.")
+    // Ignore Redis errors: https://github.com/redis/node-redis?tab=readme-ov-file#events
+    client.on("error", () => {})
 
-  const redisCache = await createRedisHandler({
-    client,
-    timeoutMs: 2000,
-  })
+    console.info("Connecting to Redis...")
+    await client.connect()
+    console.info("Connected to Redis.")
 
-  const localCache = createLruHandler({
-    maxItemSizeBytes: 1000 * 1000 * 100, // approx 100 MB of RAM
+    const keyPrefix = `nextjs-cache:${buildId}:`
+
+    redisHandler = await createRedisHandler({
+      client,
+      timeoutMs: 2000,
+      keyPrefix,
+    })
+  }
+
+  const localHandler = createLruHandler({
+    // approx 100 MB of RAM as a backup if Redis fails
+    maxItemSizeBytes: 1000 * 1000 * 100,
   })
 
   return {
-    cache: [redisCache, localCache],
+    cache: [redisHandler, localHandler],
     useFileSystem: true,
   }
 })
