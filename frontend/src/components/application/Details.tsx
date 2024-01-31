@@ -1,7 +1,11 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import { AddonAppstream, DesktopAppstream } from "../../types/Appstream"
+import {
+  AddonAppstream,
+  DesktopAppstream,
+  pickScreenshot,
+} from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -34,6 +38,7 @@ import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
 import { vendingApi } from "src/api"
+import { formatISO } from "date-fns"
 
 interface Props {
   app?: DesktopAppstream
@@ -56,26 +61,26 @@ function categoryToSeoCategories(categories: string[]) {
 function categoryToSeoCategory(category) {
   switch (category) {
     case "AudioVideo":
-      return "MultimediaApplication"
+      return "Multimedia"
     case "Development":
-      return "DeveloperApplication"
+      return "Developer"
     case "Education":
-      return "EducationalApplication"
+      return "Educational"
     case "Game":
-      return "GameApplication"
+      return "Game"
     case "Graphics":
-      return "DesignApplication"
+      return "Design"
     case "Network":
-      return "SocialNetworkingApplication"
+      return "SocialNetworking"
     case "Office":
-      return "BusinessApplication"
+      return "Business"
     case "Science":
       // Unsure what else we could map this to
-      return "EducationalApplication"
+      return "Educational"
     case "System":
-      return "DesktopEnhancementApplication"
+      return "DesktopEnhancement"
     case "Utility":
-      return "UtilitiesApplication"
+      return "Utilities"
   }
 }
 
@@ -158,24 +163,72 @@ const Details: FunctionComponent<Props> = ({
 
     const keywords = Array.from(keywordSet)
 
+    const screenshot = pickScreenshot(app.screenshots[0])
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
           name={app.name}
+          author={{ name: app.developer_name, type: "Person" }}
+          maintainer={{ name: app.developer_name, type: "Person" }}
+          operatingSystem="linux"
           price="0"
-          priceCurrency=""
-          operatingSystem="LINUX"
+          priceCurrency="USD"
           applicationCategory={categoryToSeoCategories(app.categories)}
           keywords={keywords.join(", ")}
+          description={app.summary}
+          fileSize={
+            summary
+              ? calculateHumanReadableSize(summary.download_size)
+              : t("unknown")
+          }
+          datePublished={formatISO(new Date(summary.timestamp * 1000))}
+          screenshot={{
+            type: "ImageObject",
+            url: screenshot.src,
+            caption: screenshot.caption,
+            height: screenshot.height,
+            width: screenshot.width,
+          }}
+          softwareVersion={stableReleases[0].version}
+          storageRequirements={
+            summary
+              ? calculateHumanReadableSize(summary.installed_size)
+              : t("unknown")
+          }
         />
         {app.categories?.includes("Game") && (
           <VideoGameJsonLd
             name={app.name}
             authorName={app.developer_name}
-            operatingSystemName={"LINUX"}
-            storageRequirements={
+            maintainer={{ name: app.developer_name, type: "Person" }}
+            operatingSystemName={"linux"}
+            platformName={"linux"}
+            applicationCategory={categoryToSeoCategories(app.categories)}
+            keywords={keywords.join(", ")}
+            description={app.summary}
+            operatingSystem="linux"
+            offers={{
+              price: "0",
+              priceCurrency: "USD",
+            }}
+            fileSize={
               summary
                 ? calculateHumanReadableSize(summary.download_size)
+                : t("unknown")
+            }
+            datePublished={formatISO(new Date(summary.timestamp * 1000))}
+            screenshot={{
+              type: "ImageObject",
+              url: screenshot.src,
+              caption: screenshot.caption,
+              height: screenshot.height,
+              width: screenshot.width,
+            }}
+            softwareVersion={stableReleases[0].version}
+            storageRequirements={
+              summary
+                ? calculateHumanReadableSize(summary.installed_size)
                 : t("unknown")
             }
           />
