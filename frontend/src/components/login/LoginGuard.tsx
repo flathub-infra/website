@@ -2,8 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useUserContext } from "../../context/user-info"
 import Spinner from "../Spinner"
-import { Trans, useTranslation } from "react-i18next"
-import { UserState } from "src/types/Login"
+import { Trans, useTranslation } from "next-i18next"
 import { UserInfo } from "src/codegen"
 
 /**

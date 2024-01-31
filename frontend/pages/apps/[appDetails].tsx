@@ -23,6 +23,7 @@ import {
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { appApi, verificationApi } from "src/api"
+import { useTranslation } from "next-i18next"
 
 export default function Details({
   app,
@@ -41,6 +42,7 @@ export default function Details({
   eolMessage: string
   addons: AddonAppstream[]
 }) {
+  const { t } = useTranslation()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
 
   if (eolMessage) {
@@ -50,7 +52,7 @@ export default function Details({
   return (
     <>
       <NextSeo
-        title={app?.name}
+        title={t("install-x", { "app-name": app?.name })}
         description={app?.summary}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
