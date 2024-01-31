@@ -4,11 +4,7 @@ import {
   HiChevronLeft,
   HiMagnifyingGlassPlus,
 } from "react-icons/hi2"
-import {
-  DesktopAppstream,
-  mapScreenshot,
-  pickScreenshot,
-} from "../../types/Appstream"
+import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Inline from "yet-another-react-lightbox/plugins/inline"
@@ -18,13 +14,7 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 
-export const CarouselStrip = ({
-  app,
-  isQualityModalOpen,
-}: {
-  app: DesktopAppstream
-  isQualityModalOpen: boolean
-}) => {
+export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentScreenshot, setCurrentScreenshot] = useState(0)
@@ -118,31 +108,6 @@ export const CarouselStrip = ({
             }}
           />
         </div>
-        {isQualityModalOpen && slides?.length > 0 && (
-          <div className="flex flex-col items-center justify-center pb-6">
-            {t("screenshot-sizes")}
-            <div className="flex gap-2 lg:flex-row flex-col">
-              {slides?.map((screenshot, index) => {
-                return (
-                  <div
-                    key={screenshot.src}
-                    className={clsx(
-                      "lg:after:content-['|'] lg:after:last:content-[''] lg:after:ms-2",
-                    )}
-                  >
-                    <span
-                      className={clsx(
-                        index === currentIndex && "font-semibold",
-                      )}
-                    >
-                      {`${screenshot.width}x${screenshot.height}`}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )}
         {slides?.length > 1 && (
           <div>
             <ul className="flex list-none justify-center gap-4 pb-8">

@@ -186,7 +186,7 @@ const Details: FunctionComponent<Props> = ({
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />
-        <CarouselStrip app={app} isQualityModalOpen={isQualityModalOpen} />
+        <CarouselStrip app={app} />
         <div className="col-start-2 flex flex-col gap-6">
           <Description app={app} isQualityModalOpen={isQualityModalOpen} />
 
