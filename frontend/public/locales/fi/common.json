@@ -503,7 +503,9 @@
     "passed": "Läpäisty",
     "request-review": "Pyydä katselmointia",
     "high-quality-app-data": "Korkealaatuinen sovellusdata",
-    "app-data-review-pending": "Sovellusdatan katselmointi odottaa"
+    "app-data-review-pending": "Sovellusdatan katselmointi odottaa",
+    "request-review-description": "Tiimimme katselmoi sovelluksen mahdollisten laatuongelmien varalta. Tarkista uudelleen muutaman päivän kuluttua.",
+    "request-a-review-question": "Haluatko pyytää katselmointia?"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
@@ -525,7 +527,6 @@
   "revoked": "Mitätöity",
   "new-beta-token": "Uusi beetapoletti",
   "new-stable-token": "Uusi vakaa poletti",
-  "screenshot-sizes": "Kuvakaappausten koot",
   "can-access-input-devices": "Voi käyttää syötelaitteita kuten näppäimistöjä, hiiriä ja peliohjaimia",
   "id": "ID",
   "token-created": "Kopioi tämä poletti ja säilytä se turvallisessa sijainnissa, kuten CI-putken salaisuussäilössä. Se mahdollistaa luku- ja kirjoitusoikeuden sovelluksesi koosteisiin.",
@@ -534,5 +535,13 @@
   "scope-publish": "Julkaise kooste",
   "scope-upload": "Lähetä tiedostoja koosteeseen",
   "repo": "Tietovarasto",
-  "app-of-the-day": "Päivän sovellus"
+  "app-of-the-day": "Päivän sovellus",
+  "cannot-abandon-app": "Sovellusta ei voi hylätä",
+  "invalid-appid": "Virheellinen sovellus-ID",
+  "not-logged-in": "Et ole sisäänkirjautunut",
+  "danger-zone": "Vaaravyöhyke",
+  "confirm": "Vahvista",
+  "archive-app": "Arkistoi tämä sovellus",
+  "archive": "Arkistoi",
+  "manage-x": "Hallitse sovellusta {{app-name}}"
 }

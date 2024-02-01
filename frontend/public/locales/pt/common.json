@@ -439,7 +439,6 @@
   "system-folder-x": "Pasta do sistema {{folder}}",
   "user-configuration-folder": "Pasta de configurações do utilizador",
   "no-user-device-access-description": "A app não pode acessar nenhum dispositivo do utilizador, como webcams ou controladores de jogos",
-  "screenshot-sizes": "Tamanhos de captura de ecrã",
   "pictures-subfolder-x": "Subpasta de imagens {{folder}}",
   "scope-build": "Criar e aceder compilações e trabalhos",
   "token-name": "Nome do token",
