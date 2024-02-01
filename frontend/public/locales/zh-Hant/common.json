@@ -533,12 +533,21 @@
   "expires": "過期",
   "revoked": "已撤銷",
   "build-x": "建構於 {{build-ago}}",
-  "screenshot-sizes": "螢幕截圖大小",
   "can-access-input-devices": "可存取鍵盤、滑鼠或遊戲控制器等輸入設備",
   "get-it-on": "取得自",
   "app-of-the-day": "每日應用程式",
   "cannot-abandon-app": "無法放棄應用程式",
   "invalid-appid": "無效的應用程式 ID",
   "not-onboarded": "請先登入",
-  "not-logged-in": "您尚未登入"
+  "not-logged-in": "您尚未登入",
+  "danger-zone": "危險區域",
+  "switch-to-direct-upload": "將應用程式切換為直接上傳",
+  "confirm": "確認",
+  "do-you-really-want-to-switch-to-direct-upload": "您確定嗎？一旦將應用程式切換為直接上傳，就不能回頭了。",
+  "archive-app": "封存此應用程式",
+  "do-you-really-want-to-archive-app": "您確定嗎？這會讓上傳權杖無效並封存應用程式。",
+  "archive": "封存",
+  "enter-end-of-life-message": "輸入產品壽命終止訊息",
+  "rebase-onto-other-app": "輸入您的應用程式將要重新變更基底的應用程式 ID",
+  "manage-x": "管理 {{app-name}}"
 }

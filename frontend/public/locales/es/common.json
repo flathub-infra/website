@@ -507,7 +507,7 @@
     "passed": "Aprobado",
     "request-review": "Solicitud de revisión",
     "request-a-review-question": "¿Desea solicitar una revisión?",
-    "request-review-description": "Nuestro equipo revisará tu aplicación en busca de problemas de calidad. Por favor, vuelve a comprobarlo en unos días."
+    "request-review-description": "Nuestro equipo revisará su aplicación en busca de problemas de calidad. Por favor, vuelva a comprobarlo en unos días."
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
@@ -535,12 +535,21 @@
   "new-stable-token": "Nuevo testigo estable",
   "expires": "Expira",
   "revoked": "Revocado",
-  "screenshot-sizes": "Tamaños de las capturas de pantalla",
   "can-access-input-devices": "Puede acceder a dispositivos de entrada como teclados, ratones o mandos de juegos",
   "get-it-on": "Consígalo en",
   "app-of-the-day": "Aplicación del día",
-  "invalid-appid": "Id. de aplicación no válida",
-  "not-onboarded": "Por favor, suba primero",
+  "invalid-appid": "Id de aplicación no válido",
+  "not-onboarded": "Por favor, regístrese primero",
   "not-logged-in": "No ha iniciado sesión",
-  "cannot-abandon-app": "No se puede abandonar la aplicación"
+  "cannot-abandon-app": "No se puede abandonar la aplicación",
+  "confirm": "Confirmar",
+  "do-you-really-want-to-switch-to-direct-upload": "¿Está seguro? Cambiar la aplicación a publicación directa es irreversible.",
+  "archive-app": "Archivar esta aplicación",
+  "do-you-really-want-to-archive-app": "¿Está seguro? Esto invalidará los testigos de carga y archivará la aplicación.",
+  "archive": "Archivar",
+  "enter-end-of-life-message": "Introduzca el mensaje de fin de vida útil",
+  "danger-zone": "Zona de riesgo",
+  "switch-to-direct-upload": "Cambiar la aplicación a carga directa",
+  "rebase-onto-other-app": "Introduzca el ID de la aplicación en la que se basará su solicitud",
+  "manage-x": "Administrar {{app-name}}"
 }

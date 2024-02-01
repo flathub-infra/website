@@ -512,7 +512,6 @@
   "id": "Kimlik",
   "token-created": "Bu jetonu kopyalayın ve CI işlem hattınızın gizli dizin deposu gibi güvenli bir yerde depolayın. Uygulamanızın derlemelerine okuma ve yazma erişimi sağlar.",
   "issued": "Düzenleyen",
-  "screenshot-sizes": "Ekran görüntüsü boyutları",
   "scope-build": "Derlemeler ve görevler oluşturun ve bunlara erişin",
   "token-name": "Jeton adı",
   "revoke-token": "Jetonu Feshet",

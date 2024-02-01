@@ -504,7 +504,9 @@
     "not-passed": "Nicht bestanden",
     "app-data-review-pending": "App-Daten review ausstehend",
     "passed": "Bestanden",
-    "request-review": "Review anfragen"
+    "request-review": "Review anfragen",
+    "request-review-description": "Unser Team wird deine App auf Qualitätsprobleme überprüfen. Dies kann einige Tage dauern.",
+    "request-a-review-question": "Möchtest du ein Review anfordern?"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build ID",
@@ -513,7 +515,6 @@
   "id": "ID",
   "token-created": "Kopiere diesen Token und speichere ihn an einem sicheren Ort, wie zum Beispiel den Secret Store der CI-Pipeline. Er gewährt Lese- und Schreibzugriff auf die Builds Ihrer App.",
   "issued": "Ausgestellt",
-  "screenshot-sizes": "Bildschirmfoto Größen",
   "scope-build": "Erstellen und greife auf Builds und Jobs zu",
   "token-name": "Token-Name",
   "revoke-token": "Token widerrufen",
@@ -535,5 +536,16 @@
   "can-access-input-devices": "Zugriff auf Eingabegeräte wie Tastatur, Maus oder Gaming-Controller",
   "expires": "Gültig bis",
   "revoked": "Widerrufen",
-  "get-it-on": "Jetzt auf"
+  "get-it-on": "Jetzt auf",
+  "cannot-abandon-app": "Kann die App nicht verlassen",
+  "invalid-appid": "Invalide App-Id",
+  "not-onboarded": "Bitte zuerst das Onboarding durchführen",
+  "not-logged-in": "Du bist nicht angemeldet",
+  "danger-zone": "Gefahrenbereich",
+  "switch-to-direct-upload": "App auf Direkt Hochladen wechseln",
+  "confirm": "Bestätigen",
+  "archive-app": "Archiviere diese App",
+  "archive": "Archiv",
+  "manage-x": "Verwalte {{app-name}}",
+  "install-x": "{{app-name}} auf Linux installieren"
 }

@@ -482,7 +482,9 @@
     "not-passed": "Gefaald",
     "app-data-review-pending": "Review van app-gegevens in afwachting",
     "passed": "Geslaagd",
-    "request-review": "Review aanvragen"
+    "request-review": "Review aanvragen",
+    "request-a-review-question": "Wilt u een beoordeling aanvragen?",
+    "request-review-description": "Ons team zal uw app beoordelen op kwaliteits­problemen. Dit zal enkele dagen duren."
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -532,8 +534,21 @@
   "expires": "Verloopt op",
   "revoked": "Ingetrokken",
   "build-x": "{{build-ago}} gebouwd",
-  "screenshot-sizes": "Scherm­afdruk­groottes",
   "can-access-input-devices": "Heeft toegang tot invoer­apparaten zoals toetsen­borden, muizen of game­controllers",
   "app-of-the-day": "App van de dag",
-  "get-it-on": "Ontdek het op"
+  "get-it-on": "Ontdek het op",
+  "cannot-abandon-app": "Kan app niet verlaten",
+  "invalid-appid": "Ongeldige app-id",
+  "not-onboarded": "Volg eerst de onboarding",
+  "not-logged-in": "U bent niet ingelogd",
+  "danger-zone": "Gevarenzone",
+  "switch-to-direct-upload": "App wisselen naar directe upload",
+  "confirm": "Bevestigen",
+  "do-you-really-want-to-switch-to-direct-upload": "Weet u het zeker? Als u een app eenmaal heeft omgeschakeld naar directe upload, is er geen weg meer terug.",
+  "archive-app": "Deze app archiveren",
+  "do-you-really-want-to-archive-app": "Weet u het zeker? Hierdoor worden uploadtokens ongeldig gemaakt en wordt de app gearchiveerd.",
+  "archive": "Archiveren",
+  "enter-end-of-life-message": "Voer end-of-life-bericht in",
+  "rebase-onto-other-app": "Voer app-id in waarnaar uw app wordt omgezet",
+  "manage-x": "{{app-name}} beheren"
 }

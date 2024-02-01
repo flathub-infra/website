@@ -444,7 +444,6 @@
   "system-folder-x": "システムフォルダー {{folder}}",
   "user-configuration-folder": "ユーザー設定フォルダー",
   "no-user-device-access-description": "アプリはカメラやゲーム用コントローラーなどのユーザーのデバイスにアクセスできません",
-  "screenshot-sizes": "スクリーンショットのサイズ",
   "pictures-subfolder-x": "画像サブフォルダー {{folder}}",
   "scope-build": "ビルドとジョブの作成とアクセス",
   "token-name": "トークン名",

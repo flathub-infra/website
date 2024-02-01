@@ -534,7 +534,6 @@
   "new-stable-token": "Nowy token w wersji stabilnej",
   "expires": "Wygasa",
   "revoked": "Wycofany",
-  "screenshot-sizes": "Rozmiary zrzutów ekranu",
   "build-x": "Zbudowano {{build-ago}}",
   "can-access-input-devices": "Może uzyskać dostęp do urządzeń wejściowych, takich jak klawiatury, myszy lub kontrolery do gier",
   "app-of-the-day": "Aplikacja dnia",
@@ -542,5 +541,15 @@
   "cannot-abandon-app": "Nie można porzucić aplikacji",
   "invalid-appid": "Nieprawidłowy identyfikator aplikacji",
   "not-onboarded": "Najpierw należy przejść przez proces rejestracji",
-  "not-logged-in": "Nie jesteś zalogowany"
+  "not-logged-in": "Nie jesteś zalogowany",
+  "danger-zone": "Strefa zagrożenia",
+  "switch-to-direct-upload": "Przełącz aplikację na bezpośrednie przesyłanie",
+  "archive-app": "Zarchiwizuj tę aplikację",
+  "do-you-really-want-to-archive-app": "Jesteś pewien? Spowoduje to unieważnienie tokenów przesyłania i zarchiwizowanie aplikacji.",
+  "enter-end-of-life-message": "Wprowadź komunikat o zakończeniu wsparcia",
+  "rebase-onto-other-app": "Wprowadź identyfikator aplikacji, do którego aplikacja zostanie przekierowana",
+  "manage-x": "Zarządzaj {{app-name}}",
+  "confirm": "Potwierdź",
+  "do-you-really-want-to-switch-to-direct-upload": "Czy na pewno? Po przełączeniu aplikacji na bezpośrednie przesyłanie nie ma możliwości powrotu.",
+  "archive": "Zarchiwizuj"
 }
