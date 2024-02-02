@@ -98,10 +98,14 @@ export interface ScreenshotSize {
   [key: string]: string
 }
 
-export function pickScreenshot(
-  screenshot: Screenshot,
+export function pickScreenshotSize(
+  screenshot?: Screenshot,
   maxHeight?: number,
 ): { src: string; width: number; height: number; caption: string } | undefined {
+  if (!screenshot) {
+    return undefined
+  }
+
   const orderedByResolution = Object.keys(screenshot.sizes)
     .map((key) => {
       const width = key.split("x")[0]
@@ -163,7 +167,7 @@ export function mapScreenshot(screenshot: Screenshot) {
   }
 
   return {
-    ...pickScreenshot(screenshot),
+    ...pickScreenshotSize(screenshot),
     srcSet: screenshotVariant,
   }
 }
