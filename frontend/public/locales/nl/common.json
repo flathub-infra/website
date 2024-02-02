@@ -550,5 +550,6 @@
   "archive": "Archiveren",
   "enter-end-of-life-message": "Voer end-of-life-bericht in",
   "rebase-onto-other-app": "Voer app-id in waarnaar uw app wordt omgezet",
-  "manage-x": "{{app-name}} beheren"
+  "manage-x": "{{app-name}} beheren",
+  "install-x": "Installeer {{app-name}} op Linux"
 }
