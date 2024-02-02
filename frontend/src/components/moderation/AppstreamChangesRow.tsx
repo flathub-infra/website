@@ -2,6 +2,7 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import ReviewCard from "./ReviewCard"
 import { ModerationRequestResponse } from "src/codegen"
+import diff from "fast-diff"
 
 interface Props {
   request: ModerationRequestResponse
@@ -24,13 +25,63 @@ function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
   return { a: result[0], b: result[1] }
 }
 
-const ArrayWithNewlines = ({ array }: { array: string[] }) => {
-  return array.map((v, i) => (
-    <span key={i} className="break-all">
-      {v}
-      <br />
-    </span>
-  ))
+const MarkDiff = ({
+  diff: currentDiff,
+  type,
+}: {
+  diff: diff.Diff[]
+  type: "old" | "new"
+}) => {
+  return currentDiff.map((a, i) => {
+    if (type === "new" && a[0] === diff.DELETE) {
+      return null
+    }
+    if (type === "old" && a[0] === diff.INSERT) {
+      return null
+    }
+    if (a[0] === diff.INSERT) {
+      return (
+        <mark
+          key={i}
+          className="dark:bg-flathub-status-green bg-flathub-status-green-dark"
+        >
+          {a[1]}
+        </mark>
+      )
+    }
+    if (a[0] === diff.DELETE) {
+      return (
+        <mark
+          key={i}
+          className="dark:bg-flathub-status-red bg-flathub-status-red-dark"
+        >
+          {a[1]}
+        </mark>
+      )
+    }
+
+    return a[1]
+  })
+}
+
+const ArrayWithNewlines = ({
+  array,
+  diffForIndex,
+  type,
+}: {
+  array: string[]
+  diffForIndex?: { [key: number]: diff.Diff[] }
+  type: "old" | "new"
+}) => {
+  return array.map((v, i) => {
+    return (
+      <span key={i} className="break-all">
+        {diffForIndex && <MarkDiff diff={diffForIndex[i]} type={type} />}
+        {!diffForIndex && v}
+        <br />
+      </span>
+    )
+  })
 }
 
 const TableRow = ({
@@ -38,17 +89,42 @@ const TableRow = ({
   is_new_submission,
   currentValueList,
   newValueList,
+}: {
+  valueKey: string
+  is_new_submission: boolean
+  currentValueList: string[]
+  newValueList: string[]
 }) => {
+  const length = Math.max(currentValueList.length, newValueList.length)
+
+  const diffForIndex: { [key: number]: diff.Diff[] } = {}
+  for (let index = 0; index < length; index++) {
+    const diffResult = diff(
+      currentValueList[index] ?? "",
+      newValueList[index] ?? "",
+    )
+
+    diffForIndex[index] = diffResult
+  }
+
   return (
     <tr key={valueKey}>
       <td className="align-top">{valueKey}</td>
       {!is_new_submission && (
         <td className="align-top">
-          <ArrayWithNewlines array={currentValueList} />
+          <ArrayWithNewlines
+            array={currentValueList}
+            diffForIndex={diffForIndex}
+            type={"old"}
+          />
         </td>
       )}
       <td className="align-top">
-        <ArrayWithNewlines array={newValueList} />
+        <ArrayWithNewlines
+          array={newValueList}
+          diffForIndex={diffForIndex}
+          type={"new"}
+        />
       </td>
     </tr>
   )
@@ -135,13 +211,22 @@ const DiffRow = ({
     )
   }
 
+  const diffString = diff(
+    currentValues.toString() ?? "",
+    newValues.toString() ?? "",
+  )
+
   return (
     <tr>
       <td className="align-top">{valueKey}</td>
       {!request.is_new_submission && (
-        <td className="align-top">{currentValues?.toString()}</td>
+        <td className="align-top">
+          <MarkDiff diff={diffString} type="old" />
+        </td>
       )}
-      <td className="align-top">{newValues?.toString()}</td>
+      <td className="align-top">
+        <MarkDiff diff={diffString} type="new" />
+      </td>
     </tr>
   )
 }
