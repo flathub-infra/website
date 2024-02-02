@@ -30,11 +30,13 @@ export const Primary = () => {
   const request: ModerationRequestResponse = {
     request_type: "appdata",
     request_data: {
-      keys: {
-        name: "My Awesome Test App",
-      },
       current_values: {
         name: "Test App",
+        developer: "Kola Lamepe",
+      },
+      keys: {
+        name: "My Awesome Test App",
+        developer: "Kolja Lampe",
       },
     },
     id: 1,
