@@ -549,5 +549,6 @@
   "archive": "封存",
   "enter-end-of-life-message": "輸入產品壽命終止訊息",
   "rebase-onto-other-app": "輸入您的應用程式將要重新變更基底的應用程式 ID",
-  "manage-x": "管理 {{app-name}}"
+  "manage-x": "管理 {{app-name}}",
+  "install-x": "在 Linux 上安裝 {{app-name}}"
 }
