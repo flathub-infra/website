@@ -22,18 +22,14 @@ IncrementalCache.onCreation(async ({ buildId }) => {
     await client.connect()
     console.info("Connected to Redis.")
 
-    const keyPrefix = `nextjs-cache:${buildId}:`
-
     redisHandler = await createRedisHandler({
       client,
-      timeoutMs: 2000,
-      keyPrefix,
+      timeoutMs: 500,
     })
   }
 
   const localHandler = createLruHandler({
-    // approx 100 MB of RAM as a backup if Redis fails
-    maxItemSizeBytes: 1000 * 1000 * 100,
+    maxItemSizeBytes: 1000 * 1000 * 500,
   })
 
   return {
