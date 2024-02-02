@@ -4,7 +4,7 @@ import React from "react"
 import {
   AddonAppstream,
   DesktopAppstream,
-  pickScreenshot,
+  pickScreenshotSize,
 } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
@@ -163,7 +163,7 @@ const Details: FunctionComponent<Props> = ({
 
     const keywords = Array.from(keywordSet)
 
-    const screenshot = pickScreenshot(app.screenshots[0])
+    const screenshot = pickScreenshotSize(app.screenshots[0])
 
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
@@ -183,14 +183,20 @@ const Details: FunctionComponent<Props> = ({
               : t("unknown")
           }
           datePublished={formatISO(new Date(summary.timestamp * 1000))}
-          screenshot={{
-            type: "ImageObject",
-            url: screenshot.src,
-            caption: screenshot.caption,
-            height: screenshot.height,
-            width: screenshot.width,
-          }}
-          softwareVersion={stableReleases[0].version}
+          screenshot={
+            screenshot
+              ? {
+                  type: "ImageObject",
+                  url: screenshot.src,
+                  caption: screenshot.caption,
+                  height: screenshot.height,
+                  width: screenshot.width,
+                }
+              : undefined
+          }
+          softwareVersion={
+            stableReleases?.length > 0 ? stableReleases[0].version : undefined
+          }
           storageRequirements={
             summary
               ? calculateHumanReadableSize(summary.installed_size)
@@ -218,14 +224,20 @@ const Details: FunctionComponent<Props> = ({
                 : t("unknown")
             }
             datePublished={formatISO(new Date(summary.timestamp * 1000))}
-            screenshot={{
-              type: "ImageObject",
-              url: screenshot.src,
-              caption: screenshot.caption,
-              height: screenshot.height,
-              width: screenshot.width,
-            }}
-            softwareVersion={stableReleases[0].version}
+            screenshot={
+              screenshot
+                ? {
+                    type: "ImageObject",
+                    url: screenshot.src,
+                    caption: screenshot.caption,
+                    height: screenshot.height,
+                    width: screenshot.width,
+                  }
+                : undefined
+            }
+            softwareVersion={
+              stableReleases?.length > 0 ? stableReleases[0].version : undefined
+            }
             storageRequirements={
               summary
                 ? calculateHumanReadableSize(summary.installed_size)

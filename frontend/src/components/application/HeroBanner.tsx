@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import Link from "next/link"
-import { DesktopAppstream, pickScreenshot } from "src/types/Appstream"
+import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
 
 import "swiper/css"
 import "swiper/css/navigation"
@@ -105,7 +105,7 @@ export const HeroBanner = ({
               </div>
               <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
                 <Image
-                  src={pickScreenshot(app.screenshots[0])}
+                  src={pickScreenshotSize(app.screenshots[0])}
                   alt={app.name}
                   className="absolute -bottom-24 rounded-lg"
                 />
