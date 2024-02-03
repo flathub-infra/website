@@ -551,5 +551,6 @@
   "manage-x": "Zarządzaj {{app-name}}",
   "confirm": "Potwierdź",
   "do-you-really-want-to-switch-to-direct-upload": "Czy na pewno? Po przełączeniu aplikacji na bezpośrednie przesyłanie nie ma możliwości powrotu.",
-  "archive": "Zarchiwizuj"
+  "archive": "Zarchiwizuj",
+  "install-x": "Zainstaluj {{app-name}} na Linuksie"
 }
