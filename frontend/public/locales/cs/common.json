@@ -551,5 +551,6 @@
   "do-you-really-want-to-archive-app": "Jste si jisti? Tento krok zneplatní nahrané tokeny a archivuje aplikaci.",
   "archive": "Archivovat",
   "enter-end-of-life-message": "Zadejte zprávu \"end-of-life\"",
-  "rebase-onto-other-app": "Zadejte ID aplikace, do kterého bude vaše aplikace přenesena"
+  "rebase-onto-other-app": "Zadejte ID aplikace, do kterého bude vaše aplikace přenesena",
+  "install-x": "Nainstalovat aplikaci {{app-name}} na Linux"
 }
