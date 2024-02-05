@@ -31,7 +31,7 @@
     "boring-avatars": "^1.10.1",
     "chart.js": "^4.4.0",
     "chartjs-adapter-date-fns": "^3.0.0",
-    "clsx": "^2.0.0",
+    "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
     "framer-motion": "^10.16.4",
     "i18n-iso-countries": "^7.7.0",
