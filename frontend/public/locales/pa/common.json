@@ -200,5 +200,12 @@
   },
   "saved-cards": "ਸੰਭਾਲੇ ਹੋਏ ਕਾਰਡ",
   "select-donation-amount": "ਦਾਨ ਕਰਨ ਲਈ ਰਕਮ ਚੁਣੋ",
-  "status": "ਹਾਲਤ"
+  "status": "ਹਾਲਤ",
+  "status-cancelled": "ਰੱਦ ਕੀਤਾ",
+  "status-new": "ਨਵਾਂ",
+  "status-pending": "ਬਕਾਇਆ",
+  "status-retry": "ਮੁੜ-ਕੋਸ਼ਿਸ਼",
+  "status-success": "ਕਾਮਯਾਬ",
+  "stripe-receipt": "Stripe ਰਸੀਦ",
+  "submit-payment": "ਭੁਗਤਾਨ ਭੇਜੋ"
 }

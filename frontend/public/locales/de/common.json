@@ -547,5 +547,9 @@
   "archive-app": "Archiviere diese App",
   "archive": "Archiv",
   "manage-x": "Verwalte {{app-name}}",
-  "install-x": "{{app-name}} auf Linux installieren"
+  "install-x": "{{app-name}} auf Linux installieren",
+  "do-you-really-want-to-switch-to-direct-upload": "Bist du sicher? Sobald du eine Anwendung auf direktes Hochladen umgestellt hast, gibt es kein Zurück mehr.",
+  "do-you-really-want-to-archive-app": "Bist du sicher? Dadurch werden die Upload-Tokens ungültig und die Anwendung wird archiviert.",
+  "enter-end-of-life-message": "End-of-Life Nachricht eingeben",
+  "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll"
 }
