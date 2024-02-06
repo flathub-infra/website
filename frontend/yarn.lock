@@ -10971,7 +10971,7 @@ __metadata:
     next-sitemap: "npm:^4.2.3"
     next-themes: "npm:^0.2.1"
     postcss: "npm:^8.4.33"
-    prettier: "npm:^3.1.1"
+    prettier: "npm:^3.2.5"
     prettier-plugin-tailwindcss: "npm:^0.5.6"
     react: "npm:^18.2.0"
     react-chartjs-2: "npm:^5.2.0"
@@ -14832,12 +14832,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "prettier@npm:3.1.1"
+"prettier@npm:^3.2.5":
+  version: 3.2.5
+  resolution: "prettier@npm:3.2.5"
   bin:
     prettier: bin/prettier.cjs
-  checksum: facc944ba20e194ff4db765e830ffbcb642803381f0d2033ed397e79904fa4ccc877dc25ad68f42d36985c01d051c990ca1b905fb83d2d7d65fe69e4386fa1a3
+  checksum: ea327f37a7d46f2324a34ad35292af2ad4c4c3c3355da07313339d7e554320f66f65f91e856add8530157a733c6c4a897dc41b577056be5c24c40f739f5ee8c6
   languageName: node
   linkType: hard
 
