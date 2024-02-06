@@ -551,5 +551,6 @@
   "danger-zone": "Zona de riesgo",
   "switch-to-direct-upload": "Cambiar la aplicación a carga directa",
   "rebase-onto-other-app": "Introduzca el ID de la aplicación en la que se basará su solicitud",
-  "manage-x": "Administrar {{app-name}}"
+  "manage-x": "Administrar {{app-name}}",
+  "install-x": "Instalar {{app-name}} en Linux"
 }

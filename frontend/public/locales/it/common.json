@@ -361,5 +361,17 @@
   "sequencer": "Sequencer",
   "tuner": "Tuner",
   "app-already-exists": "Esiste già una app con questo ID.",
-  "arch": "Architettura"
+  "arch": "Architettura",
+  "safe": "Sicura",
+  "probably-safe": "Probabilmente sicura",
+  "unsafe": "Insicura",
+  "no-permissions": "Nessun permesso",
+  "can-access-system-devices": "Ha accesso a dispositivi di sistema che richiedono permessi elevati",
+  "release-link-no-changelog": "Note di rilascio",
+  "potentially-unsafe": "Potenzialmente insicura",
+  "has-network-access": "Ha accesso alla rete",
+  "uses-system-services": "Usa servizi di sistema",
+  "uses-session-services": "Usa servizi di sessione",
+  "can-access-hardware-devices": "Ha accesso a dispositivi hardware come webcam o controller da videogiochi",
+  "can-access-input-devices": "Ha accesso a dispositivi di input come tastiere, mouse o controller da videogiochi"
 }

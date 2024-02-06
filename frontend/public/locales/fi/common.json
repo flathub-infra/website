@@ -543,5 +543,6 @@
   "confirm": "Vahvista",
   "archive-app": "Arkistoi tämä sovellus",
   "archive": "Arkistoi",
-  "manage-x": "Hallitse sovellusta {{app-name}}"
+  "manage-x": "Hallitse sovellusta {{app-name}}",
+  "install-x": "Asenna {{app-name}} Linuxiin"
 }
