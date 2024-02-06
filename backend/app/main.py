@@ -44,7 +44,7 @@ if config.settings.sentry_dsn:
 router = FastAPI(
     title=config.settings.app_name,
     default_response_class=ORJSONResponse,
-    root_path="/" if config.settings.env == "development" else "/api/v2",
+    root_path="" if config.settings.env == "development" else "/api/v2",
 )
 
 origins = config.settings.cors_origins.split(" ")
