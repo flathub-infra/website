@@ -123,9 +123,9 @@ export async function fetchDeveloperApps(
   }
   console.log(`Fetching apps for developer ${developer}`)
   return axios
-    .get<MeilisearchResponse<AppsIndex>>(
-      DEVELOPER_URL(developer, page, per_page),
-    )
+    .get<
+      MeilisearchResponse<AppsIndex>
+    >(DEVELOPER_URL(developer, page, per_page))
     .catch((error) => {
       return {
         data: null,
