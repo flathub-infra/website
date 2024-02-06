@@ -50,6 +50,7 @@ module.exports = {
       "ko",
       "sv",
       "pa",
+      "sq",
     ],
   },
   // debug: true,
