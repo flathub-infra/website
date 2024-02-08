@@ -9,32 +9,39 @@ export default {
 
 export const Primary = () => {
   return (
-    <ButtonLink passHref href={"/"}>
-      Test
-    </ButtonLink>
+    <div className="flex gap-6">
+      <ButtonLink passHref href={"/"}>
+        Test
+      </ButtonLink>
+      <ButtonLink disabled passHref href={"/"}>
+        Disabled
+      </ButtonLink>
+    </div>
   )
 }
 
 export const Secondary = () => {
   return (
-    <ButtonLink passHref href={"/"} variant="secondary">
-      Test
-    </ButtonLink>
+    <div className="flex gap-6">
+      <ButtonLink passHref href={"/"} variant="secondary">
+        Test
+      </ButtonLink>
+      <ButtonLink disabled passHref href={"/"} variant="secondary">
+        Disabled
+      </ButtonLink>
+    </div>
   )
 }
 
 export const Destructive = () => {
   return (
-    <ButtonLink passHref href={"/"} variant="destructive">
-      Test
-    </ButtonLink>
-  )
-}
-
-export const Disabled = () => {
-  return (
-    <ButtonLink passHref href={"/"} disabled variant="primary">
-      Test
-    </ButtonLink>
+    <div className="flex gap-6">
+      <ButtonLink passHref href={"/"} variant="destructive">
+        Test
+      </ButtonLink>
+      <ButtonLink disabled passHref href={"/"} variant="destructive">
+        Disabled
+      </ButtonLink>
+    </div>
   )
 }
