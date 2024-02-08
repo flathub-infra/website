@@ -551,5 +551,6 @@
   "archive": "Архіваваць",
   "enter-end-of-life-message": "Увядзіце паведамленне аб спыненні падтрымкі",
   "rebase-onto-other-app": "Увядзіце ID праграмы, у якую будзе перанакіравана ваша праграма",
-  "manage-x": "Кіраванне {{app-name}}"
+  "manage-x": "Кіраванне {{app-name}}",
+  "install-x": "Усталяваць {{app-name}} на Linux"
 }
