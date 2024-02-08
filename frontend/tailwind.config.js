@@ -58,6 +58,11 @@ module.exports = {
         "flathub-dark-gunmetal":
           "rgb(var(--flathub-dark-gunmetal) / <alpha-value>)",
         "flathub-black": "rgb(var(--flathub-black) / <alpha-value>)",
+
+        "flathub-vivid-crimson":
+          "rgb(var(--flathub-vivid-crimson) / <alpha-value>)",
+        "flathub-dark-candy-apple-red":
+          "rgb(var(--flathub-dark-candy-apple-red) / <alpha-value>)",
       },
       boxShadow: {
         md: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",

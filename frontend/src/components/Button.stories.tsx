@@ -8,21 +8,34 @@ export default {
 } as Meta<typeof Button>
 
 export const Primary = () => {
-  return <Button>Test</Button>
+  return (
+    <div className="flex gap-6">
+      <Button>Test</Button>
+      <Button disabled variant="primary">
+        Disabled
+      </Button>
+    </div>
+  )
 }
 
 export const Secondary = () => {
-  return <Button variant="secondary">Test</Button>
+  return (
+    <div className="flex gap-6">
+      <Button variant="secondary">Test</Button>
+      <Button disabled variant="secondary">
+        Disabled
+      </Button>
+    </div>
+  )
 }
 
 export const Destructive = () => {
-  return <Button variant="destructive">Test</Button>
-}
-
-export const Disabled = () => {
   return (
-    <Button disabled variant="primary">
-      Test
-    </Button>
+    <div className="flex gap-6">
+      <Button variant="destructive">Test</Button>
+      <Button disabled variant="destructive">
+        Disabled
+      </Button>
+    </div>
   )
 }
