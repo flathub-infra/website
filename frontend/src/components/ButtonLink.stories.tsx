@@ -1,6 +1,7 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import ButtonLink from "./ButtonLink"
+import { HiMiniPlus } from "react-icons/hi2"
 
 export default {
   title: "Components/ButtonLink",
@@ -12,6 +13,10 @@ export const Primary = () => {
     <div className="flex gap-6">
       <ButtonLink passHref href={"/"}>
         Test
+      </ButtonLink>
+      <ButtonLink passHref href={"/"}>
+        <HiMiniPlus className="w-5 h-5" />
+        New app
       </ButtonLink>
       <ButtonLink disabled passHref href={"/"}>
         Disabled
@@ -26,6 +31,10 @@ export const Secondary = () => {
       <ButtonLink passHref href={"/"} variant="secondary">
         Test
       </ButtonLink>
+      <ButtonLink passHref href={"/"} variant="secondary">
+        <HiMiniPlus className="w-5 h-5" />
+        New app
+      </ButtonLink>
       <ButtonLink disabled passHref href={"/"} variant="secondary">
         Disabled
       </ButtonLink>
@@ -38,6 +47,10 @@ export const Destructive = () => {
     <div className="flex gap-6">
       <ButtonLink passHref href={"/"} variant="destructive">
         Test
+      </ButtonLink>
+      <ButtonLink passHref href={"/"} variant="destructive">
+        <HiMiniPlus className="w-5 h-5" />
+        New app
       </ButtonLink>
       <ButtonLink disabled passHref href={"/"} variant="destructive">
         Disabled
