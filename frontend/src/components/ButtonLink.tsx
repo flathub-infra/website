@@ -76,7 +76,7 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
           className ?? "",
           hover,
           variantClass,
-          "no-wrap h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500",
+          "no-wrap flex gap-1 h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500",
           disabled
             ? "dark:bg-flathub-sonic-silver bg-flathub-sonic-silver cursor-not-allowed opacity-70"
             : "hover:cursor-pointer",
