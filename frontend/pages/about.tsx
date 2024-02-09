@@ -130,6 +130,44 @@ const About = () => {
           </Trans>
 
           <h2 className="mb-6 mt-12 text-2xl font-bold">
+            {t("press-information")}
+          </h2>
+          <Trans i18nKey={"common:press-information-block"}>
+            <p>
+              We are very happy to answer questions from journalists and tech
+              writers. Interview opportunities can also be arranged.
+            </p>
+
+            <h3>Graphics and Logos</h3>
+
+            <p>
+              Flathub graphic assets can be found{" "}
+              <a
+                className="no-underline hover:underline"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/flathub-infra/assets"
+              >
+                here
+              </a>
+              .
+            </p>
+
+            <h3>Contact</h3>
+            <p>
+              Press queries, including requests for comments and interviews can
+              be directed to{" "}
+              <a
+                className="no-underline hover:underline"
+                href="mailto:flathub@lists.freedesktop.org"
+              >
+                Flathub maintainers
+              </a>
+              .
+            </p>
+          </Trans>
+
+          <h2 className="mb-6 mt-12 text-2xl font-bold">
             {t("acknowledgements")}
           </h2>
           <Trans i18nKey={"common:acknowledgements-block"}>

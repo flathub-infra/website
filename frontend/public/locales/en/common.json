@@ -507,6 +507,8 @@
   "rebase-onto-other-app": "Enter app ID your application will be rebased into",
   "manage-x": "Manage {{app-name}}",
   "install-x": "Install {{app-name}} on Linux",
+  "press-information": "Press Information",
+  "press-information-block": "<p>We are very happy to answer questions from journalists and tech writers. Interview opportunities can also be arranged.</p><1>Graphics and Logos</1><2>Flathub graphic assets can be found <2>here</2>.</2><3>Contact</3><4>Press queries, including requests for comments and interviews can be directed to <2>Flathub maintainers</2>.</4>",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
