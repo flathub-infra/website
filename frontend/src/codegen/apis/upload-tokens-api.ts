@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
@@ -64,7 +65,7 @@ export const UploadTokensApiAxiosParamCreator = function (
     createUploadTokenUploadTokensAppIdPost: async (
       appId: string,
       uploadTokenRequest: UploadTokenRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -129,7 +130,7 @@ export const UploadTokensApiAxiosParamCreator = function (
     getUploadTokensUploadTokensAppIdGet: async (
       appId: string,
       includeExpired?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getUploadTokensUploadTokensAppIdGet", "appId", appId)
@@ -179,7 +180,7 @@ export const UploadTokensApiAxiosParamCreator = function (
      */
     revokeUploadTokenUploadTokensTokenIdRevokePost: async (
       tokenId: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'tokenId' is not null or undefined
       assertParamExists(
@@ -242,7 +243,7 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
     async createUploadTokenUploadTokensAppIdPost(
       appId: string,
       uploadTokenRequest: UploadTokenRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -255,12 +256,18 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
           uploadTokenRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "UploadTokensApi.createUploadTokenUploadTokensAppIdPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Get all upload tokens for the given app
@@ -273,7 +280,7 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
     async getUploadTokensUploadTokensAppIdGet(
       appId: string,
       includeExpired?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokensResponse>
     > {
@@ -283,12 +290,18 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
           includeExpired,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "UploadTokensApi.getUploadTokensUploadTokensAppIdGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -299,7 +312,7 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
      */
     async revokeUploadTokenUploadTokensTokenIdRevokePost(
       tokenId: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -308,12 +321,18 @@ export const UploadTokensApiFp = function (configuration?: Configuration) {
           tokenId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "UploadTokensApi.revokeUploadTokenUploadTokensTokenIdRevokePost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -404,7 +423,7 @@ export class UploadTokensApi extends BaseAPI {
   public createUploadTokenUploadTokensAppIdPost(
     appId: string,
     uploadTokenRequest: UploadTokenRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return UploadTokensApiFp(this.configuration)
       .createUploadTokenUploadTokensAppIdPost(
@@ -427,7 +446,7 @@ export class UploadTokensApi extends BaseAPI {
   public getUploadTokensUploadTokensAppIdGet(
     appId: string,
     includeExpired?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return UploadTokensApiFp(this.configuration)
       .getUploadTokensUploadTokensAppIdGet(appId, includeExpired, options)
@@ -444,7 +463,7 @@ export class UploadTokensApi extends BaseAPI {
    */
   public revokeUploadTokenUploadTokensTokenIdRevokePost(
     tokenId: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return UploadTokensApiFp(this.configuration)
       .revokeUploadTokenUploadTokensTokenIdRevokePost(tokenId, options)

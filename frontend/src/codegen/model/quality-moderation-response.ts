@@ -15,6 +15,9 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import { QualityModerationType } from "./quality-moderation-type"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ReviewRequestedAt } from "./review-requested-at"
 
 /**
  *
@@ -36,8 +39,8 @@ export interface QualityModerationResponse {
   is_fullscreen_app: boolean
   /**
    *
-   * @type {string}
+   * @type {ReviewRequestedAt}
    * @memberof QualityModerationResponse
    */
-  review_requested_at?: string | null
+  review_requested_at: ReviewRequestedAt
 }

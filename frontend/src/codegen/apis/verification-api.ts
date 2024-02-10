@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,17 +36,18 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { ArchiveRequest } from "../model"
 // @ts-ignore
 import { AvailableMethods } from "../model"
 // @ts-ignore
-import { ErrorReturn } from "../model"
-// @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { LinkResponse } from "../model"
+// @ts-ignore
+import { ResponseVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost } from "../model"
 // @ts-ignore
 import { VerificationStatus } from "../model"
 // @ts-ignore
@@ -72,7 +73,7 @@ export const VerificationApiAxiosParamCreator = function (
     archiveVerificationAppIdArchivePost: async (
       appId: string,
       archiveRequest: ArchiveRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("archiveVerificationAppIdArchivePost", "appId", appId)
@@ -134,7 +135,7 @@ export const VerificationApiAxiosParamCreator = function (
       async (
         appId: string,
         newApp?: boolean,
-        options: AxiosRequestConfig = {},
+        options: RawAxiosRequestConfig = {},
       ): Promise<RequestArgs> => {
         // verify required parameter 'appId' is not null or undefined
         assertParamExists(
@@ -191,7 +192,7 @@ export const VerificationApiAxiosParamCreator = function (
     getAvailableMethodsVerificationAppIdAvailableMethodsGet: async (
       appId: string,
       newApp?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -245,7 +246,7 @@ export const VerificationApiAxiosParamCreator = function (
      */
     getVerificationStatusVerificationAppIdStatusGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -293,7 +294,7 @@ export const VerificationApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet:
-      async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
         const localVarPath = `/verification/request-organization-access/github`
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -336,7 +337,7 @@ export const VerificationApiAxiosParamCreator = function (
       async (
         appId: string,
         newApp?: boolean,
-        options: AxiosRequestConfig = {},
+        options: RawAxiosRequestConfig = {},
       ): Promise<RequestArgs> => {
         // verify required parameter 'appId' is not null or undefined
         assertParamExists(
@@ -391,7 +392,7 @@ export const VerificationApiAxiosParamCreator = function (
      */
     switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -442,7 +443,7 @@ export const VerificationApiAxiosParamCreator = function (
      */
     unverifyVerificationAppIdUnverifyPost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("unverifyVerificationAppIdUnverifyPost", "appId", appId)
@@ -490,7 +491,7 @@ export const VerificationApiAxiosParamCreator = function (
     verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost: async (
       appId: string,
       newApp?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -558,7 +559,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
     async archiveVerificationAppIdArchivePost(
       appId: string,
       archiveRequest: ArchiveRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -568,12 +569,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           archiveRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.archiveVerificationAppIdArchivePost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Checks website verification, and if it succeeds, marks the app as verified for the current account.
@@ -586,7 +593,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
     async confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
       appId: string,
       newApp?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -599,12 +606,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           newApp,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Gets the ways an app may be verified.
@@ -617,7 +630,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
     async getAvailableMethodsVerificationAppIdAvailableMethodsGet(
       appId: string,
       newApp?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -630,12 +643,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           newApp,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.getAvailableMethodsVerificationAppIdAvailableMethodsGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Gets the verification status of the given app.
@@ -646,7 +665,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
      */
     async getVerificationStatusVerificationAppIdStatusGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -658,12 +677,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.getVerificationStatusVerificationAppIdStatusGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Returns the URL to request access to the organization so we can verify the user\'s membership.
@@ -672,7 +697,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkResponse>
     > {
@@ -680,12 +705,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Creates a token for the user to verify the app via website.
@@ -698,7 +729,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
     async setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
       appId: string,
       newApp?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -711,12 +742,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           newApp,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -727,7 +764,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
      */
     async switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -736,12 +773,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * If the current account has verified the given app, mark it as no longer verified.
@@ -752,7 +795,7 @@ export const VerificationApiFp = function (configuration?: Configuration) {
      */
     async unverifyVerificationAppIdUnverifyPost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -761,12 +804,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.unverifyVerificationAppIdUnverifyPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * If the current account is eligible to verify the given account via SSO, and the app is not already verified by someone else, marks the app as verified.
@@ -779,9 +828,12 @@ export const VerificationApiFp = function (configuration?: Configuration) {
     async verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
       appId: string,
       newApp?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ErrorReturn>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
@@ -789,12 +841,18 @@ export const VerificationApiFp = function (configuration?: Configuration) {
           newApp,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VerificationApi.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -965,7 +1023,7 @@ export const VerificationApiFactory = function (
       appId: string,
       newApp?: boolean,
       options?: any,
-    ): AxiosPromise<ErrorReturn> {
+    ): AxiosPromise<ResponseVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost> {
       return localVarFp
         .verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
           appId,
@@ -996,7 +1054,7 @@ export class VerificationApi extends BaseAPI {
   public archiveVerificationAppIdArchivePost(
     appId: string,
     archiveRequest: ArchiveRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .archiveVerificationAppIdArchivePost(appId, archiveRequest, options)
@@ -1015,7 +1073,7 @@ export class VerificationApi extends BaseAPI {
   public confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
     appId: string,
     newApp?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
@@ -1038,7 +1096,7 @@ export class VerificationApi extends BaseAPI {
   public getAvailableMethodsVerificationAppIdAvailableMethodsGet(
     appId: string,
     newApp?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .getAvailableMethodsVerificationAppIdAvailableMethodsGet(
@@ -1059,7 +1117,7 @@ export class VerificationApi extends BaseAPI {
    */
   public getVerificationStatusVerificationAppIdStatusGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .getVerificationStatusVerificationAppIdStatusGet(appId, options)
@@ -1074,7 +1132,7 @@ export class VerificationApi extends BaseAPI {
    * @memberof VerificationApi
    */
   public requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet(
@@ -1095,7 +1153,7 @@ export class VerificationApi extends BaseAPI {
   public setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
     appId: string,
     newApp?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
@@ -1116,7 +1174,7 @@ export class VerificationApi extends BaseAPI {
    */
   public switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
@@ -1136,7 +1194,7 @@ export class VerificationApi extends BaseAPI {
    */
   public unverifyVerificationAppIdUnverifyPost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .unverifyVerificationAppIdUnverifyPost(appId, options)
@@ -1155,7 +1213,7 @@ export class VerificationApi extends BaseAPI {
   public verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
     appId: string,
     newApp?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VerificationApiFp(this.configuration)
       .verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(

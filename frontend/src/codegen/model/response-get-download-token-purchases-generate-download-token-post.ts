@@ -18,6 +18,9 @@ import { CheckPurchasesResponse } from "./check-purchases-response"
 // May contain unused imports in some cases
 // @ts-ignore
 import { GetDownloadTokenResponse } from "./get-download-token-response"
+// May contain unused imports in some cases
+// @ts-ignore
+import { MissingAppids } from "./missing-appids"
 
 /**
  *
@@ -27,26 +30,26 @@ import { GetDownloadTokenResponse } from "./get-download-token-response"
 export interface ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost {
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost
    */
-  detail: string
+  detail: any
   /**
    *
-   * @type {}
+   * @type {MissingAppids}
    * @memberof ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost
    */
-  missing_appids?: null
+  missing_appids: MissingAppids
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost
    */
-  token: string
+  token: any
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof ResponseGetDownloadTokenPurchasesGenerateDownloadTokenPost
    */
-  update_token: string
+  update_token: any
 }

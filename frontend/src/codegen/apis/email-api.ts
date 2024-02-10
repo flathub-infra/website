@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { BuildNotificationRequest } from "../model"
@@ -58,7 +59,7 @@ export const EmailApiAxiosParamCreator = function (
      */
     buildNotificationEmailsBuildNotificationPost: async (
       buildNotificationRequest: BuildNotificationRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'buildNotificationRequest' is not null or undefined
       assertParamExists(
@@ -116,7 +117,7 @@ export const EmailApiAxiosParamCreator = function (
      */
     previewTemplateEmailsPreviewNameGet: async (
       name: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'name' is not null or undefined
       assertParamExists("previewTemplateEmailsPreviewNameGet", "name", name)
@@ -160,7 +161,7 @@ export const EmailApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     previewTemplatesEmailsPreviewGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/emails/preview`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -211,21 +212,27 @@ export const EmailApiFp = function (configuration?: Configuration) {
      */
     async buildNotificationEmailsBuildNotificationPost(
       buildNotificationRequest: BuildNotificationRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.buildNotificationEmailsBuildNotificationPost(
           buildNotificationRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "EmailApi.buildNotificationEmailsBuildNotificationPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -236,7 +243,7 @@ export const EmailApiFp = function (configuration?: Configuration) {
      */
     async previewTemplateEmailsPreviewNameGet(
       name: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
@@ -245,12 +252,18 @@ export const EmailApiFp = function (configuration?: Configuration) {
           name,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["EmailApi.previewTemplateEmailsPreviewNameGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -259,7 +272,7 @@ export const EmailApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async previewTemplatesEmailsPreviewGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
     > {
@@ -267,12 +280,18 @@ export const EmailApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.previewTemplatesEmailsPreviewGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["EmailApi.previewTemplatesEmailsPreviewGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -298,7 +317,7 @@ export const EmailApiFactory = function (
     buildNotificationEmailsBuildNotificationPost(
       buildNotificationRequest: BuildNotificationRequest,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .buildNotificationEmailsBuildNotificationPost(
           buildNotificationRequest,
@@ -352,7 +371,7 @@ export class EmailApi extends BaseAPI {
    */
   public buildNotificationEmailsBuildNotificationPost(
     buildNotificationRequest: BuildNotificationRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return EmailApiFp(this.configuration)
       .buildNotificationEmailsBuildNotificationPost(
@@ -372,7 +391,7 @@ export class EmailApi extends BaseAPI {
    */
   public previewTemplateEmailsPreviewNameGet(
     name: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return EmailApiFp(this.configuration)
       .previewTemplateEmailsPreviewNameGet(name, options)
@@ -386,7 +405,7 @@ export class EmailApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof EmailApi
    */
-  public previewTemplatesEmailsPreviewGet(options?: AxiosRequestConfig) {
+  public previewTemplatesEmailsPreviewGet(options?: RawAxiosRequestConfig) {
     return EmailApiFp(this.configuration)
       .previewTemplatesEmailsPreviewGet(options)
       .then((request) => request(this.axios, this.basePath))

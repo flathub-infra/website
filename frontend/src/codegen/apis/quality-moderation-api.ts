@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { FailedByGuideline } from "../model"
@@ -66,7 +67,7 @@ export const QualityModerationApiAxiosParamCreator = function (
      */
     deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -117,7 +118,7 @@ export const QualityModerationApiAxiosParamCreator = function (
      */
     getQualityModerationForAppQualityModerationAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -165,7 +166,7 @@ export const QualityModerationApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getQualityModerationStatsQualityModerationFailedByGuidelineGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/quality-moderation/failed-by-guideline`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -206,7 +207,7 @@ export const QualityModerationApiAxiosParamCreator = function (
      */
     getQualityModerationStatusForAppQualityModerationAppIdStatusGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -260,7 +261,7 @@ export const QualityModerationApiAxiosParamCreator = function (
       page?: number,
       pageSize?: number,
       filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/quality-moderation/status`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -313,7 +314,7 @@ export const QualityModerationApiAxiosParamCreator = function (
      */
     requestReviewForAppQualityModerationAppIdRequestReviewPost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -366,7 +367,7 @@ export const QualityModerationApiAxiosParamCreator = function (
     setFullscreenAppQualityModerationAppIdFullscreenPost: async (
       appId: string,
       isFullscreenApp: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -428,7 +429,7 @@ export const QualityModerationApiAxiosParamCreator = function (
     setQualityModerationForAppQualityModerationAppIdPost: async (
       appId: string,
       upsertQualityModeration: UpsertQualityModeration,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -502,21 +503,27 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
      */
     async deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -527,7 +534,7 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
      */
     async getQualityModerationForAppQualityModerationAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -539,12 +546,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.getQualityModerationForAppQualityModerationAppIdGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -553,7 +566,7 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getQualityModerationStatsQualityModerationFailedByGuidelineGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -564,12 +577,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.getQualityModerationStatsQualityModerationFailedByGuidelineGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.getQualityModerationStatsQualityModerationFailedByGuidelineGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -580,7 +599,7 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
      */
     async getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -592,12 +611,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -612,7 +637,7 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
       page?: number,
       pageSize?: number,
       filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -626,12 +651,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
           filter,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.getQualityModerationStatusQualityModerationStatusGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -642,21 +673,27 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
      */
     async requestReviewForAppQualityModerationAppIdRequestReviewPost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.requestReviewForAppQualityModerationAppIdRequestReviewPost(
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.requestReviewForAppQualityModerationAppIdRequestReviewPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -669,9 +706,9 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     async setFullscreenAppQualityModerationAppIdFullscreenPost(
       appId: string,
       isFullscreenApp: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setFullscreenAppQualityModerationAppIdFullscreenPost(
@@ -679,12 +716,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
           isFullscreenApp,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.setFullscreenAppQualityModerationAppIdFullscreenPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -697,9 +740,9 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
     async setQualityModerationForAppQualityModerationAppIdPost(
       appId: string,
       upsertQualityModeration: UpsertQualityModeration,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setQualityModerationForAppQualityModerationAppIdPost(
@@ -707,12 +750,18 @@ export const QualityModerationApiFp = function (configuration?: Configuration) {
           upsertQualityModeration,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "QualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -738,7 +787,7 @@ export const QualityModerationApiFactory = function (
     deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
           appId,
@@ -826,7 +875,7 @@ export const QualityModerationApiFactory = function (
     requestReviewForAppQualityModerationAppIdRequestReviewPost(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .requestReviewForAppQualityModerationAppIdRequestReviewPost(
           appId,
@@ -846,7 +895,7 @@ export const QualityModerationApiFactory = function (
       appId: string,
       isFullscreenApp: boolean,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setFullscreenAppQualityModerationAppIdFullscreenPost(
           appId,
@@ -867,7 +916,7 @@ export const QualityModerationApiFactory = function (
       appId: string,
       upsertQualityModeration: UpsertQualityModeration,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setQualityModerationForAppQualityModerationAppIdPost(
           appId,
@@ -896,7 +945,7 @@ export class QualityModerationApi extends BaseAPI {
    */
   public deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
@@ -916,7 +965,7 @@ export class QualityModerationApi extends BaseAPI {
    */
   public getQualityModerationForAppQualityModerationAppIdGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .getQualityModerationForAppQualityModerationAppIdGet(appId, options)
@@ -931,7 +980,7 @@ export class QualityModerationApi extends BaseAPI {
    * @memberof QualityModerationApi
    */
   public getQualityModerationStatsQualityModerationFailedByGuidelineGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .getQualityModerationStatsQualityModerationFailedByGuidelineGet(options)
@@ -948,7 +997,7 @@ export class QualityModerationApi extends BaseAPI {
    */
   public getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
@@ -972,7 +1021,7 @@ export class QualityModerationApi extends BaseAPI {
     page?: number,
     pageSize?: number,
     filter?: GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .getQualityModerationStatusQualityModerationStatusGet(
@@ -994,7 +1043,7 @@ export class QualityModerationApi extends BaseAPI {
    */
   public requestReviewForAppQualityModerationAppIdRequestReviewPost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .requestReviewForAppQualityModerationAppIdRequestReviewPost(
@@ -1016,7 +1065,7 @@ export class QualityModerationApi extends BaseAPI {
   public setFullscreenAppQualityModerationAppIdFullscreenPost(
     appId: string,
     isFullscreenApp: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .setFullscreenAppQualityModerationAppIdFullscreenPost(
@@ -1039,7 +1088,7 @@ export class QualityModerationApi extends BaseAPI {
   public setQualityModerationForAppQualityModerationAppIdPost(
     appId: string,
     upsertQualityModeration: UpsertQualityModeration,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return QualityModerationApiFp(this.configuration)
       .setQualityModerationForAppQualityModerationAppIdPost(

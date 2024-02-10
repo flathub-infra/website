@@ -24,14 +24,14 @@ import { Keys } from "./keys"
 export interface RequestData {
   /**
    *
-   * @type {{ [key: string]: Keys; }}
+   * @type {object}
    * @memberof RequestData
    */
-  keys: { [key: string]: Keys }
+  keys: object
   /**
    *
-   * @type {{ [key: string]: Keys; }}
+   * @type {object}
    * @memberof RequestData
    */
-  current_values: { [key: string]: Keys }
+  current_values: object
 }

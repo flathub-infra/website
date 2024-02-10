@@ -12,6 +12,13 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { MinimumPayment } from "./minimum-payment"
+// May contain unused imports in some cases
+// @ts-ignore
+import { RecommendedDonation } from "./recommended-donation"
+
 /**
  *
  * @export
@@ -20,14 +27,14 @@
 export interface PricingInfo {
   /**
    *
-   * @type {number}
+   * @type {RecommendedDonation}
    * @memberof PricingInfo
    */
-  recommended_donation?: number | null
+  recommended_donation: RecommendedDonation
   /**
    *
-   * @type {number}
+   * @type {MinimumPayment}
    * @memberof PricingInfo
    */
-  minimum_payment?: number | null
+  minimum_payment: MinimumPayment
 }

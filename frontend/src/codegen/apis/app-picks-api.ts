@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { AppOfTheDay } from "../model"
@@ -62,7 +63,7 @@ export const AppPicksApiAxiosParamCreator = function (
      */
     getAppOfTheDayAppPicksAppOfTheDayDateGet: async (
       date: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'date' is not null or undefined
       assertParamExists(
@@ -112,7 +113,7 @@ export const AppPicksApiAxiosParamCreator = function (
      */
     getAppOfTheWeekAppPicksAppsOfTheWeekDateGet: async (
       date: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'date' is not null or undefined
       assertParamExists(
@@ -162,7 +163,7 @@ export const AppPicksApiAxiosParamCreator = function (
      */
     setAppOfTheDayAppPicksAppOfTheDayPost: async (
       appOfTheDay: AppOfTheDay,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appOfTheDay' is not null or undefined
       assertParamExists(
@@ -216,7 +217,7 @@ export const AppPicksApiAxiosParamCreator = function (
      */
     setAppOfTheWeekAppPicksAppOfTheWeekPost: async (
       upsertAppOfTheWeek: UpsertAppOfTheWeek,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'upsertAppOfTheWeek' is not null or undefined
       assertParamExists(
@@ -280,7 +281,7 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
      */
     async getAppOfTheDayAppPicksAppOfTheDayDateGet(
       date: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppOfTheDay>
     > {
@@ -289,12 +290,18 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
           date,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppPicksApi.getAppOfTheDayAppPicksAppOfTheDayDateGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Returns apps of the week
@@ -305,7 +312,7 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
      */
     async getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
       date: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppsOfTheWeek>
     > {
@@ -314,12 +321,18 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
           date,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppPicksApi.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Sets an app of the day
@@ -330,21 +343,27 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
      */
     async setAppOfTheDayAppPicksAppOfTheDayPost(
       appOfTheDay: AppOfTheDay,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setAppOfTheDayAppPicksAppOfTheDayPost(
           appOfTheDay,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppPicksApi.setAppOfTheDayAppPicksAppOfTheDayPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Sets an app of the week
@@ -355,21 +374,27 @@ export const AppPicksApiFp = function (configuration?: Configuration) {
      */
     async setAppOfTheWeekAppPicksAppOfTheWeekPost(
       upsertAppOfTheWeek: UpsertAppOfTheWeek,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setAppOfTheWeekAppPicksAppOfTheWeekPost(
           upsertAppOfTheWeek,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppPicksApi.setAppOfTheWeekAppPicksAppOfTheWeekPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -425,7 +450,7 @@ export const AppPicksApiFactory = function (
     setAppOfTheDayAppPicksAppOfTheDayPost(
       appOfTheDay: AppOfTheDay,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setAppOfTheDayAppPicksAppOfTheDayPost(appOfTheDay, options)
         .then((request) => request(axios, basePath))
@@ -440,7 +465,7 @@ export const AppPicksApiFactory = function (
     setAppOfTheWeekAppPicksAppOfTheWeekPost(
       upsertAppOfTheWeek: UpsertAppOfTheWeek,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setAppOfTheWeekAppPicksAppOfTheWeekPost(upsertAppOfTheWeek, options)
         .then((request) => request(axios, basePath))
@@ -465,7 +490,7 @@ export class AppPicksApi extends BaseAPI {
    */
   public getAppOfTheDayAppPicksAppOfTheDayDateGet(
     date: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppPicksApiFp(this.configuration)
       .getAppOfTheDayAppPicksAppOfTheDayDateGet(date, options)
@@ -482,7 +507,7 @@ export class AppPicksApi extends BaseAPI {
    */
   public getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
     date: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppPicksApiFp(this.configuration)
       .getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(date, options)
@@ -499,7 +524,7 @@ export class AppPicksApi extends BaseAPI {
    */
   public setAppOfTheDayAppPicksAppOfTheDayPost(
     appOfTheDay: AppOfTheDay,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppPicksApiFp(this.configuration)
       .setAppOfTheDayAppPicksAppOfTheDayPost(appOfTheDay, options)
@@ -516,7 +541,7 @@ export class AppPicksApi extends BaseAPI {
    */
   public setAppOfTheWeekAppPicksAppOfTheWeekPost(
     upsertAppOfTheWeek: UpsertAppOfTheWeek,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppPicksApiFp(this.configuration)
       .setAppOfTheWeekAppPicksAppOfTheWeekPost(upsertAppOfTheWeek, options)

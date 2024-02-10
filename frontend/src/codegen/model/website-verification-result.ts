@@ -14,7 +14,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ErrorDetail } from "./error-detail"
+import { StatusCode } from "./status-code"
+// May contain unused imports in some cases
+// @ts-ignore
+import { WebsiteVerificationResultDetail } from "./website-verification-result-detail"
 
 /**
  *
@@ -30,14 +33,14 @@ export interface WebsiteVerificationResult {
   verified: boolean
   /**
    *
-   * @type {ErrorDetail}
+   * @type {WebsiteVerificationResultDetail}
    * @memberof WebsiteVerificationResult
    */
-  detail?: ErrorDetail | null
+  detail: WebsiteVerificationResultDetail
   /**
    *
-   * @type {number}
+   * @type {StatusCode}
    * @memberof WebsiteVerificationResult
    */
-  status_code?: number | null
+  status_code: StatusCode
 }

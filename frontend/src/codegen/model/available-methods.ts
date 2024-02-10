@@ -12,6 +12,13 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { Detail } from "./detail"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Methods } from "./methods"
+
 /**
  *
  * @export
@@ -20,14 +27,14 @@
 export interface AvailableMethods {
   /**
    *
-   * @type {}
+   * @type {Methods}
    * @memberof AvailableMethods
    */
-  methods?: null
+  methods: Methods
   /**
    *
-   * @type {string}
+   * @type {Detail}
    * @memberof AvailableMethods
    */
-  detail?: string | null
+  detail: Detail
 }

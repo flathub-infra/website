@@ -12,26 +12,9 @@
  * Do not edit the class manually.
  */
 
-// May contain unused imports in some cases
-// @ts-ignore
-import { MissingAppids } from "./missing-appids"
-
 /**
  *
  * @export
- * @interface CheckPurchasesResponse
+ * @interface Page
  */
-export interface CheckPurchasesResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof CheckPurchasesResponse
-   */
-  detail: string
-  /**
-   *
-   * @type {MissingAppids}
-   * @memberof CheckPurchasesResponse
-   */
-  missing_appids: MissingAppids
-}
+export interface Page {}

@@ -14,7 +14,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { Comment } from "./comment"
+// May contain unused imports in some cases
+// @ts-ignore
 import { Guideline } from "./guideline"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Passed } from "./passed"
+// May contain unused imports in some cases
+// @ts-ignore
+import { UpdatedBy } from "./updated-by"
 
 /**
  *
@@ -48,20 +57,20 @@ export interface QualityModerationType {
   updated_at: string
   /**
    *
-   * @type {number}
+   * @type {UpdatedBy}
    * @memberof QualityModerationType
    */
-  updated_by: number | null
+  updated_by: UpdatedBy
   /**
    *
-   * @type {boolean}
+   * @type {Passed}
    * @memberof QualityModerationType
    */
-  passed: boolean | null
+  passed: Passed
   /**
    *
-   * @type {string}
+   * @type {Comment}
    * @memberof QualityModerationType
    */
-  comment: string | null
+  comment: Comment
 }

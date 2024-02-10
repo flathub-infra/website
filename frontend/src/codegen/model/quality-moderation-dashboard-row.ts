@@ -14,6 +14,12 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { Appstream } from "./appstream"
+// May contain unused imports in some cases
+// @ts-ignore
+import { InstallsLast7Days } from "./installs-last7-days"
+// May contain unused imports in some cases
+// @ts-ignore
 import { QualityModerationStatus } from "./quality-moderation-status"
 
 /**
@@ -36,14 +42,14 @@ export interface QualityModerationDashboardRow {
   quality_moderation_status: QualityModerationStatus
   /**
    *
-   * @type {}
+   * @type {Appstream}
    * @memberof QualityModerationDashboardRow
    */
-  appstream?: null
+  appstream: Appstream
   /**
    *
-   * @type {number}
+   * @type {InstallsLast7Days}
    * @memberof QualityModerationDashboardRow
    */
-  installs_last_7_days?: number | null
+  installs_last_7_days: InstallsLast7Days
 }

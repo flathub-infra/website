@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
@@ -80,7 +81,7 @@ export const VendingApiAxiosParamCreator = function (
      */
     appInfoVendingappAppIdInfoGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("appInfoVendingappAppIdInfoGet", "appId", appId)
@@ -128,7 +129,7 @@ export const VendingApiAxiosParamCreator = function (
     cancelTokensVendingappAppIdTokensCancelPost: async (
       appId: string,
       requestBody: Array<string>,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -193,7 +194,7 @@ export const VendingApiAxiosParamCreator = function (
     createTokensVendingappAppIdTokensPost: async (
       appId: string,
       requestBody: Array<string>,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("createTokensVendingappAppIdTokensPost", "appId", appId)
@@ -252,7 +253,7 @@ export const VendingApiAxiosParamCreator = function (
      */
     getAppVendingSetupVendingappAppIdSetupGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -300,7 +301,7 @@ export const VendingApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getDashboardLinkVendingStatusDashboardlinkGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/vending/status/dashboardlink`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -339,7 +340,7 @@ export const VendingApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getGlobalVendingConfigVendingConfigGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/vending/config`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -380,7 +381,7 @@ export const VendingApiAxiosParamCreator = function (
      */
     getRedeemableTokensVendingappAppIdTokensGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -432,7 +433,7 @@ export const VendingApiAxiosParamCreator = function (
     postAppVendingSetupVendingappAppIdSetupPost: async (
       appId: string,
       vendingSetup: VendingSetup,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -497,7 +498,7 @@ export const VendingApiAxiosParamCreator = function (
     postAppVendingStatusVendingappAppIdPost: async (
       appId: string,
       proposedPayment: ProposedPayment,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -562,7 +563,7 @@ export const VendingApiAxiosParamCreator = function (
     redeemTokenVendingappAppIdTokensRedeemTokenPost: async (
       appId: string,
       token: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -617,7 +618,7 @@ export const VendingApiAxiosParamCreator = function (
      */
     startOnboardingVendingStatusOnboardingPost: async (
       vendingOnboardingRequest: VendingOnboardingRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'vendingOnboardingRequest' is not null or undefined
       assertParamExists(
@@ -669,7 +670,7 @@ export const VendingApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     statusVendingStatusGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/vending/status`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -720,7 +721,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      */
     async appInfoVendingappAppIdInfoGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -732,12 +733,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["VendingApi.appInfoVendingappAppIdInfoGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Cancel a set of tokens
@@ -750,7 +757,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
     async cancelTokensVendingappAppIdTokensCancelPost(
       appId: string,
       requestBody: Array<string>,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -763,12 +770,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           requestBody,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.cancelTokensVendingappAppIdTokensCancelPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Create some tokens for the given appid.  The calling user must own the vending config for this application
@@ -781,7 +794,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
     async createTokensVendingappAppIdTokensPost(
       appId: string,
       requestBody: Array<string>,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -794,12 +807,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           requestBody,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.createTokensVendingappAppIdTokensPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the vending status for a given application.
@@ -810,7 +829,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      */
     async getAppVendingSetupVendingappAppIdSetupGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VendingSetup>
     > {
@@ -819,12 +838,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.getAppVendingSetupVendingappAppIdSetupGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve a link to the logged in user\'s Stripe express dashboard.  The user must be logged in and must have onboarded.
@@ -833,7 +858,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getDashboardLinkVendingStatusDashboardlinkGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -844,12 +869,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.getDashboardLinkVendingStatusDashboardlinkGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.getDashboardLinkVendingStatusDashboardlinkGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the configuration values needed to calculate application vending splits client-side.  Configuration includes: - Fee values - Platform values
@@ -858,7 +889,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getGlobalVendingConfigVendingConfigGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VendingConfig>
     > {
@@ -866,12 +897,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.getGlobalVendingConfigVendingConfigGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.getGlobalVendingConfigVendingConfigGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the redeemable tokens for the given application.  The caller must have control of the app at some level  For now, there is no pagination or filtering, all tokens will be returned
@@ -882,7 +919,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      */
     async getRedeemableTokensVendingappAppIdTokensGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenList>
     > {
@@ -891,12 +928,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.getRedeemableTokensVendingappAppIdTokensGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Create/update the vending status for a given application.  Returns an error if the appid is not known, or if it\'s already set up for vending with a user other than the one calling this API.  If you do not have the right to set the vending status for this application then you will also be refused.  In addition, if any of the currency or amount values constraints are violated then you will get an error
@@ -909,7 +952,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
     async postAppVendingSetupVendingappAppIdSetupPost(
       appId: string,
       vendingSetup: VendingSetup,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VendingSetup>
     > {
@@ -919,12 +962,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           vendingSetup,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.postAppVendingSetupVendingappAppIdSetupPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Construct a transaction for the given application with the proposed payment. If the proposed payment is unacceptable then an error will be returned. If the user is not logged in, then an error will be returned.  Otherwise a transaction will be created and the information about it will be returned in the output of the call.
@@ -937,7 +986,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
     async postAppVendingStatusVendingappAppIdPost(
       appId: string,
       proposedPayment: ProposedPayment,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VendingOutput>
     > {
@@ -947,12 +996,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           proposedPayment,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.postAppVendingStatusVendingappAppIdPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * This redeems the given token for the logged in user.  If the logged in user already owns the app then the token will not be redeemed
@@ -965,7 +1020,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
     async redeemTokenVendingappAppIdTokensRedeemTokenPost(
       appId: string,
       token: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -978,12 +1033,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           token,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.redeemTokenVendingappAppIdTokensRedeemTokenPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Start or continue the onboarding process.
@@ -994,7 +1055,7 @@ export const VendingApiFp = function (configuration?: Configuration) {
      */
     async startOnboardingVendingStatusOnboardingPost(
       vendingOnboardingRequest: VendingOnboardingRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1006,12 +1067,18 @@ export const VendingApiFp = function (configuration?: Configuration) {
           vendingOnboardingRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "VendingApi.startOnboardingVendingStatusOnboardingPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the vending status of the logged in user.  This will return `201` if the logged in user has never begun the onboarding flow to be a vendor on Flathub.
@@ -1020,18 +1087,24 @@ export const VendingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async statusVendingStatusGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<VendingStatus>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.statusVendingStatusGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["VendingApi.statusVendingStatusGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -1264,7 +1337,7 @@ export class VendingApi extends BaseAPI {
    */
   public appInfoVendingappAppIdInfoGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .appInfoVendingappAppIdInfoGet(appId, options)
@@ -1283,7 +1356,7 @@ export class VendingApi extends BaseAPI {
   public cancelTokensVendingappAppIdTokensCancelPost(
     appId: string,
     requestBody: Array<string>,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .cancelTokensVendingappAppIdTokensCancelPost(appId, requestBody, options)
@@ -1302,7 +1375,7 @@ export class VendingApi extends BaseAPI {
   public createTokensVendingappAppIdTokensPost(
     appId: string,
     requestBody: Array<string>,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .createTokensVendingappAppIdTokensPost(appId, requestBody, options)
@@ -1319,7 +1392,7 @@ export class VendingApi extends BaseAPI {
    */
   public getAppVendingSetupVendingappAppIdSetupGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .getAppVendingSetupVendingappAppIdSetupGet(appId, options)
@@ -1334,7 +1407,7 @@ export class VendingApi extends BaseAPI {
    * @memberof VendingApi
    */
   public getDashboardLinkVendingStatusDashboardlinkGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .getDashboardLinkVendingStatusDashboardlinkGet(options)
@@ -1348,7 +1421,9 @@ export class VendingApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof VendingApi
    */
-  public getGlobalVendingConfigVendingConfigGet(options?: AxiosRequestConfig) {
+  public getGlobalVendingConfigVendingConfigGet(
+    options?: RawAxiosRequestConfig,
+  ) {
     return VendingApiFp(this.configuration)
       .getGlobalVendingConfigVendingConfigGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1364,7 +1439,7 @@ export class VendingApi extends BaseAPI {
    */
   public getRedeemableTokensVendingappAppIdTokensGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .getRedeemableTokensVendingappAppIdTokensGet(appId, options)
@@ -1383,7 +1458,7 @@ export class VendingApi extends BaseAPI {
   public postAppVendingSetupVendingappAppIdSetupPost(
     appId: string,
     vendingSetup: VendingSetup,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .postAppVendingSetupVendingappAppIdSetupPost(appId, vendingSetup, options)
@@ -1402,7 +1477,7 @@ export class VendingApi extends BaseAPI {
   public postAppVendingStatusVendingappAppIdPost(
     appId: string,
     proposedPayment: ProposedPayment,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .postAppVendingStatusVendingappAppIdPost(appId, proposedPayment, options)
@@ -1421,7 +1496,7 @@ export class VendingApi extends BaseAPI {
   public redeemTokenVendingappAppIdTokensRedeemTokenPost(
     appId: string,
     token: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .redeemTokenVendingappAppIdTokensRedeemTokenPost(appId, token, options)
@@ -1438,7 +1513,7 @@ export class VendingApi extends BaseAPI {
    */
   public startOnboardingVendingStatusOnboardingPost(
     vendingOnboardingRequest: VendingOnboardingRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return VendingApiFp(this.configuration)
       .startOnboardingVendingStatusOnboardingPost(
@@ -1455,7 +1530,7 @@ export class VendingApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof VendingApi
    */
-  public statusVendingStatusGet(options?: AxiosRequestConfig) {
+  public statusVendingStatusGet(options?: RawAxiosRequestConfig) {
     return VendingApiFp(this.configuration)
       .statusVendingStatusGet(options)
       .then((request) => request(this.axios, this.basePath))

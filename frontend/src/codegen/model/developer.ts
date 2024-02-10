@@ -12,6 +12,13 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { IsPrimary } from "./is-primary"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Name } from "./name"
+
 /**
  *
  * @export
@@ -32,14 +39,14 @@ export interface Developer {
   is_self: boolean
   /**
    *
-   * @type {string}
+   * @type {Name}
    * @memberof Developer
    */
-  name: string | null
+  name: Name
   /**
    *
-   * @type {boolean}
+   * @type {IsPrimary}
    * @memberof Developer
    */
-  is_primary?: boolean | null
+  is_primary: IsPrimary
 }

@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 /**
  * FeedApi - axios parameter creator
@@ -52,7 +53,7 @@ export const FeedApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getNewAppsFeedFeedNewGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/feed/new`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -91,7 +92,7 @@ export const FeedApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/feed/recently-updated`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -140,18 +141,24 @@ export const FeedApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getNewAppsFeedFeedNewGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getNewAppsFeedFeedNewGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["FeedApi.getNewAppsFeedFeedNewGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -160,20 +167,26 @@ export const FeedApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "FeedApi.getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -195,7 +208,7 @@ export const FeedApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getNewAppsFeedFeedNewGet(options?: any): AxiosPromise<void> {
+    getNewAppsFeedFeedNewGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .getNewAppsFeedFeedNewGet(options)
         .then((request) => request(axios, basePath))
@@ -208,7 +221,7 @@ export const FeedApiFactory = function (
      */
     getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(options)
         .then((request) => request(axios, basePath))
@@ -230,7 +243,7 @@ export class FeedApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof FeedApi
    */
-  public getNewAppsFeedFeedNewGet(options?: AxiosRequestConfig) {
+  public getNewAppsFeedFeedNewGet(options?: RawAxiosRequestConfig) {
     return FeedApiFp(this.configuration)
       .getNewAppsFeedFeedNewGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -244,7 +257,7 @@ export class FeedApi extends BaseAPI {
    * @memberof FeedApi
    */
   public getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return FeedApiFp(this.configuration)
       .getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet(options)

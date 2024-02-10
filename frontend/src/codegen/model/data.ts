@@ -14,6 +14,12 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { ErrorDescription } from "./error-description"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ErrorUri } from "./error-uri"
+// May contain unused imports in some cases
+// @ts-ignore
 import { OauthLoginResponseFailure } from "./oauth-login-response-failure"
 // May contain unused imports in some cases
 // @ts-ignore
@@ -27,32 +33,32 @@ import { OauthLoginResponseSuccess } from "./oauth-login-response-success"
 export interface Data {
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof Data
    */
-  code: string
+  code: any
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof Data
    */
-  state: string
+  state: any
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof Data
    */
-  error: string
+  error: any
   /**
    *
-   * @type {string}
+   * @type {ErrorDescription}
    * @memberof Data
    */
-  error_description?: string | null
+  error_description?: ErrorDescription
   /**
    *
-   * @type {string}
+   * @type {ErrorUri}
    * @memberof Data
    */
-  error_uri?: string | null
+  error_uri?: ErrorUri
 }

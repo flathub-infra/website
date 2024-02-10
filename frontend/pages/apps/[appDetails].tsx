@@ -24,6 +24,7 @@ import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { appApi, verificationApi } from "src/api"
 import { useTranslation } from "next-i18next"
+import { ResponseGetEolMessageAppidEolMessageAppIdGet } from "src/codegen"
 
 export default function Details({
   app,
@@ -121,7 +122,7 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  let eolMessage: string = null
+  let eolMessage: ResponseGetEolMessageAppidEolMessageAppIdGet = null
   const app = await (await fetchAppstream(appId as string)).data
 
   if (!app) {

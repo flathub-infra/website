@@ -12,18 +12,25 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { Depends } from "./depends"
+// May contain unused imports in some cases
+// @ts-ignore
+import { StripeAccount } from "./stripe-account"
+
 /**
- * A platform is an expression of dependencies which an application may have. Applications nominally express a single platform key for themselves, or none at all if they do not need one.  But platforms may depend on one another.  If no platform is specified for an application, it\'s worth getting the default platform and using that.
+ *      A platform is an expression of dependencies which an application may have.     Applications nominally express a single platform key for themselves, or     none at all if they do not need one.  But platforms may depend on one another.      If no platform is specified for an application, it\'s worth getting the default     platform and using that.
  * @export
  * @interface Platform
  */
 export interface Platform {
   /**
    *
-   * @type {string}
+   * @type {Depends}
    * @memberof Platform
    */
-  depends?: string | null
+  depends: Depends
   /**
    *
    * @type {Array<string>}
@@ -38,8 +45,8 @@ export interface Platform {
   keep: number
   /**
    *
-   * @type {string}
+   * @type {StripeAccount}
    * @memberof Platform
    */
-  stripe_account?: string | null
+  stripe_account: StripeAccount
 }

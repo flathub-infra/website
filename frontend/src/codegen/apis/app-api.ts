@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,17 +36,28 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
+// @ts-ignore
+import { Branch } from "../model"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
 // @ts-ignore
 import { MainCategory } from "../model"
 // @ts-ignore
+import { Page } from "../model"
+// @ts-ignore
+import { PerPage } from "../model"
+// @ts-ignore
 import { Platform } from "../model"
 // @ts-ignore
-import { SearchQuery } from "../model"
+import { ResponseGetEolMessageAppidEolMessageAppIdGet } from "../model"
 // @ts-ignore
-import { StatsResult } from "../model"
+import { ResponseGetEolRebaseAppidEolRebaseAppIdGet } from "../model"
+// @ts-ignore
+import { ResponseGetStatsStatsGet } from "../model"
+// @ts-ignore
+import { SearchQuery } from "../model"
 /**
  * AppApi - axios parameter creator
  * @export
@@ -64,7 +75,7 @@ export const AppApiAxiosParamCreator = function (
      */
     getAddonsAddonAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getAddonsAddonAppIdGet", "appId", appId)
@@ -110,7 +121,7 @@ export const AppApiAxiosParamCreator = function (
      */
     getAppstreamAppstreamAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getAppstreamAppstreamAppIdGet", "appId", appId)
@@ -154,7 +165,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getCategoriesCategoriesGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/categories`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -190,16 +201,16 @@ export const AppApiAxiosParamCreator = function (
      *
      * @summary Get Category
      * @param {MainCategory} category
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCategoryCategoryCategoryGet: async (
       category: MainCategory,
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'category' is not null or undefined
       assertParamExists("getCategoryCategoryCategoryGet", "category", category)
@@ -223,11 +234,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -248,16 +263,16 @@ export const AppApiAxiosParamCreator = function (
      *
      * @summary Get Developer
      * @param {string} developer
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getDeveloperDeveloperDeveloperGet: async (
       developer: string,
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'developer' is not null or undefined
       assertParamExists(
@@ -285,11 +300,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -313,7 +332,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getDevelopersDeveloperGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/developer`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -356,7 +375,7 @@ export const AppApiAxiosParamCreator = function (
     getEolMessageAppidEolMessageAppIdGet: async (
       appId: string,
       branch?: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getEolMessageAppidEolMessageAppIdGet", "appId", appId)
@@ -404,7 +423,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getEolMessageEolMessageGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/eol/message`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -447,7 +466,7 @@ export const AppApiAxiosParamCreator = function (
     getEolRebaseAppidEolRebaseAppIdGet: async (
       appId: string,
       branch?: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getEolRebaseAppidEolRebaseAppIdGet", "appId", appId)
@@ -495,7 +514,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getEolRebaseEolRebaseGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/eol/rebase`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -534,7 +553,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getExceptionsExceptionsGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/exceptions`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -575,7 +594,7 @@ export const AppApiAxiosParamCreator = function (
      */
     getExceptionsForAppExceptionsAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getExceptionsForAppExceptionsAppIdGet", "appId", appId)
@@ -619,7 +638,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getPlatformsPlatformsGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/platforms`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -654,15 +673,15 @@ export const AppApiAxiosParamCreator = function (
     /**
      *
      * @summary Get Popular Last Month
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getPopularLastMonthPopularLastMonthGet: async (
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/popular/last-month`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -681,11 +700,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -705,15 +728,15 @@ export const AppApiAxiosParamCreator = function (
     /**
      *
      * @summary Get Recently Added
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRecentlyAddedCollectionRecentlyAddedGet: async (
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/collection/recently-added`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -732,11 +755,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -756,15 +783,15 @@ export const AppApiAxiosParamCreator = function (
     /**
      *
      * @summary Get Recently Updated
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRecentlyUpdatedCollectionRecentlyUpdatedGet: async (
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/collection/recently-updated`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -783,11 +810,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -811,7 +842,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRuntimeListRuntimesGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/runtimes`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -856,7 +887,7 @@ export const AppApiAxiosParamCreator = function (
       appId: string,
       all?: boolean,
       days?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getStatsForAppStatsAppIdGet", "appId", appId)
@@ -908,7 +939,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getStatsStatsGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/stats`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -945,17 +976,17 @@ export const AppApiAxiosParamCreator = function (
      * @summary Get Subcategory
      * @param {MainCategory} category
      * @param {string} subcategory
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSubcategoryCategoryCategorySubcategoriesSubcategoryGet: async (
       category: MainCategory,
       subcategory: string,
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'category' is not null or undefined
       assertParamExists(
@@ -988,11 +1019,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1013,14 +1048,14 @@ export const AppApiAxiosParamCreator = function (
      *
      * @summary Get Summary
      * @param {string} appId
-     * @param {string | null} [branch]
+     * @param {Branch} [branch]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSummarySummaryAppIdGet: async (
       appId: string,
-      branch?: string | null,
-      options: AxiosRequestConfig = {},
+      branch?: Branch,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getSummarySummaryAppIdGet", "appId", appId)
@@ -1044,7 +1079,9 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (branch !== undefined) {
-        localVarQueryParameter["branch"] = branch
+        for (const [key, value] of Object.entries(branch)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1064,15 +1101,15 @@ export const AppApiAxiosParamCreator = function (
     /**
      *
      * @summary Get Verified
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getVerifiedCollectionVerifiedGet: async (
-      page?: number | null,
-      perPage?: number | null,
-      options: AxiosRequestConfig = {},
+      page?: Page,
+      perPage?: PerPage,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/collection/verified`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1091,11 +1128,15 @@ export const AppApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (page !== undefined) {
-        localVarQueryParameter["page"] = page
+        for (const [key, value] of Object.entries(page)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (perPage !== undefined) {
-        localVarQueryParameter["per_page"] = perPage
+        for (const [key, value] of Object.entries(perPage)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1119,7 +1160,7 @@ export const AppApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     listAppstreamAppstreamGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/appstream`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1160,7 +1201,7 @@ export const AppApiAxiosParamCreator = function (
      */
     postSearchSearchPost: async (
       searchQuery: SearchQuery,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'searchQuery' is not null or undefined
       assertParamExists("postSearchSearchPost", "searchQuery", searchQuery)
@@ -1220,18 +1261,24 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async getAddonsAddonAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getAddonsAddonAppIdGet(appId, options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getAddonsAddonAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1242,21 +1289,27 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async getAppstreamAppstreamAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getAppstreamAppstreamAppIdGet(
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getAppstreamAppstreamAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1265,35 +1318,41 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getCategoriesCategoriesGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getCategoriesCategoriesGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getCategoriesCategoriesGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Category
      * @param {MainCategory} category
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getCategoryCategoryCategoryGet(
       category: MainCategory,
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getCategoryCategoryCategoryGet(
@@ -1302,29 +1361,35 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getCategoryCategoryCategoryGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Developer
      * @param {string} developer
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getDeveloperDeveloperDeveloperGet(
       developer: string,
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDeveloperDeveloperDeveloperGet(
@@ -1333,12 +1398,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getDeveloperDeveloperDeveloperGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1347,18 +1418,24 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getDevelopersDeveloperGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDevelopersDeveloperGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getDevelopersDeveloperGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1371,9 +1448,12 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getEolMessageAppidEolMessageAppIdGet(
       appId: string,
       branch?: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseGetEolMessageAppidEolMessageAppIdGet>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolMessageAppidEolMessageAppIdGet(
@@ -1381,12 +1461,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           branch,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getEolMessageAppidEolMessageAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1395,7 +1481,7 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getEolMessageEolMessageGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1404,12 +1490,18 @@ export const AppApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolMessageEolMessageGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getEolMessageEolMessageGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1422,9 +1514,12 @@ export const AppApiFp = function (configuration?: Configuration) {
     async getEolRebaseAppidEolRebaseAppIdGet(
       appId: string,
       branch?: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseGetEolRebaseAppidEolRebaseAppIdGet>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolRebaseAppidEolRebaseAppIdGet(
@@ -1432,12 +1527,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           branch,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getEolRebaseAppidEolRebaseAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1446,7 +1547,7 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getEolRebaseEolRebaseGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1455,12 +1556,18 @@ export const AppApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getEolRebaseEolRebaseGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getEolRebaseEolRebaseGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1469,18 +1576,24 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getExceptionsExceptionsGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getExceptionsExceptionsGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getExceptionsExceptionsGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1491,21 +1604,27 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async getExceptionsForAppExceptionsAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getExceptionsForAppExceptionsAppIdGet(
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getExceptionsForAppExceptionsAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Return a mapping from org-name to platform aliases and dependencies which are recognised by the backend.  These are used by things such as the transactions and donations APIs to address amounts to the platforms.
@@ -1514,7 +1633,7 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPlatformsPlatformsGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1523,27 +1642,33 @@ export const AppApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getPlatformsPlatformsGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getPlatformsPlatformsGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Popular Last Month
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getPopularLastMonthPopularLastMonthGet(
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getPopularLastMonthPopularLastMonthGet(
@@ -1551,27 +1676,33 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getPopularLastMonthPopularLastMonthGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Recently Added
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getRecentlyAddedCollectionRecentlyAddedGet(
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyAddedCollectionRecentlyAddedGet(
@@ -1579,27 +1710,33 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppApi.getRecentlyAddedCollectionRecentlyAddedGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Recently Updated
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getRecentlyUpdatedCollectionRecentlyUpdatedGet(
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyUpdatedCollectionRecentlyUpdatedGet(
@@ -1607,12 +1744,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppApi.getRecentlyUpdatedCollectionRecentlyUpdatedGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1621,7 +1764,7 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRuntimeListRuntimesGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1630,12 +1773,18 @@ export const AppApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRuntimeListRuntimesGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getRuntimeListRuntimesGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1650,9 +1799,9 @@ export const AppApiFp = function (configuration?: Configuration) {
       appId: string,
       all?: boolean,
       days?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getStatsForAppStatsAppIdGet(
@@ -1661,12 +1810,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           days,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getStatsForAppStatsAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1675,37 +1830,46 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getStatsStatsGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StatsResult>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseGetStatsStatsGet>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getStatsStatsGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getStatsStatsGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Subcategory
      * @param {MainCategory} category
      * @param {string} subcategory
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
       category: MainCategory,
       subcategory: string,
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
@@ -1715,27 +1879,33 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AppApi.getSubcategoryCategoryCategorySubcategoriesSubcategoryGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Summary
      * @param {string} appId
-     * @param {string | null} [branch]
+     * @param {Branch} [branch]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getSummarySummaryAppIdGet(
       appId: string,
-      branch?: string | null,
-      options?: AxiosRequestConfig,
+      branch?: Branch,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getSummarySummaryAppIdGet(
@@ -1743,27 +1913,33 @@ export const AppApiFp = function (configuration?: Configuration) {
           branch,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getSummarySummaryAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
      * @summary Get Verified
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getVerifiedCollectionVerifiedGet(
-      page?: number | null,
-      perPage?: number | null,
-      options?: AxiosRequestConfig,
+      page?: Page,
+      perPage?: PerPage,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getVerifiedCollectionVerifiedGet(
@@ -1771,12 +1947,18 @@ export const AppApiFp = function (configuration?: Configuration) {
           perPage,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.getVerifiedCollectionVerifiedGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1785,18 +1967,24 @@ export const AppApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async listAppstreamAppstreamGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<string>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.listAppstreamAppstreamGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.listAppstreamAppstreamGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1807,21 +1995,27 @@ export const AppApiFp = function (configuration?: Configuration) {
      */
     async postSearchSearchPost(
       searchQuery: SearchQuery,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.postSearchSearchPost(
           searchQuery,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AppApi.postSearchSearchPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -1862,7 +2056,7 @@ export const AppApiFactory = function (
     getAppstreamAppstreamAppIdGet(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getAppstreamAppstreamAppIdGet(appId, options)
         .then((request) => request(axios, basePath))
@@ -1882,17 +2076,17 @@ export const AppApiFactory = function (
      *
      * @summary Get Category
      * @param {MainCategory} category
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCategoryCategoryCategoryGet(
       category: MainCategory,
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getCategoryCategoryCategoryGet(category, page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -1901,17 +2095,17 @@ export const AppApiFactory = function (
      *
      * @summary Get Developer
      * @param {string} developer
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getDeveloperDeveloperDeveloperGet(
       developer: string,
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getDeveloperDeveloperDeveloperGet(developer, page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -1939,7 +2133,7 @@ export const AppApiFactory = function (
       appId: string,
       branch?: string,
       options?: any,
-    ): AxiosPromise<string> {
+    ): AxiosPromise<ResponseGetEolMessageAppidEolMessageAppIdGet> {
       return localVarFp
         .getEolMessageAppidEolMessageAppIdGet(appId, branch, options)
         .then((request) => request(axios, basePath))
@@ -1969,7 +2163,7 @@ export const AppApiFactory = function (
       appId: string,
       branch?: string,
       options?: any,
-    ): AxiosPromise<string> {
+    ): AxiosPromise<ResponseGetEolRebaseAppidEolRebaseAppIdGet> {
       return localVarFp
         .getEolRebaseAppidEolRebaseAppIdGet(appId, branch, options)
         .then((request) => request(axios, basePath))
@@ -1993,7 +2187,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getExceptionsExceptionsGet(options?: any): AxiosPromise<void> {
+    getExceptionsExceptionsGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .getExceptionsExceptionsGet(options)
         .then((request) => request(axios, basePath))
@@ -2008,7 +2202,7 @@ export const AppApiFactory = function (
     getExceptionsForAppExceptionsAppIdGet(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getExceptionsForAppExceptionsAppIdGet(appId, options)
         .then((request) => request(axios, basePath))
@@ -2029,16 +2223,16 @@ export const AppApiFactory = function (
     /**
      *
      * @summary Get Popular Last Month
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getPopularLastMonthPopularLastMonthGet(
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getPopularLastMonthPopularLastMonthGet(page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -2046,16 +2240,16 @@ export const AppApiFactory = function (
     /**
      *
      * @summary Get Recently Added
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRecentlyAddedCollectionRecentlyAddedGet(
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyAddedCollectionRecentlyAddedGet(page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -2063,16 +2257,16 @@ export const AppApiFactory = function (
     /**
      *
      * @summary Get Recently Updated
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getRecentlyUpdatedCollectionRecentlyUpdatedGet(
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyUpdatedCollectionRecentlyUpdatedGet(page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -2104,7 +2298,7 @@ export const AppApiFactory = function (
       all?: boolean,
       days?: number,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getStatsForAppStatsAppIdGet(appId, all, days, options)
         .then((request) => request(axios, basePath))
@@ -2115,7 +2309,7 @@ export const AppApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatsStatsGet(options?: any): AxiosPromise<StatsResult> {
+    getStatsStatsGet(options?: any): AxiosPromise<ResponseGetStatsStatsGet> {
       return localVarFp
         .getStatsStatsGet(options)
         .then((request) => request(axios, basePath))
@@ -2125,18 +2319,18 @@ export const AppApiFactory = function (
      * @summary Get Subcategory
      * @param {MainCategory} category
      * @param {string} subcategory
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
       category: MainCategory,
       subcategory: string,
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
           category,
@@ -2151,15 +2345,15 @@ export const AppApiFactory = function (
      *
      * @summary Get Summary
      * @param {string} appId
-     * @param {string | null} [branch]
+     * @param {Branch} [branch]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getSummarySummaryAppIdGet(
       appId: string,
-      branch?: string | null,
+      branch?: Branch,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getSummarySummaryAppIdGet(appId, branch, options)
         .then((request) => request(axios, basePath))
@@ -2167,16 +2361,16 @@ export const AppApiFactory = function (
     /**
      *
      * @summary Get Verified
-     * @param {number | null} [page]
-     * @param {number | null} [perPage]
+     * @param {Page} [page]
+     * @param {PerPage} [perPage]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getVerifiedCollectionVerifiedGet(
-      page?: number | null,
-      perPage?: number | null,
+      page?: Page,
+      perPage?: PerPage,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getVerifiedCollectionVerifiedGet(page, perPage, options)
         .then((request) => request(axios, basePath))
@@ -2202,7 +2396,7 @@ export const AppApiFactory = function (
     postSearchSearchPost(
       searchQuery: SearchQuery,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .postSearchSearchPost(searchQuery, options)
         .then((request) => request(axios, basePath))
@@ -2225,7 +2419,10 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getAddonsAddonAppIdGet(appId: string, options?: AxiosRequestConfig) {
+  public getAddonsAddonAppIdGet(
+    appId: string,
+    options?: RawAxiosRequestConfig,
+  ) {
     return AppApiFp(this.configuration)
       .getAddonsAddonAppIdGet(appId, options)
       .then((request) => request(this.axios, this.basePath))
@@ -2241,7 +2438,7 @@ export class AppApi extends BaseAPI {
    */
   public getAppstreamAppstreamAppIdGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getAppstreamAppstreamAppIdGet(appId, options)
@@ -2255,7 +2452,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getCategoriesCategoriesGet(options?: AxiosRequestConfig) {
+  public getCategoriesCategoriesGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getCategoriesCategoriesGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2265,17 +2462,17 @@ export class AppApi extends BaseAPI {
    *
    * @summary Get Category
    * @param {MainCategory} category
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getCategoryCategoryCategoryGet(
     category: MainCategory,
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getCategoryCategoryCategoryGet(category, page, perPage, options)
@@ -2286,17 +2483,17 @@ export class AppApi extends BaseAPI {
    *
    * @summary Get Developer
    * @param {string} developer
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getDeveloperDeveloperDeveloperGet(
     developer: string,
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getDeveloperDeveloperDeveloperGet(developer, page, perPage, options)
@@ -2310,7 +2507,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getDevelopersDeveloperGet(options?: AxiosRequestConfig) {
+  public getDevelopersDeveloperGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getDevelopersDeveloperGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2328,7 +2525,7 @@ export class AppApi extends BaseAPI {
   public getEolMessageAppidEolMessageAppIdGet(
     appId: string,
     branch?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getEolMessageAppidEolMessageAppIdGet(appId, branch, options)
@@ -2342,7 +2539,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getEolMessageEolMessageGet(options?: AxiosRequestConfig) {
+  public getEolMessageEolMessageGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getEolMessageEolMessageGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2360,7 +2557,7 @@ export class AppApi extends BaseAPI {
   public getEolRebaseAppidEolRebaseAppIdGet(
     appId: string,
     branch?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getEolRebaseAppidEolRebaseAppIdGet(appId, branch, options)
@@ -2374,7 +2571,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getEolRebaseEolRebaseGet(options?: AxiosRequestConfig) {
+  public getEolRebaseEolRebaseGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getEolRebaseEolRebaseGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2387,7 +2584,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getExceptionsExceptionsGet(options?: AxiosRequestConfig) {
+  public getExceptionsExceptionsGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getExceptionsExceptionsGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2403,7 +2600,7 @@ export class AppApi extends BaseAPI {
    */
   public getExceptionsForAppExceptionsAppIdGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getExceptionsForAppExceptionsAppIdGet(appId, options)
@@ -2417,7 +2614,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getPlatformsPlatformsGet(options?: AxiosRequestConfig) {
+  public getPlatformsPlatformsGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getPlatformsPlatformsGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2426,16 +2623,16 @@ export class AppApi extends BaseAPI {
   /**
    *
    * @summary Get Popular Last Month
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getPopularLastMonthPopularLastMonthGet(
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getPopularLastMonthPopularLastMonthGet(page, perPage, options)
@@ -2445,16 +2642,16 @@ export class AppApi extends BaseAPI {
   /**
    *
    * @summary Get Recently Added
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getRecentlyAddedCollectionRecentlyAddedGet(
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getRecentlyAddedCollectionRecentlyAddedGet(page, perPage, options)
@@ -2464,16 +2661,16 @@ export class AppApi extends BaseAPI {
   /**
    *
    * @summary Get Recently Updated
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getRecentlyUpdatedCollectionRecentlyUpdatedGet(
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getRecentlyUpdatedCollectionRecentlyUpdatedGet(page, perPage, options)
@@ -2487,7 +2684,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getRuntimeListRuntimesGet(options?: AxiosRequestConfig) {
+  public getRuntimeListRuntimesGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getRuntimeListRuntimesGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2507,7 +2704,7 @@ export class AppApi extends BaseAPI {
     appId: string,
     all?: boolean,
     days?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getStatsForAppStatsAppIdGet(appId, all, days, options)
@@ -2521,7 +2718,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public getStatsStatsGet(options?: AxiosRequestConfig) {
+  public getStatsStatsGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .getStatsStatsGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2532,8 +2729,8 @@ export class AppApi extends BaseAPI {
    * @summary Get Subcategory
    * @param {MainCategory} category
    * @param {string} subcategory
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
@@ -2541,9 +2738,9 @@ export class AppApi extends BaseAPI {
   public getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
     category: MainCategory,
     subcategory: string,
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getSubcategoryCategoryCategorySubcategoriesSubcategoryGet(
@@ -2560,15 +2757,15 @@ export class AppApi extends BaseAPI {
    *
    * @summary Get Summary
    * @param {string} appId
-   * @param {string | null} [branch]
+   * @param {Branch} [branch]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getSummarySummaryAppIdGet(
     appId: string,
-    branch?: string | null,
-    options?: AxiosRequestConfig,
+    branch?: Branch,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getSummarySummaryAppIdGet(appId, branch, options)
@@ -2578,16 +2775,16 @@ export class AppApi extends BaseAPI {
   /**
    *
    * @summary Get Verified
-   * @param {number | null} [page]
-   * @param {number | null} [perPage]
+   * @param {Page} [page]
+   * @param {PerPage} [perPage]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof AppApi
    */
   public getVerifiedCollectionVerifiedGet(
-    page?: number | null,
-    perPage?: number | null,
-    options?: AxiosRequestConfig,
+    page?: Page,
+    perPage?: PerPage,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .getVerifiedCollectionVerifiedGet(page, perPage, options)
@@ -2601,7 +2798,7 @@ export class AppApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AppApi
    */
-  public listAppstreamAppstreamGet(options?: AxiosRequestConfig) {
+  public listAppstreamAppstreamGet(options?: RawAxiosRequestConfig) {
     return AppApiFp(this.configuration)
       .listAppstreamAppstreamGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -2617,7 +2814,7 @@ export class AppApi extends BaseAPI {
    */
   public postSearchSearchPost(
     searchQuery: SearchQuery,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AppApiFp(this.configuration)
       .postSearchSearchPost(searchQuery, options)

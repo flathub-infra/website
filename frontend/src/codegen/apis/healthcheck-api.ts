@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 /**
  * HealthcheckApi - axios parameter creator
@@ -52,7 +53,7 @@ export const HealthcheckApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     healthcheckStatusGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/status`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -102,18 +103,24 @@ export const HealthcheckApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async healthcheckStatusGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.healthcheckStatusGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["HealthcheckApi.healthcheckStatusGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -135,7 +142,7 @@ export const HealthcheckApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    healthcheckStatusGet(options?: any): AxiosPromise<void> {
+    healthcheckStatusGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .healthcheckStatusGet(options)
         .then((request) => request(axios, basePath))
@@ -157,7 +164,7 @@ export class HealthcheckApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof HealthcheckApi
    */
-  public healthcheckStatusGet(options?: AxiosRequestConfig) {
+  public healthcheckStatusGet(options?: RawAxiosRequestConfig) {
     return HealthcheckApiFp(this.configuration)
       .healthcheckStatusGet(options)
       .then((request) => request(this.axios, this.basePath))

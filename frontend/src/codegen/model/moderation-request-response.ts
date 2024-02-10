@@ -14,7 +14,19 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { RequestData } from "./request-data"
+import { Comment } from "./comment"
+// May contain unused imports in some cases
+// @ts-ignore
+import { HandledAt } from "./handled-at"
+// May contain unused imports in some cases
+// @ts-ignore
+import { HandledBy } from "./handled-by"
+// May contain unused imports in some cases
+// @ts-ignore
+import { IsApproved } from "./is-approved"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ModerationRequestResponseRequestData } from "./moderation-request-response-request-data"
 
 /**
  *
@@ -66,10 +78,10 @@ export interface ModerationRequestResponse {
   request_type: string
   /**
    *
-   * @type {RequestData}
+   * @type {ModerationRequestResponseRequestData}
    * @memberof ModerationRequestResponse
    */
-  request_data?: RequestData | null
+  request_data: ModerationRequestResponseRequestData
   /**
    *
    * @type {boolean}
@@ -78,26 +90,26 @@ export interface ModerationRequestResponse {
   is_new_submission: boolean
   /**
    *
-   * @type {string}
+   * @type {HandledBy}
    * @memberof ModerationRequestResponse
    */
-  handled_by?: string | null
+  handled_by: HandledBy
   /**
    *
-   * @type {string}
+   * @type {HandledAt}
    * @memberof ModerationRequestResponse
    */
-  handled_at?: string | null
+  handled_at: HandledAt
   /**
    *
-   * @type {boolean}
+   * @type {IsApproved}
    * @memberof ModerationRequestResponse
    */
-  is_approved?: boolean | null
+  is_approved: IsApproved
   /**
    *
-   * @type {string}
+   * @type {Comment}
    * @memberof ModerationRequestResponse
    */
-  comment?: string | null
+  comment: Comment
 }

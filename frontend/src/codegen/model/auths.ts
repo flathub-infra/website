@@ -14,7 +14,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AuthInfo } from "./auth-info"
+import { AuthsGithub } from "./auths-github"
 
 /**
  *
@@ -24,26 +24,26 @@ import { AuthInfo } from "./auth-info"
 export interface Auths {
   /**
    *
-   * @type {AuthInfo}
+   * @type {AuthsGithub}
    * @memberof Auths
    */
-  github?: AuthInfo | null
+  github: AuthsGithub
   /**
    *
-   * @type {AuthInfo}
+   * @type {AuthsGithub}
    * @memberof Auths
    */
-  gitlab?: AuthInfo | null
+  gitlab: AuthsGithub
   /**
    *
-   * @type {AuthInfo}
+   * @type {AuthsGithub}
    * @memberof Auths
    */
-  gnome?: AuthInfo | null
+  gnome: AuthsGithub
   /**
    *
-   * @type {AuthInfo}
+   * @type {AuthsGithub}
    * @memberof Auths
    */
-  kde?: AuthInfo | null
+  kde: AuthsGithub
 }
