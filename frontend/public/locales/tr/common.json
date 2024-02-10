@@ -451,7 +451,9 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Pencere gölgelerini ve yuvarlatılmış köşeleri içerin",
     "app-data-review-pending": "Uygulama verisi inceleme bekliyor",
     "passed": "Geçti",
-    "request-review": "İnceleme Talep Et"
+    "request-review": "İnceleme Talep Et",
+    "request-review-description": "Takımımız uygulamanızı kalite sorunlarına karşı inceleyecektir. Lütfen birkaç gün içinde tekrar denetleyin.",
+    "request-a-review-question": "İnceleme isteğinde bulunmak ister misiniz?"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {{folder}}",
   "desktop-folder": "Masaüstü klasörü",
@@ -533,5 +535,21 @@
   "can-access-input-devices": "Klavye, fare veya oyun kumandası gibi girdi aygıtlarına erişebilir",
   "expires": "Sona erme",
   "revoked": "İptal edilmiş",
-  "app-of-the-day": "Günün Uygulaması"
+  "app-of-the-day": "Günün Uygulaması",
+  "not-logged-in": "Oturum açmadınız",
+  "do-you-really-want-to-archive-app": "Emin misiniz? Bu, kurulum jetonlarını geçersiz kılacak ve uygulamayı arşivleyecek.",
+  "install-x": "{{app-name}} uygulamasını Linux'ta kur",
+  "cannot-abandon-app": "Uygulama terk edilemiyor",
+  "invalid-appid": "Geçersiz uygulama kimliği",
+  "not-onboarded": "Lütfen önce giriş yapınız",
+  "switch-to-direct-upload": "Uygulamayı doğrudan yüklemeye değiştir",
+  "danger-zone": "Tehlikeli bölge",
+  "confirm": "Doğrula",
+  "do-you-really-want-to-switch-to-direct-upload": "Emin misiniz? Uygulamayı doğrudan yüklemeye geçirmenin geri dönüşü yoktur.",
+  "archive-app": "Uygulamayı arşivle",
+  "archive": "Arşivle",
+  "enter-end-of-life-message": "Ömür sonu iletisi gir",
+  "rebase-onto-other-app": "Uygulamanızın yeniden temellendirileceği uygulama kimliğini girin",
+  "manage-x": "{{app-name}} yönet",
+  "get-it-on": "Haydi başlayalım"
 }
