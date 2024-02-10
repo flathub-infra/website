@@ -358,7 +358,7 @@
   "add-ons": "Complementos",
   "no-file-system-access": "Sem acesso ao sistema de arquivos",
   "software-developer-verified-description": "O desenvolvedor do software verificou sua identidade, o que aumenta a probabilidade de o aplicativo ser seguro",
-  "can-access-hardware-devices": "Pode acessar dispositivos de hardware, como webcams ou controladores de jogos",
+  "can-access-all-devices": "Pode acessar dispositivos de hardware, como webcams ou controladores de jogos",
   "user-device-access": "Acesso ao dispositivo do usuário",
   "no-file-system-access-description": "Não é possível acessar o sistema de arquivos",
   "software-developer-verified": "O desenvolvedor de software é verificado",

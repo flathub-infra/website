@@ -243,7 +243,7 @@
   "recently-added": "Mới thêm",
   "software-developer-verified-description": "Nhà phát triển đã xác minh danh tính của họ, nên ứng dụng nhiều khả năng là an toàn",
   "app-is-currently-not-verified": "Ứng dụng của bạn hiện chưa được xác minh",
-  "can-access-hardware-devices": "Có thế truy cập thiết bị phần cứng như webcam hoặc bộ điều khiển chơi trò chơi",
+  "can-access-all-devices": "Có thế truy cập thiết bị phần cứng như webcam hoặc bộ điều khiển chơi trò chơi",
   "user-wallet": "Ví người dùng",
   "login-provider-verification-enable-github-app": "Để tiếp tục xác minh, Flathub cần quyền đọc cấp độ thành viên của bạn trong tổ chức <1>{{organization}}</1>. Bạn có thể giao quyền này <3>trong cài đặt Github của bạn</3>.",
   "website-verification-main-instruction": "Xác minh quyền sử dụng ID ứng dụng <1>{{id}}</1> của bạn bằng cách đặt token tại một vị trí cụ thể trên <3>{{domain}}</3>.",

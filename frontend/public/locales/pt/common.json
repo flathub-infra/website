@@ -464,7 +464,7 @@
   "user-settings": "Configurações do utilizador",
   "no-file-system-access": "Sem acesso ao sistema de ficheiros",
   "software-developer-verified-description": "O programador do software verificou a sua identidade, o que aumenta a probabilidade que a app seja segura",
-  "can-access-hardware-devices": "Pode aceder dispositivos de hardware, como webcams ou controladores de jogos",
+  "can-access-all-devices": "Pode aceder dispositivos de hardware, como webcams ou controladores de jogos",
   "user-device-access": "Acesso ao dispositivo do utilizador",
   "download-folder-read-write-access": "Acesso de leitura/gravação à pasta de descargas",
   "decline": "Recusar",

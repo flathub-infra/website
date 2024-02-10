@@ -377,7 +377,7 @@
   "no-permissions": "Žádná oprávnění",
   "has-network-access": "Má přístup k síti",
   "uses-session-services": "Používá služby releace",
-  "can-access-hardware-devices": "Může přistupovat k zařízením jako jsou web kamery nebo herní ovladače",
+  "can-access-all-devices": "Může přistupovat k zařízením jako jsou web kamery nebo herní ovladače",
   "can-access-system-devices": "Může přistupovat k systémovým zařízením které vyžadují dodatečná oprávnění",
   "can-read-write-your-downloads": "Může číst a zapisovat všechna data ve vaší složce se staženými",
   "can-access-some-specific-files": "Může přistupovat k některým konkrétním souborům",

@@ -378,7 +378,7 @@
   "potentially-unsafe": "Mogelijk onveilig",
   "no-permissions": "Geen rechten",
   "can-access-system-devices": "Heeft toegang tot systeem­apparaten welke verhoogde rechten vereisen",
-  "can-access-hardware-devices": "Heeft toegang tot hardware-apparaten zoals webcams en game­controllers",
+  "can-access-all-devices": "Heeft toegang tot hardware-apparaten zoals webcams en game­controllers",
   "uses-system-services": "Gebruikt systeem­services",
   "uses-session-services": "Gebruikt sessie­services",
   "has-network-access": "Heeft netwerk­toegang",

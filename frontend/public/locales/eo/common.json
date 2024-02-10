@@ -383,7 +383,7 @@
   "uses-session-services": "Povas uzi seancajn servojn",
   "no-permissions": "Sen permesoj",
   "can-access-system-devices": "Povas aliri sistemajn aparatdosierojn postulantajn pliigitajn permesojn",
-  "can-access-hardware-devices": "Povas aliri aparatojn, ekzemple kameraojn kaj ludregilojn",
+  "can-access-all-devices": "Povas aliri aparatojn, ekzemple kameraojn kaj ludregilojn",
   "software-developer-verified": "La aŭtoroj estas konfirmitaj",
   "can-read-write-your-downloads": "Povas legi kaj modifi datenojn en via elŝutujo",
   "can-access-and-change-user-settings": "Povas legi kaj modifi viajn agordojn",
