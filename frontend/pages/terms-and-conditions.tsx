@@ -423,9 +423,9 @@ const TermsAndConditions = (): JSX.Element => {
           Questions about the Terms of Service should be sent to us at{" "}
           <a
             className="no-underline hover:underline"
-            href="mailto:flathub@lists.freedesktop.org"
+            href="mailto:admins@flathub.org"
           >
-            flathub@lists.freedesktop.org
+            admins@flathub.org
           </a>
         </p>
       </div>

@@ -121,7 +121,7 @@ const About = () => {
               Security or legal issues can be reported to the{" "}
               <a
                 className="no-underline hover:underline"
-                href="mailto:flathub@lists.freedesktop.org"
+                href="mailto:admins@flathub.org"
               >
                 Flathub maintainers
               </a>
@@ -159,7 +159,7 @@ const About = () => {
               be directed to{" "}
               <a
                 className="no-underline hover:underline"
-                href="mailto:flathub@lists.freedesktop.org"
+                href="mailto:admins@flathub.org"
               >
                 Flathub maintainers
               </a>
