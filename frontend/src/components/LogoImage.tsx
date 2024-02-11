@@ -31,13 +31,14 @@ const LogoImage: FunctionComponent<Props> = ({
           style={{ maxHeight: "auto", maxWidth: "100%" }}
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center dark:invert p-1">
+        <div className="dark:invert p-1">
           <FlathubImage
             src={logoMini}
             alt={t("app-logo", { "app-name": appName })}
-            width={110}
-            height={108}
+            width={size}
+            height={size}
             aria-hidden
+            style={{ maxHeight: "auto", maxWidth: "100%" }}
           />
         </div>
       )}
