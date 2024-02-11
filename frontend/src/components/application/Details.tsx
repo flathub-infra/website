@@ -163,7 +163,10 @@ const Details: FunctionComponent<Props> = ({
 
     const keywords = Array.from(keywordSet)
 
-    const screenshot = pickScreenshotSize(app.screenshots[0])
+    const screenshot =
+      app.screenshots?.length > 0
+        ? pickScreenshotSize(app.screenshots[0])
+        : undefined
 
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
