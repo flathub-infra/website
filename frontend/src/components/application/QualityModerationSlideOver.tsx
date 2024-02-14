@@ -34,7 +34,7 @@ import {
   useHover,
   useInteractions,
   useRole,
-} from "@floating-ui/react-dom-interactions"
+} from "@floating-ui/react"
 
 const QualityCategories = ({
   appId,
@@ -359,7 +359,7 @@ const ReadOnlyItem = ({ toggle }) => {
   const { t } = useTranslation()
 
   const [isOpen, setIsOpen] = useState(false)
-  const { x, y, reference, floating, strategy, context } = useFloating({
+  const { x, y, refs, strategy, context } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [autoPlacement(), offset(6)],
@@ -391,7 +391,7 @@ const ReadOnlyItem = ({ toggle }) => {
   return (
     <>
       <button
-        ref={reference}
+        ref={refs.setReference}
         className="flex items-center justify-center"
         aria-label="read-only"
         {...getReferenceProps}
@@ -400,7 +400,7 @@ const ReadOnlyItem = ({ toggle }) => {
       </button>
       {isOpen && (
         <div
-          ref={floating}
+          ref={refs.setFloating}
           style={{
             position: strategy,
             top: y ?? 0,

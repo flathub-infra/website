@@ -13,7 +13,7 @@ import {
   useRole,
   useDismiss,
   useFocus,
-} from "@floating-ui/react-dom-interactions"
+} from "@floating-ui/react"
 import clsx from "clsx"
 import Modal from "../Modal"
 
@@ -27,7 +27,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [isInfoOpen, setIsInfoOpen] = useState(false)
-  const { x, y, reference, floating, strategy, context } = useFloating({
+  const { x, y, refs, strategy, context } = useFloating({
     open: isInfoOpen,
     onOpenChange: setIsInfoOpen,
     middleware: [shift(), autoPlacement(), offset(6)],
@@ -51,7 +51,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
           <div className="flex gap-2 relative">
             <>
               <button
-                ref={reference}
+                ref={refs.setReference}
                 {...getReferenceProps}
                 className="absolute top-0 end-0 mt-1 me-1"
                 aria-label={t("addon-install-info")}
@@ -63,7 +63,7 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
               </button>
               {isInfoOpen && (
                 <div
-                  ref={floating}
+                  ref={refs.setFloating}
                   style={{
                     position: strategy,
                     top: y ?? 0,
