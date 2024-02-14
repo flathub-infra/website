@@ -14,7 +14,7 @@ import {
   useRole,
   useDismiss,
   useFocus,
-} from "@floating-ui/react-dom-interactions"
+} from "@floating-ui/react"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { clsx } from "clsx"
 
@@ -30,12 +30,11 @@ const VerificationIcon: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const [isOpen, setIsOpen] = useState(false)
-  const { x, y, reference, floating, strategy, context, placement } =
-    useFloating({
-      open: isOpen,
-      onOpenChange: setIsOpen,
-      middleware: [shift(), autoPlacement(), offset(6)],
-    })
+  const { x, y, refs, strategy, context, placement } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    middleware: [shift(), autoPlacement(), offset(6)],
+  })
   const hover = useHover(context, { move: false })
   const focus = useFocus(context)
   const dismiss = useDismiss(context)
@@ -52,7 +51,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
     return (
       <>
         <button
-          ref={reference}
+          ref={refs.setReference}
           {...getReferenceProps}
           aria-label={t("app-is-verified")}
         >
@@ -64,7 +63,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
 
         {isOpen && (
           <div
-            ref={floating}
+            ref={refs.setFloating}
             style={{
               position: strategy,
               top: y ?? 0,
