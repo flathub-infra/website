@@ -18,6 +18,6 @@
     "name": "WPS Office",
     "summary": "WPS Office Suite",
     "type": "desktop-application",
-    "icon": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png"
+    "icon": null
   }
 ]

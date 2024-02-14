@@ -176,33 +176,25 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         icons = component.findall("icon")
         if len(icons):
-            icons_dict = {}
-
             for icon in icons:
                 icon_type = icon.attrib.get("type")
-                icon_name = icon.text
 
-                icon_size = icon.attrib.get("width")
-                icon_size = int(icon_size) if icon_size else 0
+                if icon_type == "remote":
+                    if icon.text.startswith("https://dl.flathub.org/media/"):
+                        app["icon"] = icon.text
+                        break
 
-                if icon_type not in icons_dict:
-                    icons_dict[icon_type] = {}
+                if icon_type == "cached":
+                    app[
+                        "icon"
+                    ] = f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                    break
 
-                icons_dict[icon_type][icon_size] = icon_name
+            for icon in icons:
                 component.remove(icon)
 
-            if component.attrib.get("type") == "desktop-application":
-                # For libappstream we need to process the remote icon first and bail
-                if icons_data := icons_dict.get("remote"):
-                    process_remote_icon(media_base_url, app, icons_data)
-                elif icons_data := icons_dict.get("cached"):
-                    process_cached_icon(app, icons_data)
-            else:
-                if icons_data := icons_dict.get("cached"):
-                    process_cached_icon(app, icons_data)
-                elif icons_data := icons_dict.get("remote"):
-                    process_remote_icon(media_base_url, app, icons_data)
-        else:
+        # Bail out if the loop above didn't find an icon
+        if not app.get("icon"):
             app["icon"] = None
 
         metadata = component.find("metadata")
@@ -273,6 +265,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if app["is_free_license"] == "":
             app["is_free_license"] = False
 
+        # The new appstream spec uses a new <developer> key, so backfill the old
+        # field for backwards compatibility
+        if developer_name := app.get("developer", {}).get("name"):
+            app["developer_name"] = developer_name
+
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
         if "categories" in app and "Settings" in app["categories"]:
@@ -286,23 +283,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
     return apps
-
-
-def process_cached_icon(app, icons_data):
-    cdn_baseurl = "https://dl.flathub.org"
-    icon_size = max(icons_data)
-    icon_name = icons_data[icon_size]
-    app[
-        "icon"
-    ] = f"{cdn_baseurl}/repo/appstream/x86_64/icons/{icon_size}x{icon_size}/{icon_name}"
-
-
-def process_remote_icon(media_base_url, app, icons_data):
-    icon_size = max(icons_data)
-    app["icon"] = icons_data[icon_size]
-
-    if not app["icon"].startswith("http"):
-        app["icon"] = f"{media_base_url}/{app['icon']}"
 
 
 def get_clean_app_id(app_id: str):

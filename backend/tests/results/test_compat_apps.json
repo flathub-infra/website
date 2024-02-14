@@ -13,8 +13,8 @@
     "currentReleaseDate": null,
     "currentReleaseVersion": null,
     "flatpakAppId": "com.wps.Office",
-    "iconDesktopUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
-    "iconMobileUrl": "https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png",
+    "iconDesktopUrl": null,
+    "iconMobileUrl": null,
     "inStoreSinceDate": null,
     "name": "WPS Office",
     "summary": "WPS Office Suite"
