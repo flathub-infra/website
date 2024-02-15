@@ -62,14 +62,13 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
       )}
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {slides && slides?.length > 0 && (
-          <Button
-            className="absolute bottom-3 end-3 h-12 w-12 !bg-transparent px-3 py-3 text-2xl"
+          <button
+            className="absolute bottom-3 end-3 size-12 !bg-transparent px-3 py-3 text-2xl z-10"
             onClick={() => setShowLightbox(true)}
             aria-label={t("zoom")}
-            variant="secondary"
           >
             <HiMagnifyingGlassPlus />
-          </Button>
+          </button>
         )}
         <div className="aspect-video max-h-[500px] w-full">
           <Lightbox
