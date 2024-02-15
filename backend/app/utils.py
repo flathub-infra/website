@@ -267,8 +267,8 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         # The new appstream spec uses a new <developer> key, so backfill the old
         # field for backwards compatibility
-        if developer_name := app.get("developer", {}).get("name"):
-            app["developer_name"] = developer_name
+        if developers := app.get("developer"):
+            app["developer_name"] = developers[0]["name"]
 
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
