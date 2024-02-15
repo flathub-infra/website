@@ -116,8 +116,14 @@ def load_appstream(sqldb):
             p.set(redis_key, json.dumps(apps[app_id]))
 
             if type := apps[app_id].get("type"):
+                # TODO: standardize around desktop-application
+                if type == "desktop-application":
+                    type = "desktop"
+
                 p.sadd("types:index", type)
                 p.sadd(f"types:{type}", redis_key)
+            else:
+                type = None
 
             # only used for compat
             if categories := apps[app_id].get("categories"):
@@ -127,14 +133,18 @@ def load_appstream(sqldb):
             postgres_apps.append(
                 {
                     "app_id": app_id,
-                    "type": apps[app_id].get("type"),
+                    "type": type,
                 }
             )
 
         search.create_or_update_apps(search_apps)
 
         for app in postgres_apps:
-            models.Apps.set_app(sqldb, app["app_id"], app["type"])
+            # TODO: standardize around desktop-application
+            if app["type"] == "desktop-application":
+                type = "desktop"
+
+            models.Apps.set_app(sqldb, app["app_id"], type)
 
         apps_to_delete_from_search = []
         for app_id in current_apps - set(apps):
