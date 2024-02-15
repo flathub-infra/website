@@ -214,6 +214,16 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 app["metadata"][key] = value.text
             component.remove(custom)
 
+        developers = component.findall("developer")
+        if len(developers):
+            app["developers"] = []
+            for developer in developers:
+                developer_name = developer.attrib.get("name")
+                app["developers"].append(developer_name.text)
+                component.remove(developer)
+
+            app["developer_name"] = ", ".join(app["developers"])
+
         for elem in component:
             # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
