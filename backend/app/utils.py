@@ -178,17 +178,19 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if len(icons):
             for icon in icons:
                 icon_type = icon.attrib.get("type")
-
                 if icon_type == "remote":
                     if icon.text.startswith("https://dl.flathub.org/media/"):
                         app["icon"] = icon.text
                         break
 
-                if icon_type == "cached":
-                    app[
-                        "icon"
-                    ] = f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
-                    break
+            if not app.get("icon"):
+                for icon in icons:
+                    icon_type = icon.attrib.get("type")
+                    if icon_type == "cached":
+                        app[
+                            "icon"
+                        ] = f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                        break
 
             for icon in icons:
                 component.remove(icon)
