@@ -218,11 +218,9 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if len(developers):
             app["developers"] = []
             for developer in developers:
-                developer_name = developer.attrib.get("name")
+                developer_name = developer.find("name")
                 app["developers"].append(developer_name.text)
                 component.remove(developer)
-
-            app["developer_name"] = ", ".join(app["developers"])
 
         for elem in component:
             # TODO: support translations
@@ -285,11 +283,14 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if "categories" in app and "Settings" in app["categories"]:
             app["categories"].append("System")
 
+        # Backfill developer_name for backwards compatibility
+        if app_developers := app.get("developers"):
+            app["developer_name"] = ", ".join(app_developers)
+
         # Some apps append .desktop suffix for legacy reasons, fall back to what
         # Flatpak put into bundle component for actual ID
         appid = app["bundle"]["value"].split("/")[1]
         app["id"] = appid
-
         apps[appid] = app
 
     return apps
