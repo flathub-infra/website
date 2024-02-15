@@ -17,15 +17,12 @@ import clsx from "clsx"
 export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
-  const [currentScreenshot, setCurrentScreenshot] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
   const ref = useRef(null)
 
   useEffect(() => {
-    setCurrentScreenshot(0)
     setCurrentIndex(0)
-  }, [app.id])
-
+  }, [])
   const lightboxState = ref.current?.getLightboxState()
   useEffect(() => {
     setCurrentIndex(lightboxState?.currentIndex)
@@ -53,7 +50,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
           close={() => setShowLightbox(false)}
           plugins={[Captions]}
           slides={slides}
-          index={currentScreenshot}
+          index={currentIndex}
           render={{
             buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
             buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
@@ -75,7 +72,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
             controller={{ ref }}
             plugins={[Inline]}
             slides={slides}
-            index={slides?.length > currentScreenshot ? currentScreenshot : 0}
+            index={slides?.length > currentIndex ? currentIndex : 0}
             carousel={{
               finite: slides?.length === 1,
             }}
@@ -89,7 +86,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
             }}
             on={{
               click: () => setShowLightbox(true),
-              view: (index) => setCurrentScreenshot(index.index),
+              view: (index) => setCurrentIndex(index.index),
             }}
             render={{
               iconPrev: () => (
@@ -107,6 +104,11 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
             }}
           />
         </div>
+        {slides?.length > 0 && slides[currentIndex]?.title && (
+          <div className="flex justify-center pb-4">
+            {slides[currentIndex]?.title}
+          </div>
+        )}
         {slides?.length > 1 && (
           <div>
             <ul className="flex list-none justify-center gap-4 pb-8">
@@ -123,10 +125,10 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
                   )}
                   value={index}
                   onClick={() => {
-                    if (index > currentScreenshot) {
-                      ref.current?.next({ count: index - currentScreenshot })
+                    if (index > currentIndex) {
+                      ref.current?.next({ count: index - currentIndex })
                     } else {
-                      ref.current?.prev({ count: currentScreenshot - index })
+                      ref.current?.prev({ count: currentIndex - index })
                     }
                   }}
                 ></li>
