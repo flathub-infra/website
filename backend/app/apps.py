@@ -142,9 +142,9 @@ def load_appstream(sqldb):
         for app in postgres_apps:
             # TODO: standardize around desktop-application
             if app["type"] == "desktop-application":
-                type = "desktop"
+                app["type"] = "desktop"
 
-            models.Apps.set_app(sqldb, app["app_id"], type)
+            models.Apps.set_app(sqldb, app["app_id"], app["type"])
 
         apps_to_delete_from_search = []
         for app_id in current_apps - set(apps):
