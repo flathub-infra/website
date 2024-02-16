@@ -14,24 +14,27 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { MissingAppids } from "./missing-appids"
+import { AuthInfo } from "./auth-info"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Avatar } from "./avatar"
 
 /**
  *
  * @export
- * @interface CheckPurchasesResponse
+ * @interface AuthsGithub
  */
-export interface CheckPurchasesResponse {
+export interface AuthsGithub {
   /**
    *
-   * @type {string}
-   * @memberof CheckPurchasesResponse
+   * @type {any}
+   * @memberof AuthsGithub
    */
-  detail: string
+  login: any
   /**
    *
-   * @type {MissingAppids}
-   * @memberof CheckPurchasesResponse
+   * @type {Avatar}
+   * @memberof AuthsGithub
    */
-  missing_appids: MissingAppids
+  avatar: Avatar
 }

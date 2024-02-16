@@ -18,6 +18,9 @@ import { CheckPurchasesResponse } from "./check-purchases-response"
 // May contain unused imports in some cases
 // @ts-ignore
 import { CheckPurchasesResponseSuccess } from "./check-purchases-response-success"
+// May contain unused imports in some cases
+// @ts-ignore
+import { MissingAppids } from "./missing-appids"
 
 /**
  *
@@ -27,20 +30,20 @@ import { CheckPurchasesResponseSuccess } from "./check-purchases-response-succes
 export interface ResponseCheckPurchasesPurchasesCheckPurchasesPost {
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof ResponseCheckPurchasesPurchasesCheckPurchasesPost
    */
-  detail: string
+  detail: any
   /**
    *
-   * @type {}
+   * @type {MissingAppids}
    * @memberof ResponseCheckPurchasesPurchasesCheckPurchasesPost
    */
-  missing_appids?: null
+  missing_appids: MissingAppids
   /**
    *
-   * @type {string}
+   * @type {any}
    * @memberof ResponseCheckPurchasesPurchasesCheckPurchasesPost
    */
-  status?: string
+  status: any
 }

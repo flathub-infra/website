@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
@@ -54,7 +55,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getAppsCompatAppsGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -95,7 +96,7 @@ export const CompatApiAxiosParamCreator = function (
      */
     getAppsInCategoryCompatAppsCategoryCategoryGet: async (
       category: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'category' is not null or undefined
       assertParamExists(
@@ -143,7 +144,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getPopularAppsCompatAppsCollectionPopular50Get: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/popular/50`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -182,7 +183,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getPopularAppsCompatAppsCollectionPopularGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/popular`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -221,7 +222,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRecentlyAddedCompatAppsCollectionNew50Get: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/new/50`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -260,7 +261,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRecentlyAddedCompatAppsCollectionNewGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/new`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -299,7 +300,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/recently-updated/50`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -338,7 +339,7 @@ export const CompatApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/compat/apps/collection/recently-updated`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -379,7 +380,7 @@ export const CompatApiAxiosParamCreator = function (
      */
     getSearchCompatAppsSearchQueryGet: async (
       query: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'query' is not null or undefined
       assertParamExists("getSearchCompatAppsSearchQueryGet", "query", query)
@@ -425,7 +426,7 @@ export const CompatApiAxiosParamCreator = function (
      */
     getSingleAppCompatAppsAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getSingleAppCompatAppsAppIdGet", "appId", appId)
@@ -479,18 +480,24 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getAppsCompatAppsGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getAppsCompatAppsGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["CompatApi.getAppsCompatAppsGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -501,21 +508,27 @@ export const CompatApiFp = function (configuration?: Configuration) {
      */
     async getAppsInCategoryCompatAppsCategoryCategoryGet(
       category: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getAppsInCategoryCompatAppsCategoryCategoryGet(
           category,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getAppsInCategoryCompatAppsCategoryCategoryGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -524,20 +537,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPopularAppsCompatAppsCollectionPopular50Get(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getPopularAppsCompatAppsCollectionPopular50Get(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getPopularAppsCompatAppsCollectionPopular50Get"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -546,20 +565,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPopularAppsCompatAppsCollectionPopularGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getPopularAppsCompatAppsCollectionPopularGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getPopularAppsCompatAppsCollectionPopularGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -568,20 +593,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRecentlyAddedCompatAppsCollectionNew50Get(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyAddedCompatAppsCollectionNew50Get(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getRecentlyAddedCompatAppsCollectionNew50Get"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -590,20 +621,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRecentlyAddedCompatAppsCollectionNewGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyAddedCompatAppsCollectionNewGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getRecentlyAddedCompatAppsCollectionNewGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -612,20 +649,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -634,20 +677,26 @@ export const CompatApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "CompatApi.getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -658,21 +707,27 @@ export const CompatApiFp = function (configuration?: Configuration) {
      */
     async getSearchCompatAppsSearchQueryGet(
       query: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getSearchCompatAppsSearchQueryGet(
           query,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["CompatApi.getSearchCompatAppsSearchQueryGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -683,21 +738,27 @@ export const CompatApiFp = function (configuration?: Configuration) {
      */
     async getSingleAppCompatAppsAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getSingleAppCompatAppsAppIdGet(
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["CompatApi.getSingleAppCompatAppsAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -719,7 +780,7 @@ export const CompatApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAppsCompatAppsGet(options?: any): AxiosPromise<void> {
+    getAppsCompatAppsGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .getAppsCompatAppsGet(options)
         .then((request) => request(axios, basePath))
@@ -734,7 +795,7 @@ export const CompatApiFactory = function (
     getAppsInCategoryCompatAppsCategoryCategoryGet(
       category: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getAppsInCategoryCompatAppsCategoryCategoryGet(category, options)
         .then((request) => request(axios, basePath))
@@ -747,7 +808,7 @@ export const CompatApiFactory = function (
      */
     getPopularAppsCompatAppsCollectionPopular50Get(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getPopularAppsCompatAppsCollectionPopular50Get(options)
         .then((request) => request(axios, basePath))
@@ -760,7 +821,7 @@ export const CompatApiFactory = function (
      */
     getPopularAppsCompatAppsCollectionPopularGet(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getPopularAppsCompatAppsCollectionPopularGet(options)
         .then((request) => request(axios, basePath))
@@ -773,7 +834,7 @@ export const CompatApiFactory = function (
      */
     getRecentlyAddedCompatAppsCollectionNew50Get(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyAddedCompatAppsCollectionNew50Get(options)
         .then((request) => request(axios, basePath))
@@ -786,7 +847,7 @@ export const CompatApiFactory = function (
      */
     getRecentlyAddedCompatAppsCollectionNewGet(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyAddedCompatAppsCollectionNewGet(options)
         .then((request) => request(axios, basePath))
@@ -799,7 +860,7 @@ export const CompatApiFactory = function (
      */
     getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(options)
         .then((request) => request(axios, basePath))
@@ -812,7 +873,7 @@ export const CompatApiFactory = function (
      */
     getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(options)
         .then((request) => request(axios, basePath))
@@ -827,7 +888,7 @@ export const CompatApiFactory = function (
     getSearchCompatAppsSearchQueryGet(
       query: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getSearchCompatAppsSearchQueryGet(query, options)
         .then((request) => request(axios, basePath))
@@ -842,7 +903,7 @@ export const CompatApiFactory = function (
     getSingleAppCompatAppsAppIdGet(
       appId: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getSingleAppCompatAppsAppIdGet(appId, options)
         .then((request) => request(axios, basePath))
@@ -864,7 +925,7 @@ export class CompatApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof CompatApi
    */
-  public getAppsCompatAppsGet(options?: AxiosRequestConfig) {
+  public getAppsCompatAppsGet(options?: RawAxiosRequestConfig) {
     return CompatApiFp(this.configuration)
       .getAppsCompatAppsGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -880,7 +941,7 @@ export class CompatApi extends BaseAPI {
    */
   public getAppsInCategoryCompatAppsCategoryCategoryGet(
     category: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getAppsInCategoryCompatAppsCategoryCategoryGet(category, options)
@@ -895,7 +956,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getPopularAppsCompatAppsCollectionPopular50Get(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getPopularAppsCompatAppsCollectionPopular50Get(options)
@@ -910,7 +971,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getPopularAppsCompatAppsCollectionPopularGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getPopularAppsCompatAppsCollectionPopularGet(options)
@@ -925,7 +986,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getRecentlyAddedCompatAppsCollectionNew50Get(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getRecentlyAddedCompatAppsCollectionNew50Get(options)
@@ -940,7 +1001,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getRecentlyAddedCompatAppsCollectionNewGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getRecentlyAddedCompatAppsCollectionNewGet(options)
@@ -955,7 +1016,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get(options)
@@ -970,7 +1031,7 @@ export class CompatApi extends BaseAPI {
    * @memberof CompatApi
    */
   public getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet(options)
@@ -987,7 +1048,7 @@ export class CompatApi extends BaseAPI {
    */
   public getSearchCompatAppsSearchQueryGet(
     query: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getSearchCompatAppsSearchQueryGet(query, options)
@@ -1004,7 +1065,7 @@ export class CompatApi extends BaseAPI {
    */
   public getSingleAppCompatAppsAppIdGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CompatApiFp(this.configuration)
       .getSingleAppCompatAppsAppIdGet(appId, options)

@@ -14,10 +14,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { PricingInfo } from "./pricing-info"
+import { StorefrontInfoPricing } from "./storefront-info-pricing"
 // May contain unused imports in some cases
 // @ts-ignore
-import { VerificationStatus } from "./verification-status"
+import { StorefrontInfoVerification } from "./storefront-info-verification"
 
 /**
  *
@@ -27,20 +27,20 @@ import { VerificationStatus } from "./verification-status"
 export interface StorefrontInfo {
   /**
    *
-   * @type {VerificationStatus}
+   * @type {StorefrontInfoVerification}
    * @memberof StorefrontInfo
    */
-  verification?: VerificationStatus | null
+  verification: StorefrontInfoVerification
   /**
    *
-   * @type {PricingInfo}
+   * @type {StorefrontInfoPricing}
    * @memberof StorefrontInfo
    */
-  pricing?: PricingInfo | null
+  pricing: StorefrontInfoPricing
   /**
    *
    * @type {boolean}
    * @memberof StorefrontInfo
    */
-  is_free_software?: boolean
+  is_free_software: boolean
 }

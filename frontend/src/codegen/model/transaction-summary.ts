@@ -12,6 +12,16 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { Created } from "./created"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Reason } from "./reason"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Updated } from "./updated"
+
 /**
  *
  * @export
@@ -50,22 +60,22 @@ export interface TransactionSummary {
   status: string
   /**
    *
-   * @type {string}
+   * @type {Reason}
    * @memberof TransactionSummary
    */
-  reason?: string | null
+  reason: Reason
   /**
    *
-   * @type {number}
+   * @type {Created}
    * @memberof TransactionSummary
    */
-  created?: number | null
+  created: Created
   /**
    *
-   * @type {number}
+   * @type {Updated}
    * @memberof TransactionSummary
    */
-  updated?: number | null
+  updated: Updated
 }
 
 export const TransactionSummaryKindEnum = {

@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
@@ -45,6 +46,8 @@ import { NascentTransaction } from "../model"
 import { PaymentCardInfo } from "../model"
 // @ts-ignore
 import { PostTransactionResponse } from "../model"
+// @ts-ignore
+import { Since } from "../model"
 // @ts-ignore
 import { Transaction } from "../model"
 // @ts-ignore
@@ -72,7 +75,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     cancelTransactionWalletTransactionsTxnCancelPost: async (
       txn: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -122,7 +125,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     createTransactionWalletTransactionsPost: async (
       nascentTransaction: NascentTransaction,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'nascentTransaction' is not null or undefined
       assertParamExists(
@@ -174,7 +177,7 @@ export const WalletApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getStripedataWalletStripedataGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/wallet/stripedata`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -215,7 +218,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     getTransactionByIdWalletTransactionsTxnGet: async (
       txn: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -260,16 +263,16 @@ export const WalletApiAxiosParamCreator = function (
      * Return a list of transactions associated with this user.  If anything goes wrong, an error will be returned, otherwise a list of transaction summaries will be returned.
      * @summary Get Transactions
      * @param {TransactionSortOrder} [sort]
-     * @param {string | null} [since]
+     * @param {Since} [since]
      * @param {number} [limit]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTransactionsWalletTransactionsGet: async (
       sort?: TransactionSortOrder,
-      since?: string | null,
+      since?: Since,
       limit?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/wallet/transactions`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -292,7 +295,9 @@ export const WalletApiAxiosParamCreator = function (
       }
 
       if (since !== undefined) {
-        localVarQueryParameter["since"] = since
+        for (const [key, value] of Object.entries(since)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (limit !== undefined) {
@@ -322,7 +327,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     getTxnStripedataWalletTransactionsTxnStripeGet: async (
       txn: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -370,7 +375,7 @@ export const WalletApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getWalletinfoWalletWalletinfoGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/wallet/walletinfo`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -411,7 +416,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     postRemovecardWalletRemovecardPost: async (
       paymentCardInfo: PaymentCardInfo,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentCardInfo' is not null or undefined
       assertParamExists(
@@ -465,7 +470,7 @@ export const WalletApiAxiosParamCreator = function (
      */
     setPendingWalletTransactionsTxnSetpendingPost: async (
       txn: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -517,7 +522,7 @@ export const WalletApiAxiosParamCreator = function (
     setSavecardWalletTransactionsTxnSavecardPost: async (
       txn: string,
       transactionSaveCard: TransactionSaveCard,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -582,7 +587,7 @@ export const WalletApiAxiosParamCreator = function (
     setTransactionCardWalletTransactionsTxnSetcardPost: async (
       txn: string,
       paymentCardInfo: PaymentCardInfo,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'txn' is not null or undefined
       assertParamExists(
@@ -643,7 +648,7 @@ export const WalletApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     webhookWalletWebhookStripePost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/wallet/webhook/stripe`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -694,21 +699,27 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async cancelTransactionWalletTransactionsTxnCancelPost(
       txn: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.cancelTransactionWalletTransactionsTxnCancelPost(
           txn,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.cancelTransactionWalletTransactionsTxnCancelPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Create a new transaction, return the ID.  If the passed in nascent transaction is valid, this will create a transaction and return the ID of the newly created wallet, otherwise it\'ll return an error
@@ -719,7 +730,7 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async createTransactionWalletTransactionsPost(
       nascentTransaction: NascentTransaction,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -731,12 +742,18 @@ export const WalletApiFp = function (configuration?: Configuration) {
           nascentTransaction,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.createTransactionWalletTransactionsPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Return the stripe public key to use in the frontend.  Since this is not considered secret, we don\'t need a login or anything for this
@@ -745,20 +762,26 @@ export const WalletApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getStripedataWalletStripedataGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getStripedataWalletStripedataGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["WalletApi.getStripedataWalletStripedataGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve a transaction by its ID  If the transaction ID is valid, and owned by the calling user, then this will retrieve the whole transaction, including card details and disbursement information if available.
@@ -769,7 +792,7 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async getTransactionByIdWalletTransactionsTxnGet(
       txn: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Transaction>
     > {
@@ -778,27 +801,33 @@ export const WalletApiFp = function (configuration?: Configuration) {
           txn,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.getTransactionByIdWalletTransactionsTxnGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Return a list of transactions associated with this user.  If anything goes wrong, an error will be returned, otherwise a list of transaction summaries will be returned.
      * @summary Get Transactions
      * @param {TransactionSortOrder} [sort]
-     * @param {string | null} [since]
+     * @param {Since} [since]
      * @param {number} [limit]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getTransactionsWalletTransactionsGet(
       sort?: TransactionSortOrder,
-      since?: string | null,
+      since?: Since,
       limit?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -812,12 +841,18 @@ export const WalletApiFp = function (configuration?: Configuration) {
           limit,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["WalletApi.getTransactionsWalletTransactionsGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Return the Stripe data associated with the given transaction.  This is only applicable to transactions in the `new` or `retry` state and will only work for transactions which *are* Stripe transactions.
@@ -828,21 +863,27 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async getTxnStripedataWalletTransactionsTxnStripeGet(
       txn: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getTxnStripedataWalletTransactionsTxnStripeGet(
           txn,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.getTxnStripedataWalletTransactionsTxnStripeGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the wallet for the currently logged in user.  This will return a list of cards which the user has saved to their account.
@@ -851,7 +892,7 @@ export const WalletApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getWalletinfoWalletWalletinfoGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WalletInfo>
     > {
@@ -859,12 +900,18 @@ export const WalletApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.getWalletinfoWalletWalletinfoGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["WalletApi.getWalletinfoWalletWalletinfoGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Remove a card from a user\'s wallet.  The provided information must exactly match a card as would be returned from the wallet info endpoint.
@@ -875,21 +922,27 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async postRemovecardWalletRemovecardPost(
       paymentCardInfo: PaymentCardInfo,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.postRemovecardWalletRemovecardPost(
           paymentCardInfo,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["WalletApi.postRemovecardWalletRemovecardPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Set the transaction as \'pending\' so that we can recover if Stripe flows don\'t quite work (e.g. webhook goes missing)
@@ -900,21 +953,27 @@ export const WalletApiFp = function (configuration?: Configuration) {
      */
     async setPendingWalletTransactionsTxnSetpendingPost(
       txn: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setPendingWalletTransactionsTxnSetpendingPost(
           txn,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.setPendingWalletTransactionsTxnSetpendingPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Set the save-card status.  This is only applicable to transactions in the `new` or `retry` state and will only work for transactions which are backed by stripe or similar.  If the `save_card` parameter is null, then the card will not be saved, otherwise it will be saved.  If it\'s set to `off_session` then an attempt will be made to create a saved method which can be used without the user re-authenticating
@@ -927,9 +986,9 @@ export const WalletApiFp = function (configuration?: Configuration) {
     async setSavecardWalletTransactionsTxnSavecardPost(
       txn: string,
       transactionSaveCard: TransactionSaveCard,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setSavecardWalletTransactionsTxnSavecardPost(
@@ -937,12 +996,18 @@ export const WalletApiFp = function (configuration?: Configuration) {
           transactionSaveCard,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.setSavecardWalletTransactionsTxnSavecardPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Set the card associated with a transaction.  The posted card must exactly match one of the cards returned by the wallet info endpoint or else the update may not succeed
@@ -955,9 +1020,9 @@ export const WalletApiFp = function (configuration?: Configuration) {
     async setTransactionCardWalletTransactionsTxnSetcardPost(
       txn: string,
       paymentCardInfo: PaymentCardInfo,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.setTransactionCardWalletTransactionsTxnSetcardPost(
@@ -965,12 +1030,18 @@ export const WalletApiFp = function (configuration?: Configuration) {
           paymentCardInfo,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "WalletApi.setTransactionCardWalletTransactionsTxnSetcardPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * This endpoint is intended to deal with webhooks coming back from payment mechanisms etc.  It exists only for the deployed wallet, so its name will vary with the deployed wallet kind.  The exact form of the content posted to the webhook will vary from wallet kind to wallet kind.
@@ -979,18 +1050,24 @@ export const WalletApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async webhookWalletWebhookStripePost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.webhookWalletWebhookStripePost(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["WalletApi.webhookWalletWebhookStripePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -1016,7 +1093,7 @@ export const WalletApiFactory = function (
     cancelTransactionWalletTransactionsTxnCancelPost(
       txn: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .cancelTransactionWalletTransactionsTxnCancelPost(txn, options)
         .then((request) => request(axios, basePath))
@@ -1042,7 +1119,7 @@ export const WalletApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStripedataWalletStripedataGet(options?: any): AxiosPromise<void> {
+    getStripedataWalletStripedataGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .getStripedataWalletStripedataGet(options)
         .then((request) => request(axios, basePath))
@@ -1066,14 +1143,14 @@ export const WalletApiFactory = function (
      * Return a list of transactions associated with this user.  If anything goes wrong, an error will be returned, otherwise a list of transaction summaries will be returned.
      * @summary Get Transactions
      * @param {TransactionSortOrder} [sort]
-     * @param {string | null} [since]
+     * @param {Since} [since]
      * @param {number} [limit]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getTransactionsWalletTransactionsGet(
       sort?: TransactionSortOrder,
-      since?: string | null,
+      since?: Since,
       limit?: number,
       options?: any,
     ): AxiosPromise<Array<TransactionSummary>> {
@@ -1091,7 +1168,7 @@ export const WalletApiFactory = function (
     getTxnStripedataWalletTransactionsTxnStripeGet(
       txn: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .getTxnStripedataWalletTransactionsTxnStripeGet(txn, options)
         .then((request) => request(axios, basePath))
@@ -1117,7 +1194,7 @@ export const WalletApiFactory = function (
     postRemovecardWalletRemovecardPost(
       paymentCardInfo: PaymentCardInfo,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .postRemovecardWalletRemovecardPost(paymentCardInfo, options)
         .then((request) => request(axios, basePath))
@@ -1132,7 +1209,7 @@ export const WalletApiFactory = function (
     setPendingWalletTransactionsTxnSetpendingPost(
       txn: string,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setPendingWalletTransactionsTxnSetpendingPost(txn, options)
         .then((request) => request(axios, basePath))
@@ -1149,7 +1226,7 @@ export const WalletApiFactory = function (
       txn: string,
       transactionSaveCard: TransactionSaveCard,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setSavecardWalletTransactionsTxnSavecardPost(
           txn,
@@ -1170,7 +1247,7 @@ export const WalletApiFactory = function (
       txn: string,
       paymentCardInfo: PaymentCardInfo,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .setTransactionCardWalletTransactionsTxnSetcardPost(
           txn,
@@ -1185,7 +1262,7 @@ export const WalletApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    webhookWalletWebhookStripePost(options?: any): AxiosPromise<void> {
+    webhookWalletWebhookStripePost(options?: any): AxiosPromise<any> {
       return localVarFp
         .webhookWalletWebhookStripePost(options)
         .then((request) => request(axios, basePath))
@@ -1210,7 +1287,7 @@ export class WalletApi extends BaseAPI {
    */
   public cancelTransactionWalletTransactionsTxnCancelPost(
     txn: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .cancelTransactionWalletTransactionsTxnCancelPost(txn, options)
@@ -1227,7 +1304,7 @@ export class WalletApi extends BaseAPI {
    */
   public createTransactionWalletTransactionsPost(
     nascentTransaction: NascentTransaction,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .createTransactionWalletTransactionsPost(nascentTransaction, options)
@@ -1241,7 +1318,7 @@ export class WalletApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WalletApi
    */
-  public getStripedataWalletStripedataGet(options?: AxiosRequestConfig) {
+  public getStripedataWalletStripedataGet(options?: RawAxiosRequestConfig) {
     return WalletApiFp(this.configuration)
       .getStripedataWalletStripedataGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1257,7 +1334,7 @@ export class WalletApi extends BaseAPI {
    */
   public getTransactionByIdWalletTransactionsTxnGet(
     txn: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .getTransactionByIdWalletTransactionsTxnGet(txn, options)
@@ -1268,7 +1345,7 @@ export class WalletApi extends BaseAPI {
    * Return a list of transactions associated with this user.  If anything goes wrong, an error will be returned, otherwise a list of transaction summaries will be returned.
    * @summary Get Transactions
    * @param {TransactionSortOrder} [sort]
-   * @param {string | null} [since]
+   * @param {Since} [since]
    * @param {number} [limit]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -1276,9 +1353,9 @@ export class WalletApi extends BaseAPI {
    */
   public getTransactionsWalletTransactionsGet(
     sort?: TransactionSortOrder,
-    since?: string | null,
+    since?: Since,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .getTransactionsWalletTransactionsGet(sort, since, limit, options)
@@ -1295,7 +1372,7 @@ export class WalletApi extends BaseAPI {
    */
   public getTxnStripedataWalletTransactionsTxnStripeGet(
     txn: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .getTxnStripedataWalletTransactionsTxnStripeGet(txn, options)
@@ -1309,7 +1386,7 @@ export class WalletApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WalletApi
    */
-  public getWalletinfoWalletWalletinfoGet(options?: AxiosRequestConfig) {
+  public getWalletinfoWalletWalletinfoGet(options?: RawAxiosRequestConfig) {
     return WalletApiFp(this.configuration)
       .getWalletinfoWalletWalletinfoGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1325,7 +1402,7 @@ export class WalletApi extends BaseAPI {
    */
   public postRemovecardWalletRemovecardPost(
     paymentCardInfo: PaymentCardInfo,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .postRemovecardWalletRemovecardPost(paymentCardInfo, options)
@@ -1342,7 +1419,7 @@ export class WalletApi extends BaseAPI {
    */
   public setPendingWalletTransactionsTxnSetpendingPost(
     txn: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .setPendingWalletTransactionsTxnSetpendingPost(txn, options)
@@ -1361,7 +1438,7 @@ export class WalletApi extends BaseAPI {
   public setSavecardWalletTransactionsTxnSavecardPost(
     txn: string,
     transactionSaveCard: TransactionSaveCard,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .setSavecardWalletTransactionsTxnSavecardPost(
@@ -1384,7 +1461,7 @@ export class WalletApi extends BaseAPI {
   public setTransactionCardWalletTransactionsTxnSetcardPost(
     txn: string,
     paymentCardInfo: PaymentCardInfo,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return WalletApiFp(this.configuration)
       .setTransactionCardWalletTransactionsTxnSetcardPost(
@@ -1402,7 +1479,7 @@ export class WalletApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof WalletApi
    */
-  public webhookWalletWebhookStripePost(options?: AxiosRequestConfig) {
+  public webhookWalletWebhookStripePost(options?: RawAxiosRequestConfig) {
     return WalletApiFp(this.configuration)
       .webhookWalletWebhookStripePost(options)
       .then((request) => request(this.axios, this.basePath))

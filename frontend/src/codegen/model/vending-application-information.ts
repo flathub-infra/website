@@ -13,7 +13,7 @@
  */
 
 /**
- * Information about an app, including tax code etc
+ *      Information about an app, including tax code etc
  * @export
  * @interface VendingApplicationInformation
  */

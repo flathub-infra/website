@@ -38,8 +38,8 @@ export interface BuildNotificationRequest {
   build_repo: string
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<any>}
    * @memberof BuildNotificationRequest
    */
-  diagnostics: Array<string>
+  diagnostics: Array<any>
 }

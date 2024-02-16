@@ -14,7 +14,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { PaymentCardInfo } from "./payment-card-info"
+import { Receipt } from "./receipt"
+// May contain unused imports in some cases
+// @ts-ignore
+import { TransactionCard } from "./transaction-card"
 // May contain unused imports in some cases
 // @ts-ignore
 import { TransactionRow } from "./transaction-row"
@@ -36,10 +39,10 @@ export interface Transaction {
   summary: TransactionSummary
   /**
    *
-   * @type {PaymentCardInfo}
+   * @type {TransactionCard}
    * @memberof Transaction
    */
-  card?: PaymentCardInfo | null
+  card: TransactionCard
   /**
    *
    * @type {Array<TransactionRow>}
@@ -48,8 +51,8 @@ export interface Transaction {
   details: Array<TransactionRow>
   /**
    *
-   * @type {string}
+   * @type {Receipt}
    * @memberof Transaction
    */
-  receipt?: string | null
+  receipt: Receipt
 }

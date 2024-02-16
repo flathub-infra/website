@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
@@ -44,13 +45,15 @@ import { ModerationApp } from "../model"
 // @ts-ignore
 import { ModerationAppsResponse } from "../model"
 // @ts-ignore
+import { NewSubmissions } from "../model"
+// @ts-ignore
+import { ResponseSubmitReviewModerationRequestsIdReviewPost } from "../model"
+// @ts-ignore
 import { Review } from "../model"
 // @ts-ignore
 import { ReviewRequest } from "../model"
 // @ts-ignore
 import { ReviewRequestResponse } from "../model"
-// @ts-ignore
-import { ReviewResponse } from "../model"
 /**
  * ModerationApi - axios parameter creator
  * @export
@@ -76,7 +79,7 @@ export const ModerationApiAxiosParamCreator = function (
       includeHandled?: boolean,
       limit?: number,
       offset?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -136,7 +139,7 @@ export const ModerationApiAxiosParamCreator = function (
     /**
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
-     * @param {boolean | null} [newSubmissions]
+     * @param {NewSubmissions} [newSubmissions]
      * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
@@ -144,11 +147,11 @@ export const ModerationApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getModerationAppsModerationAppsGet: async (
-      newSubmissions?: boolean | null,
+      newSubmissions?: NewSubmissions,
       showHandled?: boolean,
       limit?: number,
       offset?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/moderation/apps`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -167,7 +170,9 @@ export const ModerationApiAxiosParamCreator = function (
       const localVarQueryParameter = {} as any
 
       if (newSubmissions !== undefined) {
-        localVarQueryParameter["new_submissions"] = newSubmissions
+        for (const [key, value] of Object.entries(newSubmissions)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       if (showHandled !== undefined) {
@@ -207,7 +212,7 @@ export const ModerationApiAxiosParamCreator = function (
     submitReviewModerationRequestsIdReviewPost: async (
       id: number,
       review: Review,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists("submitReviewModerationRequestsIdReviewPost", "id", id)
@@ -266,7 +271,7 @@ export const ModerationApiAxiosParamCreator = function (
      */
     submitReviewRequestModerationSubmitReviewRequestPost: async (
       reviewRequest: ReviewRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'reviewRequest' is not null or undefined
       assertParamExists(
@@ -343,7 +348,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
       includeHandled?: boolean,
       limit?: number,
       offset?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ModerationApp>
     > {
@@ -356,17 +361,23 @@ export const ModerationApiFp = function (configuration?: Configuration) {
           offset,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "ModerationApi.getModerationAppModerationAppsAppIdGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
-     * @param {boolean | null} [newSubmissions]
+     * @param {NewSubmissions} [newSubmissions]
      * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
@@ -374,11 +385,11 @@ export const ModerationApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getModerationAppsModerationAppsGet(
-      newSubmissions?: boolean | null,
+      newSubmissions?: NewSubmissions,
       showHandled?: boolean,
       limit?: number,
       offset?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -393,12 +404,18 @@ export const ModerationApiFp = function (configuration?: Configuration) {
           offset,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "ModerationApi.getModerationAppsModerationAppsGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is marked as successful in flat-manager.
@@ -411,9 +428,12 @@ export const ModerationApiFp = function (configuration?: Configuration) {
     async submitReviewModerationRequestsIdReviewPost(
       id: number,
       review: Review,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReviewResponse>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ResponseSubmitReviewModerationRequestsIdReviewPost>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.submitReviewModerationRequestsIdReviewPost(
@@ -421,12 +441,18 @@ export const ModerationApiFp = function (configuration?: Configuration) {
           review,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "ModerationApi.submitReviewModerationRequestsIdReviewPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -437,7 +463,7 @@ export const ModerationApiFp = function (configuration?: Configuration) {
      */
     async submitReviewRequestModerationSubmitReviewRequestPost(
       reviewRequest: ReviewRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -449,12 +475,18 @@ export const ModerationApiFp = function (configuration?: Configuration) {
           reviewRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "ModerationApi.submitReviewRequestModerationSubmitReviewRequestPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -503,7 +535,7 @@ export const ModerationApiFactory = function (
     /**
      * Get a list of apps with unhandled moderation requests.
      * @summary Get Moderation Apps
-     * @param {boolean | null} [newSubmissions]
+     * @param {NewSubmissions} [newSubmissions]
      * @param {boolean} [showHandled]
      * @param {number} [limit]
      * @param {number} [offset]
@@ -511,7 +543,7 @@ export const ModerationApiFactory = function (
      * @throws {RequiredError}
      */
     getModerationAppsModerationAppsGet(
-      newSubmissions?: boolean | null,
+      newSubmissions?: NewSubmissions,
       showHandled?: boolean,
       limit?: number,
       offset?: number,
@@ -539,7 +571,7 @@ export const ModerationApiFactory = function (
       id: number,
       review: Review,
       options?: any,
-    ): AxiosPromise<ReviewResponse> {
+    ): AxiosPromise<ResponseSubmitReviewModerationRequestsIdReviewPost> {
       return localVarFp
         .submitReviewModerationRequestsIdReviewPost(id, review, options)
         .then((request) => request(axios, basePath))
@@ -590,7 +622,7 @@ export class ModerationApi extends BaseAPI {
     includeHandled?: boolean,
     limit?: number,
     offset?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return ModerationApiFp(this.configuration)
       .getModerationAppModerationAppsAppIdGet(
@@ -607,7 +639,7 @@ export class ModerationApi extends BaseAPI {
   /**
    * Get a list of apps with unhandled moderation requests.
    * @summary Get Moderation Apps
-   * @param {boolean | null} [newSubmissions]
+   * @param {NewSubmissions} [newSubmissions]
    * @param {boolean} [showHandled]
    * @param {number} [limit]
    * @param {number} [offset]
@@ -616,11 +648,11 @@ export class ModerationApi extends BaseAPI {
    * @memberof ModerationApi
    */
   public getModerationAppsModerationAppsGet(
-    newSubmissions?: boolean | null,
+    newSubmissions?: NewSubmissions,
     showHandled?: boolean,
     limit?: number,
     offset?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return ModerationApiFp(this.configuration)
       .getModerationAppsModerationAppsGet(
@@ -645,7 +677,7 @@ export class ModerationApi extends BaseAPI {
   public submitReviewModerationRequestsIdReviewPost(
     id: number,
     review: Review,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return ModerationApiFp(this.configuration)
       .submitReviewModerationRequestsIdReviewPost(id, review, options)
@@ -662,7 +694,7 @@ export class ModerationApi extends BaseAPI {
    */
   public submitReviewRequestModerationSubmitReviewRequestPost(
     reviewRequest: ReviewRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return ModerationApiFp(this.configuration)
       .submitReviewRequestModerationSubmitReviewRequestPost(

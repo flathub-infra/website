@@ -12,6 +12,13 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { ErrorDescription } from "./error-description"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ErrorUri } from "./error-uri"
+
 /**
  *
  * @export
@@ -32,14 +39,14 @@ export interface OauthLoginResponseFailure {
   error: string
   /**
    *
-   * @type {string}
+   * @type {ErrorDescription}
    * @memberof OauthLoginResponseFailure
    */
-  error_description?: string | null
+  error_description?: ErrorDescription
   /**
    *
-   * @type {string}
+   * @type {ErrorUri}
    * @memberof OauthLoginResponseFailure
    */
-  error_uri?: string | null
+  error_uri?: ErrorUri
 }

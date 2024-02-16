@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { SaveCard } from "./save-card"
+
 /**
  *
  * @export
@@ -20,16 +24,8 @@
 export interface TransactionSaveCard {
   /**
    *
-   * @type {string}
+   * @type {SaveCard}
    * @memberof TransactionSaveCard
    */
-  save_card?: TransactionSaveCardSaveCardEnum
+  save_card?: SaveCard
 }
-
-export const TransactionSaveCardSaveCardEnum = {
-  OffSession: "off_session",
-  OnSession: "on_session",
-} as const
-
-export type TransactionSaveCardSaveCardEnum =
-  (typeof TransactionSaveCardSaveCardEnum)[keyof typeof TransactionSaveCardSaveCardEnum]

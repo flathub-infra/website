@@ -14,10 +14,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { AcceptedPublisherAgreementAt } from "./accepted-publisher-agreement-at"
+// May contain unused imports in some cases
+// @ts-ignore
 import { AuthInfo } from "./auth-info"
 // May contain unused imports in some cases
 // @ts-ignore
 import { Auths } from "./auths"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Displayname } from "./displayname"
 
 /**
  *
@@ -39,28 +45,28 @@ export interface UserInfo {
   is_quality_moderator: boolean
   /**
    *
-   * @type {string}
+   * @type {Displayname}
    * @memberof UserInfo
    */
-  displayname?: string | null
+  displayname: Displayname
   /**
    *
    * @type {Array<string>}
    * @memberof UserInfo
    */
-  dev_flatpaks?: Array<string>
+  dev_flatpaks: Array<string>
   /**
    *
    * @type {Array<string>}
    * @memberof UserInfo
    */
-  owned_flatpaks?: Array<string>
+  owned_flatpaks: Array<string>
   /**
    *
    * @type {Array<string>}
    * @memberof UserInfo
    */
-  invited_flatpaks?: Array<string>
+  invited_flatpaks: Array<string>
   /**
    *
    * @type {string}
@@ -69,10 +75,10 @@ export interface UserInfo {
   invite_code: string
   /**
    *
-   * @type {string}
+   * @type {AcceptedPublisherAgreementAt}
    * @memberof UserInfo
    */
-  accepted_publisher_agreement_at: string | null
+  accepted_publisher_agreement_at: AcceptedPublisherAgreementAt
   /**
    *
    * @type {AuthInfo}

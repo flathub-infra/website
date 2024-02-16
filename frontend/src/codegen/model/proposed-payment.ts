@@ -13,7 +13,7 @@
  */
 
 /**
- * Proposed payment to be made for an application
+ *      Proposed payment to be made for an application
  * @export
  * @interface ProposedPayment
  */

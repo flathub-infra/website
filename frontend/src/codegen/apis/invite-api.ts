@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { DevelopersResponse } from "../model"
@@ -60,7 +61,7 @@ export const InviteApiAxiosParamCreator = function (
      */
     acceptInviteInvitesAppIdAcceptPost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("acceptInviteInvitesAppIdAcceptPost", "appId", appId)
@@ -106,7 +107,7 @@ export const InviteApiAxiosParamCreator = function (
      */
     declineInviteInvitesAppIdDeclinePost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("declineInviteInvitesAppIdDeclinePost", "appId", appId)
@@ -152,7 +153,7 @@ export const InviteApiAxiosParamCreator = function (
      */
     getDevelopersInvitesAppIdDevelopersGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -202,7 +203,7 @@ export const InviteApiAxiosParamCreator = function (
      */
     getInviteStatusInvitesAppIdGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("getInviteStatusInvitesAppIdGet", "appId", appId)
@@ -250,7 +251,7 @@ export const InviteApiAxiosParamCreator = function (
     inviteDeveloperInvitesAppIdInvitePost: async (
       appId: string,
       inviteCode: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("inviteDeveloperInvitesAppIdInvitePost", "appId", appId)
@@ -306,7 +307,7 @@ export const InviteApiAxiosParamCreator = function (
      */
     leaveTeamInvitesAppIdLeavePost: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("leaveTeamInvitesAppIdLeavePost", "appId", appId)
@@ -354,7 +355,7 @@ export const InviteApiAxiosParamCreator = function (
     removeDeveloperInvitesAppIdRemoveDeveloperPost: async (
       appId: string,
       developerId: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -416,7 +417,7 @@ export const InviteApiAxiosParamCreator = function (
     revokeInviteInvitesAppIdRevokePost: async (
       appId: string,
       inviteId: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists("revokeInviteInvitesAppIdRevokePost", "appId", appId)
@@ -482,7 +483,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
      */
     async acceptInviteInvitesAppIdAcceptPost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -491,12 +492,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.acceptInviteInvitesAppIdAcceptPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -507,7 +514,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
      */
     async declineInviteInvitesAppIdDeclinePost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -516,12 +523,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.declineInviteInvitesAppIdDeclinePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -532,7 +545,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
      */
     async getDevelopersInvitesAppIdDevelopersGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -544,12 +557,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "InviteApi.getDevelopersInvitesAppIdDevelopersGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -560,7 +579,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
      */
     async getInviteStatusInvitesAppIdGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InviteStatus>
     > {
@@ -569,12 +588,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.getInviteStatusInvitesAppIdGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -587,7 +612,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
     async inviteDeveloperInvitesAppIdInvitePost(
       appId: string,
       inviteCode: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -597,12 +622,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           inviteCode,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.inviteDeveloperInvitesAppIdInvitePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -613,7 +644,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
      */
     async leaveTeamInvitesAppIdLeavePost(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -622,12 +653,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.leaveTeamInvitesAppIdLeavePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -640,7 +677,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
     async removeDeveloperInvitesAppIdRemoveDeveloperPost(
       appId: string,
       developerId: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -650,12 +687,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           developerId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "InviteApi.removeDeveloperInvitesAppIdRemoveDeveloperPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -668,7 +711,7 @@ export const InviteApiFp = function (configuration?: Configuration) {
     async revokeInviteInvitesAppIdRevokePost(
       appId: string,
       inviteId: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -678,12 +721,18 @@ export const InviteApiFp = function (configuration?: Configuration) {
           inviteId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["InviteApi.revokeInviteInvitesAppIdRevokePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -849,7 +898,7 @@ export class InviteApi extends BaseAPI {
    */
   public acceptInviteInvitesAppIdAcceptPost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .acceptInviteInvitesAppIdAcceptPost(appId, options)
@@ -866,7 +915,7 @@ export class InviteApi extends BaseAPI {
    */
   public declineInviteInvitesAppIdDeclinePost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .declineInviteInvitesAppIdDeclinePost(appId, options)
@@ -883,7 +932,7 @@ export class InviteApi extends BaseAPI {
    */
   public getDevelopersInvitesAppIdDevelopersGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .getDevelopersInvitesAppIdDevelopersGet(appId, options)
@@ -900,7 +949,7 @@ export class InviteApi extends BaseAPI {
    */
   public getInviteStatusInvitesAppIdGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .getInviteStatusInvitesAppIdGet(appId, options)
@@ -919,7 +968,7 @@ export class InviteApi extends BaseAPI {
   public inviteDeveloperInvitesAppIdInvitePost(
     appId: string,
     inviteCode: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .inviteDeveloperInvitesAppIdInvitePost(appId, inviteCode, options)
@@ -936,7 +985,7 @@ export class InviteApi extends BaseAPI {
    */
   public leaveTeamInvitesAppIdLeavePost(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .leaveTeamInvitesAppIdLeavePost(appId, options)
@@ -955,7 +1004,7 @@ export class InviteApi extends BaseAPI {
   public removeDeveloperInvitesAppIdRemoveDeveloperPost(
     appId: string,
     developerId: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .removeDeveloperInvitesAppIdRemoveDeveloperPost(
@@ -978,7 +1027,7 @@ export class InviteApi extends BaseAPI {
   public revokeInviteInvitesAppIdRevokePost(
     appId: string,
     inviteId: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return InviteApiFp(this.configuration)
       .revokeInviteInvitesAppIdRevokePost(appId, inviteId, options)

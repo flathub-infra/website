@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost } from "../model"
@@ -43,6 +44,8 @@ import { BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost } from "../model
 import { GenerateUpdateTokenResponse } from "../model"
 // @ts-ignore
 import { HTTPValidationError } from "../model"
+// @ts-ignore
+import { License } from "../model"
 // @ts-ignore
 import { ResponseCheckPurchasesPurchasesCheckPurchasesPost } from "../model"
 // @ts-ignore
@@ -66,7 +69,7 @@ export const PurchaseApiAxiosParamCreator = function (
      */
     checkPurchasesPurchasesCheckPurchasesPost: async (
       requestBody: Array<string>,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'requestBody' is not null or undefined
       assertParamExists(
@@ -120,7 +123,7 @@ export const PurchaseApiAxiosParamCreator = function (
      */
     getDownloadTokenPurchasesGenerateDownloadTokenPost: async (
       bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost' is not null or undefined
       assertParamExists(
@@ -169,14 +172,14 @@ export const PurchaseApiAxiosParamCreator = function (
      * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
      * @summary Get Is Free Software
      * @param {string} appId
-     * @param {string | null} [license]
+     * @param {License} [license]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet: async (
       appId: string,
-      license?: string | null,
-      options: AxiosRequestConfig = {},
+      license?: License,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -205,7 +208,9 @@ export const PurchaseApiAxiosParamCreator = function (
       }
 
       if (license !== undefined) {
-        localVarQueryParameter["license"] = license
+        for (const [key, value] of Object.entries(license)) {
+          localVarQueryParameter[key] = value
+        }
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -231,7 +236,7 @@ export const PurchaseApiAxiosParamCreator = function (
      */
     getStorefrontInfoPurchasesStorefrontInfoGet: async (
       appId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'appId' is not null or undefined
       assertParamExists(
@@ -280,7 +285,7 @@ export const PurchaseApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getUpdateTokenPurchasesGenerateUpdateTokenPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/purchases/generate-update-token`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -331,7 +336,7 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
      */
     async checkPurchasesPurchasesCheckPurchasesPost(
       requestBody: Array<string>,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -343,12 +348,18 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
           requestBody,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "PurchaseApi.checkPurchasesPurchasesCheckPurchasesPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g. \"app/org.gnome.Maps/x86_64/stable\".
@@ -359,7 +370,7 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
      */
     async getDownloadTokenPurchasesGenerateDownloadTokenPost(
       bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -371,25 +382,31 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
           bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "PurchaseApi.getDownloadTokenPurchasesGenerateDownloadTokenPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
      * @summary Get Is Free Software
      * @param {string} appId
-     * @param {string | null} [license]
+     * @param {License} [license]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(
       appId: string,
-      license?: string | null,
-      options?: AxiosRequestConfig,
+      license?: License,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>
     > {
@@ -399,12 +416,18 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
           license,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "PurchaseApi.getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream file and commit metadata.
@@ -415,7 +438,7 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
      */
     async getStorefrontInfoPurchasesStorefrontInfoGet(
       appId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<StorefrontInfo>
     > {
@@ -424,12 +447,18 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
           appId,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "PurchaseApi.getStorefrontInfoPurchasesStorefrontInfoGet"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Generates an update token for a user account. This token allows the user to generate download tokens for apps they already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is able to update apps without user interaction.
@@ -438,7 +467,7 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getUpdateTokenPurchasesGenerateUpdateTokenPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -449,12 +478,18 @@ export const PurchaseApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.getUpdateTokenPurchasesGenerateUpdateTokenPost(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "PurchaseApi.getUpdateTokenPurchasesGenerateUpdateTokenPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -507,13 +542,13 @@ export const PurchaseApiFactory = function (
      * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
      * @summary Get Is Free Software
      * @param {string} appId
-     * @param {string | null} [license]
+     * @param {License} [license]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(
       appId: string,
-      license?: string | null,
+      license?: License,
       options?: any,
     ): AxiosPromise<boolean> {
       return localVarFp
@@ -572,7 +607,7 @@ export class PurchaseApi extends BaseAPI {
    */
   public checkPurchasesPurchasesCheckPurchasesPost(
     requestBody: Array<string>,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return PurchaseApiFp(this.configuration)
       .checkPurchasesPurchasesCheckPurchasesPost(requestBody, options)
@@ -589,7 +624,7 @@ export class PurchaseApi extends BaseAPI {
    */
   public getDownloadTokenPurchasesGenerateDownloadTokenPost(
     bodyGetDownloadTokenPurchasesGenerateDownloadTokenPost: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return PurchaseApiFp(this.configuration)
       .getDownloadTokenPurchasesGenerateDownloadTokenPost(
@@ -603,15 +638,15 @@ export class PurchaseApi extends BaseAPI {
    * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
    * @summary Get Is Free Software
    * @param {string} appId
-   * @param {string | null} [license]
+   * @param {License} [license]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PurchaseApi
    */
   public getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(
     appId: string,
-    license?: string | null,
-    options?: AxiosRequestConfig,
+    license?: License,
+    options?: RawAxiosRequestConfig,
   ) {
     return PurchaseApiFp(this.configuration)
       .getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet(
@@ -632,7 +667,7 @@ export class PurchaseApi extends BaseAPI {
    */
   public getStorefrontInfoPurchasesStorefrontInfoGet(
     appId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return PurchaseApiFp(this.configuration)
       .getStorefrontInfoPurchasesStorefrontInfoGet(appId, options)
@@ -647,7 +682,7 @@ export class PurchaseApi extends BaseAPI {
    * @memberof PurchaseApi
    */
   public getUpdateTokenPurchasesGenerateUpdateTokenPost(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return PurchaseApiFp(this.configuration)
       .getUpdateTokenPurchasesGenerateUpdateTokenPost(options)

@@ -14,13 +14,25 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AvailableLoginMethodStatus } from "./available-login-method-status"
+import { AvailableMethodLoginProvider } from "./available-method-login-provider"
+// May contain unused imports in some cases
+// @ts-ignore
+import { AvailableMethodLoginStatus } from "./available-method-login-status"
 // May contain unused imports in some cases
 // @ts-ignore
 import { AvailableMethodType } from "./available-method-type"
 // May contain unused imports in some cases
 // @ts-ignore
-import { LoginProvider } from "./login-provider"
+import { LoginIsOrganization } from "./login-is-organization"
+// May contain unused imports in some cases
+// @ts-ignore
+import { LoginName } from "./login-name"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Website } from "./website"
+// May contain unused imports in some cases
+// @ts-ignore
+import { WebsiteToken } from "./website-token"
 
 /**
  *
@@ -36,38 +48,38 @@ export interface AvailableMethod {
   method: AvailableMethodType
   /**
    *
-   * @type {string}
+   * @type {Website}
    * @memberof AvailableMethod
    */
-  website?: string | null
+  website: Website
   /**
    *
-   * @type {string}
+   * @type {WebsiteToken}
    * @memberof AvailableMethod
    */
-  website_token?: string | null
+  website_token: WebsiteToken
   /**
    *
-   * @type {LoginProvider}
+   * @type {AvailableMethodLoginProvider}
    * @memberof AvailableMethod
    */
-  login_provider?: LoginProvider | null
+  login_provider: AvailableMethodLoginProvider
   /**
    *
-   * @type {string}
+   * @type {LoginName}
    * @memberof AvailableMethod
    */
-  login_name?: string | null
+  login_name: LoginName
   /**
    *
-   * @type {boolean}
+   * @type {LoginIsOrganization}
    * @memberof AvailableMethod
    */
-  login_is_organization?: boolean | null
+  login_is_organization: LoginIsOrganization
   /**
    *
-   * @type {AvailableLoginMethodStatus}
+   * @type {AvailableMethodLoginStatus}
    * @memberof AvailableMethod
    */
-  login_status?: AvailableLoginMethodStatus | null
+  login_status: AvailableMethodLoginStatus
 }

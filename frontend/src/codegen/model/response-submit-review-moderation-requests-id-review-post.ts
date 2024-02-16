@@ -14,24 +14,18 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { MissingAppids } from "./missing-appids"
+import { ReviewResponse } from "./review-response"
 
 /**
  *
  * @export
- * @interface CheckPurchasesResponse
+ * @interface ResponseSubmitReviewModerationRequestsIdReviewPost
  */
-export interface CheckPurchasesResponse {
+export interface ResponseSubmitReviewModerationRequestsIdReviewPost {
   /**
    *
-   * @type {string}
-   * @memberof CheckPurchasesResponse
+   * @type {any}
+   * @memberof ResponseSubmitReviewModerationRequestsIdReviewPost
    */
-  detail: string
-  /**
-   *
-   * @type {MissingAppids}
-   * @memberof CheckPurchasesResponse
-   */
-  missing_appids: MissingAppids
+  github_issue_url: any
 }

@@ -12,6 +12,13 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { LastUpdated } from "./last-updated"
+// May contain unused imports in some cases
+// @ts-ignore
+import { ReviewRequestedAt } from "./review-requested-at"
+
 /**
  *
  * @export
@@ -44,14 +51,14 @@ export interface QualityModerationStatus {
   not_passed: number
   /**
    *
-   * @type {string}
+   * @type {LastUpdated}
    * @memberof QualityModerationStatus
    */
-  last_updated: string | null
+  last_updated: LastUpdated
   /**
    *
-   * @type {string}
+   * @type {ReviewRequestedAt}
    * @memberof QualityModerationStatus
    */
-  review_requested_at?: string | null
+  review_requested_at: ReviewRequestedAt
 }

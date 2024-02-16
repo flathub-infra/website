@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { Token } from "./token"
+
 /**
  *
  * @export
@@ -38,10 +42,10 @@ export interface TokenModel {
   name: string
   /**
    *
-   * @type {string}
+   * @type {Token}
    * @memberof TokenModel
    */
-  token?: string | null
+  token: Token
   /**
    *
    * @type {string}

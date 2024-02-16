@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { EndoflifeRebase } from "./endoflife-rebase"
+
 /**
  *
  * @export
@@ -26,8 +30,8 @@ export interface ArchiveRequest {
   endoflife: string
   /**
    *
-   * @type {string}
+   * @type {EndoflifeRebase}
    * @memberof ArchiveRequest
    */
-  endoflife_rebase?: string | null
+  endoflife_rebase?: EndoflifeRebase
 }

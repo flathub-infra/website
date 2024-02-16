@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { UpdatedAt } from "./updated-at"
+
 /**
  *
  * @export
@@ -32,10 +36,10 @@ export interface ModerationAppItem {
   is_new_submission: boolean
   /**
    *
-   * @type {string}
+   * @type {UpdatedAt}
    * @memberof ModerationAppItem
    */
-  updated_at?: string | null
+  updated_at: UpdatedAt
   /**
    *
    * @type {Array<string>}

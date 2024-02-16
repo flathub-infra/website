@@ -23,5 +23,5 @@ export interface CheckPurchasesResponseSuccess {
    * @type {string}
    * @memberof CheckPurchasesResponseSuccess
    */
-  status?: string
+  status: string
 }

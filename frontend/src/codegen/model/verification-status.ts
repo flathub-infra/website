@@ -14,10 +14,25 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { LoginProvider } from "./login-provider"
+import { AvailableMethodLoginProvider } from "./available-method-login-provider"
 // May contain unused imports in some cases
 // @ts-ignore
-import { VerificationMethod } from "./verification-method"
+import { Detail } from "./detail"
+// May contain unused imports in some cases
+// @ts-ignore
+import { LoginIsOrganization } from "./login-is-organization"
+// May contain unused imports in some cases
+// @ts-ignore
+import { LoginName } from "./login-name"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Timestamp } from "./timestamp"
+// May contain unused imports in some cases
+// @ts-ignore
+import { VerificationStatusMethod } from "./verification-status-method"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Website } from "./website"
 
 /**
  *
@@ -33,44 +48,44 @@ export interface VerificationStatus {
   verified: boolean
   /**
    *
-   * @type {string}
+   * @type {Timestamp}
    * @memberof VerificationStatus
    */
-  timestamp?: string | null
+  timestamp: Timestamp
   /**
    *
-   * @type {VerificationMethod}
+   * @type {VerificationStatusMethod}
    * @memberof VerificationStatus
    */
-  method?: VerificationMethod | null
+  method: VerificationStatusMethod
   /**
    *
-   * @type {string}
+   * @type {Website}
    * @memberof VerificationStatus
    */
-  website?: string | null
+  website: Website
   /**
    *
-   * @type {LoginProvider}
+   * @type {AvailableMethodLoginProvider}
    * @memberof VerificationStatus
    */
-  login_provider?: LoginProvider | null
+  login_provider: AvailableMethodLoginProvider
   /**
    *
-   * @type {string}
+   * @type {LoginName}
    * @memberof VerificationStatus
    */
-  login_name?: string | null
+  login_name: LoginName
   /**
    *
-   * @type {boolean}
+   * @type {LoginIsOrganization}
    * @memberof VerificationStatus
    */
-  login_is_organization?: boolean | null
+  login_is_organization: LoginIsOrganization
   /**
    *
-   * @type {string}
+   * @type {Detail}
    * @memberof VerificationStatus
    */
-  detail?: string | null
+  detail: Detail
 }

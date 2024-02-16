@@ -12,6 +12,10 @@
  * Do not edit the class manually.
  */
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { IssuedTo } from "./issued-to"
+
 /**
  *
  * @export
@@ -56,10 +60,10 @@ export interface TokenResponse {
   issued_at: number
   /**
    *
-   * @type {string}
+   * @type {IssuedTo}
    * @memberof TokenResponse
    */
-  issued_to: string | null
+  issued_to: IssuedTo
   /**
    *
    * @type {number}

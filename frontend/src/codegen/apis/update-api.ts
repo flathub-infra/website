@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 /**
  * UpdateApi - axios parameter creator
@@ -52,7 +53,7 @@ export const UpdateApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     processTransfersUpdateProcessPendingTransfersPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/update/process-pending-transfers`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -91,7 +92,7 @@ export const UpdateApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     updateStatsUpdateStatsPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/update/stats`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -130,7 +131,7 @@ export const UpdateApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     updateUpdatePost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/update`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -179,20 +180,26 @@ export const UpdateApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async processTransfersUpdateProcessPendingTransfersPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.processTransfersUpdateProcessPendingTransfersPost(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "UpdateApi.processTransfersUpdateProcessPendingTransfersPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -201,18 +208,24 @@ export const UpdateApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async updateStatsUpdateStatsPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.updateStatsUpdateStatsPost(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["UpdateApi.updateStatsUpdateStatsPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -221,18 +234,24 @@ export const UpdateApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async updateUpdatePost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.updateUpdatePost(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["UpdateApi.updateUpdatePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -256,7 +275,7 @@ export const UpdateApiFactory = function (
      */
     processTransfersUpdateProcessPendingTransfersPost(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .processTransfersUpdateProcessPendingTransfersPost(options)
         .then((request) => request(axios, basePath))
@@ -267,7 +286,7 @@ export const UpdateApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateStatsUpdateStatsPost(options?: any): AxiosPromise<void> {
+    updateStatsUpdateStatsPost(options?: any): AxiosPromise<any> {
       return localVarFp
         .updateStatsUpdateStatsPost(options)
         .then((request) => request(axios, basePath))
@@ -278,7 +297,7 @@ export const UpdateApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    updateUpdatePost(options?: any): AxiosPromise<void> {
+    updateUpdatePost(options?: any): AxiosPromise<any> {
       return localVarFp
         .updateUpdatePost(options)
         .then((request) => request(axios, basePath))
@@ -301,7 +320,7 @@ export class UpdateApi extends BaseAPI {
    * @memberof UpdateApi
    */
   public processTransfersUpdateProcessPendingTransfersPost(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return UpdateApiFp(this.configuration)
       .processTransfersUpdateProcessPendingTransfersPost(options)
@@ -315,7 +334,7 @@ export class UpdateApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof UpdateApi
    */
-  public updateStatsUpdateStatsPost(options?: AxiosRequestConfig) {
+  public updateStatsUpdateStatsPost(options?: RawAxiosRequestConfig) {
     return UpdateApiFp(this.configuration)
       .updateStatsUpdateStatsPost(options)
       .then((request) => request(this.axios, this.basePath))
@@ -328,7 +347,7 @@ export class UpdateApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof UpdateApi
    */
-  public updateUpdatePost(options?: AxiosRequestConfig) {
+  public updateUpdatePost(options?: RawAxiosRequestConfig) {
     return UpdateApiFp(this.configuration)
       .updateUpdatePost(options)
       .then((request) => request(this.axios, this.basePath))

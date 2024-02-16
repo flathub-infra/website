@@ -13,7 +13,7 @@
  */
 
 import type { Configuration } from "../configuration"
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from "axios"
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
 import globalAxios from "axios"
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -36,6 +36,7 @@ import {
   RequestArgs,
   BaseAPI,
   RequiredError,
+  operationServerMap,
 } from "../base"
 // @ts-ignore
 import { ConnectedAccountProvider } from "../model"
@@ -72,7 +73,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     continueGithubFlowAuthLoginGithubPost: async (
       data: Data,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
       assertParamExists("continueGithubFlowAuthLoginGithubPost", "data", data)
@@ -122,7 +123,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     continueGitlabFlowAuthLoginGitlabPost: async (
       data: Data,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
       assertParamExists("continueGitlabFlowAuthLoginGitlabPost", "data", data)
@@ -172,7 +173,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     continueGnomeFlowAuthLoginGnomePost: async (
       data: Data,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
       assertParamExists("continueGnomeFlowAuthLoginGnomePost", "data", data)
@@ -222,7 +223,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     continueGoogleFlowAuthLoginGooglePost: async (
       data: Data,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
       assertParamExists("continueGoogleFlowAuthLoginGooglePost", "data", data)
@@ -272,7 +273,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     continueKdeFlowAuthLoginKdePost: async (
       data: Data,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'data' is not null or undefined
       assertParamExists("continueKdeFlowAuthLoginKdePost", "data", data)
@@ -320,7 +321,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/accept-publisher-agreement`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -361,7 +362,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     doChangeDefaultAccountAuthChangeDefaultAccountPost: async (
       provider: ConnectedAccountProvider,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'provider' is not null or undefined
       assertParamExists(
@@ -412,7 +413,7 @@ export const AuthApiAxiosParamCreator = function (
      */
     doDeleteuserAuthDeleteuserPost: async (
       userDeleteRequest: UserDeleteRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'userDeleteRequest' is not null or undefined
       assertParamExists(
@@ -464,7 +465,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     doLogoutAuthLogoutPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/logout`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -503,7 +504,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/refresh-dev-flatpaks`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -542,7 +543,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getDeleteuserAuthDeleteuserGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/deleteuser`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -581,7 +582,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getLoginMethodsAuthLoginGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/login`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -620,7 +621,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     getUserinfoAuthUserinfoGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/userinfo`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -659,7 +660,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     startGithubFlowAuthLoginGithubGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/login/github`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -698,7 +699,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     startGitlabFlowAuthLoginGitlabGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/login/gitlab`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -737,7 +738,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     startGnomeFlowAuthLoginGnomeGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/login/gnome`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -776,7 +777,7 @@ export const AuthApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     startKdeFlowAuthLoginKdeGet: async (
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/login/kde`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -827,21 +828,27 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async continueGithubFlowAuthLoginGithubPost(
       data: Data,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.continueGithubFlowAuthLoginGithubPost(
           data,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.continueGithubFlowAuthLoginGithubPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Process the result of the Gitlab oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the gitlab oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from gitlab\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
@@ -852,21 +859,27 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async continueGitlabFlowAuthLoginGitlabPost(
       data: Data,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.continueGitlabFlowAuthLoginGitlabPost(
           data,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.continueGitlabFlowAuthLoginGitlabPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Process the result of the GNOME oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the gitlab oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from GNOME gitlab\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
@@ -877,21 +890,27 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async continueGnomeFlowAuthLoginGnomePost(
       data: Data,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.continueGnomeFlowAuthLoginGnomePost(
           data,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.continueGnomeFlowAuthLoginGnomePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Process the result of the Google oauth flow  This expects to have some JSON posted to it which (on success) contains:  ``` {     \"state\": \"the state code\",     \"code\": \"the google oauth code\", } ```  On failure, the frontend should pass through the state and error so that the backend can clear the flow tokens  ``` {     \"state\": \"the state code\",     \"error\": \"the error code returned from google\", } ```  This endpoint will either return an error, if something was wrong in the backend state machines; or it will return a success code with an indication of whether or not the login sequence completed OK.
@@ -902,21 +921,27 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async continueGoogleFlowAuthLoginGooglePost(
       data: Data,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.continueGoogleFlowAuthLoginGooglePost(
           data,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.continueGoogleFlowAuthLoginGooglePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -927,21 +952,27 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async continueKdeFlowAuthLoginKdePost(
       data: Data,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.continueKdeFlowAuthLoginKdePost(
           data,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.continueKdeFlowAuthLoginKdePost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -950,20 +981,26 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AuthApi.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Changes the user\'s default account, which determines which display name and email we use.
@@ -974,7 +1011,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async doChangeDefaultAccountAuthChangeDefaultAccountPost(
       provider: ConnectedAccountProvider,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
     > {
@@ -983,12 +1020,18 @@ export const AuthApiFp = function (configuration?: Configuration) {
           provider,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AuthApi.doChangeDefaultAccountAuthChangeDefaultAccountPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Clear the login state. This will then delete the user\'s account and associated data. Unless there is an error.  The input to this should be of the form:  ```json {     \"token\": \"...\", } ```
@@ -999,7 +1042,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
      */
     async doDeleteuserAuthDeleteuserPost(
       userDeleteRequest: UserDeleteRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1011,12 +1054,18 @@ export const AuthApiFp = function (configuration?: Configuration) {
           userDeleteRequest,
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.doDeleteuserAuthDeleteuserPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Clear the login state.  This will discard tokens which access socials, and will clear the session cookie so that the user is not logged in.
@@ -1025,18 +1074,24 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async doLogoutAuthLogoutPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.doLogoutAuthLogoutPost(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.doLogoutAuthLogoutPost"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1045,7 +1100,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1056,12 +1111,18 @@ export const AuthApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap[
+          "AuthApi.doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost"
+        ]?.[localVarOperationServerIndex]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Delete a user\'s login information. If they\'re not logged in, they\'ll get a `403` return. Otherwise they will get an option to delete their account and data.
@@ -1070,7 +1131,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getDeleteuserAuthDeleteuserGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1079,12 +1140,18 @@ export const AuthApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getDeleteuserAuthDeleteuserGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.getDeleteuserAuthDeleteuserGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the login methods available from the backend.  For each method returned, flow starts with a `GET` to the endpoint `.../login/{method}` and upon completion from the user-agent, with a `POST` to that same endpoint name.  Each method is also given a button icon and some text to use, though frontends with localisation may choose to render other text instead.
@@ -1093,7 +1160,7 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getLoginMethodsAuthLoginGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (
         axios?: AxiosInstance,
@@ -1102,12 +1169,18 @@ export const AuthApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getLoginMethodsAuthLoginGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.getLoginMethodsAuthLoginGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Retrieve the current login\'s user information.  If the user is not logged in you will get a `204` return.  Otherwise you will receive JSON describing the currently logged in user, for example:  ``` {     \"displayname\": \"Mx Human Person\",     \"dev_flatpaks\": [ \"org.people.human.Appname\" ],     \"owned_flatpaks\": [ \"org.foo.bar.Appname\" ],     \"accepted_publisher-agreement_at\": \"2023-06-23T20:38:28.553028\" } ```  If the user has an active github login, you\'ll also get their github login name, and avatar.  If they have some other login, details for that login will be provided.  dev_flatpaks is filtered against IDs available in AppStream
@@ -1116,18 +1189,24 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getUserinfoAuthUserinfoGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserInfo>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.getUserinfoAuthUserinfoGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.getUserinfoAuthUserinfoGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Starts a github login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to Github  Upon return from Github to the frontend, the frontend should POST to this endpoint with the relevant data from Github  If the user is already logged in, and has a valid github token stored, then this will return an error instead.
@@ -1136,20 +1215,26 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async startGithubFlowAuthLoginGithubGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.startGithubFlowAuthLoginGithubGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.startGithubFlowAuthLoginGithubGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Starts a gitlab login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to Gitlab  Upon return from Gitlab to the frontend, the frontend should POST to this endpoint with the relevant data from Gitlab  If the user is already logged in, and has a valid gitlab token stored, then this will return an error instead.
@@ -1158,20 +1243,26 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async startGitlabFlowAuthLoginGitlabGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.startGitlabFlowAuthLoginGitlabGet(
           options,
         )
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.startGitlabFlowAuthLoginGitlabGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      * Starts a GNOME login flow.  This will set session cookie values and will return a redirect.  The frontend is expected to save the cookie for use later, and follow the redirect to GNOME Gitlab  Upon return from GNOME to the frontend, the frontend should POST to this endpoint with the relevant data from GNOME Gitlab  If the user is already logged in, and has a valid GNOME Gitlab token stored, then this will return an error instead.
@@ -1180,18 +1271,24 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async startGnomeFlowAuthLoginGnomeGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.startGnomeFlowAuthLoginGnomeGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.startGnomeFlowAuthLoginGnomeGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
     /**
      *
@@ -1200,18 +1297,24 @@ export const AuthApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async startKdeFlowAuthLoginKdeGet(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.startKdeFlowAuthLoginKdeGet(options)
-      return createRequestFunction(
-        localVarAxiosArgs,
-        globalAxios,
-        BASE_PATH,
-        configuration,
-      )
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0
+      const localVarOperationServerBasePath =
+        operationServerMap["AuthApi.startKdeFlowAuthLoginKdeGet"]?.[
+          localVarOperationServerIndex
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath)
     },
   }
 }
@@ -1237,7 +1340,7 @@ export const AuthApiFactory = function (
     continueGithubFlowAuthLoginGithubPost(
       data: Data,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .continueGithubFlowAuthLoginGithubPost(data, options)
         .then((request) => request(axios, basePath))
@@ -1252,7 +1355,7 @@ export const AuthApiFactory = function (
     continueGitlabFlowAuthLoginGitlabPost(
       data: Data,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .continueGitlabFlowAuthLoginGitlabPost(data, options)
         .then((request) => request(axios, basePath))
@@ -1267,7 +1370,7 @@ export const AuthApiFactory = function (
     continueGnomeFlowAuthLoginGnomePost(
       data: Data,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .continueGnomeFlowAuthLoginGnomePost(data, options)
         .then((request) => request(axios, basePath))
@@ -1282,7 +1385,7 @@ export const AuthApiFactory = function (
     continueGoogleFlowAuthLoginGooglePost(
       data: Data,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .continueGoogleFlowAuthLoginGooglePost(data, options)
         .then((request) => request(axios, basePath))
@@ -1297,7 +1400,7 @@ export const AuthApiFactory = function (
     continueKdeFlowAuthLoginKdePost(
       data: Data,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .continueKdeFlowAuthLoginKdePost(data, options)
         .then((request) => request(axios, basePath))
@@ -1310,7 +1413,7 @@ export const AuthApiFactory = function (
      */
     doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<any> {
       return localVarFp
         .doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(options)
         .then((request) => request(axios, basePath))
@@ -1351,7 +1454,7 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    doLogoutAuthLogoutPost(options?: any): AxiosPromise<void> {
+    doLogoutAuthLogoutPost(options?: any): AxiosPromise<any> {
       return localVarFp
         .doLogoutAuthLogoutPost(options)
         .then((request) => request(axios, basePath))
@@ -1412,7 +1515,7 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startGithubFlowAuthLoginGithubGet(options?: any): AxiosPromise<void> {
+    startGithubFlowAuthLoginGithubGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .startGithubFlowAuthLoginGithubGet(options)
         .then((request) => request(axios, basePath))
@@ -1423,7 +1526,7 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startGitlabFlowAuthLoginGitlabGet(options?: any): AxiosPromise<void> {
+    startGitlabFlowAuthLoginGitlabGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .startGitlabFlowAuthLoginGitlabGet(options)
         .then((request) => request(axios, basePath))
@@ -1434,7 +1537,7 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startGnomeFlowAuthLoginGnomeGet(options?: any): AxiosPromise<void> {
+    startGnomeFlowAuthLoginGnomeGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .startGnomeFlowAuthLoginGnomeGet(options)
         .then((request) => request(axios, basePath))
@@ -1445,7 +1548,7 @@ export const AuthApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    startKdeFlowAuthLoginKdeGet(options?: any): AxiosPromise<void> {
+    startKdeFlowAuthLoginKdeGet(options?: any): AxiosPromise<any> {
       return localVarFp
         .startKdeFlowAuthLoginKdeGet(options)
         .then((request) => request(axios, basePath))
@@ -1470,7 +1573,7 @@ export class AuthApi extends BaseAPI {
    */
   public continueGithubFlowAuthLoginGithubPost(
     data: Data,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .continueGithubFlowAuthLoginGithubPost(data, options)
@@ -1487,7 +1590,7 @@ export class AuthApi extends BaseAPI {
    */
   public continueGitlabFlowAuthLoginGitlabPost(
     data: Data,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .continueGitlabFlowAuthLoginGitlabPost(data, options)
@@ -1504,7 +1607,7 @@ export class AuthApi extends BaseAPI {
    */
   public continueGnomeFlowAuthLoginGnomePost(
     data: Data,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .continueGnomeFlowAuthLoginGnomePost(data, options)
@@ -1521,7 +1624,7 @@ export class AuthApi extends BaseAPI {
    */
   public continueGoogleFlowAuthLoginGooglePost(
     data: Data,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .continueGoogleFlowAuthLoginGooglePost(data, options)
@@ -1538,7 +1641,7 @@ export class AuthApi extends BaseAPI {
    */
   public continueKdeFlowAuthLoginKdePost(
     data: Data,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .continueKdeFlowAuthLoginKdePost(data, options)
@@ -1553,7 +1656,7 @@ export class AuthApi extends BaseAPI {
    * @memberof AuthApi
    */
   public doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost(options)
@@ -1570,7 +1673,7 @@ export class AuthApi extends BaseAPI {
    */
   public doChangeDefaultAccountAuthChangeDefaultAccountPost(
     provider: ConnectedAccountProvider,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .doChangeDefaultAccountAuthChangeDefaultAccountPost(provider, options)
@@ -1587,7 +1690,7 @@ export class AuthApi extends BaseAPI {
    */
   public doDeleteuserAuthDeleteuserPost(
     userDeleteRequest: UserDeleteRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .doDeleteuserAuthDeleteuserPost(userDeleteRequest, options)
@@ -1601,7 +1704,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public doLogoutAuthLogoutPost(options?: AxiosRequestConfig) {
+  public doLogoutAuthLogoutPost(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .doLogoutAuthLogoutPost(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1615,7 +1718,7 @@ export class AuthApi extends BaseAPI {
    * @memberof AuthApi
    */
   public doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return AuthApiFp(this.configuration)
       .doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(options)
@@ -1629,7 +1732,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public getDeleteuserAuthDeleteuserGet(options?: AxiosRequestConfig) {
+  public getDeleteuserAuthDeleteuserGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .getDeleteuserAuthDeleteuserGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1642,7 +1745,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public getLoginMethodsAuthLoginGet(options?: AxiosRequestConfig) {
+  public getLoginMethodsAuthLoginGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .getLoginMethodsAuthLoginGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1655,7 +1758,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public getUserinfoAuthUserinfoGet(options?: AxiosRequestConfig) {
+  public getUserinfoAuthUserinfoGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .getUserinfoAuthUserinfoGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1668,7 +1771,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public startGithubFlowAuthLoginGithubGet(options?: AxiosRequestConfig) {
+  public startGithubFlowAuthLoginGithubGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .startGithubFlowAuthLoginGithubGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1681,7 +1784,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public startGitlabFlowAuthLoginGitlabGet(options?: AxiosRequestConfig) {
+  public startGitlabFlowAuthLoginGitlabGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .startGitlabFlowAuthLoginGitlabGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1694,7 +1797,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public startGnomeFlowAuthLoginGnomeGet(options?: AxiosRequestConfig) {
+  public startGnomeFlowAuthLoginGnomeGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .startGnomeFlowAuthLoginGnomeGet(options)
       .then((request) => request(this.axios, this.basePath))
@@ -1707,7 +1810,7 @@ export class AuthApi extends BaseAPI {
    * @throws {RequiredError}
    * @memberof AuthApi
    */
-  public startKdeFlowAuthLoginKdeGet(options?: AxiosRequestConfig) {
+  public startKdeFlowAuthLoginKdeGet(options?: RawAxiosRequestConfig) {
     return AuthApiFp(this.configuration)
       .startKdeFlowAuthLoginKdeGet(options)
       .then((request) => request(this.axios, this.basePath))

@@ -17,7 +17,7 @@
 import { Platform } from "./platform"
 
 /**
- * Global vending environment configuration values
+ *      Global vending environment configuration values
  * @export
  * @interface VendingConfig
  */
