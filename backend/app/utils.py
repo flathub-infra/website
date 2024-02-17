@@ -116,11 +116,10 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 for image in screenshot:
                     if (
                         image.attrib.get("type") == "thumbnail"
-                        and image.attrib.get(
-                            "{http://www.w3.org/XML/1998/namespace}lang"
-                        )
-                        is None
-                    ):
+                        or image.attrib.get("type") == "source"
+                    ) and image.attrib.get(
+                        "{http://www.w3.org/XML/1998/namespace}lang"
+                    ) is None:
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
                         attrs["sizes"][f"{width}x{height}"] = image.text
