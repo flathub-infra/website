@@ -27,6 +27,13 @@ export interface DesktopAppstream {
   metadata?: Metadata
   keywords?: string[]
   is_free_license: boolean
+  branding?: Branding[]
+}
+
+export interface Branding {
+  value: string
+  scheme_preference: "light" | "dark"
+  type: "primary"
 }
 
 export interface AddonAppstream {
