@@ -22,21 +22,21 @@
     <url type="homepage">https://github.com/sugarlabs/maze-activity</url>
     <screenshots>
       <screenshot>
-        <image type="source">https://i.imgur.com/imoTbzP.png</image>
+        <image type="source" height="500" width="800">https://i.imgur.com/imoTbzP.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png</image>
       </screenshot>
       <screenshot type="default">
-        <image type="source">https://i.imgur.com/GO11pbh.png</image>
+        <image type="source" height="500" width="800">https://i.imgur.com/GO11pbh.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png</image>
       </screenshot>
       <screenshot>
-        <image type="source">https://i.imgur.com/RH1koq6.png</image>
+        <image type="source" height="500" width="800">https://i.imgur.com/RH1koq6.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png</image>
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png</image>
@@ -138,7 +138,7 @@
     <url type="homepage">https://www.anydesk.com</url>
     <screenshots>
       <screenshot type="default">
-        <image type="source">https://github.com/flathub/com.anydesk.Anydesk/raw/b27de5e35d6651a35a2ea8e2568dfc4d021c4b0c/Screenshots/anydesk-v5-linux-main-screen-en-2e1b4e.png</image>
+        <image type="source" height="500" width="800">https://github.com/flathub/com.anydesk.Anydesk/raw/b27de5e35d6651a35a2ea8e2568dfc4d021c4b0c/Screenshots/anydesk-v5-linux-main-screen-en-2e1b4e.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/com.anydesk.Anydesk-stable/624x351/com.anydesk.Anydesk-b8f4a58c33a1e1603bad8a835f244173.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/com.anydesk.Anydesk-stable/112x63/com.anydesk.Anydesk-b8f4a58c33a1e1603bad8a835f244173.png</image>
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/com.anydesk.Anydesk-stable/224x126/com.anydesk.Anydesk-b8f4a58c33a1e1603bad8a835f244173.png</image>
@@ -218,7 +218,7 @@
     <url type="translate">https://github.com/wps-community/wps_i18n</url>
     <screenshots>
       <screenshot type="default">
-        <image type="source">https://www.wps.com/images/wps4linux/Women_in_Dance_SpellCheck.png</image>
+        <image type="source" height="500" width="800">https://www.wps.com/images/wps4linux/Women_in_Dance_SpellCheck.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/624x351/com.wps.Office-3f78a399034d6606d866e875e6938d51.png</image>
         <image type="thumbnail" height="702" width="1248">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/1248x702/com.wps.Office-3f78a399034d6606d866e875e6938d51.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/112x63/com.wps.Office-3f78a399034d6606d866e875e6938d51.png</image>
@@ -226,7 +226,7 @@
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/752x423/com.wps.Office-3f78a399034d6606d866e875e6938d51.png</image>
       </screenshot>
       <screenshot>
-        <image type="source">https://www.wps.com/images/wps4linux/Presentation_Slide2.png</image>
+        <image type="source" height="500" width="800">https://www.wps.com/images/wps4linux/Presentation_Slide2.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/624x351/com.wps.Office-32f9654272b966cb0be4a4cd14e8d072.png</image>
         <image type="thumbnail" height="702" width="1248">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/1248x702/com.wps.Office-32f9654272b966cb0be4a4cd14e8d072.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/112x63/com.wps.Office-32f9654272b966cb0be4a4cd14e8d072.png</image>
@@ -234,7 +234,7 @@
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/752x423/com.wps.Office-32f9654272b966cb0be4a4cd14e8d072.png</image>
       </screenshot>
       <screenshot>
-        <image type="source">https://www.wps.com/images/wps4linux/Spreadsheets_Screenshot_Arial.png</image>
+        <image type="source" height="500" width="800">https://www.wps.com/images/wps4linux/Spreadsheets_Screenshot_Arial.png</image>
         <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/624x351/com.wps.Office-f25c528d533cf5a62d3093a0d4656007.png</image>
         <image type="thumbnail" height="702" width="1248">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/1248x702/com.wps.Office-f25c528d533cf5a62d3093a0d4656007.png</image>
         <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/com.wps.Office-stable/112x63/com.wps.Office-f25c528d533cf5a62d3093a0d4656007.png</image>
