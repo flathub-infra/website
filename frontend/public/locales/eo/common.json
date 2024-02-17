@@ -500,7 +500,9 @@
     "not-passed": "Netaŭga",
     "app-data-review-pending": "Reviziotaj programaj metadatenoj",
     "passed": "Taŭga",
-    "request-review": "Peti revizion"
+    "request-review": "Peti revizion",
+    "request-a-review-question": "Ĉu peti revizion?",
+    "request-review-description": "Nia teamo revizios vian programon pri problemoj pri kvalito. Bonvolu reveni post kelko da tagoj."
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -534,5 +536,22 @@
   "build-x": "Kunmetita {{build-ago}}",
   "can-access-input-devices": "Povas atingi enigilojn kiel klavarojn, musojn aŭ stirstangojn",
   "app-of-the-day": "Programo de la tago",
-  "get-it-on": "Jen ĉe"
+  "get-it-on": "Jen ĉe",
+  "press-information-block": "<p>Ni feliĉe respondos al demandoj de ĵurnalistoj kaj teknikaj verkistoj. Ni povas ankaŭ plani intervjuojn.</p><1>Grafikaĵoj kaj emblemoj</1><2>Grafikaĵoj pri Flathub troviĝas <2>ĉi tie</2>.</2><3>Kontakto</3><4>Bonvolu direkti gazetarajn petojn, ekzemple petojn por komentoj kaj intervjuoj, al <2>la administristoj de Flathub</2>.</4>",
+  "not-logged-in": "Vi ne estas salutinta",
+  "invalid-appid": "Nevalida programidentigilo",
+  "cannot-abandon-app": "Ne povas forlasi programon",
+  "not-onboarded": "Bonvolu enkondukiĝi unue",
+  "press-information": "Informoj por la gazetaro",
+  "confirm": "Konfirmi",
+  "archive": "Enarĥivigi",
+  "archive-app": "Enarĥivigi ĉi tiun programon",
+  "enter-end-of-life-message": "Tajpu mesaĝon pri fino de vivciklo",
+  "danger-zone": "Danĝerejo",
+  "switch-to-direct-upload": "Ŝanĝi al rekta alŝuto de programo",
+  "do-you-really-want-to-switch-to-direct-upload": "Ĉu vi certas? Se vi decidas rekte alŝuti programon, vi ne povas malfari tiun decidon.",
+  "do-you-really-want-to-archive-app": "Ĉu vi certas? Tio nevalidigos alŝutajn ĵetonojn kaj enarĥivigos la programon.",
+  "rebase-onto-other-app": "Tajpu la programidentigilon, sur kiun via programon rebaziĝos",
+  "manage-x": "Administri {{app-name}}",
+  "install-x": "Instali {{app-name}} sur Linux"
 }

@@ -552,5 +552,7 @@
   "switch-to-direct-upload": "Cambiar la aplicación a carga directa",
   "rebase-onto-other-app": "Introduzca el ID de la aplicación en la que se basará su solicitud",
   "manage-x": "Administrar {{app-name}}",
-  "install-x": "Instalar {{app-name}} en Linux"
+  "install-x": "Instalar {{app-name}} en Linux",
+  "press-information": "Información de prensa",
+  "press-information-block": "<p>Estamos encantados de responder a las preguntas de periodistas y escritores técnicos. También se pueden concertar entrevistas.</p><1>Gráficos y logotipos</1><2>Recursos gráficos de Flathub pueden encontrarse <2>aquí</2>.</2><3>Contacto</3><4>Las consultas de la prensa, incluidas las solicitudes de comentarios y entrevistas, pueden dirigirse a <2>los responsables de Flathub</2>.</4>"
 }
