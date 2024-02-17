@@ -550,5 +550,7 @@
   "enter-end-of-life-message": "輸入產品壽命終止訊息",
   "rebase-onto-other-app": "輸入您的應用程式將要重新變更基底的應用程式 ID",
   "manage-x": "管理 {{app-name}}",
-  "install-x": "在 Linux 上安裝 {{app-name}}"
+  "install-x": "在 Linux 上安裝 {{app-name}}",
+  "press-information": "新聞資訊",
+  "press-information-block": "<p>我們非常樂意回答記者與科技作家的問題。也可安排面試機會。</p><1>圖形與標誌</1><2>Flathub 圖形資源可在<2>此處</2>找到。</2><3>聯絡資訊</3 ><4>媒體詢問，包括評論與採訪請求，可以直接聯絡<2>Flathub 維護者</2>。</4>"
 }
