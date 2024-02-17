@@ -76,7 +76,7 @@ const Modal: FunctionComponent<Props> = ({
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform w-full overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-start shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
-                  <div className="absolute end-0 top-0 hidden pe-6 pt-6 sm:block">
+                  <div className="absolute end-0 top-0 pe-6 pt-6">
                     <button
                       type="button"
                       className={clsx(
