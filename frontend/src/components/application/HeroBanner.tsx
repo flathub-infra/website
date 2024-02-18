@@ -76,44 +76,54 @@ export const HeroBanner = ({
 
   return (
     <swiper-container init={false} ref={swiperRef}>
-      {appstreams.map((app) => (
-        <swiper-slide className="overflow-hidden" key={`hero-${app.id}`}>
-          <Link
-            href={`/apps/${app.id}`}
-            passHref
-            style={{ backgroundImage: `url(${app.icon})` }}
-            className={clsx(
-              "bg-[length:1px_1px]",
-              "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
-              "hover:cursor-grab",
-              "h-full",
-            )}
-          >
-            <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
-              <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
-                <div className="relative flex h-[64px] w-[64px] sm:h-[96px] sm:w-[96px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
-                  <LogoImage iconUrl={app.icon} appName={app.name} />
+      {appstreams.map((app) => {
+        const brandingColor = app?.branding?.find((a) => {
+          return a.scheme_preference === (resolvedTheme as "light" | "dark")
+        })
+
+        return (
+          <swiper-slide className="overflow-hidden" key={`hero-${app.id}`}>
+            <Link
+              href={`/apps/${app.id}`}
+              passHref
+              style={{
+                backgroundImage: brandingColor ? undefined : `url(${app.icon})`,
+              }}
+              className={clsx(
+                brandingColor
+                  ? `bg-[${brandingColor.value}]`
+                  : "bg-[length:1px_1px]",
+                "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
+                "hover:cursor-grab",
+                "h-full",
+              )}
+            >
+              <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
+                <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
+                  <div className="relative flex h-[64px] w-[64px] sm:h-[96px] sm:w-[96px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+                    <LogoImage iconUrl={app.icon} appName={app.name} />
+                  </div>
+                  <div className="flex pt-4">
+                    <span className="truncate whitespace-nowrap text-2xl font-black text-flathub-dark-gunmetal dark:text-flathub-lotion">
+                      {app.name}
+                    </span>
+                  </div>
+                  <div className="line-clamp-2 text-sm text-center text-flathub-dark-gunmetal dark:text-flathub-lotion lg:line-clamp-3 pb-8">
+                    {app.summary}
+                  </div>
                 </div>
-                <div className="flex pt-4">
-                  <span className="truncate whitespace-nowrap text-2xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-                    {app.name}
-                  </span>
-                </div>
-                <div className="line-clamp-2 text-sm text-center text-flathub-dark-gunmetal dark:text-flathub-gainsborow lg:line-clamp-3 pb-8">
-                  {app.summary}
+                <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
+                  <Image
+                    src={pickScreenshotSize(app.screenshots[0])}
+                    alt={app.name}
+                    className="absolute -bottom-24 rounded-lg"
+                  />
                 </div>
               </div>
-              <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
-                <Image
-                  src={pickScreenshotSize(app.screenshots[0])}
-                  alt={app.name}
-                  className="absolute -bottom-24 rounded-lg"
-                />
-              </div>
-            </div>
-          </Link>
-        </swiper-slide>
-      ))}
+            </Link>
+          </swiper-slide>
+        )
+      })}
     </swiper-container>
   )
 }
