@@ -99,7 +99,7 @@ export default function Home({
                   <div className="mb-0 text-2xl font-extrabold">
                     {t("flathub-the-linux-app-store")}
                   </div>
-                  <p className="introduction mb-8 mt-2 max-w-2xl font-light">
+                  <p className="introduction mb-4 mt-2 max-w-2xl font-light">
                     {t("flathub-index-description")}
                   </p>
                   <div className="flex flex-wrap gap-3">
