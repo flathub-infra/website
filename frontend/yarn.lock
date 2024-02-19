@@ -10964,7 +10964,7 @@ __metadata:
     react-toastify: "npm:^9.1.3"
     redis: "npm:^4.6.12"
     sass: "npm:^1.70.0"
-    satori: "npm:^0.10.11"
+    satori: "npm:^0.10.13"
     sharp: "npm:^0.33.2"
     spdx-license-list: "npm:^6.8.0"
     storybook: "npm:^7.6.7"
@@ -15983,9 +15983,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"satori@npm:^0.10.11":
-  version: 0.10.11
-  resolution: "satori@npm:0.10.11"
+"satori@npm:^0.10.13":
+  version: 0.10.13
+  resolution: "satori@npm:0.10.13"
   dependencies:
     "@shuding/opentype.js": "npm:1.4.0-beta.0"
     css-background-parser: "npm:^0.1.0"
@@ -15997,7 +15997,7 @@ __metadata:
     parse-css-color: "npm:^0.2.1"
     postcss-value-parser: "npm:^4.2.0"
     yoga-wasm-web: "npm:^0.3.3"
-  checksum: dcadd23fb330033fb55a41d5a69d9c5c32b4ec36bf9ba26d2d2e64852f74c4a4e0efffe9dc94071cef66135a743f00cfd6eb699fd327b193a96fea34e3ba8726
+  checksum: 21258f971463f6dfb7c64a11d5407507fc210c728adda5df13630f461b169a6b49a67b0cb8a41861616817b6816a11bc8a64a5d75e399d164a2a8130e74901e5
   languageName: node
   linkType: hard
 
