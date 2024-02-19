@@ -68,12 +68,12 @@ export default function Home({
   return (
     <>
       <NextSeo description={t("flathub-description")} />
-      <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-4 lg:space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
           {heroBannerAppstreams.length > 0 && (
             <HeroBanner appstreams={heroBannerAppstreams} />
           )}
-          <div className="flex flex-col lg:flex-row gap-10">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-10">
             <div className="lg:w-1/2">
               <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
             </div>
