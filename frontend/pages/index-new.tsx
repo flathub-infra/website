@@ -97,7 +97,7 @@ export default function Home({
               >
                 <div className="prose dark:prose-invert max-w-none">
                   <div className="mb-0 text-2xl font-extrabold">
-                    {t("the-linux-app-store")}
+                    {t("flathub-the-linux-app-store")}
                   </div>
                   <p className="introduction mb-8 mt-2 max-w-2xl font-light">
                     {t("flathub-index-description")}

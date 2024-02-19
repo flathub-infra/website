@@ -370,6 +370,7 @@
   "filters": "Filters",
   "runtime-distribution": "Runtime Distribution",
   "the-linux-app-store": "The Linux App Store",
+  "flathub-the-linux-app-store": "Flathub is the App Store for Linux",
   "flathub-index-description": "Get the latest versions of all your favorite apps, for any Linux distribution",
   "app-eol": "This application is no longer available on Flathub",
   "distribution-flathub-setup": "{{distribution}} Flathub Setup",
