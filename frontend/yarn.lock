@@ -10993,7 +10993,7 @@ __metadata:
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.1.6"
     yaml: "npm:^2.3.4"
-    yet-another-react-lightbox: "npm:^3.16.0"
+    yet-another-react-lightbox: "npm:^3.17.0"
   languageName: unknown
   linkType: soft
 
@@ -18326,13 +18326,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yet-another-react-lightbox@npm:^3.16.0":
-  version: 3.16.0
-  resolution: "yet-another-react-lightbox@npm:3.16.0"
+"yet-another-react-lightbox@npm:^3.17.0":
+  version: 3.17.0
+  resolution: "yet-another-react-lightbox@npm:3.17.0"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 78600065880e553a76cc1909029a2da7de599490268bee1b573a7ecf27c432e6d55a8716fe8292c1a3159ede02fc140c8250e131c1059a71d6bbabcde624c663
+  checksum: 2bb8ae37f40f25b58a19d73d0eb1f03b8fb9e8f9d5a0083b6868a81bbb1161a033787db350ecf85a2fd19270eb3edc1c9586add290521812d9ac03ea40bc4aa1
   languageName: node
   linkType: hard
 
