@@ -109,7 +109,7 @@ export const HeroBanner = ({
                   <div className="relative flex h-[64px] w-[64px] sm:h-[96px] sm:w-[96px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                     <LogoImage iconUrl={app.icon} appName={app.name} />
                   </div>
-                  <div className="flex pt-4">
+                  <div className="flex pt-3">
                     <span
                       className={clsx(
                         "truncate whitespace-nowrap text-2xl font-black",
