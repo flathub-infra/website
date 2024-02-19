@@ -12,6 +12,7 @@ import { register } from "swiper/element/bundle"
 import { Autoplay, Navigation } from "swiper/modules"
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
+import { getContrastColor } from "src/utils/helpers"
 
 export const HeroBanner = ({
   appstreams,
@@ -81,18 +82,23 @@ export const HeroBanner = ({
           return a.scheme_preference === (resolvedTheme as "light" | "dark")
         })
 
+        const textColor = brandingColor
+          ? getContrastColor(brandingColor.value) === "black"
+            ? "text-flathub-dark-gunmetal"
+            : "text-flathub-lotion"
+          : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
+
         return (
           <swiper-slide className="overflow-hidden" key={`hero-${app.id}`}>
             <Link
               href={`/apps/${app.id}`}
               passHref
               style={{
-                backgroundImage: brandingColor ? undefined : `url(${app.icon})`,
+                backgroundImage: !brandingColor && `url(${app.icon})`,
+                backgroundColor: brandingColor && brandingColor.value,
               }}
               className={clsx(
-                brandingColor
-                  ? `bg-[${brandingColor.value}]`
-                  : "bg-[length:1px_1px]",
+                !brandingColor && "bg-[length:1px_1px]",
                 "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
                 "hover:cursor-grab",
                 "h-full",
@@ -104,11 +110,22 @@ export const HeroBanner = ({
                     <LogoImage iconUrl={app.icon} appName={app.name} />
                   </div>
                   <div className="flex pt-4">
-                    <span className="truncate whitespace-nowrap text-2xl font-black text-flathub-dark-gunmetal dark:text-flathub-lotion">
+                    <span
+                      className={clsx(
+                        "truncate whitespace-nowrap text-2xl font-black",
+                        textColor,
+                      )}
+                    >
                       {app.name}
                     </span>
                   </div>
-                  <div className="line-clamp-2 text-sm text-center text-flathub-dark-gunmetal dark:text-flathub-lotion lg:line-clamp-3 pb-8">
+                  <div
+                    className={clsx(
+                      "line-clamp-2 text-sm text-center",
+                      textColor,
+                      "lg:line-clamp-3 pb-8",
+                    )}
+                  >
                     {app.summary}
                   </div>
                 </div>
