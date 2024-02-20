@@ -74,9 +74,10 @@ export default function Home({
             <HeroBanner appstreams={heroBannerAppstreams} />
           )}
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-10">
-            <div className="lg:w-1/2">
-              <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
-            </div>
+            <AppOfTheDay
+              className="lg:w-1/2"
+              appOfTheDay={appOfTheDayAppstream}
+            />
             <div
               className={clsx(
                 "lg:w-1/2",
