@@ -10,8 +10,10 @@ import { getContrastColor } from "src/utils/helpers"
 
 export const AppOfTheDay = ({
   appOfTheDay: appOfTheDay,
+  className,
 }: {
   appOfTheDay: DesktopAppstream
+  className?: string
 }) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
@@ -41,7 +43,7 @@ export const AppOfTheDay = ({
         "hover:cursor-pointer",
         "shadow-md",
         textColor,
-        "h-48",
+        className,
       )}
     >
       <div className="flex w-full h-full">
