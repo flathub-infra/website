@@ -238,7 +238,7 @@
   "unverify-app-prompt": "Wycofać weryfikację {{appId}}?",
   "begin": "Rozpocznij",
   "category-distribution": "Rozkład aplikacji według kategorii",
-  "verified-apps": "Zweryfikowane aplikacje",
+  "verified-apps": "Zweryfikowane Aplikacje",
   "chat": "Czat",
   "failed-to-find-token": "Nie udało się znaleźć tokena w odpowiedzi z {{domain}}.",
   "login-provider-verification-enable-github-app": "Aby kontynuować weryfikację, Flathub potrzebuje pozwolenia na odczytanie twojego poziomu członkostwa w organizacji <1>{{organization}}</1>. Możesz nadać to uprawnienie <3>w swoich ustawieniach GitHub</3>.",

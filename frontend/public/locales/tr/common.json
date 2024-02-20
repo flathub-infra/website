@@ -86,8 +86,8 @@
   "utilities": "Araçlar",
   "frequently-asked-questions": "Sık Sorulan Sorular",
   "manual-install-instructions": "Kurmadan önce <2>Linux dağıtımınız için olan kurulum kılavuzunu</2> izlediğinizden emin olun",
-  "popular-apps": "Gözde uygulamalar",
-  "recently-updated-apps": "Son güncellenen uygulamalar",
+  "popular-apps": "Gözde Uygulamalar",
+  "recently-updated-apps": "Son Güncellenen Uygulamalar",
   "delete-account": "Hesabı Sil",
   "login-with-provider": "{{provider}} ile Oturum Aç",
   "by": "{{developer}} tarafından",
@@ -183,7 +183,7 @@
   "other-apps-by-projectgroup": "{{projectgroup}} grubundaki diğer uygulamalar",
   "release-link": "Daha fazla bilgi edinin",
   "contribute-languages": "Tüm bu çeviriler topluluk tarafından sağlanmıştır. Çevirilere yardım etmek istiyorsanız, lütfen <1>Flathub çeviri takımına katılın</1>.",
-  "recently-added-apps": "Son eklenen uygulamalar",
+  "recently-added-apps": "Son Eklenen Uygulamalar",
   "developer-settings": "Geliştirici Ayarları",
   "minimum-payment": "Asgari Ödeme",
   "value-at-least": "En az {{value}} değerini girmelisiniz",
@@ -254,7 +254,7 @@
   "login-provider-verification-enable-github-app": "Doğrulamaya devam etmek için Flathub'ın <1>{{organization}}</1> kuruluşundaki üyelik seviyenizi okuma iznine ihtiyacı var. Bu izni <3>GitHub ayarlarınızdan</3> verebilirsiniz.",
   "login-provider-verification-failed": "Doğrulama gereksinimleri karşılanmadı.",
   "login-provider-verification-not-org-admin": "Şu anda <1>{{login_provider}}</1> adresinde <3>{{current_name}}</3> olarak oturum açmış durumdasınız. Bu hesap <5>{{organization}}</5> kuruluşunun yöneticisi değil. Bu uygulamayı doğrulamak için kuruluşta yönetici ayrıcalıkları talep etmeli ya da zaten bu ayrıcalıklara sahip bir hesapla oturum açmalısınız.",
-  "verified-apps": "Doğrulanmış uygulamalar",
+  "verified-apps": "Doğrulanmış Uygulamalar",
   "login-provider-verification-user-does-not-exist": "<1>{{required_name}}</1> hesabı <3>{{login_provider}}</3> adresinde yok. Bu hesap adını talep etmeli ve uygulamanızı doğrulamak için kullanmalısınız; ya da üzerinde denetim sahibi olduğunuz bir uygulama kimliği seçmelisiniz. İyi uygulama kimlikleri hakkında bilgi için <5>Flatpak belgelerine</5> bakınız.",
   "try-again": "Yeniden Dene",
   "verified-manually-tooltip": "<1>{{app_id}}</1> uygulama kimliğinin sahipliği Flathub takımı tarafından elle doğrulandı",
@@ -551,5 +551,7 @@
   "enter-end-of-life-message": "Ömür sonu iletisi gir",
   "rebase-onto-other-app": "Uygulamanızın yeniden temellendirileceği uygulama kimliğini girin",
   "manage-x": "{{app-name}} yönet",
-  "get-it-on": "Haydi başlayalım"
+  "get-it-on": "Haydi başlayalım",
+  "press-information-block": "<p>Gazetecilerden ve teknoloji yazarlarından gelen soruları yanıtlamaktan büyük mutluluk duyuyoruz. Röportaj yapma konusunda da yardımcı olabiliriz.</p><1>Grafikler ve Logolar</1><2>Flathub grafik varlıklarını <2>burada</2> bulabilirsiniz.</2><3>İletişim</3><4>Yorum ve röportaj istekleri de dahil olmak üzere basın soruları <2>Flathub geliştiricilerine iletilebilir</2>.</4>",
+  "press-information": "Basın Bilgileri"
 }
