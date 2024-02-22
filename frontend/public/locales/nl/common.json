@@ -370,7 +370,7 @@
   "remove-developer-confirmation": "Weet u zeker dat u {{developer}} van {{app}} wilt verwijderen?",
   "invite-developer-description": "Voer de uitnodigingscode van de ontwikkelaar in om ze uit te nodigen ontwikkelaar van deze app te worden. Ze kunnen de code vinden onder het {{developersTab}}-tabblad van hun accountpagina.",
   "invite-code-hint": "Geef deze code aan een andere ontwikkelaar zodat ze u kunnen uitnodigen voor hun app.",
-  "no-file-system-access": "Geen toegang tot bestands­stysteem",
+  "no-file-system-access": "Geen toegang tot bestands­systeem",
   "no-user-device-access": "Geen toegang tot gebruikers­apparaten",
   "safe": "Veilig",
   "probably-safe": "Waarschijnlijk veilig",
@@ -553,5 +553,6 @@
   "manage-x": "{{app-name}} beheren",
   "install-x": "Installeer {{app-name}} op Linux",
   "press-information": "Pers­informatie",
-  "press-information-block": "<p>We beantwoorden graag vragen van journalisten en tech­schrijvers. Er kunnen ook interview­gesprekken worden geregeld.</p><1>Grafische items en logo's</1><2>Grafische Flathub-items zijn <2>hier</2> te vinden.</2><3>Contact</3 ><4>Persvragen, inclusief verzoeken om commentaar en interviews, kunnen worden gericht aan <2>Flathub-beheerders</2>.</4>"
+  "press-information-block": "<p>We beantwoorden graag vragen van journalisten en tech­schrijvers. Er kunnen ook interview­gesprekken worden geregeld.</p><1>Grafische items en logo's</1><2>Grafische Flathub-items zijn <2>hier</2> te vinden.</2><3>Contact</3 ><4>Persvragen, inclusief verzoeken om commentaar en interviews, kunnen worden gericht aan <2>Flathub-beheerders</2>.</4>",
+  "flathub-the-linux-app-store": "Flathub is de app-store voor Linux"
 }

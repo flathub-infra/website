@@ -172,7 +172,7 @@
   "delete": "Sil",
   "account-deletion-token-mismatch": "Hesap silme isteğinin kimliği doğrulanamadı.",
   "use-saved-card": "Kayıtlı bir kart kullan",
-  "vcs_browser": "Kaynak koduna göz at",
+  "vcs_browser": "Kaynak Koduna Göz At",
   "contribute": "Uygulamaya katkıda bulun",
   "terms-and-conditions": "Şartlar ve koşullar",
   "terms-and-conditions-description": "Bu web sitesini kullanarak, Şartlar ve Koşulları kabul etmiş olursunuz.",
@@ -553,5 +553,6 @@
   "manage-x": "{{app-name}} yönet",
   "get-it-on": "Haydi başlayalım",
   "press-information-block": "<p>Gazetecilerden ve teknoloji yazarlarından gelen soruları yanıtlamaktan büyük mutluluk duyuyoruz. Röportaj yapma konusunda da yardımcı olabiliriz.</p><1>Grafikler ve Logolar</1><2>Flathub grafik varlıklarını <2>burada</2> bulabilirsiniz.</2><3>İletişim</3><4>Yorum ve röportaj istekleri de dahil olmak üzere basın soruları <2>Flathub geliştiricilerine iletilebilir</2>.</4>",
-  "press-information": "Basın Bilgileri"
+  "press-information": "Basın Bilgileri",
+  "flathub-the-linux-app-store": "Flathub, Linux için Uygulama Mağazasıdır"
 }

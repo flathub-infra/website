@@ -544,5 +544,7 @@
   "archive-app": "Arkistoi tämä sovellus",
   "archive": "Arkistoi",
   "manage-x": "Hallitse sovellusta {{app-name}}",
-  "install-x": "Asenna {{app-name}} Linuxiin"
+  "install-x": "Asenna {{app-name}} Linuxiin",
+  "flathub-the-linux-app-store": "Flathub on sovelluskauppa Linuxille",
+  "press-information": "Tietoa lehdistölle"
 }
