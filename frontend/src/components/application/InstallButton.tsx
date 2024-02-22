@@ -72,7 +72,7 @@ export default function InstallButton({ appId }: { appId: string }) {
         >
           <Popover.Panel
             className={clsx(
-              "absolute end-0 z-10 mx-2 mt-2 w-fit origin-top-right rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:mx-0 sm:w-[450px]",
+              "absolute end-0 z-20 mx-2 mt-2 w-fit origin-top-right rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:mx-0 sm:w-[450px]",
             )}
           >
             <h3 className="my-4 text-xl font-semibold">

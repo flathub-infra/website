@@ -215,7 +215,7 @@ const Header = () => {
           clsx(
             open &&
               "fixed inset-0 overflow-y-auto bg-flathub-white dark:bg-flathub-arsenic",
-            "fixed z-40 w-full lg:overflow-y-visible transition ease-in-out",
+            "fixed z-30 w-full lg:overflow-y-visible transition ease-in-out",
             isScrolled && "bg-flathub-white dark:bg-flathub-arsenic shadow",
           )
         }

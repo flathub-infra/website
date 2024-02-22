@@ -408,7 +408,7 @@ const ReadOnlyItem = ({ toggle }) => {
           }}
           className={clsx(
             "text-xs font-semibold",
-            "z-20 mx-1 max-w-sm rounded-xl p-4",
+            "z-40 mx-1 max-w-sm rounded-xl p-4",
             "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
             "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",
           )}
