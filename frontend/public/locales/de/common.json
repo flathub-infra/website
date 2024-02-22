@@ -183,7 +183,7 @@
   "transaction-breakdown": "Transaktions Details",
   "release-link": "Finde mehr Informationen",
   "contribute-languages": "All diese Übersetzungen wurden durch die Community ermöglicht. Falls du helfen möchstest bei der Übersetzung von Flathub, <1>tritt dem Flathub Übersetzer-Team bei</1>.",
-  "recently-added-apps": "Zuletzt hinzugefügte Apps",
+  "recently-added-apps": "Kürzlich hinzugefügte Apps",
   "science": "Wissenschaft",
   "education": "Bildung",
   "system": "System",
@@ -551,5 +551,8 @@
   "do-you-really-want-to-switch-to-direct-upload": "Bist du sicher? Sobald du eine Anwendung auf direktes Hochladen umgestellt hast, gibt es kein Zurück mehr.",
   "do-you-really-want-to-archive-app": "Bist du sicher? Dadurch werden die Upload-Tokens ungültig und die Anwendung wird archiviert.",
   "enter-end-of-life-message": "End-of-Life Nachricht eingeben",
-  "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll"
+  "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll",
+  "press-information": "Presseinformationen",
+  "press-information-block": "<p>Wir beantworten sehr gerne Fragen von Journalisten und Technikredakteuren. Es können auch Interviewtermine vereinbart werden.</p><1>Grafiken und Logos</1><2>Flathub-Grafikmaterial finden Sie <2>hier</2>.</2><3>Kontakt</3><4>Presseanfragen, einschließlich Anfragen für Kommentare und Interviews, können an die <2>Flathub-Maintainer</2> gerichtet werden.</4>",
+  "flathub-the-linux-app-store": "Flathub ist der App Store für Linux"
 }

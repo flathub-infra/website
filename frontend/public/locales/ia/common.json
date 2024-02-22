@@ -367,5 +367,6 @@
   "auditable-code-description": "Le codice fonte es public e pote esser auditate independentemente, le que face le application plus probabile de esser secur",
   "can-read-write-all-data": "Pote leger e scriber tote le datos in le directorio",
   "can-read-all-data-in-your-download-folder": "Pote leger tote le datos in tu dossier de discargamentos",
-  "cannot-access-the-internet": "Non pote acceder le internet"
+  "cannot-access-the-internet": "Non pote acceder le internet",
+  "add-ons": "Additivos"
 }

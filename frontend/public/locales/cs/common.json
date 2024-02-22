@@ -554,5 +554,6 @@
   "rebase-onto-other-app": "Zadejte ID aplikace, do kterého bude vaše aplikace přenesena",
   "install-x": "Nainstalovat aplikaci {{app-name}} na Linux",
   "press-information": "Informace pro tisk",
-  "press-information-block": "<p>Velmi rádi zodpovíme otázky od novinářů a technických spisovatelů</p><1>Grafika a loga</1><2>Grafické přílohy Flathubu jsou k dispozici <2>zde</2>.</2><3>Kontakt</3><4>Dotazy novinářů, zahrnující požadavky pro komentáře a rozhovory směřujte na <2>správce Flathubu</2>.</4>"
+  "press-information-block": "<p>Velmi rádi zodpovíme otázky od novinářů a technických spisovatelů</p><1>Grafika a loga</1><2>Grafické přílohy Flathubu jsou k dispozici <2>zde</2>.</2><3>Kontakt</3><4>Dotazy novinářů, zahrnující požadavky pro komentáře a rozhovory směřujte na <2>správce Flathubu</2>.</4>",
+  "flathub-the-linux-app-store": "Flathub je obchod s aplikacemi pro Linux"
 }

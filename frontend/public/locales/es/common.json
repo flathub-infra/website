@@ -554,5 +554,6 @@
   "manage-x": "Administrar {{app-name}}",
   "install-x": "Instalar {{app-name}} en Linux",
   "press-information": "Información de prensa",
-  "press-information-block": "<p>Estamos encantados de responder a las preguntas de periodistas y escritores técnicos. También se pueden concertar entrevistas.</p><1>Gráficos y logotipos</1><2>Recursos gráficos de Flathub pueden encontrarse <2>aquí</2>.</2><3>Contacto</3><4>Las consultas de la prensa, incluidas las solicitudes de comentarios y entrevistas, pueden dirigirse a <2>los responsables de Flathub</2>.</4>"
+  "press-information-block": "<p>Estamos encantados de responder a las preguntas de periodistas y escritores técnicos. También se pueden concertar entrevistas.</p><1>Gráficos y logotipos</1><2>Recursos gráficos de Flathub pueden encontrarse <2>aquí</2>.</2><3>Contacto</3><4>Las consultas de la prensa, incluidas las solicitudes de comentarios y entrevistas, pueden dirigirse a <2>los responsables de Flathub</2>.</4>",
+  "flathub-the-linux-app-store": "Flathub es la tienda de aplicaciones para Linux"
 }
