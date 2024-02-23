@@ -512,6 +512,9 @@
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
+    "branding": "Branding",
+    "branding-has-primary-brand-colors": "Has primary brand colors",
+    "branding-good-primary-brand-colors": "Good primary brand colors",
     "app-icon": "App Icon",
     "app-icon-size": "SVG or PNG of at least 256px",
     "app-icon-footprint": "Doesn't fill too much or too little of the canvas",

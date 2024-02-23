@@ -64,8 +64,7 @@ export default function Details({
         }}
       />
       <QualityModeration
-        appId={app.id}
-        appIcon={app.icon}
+        app={app}
         isQualityModalOpen={isQualityModalOpen}
         setIsQualityModalOpen={setIsQualityModalOpen}
       />
