@@ -246,6 +246,32 @@ def update_quality_moderation():
                     None,
                 )
 
+                models.QualityModeration.upsert(
+                    sqldb,
+                    app_id,
+                    "branding-has-primary-brand-colors",
+                    "branding" in value
+                    and any(
+                        branding
+                        for branding in value["branding"]
+                        if "type" in branding
+                        and "scheme_preference" in branding
+                        and "value" in branding
+                        and branding["type"] == "primary"
+                        and branding["scheme_preference"] == "light"
+                    )
+                    and any(
+                        branding
+                        for branding in value["branding"]
+                        if "type" in branding
+                        and "scheme_preference" in branding
+                        and "value" in branding
+                        and branding["type"] == "primary"
+                        and branding["scheme_preference"] == "dark"
+                    ),
+                    None,
+                )
+
 
 @dramatiq.actor
 def refresh_github_repo_list(gh_access_token: str, accountId: int):

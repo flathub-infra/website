@@ -18,6 +18,7 @@ import { qualityModerationApi } from "src/api"
 import { QualityModerationStatus } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import Modal from "../Modal"
+import { DesktopAppstream } from "src/types/Appstream"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -148,13 +149,11 @@ const ReviewButton = ({
 }
 
 export const QualityModeration = ({
-  appId,
-  appIcon,
+  app,
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
-  appId: string
-  appIcon: string
+  app: DesktopAppstream
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (isOpen: boolean) => void
 }) => {
@@ -163,13 +162,13 @@ export const QualityModeration = ({
   const [isQualityModerator, setIsQualityModerator] = useState(false)
 
   const requirement =
-    isQualityModerator || user.info?.dev_flatpaks.includes(appId)
+    isQualityModerator || user.info?.dev_flatpaks.includes(app.id)
 
   const query = useQuery({
-    queryKey: ["/quality-moderation-app-status", { appId }],
+    queryKey: ["/quality-moderation-app-status", { appId: app.id }],
     queryFn: ({ signal }) =>
       qualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
-        appId,
+        app.id,
         {
           withCredentials: true,
           signal: signal,
@@ -213,7 +212,7 @@ export const QualityModeration = ({
         </div>
         <div className="ms-auto flex">
           <ReviewButton
-            app_id={appId}
+            app_id={app.id}
             status={query?.data?.data}
             review_requested_at={query?.data?.data?.review_requested_at}
             buttonClicked={() => {
@@ -247,8 +246,7 @@ export const QualityModeration = ({
 
       <QualityModerationSlideOver
         mode={mode}
-        appId={appId}
-        appIcon={appIcon}
+        app={app}
         isQualityModalOpen={isQualityModalOpen}
         setIsQualityModalOpen={setIsQualityModalOpen}
       />

@@ -35,20 +35,114 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react"
+import { DesktopAppstream } from "src/types/Appstream"
+
+const ShowIconButton = ({
+  category,
+  app,
+}: {
+  category: string
+  app: DesktopAppstream
+}) => {
+  const { t } = useTranslation()
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+  let primaryLight = undefined
+  let primaryDark = undefined
+
+  if (category !== "app-icon" && category !== "branding") {
+    return null
+  }
+
+  if (
+    category === "branding" &&
+    (!app.branding?.find(
+      (a) => a.scheme_preference === "light" && a.type === "primary",
+    ) ||
+      !app.branding?.find(
+        (a) => a.scheme_preference === "dark" && a.type === "primary",
+      ))
+  ) {
+    return null
+  }
+
+  if (category === "branding") {
+    primaryLight = app.branding?.find(
+      (a) => a.scheme_preference === "light" && a.type === "primary",
+    )
+    primaryDark = app.branding?.find(
+      (a) => a.scheme_preference === "dark" && a.type === "primary",
+    )
+  }
+
+  return (
+    <div>
+      <Button
+        variant="secondary"
+        className="flex items-center gap-1"
+        {...getToggleProps()}
+      >
+        <span>
+          {t(
+            isExpanded
+              ? "quality-guideline.hide-icon"
+              : "quality-guideline.show-icon",
+          )}
+        </span>
+        <HiChevronUp
+          className={clsx(
+            "transition",
+            !isExpanded ? "transform rotate-180" : "",
+          )}
+        />
+      </Button>
+      <section {...getCollapseProps()}>
+        <div className="flex">
+          <div
+            style={{ backgroundColor: primaryLight && primaryLight.value }}
+            className={clsx(
+              "relative m-2 flex h-[256px] min-w-[256px] self-center border",
+              "text-flathub-black",
+              !primaryLight && "bg-flathub-white",
+            )}
+          >
+            <LogoImage iconUrl={app.icon} appName="" size="256" />
+            {category === "app-icon" && (
+              <div className="z-10 absolute">
+                <IconGrid />
+              </div>
+            )}
+          </div>
+          <div
+            style={{ backgroundColor: primaryDark && primaryDark.value }}
+            className={clsx(
+              "relative m-2 flex h-[256px] min-w-[256px] self-center border",
+              "text-flathub-white",
+              !primaryDark && "bg-flathub-dark-gunmetal",
+            )}
+          >
+            <LogoImage iconUrl={app.icon} appName="" size="256" />
+            {category === "app-icon" && (
+              <div className="z-10 absolute">
+                <IconGrid />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
 
 const QualityCategories = ({
-  appId,
-  appIcon,
+  app,
   query,
   mode,
 }: {
-  appId: string
-  appIcon: string
+  app: DesktopAppstream
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
   mode: "developer" | "moderator"
 }) => {
   const { t } = useTranslation()
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
   const passAllMutation = useMutation({
     mutationFn: () => {
@@ -57,7 +151,7 @@ const QualityCategories = ({
           .filter((guideline) => !guideline.guideline.read_only)
           .map((guideline) =>
             qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
-              appId,
+              app.id,
               { guideline_id: guideline.guideline_id, passed: true },
               {
                 withCredentials: true,
@@ -75,7 +169,7 @@ const QualityCategories = ({
   const dismissReviewMutation = useMutation({
     mutationFn: () =>
       qualityModerationApi.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
-        appId,
+        app.id,
         {
           withCredentials: true,
         },
@@ -126,7 +220,7 @@ const QualityCategories = ({
                 <ScreenShotTypeItem
                   mode={mode}
                   key={category}
-                  appId={appId}
+                  appId={app.id}
                   query={query}
                   is_fullscreen_app={query.data.data.is_fullscreen_app}
                 />
@@ -137,52 +231,14 @@ const QualityCategories = ({
                 "flex flex-col text-sm gap-2 dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
               )}
             >
-              {category === "app-icon" && (
-                <div>
-                  <Button
-                    variant="secondary"
-                    className="flex items-center gap-1"
-                    {...getToggleProps()}
-                  >
-                    <span>
-                      {t(
-                        isExpanded
-                          ? "quality-guideline.hide-icon"
-                          : "quality-guideline.show-icon",
-                      )}
-                    </span>
-                    <HiChevronUp
-                      className={clsx(
-                        "transition",
-                        !isExpanded ? "transform rotate-180" : "",
-                      )}
-                    />
-                  </Button>
-                  <section {...getCollapseProps()}>
-                    <div className="flex">
-                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-white border text-flathub-black">
-                        <LogoImage iconUrl={appIcon} appName="" size="256" />
-                        <div className="z-10 absolute">
-                          <IconGrid />
-                        </div>
-                      </div>
-                      <div className="relative m-2 flex h-[256px] min-w-[256px] self-center bg-flathub-dark-gunmetal border text-flathub-white">
-                        <LogoImage iconUrl={appIcon} appName="" size="256" />
-                        <div className="z-10 absolute">
-                          <IconGrid />
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              )}
+              <ShowIconButton category={category} app={app} />
               {query.data.data.guidelines
                 .filter((a) => a.guideline.category === category)
                 .map((guideline) => (
                   <QualityItem
                     mode={mode}
                     key={guideline.guideline_id}
-                    appId={appId}
+                    appId={app.id}
                     qualityGuideline={guideline.guideline}
                     qualityModeration={guideline}
                     query={query}
@@ -423,30 +479,28 @@ const ReadOnlyItem = ({ toggle }) => {
 
 export const QualityModerationSlideOver = ({
   mode,
-  appId,
-  appIcon,
+  app,
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
   mode: "developer" | "moderator"
-  appId: string
-  appIcon: string
+  app: DesktopAppstream
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
 }) => {
   const { t } = useTranslation()
 
   const query = useQuery({
-    queryKey: ["qualityModeration", appId],
+    queryKey: ["qualityModeration", { appId: app.id }],
     queryFn: ({ signal }) =>
       qualityModerationApi.getQualityModerationForAppQualityModerationAppIdGet(
-        appId,
+        app.id,
         {
           withCredentials: true,
           signal,
         },
       ),
-    enabled: !!appId,
+    enabled: !!app.id,
   })
 
   return (
@@ -465,12 +519,7 @@ export const QualityModerationSlideOver = ({
             <span className="text-flathub-red">{t("server-error")}</span>
           </div>
         ) : (
-          <QualityCategories
-            appId={appId}
-            query={query}
-            appIcon={appIcon}
-            mode={mode}
-          />
+          <QualityCategories app={app} query={query} mode={mode} />
         )}
       </div>
     </SlideOver>
