@@ -286,11 +286,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if app["is_free_license"] == "":
             app["is_free_license"] = False
 
-        # The new appstream spec uses a new <developer> key, so backfill the old
-        # field for backwards compatibility
-        if developers := app.get("developer"):
-            app["developer_name"] = developers[0]
-
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
         if "categories" in app and "Settings" in app["categories"]:
