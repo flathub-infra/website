@@ -548,6 +548,7 @@
     "pending": "Pending",
     "passed": "Passed",
     "not-passed": "Not passed",
+    "needed-to-pass-x": "Needed to pass {{x}}",
     "request-review": "Request Review",
     "request-a-review-question": "Do you want to request a review?",
     "request-review-description": "Our team will review your app for quality problems. Please check back in a few days.",

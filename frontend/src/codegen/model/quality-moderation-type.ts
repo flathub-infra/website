@@ -64,4 +64,10 @@ export interface QualityModerationType {
    * @memberof QualityModerationType
    */
   comment: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof QualityModerationType
+   */
+  needed_to_pass_since: string
 }

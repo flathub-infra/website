@@ -46,6 +46,7 @@ class QualityModerationType(BaseModel):
     updated_by: int | None
     passed: bool | None
     comment: str | None
+    needed_to_pass_since: datetime.datetime
 
 
 class QualityModerationResponse(BaseModel):
@@ -95,12 +96,14 @@ def get_quality_moderation_for_app(
         QualityModerationType(
             guideline_id=item.Guideline.id,
             app_id=app_id,
-            updated_at=item.QualityModeration.updated_at
-            if item.QualityModeration
-            else datetime.datetime.min,
-            updated_by=item.QualityModeration.updated_by
-            if item.QualityModeration
-            else None,
+            updated_at=(
+                item.QualityModeration.updated_at
+                if item.QualityModeration
+                else datetime.datetime.min
+            ),
+            updated_by=(
+                item.QualityModeration.updated_by if item.QualityModeration else None
+            ),
             passed=item.QualityModeration.passed if item.QualityModeration else None,
             comment=item.QualityModeration.comment if item.QualityModeration else None,
             guideline=Guideline(
@@ -110,6 +113,7 @@ def get_quality_moderation_for_app(
                 read_only=item.Guideline.read_only,
                 category=item.Guideline.guideline_category_id,
             ),
+            needed_to_pass_since=item.Guideline.needed_to_pass_since,
         )
         for item in QualityModeration.by_appid(db, app_id)
     ]
