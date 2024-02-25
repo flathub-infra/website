@@ -123,7 +123,7 @@ def load_appstream(sqldb):
                 p.sadd("types:index", type)
                 p.sadd(f"types:{type}", redis_key)
             else:
-                type = None
+                type = "generic"
 
             # only used for compat
             if categories := apps[app_id].get("categories"):
