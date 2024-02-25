@@ -225,17 +225,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 app["metadata"][key] = value.text
             component.remove(custom)
 
-        developers = component.findall("developer")
+        developers = component.findall(".//developer/name")
         if len(developers):
             app["developers"] = []
-            for developer in developers:
-                developer_names = developer.findall("name")
-                for name in developer_names:
-                    # TODO: support translations
-                    if name.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
-                        continue
-                    app["developers"].append(name.text)
-                component.remove(developer)
+            for name in developers:
+                # TODO: support translations
+                if name.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                    continue
+                app["developers"].append(name.text)
+            component.remove(component.find("developer"))
 
         for elem in component:
             # TODO: support translations
@@ -291,7 +289,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         # The new appstream spec uses a new <developer> key, so backfill the old
         # field for backwards compatibility
         if developers := app.get("developer"):
-            app["developer_name"] = developers[0]["name"]
+            app["developer_name"] = developers[0]
 
         # Settings seems to be a lonely, forgotten category with just 3 apps,
         # add them to more popular System
