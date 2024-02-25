@@ -1515,7 +1515,6 @@ class QualityModeration(Base):
                 ),
             )
             .order_by(Guideline.order)
-            .filter(Guideline.needed_to_pass_since <= datetime.now().date())
             .all()
         )
 
@@ -1577,9 +1576,9 @@ class QualityModeration(Base):
             passed=status[1],
             not_passed=status[2],
             last_updated=status[3],
-            review_requested_at=app_quality_request.created_at
-            if app_quality_request
-            else None,
+            review_requested_at=(
+                app_quality_request.created_at if app_quality_request else None
+            ),
         )
 
 

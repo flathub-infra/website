@@ -20,7 +20,7 @@ import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
 import { IconGrid } from "./IconGrid"
-import { useTranslation } from "next-i18next"
+import { i18n, useTranslation } from "next-i18next"
 import { qualityModerationApi } from "src/api"
 import {
   Guideline,
@@ -36,6 +36,8 @@ import {
   useRole,
 } from "@floating-ui/react"
 import { DesktopAppstream } from "src/types/Appstream"
+import { formatDistanceToNow, isFuture } from "date-fns"
+import { getLocale } from "src/localize"
 
 const ShowIconButton = ({
   category,
@@ -291,47 +293,59 @@ const QualityItem = ({
   })
 
   return (
-    <div className={clsx("flex items-center gap-1")}>
-      <div>{t(`quality-guideline.${qualityGuideline.id}`)}</div>
-      <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
-        <HiArrowTopRightOnSquare />
-      </a>
-      <div className="ms-auto">
-        {qualityGuideline.read_only || mode === "developer" ? (
-          <ReadOnlyItem toggle={toggle} />
-        ) : (
-          <MultiToggle
-            size="sm"
-            items={[
-              {
-                id: "not-set",
-                content: <HiQuestionMarkCircle className="w-6 h-6" />,
-                selected: toggle === undefined,
-                onClick: () => {},
-                disabled: true,
-                color: "bg-flathub-gainsborow",
-              },
-              {
-                id: "not_passed",
-                content: <HiXMark className="w-6 h-6" />,
-                onClick: () => {
-                  mutation.mutateAsync({ passed: false })
+    <div className={clsx("flex flex-col")}>
+      <div className={clsx("flex items-center gap-1")}>
+        <div>{t(`quality-guideline.${qualityGuideline.id}`)}</div>
+        <a href={qualityGuideline.url} target="_blank" rel="noreferrer">
+          <HiArrowTopRightOnSquare />
+        </a>
+        <div className="ms-auto">
+          {qualityGuideline.read_only || mode === "developer" ? (
+            <ReadOnlyItem toggle={toggle} />
+          ) : (
+            <MultiToggle
+              size="sm"
+              items={[
+                {
+                  id: "not-set",
+                  content: <HiQuestionMarkCircle className="w-6 h-6" />,
+                  selected: toggle === undefined,
+                  onClick: () => {},
+                  disabled: true,
+                  color: "bg-flathub-gainsborow",
                 },
-                selected: toggle === false,
-                color: "bg-flathub-electric-red",
-              },
-              {
-                id: "passed",
-                content: <HiCheck className="w-6 h-6" />,
-                onClick: () => {
-                  mutation.mutateAsync({ passed: true })
+                {
+                  id: "not_passed",
+                  content: <HiXMark className="w-6 h-6" />,
+                  onClick: () => {
+                    mutation.mutateAsync({ passed: false })
+                  },
+                  selected: toggle === false,
+                  color: "bg-flathub-electric-red",
                 },
-                selected: toggle === true,
-              },
-            ]}
-          />
-        )}
+                {
+                  id: "passed",
+                  content: <HiCheck className="w-6 h-6" />,
+                  onClick: () => {
+                    mutation.mutateAsync({ passed: true })
+                  },
+                  selected: toggle === true,
+                },
+              ]}
+            />
+          )}
+        </div>
       </div>
+      {isFuture(qualityGuideline.needed_to_pass_since) && (
+        <div className="text-xs">
+          {t("quality-guideline.needed-to-pass-x", {
+            x: formatDistanceToNow(qualityGuideline.needed_to_pass_since, {
+              addSuffix: true,
+              locale: getLocale(i18n.language),
+            }),
+          })}
+        </div>
+      )}
     </div>
   )
 }
