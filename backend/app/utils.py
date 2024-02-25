@@ -229,8 +229,12 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         if len(developers):
             app["developers"] = []
             for developer in developers:
-                developer_name = developer.find("name")
-                app["developers"].append(developer_name.text)
+                developer_names = developer.findall("name")
+                for name in developer_names:
+                    # TODO: support translations
+                    if name.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                        continue
+                    app["developers"].append(name.text)
                 component.remove(developer)
 
         for elem in component:
