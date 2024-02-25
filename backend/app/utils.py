@@ -74,7 +74,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     for component in root:
         app = {}
 
-        app["type"] = component.attrib.get("type")
+        app["type"] = component.attrib.get("type", "generic")
 
         descriptions = component.findall("description")
         if len(descriptions):
