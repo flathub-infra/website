@@ -76,7 +76,7 @@
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/eslint-plugin-query": "^5.14.6",
     "@tanstack/react-query-devtools": "^5.17.19",
-    "@types/node": "^20.11.10",
+    "@types/node": "^20.11.20",
     "@types/react": "^18.2.48",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
