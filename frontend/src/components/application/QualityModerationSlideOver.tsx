@@ -35,46 +35,14 @@ import {
   useInteractions,
   useRole,
 } from "@floating-ui/react"
-import { DesktopAppstream } from "src/types/Appstream"
+import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { getLocale } from "src/localize"
+import { getContrastColor } from "src/utils/helpers"
 
-const ShowIconButton = ({
-  category,
-  app,
-}: {
-  category: string
-  app: DesktopAppstream
-}) => {
+const ShowIconButton = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
-  let primaryLight = undefined
-  let primaryDark = undefined
-
-  if (category !== "app-icon" && category !== "branding") {
-    return null
-  }
-
-  if (
-    category === "branding" &&
-    (!app.branding?.find(
-      (a) => a.scheme_preference === "light" && a.type === "primary",
-    ) ||
-      !app.branding?.find(
-        (a) => a.scheme_preference === "dark" && a.type === "primary",
-      ))
-  ) {
-    return null
-  }
-
-  if (category === "branding") {
-    primaryLight = app.branding?.find(
-      (a) => a.scheme_preference === "light" && a.type === "primary",
-    )
-    primaryDark = app.branding?.find(
-      (a) => a.scheme_preference === "dark" && a.type === "primary",
-    )
-  }
 
   return (
     <div>
@@ -100,35 +68,140 @@ const ShowIconButton = ({
       <section {...getCollapseProps()}>
         <div className="flex">
           <div
-            style={{ backgroundColor: primaryLight && primaryLight.value }}
             className={clsx(
               "relative m-2 flex h-[256px] min-w-[256px] self-center border",
               "text-flathub-black",
-              !primaryLight && "bg-flathub-white",
+              "bg-flathub-white",
             )}
           >
             <LogoImage iconUrl={app.icon} appName="" size="256" />
-            {category === "app-icon" && (
-              <div className="z-10 absolute">
-                <IconGrid />
-              </div>
-            )}
+            <div className="z-10 absolute">
+              <IconGrid />
+            </div>
           </div>
           <div
-            style={{ backgroundColor: primaryDark && primaryDark.value }}
             className={clsx(
               "relative m-2 flex h-[256px] min-w-[256px] self-center border",
               "text-flathub-white",
-              !primaryDark && "bg-flathub-dark-gunmetal",
+              "bg-flathub-dark-gunmetal",
             )}
           >
             <LogoImage iconUrl={app.icon} appName="" size="256" />
-            {category === "app-icon" && (
-              <div className="z-10 absolute">
-                <IconGrid />
-              </div>
-            )}
+            <div className="z-10 absolute">
+              <IconGrid />
+            </div>
           </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+const BrandingPreview = ({
+  app,
+  color,
+}: {
+  app: DesktopAppstream
+  color: Branding
+}) => {
+  const textColor = color
+    ? getContrastColor(color.value) === "black"
+      ? "text-flathub-dark-gunmetal"
+      : "text-flathub-lotion"
+    : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
+
+  return (
+    <div
+      style={{ backgroundColor: color && color.value }}
+      className={clsx(
+        "relative m-2 flex h-[256px] min-w-[256px] self-center border",
+        "text-flathub-white",
+      )}
+    >
+      <div className="flex flex-col justify-center items-center h-auto w-full">
+        <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+          <LogoImage iconUrl={app.icon} appName={app.name} />
+        </div>
+        <div className="flex pt-3">
+          <span
+            className={clsx(
+              "truncate whitespace-nowrap text-2xl font-black",
+              textColor,
+            )}
+          >
+            {app.name}
+          </span>
+        </div>
+        <div
+          className={clsx(
+            "line-clamp-2 text-sm text-center",
+            textColor,
+            "lg:line-clamp-3 pb-8",
+          )}
+        >
+          {app.summary}
+        </div>
+        <div
+          className={clsx(
+            "line-clamp-2 text-sm text-center",
+            textColor,
+            "lg:line-clamp-3 pb-8",
+          )}
+        >
+          {color.value}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ShowBrandingButton = ({ app }: { app: DesktopAppstream }) => {
+  const { t } = useTranslation()
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
+
+  if (
+    !app.branding?.find(
+      (a) => a.scheme_preference === "light" && a.type === "primary",
+    ) ||
+    !app.branding?.find(
+      (a) => a.scheme_preference === "dark" && a.type === "primary",
+    )
+  ) {
+    return null
+  }
+
+  const primaryLight = app.branding?.find(
+    (a) => a.scheme_preference === "light" && a.type === "primary",
+  )
+  const primaryDark = app.branding?.find(
+    (a) => a.scheme_preference === "dark" && a.type === "primary",
+  )
+
+  return (
+    <div>
+      <Button
+        variant="secondary"
+        className="flex items-center gap-1"
+        {...getToggleProps()}
+      >
+        <span>
+          {t(
+            isExpanded
+              ? "quality-guideline.hide-branding-preview"
+              : "quality-guideline.show-branding-preview",
+          )}
+        </span>
+        <HiChevronUp
+          className={clsx(
+            "transition",
+            !isExpanded ? "transform rotate-180" : "",
+          )}
+        />
+      </Button>
+      <section {...getCollapseProps()}>
+        <div className="flex">
+          <BrandingPreview app={app} color={primaryLight} />
+          <BrandingPreview app={app} color={primaryDark} />
         </div>
       </section>
     </div>
@@ -233,7 +306,8 @@ const QualityCategories = ({
                 "flex flex-col text-sm gap-2 dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
               )}
             >
-              <ShowIconButton category={category} app={app} />
+              {category === "app-icon" && <ShowIconButton app={app} />}
+              {category === "branding" && <ShowBrandingButton app={app} />}
               {query.data.data.guidelines
                 .filter((a) => a.guideline.category === category)
                 .map((guideline) => (

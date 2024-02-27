@@ -557,6 +557,8 @@
     "high-quality-app-data": "High quality app data",
     "app-data-review-pending": "App data review pending",
     "failing-x-checks_one": "Failing {{count}} check",
-    "failing-x-checks_other": "Failing {{count}} checks"
+    "failing-x-checks_other": "Failing {{count}} checks",
+    "hide-branding-preview": "Hide branding preview",
+    "show-branding-preview": "Show branding preview"
   }
 }
