@@ -8,7 +8,7 @@ import { useUserContext } from "../../src/context/user-info"
 import { useTranslation } from "next-i18next"
 import { authApi } from "src/api"
 
-export default function DeveloperLoginPortal({ providers, locale }) {
+export default function LoginPortal({ providers, locale }) {
   const { t } = useTranslation()
   const user = useUserContext()
 
@@ -21,7 +21,7 @@ export default function DeveloperLoginPortal({ providers, locale }) {
   useEffect(() => {
     // Already logged in, just redirect to userpage
     if (user.info && !user.loading) {
-      Router.replace("/my-flathub")
+      Router.replace("/")
     }
   }, [user])
 

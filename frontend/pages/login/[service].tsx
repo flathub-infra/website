@@ -47,7 +47,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
         }
       }
 
-      router.push("/my-flathub", undefined, { locale })
+      router.push("/", undefined, { locale })
     },
   })
 
@@ -85,7 +85,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       router.query.code == null ||
       router.query.state == null
     ) {
-      router.push(user.info ? "/my-flathub" : "/", undefined, {
+      router.push("/", undefined, {
         locale,
       })
       return
