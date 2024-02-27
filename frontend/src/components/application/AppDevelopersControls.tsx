@@ -40,7 +40,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
     onSuccess: async () => {
       await getUserData(userDispatch)
       setLeaveDialogVisible(false)
-      router.push("/my-flathub")
+      router.push("/developer-portal")
     },
   })
 

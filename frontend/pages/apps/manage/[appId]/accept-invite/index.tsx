@@ -52,7 +52,7 @@ export default function AcceptInvitePage({ app }) {
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
-      router.push("/my-flathub")
+      router.push("/developer-portal")
     },
   })
 

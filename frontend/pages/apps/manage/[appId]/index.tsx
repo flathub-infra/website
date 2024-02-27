@@ -74,7 +74,7 @@ export default function AppManagementPage({
   const user = useUserContext()
 
   const pages = [
-    { name: t("my-flathub"), current: false, href: "/my-flathub" },
+    { name: t("developer-portal"), current: false, href: "/developer-portal" },
     {
       name: t("manage-x", { "app-name": app.name }),
       current: true,

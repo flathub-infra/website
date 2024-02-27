@@ -106,10 +106,10 @@ const About = () => {
               <Link className="no-underline hover:underline" href="/login">
                 log in to Flathub
               </Link>
-              . Click the &quot;Developer Settings&quot; button under the app
-              you want to verify. At the top of the page, find the &quot;Setup
-              Verification&quot; section. The instructions there will walk you
-              through the verification process.
+              . Find &quot;Developer Portal&quot; in the footer of the page.
+              Click the app you want to verify then find the
+              &quot;Verification&quot; section. The instructions there will walk
+              you through the verification process.
             </p>
           </Trans>
 

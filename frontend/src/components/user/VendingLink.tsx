@@ -41,7 +41,7 @@ const VendingLink: FunctionComponent = () => {
     mutationFn: () =>
       vendingApi.startOnboardingVendingStatusOnboardingPost(
         {
-          return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/my-flathub`,
+          return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/developer-portal`,
         },
         {
           withCredentials: true,
