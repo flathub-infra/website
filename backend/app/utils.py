@@ -87,7 +87,10 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     continue
 
                 description = [
-                    etree.tostring(tag, encoding=("unicode")) for tag in desc
+                    etree.tostring(tag, encoding=("unicode"))
+                    for tag in desc
+                    # TODO: support translations
+                    if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang")
                 ]
                 app["description"] = "".join(description)
                 break
