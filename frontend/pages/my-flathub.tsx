@@ -37,8 +37,8 @@ export default function MyFlathub() {
               <>
                 <h1 className="text-4xl font-extrabold">{t("my-flathub")}</h1>
                 <div className="space-y-12 w-full">
-                  {IS_PRODUCTION && <UserApps variant="owned" />}
-                  {!IS_PRODUCTION && <Empty />}
+                  {!IS_PRODUCTION && <UserApps variant="owned" />}
+                  {IS_PRODUCTION && <Empty />}
                 </div>
               </>
             </div>
