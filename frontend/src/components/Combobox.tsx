@@ -7,15 +7,15 @@ export const FlathubCombobox = <
   T extends { id: string | number; name: string; subtitle?: string },
 >({
   items,
-  selected,
-  setSelected,
+  selectedItem,
+  setSelectedItem,
   label,
   disabled,
   renderItem,
 }: {
   items: T[]
-  selected: T
-  setSelected: (item: T) => void
+  selectedItem: T
+  setSelectedItem: (item: T) => void
   label?: string
   disabled?: boolean
   renderItem?: (
@@ -36,8 +36,9 @@ export const FlathubCombobox = <
   return (
     <Combobox
       as="div"
-      value={selected}
-      onChange={setSelected}
+      by={(a, b) => a?.id === b?.id}
+      value={selectedItem}
+      onChange={setSelectedItem}
       disabled={disabled}
     >
       {label && (
