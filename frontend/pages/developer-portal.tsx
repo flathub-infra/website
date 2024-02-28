@@ -11,6 +11,8 @@ import ButtonLink from "src/components/ButtonLink"
 import CodeCopy from "src/components/application/CodeCopy"
 import { HiMiniPlus } from "react-icons/hi2"
 import Breadcrumbs from "src/components/Breadcrumbs"
+import axios from "axios"
+import { format } from "date-fns"
 
 const InviteCode = ({}) => {
   const { t } = useTranslation()
@@ -61,6 +63,50 @@ const AcceptingPayment = ({}) => {
     </div>
   )
 }
+
+const News = ({ feed }: { feed: DocusaurusFeed }) => {
+  const { t } = useTranslation()
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-3">{t("news")}</h2>
+      <div className="grid grid-cols-1 gap-x-8 gap-y-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        {feed.items.slice(0, 3).map((feedItem) => (
+          <article
+            key={feedItem.id}
+            className="flex max-w-xl flex-col items-start justify-between"
+          >
+            <div className="flex items-center gap-x-4 text-xs">
+              <time
+                dateTime={feedItem.date_modified}
+                className="text-flathub-sonic-silver dark:text-flathub-sonic-silver"
+              >
+                {format(new Date(feedItem.date_modified), "P")}
+              </time>
+            </div>
+            <div className="group relative">
+              <h3 className="mt-3 text-lg font-semibold leading-6">
+                <a
+                  href={feedItem.id}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="no-underline hover:underline"
+                >
+                  <span className="absolute inset-0" />
+                  {feedItem.title}
+                </a>
+              </h3>
+              <p className="mt-5 line-clamp-3 text-sm leading-6 text-flathub-granite-gray dark:text-flathub-spanish-gray">
+                {feedItem.summary}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const DeveloperApps = ({}) => {
   const { t } = useTranslation()
   const user = useUserContext()
@@ -84,7 +130,7 @@ const DeveloperApps = ({}) => {
   )
 }
 
-export default function DeveloperPortal() {
+export default function DeveloperPortal({ feed }: { feed: DocusaurusFeed }) {
   const { t } = useTranslation()
 
   const pages = [
@@ -100,10 +146,12 @@ export default function DeveloperPortal() {
             <Breadcrumbs pages={pages} />
             <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
               <>
+                <h1 className="text-4xl font-extrabold">
+                  {t("developer-portal")}
+                </h1>
                 <div className="space-y-12 w-full">
-                  <h1 className="text-4xl font-extrabold">
-                    {t("developer-portal")}
-                  </h1>
+                  <News feed={feed} />
+
                   <DeveloperApps />
 
                   <InviteCode />
@@ -119,10 +167,32 @@ export default function DeveloperPortal() {
   )
 }
 
+type DocusaurusFeed = {
+  version: string
+  title: string
+  home_page_url: string
+  description: string
+  items: {
+    id: string
+    content_html: string
+    url: string
+    title: string
+    summary: string
+    date_modified: string
+    author: { name: string; url: string }
+    tags: string[]
+  }[]
+}
+
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  const feed = await axios.get<DocusaurusFeed>(
+    "https://docs.flathub.org/blog/feed.json",
+  )
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      feed: feed.data,
     },
     revalidate: 900,
   }

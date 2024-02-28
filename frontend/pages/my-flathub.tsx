@@ -35,8 +35,8 @@ export default function MyFlathub() {
             <Breadcrumbs pages={pages} />
             <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
               <>
+                <h1 className="text-4xl font-extrabold">{t("my-flathub")}</h1>
                 <div className="space-y-12 w-full">
-                  <h1 className="text-4xl font-extrabold">{t("my-flathub")}</h1>
                   {IS_PRODUCTION && <UserApps variant="owned" />}
                   {!IS_PRODUCTION && <Empty />}
                 </div>
