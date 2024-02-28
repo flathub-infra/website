@@ -72,8 +72,8 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
       <FlathubCombobox
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}
         items={selectableApps}
-        selected={queryAppOfTheDay.data?.data ?? null}
-        setSelected={changeAppOfTheDay}
+        selectedItem={queryAppOfTheDay.data?.data ?? null}
+        setSelectedItem={changeAppOfTheDay}
         renderItem={(active, selected, item) => (
           <ComboboxItem active={active} selected={selected} item={item} />
         )}
@@ -92,10 +92,15 @@ const ComboboxItem = ({
   item: { id: string; name: string; subtitle: string; icon: string }
 }): ReactElement => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center cursor-pointer">
       <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
       <div className="flex flex-col">
-        <span className={clsx("block truncate", selected && "font-semibold")}>
+        <span
+          className={clsx(
+            "block truncate font-semibold",
+            active && "font-bold",
+          )}
+        >
           {item.name}
         </span>
         {item.subtitle && (

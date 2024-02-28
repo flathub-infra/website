@@ -229,11 +229,11 @@ export default function AppPicks() {
         <div className="flex flex-col lg:flex-row gap-2 justify-between">
           <FlathubCombobox
             items={selectableApps}
-            selected={firstApp}
+            selectedItem={firstApp}
             renderItem={(active, selected, item) => (
               <ComboboxItem active={active} selected={selected} item={item} />
             )}
-            setSelected={(app) => {
+            setSelectedItem={(app) => {
               setFirstApp(app)
               if (app) {
                 mutateAppForWeek.mutateAsync({
@@ -246,11 +246,11 @@ export default function AppPicks() {
           />
           <FlathubCombobox
             items={selectableApps}
-            selected={secondApp}
+            selectedItem={secondApp}
             renderItem={(active, selected, item) => (
               <ComboboxItem active={active} selected={selected} item={item} />
             )}
-            setSelected={(app) => {
+            setSelectedItem={(app) => {
               setSecondApp(app)
               if (app) {
                 mutateAppForWeek.mutateAsync({
@@ -263,11 +263,11 @@ export default function AppPicks() {
           />
           <FlathubCombobox
             items={selectableApps}
-            selected={thirdApp}
+            selectedItem={thirdApp}
             renderItem={(active, selected, item) => (
               <ComboboxItem active={active} selected={selected} item={item} />
             )}
-            setSelected={(app) => {
+            setSelectedItem={(app) => {
               setThirdApp(app)
               if (app) {
                 mutateAppForWeek.mutateAsync({
@@ -280,11 +280,11 @@ export default function AppPicks() {
           />
           <FlathubCombobox
             items={selectableApps}
-            selected={fourthApp}
+            selectedItem={fourthApp}
             renderItem={(active, selected, item) => (
               <ComboboxItem active={active} selected={selected} item={item} />
             )}
-            setSelected={(app) => {
+            setSelectedItem={(app) => {
               setFourthApp(app)
               if (app) {
                 mutateAppForWeek.mutateAsync({
@@ -297,11 +297,11 @@ export default function AppPicks() {
           />
           <FlathubCombobox
             items={selectableApps}
-            selected={fifthApp}
+            selectedItem={fifthApp}
             renderItem={(active, selected, item) => (
               <ComboboxItem active={active} selected={selected} item={item} />
             )}
-            setSelected={(app) => {
+            setSelectedItem={(app) => {
               setFifthApp(app)
               if (app) {
                 mutateAppForWeek.mutateAsync({
@@ -406,10 +406,15 @@ const ComboboxItem = ({
   item: { id: string; name: string; subtitle: string; icon: string }
 }): ReactElement => {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center cursor-pointer">
       <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
       <div className="flex flex-col">
-        <span className={clsx("block truncate", selected && "font-semibold")}>
+        <span
+          className={clsx(
+            "block truncate font-semibold",
+            active && "font-bold",
+          )}
+        >
           {item.name}
         </span>
         {item.subtitle && (
