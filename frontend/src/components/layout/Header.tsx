@@ -38,6 +38,7 @@ const navigation = [
 
 let userNavigation = [
   { name: "my-flathub", href: "/my-flathub" },
+  { name: "developer-portal", href: "/developer-portal" },
   {
     name: "Moderation Dashboard",
     href: "/moderation",
