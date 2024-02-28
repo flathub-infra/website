@@ -41,7 +41,7 @@ const nextConfig = (phase) => ({
   i18n,
   cacheHandler:
     process.env.NODE_ENV === "production"
-      ? require.resolve("./cache-handler.js")
+      ? require.resolve("./cache-handler.mjs")
       : undefined,
   images: {
     remotePatterns: [
