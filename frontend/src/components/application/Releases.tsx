@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useRef, useState } from "react"
-import { getIntlLocale, getLocale } from "../../localize"
+import { getIntlLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
@@ -90,7 +90,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                     >
                       {formatDistanceToNow(
                         new Date(latestRelease.timestamp * 1000),
-                        { addSuffix: true, locale: getLocale(i18n.language) },
+                        { addSuffix: true },
                       )}
                     </div>
                   )}
@@ -105,7 +105,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                       {t("build-x", {
                         "build-ago": formatDistanceToNow(
                           new Date(summary.timestamp * 1000),
-                          { addSuffix: true, locale: getLocale(i18n.language) },
+                          { addSuffix: true },
                         ),
                       })}
                       )

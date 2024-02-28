@@ -8,7 +8,6 @@ import {
 } from "@tanstack/react-table"
 import clsx from "clsx"
 import { formatDistanceToNow, parseISO } from "date-fns"
-import { getLocale } from "src/localize"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
@@ -143,7 +142,6 @@ export default function QualityModerationDashboard() {
           <span title={date.toLocaleString(i18n.language)}>
             {formatDistanceToNow(date, {
               addSuffix: true,
-              locale: getLocale(i18n.language),
             })}
           </span>
         )
@@ -170,7 +168,6 @@ export default function QualityModerationDashboard() {
           <span title={date.toLocaleString(i18n.language)}>
             {formatDistanceToNow(date, {
               addSuffix: true,
-              locale: getLocale(i18n.language),
             })}
           </span>
         )

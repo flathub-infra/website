@@ -15,7 +15,7 @@ import { toast, ToastContainer } from "react-toastify"
 
 import "../styles/main.scss"
 import { useRouter } from "next/router"
-import { bcpToPosixLocale, languages } from "../src/localize"
+import { bcpToPosixLocale, getLocale, languages } from "../src/localize"
 import Main from "../src/components/layout/Main"
 
 import { Inter } from "next/font/google"
@@ -26,6 +26,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import cardImage from "../public/img/card.webp"
 import { Fragment, useState } from "react"
+import { setDefaultOptions } from "date-fns"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,8 @@ const inter = Inter({
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { t } = useTranslation()
+
+  setDefaultOptions({ locale: getLocale(i18n.language) })
 
   const [queryClient] = useState(() => new QueryClient({}))
 

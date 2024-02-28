@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
-import { getIntlLocale, getLocale } from "src/localize"
+import { getIntlLocale } from "src/localize"
 import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
@@ -94,7 +94,6 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
     const date = parseISO(request.handled_at + "Z")
     const dateRel = formatDistanceToNow(date, {
       addSuffix: true,
-      locale: getLocale(i18n.language),
     })
     const message = t(
       request.is_approved ? "moderation-approved-by" : "moderation-rejected-by",

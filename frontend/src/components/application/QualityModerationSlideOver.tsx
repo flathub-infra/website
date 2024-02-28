@@ -37,7 +37,6 @@ import {
 } from "@floating-ui/react"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
-import { getLocale } from "src/localize"
 import { getContrastColor } from "src/utils/helpers"
 
 const ShowIconButton = ({ app }: { app: DesktopAppstream }) => {
@@ -415,7 +414,6 @@ const QualityItem = ({
           {t("quality-guideline.needed-to-pass-x", {
             x: formatDistanceToNow(qualityGuideline.needed_to_pass_since, {
               addSuffix: true,
-              locale: getLocale(i18n.language),
             }),
           })}
         </div>
