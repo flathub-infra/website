@@ -3664,23 +3664,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neshca/cache-handler@npm:^0.6.10":
-  version: 0.6.10
-  resolution: "@neshca/cache-handler@npm:0.6.10"
+"@neshca/cache-handler@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@neshca/cache-handler@npm:1.0.4"
   dependencies:
-    "@neshca/json-replacer-reviver": "npm:*"
     lru-cache: "npm:10.2.0"
   peerDependencies:
     next: ">=13.5.1"
     redis: ">=4.6"
-  checksum: f9894b92ab10b12f19ff447a30cd12ca9d05cb0b0e31899ac2ec7f13549028a87a9f4af5b92a71e9ff1d0aaae4d9d33a2c7769e7a5920e3d7c31acd04ea70d4d
-  languageName: node
-  linkType: hard
-
-"@neshca/json-replacer-reviver@npm:*, @neshca/json-replacer-reviver@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@neshca/json-replacer-reviver@npm:1.1.1"
-  checksum: fda074f9daf8488cc6b0df8b1171e388509c8c177da04ffd3fec9345df984b48e626b0c9d3509e5f94b364d92c95d94c0febbd8f8aa468b9c8436b7a4a7f6e32
+  checksum: e607dea1c1ba1acd6943278ecbbb9a4753e591f250994d0fa41a7463c333118aff070548e6273f513051f105ae0dfe97b092edbe819ff4c84fef2fbcd11fd979
   languageName: node
   linkType: hard
 
@@ -10917,8 +10909,7 @@ __metadata:
     "@floating-ui/react": "npm:^0.26.9"
     "@headlessui/react": "npm:^1.7.18"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
-    "@neshca/cache-handler": "npm:^0.6.10"
-    "@neshca/json-replacer-reviver": "npm:^1.1.1"
+    "@neshca/cache-handler": "npm:^1.0.4"
     "@resvg/resvg-js": "npm:^2.6.0"
     "@sentry/nextjs": "npm:^7.102.1"
     "@storybook/addon-actions": "npm:^7.6.16"
