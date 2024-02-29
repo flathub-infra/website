@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import DonationInput from "../src/components/payment/DonationInput"
-import { UserInfo } from "src/codegen"
+import { Permission, UserInfo } from "src/codegen"
 
 export default function Donate() {
   const { t } = useTranslation()

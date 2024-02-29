@@ -23,7 +23,7 @@ import { Disclosure, Transition } from "@headlessui/react"
 import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
-import { UserInfo } from "src/codegen"
+import { Permission, UserInfo } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
