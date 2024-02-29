@@ -882,11 +882,13 @@ class Auths(BaseModel):
     gnome: Optional[AuthInfo] = None
     kde: Optional[AuthInfo] = None
 
+
 class Permission(str, Enum):
     QUALITY_MODERATION = "quality-moderation"
     MODERATION = "moderation"
     PAYMENT = "payment"
     DIRECT_UPLOAD = "direct-upload"
+
 
 class UserInfo(BaseModel):
     displayname: Optional[str] = None
