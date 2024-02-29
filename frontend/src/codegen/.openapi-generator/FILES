@@ -65,6 +65,7 @@ model/oauth-login-response-failure.ts
 model/oauth-login-response-success.ts
 model/pagination.ts
 model/payment-card-info.ts
+model/permission.ts
 model/platform.ts
 model/post-transaction-response.ts
 model/pricing-info.ts
