@@ -8,11 +8,14 @@ import Badge from "../application/Badge"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
-import { ModerationRequestResponse } from "src/codegen/model"
 import { useMutation } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
-import { submitReviewModerationRequestsIdReviewPost } from "src/codegen"
+import {
+  submitReviewModerationRequestsIdReviewPost,
+  ModerationRequestResponse,
+  Permission,
+} from "src/codegen"
 
 interface Props {
   title: string
@@ -112,7 +115,10 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         )}
       </div>
     )
-  } else if (user.info && user.info.is_moderator) {
+  } else if (
+    user.info &&
+    user.info.permissions.some((a) => a === Permission.moderation)
+  ) {
     buttons = (
       <>
         <Button
@@ -216,13 +222,14 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
 
         {children}
 
-        {user.info && user.info.is_moderator && (
-          <CodeCopy
-            className="mt-8"
-            nested
-            text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
-          />
-        )}
+        {user.info &&
+          user.info.permissions.some((a) => a === Permission.moderation) && (
+            <CodeCopy
+              className="mt-8"
+              nested
+              text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
+            />
+          )}
 
         <div className="flex flex-col sm:flex-row-reverse gap-2 pt-4">
           {buttons}

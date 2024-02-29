@@ -30,7 +30,7 @@ import {
   getAppOfTheDayAppPicksAppOfTheDayDateGet,
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
 } from "src/codegen"
-import { UserInfo } from "src/codegen/model/userInfo"
+import { Permission, UserInfo } from "src/codegen"
 import { useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
 
@@ -169,7 +169,11 @@ export default function Home({
     <>
       <NextSeo description={t("flathub-description")} />
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+        <LoginGuard
+          condition={(info: UserInfo) =>
+            info.permissions.some((a) => a === Permission["quality-moderation"])
+          }
+        >
           <div className="space-y-4">
             {heroBannerData.length > 0 && (
               <HeroBanner heroBannerData={heroBannerData} />

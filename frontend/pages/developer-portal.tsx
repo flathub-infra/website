@@ -13,6 +13,7 @@ import { HiMiniPlus } from "react-icons/hi2"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import axios from "axios"
 import { format } from "date-fns"
+import { Permission } from "src/codegen"
 
 const InviteCode = ({}) => {
   const { t } = useTranslation()
@@ -22,7 +23,10 @@ const InviteCode = ({}) => {
     return null
   }
 
-  if (IS_PRODUCTION || !user.info?.is_moderator) {
+  if (
+    IS_PRODUCTION ||
+    !user.info?.permissions.some((a) => a === Permission.moderation)
+  ) {
     return null
   }
 
@@ -119,7 +123,8 @@ const DeveloperApps = ({}) => {
     <UserApps
       variant="dev"
       customButtons={
-        (!IS_PRODUCTION || user.info?.is_moderator) && (
+        (!IS_PRODUCTION ||
+          user.info?.permissions.some((a) => a === Permission.moderation)) && (
           <ButtonLink className="w-full sm:w-auto" passHref href="/apps/new">
             <HiMiniPlus className="w-5 h-5" />
             {t("new-app")}

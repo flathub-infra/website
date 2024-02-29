@@ -21,9 +21,12 @@ import { Disclosure, Transition } from "@headlessui/react"
 import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
-import { getInviteStatusInvitesAppIdGet } from "src/codegen"
-import { getGlobalVendingConfigVendingConfigGet } from "src/codegen"
-import { UserInfo } from "src/codegen/model/userInfo"
+import {
+  getGlobalVendingConfigVendingConfigGet,
+  Permission,
+  getInviteStatusInvitesAppIdGet,
+  UserInfo,
+} from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -117,7 +120,10 @@ export default function AppManagementPage({
                       showHeader={false}
                     />
                   </SettingsDisclosure>
-                  {(!IS_PRODUCTION || user.info?.is_moderator) && (
+                  {(!IS_PRODUCTION ||
+                    user.info?.permissions.some(
+                      (a) => a === Permission.moderation,
+                    )) && (
                     <>
                       <SettingsDisclosure sectionTitle={t("accepting-payment")}>
                         <AppVendingControls.SetupControls
@@ -136,7 +142,10 @@ export default function AppManagementPage({
                     <AppDevModeration appId={app.id} />
                   </SettingsDisclosure>
 
-                  {(!IS_PRODUCTION || user.info?.is_moderator) && (
+                  {(!IS_PRODUCTION ||
+                    user.info?.permissions.some(
+                      (a) => a === Permission.moderation,
+                    )) && (
                     <>
                       {inviteQuery.data?.data?.is_direct_upload_app && (
                         <SettingsDisclosure sectionTitle={t("developers")}>

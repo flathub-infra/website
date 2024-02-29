@@ -17,7 +17,7 @@ import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
-import { StatsResult } from "src/codegen/model"
+import { Permission, StatsResult } from "src/codegen/model"
 import { getQualityModerationStatsQualityModerationFailedByGuidelineGet } from "src/codegen"
 import { getRuntimeListRuntimesGet, getStatsStatsGet } from "src/codegen"
 
@@ -78,7 +78,9 @@ const Statistics = ({
       getQualityModerationStatsQualityModerationFailedByGuidelineGet({
         withCredentials: true,
       }),
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission["quality-moderation"],
+    ),
   })
 
   let country_data: { country: string; value: number }[] = []
@@ -239,29 +241,32 @@ const Statistics = ({
           />
         </div>
         <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
-        {!!user.info?.is_quality_moderator && query.data?.data && (
-          <>
-            <h2 className="mb-6 mt-12 text-2xl font-bold">
-              Failed by guideline
-            </h2>
-            <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-              <Bar
-                data={{
-                  labels: query.data.data.map((x) =>
-                    t(`quality-guideline.${x.guideline_id}`),
-                  ),
-                  datasets: [
-                    {
-                      data: query.data.data.map((x) => x.not_passed),
-                      backgroundColor: ["rgb(74, 144, 217)"],
-                    },
-                  ],
-                }}
-                options={barOptions}
-              />
-            </div>
-          </>
-        )}
+        {!!user.info?.permissions.some(
+          (a) => a === Permission["quality-moderation"],
+        ) &&
+          query.data?.data && (
+            <>
+              <h2 className="mb-6 mt-12 text-2xl font-bold">
+                Failed by guideline
+              </h2>
+              <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+                <Bar
+                  data={{
+                    labels: query.data.data.map((x) =>
+                      t(`quality-guideline.${x.guideline_id}`),
+                    ),
+                    datasets: [
+                      {
+                        data: query.data.data.map((x) => x.not_passed),
+                        backgroundColor: ["rgb(74, 144, 217)"],
+                      },
+                    ],
+                  }}
+                  options={barOptions}
+                />
+              </div>
+            </>
+          )}
       </div>
     </>
   )

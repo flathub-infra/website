@@ -23,8 +23,7 @@ import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
-import { UserInfo } from "src/codegen/model"
-import { doLogoutAuthLogoutPost } from "src/codegen"
+import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
 
 const navigation = [
   {
@@ -42,17 +41,20 @@ let userNavigation = [
   {
     name: "Moderation Dashboard",
     href: "/moderation",
-    condition: (user: UserInfo) => user?.is_moderator,
+    condition: (user: UserInfo) =>
+      user?.permissions.some((a) => a === Permission.moderation),
   },
   {
     name: "Quality Moderation Dashboard",
     href: "/quality-moderation",
-    condition: (user: UserInfo) => user?.is_quality_moderator,
+    condition: (user: UserInfo) =>
+      user?.permissions.some((a) => a === Permission["quality-moderation"]),
   },
   {
     name: "App Picks",
     href: "/app-picks",
-    condition: (user: UserInfo) => user?.is_quality_moderator,
+    condition: (user: UserInfo) =>
+      user?.permissions.some((a) => a === Permission["quality-moderation"]),
   },
   { name: "settings", href: "/settings" },
 ]

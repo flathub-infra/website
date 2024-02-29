@@ -23,11 +23,12 @@ import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
 import LoginGuard from "src/components/login/LoginGuard"
 import {
+  UserInfo,
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
+  Permission,
 } from "src/codegen"
 import { getQualityModerationStatusQualityModerationStatusGet } from "src/codegen"
-import { UserInfo } from "src/codegen/model"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -146,7 +147,9 @@ export default function AppPicks() {
 
       return heroBannerData
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission["quality-moderation"],
+    ),
   })
 
   const queryQualityApps = useQuery({
@@ -174,7 +177,9 @@ export default function AppPicks() {
 
       return passingApps
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission["quality-moderation"],
+    ),
   })
 
   const startOfThisWeek = startOfISOWeek(date)
@@ -396,7 +401,11 @@ export default function AppPicks() {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="App Picks" noindex />
-      <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+      <LoginGuard
+        condition={(info: UserInfo) =>
+          info.permissions.some((a) => a === Permission["quality-moderation"])
+        }
+      >
         {content}
       </LoginGuard>
     </div>

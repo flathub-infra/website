@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
 import DonationInput from "../src/components/payment/DonationInput"
-import { UserInfo } from "src/codegen"
+import { Permission, UserInfo } from "src/codegen"
 
 export default function Donate() {
   const { t } = useTranslation()
@@ -18,7 +18,11 @@ export default function Donate() {
         }}
       />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <LoginGuard condition={(info: UserInfo) => info.is_moderator}>
+        <LoginGuard
+          condition={(info: UserInfo) =>
+            info.permissions.some((a) => a === Permission.moderation)
+          }
+        >
           <h1 className="pt-12 text-4xl font-extrabold">
             {t("donate-to", { project: "Flathub" })}
           </h1>
