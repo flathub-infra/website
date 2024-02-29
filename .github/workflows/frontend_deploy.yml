@@ -41,6 +41,7 @@ jobs:
             NEXT_PUBLIC_IS_PRODUCTION=true
             ENABLE_SENTRY=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            GITHUB_SHA=${{ github.sha }}
           tags: |
             ghcr.io/flathub-infra/frontend:${{ github.sha }}
             ghcr.io/flathub-infra/frontend:latest
