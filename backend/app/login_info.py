@@ -88,19 +88,22 @@ def logged_in(login: LoginStatusDep):
 
 
 def quality_moderator_only(login=Depends(logged_in)):
-    if not login.user.is_quality_moderator:
+    if "quality-moderation" not in login.user.permissions():
         raise HTTPException(status_code=403, detail="not_quality_moderator")
 
     return login
 
 
 def moderator_only(login=Depends(logged_in)):
-    if not login.user.is_moderator:
+    if "moderation" not in login.user.permissions():
         raise HTTPException(status_code=403, detail="not_moderator")
 
 
 def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
-    if not login.user.is_moderator and app_id not in login.user.dev_flatpaks(db):
+    if (
+        "moderation" not in login.user.permissions()
+        and app_id not in login.user.dev_flatpaks(db)
+    ):
         raise HTTPException(status_code=403, detail="not_app_developer")
 
 
@@ -112,7 +115,7 @@ def app_author_only(app_id: str, login=Depends(logged_in)):
 
 
 def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
-    if login.user and login.user.is_quality_moderator:
+    if login.user and "quality-moderation" in login.user.permissions():
         return login
 
     if login.user and app_id in login.user.dev_flatpaks(db):

@@ -10,6 +10,7 @@ import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from enum import Enum
 from typing import List, Optional
 from urllib.parse import urlencode
 from uuid import uuid4
@@ -881,12 +882,16 @@ class Auths(BaseModel):
     gnome: Optional[AuthInfo] = None
     kde: Optional[AuthInfo] = None
 
+class Permission(str, Enum):
+    QUALITY_MODERATION = "quality-moderation"
+    MODERATION = "moderation"
+    PAYMENT = "payment"
+    DIRECT_UPLOAD = "direct-upload"
 
 class UserInfo(BaseModel):
-    is_moderator: bool
-    is_quality_moderator: bool
     displayname: Optional[str] = None
     dev_flatpaks: List[str] = []
+    permissions: List[Permission] = []
     owned_flatpaks: List[str] = []
     invited_flatpaks: List[str] = []
     invite_code: str
@@ -935,6 +940,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
 
     appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
     dev_flatpaks = user.dev_flatpaks(db)
+    permissions = user.permissions()
     owned_flatpaks = {
         app.app_id
         for app in models.UserOwnedApp.all_owned_by_user(db, user)
@@ -958,10 +964,9 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     )
 
     return UserInfo(
-        is_moderator=user.is_moderator,
-        is_quality_moderator=user.is_quality_moderator,
         displayname=default_account.display_name if default_account else None,
         dev_flatpaks=sorted(dev_flatpaks),
+        permissions=sorted(permissions),
         owned_flatpaks=sorted(owned_flatpaks),
         invited_flatpaks=sorted(invited_flatpaks),
         invite_code=user.invite_code,

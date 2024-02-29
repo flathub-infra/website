@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime, timedelta
 from math import ceil
-from typing import Any, Optional, Union
+from typing import Any, List, Optional, Union
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -74,10 +74,10 @@ class FlathubUser(Base):
     display_name: Mapped[Optional[str]]
     default_account: Mapped[Optional[str]]
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    is_moderator: Mapped[bool] = mapped_column(
+    is_moderator: Mapped[bool] = mapped_column(  # todo remove
         Boolean, nullable=False, server_default=text("false")
     )
-    is_quality_moderator: Mapped[bool] = mapped_column(
+    is_quality_moderator: Mapped[bool] = mapped_column(  # todo remove
         Boolean, nullable=False, server_default=text("false")
     )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
@@ -87,6 +87,8 @@ class FlathubUser(Base):
     invite_code: Mapped[str | None] = mapped_column(
         String, nullable=True, unique=True, index=True
     )
+
+    role: Mapped[List["Role"]] = relationship(secondary="flathubuser_role")
 
     TABLES_FOR_DELETE = []
 
@@ -185,6 +187,67 @@ class FlathubUser(Base):
                 flatpaks.add(app.app_id)
 
         return flatpaks
+
+    def permissions(self):
+        """
+        Retrieve a list of permissions the user has.
+        """
+
+        permissions = set()
+
+        for role in self.role:
+            for permission in role.permission:
+                permissions.add(permission.name)
+
+        return permissions
+
+class flathubuser_role(Base):
+    __tablename__ = "flathubuser_role"
+    flathubuser_id = mapped_column(Integer, ForeignKey("flathubuser.id"),nullable=False, primary_key=True)
+    role_id = mapped_column(Integer, ForeignKey("role.id"),nullable=False, primary_key=True)
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        """Don't include role in the hash"""
+        pass
+
+    @staticmethod
+    def delete_user(db, self):
+        """
+        Delete a user's role connection
+        """
+        db.session.execute(
+            delete(flathubuser_role).where(
+                flathubuser_role.flathubuser_id == self.id
+            )
+        )
+
+FlathubUser.TABLES_FOR_DELETE.append(flathubuser_role)
+
+class role_permission(Base):
+    __tablename__ = "role_permission"
+    role_id = mapped_column(Integer, ForeignKey("role.id"),nullable=False, primary_key=True)
+    permission_name = mapped_column(String, ForeignKey("permission.name"),nullable=False, primary_key=True)
+
+
+class Role(Base):
+    __tablename__ = "role"
+
+    id = mapped_column(Integer, primary_key=True)
+    name = mapped_column(String, unique=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    permission: Mapped[List["Permission"]] = relationship(secondary="role_permission")
+
+
+
+
+class Permission(Base):
+    __tablename__ = "permission"
+
+    name = mapped_column(String, unique=True, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
 
 
 class GithubAccount(Base):
