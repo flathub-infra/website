@@ -166,7 +166,7 @@ def send_email(info: EmailInfo, db):
 
         if info.inform_only_moderators or info.inform_moderators:
             moderators = db.session.query(models.FlathubUser).filter_by(
-                is_moderator=True
+                is_moderator=True  # todo figure this out
             )
             for user in moderators:
                 message = _create_message(user, info, db)
