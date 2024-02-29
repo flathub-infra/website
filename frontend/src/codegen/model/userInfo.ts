@@ -8,6 +8,7 @@ import type { UserInfoAcceptedPublisherAgreementAt } from "./userInfoAcceptedPub
 import type { Auths } from "./auths"
 import type { AuthInfo } from "./authInfo"
 import type { UserInfoDisplayname } from "./userInfoDisplayname"
+import type { Permission } from "./permission"
 
 export interface UserInfo {
   accepted_publisher_agreement_at: UserInfoAcceptedPublisherAgreementAt
@@ -17,7 +18,6 @@ export interface UserInfo {
   displayname?: UserInfoDisplayname
   invite_code: string
   invited_flatpaks?: string[]
-  is_moderator: boolean
-  is_quality_moderator: boolean
   owned_flatpaks?: string[]
+  permissions?: Permission[]
 }

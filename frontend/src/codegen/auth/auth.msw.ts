@@ -6,6 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
+import { Permission } from ".././model"
 import type {
   DeleteUserResult,
   GetDeleteUserResult,
@@ -119,13 +120,15 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     ).map(() => faker.word.sample()),
     undefined,
   ]),
-  is_moderator: faker.datatype.boolean(),
-  is_quality_moderator: faker.datatype.boolean(),
   owned_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => faker.word.sample()),
+    undefined,
+  ]),
+  permissions: faker.helpers.arrayElement([
+    faker.helpers.arrayElements(Object.values(Permission)),
     undefined,
   ]),
   ...overrideResponse,
