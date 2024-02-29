@@ -18,7 +18,7 @@ import { useRouter } from "next/router"
 import { appApi, qualityModerationApi } from "src/api"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
-import { StatsResult } from "src/codegen"
+import { Permission, StatsResult } from "src/codegen"
 
 const countries = registerIsoCountriesLocales()
 
@@ -79,7 +79,9 @@ const Statistics = ({
           withCredentials: true,
         },
       ),
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission.QualityModeration,
+    ),
   })
 
   let country_data: { country: string; value: number }[] = []
@@ -240,29 +242,32 @@ const Statistics = ({
           />
         </div>
         <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
-        {!!user.info?.is_quality_moderator && query.data?.data && (
-          <>
-            <h2 className="mb-6 mt-12 text-2xl font-bold">
-              Failed by guideline
-            </h2>
-            <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-              <Bar
-                data={{
-                  labels: query.data.data.map((x) =>
-                    t(`quality-guideline.${x.guideline_id}`),
-                  ),
-                  datasets: [
-                    {
-                      data: query.data.data.map((x) => x.not_passed),
-                      backgroundColor: ["rgb(74, 144, 217)"],
-                    },
-                  ],
-                }}
-                options={barOptions}
-              />
-            </div>
-          </>
-        )}
+        {!!user.info?.permissions.some(
+          (a) => a === Permission.QualityModeration,
+        ) &&
+          query.data?.data && (
+            <>
+              <h2 className="mb-6 mt-12 text-2xl font-bold">
+                Failed by guideline
+              </h2>
+              <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+                <Bar
+                  data={{
+                    labels: query.data.data.map((x) =>
+                      t(`quality-guideline.${x.guideline_id}`),
+                    ),
+                    datasets: [
+                      {
+                        data: query.data.data.map((x) => x.not_passed),
+                        backgroundColor: ["rgb(74, 144, 217)"],
+                      },
+                    ],
+                  }}
+                  options={barOptions}
+                />
+              </div>
+            </>
+          )}
       </div>
     </>
   )

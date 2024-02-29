@@ -23,7 +23,7 @@ import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
 import LoginGuard from "src/components/login/LoginGuard"
-import { UserInfo } from "src/codegen"
+import { Permission, UserInfo } from "src/codegen"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -133,7 +133,9 @@ export default function AppPicks() {
 
       return getAppOfTheWeekInfo
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission.QualityModeration,
+    ),
   })
 
   const queryQualityApps = useQuery({
@@ -159,7 +161,9 @@ export default function AppPicks() {
 
       return passingApps
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission.QualityModeration,
+    ),
   })
 
   const startOfThisWeek = startOfISOWeek(date)
@@ -381,7 +385,11 @@ export default function AppPicks() {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="App picks" noindex />
-      <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+      <LoginGuard
+        condition={(info: UserInfo) =>
+          info.permissions.some((a) => a === Permission.QualityModeration)
+        }
+      >
         {content}
       </LoginGuard>
     </div>

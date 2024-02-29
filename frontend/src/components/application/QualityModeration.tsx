@@ -15,7 +15,7 @@ import {
   HiQuestionMarkCircle,
 } from "react-icons/hi2"
 import { qualityModerationApi } from "src/api"
-import { QualityModerationStatus } from "src/codegen"
+import { Permission, QualityModerationStatus } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
@@ -178,7 +178,9 @@ export const QualityModeration = ({
   })
 
   useEffect(() => {
-    if (user.info?.is_quality_moderator) {
+    if (
+      user.info?.permissions.some((a) => a === Permission.QualityModeration)
+    ) {
       setIsQualityModerator(true)
     }
   }, [user.info])

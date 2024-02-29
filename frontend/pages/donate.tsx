@@ -18,7 +18,11 @@ export default function Donate() {
         }}
       />
       <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <LoginGuard condition={(info: UserInfo) => info.is_moderator}>
+        <LoginGuard
+          condition={(info: UserInfo) =>
+            info.permissions.some((a) => a === Permission.Moderation)
+          }
+        >
           <h1 className="pt-12 text-4xl font-extrabold">
             {t("donate-to", { project: "Flathub" })}
           </h1>

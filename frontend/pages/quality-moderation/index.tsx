@@ -25,6 +25,7 @@ import {
 import { qualityModerationApi } from "src/api"
 import {
   GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
+  Permission,
   QualityModerationDashboardResponse,
   QualityModerationDashboardRow,
   UserInfo,
@@ -66,7 +67,9 @@ export default function QualityModerationDashboard() {
           signal,
         },
       ),
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission.QualityModeration,
+    ),
     placeholderData: (previousData) => previousData,
   })
 
@@ -212,7 +215,11 @@ export default function QualityModerationDashboard() {
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="Quality Moderation Dashboard" noindex />
       <>
-        <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+        <LoginGuard
+          condition={(info: UserInfo) =>
+            info.permissions.some((a) => a === Permission.QualityModeration)
+          }
+        >
           <h1 className="my-8 text-4xl font-extrabold">
             Quality Moderation Dashboard
           </h1>
