@@ -17,10 +17,11 @@ import {
 import { useTranslation } from "next-i18next"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
-import { QualityModerationStatus } from "src/codegen/model"
 import {
   getQualityModerationStatusForAppQualityModerationAppIdStatusGet,
   requestReviewForAppQualityModerationAppIdRequestReviewPost,
+  Permission,
+  QualityModerationStatus,
 } from "src/codegen"
 
 const QualityModerationStatusComponent = ({
@@ -175,7 +176,9 @@ export const QualityModeration = ({
   })
 
   useEffect(() => {
-    if (user.info?.is_quality_moderator) {
+    if (
+      user.info?.permissions.some((a) => a === Permission["quality-moderation"])
+    ) {
       setIsQualityModerator(true)
     }
   }, [user.info])

@@ -12,6 +12,7 @@ import LogoImage from "../LogoImage"
 import {
   getAppOfTheDayAppPicksAppOfTheDayDateGet,
   setAppOfTheDayAppPicksAppOfTheDayPost,
+  Permission,
 } from "src/codegen"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
@@ -30,7 +31,9 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
       return getAppOfTheDayInfo
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission["quality-moderation"],
+    ),
   })
 
   const mutateAppOfTheDay = useMutation({
