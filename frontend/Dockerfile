@@ -16,6 +16,9 @@ FROM base as builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG ENABLE_SENTRY=false
 ARG SENTRY_AUTH_TOKEN
+ARG GITHUB_SHA
+
+ENV GITHUB_SHA=$GITHUB_SHA
 
 WORKDIR /app
 COPY --from=dev /app/node_modules ./node_modules
@@ -25,7 +28,9 @@ RUN yarn build
 
 FROM node:18-slim as prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
+ARG GITHUB_SHA
 
+ENV GITHUB_SHA=$GITHUB_SHA
 ENV NODE_ENV production
 ENV PORT 3000
 EXPOSE 3000

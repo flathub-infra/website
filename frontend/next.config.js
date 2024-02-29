@@ -173,6 +173,13 @@ const nextConfig = (phase) => ({
       },
     ]
   },
+  async generateBuildId() {
+    if (!process.env.GITHUB_SHA) {
+      throw new Error("GITHUB_SHA is not set")
+    }
+
+    return process.env.GITHUB_SHA
+  },
 })
 
 const sentryExports = (phase) => {
