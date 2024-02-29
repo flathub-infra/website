@@ -201,10 +201,15 @@ class FlathubUser(Base):
 
         return permissions
 
+
 class flathubuser_role(Base):
     __tablename__ = "flathubuser_role"
-    flathubuser_id = mapped_column(Integer, ForeignKey("flathubuser.id"),nullable=False, primary_key=True)
-    role_id = mapped_column(Integer, ForeignKey("role.id"),nullable=False, primary_key=True)
+    flathubuser_id = mapped_column(
+        Integer, ForeignKey("flathubuser.id"), nullable=False, primary_key=True
+    )
+    role_id = mapped_column(
+        Integer, ForeignKey("role.id"), nullable=False, primary_key=True
+    )
 
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
@@ -217,17 +222,21 @@ class flathubuser_role(Base):
         Delete a user's role connection
         """
         db.session.execute(
-            delete(flathubuser_role).where(
-                flathubuser_role.flathubuser_id == self.id
-            )
+            delete(flathubuser_role).where(flathubuser_role.flathubuser_id == self.id)
         )
+
 
 FlathubUser.TABLES_FOR_DELETE.append(flathubuser_role)
 
+
 class role_permission(Base):
     __tablename__ = "role_permission"
-    role_id = mapped_column(Integer, ForeignKey("role.id"),nullable=False, primary_key=True)
-    permission_name = mapped_column(String, ForeignKey("permission.name"),nullable=False, primary_key=True)
+    role_id = mapped_column(
+        Integer, ForeignKey("role.id"), nullable=False, primary_key=True
+    )
+    permission_name = mapped_column(
+        String, ForeignKey("permission.name"), nullable=False, primary_key=True
+    )
 
 
 class Role(Base):
@@ -240,14 +249,11 @@ class Role(Base):
     permission: Mapped[List["Permission"]] = relationship(secondary="role_permission")
 
 
-
-
 class Permission(Base):
     __tablename__ = "permission"
 
     name = mapped_column(String, unique=True, primary_key=True)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
-
 
 
 class GithubAccount(Base):
