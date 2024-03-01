@@ -396,9 +396,9 @@ def submit_review_request(
                                 dict_keys = current_perm.keys() | build_perm.keys()
                                 for key in dict_keys:
                                     if current_perm.get(key) != build_perm.get(key):
-                                        current_values[
-                                            f"{key}-{perm}"
-                                        ] = current_perm.get(key)
+                                        current_values[f"{key}-{perm}"] = (
+                                            current_perm.get(key)
+                                        )
                                         keys[f"{key}-{perm}"] = build_perm.get(key)
 
         if len(keys) > 0:

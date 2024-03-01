@@ -6,7 +6,6 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-
 import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
