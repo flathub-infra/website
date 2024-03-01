@@ -134,9 +134,9 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         height = image.attrib.get("height")
                         attrs["sizes"][f"{width}x{height}"] = image.text
                         if not image.text.startswith("http"):
-                            attrs["sizes"][
-                                f"{width}x{height}"
-                            ] = f"{media_base_url}/{image.text}"
+                            attrs["sizes"][f"{width}x{height}"] = (
+                                f"{media_base_url}/{image.text}"
+                            )
 
                 if attrs and len(attrs["sizes"]) > 0:
                     app["screenshots"].append(attrs.copy())
@@ -196,9 +196,9 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 for icon in icons:
                     icon_type = icon.attrib.get("type")
                     if icon_type == "cached":
-                        app[
-                            "icon"
-                        ] = f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                        app["icon"] = (
+                            f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                        )
                         break
 
             for icon in icons:

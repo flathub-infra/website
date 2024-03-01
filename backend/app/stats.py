@@ -86,9 +86,9 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                     app_id_without_architecture = _remove_architecture_from_id(app_id)
                     if app_id_without_architecture not in app_stats_per_day:
                         app_stats_per_day[app_id_without_architecture] = {}
-                    app_stats_per_day[app_id_without_architecture][
-                        date.isoformat()
-                    ] = sum([i[0] - i[1] for i in app_stats.values()])
+                    app_stats_per_day[app_id_without_architecture][date.isoformat()] = (
+                        sum([i[0] - i[1] for i in app_stats.values()])
+                    )
     return app_stats_per_day
 
 

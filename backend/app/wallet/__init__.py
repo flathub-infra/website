@@ -6,7 +6,6 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-
 from typing import List
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
