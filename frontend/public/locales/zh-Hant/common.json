@@ -76,7 +76,7 @@
   "thank-you-for-your-purchase": "感謝您的購買！",
   "safe-to-close-page": "可以安全地關閉本頁面了。",
   "app-install-error-try-again": "無法安裝應用程式。請嘗試回到應用程式商店並再次安裝。",
-  "about-app-verification-block": "<0>應用程式名稱下的勾號是什麼意思？</0><p>有些應用程式在應用程式頁面的開發者名稱下有一個勾號。這代表該應用程式是由其原始開發者或由開發者核准的第三方在 Flathub 上發佈的。</p><p>有些應用程式是由與原始開發者無關的第三方發佈的。這是被允許的，但此類應用程式不符合勾號的條件。</p><p>勾號旁是指向開發者的網站或是其在原始碼託管網站上的個人檔案。Flathub 使用該連結驗證開發者的身份。</p><4>我在 Flathub 上發佈了應用程式。我要如何驗證？</4><5>首先，<2>登入 Flathub</2>。點擊您要驗證的應用程式下的「開發者設定」按鈕。在頁面頂部，尋找「設定驗證」區塊。並按照該處的引導完成驗證流程。</5>",
+  "about-app-verification-block": "<0>應用程式名稱下的勾號是什麼意思？</0><p>有些應用程式在應用程式頁面的開發者名稱下有一個勾號。這代表該應用程式是由其原始開發者或由開發者核准的第三方在 Flathub 上發佈的。</p><p>有些應用程式是由與原始開發者無關的第三方發佈的。這是被允許的，但此類應用程式不符合勾號的條件。</p><p>勾號旁是指向開發者的網站或是其在原始碼託管網站上的個人檔案。Flathub 使用該連結驗證開發者的身份。</p><4>我在 Flathub 上發佈了應用程式。我要如何驗證？</4><5>首先，<2>登入 Flathub</2>。在頁腳處找到「開發者入口」。點擊您要驗證的應用程式，然後找到「驗證」區塊。該處的說明將引導您完成驗證過程。</5>",
   "number-of-results": "{{number}} 個結果",
   "user-avatar": "{{user}} 的大頭照",
   "more": "更多",
@@ -505,7 +505,13 @@
     "passed": "通過",
     "request-review": "請求審閱",
     "request-a-review-question": "您想要請求審閱嗎？",
-    "request-review-description": "我們的團隊將會審閱您的應用程式是否有品質問題。請過幾天再回來檢查。"
+    "request-review-description": "我們的團隊將會審閱您的應用程式是否有品質問題。請過幾天再回來檢查。",
+    "branding": "品牌推廣",
+    "branding-has-primary-brand-colors": "有品牌主色",
+    "branding-good-primary-brand-colors": "良好的品牌主色",
+    "show-branding-preview": "顯示品牌預覽",
+    "hide-branding-preview": "隱藏品牌預覽",
+    "needed-to-pass-x": "必須通過 {{x}}"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",
@@ -553,5 +559,8 @@
   "install-x": "在 Linux 上安裝 {{app-name}}",
   "press-information": "新聞資訊",
   "press-information-block": "<p>我們非常樂意回答記者與科技作家的問題。也可安排面試機會。</p><1>圖形與標誌</1><2>Flathub 圖形資源可在<2>此處</2>找到。</2><3>聯絡資訊</3 ><4>媒體詢問，包括評論與採訪請求，可以直接聯絡<2>Flathub 維護者</2>。</4>",
-  "flathub-the-linux-app-store": "Flathub 是適用於 Linux 的應用程式商店"
+  "flathub-the-linux-app-store": "Flathub 是適用於 Linux 的應用程式商店",
+  "nothing-to-do": "無事可做",
+  "news": "新聞",
+  "developer-portal": "開發者入口"
 }

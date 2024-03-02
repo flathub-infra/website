@@ -532,5 +532,12 @@
   "upload-tokens": "Carregar tokens",
   "new-stable-token": "Novo token estável",
   "expires": "Expira",
-  "revoked": "Revogado"
+  "revoked": "Revogado",
+  "flathub-the-linux-app-store": "O Flathub é a Loja de Aplicativos para o Linux",
+  "can-access-input-devices": "Pode acessar dispositivos de entrada como teclados, mouses ou controles de jogos",
+  "get-it-on": "Obtenha no",
+  "app-of-the-day": "Aplicativo do Dia",
+  "cannot-abandon-app": "Não se pode abandonar o aplicativo",
+  "invalid-appid": "O id de aplicativo é inválido",
+  "not-onboarded": "Por favor, embarque primeiro"
 }

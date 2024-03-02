@@ -505,7 +505,8 @@
     "high-quality-app-data": "Korkealaatuinen sovellusdata",
     "app-data-review-pending": "Sovellusdatan katselmointi odottaa",
     "request-review-description": "Tiimimme katselmoi sovelluksen mahdollisten laatuongelmien varalta. Tarkista uudelleen muutaman päivän kuluttua.",
-    "request-a-review-question": "Haluatko pyytää katselmointia?"
+    "request-a-review-question": "Haluatko pyytää katselmointia?",
+    "branding": "Brändäys"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
@@ -546,5 +547,6 @@
   "manage-x": "Hallitse sovellusta {{app-name}}",
   "install-x": "Asenna {{app-name}} Linuxiin",
   "flathub-the-linux-app-store": "Flathub on sovelluskauppa Linuxille",
-  "press-information": "Tietoa lehdistölle"
+  "press-information": "Tietoa lehdistölle",
+  "press-information-block": "<p>Vastaamme mielellämme lehdistön kysymyksiin. Myös haastatteluja on mahdollista järjestää.</p><1>Grafiikka ja logot</1><2>Flathubin graafinen materiaali on saatavilla <2>täältä</2>.</2><3>Yhteydenotto</3><4>Lehdistön esittämät kyselyt, mukaan lukien haastattelu- ja kommentointipyynnöt, voi osoittaa suoraan <2>Flathub in ylläpitäjille</2>.</4>"
 }

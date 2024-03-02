@@ -553,5 +553,6 @@
   "do-you-really-want-to-archive-app": "Ĉu vi certas? Tio nevalidigos alŝutajn ĵetonojn kaj enarĥivigos la programon.",
   "rebase-onto-other-app": "Tajpu la programidentigilon, sur kiun via programon rebaziĝos",
   "manage-x": "Administri {{app-name}}",
-  "install-x": "Instali {{app-name}} sur Linux"
+  "install-x": "Instali {{app-name}} sur Linux",
+  "flathub-the-linux-app-store": "Flathub estas la programvendejo por Linux"
 }

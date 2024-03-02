@@ -322,8 +322,8 @@
   "moderation-dev-description": "Einige Änderungen an den Metadaten einer App, wie z.B. der Name oder die Beschreibung, müssen vom Flathub-Team überprüft werden. Du kannst den Status aktueller und vergangener Überprüfungsanfragen hier einsehen.",
   "runtime-distribution": "Aufteilung der Runtimes",
   "recently-updated-description": "In den letzten Tagen auf Flathub aktualisierte Apps.",
-  "recently-updated": "Zuletzt aktualisiert",
-  "recently-added": "Zuletzt hinzugefügt",
+  "recently-updated": "Kürzlich aktualisiert",
+  "recently-added": "Kürzlich hinzugefügt",
   "recently-added-description": "In den letzten Tagen auf Flathub veröffentlichte Apps.",
   "the-linux-app-store": "Der Linux-App-Store",
   "flathub-index-description": "Hol dir die neuesten Versionen all deiner Lieblings-Apps für jede Linux-Distribution",
@@ -506,7 +506,10 @@
     "passed": "Bestanden",
     "request-review": "Review anfragen",
     "request-review-description": "Unser Team wird deine App auf Qualitätsprobleme überprüfen. Dies kann einige Tage dauern.",
-    "request-a-review-question": "Möchtest du ein Review anfordern?"
+    "request-a-review-question": "Möchtest du ein Review anfordern?",
+    "needed-to-pass-x": "Erforderlich zum Bestehen von {{x}}",
+    "branding-has-primary-brand-colors": "Hat primäre Markenfarben",
+    "branding-good-primary-brand-colors": "Gute primäre Markenfarben"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build ID",
@@ -554,5 +557,7 @@
   "rebase-onto-other-app": "Gib die Appkennung ein, auf die deine Anwendung rebased werden soll",
   "press-information": "Presseinformationen",
   "press-information-block": "<p>Wir beantworten sehr gerne Fragen von Journalisten und Technikredakteuren. Es können auch Interviewtermine vereinbart werden.</p><1>Grafiken und Logos</1><2>Flathub-Grafikmaterial finden Sie <2>hier</2>.</2><3>Kontakt</3><4>Presseanfragen, einschließlich Anfragen für Kommentare und Interviews, können an die <2>Flathub-Maintainer</2> gerichtet werden.</4>",
-  "flathub-the-linux-app-store": "Flathub ist der App Store für Linux"
+  "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
+  "developer-portal": "Entwicklerportal",
+  "news": "Neuigkeiten"
 }
