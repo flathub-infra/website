@@ -165,13 +165,14 @@ def send_email(info: EmailInfo, db):
                         messages.append(message)
 
         if info.inform_only_moderators or info.inform_moderators:
-            moderators = db.session.query(models.FlathubUser).filter_by(
-                is_moderator=True  # todo figure this out
-            )
-            for user in moderators:
-                message = _create_message(user, info, db)
-                if message:
-                    messages.append(message)
+            moderator_role = models.FlathubUser.by_role(db, "moderator")
+
+            if moderator_role is not None:
+                moderators = [(role.flathubuser) for role in moderator_role.all()]
+                for user in moderators:
+                    message = _create_message(user, info, db)
+                    if message:
+                        messages.append(message)
 
     if info.user_id is not None:
         # Get the user's email address

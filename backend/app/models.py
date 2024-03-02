@@ -201,6 +201,11 @@ class FlathubUser(Base):
 
         return permissions
 
+    def by_role(db, role_name: str):
+        result = Role.by_name(db, role_name)
+
+        return result
+
 
 class flathubuser_role(Base):
     __tablename__ = "flathubuser_role"
@@ -247,6 +252,13 @@ class Role(Base):
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
     permission: Mapped[List["Permission"]] = relationship(secondary="role_permission")
+    flathubuser: Mapped[List["FlathubUser"]] = relationship(
+        secondary="flathubuser_role"
+    )
+
+    @staticmethod
+    def by_name(db, name: str) -> Optional["Role"]:
+        return db.session.query(Role).filter_by(name=name)
 
 
 class Permission(Base):
