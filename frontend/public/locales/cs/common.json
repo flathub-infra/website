@@ -507,7 +507,13 @@
     "passed": "Přijato",
     "request-review": "Žádost o přezkoumání",
     "request-a-review-question": "Chtěli byste požádat o recenzi?",
-    "request-review-description": "Náš tým zkontroluje vaši aplikaci z hlediska problémů s kvalitou. Zkontrolujte to prosím za několik dní."
+    "request-review-description": "Náš tým zkontroluje vaši aplikaci z hlediska problémů s kvalitou. Zkontrolujte to prosím za několik dní.",
+    "branding-good-primary-brand-colors": "Dobré primární barvy značky",
+    "branding": "Budování značky",
+    "branding-has-primary-brand-colors": "Má primární barvy značky",
+    "needed-to-pass-x": "Potřebné k předání {{x}}",
+    "hide-branding-preview": "Skrýt náhled značky",
+    "show-branding-preview": "Zobrazit náhled značky"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",

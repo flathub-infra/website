@@ -4,7 +4,7 @@
   "about-app-verification": "Aplikacione të verifikuar",
   "documentation": "Dokumentim",
   "badges": "Stema",
-  "about-app-verification-block": "<0>Ç’do të thotë shenja nën emrin e një aplikacioni?</0><p>Disa aplikacione kanë një shenjë, te faqja e aplikacioneve, nën emrin e zhvilluesit. Kjo do të thotë se aplikacioni është publikuar në Flathub nga zhvilluesi i tij origjinal, ose nga një palë e tretë e miratuar nga zhvilluesi.</p><p>Disa aplikacione janë publikuar nga palë të treta që s’kanë lidhje me zhvilluesin origjinal. Kjo është e lejuar, por aplikacione të tilla s’mund të përfitojnë shenjën.</p><p>Në krah të shenjës gjendet një lidhje për te sajti i zhvilluesit, ose profili i tyre në një sajt strehimi kodi burim. Flathub-i ka verifikuar identitetin e zhvilluesit duke përdorur atë lidhje.</p><4>Po publikoj një aplikacion në Flathub. Si ta bëj të verifikuar?</4><5>Së pari, <2>bëni hyrjen në llogarinë tuaj në Flathub</2>. Klikoni butonin “Rregullime Zhvilluesi” nën aplikacionin që doni të verifikohet. Në krye të faqes, gjeni ndarjen “Ujdisni Verifikim”. Udhëzimet do t’ju udhëheqin përmes procesit të verifikimit.</5>",
+  "about-app-verification-block": "<0>Ç’do të thotë shenja nën emrin e një aplikacioni?</0><p>Disa aplikacione kanë një shenjë, te faqja e aplikacioneve, nën emrin e zhvilluesit. Kjo do të thotë se aplikacioni është publikuar në Flathub nga zhvilluesi i tij origjinal, ose nga një palë e tretë e miratuar nga zhvilluesi.</p><p>Disa aplikacione janë publikuar nga palë të treta që s’kanë lidhje me zhvilluesin origjinal. Kjo është e lejuar, por aplikacione të tilla s’mund të përfitojnë shenjën.</p><p>Në krah të shenjës gjendet një lidhje për te sajti i zhvilluesit, ose profili i tyre në një sajt strehimi kodi burim. Flathub-i ka verifikuar identitetin e zhvilluesit duke përdorur atë lidhje.</p><4>Po publikoj një aplikacion në Flathub. Si ta bëj të verifikuar?</4><5>Së pari, <2>bëni hyrjen në llogarinë tuaj në Flathub</2>. Gjeni “Portal Zhvilluesish” te fundfaqja. Klikoni mbi aplikacionin që dëshironi të verifikohet, mandej gjeni pjesën “Verifikim”. Udhëzimet do t’ju udhëheqin përmes procesit të verifikimit.</5>",
   "open-in-new-tab": "Hape në skedë të re",
   "more": "Më tepër",
   "number-of-results": "{{number}} përfundime",
@@ -254,7 +254,12 @@
     "request-review-description": "Ekipi ynë do ta shqyrtojë aplikacionin tuaj për probleme cilësie. Ju lutemi, shihni sërish pas ca ditësh.",
     "review-requested": "Shqyrtimi u Kërkua",
     "high-quality-app-data": "Video me cilësi të lartë, pa reklama",
-    "app-data-review-pending": "Në Pritje të Shqyrtimit"
+    "app-data-review-pending": "Në Pritje të Shqyrtimit",
+    "branding-good-primary-brand-colors": "Ngjyra të mira parësore marke",
+    "needed-to-pass-x": "Lypset të kalojë {{x}}",
+    "branding-has-primary-brand-colors": "Ka ngjyra parësore marke",
+    "hide-branding-preview": "Fshih paraparje elementësh marke",
+    "show-branding-preview": "Shfaq paraparje elementësh marke"
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -343,7 +348,7 @@
   "accepting-payment": "Pranim Pagesash",
   "vending-dashboard": "Kaloni te llogaria juaj Stripe Express",
   "privacy-policy-description": "Duke përdorur këtë sajt, pajtoheni me Rregullat e Privatësisë.",
-  "terms-and-conditions": "Terma dhe kushte",
+  "terms-and-conditions": "Terma dhe Kushte",
   "terms-and-conditions-description": "Duke përdorur këtë sajt, pajtoheni me Termat dhe Kushtet.",
   "continue": "Vazhdoni",
   "recently-added-apps": "Aplikacione Shtuar Së Fundi",
@@ -523,8 +528,8 @@
   "about-pagename": "Mbi Flathub",
   "apps": "Aplikacione",
   "popular": "Populloreve",
-  "recently-updated": "Përditësuar së fundi",
-  "recently-added": "Shtuar së fundi",
+  "recently-updated": "Përditësuar Së Fundi",
+  "recently-added": "Shtuar Së Fundi",
   "rss-feeds": "Prurje RSS",
   "authored-apps": "Aplikacione të krijuar",
   "productivity": "Prodhimtari",
@@ -542,5 +547,9 @@
   "uses-eol-runtime-description": "Runtime-i i përdorur nga ky aplikacion nuk merr më përditësime sigurie",
   "press-information": "Informacion Për Shtypin",
   "flathub-the-linux-app-store": "Flathub është Shitorja e Aplikacioneve për Linux",
-  "press-information-block": "<p>Kemi kënaqësinë t’i përgjigjemi çfarëdo pyetjesh nga gazetarë dhe shkrues artikujsh mbi teknologjinë. Mund të ujdisen edhe mundësi për intervista.</p><1>Elementë Grafikë dhe Stema</1><2><2>Këtu</2>mund të gjenden elementë grafikë të lidhur me Flathub-in.</2><3>Kontakt</3><4>Kërkesa nga shtypi, përfshi kërkesa për komente dhe intervista, mund t’u drejtohen <2>mirëmbajtësve të Flathub-it</2>.</4>"
+  "press-information-block": "<p>Kemi kënaqësinë t’i përgjigjemi çfarëdo pyetjesh nga gazetarë dhe shkrues artikujsh mbi teknologjinë. Mund të ujdisen edhe mundësi për intervista.</p><1>Elementë Grafikë dhe Stema</1><2><2>Këtu</2>mund të gjenden elementë grafikë të lidhur me Flathub-in.</2><3>Kontakt</3><4>Kërkesa nga shtypi, përfshi kërkesa për komente dhe intervista, mund t’u drejtohen <2>mirëmbajtësve të Flathub-it</2>.</4>",
+  "nothing-to-do": "S’ka ç’bëhet",
+  "moderation-appstream-changes": "Ndryshime Appstream",
+  "news": "Lajme",
+  "developer-portal": "Portal Zhvilluesish"
 }

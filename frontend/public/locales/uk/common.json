@@ -507,7 +507,13 @@
     "passed": "Пройдено",
     "request-review": "Запит на розгляд",
     "request-a-review-question": "Хочете запитати рецензування?",
-    "request-review-description": "Наша команда перевірить ваш застосунок на наявність проблем з якістю. Поверніться за кілька днів."
+    "request-review-description": "Наша команда перевірить ваш застосунок на наявність проблем з якістю. Поверніться за кілька днів.",
+    "branding-good-primary-brand-colors": "Гарні основні брендові кольори",
+    "branding": "Брендинг",
+    "branding-has-primary-brand-colors": "Має основні брендові кольори",
+    "hide-branding-preview": "Сховати попередній перегляд брендингу",
+    "show-branding-preview": "Показати попередній перегляд брендингу",
+    "needed-to-pass-x": "Необхідно пройти {{x}}"
   },
   "app-listing-quality": "Якість лістингу застосунків",
   "moderation-build-id": "ID збірки",
