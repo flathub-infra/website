@@ -30,6 +30,14 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 }
 
+const buildId = process.env.GITHUB_SHA
+
+if (!buildId) {
+  console.info(
+    "No GITHUB_SHA environment variable found. Using the default Next.js buildId.",
+  )
+}
+
 /**
  * @type {import('next').NextConfig}
  */
@@ -173,13 +181,11 @@ const nextConfig = (phase) => ({
       },
     ]
   },
-  async generateBuildId() {
-    if (!process.env.GITHUB_SHA) {
-      throw new Error("GITHUB_SHA is not set")
-    }
-
-    return process.env.GITHUB_SHA
-  },
+  generateBuildId: buildId
+    ? async () => {
+        return buildId
+      }
+    : undefined,
 })
 
 const sentryExports = (phase) => {
