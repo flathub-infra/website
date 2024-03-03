@@ -54,4 +54,4 @@ CacheHandler.onCreation(async ({ buildId }) => {
   }
 })
 
-module.exports = CacheHandler
+export default CacheHandler
