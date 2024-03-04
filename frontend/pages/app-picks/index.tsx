@@ -217,7 +217,7 @@ export default function AppPicks() {
   } else {
     content = (
       <>
-        <h1 className="mt-8 text-4xl font-extrabold">App picks</h1>
+        <h1 className="mt-8 text-4xl font-extrabold">App Picks</h1>
         <div className="text-sm flex">
           For week {getISOWeek(date)} of {date.getFullYear()}
         </div>
@@ -380,7 +380,7 @@ export default function AppPicks() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="App picks" noindex />
+      <NextSeo title="App Picks" noindex />
       <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
         {content}
       </LoginGuard>

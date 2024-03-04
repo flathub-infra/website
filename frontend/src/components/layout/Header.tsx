@@ -50,7 +50,7 @@ let userNavigation = [
     condition: (user: UserInfo) => user?.is_quality_moderator,
   },
   {
-    name: "App picks",
+    name: "App Picks",
     href: "/app-picks",
     condition: (user: UserInfo) => user?.is_quality_moderator,
   },
