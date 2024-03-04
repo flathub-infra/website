@@ -10,6 +10,7 @@ import { ReactElement } from "react"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "../LogoImage"
+import { Permission } from "src/codegen"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()
@@ -28,7 +29,9 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
       return getAppOfTheDayInfo
     },
-    enabled: !!user.info?.is_quality_moderator,
+    enabled: !!user.info?.permissions.some(
+      (a) => a === Permission.QualityModeration,
+    ),
   })
 
   const mutateAppOfTheDay = useMutation({

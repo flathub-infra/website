@@ -18,6 +18,9 @@ import { AuthInfo } from "./auth-info"
 // May contain unused imports in some cases
 // @ts-ignore
 import { Auths } from "./auths"
+// May contain unused imports in some cases
+// @ts-ignore
+import { Permission } from "./permission"
 
 /**
  *
@@ -25,18 +28,6 @@ import { Auths } from "./auths"
  * @interface UserInfo
  */
 export interface UserInfo {
-  /**
-   *
-   * @type {boolean}
-   * @memberof UserInfo
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof UserInfo
-   */
-  is_quality_moderator: boolean
   /**
    *
    * @type {string}
@@ -49,6 +40,12 @@ export interface UserInfo {
    * @memberof UserInfo
    */
   dev_flatpaks?: Array<string>
+  /**
+   *
+   * @type {Array<Permission>}
+   * @memberof UserInfo
+   */
+  permissions?: Array<Permission>
   /**
    *
    * @type {Array<string>}

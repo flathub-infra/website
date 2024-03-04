@@ -28,7 +28,7 @@ import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { appPicks } from "src/api"
 import { formatISO } from "date-fns"
 import LoginGuard from "src/components/login/LoginGuard"
-import { UserInfo } from "src/codegen"
+import { Permission, UserInfo } from "src/codegen"
 
 const categoryOrder = [
   Category.Office,
@@ -69,7 +69,11 @@ export default function Home({
     <>
       <NextSeo description={t("flathub-description")} />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-4 lg:space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
+        <LoginGuard
+          condition={(info: UserInfo) =>
+            info.permissions.some((a) => a === Permission.QualityModeration)
+          }
+        >
           {heroBannerAppstreams.length > 0 && (
             <HeroBanner appstreams={heroBannerAppstreams} />
           )}
