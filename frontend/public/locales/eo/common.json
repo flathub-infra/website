@@ -261,7 +261,7 @@
   "verified-login-provider-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> konfirmiĝis per la konto <4>{{login_name}}</4> ĉe <8>{{login_provider}}</8>",
   "verified-website-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> konfirmiĝis per la retejo <4>{{website}}</4>",
   "verified-manually-tooltip": "La proprieto de la programidentigilo <1>{{app_id}}</1> estis neaŭtomate konfirmita de Flathub",
-  "about-app-verification-block": "<0>Kion signifas la marko sub nomo de programo?</0><p>Kelkaj programoj havas konfirmomarkon sur la paĝo pri la programo sub la nomo de la programisto. Tio signifas, ke la programo estas ĉe Flathub eldonita de ĝia originala programisto aŭ aliulo aprobita de la programisto.</p><p>Kelkaj programoj estas eldonitaj de uloj ne aprobitaj de la origina programisto. Tio estas permesata, sed tiaj programoj ne rajtas ricevi la konfirmomarkon.</p><p>Apud la konfirmomarko estas ligo al la programista retejo aŭ konto ĉe fontkoda deponejo. Flathub konfirmis la identecon de la programisto per tiu ligo.</p><4>Mi eldonis programon ĉe Flathub. Kiel mi igu ĝin konfirmita?</4><5>Unue, <2>salutu al Flathub</2>. Alklaku la butonon «Agordoj por programistoj» sub la programo, kiun vi volas igi konfirmita. Ĉe la supro de la paĝo, trovu la paragrafon «Agordi konfirmadon». La tieaj instrukcioj gvidos vin tra la konfirma procedo.</5>",
+  "about-app-verification-block": "<0>Kion signifas la marko sub nomo de programo?</0><p>Kelkaj programoj havas konfirmomarkon sur la paĝo pri la programo sub la nomo de la programisto. Tio signifas, ke la programo estas ĉe Flathub eldonita de ĝia originala programisto aŭ aliulo aprobita de la programisto.</p><p>Kelkaj programoj estas eldonitaj de uloj ne aprobitaj de la origina programisto. Tio estas permesata, sed tiaj programoj ne rajtas ricevi la konfirmomarkon.</p><p>Apud la konfirmomarko estas ligo al la programista retejo aŭ konto ĉe fontkoda deponejo. Flathub konfirmis la identecon de la programisto per tiu ligo.</p><4>Mi eldonis programon ĉe Flathub. Kiel mi igu ĝin konfirmita?</4><5>Unue, <2>salutu al Flathub</2>. Trovu la butonon «Portalo por programistoj» ĉe la malsupro de la paĝo. Alklaku tiun programon, kiun vi volas igi konfirmita. Poste trovu la paragrafon «Konfirmado». La tieaj instrukcioj gvidos vin tra la konfirma procedo.</5>",
   "refresh": "Reŝargi",
   "verification-warning": "La administrantoj de Flathub rajtas forigi la konfirmosignon de iu ajn programo laŭ sia sola bontrovo, ekzemple se la konfirmosigno povus trompi pri la oficialeco de la programo aŭ konfuzi markojn.",
   "verification-instructions": "Konfirmu vian programidentigilon por indiki, ke vian Flathub-alŝuton aprobas la aŭtoro de la programo. Vi devos pruvi, ke vi regas la programon per programista retejo aŭ per aliro al la programa konto ĉe fontkoda deponejo. La konfirmosigno montriĝos apud la nomo de la programo, nomo de la eldoninto kaj la konfirmomaniero de la programidentigilo.",
@@ -502,7 +502,13 @@
     "passed": "Taŭga",
     "request-review": "Peti revizion",
     "request-a-review-question": "Ĉu peti revizion?",
-    "request-review-description": "Nia teamo revizios vian programon pri problemoj pri kvalito. Bonvolu reveni post kelko da tagoj."
+    "request-review-description": "Nia teamo revizios vian programon pri problemoj pri kvalito. Bonvolu reveni post kelko da tagoj.",
+    "needed-to-pass-x": "Postulata por plenumi kriterion {{x}}",
+    "branding": "Markado",
+    "branding-has-primary-brand-colors": "Havas markajn ĉefkolorojn",
+    "hide-branding-preview": "Kaŝi markan antaŭrigardon",
+    "show-branding-preview": "Malkaŝi markan antaŭrigardon",
+    "branding-good-primary-brand-colors": "Havas bonajn markajn ĉefkolorojn"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -554,5 +560,8 @@
   "rebase-onto-other-app": "Tajpu la programidentigilon, sur kiun via programon rebaziĝos",
   "manage-x": "Administri {{app-name}}",
   "install-x": "Instali {{app-name}} sur Linux",
-  "flathub-the-linux-app-store": "Flathub estas la programvendejo por Linux"
+  "flathub-the-linux-app-store": "Flathub estas la programvendejo por Linux",
+  "nothing-to-do": "Nenio farenda",
+  "news": "Novaĵoj",
+  "developer-portal": "Portalo por programistoj"
 }

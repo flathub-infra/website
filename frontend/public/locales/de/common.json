@@ -518,7 +518,7 @@
   "id": "ID",
   "token-created": "Kopiere diesen Token und speichere ihn an einem sicheren Ort, wie zum Beispiel den Secret Store der CI-Pipeline. Er gewährt Lese- und Schreibzugriff auf die Builds Ihrer App.",
   "issued": "Ausgestellt",
-  "scope-build": "Erstellen und greife auf Builds und Jobs zu",
+  "scope-build": "Erstellen und auf Builds und Jobs zugreifen",
   "token-name": "Token-Name",
   "revoke-token": "Token widerrufen",
   "build-x": "Gebaut {{build-ago}}",
