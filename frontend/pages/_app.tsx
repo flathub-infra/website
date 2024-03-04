@@ -88,11 +88,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               </Main>
             </UserInfoProvider>
             <ToastContainer
-              position={
-                i18n.dir() === "rtl"
-                  ? toast.POSITION.BOTTOM_LEFT
-                  : toast.POSITION.BOTTOM_RIGHT
-              }
+              position={i18n.dir() === "rtl" ? "bottom-left" : "bottom-right"}
               rtl={i18n.dir() === "rtl"}
             />
             <ReactQueryDevtools initialIsOpen={false} />
