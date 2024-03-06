@@ -49,7 +49,7 @@ export default function Home({
   popular,
   verified,
   topAppsByCategory,
-  heroBannerAppstreams,
+  heroBannerData,
   appOfTheDayAppstream,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
@@ -60,7 +60,10 @@ export default function Home({
     category: Category
     apps: MeilisearchResponse<AppsIndex>
   }[]
-  heroBannerAppstreams: DesktopAppstream[]
+  heroBannerData: {
+    app: { position: number; app_id: string; isFullscreen: boolean }
+    appstream: DesktopAppstream
+  }[]
   appOfTheDayAppstream: DesktopAppstream
 }) {
   const { t } = useTranslation()
@@ -70,8 +73,8 @@ export default function Home({
       <NextSeo description={t("flathub-description")} />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 space-y-4 lg:space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
-          {heroBannerAppstreams.length > 0 && (
-            <HeroBanner appstreams={heroBannerAppstreams} />
+          {heroBannerData.length > 0 && (
+            <HeroBanner heroBannerData={heroBannerData} />
           )}
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-10">
             <AppOfTheDay
@@ -198,7 +201,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
-  const heroBannerIds =
+  const heroBannerApps =
     await appPicks.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
       formatISO(new Date(), { representation: "date" }),
     )
@@ -207,8 +210,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   )
 
   const heroBannerAppstreams = await Promise.all(
-    heroBannerIds.data.apps.map((app) => fetchAppstream(app.app_id)),
+    heroBannerApps.data.apps.map(async (app) => fetchAppstream(app.app_id)),
   ).then((apps) => apps.map((app) => app.data))
+
+  const heroBannerData = heroBannerApps.data.apps.map((app) => {
+    return {
+      app: app,
+      appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
+    }
+  })
 
   const appOfTheDayAppstream = await fetchAppstream(
     appOfTheDay.data.app_id,
@@ -222,7 +232,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       popular,
       verified,
       topAppsByCategory,
-      heroBannerAppstreams,
+      heroBannerData,
       appOfTheDayAppstream,
     },
     revalidate: 900,

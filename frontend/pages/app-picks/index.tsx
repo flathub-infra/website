@@ -102,9 +102,18 @@ export default function AppPicks() {
           formatISO(date, { representation: "date" }),
         )
 
-      const getAppOfTheWeekInfo = await Promise.all(
-        getAppsOfTheWeek.data.apps.map((app) => fetchAppstream(app.app_id)),
+      const heroBannerAppstreams = await Promise.all(
+        getAppsOfTheWeek.data.apps.map(async (app) =>
+          fetchAppstream(app.app_id),
+        ),
       ).then((apps) => apps.map((app) => app.data))
+
+      const heroBannerData = getAppsOfTheWeek.data.apps.map((app) => {
+        return {
+          app: app,
+          appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
+        }
+      })
 
       const setAppDefault = async (position: number) => {
         const currentApp = getAppsOfTheWeek.data.apps.find(
@@ -131,7 +140,7 @@ export default function AppPicks() {
       setFourthApp(await setAppDefault(3))
       setFifthApp(await setAppDefault(4))
 
-      return getAppOfTheWeekInfo
+      return heroBannerData
     },
     enabled: !!user.info?.is_quality_moderator,
   })
@@ -334,7 +343,7 @@ export default function AppPicks() {
         <h2 className="text-2xl my-4">Preview</h2>
         {queryAppsOfTheWeek.data.length > 0 && !queryAppsOfTheWeek.isPending ? (
           <HeroBanner
-            appstreams={queryAppsOfTheWeek.data}
+            heroBannerData={queryAppsOfTheWeek.data}
             currentIndex={currentIndex}
             autoplay={false}
           />

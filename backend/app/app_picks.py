@@ -40,6 +40,7 @@ def get_app_of_the_day(
 class AppOfTheWeek(BaseModel):
     app_id: str
     position: int
+    isFullscreen: bool
 
 
 class AppsOfTheWeek(BaseModel):
@@ -62,7 +63,11 @@ def get_app_of_the_week(
 
     return AppsOfTheWeek(
         apps=[
-            AppOfTheWeek(app_id=app.app_id, position=app.position)
+            AppOfTheWeek(
+                app_id=app.app_id,
+                position=app.position,
+                isFullscreen=models.Apps.get_fullscreen_app(db, app.app_id),
+            )
             for app in apps_of_the_week
         ]
     )
