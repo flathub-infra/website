@@ -381,7 +381,7 @@
   "recommended-payment": "Pagamento recommendate",
   "value-at-most": "Tu debe inserer un valor de maxime {{value}}",
   "require-payment": "Requirer pagamento",
-  "permission-denied": "Tu non ha permission pro facer cello.",
+  "permission-denied": "Tu non ha permission pro facer isso.",
   "more-type": "Plus {{type}}",
   "show-less": "Monstrar minus",
   "value-at-least": "Tu debe inserer un valor de al minus {{value}}",
