@@ -15,11 +15,14 @@ import { useTheme } from "next-themes"
 import { getContrastColor } from "src/utils/helpers"
 
 export const HeroBanner = ({
-  appstreams,
+  heroBannerData,
   currentIndex,
   autoplay = true,
 }: {
-  appstreams: DesktopAppstream[]
+  heroBannerData: {
+    app: { position: number; app_id: string; isFullscreen: boolean }
+    appstream: DesktopAppstream
+  }[]
   currentIndex?: number
   autoplay?: boolean
 }) => {
@@ -77,8 +80,8 @@ export const HeroBanner = ({
 
   return (
     <swiper-container init={false} ref={swiperRef}>
-      {appstreams.map((app) => {
-        const brandingColor = app?.branding?.find((a) => {
+      {heroBannerData.map((data) => {
+        const brandingColor = data.appstream?.branding?.find((a) => {
           return a.scheme_preference === (resolvedTheme as "light" | "dark")
         })
 
@@ -89,12 +92,16 @@ export const HeroBanner = ({
           : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
         return (
-          <swiper-slide className="overflow-hidden" key={`hero-${app.id}`}>
+          <swiper-slide
+            className="overflow-hidden"
+            key={`hero-${data.appstream.id}`}
+          >
             <Link
-              href={`/apps/${app.id}`}
+              href={`/apps/${data.appstream.id}`}
               passHref
               style={{
-                backgroundImage: !brandingColor && `url(${app.icon})`,
+                backgroundImage:
+                  !brandingColor && `url(${data.appstream.icon})`,
                 backgroundColor: brandingColor && brandingColor.value,
               }}
               className={clsx(
@@ -107,7 +114,10 @@ export const HeroBanner = ({
               <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
                 <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
                   <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
-                    <LogoImage iconUrl={app.icon} appName={app.name} />
+                    <LogoImage
+                      iconUrl={data.appstream.icon}
+                      appName={data.appstream.name}
+                    />
                   </div>
                   <div className="flex pt-3">
                     <span
@@ -116,7 +126,7 @@ export const HeroBanner = ({
                         textColor,
                       )}
                     >
-                      {app.name}
+                      {data.appstream.name}
                     </span>
                   </div>
                   <div
@@ -126,14 +136,17 @@ export const HeroBanner = ({
                       "lg:line-clamp-3 pb-8",
                     )}
                   >
-                    {app.summary}
+                    {data.appstream.summary}
                   </div>
                 </div>
                 <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
                   <Image
-                    src={pickScreenshotSize(app.screenshots[0])}
-                    alt={app.name}
-                    className="absolute -bottom-24 rounded-lg"
+                    src={pickScreenshotSize(data.appstream.screenshots[0])}
+                    alt={data.appstream.name}
+                    className={clsx(
+                      "absolute rounded-lg",
+                      data.app.isFullscreen ? "top-20" : "top-10 ",
+                    )}
                   />
                 </div>
               </div>

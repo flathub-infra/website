@@ -30,4 +30,10 @@ export interface AppOfTheWeek {
    * @memberof AppOfTheWeek
    */
   position: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof AppOfTheWeek
+   */
+  isFullscreen: boolean
 }
