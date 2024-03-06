@@ -723,21 +723,7 @@ def register_to_app(app: FastAPI):
     This is reliant on session and DB middlewares, and the login support being registered.
     """
 
-    # Refuse to load if stripe configuration unavailable
-
-    if any(
-        blank
-        in [
-            settings.stripe_secret_key,
-            settings.stripe_public_key,
-            settings.stripe_webhook_key,
-        ]
-        for blank in [None, ""]
-    ):
-        print("Stripe configuration is missing, refusing to add vending APIs")
-        return
-    else:
-        stripe.api_key = settings.stripe_secret_key
+    stripe.api_key = settings.stripe_secret_key
 
     app.include_router(router)
     app.add_exception_handler(VendingError, vendingerror_exception_handler)
