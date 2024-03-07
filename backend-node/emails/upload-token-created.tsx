@@ -1,17 +1,17 @@
-import { Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 interface UploadTokenCreatedEmailProps {
-  appId: string;
-  appName?: string;
-  category: "upload_token_created";
-  subject: string;
-  previewText: string;
-  issuedTo: string;
-  comment: string;
-  scopes: string[];
-  repos: string[];
-  expiresAt: string;
+  appId: string
+  appName?: string
+  category: "upload_token_created"
+  subject: string
+  previewText: string
+  issuedTo: string
+  comment: string
+  scopes: string[]
+  repos: string[]
+  expiresAt: string
 }
 
 export const UploadTokenCreatedEmail = ({
@@ -26,7 +26,7 @@ export const UploadTokenCreatedEmail = ({
   repos,
   expiresAt,
 }: UploadTokenCreatedEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -66,8 +66,8 @@ export const UploadTokenCreatedEmail = ({
         If you do not recognize this activity, please contact us immediately.
       </Text>
     </Base>
-  );
-};
+  )
+}
 
 UploadTokenCreatedEmail.PreviewProps = {
   appId: "org.test.Test",
@@ -80,6 +80,6 @@ UploadTokenCreatedEmail.PreviewProps = {
   scopes: ["build", "upload", "publish"],
   repos: ["stable", "beta"],
   expiresAt: "31 July 2023",
-} as UploadTokenCreatedEmailProps;
+} as UploadTokenCreatedEmailProps
 
-export default UploadTokenCreatedEmail;
+export default UploadTokenCreatedEmail

@@ -1,17 +1,17 @@
-import { Head, Heading, Section, Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Head, Heading, Section, Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 export interface BuildNotificationEmailProps {
-  appId: string;
-  appName?: string;
-  category: "build_notification";
-  subject: string;
-  previewText: string;
-  diagnostics: Diagnostic[];
-  anyWarnings: boolean;
-  anyErrors: boolean;
-  buildId: number;
-  buildRepo: string;
+  appId: string
+  appName?: string
+  category: "build_notification"
+  subject: string
+  previewText: string
+  diagnostics: Diagnostic[]
+  anyWarnings: boolean
+  anyErrors: boolean
+  buildId: number
+  buildRepo: string
 }
 
 interface Diagnostic {
@@ -25,34 +25,34 @@ interface Diagnostic {
     | "mirrored_screenshot_not_found"
     | "no_screenshot_branch"
     | "unexpected_files_in_screenshot_branch"
-    | "wrong_arch_executables";
-  refstring: string;
-  isError?: boolean;
-  isWarning?: boolean;
+    | "wrong_arch_executables"
+  refstring: string
+  isError?: boolean
+  isWarning?: boolean
   data?: {
-    error: string;
-    stdout: string;
-    stderr: string;
-    path: string;
-    appstreamPath: string;
-    urls: string[];
-    expectedBranch: string;
-    files?: string[];
-    expectedArch: string;
+    error: string
+    stdout: string
+    stderr: string
+    path: string
+    appstreamPath: string
+    urls: string[]
+    expectedBranch: string
+    files?: string[]
+    expectedArch: string
     executables?: {
-      path: string;
-      detectedArch: string;
-      detectedArchCode: string;
-    }[];
-  };
+      path: string
+      detectedArch: string
+      detectedArchCode: string
+    }[]
+  }
 }
 
 const Diagnostic = ({
   appId,
   diagnostic,
 }: {
-  appId: string;
-  diagnostic: Diagnostic;
+  appId: string
+  diagnostic: Diagnostic
 }) => {
   return (
     <Section>
@@ -119,9 +119,7 @@ const Diagnostic = ({
               screenshots branch:
             </Text>
             <ul>
-              {diagnostic.data?.urls.map((url) => (
-                <li key={url}>{url}</li>
-              ))}
+              {diagnostic.data?.urls.map((url) => <li key={url}>{url}</li>)}
             </ul>
           </Section>
         )}
@@ -135,9 +133,7 @@ const Diagnostic = ({
               branch:
             </Text>
             <ul>
-              {diagnostic.data?.urls.map((url) => (
-                <li key={url}>{url}</li>
-              ))}
+              {diagnostic.data?.urls.map((url) => <li key={url}>{url}</li>)}
             </ul>
           </Section>
         )}
@@ -210,8 +206,8 @@ const Diagnostic = ({
         )}
       </Section>
     </Section>
-  );
-};
+  )
+}
 
 export const BuildNotificationEmail = ({
   category,
@@ -225,12 +221,12 @@ export const BuildNotificationEmail = ({
   buildId,
   buildRepo,
 }: BuildNotificationEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   const text = anyErrors
     ? `Errors were detected during validation of build #${buildId} (${buildRepo}) for ${appNameAndId}. This build
     may not be published. Please address the issues and upload a new build.`
-    : `Warnings were detected during validation of build #{{build_id}} for ${appNameAndId}.`;
+    : `Warnings were detected during validation of build #{{build_id}} for ${appNameAndId}.`
 
   return (
     <Base
@@ -262,8 +258,8 @@ export const BuildNotificationEmail = ({
         </Section>
       )}
     </Base>
-  );
-};
+  )
+}
 
 BuildNotificationEmail.PreviewProps = {
   appId: "org.flatpak.Hello",
@@ -326,6 +322,6 @@ BuildNotificationEmail.PreviewProps = {
   anyErrors: false,
   buildId: 1,
   buildRepo: "stable",
-} as BuildNotificationEmailProps;
+} as BuildNotificationEmailProps
 
-export default BuildNotificationEmail;
+export default BuildNotificationEmail

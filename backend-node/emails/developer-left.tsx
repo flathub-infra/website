@@ -1,13 +1,13 @@
-import { Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 interface DeveloperLeftEmailProps {
-  appId: string;
-  appName?: string;
-  category: "developer_left";
-  subject: string;
-  previewText: string;
-  login: string;
+  appId: string
+  appName?: string
+  category: "developer_left"
+  subject: string
+  previewText: string
+  login: string
 }
 
 export const DeveloperLeftEmail = ({
@@ -18,7 +18,7 @@ export const DeveloperLeftEmail = ({
   previewText,
   login,
 }: DeveloperLeftEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -32,8 +32,8 @@ export const DeveloperLeftEmail = ({
         {login} left the developer team of {appNameAndId}.
       </Text>
     </Base>
-  );
-};
+  )
+}
 
 DeveloperLeftEmail.PreviewProps = {
   appId: "org.flatpak.Hello",
@@ -42,6 +42,6 @@ DeveloperLeftEmail.PreviewProps = {
   previewText: "A developer left the app you are maintaining",
   category: "developer_left",
   login: "testuser",
-} as DeveloperLeftEmailProps;
+} as DeveloperLeftEmailProps
 
-export default DeveloperLeftEmail;
+export default DeveloperLeftEmail

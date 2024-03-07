@@ -1,4 +1,4 @@
-import ModerationHeldEmail, { ModerationEmailProps } from "./moderation-held";
+import ModerationHeldEmail, { ModerationEmailProps } from "./moderation-held"
 
 ModerationHeldEmail.PreviewProps = {
   appId: "org.test.Test",
@@ -29,6 +29,6 @@ ModerationHeldEmail.PreviewProps = {
     },
   ],
   requests_count: 1,
-} as ModerationEmailProps;
+} as ModerationEmailProps
 
-export default ModerationHeldEmail;
+export default ModerationHeldEmail

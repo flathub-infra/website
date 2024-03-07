@@ -120,3 +120,5 @@ public/sitemap.xml
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.react-email

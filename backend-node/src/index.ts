@@ -1,19 +1,19 @@
-import { serve } from "@hono/node-server";
-import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi";
-import { render } from "@react-email/render";
-import SecurityLoginEmail from "../emails/security-login";
-import { sendMail } from "./mail";
-import "dotenv/config";
-import BuildNotificationEmail from "../emails/build-notification";
-import ModerationHeldEmail from "../emails/moderation-held";
-import ModerationRejectedEmail from "../emails/moderation-rejected";
-import UploadTokenCreatedEmail from "../emails/upload-token-created";
-import ModerationApprovedEmail from "../emails/moderation-approved";
-import DeveloperLeftEmail from "../emails/developer-left";
-import DeveloperInviteDeclinedEmail from "../emails/developer-invite-declined";
-import DeveloperInviteAcceptedEmail from "../emails/developer-invite-accepted";
-import DeveloperInviteEmail from "../emails/developer-invite";
+import { serve } from "@hono/node-server"
+import { swaggerUI } from "@hono/swagger-ui"
+import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi"
+import { render } from "@react-email/render"
+import SecurityLoginEmail from "../emails/security-login"
+import { sendMail } from "./mail"
+import "dotenv/config"
+import BuildNotificationEmail from "../emails/build-notification"
+import ModerationHeldEmail from "../emails/moderation-held"
+import ModerationRejectedEmail from "../emails/moderation-rejected"
+import UploadTokenCreatedEmail from "../emails/upload-token-created"
+import ModerationApprovedEmail from "../emails/moderation-approved"
+import DeveloperLeftEmail from "../emails/developer-left"
+import DeveloperInviteDeclinedEmail from "../emails/developer-invite-declined"
+import DeveloperInviteAcceptedEmail from "../emails/developer-invite-accepted"
+import DeveloperInviteEmail from "../emails/developer-invite"
 
 const RequestSchema = z.object({
   requestType: z.literal("appdata"),
@@ -24,7 +24,7 @@ const RequestSchema = z.object({
         z.array(z.string()),
         z.boolean(),
         z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
-      ])
+      ]),
     ),
     currentValues: z.record(
       z.union([
@@ -32,11 +32,11 @@ const RequestSchema = z.object({
         z.array(z.string()),
         z.boolean(),
         z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
-      ])
+      ]),
     ),
   }),
   isNewSubmission: z.boolean(),
-});
+})
 
 const EmailBody = z.object({
   messageId: z.string().min(3).openapi({
@@ -168,7 +168,7 @@ const EmailBody = z.object({
       buildRepo: z.string().openapi({ example: "repo" }),
     }),
   ]),
-});
+})
 
 const route = createRoute({
   method: "post",
@@ -185,14 +185,14 @@ const route = createRoute({
       description: "",
     },
   },
-});
-const app = new OpenAPIHono();
+})
+const app = new OpenAPIHono()
 
 app.openapi(route, async (c) => {
   const { messageId, from, to, subject, messageInfo, previewText } =
-    c.req.valid("json");
+    c.req.valid("json")
 
-  let emailHtml = undefined;
+  let emailHtml = undefined
 
   if (messageInfo.category === "security_login") {
     emailHtml = render(
@@ -200,85 +200,85 @@ app.openapi(route, async (c) => {
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "build_notification") {
     emailHtml = render(
       BuildNotificationEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "developer_invite") {
     emailHtml = render(
       DeveloperInviteEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "developer_invite_accepted") {
     emailHtml = render(
       DeveloperInviteAcceptedEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "developer_invite_declined") {
     emailHtml = render(
       DeveloperInviteDeclinedEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "developer_left") {
     emailHtml = render(
       DeveloperLeftEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "moderation_approved") {
     emailHtml = render(
       ModerationApprovedEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "moderation_held") {
     emailHtml = render(
       ModerationHeldEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "moderation_rejected") {
     emailHtml = render(
       ModerationRejectedEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   } else if (messageInfo.category === "upload_token_created") {
     emailHtml = render(
       UploadTokenCreatedEmail({
         subject,
         previewText,
         ...messageInfo,
-      })
-    );
+      }),
+    )
   }
 
-  if (!emailHtml) {
-    return c.notFound();
-  }
+  // if (!emailHtml) {
+  //   return c.notFound();
+  // }
 
   await sendMail({
     category: messageInfo.category,
@@ -289,11 +289,11 @@ app.openapi(route, async (c) => {
     emailHtml,
     references:
       "references" in messageInfo ? messageInfo.references : undefined,
-  });
+  })
 
-  c.status(204);
-  return c.json({});
-});
+  c.status(204)
+  return c.json({})
+})
 
 // The OpenAPI documentation will be available at /doc
 app.doc("/doc", {
@@ -302,14 +302,14 @@ app.doc("/doc", {
     version: "1.0.0",
     title: "Flathub Email API",
   },
-});
+})
 
-app.get("/docs", swaggerUI({ url: "/doc" }));
+app.get("/docs", swaggerUI({ url: "/doc" }))
 
-const port = 8001;
-console.log(`Server is running on port ${port}`);
+const port = 8001
+console.log(`Server is running on port ${port}`)
 
 serve({
   fetch: app.fetch,
   port,
-});
+})

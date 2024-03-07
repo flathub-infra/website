@@ -1,13 +1,13 @@
-import { Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 interface DeveloperInviteDeclinedEmailProps {
-  appId: string;
-  appName?: string;
-  category: "developer_invite_declined";
-  subject: string;
-  previewText: string;
-  login: string;
+  appId: string
+  appName?: string
+  category: "developer_invite_declined"
+  subject: string
+  previewText: string
+  login: string
 }
 
 export const DeveloperInviteDeclinedEmail = ({
@@ -18,7 +18,7 @@ export const DeveloperInviteDeclinedEmail = ({
   previewText,
   login,
 }: DeveloperInviteDeclinedEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -32,8 +32,8 @@ export const DeveloperInviteDeclinedEmail = ({
         {login} declined their invite to {appNameAndId}.
       </Text>
     </Base>
-  );
-};
+  )
+}
 
 DeveloperInviteDeclinedEmail.PreviewProps = {
   appId: "org.flatpak.Hello",
@@ -42,6 +42,6 @@ DeveloperInviteDeclinedEmail.PreviewProps = {
   previewText: "A user declined their invite",
   category: "developer_invite_declined",
   login: "testuser",
-} as DeveloperInviteDeclinedEmailProps;
+} as DeveloperInviteDeclinedEmailProps
 
-export default DeveloperInviteDeclinedEmail;
+export default DeveloperInviteDeclinedEmail
