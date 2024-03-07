@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer"
-import Mail = require("nodemailer/lib/mailer")
+import { Headers, Options } from "nodemailer/lib/mailer"
 
 export async function sendMail({
   category,
@@ -24,11 +24,11 @@ export async function sendMail({
     secure: false,
   })
 
-  const headers: Mail.Headers = {
+  const headers: Headers = {
     "X-Flathub-Reason": category,
   }
 
-  const options: Mail.Options = {
+  const options: Options = {
     messageId: messageId,
     references: references,
     inReplyTo: references,
