@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "module": "commonjs",
     "strict": true,
     "types": [
       "node"
     ],
     "jsx": "react-jsx",
     "outDir": "./dist",
+    "esModuleInterop": true
   },
   "exclude": ["node_modules"]
 }
