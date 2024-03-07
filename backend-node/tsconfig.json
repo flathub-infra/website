@@ -3,9 +3,7 @@
     "target": "ES2022",
     "module": "commonjs",
     "strict": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "jsx": "react-jsx",
     "outDir": "./dist",
     "esModuleInterop": true
