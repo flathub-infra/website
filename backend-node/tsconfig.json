@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "strict": true,
-    "jsx": "react-jsx"
-  }
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

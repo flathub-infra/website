@@ -276,9 +276,9 @@ app.openapi(route, async (c) => {
     );
   }
 
-  if (!emailHtml) {
-    return c.notFound();
-  }
+  // if (!emailHtml) {
+  //   return c.notFound();
+  // }
 
   await sendMail({
     category: messageInfo.category,
