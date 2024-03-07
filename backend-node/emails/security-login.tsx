@@ -1,14 +1,14 @@
-import { Text } from "@react-email/components";
-import { format } from "date-fns";
-import { Base } from "./base";
+import { Text } from "@react-email/components"
+import { format } from "date-fns"
+import { Base } from "./base"
 
 interface SecurityLoginEmailProps {
-  category: "security_login";
-  subject: string;
-  provider: string;
-  login: string;
-  time: string;
-  previewText: string;
+  category: "security_login"
+  subject: string
+  provider: string
+  login: string
+  time: string
+  previewText: string
 }
 
 export const SecurityLoginEmail = ({
@@ -19,7 +19,7 @@ export const SecurityLoginEmail = ({
   time,
   previewText,
 }: SecurityLoginEmailProps) => {
-  const formattedTime = format(time, "PPPPpppp");
+  const formattedTime = format(time, "PPPPpppp")
 
   return (
     <Base previewText={previewText} subject={subject} category={category}>
@@ -44,8 +44,8 @@ export const SecurityLoginEmail = ({
         <a href="mailto:admins@flathub.org">contact us</a> immediately.
       </Text>
     </Base>
-  );
-};
+  )
+}
 
 SecurityLoginEmail.PreviewProps = {
   subject: "New login on Flathub",
@@ -54,6 +54,6 @@ SecurityLoginEmail.PreviewProps = {
   login: "testuser",
   time: "2017-01-01T00:00:00Z",
   previewText: "New login to Flathub account",
-} as SecurityLoginEmailProps;
+} as SecurityLoginEmailProps
 
-export default SecurityLoginEmail;
+export default SecurityLoginEmail

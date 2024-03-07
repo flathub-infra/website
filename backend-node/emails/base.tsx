@@ -9,18 +9,18 @@ import {
   Preview,
   Section,
   Text,
-} from "@react-email/components";
-import { Tailwind } from "@react-email/tailwind";
-import * as React from "react";
+} from "@react-email/components"
+import { Tailwind } from "@react-email/tailwind"
+import * as React from "react"
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production"
 
 export function buildAppName(appId?: string, appName?: string) {
   if (!appId && !appName) {
-    return undefined;
+    return undefined
   }
 
-  return appName ? `${appName} (${appId})` : appId;
+  return appName ? `${appName} (${appId})` : appId
 }
 
 export const Base = ({
@@ -31,22 +31,22 @@ export const Base = ({
   appName,
   previewText,
 }: {
-  children: React.ReactNode;
-  subject: string;
-  category: string;
-  appId?: string;
-  appName?: string;
-  previewText: string;
+  children: React.ReactNode
+  subject: string
+  category: string
+  appId?: string
+  appName?: string
+  previewText: string
 }) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   let emailReason =
-    "You are receiving this email because you have an account on Flathub.";
+    "You are receiving this email because you have an account on Flathub."
 
   if (category === "developer_invite" && appNameAndId) {
-    emailReason = `You are receiving this email because someone has invited you to become a developer of the app ${appNameAndId} on Flathub.`;
+    emailReason = `You are receiving this email because someone has invited you to become a developer of the app ${appNameAndId} on Flathub.`
   } else if (appId) {
-    emailReason = `You are receiving this email because you are a maintainer of the app ${appNameAndId} on Flathub.`;
+    emailReason = `You are receiving this email because you are a maintainer of the app ${appNameAndId} on Flathub.`
   }
 
   return (
@@ -92,5 +92,5 @@ export const Base = ({
         </Body>
       </Tailwind>
     </Html>
-  );
-};
+  )
+}

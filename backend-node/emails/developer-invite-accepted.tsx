@@ -1,13 +1,13 @@
-import { Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 interface DeveloperInviteAcceptedEmailProps {
-  appId: string;
-  appName?: string;
-  category: "developer_invite_accepted";
-  subject: string;
-  previewText: string;
-  login: string;
+  appId: string
+  appName?: string
+  category: "developer_invite_accepted"
+  subject: string
+  previewText: string
+  login: string
 }
 
 export const DeveloperInviteAcceptedEmail = ({
@@ -18,7 +18,7 @@ export const DeveloperInviteAcceptedEmail = ({
   previewText,
   login,
 }: DeveloperInviteAcceptedEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -33,8 +33,8 @@ export const DeveloperInviteAcceptedEmail = ({
         on Flathub.
       </Text>
     </Base>
-  );
-};
+  )
+}
 
 DeveloperInviteAcceptedEmail.PreviewProps = {
   appId: "org.flatpak.Hello",
@@ -43,6 +43,6 @@ DeveloperInviteAcceptedEmail.PreviewProps = {
   previewText: "A user accepted their invite",
   category: "developer_invite_accepted",
   login: "testuser",
-} as DeveloperInviteAcceptedEmailProps;
+} as DeveloperInviteAcceptedEmailProps
 
-export default DeveloperInviteAcceptedEmail;
+export default DeveloperInviteAcceptedEmail

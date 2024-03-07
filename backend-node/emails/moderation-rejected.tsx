@@ -1,10 +1,10 @@
-import { Heading, Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Heading, Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 import {
   ModerationEmailProps,
   ModerationRequestItem,
   Request,
-} from "./moderation-held";
+} from "./moderation-held"
 
 export const ModerationRejectedEmail = ({
   category,
@@ -17,10 +17,10 @@ export const ModerationRejectedEmail = ({
   request,
   comment,
 }: Omit<ModerationEmailProps, "requests"> & {
-  request: Request;
-  comment: string;
+  request: Request
+  comment: string
 }) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -44,8 +44,8 @@ export const ModerationRejectedEmail = ({
       <Heading as="h2">Change:</Heading>
       <ModerationRequestItem request={request} />
     </Base>
-  );
-};
+  )
+}
 
 ModerationRejectedEmail.PreviewProps = {
   appId: "org.test.Test",
@@ -68,6 +68,6 @@ ModerationRejectedEmail.PreviewProps = {
     isNewSubmission: false,
   },
   comment: "Please use a better name for your app.",
-} as Omit<ModerationEmailProps, "requests">;
+} as Omit<ModerationEmailProps, "requests">
 
-export default ModerationRejectedEmail;
+export default ModerationRejectedEmail

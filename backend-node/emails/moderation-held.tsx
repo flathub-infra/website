@@ -1,54 +1,54 @@
-import { Heading, Section, Text } from "@react-email/components";
-import { Base, buildAppName } from "./base";
+import { Heading, Section, Text } from "@react-email/components"
+import { Base, buildAppName } from "./base"
 
 function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
-  const orig = [a ?? [], b ?? []];
+  const orig = [a ?? [], b ?? []]
 
   const template = Array.from(
-    new Set(orig.reduce((a, b) => a.concat(b)))
-  ).sort();
+    new Set(orig.reduce((a, b) => a.concat(b))),
+  ).sort()
 
   const result = orig.map((row) =>
     row.slice(0).reduce((output, val) => {
-      const idx = template.indexOf(val);
-      output[idx] = val;
-      return output;
-    }, Array(template.length).fill(null))
-  );
+      const idx = template.indexOf(val)
+      output[idx] = val
+      return output
+    }, Array(template.length).fill(null)),
+  )
 
-  return { a: result[0], b: result[1] };
+  return { a: result[0], b: result[1] }
 }
 
 export interface ModerationEmailProps {
-  appId: string;
-  appName?: string;
-  category: "moderation_approved" | "moderation_held" | "moderation_rejected";
-  subject: string;
-  previewText: string;
-  buildId: number;
-  buildLogUrl: string;
-  requests: Request[];
+  appId: string
+  appName?: string
+  category: "moderation_approved" | "moderation_held" | "moderation_rejected"
+  subject: string
+  previewText: string
+  buildId: number
+  buildLogUrl: string
+  requests: Request[]
 }
 
 export interface Request {
-  requestType: "appdata";
+  requestType: "appdata"
   requestData: {
     keys: {
       [key: string]:
         | string
         | string[]
         | boolean
-        | { [key: string]: string[] | { [key: string]: string[] } };
-    };
+        | { [key: string]: string[] | { [key: string]: string[] } }
+    }
     currentValues: {
       [key: string]:
         | string
         | string[]
         | boolean
-        | { [key: string]: string[] | { [key: string]: string[] } };
-    };
-  };
-  isNewSubmission: boolean;
+        | { [key: string]: string[] | { [key: string]: string[] } }
+    }
+  }
+  isNewSubmission: boolean
 }
 
 const ArrayWithNewlines = ({ array }: { array: string[] }) => {
@@ -57,8 +57,8 @@ const ArrayWithNewlines = ({ array }: { array: string[] }) => {
       {v}
       <br />
     </span>
-  ));
-};
+  ))
+}
 
 const TableRow = ({
   valueKey,
@@ -66,10 +66,10 @@ const TableRow = ({
   currentValueList,
   newValueList,
 }: {
-  valueKey: string;
-  isNewSubmission: boolean;
-  currentValueList: string[];
-  newValueList: string[];
+  valueKey: string
+  isNewSubmission: boolean
+  currentValueList: string[]
+  newValueList: string[]
 }) => {
   return (
     <tr key={valueKey}>
@@ -83,33 +83,33 @@ const TableRow = ({
         <ArrayWithNewlines array={newValueList} />
       </td>
     </tr>
-  );
-};
+  )
+}
 
 const DiffRow = ({
   valueKey,
   request,
 }: {
-  valueKey: string;
-  request: Request;
+  valueKey: string
+  request: Request
 }) => {
   const currentValues = request.requestData.currentValues[valueKey] as
     | string
     | string[]
-    | { [key: string]: string[] };
+    | { [key: string]: string[] }
   const newValues = request.requestData.keys[valueKey] as
     | string
     | string[]
-    | { [key: string]: string[] };
+    | { [key: string]: string[] }
 
   if (Array.isArray(currentValues) || Array.isArray(newValues)) {
     if (JSON.stringify(currentValues) === JSON.stringify(newValues)) {
-      return null;
+      return null
     }
     const { a: currentValueList, b: newValueList } = alignArrays(
       currentValues as string[],
-      newValues as string[]
-    );
+      newValues as string[],
+    )
 
     return (
       <TableRow
@@ -119,7 +119,7 @@ const DiffRow = ({
         currentValueList={currentValueList}
         newValueList={newValueList}
       />
-    );
+    )
   }
 
   if (
@@ -136,7 +136,7 @@ const DiffRow = ({
         )}
         <td className="align-top">{newValues?.toString()}</td>
       </tr>
-    );
+    )
   }
 
   if (typeof currentValues === "object" || typeof newValues === "object") {
@@ -144,8 +144,8 @@ const DiffRow = ({
       new Set([
         ...Object.keys(currentValues ?? []),
         ...Object.keys(newValues ?? []),
-      ])
-    ).sort();
+      ]),
+    ).sort()
 
     return (
       <>
@@ -159,13 +159,13 @@ const DiffRow = ({
               JSON.stringify(currentValues?.[key]) ===
               JSON.stringify(newValues?.[key])
             ) {
-              return null;
+              return null
             }
 
             const { a: currentValueList, b: newValueList } = alignArrays(
               currentValues?.[key],
-              newValues?.[key]
-            );
+              newValues?.[key],
+            )
 
             return (
               <TableRow
@@ -175,32 +175,32 @@ const DiffRow = ({
                 currentValueList={currentValueList}
                 newValueList={newValueList}
               />
-            );
+            )
           }
         })}
       </>
-    );
+    )
   }
-};
+}
 
 export const ModerationRequestItem = ({ request }: { request: Request }) => {
   const currentValuesFiltered = Object.keys(
-    request.requestData?.currentValues ?? {}
+    request.requestData?.currentValues ?? {},
   ).filter(
     (a) =>
       // these keys are special, but we don't want to act on them - so ignore
       a !== "name" &&
       a !== "developer_name" &&
       a !== "project_license" &&
-      a !== "summary"
-  );
+      a !== "summary",
+  )
 
   const uniqueKeys = Array.from(
     new Set([
       ...Object.keys(request.requestData?.keys ?? {}),
       ...currentValuesFiltered,
-    ])
-  ).sort();
+    ]),
+  ).sort()
 
   return (
     <Section>
@@ -218,8 +218,8 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
         </table>
       )}
     </Section>
-  );
-};
+  )
+}
 
 export const ModerationHeldEmail = ({
   category,
@@ -231,7 +231,7 @@ export const ModerationHeldEmail = ({
   buildLogUrl,
   requests,
 }: ModerationEmailProps) => {
-  const appNameAndId = buildAppName(appId, appName);
+  const appNameAndId = buildAppName(appId, appName)
 
   return (
     <Base
@@ -256,8 +256,8 @@ export const ModerationHeldEmail = ({
         <ModerationRequestItem key={i} request={request} />
       ))}
     </Base>
-  );
-};
+  )
+}
 
 ModerationHeldEmail.PreviewProps = {
   appId: "org.test.Test",
@@ -281,6 +281,6 @@ ModerationHeldEmail.PreviewProps = {
       isNewSubmission: false,
     },
   ],
-} as ModerationEmailProps;
+} as ModerationEmailProps
 
-export default ModerationHeldEmail;
+export default ModerationHeldEmail
