@@ -98,7 +98,7 @@ def _create_message(
     )
 
     message = EmailMessage()
-    message.set_content(text)
+    message.set_content(text, subtype="html")
     message.make_related()
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
