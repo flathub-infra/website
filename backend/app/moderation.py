@@ -443,6 +443,7 @@ def submit_review_request(
                 requests = list(requests)
                 worker.send_email.send(
                     EmailInfo(
+                        message_id=f"{app_id}/{review_request.build_id}/held",
                         user_id=None,
                         app_id=app_id,
                         inform_moderators=True,
@@ -544,6 +545,8 @@ def submit_review(
 
     worker.send_email.send(
         EmailInfo(
+            message_id=f"{request.appid}/{request.build_id}/{'approved' if request.is_approved else 'rejected'}",
+            references=f"{request.appid}/{request.build_id}/held",
             user_id=None,
             app_id=request.appid,
             inform_moderators=True,
