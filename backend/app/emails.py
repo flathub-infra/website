@@ -1,7 +1,7 @@
 import base64
 import importlib.resources
 import json
-from email.message import EmailMessage
+from email.mime.text import MIMEText
 from email.utils import formataddr
 from enum import Enum
 from smtplib import SMTP
@@ -67,7 +67,7 @@ def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: 
 
 def _create_message(
     user: models.FlathubUser, info: EmailInfo, db
-) -> tuple[str, EmailMessage] | None:
+) -> tuple[str, MIMEText] | None:
     user_default_account = user.get_default_account(db)
 
     email = user_default_account.email
@@ -95,8 +95,7 @@ def _create_message(
         or False
     )
 
-    message = EmailMessage()
-    message.set_content(text)
+    message = MIMEText(text, "html")
     message["Subject"] = full_subject
     message["From"] = formataddr((settings.email_from_name, settings.email_from))
     message["To"] = formataddr((to_name, email))
@@ -107,7 +106,7 @@ def _create_message(
 def send_email(info: EmailInfo, db):
     from . import worker
 
-    messages: list[tuple[str, EmailMessage]] = []
+    messages: list[tuple[str, MIMEText]] = []
 
     if info.app_id is not None:
         if not info.inform_only_moderators:
@@ -126,9 +125,7 @@ def send_email(info: EmailInfo, db):
                 .all()
             )
             for user in by_github_repo:
-                message = _create_message(user, info, db)
-                if message:
-                    messages.append(message)
+                messages.append(_create_message(user, info, db))
 
             direct_upload_app = models.DirectUploadApp.by_app_id(db, info.app_id)
             if direct_upload_app is not None:
@@ -136,25 +133,19 @@ def send_email(info: EmailInfo, db):
                     db, direct_upload_app
                 )
                 for _dev, user in by_direct_upload:
-                    message = _create_message(user, info, db)
-                    if message:
-                        messages.append(message)
+                    messages.append(_create_message(user, info, db))
 
         if info.inform_only_moderators or info.inform_moderators:
             moderators = db.session.query(models.FlathubUser).filter_by(
                 is_moderator=True
             )
             for user in moderators:
-                message = _create_message(user, info, db)
-                if message:
-                    messages.append(message)
+                messages.append(_create_message(user, info, db))
 
     if info.user_id is not None:
         # Get the user's email address
         if user := models.FlathubUser.by_id(db, info.user_id):
-            message = _create_message(user, info, db)
-            if message:
-                messages.append(message)
+            messages.append(_create_message(user, info, db))
         else:
             # User doesn't exist anymore?
             pass
