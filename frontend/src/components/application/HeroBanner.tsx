@@ -42,8 +42,7 @@ export const HeroBanner = ({
       },
       loop: autoplay, // there is a bug that mixes up the indices when looping, so disable this for moderation
       navigation: true,
-      className:
-        "h-[208px] md:h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
+      className: "h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
       injectStyles: [
         `
         .swiper-button-next:hover, .swiper-button-prev:hover {
