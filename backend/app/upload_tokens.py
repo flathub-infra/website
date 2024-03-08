@@ -184,7 +184,6 @@ def create_upload_token(
 
     worker.send_email.send(
         EmailInfo(
-            message_id=f"{app_id}/{token.id}/issued",
             app_id=app_id,
             category=EmailCategory.UPLOAD_TOKEN_CREATED,
             subject="New upload token issued",

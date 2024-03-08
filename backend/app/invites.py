@@ -1,4 +1,3 @@
-from datetime import datetime
 from enum import Enum
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
@@ -142,7 +141,6 @@ def invite_developer(
 
     worker.send_email.send(
         EmailInfo(
-            message_id=f"{app.app_id}/{invite.id}/invited",
             user_id=invited_user.id,
             category=EmailCategory.DEVELOPER_INVITE,
             subject=subject,
@@ -192,8 +190,6 @@ def accept_invite(
 
     worker.send_email.send(
         EmailInfo(
-            message_id=f"{app_id}/{invite.id}/success",
-            references=f"{app_id}/{invite.id}/invited",
             app_id=app_id,
             category=EmailCategory.DEVELOPER_INVITE_ACCEPTED,
             subject=f"{username} is now a developer",
@@ -229,8 +225,6 @@ def decline_invite(
         app_name = None
     worker.send_email.send(
         EmailInfo(
-            message_id=f"{app.app_id}/{invite.id}/decline",
-            references=f"{app.app_id}/{invite.id}/invited",
             user_id=primary_dev.developer_id,
             category=EmailCategory.DEVELOPER_INVITE_DECLINED,
             subject=f"{login.user.display_name} declined their invite",
@@ -264,7 +258,6 @@ def leave_team(
 
     worker.send_email.send(
         EmailInfo(
-            message_id=f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
             app_id=app_id,
             category=EmailCategory.DEVELOPER_LEFT,
             subject=f"{login.user.display_name} left the developer team",
