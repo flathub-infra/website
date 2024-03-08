@@ -67,7 +67,7 @@ export const FlathubCombobox = <
         {filtered.length > 0 && (
           <Combobox.Options
             className={clsx(
-              "absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-flathub-white dark:bg-flathub-arsenic",
+              "absolute z-10 mt-1 w-full min-w-min max-h-[540px] overflow-auto rounded-md bg-flathub-white dark:bg-flathub-arsenic",
               "py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm",
             )}
           >
