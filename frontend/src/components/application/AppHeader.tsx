@@ -8,6 +8,7 @@ import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
+import { HiMiniExclamationTriangle } from "react-icons/hi2"
 
 export function AppHeader({
   app,

@@ -4,6 +4,8 @@ import React from "react"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
+import { HiMiniExclamationTriangle } from "react-icons/hi2"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   appId: string
@@ -14,6 +16,7 @@ const Verification: FunctionComponent<Props> = ({
   appId,
   verificationStatus,
 }) => {
+  const { t } = useTranslation()
   const verificationText = VerificationText(verificationStatus)
   let verifiedLink = null
 
@@ -75,7 +78,16 @@ const Verification: FunctionComponent<Props> = ({
       </div>
     )
   } else {
-    return null
+    return (
+      <>
+        <div className="rounded-full w-fit text-flathub-white bg-flathub-status-orange dark:bg-flathub-status-orange-dark py-0.5 px-2">
+          <div className="text-xs flex gap-1 items-end">
+            <HiMiniExclamationTriangle className="size-3.5" />
+            {t("unverified")}
+          </div>
+        </div>
+      </>
+    )
   }
 }
 export default Verification
