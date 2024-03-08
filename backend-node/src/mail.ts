@@ -25,7 +25,7 @@ export async function sendMail({
     auth: {
       user: process.env.USERNAME,
       pass: process.env.PASSWORD,
-    }
+    },
   })
 
   const headers: Headers = {
