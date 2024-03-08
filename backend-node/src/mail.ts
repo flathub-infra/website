@@ -22,6 +22,10 @@ export async function sendMail({
     host: process.env.HOST || "localhost",
     port: Number(process.env.PORT) || 2525,
     secure: false,
+    auth: {
+      user: process.env.USERNAME,
+      pass: process.env.PASSWORD,
+    }
   })
 
   const headers: Headers = {
