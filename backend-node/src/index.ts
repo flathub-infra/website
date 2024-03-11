@@ -14,6 +14,7 @@ import DeveloperLeftEmail from "../emails/developer-left"
 import DeveloperInviteDeclinedEmail from "../emails/developer-invite-declined"
 import DeveloperInviteAcceptedEmail from "../emails/developer-invite-accepted"
 import DeveloperInviteEmail from "../emails/developer-invite"
+import { logger } from "hono/logger"
 
 const RequestSchema = z.object({
   requestType: z.literal("appdata"),
@@ -26,7 +27,7 @@ const RequestSchema = z.object({
         z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
       ]),
     ),
-    currentValues: z.record(
+    current_values: z.record(
       z.union([
         z.string(),
         z.array(z.string()),
@@ -41,9 +42,6 @@ const RequestSchema = z.object({
 const EmailBody = z.object({
   messageId: z.string().min(3).openapi({
     example: "1212121",
-  }),
-  from: z.string().min(3).openapi({
-    example: "noreply@flathub.org",
   }),
   to: z.string().min(3).openapi({
     example: "test@flathub.org",
@@ -109,7 +107,10 @@ const EmailBody = z.object({
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
       buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
-      comment: z.string().openapi({ example: "There is something wrong" }),
+      comment: z
+        .string()
+        .optional()
+        .openapi({ example: "There is something wrong" }),
       request: RequestSchema,
       references: z.string().min(3).openapi({
         example: "1212121",
@@ -188,8 +189,10 @@ const route = createRoute({
 })
 const app = new OpenAPIHono()
 
+app.use(logger())
+
 app.openapi(route, async (c) => {
-  const { messageId, from, to, subject, messageInfo, previewText } =
+  const { messageId, to, subject, messageInfo, previewText } =
     c.req.valid("json")
 
   let emailHtml = undefined
@@ -283,7 +286,6 @@ app.openapi(route, async (c) => {
   await sendMail({
     category: messageInfo.category,
     messageId,
-    from,
     to,
     subject,
     emailHtml,
@@ -291,12 +293,12 @@ app.openapi(route, async (c) => {
       "references" in messageInfo ? messageInfo.references : undefined,
   })
 
-  c.status(204)
+  // c.status(204)
   return c.json({})
 })
 
 // The OpenAPI documentation will be available at /doc
-app.doc("/doc", {
+app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {
     version: "1.0.0",
@@ -304,7 +306,7 @@ app.doc("/doc", {
   },
 })
 
-app.get("/docs", swaggerUI({ url: "/doc" }))
+app.get("/docs", swaggerUI({ url: "/openapi.json" }))
 
 const port = 8001
 console.log(`Server is running on port ${port}`)

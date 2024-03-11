@@ -40,7 +40,7 @@ export interface Request {
         | boolean
         | { [key: string]: string[] | { [key: string]: string[] } }
     }
-    currentValues: {
+    current_values: {
       [key: string]:
         | string
         | string[]
@@ -93,7 +93,7 @@ const DiffRow = ({
   valueKey: string
   request: Request
 }) => {
-  const currentValues = request.requestData.currentValues[valueKey] as
+  const current_values = request.requestData.current_values[valueKey] as
     | string
     | string[]
     | { [key: string]: string[] }
@@ -102,12 +102,12 @@ const DiffRow = ({
     | string[]
     | { [key: string]: string[] }
 
-  if (Array.isArray(currentValues) || Array.isArray(newValues)) {
-    if (JSON.stringify(currentValues) === JSON.stringify(newValues)) {
+  if (Array.isArray(current_values) || Array.isArray(newValues)) {
+    if (JSON.stringify(current_values) === JSON.stringify(newValues)) {
       return null
     }
     const { a: currentValueList, b: newValueList } = alignArrays(
-      currentValues as string[],
+      current_values as string[],
       newValues as string[],
     )
 
@@ -123,26 +123,26 @@ const DiffRow = ({
   }
 
   if (
-    typeof currentValues === "string" ||
+    typeof current_values === "string" ||
     typeof newValues === "string" ||
-    typeof currentValues === "boolean" ||
+    typeof current_values === "boolean" ||
     typeof newValues === "boolean"
   ) {
     return (
       <tr>
         <td className="align-top">{valueKey}</td>
         {!request.isNewSubmission && (
-          <td className="align-top">{currentValues?.toString()}</td>
+          <td className="align-top">{current_values?.toString()}</td>
         )}
         <td className="align-top">{newValues?.toString()}</td>
       </tr>
     )
   }
 
-  if (typeof currentValues === "object" || typeof newValues === "object") {
+  if (typeof current_values === "object" || typeof newValues === "object") {
     const uniqueKeys = Array.from(
       new Set([
-        ...Object.keys(currentValues ?? []),
+        ...Object.keys(current_values ?? []),
         ...Object.keys(newValues ?? []),
       ]),
     ).sort()
@@ -152,18 +152,18 @@ const DiffRow = ({
         {uniqueKeys.map((key) => {
           // handle arrays
           if (
-            (currentValues?.[key] && Array.isArray(currentValues[key])) ||
+            (current_values?.[key] && Array.isArray(current_values[key])) ||
             (newValues?.[key] && Array.isArray(newValues[key]))
           ) {
             if (
-              JSON.stringify(currentValues?.[key]) ===
+              JSON.stringify(current_values?.[key]) ===
               JSON.stringify(newValues?.[key])
             ) {
               return null
             }
 
             const { a: currentValueList, b: newValueList } = alignArrays(
-              currentValues?.[key],
+              current_values?.[key],
               newValues?.[key],
             )
 
@@ -185,7 +185,7 @@ const DiffRow = ({
 
 export const ModerationRequestItem = ({ request }: { request: Request }) => {
   const currentValuesFiltered = Object.keys(
-    request.requestData?.currentValues ?? {},
+    request.requestData?.current_values ?? {},
   ).filter(
     (a) =>
       // these keys are special, but we don't want to act on them - so ignore
@@ -274,7 +274,7 @@ ModerationHeldEmail.PreviewProps = {
         keys: {
           name: "My Awesome Test App",
         },
-        currentValues: {
+        current_values: {
           name: "Test App",
         },
       },

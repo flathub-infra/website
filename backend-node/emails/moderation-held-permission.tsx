@@ -23,7 +23,7 @@ ModerationHeldEmail.PreviewProps = {
             },
           },
         },
-        currentValues: {
+        current_values: {
           name: "Vim",
           summary: "The ubiquitous text editor",
           developer_name: "Bram Moolenaar et al.",
