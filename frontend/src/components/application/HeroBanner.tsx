@@ -99,12 +99,9 @@ export const HeroBanner = ({
               href={`/apps/${data.appstream.id}`}
               passHref
               style={{
-                backgroundImage:
-                  !brandingColor && `url(${data.appstream.icon})`,
                 backgroundColor: brandingColor && brandingColor.value,
               }}
               className={clsx(
-                !brandingColor && "bg-[length:1px_1px]",
                 "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
                 "hover:cursor-grab",
                 "h-full",
