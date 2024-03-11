@@ -89,7 +89,7 @@
     "storybook": "^7.6.7",
     "storybook-react-i18next": "^2.0.10",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.4.2"
   },
   "packageManager": "yarn@4.0.2"
 }
