@@ -5,7 +5,6 @@ export async function sendMail({
   category,
   messageId,
   references,
-  from,
   to,
   subject,
   emailHtml,
@@ -13,19 +12,21 @@ export async function sendMail({
   category: string
   messageId: string
   references?: string
-  from: string
   to: string
   subject: string
   emailHtml: any
 }) {
   const transporter = createTransport({
-    host: process.env.HOST || "localhost",
-    port: Number(process.env.PORT) || 2525,
+    host: process.env.HOST || "smtp-test-server",
+    port: Number(process.env.PORT) || 25,
     secure: false,
-    auth: {
-      user: process.env.USERNAME,
-      pass: process.env.PASSWORD,
-    },
+    auth:
+      process.env.USERNAME && process.env.PASSWORD
+        ? {
+            user: process.env.USERNAME,
+            pass: process.env.PASSWORD,
+          }
+        : undefined,
   })
 
   const headers: Headers = {
@@ -36,7 +37,7 @@ export async function sendMail({
     messageId: messageId,
     references: references,
     inReplyTo: references,
-    from: from,
+    from: "noreply@flathub.org",
     to: to,
     subject: subject,
     html: emailHtml,

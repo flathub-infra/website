@@ -18,7 +18,7 @@ export const ModerationApprovedEmail = ({
   comment,
 }: Omit<ModerationEmailProps, "requests"> & {
   request: Request
-  comment: string
+  comment?: string
 }) => {
   const appNameAndId = buildAppName(appId, appName)
 
@@ -61,7 +61,7 @@ ModerationApprovedEmail.PreviewProps = {
       keys: {
         name: "My Awesome Test App",
       },
-      currentValues: {
+      current_values: {
         name: "Test App",
       },
     },

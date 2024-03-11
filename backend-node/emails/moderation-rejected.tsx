@@ -61,7 +61,7 @@ ModerationRejectedEmail.PreviewProps = {
       keys: {
         name: "My Awesome Test App",
       },
-      currentValues: {
+      current_values: {
         name: "Test App",
       },
     },

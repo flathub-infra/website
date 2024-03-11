@@ -18,7 +18,7 @@ ModerationHeldEmail.PreviewProps = {
             talk: ["org.freedesktop.flatpak"],
           },
         },
-        currentValues: {
+        current_values: {
           shared: ["network", "ipc"],
         },
       },
