@@ -1271,16 +1271,20 @@ urllib3 = ">=1.26.0"
 
 [[package]]
 name = "pygobject"
-version = "3.46.0"
+version = "3.48.1"
 description = "Python bindings for GObject Introspection"
 optional = false
-python-versions = ">=3.8, <4"
+python-versions = "<4,>=3.8"
 files = [
-    {file = "PyGObject-3.46.0.tar.gz", hash = "sha256:481437b05af0a66b7c366ea052710eb3aacbb979d22d30b797f7ec29347ab1e6"},
+    {file = "pygobject-3.48.1.tar.gz", hash = "sha256:2c4cd7c805ee9e727904172423a7519338017fd7e122b62218ac211627436875"},
 ]
 
 [package.dependencies]
-pycairo = ">=1.16,<2.0"
+pycairo = ">=1.16"
+
+[package.extras]
+dev = ["flake8", "pytest", "pytest-cov"]
+docs = ["sphinx (>=4.0,<5.0)", "sphinx-rtd-theme (>=0.5,<2.0)"]
 
 [[package]]
 name = "pyjwt"
@@ -2140,4 +2144,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "f46b1eefcb38048f2b5a461cebf84b6d6bbd4f35fa7b7cad2cfe51551a59f1b8"
+content-hash = "e34e99060872cd0cacc2de42dd5d7c5e655096583745fccf76f25b75d210326b"
