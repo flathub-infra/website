@@ -7023,12 +7023,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.11.20":
-  version: 20.11.20
-  resolution: "@types/node@npm:20.11.20"
+"@types/node@npm:^20.11.25":
+  version: 20.11.25
+  resolution: "@types/node@npm:20.11.25"
   dependencies:
     undici-types: "npm:~5.26.4"
-  checksum: 8e8de211e6d54425c603388a9b5cc9c434101985d0a1c88aabbf65d10df2b1fccd71855c20e61ae8a75c7aea56cb0f64e722cf7914cff1247d0b62ce21996ac4
+  checksum: 3a65a0469309d503e572a3198d81c9248876236b1bcc0c9943e995cfa536df7ce9a9302638258984877420d1613167a8a82dbfb3a92197319fb79ebebf9abc83
   languageName: node
   linkType: hard
 
@@ -11033,7 +11033,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.17.19"
     "@tanstack/react-query-devtools": "npm:^5.17.19"
     "@tanstack/react-table": "npm:^8.12.0"
-    "@types/node": "npm:^20.11.20"
+    "@types/node": "npm:^20.11.25"
     "@types/react": "npm:^18.2.61"
     autoprefixer: "npm:^10.4.18"
     axios: "npm:^1.6.3"
