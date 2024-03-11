@@ -33,11 +33,9 @@ export const AppOfTheDay = ({
       href={`/apps/${appOfTheDay.id}`}
       passHref
       style={{
-        backgroundImage: !brandingColor && `url(${appOfTheDay.icon})`,
         backgroundColor: brandingColor && brandingColor.value,
       }}
       className={clsx(
-        !brandingColor && "bg-[length:1px_1px]",
         "rounded-xl",
         "flex min-w-0 items-center gap-4 p-8 pb-0 duration-500",
         "hover:cursor-pointer",
