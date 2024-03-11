@@ -70,7 +70,7 @@
     "@storybook/addon-links": "^7.6.6",
     "@storybook/addon-themes": "^7.6.8",
     "@storybook/nextjs": "^7.5.1",
-    "@storybook/react": "^7.6.14",
+    "@storybook/react": "^7.6.17",
     "@storybook/testing-library": "^0.2.2",
     "@tailwindcss/typography": "^0.5.10",
     "@tanstack/eslint-plugin-query": "^5.14.6",
