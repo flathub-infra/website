@@ -4160,10 +4160,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:6.9.11":
-  version: 6.9.11
-  resolution: "nodemailer@npm:6.9.11"
-  checksum: 496741f440fb7e4077ce9604c8ccab05b91db23fbedc15deebcae0642e1ead6539a9c7e2ae9f6352821ebfdad7ab091fbb16b4f00bb226ef5418da6a74b180be
+"nodemailer@npm:6.9.12":
+  version: 6.9.12
+  resolution: "nodemailer@npm:6.9.12"
+  checksum: 061f4c785b5362903078ef2434d1e5a50901439caa0102435cfdb33efa993ac5d03ae26780c1baef5adb90909793e40ba36d853273294fe83dc4dffb9719dfd0
   languageName: node
   linkType: hard
 
@@ -4840,7 +4840,7 @@ __metadata:
     date-fns: ^3.3.1
     dotenv: ^16.4.5
     hono: ^4.0.10
-    nodemailer: 6.9.11
+    nodemailer: 6.9.12
     prettier: 3.2.5
     react-email: 2.1.0
     tsx: ^4.7.1
