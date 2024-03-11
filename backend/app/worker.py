@@ -24,7 +24,6 @@ from . import (
     utils,
 )
 from .config import settings
-from .emails import EmailInfo
 from .emails import send_email as send_email_impl
 from .emails import send_one_email as send_one_email_impl
 
@@ -195,11 +194,11 @@ def review_check(
 @dramatiq.actor
 def send_email(email):
     with WorkerDB() as db:
-        send_email_impl(EmailInfo(**email), db)
+        send_email_impl(dict(**email), db)
 
 
 @dramatiq.actor
-def send_one_email(message: str, dest: str):
+def send_one_email(message: dict, dest: str):
     send_one_email_impl(message, dest)
 
 

@@ -26,7 +26,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 from . import config, models, worker
 from . import db as apps_db
-from .emails import EmailCategory, EmailInfo
+from .emails import EmailCategory
 from .login_info import (
     LoginInformation,
     LoginState,
@@ -833,19 +833,20 @@ def continue_oauth_flow(
     # org since we have a functional token
     postlogin_handler(login_result, account)
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{account.user}/login/{datetime.now().isoformat()}",
-            user_id=account.user,
-            category=EmailCategory.SECURITY_LOGIN,
-            subject="New login to Flathub account",
-            template_data={
-                "provider": method,
-                "login": account.login,
-                "time": datetime.now().strftime("%A, %B %d, %Y at %I:%M:%S %p UTC"),
-            },
-        ).dict()
-    )
+    payload = {
+        "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
+        "userId": account.user,
+        "subject": "New login to Flathub account",
+        "previewText": "Flathub Login",
+        "messageInfo": {
+            "category": EmailCategory.SECURITY_LOGIN,
+            "provider": method,
+            "login": provider_data.login,
+            "time": datetime.now().isoformat(),
+        },
+    }
+
+    worker.send_email.send(payload)
 
     return {
         "status": "ok",

@@ -16,7 +16,7 @@ from sqlalchemy import func, not_, or_
 
 from . import config, models, utils, worker
 from .db import get_json_key
-from .emails import EmailCategory, EmailInfo
+from .emails import EmailCategory
 from .login_info import moderator_only, moderator_or_app_author_only
 from .logins import LoginStatusDep
 from .summary import parse_summary
@@ -141,9 +141,11 @@ def get_moderation_apps(
             ),
         )
         .filter(
-            models.ModerationRequest.handled_at.is_(None)
-            if show_handled is False
-            else models.ModerationRequest.handled_at.isnot(None),
+            (
+                models.ModerationRequest.handled_at.is_(None)
+                if show_handled is False
+                else models.ModerationRequest.handled_at.isnot(None)
+            ),
             models.ModerationRequest.is_outdated.is_(False),
         )
         .group_by(models.ModerationRequest.appid)
@@ -441,29 +443,35 @@ def submit_review_request(
             apps = itertools.groupby(new_requests, lambda r: r.appid)
             for app_id, requests in apps:
                 requests = list(requests)
-                worker.send_email.send(
-                    EmailInfo(
-                        message_id=f"{app_id}/{review_request.build_id}/held",
-                        user_id=None,
-                        app_id=app_id,
-                        inform_moderators=True,
-                        category=EmailCategory.MODERATION_HELD,
-                        subject=f"Build #{review_request.build_id} held for review",
-                        template_data={
-                            "build_id": review_request.build_id,
-                            "job_id": review_request.job_id,
-                            "build_log_url": request.build_log_url,
-                            "requests": [
-                                {
-                                    "request_type": request.request_type,
-                                    "request_data": json.loads(request.request_data),
-                                    "is_new_submission": request.is_new_submission,
-                                }
-                                for request in requests
-                            ],
-                        },
-                    ).dict()
-                )
+
+                if app_metadata := get_json_key(f"apps:{app_id}"):
+                    app_name = app_metadata["name"]
+                else:
+                    app_name = None
+
+                payload = {
+                    "messageId": f"{app_id}/{review_request.build_id}/held",
+                    "subject": f"Build #{review_request.build_id} held for review",
+                    "previewText": f"Build #{review_request.build_id} held for review",
+                    "inform_moderators": True,
+                    "messageInfo": {
+                        "category": EmailCategory.MODERATION_HELD,
+                        "appId": request.appid,
+                        "appName": app_name,
+                        "buildId": review_request.build_id,
+                        "buildLogUrl": request.build_log_url,
+                        "requests": [
+                            {
+                                "request_type": request.request_type,
+                                "request_data": json.loads(request.request_data),
+                                "is_new_submission": request.is_new_submission,
+                            }
+                            for request in requests
+                        ],
+                    },
+                }
+
+                worker.send_email.send(payload)
 
             return ReviewRequestResponse(requires_review=True)
 
@@ -543,29 +551,36 @@ def submit_review(
             inform_only_moderators = True
             issue = create_github_build_rejection_issue(request)
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{request.appid}/{request.build_id}/{'approved' if request.is_approved else 'rejected'}",
-            references=f"{request.appid}/{request.build_id}/held",
-            user_id=None,
-            app_id=request.appid,
-            inform_moderators=True,
-            inform_only_moderators=inform_only_moderators,
-            category=category,
-            subject=subject,
-            template_data={
-                "build_id": request.build_id,
-                "job_id": request.job_id,
-                "build_log_url": request.build_log_url,
-                "request": {
-                    "request_type": request.request_type,
-                    "request_data": json.loads(request.request_data),
-                    "is_new_submission": request.is_new_submission,
-                },
-                "comment": request.comment,
+    if app_metadata := get_json_key(f"apps:{request.appid}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+
+    payload = {
+        "messageId": f"{request.appid}/{request.build_id}/{'approved' if request.is_approved else 'rejected'}",
+        "subject": subject,
+        "previewText": subject,
+        "inform_moderators": True,
+        "inform_only_moderators": inform_only_moderators,
+        "messageInfo": {
+            "category": category,
+            "appId": request.appid,
+            "appName": app_name,
+            "buildId": request.build_id,
+            "buildLogUrl": request.build_log_url,
+            "request": {
+                "requestType": request.request_type,
+                "requestData": json.loads(request.request_data),
+                "isNewSubmission": request.is_new_submission,
             },
-        ).dict()
-    )
+            "references": f"{request.appid}/{request.build_id}/held",
+        },
+    }
+
+    if request.comment is not None:
+        payload["messageInfo"]["comment"] = request.comment
+
+    worker.send_email.send(payload)
 
     return ReviewResponse(github_issue_url=issue.url) if issue else None
 
