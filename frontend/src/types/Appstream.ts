@@ -5,6 +5,14 @@ export type AppstreamListItem = Pick<
 
 export type Appstream = DesktopAppstream | AddonAppstream
 
+export type Icon = {
+  url: string
+  width: number
+  height: number
+  scale: number
+  type: "remote" | "cached"
+}
+
 export interface DesktopAppstream {
   type: "desktop-application"
   description: string
@@ -13,6 +21,7 @@ export interface DesktopAppstream {
   content_rating: ContentRating
   urls?: Urls
   icon: string
+  icons: Icon[]
   id: string
   name: string
   summary: string
@@ -41,6 +50,7 @@ export interface AddonAppstream {
   content_rating: ContentRating
   urls: Urls
   icon?: any
+  icons?: Icon[]
   id: string
   name: string
   summary: string

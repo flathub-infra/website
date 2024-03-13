@@ -31,7 +31,7 @@ def add_to_search(app_id: str, app: dict) -> dict:
 
     type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
 
-    # order of the dict is important for attritbute ranking
+    # order of the dict is important for attribute ranking
     return {
         "id": utils.get_clean_app_id(app_id),
         "type": type,
