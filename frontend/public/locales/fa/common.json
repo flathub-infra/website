@@ -196,7 +196,13 @@
     "high-quality-app-data": "داده‌های کاره با کیفیت بالا",
     "failing-x-checks_one": "شکست {{count}} بررسی",
     "failing-x-checks_other": "شکست {{count}} بررسی",
-    "general-no-trademark-violations": "زیر پا نگذاشتن علائم تجاری (نام یا نقشک)"
+    "general-no-trademark-violations": "زیر پا نگذاشتن علائم تجاری (نام یا نقشک)",
+    "branding-good-primary-brand-colors": "رنگ‌های نخستین ویژند خوب",
+    "needed-to-pass-x": "نیاز به دادن {{x}}",
+    "hide-branding-preview": "نهفتن پیش‌نمایش ویژندگی",
+    "show-branding-preview": "نمایش پیش‌نمایش ویژندگی",
+    "branding": "ویژندگی",
+    "branding-has-primary-brand-colors": "رنگ‌های نخستین ویژند را دارد"
   },
   "desktop-folder": "شاخهٔ میزکار",
   "remove-developer": "برداشتن توسعه‌دهنده",
@@ -510,5 +516,12 @@
   "install-x": "نصب {{app-name}} روی گنو/لینوکس",
   "cannot-abandon-app": "نمی‌توان کاره را رها کرد",
   "switch-to-direct-upload": "تغییر کاره به بارگذاری مستقیم",
-  "new-direct-upload": "کارهٔ بارگذاری مستقیم جدید"
+  "new-direct-upload": "کارهٔ بارگذاری مستقیم جدید",
+  "not-onboarded": "لطفاً نخست آشنا شوید",
+  "news": "اخبار",
+  "press-information": "اطّلاعات جراید",
+  "flathub-the-linux-app-store": "فلت‌هاب فروشگاه کارهٔ گنو/لینوکس است",
+  "rebase-onto-other-app": "شناسهٔ کاره‌ای که برنامه‌تان بر پایهٔ آن خواهد شد را وارد کنید",
+  "developer-portal": "درگاه توسعه‌دهندگان",
+  "nothing-to-do": "کاری برای انجام نیست"
 }
