@@ -21,7 +21,7 @@
   "more": "Mehr",
   "number-of-results": "{{number}} Ergebnisse",
   "installed-size": "Installierte Größe",
-  "download-size": "Download Größe",
+  "download-size": "Download-Größe",
   "available-architectures": "Verfügbare Architekturen",
   "downloads": "Downloads",
   "license": "Lizenz",
@@ -499,7 +499,7 @@
     "failing-x-checks_other": "{{count}} Prüfungen fehlgeschlagen",
     "high-quality-app-data": "Hochwertige App-Daten",
     "pending": "Anstehend",
-    "details": "Detail",
+    "details": "Details",
     "review-requested": "Review angefragt",
     "not-passed": "Nicht bestanden",
     "app-data-review-pending": "App-Daten review ausstehend",
@@ -512,7 +512,7 @@
     "branding-good-primary-brand-colors": "Gute primäre Markenfarben"
   },
   "app-listing-quality": "Qualität des Applistings",
-  "moderation-build-id": "Build ID",
+  "moderation-build-id": "Build-ID",
   "flathub-apps-for-linux": "Flathub - Apps für Linux",
   "issued-to": "Ausgestellt an",
   "id": "ID",
@@ -521,7 +521,7 @@
   "scope-build": "Erstellen und auf Builds und Jobs zugreifen",
   "token-name": "Token-Name",
   "revoke-token": "Token widerrufen",
-  "build-x": "Gebaut {{build-ago}}",
+  "build-x": "Build {{build-ago}} erstellt",
   "scopes": "Bereich",
   "name": "Name",
   "new-beta-token": "Neuer Beta Branch Token",
@@ -559,5 +559,6 @@
   "press-information-block": "<p>Wir beantworten sehr gerne Fragen von Journalisten und Technikredakteuren. Es können auch Interviewtermine vereinbart werden.</p><1>Grafiken und Logos</1><2>Flathub-Grafikmaterial finden Sie <2>hier</2>.</2><3>Kontakt</3><4>Presseanfragen, einschließlich Anfragen für Kommentare und Interviews, können an die <2>Flathub-Maintainer</2> gerichtet werden.</4>",
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
   "developer-portal": "Entwicklerportal",
-  "news": "Neuigkeiten"
+  "news": "Neuigkeiten",
+  "nothing-to-do": "Nichts zu tun"
 }
