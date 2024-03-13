@@ -52,6 +52,7 @@ module.exports = {
       "pa",
       "sq",
       "ia",
+      "kab",
     ],
   },
   // debug: true,
