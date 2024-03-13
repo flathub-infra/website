@@ -1,28 +1,16 @@
 import base64
-import importlib.resources
-import json
-from email.message import EmailMessage
-from email.utils import formataddr
 from enum import Enum
-from smtplib import SMTP
 from typing import Any
 
 import jwt
+import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
-from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jinja2 import Environment, PackageLoader, select_autoescape
 from pydantic import BaseModel
 from sqlalchemy import select
 
 from . import models
 from .config import settings
-from .db import get_json_key
-
-template_env = Environment(
-    loader=PackageLoader("app", "email_templates"),
-    autoescape=select_autoescape(default=True),
-)
 
 
 class EmailCategory(str, Enum):
@@ -42,7 +30,6 @@ class EmailInfo(BaseModel):
     message_id: str
     user_id: int | None = None
     app_id: str | None = None
-    category: EmailCategory
     subject: str
     template_data: dict[str, Any]
     references: str | None = None
@@ -51,25 +38,9 @@ class EmailInfo(BaseModel):
     inform_only_moderators: bool = False
 
 
-def _create_html(info: EmailInfo, app_name: str, email: str, user_display_name: str):
-    data = {
-        "env": settings.env,
-        "user_display_name": user_display_name,
-        "user_email_address": email,
-        "email_category": info.category,
-        "email_subject": info.subject,
-        "app_id": info.app_id,
-        "app_name": app_name,
-        "frontend_url": settings.frontend_url,
-        **info.template_data,
-    }
-
-    return template_env.get_template(info.category + ".html").render(data)
-
-
-def _create_message(
-    user: models.FlathubUser, info: EmailInfo, db
-) -> tuple[str, EmailMessage] | None:
+def _get_message_destination(
+    user: models.FlathubUser, payload: dict, db
+) -> tuple[str, dict] | None:
     user_default_account = user.get_default_account(db)
 
     email = user_default_account.email
@@ -77,50 +48,23 @@ def _create_message(
         print(f"Could not find email address for user #{user.id}")
         return None
 
-    full_subject = info.subject
-
-    app_name = None
-    if info.app_id is not None:
-        if app := get_json_key(f"apps:{info.app_id}"):
-            app_name = app["name"]
-        full_subject = f"{app_name or info.app_id} | {full_subject}"
-
-    if settings.env != "production":
-        full_subject = f"[{settings.env.upper()}] {full_subject}"
-
-    text = _create_html(info, app_name, email, user.display_name)
-
-    to_name = (
-        user_default_account.display_name
-        or user.display_name
-        or user_default_account.login
-        or False
-    )
-
-    message = EmailMessage()
-    message.set_content(text, subtype="html")
-    message.make_related()
-    message["Subject"] = full_subject
-    message["From"] = formataddr((settings.email_from_name, settings.email_from))
-    message["To"] = formataddr((to_name, email))
-    message["X-Flathub-Reason"] = info.category
-
-    message["Message-ID"] = info.message_id
-
-    if info.references:
-        message["In-Reply-To"] = info.references
-        message["References"] = info.references
-
-    return (email, message)
+    return (email, payload)
 
 
-def send_email(info: EmailInfo, db):
+def send_email(payload: dict, db):
     from . import worker
 
-    messages: list[tuple[str, EmailMessage]] = []
+    messages: list[tuple[str, dict]] = []
 
-    if info.app_id is not None:
-        if not info.inform_only_moderators:
+    if (
+        "messageInfo" in payload
+        and "appId" in payload["messageInfo"]
+        and payload["messageInfo"]["appId"] is not None
+    ):
+        if (
+            "inform_only_moderators" not in payload["messageInfo"]
+            or not payload["messageInfo"]["inform_only_moderators"]
+        ):
             # Get the developers of the app
             by_github_repo = (
                 db.session.query(models.FlathubUser)
@@ -129,41 +73,42 @@ def send_email(info: EmailInfo, db):
                         select(models.GithubAccount.user).where(
                             models.GithubAccount.id
                             == models.GithubRepository.github_account,
-                            models.GithubRepository.reponame == info.app_id,
+                            models.GithubRepository.reponame
+                            == payload["messageInfo"]["appId"],
                         )
                     )
                 )
                 .all()
             )
             for user in by_github_repo:
-                message = _create_message(user, info, db)
-                if message:
+                message = _get_message_destination(user, payload, db)
+                if message and message[0] not in dict(messages):
                     messages.append(message)
 
-            direct_upload_app = models.DirectUploadApp.by_app_id(db, info.app_id)
+            direct_upload_app = models.DirectUploadApp.by_app_id(
+                db, payload["messageInfo"]["appId"]
+            )
             if direct_upload_app is not None:
                 by_direct_upload = models.DirectUploadAppDeveloper.by_app(
                     db, direct_upload_app
                 )
                 for _dev, user in by_direct_upload:
-                    message = _create_message(user, info, db)
-                    if message:
+                    message = _get_message_destination(user, payload, db)
+                    if message and message[0] not in dict(messages):
                         messages.append(message)
 
-        if info.inform_only_moderators or info.inform_moderators:
-            moderators = db.session.query(models.FlathubUser).filter_by(
-                is_moderator=True
-            )
-            for user in moderators:
-                message = _create_message(user, info, db)
-                if message:
-                    messages.append(message)
+    if "inform_only_moderators" in payload or "inform_moderators" in payload:
+        moderators = db.session.query(models.FlathubUser).filter_by(is_moderator=True)
+        for user in moderators:
+            message = _get_message_destination(user, payload, db)
+            if message and message[0] not in dict(messages):
+                messages.append(message)
 
-    if info.user_id is not None:
+    if "userId" in payload and payload["userId"] is not None:
         # Get the user's email address
-        if user := models.FlathubUser.by_id(db, info.user_id):
-            message = _create_message(user, info, db)
-            if message:
+        if user := models.FlathubUser.by_id(db, payload["userId"]):
+            message = _get_message_destination(user, payload, db)
+            if message and message[0] not in dict(messages):
                 messages.append(message)
         else:
             # User doesn't exist anymore?
@@ -173,17 +118,19 @@ def send_email(info: EmailInfo, db):
 
     for dest, message in messages:
         # Queue each message separately so that if one fails, the others won't be resent when the task is retried
-        worker.send_one_email.send(message.as_string(), dest)
+        worker.send_one_email.send(message, dest)
 
 
-def send_one_email(message: str, dest: str):
-    if not settings.smtp_host:
-        print(f"Would send email to {dest}:\n{message}\n")
-    else:
-        with SMTP(settings.smtp_host, settings.smtp_port) as smtp:
-            smtp.starttls()
-            smtp.login(settings.smtp_username, settings.smtp_password)
-            smtp.sendmail(settings.email_from, [dest], message)
+def send_one_email(payload: dict, dest: str):
+    payload["to"] = dest
+
+    try:
+        requests.post(
+            f"{settings.backend_node_url}/emails",
+            json=payload,
+        )
+    except Exception as e:
+        print("Unable to send email: %s\n" % e)
 
 
 router = APIRouter(prefix="/emails")
@@ -221,63 +168,23 @@ def build_notification(
         else f"Build #{request.build_id} passed with warnings"
     )
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{request.build_repo}/{request.build_id}",
-            app_id=request.app_id,
-            category=EmailCategory.BUILD_NOTIFICATION,
-            subject=subject,
-            template_data={
-                "diagnostics": request.diagnostics,
-                "any_warnings": any(d["is_warning"] for d in request.diagnostics),
-                "any_errors": any(not d["is_warning"] for d in request.diagnostics),
-                "build_id": request.build_id,
-                "build_repo": request.build_repo,
-            },
-        ).dict()
-    )
+    payload = {
+        "messageId": f"{request.build_repo}/{request.build_id}",
+        "subject": subject,
+        "previewText": subject,
+        "messageInfo": {
+            "category": EmailCategory.BUILD_NOTIFICATION,
+            "appId": request.app_id,
+            "appName": request.app_id,  # todo get app name
+            "diagnostics": request.diagnostics,
+            "anyWarnings": any(d["is_warning"] for d in request.diagnostics),
+            "anyErrors": any(not d["is_warning"] for d in request.diagnostics),
+            "buildId": request.build_id,
+            "buildRepo": request.build_repo,
+        },
+    }
 
-
-if settings.env != "production":
-
-    def _get_preview_data():
-        with importlib.resources.open_text(
-            "app.email_templates", "preview_data.json"
-        ) as f:
-            return json.load(f)
-
-    @router.get("/preview", response_class=HTMLResponse, tags=["email"])
-    def preview_templates():
-        preview_data = _get_preview_data()
-        previews = [
-            f"<li><a href='preview/{name}'>{name}</a></li>"
-            for name in preview_data.keys()
-        ]
-        return "<ul>" + "\n".join(previews) + "</ul>"
-
-    @router.get("/preview/{name}", response_class=HTMLResponse, tags=["email"])
-    def preview_template(name: str):
-        preview_data = _get_preview_data()
-        if name not in preview_data:
-            raise HTTPException(status_code=404)
-
-        info = EmailInfo(
-            message_id="test",
-            category=preview_data[name]["category"],
-            subject="Test email",
-            app_id="com.example.Test",
-            template_data=preview_data[name]["data"],
-        )
-
-        preview = _create_html(info, "Test App", "test@example.com", "Test User")
-
-        return f"""
-            {preview}
-
-            <div style="margin-top: 5em"/>
-
-            <a href="../preview">Back to list of templates</a>
-        """
+    worker.send_email.send(payload)
 
 
 def register_to_app(app: FastAPI):

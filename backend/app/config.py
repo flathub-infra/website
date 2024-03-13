@@ -78,5 +78,7 @@ class Settings(BaseSettings):
     email_from_name: str | None = "Flathub"
     github_bot_token: str | None = None
 
+    backend_node_url: str | None = None
+
 
 settings = Settings()

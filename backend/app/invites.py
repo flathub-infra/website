@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from . import worker
 from .db import get_json_key
-from .emails import EmailCategory, EmailInfo
+from .emails import EmailCategory
 from .login_info import logged_in
 from .logins import LoginStatusDep
 from .models import (
@@ -140,19 +140,20 @@ def invite_developer(
         app_name = None
         subject = f"You have been invited to be a developer of {app.app_id}"
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{app.app_id}/{invite.id}/invited",
-            user_id=invited_user.id,
-            category=EmailCategory.DEVELOPER_INVITE,
-            subject=subject,
-            template_data={
-                "app_id": app.app_id,
-                "app_name": app_name,
-                "inviter": login.user.display_name,
-            },
-        ).dict()
-    )
+    payload = {
+        "messageId": f"{app.app_id}/{invite.id}/invited",
+        "userId": invited_user.id,
+        "subject": subject,
+        "previewText": subject,
+        "messageInfo": {
+            "category": EmailCategory.DEVELOPER_INVITE,
+            "appId": app.app_id,
+            "appName": app_name,
+            "inviter": login.user.display_name,
+        },
+    }
+
+    worker.send_email.send(payload)
 
 
 @router.post("/{app_id}/accept", status_code=204, tags=["invite"])
@@ -190,18 +191,25 @@ def accept_invite(
 
     username = login.user.display_name
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{app_id}/{invite.id}/success",
-            references=f"{app_id}/{invite.id}/invited",
-            app_id=app_id,
-            category=EmailCategory.DEVELOPER_INVITE_ACCEPTED,
-            subject=f"{username} is now a developer",
-            template_data={
-                "username": username,
-            },
-        ).dict()
-    )
+    if app_metadata := get_json_key(f"apps:{app.app_id}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+
+    payload = {
+        "messageId": f"{app_id}/{invite.id}/success",
+        "subject": f"{username} is now a developer",
+        "previewText": f"{username} is now a developer",
+        "messageInfo": {
+            "category": EmailCategory.DEVELOPER_INVITE_ACCEPTED,
+            "appId": app_id,
+            "appName": app_name,
+            "references": f"{app_id}/{invite.id}/invited",
+            "login": username,
+        },
+    }
+
+    worker.send_email.send(payload)
 
 
 @router.post("/{app_id}/decline", status_code=204, tags=["invite"])
@@ -227,20 +235,22 @@ def decline_invite(
         app_name = app_metadata["name"]
     else:
         app_name = None
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{app.app_id}/{invite.id}/decline",
-            references=f"{app.app_id}/{invite.id}/invited",
-            user_id=primary_dev.developer_id,
-            category=EmailCategory.DEVELOPER_INVITE_DECLINED,
-            subject=f"{login.user.display_name} declined their invite",
-            template_data={
-                "app_id": app.app_id,
-                "app_name": app_name,
-                "username": login.user.display_name,
-            },
-        ).dict()
-    )
+
+    payload = {
+        "messageId": f"{app.app_id}/{invite.id}/decline",
+        "subject": f"{login.user.display_name} declined their invite",
+        "previewText": f"{login.user.display_name} declined their invite",
+        "messageInfo": {
+            "category": EmailCategory.DEVELOPER_INVITE_DECLINED,
+            "userId": primary_dev.developer_id,
+            "appId": app.app_id,
+            "appName": app_name,
+            "references": f"{app_id}/{invite.id}/invited",
+            "login": login.user.display_name,
+        },
+    }
+
+    worker.send_email.send(payload)
 
 
 @router.post("/{app_id}/leave", status_code=204, tags=["invite"])
@@ -262,17 +272,24 @@ def leave_team(
     sqldb.session.delete(developer)
     sqldb.session.commit()
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
-            app_id=app_id,
-            category=EmailCategory.DEVELOPER_LEFT,
-            subject=f"{login.user.display_name} left the developer team",
-            template_data={
-                "username": login.user.display_name,
-            },
-        ).dict()
-    )
+    if app_metadata := get_json_key(f"apps:{app.app_id}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+
+    payload = {
+        "messageId": f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
+        "subject": f"{login.user.display_name} left the developer team",
+        "previewText": f"{login.user.display_name} left the developer team",
+        "messageInfo": {
+            "category": EmailCategory.DEVELOPER_LEFT,
+            "appId": app.app_id,
+            "appName": app_name,
+            "login": login.user.display_name,
+        },
+    }
+
+    worker.send_email.send(payload)
 
 
 class Developer(BaseModel):
