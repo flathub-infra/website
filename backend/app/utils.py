@@ -184,22 +184,39 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     app["urls"][url_type.replace("-", "_")] = url.text
 
         icons = component.findall("icon")
+        iconListNewLocation = []
+        iconListOldLocation = []
         if len(icons):
             for icon in icons:
                 icon_type = icon.attrib.get("type")
                 if icon_type == "remote":
                     if icon.text.startswith("https://dl.flathub.org/media/"):
-                        app["icon"] = icon.text
-                        break
+                        if "icon" not in app:
+                            app["icon"] = icon.text
+                        attrs = {}
+                        for attr in icon.attrib:
+                            attrs[attr] = icon.attrib[attr]
+                        attrs.update({"url": icon.text})
+                        iconListNewLocation.append(attrs)
 
             if not app.get("icon"):
                 for icon in icons:
                     icon_type = icon.attrib.get("type")
                     if icon_type == "cached":
-                        app["icon"] = (
-                            f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                        if "icon" not in app:
+                            app["icon"] = (
+                                f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
+                            )
+                        attrs = {}
+                        for attr in icon.attrib:
+                            attrs[attr] = icon.attrib[attr]
+                        scaleSuffix = f"@{attrs['scale']}" if "scale" in attrs else ""
+                        attrs.update(
+                            {
+                                "url": f"https://dl.flathub.org/repo/appstream/x86_64/icons/{attrs['height']}x{attrs['width']}{scaleSuffix}/{icon.text}"
+                            }
                         )
-                        break
+                        iconListOldLocation.append(attrs)
 
             for icon in icons:
                 component.remove(icon)
@@ -207,6 +224,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         # Bail out if the loop above didn't find an icon
         if not app.get("icon"):
             app["icon"] = None
+
+        if len(iconListNewLocation) == 0 and len(iconListOldLocation) == 0:
+            app["icons"] = None
+        elif len(iconListNewLocation):
+            app["icons"] = iconListNewLocation
+        else:
+            app["icons"] = iconListNewLocation
 
         metadata = component.find("metadata")
         if metadata is not None:
