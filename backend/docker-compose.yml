@@ -30,6 +30,7 @@ services:
       - APPSTREAM_REPOS=$APPSTREAM_REPOS
       - DATADIR=${DATADIR-/app/data}
       - FLAT_MANAGER_API=$FLAT_MANAGER_API
+      - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
     ports:
       - "8000:8000"
     depends_on:
@@ -42,6 +43,15 @@ services:
     # We need access to flat-manager
     extra_hosts:
       host.docker.internal: host-gateway
+
+  backend-node:
+    image: backend-node:latest
+    build:
+      context: ../backend-node
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
 
   smtp-test-server:
     image: rnwood/smtp4dev
@@ -70,6 +80,7 @@ services:
       - SMTP_USERNAME=$SMTP_USERNAME
       - SMTP_PASSWORD=$SMTP_PASSWORD
       - EMAIL_FROM=$EMAIL_FROM
+      - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
     depends_on:
       - redis
       - db

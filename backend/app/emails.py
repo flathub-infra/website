@@ -8,6 +8,7 @@ from smtplib import SMTP
 from typing import Any
 
 import jwt
+import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -114,6 +115,19 @@ def _create_message(
     return (email, message)
 
 
+def _get_message_destination(
+    user: models.FlathubUser, payload: dict, db
+) -> tuple[str, dict] | None:
+    user_default_account = user.get_default_account(db)
+
+    email = user_default_account.email
+    if email is None:
+        print(f"Could not find email address for user #{user.id}")
+        return None
+
+    return (email, payload)
+
+
 def send_email(info: EmailInfo, db):
     from . import worker
 
@@ -176,6 +190,76 @@ def send_email(info: EmailInfo, db):
         worker.send_one_email.send(message.as_string(), dest)
 
 
+def send_email_new(payload: dict, db):
+    from . import worker
+
+    messages: list[tuple[str, dict]] = []
+
+    if (
+        "messageInfo" in payload
+        and "appId" in payload["messageInfo"]
+        and payload["messageInfo"]["appId"] is not None
+    ):
+        if (
+            "inform_only_moderators" not in payload["messageInfo"]
+            or not payload["messageInfo"]["inform_only_moderators"]
+        ):
+            # Get the developers of the app
+            by_github_repo = (
+                db.session.query(models.FlathubUser)
+                .filter(
+                    models.FlathubUser.id.in_(
+                        select(models.GithubAccount.user).where(
+                            models.GithubAccount.id
+                            == models.GithubRepository.github_account,
+                            models.GithubRepository.reponame
+                            == payload["messageInfo"]["appId"],
+                        )
+                    )
+                )
+                .all()
+            )
+            for user in by_github_repo:
+                message = _get_message_destination(user, payload, db)
+                if message and message[0] not in dict(messages):
+                    messages.append(message)
+
+            direct_upload_app = models.DirectUploadApp.by_app_id(
+                db, payload["messageInfo"]["appId"]
+            )
+            if direct_upload_app is not None:
+                by_direct_upload = models.DirectUploadAppDeveloper.by_app(
+                    db, direct_upload_app
+                )
+                for _dev, user in by_direct_upload:
+                    message = _get_message_destination(user, payload, db)
+                    if message and message[0] not in dict(messages):
+                        messages.append(message)
+
+    if "inform_only_moderators" in payload or "inform_moderators" in payload:
+        moderators = db.session.query(models.FlathubUser).filter_by(is_moderator=True)
+        for user in moderators:
+            message = _get_message_destination(user, payload, db)
+            if message and message[0] not in dict(messages):
+                messages.append(message)
+
+    if "userId" in payload and payload["userId"] is not None:
+        # Get the user's email address
+        if user := models.FlathubUser.by_id(db, payload["userId"]):
+            message = _get_message_destination(user, payload, db)
+            if message and message[0] not in dict(messages):
+                messages.append(message)
+        else:
+            # User doesn't exist anymore?
+            pass
+
+    messages = [m for m in messages if m is not None]
+
+    for dest, message in messages:
+        # Queue each message separately so that if one fails, the others won't be resent when the task is retried
+        worker.send_one_email_new.send(message, dest)
+
+
 def send_one_email(message: str, dest: str):
     if not settings.smtp_host:
         print(f"Would send email to {dest}:\n{message}\n")
@@ -184,6 +268,18 @@ def send_one_email(message: str, dest: str):
             smtp.starttls()
             smtp.login(settings.smtp_username, settings.smtp_password)
             smtp.sendmail(settings.email_from, [dest], message)
+
+
+def send_one_email_new(payload: dict, dest: str):
+    payload["to"] = dest
+
+    try:
+        requests.post(
+            f"{settings.backend_node_url}/emails",
+            json=payload,
+        )
+    except Exception as e:
+        print("Unable to send email: %s\n" % e)
 
 
 router = APIRouter(prefix="/emails")
