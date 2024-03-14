@@ -847,6 +847,22 @@ def continue_oauth_flow(
         ).dict()
     )
 
+    if account.login == "razzeee":
+        payload = {
+            "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
+            "userId": account.user,
+            "subject": "New login to Flathub account",
+            "previewText": "Flathub Login",
+            "messageInfo": {
+                "category": EmailCategory.SECURITY_LOGIN,
+                "provider": method,
+                "login": provider_data.login,
+                "time": datetime.now().isoformat(),
+            },
+        }
+
+        worker.send_email_new.send(payload)
+
     return {
         "status": "ok",
         "result": "logged_in",
