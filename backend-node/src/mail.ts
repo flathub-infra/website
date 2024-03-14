@@ -37,7 +37,7 @@ export async function sendMail({
     messageId: messageId,
     references: references,
     inReplyTo: references,
-    from: "noreply@flathub.org",
+    from: "Flathub <noreply@flathub.org >",
     to: to,
     subject: subject,
     html: emailHtml,
