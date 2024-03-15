@@ -24,6 +24,7 @@ import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { appApi, verificationApi } from "src/api"
 import { useTranslation } from "next-i18next"
+import { isValidAppId } from "src/utils/helpers"
 
 export default function Details({
   app,
@@ -93,6 +94,13 @@ export const getStaticProps: GetStaticProps = async ({
   appId = isFlatpakref
     ? appId.slice(0, appId.length - ".flatpakref".length)
     : appId
+
+  if (!isValidAppId(appId as string)) {
+    console.log("Not a valid app id: ", appId)
+    return {
+      notFound: true,
+    }
+  }
 
   const { data: eolRebaseTo } = await appApi.getEolRebaseAppidEolRebaseAppIdGet(
     appId as string,
