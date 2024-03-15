@@ -3,6 +3,18 @@ import { sanitize } from "isomorphic-dompurify"
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
 
+export const isValidAppId = (appId: string) => {
+  if (appId.length < 5) {
+    return false
+  }
+  if (appId.length > 255) {
+    return false
+  }
+
+  const appIdPattern = /^[A-Za-z_][\w\-\.]+$/
+  return appIdPattern.test(appId)
+}
+
 export const sanitizeAppstreamDescription = (str: string) => {
   return sanitize(str, {
     ALLOWED_TAGS: ["p", "ul", "li", "ol", "em", "code"],
