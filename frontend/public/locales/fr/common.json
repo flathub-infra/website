@@ -535,5 +535,11 @@
   "revoked": "Révoqué",
   "can-access-input-devices": "Peut accéder à des périphériques d'entrée tels que des claviers, des souris ou des manettes",
   "app-of-the-day": "Application du jour",
-  "get-it-on": "Disponible sur"
+  "get-it-on": "Disponible sur",
+  "not-logged-in": "Vous n'êtes pas connecté",
+  "archive-app": "Archiver cette application",
+  "confirm": "Confirmer",
+  "nothing-to-do": "Rien à faire",
+  "install-x": "Installer {{app-name}} sur Linux",
+  "manage-x": "Gérer {{app-name}}"
 }
