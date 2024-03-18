@@ -557,7 +557,7 @@
   "enter-end-of-life-message": "Ömür sonu iletisi gir",
   "rebase-onto-other-app": "Uygulamanızın yeniden temellendirileceği uygulama kimliğini girin",
   "manage-x": "{{app-name}} yönet",
-  "get-it-on": "Haydi başlayalım",
+  "get-it-on": "Şuradan indir",
   "press-information-block": "<p>Gazetecilerden ve teknoloji yazarlarından gelen soruları yanıtlamaktan büyük mutluluk duyuyoruz. Röportaj yapma konusunda da yardımcı olabiliriz.</p><1>Grafikler ve Logolar</1><2>Flathub grafik varlıklarını <2>burada</2> bulabilirsiniz.</2><3>İletişim</3><4>Yorum ve röportaj istekleri de dahil olmak üzere basın soruları <2>Flathub geliştiricilerine iletilebilir</2>.</4>",
   "press-information": "Basın Bilgileri",
   "flathub-the-linux-app-store": "Flathub, Linux için Uygulama Mağazasıdır",
