@@ -149,6 +149,11 @@ def get_appstream(
             choosen_locale = possible_keys[0].split(":")[-1]
 
         if translation := db.get_json_key(f"apps_locale:{app_id}:{choosen_locale}"):
+            for key in translation:
+                if key.startswith("screenshots_caption_"):
+                    number = int(key.split("_")[-1])
+                    value["screenshots"][number - 1]["caption"] = translation[key]
+
             return value | translation
         else:
             return value
