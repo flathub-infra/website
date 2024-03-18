@@ -11074,7 +11074,7 @@ __metadata:
     sharp: "npm:^0.33.2"
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^7.6.7"
-    storybook-react-i18next: "npm:^2.0.10"
+    storybook-react-i18next: "npm:^3.0.1"
     swiper: "npm:^11.0.7"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.4.2"
@@ -16595,41 +16595,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-i18n@npm:2.0.13":
-  version: 2.0.13
-  resolution: "storybook-i18n@npm:2.0.13"
-  peerDependencies:
-    "@storybook/components": ^7.0.0
-    "@storybook/manager-api": ^7.0.0
-    "@storybook/preview-api": ^7.0.0
-    "@storybook/types": ^7.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 1b8eee3e4130467218410dca39542d081f02ae0c67cdb4ee9fefcb098c5d79bcc686f7242b0c2f2709c1ea7c82a49ef4c65f80b6172768e4a8fcedb079ac4007
+"storybook-i18n@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "storybook-i18n@npm:3.0.1"
+  checksum: eb0a28353f98b10441dfe01b8ec0ed0a015e2dba5778feb4639aee4e81929340e9875ba61c96b7e58ab2623076e44a2dcf1420cc1a438c070e6b97655c855e4e
   languageName: node
   linkType: hard
 
-"storybook-react-i18next@npm:^2.0.10":
-  version: 2.0.10
-  resolution: "storybook-react-i18next@npm:2.0.10"
+"storybook-react-i18next@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "storybook-react-i18next@npm:3.0.1"
   dependencies:
-    storybook-i18n: "npm:2.0.13"
+    storybook-i18n: "npm:^3.0.1"
   peerDependencies:
     i18next: ^22.0.0 || ^23.0.0 || ^24.0.0
     i18next-browser-languagedetector: ^7.0.0
     i18next-http-backend: ^2.0.0
     react-i18next: ^12.0.0 || ^13.0.0 || ^14.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 6e2819a6dbb4ee9fb25e29c537c36ae8e6779def2b30732b40016455ecf75c5a0a2096d3f4a14f87b445bfd82bcfb0e2c0b0185c30742aac3d03f79def9d87bf
+  checksum: b04094dfa0d8e69a2a070015654baf3aace91e90394820a8b0ab3e69c633d401888c6f35e9c3360f27832ad3d96d63966a77c2660f475914a80a62ddfc34f807
   languageName: node
   linkType: hard
 
