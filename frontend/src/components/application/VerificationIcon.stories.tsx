@@ -1,20 +1,17 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import VerificationIcon from "./VerificationIcon"
-import {
-  VerificationStatusLoginProvider,
-  VerificationStatusManual,
-  VerificationStatusWebsite,
-} from "../../types/VerificationStatus"
+import { VerificationStatus } from "../../codegen"
+
 export default {
   title: "Components/Application/VerificationIcon",
   component: VerificationIcon,
 } as Meta<typeof VerificationIcon>
 
 export const manualVerification = () => {
-  const verificationStatus: VerificationStatusManual = {
+  const verificationStatus: VerificationStatus = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     detail: "",
     method: "manual",
   }
@@ -26,9 +23,9 @@ export const manualVerification = () => {
   )
 }
 export const websiteVerification = () => {
-  const verificationStatus: VerificationStatusWebsite = {
+  const verificationStatus: VerificationStatus = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     detail: "",
     method: "website",
     website: "https://example.com",
@@ -41,9 +38,9 @@ export const websiteVerification = () => {
   )
 }
 export const loginProviderVerification = () => {
-  const verificationStatus: VerificationStatusLoginProvider = {
+  const verificationStatus: VerificationStatus = {
     verified: true,
-    timestamp: 1678175850,
+    timestamp: "1678175850",
     login_name: "user_name",
     method: "login_provider",
     login_provider: "github",

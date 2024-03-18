@@ -3,7 +3,6 @@ import React from "react"
 
 import { HiMiniCheckBadge } from "react-icons/hi2"
 import { Trans, useTranslation } from "next-i18next"
-import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   useFloating,
   useHover,
@@ -17,6 +16,7 @@ import {
 } from "@floating-ui/react"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { clsx } from "clsx"
+import { VerificationStatus } from "src/codegen"
 
 interface Props {
   appId: string

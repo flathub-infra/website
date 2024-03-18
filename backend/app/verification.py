@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 from enum import Enum
+from typing import Annotated, Literal, Optional, Union
 from uuid import uuid4
 
 import github
@@ -10,7 +11,7 @@ from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db as sqldb
 from github import Github
 from github.GithubException import UnknownObjectException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
@@ -259,15 +260,46 @@ class LoginProvider(Enum):
     KDE_GITLAB = "kde"
 
 
-class VerificationStatus(BaseModel):
-    verified: bool
-    timestamp: str | None = None
-    method: VerificationMethod | None = None
-    website: str | None = None
-    login_provider: LoginProvider | None = None
-    login_name: str | None = None
-    login_is_organization: bool | None = None
-    detail: str | None = None
+class VerificationStatusNone(BaseModel):
+    verified: Literal[False] = False
+    method: Literal["none"] = "none"
+    detail: Optional[str] = None
+
+
+class VerificationStatusManual(BaseModel):
+    verified: Literal[True] = True
+    timestamp: int
+    method: Literal["manual"] = "manual"
+    detail: Optional[str] = None
+
+
+class VerificationStatusWebsite(BaseModel):
+    verified: Literal[True] = True
+    timestamp: int
+    method: Literal["website"] = "website"
+    website: str | None
+    detail: Optional[str] = None
+
+
+class VerificationStatusLoginProvider(BaseModel):
+    verified: Literal[True] = True
+    timestamp: int
+    method: Literal["login_provider"] = "login_provider"
+    login_provider: LoginProvider
+    login_name: str
+    detail: Optional[str] = None
+    login_is_organization: Optional[bool]
+
+
+VerificationStatus = Annotated[
+    Union[
+        VerificationStatusNone,
+        VerificationStatusManual,
+        VerificationStatusWebsite,
+        VerificationStatusLoginProvider,
+    ],
+    Field(discriminator="method"),
+]
 
 
 class ArchiveRequest(BaseModel):
@@ -403,34 +435,28 @@ def get_verification_status(
     verification = _get_existing_verification(app_id)
 
     if verification is None:
-        return VerificationStatus(verified=False)
+        return VerificationStatusNone()
 
     match verification.method:
         case "manual":
-            return VerificationStatus(
-                verified=verification.verified,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
-                method=VerificationMethod.MANUAL,
+            return VerificationStatusManual(
+                timestamp=int(verification.verified_timestamp.timestamp()),
             )
         case "website":
-            return VerificationStatus(
-                verified=True,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
-                method=VerificationMethod.WEBSITE,
+            return VerificationStatusWebsite(
+                timestamp=int(verification.verified_timestamp.timestamp()),
                 website=_get_domain_name(app_id),
             )
         case "login_provider":
             (provider, username) = _get_provider_username(app_id)
-            return VerificationStatus(
-                verified=True,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
-                method=VerificationMethod.LOGIN_PROVIDER,
+            return VerificationStatusLoginProvider(
+                timestamp=int(verification.verified_timestamp.timestamp()),
                 login_provider=provider,
                 login_name=username,
                 login_is_organization=verification.login_is_organization,
             )
 
-    return VerificationStatus(verified=False)
+    return VerificationStatusNone()
 
 
 class AvailableMethodType(Enum):
