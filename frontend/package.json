@@ -65,7 +65,7 @@
     "@faker-js/faker": "^8.3.1",
     "@neshca/cache-handler": "^1.0.7",
     "@storybook/addon-actions": "^7.6.16",
-    "@storybook/addon-essentials": "^7.6.16",
+    "@storybook/addon-essentials": "^8.0.0",
     "@storybook/addon-interactions": "^7.6.10",
     "@storybook/addon-links": "^7.6.17",
     "@storybook/addon-themes": "^7.6.8",
