@@ -9772,10 +9772,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.0.8":
-  version: 3.0.8
-  resolution: "dompurify@npm:3.0.8"
-  checksum: e89e03d3dbd99abd64cd90705ce2cdfbc60ee9726ee53f9860e8a2d91b828ef2c173e7031529f9a3aa169ad0fbb76115c6a6683b545bf1ac5d94cc6176fb2a50
+"dompurify@npm:^3.0.9":
+  version: 3.0.9
+  resolution: "dompurify@npm:3.0.9"
+  checksum: 4da4b86e4010822d01392e25f0686367a4f1e1048a4681178c725de9a817410c5650c17b326c08a018f79437b3177a4bdc7faf4c37b0cf2547bc280aa2038a16
   languageName: node
   linkType: hard
 
@@ -11050,7 +11050,7 @@ __metadata:
     framer-motion: "npm:^11.0.8"
     i18n-iso-countries: "npm:^7.10.0"
     i18next: "npm:^23.8.2"
-    isomorphic-dompurify: "npm:^2.3.0"
+    isomorphic-dompurify: "npm:^2.4.0"
     next: "npm:^14.1.0"
     next-i18next: "npm:^15.1.1"
     next-seo: "npm:^6.4.0"
@@ -12643,14 +12643,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-dompurify@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "isomorphic-dompurify@npm:2.3.0"
+"isomorphic-dompurify@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "isomorphic-dompurify@npm:2.4.0"
   dependencies:
     "@types/dompurify": "npm:^3.0.5"
-    dompurify: "npm:^3.0.8"
+    dompurify: "npm:^3.0.9"
     jsdom: "npm:^24.0.0"
-  checksum: 6a9cd1eb79bbc39a59472777eee3afe179c60729ffb0c41c46f8af919d20846edf5717e457bc5e431b6d058669d336944f9a872b40c3f8269f42842402e4c6e3
+  checksum: 15d06de65a0bba0537d0095b9892e41e48a289f9fff7ef97ce5350b66bd220909a36554f31fa214cda2ccd1bba4506bf4190b52e3d1d74b21d1bad0c42d07bfc
   languageName: node
   linkType: hard
 
