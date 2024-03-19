@@ -15,6 +15,7 @@ import DeveloperInviteDeclinedEmail from "../emails/developer-invite-declined"
 import DeveloperInviteAcceptedEmail from "../emails/developer-invite-accepted"
 import DeveloperInviteEmail from "../emails/developer-invite"
 import { logger } from "hono/logger"
+import { sentry } from "@hono/sentry"
 
 const RequestSchema = z.object({
   requestType: z.literal("appdata"),
@@ -190,6 +191,14 @@ const route = createRoute({
 })
 const app = new OpenAPIHono()
 
+app.use(
+  "*",
+  sentry({
+    dsn: process.env.SENTRY_DSN,
+    sampleRate: 0.1,
+    tracesSampleRate: 0.1,
+  }),
+)
 app.use(logger())
 
 app.openapi(route, async (c) => {
