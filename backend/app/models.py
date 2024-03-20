@@ -1762,6 +1762,11 @@ class Apps(Base):
     installs_last_7_days = mapped_column(Integer, nullable=False, default=0)
     is_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    initial_release_at = mapped_column(
+        DateTime,
+        nullable=True,
+    )
+    last_updated_at = mapped_column(DateTime, nullable=True)
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
@@ -1822,6 +1827,22 @@ class Apps(Base):
             db.session.commit()
 
             app.is_fullscreen_app = is_fullscreen_app
+            db.session.commit()
+
+    @classmethod
+    def set_last_updated_at(cls, db, app_id: str, last_updated_at: datetime) -> None:
+        app = Apps.by_appid(db, app_id)
+        if app and app.last_updated_at != last_updated_at:
+            app.last_updated_at = last_updated_at
+            db.session.commit()
+
+    @classmethod
+    def set_initial_release_at(
+        cls, db, app_id: str, initial_release_at: datetime
+    ) -> None:
+        app = Apps.by_appid(db, app_id)
+        if app and app.initial_release_at != initial_release_at:
+            app.initial_release_at = initial_release_at
             db.session.commit()
 
     @classmethod

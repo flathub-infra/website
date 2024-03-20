@@ -1,3 +1,4 @@
+import datetime
 import json
 import struct
 import subprocess
@@ -5,7 +6,7 @@ from collections import defaultdict
 
 import gi
 
-from . import config, configParserCustom, db, search, utils
+from . import config, configParserCustom, db, models, search, utils
 
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree
@@ -109,7 +110,7 @@ def parse_metadata(ini: str):
     return metadata
 
 
-def parse_summary(summary):
+def parse_summary(summary, sqldb):
     summary_dict = defaultdict(lambda: {"arches": set(), "branch": "stable"})
     recently_updated_zset = {}
 
@@ -135,6 +136,13 @@ def parse_summary(summary):
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
         recently_updated_zset[app_id] = timestamp
+        models.Apps.set_last_updated_at(
+            sqldb,
+            app_id,
+            datetime.datetime.fromtimestamp(
+                float(timestamp),
+            ),
+        )
         summary_dict[app_id]["timestamp"] = timestamp
 
     for ref in xa_cache:
@@ -167,7 +175,7 @@ def parse_summary(summary):
     return summary_dict, recently_updated_zset, metadata
 
 
-def update():
+def update(sqldb):
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
     repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
@@ -175,7 +183,7 @@ def update():
     repo.open(None)
 
     _, summary, _ = repo.remote_fetch_summary("flathub", None)
-    summary_dict, recently_updated_zset, metadata = parse_summary(summary)
+    summary_dict, recently_updated_zset, metadata = parse_summary(summary, sqldb)
 
     # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
