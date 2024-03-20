@@ -261,7 +261,7 @@
   "try-again": "再试一次",
   "verified-apps": "已验证应用",
   "about-app-verification": "已验证的应用",
-  "about-app-verification-block": "<0>应用名称下的复选标记是什么意思？</0><p>某些应用在应用页面上的开发者名称下有一个复选标记。这意味着该应用是由其原始开发者或开发者批准的第三方在 Flathub 上发布的。</p><p>某些应用是由与原始开发者无关的第三方发布的。这是允许的，但此类应用不符合选中标记的条件。</p><p>选中标记旁边是指向开发者网站或他们在源代码托管网站上的个人资料的链接。 Flathub 已使用该链接验证了开发者的身份。</p><4>我正在 Flathub 上发布一个应用。我如何验证它？</4><5>首先，<2>登录 Flathub</2>。单击要验证的应用下方的“开发人员设置”按钮。在页面顶部，找到“设置验证”部分。那里的说明将引导您完成验证过程。</5>",
+  "about-app-verification-block": "<0>应用名称下的复选标记是什么意思？</0><p>某些应用在应用页面上的开发者名称下有一个复选标记。这意味着该应用是由其原始开发者或开发者批准的第三方在 Flathub 上发布的。</p><p>某些应用是由与原始开发者无关的第三方发布的。这是允许的，但此类应用不符合选中标记的条件。</p><p>选中标记旁边是指向开发者网站或他们在源代码托管网站上的个人资料的链接。 Flathub 已使用该链接验证了开发者的身份。</p><4>我正在 Flathub 上发布一个应用。我如何验证它？</4><5>首先，<2>登录 Flathub</2>。在页脚找到“开发人员传送门”按钮。点击您要验证的应用，然后找到“设置验证”部分。那里的说明将引导您完成验证过程。</5>",
   "verification-instructions": "验证您的应用 ID 以表明您的 Flathub 上传已获得应用开发者的批准。您需要通过应用域上的网站，或通过在源代码托管网站上检查对应用帐户的访问权限来证明您已控制该应用。经过验证的标志将与应用名称、发布者名称与应用 ID 的验证方式一同显示。",
   "verification-warning": "Flathub 团队可能会自行决定从任何应用中删除验证徽章，例如，如果它可能误导人们关于应用的官方地位，或者其导致了对商标的混淆。",
   "refresh": "刷新",
@@ -452,7 +452,13 @@
     "request-a-review-question": "你想请求审查吗？",
     "high-quality-app-data": "高质量的应用数据",
     "app-data-review-pending": "应用数据审核待处理",
-    "request-review-description": "我们的团队将审查您的应用程序。请等待几天再来查看。"
+    "request-review-description": "我们的团队将审查您的应用程序。请等待几天再来查看。",
+    "branding": "商标",
+    "branding-has-primary-brand-colors": "拥有主要商标色",
+    "branding-good-primary-brand-colors": "好的主要商标色",
+    "needed-to-pass-x": "通过 {{x}} 需要",
+    "hide-branding-preview": "隐藏商标预览",
+    "show-branding-preview": "显示商标预览"
   },
   "user-data-subfolder-x": "用户数据子目录 {{folder}}",
   "desktop-folder": "桌面目录",
@@ -552,5 +558,9 @@
   "get-it-on": "下载应用，请到",
   "app-of-the-day": "每日应用",
   "press-information": "新闻资讯",
-  "press-information-block": "<p>我们非常乐意回答记者和科技作者的问题。 还可安排面对面访谈机会。</p><1>图形和徽标</1><2>Flathub 图形资源可在<2>此处</2>找到。</2><3>联系方式</3><4>媒体询问，包括评论和采访请求，可以直接联系 <2>Flathub 维护人员</2>。</4>"
+  "press-information-block": "<p>我们非常乐意回答记者和科技作者的问题。 还可安排面对面访谈机会。</p><1>图形和徽标</1><2>Flathub 图形资源可在<2>此处</2>找到。</2><3>联系方式</3><4>媒体询问，包括评论和采访请求，可以直接联系 <2>Flathub 维护人员</2>。</4>",
+  "flathub-the-linux-app-store": "Flathub 是 Linux 的应用商店",
+  "nothing-to-do": "无事可做",
+  "news": "新闻",
+  "developer-portal": "开发人员通道"
 }
