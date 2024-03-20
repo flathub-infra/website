@@ -72,7 +72,7 @@ def update_stats():
 def update():
     with WorkerDB() as sqldb:
         apps.load_appstream(sqldb)
-    summary.update()
+        summary.update(sqldb)
     exceptions.update()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
@@ -108,6 +108,14 @@ def update():
         if created_at:
             db.redis_conn.set(f"created_at:{app_id}", created_at)
             apps_created_at[app_id] = float(created_at)
+            with WorkerDB() as sqldb:
+                models.Apps.set_initial_release_at(
+                    sqldb,
+                    app_id,
+                    datetime.fromtimestamp(
+                        float(created_at),
+                    ),
+                )
 
     if apps_created_at:
         db.redis_conn.zadd("new_apps_zset", apps_created_at)
