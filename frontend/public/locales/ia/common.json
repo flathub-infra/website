@@ -102,7 +102,13 @@
     "screenshots-at-least-one-screenshot": "Al minus un captura de schermo",
     "screenshots-reasonable-window-size": "Dimension de fenestra rationabile",
     "app-summary-dont-start-with-an-article": "Non initia con un articulo",
-    "app-summary-dont-repeat-app-name": "Non repete le nomine del application"
+    "app-summary-dont-repeat-app-name": "Non repete le nomine del application",
+    "needed-to-pass-x": "Necessari pro passar {{x}}",
+    "screenshots-include-window-shadow-and-rounded-corners": "Includer umbra de fenestra e angulos rotundate",
+    "app-icon-in-line-with-contemporary-styles": "In linea con le stilos contemporanee",
+    "app-no-weird-formatting": "Nulle formatos bizarre, punctuation, minusculas, etc.",
+    "app-summary-not-technical": "Comprehensibile pro un persona non technic",
+    "app-summary-no-weird-formatting": "Nulle formatos bizarre o punctuation"
   },
   "since": "Desde",
   "downloads-per-country": "Discargamentos per pais",
@@ -512,5 +518,10 @@
   "stripe-declined-generic_decline": "Le carta esseva declinate per un ration incognite.",
   "login-provider-verification-switch-account": "Tu es actualmente session aperite in <1>{{login_provider}}</1> como <3>{{current_name}}</3>. Aperi session como <5>{{required_name}}</5> pro verificar <7>{{appId}}</7> per le fornitor de accesso, o elige un altere methodo si il ha un disponibile.",
   "login-provider-verification-not-org-admin": "Tu es actualmente session aperite in <1>{{login_provider}}</1> como <3>{{current_name}}</3>. Iste conto non es un administrator del organisation <5>{{organization}}</5>. Pro verificar iste application, tu debe demandar privilegios de administrator in le organisation o aperir session in un conto que jam los ha.",
-  "login-provider-verification-not-org-member": "Tu es actualmente session aperite in <1>{{login_provider}}</1> como <3>{{current_name}}</3>. Iste conto non es un membro del organisation <5>{{organization}}</5>. Pro verificar iste application, tu debe demandar privilegios de administrator in le organisation o aperir session in un conto que jam los ha."
+  "login-provider-verification-not-org-member": "Tu es actualmente session aperite in <1>{{login_provider}}</1> como <3>{{current_name}}</3>. Iste conto non es un membro del organisation <5>{{organization}}</5>. Pro verificar iste application, tu debe demandar privilegios de administrator in le organisation o aperir session in un conto que jam los ha.",
+  "unauthorized-to-view": "Tu non es autorisate a vider iste contento.",
+  "stripe-api-error": "Le API de Stripe incontrava un error. Reprobar plus tarde.",
+  "whoops": "Ups!",
+  "scope-build": "Crear e acceder a constructiones e labores",
+  "nothing-to-do": "Nihil a facer"
 }
