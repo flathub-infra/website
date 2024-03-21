@@ -6850,12 +6850,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "chart.js@npm:4.4.0"
+"chart.js@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "chart.js@npm:4.4.2"
   dependencies:
     "@kurkle/color": "npm:^0.3.0"
-  checksum: a81a65ef4767c79b4645703a08947811966d231824868c2483172a6a2dffcb269fae32a3ffd692cb0dee6ff982d4b15e2cfb1d56373f0f0d3ea51d7e9b7b96cd
+  checksum: 4233bdc3cce9e4d5aca575f8ef9313f56867491b9eac027f3514ca807aca9a2ba2087f85ca3c68f022974f948ce688a178b0ce21d95706116abca5acf19e072f
   languageName: node
   linkType: hard
 
@@ -9187,7 +9187,7 @@ __metadata:
     autoprefixer: "npm:^10.4.18"
     axios: "npm:^1.6.8"
     boring-avatars: "npm:^1.10.1"
-    chart.js: "npm:^4.4.0"
+    chart.js: "npm:^4.4.2"
     chartjs-adapter-date-fns: "npm:^3.0.0"
     clsx: "npm:^2.1.0"
     date-fns: "npm:^3.6.0"
