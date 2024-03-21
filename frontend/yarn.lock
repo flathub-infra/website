@@ -2649,19 +2649,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^27.5.1":
-  version: 27.5.1
-  resolution: "@jest/types@npm:27.5.1"
-  dependencies:
-    "@types/istanbul-lib-coverage": "npm:^2.0.0"
-    "@types/istanbul-reports": "npm:^3.0.0"
-    "@types/node": "npm:*"
-    "@types/yargs": "npm:^16.0.0"
-    chalk: "npm:^4.0.0"
-  checksum: 4598b302398db0eb77168b75a6c58148ea02cc9b9f21c5d1bbe985c1c9257110a5653cf7b901c3cab87fba231e3fed83633687f1c0903b4bc6939ab2a8452504
-  languageName: node
-  linkType: hard
-
 "@jridgewell/gen-mapping@npm:^0.1.0":
   version: 0.1.1
   resolution: "@jridgewell/gen-mapping@npm:0.1.1"
@@ -3608,16 +3595,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-interactions@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@storybook/addon-interactions@npm:8.0.0"
+"@storybook/addon-interactions@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/addon-interactions@npm:8.0.2"
   dependencies:
     "@storybook/global": "npm:^5.0.0"
-    "@storybook/types": "npm:8.0.0"
-    jest-mock: "npm:^27.0.6"
+    "@storybook/instrumenter": "npm:8.0.2"
+    "@storybook/test": "npm:8.0.2"
+    "@storybook/types": "npm:8.0.2"
     polished: "npm:^4.2.2"
     ts-dedent: "npm:^2.2.0"
-  checksum: 6bc0e0103b5befb63e6a86201a5287bc748064a2e19e4af131efc313b4d92a8215e542e9c0284b61d5b2d49ecee60d9a8c33a7db165e59fcc73abef6b93d01fb
+  checksum: 89a770cfb83b9b8f15973ef4414b5aeefe6fe75f80db9ac17ea3ce2f55f42f672bdaaa63f39f681bf71fcd4478b497848487eef8b8739b8cd7f2f8fa5db7186d
   languageName: node
   linkType: hard
 
@@ -3815,6 +3803,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/channels@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/channels@npm:8.0.2"
+  dependencies:
+    "@storybook/client-logger": "npm:8.0.2"
+    "@storybook/core-events": "npm:8.0.2"
+    "@storybook/global": "npm:^5.0.0"
+    telejson: "npm:^7.2.0"
+    tiny-invariant: "npm:^1.3.1"
+  checksum: 03168ff675de396b9c2fe756c4afd7073ea0457d2b717b01e7dc597ed0c7f0d694d0343db7459fe442376aecb2ce583952734a0670326383113d266fb3d7bbe9
+  languageName: node
+  linkType: hard
+
 "@storybook/cli@npm:8.0.0":
   version: 8.0.0
   resolution: "@storybook/cli@npm:8.0.0"
@@ -3877,6 +3878,15 @@ __metadata:
   dependencies:
     "@storybook/global": "npm:^5.0.0"
   checksum: c9fc734c4f6056daaa61c3ff3c72c8ba74a48fe72ccbdfe89840c809e9559e0bb086ec3f64093198e799b5f6e459e0989a6458ebeb61d2ba6559fc0e7bcb2cdc
+  languageName: node
+  linkType: hard
+
+"@storybook/client-logger@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/client-logger@npm:8.0.2"
+  dependencies:
+    "@storybook/global": "npm:^5.0.0"
+  checksum: 6cc14a372b03793296f0021a7046e1eae191fd4644b1a32df4b40d3c77dad8615faf005837fd54f613cf1b1dde0fec1a547998db2557eaae78ec2da3f96720ca
   languageName: node
   linkType: hard
 
@@ -4010,6 +4020,15 @@ __metadata:
   dependencies:
     ts-dedent: "npm:^2.0.0"
   checksum: b157e82a085963d44895608d2a7e020c82547a38becf68be07af092ed2bf6991915e58f3feb68603e2579c7b93645a5860fb79900bcb40cb00d98cd0f59d9a58
+  languageName: node
+  linkType: hard
+
+"@storybook/core-events@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/core-events@npm:8.0.2"
+  dependencies:
+    ts-dedent: "npm:^2.0.0"
+  checksum: 2b18c16fa96aa328a56fa759765a6ee6b4fc93522ba127d3538155a1e87f150e3d0a3320af50d86dd24ecbc67b2ad538b91abc02e954226189689027ea16ea77
   languageName: node
   linkType: hard
 
@@ -4199,6 +4218,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/instrumenter@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/instrumenter@npm:8.0.2"
+  dependencies:
+    "@storybook/channels": "npm:8.0.2"
+    "@storybook/client-logger": "npm:8.0.2"
+    "@storybook/core-events": "npm:8.0.2"
+    "@storybook/global": "npm:^5.0.0"
+    "@storybook/preview-api": "npm:8.0.2"
+    "@vitest/utils": "npm:^1.3.1"
+    util: "npm:^0.12.4"
+  checksum: c90857acc28a2839f5b17ebc8900a4b53e3594d7a491667c1b1fe5c5ee427567fb5c801ce5dc819a746043386bed86fab40cb5daf23a5e6202b9fbbbc2d38cfb
+  languageName: node
+  linkType: hard
+
 "@storybook/manager-api@npm:8.0.0":
   version: 8.0.0
   resolution: "@storybook/manager-api@npm:8.0.0"
@@ -4378,6 +4412,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/preview-api@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/preview-api@npm:8.0.2"
+  dependencies:
+    "@storybook/channels": "npm:8.0.2"
+    "@storybook/client-logger": "npm:8.0.2"
+    "@storybook/core-events": "npm:8.0.2"
+    "@storybook/csf": "npm:^0.1.2"
+    "@storybook/global": "npm:^5.0.0"
+    "@storybook/types": "npm:8.0.2"
+    "@types/qs": "npm:^6.9.5"
+    dequal: "npm:^2.0.2"
+    lodash: "npm:^4.17.21"
+    memoizerific: "npm:^1.11.3"
+    qs: "npm:^6.10.0"
+    tiny-invariant: "npm:^1.3.1"
+    ts-dedent: "npm:^2.0.0"
+    util-deprecate: "npm:^1.0.2"
+  checksum: d8bfea0f7314357d76c94dac3438a64fb9033517727a2f864c50c723beebfc4abf8723750c1f3b826a633bdd9883f2ad815bd4fe8abe6f5451d5430434be6209
+  languageName: node
+  linkType: hard
+
 "@storybook/preview@npm:8.0.1":
   version: 8.0.1
   resolution: "@storybook/preview@npm:8.0.1"
@@ -4522,6 +4578,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/test@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/test@npm:8.0.2"
+  dependencies:
+    "@storybook/client-logger": "npm:8.0.2"
+    "@storybook/core-events": "npm:8.0.2"
+    "@storybook/instrumenter": "npm:8.0.2"
+    "@storybook/preview-api": "npm:8.0.2"
+    "@testing-library/dom": "npm:^9.3.4"
+    "@testing-library/jest-dom": "npm:^6.4.2"
+    "@testing-library/user-event": "npm:^14.5.2"
+    "@vitest/expect": "npm:1.3.1"
+    "@vitest/spy": "npm:^1.3.1"
+    chai: "npm:^4.4.1"
+    util: "npm:^0.12.4"
+  checksum: 72a6ab51012b61e76411f0b03392ddd0d9c7848b203f57d3fdb5ff5e09d770641869e438e67697ccec4491498cf598ea626c7c15ffa5f94e92ba60c73abd0c64
+  languageName: node
+  linkType: hard
+
 "@storybook/test@npm:^8.0.0":
   version: 8.0.0
   resolution: "@storybook/test@npm:8.0.0"
@@ -4580,6 +4655,17 @@ __metadata:
     "@types/express": "npm:^4.7.0"
     file-system-cache: "npm:2.3.0"
   checksum: d3ea316fc9a702402705072cf77ed0d81c8e4ba1afc666678c9bdbda3358dd6ab68bef0a41443d6ea6dbfa2984c95d4788470702d8946b4b91f612526e875ad0
+  languageName: node
+  linkType: hard
+
+"@storybook/types@npm:8.0.2":
+  version: 8.0.2
+  resolution: "@storybook/types@npm:8.0.2"
+  dependencies:
+    "@storybook/channels": "npm:8.0.2"
+    "@types/express": "npm:^4.7.0"
+    file-system-cache: "npm:2.3.0"
+  checksum: d92fa2fc854d4f475417b91dff71190240f49456ec098c28ec3d800f4a0af0866d374c794772378637bd75af0c8cfea88bbd47d85627696ab15916f20d2f4fd1
   languageName: node
   linkType: hard
 
@@ -4712,7 +4798,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^9.3.1":
+"@testing-library/dom@npm:^9.3.1, @testing-library/dom@npm:^9.3.4":
   version: 9.3.4
   resolution: "@testing-library/dom@npm:9.3.4"
   dependencies:
@@ -4728,7 +4814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^6.4.0":
+"@testing-library/jest-dom@npm:^6.4.0, @testing-library/jest-dom@npm:^6.4.2":
   version: 6.4.2
   resolution: "@testing-library/jest-dom@npm:6.4.2"
   dependencies:
@@ -4989,31 +5075,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "@types/istanbul-lib-coverage@npm:2.0.4"
-  checksum: af5f6b64e788331ed3f7b2e2613cb6ca659c58b8500be94bbda8c995ad3da9216c006f1cfe6f66b321c39392b1bda18b16e63cef090a77d24a00b4bd5ba3b018
-  languageName: node
-  linkType: hard
-
-"@types/istanbul-lib-report@npm:*":
-  version: 3.0.0
-  resolution: "@types/istanbul-lib-report@npm:3.0.0"
-  dependencies:
-    "@types/istanbul-lib-coverage": "npm:*"
-  checksum: 7ced458631276a28082ee40645224c3cdd8b861961039ff811d841069171c987ec7e50bc221845ec0d04df0022b2f457a21fb2f816dab2fbe64d59377b32031f
-  languageName: node
-  linkType: hard
-
-"@types/istanbul-reports@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "@types/istanbul-reports@npm:3.0.1"
-  dependencies:
-    "@types/istanbul-lib-report": "npm:*"
-  checksum: e147f0db9346a0cae9a359220bc76f7c78509fb6979a2597feb24d64b6e8328d2d26f9d152abbd59c6bca721e4ea2530af20116d01df50815efafd1e151fd777
-  languageName: node
-  linkType: hard
-
 "@types/json-schema@npm:*, @types/json-schema@npm:^7.0.8, @types/json-schema@npm:^7.0.9":
   version: 7.0.11
   resolution: "@types/json-schema@npm:7.0.11"
@@ -5195,22 +5256,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/yargs-parser@npm:*":
-  version: 21.0.0
-  resolution: "@types/yargs-parser@npm:21.0.0"
-  checksum: cb89f3bb2e8002f1479a65a934e825be4cc18c50b350bbc656405d41cf90b8a299b105e7da497d7eb1aa460472a07d1e5a389f3af0862f1d1252279cfcdd017c
-  languageName: node
-  linkType: hard
-
-"@types/yargs@npm:^16.0.0":
-  version: 16.0.4
-  resolution: "@types/yargs@npm:16.0.4"
-  dependencies:
-    "@types/yargs-parser": "npm:*"
-  checksum: 892bfe48183756d4e3b4922abf582c34c326975368f4572af0521f51b6628997c2f916cb2d27f91494e5bbcc0425a9224f2f02191003e4aa2e360b78116ee8a7
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/parser@npm:^5.4.2 || ^6.0.0":
   version: 6.5.0
   resolution: "@typescript-eslint/parser@npm:6.5.0"
@@ -5355,6 +5400,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vitest/expect@npm:1.3.1":
+  version: 1.3.1
+  resolution: "@vitest/expect@npm:1.3.1"
+  dependencies:
+    "@vitest/spy": "npm:1.3.1"
+    "@vitest/utils": "npm:1.3.1"
+    chai: "npm:^4.3.10"
+  checksum: ea66a1e912d896a481a27631b68089b885af7e8ed62ba8aaa119c37a9beafe6c094fd672775a20e6e23460af66e294f9ca259e6e0562708d1b7724eaaf53c7bb
+  languageName: node
+  linkType: hard
+
 "@vitest/spy@npm:1.1.3":
   version: 1.1.3
   resolution: "@vitest/spy@npm:1.1.3"
@@ -5364,7 +5420,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/spy@npm:^1.1.3":
+"@vitest/spy@npm:1.3.1":
+  version: 1.3.1
+  resolution: "@vitest/spy@npm:1.3.1"
+  dependencies:
+    tinyspy: "npm:^2.2.0"
+  checksum: efc42f679d2a51fc6583ca3136ccd47581cb27c923ed3cb0500f5dee9aac99b681bfdd400c16ef108f2e0761daa642bc190816a6411931a2aba99ebf8b213dd4
+  languageName: node
+  linkType: hard
+
+"@vitest/spy@npm:^1.1.3, @vitest/spy@npm:^1.3.1":
   version: 1.4.0
   resolution: "@vitest/spy@npm:1.4.0"
   dependencies:
@@ -5385,6 +5450,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vitest/utils@npm:1.3.1":
+  version: 1.3.1
+  resolution: "@vitest/utils@npm:1.3.1"
+  dependencies:
+    diff-sequences: "npm:^29.6.3"
+    estree-walker: "npm:^3.0.3"
+    loupe: "npm:^2.3.7"
+    pretty-format: "npm:^29.7.0"
+  checksum: d604c8ad3b1aee30d4dcd889098f591407bfe18547ff96485b1d1ed54eff58219c756a9544a7fbd4e37886863abacd7a89a76334cb3ea7f84c3d496bb757db23
+  languageName: node
+  linkType: hard
+
 "@vitest/utils@npm:^0.34.6":
   version: 0.34.7
   resolution: "@vitest/utils@npm:0.34.7"
@@ -5393,6 +5470,18 @@ __metadata:
     loupe: "npm:^2.3.6"
     pretty-format: "npm:^29.5.0"
   checksum: 5f26ec5b4a53709a50efdb57aa753e8090b3411e888774f67a0d192eb7f046ed5fcc6884eb3d6275d2674926e724b731e8d28cd3cea96a7f3d27462a0d44af9e
+  languageName: node
+  linkType: hard
+
+"@vitest/utils@npm:^1.3.1":
+  version: 1.4.0
+  resolution: "@vitest/utils@npm:1.4.0"
+  dependencies:
+    diff-sequences: "npm:^29.6.3"
+    estree-walker: "npm:^3.0.3"
+    loupe: "npm:^2.3.7"
+    pretty-format: "npm:^29.7.0"
+  checksum: cfa352484f0ea2614444a94fc35979bea94fac64e9756238c685ae74bcd027893a1798b9d6d92c1cdd454b1f7f08f453d0cca108274f0449b6f5efd345822a4c
   languageName: node
   linkType: hard
 
@@ -6715,7 +6804,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chai@npm:^4.3.10, chai@npm:^4.3.7":
+"chai@npm:^4.3.10, chai@npm:^4.3.7, chai@npm:^4.4.1":
   version: 4.4.1
   resolution: "chai@npm:4.4.1"
   dependencies:
@@ -9080,7 +9169,7 @@ __metadata:
     "@sentry/nextjs": "npm:^7.107.0"
     "@storybook/addon-actions": "npm:^8.0.0"
     "@storybook/addon-essentials": "npm:^8.0.0"
-    "@storybook/addon-interactions": "npm:^8.0.0"
+    "@storybook/addon-interactions": "npm:^8.0.2"
     "@storybook/addon-links": "npm:^8.0.1"
     "@storybook/addon-themes": "npm:^8.0.2"
     "@storybook/nextjs": "npm:^8.0.1"
@@ -10736,16 +10825,6 @@ __metadata:
   bin:
     jake: ./bin/cli.js
   checksum: fc1f59c291b1c5bafad8ccde0e5d97f5f22ceb857f204f15634011e642b9cdf652dae2943b5ffe5ab037fe2f77b263653911ed2a408b2887a6dee31873e5c3d8
-  languageName: node
-  linkType: hard
-
-"jest-mock@npm:^27.0.6":
-  version: 27.5.1
-  resolution: "jest-mock@npm:27.5.1"
-  dependencies:
-    "@jest/types": "npm:^27.5.1"
-    "@types/node": "npm:*"
-  checksum: 6ad58454b37ee3f726930b07efbf40a7c79d2d2d9c7b226708b4b550bc0904de93bcacf714105d11952a5c0bc855e5d59145c8c9dbbb4e69b46e7367abf53b52
   languageName: node
   linkType: hard
 
