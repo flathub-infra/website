@@ -9108,7 +9108,7 @@ __metadata:
     eslint-plugin-prettier: "npm:^5.1.3"
     fast-diff: "npm:^1.3.0"
     framer-motion: "npm:^11.0.14"
-    i18n-iso-countries: "npm:^7.10.0"
+    i18n-iso-countries: "npm:^7.10.1"
     i18next: "npm:^23.8.2"
     isomorphic-dompurify: "npm:^2.4.0"
     next: "npm:^14.1.0"
@@ -10036,12 +10036,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18n-iso-countries@npm:^7.10.0":
-  version: 7.10.0
-  resolution: "i18n-iso-countries@npm:7.10.0"
+"i18n-iso-countries@npm:^7.10.1":
+  version: 7.10.1
+  resolution: "i18n-iso-countries@npm:7.10.1"
   dependencies:
     diacritics: "npm:1.3.0"
-  checksum: d405c5a76564e2cefb24328eb8eb6798c8590186de3a9c9cd4b23df7c5b833c2eaa324d985da144c2ad4108749ad4aa87af6aed9c6356fa57628a277b113c18e
+  checksum: ed5174eda2bf5830f87ba31d65016cb6785f61ddf7025cc77b941b1c8d3306a13fe1ad3ff1eaaa813505429afde4d3c86c809a8602734f733516b56c6a01adbf
   languageName: node
   linkType: hard
 
