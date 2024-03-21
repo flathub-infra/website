@@ -17,7 +17,7 @@
     "date-fns": "^3.6.0",
     "dotenv": "^16.4.5",
     "hono": "^4.1.2",
-    "nodemailer": "6.9.12",
+    "nodemailer": "6.9.13",
     "react-email": "2.1.0",
     "zod": "^3.22.4"
   },
