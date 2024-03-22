@@ -312,7 +312,7 @@ def submit_review_request(
     if not isinstance(r.content, bytes):
         # If the summary file is not a binary file, something also went wrong
         raise HTTPException(status_code=500, detail="invalid_summary_file")
-    build_summary, _, _ = parse_summary(r.content)
+    build_summary, _, _ = parse_summary(r.content, sqldb)
 
     sentry_context = {"build_summary": build_summary}
 
