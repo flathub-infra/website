@@ -28,7 +28,7 @@ interface ExtraData {
   uri: string
 }
 
-interface Metadata {
+export interface Metadata {
   name: string
   runtime: string
   sdk: string
