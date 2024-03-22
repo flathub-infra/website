@@ -2,6 +2,7 @@ import json
 import re
 
 import gi
+from fastapi_sqlalchemy import db as sqldb
 
 from . import db, models, schemas, search, utils
 
@@ -90,7 +91,7 @@ def show_in_frontend(app: dict) -> bool:
     return False
 
 
-def load_appstream(sqldb):
+def load_appstream(sqldb) -> None:
     apps = utils.appstream2dict()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
@@ -199,6 +200,31 @@ def get_recently_added(limit: int = 100):
         if db.redis_conn.exists("types:desktop-application", f"apps:{app_id}")
         or db.redis_conn.exists("types:desktop", f"apps:{app_id}")
     ]
+
+
+def get_recently_updated_postgres(limit: int = 100):
+    appids = (
+        sqldb.session.query(models.Apps.app_id)
+        .filter(models.Apps.type == "desktop")
+        .order_by(models.Apps.last_updated_at.desc())
+        .limit(limit)
+        .all()
+    )
+
+    return [app_id[0] for app_id in appids]
+
+
+# Only used for compat
+def get_recently_added_postgres(limit: int = 100):
+    appids = (
+        sqldb.session.query(models.Apps.app_id)
+        .filter(models.Apps.type == "desktop")
+        .order_by(models.Apps.initial_release_at.desc())
+        .limit(limit)
+        .all()
+    )
+
+    return [app_id[0] for app_id in appids]
 
 
 def get_addons(app_id: str, branch: str = "stable") -> list[str]:

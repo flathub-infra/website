@@ -175,7 +175,7 @@ def parse_summary(summary, sqldb):
     return summary_dict, recently_updated_zset, metadata
 
 
-def update(sqldb):
+def update(sqldb) -> None:
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
 
     repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
@@ -310,5 +310,3 @@ def update(sqldb):
                     reverse_lookup[ext] = app_id
 
     db.redis_conn.set("summary:reverse_lookup", json.dumps(reverse_lookup))
-
-    return len(recently_updated_zset)
