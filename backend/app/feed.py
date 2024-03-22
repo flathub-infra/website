@@ -20,3 +20,18 @@ def get_recently_updated_apps_feed():
 @router.get("/new", tags=["feed"])
 def get_new_apps_feed():
     return Response(content=feeds.get_new_apps_feed(), media_type="application/rss+xml")
+
+
+@router.get("/recently-updated-postgres", tags=["feed"])
+def get_recently_updated_apps_feed_postgres():
+    return Response(
+        content=feeds.get_recently_updated_apps_feed_postgres(),
+        media_type="application/rss+xml",
+    )
+
+
+@router.get("/new-postgres", tags=["feed"])
+def get_new_apps_feed_postgres():
+    return Response(
+        content=feeds.get_new_apps_feed_postgres(), media_type="application/rss+xml"
+    )
