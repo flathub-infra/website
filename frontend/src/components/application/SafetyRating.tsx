@@ -48,7 +48,7 @@ const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
-  const safetyRating = getSafetyRating(data, summary)
+  const safetyRating = getSafetyRating(data, summary.metadata)
 
   const highestSafetyRating = Math.max(
     ...Object.values(safetyRating).map((x) => x.safetyRating),

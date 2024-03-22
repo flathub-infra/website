@@ -17,7 +17,7 @@ import {
 } from "react-icons/hi2"
 import { IoGameControllerOutline } from "react-icons/io5"
 import { Appstream } from "./types/Appstream"
-import { Summary, Permissions } from "./types/Summary"
+import { Permissions, Metadata } from "./types/Summary"
 import React from "react"
 import { IconType } from "react-icons"
 import { BsWifiOff } from "react-icons/bs"
@@ -91,18 +91,18 @@ export function safetyRatingToTranslationKey(
 // reimplementation of https://gitlab.gnome.org/GNOME/gnome-software/-/blob/main/src/gs-app-context-bar.c
 export function getSafetyRating(
   appstream: Appstream,
-  summary: Summary,
+  summaryMetadata: Metadata,
 ): AppSafetyRating[] {
   let appSafetyRating: AppSafetyRating[] = []
 
   // Should only happen for runtimes etc
-  if (!summary.metadata) {
+  if (!summaryMetadata) {
     return appSafetyRating
   }
 
   // network
   if (
-    summary.metadata.permissions.shared?.some(
+    summaryMetadata.permissions.shared?.some(
       (x) => x.toLowerCase() === "network",
     )
   ) {
@@ -125,7 +125,7 @@ export function getSafetyRating(
 
   // system-bus
   if (
-    summary.metadata.permissions.sockets?.some(
+    summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "system-bus",
     )
   ) {
@@ -140,7 +140,7 @@ export function getSafetyRating(
 
   // session-bus
   if (
-    summary.metadata.permissions.sockets?.some(
+    summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "session-bus",
     )
   ) {
@@ -155,7 +155,7 @@ export function getSafetyRating(
 
   // devices
   if (
-    summary.metadata.permissions.devices?.some((x) => x.toLowerCase() === "all")
+    summaryMetadata.permissions.devices?.some((x) => x.toLowerCase() === "all")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -165,7 +165,7 @@ export function getSafetyRating(
       showOnSummaryOrDetails: "both",
     })
   } else if (
-    summary.metadata.permissions.devices?.some(
+    summaryMetadata.permissions.devices?.some(
       (x) => x.toLowerCase() === "input",
     )
   ) {
@@ -188,10 +188,10 @@ export function getSafetyRating(
 
   // system devices
   if (
-    summary.metadata.permissions.devices?.some(
+    summaryMetadata.permissions.devices?.some(
       (x) => x.toLowerCase() === "shm",
     ) ||
-    summary.metadata.permissions.devices?.some((x) => x.toLowerCase() === "kvm")
+    summaryMetadata.permissions.devices?.some((x) => x.toLowerCase() === "kvm")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -203,11 +203,11 @@ export function getSafetyRating(
   }
 
   // read/write all data
-  appSafetyRating.push(...addFileSafetyRatings(summary))
+  appSafetyRating.push(...addFileSafetyRatings(summaryMetadata.permissions))
 
   // can access and change user settings
   if (
-    summary.metadata.permissions["session-bus"]?.talk?.some(
+    summaryMetadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "ca.desrt.dconf",
     )
   ) {
@@ -222,10 +222,10 @@ export function getSafetyRating(
 
   // uses legacy windowing system
   if (
-    summary.metadata.permissions.sockets?.some(
+    summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "x11",
     ) &&
-    !summary.metadata.permissions.sockets?.some(
+    !summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "fallback-x11",
     )
   ) {
@@ -239,10 +239,10 @@ export function getSafetyRating(
   }
   /* "fallback-x11" without "wayland" means X11 */
   if (
-    summary.metadata.permissions.sockets?.some(
+    summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "fallback-x11",
     ) &&
-    !summary.metadata.permissions.sockets?.some(
+    !summaryMetadata.permissions.sockets?.some(
       (x) => x.toLowerCase() === "wayland",
     )
   ) {
@@ -257,13 +257,13 @@ export function getSafetyRating(
 
   // can acquire arbitrary permissions
   if (
-    summary.metadata.permissions.filesystems?.some(
+    summaryMetadata.permissions.filesystems?.some(
       (x) => x.toLowerCase() === "xdg-data/flatpak/overrides:create",
     ) ||
-    summary.metadata.permissions["session-bus"]?.talk?.some(
+    summaryMetadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "org.freedesktop.flatpak".toLowerCase(),
     ) ||
-    summary.metadata.permissions["session-bus"]?.talk?.some(
+    summaryMetadata.permissions["session-bus"]?.talk?.some(
       (x) => x.toLowerCase() === "org.freedesktop.impl.portal.permissionstore",
     )
   ) {
@@ -287,7 +287,7 @@ export function getSafetyRating(
     })
   }
 
-  if (summary.metadata.runtimeIsEol) {
+  if (summaryMetadata.runtimeIsEol) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "uses-eol-runtime",
@@ -330,18 +330,14 @@ export function getSafetyRating(
 
   return appSafetyRating
 }
-function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
+function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
   // Implements https://gitlab.gnome.org/GNOME/gnome-software/-/blob/9ae6d604297cd946ab45c11f7d6c25461cb119c9/plugins/flatpak/gs-flatpak.c#L319
   const appSafetyRating: AppSafetyRating[] = []
 
   // read/write all your data
   if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "host",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "host:rw",
-    )
+    permissions.filesystems?.some((x) => x.toLowerCase() === "host") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "host:rw")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -354,18 +350,10 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
 
   // read/write home folder
   if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "home",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "home:rw",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "~",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "~:rw",
-    )
+    permissions.filesystems?.some((x) => x.toLowerCase() === "home") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "home:rw") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "~") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "~:rw")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -377,11 +365,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   }
 
   // read all your data
-  if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "host:ro",
-    )
-  ) {
+  if (permissions.filesystems?.some((x) => x.toLowerCase() === "host:ro")) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "full-file-system-read-access",
@@ -393,12 +377,8 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
 
   // read home folder
   if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "home:ro",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "~:ro",
-    )
+    permissions.filesystems?.some((x) => x.toLowerCase() === "home:ro") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "~:ro")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -411,12 +391,8 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
 
   // read/write your downloads
   if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-download",
-    ) ||
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-download:rw",
-    )
+    permissions.filesystems?.some((x) => x.toLowerCase() === "xdg-download") ||
+    permissions.filesystems?.some((x) => x.toLowerCase() === "xdg-download:rw")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -429,9 +405,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
 
   // read your downloads
   if (
-    summary.metadata.permissions.filesystems?.some(
-      (x) => x.toLowerCase() === "xdg-download:ro",
-    )
+    permissions.filesystems?.some((x) => x.toLowerCase() === "xdg-download:ro")
   ) {
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
@@ -443,7 +417,7 @@ function addFileSafetyRatings(summary: Summary): AppSafetyRating[] {
   }
 
   //   can access some specific files
-  specificFileHandling(summary.metadata.permissions, appSafetyRating)
+  specificFileHandling(permissions, appSafetyRating)
 
   if (appSafetyRating.length === 0) {
     appSafetyRating.push({
