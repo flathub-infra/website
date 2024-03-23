@@ -52,6 +52,9 @@ export const getListAppstreamAppstreamGetResponseMock = (): string[] =>
     faker.word.sample(),
   )
 
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock =
+  (): boolean => faker.datatype.boolean()
+
 export const getGetRuntimeListRuntimesGetResponseMock =
   (): GetRuntimeListRuntimesGet200 => ({
     [faker.string.alphanumeric(5)]: faker.number.int({
@@ -327,6 +330,27 @@ export const getGetAppstreamAppstreamAppIdGetMockHandler = () => {
   })
 }
 
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
+  overrideResponse?: boolean,
+) => {
+  return http.get("*/is-fullscreen-app/:appId", async () => {
+    await delay(1000)
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+  })
+}
+
 export const getPostSearchSearchPostMockHandler = () => {
   return http.post("*/search", async () => {
     await delay(1000)
@@ -529,6 +553,7 @@ export const getAppMock = () => [
   getGetEolMessageAppidEolMessageAppIdGetMockHandler(),
   getListAppstreamAppstreamGetMockHandler(),
   getGetAppstreamAppstreamAppIdGetMockHandler(),
+  getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler(),
   getPostSearchSearchPostMockHandler(),
   getGetRuntimeListRuntimesGetMockHandler(),
   getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler(),

@@ -10,6 +10,7 @@ import satori from "satori"
 import { fetchAppstream } from "src/fetchers"
 import { getContrastColor } from "src/utils/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
+import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 
 type ResponseData = {
   message: string
@@ -94,6 +95,10 @@ export default async function handler(
     await fetchAppstream(appId as string)
   ).data
 
+  const isFullscreenApp = await getIsFullscreenAppIsFullscreenAppAppIdGet(
+    appId as string,
+  )
+
   if (!app) {
     return res.status(404).json({ message: "App not found" })
   }
@@ -147,7 +152,7 @@ export default async function handler(
               filter:
                 "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
             }}
-            src={app.icon}
+            src={icon}
             alt=""
           />
           <h1
@@ -175,7 +180,7 @@ export default async function handler(
             style={{
               display: "flex",
               width: "620px",
-              // borderRadius: app.isFullscreen ? "8px" : "0px",
+              borderRadius: isFullscreenApp ? "8px" : "0px",
             }}
             src={screenshot.src}
             alt=""
@@ -186,7 +191,7 @@ export default async function handler(
             style={{
               display: "flex",
               height: "420px",
-              // borderRadius: app.isFullscreen ? "8px" : "0px",
+              borderRadius: isFullscreenApp ? "8px" : "0px",
             }}
             src={screenshot.src}
             alt=""

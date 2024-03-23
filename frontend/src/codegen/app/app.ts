@@ -1071,6 +1071,103 @@ export const useGetAppstreamAppstreamAppIdGet = <
 }
 
 /**
+ * @summary Get Isfullscreenapp
+ */
+export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<boolean>> => {
+  return axios.get(`/is-fullscreen-app/${appId}`, options)
+}
+
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
+  appId: string,
+) => {
+  return [`/is-fullscreen-app/${appId}`] as const
+}
+
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>
+  > = ({ signal }) =>
+    getIsFullscreenAppIsFullscreenAppAppIdGet(appId, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!appId,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>
+>
+export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Get Isfullscreenapp
+ */
+export const useGetIsFullscreenAppIsFullscreenAppAppIdGet = <
+  TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions(
+    appId,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
  * @summary Post Search
  */
 export const postSearchSearchPost = (
