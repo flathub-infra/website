@@ -48,6 +48,36 @@ async function createNotoTCSemiBold() {
   }
 }
 
+async function createNotoSCSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansSC-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansSC-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
+async function createNotoSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSans-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSans-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
 async function createNotoTamilSemiBold() {
   const fontPath = path.join(
     process.cwd(),
@@ -177,6 +207,8 @@ export default async function handler(
         (await createInterSemiBold()) as any,
         (await createNotoTCSemiBold()) as any,
         (await createNotoTamilSemiBold()) as any,
+        (await createNotoSCSemiBold()) as any,
+        (await createNotoSemiBold()) as any,
       ],
     },
   )
