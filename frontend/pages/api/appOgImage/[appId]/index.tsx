@@ -108,7 +108,8 @@ export default async function handler(
       (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
     )[0].url ?? app.icon
 
-  const screenshot = mapScreenshot(app.screenshots[0])
+  const screenshot =
+    app.screenshots.length > 0 ? mapScreenshot(app.screenshots[0]) : null
 
   const branding = app.branding?.[0].value ?? "#FAFAFA"
 
@@ -175,7 +176,7 @@ export default async function handler(
             {app.summary}
           </div>
         </div>
-        {screenshot.width > screenshot.height && (
+        {screenshot && screenshot.width > screenshot.height && (
           <img
             style={{
               display: "flex",
@@ -186,7 +187,7 @@ export default async function handler(
             alt=""
           />
         )}
-        {screenshot.width < screenshot.height && (
+        {screenshot && screenshot.width < screenshot.height && (
           <img
             style={{
               display: "flex",
