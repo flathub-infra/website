@@ -21,7 +21,7 @@
     "@floating-ui/react": "^0.26.9",
     "@headlessui/react": "^1.7.18",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
-    "@resvg/resvg-js": "^2.6.0",
+    "@resvg/resvg-js": "^2.6.1",
     "@sentry/nextjs": "^7.107.0",
     "@storybook/test": "^8.0.0",
     "@stripe/react-stripe-js": "^2.4.0",
