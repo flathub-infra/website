@@ -9198,7 +9198,7 @@ __metadata:
     fast-diff: "npm:^1.3.0"
     framer-motion: "npm:^11.0.20"
     i18n-iso-countries: "npm:^7.10.1"
-    i18next: "npm:^23.8.2"
+    i18next: "npm:^23.10.1"
     isomorphic-dompurify: "npm:^2.6.0"
     next: "npm:^14.1.4"
     next-i18next: "npm:^15.2.0"
@@ -10141,12 +10141,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^23.8.2":
-  version: 23.8.2
-  resolution: "i18next@npm:23.8.2"
+"i18next@npm:^23.10.1":
+  version: 23.10.1
+  resolution: "i18next@npm:23.10.1"
   dependencies:
     "@babel/runtime": "npm:^7.23.2"
-  checksum: c16ccee81bc1e096fec8d10000de42f10137f7cd27b295eca22492cb174b364ebca72327b2e6be066c4308c79bf72c8585d1c7cde2aedf556e3f423af60cd66c
+  checksum: e9cd7565cc14fec53bcf872707a2c85b255804866f436ce08a3de6b2bf84209c61b7a7870ac87c1c27de39b5d8407b72b5231d99769d200b136db023abaa8795
   languageName: node
   linkType: hard
 
