@@ -3609,9 +3609,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-links@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@storybook/addon-links@npm:8.0.1"
+"@storybook/addon-links@npm:^8.0.4":
+  version: 8.0.4
+  resolution: "@storybook/addon-links@npm:8.0.4"
   dependencies:
     "@storybook/csf": "npm:^0.1.2"
     "@storybook/global": "npm:^5.0.0"
@@ -3621,7 +3621,7 @@ __metadata:
   peerDependenciesMeta:
     react:
       optional: true
-  checksum: 94a6dab2f1cfb1f67023dd2973328a90f8021708f2f50d771962dff2718ebabd74760a54dbec1a7d878a4a76b697c9c53f871138e8a6387b3565c6b1897ebb7f
+  checksum: b0688ef7c2d8c52846329a151dfe1ca0db0fe6a5689e4d79d17e06b9c9bbf5c2d223394f9c2ba4cc2084a8376f1ce4b14507572f308aceacb0969fd3d3599f1f
   languageName: node
   linkType: hard
 
@@ -9120,7 +9120,7 @@ __metadata:
     "@storybook/addon-actions": "npm:^8.0.0"
     "@storybook/addon-essentials": "npm:^8.0.0"
     "@storybook/addon-interactions": "npm:^8.0.4"
-    "@storybook/addon-links": "npm:^8.0.1"
+    "@storybook/addon-links": "npm:^8.0.4"
     "@storybook/addon-themes": "npm:^8.0.2"
     "@storybook/nextjs": "npm:^8.0.4"
     "@storybook/react": "npm:^8.0.0"
