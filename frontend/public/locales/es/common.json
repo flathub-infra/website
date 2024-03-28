@@ -376,7 +376,7 @@
   "potentially-unsafe": "Potencialmente insegura",
   "no-permissions": "Sin permisos",
   "has-network-access": "Tiene acceso a la red",
-  "can-access-hardware-devices": "Puede acceder a dispositivos como cámaras web o controladores de juegos",
+  "can-access-all-devices": "Puede acceder a dispositivos como cámaras web o controladores de juegos",
   "uses-system-services": "Usa servicios del sistema",
   "uses-session-services": "Usa servicios de la sesión",
   "can-access-system-devices": "Puede acceder a los dispositivos del sistema que requieren elevación de privilegios",

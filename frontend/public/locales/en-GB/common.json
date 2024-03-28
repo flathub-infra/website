@@ -378,7 +378,7 @@
   "scopes": "Scopes",
   "name": "Name",
   "new-beta-token": "New Beta Token",
-  "can-access-hardware-devices": "Can access hardware devices such as webcams or gaming controllers",
+  "can-access-all-devices": "Can access hardware devices such as webcams or gaming controllers",
   "create-token": "Create Token",
   "scope-publish": "Publish the build",
   "leave": "Leave",

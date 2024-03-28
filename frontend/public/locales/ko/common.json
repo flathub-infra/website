@@ -177,7 +177,7 @@
   "search-for-query": "'{{query}}' 검색",
   "software-developer-verified-description": "소프트웨어 개발자의 신원을 확인했고, 이것은 이 앱을 더 안전하게 만들 것입니다",
   "app-is-currently-not-verified": "미인증 앱이 있습니다",
-  "can-access-hardware-devices": "웹캠이나 게임 컨트롤러와 같은 하드웨어 장치에 액세스할 수 있습니다",
+  "can-access-all-devices": "웹캠이나 게임 컨트롤러와 같은 하드웨어 장치에 액세스할 수 있습니다",
   "whoops": "아이쿠, 이런!",
   "user-wallet": "사용자 지갑",
   "login-provider-verification-enable-github-app": "인증을 계속하기 위해서 Flathub은 <1>{{organization}}</1> 조직의 회원 등급을 읽을 수 있는 권한이 필요합니다. 이 권한은 GitHub 설정에서 <3>을 부여할 수 있습니다.",

@@ -366,7 +366,7 @@
   "no-permissions": "権限なし",
   "has-network-access": "ネットワークへのアクセスあり",
   "uses-session-services": "セッションサービスの使用",
-  "can-access-hardware-devices": "カメラやゲーム用コントローラーなどハードウェアデバイスにアクセス可能",
+  "can-access-all-devices": "カメラやゲーム用コントローラーなどハードウェアデバイスにアクセス可能",
   "can-access-system-devices": "権限の昇格が必要なシステムのデバイスにアクセスが可能",
   "get-involved": "参加しよう",
   "close": "閉じる",

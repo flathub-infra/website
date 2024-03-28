@@ -273,7 +273,7 @@
   "release-link-no-changelog": "Notes de la versió",
   "safe": "Segur",
   "uses-session-services": "Utilitza serveis de sessió",
-  "can-access-hardware-devices": "Pot accedir a dispositius de maquinari",
+  "can-access-all-devices": "Pot accedir a dispositius de maquinari",
   "app-already-exists": "Ja existeix una aplicació amb aquest identificador.",
   "uses-eol-runtime": "Utilitza un temps d'execució obsolet",
   "can-acquire-arbitrary-permissions": "Pot adquirir permisos arbitraris",

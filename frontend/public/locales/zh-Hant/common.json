@@ -378,7 +378,7 @@
   "has-network-access": "可存取網路",
   "uses-system-services": "使用系統服務",
   "uses-session-services": "使用工作階段服務",
-  "can-access-hardware-devices": "可以存取如網路攝影機或遊戲控制器等硬體裝置",
+  "can-access-all-devices": "可以存取如網路攝影機或遊戲控制器等硬體裝置",
   "can-access-system-devices": "可以存取需要提昇權限的系統裝置",
   "can-read-write-your-downloads": "可以讀取並寫入您下載資料夾中的所有資料",
   "proprietary-code": "專有程式碼",

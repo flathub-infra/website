@@ -378,7 +378,7 @@
   "has-network-access": "يصل للشبكة",
   "uses-system-services": "يستخدم خدمات النظام",
   "uses-session-services": "يستخدم خدمات الجلسة",
-  "can-access-hardware-devices": "يصل للعتاد كأيدي اللعب والكامرات",
+  "can-access-all-devices": "يصل للعتاد كأيدي اللعب والكامرات",
   "can-access-some-specific-files": "يصل لبعض الملفات الخاصة",
   "can-access-and-change-user-settings": "يصل ويغيِّر إعدادات المستخدم",
   "can-access-system-devices": "يصل لأجهزة النظام، ولعلَّ هذا يتطلَّب أذونات إدارية",

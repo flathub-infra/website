@@ -404,7 +404,7 @@
   "has-network-access": "Har netværksadgang",
   "uses-system-services": "Bruger systemtjenester",
   "uses-session-services": "Bruger sessiontjenester",
-  "can-access-hardware-devices": "Kan tilgå hardwareenheder",
+  "can-access-all-devices": "Kan tilgå hardwareenheder",
   "can-access-system-devices": "Kan tilgå systemenheder",
   "can-read-all-data-on-file-system": "Kan læse alle data på filsystemet",
   "desktop-folder": "Skrivebordsmappe",

@@ -372,6 +372,6 @@
   "has-network-access": "Ha accesso alla rete",
   "uses-system-services": "Usa servizi di sistema",
   "uses-session-services": "Usa servizi di sessione",
-  "can-access-hardware-devices": "Ha accesso a dispositivi hardware come webcam o controller da videogiochi",
+  "can-access-all-devices": "Ha accesso a dispositivi hardware come webcam o controller da videogiochi",
   "can-access-input-devices": "Ha accesso a dispositivi di input come tastiere, mouse o controller da videogiochi"
 }

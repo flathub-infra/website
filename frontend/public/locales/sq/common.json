@@ -450,7 +450,7 @@
   "safe": "I parrezik",
   "uses-system-services": "Përdor shërbime sistemi",
   "uses-session-services": "Përdor shërbime sesioni",
-  "can-access-hardware-devices": "Mund të përdorë pajisje “hardware”, b.f., kamera web apo “gaming controllers”",
+  "can-access-all-devices": "Mund të përdorë pajisje “hardware”, b.f., kamera web apo “gaming controllers”",
   "can-access-input-devices": "Mund të përdorë pajisje input-i, b.f., tastiera, minj ose “gaming controllers”",
   "can-access-system-devices": "Mund të përdorë pajisje sistemi të cilat kërkojnë leje më të fuqishme",
   "legacy-windowing-system": "Sistem i dikurshëm dritaresh",

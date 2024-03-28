@@ -361,7 +361,7 @@
   "no-results-found": "Hiçbir sonuç bulunamadı",
   "arch": "Mimari",
   "uses-session-services": "Oturum hizmetlerini kullanır",
-  "can-access-hardware-devices": "Web kameraları ve oyun denetçileri gibi donanım aygıtlarına erişebilir",
+  "can-access-all-devices": "Web kameraları ve oyun denetçileri gibi donanım aygıtlarına erişebilir",
   "can-access-system-devices": "Yükseltilmiş izinler gerektiren sistem aygıtlarına erişebilir",
   "can-read-write-your-downloads": "İndirilenler klasörünüzdeki tüm verileri okuyabilir ve yazabilir",
   "can-access-some-specific-files": "Kimi belirli dosyalara erişebilir",

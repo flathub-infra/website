@@ -378,7 +378,7 @@
   "has-network-access": "Posiada dostęp do sieci",
   "uses-system-services": "Używa usług systemowych",
   "uses-session-services": "Używa usług sesji",
-  "can-access-hardware-devices": "Może uzyskać dostęp do urządzeń sprzętowych takich jak kamery internetowe lub kontrolery do gier",
+  "can-access-all-devices": "Może uzyskać dostęp do urządzeń sprzętowych takich jak kamery internetowe lub kontrolery do gier",
   "can-access-system-devices": "Może uzyskać dostęp do urządzeń systemowych wymagających podwyższonych uprawnień",
   "can-read-write-your-downloads": "Może odczytywać i zapisywać wszystkie dane w folderze pobrane",
   "can-access-and-change-user-settings": "Może uzyskać dostęp i zmienić ustawienia użytkownika",

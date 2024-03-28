@@ -395,7 +395,7 @@
   "addon-install-info": "Comment installer des extensions",
   "addon-install-info-text": "Veuillez utiliser le gestionnaire flatpak fourni par votre distribution pour installer les extensions.",
   "no-user-device-access": "Pas d'accès au système de l'utilisateur",
-  "can-access-hardware-devices": "Peut accéder à des périphériques matériels tels que des webcams ou des contrôleurs de jeu",
+  "can-access-all-devices": "Peut accéder à des périphériques matériels tels que des webcams ou des contrôleurs de jeu",
   "can-access-system-devices": "Peut accéder aux périphériques du système qui requièrent des autorisations élevées",
   "information": "Information",
   "can-acquire-arbitrary-permissions": "Peut obtenir des autorisations arbitraires",

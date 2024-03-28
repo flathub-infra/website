@@ -371,7 +371,7 @@
   "has-network-access": "Hat Netzwerkzugang",
   "uses-system-services": "Verwendet Systemdienste",
   "uses-session-services": "Verwendet Sitzungsdienste",
-  "can-access-hardware-devices": "Kann auf Hardware-Geräte wie Webcams oder Gaming-Controller zugreifen",
+  "can-access-all-devices": "Kann auf Hardware-Geräte wie Webcams oder Gaming-Controller zugreifen",
   "accept-invite": "Einladung annehmen",
   "decline": "Ablehnen",
   "invite-not-found": "Einladung nicht gefunden",

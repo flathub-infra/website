@@ -379,7 +379,7 @@
   "can-read-write-your-downloads": "Összes adat a letöltési mappában olvashat és írhat",
   "uses-session-services": "Munkamenet-szolgáltatásokat használ",
   "can-access-some-specific-files": "Hozzáférhet bizonyos fájlokhoz",
-  "can-access-hardware-devices": "Hozzáférhet hardvereszközökhöz, például webkamerákhoz vagy játékvezérlőkhöz",
+  "can-access-all-devices": "Hozzáférhet hardvereszközökhöz, például webkamerákhoz vagy játékvezérlőkhöz",
   "can-access-and-change-user-settings": "Hozzáférhet és módosíthat a felhasználói beállításokat",
   "can-access-system-devices": "Hozzáférhet a rendszer eszközeihez, amelyek magasabb szintű engedélyeket igényelnek",
   "appname-is-safety-rating-1": "{{appName}} biztonságos",
