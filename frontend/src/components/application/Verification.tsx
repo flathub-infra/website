@@ -79,14 +79,14 @@ const Verification: FunctionComponent<Props> = ({
     )
   } else {
     return (
-      <>
+      <div className="flex items-center justify-center sm:justify-start">
         <div className="rounded-full w-fit text-flathub-white bg-flathub-status-orange dark:bg-flathub-status-orange-dark py-0.5 px-2">
           <div className="text-xs flex gap-1 items-end">
             <HiMiniExclamationTriangle className="size-3.5" />
             {t("unverified")}
           </div>
         </div>
-      </>
+      </div>
     )
   }
 }
