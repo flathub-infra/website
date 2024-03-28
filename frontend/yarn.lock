@@ -9513,7 +9513,7 @@ __metadata:
     react-i18next: "npm:^14.1.0"
     react-icons: "npm:^5.0.1"
     react-svg-worldmap: "npm:2.0.0-alpha.16"
-    react-toastify: "npm:^10.0.4"
+    react-toastify: "npm:^10.0.5"
     redis: "npm:^4.6.13"
     sass: "npm:^1.72.0"
     satori: "npm:^0.10.13"
@@ -13787,15 +13787,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-toastify@npm:^10.0.4":
-  version: 10.0.4
-  resolution: "react-toastify@npm:10.0.4"
+"react-toastify@npm:^10.0.5":
+  version: 10.0.5
+  resolution: "react-toastify@npm:10.0.5"
   dependencies:
     clsx: "npm:^2.1.0"
   peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 3d31edf81e8b394fd0085615fd7ba9fb9546c7cdae56e5334df67b58d65450c73af14a8fc163f19ceed03cfee7a344d1af1489422536f52c9516ca45e9b61a37
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: 66c68ec3d6c017d9f32652d73bb925224921c6a80b629b9d481430d5b4fd504abb7a99995a64b9aef0fc31326c74f3cbe088b3287b978dd0c355079c4bbf4158
   languageName: node
   linkType: hard
 
