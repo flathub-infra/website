@@ -108,7 +108,9 @@
     "app-icon-in-line-with-contemporary-styles": "In linea con le stilos contemporanee",
     "app-no-weird-formatting": "Nulle formatos bizarre, punctuation, minusculas, etc.",
     "app-summary-not-technical": "Comprehensibile pro un persona non technic",
-    "app-summary-no-weird-formatting": "Nulle formatos bizarre o punctuation"
+    "app-summary-no-weird-formatting": "Nulle formatos bizarre o punctuation",
+    "app-icon-detail": "Ni troppo ni troppo pauc detalios",
+    "app-icon-no-baked-in-shadows": "Nulle umbras integrate"
   },
   "since": "Desde",
   "downloads-per-country": "Discargamentos per pais",
@@ -523,5 +525,12 @@
   "stripe-api-error": "Le API de Stripe incontrava un error. Reprobar plus tarde.",
   "whoops": "Ups!",
   "scope-build": "Crear e acceder a constructiones e labores",
-  "nothing-to-do": "Nihil a facer"
+  "nothing-to-do": "Nihil a facer",
+  "login-provider-verification-main-instruction-unknown-is-organization": "Verifica tu derecto de usar le ID de application <1>{{id}}</1> per aperir session con le conto <3>{{login_name}}</3> (o, si <5>{{login_name}}</5> es un organisation, un conto con accesso a illo) sur <7>{{login_provider}}</7>.",
+  "login-provider-verification-instruction": "Nos probara verificar tu accesso al application con tu initio de session <1>{{login_name}}</1> con tu conto sur <3>{{login_provider}}</3>",
+  "app-is-currently-verified-by-login-provider": "Tu application es actualmente verificate per tu initio de session <1>{{login_name}}</1> con tu conto sur <3>{{login_provider}}</3>",
+  "uses-eol-runtime-description": "Le tempore de execution usate per iste application non recipe plus actualisationes de securitate",
+  "login-provider-verification-main-instruction": "Verifica tu derecto de usar le ID de application <1>{{id}}</1> per aperir session con le conto <3>{{login_name}}</3> sur <5>{{login_provider}}</5>.",
+  "login-provider-verification-main-instruction-organization": "Verifica tu derecto de usar le ID de application <1>{{id}}</1> per aperir session con un conto con derectos de administrator al organisation <3>{{login_name}}</3> sur <5>{{login_provider}}</5>.",
+  "login-provider-verification": "Verification del fornitor de initio de session"
 }
