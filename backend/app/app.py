@@ -2,16 +2,10 @@ from typing import Optional
 
 from fastapi import APIRouter, FastAPI, Path, Response
 from fastapi.responses import ORJSONResponse
+from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
-from . import (
-    apps,
-    db,
-    schemas,
-    search,
-    stats,
-    utils,
-)
+from . import apps, db, models, schemas, search, stats, utils
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
@@ -151,6 +145,18 @@ def get_appstream(
 
     response.status_code = 404
     return None
+
+
+@router.get("/is-fullscreen-app/{app_id}", status_code=200, tags=["app"])
+def get_isFullscreenApp(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+) -> bool:
+    return models.Apps.get_fullscreen_app(sqldb, app_id)
 
 
 @router.post("/search", tags=["app"])

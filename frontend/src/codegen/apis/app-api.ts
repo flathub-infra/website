@@ -613,6 +613,56 @@ export const AppApiAxiosParamCreator = function (
       }
     },
     /**
+     *
+     * @summary Get Isfullscreenapp
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getIsFullscreenAppIsFullscreenAppAppIdGet: async (
+      appId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'appId' is not null or undefined
+      assertParamExists(
+        "getIsFullscreenAppIsFullscreenAppAppIdGet",
+        "appId",
+        appId,
+      )
+      const localVarPath = `/is-fullscreen-app/{app_id}`.replace(
+        `{${"app_id"}}`,
+        encodeURIComponent(String(appId)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Return a mapping from org-name to platform aliases and dependencies which are recognised by the backend.  These are used by things such as the transactions and donations APIs to address amounts to the platforms.
      * @summary Get Platforms
      * @param {*} [options] Override http request option.
@@ -1508,6 +1558,31 @@ export const AppApiFp = function (configuration?: Configuration) {
       )
     },
     /**
+     *
+     * @summary Get Isfullscreenapp
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getIsFullscreenAppIsFullscreenAppAppIdGet(
+      appId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<boolean>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.getIsFullscreenAppIsFullscreenAppAppIdGet(
+          appId,
+          options,
+        )
+      return createRequestFunction(
+        localVarAxiosArgs,
+        globalAxios,
+        BASE_PATH,
+        configuration,
+      )
+    },
+    /**
      * Return a mapping from org-name to platform aliases and dependencies which are recognised by the backend.  These are used by things such as the transactions and donations APIs to address amounts to the platforms.
      * @summary Get Platforms
      * @param {*} [options] Override http request option.
@@ -2014,6 +2089,21 @@ export const AppApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     *
+     * @summary Get Isfullscreenapp
+     * @param {string} appId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getIsFullscreenAppIsFullscreenAppAppIdGet(
+      appId: string,
+      options?: any,
+    ): AxiosPromise<boolean> {
+      return localVarFp
+        .getIsFullscreenAppIsFullscreenAppAppIdGet(appId, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Return a mapping from org-name to platform aliases and dependencies which are recognised by the backend.  These are used by things such as the transactions and donations APIs to address amounts to the platforms.
      * @summary Get Platforms
      * @param {*} [options] Override http request option.
@@ -2407,6 +2497,23 @@ export class AppApi extends BaseAPI {
   ) {
     return AppApiFp(this.configuration)
       .getExceptionsForAppExceptionsAppIdGet(appId, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get Isfullscreenapp
+   * @param {string} appId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof AppApi
+   */
+  public getIsFullscreenAppIsFullscreenAppAppIdGet(
+    appId: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return AppApiFp(this.configuration)
+      .getIsFullscreenAppIsFullscreenAppAppIdGet(appId, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
