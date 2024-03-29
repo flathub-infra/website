@@ -509,7 +509,10 @@
     "request-a-review-question": "Möchtest du ein Review anfordern?",
     "needed-to-pass-x": "Erforderlich zum Bestehen von {{x}}",
     "branding-has-primary-brand-colors": "Hat primäre Markenfarben",
-    "branding-good-primary-brand-colors": "Gute primäre Markenfarben"
+    "branding-good-primary-brand-colors": "Gute primäre Markenfarben",
+    "hide-branding-preview": "Brandingvorschau ausblenden",
+    "show-branding-preview": "Brandingvorschau anzeigen",
+    "branding": "Branding"
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -560,5 +563,6 @@
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
   "developer-portal": "Entwicklerportal",
   "news": "Neuigkeiten",
-  "nothing-to-do": "Nichts zu tun"
+  "nothing-to-do": "Nichts zu tun",
+  "unverified": "Unverifiziert"
 }
