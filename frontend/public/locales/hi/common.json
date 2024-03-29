@@ -523,7 +523,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "<7>{{login_provider}}</7> पर <3>{{login_name}}</3> खाते में लॉग इन करके ऐप आईडी <1>{{id}}</1> का उपयोग करने (या, यदि <5>{{login_name}}< /5> एक संगठन है, एक खाता है जिसके पास इसकी पहुंच है) का अपना अधिकार सत्यापित करें। ।",
   "login-provider-verification-switch-account": "आप वर्तमान में <1>{{login_provider}}</1> में <3>{{current_name}}</3> के रूप में लॉग इन हैं। लॉगिन प्रदाता द्वारा <7>{{appId}}</7> को सत्यापित करने के लिए <5>{{required_name}}</5> के रूप में लॉग इन करें, या यदि कोई अन्य विधि उपलब्ध है तो उसे चुनें।",
   "can-access-input-devices": "कीबोर्ड, माउस या गेमिंग कंट्रोलर जैसे इनपुट डिवाइसों तक पहुंच सकते हैं",
-  "can-access-hardware-devices": "वेबकैम या गेमिंग कंट्रोलर जैसे हार्डवेयर डिवाइसों तक पहुंच सकते हैं",
+  "can-access-all-devices": "वेबकैम या गेमिंग कंट्रोलर जैसे हार्डवेयर डिवाइसों तक पहुंच सकते हैं",
   "website-verification-instruction": "<1>{{webpage}}</1> पर एक पेज बनाएं जिसमें निम्नलिखित टोकन हो: <3>{{token}}</3> यदि पेज पहले से मौजूद है, तो उसमें टोकन जोड़ें।",
   "website-verification-main-instruction": "<3>{{domain}}</3> पर एक विशिष्ट पृष्ठ पर एक टोकन रखकर ऐप ID <1>{{id}}</1> का उपयोग करने के अपने अधिकार को सत्यापित करें।",
   "login-provider-verification-main-instruction-organization": "<5>{{login_provider}} पर <3>{{login_name}}</3> संगठन के व्यवस्थापक अधिकारों वाले खाते में लॉग इन करके ऐप ID <1>{{id}}</1> का उपयोग करने का अपना अधिकार सत्यापित करें। }}</5>।",

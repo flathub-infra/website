@@ -344,7 +344,7 @@
   "safe": "Անվտանգ",
   "unsafe": "Վտանգավոր",
   "potentially-unsafe": "Պոտենցիալ վտանգավոր",
-  "can-access-hardware-devices": "Հասանելիություն ունի ապարատուրային սարքերին",
+  "can-access-all-devices": "Հասանելիություն ունի ապարատուրային սարքերին",
   "uses-system-services": "Օգտագործում է ԳՀ ծառայություններ",
   "uses-session-services": "Օգտագործում է սեսիայի ծառայություններ",
   "can-access-system-devices": "Հասանելիություն ունի համակարգի սարքերին",

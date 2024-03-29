@@ -380,7 +380,7 @@
   "uses-system-services": "使用系统服务",
   "potentially-unsafe": "可能不安全",
   "uses-session-services": "使用会话服务",
-  "can-access-hardware-devices": "可以访问硬件设备（如摄像头或游戏手柄）",
+  "can-access-all-devices": "可以访问硬件设备（如摄像头或游戏手柄）",
   "can-access-system-devices": "可以访问需要提升权限的系统设备",
   "can-read-write-your-downloads": "可以读取/写入所有数据您的下载目录",
   "can-access-some-specific-files": "可以访问一些特定的文件",

@@ -375,7 +375,7 @@
   "community-built-explanation": "Aplikasi ini dikembangkan secara terbuka oleh komunitas sukarelawan, dan dirilis di bawah <1>{{ license }}</1>.",
   "add-ons": "Pengaya",
   "no-file-system-access": "Tidak ada akses sistem berkas",
-  "can-access-hardware-devices": "Dapat mengakses perangkat keras seperti webcam atau pengontrol game",
+  "can-access-all-devices": "Dapat mengakses perangkat keras seperti webcam atau pengontrol game",
   "leave": "Tinggalkan",
   "invite-pending": "Undangan tertunda",
   "software-developer-verified": "Pengembang perangkat lunak terverifikasi",

@@ -160,7 +160,7 @@ export function getSafetyRating(
     appSafetyRating.push({
       safetyRating: SafetyRating.potentially_unsafe,
       title: "user-device-access",
-      description: "can-access-hardware-devices",
+      description: "can-access-all-devices",
       icon: HiOutlineVideoCamera,
       showOnSummaryOrDetails: "both",
     })

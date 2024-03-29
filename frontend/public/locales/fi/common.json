@@ -389,7 +389,7 @@
   "no-file-system-access": "Ei pääsyä tiedostojärjestelmään",
   "uses-session-services": "Käyttää istuntopalveluja",
   "no-user-device-access": "Ei pääsyä käyttäjälaitteisiin",
-  "can-access-hardware-devices": "Voi käyttää laitteita kuten web-kameraa ja peliohjaimia",
+  "can-access-all-devices": "Voi käyttää laitteita kuten web-kameraa ja peliohjaimia",
   "can-access-system-devices": "Voi käyttää järjestelmälaitteita, jotka vaativat korotettuja oikeuksia",
   "close": "Sulje",
   "user-not-found": "Käyttäjää ei löydy",

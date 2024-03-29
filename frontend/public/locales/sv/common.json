@@ -164,7 +164,7 @@
   "can-read-write-all-data-on-file-system": "Kan läsa och skriva all data på filsystemet",
   "add-ons": "Tillägg",
   "no-file-system-access": "Ingen åtkomst till filsystemet",
-  "can-access-hardware-devices": "Kan komma åt hårdvaruenheter så som webbkameror eller spelkontroller",
+  "can-access-all-devices": "Kan komma åt hårdvaruenheter så som webbkameror eller spelkontroller",
   "user-not-found": "Användaren hittades inte",
   "music-folder": "Musik-mappen",
   "links": "Länkar",
