@@ -110,7 +110,12 @@
     "app-summary-not-technical": "Comprehensibile pro un persona non technic",
     "app-summary-no-weird-formatting": "Nulle formatos bizarre o punctuation",
     "app-icon-detail": "Ni troppo ni troppo pauc detalios",
-    "app-icon-no-baked-in-shadows": "Nulle umbras integrate"
+    "app-icon-no-baked-in-shadows": "Nulle umbras integrate",
+    "general-no-trademark-violations": "Nulle violation de marca registrate (nomine o icone)",
+    "app-icon-contrast": "Bon contrasto sur fundos obscur",
+    "app-icon-footprint": "Non plenar troppo o troppo pauc le telas",
+    "branding-has-primary-brand-colors": "Ha colores primari de marca",
+    "branding-good-primary-brand-colors": "Bon colores primari de marca"
   },
   "since": "Desde",
   "downloads-per-country": "Discargamentos per pais",
@@ -532,5 +537,7 @@
   "uses-eol-runtime-description": "Le tempore de execution usate per iste application non recipe plus actualisationes de securitate",
   "login-provider-verification-main-instruction": "Verifica tu derecto de usar le ID de application <1>{{id}}</1> per aperir session con le conto <3>{{login_name}}</3> sur <5>{{login_provider}}</5>.",
   "login-provider-verification-main-instruction-organization": "Verifica tu derecto de usar le ID de application <1>{{id}}</1> per aperir session con un conto con derectos de administrator al organisation <3>{{login_name}}</3> sur <5>{{login_provider}}</5>.",
-  "login-provider-verification": "Verification del fornitor de initio de session"
+  "login-provider-verification": "Verification del fornitor de initio de session",
+  "payment-provider-error": "Nostre fornitor de pagamento ha incontrate un error. Reproba plus tarde.",
+  "unverified": "Non verificate"
 }
