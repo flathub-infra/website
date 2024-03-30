@@ -151,7 +151,7 @@ export default async function handler(
               height: "256",
               borderRadius: "16px",
               filter:
-                "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))",
+                "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
             }}
             src={icon}
             alt=""
