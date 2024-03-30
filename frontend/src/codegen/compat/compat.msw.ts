@@ -12,8 +12,12 @@ import type {
   GetPopularAppsCompatAppsCollectionPopularGet200,
   GetRecentlyAddedCompatAppsCollectionNew50Get200,
   GetRecentlyAddedCompatAppsCollectionNewGet200,
+  GetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50Get200,
+  GetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGet200,
   GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50Get200,
   GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet200,
+  GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50Get200,
+  GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGet200,
   GetSearchCompatAppsSearchQueryGet200,
   GetSingleAppCompatAppsAppIdGet200,
 } from ".././model"
@@ -35,6 +39,18 @@ export const getGetRecentlyAddedCompatAppsCollectionNew50GetResponseMock =
 
 export const getGetRecentlyAddedCompatAppsCollectionNewGetResponseMock =
   (): GetRecentlyAddedCompatAppsCollectionNewGet200 => ({})
+
+export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetResponseMock =
+  (): GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50Get200 => ({})
+
+export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetResponseMock =
+  (): GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGet200 => ({})
+
+export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetResponseMock =
+  (): GetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50Get200 => ({})
+
+export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetResponseMock =
+  (): GetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGet200 => ({})
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetResponseMock =
   (): GetPopularAppsCompatAppsCollectionPopular50Get200 => ({})
@@ -179,6 +195,100 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = (
   })
 }
 
+export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetMockHandler =
+  (
+    overrideResponse?: GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50Get200,
+  ) => {
+    return http.get(
+      "*/compat/apps/collection/recently-updated-postgres/50",
+      async () => {
+        await delay(1000)
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse
+              ? overrideResponse
+              : getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetResponseMock(),
+          ),
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        )
+      },
+    )
+  }
+
+export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetMockHandler =
+  (
+    overrideResponse?: GetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGet200,
+  ) => {
+    return http.get(
+      "*/compat/apps/collection/recently-updated-postgres",
+      async () => {
+        await delay(1000)
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse
+              ? overrideResponse
+              : getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetResponseMock(),
+          ),
+          {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          },
+        )
+      },
+    )
+  }
+
+export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetMockHandler =
+  (
+    overrideResponse?: GetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50Get200,
+  ) => {
+    return http.get("*/compat/apps/collection/new-postgres/50", async () => {
+      await delay(1000)
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse
+            ? overrideResponse
+            : getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetResponseMock(),
+        ),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
+    })
+  }
+
+export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetMockHandler =
+  (
+    overrideResponse?: GetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGet200,
+  ) => {
+    return http.get("*/compat/apps/collection/new-postgres", async () => {
+      await delay(1000)
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse
+            ? overrideResponse
+            : getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetResponseMock(),
+        ),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
+    })
+  }
+
 export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler = (
   overrideResponse?: GetPopularAppsCompatAppsCollectionPopular50Get200,
 ) => {
@@ -269,6 +379,10 @@ export const getCompatMock = () => [
   getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHandler(),
   getGetRecentlyAddedCompatAppsCollectionNew50GetMockHandler(),
   getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler(),
+  getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetMockHandler(),
+  getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetMockHandler(),
+  getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetMockHandler(),
+  getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetMockHandler(),
   getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler(),
   getGetPopularAppsCompatAppsCollectionPopularGetMockHandler(),
   getGetSearchCompatAppsSearchQueryGetMockHandler(),
