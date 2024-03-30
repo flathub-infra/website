@@ -5,8 +5,8 @@ import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
-import { vendingApi } from "src/api"
 import { useQuery } from "@tanstack/react-query"
+import { getRedeemableTokensVendingappAppIdTokensGet } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -21,7 +21,7 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
   const query = useQuery({
     queryKey: ["redeemable-tokens", app.id],
     queryFn: () =>
-      vendingApi.getRedeemableTokensVendingappAppIdTokensGet(app.id, {
+      getRedeemableTokensVendingappAppIdTokensGet(app.id, {
         withCredentials: true,
       }),
     enabled: !!app.id,

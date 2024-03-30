@@ -7,9 +7,9 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import ApplicationCollection from "../application/Collection"
 import { useQuery } from "@tanstack/react-query"
-import { moderationApi } from "src/api"
 import { useTranslation } from "next-i18next"
 import { setQueryParams } from "src/utils/queryParams"
+import { getModerationAppsModerationAppsGet } from "src/codegen"
 
 const ModerationTabs: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -49,11 +49,14 @@ const ModerationTabs: FunctionComponent = () => {
       offset,
     ],
     queryFn: async ({ signal }) => {
-      const apps = await moderationApi.getModerationAppsModerationAppsGet(
-        filterNewSubmissionsQuery === false ? undefined : true,
-        showHandledQuery === false ? undefined : true,
-        PAGE_SIZE,
-        offset,
+      const apps = await getModerationAppsModerationAppsGet(
+        {
+          new_submissions:
+            filterNewSubmissionsQuery === false ? undefined : true,
+          show_handled: showHandledQuery === false ? undefined : true,
+          limit: PAGE_SIZE,
+          offset,
+        },
         {
           withCredentials: true,
           signal,

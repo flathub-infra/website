@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import Button from "../../Button"
-import { walletApi } from "src/api"
+import { cancelTransactionWalletTransactionsTxnCancelPost } from "src/codegen"
 
 interface Props {
   id: string
@@ -22,10 +22,9 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   // Only make a request on first click
   useEffect(() => {
     if (clicked) {
-      walletApi
-        .cancelTransactionWalletTransactionsTxnCancelPost(id, {
-          withCredentials: true,
-        })
+      cancelTransactionWalletTransactionsTxnCancelPost(id, {
+        withCredentials: true,
+      })
         .then(() => {
           toast.success(t("transaction-cancelled"))
           if (onSuccess) {

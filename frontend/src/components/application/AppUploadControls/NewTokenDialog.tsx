@@ -3,10 +3,10 @@ import { useTranslation } from "next-i18next"
 import Spinner from "src/components/Spinner"
 import CodeCopy from "../CodeCopy"
 import Modal from "src/components/Modal"
-import { uploadTokensApi } from "src/api"
-import { NewTokenResponse } from "src/codegen"
 import { Repo } from "src/types/UploadTokens"
 import { useMutation } from "@tanstack/react-query"
+import { createUploadTokenUploadTokensAppIdPost } from "src/codegen"
+import { NewTokenResponse } from "src/codegen/model"
 
 interface Props {
   app_id: string
@@ -36,7 +36,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   const createUploadTokenMutation = useMutation({
     mutationKey: ["create-upload-token", app_id, scopes, repo, comment],
     mutationFn: () =>
-      uploadTokensApi.createUploadTokenUploadTokensAppIdPost(
+      createUploadTokenUploadTokensAppIdPost(
         app_id,
         {
           comment,

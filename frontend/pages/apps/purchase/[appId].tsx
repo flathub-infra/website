@@ -6,7 +6,7 @@ import LoginGuard from "../../../src/components/login/LoginGuard"
 import { fetchAppstream } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
-import { vendingApi } from "src/api"
+import { getGlobalVendingConfigVendingConfigGet } from "src/codegen"
 
 export default function AppPurchasePage({
   app,
@@ -35,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
-    vendingApi.getGlobalVendingConfigVendingConfigGet(),
+    getGlobalVendingConfigVendingConfigGet(),
   ])
 
   return {

@@ -4,9 +4,9 @@ import { useRouter } from "next/router"
 import { useTranslation } from "next-i18next"
 import PublisherAgreement from "src/components/user/PublisherAgreement"
 import { useUserDispatch } from "src/context/user-info"
-import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
+import { acceptInviteInvitesAppIdAcceptPost } from "src/codegen"
 
 interface Props {
   appId: string
@@ -20,7 +20,7 @@ const PublisherAgreementPage = ({ appId }: Props) => {
   const acceptInviteMutation = useMutation({
     mutationKey: ["accept-invite", appId],
     mutationFn: () =>
-      inviteApi.acceptInviteInvitesAppIdAcceptPost(appId, {
+      acceptInviteInvitesAppIdAcceptPost(appId, {
         withCredentials: true,
       }),
     onSuccess: async () => {

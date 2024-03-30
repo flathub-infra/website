@@ -19,8 +19,11 @@ import Toggle from "../../Toggle"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { vendingApi } from "src/api"
 import { AxiosError } from "axios"
+import {
+  getAppVendingSetupVendingappAppIdSetupGet,
+  postAppVendingSetupVendingappAppIdSetupPost,
+} from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -41,7 +44,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const vendingSetup = useQuery({
     queryKey: ["appVendingSetup", app.id],
     queryFn: () =>
-      vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+      getAppVendingSetupVendingappAppIdSetupGet(app.id, {
         withCredentials: true,
       }),
   })
@@ -87,7 +90,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   // Tell backend to update the setup on submission
   const setAppVendingSetupMutation = useMutation({
     mutationFn: () =>
-      vendingApi.postAppVendingSetupVendingappAppIdSetupPost(
+      postAppVendingSetupVendingappAppIdSetupPost(
         app.id,
         {
           currency: "usd",

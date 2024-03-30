@@ -7,11 +7,11 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import Link from "next/link"
-import { ModerationRequestResponse } from "src/codegen"
 import { useQuery } from "@tanstack/react-query"
-import { moderationApi } from "src/api"
 import { useTranslation } from "next-i18next"
 import Breadcrumbs from "../Breadcrumbs"
+import { getModerationAppModerationAppsAppIdGet } from "src/codegen"
+import { ModerationRequestResponse } from "src/codegen/model"
 
 interface Props {
   appId: string
@@ -62,12 +62,14 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
       offset,
     ],
     queryFn: ({ signal }) =>
-      moderationApi.getModerationAppModerationAppsAppIdGet(
+      getModerationAppModerationAppsAppIdGet(
         appId,
-        includeOutdatedQuery,
-        includeHandledQuery,
-        PAGE_SIZE,
-        offset,
+        {
+          include_outdated: includeOutdatedQuery,
+          include_handled: includeHandledQuery,
+          limit: PAGE_SIZE,
+          offset,
+        },
         {
           withCredentials: true,
           signal,

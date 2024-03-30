@@ -9,10 +9,10 @@ import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
 import Link from "next/link"
 import { ModerationRequestResponse } from "src/codegen/model"
-import { moderationApi } from "src/api"
 import { useMutation } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
+import { submitReviewModerationRequestsIdReviewPost } from "src/codegen"
 
 interface Props {
   title: string
@@ -44,13 +44,9 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
   const mutation = useMutation({
     mutationKey: ["review", request.id],
     mutationFn: (body: { approve: boolean; comment?: string }) =>
-      moderationApi.submitReviewModerationRequestsIdReviewPost(
-        request.id,
-        body,
-        {
-          withCredentials: true,
-        },
-      ),
+      submitReviewModerationRequestsIdReviewPost(request.id, body, {
+        withCredentials: true,
+      }),
     onSuccess: (data) => {
       setIssueUrl(data.data?.github_issue_url)
     },

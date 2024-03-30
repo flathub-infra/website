@@ -9,10 +9,16 @@ import { useUserDispatch } from "src/context/user-info"
 import { useRouter } from "next/router"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
-import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
-import { Developer } from "src/codegen"
 import { AxiosError } from "axios"
+import {
+  getDevelopersInvitesAppIdDevelopersGet,
+  inviteDeveloperInvitesAppIdInvitePost,
+  leaveTeamInvitesAppIdLeavePost,
+  removeDeveloperInvitesAppIdRemoveDeveloperPost,
+  revokeInviteInvitesAppIdRevokePost,
+} from "src/codegen"
+import { Developer } from "src/codegen/model"
 
 interface Props {
   app: Appstream
@@ -26,7 +32,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const developersQuery = useQuery({
     queryKey: ["developers", app.id],
     queryFn: () =>
-      inviteApi.getDevelopersInvitesAppIdDevelopersGet(app.id, {
+      getDevelopersInvitesAppIdDevelopersGet(app.id, {
         withCredentials: true,
       }),
   })
@@ -34,7 +40,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const leaveTeamInviteMutation = useMutation({
     mutationKey: ["leave-team-invite-app", app.id],
     mutationFn: () =>
-      inviteApi.leaveTeamInvitesAppIdLeavePost(app.id, {
+      leaveTeamInvitesAppIdLeavePost(app.id, {
         withCredentials: true,
       }),
     onSuccess: async () => {
@@ -184,9 +190,13 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   const revokeInviteMutation = useMutation({
     mutationKey: ["revoke-invite-app", app.id, developer.id],
     mutationFn: () =>
-      inviteApi.revokeInviteInvitesAppIdRevokePost(app.id, developer.id, {
-        withCredentials: true,
-      }),
+      revokeInviteInvitesAppIdRevokePost(
+        app.id,
+        { invite_id: developer.id },
+        {
+          withCredentials: true,
+        },
+      ),
     onSuccess: async () => {
       setDialogVisible(false)
       refresh()
@@ -196,9 +206,9 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   const removeDeveloperInviteMutation = useMutation({
     mutationKey: ["remove-developer-invite-app", app.id, developer.id],
     mutationFn: () =>
-      inviteApi.removeDeveloperInvitesAppIdRemoveDeveloperPost(
+      removeDeveloperInvitesAppIdRemoveDeveloperPost(
         app.id,
-        developer.id,
+        { developer_id: developer.id },
         {
           withCredentials: true,
         },
@@ -284,9 +294,13 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
   const inviteDeveloperMutation = useMutation({
     mutationKey: ["invite-developer-app", app.id, inviteCode],
     mutationFn: () =>
-      inviteApi.inviteDeveloperInvitesAppIdInvitePost(app.id, inviteCode, {
-        withCredentials: true,
-      }),
+      inviteDeveloperInvitesAppIdInvitePost(
+        app.id,
+        { invite_code: inviteCode },
+        {
+          withCredentials: true,
+        },
+      ),
     onSuccess: async () => {
       refresh()
       closeDialog()

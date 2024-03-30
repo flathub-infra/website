@@ -1,19 +1,23 @@
 import { Trans, useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useCallback, useState } from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
-import { VerificationMethodLoginProvider } from "src/types/VerificationAvailableMethods"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { FlathubDisclosure } from "../../Disclosure"
 import Spinner from "src/components/Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { authApi, verificationApi } from "src/api"
+import { getLoginMethodsAuthLoginGet } from "src/codegen"
+import {
+  requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet,
+  verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
+} from "src/codegen"
+import { AvailableMethod } from "src/codegen/model"
 
 interface Props {
   appId: string
-  method: VerificationMethodLoginProvider
+  method: AvailableMethod
   isNewApp: boolean
   onVerified: () => void
   onReloadNeeded: () => void
@@ -33,13 +37,13 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const { data: providers } = useQuery({
     queryKey: ["login-providers"],
-    queryFn: ({ signal }) => authApi.getLoginMethodsAuthLoginGet({ signal }),
+    queryFn: ({ signal }) => getLoginMethodsAuthLoginGet({ signal }),
   })
 
   const { data: githubOrgAccessLink } = useQuery({
     queryKey: ["github-org-access-link"],
     queryFn: async () => {
-      return verificationApi.requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet()
+      return requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet()
     },
   })
 
@@ -54,9 +58,9 @@ const LoginVerification: FunctionComponent<Props> = ({
     mutationFn: async () => {
       setError("")
 
-      return await verificationApi.verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
+      return await verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost(
         appId,
-        isNewApp ?? false,
+        { new_app: isNewApp ?? false },
         {
           withCredentials: true,
         },

@@ -6,7 +6,7 @@ import ApplicationCollection from "../application/Collection"
 import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
-import { authApi } from "src/api"
+import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
@@ -42,7 +42,7 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
   const queryRefreshDev = useMutation({
     mutationKey: ["refresh-dev-flatpaks"],
     mutationFn: async () =>
-      authApi.doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost({
+      doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost({
         withCredentials: true,
       }),
   })

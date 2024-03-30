@@ -6,7 +6,7 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import InlineError from "../InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { moderationApi } from "src/api"
+import { getModerationAppModerationAppsAppIdGet } from "src/codegen"
 
 interface Props {
   appId: string
@@ -28,12 +28,14 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
   const query = useQuery({
     queryKey: ["moderation", appId, PAGE_SIZE, offset],
     queryFn: ({ signal }) =>
-      moderationApi.getModerationAppModerationAppsAppIdGet(
+      getModerationAppModerationAppsAppIdGet(
         appId,
-        true,
-        true,
-        PAGE_SIZE,
-        offset,
+        {
+          include_handled: true,
+          include_outdated: true,
+          limit: PAGE_SIZE,
+          offset,
+        },
         {
           withCredentials: true,
           signal,

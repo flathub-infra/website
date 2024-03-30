@@ -37,8 +37,8 @@ import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
-import { vendingApi } from "src/api"
 import { formatISO } from "date-fns"
+import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
 
 interface Props {
   app?: DesktopAppstream
@@ -98,7 +98,7 @@ const Details: FunctionComponent<Props> = ({
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],
     queryFn: () => {
-      return vendingApi.getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+      return getAppVendingSetupVendingappAppIdSetupGet(app.id, {
         withCredentials: true,
       })
     },

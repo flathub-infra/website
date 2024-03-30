@@ -17,9 +17,9 @@ import { clsx } from "clsx"
 import ButtonLink from "src/components/ButtonLink"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { TRANSACTION_INFO_URL } from "src/env"
-import { walletApi } from "src/api"
-import { TransactionSummary } from "src/codegen"
 import { AxiosResponse } from "axios"
+import { TransactionSummary } from "src/codegen/model/transactionSummary"
+import { getTransactionsWalletTransactionsGet } from "src/codegen"
 
 const perPage = 10
 
@@ -220,30 +220,32 @@ const TransactionHistory: FunctionComponent = () => {
     if (user.info && isNewPage()) {
       if (page > 0) {
         const since = transactions.at(-1)
-        walletApi
-          .getTransactionsWalletTransactionsGet(
-            "recent",
-            perPage.toString(),
-            Number(since.id),
-            {
-              withCredentials: true,
-            },
-          )
+        getTransactionsWalletTransactionsGet(
+          {
+            sort: "recent",
+            since: perPage.toString(),
+            limit: Number(since.id),
+          },
+          {
+            withCredentials: true,
+          },
+        )
           .then(addNewPage)
           .catch(setError)
       } else {
         // Fetch the first page only if we've not tried before, otherwise if
         // the user has no transactions we keep re-fetching.
         if (page == 0 && transactions === null) {
-          walletApi
-            .getTransactionsWalletTransactionsGet(
-              "recent",
-              perPage.toString(),
-              undefined,
-              {
-                withCredentials: true,
-              },
-            )
+          getTransactionsWalletTransactionsGet(
+            {
+              sort: "recent",
+              since: perPage.toString(),
+              limit: undefined,
+            },
+            {
+              withCredentials: true,
+            },
+          )
             .then(addNewPage)
             .catch(setError)
         }

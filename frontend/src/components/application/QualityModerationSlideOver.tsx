@@ -20,13 +20,7 @@ import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
 import { IconGrid } from "./IconGrid"
-import { i18n, useTranslation } from "next-i18next"
-import { qualityModerationApi } from "src/api"
-import {
-  Guideline,
-  QualityModerationResponse,
-  QualityModerationType,
-} from "src/codegen"
+import { useTranslation } from "next-i18next"
 import {
   useFloating,
   autoPlacement,
@@ -38,6 +32,17 @@ import {
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
+import {
+  Guideline,
+  QualityModerationResponse,
+  QualityModerationType,
+} from "src/codegen/model"
+import {
+  deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
+  getQualityModerationForAppQualityModerationAppIdGet,
+  setFullscreenAppQualityModerationAppIdFullscreenPost,
+  setQualityModerationForAppQualityModerationAppIdPost,
+} from "src/codegen"
 
 const ShowIconButton = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
@@ -213,7 +218,7 @@ const QualityCategories = ({
         query.data.data.guidelines
           .filter((guideline) => !guideline.guideline.read_only)
           .map((guideline) =>
-            qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
+            setQualityModerationForAppQualityModerationAppIdPost(
               app.id,
               { guideline_id: guideline.guideline_id, passed: true },
               {
@@ -231,7 +236,7 @@ const QualityCategories = ({
 
   const dismissReviewMutation = useMutation({
     mutationFn: () =>
-      qualityModerationApi.deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
+      deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
         app.id,
         {
           withCredentials: true,
@@ -340,7 +345,7 @@ const QualityItem = ({
 
   const mutation = useMutation({
     mutationFn: ({ passed }: { passed: boolean }) =>
-      qualityModerationApi.setQualityModerationForAppQualityModerationAppIdPost(
+      setQualityModerationForAppQualityModerationAppIdPost(
         appId,
         { guideline_id: qualityGuideline.id, passed },
         {
@@ -431,9 +436,9 @@ const ScreenShotTypeItem = ({
 
   const mutation = useMutation({
     mutationFn: ({ is_fullscreen_app }: { is_fullscreen_app: boolean }) =>
-      qualityModerationApi.setFullscreenAppQualityModerationAppIdFullscreenPost(
+      setFullscreenAppQualityModerationAppIdFullscreenPost(
         appId,
-        is_fullscreen_app,
+        { is_fullscreen_app: is_fullscreen_app },
         {
           withCredentials: true,
         },
@@ -568,13 +573,10 @@ export const QualityModerationSlideOver = ({
   const query = useQuery({
     queryKey: ["qualityModeration", { appId: app.id }],
     queryFn: ({ signal }) =>
-      qualityModerationApi.getQualityModerationForAppQualityModerationAppIdGet(
-        app.id,
-        {
-          withCredentials: true,
-          signal,
-        },
-      ),
+      getQualityModerationForAppQualityModerationAppIdGet(app.id, {
+        withCredentials: true,
+        signal,
+      }),
     enabled: !!app.id,
   })
 

@@ -10,10 +10,13 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { verificationApi } from "src/api"
-import { VerificationStatus } from "src/codegen"
-import { VerificationAvailableMethods } from "src/types/VerificationAvailableMethods"
 import { AxiosError, AxiosResponse } from "axios"
+import { AvailableMethods, VerificationStatus } from "src/codegen/model"
+import {
+  getAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  getVerificationStatusVerificationAppIdStatusGet,
+  unverifyVerificationAppIdUnverifyPost,
+} from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -69,26 +72,24 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   const query = useQuery({
     queryKey: ["verification", app.id],
     queryFn: async () => {
-      return verificationApi.getVerificationStatusVerificationAppIdStatusGet(
-        app.id,
-      )
+      return getVerificationStatusVerificationAppIdStatusGet(app.id)
     },
     enabled: !!app.id,
   })
 
   const verificationAvailableMethods = useQuery<
-    AxiosResponse<VerificationAvailableMethods | undefined>,
+    AxiosResponse<AvailableMethods | undefined>,
     AxiosError<{ detail: string }>
   >({
     queryKey: ["verification-available-methods", app.id],
     queryFn: async () => {
-      return verificationApi.getAvailableMethodsVerificationAppIdAvailableMethodsGet(
+      return getAvailableMethodsVerificationAppIdAvailableMethodsGet(
         app.id,
-        isNewApp,
+        { new_app: isNewApp },
         {
           withCredentials: true,
         },
-      ) as Promise<AxiosResponse<VerificationAvailableMethods | undefined>>
+      )
     },
     retry: false,
     enabled: query.data && !query.data.data.verified,
@@ -137,13 +138,12 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                 actionVariant="destructive"
                 onConfirmed={() => {
                   setConfirmUnverify(false)
-                  verificationApi
-                    .unverifyVerificationAppIdUnverifyPost(app.id, {
-                      withCredentials: true,
-                    })
-                    .then(() => {
-                      query.refetch()
-                    })
+
+                  unverifyVerificationAppIdUnverifyPost(app.id, {
+                    withCredentials: true,
+                  }).then(() => {
+                    query.refetch()
+                  })
                 }}
                 onCancelled={() => setConfirmUnverify(false)}
               >

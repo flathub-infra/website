@@ -4,9 +4,12 @@ import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
-import { walletApi } from "src/api"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import {
+  setPendingWalletTransactionsTxnSetpendingPost,
+  setSavecardWalletTransactionsTxnSavecardPost,
+} from "src/codegen"
 
 interface Props {
   transactionId: string
@@ -36,7 +39,7 @@ const PaymentForm: FunctionComponent<Props> = ({
       setProcessing(true)
 
       if (checked) {
-        await walletApi.setSavecardWalletTransactionsTxnSavecardPost(
+        await setSavecardWalletTransactionsTxnSavecardPost(
           transactionId,
           { save_card: "on_session" },
           {
@@ -44,7 +47,7 @@ const PaymentForm: FunctionComponent<Props> = ({
           },
         )
       }
-      return await walletApi.setPendingWalletTransactionsTxnSetpendingPost(
+      return await setPendingWalletTransactionsTxnSetpendingPost(
         transactionId,
         {
           withCredentials: true,

@@ -12,7 +12,10 @@ import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { vendingApi } from "src/api"
+import {
+  getAppVendingSetupVendingappAppIdSetupGet,
+  postAppVendingStatusVendingappAppIdPost,
+} from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -35,12 +38,9 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const vendingSetup = useQuery({
     queryKey: ["appVendingSetup", app.id],
     queryFn: async () => {
-      const setup = await vendingApi.getAppVendingSetupVendingappAppIdSetupGet(
-        app.id,
-        {
-          withCredentials: true,
-        },
-      )
+      const setup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
+        withCredentials: true,
+      })
 
       const decimalValue = setup.data.recommended_donation / 100
       setAmount({
@@ -57,7 +57,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const submitPurchaseMutation = useMutation({
     mutationKey: ["vending-status-app", app.id, amount.settled * 100],
     mutationFn: () => {
-      return vendingApi.postAppVendingStatusVendingappAppIdPost(
+      return postAppVendingStatusVendingappAppIdPost(
         app.id,
         {
           currency: "usd",

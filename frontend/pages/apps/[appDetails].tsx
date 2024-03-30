@@ -22,9 +22,13 @@ import {
 } from "src/meilisearch"
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
-import { appApi, verificationApi } from "src/api"
 import { useTranslation } from "next-i18next"
 import { isValidAppId } from "src/utils/helpers"
+import {
+  getEolMessageAppidEolMessageAppIdGet,
+  getEolRebaseAppidEolRebaseAppIdGet,
+} from "src/codegen"
+import { getVerificationStatusVerificationAppIdStatusGet } from "src/codegen"
 
 export default function Details({
   app,
@@ -102,7 +106,7 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  const { data: eolRebaseTo } = await appApi.getEolRebaseAppidEolRebaseAppIdGet(
+  const { data: eolRebaseTo } = await getEolRebaseAppidEolRebaseAppIdGet(
     appId as string,
   )
 
@@ -132,9 +136,8 @@ export const getStaticProps: GetStaticProps = async ({
   const app = await (await fetchAppstream(appId as string)).data
 
   if (!app) {
-    eolMessage = (
-      await appApi.getEolMessageAppidEolMessageAppIdGet(appId as string)
-    ).data
+    eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
+      .data
   }
 
   if (!app && !eolMessage) {
@@ -147,9 +150,7 @@ export const getStaticProps: GetStaticProps = async ({
   const { data: stats } = await fetchAppStats(appId as string)
   const { data: developerApps } = await fetchDeveloperApps(app?.developer_name)
   const { data: verificationStatus } =
-    await verificationApi.getVerificationStatusVerificationAppIdStatusGet(
-      appId as string,
-    )
+    await getVerificationStatusVerificationAppIdStatusGet(appId as string)
   const addons = await fetchAddons(appId as string)
 
   return {

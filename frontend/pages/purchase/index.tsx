@@ -7,7 +7,10 @@ import { useEffect } from "react"
 import { toast } from "react-toastify"
 import Spinner from "../../src/components/Spinner"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
-import { purchaseApi } from "src/api"
+import {
+  checkPurchasesPurchasesCheckPurchasesPost,
+  getUpdateTokenPurchasesGenerateUpdateTokenPost,
+} from "src/codegen"
 
 const PERMITTED_REDIRECTS = [
   /^http:\/\/localhost:\d+\/$/,
@@ -41,58 +44,30 @@ export default function Purchase() {
       return
     }
 
-    purchaseApi
-      .checkPurchasesPurchasesCheckPurchasesPost(appIDs, {
-        withCredentials: true,
-      })
-      .then((result) => {
-        if (result.data.status === "ok") {
-          purchaseApi
-            .getUpdateTokenPurchasesGenerateUpdateTokenPost({
-              withCredentials: true,
+    checkPurchasesPurchasesCheckPurchasesPost(appIDs, {
+      withCredentials: true,
+    })
+      .then(() => {
+        getUpdateTokenPurchasesGenerateUpdateTokenPost({
+          withCredentials: true,
+        })
+          .then((result) =>
+            fetch(
+              redirect.toString() +
+                "success?token=" +
+                encodeURIComponent(result.data.token),
+            ),
+          )
+          .then(() => {
+            setPendingTransaction(null)
+            router.push("/purchase/finished", undefined, {
+              locale: router.locale,
             })
-            .then((result) =>
-              fetch(
-                redirect.toString() +
-                  "success?token=" +
-                  encodeURIComponent(result.data.token),
-              ),
-            )
-            .then(() => {
-              setPendingTransaction(null)
-              router.push("/purchase/finished", undefined, {
-                locale: router.locale,
-              })
-            })
-            .catch(() => toast.error(t("app-install-error-try-again")))
-        } else {
-          switch (result.data.detail) {
-            case "not_logged_in":
-              setPendingTransaction({
-                redirect,
-                appIDs,
-                missingAppIDs: [],
-              })
-              router.push("/login", undefined, { locale: router.locale })
-              break
-
-            case "purchase_necessary":
-              setPendingTransaction({
-                redirect,
-                appIDs,
-                missingAppIDs: result.data.missing_appids,
-              })
-              router.push("/purchase/checkout", undefined, {
-                locale: router.locale,
-              })
-              break
-
-            default:
-              throw "network-error-try-again"
-          }
-        }
+          })
+          .catch(() => toast.error(t("app-install-error-try-again")))
       })
       .catch((err) => {
+        console.log(err)
         switch (err.detail) {
           case "not_logged_in":
             setPendingTransaction({
@@ -101,6 +76,19 @@ export default function Purchase() {
               missingAppIDs: [],
             })
             router.push("/login", undefined, { locale: router.locale })
+            break
+
+          case "purchase_necessary":
+            const missingAppIDs: string[] = err.headers["missing-appids"] // Todo check if this works
+
+            setPendingTransaction({
+              redirect,
+              appIDs,
+              missingAppIDs,
+            })
+            router.push("/purchase/checkout", undefined, {
+              locale: router.locale,
+            })
             break
 
           default:

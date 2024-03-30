@@ -7,7 +7,7 @@ import { NumericInputValue } from "../../types/Input"
 import Button from "../Button"
 import * as Currency from "../currency"
 import Spinner from "../Spinner"
-import { walletApi } from "src/api"
+import { createTransactionWalletTransactionsPost } from "src/codegen"
 
 interface Props {
   org: string
@@ -27,27 +27,26 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
     event.preventDefault()
 
     setSubmit(true)
-    walletApi
-      .createTransactionWalletTransactionsPost(
-        {
-          summary: {
-            value: amount.settled * 100,
+    createTransactionWalletTransactionsPost(
+      {
+        summary: {
+          value: amount.settled * 100,
+          currency: "usd",
+          kind: "donation",
+        },
+        details: [
+          {
+            recipient: org,
+            amount: amount.settled * 100,
             currency: "usd",
             kind: "donation",
           },
-          details: [
-            {
-              recipient: org,
-              amount: amount.settled * 100,
-              currency: "usd",
-              kind: "donation",
-            },
-          ],
-        },
-        {
-          withCredentials: true,
-        },
-      )
+        ],
+      },
+      {
+        withCredentials: true,
+      },
+    )
       .then((result) => setTransaction(result.data.id))
       .catch((err) => {
         toast.error(t(err))

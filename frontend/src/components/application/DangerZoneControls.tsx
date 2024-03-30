@@ -4,11 +4,15 @@ import Button from "src/components/Button"
 import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { uploadTokensApi, verificationApi } from "src/api"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
 import { Notice } from "../Notice"
+import {
+  archiveVerificationAppIdArchivePost,
+  switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
+} from "src/codegen"
+import { getUploadTokensUploadTokensAppIdGet } from "src/codegen"
 
 const SwitchToDirectUpload = ({ app }: { app: { id: string } }) => {
   const { t } = useTranslation()
@@ -16,12 +20,9 @@ const SwitchToDirectUpload = ({ app }: { app: { id: string } }) => {
 
   const switchToDirectUploadMutation = useMutation({
     mutationFn: () =>
-      verificationApi.switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(
-        app.id,
-        {
-          withCredentials: true,
-        },
-      ),
+      switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(app.id, {
+        withCredentials: true,
+      }),
     onSuccess: () => {
       setModalVisible(false)
     },
@@ -57,7 +58,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 
   const archiveAppMutation = useMutation({
     mutationFn: () =>
-      verificationApi.archiveVerificationAppIdArchivePost(
+      archiveVerificationAppIdArchivePost(
         app.id,
         {
           endoflife: endoflife,
@@ -122,9 +123,13 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
   const query = useQuery({
     queryKey: ["upload-tokens", app.id, false],
     queryFn: () =>
-      uploadTokensApi.getUploadTokensUploadTokensAppIdGet(app.id, false, {
-        withCredentials: true,
-      }),
+      getUploadTokensUploadTokensAppIdGet(
+        app.id,
+        { include_expired: false },
+        {
+          withCredentials: true,
+        },
+      ),
     enabled: !!app.id,
   })
 

@@ -2,11 +2,11 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useState } from "react"
 import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
-import { vendingApi } from "src/api"
 import Modal from "src/components/Modal"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
+import { createTokensVendingappAppIdTokensPost } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -30,7 +30,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
   const createVendingTokensMutation = useMutation({
     mutationKey: ["create-token", app.id, names],
     mutationFn: () => {
-      return vendingApi.createTokensVendingappAppIdTokensPost(app.id, names, {
+      return createTokensVendingappAppIdTokensPost(app.id, names, {
         withCredentials: true,
       })
     },

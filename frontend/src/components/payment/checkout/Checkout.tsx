@@ -7,8 +7,7 @@ import CardSelect from "./CardSelect"
 import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 import { useQuery } from "@tanstack/react-query"
-import { walletApi } from "src/api"
-import { isAxiosError } from "axios"
+import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
 
 enum Stage {
   TermsAgreement,
@@ -40,7 +39,7 @@ const Checkout: FunctionComponent<{
   const walletQuery = useQuery({
     queryKey: ["/walletinfo"],
     queryFn: async ({ signal }) => {
-      const wallet = await walletApi.getWalletinfoWalletWalletinfoGet({
+      const wallet = await getWalletinfoWalletWalletinfoGet({
         withCredentials: true,
         signal,
       })

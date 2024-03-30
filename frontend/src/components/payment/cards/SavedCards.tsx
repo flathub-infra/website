@@ -4,7 +4,7 @@ import { FunctionComponent, ReactNode } from "react"
 import Spinner from "../../Spinner"
 import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
-import { walletApi } from "src/api"
+import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -12,7 +12,7 @@ const SavedCards: FunctionComponent = () => {
   const walletQuery = useQuery({
     queryKey: ["/walletinfo"],
     queryFn: ({ signal }) =>
-      walletApi.getWalletinfoWalletWalletinfoGet({
+      getWalletinfoWalletWalletinfoGet({
         withCredentials: true,
         signal,
       }),

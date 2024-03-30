@@ -1,5 +1,6 @@
 import base64
 from datetime import datetime, timedelta
+from enum import Enum
 from uuid import uuid4
 
 import gi
@@ -28,6 +29,13 @@ class StorefrontInfo(BaseModel):
     verification: VerificationStatus | None = None
     pricing: PricingInfo | None = None
     is_free_software: bool = False
+
+
+class ErrorDetail(str, Enum):
+    # The user is not logged in
+    NOT_LOGGED_IN = "not_logged_in"
+    # The app is not purchased
+    PURCHASE_NECESSARY = "purchase_necessary"
 
 
 @router.get(
@@ -104,7 +112,7 @@ def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenRe
     """
 
     if not login["state"].logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
+        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
     user = login["user"]
 
     encoded = jwt.encode(
@@ -120,12 +128,7 @@ def get_update_token(login=Depends(logins.login_state)) -> GenerateUpdateTokenRe
     return GenerateUpdateTokenResponse(token=encoded)
 
 
-class CheckPurchasesResponse(BaseModel):
-    detail: str
-    missing_appids: list[str] | None = None
-
-
-def _check_purchases(appids: list[str], user_id: int) -> CheckPurchasesResponse | None:
+def _check_purchases(appids: list[str], user_id: int) -> None:
     def canon_app_id(app_id: str):
         # For .Locale, .Debug, etc. refs, we only check the base app ID. However, when we generate the token, we still
         # need to include the suffixed version.
@@ -145,9 +148,10 @@ def _check_purchases(appids: list[str], user_id: int) -> CheckPurchasesResponse 
     ]
 
     if len(unowned) != 0:
-        CheckPurchasesResponse(
-            detail="purchase_necessary",
-            missing_appids=unowned,
+        raise HTTPException(
+            status_code=403,
+            detail=ErrorDetail.PURCHASE_NECESSARY,
+            headers={"missing-appids": ",".join(unowned)},
         )
 
 
@@ -158,7 +162,7 @@ class CheckPurchasesResponseSuccess(BaseModel):
 @router.post("/check-purchases", status_code=200, tags=["purchase"])
 def check_purchases(
     appids: list[str], login=Depends(logins.login_state)
-) -> CheckPurchasesResponse | CheckPurchasesResponseSuccess:
+) -> CheckPurchasesResponseSuccess:
     """
     Checks whether the logged in user is able to download all of the given app refs.
 
@@ -167,7 +171,7 @@ def check_purchases(
     """
 
     if not login["state"].logged_in():
-        raise HTTPException(status_code=401, detail="not_logged_in")
+        raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
     # We get full ref names, e.g. app/org.gnome.Maps/x86_64/master, but we just want the app ID part.
     try:
@@ -177,8 +181,7 @@ def check_purchases(
     except IndexError:
         raise HTTPException(status_code=400, detail="invalid_app_id")
 
-    if error := _check_purchases(appids, login["user"].id):
-        return error
+    _check_purchases(appids, login["user"].id)
 
     return CheckPurchasesResponseSuccess()
 
@@ -191,7 +194,7 @@ class GetDownloadTokenResponse(BaseModel):
 @router.post("/generate-download-token", status_code=200, tags=["purchase"])
 def get_download_token(
     appids: list[str], update_token: str = Body(None)
-) -> CheckPurchasesResponse | GetDownloadTokenResponse:
+) -> GetDownloadTokenResponse:
     """
     Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
     "app/org.gnome.Maps/x86_64/stable".
@@ -211,8 +214,7 @@ def get_download_token(
     except IndexError:
         raise HTTPException(status_code=400, detail="invalid_app_id")
 
-    if error := _check_purchases(appids, claims["user-id"]):
-        return error
+    _check_purchases(appids, claims["user-id"])
 
     encoded = jwt.encode(
         {

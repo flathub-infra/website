@@ -6,8 +6,11 @@ import Button from "../Button"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { authApi } from "src/api"
 import { AxiosError } from "axios"
+import {
+  doDeleteuserAuthDeleteuserPost,
+  getDeleteuserAuthDeleteuserGet,
+} from "src/codegen"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -19,7 +22,7 @@ const DeleteButton: FunctionComponent = () => {
   const prepareDeleteUserMutation = useMutation({
     mutationKey: ["prepare-delete"],
     mutationFn: async () =>
-      authApi.getDeleteuserAuthDeleteuserGet({
+      getDeleteuserAuthDeleteuserGet({
         withCredentials: true,
       }),
     onSuccess: (data) => {
@@ -40,7 +43,7 @@ const DeleteButton: FunctionComponent = () => {
   const deleteUserMutation = useMutation({
     mutationKey: ["delete", token],
     mutationFn: async () =>
-      authApi.doDeleteuserAuthDeleteuserPost(
+      doDeleteuserAuthDeleteuserPost(
         { token },
         {
           withCredentials: true,

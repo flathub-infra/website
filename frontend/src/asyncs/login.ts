@@ -3,9 +3,9 @@ import { Dispatch } from "react"
 import { LOGIN_PROVIDERS_URL } from "../env"
 import { APIResponseError } from "../types/API"
 import { UserStateAction } from "../types/Login"
-import { authApi } from "src/api"
 import { AxiosResponse } from "axios"
-import { UserInfo } from "src/codegen"
+import { UserInfo } from "src/codegen/model/userInfo"
+import { getUserinfoAuthUserinfoGet } from "src/codegen"
 
 /**
  * Performs the callback POST request to check 3rd party authentication
@@ -66,7 +66,7 @@ export async function getUserData(
   let res: AxiosResponse<UserInfo, any>
   try {
     // Gets data for user with current session cookie
-    res = await authApi.getUserinfoAuthUserinfoGet({ withCredentials: true })
+    res = await getUserinfoAuthUserinfoGet({ withCredentials: true })
 
     // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in
