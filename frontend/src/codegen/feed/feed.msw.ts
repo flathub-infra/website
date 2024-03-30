@@ -7,7 +7,9 @@
 import { HttpResponse, delay, http } from "msw"
 import type {
   GetNewAppsFeedFeedNewGet200,
+  GetNewAppsFeedPostgresFeedNewPostgresGet200,
   GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet200,
+  GetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet200,
 } from ".././model"
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponseMock =
@@ -15,6 +17,12 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetResponseMock =
 
 export const getGetNewAppsFeedFeedNewGetResponseMock =
   (): GetNewAppsFeedFeedNewGet200 => ({})
+
+export const getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetResponseMock =
+  (): GetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet200 => ({})
+
+export const getGetNewAppsFeedPostgresFeedNewPostgresGetResponseMock =
+  (): GetNewAppsFeedPostgresFeedNewPostgresGet200 => ({})
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler = (
   overrideResponse?: GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet200,
@@ -57,7 +65,52 @@ export const getGetNewAppsFeedFeedNewGetMockHandler = (
     )
   })
 }
+
+export const getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetMockHandler =
+  (
+    overrideResponse?: GetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet200,
+  ) => {
+    return http.get("*/feed/recently-updated-postgres", async () => {
+      await delay(1000)
+      return new HttpResponse(
+        JSON.stringify(
+          overrideResponse
+            ? overrideResponse
+            : getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetResponseMock(),
+        ),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
+    })
+  }
+
+export const getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler = (
+  overrideResponse?: GetNewAppsFeedPostgresFeedNewPostgresGet200,
+) => {
+  return http.get("*/feed/new-postgres", async () => {
+    await delay(1000)
+    return new HttpResponse(
+      JSON.stringify(
+        overrideResponse
+          ? overrideResponse
+          : getGetNewAppsFeedPostgresFeedNewPostgresGetResponseMock(),
+      ),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    )
+  })
+}
 export const getFeedMock = () => [
   getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler(),
   getGetNewAppsFeedFeedNewGetMockHandler(),
+  getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetMockHandler(),
+  getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler(),
 ]

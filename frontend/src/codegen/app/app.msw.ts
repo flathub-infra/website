@@ -58,7 +58,7 @@ export const getGetEolRebaseEolRebaseGetResponseMock =
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetResponseMock =
   (): GetEolRebaseAppidEolRebaseAppIdGet200 =>
-    faker.helpers.arrayElement([faker.word.sample(), {}])
+    faker.helpers.arrayElement([faker.word.sample(), null])
 
 export const getGetEolMessageEolMessageGetResponseMock =
   (): GetEolMessageEolMessageGet200 => ({
@@ -67,7 +67,7 @@ export const getGetEolMessageEolMessageGetResponseMock =
 
 export const getGetEolMessageAppidEolMessageAppIdGetResponseMock =
   (): GetEolMessageAppidEolMessageAppIdGet200 =>
-    faker.helpers.arrayElement([faker.word.sample(), {}])
+    faker.helpers.arrayElement([faker.word.sample(), null])
 
 export const getListAppstreamAppstreamGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
