@@ -6,10 +6,13 @@ import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
-import { PaymentCardInfo } from "src/codegen"
-import { walletApi } from "src/api"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import {
+  setPendingWalletTransactionsTxnSetpendingPost,
+  setTransactionCardWalletTransactionsTxnSetcardPost,
+} from "src/codegen"
+import { PaymentCardInfo } from "src/codegen/model"
 
 interface Props {
   transaction: TransactionDetailed
@@ -38,14 +41,10 @@ const CardSelect: FunctionComponent<Props> = ({
 
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      await walletApi.setTransactionCardWalletTransactionsTxnSetcardPost(
-        id,
-        useCard,
-        {
-          withCredentials: true,
-        },
-      )
-      return await walletApi.setPendingWalletTransactionsTxnSetpendingPost(id, {
+      await setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
+        withCredentials: true,
+      })
+      return await setPendingWalletTransactionsTxnSetpendingPost(id, {
         withCredentials: true,
       })
     },

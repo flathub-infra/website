@@ -2,7 +2,7 @@ import React from "react"
 import { Meta } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import WebsiteVerification from "./WebsiteVerification"
-import { VerificationMethodWebsite } from "../../../types/VerificationAvailableMethods"
+import { AvailableMethod } from "../../../codegen/model"
 
 export default {
   title: "Components/Application/AppVerificationControls/WebsiteVerification",
@@ -10,7 +10,7 @@ export default {
 } as Meta<typeof WebsiteVerification>
 
 export const NoTokenFirstStep = () => {
-  const method: VerificationMethodWebsite = {
+  const method: AvailableMethod = {
     method: "website",
     website: faker.internet.url(),
   }
@@ -21,13 +21,14 @@ export const NoTokenFirstStep = () => {
         appId="my.domain.appId"
         method={method}
         onVerified={() => {}}
+        isNewApp={false}
       />
     </div>
   )
 }
 
 export const HasTokenSecondStep = () => {
-  const method: VerificationMethodWebsite = {
+  const method: AvailableMethod = {
     method: "website",
     website: faker.internet.url(),
     website_token: faker.datatype.uuid(),
@@ -39,6 +40,7 @@ export const HasTokenSecondStep = () => {
         appId="my.domain.appId"
         method={method}
         onVerified={() => {}}
+        isNewApp={false}
       />
     </div>
   )

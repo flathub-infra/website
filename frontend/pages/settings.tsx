@@ -6,7 +6,7 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
-import { authApi } from "src/api"
+import { getLoginMethodsAuthLoginGet } from "src/codegen"
 
 export default function Settings({
   providers,
@@ -36,7 +36,7 @@ export default function Settings({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const providers = await authApi.getLoginMethodsAuthLoginGet()
+  const providers = await getLoginMethodsAuthLoginGet()
 
   return {
     props: {

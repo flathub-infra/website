@@ -4,12 +4,15 @@ import { fetchAppstream } from "src/fetchers"
 import { AppOfTheDay } from "../application/AppOfTheDay"
 import Spinner from "../Spinner"
 import { FlathubCombobox } from "../Combobox"
-import { appPicks } from "src/api"
 import { useUserContext } from "src/context/user-info"
 import { ReactElement } from "react"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "../LogoImage"
+import {
+  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  setAppOfTheDayAppPicksAppOfTheDayPost,
+} from "src/codegen"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()
@@ -17,10 +20,9 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const queryAppOfTheDay = useQuery({
     queryKey: ["app-of-the-day", day],
     queryFn: async () => {
-      const getAppsOfTheDay =
-        await appPicks.getAppOfTheDayAppPicksAppOfTheDayDateGet(
-          formatISO(day, { representation: "date" }),
-        )
+      const getAppsOfTheDay = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
+        formatISO(day, { representation: "date" }),
+      )
 
       const getAppOfTheDayInfo = await fetchAppstream(
         getAppsOfTheDay.data.app_id,
@@ -34,7 +36,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const mutateAppOfTheDay = useMutation({
     mutationKey: ["app-of-the-day", "monday"],
     mutationFn: async (app: { id: string; day: Date }) => {
-      await appPicks.setAppOfTheDayAppPicksAppOfTheDayPost(
+      await setAppOfTheDayAppPicksAppOfTheDayPost(
         {
           app_id: app.id,
           day: formatISO(app.day, { representation: "date" }),

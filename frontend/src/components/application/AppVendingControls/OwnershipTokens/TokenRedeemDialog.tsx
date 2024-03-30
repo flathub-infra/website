@@ -5,7 +5,7 @@ import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { vendingApi } from "src/api"
+import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "src/codegen"
 
 interface Props {
   app: Appstream
@@ -28,13 +28,9 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
 
       setText("")
 
-      return vendingApi.redeemTokenVendingappAppIdTokensRedeemTokenPost(
-        app.id,
-        token,
-        {
-          withCredentials: true,
-        },
-      )
+      return redeemTokenVendingappAppIdTokensRedeemTokenPost(app.id, token, {
+        withCredentials: true,
+      })
     },
     onSuccess: (data) => {
       if (data.data?.status === "failure") {

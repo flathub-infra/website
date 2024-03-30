@@ -14,11 +14,14 @@ import {
   HiEye,
   HiQuestionMarkCircle,
 } from "react-icons/hi2"
-import { qualityModerationApi } from "src/api"
-import { QualityModerationStatus } from "src/codegen"
 import { useTranslation } from "next-i18next"
 import Modal from "../Modal"
 import { DesktopAppstream } from "src/types/Appstream"
+import { QualityModerationStatus } from "src/codegen/model"
+import {
+  getQualityModerationStatusForAppQualityModerationAppIdStatusGet,
+  requestReviewForAppQualityModerationAppIdRequestReviewPost,
+} from "src/codegen"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -78,12 +81,9 @@ const ReviewButton = ({
 
   const requestReviewMutation = useMutation({
     mutationFn: () =>
-      qualityModerationApi.requestReviewForAppQualityModerationAppIdRequestReviewPost(
-        app_id,
-        {
-          withCredentials: true,
-        },
-      ),
+      requestReviewForAppQualityModerationAppIdRequestReviewPost(app_id, {
+        withCredentials: true,
+      }),
     onSuccess: () => {
       buttonClicked?.()
       setModalVisible(false)
@@ -167,13 +167,10 @@ export const QualityModeration = ({
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId: app.id }],
     queryFn: ({ signal }) =>
-      qualityModerationApi.getQualityModerationStatusForAppQualityModerationAppIdStatusGet(
-        app.id,
-        {
-          withCredentials: true,
-          signal: signal,
-        },
-      ),
+      getQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
+        withCredentials: true,
+        signal: signal,
+      }),
     enabled: !!requirement,
   })
 

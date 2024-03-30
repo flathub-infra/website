@@ -1,17 +1,19 @@
 import { Trans, useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useCallback, useState } from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import Button from "src/components/Button"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
-import { VerificationMethodWebsite } from "src/types/VerificationAvailableMethods"
 import { FlathubDisclosure } from "../../Disclosure"
 import { useMutation } from "@tanstack/react-query"
-import { verificationApi } from "src/api"
-import { WebsiteVerificationResult } from "src/codegen"
+import { AvailableMethod, WebsiteVerificationResult } from "src/codegen/model"
+import {
+  confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost,
+  setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost,
+} from "src/codegen"
 
 interface Props {
   appId: string
-  method: VerificationMethodWebsite
+  method: AvailableMethod
   isNewApp: boolean
   onVerified: () => void
 }
@@ -31,9 +33,9 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   const setupWebsiteVerificationMutation = useMutation({
     mutationKey: ["website-verification", appId, isNewApp ?? false],
     mutationFn: () =>
-      verificationApi.setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
+      setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost(
         appId,
-        isNewApp,
+        { new_app: isNewApp },
         {
           withCredentials: true,
         },
@@ -44,9 +46,9 @@ const WebsiteVerification: FunctionComponent<Props> = ({
   const confirmWebsiteVerificationMutation = useMutation({
     mutationKey: ["confirm-website-verification", appId, isNewApp ?? false],
     mutationFn: () =>
-      verificationApi.confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
+      confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost(
         appId,
-        isNewApp,
+        { new_app: isNewApp },
         {
           withCredentials: true,
         },

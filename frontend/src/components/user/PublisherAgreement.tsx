@@ -4,9 +4,9 @@ import { useTranslation } from "next-i18next"
 import { useUserDispatch } from "src/context/user-info"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../login/LoginGuard"
-import { authApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
+import { doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost } from "src/codegen"
 
 interface Props {
   continueText?: string
@@ -27,7 +27,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
   const mutation = useMutation({
     mutationKey: ["agree-to-publisher-agreement"],
     mutationFn: () =>
-      authApi.doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost({
+      doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost({
         withCredentials: true,
       }),
 

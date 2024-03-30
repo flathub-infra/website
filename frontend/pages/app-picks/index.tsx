@@ -17,13 +17,17 @@ import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
-import { appPicks, qualityModerationApi } from "src/api"
 import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
 import LoginGuard from "src/components/login/LoginGuard"
-import { UserInfo } from "src/codegen"
+import {
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+  setAppOfTheWeekAppPicksAppOfTheWeekPost,
+} from "src/codegen"
+import { getQualityModerationStatusQualityModerationStatusGet } from "src/codegen"
+import { UserInfo } from "src/codegen/model"
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -74,7 +78,7 @@ export default function AppPicks() {
   const mutateAppForWeek = useMutation({
     mutationKey: ["app-of-the-week", date],
     mutationFn: async (app: { id: string; name: string; position: number }) => {
-      await appPicks.setAppOfTheWeekAppPicksAppOfTheWeekPost(
+      await setAppOfTheWeekAppPicksAppOfTheWeekPost(
         {
           app_id: app.id,
           weekNumber: getISOWeek(date),
@@ -98,7 +102,7 @@ export default function AppPicks() {
     queryKey: ["apps-of-the-week", date],
     queryFn: async () => {
       const getAppsOfTheWeek =
-        await appPicks.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
+        await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
           formatISO(date, { representation: "date" }),
         )
 
@@ -149,10 +153,12 @@ export default function AppPicks() {
     queryKey: ["potential-passing-apps"],
     queryFn: async () => {
       const getAppsWithQuality =
-        await qualityModerationApi.getQualityModerationStatusQualityModerationStatusGet(
-          1,
-          9999999,
-          "passing",
+        await getQualityModerationStatusQualityModerationStatusGet(
+          {
+            page: 1,
+            page_size: 9999999,
+            filter: "passing",
+          },
           {
             withCredentials: true,
           },

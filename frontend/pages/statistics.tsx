@@ -15,10 +15,11 @@ import { useTheme } from "next-themes"
 import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
-import { appApi, qualityModerationApi } from "src/api"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
-import { StatsResult } from "src/codegen"
+import { StatsResult } from "src/codegen/model"
+import { getQualityModerationStatsQualityModerationFailedByGuidelineGet } from "src/codegen"
+import { getRuntimeListRuntimesGet, getStatsStatsGet } from "src/codegen"
 
 const countries = registerIsoCountriesLocales()
 
@@ -74,11 +75,9 @@ const Statistics = ({
   const query = useQuery({
     queryKey: ["failed-by-guideline"],
     queryFn: () =>
-      qualityModerationApi.getQualityModerationStatsQualityModerationFailedByGuidelineGet(
-        {
-          withCredentials: true,
-        },
-      ),
+      getQualityModerationStatsQualityModerationFailedByGuidelineGet({
+        withCredentials: true,
+      }),
     enabled: !!user.info?.is_quality_moderator,
   })
 
@@ -269,9 +268,9 @@ const Statistics = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const { data: stats } = await appApi.getStatsStatsGet()
+  const { data: stats } = await getStatsStatsGet()
 
-  const { data: runtimes } = await appApi.getRuntimeListRuntimesGet()
+  const { data: runtimes } = await getRuntimeListRuntimesGet()
 
   return {
     props: {

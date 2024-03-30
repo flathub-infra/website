@@ -23,7 +23,7 @@ import {
   MeilisearchResponseLimited,
 } from "./meilisearch"
 import axios from "axios"
-import { appApi } from "./api"
+import { getAddonsAddonAppIdGet } from "./codegen"
 
 export async function fetchAppstreamList() {
   return axios.get<string[]>(APPSTREAM_URL)
@@ -155,7 +155,7 @@ export async function fetchSearchQuery(
 }
 
 export async function fetchAddons(appid: string) {
-  const addonList = await appApi.getAddonsAddonAppIdGet(appid)
+  const addonList = await getAddonsAddonAppIdGet(appid)
 
   const addonAppstreams = await Promise.all(addonList.data.map(fetchAppstream))
 

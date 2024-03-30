@@ -4,7 +4,11 @@ import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
 import Button from "../Button"
 import Spinner from "../Spinner"
-import { vendingApi } from "src/api"
+import {
+  getDashboardLinkVendingStatusDashboardlinkGet,
+  startOnboardingVendingStatusOnboardingPost,
+  statusVendingStatusGet,
+} from "src/codegen"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
@@ -21,7 +25,7 @@ const VendingLink: FunctionComponent = () => {
   const statusQuery = useQuery({
     queryKey: ["/vending/status"],
     queryFn: () =>
-      vendingApi.statusVendingStatusGet({
+      statusVendingStatusGet({
         withCredentials: true,
       }),
   })
@@ -30,7 +34,7 @@ const VendingLink: FunctionComponent = () => {
   const dashboardQuery = useQuery({
     queryKey: ["/vending/status/dashboardlink"],
     queryFn: () =>
-      vendingApi.getDashboardLinkVendingStatusDashboardlinkGet({
+      getDashboardLinkVendingStatusDashboardlinkGet({
         withCredentials: true,
       }),
 
@@ -39,7 +43,7 @@ const VendingLink: FunctionComponent = () => {
 
   const generateOnboardingLinkMutation = useMutation({
     mutationFn: () =>
-      vendingApi.startOnboardingVendingStatusOnboardingPost(
+      startOnboardingVendingStatusOnboardingPost(
         {
           return_url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/developer-portal`,
         },

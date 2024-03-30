@@ -5,8 +5,8 @@ import { toast } from "react-toastify"
 import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { PaymentCardInfo, WalletInfo } from "src/codegen"
-import { walletApi } from "src/api"
+import { PaymentCardInfo, WalletInfo } from "src/codegen/model"
+import { postRemovecardWalletRemovecardPost } from "src/codegen"
 
 const DeleteCardButton: FunctionComponent<{
   card: PaymentCardInfo
@@ -20,7 +20,7 @@ const DeleteCardButton: FunctionComponent<{
   const deleteCard = useMutation({
     mutationKey: ["remove-card", card.id],
     mutationFn: () =>
-      walletApi.postRemovecardWalletRemovecardPost(card, {
+      postRemovecardWalletRemovecardPost(card, {
         withCredentials: true,
       }),
     onSuccess: () => {

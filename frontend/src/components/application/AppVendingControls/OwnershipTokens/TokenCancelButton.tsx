@@ -4,8 +4,8 @@ import { toast } from "react-toastify"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
-import { vendingApi } from "src/api"
-import { TokenModel } from "src/codegen"
+import { TokenModel } from "src/codegen/model"
+import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"
 
 interface Props {
   token: TokenModel
@@ -23,13 +23,9 @@ const TokenCancelButton: FunctionComponent<Props> = ({
   const cancelVendingTokensMutation = useMutation({
     mutationKey: ["cancel-token", appId, token.id],
     mutationFn: () => {
-      return vendingApi.cancelTokensVendingappAppIdTokensCancelPost(
-        appId,
-        [token.id],
-        {
-          withCredentials: true,
-        },
-      )
+      return cancelTokensVendingappAppIdTokensCancelPost(appId, [token.id], {
+        withCredentials: true,
+      })
     },
     onSuccess: (data) => {
       if (data.data[0].status === "cancelled") {

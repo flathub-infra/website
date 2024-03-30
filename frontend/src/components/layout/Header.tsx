@@ -22,9 +22,9 @@ import { QueryClient, useMutation } from "@tanstack/react-query"
 import logoToolbarSvg from "public/img/logo/flathub-logo-toolbar.svg"
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
-import { authApi } from "src/api"
-import { UserInfo } from "src/codegen"
 import { AxiosError } from "axios"
+import { UserInfo } from "src/codegen/model"
+import { doLogoutAuthLogoutPost } from "src/codegen"
 
 const navigation = [
   {
@@ -111,7 +111,7 @@ const Header = () => {
   const logoutMutation = useMutation({
     mutationKey: ["logout"],
     mutationFn: () =>
-      authApi.doLogoutAuthLogoutPost({
+      doLogoutAuthLogoutPost({
         withCredentials: true,
       }),
     onSuccess: () => {

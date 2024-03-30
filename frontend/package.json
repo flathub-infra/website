@@ -14,7 +14,7 @@
     "build-storybook": "storybook build",
     "postbuild": "next-sitemap",
     "update-setup-instructions": "./setup-instructions.sh",
-    "openapi-codegen": "./openapi-codegen.sh"
+    "openapi-codegen": "orval"
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
@@ -82,6 +82,8 @@
     "eslint-config-next": "^14.1.4",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
+    "msw": "^2.2.13",
+    "orval": "^6.25.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",

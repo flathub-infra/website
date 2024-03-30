@@ -22,19 +22,19 @@ import {
   HiMiniChevronDown,
   HiMiniChevronUp,
 } from "react-icons/hi2"
-import { qualityModerationApi } from "src/api"
-import {
-  GetQualityModerationStatusQualityModerationStatusGetFilterEnum,
-  QualityModerationDashboardResponse,
-  QualityModerationDashboardRow,
-  UserInfo,
-} from "src/codegen"
 import LogoImage from "src/components/LogoImage"
 import MultiToggle from "src/components/MultiToggle"
 import Pagination from "src/components/Pagination"
 import { useUserContext } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
 import LoginGuard from "src/components/login/LoginGuard"
+import { getQualityModerationStatusQualityModerationStatusGet } from "src/codegen"
+import {
+  GetQualityModerationStatusQualityModerationStatusGetFilter,
+  QualityModerationDashboardResponse,
+  QualityModerationDashboardRow,
+  UserInfo,
+} from "src/codegen/model"
 
 export default function QualityModerationDashboard() {
   const { i18n } = useTranslation()
@@ -48,19 +48,21 @@ export default function QualityModerationDashboard() {
   )
 
   const [filteredBy, setFilteredBy] =
-    useState<GetQualityModerationStatusQualityModerationStatusGetFilterEnum>(
+    useState<GetQualityModerationStatusQualityModerationStatusGetFilter>(
       (router.query
-        .filter as GetQualityModerationStatusQualityModerationStatusGetFilterEnum) ??
+        .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
         "all",
     )
 
   const query = useQuery({
     queryKey: ["quality-moderation-dashboard", page, pageSize, filteredBy],
     queryFn: ({ signal }) =>
-      qualityModerationApi.getQualityModerationStatusQualityModerationStatusGet(
-        page,
-        pageSize,
-        filteredBy,
+      getQualityModerationStatusQualityModerationStatusGet(
+        {
+          page: page,
+          page_size: pageSize,
+          filter: filteredBy,
+        },
         {
           withCredentials: true,
           signal,
@@ -184,7 +186,7 @@ export default function QualityModerationDashboard() {
   useEffect(() => {
     setFilteredBy(
       (router.query
-        .filter as GetQualityModerationStatusQualityModerationStatusGetFilterEnum) ??
+        .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
         "all",
     )
   }, [router.query.filter])
@@ -227,7 +229,7 @@ export default function QualityModerationDashboard() {
                     content: <span>All</span>,
                     selected:
                       filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.All,
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.all,
                     onClick: () => {
                       delete router.query.filter
 
@@ -243,10 +245,10 @@ export default function QualityModerationDashboard() {
                     content: <span>Passing</span>,
                     selected:
                       filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing,
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
                     onClick: () => {
                       router.query.filter =
-                        GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Passing
+                        GetQualityModerationStatusQualityModerationStatusGetFilter.passing
 
                       router.query.page = "1"
 
@@ -260,10 +262,10 @@ export default function QualityModerationDashboard() {
                     content: <span>Todo</span>,
                     selected:
                       filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo,
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
                     onClick: () => {
                       router.query.filter =
-                        GetQualityModerationStatusQualityModerationStatusGetFilterEnum.Todo
+                        GetQualityModerationStatusQualityModerationStatusGetFilter.todo
 
                       router.query.page = "1"
 

@@ -7,8 +7,11 @@ import { getIntlLocale } from "src/localize"
 import { i18n } from "next-i18next"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useQuery } from "@tanstack/react-query"
-import { uploadTokensApi } from "src/api"
 import { Repo } from "src/types/UploadTokens"
+import {
+  getUploadTokensUploadTokensAppIdGet,
+  revokeUploadTokenUploadTokensTokenIdRevokePost,
+} from "src/codegen"
 
 export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const { t } = useTranslation()
@@ -20,9 +23,13 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const query = useQuery({
     queryKey: ["upload-tokens", app.id, showExpired],
     queryFn: () =>
-      uploadTokensApi.getUploadTokensUploadTokensAppIdGet(app.id, showExpired, {
-        withCredentials: true,
-      }),
+      getUploadTokensUploadTokensAppIdGet(
+        app.id,
+        { include_expired: showExpired },
+        {
+          withCredentials: true,
+        },
+      ),
     enabled: !!app.id,
   })
 
@@ -31,14 +38,12 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
   )
 
   const revoke = useCallback(() => {
-    uploadTokensApi
-      .revokeUploadTokenUploadTokensTokenIdRevokePost(tokenToRevoke, {
-        withCredentials: true,
-      })
-      .then(() => {
-        setTokenToRevoke(undefined)
-        query.refetch()
-      })
+    revokeUploadTokenUploadTokensTokenIdRevokePost(tokenToRevoke, {
+      withCredentials: true,
+    }).then(() => {
+      setTokenToRevoke(undefined)
+      query.refetch()
+    })
   }, [tokenToRevoke, query])
 
   let content: ReactElement

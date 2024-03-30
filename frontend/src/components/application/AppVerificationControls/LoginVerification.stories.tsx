@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker"
 import { ComponentMeta } from "@storybook/react"
 import React from "react"
-import { VerificationMethodLoginProvider } from "../../../types/VerificationAvailableMethods"
 import LoginVerification from "./LoginVerification"
+import { AvailableMethod } from "../../../codegen/model"
 
 export default {
   title: "Components/Application/AppVerificationControls/LoginVerification",
@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof LoginVerification>
 
 export const Individual = () => {
-  const method: VerificationMethodLoginProvider = {
+  const method: AvailableMethod = {
     method: "login_provider",
     login_provider: "github",
     login_name: faker.internet.userName(),
@@ -32,7 +32,7 @@ export const Individual = () => {
 }
 
 export const Organization = () => {
-  const method: VerificationMethodLoginProvider = {
+  const method: AvailableMethod = {
     method: "login_provider",
     login_provider: "github",
     login_name: faker.internet.domainWord(),

@@ -9,8 +9,12 @@ import Button from "src/components/Button"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
-import { inviteApi } from "src/api"
 import { getUserData } from "src/asyncs/login"
+import {
+  acceptInviteInvitesAppIdAcceptPost,
+  declineInviteInvitesAppIdDeclinePost,
+  getInviteStatusInvitesAppIdGet,
+} from "src/codegen"
 
 export default function AcceptInvitePage({ app }) {
   const { t } = useTranslation()
@@ -27,7 +31,7 @@ export default function AcceptInvitePage({ app }) {
   const inviteQuery = useQuery({
     queryKey: ["invite-status", app.id],
     queryFn: () =>
-      inviteApi.getInviteStatusInvitesAppIdGet(app.id, {
+      getInviteStatusInvitesAppIdGet(app.id, {
         withCredentials: true,
       }),
     enabled: !!app.id,
@@ -36,7 +40,7 @@ export default function AcceptInvitePage({ app }) {
   const acceptInviteMutation = useMutation({
     mutationKey: ["accept-invite", app.id],
     mutationFn: () =>
-      inviteApi.acceptInviteInvitesAppIdAcceptPost(app.id, {
+      acceptInviteInvitesAppIdAcceptPost(app.id, {
         withCredentials: true,
       }),
     onSuccess: async () => {
@@ -47,7 +51,7 @@ export default function AcceptInvitePage({ app }) {
   const declineInviteMutation = useMutation({
     mutationKey: ["decline-invite", app.id],
     mutationFn: () =>
-      inviteApi.declineInviteInvitesAppIdDeclinePost(app.id, {
+      declineInviteInvitesAppIdDeclinePost(app.id, {
         withCredentials: true,
       }),
     onSuccess: async () => {

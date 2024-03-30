@@ -25,10 +25,13 @@ import { HeroBanner } from "src/components/application/HeroBanner"
 import { DesktopAppstream } from "src/types/Appstream"
 import clsx from "clsx"
 import { AppOfTheDay } from "src/components/application/AppOfTheDay"
-import { appPicks } from "src/api"
 import { formatISO } from "date-fns"
 import LoginGuard from "src/components/login/LoginGuard"
-import { UserInfo } from "src/codegen"
+import {
+  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
+} from "src/codegen"
+import { UserInfo } from "src/codegen/model/userInfo"
 
 const categoryOrder = [
   Category.Office,
@@ -201,11 +204,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
-  const heroBannerApps =
-    await appPicks.getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
-      formatISO(new Date(), { representation: "date" }),
-    )
-  const appOfTheDay = await appPicks.getAppOfTheDayAppPicksAppOfTheDayDateGet(
+  const heroBannerApps = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
+    formatISO(new Date(), { representation: "date" }),
+  )
+  const appOfTheDay = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
     formatISO(new Date(), { representation: "date" }),
   )
 

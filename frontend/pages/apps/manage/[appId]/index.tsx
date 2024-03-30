@@ -14,8 +14,6 @@ import { useUserContext } from "../../../../src/context/user-info"
 import { fetchAppstream } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
-import { vendingApi } from "src/api"
-import { inviteApi } from "src/api"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import Link from "next/link"
@@ -23,7 +21,9 @@ import { Disclosure, Transition } from "@headlessui/react"
 import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
-import { UserInfo } from "src/codegen"
+import { getInviteStatusInvitesAppIdGet } from "src/codegen"
+import { getGlobalVendingConfigVendingConfigGet } from "src/codegen"
+import { UserInfo } from "src/codegen/model/userInfo"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -85,7 +85,7 @@ export default function AppManagementPage({
   const inviteQuery = useQuery({
     queryKey: ["invite-status", app.id],
     queryFn: () =>
-      inviteApi.getInviteStatusInvitesAppIdGet(app.id, {
+      getInviteStatusInvitesAppIdGet(app.id, {
         withCredentials: true,
       }),
     enabled: !!app.id,
@@ -167,7 +167,7 @@ export const getStaticProps: GetStaticProps = async ({
 }) => {
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
-    vendingApi.getGlobalVendingConfigVendingConfigGet(),
+    getGlobalVendingConfigVendingConfigGet(),
   ])
 
   return {
