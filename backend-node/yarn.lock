@@ -442,10 +442,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/node-server@npm:^1.9.0":
-  version: 1.9.0
-  resolution: "@hono/node-server@npm:1.9.0"
-  checksum: 8b8733466d75c9fa332cc0da5ca062be331a9e6962cbe1534086b8788b70a56b3824e01f395e0d8e3f34739c866f62f31eadd706c5f76cb78901d47dc36dd80e
+"@hono/node-server@npm:^1.9.1":
+  version: 1.9.1
+  resolution: "@hono/node-server@npm:1.9.1"
+  checksum: cefab8e4f812b263e2ab044321693b2ef028f88b7c21266fda1f81385827bad8ee48702b3621f8bd0e0b11d20a363b5df054a7dbcae58741304df77a4ee9c5e7
   languageName: node
   linkType: hard
 
@@ -4544,7 +4544,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@hono/node-server": ^1.9.0
+    "@hono/node-server": ^1.9.1
     "@hono/swagger-ui": 0.2.1
     "@hono/zod-openapi": ^0.9.10
     "@react-email/components": 0.0.16
