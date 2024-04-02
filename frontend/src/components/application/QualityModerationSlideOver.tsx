@@ -37,7 +37,7 @@ import {
 } from "@floating-ui/react"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
-import { getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
 
 const ShowIconButton = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
@@ -158,23 +158,12 @@ const ShowBrandingButton = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
-  if (
-    !app.branding?.find(
-      (a) => a.scheme_preference === "light" && a.type === "primary",
-    ) ||
-    !app.branding?.find(
-      (a) => a.scheme_preference === "dark" && a.type === "primary",
-    )
-  ) {
+  if (!app.branding || app.branding?.length === 0) {
     return null
   }
 
-  const primaryLight = app.branding?.find(
-    (a) => a.scheme_preference === "light" && a.type === "primary",
-  )
-  const primaryDark = app.branding?.find(
-    (a) => a.scheme_preference === "dark" && a.type === "primary",
-  )
+  const primaryLight = chooseBrandingColor(app.branding, "light")
+  const primaryDark = chooseBrandingColor(app.branding, "dark")
 
   return (
     <div>

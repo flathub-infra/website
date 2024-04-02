@@ -1,4 +1,5 @@
 import { sanitize } from "isomorphic-dompurify"
+import { Branding } from "src/types/Appstream"
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
@@ -47,4 +48,23 @@ export function getContrastColor(hexColor: string): "black" | "white" {
     (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000,
   )
   return brightness > 125 ? "black" : "white"
+}
+
+export function chooseBrandingColor(
+  branding: Branding[],
+  theme: "light" | "dark",
+) {
+  if (!branding) {
+    return undefined
+  }
+
+  const brandingColor = branding.find((a) => {
+    return a.scheme_preference === (theme as "light" | "dark")
+  })
+
+  if (brandingColor) {
+    return brandingColor
+  }
+
+  return branding.find((a) => a.scheme_preference === undefined)
 }
