@@ -5,7 +5,7 @@ import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
 import { HiMiniExclamationTriangle } from "react-icons/hi2"
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   appId: string
