@@ -6,7 +6,7 @@ import LogoImage from "../LogoImage"
 import { HiStar } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
 
 export const AppOfTheDay = ({
   appOfTheDay: appOfTheDay,
@@ -18,9 +18,10 @@ export const AppOfTheDay = ({
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
-  const brandingColor = appOfTheDay?.branding?.find((a) => {
-    return a.scheme_preference === (resolvedTheme as "light" | "dark")
-  })
+  const brandingColor = chooseBrandingColor(
+    appOfTheDay.branding,
+    resolvedTheme as "light" | "dark",
+  )
 
   const textColor = brandingColor
     ? getContrastColor(brandingColor.value) === "black"

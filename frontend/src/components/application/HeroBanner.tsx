@@ -12,7 +12,7 @@ import { register } from "swiper/element/bundle"
 import { Autoplay, Navigation } from "swiper/modules"
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
-import { getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -80,9 +80,10 @@ export const HeroBanner = ({
   return (
     <swiper-container init={false} ref={swiperRef}>
       {heroBannerData.map((data) => {
-        const brandingColor = data.appstream?.branding?.find((a) => {
-          return a.scheme_preference === (resolvedTheme as "light" | "dark")
-        })
+        const brandingColor = chooseBrandingColor(
+          data.appstream?.branding,
+          resolvedTheme as "light" | "dark",
+        )
 
         const textColor = brandingColor
           ? getContrastColor(brandingColor.value) === "black"
