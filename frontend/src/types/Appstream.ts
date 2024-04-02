@@ -112,23 +112,34 @@ export interface Screenshot {
 }
 
 export interface ScreenshotSize {
-  [key: string]: string
+  width: string
+  height: string
+  scale: string
+  src: string
 }
 
 export function pickScreenshotSize(
   screenshot?: Screenshot,
   maxHeight?: number,
-): { src: string; width: number; height: number; caption: string } | undefined {
+):
+  | {
+      src: string
+      width: number
+      height: number
+      caption: string
+      scale: number
+    }
+  | undefined {
   if (!screenshot) {
     return undefined
   }
 
-  const orderedByResolution = Object.keys(screenshot.sizes)
+  const orderedByResolution = screenshot.sizes
     .map((key) => {
-      const width = key.split("x")[0]
+      const width = key.width
       const widthNumber = parseInt(width)
 
-      const height = key.split("x")[1]
+      const height = key.height
       const heightNumber = parseInt(height)
 
       return { key, width: widthNumber, height: heightNumber }
@@ -153,29 +164,35 @@ export function pickScreenshotSize(
     (screenshot) => maxHeight === undefined || screenshot.height <= maxHeight,
   )
 
+  const scale = parseInt(highestResolution?.key.scale.split("x")[0])
+
   return highestResolution
     ? {
-        src: screenshot.sizes[highestResolution.key],
+        src: highestResolution.key.src,
         width: highestResolution.width,
         height: highestResolution.height,
         caption: screenshot.caption,
+        scale: scale,
       }
     : undefined
 }
 
 export function mapScreenshot(screenshot: Screenshot) {
-  const screenshotVariant = Object.keys(screenshot.sizes).map((key) => {
-    const width = key.split("x")[0]
+  const screenshotVariant = screenshot.sizes.map((key) => {
+    const width = key.width
     const widthNumber = parseInt(width)
 
-    const height = key.split("x")[1]
+    const height = key.height
     const heightNumber = parseInt(height)
 
+    const scale = parseInt(key.scale.split("x")[0])
+
     return {
-      src: screenshot.sizes[key],
+      src: key.src,
       width: widthNumber,
       height: heightNumber,
       caption: screenshot.caption,
+      scale: scale,
     }
   })
 

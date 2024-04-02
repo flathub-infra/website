@@ -70,7 +70,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
             screenshots = screenshots[0:3]
 
             for screenshot in screenshots:
-                if image := list(screenshot["sizes"].values())[0]:
+                if image := screenshot["sizes"][0].get("src"):
                     content.append(f'<img src="{image}">')
 
         entry.description("".join(content))
@@ -160,7 +160,7 @@ def generate_feed_postgres(mode: str, title: str, description: str, link: str):
             screenshots = screenshots[0:3]
 
             for screenshot in screenshots:
-                if image := list(screenshot["sizes"].values())[0]:
+                if image := screenshot["sizes"][0].get("src"):
                     content.append(f'<img src="{image}">')
 
         entry.description("".join(content))

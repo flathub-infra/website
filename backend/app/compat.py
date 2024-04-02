@@ -202,14 +202,22 @@ def get_single_app(
             compat_screenshots = []
             for screenshot in screenshots:
                 screenshots_sizes = sorted(
-                    screenshot["sizes"].keys(), key=lambda res: int(res.split("x")[0])
+                    screenshot["sizes"], key=lambda res: int(res["width"])
                 )
 
                 if screenshots_sizes:
-                    full_size = screenshots_sizes[-1]
-                    thumb_size = screenshots_sizes[0]
+                    full_size = (
+                        screenshots_sizes[-1]["width"]
+                        + "x"
+                        + screenshots_sizes[-1]["height"]
+                    )
+                    thumb_size = (
+                        screenshots_sizes[0]["width"]
+                        + "x"
+                        + screenshots_sizes[0]["height"]
+                    )
 
-                filename = list(screenshot["sizes"].values())[0].split("/")[-1]
+                filename = screenshot["sizes"][0]["src"].split("/")[-1]
                 compat_screenshots.append(
                     {
                         "imgDesktopUrl": f"https://dl.flathub.org/repo/screenshots/{app_id}-stable/{full_size}/{filename}",
