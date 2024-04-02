@@ -57,7 +57,8 @@ export function AppHeader({
             })}
           </div>
         )}
-        {app.type === "desktop-application" && (
+        {(app.type === "desktop-application" ||
+          app.type === "console-application") && (
           <Verification
             appId={app.id}
             verificationStatus={verificationStatus}

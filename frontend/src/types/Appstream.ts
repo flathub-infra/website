@@ -14,7 +14,7 @@ export type Icon = {
 }
 
 export interface DesktopAppstream {
-  type: "desktop-application"
+  type: "desktop-application" | "console-application"
   description: string
   screenshots?: Screenshot[]
   releases: Release[]
