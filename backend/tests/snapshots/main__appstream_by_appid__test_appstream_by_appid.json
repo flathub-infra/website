@@ -3,32 +3,107 @@
   "description": "<p>Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.</p>",
   "screenshots": [
     {
-      "sizes": {
-        "800x500": "https://i.imgur.com/imoTbzP.png",
-        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png",
-        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
-      }
+      "sizes": [
+        {
+          "width": "800",
+          "height": "500",
+          "scale": "1x",
+          "src": "https://i.imgur.com/imoTbzP.png"
+        },
+        {
+          "width": "624",
+          "height": "351",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+        },
+        {
+          "width": "112",
+          "height": "63",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+        },
+        {
+          "width": "224",
+          "height": "126",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+        },
+        {
+          "width": "752",
+          "height": "423",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0cf71487936dec29c5b092662909f125.png"
+        }
+      ]
     },
     {
       "default": true,
-      "sizes": {
-        "800x500": "https://i.imgur.com/GO11pbh.png",
-        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png",
-        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
-      }
+      "sizes": [
+        {
+          "width": "800",
+          "height": "500",
+          "scale": "1x",
+          "src": "https://i.imgur.com/GO11pbh.png"
+        },
+        {
+          "width": "624",
+          "height": "351",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+        },
+        {
+          "width": "112",
+          "height": "63",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+        },
+        {
+          "width": "224",
+          "height": "126",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+        },
+        {
+          "width": "752",
+          "height": "423",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
+        }
+      ]
     },
     {
-      "sizes": {
-        "800x500": "https://i.imgur.com/RH1koq6.png",
-        "624x351": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-        "112x63": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-        "224x126": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png",
-        "752x423": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
-      }
+      "sizes": [
+        {
+          "width": "800",
+          "height": "500",
+          "scale": "1x",
+          "src": "https://i.imgur.com/RH1koq6.png"
+        },
+        {
+          "width": "624",
+          "height": "351",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+        },
+        {
+          "width": "112",
+          "height": "63",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+        },
+        {
+          "width": "224",
+          "height": "126",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+        },
+        {
+          "width": "752",
+          "height": "423",
+          "scale": "1x",
+          "src": "https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png"
+        }
+      ]
     }
   ],
   "releases": [

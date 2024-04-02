@@ -112,7 +112,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 if screenshot.attrib.get("type") == "default":
                     attrs["default"] = True
 
-                attrs["sizes"] = {}
+                attrs["sizes"] = []
                 for image in screenshot:
                     if (
                         image.attrib.get("type") == "thumbnail"
@@ -130,13 +130,24 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                             is None
                         )
                     ):
+                        scale = None
+                        if image.attrib.get("scale") is not None:
+                            scale = image.attrib.get("scale")
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
-                        attrs["sizes"][f"{width}x{height}"] = image.text
-                        if not image.text.startswith("http"):
-                            attrs["sizes"][f"{width}x{height}"] = (
-                                f"{media_base_url}/{image.text}"
-                            )
+
+                        attrs["sizes"].append(
+                            {
+                                "width": width,
+                                "height": height,
+                                "scale": scale if scale is not None else "1x",
+                                "src": (
+                                    f"{media_base_url}/{image.text}"
+                                    if not image.text.startswith("http")
+                                    else image.text
+                                ),
+                            }
+                        )
 
                 if attrs and len(attrs["sizes"]) > 0:
                     app["screenshots"].append(attrs.copy())
