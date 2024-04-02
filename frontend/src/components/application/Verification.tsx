@@ -67,27 +67,20 @@ const Verification: FunctionComponent<Props> = ({
       break
   }
 
-  if (verificationStatus?.verified == true) {
-    return (
-      <div className="flex items-center justify-center text-xs font-semibold text-flathub-celestial-blue sm:justify-start">
-        <VerificationIcon
-          appId={appId}
-          verificationStatus={verificationStatus}
-        />
-        {verifiedLink}
-      </div>
-    )
-  } else {
-    return (
-      <div className="flex items-center justify-center sm:justify-start">
-        <div className="rounded-full w-fit text-flathub-white bg-flathub-status-orange dark:bg-flathub-status-orange-dark py-0.5 px-2">
-          <div className="text-xs flex gap-1 items-end">
-            <HiMiniExclamationTriangle className="size-3.5" />
-            {t("unverified")}
-          </div>
+  return verificationStatus?.verified == true ? (
+    <div className="flex pt-1 items-center justify-center text-xs font-semibold text-flathub-celestial-blue sm:justify-start">
+      <VerificationIcon appId={appId} verificationStatus={verificationStatus} />
+      {verifiedLink}
+    </div>
+  ) : (
+    <div className="flex pt-1 items-center justify-center sm:justify-start">
+      <div className="rounded-full w-fit text-flathub-black dark:text-flathub-white bg-flathub-status-yellow-dark dark:bg-flathub-status-yellow py-0.5 px-2">
+        <div className="text-xs flex gap-1 items-end">
+          <HiMiniExclamationTriangle className="size-3.5" />
+          {t("unverified")}
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 export default Verification

@@ -56,3 +56,15 @@ export const loginProviderVerification = () => {
     />
   )
 }
+
+export const noVerification = () => {
+  const verificationStatus = {
+    verified: false,
+  }
+  return (
+    <Verification
+      appId="io.github.Example"
+      verificationStatus={verificationStatus}
+    />
+  )
+}
