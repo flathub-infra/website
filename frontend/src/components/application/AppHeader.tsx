@@ -8,7 +8,6 @@ import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
-import { HiMiniExclamationTriangle } from "react-icons/hi2"
 
 export function AppHeader({
   app,
@@ -58,7 +57,12 @@ export function AppHeader({
             })}
           </div>
         )}
-        <Verification appId={app.id} verificationStatus={verificationStatus} />
+        {app.type === "desktop-application" && (
+          <Verification
+            appId={app.id}
+            verificationStatus={verificationStatus}
+          />
+        )}
       </div>
 
       <div className="flex items-center justify-center gap-4 sm:ms-auto">
