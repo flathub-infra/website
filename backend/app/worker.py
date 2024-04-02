@@ -272,23 +272,56 @@ def update_quality_moderation():
                     app_id,
                     "branding-has-primary-brand-colors",
                     "branding" in value
-                    and any(
-                        branding
-                        for branding in value["branding"]
-                        if "type" in branding
-                        and "scheme_preference" in branding
-                        and "value" in branding
-                        and branding["type"] == "primary"
-                        and branding["scheme_preference"] == "light"
-                    )
-                    and any(
-                        branding
-                        for branding in value["branding"]
-                        if "type" in branding
-                        and "scheme_preference" in branding
-                        and "value" in branding
-                        and branding["type"] == "primary"
-                        and branding["scheme_preference"] == "dark"
+                    and (
+                        (
+                            any(
+                                branding
+                                for branding in value["branding"]
+                                if "type" in branding
+                                and "scheme_preference" in branding
+                                and "value" in branding
+                                and branding["type"] == "primary"
+                                and branding["scheme_preference"] == "light"
+                            )
+                            and any(
+                                branding
+                                for branding in value["branding"]
+                                if "type" in branding
+                                and "scheme_preference" in branding
+                                and "value" in branding
+                                and branding["type"] == "primary"
+                                and branding["scheme_preference"] == "dark"
+                            )
+                        )
+                        or (
+                            any(
+                                branding
+                                for branding in value["branding"]
+                                if "type" in branding
+                                and "scheme_preference" in branding
+                                and "value" in branding
+                                and branding["type"] == "primary"
+                                and (
+                                    branding["scheme_preference"] == "light"
+                                    or branding["scheme_preference"] == "dark"
+                                )
+                            )
+                            and any(
+                                branding
+                                for branding in value["branding"]
+                                if "type" in branding
+                                and "scheme_preference" not in branding
+                                and "value" in branding
+                                and branding["type"] == "primary"
+                            )
+                        )
+                        or any(
+                            branding
+                            for branding in value["branding"]
+                            if "type" in branding
+                            and "value" in branding
+                            and branding["type"] == "primary"
+                        )
                     ),
                     None,
                 )
