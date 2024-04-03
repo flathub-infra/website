@@ -9276,7 +9276,7 @@ __metadata:
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.0.5"
     storybook-react-i18next: "npm:^3.0.1"
-    swiper: "npm:^11.0.7"
+    swiper: "npm:^11.1.0"
     tailwindcss: "npm:^3.4.3"
     typescript: "npm:^5.4.3"
     yaml: "npm:^2.3.4"
@@ -15038,10 +15038,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:^11.0.7":
-  version: 11.0.7
-  resolution: "swiper@npm:11.0.7"
-  checksum: d27b8c3b5deccde730317c2fe868350fad039e9776c8c6dfd11a89d9e732a66c1292292ca635141a7e0bbb363fcac1291c9fd716bf7a8e3b85d320e58ff94eba
+"swiper@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "swiper@npm:11.1.0"
+  checksum: dd144b3580146508f01b551ce4c5895d2d7f4fa49dd98f361ba549dcca17f440eff603669a5416f98d21ac9ce828c11c5eed966a96434b3fda101bc332714992
   languageName: node
   linkType: hard
 
