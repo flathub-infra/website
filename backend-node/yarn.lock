@@ -3262,10 +3262,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "hono@npm:4.2.0"
-  checksum: b0a894ec38abc7ee1afbecd9cb6dfcaebe024346c331c29cc14453de33f1fd007ccadafe45e9467bb48f1dc4449d345acffcd7f9d596bb6ab4192ae33a4938be
+"hono@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "hono@npm:4.2.1"
+  checksum: 362c62a58755fb9a29ce00fb42d53930dcc2b803db95cecbf0c38d3d616c7ddfbcd03ce60a8b2714ef8dd6a4115af2f754e4c5b52b7c532bb8aa920c9da3a175
   languageName: node
   linkType: hard
 
@@ -4554,7 +4554,7 @@ __metadata:
     "@types/swagger-ui-dist": ^3.30.4
     date-fns: ^3.6.0
     dotenv: ^16.4.5
-    hono: ^4.2.0
+    hono: ^4.2.1
     nodemailer: 6.9.13
     prettier: 3.2.5
     react-email: 2.1.1
