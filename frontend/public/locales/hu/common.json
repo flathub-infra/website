@@ -147,7 +147,7 @@
   "vending-dashboard": "Ugrás ide: Stripe Express számla",
   "delete": "Törlés",
   "privacy-policy": "Adatvédelmi szabályzat",
-  "terms-and-conditions": "Feltételeket és kikötéseket",
+  "terms-and-conditions": "Felhasználási Feltételek",
   "terms-and-conditions-description": "A weboldal használatával Ön elfogadja a feltételeket és a kikötéseket.",
   "privacy-policy-description": "A weboldal használatával Ön elfogadja az adatvédelmi szabályzatot.",
   "purchase-terms-confirmation": "Kijelentem, hogy elolvastam a Flathub feltételeket és kikötéseket, és hozzájárulok ahhoz, hogy a jelen digitális letöltéshez kapcsolódó 14 napos lemondási időt eltekintsem.",
@@ -320,10 +320,10 @@
   "moderation-rejected-by": "Elutasította {{handledBy}} ekkor: {{handledAt}} ({{handledAtRel}})",
   "moderation-dev-description": "Az alkalmazások metaadatainak bizonyos módosításait, például a nevét vagy leírását, a Flathub csapatának felül kell vizsgálnia. Itt tekintheti meg a jelenlegi és korábbi felülvizsgálati kérelmek állapotát.",
   "filters": "Szűrők",
-  "recently-added": "Nemrég hozzáadva",
+  "recently-added": "Nemrég Hozzáadva",
   "recently-updated-description": "Az elmúlt napokban frissített alkalmazások a Flathubon.",
   "recently-added-description": "Az elmúlt napokban új alkalmazások a Flathubon.",
-  "recently-updated": "Nemrég frissítve",
+  "recently-updated": "Nemrég Frissítve",
   "runtime-distribution": "Futásidejű elosztás",
   "the-linux-app-store": "A Linux-alkalmazásáruház",
   "flathub-index-description": "Szerezd meg kedvenc alkalmazásaid legújabb verzióit bármely Linux disztribúcióhoz",
@@ -557,5 +557,7 @@
   "confirm": "Megerősítés",
   "danger-zone": "Veszélyes területet",
   "manage-x": "{{app-name}}-alkalmazás kezelése",
-  "do-you-really-want-to-switch-to-direct-upload": "Biztos, hogy szeretné? Ha egy alkalmazást közvetlen feltöltésre vált, nincs visszaút."
+  "do-you-really-want-to-switch-to-direct-upload": "Biztos, hogy szeretné? Ha egy alkalmazást közvetlen feltöltésre vált, nincs visszaút.",
+  "news": "Hírek",
+  "unverified": "Ellenőrizetlen"
 }
