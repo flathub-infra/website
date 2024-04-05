@@ -2,105 +2,105 @@
   "hits": [
     {
       "name": "AnyDesk",
-      "summary": "Connect to a computer remotely",
-      "type": "desktop-application",
       "keywords": null,
-      "arches": [
-        "x86_64"
-      ],
+      "summary": "Connect to a computer remotely",
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
-      "installs_last_month": 613,
+      "type": "desktop-application",
+      "project_license": "LicenseRef-proprietary",
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
       "categories": [
         "Network"
       ],
-      "developer_name": "AnyDesk Software GmbH",
-      "project_license": "LicenseRef-proprietary",
-      "runtime": "org.freedesktop.Platform/x86_64/20.08",
-      "verification_verified": false,
-      "verification_method": null,
-      "verification_login_is_organization": null,
-      "verification_login_name": null,
-      "verification_login_provider": null,
-      "verification_website": null,
-      "verification_timestamp": null,
-      "updated_at": 1610973790,
-      "added_at": 1610973790,
       "main_categories": [
         "Network"
       ],
-      "sub_categories": []
-    },
-    {
-      "name": "WPS Office",
-      "summary": "WPS Office Suite",
-      "type": "desktop-application",
-      "keywords": null,
+      "sub_categories": [],
+      "developer_name": "AnyDesk Software GmbH",
+      "verification_verified": false,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_login_is_organization": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "runtime": "org.freedesktop.Platform/x86_64/20.08",
+      "updated_at": 1610973790,
       "arches": [
         "x86_64"
       ],
+      "added_at": 1610973790,
+      "installs_last_month": 613
+    },
+    {
+      "name": "WPS Office",
+      "keywords": null,
+      "summary": "WPS Office Suite",
       "description": "WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation",
       "id": "com_wps_Office",
-      "installs_last_month": 668,
+      "type": "desktop-application",
+      "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
       "is_free_license": false,
       "app_id": "com.wps.Office",
       "icon": null,
       "categories": [
         "Office"
       ],
-      "developer_name": "Kingsoft Office Corporation",
-      "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
-      "runtime": "org.freedesktop.Platform/x86_64/20.08",
-      "verification_verified": false,
-      "verification_method": null,
-      "verification_login_is_organization": null,
-      "verification_login_name": null,
-      "verification_login_provider": null,
-      "verification_website": null,
-      "verification_timestamp": null,
-      "updated_at": 1610973768,
-      "added_at": 1610973768,
       "main_categories": [
         "Office"
       ],
-      "sub_categories": []
-    },
-    {
-      "name": "Maze",
-      "summary": "A simple maze game",
-      "type": "desktop-application",
-      "keywords": null,
+      "sub_categories": [],
+      "developer_name": "Kingsoft Office Corporation",
+      "verification_verified": false,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_login_is_organization": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "runtime": "org.freedesktop.Platform/x86_64/20.08",
+      "updated_at": 1610973768,
       "arches": [
         "x86_64"
       ],
+      "added_at": 1610973768,
+      "installs_last_month": 668
+    },
+    {
+      "name": "Maze",
+      "keywords": null,
+      "summary": "A simple maze game",
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
-      "installs_last_month": 467,
+      "type": "desktop-application",
+      "project_license": "GPL-3.0-or-later",
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
       "categories": [
         "Game"
       ],
-      "developer_name": "Sugar Labs Community",
-      "project_license": "GPL-3.0-or-later",
-      "runtime": "org.gnome.Platform/x86_64/3.36",
-      "verification_verified": false,
-      "verification_method": null,
-      "verification_login_is_organization": null,
-      "verification_login_name": null,
-      "verification_login_provider": null,
-      "verification_website": null,
-      "verification_timestamp": null,
-      "updated_at": 1610973680,
-      "added_at": 1610973680,
       "main_categories": [
         "Game"
       ],
-      "sub_categories": []
+      "sub_categories": [],
+      "developer_name": "Sugar Labs Community",
+      "verification_verified": false,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_login_is_organization": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "runtime": "org.gnome.Platform/x86_64/3.36",
+      "updated_at": 1610973680,
+      "arches": [
+        "x86_64"
+      ],
+      "added_at": 1610973680,
+      "installs_last_month": 467
     }
   ],
   "query": "",

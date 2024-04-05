@@ -1,5 +1,4 @@
 import datetime
-import json
 import os
 import sys
 import time
@@ -9,7 +8,6 @@ import gi
 import pytest
 import vcr
 from fastapi.testclient import TestClient
-from lxml import etree
 
 gi.require_version("OSTree", "1.0")
 
@@ -45,24 +43,6 @@ class Override:
             main.router.dependency_overrides[self._dependency] = self._replacement
 
 
-def _get_expected_json_result(test_name):
-    path = os.path.join("tests", "results", f"{test_name}.json")
-    with open(path) as result:
-        return json.load(result)
-
-
-def _get_expected_xml_result(test_name):
-    path = os.path.join("tests", "results", f"{test_name}.xml")
-    with open(path) as result:
-        return etree.fromstring(result.read().encode("utf-8"))
-
-
-def _get_expected_text_result(test_name):
-    path = os.path.join("tests", "results", f"{test_name}.txt")
-    with open(path) as result:
-        return result.read()
-
-
 @pytest.fixture
 def client():
     from app import main
@@ -82,10 +62,10 @@ def test_update(client):
     assert update_stats.status_code == 200
 
 
-def test_apps_by_category(client):
+def test_apps_by_category(client, snapshot):
     response = client.get("/category/Game")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_apps_by_category")
+    assert response.json() == snapshot("test_apps_by_category.json")
 
 
 def test_apps_by_category_paginated(client):
@@ -113,10 +93,10 @@ def test_apps_by_category_with_too_few_per_page_params(client):
     assert response.status_code == 400
 
 
-def test_apps_by_developer(client):
+def test_apps_by_developer(client, snapshot):
     response = client.get("/developer/Sugar Labs Community")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_apps_by_developer")
+    assert response.json() == snapshot("test_apps_by_developer.json")
 
 
 def test_apps_by_non_existent_developer(client):
@@ -126,10 +106,10 @@ def test_apps_by_non_existent_developer(client):
     responseJson["totalHits"] = 0
 
 
-def test_appstream_by_appid(client):
+def test_appstream_by_appid(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_appstream_by_appid")
+    assert response.json() == snapshot("test_appstream_by_appid.json")
 
 
 def test_appstream_by_non_existent_appid(client):
@@ -138,122 +118,88 @@ def test_appstream_by_non_existent_appid(client):
     assert response.json() is None
 
 
-def test_search_query_by_partial_name(client):
+def test_search_query_by_partial_name(client, snapshot):
     post_body = {"query": "maz"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_appid")
-    expected["query"] = "maz"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_appid.json")
 
 
-def test_search_query_by_partial_name_2(client):
+def test_search_query_by_partial_name_2(client, snapshot):
     post_body = {"query": "ma"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_appid")
-    expected["query"] = "ma"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_appid.json")
 
 
-def test_search_query_by_name(client):
+def test_search_query_by_name(client, snapshot):
     post_body = {"query": "Maze"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_appid")
-    expected["query"] = "Maze"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_appid.json")
 
 
-def test_search_query_by_summary(client):
+def test_search_query_by_summary(client, snapshot):
     post_body = {"query": "maze game"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_appid")
-    expected["query"] = "maze game"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_appid.json")
 
 
-def test_search_query_by_description(client):
+def test_search_query_by_description(client, snapshot):
     post_body = {"query": "finding your way out"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_appid")
-    expected["query"] = "finding your way out"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_appid.json")
 
 
-def test_search_query_by_non_existent(client):
+def test_search_query_by_non_existent(client, snapshot):
     post_body = {"query": "NonExistent"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    expected = _get_expected_json_result("test_search_query_by_non_existent")
-    expected["query"] = "NonExistent"
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert responseJson == expected
+    assert responseJson == snapshot("test_search_query_by_non_existent.json")
 
 
-def test_collection_by_recently_updated(client):
+def test_collection_by_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result(
-        "test_collection_by_recently_updated"
-    )
+    assert response.json() == snapshot("test_collection_by_recently_updated.json")
 
 
-def test_collection_by_one_recently_updated(client):
+def test_collection_by_one_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated?page=1&per_page=1")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result(
-        "test_collection_by_one_recently_updated"
-    )
+    assert response.json() == snapshot("test_collection_by_one_recently_updated.json")
 
 
-def test_popular_last_month(client):
+def test_popular_last_month(client, snapshot):
     response = client.get("/popular/last-month")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_popular_last_month")
+    assert response.json() == snapshot("test_popular_last_month.json")
 
 
-def test_status(client):
+def test_status(client, snapshot):
     response = client.get("/status")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_status")
+    assert response.json() == snapshot("test_status.json")
 
 
-def test_list_appstream(client):
+def test_list_appstream(client, snapshot):
     response = client.get("/appstream")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_list_appstream")
+    assert response.json() == snapshot("test_list_appstream.json")
 
 
-def test_summary_by_id(client):
+def test_summary_by_id(client, snapshot):
     response = client.get("/summary/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert response.json() == _get_expected_json_result("test_summary_by_appid")
+    assert response.json() == snapshot("test_summary_by_appid.json")
 
 
 def test_summary_by_non_existent_id(client):
