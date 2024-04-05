@@ -2,37 +2,37 @@
   "hits": [
     {
       "name": "AnyDesk",
-      "summary": "Connect to a computer remotely",
-      "type": "desktop-application",
       "keywords": null,
-      "arches": [
-        "x86_64"
-      ],
+      "summary": "Connect to a computer remotely",
       "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
       "id": "com_anydesk_Anydesk",
-      "installs_last_month": 613,
+      "type": "desktop-application",
+      "project_license": "LicenseRef-proprietary",
       "is_free_license": false,
       "app_id": "com.anydesk.Anydesk",
       "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
       "categories": [
         "Network"
       ],
-      "developer_name": "AnyDesk Software GmbH",
-      "project_license": "LicenseRef-proprietary",
-      "runtime": "org.freedesktop.Platform/x86_64/20.08",
-      "verification_verified": false,
-      "verification_method": null,
-      "verification_login_is_organization": null,
-      "verification_login_name": null,
-      "verification_login_provider": null,
-      "verification_website": null,
-      "verification_timestamp": null,
-      "updated_at": 1610973790,
-      "added_at": 1610973790,
       "main_categories": [
         "Network"
       ],
-      "sub_categories": []
+      "sub_categories": [],
+      "developer_name": "AnyDesk Software GmbH",
+      "verification_verified": false,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_login_is_organization": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "runtime": "org.freedesktop.Platform/x86_64/20.08",
+      "updated_at": 1610973790,
+      "arches": [
+        "x86_64"
+      ],
+      "added_at": 1610973790,
+      "installs_last_month": 613
     }
   ],
   "query": "",

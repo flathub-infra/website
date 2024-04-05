@@ -1,0 +1,16 @@
+{
+  "hits": [],
+  "query": "NonExistent",
+  "processingTimeMs": 0,
+  "limit": 250,
+  "offset": 0,
+  "estimatedTotalHits": 0,
+  "facetDistribution": {
+    "arches": {},
+    "is_free_license": {},
+    "main_categories": {},
+    "type": {},
+    "verification_verified": {}
+  },
+  "facetStats": {}
+}
