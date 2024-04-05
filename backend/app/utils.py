@@ -60,10 +60,9 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     else:
         if not appstream_url:
             appstream_url = (
-                "https://dl.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
+                "https://hub.flathub.org/repo/appstream/x86_64/appstream.xml.gz"
             )
-        r = requests.get(appstream_url)
-        r.raise_for_status()
+        r = requests.get(appstream_url, stream=True)
         appstream = gzip.decompress(r.raw.data)
 
     root = etree.fromstring(appstream)
