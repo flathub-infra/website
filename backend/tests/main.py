@@ -123,7 +123,11 @@ def test_search_query_by_partial_name(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_appid.json")
+    expected = snapshot("test_search_query_by_appid.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_search_query_by_partial_name_2(client, snapshot):
@@ -131,7 +135,11 @@ def test_search_query_by_partial_name_2(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_appid.json")
+    expected = snapshot("test_search_query_by_appid.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_search_query_by_name(client, snapshot):
@@ -139,7 +147,11 @@ def test_search_query_by_name(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_appid.json")
+    expected = snapshot("test_search_query_by_appid.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_search_query_by_summary(client, snapshot):
@@ -147,7 +159,11 @@ def test_search_query_by_summary(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_appid.json")
+    expected = snapshot("test_search_query_by_appid.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_search_query_by_description(client, snapshot):
@@ -155,7 +171,11 @@ def test_search_query_by_description(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_appid.json")
+    expected = snapshot("test_search_query_by_appid.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_search_query_by_non_existent(client, snapshot):
