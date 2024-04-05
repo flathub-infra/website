@@ -49,13 +49,10 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 
       router.push("/", undefined, { locale })
     },
+    onError: (error) => {
+      toast.error(t(error.message))
+    },
   })
-
-  useEffect(() => {
-    if (loginQuery.error) {
-      toast.error(t(loginQuery.error.message))
-    }
-  }, [t, loginQuery.error])
 
   // Once router ready, perform login
   useEffect(() => {
