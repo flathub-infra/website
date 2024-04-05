@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     sentry_dsn: str | None = None
     appstream_repos: str | None = None
     datadir: str = os.path.join(ROOT_DIR, "data")
-    stats_baseurl: str = "https://flathub.org/stats"
+    stats_baseurl: str = "https://hub.flathub.org/stats"
     session_secret_key: str = "change-me-for-production"
 
     frontend_url: str = "http://localhost:3000"
