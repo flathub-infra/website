@@ -183,7 +183,11 @@ def test_search_query_by_non_existent(client, snapshot):
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     responseJson = response.json()
-    assert responseJson == snapshot("test_search_query_by_non_existent.json")
+    expected = snapshot("test_search_query_by_non_existent.json")
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
 
 
 def test_collection_by_recently_updated(client, snapshot):
