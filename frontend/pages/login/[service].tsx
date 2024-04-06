@@ -50,7 +50,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       router.push("/", undefined, { locale })
     },
     onError: (error) => {
-      toast.error(t(error.message))
+      toast.error(t(error as unknown as string))
     },
   })
 
