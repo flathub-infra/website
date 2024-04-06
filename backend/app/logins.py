@@ -810,7 +810,7 @@ def continue_oauth_flow(
             # Eventually we might do user-merge here?
             db.session.commit()
             return JSONResponse(
-                {"status": "error", "error": "User already logged in?"}, status_code=500
+                {"status": "error", "error": "error-already-logged-in"}, status_code=500
             )
         account.token = login_result["access_token"]
         account.last_used = datetime.now()

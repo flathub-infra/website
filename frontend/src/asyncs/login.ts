@@ -47,11 +47,7 @@ export async function login(
     // Some errors come with an explanation from backend, others are unexpected
     const data: APIResponseError = await res.json()
 
-    const msg = {
-      "User already logged in?": "error-already-logged-in",
-    }[data.error]
-
-    throw msg ?? "network-error-try-again"
+    throw data.error ?? "network-error-try-again"
   }
 }
 
