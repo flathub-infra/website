@@ -65,7 +65,7 @@ def test_update(client):
 def test_apps_by_category(client, snapshot):
     response = client.get("/category/Game")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_apps_by_category.json")
+    assert snapshot("test_apps_by_category.json") == response.json()
 
 
 def test_apps_by_category_paginated(client):
@@ -96,7 +96,7 @@ def test_apps_by_category_with_too_few_per_page_params(client):
 def test_apps_by_developer(client, snapshot):
     response = client.get("/developer/Sugar Labs Community")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_apps_by_developer.json")
+    assert snapshot("test_apps_by_developer.json") == response.json()
 
 
 def test_apps_by_non_existent_developer(client):
@@ -109,7 +109,7 @@ def test_apps_by_non_existent_developer(client):
 def test_appstream_by_appid(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_appstream_by_appid.json")
+    assert snapshot("test_appstream_by_appid.json") == response.json()
 
 
 def test_appstream_by_non_existent_appid(client):
@@ -193,37 +193,37 @@ def test_search_query_by_non_existent(client, snapshot):
 def test_collection_by_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_collection_by_recently_updated.json")
+    assert snapshot("test_collection_by_recently_updated.json") == response.json()
 
 
 def test_collection_by_one_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated?page=1&per_page=1")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_collection_by_one_recently_updated.json")
+    assert snapshot("test_collection_by_one_recently_updated.json") == response.json()
 
 
 def test_popular_last_month(client, snapshot):
     response = client.get("/popular/last-month")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_popular_last_month.json")
+    assert snapshot("test_popular_last_month.json") == response.json()
 
 
 def test_status(client, snapshot):
     response = client.get("/status")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_status.json")
+    assert snapshot("test_status.json") == response.json()
 
 
 def test_list_appstream(client, snapshot):
     response = client.get("/appstream")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_list_appstream.json")
+    assert snapshot("test_list_appstream.json") == response.json()
 
 
 def test_summary_by_id(client, snapshot):
     response = client.get("/summary/org.sugarlabs.Maze")
     assert response.status_code == 200
-    assert response.json() == snapshot("test_summary_by_appid.json")
+    assert snapshot("test_summary_by_appid.json") == response.json()
 
 
 def test_summary_by_non_existent_id(client):
