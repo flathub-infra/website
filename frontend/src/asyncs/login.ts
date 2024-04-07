@@ -36,7 +36,7 @@ export async function login(
     })
   } catch {
     dispatch({ type: "interrupt" })
-    throw "network-error-try-again"
+    throw new Error("network-error-try-again")
   }
 
   if (res.ok) {
@@ -47,7 +47,7 @@ export async function login(
     // Some errors come with an explanation from backend, others are unexpected
     const data: APIResponseError = await res.json()
 
-    throw data.error ?? "network-error-try-again"
+    throw new Error(data.error) ?? new Error("network-error-try-again")
   }
 }
 
