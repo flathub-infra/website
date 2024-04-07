@@ -32,6 +32,8 @@ import {
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
 } from "src/codegen"
 import { UserInfo } from "src/codegen/model/userInfo"
+import Tile from "src/components/Tile"
+import { useState } from "react"
 
 const categoryOrder = [
   Category.Office,
@@ -45,6 +47,93 @@ const categoryOrder = [
   Category.System,
   Category.Utility,
 ]
+
+const CategorySection = ({
+  topAppsByCategory,
+}: {
+  topAppsByCategory: {
+    category: Category
+    apps: MeilisearchResponse<AppsIndex>
+  }[]
+}) => {
+  const { t } = useTranslation()
+
+  const [selectedCategory, setSelectedCategory] = useState(categoryOrder[0])
+
+  const selectedApps = topAppsByCategory.find(
+    (sectionData) => sectionData.category === selectedCategory,
+  )
+
+  return (
+    <div>
+      <ApplicationSection
+        key={`categorySection${selectedApps.category}`}
+        href={`/apps/category/${encodeURIComponent(selectedCategory)}`}
+        applications={selectedApps.apps.hits.map((app) =>
+          mapAppsIndexToAppstreamListItem(app),
+        )}
+        appSelection={
+          <div className="flex flex-wrap gap-2">
+            {topAppsByCategory.map((sectionData, i) => (
+              <Tile
+                key={sectionData.category}
+                className="grow"
+                onClick={() => setSelectedCategory(sectionData.category)}
+              >
+                {categoryToName(sectionData.category, t)}
+              </Tile>
+            ))}
+          </div>
+        }
+        title={categoryToName(selectedApps.category, t)}
+      />
+    </div>
+  )
+}
+
+const TopSection = ({
+  topApps,
+}: {
+  topApps: {
+    name: string
+    apps: MeilisearchResponse<AppsIndex>
+    moreLink: string
+  }[]
+}) => {
+  const { t } = useTranslation()
+
+  const [selectedName, setSelectedName] = useState(topApps[0].name)
+
+  const selectedApps = topApps.find(
+    (sectionData) => sectionData.name === selectedName,
+  )
+
+  return (
+    <div>
+      <ApplicationSection
+        key={`topSection${selectedApps.name}`}
+        href={selectedApps.moreLink}
+        applications={selectedApps.apps.hits.map((app) =>
+          mapAppsIndexToAppstreamListItem(app),
+        )}
+        appSelection={
+          <div className="flex flex-wrap gap-2">
+            {topApps.map((sectionData) => (
+              <Tile
+                key={sectionData.name}
+                className="grow"
+                onClick={() => setSelectedName(sectionData.name)}
+              >
+                {t(sectionData.name)}
+              </Tile>
+            ))}
+          </div>
+        }
+        title={t(selectedApps.name)}
+      />
+    </div>
+  )
+}
 
 export default function Home({
   recentlyUpdated,
@@ -134,25 +223,33 @@ export default function Home({
             </div>
           </div>
 
-          <ApplicationSections
-            popular={popular}
-            recentlyUpdated={recentlyUpdated}
-            recentlyAdded={recentlyAdded}
-            verified={verified}
-          ></ApplicationSections>
+          <TopSection
+            topApps={[
+              {
+                apps: popular,
+                name: "popular",
+                moreLink: "/apps/collection/popular",
+              },
+              {
+                apps: recentlyAdded,
+                name: "recently-added",
+                moreLink: "/apps/collection/recently-added",
+              },
+              {
+                apps: recentlyUpdated,
+                name: "recently-updated",
+                moreLink: "/apps/collection/recently-updated",
+              },
 
-          {topAppsByCategory.map((sectionData, i) => (
-            <ApplicationSection
-              key={`categorySection${i}`}
-              href={`/apps/category/${encodeURIComponent(
-                sectionData.category,
-              )}`}
-              applications={sectionData.apps.hits.map((app) =>
-                mapAppsIndexToAppstreamListItem(app),
-              )}
-              title={categoryToName(sectionData.category, t)}
-            />
-          ))}
+              {
+                apps: verified,
+                name: "verified",
+                moreLink: "/apps/collection/verified",
+              },
+            ]}
+          />
+
+          <CategorySection topAppsByCategory={topAppsByCategory} />
         </LoginGuard>
       </div>
     </>
@@ -186,7 +283,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     async (category: Category) => {
       return {
         category,
-        apps: (await fetchCategory(category, 1, 6)).data,
+        apps: (await fetchCategory(category, 1, 12)).data,
       }
     },
   )
