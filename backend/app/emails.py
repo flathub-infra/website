@@ -330,7 +330,7 @@ def build_notification(
                 "build_id": request.build_id,
                 "build_repo": request.build_repo,
             },
-        ).dict()
+        ).model_dump()
     )
 
 

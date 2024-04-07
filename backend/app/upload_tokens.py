@@ -196,7 +196,7 @@ def create_upload_token(
                 "expires_at": expires_at.strftime("%-d %B %Y"),
                 "token_id": _jti(token),
             },
-        ).dict()
+        ).model_dump()
     )
 
     # Create the JWT
