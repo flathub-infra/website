@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { login } from "../../src/asyncs/login"
 import Spinner from "../../src/components/Spinner"
@@ -28,10 +28,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   const [locale, setLocale] = useState(undefined)
 
   const loginQuery = useMutation({
-    mutationFn: useCallback(
-      () => login(dispatch, router.query),
-      [dispatch, router.query],
-    ),
+    mutationFn: () => login(dispatch, router.query),
     onSuccess: () => {
       if (pendingTransaction) {
         router.push("/purchase", undefined, { locale })
@@ -50,7 +47,7 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
       router.push("/", undefined, { locale })
     },
     onError: (error) => {
-      toast.error(t(error as unknown as string))
+      toast.error(t(error.message))
     },
   })
 
