@@ -160,7 +160,7 @@ class FakeWallet(WalletBase):
         """
         Set the transactions cached in the request session
         """
-        raw = list(txn.dict() for txn in txns)
+        raw = list(txn.model_dump() for txn in txns)
         request.session["txns"] = raw
 
     def transactions(

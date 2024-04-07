@@ -462,7 +462,7 @@ def submit_review_request(
                                 for request in requests
                             ],
                         },
-                    ).dict()
+                    ).model_dump()
                 )
 
             return ReviewRequestResponse(requires_review=True)
@@ -564,7 +564,7 @@ def submit_review(
                 },
                 "comment": request.comment,
             },
-        ).dict()
+        ).model_dump()
     )
 
     return ReviewResponse(github_issue_url=issue.url) if issue else None

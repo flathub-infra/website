@@ -151,7 +151,7 @@ def invite_developer(
                 "app_name": app_name,
                 "inviter": login.user.display_name,
             },
-        ).dict()
+        ).model_dump()
     )
 
 
@@ -200,7 +200,7 @@ def accept_invite(
             template_data={
                 "username": username,
             },
-        ).dict()
+        ).model_dump()
     )
 
 
@@ -239,7 +239,7 @@ def decline_invite(
                 "app_name": app_name,
                 "username": login.user.display_name,
             },
-        ).dict()
+        ).model_dump()
     )
 
 
@@ -271,7 +271,7 @@ def leave_team(
             template_data={
                 "username": login.user.display_name,
             },
-        ).dict()
+        ).model_dump()
     )
 
 

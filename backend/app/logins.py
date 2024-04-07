@@ -844,7 +844,7 @@ def continue_oauth_flow(
                 "login": account.login,
                 "time": datetime.now().strftime("%A, %B %d, %Y at %I:%M:%S %p UTC"),
             },
-        ).dict()
+        ).model_dump()
     )
 
     if account.login == "razzeee":
