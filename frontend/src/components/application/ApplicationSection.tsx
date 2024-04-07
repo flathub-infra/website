@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactElement } from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
@@ -11,6 +11,7 @@ interface Props {
   href: string
   title: string
   applications: AppstreamListItem[]
+  appSelection?: ReactElement
   showMore?: boolean
 }
 
@@ -18,6 +19,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
   href,
   title,
   applications,
+  appSelection,
   showMore = true,
 }) => {
   const { t } = useTranslation()
@@ -40,6 +42,9 @@ const ApplicationSection: FunctionComponent<Props> = ({
           </ButtonLink>
         )}
       </header>
+
+      {appSelection && <div className="mb-3">{appSelection}</div>}
+
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
           <motion.div
