@@ -64,7 +64,7 @@ export default function Details({
           images: [
             {
               url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}`,
-              height: 630,
+              height: 628,
               width: 1200,
               alt: app?.name,
             },
