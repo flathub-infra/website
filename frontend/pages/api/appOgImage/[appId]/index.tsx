@@ -207,7 +207,7 @@ export default async function handler(
           gap: "8px",
           justifySelf: "flex-end",
           alignSelf: "flex-end",
-          paddingRight: "8px",
+          paddingRight: "32px",
         }}
       >
         <svg
