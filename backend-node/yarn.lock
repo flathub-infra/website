@@ -12,14 +12,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asteasolutions/zod-to-openapi@npm:^5.5.0":
-  version: 5.5.0
-  resolution: "@asteasolutions/zod-to-openapi@npm:5.5.0"
+"@asteasolutions/zod-to-openapi@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@asteasolutions/zod-to-openapi@npm:7.0.0"
   dependencies:
-    openapi3-ts: "npm:^4.1.2"
+    openapi3-ts: ^4.1.2
   peerDependencies:
     zod: ^3.20.2
-  checksum: dfff401060c3ada0271d036984c78db41ea5e865fd1fea3b5605e90cf2e23ceec0697dc7736426d11f9687dbd90aa78e6713080bfda76b6c1a5fade32f15f091
+  checksum: 578ad86aabb49924dcb8ab9e38781612810ab70d13c48d39ae0472a88932981808b266f5650a890a93a5d504ada0ea8efbfb828b7c5babdfad87a364edd23954
   languageName: node
   linkType: hard
 
@@ -458,16 +458,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/zod-openapi@npm:^0.9.10":
-  version: 0.9.10
-  resolution: "@hono/zod-openapi@npm:0.9.10"
+"@hono/zod-openapi@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "@hono/zod-openapi@npm:0.10.0"
   dependencies:
-    "@asteasolutions/zod-to-openapi": ^5.5.0
+    "@asteasolutions/zod-to-openapi": ^7.0.0
     "@hono/zod-validator": 0.2.1
   peerDependencies:
     hono: ">=3.11.3"
     zod: 3.*
-  checksum: 3e87949d62987ca2af6c84f1f58592bebb8f08b09ae392814ce8fc3643af260984ee80fbe435dc65bdfa8435eab9c3b2b9131c958550ab62caf3c3b6004e0c12
+  checksum: a774797978da3a0a06ffb413557d52c4dff830300fbffe366c95717a3211ee151a5e9409abc73b5289bba40be8acbf99f4effbd844990477bfc26847dbb5a01f
   languageName: node
   linkType: hard
 
@@ -4546,7 +4546,7 @@ __metadata:
   dependencies:
     "@hono/node-server": ^1.9.1
     "@hono/swagger-ui": 0.2.1
-    "@hono/zod-openapi": ^0.9.10
+    "@hono/zod-openapi": ^0.10.0
     "@react-email/components": 0.0.16
     "@react-email/render": 0.0.12
     "@types/html-to-text": ^9.0.4
