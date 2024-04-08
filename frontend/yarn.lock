@@ -3696,106 +3696,106 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-android-arm-eabi@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-android-arm-eabi@npm:2.6.1"
+"@resvg/resvg-js-android-arm-eabi@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-android-arm-eabi@npm:2.6.2"
   conditions: os=android & cpu=arm
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-android-arm64@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-android-arm64@npm:2.6.1"
+"@resvg/resvg-js-android-arm64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-android-arm64@npm:2.6.2"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-darwin-arm64@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-darwin-arm64@npm:2.6.1"
+"@resvg/resvg-js-darwin-arm64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-darwin-arm64@npm:2.6.2"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-darwin-x64@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-darwin-x64@npm:2.6.1"
+"@resvg/resvg-js-darwin-x64@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-darwin-x64@npm:2.6.2"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.1"
+"@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm-gnueabihf@npm:2.6.2"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-linux-arm64-gnu@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-linux-arm64-gnu@npm:2.6.1"
+"@resvg/resvg-js-linux-arm64-gnu@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm64-gnu@npm:2.6.2"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-linux-arm64-musl@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-linux-arm64-musl@npm:2.6.1"
+"@resvg/resvg-js-linux-arm64-musl@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-arm64-musl@npm:2.6.2"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-linux-x64-gnu@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-linux-x64-gnu@npm:2.6.1"
+"@resvg/resvg-js-linux-x64-gnu@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-x64-gnu@npm:2.6.2"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-linux-x64-musl@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-linux-x64-musl@npm:2.6.1"
+"@resvg/resvg-js-linux-x64-musl@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-linux-x64-musl@npm:2.6.2"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-win32-arm64-msvc@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-win32-arm64-msvc@npm:2.6.1"
+"@resvg/resvg-js-win32-arm64-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-arm64-msvc@npm:2.6.2"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-win32-ia32-msvc@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-win32-ia32-msvc@npm:2.6.1"
+"@resvg/resvg-js-win32-ia32-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-ia32-msvc@npm:2.6.2"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js-win32-x64-msvc@npm:2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js-win32-x64-msvc@npm:2.6.1"
+"@resvg/resvg-js-win32-x64-msvc@npm:2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js-win32-x64-msvc@npm:2.6.2"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@resvg/resvg-js@npm:^2.6.1":
-  version: 2.6.1
-  resolution: "@resvg/resvg-js@npm:2.6.1"
+"@resvg/resvg-js@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "@resvg/resvg-js@npm:2.6.2"
   dependencies:
-    "@resvg/resvg-js-android-arm-eabi": "npm:2.6.1"
-    "@resvg/resvg-js-android-arm64": "npm:2.6.1"
-    "@resvg/resvg-js-darwin-arm64": "npm:2.6.1"
-    "@resvg/resvg-js-darwin-x64": "npm:2.6.1"
-    "@resvg/resvg-js-linux-arm-gnueabihf": "npm:2.6.1"
-    "@resvg/resvg-js-linux-arm64-gnu": "npm:2.6.1"
-    "@resvg/resvg-js-linux-arm64-musl": "npm:2.6.1"
-    "@resvg/resvg-js-linux-x64-gnu": "npm:2.6.1"
-    "@resvg/resvg-js-linux-x64-musl": "npm:2.6.1"
-    "@resvg/resvg-js-win32-arm64-msvc": "npm:2.6.1"
-    "@resvg/resvg-js-win32-ia32-msvc": "npm:2.6.1"
-    "@resvg/resvg-js-win32-x64-msvc": "npm:2.6.1"
+    "@resvg/resvg-js-android-arm-eabi": "npm:2.6.2"
+    "@resvg/resvg-js-android-arm64": "npm:2.6.2"
+    "@resvg/resvg-js-darwin-arm64": "npm:2.6.2"
+    "@resvg/resvg-js-darwin-x64": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm-gnueabihf": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm64-gnu": "npm:2.6.2"
+    "@resvg/resvg-js-linux-arm64-musl": "npm:2.6.2"
+    "@resvg/resvg-js-linux-x64-gnu": "npm:2.6.2"
+    "@resvg/resvg-js-linux-x64-musl": "npm:2.6.2"
+    "@resvg/resvg-js-win32-arm64-msvc": "npm:2.6.2"
+    "@resvg/resvg-js-win32-ia32-msvc": "npm:2.6.2"
+    "@resvg/resvg-js-win32-x64-msvc": "npm:2.6.2"
   dependenciesMeta:
     "@resvg/resvg-js-android-arm-eabi":
       optional: true
@@ -3821,7 +3821,7 @@ __metadata:
       optional: true
     "@resvg/resvg-js-win32-x64-msvc":
       optional: true
-  checksum: 1878ed46b0cf9ebf112edc1e00e5d79451891169b2f8015fcd5b9b4561df1c40673abf620ebf9352a7e7a2d62c5ba7c846573ba383c09aaddba26727a82527bc
+  checksum: f04192e98d7ead730f9474f07e81aa9d9b28dc18218028f2a15c808e1ab0de511f07d8a77e01d058534e78f0ef7e9f33201f15f052e28bbaabaf159c68698a5e
   languageName: node
   linkType: hard
 
@@ -10521,7 +10521,7 @@ __metadata:
     "@headlessui/react": "npm:^1.7.18"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@neshca/cache-handler": "npm:^1.0.7"
-    "@resvg/resvg-js": "npm:^2.6.1"
+    "@resvg/resvg-js": "npm:^2.6.2"
     "@sentry/nextjs": "npm:^7.109.0"
     "@storybook/addon-actions": "npm:^8.0.0"
     "@storybook/addon-essentials": "npm:^8.0.4"
