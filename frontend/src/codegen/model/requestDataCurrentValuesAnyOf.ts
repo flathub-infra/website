@@ -5,6 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetSummarySummaryAppIdGetParams = {
-  branch?: string | null
-}
+export type RequestDataCurrentValuesAnyOf = { [key: string]: any }
