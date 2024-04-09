@@ -95,18 +95,18 @@ export default async function handler(
     await fetchAppstream(appId as string)
   ).data
 
-  const isFullscreenApp = await getIsFullscreenAppIsFullscreenAppAppIdGet(
-    appId as string,
-  )
-
   if (!app) {
     return res.status(404).json({ message: "App not found" })
   }
 
+  const isFullscreenApp = await getIsFullscreenAppIsFullscreenAppAppIdGet(
+    appId as string,
+  )
+
   const icon =
     app.icons.sort(
       (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
-    )[0].url ?? app.icon
+    )?.[0]?.url ?? app.icon
 
   const screenshot =
     app.screenshots.length > 0 ? mapScreenshot(app.screenshots[0]) : null
