@@ -6,9 +6,9 @@ const Footer = () => {
 
   return (
     <footer className="mt-16 bg-flathub-white p-12 shadow-md dark:bg-flathub-arsenic">
-      <div className="mx-auto grid max-w-[900px] grid-cols-1 justify-items-center gap-0 sm:grid-cols-2 md:grid-cols-4">
-        <div className="m-3 min-w-[200px] sm:space-y-3">
-          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
+      <div className="mx-auto gap-5 grid max-w-[900px] grid-cols-1 justify-items-center sm:justify-items-start sm:grid-cols-2 md:grid-cols-4">
+        <div>
+          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base pb-3">
             {t("apps")}
           </div>
           <div className="flex flex-col sm:space-y-3">
@@ -45,8 +45,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] sm:space-y-3">
-          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
+        <div>
+          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base pb-3">
             {t("community")}
           </div>
           <div className="flex flex-col sm:space-y-3">
@@ -77,8 +77,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] sm:space-y-3">
-          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
+        <div>
+          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base pb-3">
             {t("developers")}
           </div>
           <div className="flex flex-col sm:space-y-3">
@@ -113,8 +113,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="m-3 min-w-[200px] sm:space-y-3">
-          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base">
+        <div>
+          <div className="flex justify-center text-2xl font-bold sm:block sm:text-base pb-3">
             Flathub
           </div>
           <div className="flex flex-col sm:space-y-3">
