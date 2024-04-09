@@ -2724,9 +2724,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.26.10":
-  version: 0.26.10
-  resolution: "@floating-ui/react@npm:0.26.10"
+"@floating-ui/react@npm:^0.26.11":
+  version: 0.26.11
+  resolution: "@floating-ui/react@npm:0.26.11"
   dependencies:
     "@floating-ui/react-dom": "npm:^2.0.0"
     "@floating-ui/utils": "npm:^0.2.0"
@@ -2734,7 +2734,7 @@ __metadata:
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 6d960dd5c681aebe98103437f5289d4f4fae7dc49e098051cef438a986be563aa791157416c843d063208c434f578a1ee15402f47b7c2ea6240321fa023d38bf
+  checksum: 5dae66343ffcfcf79760935c214abc96a1f394dd8e5452785280177abe088c9eb08e1df46b61bb165f672978cfbf548a271c66372cd7dfbe07998a63be116b7a
   languageName: node
   linkType: hard
 
@@ -10577,7 +10577,7 @@ __metadata:
     "@babel/core": "npm:^7.24.3"
     "@collapsed/react": "npm:^4.0.1"
     "@faker-js/faker": "npm:^8.3.1"
-    "@floating-ui/react": "npm:^0.26.10"
+    "@floating-ui/react": "npm:^0.26.11"
     "@headlessui/react": "npm:^1.7.18"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@neshca/cache-handler": "npm:^1.0.7"
