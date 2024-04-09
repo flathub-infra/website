@@ -4,7 +4,6 @@ import React from "react"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationText } from "src/verification"
 import VerificationIcon from "./VerificationIcon"
-import { HiMiniExclamationTriangle } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
 
 interface Props {
@@ -75,10 +74,7 @@ const Verification: FunctionComponent<Props> = ({
   ) : (
     <div className="flex pt-1 items-center justify-center sm:justify-start">
       <div className="rounded-full w-fit text-flathub-black dark:text-flathub-white bg-flathub-status-yellow-dark dark:bg-flathub-status-yellow py-0.5 px-2">
-        <div className="text-xs flex gap-1 items-end">
-          <HiMiniExclamationTriangle className="size-3.5" />
-          {t("unverified")}
-        </div>
+        <div className="text-xs flex gap-1 items-end">⚠ {t("unverified")}</div>
       </div>
     </div>
   )
