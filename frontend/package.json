@@ -59,7 +59,7 @@
     "spdx-license-list": "^6.9.0",
     "swiper": "^11.1.0",
     "yaml": "^2.3.4",
-    "yet-another-react-lightbox": "^3.17.1"
+    "yet-another-react-lightbox": "^3.17.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
