@@ -127,13 +127,13 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>"
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Install the Software Flatpak plugin
       text: "
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>apt install gnome-software-plugin-flatpak</terminal-command>
+        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>
         <p>If you are running KDE, you should instead install the Plasma Discover Flatpak backend:</p>
-        <terminal-command>apt install plasma-discover-backend-flatpak</terminal-command>"
+        <terminal-command>sudo apt install plasma-discover-backend-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
@@ -309,7 +309,7 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Raspberry Pi OS (previously called Raspbian) Stretch and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>"
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
@@ -448,7 +448,7 @@
     - name: Install Flatpak
       text: '
         <p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>
+        <terminal-command>sudo apt install flatpak</terminal-command>
         <p>For Pardus 2017 and older versions, a flatpak package is available in the <a href="https://backports.debian.org/Instructions/">official backports repository</a>. </p>'
     - name: Install the Software Flatpak plugin
       text: "
