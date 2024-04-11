@@ -104,12 +104,12 @@ export default async function handler(
   )
 
   const icon =
-    app.icons.sort(
+    app.icons?.sort(
       (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
     )?.[0]?.url ?? app.icon
 
   const screenshot =
-    app.screenshots.length > 0 ? mapScreenshot(app.screenshots[0]) : null
+    app.screenshots?.length > 0 ? mapScreenshot(app.screenshots[0]) : null
 
   const branding = app.branding?.[0].value ?? "#FAFAFA"
 
@@ -144,18 +144,20 @@ export default async function handler(
             width: "300px",
           }}
         >
-          <img
-            style={{
-              display: "flex",
-              width: "256",
-              height: "256",
-              borderRadius: "16px",
-              filter:
-                "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
-            }}
-            src={icon}
-            alt=""
-          />
+          {icon && (
+            <img
+              style={{
+                display: "flex",
+                width: "256",
+                height: "256",
+                borderRadius: "16px",
+                filter:
+                  "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
+              }}
+              src={icon}
+              alt=""
+            />
+          )}
           <h1
             style={{
               fontFamily: "Inter-Black",
