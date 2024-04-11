@@ -10670,7 +10670,7 @@ __metadata:
     swiper: "npm:^11.1.0"
     tailwindcss: "npm:^3.4.3"
     typescript: "npm:^5.4.3"
-    yaml: "npm:^2.3.4"
+    yaml: "npm:^2.4.1"
     yet-another-react-lightbox: "npm:^3.17.2"
   languageName: unknown
   linkType: soft
