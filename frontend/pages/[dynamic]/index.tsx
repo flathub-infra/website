@@ -5,7 +5,12 @@ import { fetchAppstreamList } from "src/fetchers"
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const dynamic = ctx.params.dynamic as string
 
-  if (!dynamic.startsWith("app-sitemap-")) {
+  if (
+    !dynamic.startsWith("sitemap.xml") &&
+    !dynamic.startsWith("sitemap-") &&
+    !dynamic.startsWith("server-sitemap-index.xml") &&
+    !dynamic.startsWith("app-sitemap-")
+  ) {
     return {
       notFound: true,
     }
