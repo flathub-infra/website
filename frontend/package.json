@@ -67,7 +67,7 @@
     "@neshca/cache-handler": "^1.0.8",
     "@storybook/addon-actions": "^8.0.8",
     "@storybook/addon-essentials": "^8.0.4",
-    "@storybook/addon-interactions": "^8.0.6",
+    "@storybook/addon-interactions": "^8.0.8",
     "@storybook/addon-links": "^8.0.6",
     "@storybook/addon-themes": "^8.0.6",
     "@storybook/nextjs": "^8.0.6",
