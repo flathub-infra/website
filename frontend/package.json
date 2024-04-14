@@ -58,6 +58,7 @@
     "sharp": "^0.33.3",
     "spdx-license-list": "^6.9.0",
     "swiper": "^11.1.0",
+    "tailwind-merge": "^2.2.2",
     "yaml": "^2.4.1",
     "yet-another-react-lightbox": "^3.17.2"
   },
