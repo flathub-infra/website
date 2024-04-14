@@ -11,7 +11,6 @@ import {
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
-import ApplicationSections from "../src/components/application/Sections"
 import { useTranslation } from "next-i18next"
 import ButtonLink from "src/components/ButtonLink"
 import {
@@ -32,8 +31,8 @@ import {
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
 } from "src/codegen"
 import { UserInfo } from "src/codegen/model/userInfo"
-import Tile from "src/components/Tile"
 import { useState } from "react"
+import MultiToggle from "src/components/MultiToggle"
 
 const categoryOrder = [
   Category.Office,
@@ -58,37 +57,42 @@ const CategorySection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedCategory, setSelectedCategory] = useState(categoryOrder[0])
+  const [selectedCategory, setSelectedCategory] = useState(
+    topAppsByCategory[0].category,
+  )
 
   const selectedApps = topAppsByCategory.find(
     (sectionData) => sectionData.category === selectedCategory,
   )
 
   return (
-    <div>
-      <ApplicationSection
-        key={`categorySection${selectedApps.category}`}
-        href={`/apps/category/${encodeURIComponent(selectedCategory)}`}
-        applications={selectedApps.apps.hits.map((app) =>
-          mapAppsIndexToAppstreamListItem(app),
-        )}
-        appSelection={
-          <div className="flex flex-wrap gap-2">
-            {topAppsByCategory.map((sectionData, i) => (
-              <Tile
-                key={sectionData.category}
-                className="grow"
-                onClick={() => setSelectedCategory(sectionData.category)}
-              >
-                {categoryToName(sectionData.category, t)}
-              </Tile>
-            ))}
-          </div>
-        }
-        title={categoryToName(selectedApps.category, t)}
-        morePosition="bottom"
-      />
-    </div>
+    <ApplicationSection
+      key={`categorySection${selectedApps.category}`}
+      href={`/apps/category/${encodeURIComponent(selectedCategory)}`}
+      applications={selectedApps.apps.hits.map((app) =>
+        mapAppsIndexToAppstreamListItem(app),
+      )}
+      appSelection={
+        <>
+          <MultiToggle
+            items={topAppsByCategory.map((x) => ({
+              id: x.category,
+              content: (
+                <div className="font-semibold">
+                  {categoryToName(x.category, t)}
+                </div>
+              ),
+              selected: x.category === selectedCategory,
+              onClick: () => setSelectedCategory(x.category),
+            }))}
+            size={"lg"}
+            variant="secondary"
+          />
+        </>
+      }
+      title={categoryToName(selectedApps.category, t)}
+      morePosition="bottom"
+    />
   )
 }
 
@@ -110,30 +114,29 @@ const TopSection = ({
   )
 
   return (
-    <div>
-      <ApplicationSection
-        key={`topSection${selectedApps.name}`}
-        href={selectedApps.moreLink}
-        applications={selectedApps.apps.hits.map((app) =>
-          mapAppsIndexToAppstreamListItem(app),
-        )}
-        appSelection={
-          <div className="flex flex-wrap gap-2">
-            {topApps.map((sectionData) => (
-              <Tile
-                key={sectionData.name}
-                className="grow"
-                onClick={() => setSelectedName(sectionData.name)}
-              >
-                {t(sectionData.name)}
-              </Tile>
-            ))}
-          </div>
-        }
-        title={t(selectedApps.name)}
-        morePosition="bottom"
-      />
-    </div>
+    <ApplicationSection
+      key={`topSection${selectedApps.name}`}
+      href={selectedApps.moreLink}
+      applications={selectedApps.apps.hits.map((app) =>
+        mapAppsIndexToAppstreamListItem(app),
+      )}
+      appSelection={
+        <>
+          <MultiToggle
+            items={topApps.map((x) => ({
+              id: x.name,
+              content: <div className="font-semibold">{t(x.name)}</div>,
+              selected: x.name === selectedName,
+              onClick: () => setSelectedName(x.name),
+            }))}
+            size={"lg"}
+            variant="secondary"
+          />
+        </>
+      }
+      title={t(selectedApps.name)}
+      morePosition="bottom"
+    />
   )
 }
 
@@ -165,60 +168,62 @@ export default function Home({
   return (
     <>
       <NextSeo description={t("flathub-description")} />
-      <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard condition={(info: UserInfo) => info.is_quality_moderator}>
-          {heroBannerData.length > 0 && (
-            <HeroBanner heroBannerData={heroBannerData} />
-          )}
-          <div className="flex flex-col lg:flex-row gap-4">
-            <AppOfTheDay
-              className="lg:w-1/2"
-              appOfTheDay={appOfTheDayAppstream}
-            />
-            <div
-              className={clsx(
-                "lg:w-1/2",
-                "rounded-xl",
-                "flex min-w-0 items-center gap-4",
-                "bg-repeat-y",
-                "bg-[url('/img/card-background.svg')]",
-                "shadow-md",
-                "overflow-hidden",
-              )}
-            >
+          <div className="space-y-4">
+            {heroBannerData.length > 0 && (
+              <HeroBanner heroBannerData={heroBannerData} />
+            )}
+            <div className="flex flex-col lg:flex-row gap-4">
+              <AppOfTheDay
+                className="lg:w-1/2"
+                appOfTheDay={appOfTheDayAppstream}
+              />
               <div
                 className={clsx(
-                  "flex justify-between gap-3",
-                  "dark:bg-flathub-arsenic/90",
-                  "p-8 w-full h-full",
+                  "lg:w-1/2",
+                  "rounded-xl",
+                  "flex min-w-0 items-center gap-4",
+                  "bg-repeat-y",
+                  "bg-[url('/img/card-background.svg')]",
+                  "shadow-md",
+                  "overflow-hidden",
                 )}
               >
-                <div className="prose dark:prose-invert max-w-none">
-                  <div className="mb-0 text-2xl font-extrabold">
-                    {t("flathub-the-linux-app-store")}
-                  </div>
-                  <p className="introduction mb-4 mt-2 max-w-2xl font-light">
-                    {t("flathub-index-description")}
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <ButtonLink
-                      variant="secondary"
-                      href={"/setup"}
-                      passHref
-                      aria-label={t("setup-flathub-description")}
-                    >
-                      {t("setup-flathub")}
-                    </ButtonLink>
-                    {!IS_PRODUCTION && (
+                <div
+                  className={clsx(
+                    "flex justify-between gap-3",
+                    "dark:bg-flathub-arsenic/90",
+                    "p-8 w-full h-full",
+                  )}
+                >
+                  <div className="prose dark:prose-invert max-w-none">
+                    <div className="mb-0 text-2xl font-extrabold">
+                      {t("flathub-the-linux-app-store")}
+                    </div>
+                    <p className="introduction mb-4 mt-2 max-w-2xl font-light">
+                      {t("flathub-index-description")}
+                    </p>
+                    <div className="flex flex-wrap gap-3">
                       <ButtonLink
                         variant="secondary"
-                        href={"/donate"}
+                        href={"/setup"}
                         passHref
-                        aria-label={t("donate-to", { project: "Flathub" })}
+                        aria-label={t("setup-flathub-description")}
                       >
-                        {t("donate-to", { project: "Flathub" })}
+                        {t("setup-flathub")}
                       </ButtonLink>
-                    )}
+                      {!IS_PRODUCTION && (
+                        <ButtonLink
+                          variant="secondary"
+                          href={"/donate"}
+                          passHref
+                          aria-label={t("donate-to", { project: "Flathub" })}
+                        >
+                          {t("donate-to", { project: "Flathub" })}
+                        </ButtonLink>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -251,7 +256,9 @@ export default function Home({
             ]}
           />
 
-          <CategorySection topAppsByCategory={topAppsByCategory} />
+          <CategorySection topAppsByCategory={topAppsByCategory.slice(0, 3)} />
+          <CategorySection topAppsByCategory={topAppsByCategory.slice(3, 6)} />
+          <CategorySection topAppsByCategory={topAppsByCategory.slice(6, 10)} />
         </LoginGuard>
       </div>
     </>

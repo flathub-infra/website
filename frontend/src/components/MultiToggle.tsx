@@ -1,10 +1,11 @@
 import { clsx } from "clsx"
-import { LayoutGroup, color, motion } from "framer-motion"
+import { LayoutGroup, motion } from "framer-motion"
 import { ReactNode } from "react"
 
 const MultiToggle = ({
   items,
   size,
+  variant = "primary",
 }: {
   items: {
     id: string
@@ -15,13 +16,16 @@ const MultiToggle = ({
     color?: string
   }[]
   size: "sm" | "lg"
+  variant?: "primary" | "secondary"
 }) => {
   return (
     <LayoutGroup id={Math.random().toString(36)}>
       <ul
         className={clsx(
           "flex w-full cursor-pointer justify-around rounded-full",
-          "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
+          variant === "primary" &&
+            "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
+          variant === "secondary" && "bg-flathub-white dark:bg-flathub-arsenic",
           "py-1 text-center",
           size === "sm" ? "h-[34px]" : "h-14",
         )}
