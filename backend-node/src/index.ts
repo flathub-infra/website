@@ -60,6 +60,7 @@ const EmailBody = z.object({
       provider: z.string().min(3).openapi({ example: "github" }),
       login: z.string().min(1).openapi({ example: "testuser" }),
       time: z.string().min(3).openapi({ example: "2011-10-05T14:48:00.000Z" }),
+      ipAddress: z.string().min(3).openapi({ example: "127.0.0.1" }),
     }),
     z.object({
       category: z
