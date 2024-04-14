@@ -31,7 +31,6 @@ export default function Verified({
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
           page={applications.page}
           totalPages={applications.totalPages}
-          totalHits={applications.totalHits}
         />
       </div>
     </>
