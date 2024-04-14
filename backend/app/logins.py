@@ -858,6 +858,7 @@ def continue_oauth_flow(
                 "provider": method,
                 "login": provider_data.login,
                 "time": datetime.now().isoformat(),
+                "ipAddress": request.client.host if request.client else "Unknown",
             },
         }
 
