@@ -1,12 +1,19 @@
+import { Listbox, Transition } from "@headlessui/react"
 import { clsx } from "clsx"
 import { LayoutGroup, motion } from "framer-motion"
-import { ReactNode } from "react"
+import {
+  DetailedHTMLProps,
+  Fragment,
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+  forwardRef,
+} from "react"
+import { HiChevronDown } from "react-icons/hi2"
+import { useMeasure } from "@uidotdev/usehooks"
+import { useTranslation } from "next-i18next"
 
-const MultiToggle = ({
-  items,
-  size,
-  variant = "primary",
-}: {
+type Props = {
   items: {
     id: string
     content: ReactNode
@@ -17,10 +24,84 @@ const MultiToggle = ({
   }[]
   size: "sm" | "lg"
   variant?: "primary" | "secondary"
-}) => {
+} & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
+
+const MultiToggle: FunctionComponent<Props> = forwardRef<
+  HTMLUListElement,
+  Props
+>(({ items, size, variant = "primary" }, ref) => {
+  const { t } = useTranslation()
+  const [wref, { width, height }] = useMeasure()
+
+  const selectedItem = items.find((item) => item.selected) ?? undefined
+
+  const showAsListbox = width < 640 && size === "lg"
+
+  if (showAsListbox) {
+    return (
+      <Listbox
+        ref={wref}
+        value={selectedItem}
+        onChange={(item) => {
+          item.onClick()
+        }}
+        as={"div"}
+        className={"relative"}
+      >
+        <Listbox.Button
+          className={clsx(
+            "bg-flathub-white dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
+            "w-full",
+            "flex items-center justify-between gap-2",
+          )}
+        >
+          {selectedItem?.content}
+          <HiChevronDown />
+        </Listbox.Button>
+        <Transition
+          as={Fragment}
+          enter="transition duration-100 ease-out"
+          enterFrom="transform scale-95 opacity-0"
+          enterTo="transform scale-100 opacity-100"
+          leave="transition duration-75 ease-out"
+          leaveFrom="transform scale-100 opacity-100"
+          leaveTo="transform scale-95 opacity-0"
+        >
+          <Listbox.Options
+            className={clsx(
+              "bg-flathub-white dark:bg-flathub-arsenic rounded-3xl mt-1",
+              "absolute",
+              "w-full",
+              "z-10",
+            )}
+          >
+            {items.map((item) => (
+              <Listbox.Option key={item.id} value={item} as={Fragment}>
+                {({ active, selected }) => (
+                  <div
+                    className={clsx(
+                      "p-4",
+                      "cursor-pointer",
+                      selected && "font-semibold",
+                      active && "bg-flathub-gainsborow/20",
+                      "first:rounded-t-3xl last:rounded-b-3xl",
+                    )}
+                  >
+                    {item.content}
+                  </div>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Transition>
+      </Listbox>
+    )
+  }
+
   return (
     <LayoutGroup id={Math.random().toString(36)}>
       <ul
+        ref={wref}
         className={clsx(
           "flex w-full cursor-pointer justify-around rounded-full",
           variant === "primary" &&
@@ -65,6 +146,8 @@ const MultiToggle = ({
       </ul>
     </LayoutGroup>
   )
-}
+})
+
+MultiToggle.displayName = "MultiToggle"
 
 export default MultiToggle
