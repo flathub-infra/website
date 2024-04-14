@@ -1,4 +1,3 @@
-import clsx from "clsx"
 import Link from "next/link"
 import { DesktopAppstream } from "src/types/Appstream"
 
@@ -6,7 +5,7 @@ import LogoImage from "../LogoImage"
 import { HiStar } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, cn, getContrastColor } from "src/utils/helpers"
 
 export const AppOfTheDay = ({
   appOfTheDay: appOfTheDay,
@@ -36,7 +35,7 @@ export const AppOfTheDay = ({
       style={{
         backgroundColor: brandingColor && brandingColor.value,
       }}
-      className={clsx(
+      className={cn(
         "rounded-xl",
         "flex min-w-0 items-center gap-4 p-8 pb-0 duration-500",
         "hover:cursor-pointer",

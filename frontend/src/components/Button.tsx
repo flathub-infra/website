@@ -5,6 +5,7 @@ import {
   ButtonHTMLAttributes,
 } from "react"
 import { clsx } from "clsx"
+import { cn } from "src/utils/helpers"
 
 type Props = {
   children: React.ReactNode
@@ -18,8 +19,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
   ({ children, variant = "primary", className, ...buttonProps }, ref) => {
     return (
       <button
-        className={clsx(
-          className ?? "",
+        className={cn(
           {
             destructive:
               "bg-flathub-vivid-crimson dark:bg-flathub-dark-candy-apple-red text-flathub-lotion enabled:hover:opacity-75 enabled:active:opacity-50",
@@ -33,6 +33,7 @@ const Button: FunctionComponent<Props> = forwardRef<HTMLButtonElement, Props>(
               "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue text-flathub-lotion enabled:hover:opacity-75 enabled:active:opacity-50",
           }[variant],
           "no-wrap flex gap-1 items-center justify-center h-11 overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold duration-500 enabled:hover:cursor-pointer dark:disabled:bg-flathub-sonic-silver disabled:bg-flathub-sonic-silver disabled:cursor-not-allowed disabled:opacity-70",
+          className,
         )}
         type={buttonProps.type}
         ref={ref}
