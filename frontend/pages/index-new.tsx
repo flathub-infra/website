@@ -86,6 +86,7 @@ const CategorySection = ({
           </div>
         }
         title={categoryToName(selectedApps.category, t)}
+        morePosition="bottom"
       />
     </div>
   )
@@ -130,6 +131,7 @@ const TopSection = ({
           </div>
         }
         title={t(selectedApps.name)}
+        morePosition="bottom"
       />
     </div>
   )
