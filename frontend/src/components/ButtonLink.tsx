@@ -6,6 +6,7 @@ import {
   ButtonHTMLAttributes,
 } from "react"
 import { clsx } from "clsx"
+import { cn } from "src/utils/helpers"
 
 type Props = {
   href
@@ -72,14 +73,14 @@ const ButtonLink: FunctionComponent<Props> = forwardRef<
         target={target}
         ref={ref}
         rel={rel}
-        className={clsx(
-          className ?? "",
+        className={cn(
           hover,
           variantClass,
           "no-wrap flex gap-1 h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500",
           disabled
             ? "dark:bg-flathub-sonic-silver bg-flathub-sonic-silver cursor-not-allowed opacity-70"
             : "hover:cursor-pointer",
+          className,
         )}
         aria-label={ariaLabel}
         aria-disabled={disabled}
