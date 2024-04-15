@@ -2709,10 +2709,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^8.3.1":
-  version: 8.3.1
-  resolution: "@faker-js/faker@npm:8.3.1"
-  checksum: ed50c27a5674a8c755574ccc0c79c29fa70cd17d524b701269f584d2f78720c690da219f6111b0e743a4f6570fb08685d826b2d9e80ca9c1484b8c26047864c6
+"@faker-js/faker@npm:^8.4.1":
+  version: 8.4.1
+  resolution: "@faker-js/faker@npm:8.4.1"
+  checksum: 4f2aecddcfdc2cc8b50b2d15d1e37302a7c7a5bbd184ae910a9d271bc11248533ca74dcdd4a9ccbe20410553e7af0f6a4d334c5b955635e09a32ddf4a64942d4
   languageName: node
   linkType: hard
 
@@ -10733,7 +10733,7 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.24.4"
     "@collapsed/react": "npm:^4.0.1"
-    "@faker-js/faker": "npm:^8.3.1"
+    "@faker-js/faker": "npm:^8.4.1"
     "@floating-ui/react": "npm:^0.26.12"
     "@headlessui/react": "npm:^1.7.18"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
