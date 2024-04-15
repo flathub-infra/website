@@ -23,6 +23,15 @@ vcr = vcr.VCR(
 )
 
 
+def _assertAgainstSnapshotWithoutPerformance(snapshot, response, snapshotName):
+    responseJson = response.json()
+    expected = snapshot(snapshotName)
+    expected["processingTimeMs"] = responseJson[
+        "processingTimeMs"
+    ]  # Match processingTimeMs to ignore differences here
+    assert expected == responseJson
+
+
 class Override:
     def __init__(self, dependency, replacement) -> None:
         from app import main
@@ -65,7 +74,9 @@ def test_update(client):
 def test_apps_by_category(client, snapshot):
     response = client.get("/category/Game")
     assert response.status_code == 200
-    assert snapshot("test_apps_by_category.json") == response.json()
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_apps_by_category.json"
+    )
 
 
 def test_apps_by_category_paginated(client):
@@ -96,7 +107,9 @@ def test_apps_by_category_with_too_few_per_page_params(client):
 def test_apps_by_developer(client, snapshot):
     response = client.get("/developer/Sugar Labs Community")
     assert response.status_code == 200
-    assert snapshot("test_apps_by_developer.json") == response.json()
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_apps_by_developer.json"
+    )
 
 
 def test_apps_by_non_existent_developer(client):
@@ -122,90 +135,78 @@ def test_search_query_by_partial_name(client, snapshot):
     post_body = {"query": "maz"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_appid.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid.json"
+    )
 
 
 def test_search_query_by_partial_name_2(client, snapshot):
     post_body = {"query": "ma"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_appid.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid.json"
+    )
 
 
 def test_search_query_by_name(client, snapshot):
     post_body = {"query": "Maze"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_appid.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid.json"
+    )
 
 
 def test_search_query_by_summary(client, snapshot):
     post_body = {"query": "maze game"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_appid.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid.json"
+    )
 
 
 def test_search_query_by_description(client, snapshot):
     post_body = {"query": "finding your way out"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_appid.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid.json"
+    )
 
 
 def test_search_query_by_non_existent(client, snapshot):
     post_body = {"query": "NonExistent"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
-    responseJson = response.json()
-    expected = snapshot("test_search_query_by_non_existent.json")
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_non_existent.json"
+    )
 
 
 def test_collection_by_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated")
     assert response.status_code == 200
-    assert snapshot("test_collection_by_recently_updated.json") == response.json()
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_by_recently_updated.json"
+    )
 
 
 def test_collection_by_one_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated?page=1&per_page=1")
     assert response.status_code == 200
-    assert snapshot("test_collection_by_one_recently_updated.json") == response.json()
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_by_one_recently_updated.json"
+    )
 
 
 def test_popular_last_month(client, snapshot):
     response = client.get("/popular/last-month")
     assert response.status_code == 200
-    assert snapshot("test_popular_last_month.json") == response.json()
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_popular_last_month.json"
+    )
 
 
 def test_status(client, snapshot):
