@@ -1,24 +1,24 @@
 {
   "hits": [
     {
-      "name": "AnyDesk",
+      "name": "Maze",
       "keywords": null,
-      "summary": "Connect to a computer remotely",
-      "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
-      "id": "com_anydesk_Anydesk",
+      "summary": "A simple maze game",
+      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+      "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
-      "project_license": "LicenseRef-proprietary",
-      "is_free_license": false,
-      "app_id": "com.anydesk.Anydesk",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
+      "project_license": "GPL-3.0-or-later",
+      "is_free_license": true,
+      "app_id": "org.sugarlabs.Maze",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
       "categories": [
-        "Network"
+        "Game"
       ],
       "main_categories": [
-        "Network"
+        "Game"
       ],
       "sub_categories": [],
-      "developer_name": "AnyDesk Software GmbH",
+      "developer_name": "Sugar Labs Community",
       "verification_verified": false,
       "verification_method": null,
       "verification_login_name": null,
@@ -26,14 +26,14 @@
       "verification_login_is_organization": null,
       "verification_website": null,
       "verification_timestamp": null,
-      "runtime": "org.freedesktop.Platform/x86_64/20.08",
-      "updated_at": 1610973790,
+      "runtime": "org.gnome.Platform/x86_64/3.36",
+      "updated_at": 1610973680,
       "arches": [
         "x86_64"
       ],
-      "added_at": 1610973790,
-      "trending": -181.0,
-      "installs_last_month": 886
+      "added_at": 1610973680,
+      "trending": 360.0,
+      "installs_last_month": 567
     },
     {
       "name": "WPS Office",
@@ -71,24 +71,24 @@
       "installs_last_month": 971
     },
     {
-      "name": "Maze",
+      "name": "AnyDesk",
       "keywords": null,
-      "summary": "A simple maze game",
-      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
-      "id": "org_sugarlabs_Maze",
+      "summary": "Connect to a computer remotely",
+      "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
+      "id": "com_anydesk_Anydesk",
       "type": "desktop-application",
-      "project_license": "GPL-3.0-or-later",
-      "is_free_license": true,
-      "app_id": "org.sugarlabs.Maze",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "project_license": "LicenseRef-proprietary",
+      "is_free_license": false,
+      "app_id": "com.anydesk.Anydesk",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.anydesk.Anydesk.png",
       "categories": [
-        "Game"
+        "Network"
       ],
       "main_categories": [
-        "Game"
+        "Network"
       ],
       "sub_categories": [],
-      "developer_name": "Sugar Labs Community",
+      "developer_name": "AnyDesk Software GmbH",
       "verification_verified": false,
       "verification_method": null,
       "verification_login_name": null,
@@ -96,14 +96,14 @@
       "verification_login_is_organization": null,
       "verification_website": null,
       "verification_timestamp": null,
-      "runtime": "org.gnome.Platform/x86_64/3.36",
-      "updated_at": 1610973680,
+      "runtime": "org.freedesktop.Platform/x86_64/20.08",
+      "updated_at": 1610973790,
       "arches": [
         "x86_64"
       ],
-      "added_at": 1610973680,
-      "trending": 360.0,
-      "installs_last_month": 567
+      "added_at": 1610973790,
+      "trending": -181.0,
+      "installs_last_month": 886
     }
   ],
   "query": "",

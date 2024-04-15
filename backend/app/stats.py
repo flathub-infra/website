@@ -8,7 +8,7 @@ import requests
 
 from app import utils
 
-from . import config, db, models, search
+from . import config, db, models, search, zscore
 
 StatsType = dict[str, dict[str, list[int]]]
 POPULAR_DAYS_NUM = 7
@@ -217,6 +217,30 @@ def update(sqldb):
     stats_dict = _get_stats(len(frontend_app_ids))
 
     app_stats_per_day = _get_app_stats_per_day()
+
+    trending_apps: list = []
+    for app_id, dict in app_stats_per_day.items():
+        if app_id in frontend_app_ids:
+            # first item is the oldest, last item is the most recent
+            # only use the last 14 values
+            installs_over_days = [i for i in dict.values()][-15:-1]
+            score = installs_over_days.pop()
+
+            app_quality_status = models.QualityModeration.by_appid_summarized(
+                sqldb, app_id
+            )
+
+            trending_apps.append(
+                {
+                    "id": utils.get_clean_app_id(app_id),
+                    "trending": zscore.zscore(
+                        0.8,
+                        installs_over_days,
+                    ).score(score)
+                    + app_quality_status.passes,
+                }
+            )
+    search.create_or_update_apps(trending_apps)
 
     for app_id, dict in stats_total.items():
         # Index 0 is install and update count index 1 would be the update count

@@ -237,6 +237,23 @@ def get_popular_last_month(
     return result
 
 
+@router.get("/trending/last-two-weeks", tags=["app"])
+def get_trending_last_two_weeks(
+    page: int | None = None,
+    per_page: int | None = None,
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_trending(page, per_page)
+
+    return result
+
+
 class StatsResult(BaseModel):
     countries: dict[str, int]
     downloads_per_day: dict[str, int]
