@@ -6317,13 +6317,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.74":
-  version: 18.2.74
-  resolution: "@types/react@npm:18.2.74"
+"@types/react@npm:^18.2.78":
+  version: 18.2.78
+  resolution: "@types/react@npm:18.2.78"
   dependencies:
     "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: 347e38b4c5dc20d50ff71bf04b7caaef490e5ff695e74a0088a13fbb2a0c5d125a5ecfd142adfa30f0176da0e2734942c91ba61d95ce269c43b3265bd7379361
+  checksum: 5eb8e1dd98c29aeddf40b90f466d1a9ce83b113d42a096633d632b834e7ae9821f24ba7999928de9d98cca37764532a7ea35355a8103a377d8baa750f1841b5c
   languageName: node
   linkType: hard
 
@@ -10756,7 +10756,7 @@ __metadata:
     "@tanstack/react-query-devtools": "npm:^5.29.0"
     "@tanstack/react-table": "npm:^8.15.3"
     "@types/node": "npm:^20.12.7"
-    "@types/react": "npm:^18.2.74"
+    "@types/react": "npm:^18.2.78"
     "@uidotdev/usehooks": "npm:^2.4.1"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.6.8"
