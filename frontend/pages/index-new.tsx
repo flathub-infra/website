@@ -239,12 +239,12 @@ export default function Home({
               },
               {
                 apps: recentlyAdded,
-                name: "recently-added",
+                name: "new",
                 moreLink: "/apps/collection/recently-added",
               },
               {
                 apps: recentlyUpdated,
-                name: "recently-updated",
+                name: "updated",
                 moreLink: "/apps/collection/recently-updated",
               },
 
