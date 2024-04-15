@@ -79,6 +79,12 @@ bash tests/run_tests.sh
 
 ```
 
+Or update the snapshots via:
+
+```
+bash tests/update_snapshots.sh
+```
+
 ## How to make changes to the SQL database schema
 
 Making a change to the database schema in `models.py` will require a database migration.

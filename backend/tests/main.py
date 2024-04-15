@@ -201,6 +201,14 @@ def test_collection_by_one_recently_updated(client, snapshot):
     )
 
 
+def test_trending_last_two_weeks(client, snapshot):
+    response = client.get("/trending/last-two-weeks")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_trending_last_two_weeks.json"
+    )
+
+
 def test_popular_last_month(client, snapshot):
     response = client.get("/popular/last-month")
     assert response.status_code == 200
@@ -240,27 +248,32 @@ def test_stats(client):
     yesterday = today - datetime.timedelta(days=1)
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
+    two_weeks_ago = today - datetime.timedelta(days=14)
     expected = {
         "category_totals": {
             "Game": 1,
             "Network": 1,
             "Office": 1,
         },
-        "countries": {"AD": 45, "BR": 67},
+        "countries": {"AD": 55, "BR": 87},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},
-        "downloads": 3685,
+        "downloads": 4504,
         "number_of_apps": 3,
     }
+
+    expected["delta_downloads_per_day"][two_weeks_ago.isoformat()] = 15
     expected["delta_downloads_per_day"][three_days_ago.isoformat()] = 51
     expected["delta_downloads_per_day"][day_before_yesterday.isoformat()] = 15
     expected["delta_downloads_per_day"][yesterday.isoformat()] = 15
     expected["delta_downloads_per_day"][today.isoformat()] = 15
+    expected["downloads_per_day"][two_weeks_ago.isoformat()] = 819
     expected["downloads_per_day"][three_days_ago.isoformat()] = 199
     expected["downloads_per_day"][day_before_yesterday.isoformat()] = 703
     expected["downloads_per_day"][yesterday.isoformat()] = 1964
     expected["downloads_per_day"][today.isoformat()] = 819
+    expected["updates_per_day"][two_weeks_ago.isoformat()] = 5
     expected["updates_per_day"][three_days_ago.isoformat()] = 56
     expected["updates_per_day"][day_before_yesterday.isoformat()] = 5
     expected["updates_per_day"][yesterday.isoformat()] = 5
@@ -276,14 +289,16 @@ def test_app_stats_by_id(client):
     today = datetime.date.today()
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
+    two_weeks_ago = today - datetime.timedelta(days=14)
     expected = {
         "id": "org.sugarlabs.Maze",
-        "installs_total": 467,
+        "installs_total": 567,
         "installs_per_day": {
             three_days_ago.isoformat(): 460,
             day_before_yesterday.isoformat(): 6,
+            two_weeks_ago.isoformat(): 100,
         },
-        "installs_last_month": 467,
+        "installs_last_month": 567,
         "installs_last_7_days": 467,
     }
 

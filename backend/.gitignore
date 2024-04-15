@@ -1,5 +1,5 @@
 __pycache__
-tests/stats/
+tests/stats/20*
 .ruff_cache
 .pytest_cache
 .venv

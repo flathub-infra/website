@@ -21,7 +21,13 @@ client = meilisearch.Client(
 )
 client.create_index("apps", {"primaryKey": "id"})
 client.index("apps").update_sortable_attributes(
-    ["installs_last_month", "added_at", "updated_at", "verification_timestamp"]
+    [
+        "installs_last_month",
+        "trending",
+        "added_at",
+        "updated_at",
+        "verification_timestamp",
+    ]
 )
 client.index("apps").update_searchable_attributes(
     ["name", "keywords", "summary", "description", "id"]
@@ -96,6 +102,17 @@ def get_by_installs_last_month(page: int | None, hits_per_page: int | None):
         "",
         {
             "sort": ["installs_last_month:desc"],
+            "hitsPerPage": hits_per_page or 250,
+            "page": page or 1,
+        },
+    )
+
+
+def get_by_trending(page: int | None, hits_per_page: int | None):
+    return client.index("apps").search(
+        "",
+        {
+            "sort": ["trending:desc"],
             "hitsPerPage": hits_per_page or 250,
             "page": page or 1,
         },
