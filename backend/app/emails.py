@@ -198,6 +198,15 @@ def send_email_new(payload: dict, db):
 
     if (
         "messageInfo" in payload
+        and "appName" in payload["messageInfo"]
+        and payload["messageInfo"]["appName"] is not None
+    ):
+        payload["subject"] = (
+            payload["messageInfo"]["appName"] + " | " + payload["subject"]
+        )
+
+    if (
+        "messageInfo" in payload
         and "appId" in payload["messageInfo"]
         and payload["messageInfo"]["appId"] is not None
     ):
