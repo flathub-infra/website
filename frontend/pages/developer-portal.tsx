@@ -23,10 +23,7 @@ const InviteCode = ({}) => {
     return null
   }
 
-  if (
-    IS_PRODUCTION ||
-    !user.info?.permissions.some((a) => a === Permission["direct-upload"])
-  ) {
+  if (!user.info?.permissions.some((a) => a === Permission["direct-upload"])) {
     return null
   }
 
