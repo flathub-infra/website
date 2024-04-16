@@ -247,11 +247,13 @@ def send_email_new(payload: dict, db):
                         messages.append(message)
 
     if "inform_only_moderators" in payload or "inform_moderators" in payload:
-        moderators = db.session.query(models.FlathubUser).filter_by(is_moderator=True)
-        for user in moderators:
-            message = _get_message_destination(user, payload, db)
-            if message and message[0] not in dict(messages):
-                messages.append(message)
+        moderator_role = models.FlathubUser.by_role(db, "moderator")
+        if moderator_role is not None:
+            moderators = [(role.flathubuser) for role in moderator_role.all()]
+            for user in moderators:
+                message = _get_message_destination(user, payload, db)
+                if message and message[0] not in dict(messages):
+                    messages.append(message)
 
     if "userId" in payload and payload["userId"] is not None:
         # Get the user's email address
