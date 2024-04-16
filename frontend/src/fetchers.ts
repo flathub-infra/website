@@ -14,6 +14,7 @@ import {
   VERIFIED_APPS_URL,
   SUBCATEGORY_URL,
   APPSTREAM_URL,
+  TRENDING_LAST_TWO_WEEKS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -65,6 +66,15 @@ export async function fetchCollectionPopularLastMonth(
 ) {
   return axios.get<MeilisearchResponse<AppsIndex>>(
     POPULAR_LAST_MONTH_URL(page, per_page),
+  )
+}
+
+export async function fetchCollectionTrendingLastTwoWeeks(
+  page: number,
+  per_page: number,
+) {
+  return axios.get<MeilisearchResponse<AppsIndex>>(
+    TRENDING_LAST_TWO_WEEKS_URL(page, per_page),
   )
 }
 

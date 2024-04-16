@@ -4,9 +4,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import {
   fetchAppstream,
   fetchCategory,
-  fetchCollectionPopularLastMonth,
   fetchCollectionRecentlyAdded,
   fetchCollectionRecentlyUpdated,
+  fetchCollectionTrendingLastTwoWeeks,
   fetchCollectionVerified,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
@@ -143,7 +143,7 @@ const TopSection = ({
 export default function Home({
   recentlyUpdated,
   recentlyAdded,
-  popular,
+  trending,
   verified,
   topAppsByCategory,
   heroBannerData,
@@ -151,7 +151,7 @@ export default function Home({
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
-  popular: MeilisearchResponse<AppsIndex>
+  trending: MeilisearchResponse<AppsIndex>
   verified: MeilisearchResponse<AppsIndex>
   topAppsByCategory: {
     category: Category
@@ -237,8 +237,8 @@ export default function Home({
           <TopSection
             topApps={[
               {
-                apps: popular,
-                name: "popular",
+                apps: trending,
+                name: "trending",
                 moreLink: "/apps/collection/popular",
               },
               {
@@ -278,7 +278,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const { data: popular } = await fetchCollectionPopularLastMonth(
+  const { data: trending } = await fetchCollectionTrendingLastTwoWeeks(
     1,
     APPS_IN_PREVIEW_COUNT,
   )
@@ -341,7 +341,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale, ["common"])),
       recentlyUpdated,
       recentlyAdded,
-      popular,
+      trending,
       verified,
       topAppsByCategory,
       heroBannerData,

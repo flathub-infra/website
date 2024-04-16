@@ -433,6 +433,19 @@ export const getGetPopularLastMonthPopularLastMonthGetMockHandler = () => {
   })
 }
 
+export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler =
+  () => {
+    return http.get("*/trending/last-two-weeks", async () => {
+      await delay(1000)
+      return new HttpResponse(null, {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    })
+  }
+
 export const getGetStatsStatsGetMockHandler = (
   overrideResponse?: GetStatsStatsGet200,
 ) => {
@@ -560,6 +573,7 @@ export const getAppMock = () => [
   getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler(),
   getGetVerifiedCollectionVerifiedGetMockHandler(),
   getGetPopularLastMonthPopularLastMonthGetMockHandler(),
+  getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler(),
   getGetStatsStatsGetMockHandler(),
   getGetStatsForAppStatsAppIdGetMockHandler(),
   getGetSummarySummaryAppIdGetMockHandler(),
