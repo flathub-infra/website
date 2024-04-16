@@ -237,7 +237,7 @@ def update(sqldb):
                         0.8,
                         installs_over_days,
                     ).score(score)
-                    + app_quality_status.passes,
+                    + app_quality_status.passed,
                 }
             )
     search.create_or_update_apps(trending_apps)
