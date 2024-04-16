@@ -134,6 +134,11 @@ const nextConfig = (phase) => ({
         destination: "/apps/collection/popular/1",
         permanent: true,
       },
+      {
+        source: "/apps/collection/trending",
+        destination: "/apps/collection/trending/1",
+        permanent: true,
+      },
     ]
   },
   async headers() {
