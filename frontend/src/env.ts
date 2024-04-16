@@ -16,6 +16,13 @@ export const POPULAR_LAST_MONTH_URL = (
   page && per_page
     ? `${BASE_URI}/popular/last-month?page=${page}&per_page=${per_page}`
     : `${BASE_URI}/popular/last-month`
+export const TRENDING_LAST_TWO_WEEKS_URL = (
+  page?: number,
+  per_page?: number,
+): string =>
+  page && per_page
+    ? `${BASE_URI}/trending/last-two-weeks?page=${page}&per_page=${per_page}`
+    : `${BASE_URI}/trending/last-two-weeks`
 export const RECENTLY_UPDATED_URL = (
   page?: number,
   per_page?: number,

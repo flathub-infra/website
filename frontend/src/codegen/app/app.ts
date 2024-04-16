@@ -34,6 +34,7 @@ import type {
   GetStatsStatsGet200,
   GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
   GetSummarySummaryAppIdGetParams,
+  GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
   MainCategory,
@@ -1688,6 +1689,111 @@ export const useGetPopularLastMonthPopularLastMonthGet = <
     params,
     options,
   )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Trending Last Two Weeks
+ */
+export const getTrendingLastTwoWeeksTrendingLastTwoWeeksGet = (
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/trending/last-two-weeks`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryKey = (
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+) => {
+  return [`/trending/last-two-weeks`, ...(params ? [params] : [])] as const
+}
+
+export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>>
+  > = ({ signal }) =>
+    getTrendingLastTwoWeeksTrendingLastTwoWeeksGet(params, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>>
+  >
+export type GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Get Trending Last Two Weeks
+ */
+export const useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet = <
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions =
+    getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryOptions(
+      params,
+      options,
+    )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey

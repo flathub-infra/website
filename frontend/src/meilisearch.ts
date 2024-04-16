@@ -30,6 +30,7 @@ export interface AppsIndex {
   name: string
   summary: string
   installs_last_month: number
+  trending: number
   keywords: string[] | null
   app_id: string
   description: string
