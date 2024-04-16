@@ -318,21 +318,22 @@ def build_notification(
         else f"Build #{request.build_id} passed with warnings"
     )
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{request.build_repo}/{request.build_id}",
-            app_id=request.app_id,
-            category=EmailCategory.BUILD_NOTIFICATION,
-            subject=subject,
-            template_data={
-                "diagnostics": request.diagnostics,
-                "any_warnings": any(d["is_warning"] for d in request.diagnostics),
-                "any_errors": any(not d["is_warning"] for d in request.diagnostics),
-                "build_id": request.build_id,
-                "build_repo": request.build_repo,
-            },
-        ).model_dump()
-    )
+    payload = {
+        "messageId": f"{request.build_repo}/{request.build_id}",
+        "subject": subject,
+        "previewText": subject,
+        "messageInfo": {
+            "category": EmailCategory.BUILD_NOTIFICATION,
+            "appId": request.app_id,
+            "appName": request.app_id,  # todo get app name
+            "diagnostics": request.diagnostics,
+            "anyWarnings": any(d["is_warning"] for d in request.diagnostics),
+            "anyErrors": any(not d["is_warning"] for d in request.diagnostics),
+            "buildId": request.build_id,
+            "buildRepo": request.build_repo,
+        },
+    }
+    worker.send_email_new.send(payload)
 
 
 if settings.env != "production":
