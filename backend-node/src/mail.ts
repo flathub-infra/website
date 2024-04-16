@@ -16,8 +16,6 @@ export async function sendMail({
   subject: string
   emailHtml: any
 }) {
-  throw new Error("hello sentry")
-
   const transporter = createTransport({
     host: process.env.HOST || "smtp-test-server",
     port: Number(process.env.PORT) || 25,
