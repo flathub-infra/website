@@ -9,7 +9,8 @@ from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
 from . import config, models, utils, worker
-from .emails import EmailCategory, EmailInfo
+from .db import get_json_key
+from .emails import EmailCategory
 from .logins import login_state
 
 router = APIRouter(prefix="/upload-tokens")
@@ -182,22 +183,28 @@ def create_upload_token(
     sqldb.session.add(token)
     sqldb.session.commit()
 
-    worker.send_email.send(
-        EmailInfo(
-            message_id=f"{app_id}/{token.id}/issued",
-            app_id=app_id,
-            category=EmailCategory.UPLOAD_TOKEN_CREATED,
-            subject="New upload token issued",
-            template_data={
-                "issued_to": issued_to.display_name,
-                "comment": request.comment,
-                "scopes": request.scopes,
-                "repos": request.repos,
-                "expires_at": expires_at.strftime("%-d %B %Y"),
-                "token_id": _jti(token),
-            },
-        ).model_dump()
-    )
+    if app_metadata := get_json_key(f"apps:{app_id}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+
+    payload = {
+        "messageId": f"{app_id}/{token.id}/issued",
+        "subject": "New upload token issued",
+        "previewText": "New upload token issued",
+        "messageInfo": {
+            "category": EmailCategory.UPLOAD_TOKEN_CREATED,
+            "appId": app_id,
+            "appName": app_name,
+            "issuedTo": issued_to.display_name,
+            "comment": request.comment,
+            "expiresAt": expires_at.strftime("%-d %B %Y"),
+            "scopes": request.scopes,
+            "repos": request.repos,
+        },
+    }
+
+    worker.send_email_new.send(payload)
 
     # Create the JWT
     encoded = jwt.encode(
