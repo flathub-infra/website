@@ -144,7 +144,7 @@ export default function AppManagementPage({
 
                   {(!IS_PRODUCTION ||
                     user.info?.permissions.some(
-                      (a) => a === Permission.moderation,
+                      (a) => a === Permission.direct-upload,
                     )) && (
                     <>
                       {inviteQuery.data?.data?.is_direct_upload_app && (
