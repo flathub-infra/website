@@ -115,6 +115,12 @@ def _create_message(
     return (email, message)
 
 
+def _get_destination_and_append(payload, db, messages, user):
+    message = _get_message_destination(user, payload, db)
+    if message and message[0] not in dict(messages):
+        messages.append(message)
+
+
 def _get_message_destination(
     user: models.FlathubUser, payload: dict, db
 ) -> tuple[str, dict] | None:
@@ -230,9 +236,7 @@ def send_email_new(payload: dict, db):
                 .all()
             )
             for user in by_github_repo:
-                message = _get_message_destination(user, payload, db)
-                if message and message[0] not in dict(messages):
-                    messages.append(message)
+                _get_destination_and_append(payload, db, messages, user)
 
             direct_upload_app = models.DirectUploadApp.by_app_id(
                 db, payload["messageInfo"]["appId"]
@@ -242,25 +246,19 @@ def send_email_new(payload: dict, db):
                     db, direct_upload_app
                 )
                 for _dev, user in by_direct_upload:
-                    message = _get_message_destination(user, payload, db)
-                    if message and message[0] not in dict(messages):
-                        messages.append(message)
+                    _get_destination_and_append(payload, db, messages, user)
 
     if "inform_only_moderators" in payload or "inform_moderators" in payload:
         moderator_role = models.FlathubUser.by_role(db, "moderator")
         if moderator_role is not None:
             moderators = [(role.flathubuser) for role in moderator_role.all()]
             for user in moderators:
-                message = _get_message_destination(user, payload, db)
-                if message and message[0] not in dict(messages):
-                    messages.append(message)
+                _get_destination_and_append(payload, db, messages, user)
 
     if "userId" in payload and payload["userId"] is not None:
         # Get the user's email address
         if user := models.FlathubUser.by_id(db, payload["userId"]):
-            message = _get_message_destination(user, payload, db)
-            if message and message[0] not in dict(messages):
-                messages.append(message)
+            _get_destination_and_append(payload, db, messages, user)
         else:
             # User doesn't exist anymore?
             pass
