@@ -239,7 +239,7 @@ export default function Home({
               {
                 apps: trending,
                 name: "trending",
-                moreLink: "/apps/collection/popular",
+                moreLink: "/apps/collection/trending",
               },
               {
                 apps: recentlyAdded,
