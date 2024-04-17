@@ -84,7 +84,7 @@ def _get_provider_username(app_id: str) -> tuple["LoginProvider", str] | None:
     elif _matches_prefixes(app_id, "org.gnome.design"):
         return (LoginProvider.GNOME_GITLAB, "World/design")
     elif _matches_prefixes(app_id, "org.gnome"):
-        return (LoginProvider.GNOME_GITLAB, "GNOME")
+        return (LoginProvider.GNOME_GITLAB, _demangle_name(app_id.split(".")[2]))
     elif _matches_prefixes(app_id, "org.kde"):
         return (LoginProvider.KDE_GITLAB, "teams/flathub")
     else:

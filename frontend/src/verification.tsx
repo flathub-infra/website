@@ -10,16 +10,12 @@ export const VerificationText = (verificationStatus: VerificationStatus) => {
       return t("verified")
 
     case "website":
+      if (verificationStatus.website === "gnome.org") {
+        return "GNOME"
+      }
       return verificationStatus.website
 
     case "login_provider":
-      if (
-        verificationStatus.login_provider === "gnome" &&
-        verificationStatus.login_name === "GNOME" &&
-        verificationStatus.login_is_organization === true
-      ) {
-        return "GNOME"
-      }
       if (
         verificationStatus.login_provider === "kde" &&
         verificationStatus.login_name === "teams/flathub" &&
