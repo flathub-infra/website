@@ -112,7 +112,7 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
         )}
       >
         {items.map((item) => (
-          <div key={item.id} className="relative z-10 mx-1 w-full">
+          <div key={item.id} className="relative z-10 mx-1 w-full truncate">
             <button
               type="button" // If this isn't set to button, the button will submit the form
               onClick={item.onClick}
@@ -121,21 +121,24 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
                 item.selected
                   ? "text-flathub-white"
                   : clsx(
-                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-gainsborow",
+                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-white",
                       "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray enabled:dark:hover:text-flathub-lotion",
                     ),
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
                 "h-full w-full rounded-full transition",
+                "px-4",
               )}
             >
-              <li>{item.content}</li>
+              <li className="truncate">{item.content}</li>
             </button>
             {item.selected ? (
               <motion.div
                 className={clsx(
                   "absolute top-0 -z-10 h-full w-full rounded-full",
-                  item.color ?? "bg-flathub-celestial-blue",
+                  item.color ?? variant === "primary"
+                    ? "bg-flathub-celestial-blue"
+                    : "dark:bg-flathub-gainsborow/20 bg-flathub-spanish-gray",
                 )}
                 layoutId="tab"
                 layout="position"
