@@ -201,28 +201,8 @@ class FlathubUser(Base):
 
         return permissions
 
-    @staticmethod
     def by_role(db, role_name: str):
-        result = (
-            db.session.query(FlathubUser)
-            .join(flathubuser_role)
-            .join(Role)
-            .filter(Role.name == role_name)
-            .distinct(FlathubUser.id)
-        )
-
-        return result
-
-    @staticmethod
-    def by_permission(db, permission_name: str):
-        result = (
-            db.session.query(FlathubUser)
-            .join(flathubuser_role)
-            .join(Role)
-            .join(role_permission)
-            .filter(Permission.name == permission_name)
-            .distinct(FlathubUser.id)
-        )
+        result = Role.by_name(db, role_name)
 
         return result
 
