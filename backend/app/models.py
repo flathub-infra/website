@@ -88,7 +88,9 @@ class FlathubUser(Base):
         String, nullable=True, unique=True, index=True
     )
 
-    role: Mapped[List["Role"]] = relationship(secondary="flathubuser_role")
+    roles: Mapped[List["Role"]] = relationship(
+        "Role", secondary="flathubuser_role", back_populates="flathubusers"
+    )
 
     TABLES_FOR_DELETE = []
 
@@ -195,33 +197,20 @@ class FlathubUser(Base):
 
         permissions = set()
 
-        for role in self.role:
-            for permission in role.permission:
+        for role in self.roles:
+            for permission in role.permissions:
                 permissions.add(permission.name)
 
         return permissions
 
     @staticmethod
-    def by_role(db, role_name: str):
-        result = (
-            db.session.query(FlathubUser)
-            .join(flathubuser_role)
-            .join(Role)
-            .filter(Role.name == role_name)
-            .distinct(FlathubUser.id)
-        )
-
-        return result
-
-    @staticmethod
     def by_permission(db, permission_name: str):
         result = (
             db.session.query(FlathubUser)
-            .join(flathubuser_role)
-            .join(Role)
-            .join(role_permission)
+            .join(FlathubUser.roles)
+            .join(Role.permissions)
             .filter(Permission.name == permission_name)
-            .distinct(FlathubUser.id)
+            .all()
         )
 
         return result
@@ -271,9 +260,15 @@ class Role(Base):
     name = mapped_column(String, unique=True)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
-    permission: Mapped[List["Permission"]] = relationship(secondary="role_permission")
-    flathubuser: Mapped[List["FlathubUser"]] = relationship(
-        secondary="flathubuser_role"
+    flathubusers: Mapped[List["FlathubUser"]] = relationship(
+        "FlathubUser",
+        secondary="flathubuser_role",
+        back_populates="roles",
+    )
+    permissions: Mapped[List["Permission"]] = relationship(
+        "Permission",
+        secondary="role_permission",
+        back_populates="roles",
     )
 
     @staticmethod
@@ -286,6 +281,12 @@ class Permission(Base):
 
     name = mapped_column(String, unique=True, primary_key=True)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+
+    roles: Mapped[List["Role"]] = relationship(
+        "Role",
+        secondary="role_permission",
+        back_populates="permissions",
+    )
 
 
 class GithubAccount(Base):
