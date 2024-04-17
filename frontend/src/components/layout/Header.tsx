@@ -260,6 +260,7 @@ const Header = () => {
                             alt="Flathub Logo"
                             width={24}
                             height={22}
+                            style={{ width: 24, height: 22 }}
                           />
                         </div>
                       </div>
