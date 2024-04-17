@@ -61,7 +61,7 @@
     "swiper": "^11.1.0",
     "tailwind-merge": "^2.2.2",
     "yaml": "^2.4.1",
-    "yet-another-react-lightbox": "^3.17.2"
+    "yet-another-react-lightbox": "^3.17.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
