@@ -115,7 +115,9 @@ def _create_message(
     return (email, message)
 
 
-def _get_destination_and_append(payload, db, messages, user):
+def _get_destination_and_append(
+    payload: dict, db, messages: list, user: models.FlathubUser
+):
     message = _get_message_destination(user, payload, db)
     if message and message[0] not in dict(messages):
         messages.append(message)
@@ -249,11 +251,11 @@ def send_email_new(payload: dict, db):
                     _get_destination_and_append(payload, db, messages, user)
 
     if "inform_only_moderators" in payload or "inform_moderators" in payload:
-        moderator_role = models.FlathubUser.by_role(db, "moderator")
-        if moderator_role is not None:
-            moderators = [(role.flathubuser) for role in moderator_role.all()]
-            for user in moderators:
-                _get_destination_and_append(payload, db, messages, user)
+        users_with_moderator_permissions = models.FlathubUser.by_permission(
+            db, "moderation"
+        )
+        for user in users_with_moderator_permissions:
+            _get_destination_and_append(payload, db, messages, user)
 
     if "userId" in payload and payload["userId"] is not None:
         # Get the user's email address
