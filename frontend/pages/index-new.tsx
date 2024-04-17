@@ -78,7 +78,7 @@ const CategorySection = ({
             items={topAppsByCategory.map((x) => ({
               id: x.category,
               content: (
-                <div className="font-semibold">
+                <div className="font-semibold truncate">
                   {categoryToName(x.category, t)}
                 </div>
               ),
@@ -125,7 +125,9 @@ const TopSection = ({
           <MultiToggle
             items={topApps.map((x) => ({
               id: x.name,
-              content: <div className="font-semibold">{t(x.name)}</div>,
+              content: (
+                <div className="font-semibold truncate">{t(x.name)}</div>
+              ),
               selected: x.name === selectedName,
               onClick: () => setSelectedName(x.name),
             }))}
