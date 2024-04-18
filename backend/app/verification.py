@@ -77,18 +77,17 @@ def _get_provider_username(app_id: str) -> tuple["LoginProvider", str] | None:
     elif _matches_prefixes(app_id, "org.gnome.gitlab"):
         return (LoginProvider.GNOME_GITLAB, _demangle_name(app_id.split(".")[3]))
     elif _matches_prefixes(app_id, "org.gnome.World"):
-        if maintainers := _get_gnome_world_doap_maintainers(app_id):
+        if maintainers := _get_gnome_doap_maintainers(app_id):
             return (LoginProvider.GNOME_GITLAB, maintainers[0])
-        else:
-            return None
     elif _matches_prefixes(app_id, "org.gnome.design"):
         return (LoginProvider.GNOME_GITLAB, "World/design")
     elif _matches_prefixes(app_id, "org.gnome"):
-        return (LoginProvider.GNOME_GITLAB, _demangle_name(app_id.split(".")[2]))
+        if maintainers := _get_gnome_doap_maintainers(app_id, "GNOME"):
+            return (LoginProvider.GNOME_GITLAB, maintainers[0])
     elif _matches_prefixes(app_id, "org.kde"):
         return (LoginProvider.KDE_GITLAB, "teams/flathub")
-    else:
-        return None
+
+    return None
 
 
 def _demangle_name(name: str) -> str:
@@ -141,7 +140,7 @@ def _get_domain_name(app_id: str) -> str | None:
         return f"{domain}.{tld}".lower()
 
 
-def _get_gnome_world_doap_maintainers(app_id: str) -> list[str]:
+def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
     repo_name = app_id.split(".")[-1].lower()
     if repo_name == "pikabackup":
         repo_name = "pika-backup"
