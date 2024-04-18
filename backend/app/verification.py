@@ -147,7 +147,7 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
 
     try:
         r = requests.get(
-            f"https://gitlab.gnome.org/World/{repo_name}/-/raw/HEAD/{repo_name}.doap"
+            f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap"
         )
     except requests.exceptions.ConnectionError:
         return []
