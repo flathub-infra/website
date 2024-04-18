@@ -22,17 +22,14 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
 
   const [page, setPage] = useState(1)
 
-  const [offset, setOffset] = useState((page - 1) * pageSize)
-
-  useEffect(() => {
-    setOffset((page - 1) * pageSize)
-  }, [page])
-
   const queryDevApplications = useQuery({
-    queryKey: [`${variant}-apps`, page],
+    queryKey: [`${variant}-apps`, page, pageSize],
     queryFn: async () => {
       return getAppsInfo(
-        user.info[`${variant}_flatpaks`].slice(offset, offset + pageSize),
+        user.info[`${variant}_flatpaks`].slice(
+          (page - 1) * pageSize,
+          (page - 1) * pageSize + pageSize,
+        ),
       )
     },
     enabled: !!user.info,
