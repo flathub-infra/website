@@ -559,5 +559,7 @@
   "manage-x": "{{app-name}}-alkalmazás kezelése",
   "do-you-really-want-to-switch-to-direct-upload": "Biztos, hogy szeretné? Ha egy alkalmazást közvetlen feltöltésre vált, nincs visszaút.",
   "news": "Hírek",
-  "unverified": "Ellenőrizetlen"
+  "unverified": "Ellenőrizetlen",
+  "developer-portal": "Fejlesztői portál",
+  "nothing-to-do": "Nincs mit tenni"
 }
