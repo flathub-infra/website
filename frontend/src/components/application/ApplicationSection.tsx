@@ -68,7 +68,7 @@ const ApplicationSection: FunctionComponent<Props> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           key={title}
-          className={clsx("flex flex-row justify-center", "mt-3")}
+          className={clsx("flex flex-row justify-center", "mt-5")}
         >
           <ButtonLink
             href={href}
