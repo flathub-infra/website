@@ -183,7 +183,7 @@
   "other-apps-by-projectgroup": "Други приложения в групата „{{projectgroup}}“",
   "contribute-languages": "Всички преводи са допринесени от общността. Ако искате да преведете „Flathub“, натиснете <1>тук</1>.",
   "release-link": "Подробна информация",
-  "recently-added-apps": "Нови приложения",
+  "recently-added-apps": "Наскоро публикувани приложения",
   "confirm-settings": "Потвърждаване на настройките",
   "recommended-payment": "Препоръчително плащане",
   "select-purchase-amount": "Въведете сума за плащане",
@@ -321,9 +321,9 @@
   "filters": "Филтри",
   "moderation-dev-description": "Промените в мета данните на приложението, като неговото наименование или описание, трябва да бъдат рецензирани от екипа на „Flathub“. Тук може да прегледате състоянието на текущите и миналите заявки за рецензии.",
   "runtime-distribution": "Разпределение по среда за изпълнение",
-  "recently-added": "Нови",
+  "recently-added": "Наскоро публикувани",
   "recently-updated": "Наскоро обновени",
-  "recently-added-description": "Публикувани приложения във „Flathub“ през последните няколко дни.",
+  "recently-added-description": "Нови приложения във „Flathub“ през последните няколко дни.",
   "recently-updated-description": "Обновени приложения във „Flathub“ през последните няколко дни.",
   "the-linux-app-store": "Приложения за Линукс",
   "flathub-index-description": "Изтеглете актуалните версии на вашите любими приложения, за всяка дистрибуция на Линукс",
@@ -564,5 +564,9 @@
   "nothing-to-do": "Няма нищо",
   "news": "Новини",
   "developer-portal": "Портал",
-  "unverified": "Непроверено"
+  "unverified": "Непроверено",
+  "updated": "Обновени",
+  "new": "Нови",
+  "trending": "Известни",
+  "trending-apps": "Известни приложения"
 }

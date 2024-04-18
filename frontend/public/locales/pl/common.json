@@ -565,5 +565,9 @@
   "nothing-to-do": "Nie ma nic do zrobienia",
   "news": "Aktualności",
   "developer-portal": "Portal programisty",
-  "unverified": "Niezweryfikowana"
+  "unverified": "Niezweryfikowana",
+  "new": "Nowe",
+  "updated": "Zaktualizowane",
+  "trending": "Ostatnio popularne",
+  "trending-apps": "Ostatnio popularne aplikacje"
 }

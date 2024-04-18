@@ -565,5 +565,9 @@
   "nothing-to-do": "Není co dělat",
   "news": "Novinky",
   "developer-portal": "Portál vývojáře",
-  "unverified": "Neověřené"
+  "unverified": "Neověřené",
+  "new": "Nové",
+  "updated": "Aktualizované",
+  "trending": "Populární",
+  "trending-apps": "Populární aplikace"
 }

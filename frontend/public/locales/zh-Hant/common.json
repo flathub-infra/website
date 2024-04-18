@@ -563,5 +563,9 @@
   "nothing-to-do": "無事可做",
   "news": "新聞",
   "developer-portal": "開發者入口",
-  "unverified": "未驗證"
+  "unverified": "未驗證",
+  "new": "新",
+  "updated": "已更新",
+  "trending": "熱門",
+  "trending-apps": "熱門應用程式"
 }
