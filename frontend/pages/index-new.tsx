@@ -57,42 +57,29 @@ const CategorySection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedCategory, setSelectedCategory] = useState(
-    topAppsByCategory[0].category,
-  )
-
-  const selectedApps = topAppsByCategory.find(
-    (sectionData) => sectionData.category === selectedCategory,
-  )
-
   return (
-    <ApplicationSection
-      key={`categorySection${selectedApps.category}`}
-      href={`/apps/category/${encodeURIComponent(selectedCategory)}`}
-      applications={selectedApps.apps.hits.map((app) =>
-        mapAppsIndexToAppstreamListItem(app),
-      )}
-      appSelection={
-        <>
-          <MultiToggle
-            items={topAppsByCategory.map((x) => ({
-              id: x.category,
-              content: (
-                <div className="font-semibold truncate">
-                  {categoryToName(x.category, t)}
-                </div>
-              ),
-              selected: x.category === selectedCategory,
-              onClick: () => setSelectedCategory(x.category),
-            }))}
-            size={"lg"}
-            variant="secondary"
-          />
-        </>
-      }
-      title={categoryToName(selectedApps.category, t)}
-      morePosition="bottom"
-    />
+    <>
+      {topAppsByCategory.map((sectionData) => (
+        <ApplicationSection
+          key={`categorySection${sectionData.category}`}
+          href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
+          applications={sectionData.apps.hits.map((app) =>
+            mapAppsIndexToAppstreamListItem(app),
+          )}
+          appSelection={
+            <>
+              <header className="mb-3 flex max-w-full flex-row content-center justify-between">
+                <h2 className="my-auto text-2xl font-bold">
+                  {categoryToName(sectionData.category, t)}
+                </h2>
+              </header>
+            </>
+          }
+          title={categoryToName(sectionData.category, t)}
+          morePosition="bottom"
+        />
+      ))}
+    </>
   )
 }
 
@@ -262,9 +249,7 @@ export default function Home({
             ]}
           />
 
-          <CategorySection topAppsByCategory={topAppsByCategory.slice(0, 3)} />
-          <CategorySection topAppsByCategory={topAppsByCategory.slice(3, 6)} />
-          <CategorySection topAppsByCategory={topAppsByCategory.slice(6, 10)} />
+          <CategorySection topAppsByCategory={topAppsByCategory} />
         </LoginGuard>
       </div>
     </>
