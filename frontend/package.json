@@ -22,7 +22,7 @@
     "@headlessui/react": "^1.7.18",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@resvg/resvg-js": "^2.6.2",
-    "@sentry/nextjs": "^7.109.0",
+    "@sentry/nextjs": "^7.110.1",
     "@storybook/test": "^8.0.8",
     "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^3.2.0",
