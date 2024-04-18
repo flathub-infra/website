@@ -8,6 +8,11 @@ updates:
     directory: "/frontend"
     schedule:
       interval: "daily"
+    groups:
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - storybook
   - package-ecosystem: "npm"
     directory: "/backend-node"
     schedule:
