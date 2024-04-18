@@ -12,6 +12,7 @@ import {
 import { HiChevronDown } from "react-icons/hi2"
 import { useMeasure } from "@uidotdev/usehooks"
 import { useTranslation } from "next-i18next"
+import { cn } from "src/utils/helpers"
 
 type Props = {
   items: {
@@ -127,18 +128,19 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
                 "h-full w-full rounded-full transition",
-                "px-4",
+                size === "lg" && "px-4",
               )}
             >
               <li className="truncate">{item.content}</li>
             </button>
             {item.selected ? (
               <motion.div
-                className={clsx(
+                className={cn(
                   "absolute top-0 -z-10 h-full w-full rounded-full",
-                  item.color ?? variant === "primary"
+                  variant === "primary"
                     ? "bg-flathub-celestial-blue"
                     : "dark:bg-flathub-gainsborow/20 bg-flathub-spanish-gray",
+                  item.color,
                 )}
                 layoutId="tab"
                 layout="position"
