@@ -27,4 +27,4 @@ for container in backend worker; do
 done
 
 docker compose exec backend /venv/bin/python -m pip install pytest httpx pytest-insta
-docker compose exec backend /venv/bin/python -m pytest -vvvv tests/main.py --insta update-new
+docker compose exec backend /venv/bin/python -m pytest -vvvv tests/main.py --insta update
