@@ -24,10 +24,7 @@ from . import (
     utils,
 )
 from .config import settings
-from .emails import EmailInfo
-from .emails import send_email as send_email_impl
 from .emails import send_email_new as send_email_impl_new
-from .emails import send_one_email as send_one_email_impl
 from .emails import send_one_email_new as send_one_email_impl_new
 
 if config.settings.sentry_dsn:
@@ -200,17 +197,6 @@ def review_check(
             headers={"Authorization": token},
         )
         r.raise_for_status()
-
-
-@dramatiq.actor
-def send_email(email):
-    with WorkerDB() as db:
-        send_email_impl(EmailInfo(**email), db)
-
-
-@dramatiq.actor
-def send_one_email(message: str, dest: str):
-    send_one_email_impl(message, dest)
 
 
 @dramatiq.actor
