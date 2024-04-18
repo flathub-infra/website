@@ -283,7 +283,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     async (category: Category) => {
       return {
         category,
-        apps: (await fetchCategory(category, 1, 12)).data,
+        apps: (await fetchCategory(category, 1, 6)).data,
       }
     },
   )
