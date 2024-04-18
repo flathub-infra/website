@@ -107,7 +107,8 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
           "flex w-full cursor-pointer justify-around rounded-full",
           variant === "primary" &&
             "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
-          variant === "secondary" && "bg-flathub-white dark:bg-flathub-arsenic",
+          variant === "secondary" &&
+            "bg-flathub-gainsborow dark:bg-flathub-arsenic",
           "py-1 text-center",
           size === "sm" ? "h-[34px]" : "h-14",
         )}
@@ -120,7 +121,9 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
               disabled={item.disabled}
               className={clsx(
                 item.selected
-                  ? "text-flathub-white"
+                  ? variant === "primary"
+                    ? "text-flathub-white"
+                    : "text-flathub-black dark:text-flathub-white"
                   : clsx(
                       "enabled:text-flathub-arsenic enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-white",
                       "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray enabled:dark:hover:text-flathub-lotion",
@@ -133,19 +136,19 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
             >
               <li className="truncate">{item.content}</li>
             </button>
-            {item.selected ? (
+            {item.selected && (
               <motion.div
                 className={cn(
                   "absolute top-0 -z-10 h-full w-full rounded-full",
                   variant === "primary"
                     ? "bg-flathub-celestial-blue"
-                    : "dark:bg-flathub-gainsborow/20 bg-flathub-spanish-gray",
+                    : "dark:bg-flathub-gainsborow/20 bg-flathub-white",
                   item.color,
                 )}
                 layoutId="tab"
                 layout="position"
               />
-            ) : null}
+            )}
           </div>
         ))}
       </ul>
