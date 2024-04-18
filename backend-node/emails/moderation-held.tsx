@@ -206,7 +206,7 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
     <Section>
       <Heading as={"h3"}>{request.requestType}</Heading>
       {request.requestType === "appdata" && (
-        <table className="w-full table-fixed">
+        <table className="w-full table-fixed text-xs">
           <tr className="text-left rtl:text-right">
             <th>Field</th>
             {!request.isNewSubmission && <th>Old value</th>}
