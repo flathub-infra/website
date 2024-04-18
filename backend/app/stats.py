@@ -230,6 +230,18 @@ def update(sqldb):
                 sqldb, app_id
             )
 
+            total = (
+                app_quality_status.passed
+                + app_quality_status.not_passed
+                + app_quality_status.unrated
+            )
+            factor = 15
+
+            if total == 0:
+                passed_percentage_factor = 0
+            else:
+                passed_percentage_factor = app_quality_status.passed / total * factor
+
             trending_apps.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
@@ -237,7 +249,7 @@ def update(sqldb):
                         0.8,
                         installs_over_days,
                     ).score(score)
-                    + app_quality_status.passed,
+                    + passed_percentage_factor,
                 }
             )
     search.create_or_update_apps(trending_apps)

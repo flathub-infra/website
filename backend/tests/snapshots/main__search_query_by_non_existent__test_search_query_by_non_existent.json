@@ -1,7 +1,7 @@
 {
   "hits": [],
   "query": "NonExistent",
-  "processingTimeMs": 0,
+  "processingTimeMs": 1,
   "limit": 250,
   "offset": 0,
   "estimatedTotalHits": 0,
