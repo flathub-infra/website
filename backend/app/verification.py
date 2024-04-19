@@ -166,7 +166,11 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
     if r.status_code != 200:
         return []
 
-    root = ET.fromstring(r.text)
+    try:
+        root = ET.fromstring(r.text)
+    except ET.ParseError:
+        return []
+
     maintainers: list[str] = []
 
     foaf_prefix = "{http://xmlns.com/foaf/0.1/}"
