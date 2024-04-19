@@ -164,6 +164,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
             repo_name = "swell-foop"
         case "org.gnome.DejaDup":
             repo_name = "deja-dup"
+        case "org.gnome.Sudoku":
+            repo_name = "gnome-sudoku"
         case _:
             repo_name = None
 
