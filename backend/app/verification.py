@@ -158,19 +158,25 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
     root = ET.fromstring(r.text)
     maintainers = []
 
+    foaf_prefix = "{http://xmlns.com/foaf/0.1/}"
     maintainer_tags = root.findall("{http://usefulinc.com/ns/doap#}maintainer")
     for maintainer_tag in maintainer_tags:
-        person_tags = maintainer_tag.findall("{http://xmlns.com/foaf/0.1/}Person")
+        person_tags = maintainer_tag.findall(f"{foaf_prefix}Person")
         for person_tag in person_tags:
-            if account_tag := person_tag.find("{http://xmlns.com/foaf/0.1/}account"):
+            if gnome_userid := person_tag.find("{http://api.gnome.org/doap-extensions#}userid"):
+                maintainers.append(gnome_userid.text)
+                break
+
+            if account_tag := person_tag.find(f"{foaf_prefix}account"):
                 if online_account := account_tag.find(
-                    "{http://xmlns.com/foaf/0.1/}OnlineAccount"
+                    f"{foaf_prefix}OnlineAccount"
                 ):
                     account_name = online_account.find(
-                        "{http://xmlns.com/foaf/0.1/}accountName"
+                        f"{foaf_prefix}accountName"
                     )
                     if account_name is not None:
                         maintainers.append(account_name.text)
+                        break
     return maintainers
 
 
