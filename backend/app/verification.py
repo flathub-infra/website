@@ -157,6 +157,10 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
             group = "GNOME/Incubator"
         case "org.gnome.Fonts":
             repo_name = "gnome-font-viewer"
+        case "org.gnome.Mines":
+            repo_name = "gnome-mines"
+        case "org.gnome.SwellFoop":
+            repo_name = "swell-foop"
         case _:
             repo_name = app_id.split(".")[-1].lower()
 
