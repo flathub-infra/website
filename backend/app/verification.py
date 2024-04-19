@@ -141,15 +141,18 @@ def _get_domain_name(app_id: str) -> str | None:
 
 
 def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
-    repo_name = app_id.split(".")[-1].lower()
-    match repo_name:
-        case "pikabackup":
+    match app_id:
+        case "org.gnome.World.PikaBackup":
             repo_name = "pika-backup"
-        case "firmware":
+        case "org.gnome.Firmware":
             group = "World"
             repo_name = "gnome-firmware"
+        case "org.gnome.Crosswords":
+            return ["jrb"]
+        case "org.gnome.Crosswords.Editor":
+            return ["jrb"]
         case _:
-            pass
+            repo_name = app_id.split(".")[-1].lower()
 
     try:
         r = requests.get(
