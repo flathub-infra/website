@@ -163,17 +163,15 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
     for maintainer_tag in maintainer_tags:
         person_tags = maintainer_tag.findall(f"{foaf_prefix}Person")
         for person_tag in person_tags:
-            if gnome_userid := person_tag.find("{http://api.gnome.org/doap-extensions#}userid"):
+            if gnome_userid := person_tag.find(
+                "{http://api.gnome.org/doap-extensions#}userid"
+            ):
                 maintainers.append(gnome_userid.text)
                 break
 
             if account_tag := person_tag.find(f"{foaf_prefix}account"):
-                if online_account := account_tag.find(
-                    f"{foaf_prefix}OnlineAccount"
-                ):
-                    account_name = online_account.find(
-                        f"{foaf_prefix}accountName"
-                    )
+                if online_account := account_tag.find(f"{foaf_prefix}OnlineAccount"):
+                    account_name = online_account.find(f"{foaf_prefix}accountName")
                     if account_name is not None:
                         maintainers.append(account_name.text)
                         break
