@@ -98,6 +98,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
 
   const onChildVerified = useCallback(() => {
+    verificationAvailableMethods.refetch()
     query.refetch()
     onVerified?.()
   }, [onVerified, query])
