@@ -8,101 +8,77 @@ import {
   HTMLAttributes,
   ReactNode,
   forwardRef,
+  useEffect,
+  useState,
 } from "react"
 import { HiChevronDown } from "react-icons/hi2"
 import { useMeasure } from "@uidotdev/usehooks"
-import { useTranslation } from "next-i18next"
 import { cn } from "src/utils/helpers"
 
-type Props = {
-  items: {
-    id: string
-    content: ReactNode
-    onClick: () => void
-    selected: boolean
-    disabled?: boolean
-    color?: string
-  }[]
-  size: "sm" | "lg"
-  variant?: "primary" | "secondary"
-} & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
-
-const MultiToggle: FunctionComponent<Props> = forwardRef<
-  HTMLUListElement,
-  Props
->(({ items, size, variant = "primary" }, ref) => {
-  const { t } = useTranslation()
-  const [wref, { width, height }] = useMeasure()
-
-  const selectedItem = items.find((item) => item.selected) ?? undefined
-
-  const showAsListbox = width < 640 && size === "lg"
-
-  if (showAsListbox) {
-    return (
-      <Listbox
-        ref={wref}
-        value={selectedItem}
-        onChange={(item) => {
-          item.onClick()
-        }}
-        as={"div"}
-        className={"relative"}
+const ListBoxMultiToggle = ({ selectedItem, items }) => {
+  return (
+    <Listbox
+      value={selectedItem}
+      onChange={(item) => {
+        item.onClick()
+      }}
+      as={"div"}
+      className={"relative"}
+    >
+      <Listbox.Button
+        className={clsx(
+          "bg-flathub-white dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
+          "w-full",
+          "flex items-center justify-between gap-2",
+        )}
       >
-        <Listbox.Button
+        {selectedItem?.content}
+        <HiChevronDown />
+      </Listbox.Button>
+      <Transition
+        as={Fragment}
+        enter="transition duration-100 ease-out"
+        enterFrom="transform scale-95 opacity-0"
+        enterTo="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-out"
+        leaveFrom="transform scale-100 opacity-100"
+        leaveTo="transform scale-95 opacity-0"
+      >
+        <Listbox.Options
           className={clsx(
-            "bg-flathub-white dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
+            "bg-flathub-white dark:bg-flathub-arsenic rounded-3xl mt-1",
+            "absolute",
             "w-full",
-            "flex items-center justify-between gap-2",
+            "z-10",
           )}
         >
-          {selectedItem?.content}
-          <HiChevronDown />
-        </Listbox.Button>
-        <Transition
-          as={Fragment}
-          enter="transition duration-100 ease-out"
-          enterFrom="transform scale-95 opacity-0"
-          enterTo="transform scale-100 opacity-100"
-          leave="transition duration-75 ease-out"
-          leaveFrom="transform scale-100 opacity-100"
-          leaveTo="transform scale-95 opacity-0"
-        >
-          <Listbox.Options
-            className={clsx(
-              "bg-flathub-white dark:bg-flathub-arsenic rounded-3xl mt-1",
-              "absolute",
-              "w-full",
-              "z-10",
-            )}
-          >
-            {items.map((item) => (
-              <Listbox.Option key={item.id} value={item} as={Fragment}>
-                {({ active, selected }) => (
-                  <div
-                    className={clsx(
-                      "p-4",
-                      "cursor-pointer",
-                      selected && "font-semibold",
-                      active && "bg-flathub-gainsborow/20",
-                      "first:rounded-t-3xl last:rounded-b-3xl",
-                    )}
-                  >
-                    {item.content}
-                  </div>
-                )}
-              </Listbox.Option>
-            ))}
-          </Listbox.Options>
-        </Transition>
-      </Listbox>
-    )
-  }
+          {items.map((item) => (
+            <Listbox.Option key={item.id} value={item} as={Fragment}>
+              {({ active, selected }) => (
+                <div
+                  className={clsx(
+                    "p-4",
+                    "cursor-pointer",
+                    selected && "font-semibold",
+                    active && "bg-flathub-gainsborow/20",
+                    "first:rounded-t-3xl last:rounded-b-3xl",
+                  )}
+                >
+                  {item.content}
+                </div>
+              )}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
+      </Transition>
+    </Listbox>
+  )
+}
 
+const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
   return (
     <LayoutGroup id={Math.random().toString(36)}>
       <ul
-        ref={wref}
         className={clsx(
           "flex w-full cursor-pointer justify-around rounded-full",
           variant === "primary" &&
@@ -153,6 +129,50 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
         ))}
       </ul>
     </LayoutGroup>
+  )
+}
+
+type Props = {
+  items: {
+    id: string
+    content: ReactNode
+    onClick: () => void
+    selected: boolean
+    disabled?: boolean
+    color?: string
+  }[]
+  size: "sm" | "lg"
+  variant?: "primary" | "secondary"
+} & DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>
+
+const MultiToggle: FunctionComponent<Props> = forwardRef<
+  HTMLUListElement,
+  Props
+>(({ items, size = "lg", variant = "primary" }, ref) => {
+  const [wref, { width, height }] = useMeasure()
+
+  const selectedItem = items.find((item) => item.selected) ?? undefined
+
+  const [showAsListbox, setShowAsListbox] = useState<"listbox" | "multitoggle">(
+    "multitoggle",
+  )
+
+  useEffect(() => {
+    if (width < 640 && size === "lg") {
+      setShowAsListbox("listbox")
+    } else {
+      setShowAsListbox("multitoggle")
+    }
+  }, [width, size])
+
+  return (
+    <div ref={wref} className="w-full">
+      {showAsListbox === "listbox" ? (
+        <ListBoxMultiToggle items={items} selectedItem={selectedItem} />
+      ) : (
+        <MultiToggleBig items={items} variant={variant} size={size} />
+      )}
+    </div>
   )
 })
 
