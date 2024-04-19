@@ -142,8 +142,14 @@ def _get_domain_name(app_id: str) -> str | None:
 
 def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
     repo_name = app_id.split(".")[-1].lower()
-    if repo_name == "pikabackup":
-        repo_name = "pika-backup"
+    match repo_name:
+        case "pikabackup":
+            repo_name = "pika-backup"
+        case "firmware":
+            group = "World"
+            repo_name = "gnome-firmware"
+        case _:
+            pass
 
     try:
         r = requests.get(
@@ -156,7 +162,7 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
         return []
 
     root = ET.fromstring(r.text)
-    maintainers = []
+    maintainers: list[str] = []
 
     foaf_prefix = "{http://xmlns.com/foaf/0.1/}"
     maintainer_tags = root.findall("{http://usefulinc.com/ns/doap#}maintainer")
