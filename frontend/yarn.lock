@@ -10631,7 +10631,7 @@ __metadata:
     i18n-iso-countries: "npm:^7.11.0"
     i18next: "npm:^23.11.1"
     isomorphic-dompurify: "npm:^2.6.0"
-    msw: "npm:^2.2.13"
+    msw: "npm:^2.2.14"
     next: "npm:^14.2.1"
     next-i18next: "npm:^15.3.0"
     next-seo: "npm:^6.5.0"
@@ -13467,9 +13467,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.2.13":
-  version: 2.2.13
-  resolution: "msw@npm:2.2.13"
+"msw@npm:^2.2.14":
+  version: 2.2.14
+  resolution: "msw@npm:2.2.14"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -13495,7 +13495,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 3e1cf1f4122410b5e4685101bf0e131c508a6fb0f889cf475c0d361263e4feb3aed03fbf31ed5e39fff04562bbe92cfe09b49e72270acadd5842d68ce2080ff2
+  checksum: 3a5864aadb01d076835f53459a411fb0a303fe48469c0e3d9de9b9eb9a87b3257096d6441d21986c0ae388d9417e0ed232fa74db66e39bcf8cd5ddfccfeb5993
   languageName: node
   linkType: hard
 
