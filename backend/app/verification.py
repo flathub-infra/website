@@ -153,6 +153,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
             return ["jrb"]
         case "org.gnome.Mahjongg":
             repo_name = "gnome-mahjongg"
+        case "org.gnome.Decibels":
+            group = "GNOME/Incubator"
         case _:
             repo_name = app_id.split(".")[-1].lower()
 
