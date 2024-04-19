@@ -187,10 +187,10 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
                         maintainers.append(account_name.text)
                         break
 
-            if gnome_userid := person_tag.find(
+            if gnome_userid := person_tag.findall(
                 "{http://api.gnome.org/doap-extensions#}userid"
             ):
-                maintainers.append(gnome_userid.text)
+                maintainers.append(gnome_userid[0].text)
                 break
 
     return maintainers
