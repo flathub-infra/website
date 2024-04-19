@@ -84,7 +84,7 @@
     "eslint-config-next": "^14.2.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "msw": "^2.2.13",
+    "msw": "^2.2.14",
     "orval": "^6.26.0",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
