@@ -460,9 +460,9 @@ def submit_review_request(
                         "buildLogUrl": request.build_log_url,
                         "requests": [
                             {
-                                "request_type": request.request_type,
-                                "request_data": json.loads(request.request_data),
-                                "is_new_submission": request.is_new_submission,
+                                "requestType": request.request_type,
+                                "requestData": json.loads(request.request_data),
+                                "isNewSubmission": request.is_new_submission,
                             }
                             for request in requests
                         ],
