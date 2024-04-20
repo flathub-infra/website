@@ -123,13 +123,13 @@ def send_email_new(payload: dict, db):
 def send_one_email_new(payload: dict, dest: str):
     payload["to"] = dest
 
-    try:
-        requests.post(
-            f"{settings.backend_node_url}/emails",
-            json=payload,
-        )
-    except Exception as e:
-        print("Unable to send email: %s\n" % e)
+    result = requests.post(
+        f"{settings.backend_node_url}/emails",
+        json=payload,
+    )
+
+    if result.status_code != 200:
+        raise Exception("Failed to send email", payload, result.text)
 
 
 router = APIRouter(prefix="/emails")
