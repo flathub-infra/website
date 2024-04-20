@@ -221,10 +221,20 @@ def update(sqldb):
     trending_apps: list = []
     for app_id, dict in app_stats_per_day.items():
         if app_id in frontend_app_ids:
+            installs = dict.values()
+            install_history_length = 0
+            if len(installs) < 15:
+                install_history_length = len(installs)
+            else:
+                install_history_length = 15
             # first item is the oldest, last item is the most recent
-            # only use the last 14 values
-            installs_over_days = [i for i in dict.values()][-15:-1]
-            score = installs_over_days.pop()
+            # only use the last 15 values minus the last one
+            if len(installs) > 1:
+                installs_over_days = [i for i in installs][-install_history_length:-1]
+            else:
+                installs_over_days = []
+
+            score = installs_over_days.pop() if len(installs_over_days) > 0 else 0
 
             app_quality_status = models.QualityModeration.by_appid_summarized(
                 sqldb, app_id
