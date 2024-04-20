@@ -32,7 +32,7 @@ def get_app_of_the_day(
     app_of_the_day = models.AppOfTheDay.by_date(db, date)
 
     if app_of_the_day is None:
-        return AppOfTheDay(app_id="org.gnome.Totem", day=date)
+        return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
 
     return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
 
