@@ -458,15 +458,17 @@ def get_verification_status(
                 website=_get_domain_name(app_id),
             )
         case "login_provider":
-            (provider, username) = _get_provider_username(app_id)
-            return VerificationStatus(
-                verified=True,
-                timestamp=str(int(verification.verified_timestamp.timestamp())),
-                method=VerificationMethod.LOGIN_PROVIDER,
-                login_provider=provider,
-                login_name=username,
-                login_is_organization=verification.login_is_organization,
-            )
+            provider_username = _get_provider_username(app_id)
+            if provider_username is not None:
+                (provider, username) = provider_username
+                return VerificationStatus(
+                    verified=True,
+                    timestamp=str(int(verification.verified_timestamp.timestamp())),
+                    method=VerificationMethod.LOGIN_PROVIDER,
+                    login_provider=provider,
+                    login_name=username,
+                    login_is_organization=verification.login_is_organization,
+                )
 
     return VerificationStatus(verified=False)
 
