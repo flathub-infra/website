@@ -58,7 +58,8 @@ const ListBoxMultiToggle = ({ selectedItem, items }) => {
                     "p-4",
                     "cursor-pointer",
                     selected && "font-semibold",
-                    active && "bg-flathub-gainsborow/20",
+                    active &&
+                      "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10",
                     "first:rounded-t-3xl last:rounded-b-3xl",
                   )}
                 >
@@ -100,8 +101,8 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                     ? "text-flathub-white"
                     : "text-flathub-black dark:text-flathub-white"
                   : clsx(
-                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-spanish-gray enabled:hover:text-flathub-white",
-                      "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray enabled:dark:hover:text-flathub-lotion",
+                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-gray-x11 enabled:hover:text-flathub-white",
+                      "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray/40 enabled:dark:hover:text-flathub-lotion",
                     ),
                 item.disabled &&
                   "cursor-not-allowed text-flathub-gainsborow dark:text-flathub-arsenic",
