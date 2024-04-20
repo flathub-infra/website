@@ -385,4 +385,5 @@ def pick_app_of_the_day_automatically(sqldb, day):
     # Pick random app
     random.shuffle(oldest_apps)
 
-    models.AppOfTheDay.set_app_of_the_day(sqldb, oldest_apps[0], day)
+    if len(oldest_apps) > 0:
+        models.AppOfTheDay.set_app_of_the_day(sqldb, oldest_apps[0], day)
