@@ -8,11 +8,8 @@ import {
   HTMLAttributes,
   ReactNode,
   forwardRef,
-  useEffect,
-  useState,
 } from "react"
 import { HiChevronDown } from "react-icons/hi2"
-import { useMeasure } from "@uidotdev/usehooks"
 import { cn } from "src/utils/helpers"
 
 const ListBoxMultiToggle = ({ selectedItem, items }) => {
@@ -23,11 +20,11 @@ const ListBoxMultiToggle = ({ selectedItem, items }) => {
         item.onClick()
       }}
       as={"div"}
-      className={"relative"}
+      className={clsx("relative", "md:hidden")}
     >
       <Listbox.Button
         className={clsx(
-          "bg-flathub-white dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
+          "bg-flathub-gainsborow dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
           "w-full",
           "flex items-center justify-between gap-2",
         )}
@@ -50,6 +47,7 @@ const ListBoxMultiToggle = ({ selectedItem, items }) => {
             "absolute",
             "w-full",
             "z-10",
+            "shadow-md",
           )}
         >
           {items.map((item) => (
@@ -80,7 +78,8 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
     <LayoutGroup id={Math.random().toString(36)}>
       <ul
         className={clsx(
-          "flex w-full cursor-pointer justify-around rounded-full",
+          "hidden md:flex",
+          "w-full cursor-pointer justify-around rounded-full",
           variant === "primary" &&
             "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
           variant === "secondary" &&
@@ -149,30 +148,13 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
   HTMLUListElement,
   Props
 >(({ items, size = "lg", variant = "primary" }, ref) => {
-  const [wref, { width, height }] = useMeasure()
-
   const selectedItem = items.find((item) => item.selected) ?? undefined
 
-  const [showAsListbox, setShowAsListbox] = useState<"listbox" | "multitoggle">(
-    "multitoggle",
-  )
-
-  useEffect(() => {
-    if (width < 640 && size === "lg") {
-      setShowAsListbox("listbox")
-    } else {
-      setShowAsListbox("multitoggle")
-    }
-  }, [width, size])
-
   return (
-    <div ref={wref} className="w-full">
-      {showAsListbox === "listbox" ? (
-        <ListBoxMultiToggle items={items} selectedItem={selectedItem} />
-      ) : (
-        <MultiToggleBig items={items} variant={variant} size={size} />
-      )}
-    </div>
+    <>
+      <ListBoxMultiToggle items={items} selectedItem={selectedItem} />
+      <MultiToggleBig items={items} variant={variant} size={size} />
+    </>
   )
 })
 
