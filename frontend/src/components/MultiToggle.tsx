@@ -101,7 +101,9 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                     ? "text-flathub-white"
                     : "text-flathub-black dark:text-flathub-white"
                   : clsx(
-                      "enabled:text-flathub-arsenic enabled:hover:bg-flathub-gray-x11 enabled:hover:text-flathub-white",
+                      variant === "primary"
+                        ? "enabled:text-flathub-arsenic enabled:hover:bg-flathub-gray-x11 enabled:hover:text-flathub-white"
+                        : "enabled:text-flathub-arsenic enabled:hover:bg-flathub-white/50",
                       "enabled:dark:text-flathub-lotion enabled:dark:hover:bg-flathub-granite-gray/40 enabled:dark:hover:text-flathub-lotion",
                     ),
                 item.disabled &&
