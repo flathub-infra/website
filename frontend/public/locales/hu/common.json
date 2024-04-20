@@ -251,7 +251,7 @@
   "page-not-found": "{{errorCode}} - Az oldal nem található",
   "verified-manually-tooltip": "A(z) <1>{{app_id}}</1> alkalmazásazonosító tulajdonjogát a Flathub csapata kézzel ellenőrizte",
   "about-app-verification": "Ellenőrzött alkalmazások",
-  "about-app-verification-block": "<0>Mit jelent a pipa egy alkalmazás neve alatt?<0><p>Néhány alkalmazás oldalán a fejlesztő neve alatt egy pipát láthatsz. Ez azt jelenti, hogy az eredeti fejlesztő, vagy egy általa jóváhagyott harmadik fél tette közzé az alkalmazást a Flathub-on.</p><p>Néhány alkalmazást az eredeti fejlesztővel kapcsolatban nem álló harmadik fél tett közzé. Ez engedélyezett, de az ilyen alkalmazások nem jogosultak a pipára.</p><p>A pipa mellett található link elvezet a fejlesztő weboldalára vagy egy forráskód-megosztó oldalon elérhető profiljára. A Flathub ezen link segítségével ellenőrizte a fejlesztő személyazonosságát.</p><4>Alkalmazásokat teszek közzé a Flathub-on. Hogy lehetek \"ellenőrzött\"?<4><5>Először is <2>jelentkezz be a Flathub fiókodba</2>. Kattints a \"Fejlesztői beállítások\" gombra azon alkalmazás neve alatt, amelyet ellenőriztetni szeretnél. Az oldal tetején találod az \"Ellenőrzés beállítása\" bekezdést. Az utasítások végigvezetnek az ellenőrzés beállításának folyamatán.</5>",
+  "about-app-verification-block": "<0>Mit jelent a pipa egy alkalmazás neve alatt?<0><p>Néhány alkalmazás oldalán a fejlesztő neve alatt egy pipát láthatsz. Ez azt jelenti, hogy az eredeti fejlesztő, vagy egy általa jóváhagyott harmadik fél tette közzé az alkalmazást a Flathub-on.</p><p>Néhány alkalmazást az eredeti fejlesztővel kapcsolatban nem álló harmadik fél tett közzé. Ez engedélyezett, de az ilyen alkalmazások nem jogosultak a pipára.</p><p>A pipa mellett található link elvezet a fejlesztő weboldalára vagy egy forráskód-megosztó oldalon elérhető profiljára. A Flathub ezen link segítségével ellenőrizte a fejlesztő személyazonosságát.</p><4>Alkalmazásokat teszek közzé a Flathub-on. Hogy lehetek \"ellenőrzött\"?<4><5>Először is <2>jelentkezz be a Flathub fiókodba</2>. Keresse meg a „Fejlesztői portált” az oldal láblécében. Kattintson az ellenőrizni kívánt alkalmazásra, majd keresse meg az „Ellenőrzés” részt. Az ott található utasítások végigvezetik az ellenőrzési folyamaton.</5>",
   "refresh": "Újratöltés",
   "verified-login-provider-tooltip": "A(z) <1>{{app_id}}</1> alkalmazásazonosítójának tulajdonjoga <4>{{login_name}}</4> által, a(z) <8>{{login_provider}}</8> segítségével ellenőrizve lett",
   "verified-website-tooltip": "A(z) <1>{{app_id}}</1> alkalmazásazonosítójának tulajdonjoga a(z) <4>{{website}}</4> segítségével ellenőrizve lett",
@@ -509,7 +509,10 @@
     "request-review-description": "Csapatunk felülvizsgálja az alkalmazás minőségi hibáit. Kérjük, nézzen vissza néhány nap múlva.",
     "branding": "Márkajelzés",
     "branding-has-primary-brand-colors": "Elsődleges márkaszínekkel rendelkezik",
-    "branding-good-primary-brand-colors": "Jó elsődleges márkaszínek"
+    "branding-good-primary-brand-colors": "Jó elsődleges márkaszínek",
+    "needed-to-pass-x": "Átmenni kell: {{x}}",
+    "hide-branding-preview": "Márkaépítés előnézetének elrejtése",
+    "show-branding-preview": "Márkaépítés előnézetének megjelenítése"
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -561,5 +564,9 @@
   "news": "Hírek",
   "unverified": "Ellenőrizetlen",
   "developer-portal": "Fejlesztői portál",
-  "nothing-to-do": "Nincs mit tenni"
+  "nothing-to-do": "Nincs mit tenni",
+  "trending": "Népszerű",
+  "new": "Új",
+  "updated": "Frissített",
+  "trending-apps": "Népszerű alkalmazások"
 }
