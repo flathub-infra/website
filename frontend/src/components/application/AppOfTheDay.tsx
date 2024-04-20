@@ -2,10 +2,11 @@ import Link from "next/link"
 import { DesktopAppstream } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
-import { HiStar } from "react-icons/hi2"
+import { HiMiniStar } from "react-icons/hi2"
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, cn, getContrastColor } from "src/utils/helpers"
+import clsx from "clsx"
 
 export const AppOfTheDay = ({
   appOfTheDay: appOfTheDay,
@@ -47,7 +48,7 @@ export const AppOfTheDay = ({
       <div className="flex w-full h-full">
         <div className="w-1/2 pb-8">
           <div className="flex gap-1 items-center">
-            <HiStar className={textColor} />
+            <HiMiniStar className={clsx(textColor, "size-4 shrink-0")} />
             {t("app-of-the-day")}
           </div>
           <div className="flex flex-col gap-2 pt-8">
@@ -55,7 +56,7 @@ export const AppOfTheDay = ({
             <span>{appOfTheDay.summary}</span>
           </div>
         </div>
-        <div className="w-1/2 relative justify-center flex overflow-hidden">
+        <div className="w-1/2 relative items-center sm:items-start justify-center flex overflow-hidden">
           <div className="absolute drop-shadow-md">
             <LogoImage
               size="128"
