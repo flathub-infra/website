@@ -1,41 +1,6 @@
 {
   "hits": [
     {
-      "name": "Maze",
-      "keywords": null,
-      "summary": "A simple maze game",
-      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
-      "id": "org_sugarlabs_Maze",
-      "type": "desktop-application",
-      "project_license": "GPL-3.0-or-later",
-      "is_free_license": true,
-      "app_id": "org.sugarlabs.Maze",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
-      "categories": [
-        "Game"
-      ],
-      "main_categories": [
-        "Game"
-      ],
-      "sub_categories": [],
-      "developer_name": "Sugar Labs Community",
-      "verification_verified": false,
-      "verification_method": null,
-      "verification_login_name": null,
-      "verification_login_provider": null,
-      "verification_login_is_organization": null,
-      "verification_website": null,
-      "verification_timestamp": null,
-      "runtime": "org.gnome.Platform/x86_64/3.36",
-      "updated_at": 1610973680,
-      "arches": [
-        "x86_64"
-      ],
-      "added_at": 1610973680,
-      "trending": 360.0,
-      "installs_last_month": 567
-    },
-    {
       "name": "WPS Office",
       "keywords": null,
       "summary": "WPS Office Suite",
@@ -67,7 +32,7 @@
         "x86_64"
       ],
       "added_at": 1610973768,
-      "trending": -77.0,
+      "trending": 15.150000000000034,
       "installs_last_month": 971
     },
     {
@@ -102,8 +67,43 @@
         "x86_64"
       ],
       "added_at": 1610973790,
-      "trending": -181.0,
+      "trending": 13.650000000000034,
       "installs_last_month": 886
+    },
+    {
+      "name": "Maze",
+      "keywords": null,
+      "summary": "A simple maze game",
+      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+      "id": "org_sugarlabs_Maze",
+      "type": "desktop-application",
+      "project_license": "GPL-3.0-or-later",
+      "is_free_license": true,
+      "app_id": "org.sugarlabs.Maze",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "categories": [
+        "Game"
+      ],
+      "main_categories": [
+        "Game"
+      ],
+      "sub_categories": [],
+      "developer_name": "Sugar Labs Community",
+      "verification_verified": false,
+      "verification_method": null,
+      "verification_login_name": null,
+      "verification_login_provider": null,
+      "verification_login_is_organization": null,
+      "verification_website": null,
+      "verification_timestamp": null,
+      "runtime": "org.gnome.Platform/x86_64/3.36",
+      "updated_at": 1610973680,
+      "arches": [
+        "x86_64"
+      ],
+      "added_at": 1610973680,
+      "trending": 5.0,
+      "installs_last_month": 567
     }
   ],
   "query": "",
