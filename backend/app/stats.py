@@ -234,7 +234,14 @@ def update(sqldb):
             else:
                 installs_over_days = []
 
-            score = installs_over_days.pop() if len(installs_over_days) > 0 else 0
+            # only do zscore if there's more than one value
+            score = installs_over_days.pop() if len(installs_over_days) > 1 else 0
+
+            # if there is exactly one value in the list, just use that
+            # and slightly boost the score as we don't have data but want new apps to show
+            score = (
+                installs_over_days[0] * 1.05 if len(installs_over_days) == 1 else score
+            )
 
             app_quality_status = models.QualityModeration.by_appid_summarized(
                 sqldb, app_id
