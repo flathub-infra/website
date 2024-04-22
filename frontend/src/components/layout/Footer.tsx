@@ -13,6 +13,12 @@ const Footer = () => {
           </div>
           <div className="flex flex-col sm:space-y-3">
             <Link
+              href="/apps/collection/trending"
+              className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
+            >
+              {t("trending")}
+            </Link>
+            <Link
               href="/apps/collection/popular"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
