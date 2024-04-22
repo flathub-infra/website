@@ -55,7 +55,7 @@ const ApplicationCard: FunctionComponent<Props> = ({
       className={clsx(
         inACard
           ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20"
-          : "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-arsenic/90",
+          : "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md hover:bg-flathub-lotion dark:hover:bg-flathub-arsenic/90",
         "flex min-w-0 items-center gap-4 p-4 duration-500",
         "hover:cursor-pointer hover:no-underline",
         "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
