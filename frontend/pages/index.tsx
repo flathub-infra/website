@@ -158,7 +158,7 @@ export default function Home({
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="space-y-4">
           {heroBannerData.length > 0 && (
-            <HeroBanner heroBannerData={heroBannerData} />
+            <HeroBanner heroBannerData={heroBannerData} aboveTheFold={true} />
           )}
           <div className="flex flex-col lg:flex-row gap-4">
             <AppOfTheDay
