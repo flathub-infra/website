@@ -325,7 +325,6 @@
   "recently-added": "Нещодавно додані",
   "recently-updated-description": "Застосунки, оновлені на Flathub за останні кілька днів.",
   "recently-added-description": "Нові застосунки, опубліковані на Flathub за останні кілька днів.",
-  "the-linux-app-store": "Крамниця застосунків Linux",
   "flathub-index-description": "Завантажуйте найновіші версії улюблених застосунків для будь-якого дистрибутиву Linux",
   "app-eol": "Цей застосунок більше недоступний на Flathub",
   "distribution-flathub-setup": "Налаштування Flathub у {{distribution}}",
@@ -568,6 +567,6 @@
   "unverified": "Не верифіковано",
   "new": "Нове",
   "updated": "Оновлено",
-  "trending-apps": "Набираючі популярність",
-  "trending": "У тренді"
+  "trending-apps": "Набирають популярність",
+  "trending": "Популярні"
 }

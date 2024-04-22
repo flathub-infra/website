@@ -168,7 +168,6 @@
   "midi": "MIDI",
   "mixer": "Përzierës",
   "setup-flathub": "Ujdiseni Flathub-in",
-  "the-linux-app-store": "Shitorja e Aplikacioneve për Linux",
   "console-application": "Aplikacion Konsole",
   "app-type": "Lloj Aplikacioni",
   "community-repository-description": "Ngarkojeni aplikacionin tuaj në Flathub duke ngarkuar te një depo në GitHub e entit tuaj manifestin dhe kartelat përkatëse Flatpak. Roboti i montimeve Flathub do të montojë aplikacionin dhe do ta publikojë në Flathub.",

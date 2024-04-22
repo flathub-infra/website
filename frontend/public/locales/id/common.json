@@ -333,7 +333,6 @@
   "setup-flathub": "Siapkan Flathub",
   "tags-colon": "Tanda:",
   "runtime-distribution": "Distribusi Runtime",
-  "the-linux-app-store": "Toko Aplikasi Linux",
   "moderation-appstream-changes": "Perubahan Appstream",
   "moderation-appstream": "Appstream",
   "moderation-dev-description": "Beberapa perubahan pada metadata aplikasi, seperti nama atau deskripsinya, perlu ditinjau oleh tim Flathub. Anda dapat melihat status permintaan peninjauan saat ini dan sebelumnya di sini.",

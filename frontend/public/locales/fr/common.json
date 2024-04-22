@@ -325,7 +325,6 @@
   "verification-warning": "L'équipe de Flathub peut retirer le badge de vérification d'une application à sa seule initiative, par exemple si celui-ci risque d'induire les gens en erreur quant au statut officiel de l'application ou de créer une confusion au sujet d'une marque déposée.",
   "login-provider-verification-main-instruction-organization": "Vérifiez que vous avez le droit d'utiliser l'identifiant de l'application <1>{{id}}</1> en vous connectant à un compte disposant de droits d'administrateur sur l'organisation <3>@{{login_name}}</3> sur <5>{{login_provider}}</5>.",
   "runtime-distribution": "Distribution de la durée d'exécution",
-  "the-linux-app-store": "Le magasin d'applications Linux",
   "flathub-index-description": "Obtenez les dernières versions de tous vos logiciels préférés, pour n'importe quelle distribution Linux",
   "app-eol": "Cette application n'est plus accessible sur Flathub",
   "distribution-flathub-setup": "{{distribution}} Configuration de Flathub",

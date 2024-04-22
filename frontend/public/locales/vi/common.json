@@ -337,7 +337,6 @@
   "no-user-device-access": "Không truy cập thiết bị người dùng",
   "user-not-found": "Không tìm thấy người dùng",
   "privacy-policy": "Chính sách bảo mật",
-  "the-linux-app-store": "Cửa hàng ứng dụng Linux",
   "music-folder": "Thư mục âm nhạc",
   "cache-subfolder-x": "Thư mục con cache {{folder}}",
   "user-runtime-folder": "Thư mục runtime người dùng",
