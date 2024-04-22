@@ -15,7 +15,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, ReactElement, useEffect, useState } from "react"
 import {
   HiCheckCircle,
   HiExclamationTriangle,
@@ -27,7 +27,6 @@ import MultiToggle from "src/components/MultiToggle"
 import Pagination from "src/components/Pagination"
 import { useUserContext } from "src/context/user-info"
 import { Appstream } from "src/types/Appstream"
-import LoginGuard from "src/components/login/LoginGuard"
 import {
   GetQualityModerationStatusQualityModerationStatusGetFilter,
   Permission,
@@ -36,6 +35,19 @@ import {
   UserInfo,
   getQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
+import AdminLayout from "src/components/AdminLayout"
+
+QualityModerationDashboard.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <AdminLayout
+      condition={(info: UserInfo) =>
+        info.permissions.some((a) => a === Permission["quality-moderation"])
+      }
+    >
+      {page}
+    </AdminLayout>
+  )
+}
 
 export default function QualityModerationDashboard() {
   const { i18n } = useTranslation()
@@ -217,173 +229,167 @@ export default function QualityModerationDashboard() {
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="Quality Moderation Dashboard" noindex />
       <>
-        <LoginGuard
-          condition={(info: UserInfo) =>
-            info.permissions.some((a) => a === Permission["quality-moderation"])
-          }
-        >
-          <h1 className="my-8 text-4xl font-extrabold">
-            Quality Moderation Dashboard
-          </h1>
+        <h1 className="my-8 text-4xl font-extrabold">
+          Quality Moderation Dashboard
+        </h1>
 
-          <div className="px-4 sm:px-6 lg:px-8">
-            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <MultiToggle
-                size="lg"
-                items={[
-                  {
-                    id: "all",
-                    content: <span>All</span>,
-                    selected:
-                      filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.all,
-                    onClick: () => {
-                      delete router.query.filter
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <MultiToggle
+              size="lg"
+              items={[
+                {
+                  id: "all",
+                  content: <span>All</span>,
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilter.all,
+                  onClick: () => {
+                    delete router.query.filter
 
-                      router.query.page = "1"
+                    router.query.page = "1"
 
-                      router.push({
-                        query: router.query,
-                      })
-                    },
+                    router.push({
+                      query: router.query,
+                    })
                   },
-                  {
-                    id: "passed",
-                    content: <span>Passing</span>,
-                    selected:
-                      filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
-                    onClick: () => {
-                      router.query.filter =
-                        GetQualityModerationStatusQualityModerationStatusGetFilter.passing
+                },
+                {
+                  id: "passed",
+                  content: <span>Passing</span>,
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
+                  onClick: () => {
+                    router.query.filter =
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.passing
 
-                      router.query.page = "1"
+                    router.query.page = "1"
 
-                      router.push({
-                        query: router.query,
-                      })
-                    },
+                    router.push({
+                      query: router.query,
+                    })
                   },
-                  {
-                    id: "todo",
-                    content: <span>Todo</span>,
-                    selected:
-                      filteredBy ===
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
-                    onClick: () => {
-                      router.query.filter =
-                        GetQualityModerationStatusQualityModerationStatusGetFilter.todo
+                },
+                {
+                  id: "todo",
+                  content: <span>Todo</span>,
+                  selected:
+                    filteredBy ===
+                    GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
+                  onClick: () => {
+                    router.query.filter =
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo
 
-                      router.query.page = "1"
+                    router.query.page = "1"
 
-                      router.push({
-                        query: router.query,
-                      })
-                    },
+                    router.push({
+                      query: router.query,
+                    })
                   },
-                ]}
-              />
-              <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                <thead>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id} className="relative">
-                      {headerGroup.headers.map((header) => {
-                        return (
-                          <th
-                            key={header.id}
-                            colSpan={header.colSpan}
-                            className="h-20 text-sm font-normal"
+                },
+              ]}
+            />
+            <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id} className="relative">
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <th
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          className="h-20 text-sm font-normal"
+                        >
+                          {header.isPlaceholder ? null : (
+                            <div className="flex w-full">
+                              <button
+                                type="button"
+                                {...{
+                                  className: clsx(
+                                    header.column.getCanSort() &&
+                                      "cursor-pointer select-none",
+                                    "flex items-center justify-between gap-1",
+                                  ),
+                                  onClick:
+                                    header.column.getToggleSortingHandler(),
+                                }}
+                              >
+                                {flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext(),
+                                )}
+                                {{
+                                  asc: <HiMiniChevronUp className="size-4" />,
+                                  desc: (
+                                    <HiMiniChevronDown className="size-4" />
+                                  ),
+                                }[header.column.getIsSorted() as string] ??
+                                  null}
+                              </button>
+                            </div>
+                          )}
+                        </th>
+                      )
+                    })}
+                  </tr>
+                ))}
+              </thead>
+              <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+                <LayoutGroup>
+                  <AnimatePresence>
+                    {tableRows.length === 0 && (
+                      <tr className="h-12">
+                        <td
+                          colSpan={columns.length}
+                          className="p-8 text-center"
+                        >
+                          No items
+                        </td>
+                      </tr>
+                    )}
+                    {tableRows.map((row) => {
+                      return (
+                        <Fragment key={row.id}>
+                          <motion.tr
+                            layoutId={row.id}
+                            key={row.id}
+                            transition={{ delay: 0 }}
+                            className={clsx("h-12 font-medium")}
                           >
-                            {header.isPlaceholder ? null : (
-                              <div className="flex w-full">
-                                <button
-                                  type="button"
-                                  {...{
-                                    className: clsx(
-                                      header.column.getCanSort() &&
-                                        "cursor-pointer select-none",
-                                      "flex items-center justify-between gap-1",
-                                    ),
-                                    onClick:
-                                      header.column.getToggleSortingHandler(),
-                                  }}
+                            {row.getVisibleCells().map((cell) => {
+                              return (
+                                <td
+                                  key={cell.id}
+                                  className={clsx(
+                                    "whitespace-nowrap py-5 text-sm",
+                                  )}
                                 >
                                   {flexRender(
-                                    header.column.columnDef.header,
-                                    header.getContext(),
+                                    cell.column.columnDef.cell,
+                                    cell.getContext(),
                                   )}
-                                  {{
-                                    asc: <HiMiniChevronUp className="size-4" />,
-                                    desc: (
-                                      <HiMiniChevronDown className="size-4" />
-                                    ),
-                                  }[header.column.getIsSorted() as string] ??
-                                    null}
-                                </button>
-                              </div>
-                            )}
-                          </th>
-                        )
-                      })}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                  <LayoutGroup>
-                    <AnimatePresence>
-                      {tableRows.length === 0 && (
-                        <tr className="h-12">
-                          <td
-                            colSpan={columns.length}
-                            className="p-8 text-center"
-                          >
-                            No items
-                          </td>
-                        </tr>
-                      )}
-                      {tableRows.map((row) => {
-                        return (
-                          <Fragment key={row.id}>
-                            <motion.tr
-                              layoutId={row.id}
-                              key={row.id}
-                              transition={{ delay: 0 }}
-                              className={clsx("h-12 font-medium")}
-                            >
-                              {row.getVisibleCells().map((cell) => {
-                                return (
-                                  <td
-                                    key={cell.id}
-                                    className={clsx(
-                                      "whitespace-nowrap py-5 text-sm",
-                                    )}
-                                  >
-                                    {flexRender(
-                                      cell.column.columnDef.cell,
-                                      cell.getContext(),
-                                    )}
-                                  </td>
-                                )
-                              })}
-                            </motion.tr>
-                          </Fragment>
-                        )
-                      })}
-                    </AnimatePresence>
-                  </LayoutGroup>
-                </tbody>
-              </table>
-              {data && (
-                <div>
-                  <div className="ms-auto w-fit">
-                    {data.pagination.total} apps
-                  </div>
+                                </td>
+                              )
+                            })}
+                          </motion.tr>
+                        </Fragment>
+                      )
+                    })}
+                  </AnimatePresence>
+                </LayoutGroup>
+              </tbody>
+            </table>
+            {data && (
+              <div>
+                <div className="ms-auto w-fit">
+                  {data.pagination.total} apps
                 </div>
-              )}
-              <Pagination currentPage={page} pages={pages} />
-            </div>
+              </div>
+            )}
+            <Pagination currentPage={page} pages={pages} />
           </div>
-        </LoginGuard>
+        </div>
       </>
     </div>
   )

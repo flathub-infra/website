@@ -25,17 +25,27 @@ import { MotionConfig } from "framer-motion"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import cardImage from "../public/img/card.webp"
-import { Fragment, useState } from "react"
+import { Fragment, ReactElement, ReactNode, useState } from "react"
 import { setDefaultOptions } from "date-fns"
 import axios from "axios"
+import { NextPage } from "next"
 
 const inter = Inter({
   subsets: ["latin"],
   fallback: ["sans-serif"],
 })
 
-const App = ({ Component, pageProps }: AppProps) => {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { t } = useTranslation()
+  const getLayout = Component.getLayout ?? ((page) => page)
 
   setDefaultOptions({ locale: getLocale(i18n.language) })
 
@@ -91,9 +101,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                   font-family: ${inter.style.fontFamily};
                 }
               `}</style>
-              <Main>
-                <Component {...pageProps} />
-              </Main>
+              <Main>{getLayout(<Component {...pageProps} />)}</Main>
             </UserInfoProvider>
             <ToastContainer
               position={i18n.dir() === "rtl" ? "bottom-left" : "bottom-right"}
