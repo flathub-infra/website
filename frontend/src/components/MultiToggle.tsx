@@ -1,78 +1,14 @@
-import { Listbox, Transition } from "@headlessui/react"
 import { clsx } from "clsx"
 import { LayoutGroup, motion } from "framer-motion"
 import {
   DetailedHTMLProps,
-  Fragment,
   FunctionComponent,
   HTMLAttributes,
   ReactNode,
   forwardRef,
 } from "react"
-import { HiChevronDown } from "react-icons/hi2"
 import { cn } from "@/lib/utils"
-
-const ListBoxMultiToggle = ({ selectedItem, items, size }) => {
-  return (
-    <Listbox
-      value={selectedItem}
-      onChange={(item) => {
-        item.onClick()
-      }}
-      as={"div"}
-      className={clsx("relative", size === "sm" ? "hidden" : "md:hidden")}
-    >
-      <Listbox.Button
-        className={clsx(
-          "bg-flathub-gainsborow dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
-          "w-full",
-          "flex items-center justify-between gap-2",
-        )}
-      >
-        {selectedItem?.content}
-        <HiChevronDown />
-      </Listbox.Button>
-      <Transition
-        as={Fragment}
-        enter="transition duration-100 ease-out"
-        enterFrom="transform scale-95 opacity-0"
-        enterTo="transform scale-100 opacity-100"
-        leave="transition duration-75 ease-out"
-        leaveFrom="transform scale-100 opacity-100"
-        leaveTo="transform scale-95 opacity-0"
-      >
-        <Listbox.Options
-          className={clsx(
-            "bg-flathub-white dark:bg-flathub-arsenic rounded-3xl mt-1",
-            "absolute",
-            "w-full",
-            "z-10",
-            "shadow-md",
-          )}
-        >
-          {items.map((item) => (
-            <Listbox.Option key={item.id} value={item} as={Fragment}>
-              {({ active, selected }) => (
-                <div
-                  className={clsx(
-                    "p-4",
-                    "cursor-pointer",
-                    selected && "font-semibold",
-                    active &&
-                      "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10",
-                    "first:rounded-t-3xl last:rounded-b-3xl",
-                  )}
-                >
-                  {item.content}
-                </div>
-              )}
-            </Listbox.Option>
-          ))}
-        </Listbox.Options>
-      </Transition>
-    </Listbox>
-  )
-}
+import FlathubListbox from "./FlathubListbox"
 
 const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
   return (
@@ -151,14 +87,11 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
   HTMLUListElement,
   Props
 >(({ items, size = "lg", variant = "primary" }, ref) => {
-  const selectedItem = items.find((item) => item.selected) ?? undefined
-
   return (
     <>
-      <ListBoxMultiToggle
+      <FlathubListbox
         items={items}
-        selectedItem={selectedItem}
-        size={size}
+        className={clsx(size === "sm" ? "hidden" : "md:hidden")}
       />
       <MultiToggleBig items={items} variant={variant} size={size} />
     </>

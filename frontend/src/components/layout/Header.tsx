@@ -39,21 +39,10 @@ let userNavigation = [
   { name: "my-flathub", href: "/my-flathub" },
   { name: "developer-portal", href: "/developer-portal" },
   {
-    name: "Moderation Dashboard",
-    href: "/moderation",
+    name: "Admin",
+    href: "/admin",
     condition: (user: UserInfo) =>
-      user?.permissions.some((a) => a === Permission.moderation),
-  },
-  {
-    name: "Quality Moderation Dashboard",
-    href: "/quality-moderation",
-    condition: (user: UserInfo) =>
-      user?.permissions.some((a) => a === Permission["quality-moderation"]),
-  },
-  {
-    name: "App Picks",
-    href: "/app-picks",
-    condition: (user: UserInfo) =>
+      user?.permissions.some((a) => a === Permission.moderation) ||
       user?.permissions.some((a) => a === Permission["quality-moderation"]),
   },
   { name: "settings", href: "/settings" },

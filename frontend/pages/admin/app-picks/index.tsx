@@ -21,7 +21,6 @@ import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
-import LoginGuard from "src/components/login/LoginGuard"
 import {
   UserInfo,
   getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
@@ -29,6 +28,19 @@ import {
   Permission,
 } from "src/codegen"
 import { getQualityModerationStatusQualityModerationStatusGet } from "src/codegen"
+import AdminLayout from "src/components/AdminLayout"
+
+AppPicks.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <AdminLayout
+      condition={(info: UserInfo) =>
+        info.permissions.some((a) => a === Permission["quality-moderation"])
+      }
+    >
+      {page}
+    </AdminLayout>
+  )
+}
 
 export default function AppPicks() {
   const { t } = useTranslation()
@@ -401,13 +413,7 @@ export default function AppPicks() {
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="App Picks" noindex />
-      <LoginGuard
-        condition={(info: UserInfo) =>
-          info.permissions.some((a) => a === Permission["quality-moderation"])
-        }
-      >
-        {content}
-      </LoginGuard>
+      {content}
     </div>
   )
 }
