@@ -156,8 +156,6 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
         case "org.gnome.Decibels":
             group = "GNOME/Incubator"
             repo_name = "decibels"
-        case "org.gnome.Fonts":
-            repo_name = "gnome-font-viewer"
         case "org.gnome.Mines":
             repo_name = "gnome-mines"
         case "org.gnome.SwellFoop":
@@ -169,6 +167,10 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
             repo_name = "gnome-sudoku"
         case "org.gnome.Chess":
             repo_name = "gnome-chess"
+        case "org.gnome.font-viewer":
+            repo_name = "gnome-font-viewer"
+        case "org.gnome.Characters":
+            repo_name = "gnome-characters"
         case _:
             repo_name = None
 
