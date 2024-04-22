@@ -49,15 +49,15 @@ export const HeroBanner = ({
           background-color: hsla(0, 0%, 100%, 0.2);
         }
         .swiper-button-next {
-          padding: 16px 14px 16px 18px;
+          padding: 12px 10px 12px 14px;
         }
         .swiper-button-prev {
-          padding: 16px 18px 16px 14px;
+          padding: 12px 14px 12px 10px;
         }
         .swiper-button-next,
         .swiper-button-prev {
-          width: 28px;
-          height: 28px;
+          width: 20px;
+          height: 20px;
           border-radius: 100%;
           color: ${
             resolvedTheme === "dark" ? "rgb(222, 221, 218)" : "rgb(36, 31, 49)"
