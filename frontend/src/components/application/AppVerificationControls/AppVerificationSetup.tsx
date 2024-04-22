@@ -101,7 +101,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     verificationAvailableMethods.refetch()
     query.refetch()
     onVerified?.()
-  }, [onVerified, query])
+  }, [onVerified, query, verificationAvailableMethods])
 
   if (query.isPending || verificationAvailableMethods.isPending) {
     return <Spinner size="m" />
