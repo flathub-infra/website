@@ -18,6 +18,7 @@ export const HeroBanner = ({
   heroBannerData,
   currentIndex,
   autoplay = true,
+  aboveTheFold = false,
 }: {
   heroBannerData: {
     app: { position: number; app_id: string; isFullscreen: boolean }
@@ -25,6 +26,7 @@ export const HeroBanner = ({
   }[]
   currentIndex?: number
   autoplay?: boolean
+  aboveTheFold?: boolean
 }) => {
   const swiperRef = useRef(null)
   const { resolvedTheme } = useTheme()
@@ -140,6 +142,7 @@ export const HeroBanner = ({
                   <Image
                     src={pickScreenshotSize(data.appstream.screenshots[0])}
                     alt={data.appstream.name}
+                    priority={aboveTheFold}
                     className={clsx(
                       "absolute rounded-lg",
                       data.app.isFullscreen ? "top-20" : "top-10 ",
