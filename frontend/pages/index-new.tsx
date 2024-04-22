@@ -4,10 +4,10 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import {
   fetchAppstream,
   fetchCategory,
+  fetchCollectionPopularLastMonth,
   fetchCollectionRecentlyAdded,
   fetchCollectionRecentlyUpdated,
   fetchCollectionTrendingLastTwoWeeks,
-  fetchCollectionVerified,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
@@ -133,7 +133,7 @@ export default function Home({
   recentlyUpdated,
   recentlyAdded,
   trending,
-  verified,
+  popular,
   topAppsByCategory,
   heroBannerData,
   appOfTheDayAppstream,
@@ -141,7 +141,7 @@ export default function Home({
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
   trending: MeilisearchResponse<AppsIndex>
-  verified: MeilisearchResponse<AppsIndex>
+  popular: MeilisearchResponse<AppsIndex>
   topAppsByCategory: {
     category: Category
     apps: MeilisearchResponse<AppsIndex>
@@ -231,6 +231,11 @@ export default function Home({
                 moreLink: "/apps/collection/trending",
               },
               {
+                apps: popular,
+                name: "popular",
+                moreLink: "/apps/collection/popular",
+              },
+              {
                 apps: recentlyAdded,
                 name: "new",
                 moreLink: "/apps/collection/recently-added",
@@ -239,12 +244,6 @@ export default function Home({
                 apps: recentlyUpdated,
                 name: "updated",
                 moreLink: "/apps/collection/recently-updated",
-              },
-
-              {
-                apps: verified,
-                name: "verified",
-                moreLink: "/apps/collection/verified",
               },
             ]}
           />
@@ -261,15 +260,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     1,
     APPS_IN_PREVIEW_COUNT * 2,
   )
+  const { data: popular } = await fetchCollectionPopularLastMonth(
+    1,
+    APPS_IN_PREVIEW_COUNT,
+  )
   const { data: recentlyAdded } = await fetchCollectionRecentlyAdded(
     1,
     APPS_IN_PREVIEW_COUNT,
   )
   const { data: trending } = await fetchCollectionTrendingLastTwoWeeks(
-    1,
-    APPS_IN_PREVIEW_COUNT,
-  )
-  const { data: verified } = await fetchCollectionVerified(
     1,
     APPS_IN_PREVIEW_COUNT,
   )
@@ -329,7 +328,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       recentlyUpdated,
       recentlyAdded,
       trending,
-      verified,
+      popular,
       topAppsByCategory,
       heroBannerData,
       appOfTheDayAppstream,
