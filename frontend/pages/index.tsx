@@ -31,6 +31,7 @@ import {
 } from "src/codegen"
 import { useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
+import axios from "axios"
 
 const categoryOrder = [
   Category.Office,
@@ -248,6 +249,8 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+
   const { data: recentlyUpdated } = await fetchCollectionRecentlyUpdated(
     1,
     APPS_IN_PREVIEW_COUNT * 2,
