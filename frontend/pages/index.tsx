@@ -292,27 +292,36 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
-  const heroBannerApps = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
-    formatISO(new Date(), { representation: "date" }),
-  )
-  const appOfTheDay = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
-    formatISO(new Date(), { representation: "date" }),
-  )
+  let heroBannerData = []
+  try {
+    const heroBannerApps = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
+      formatISO(new Date(), { representation: "date" }),
+    )
 
-  const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.data.apps.map(async (app) => fetchAppstream(app.app_id)),
-  ).then((apps) => apps.map((app) => app.data))
+    const heroBannerAppstreams = await Promise.all(
+      heroBannerApps.data.apps.map(async (app) => fetchAppstream(app.app_id)),
+    ).then((apps) => apps.map((app) => app.data))
 
-  const heroBannerData = heroBannerApps.data.apps.map((app) => {
-    return {
-      app: app,
-      appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
-    }
-  })
+    heroBannerData = heroBannerApps.data.apps.map((app) => {
+      return {
+        app: app,
+        appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
+      }
+    })
+  } catch (e) {
+    console.error(e)
+  }
 
-  const appOfTheDayAppstream = await fetchAppstream(
-    appOfTheDay.data.app_id,
-  ).then((app) => app.data)
+  let appOfTheDayAppstream = null
+  try {
+    appOfTheDayAppstream = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
+      formatISO(new Date(), { representation: "date" }),
+    )
+      .then((appOfTheDay) => fetchAppstream(appOfTheDay.data.app_id))
+      .then((app) => app.data)
+  } catch (e) {
+    console.error(e)
+  }
 
   return {
     props: {
