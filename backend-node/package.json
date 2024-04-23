@@ -20,7 +20,7 @@
     "hono": "^4.2.6",
     "nodemailer": "6.9.13",
     "react-email": "2.1.1",
-    "zod": "^3.23.0"
+    "zod": "^3.23.3"
   },
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
