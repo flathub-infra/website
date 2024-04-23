@@ -29,6 +29,7 @@ import {
   getEolRebaseAppidEolRebaseAppIdGet,
 } from "src/codegen"
 import { getVerificationStatusVerificationAppIdStatusGet } from "src/codegen"
+import axios from "axios"
 
 export default function Details({
   app,
@@ -94,6 +95,8 @@ export const getStaticProps: GetStaticProps = async ({
   defaultLocale,
   params: { appDetails: appId },
 }) => {
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+
   console.log("Fetching data for app details: ", appId)
 
   const isFlatpakref = (appId as string).endsWith(".flatpakref")
