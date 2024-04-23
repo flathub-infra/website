@@ -44,7 +44,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   axios.interceptors.request.use((config) => {
     return {
       ...config,
-      baseURL: "https://flathub.org",
+      baseURL: process.env.NEXT_PUBLIC_API_BASE_URI,
     }
   })
 
