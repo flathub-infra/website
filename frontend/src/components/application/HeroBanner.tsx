@@ -46,6 +46,14 @@ export const HeroBanner = ({
       navigation: true,
       className: "h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
       injectStyles: [
+        `:host {
+          --swiper-theme-color: "rgb(222, 221, 218)";
+        }
+
+        :host([data-theme="dark"]) {
+          --swiper-theme-color: "rgb(36, 31, 49)";
+        }
+        `,
         `
         .swiper-button-next:hover, .swiper-button-prev:hover {
           background-color: hsla(0, 0%, 100%, 0.2);
@@ -61,9 +69,6 @@ export const HeroBanner = ({
           width: 20px;
           height: 20px;
           border-radius: 100%;
-          color: ${
-            resolvedTheme === "dark" ? "rgb(222, 221, 218)" : "rgb(36, 31, 49)"
-          };
           transition: all 0.2s ease-in-out;
         }
       `,
