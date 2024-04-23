@@ -129,7 +129,7 @@ def send_one_email_new(payload: dict, dest: str):
     )
 
     if result.status_code != 200:
-        raise Exception("Failed to send email", payload, result.json)
+        raise Exception("Failed to send email", payload, result.json())
 
 
 router = APIRouter(prefix="/emails")
