@@ -7,6 +7,7 @@ import { fetchAppstream } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
 import { getGlobalVendingConfigVendingConfigGet } from "src/codegen"
+import axios from "axios"
 
 export default function AppPurchasePage({
   app,
@@ -33,6 +34,8 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
     getGlobalVendingConfigVendingConfigGet(),

@@ -27,6 +27,7 @@ import {
   getInviteStatusInvitesAppIdGet,
   UserInfo,
 } from "src/codegen"
+import axios from "axios"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -174,6 +175,8 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+
   const [{ data: app }, { data: vendingConfig }] = await Promise.all([
     fetchAppstream(appId as string),
     getGlobalVendingConfigVendingConfigGet(),

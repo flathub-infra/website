@@ -7,6 +7,7 @@ import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
 import { getLoginMethodsAuthLoginGet } from "src/codegen"
+import axios from "axios"
 
 export default function Settings({
   providers,
@@ -36,6 +37,8 @@ export default function Settings({
 
 // Need available login providers to show options on page
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+
   const providers = await getLoginMethodsAuthLoginGet()
 
   return {
