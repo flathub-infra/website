@@ -119,6 +119,7 @@ export const HeroBanner = ({
                 <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
                   <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                     <LogoImage
+                      priority={aboveTheFold}
                       iconUrl={data.appstream.icon}
                       appName={data.appstream.name}
                     />
