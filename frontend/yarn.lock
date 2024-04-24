@@ -7116,10 +7116,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boring-avatars@npm:^1.10.1":
-  version: 1.10.1
-  resolution: "boring-avatars@npm:1.10.1"
-  checksum: ed5eeb9ad692aab47c35828b743a194b122aeb0573188c6696081c74ca485be0ad98951ee7da2e9ec1f55f4a8ca24d8e1632f854b214a894703cd26bdf1ca4ad
+"boring-avatars@npm:^1.10.2":
+  version: 1.10.2
+  resolution: "boring-avatars@npm:1.10.2"
+  checksum: 3613beecc44de8192aed4e3ccdf9d0794ff1a49f6d77af9827c0c73f9a5624ea896d12a02022ce530045ea410c17e02b1a916174cd78adc7923111cf4fd0c1e3
   languageName: node
   linkType: hard
 
@@ -10167,7 +10167,7 @@ __metadata:
     "@types/react": "npm:^18.2.79"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.6.8"
-    boring-avatars: "npm:^1.10.1"
+    boring-avatars: "npm:^1.10.2"
     chart.js: "npm:^4.4.2"
     chartjs-adapter-date-fns: "npm:^3.0.0"
     clsx: "npm:^2.1.0"

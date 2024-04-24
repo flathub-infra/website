@@ -29,7 +29,7 @@
     "@tanstack/react-query": "^5.29.2",
     "@tanstack/react-table": "^8.16.0",
     "axios": "^1.6.8",
-    "boring-avatars": "^1.10.1",
+    "boring-avatars": "^1.10.2",
     "chart.js": "^4.4.2",
     "chartjs-adapter-date-fns": "^3.0.0",
     "clsx": "^2.1.0",
