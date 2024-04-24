@@ -14,6 +14,8 @@ import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
 
+register()
+
 export const HeroBanner = ({
   heroBannerData,
   currentIndex,
@@ -32,8 +34,6 @@ export const HeroBanner = ({
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
-    register()
-
     const params = {
       modules: [Navigation, Autoplay],
       slidesPerView: 1,
