@@ -2098,7 +2098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.24.0":
+"@babel/runtime@npm:^7.24.1":
   version: 7.24.4
   resolution: "@babel/runtime@npm:7.24.4"
   dependencies:
@@ -10208,7 +10208,7 @@ __metadata:
     storybook: "npm:^8.0.9"
     storybook-react-i18next: "npm:^3.0.1"
     swiper: "npm:^11.1.1"
-    tailwind-merge: "npm:^2.2.2"
+    tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.3"
     typescript: "npm:^5.4.5"
     yaml: "npm:^2.4.1"
@@ -16631,12 +16631,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-merge@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "tailwind-merge@npm:2.2.2"
+"tailwind-merge@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "tailwind-merge@npm:2.3.0"
   dependencies:
-    "@babel/runtime": "npm:^7.24.0"
-  checksum: 68a5e199848a467aed4f8d1a8d7b6a5b583ff72f1d2801e018bf245eaa41e6564b63ead9e2b708a214cefbd843970c5e0a21754d5f2a20e2c1238e25955685ce
+    "@babel/runtime": "npm:^7.24.1"
+  checksum: 5ea308e23c3ab1cf4c3f35f0a471753f4d3ed232d63dd7c09151a74428737321902203d90e9f0cb76ea5c3978e71b0adbc503dc455e56cda967a7674ae4b94b5
   languageName: node
   linkType: hard
 
