@@ -563,5 +563,9 @@
   "news": "Uutiset",
   "developer-portal": "Kehittäjäportaali",
   "nothing-to-do": "Ei mitään tehtävää",
-  "unverified": "Vahvistamaton"
+  "unverified": "Vahvistamaton",
+  "updated": "Päivitetty",
+  "new": "Uutta",
+  "trending": "Nousussa",
+  "trending-apps": "Nousussa olevat sovellukset"
 }
