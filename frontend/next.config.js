@@ -184,6 +184,36 @@ const nextConfig = (phase) => ({
           },
         ],
       },
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Surrogate-Control",
+            value:
+              "max-age=900, stale-while-revalidate=31557600, stale-if-error=31557600",
+          },
+        ],
+      },
+      {
+        source: "/apps/(collection|category)/:path*",
+        headers: [
+          {
+            key: "Surrogate-Control",
+            value:
+              "max-age=900, stale-while-revalidate=31557600, stale-if-error=31557600",
+          },
+        ],
+      },
+      {
+        source: "/apps/:path",
+        headers: [
+          {
+            key: "Surrogate-Control",
+            value:
+              "max-age=900, stale-while-revalidate=31557600, stale-if-error=31557600",
+          },
+        ],
+      },
     ]
   },
   generateBuildId: buildId
