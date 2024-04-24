@@ -109,7 +109,7 @@
   "open-menu": "Menu openen",
   "show-more": "Meer tonen",
   "show-less": "Minder tonen",
-  "more-type": "Meer {{type}}",
+  "more-type": "Meer '{{type}}' tonen",
   "verified": "Geverifieerd",
   "verified-login-provider": "@{{login_name}} op {{login_provider}}",
   "about-pagename": "Over Flathub",
@@ -565,7 +565,7 @@
   "nothing-to-do": "Er valt niets te doen",
   "unverified": "Niet geverifieerd",
   "new": "Nieuw",
-  "updated": "Updates",
-  "trending-apps": "Populaire apps",
-  "trending": "Populair"
+  "updated": "Bĳgewerkt",
+  "trending-apps": "Trending apps",
+  "trending": "Trending"
 }
