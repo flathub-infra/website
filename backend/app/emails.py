@@ -1,5 +1,4 @@
 import base64
-import json
 from enum import Enum
 from typing import Any
 
@@ -125,7 +124,7 @@ def send_one_email_new(payload: dict, dest: str):
     payload["to"] = dest
 
     result = requests.post(
-        f"{settings.backend_node_url}/emails", json=json.dumps(payload), timeout=10
+        f"{settings.backend_node_url}/emails", json=payload, timeout=10
     )
 
     if result.status_code != 200:
