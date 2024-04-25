@@ -123,9 +123,7 @@ def send_email_new(payload: dict, db):
 def send_one_email_new(payload: dict, dest: str):
     payload["to"] = dest
 
-    result = requests.post(
-        f"{settings.backend_node_url}/emails", json=payload, timeout=10
-    )
+    result = requests.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
         raise Exception(
