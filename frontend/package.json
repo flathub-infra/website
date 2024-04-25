@@ -38,7 +38,7 @@
     "framer-motion": "^11.1.7",
     "i18n-iso-countries": "^7.11.0",
     "i18next": "^23.11.2",
-    "isomorphic-dompurify": "^2.6.0",
+    "isomorphic-dompurify": "^2.7.0",
     "next": "^14.2.2",
     "next-i18next": "^15.3.0",
     "next-seo": "^6.5.0",
