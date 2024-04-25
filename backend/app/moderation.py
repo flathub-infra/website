@@ -461,7 +461,7 @@ def submit_review_request(
                         "requests": [
                             {
                                 "requestType": request.request_type,
-                                "requestData": request.request_data,
+                                "requestData": json.dumps(request.request_data),
                                 "isNewSubmission": request.is_new_submission,
                             }
                             for request in requests
@@ -568,7 +568,7 @@ def submit_review(
             "buildLogUrl": request.build_log_url,
             "request": {
                 "requestType": request.request_type,
-                "requestData": request.request_data,
+                "requestData": json.dumps(request.request_data),
                 "isNewSubmission": request.is_new_submission,
             },
             "references": f"{request.appid}/{request.build_id}/held",
