@@ -113,7 +113,7 @@ def get_upload_tokens(
     )
 
 
-ALLOWED_SCOPES = ["build", "upload", "publish"]
+ALLOWED_SCOPES = ["build", "upload", "publish", "jobs"]
 ALLOWED_REPOS = ["stable", "beta"]
 
 
