@@ -5817,13 +5817,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:^18.2.79":
-  version: 18.2.79
-  resolution: "@types/react@npm:18.2.79"
+"@types/react@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "@types/react@npm:18.3.0"
   dependencies:
     "@types/prop-types": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: c8a8a005d8830a48cc1ef93c3510c4935a2a03e5557dbecaa8f1038450cbfcb18eb206fa7fba7077d54b8da21faeb25577e897a333392770a7797f625b62c78a
+  checksum: 6405f805700daf096a507a191bc4f8814ebed49120f156926b0a5b7b6f41424214320cea3dbb6df85f476b220f0554ef7e587baa88f59375e64bdbab525f58aa
   languageName: node
   linkType: hard
 
@@ -10174,7 +10174,7 @@ __metadata:
     "@tanstack/react-query-devtools": "npm:^5.32.0"
     "@tanstack/react-table": "npm:^8.16.0"
     "@types/node": "npm:^20.12.7"
-    "@types/react": "npm:^18.2.79"
+    "@types/react": "npm:^18.3.0"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.6.8"
     boring-avatars: "npm:^1.10.2"
@@ -10201,7 +10201,7 @@ __metadata:
     postcss: "npm:^8.4.38"
     prettier: "npm:^3.2.5"
     prettier-plugin-tailwindcss: "npm:^0.5.14"
-    react: "npm:^18.2.0"
+    react: "npm:^18.3.0"
     react-chartjs-2: "npm:^5.2.0"
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
@@ -14945,12 +14945,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, react@npm:^18.2.0":
+"react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: b562d9b569b0cb315e44b48099f7712283d93df36b19a39a67c254c6686479d3980b7f013dc931f4a5a3ae7645eae6386b4aa5eea933baa54ecd0f9acb0902b8
+  languageName: node
+  linkType: hard
+
+"react@npm:^18.3.0":
+  version: 18.3.0
+  resolution: "react@npm:18.3.0"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: ad87bbfdb0c5466148c657da18b0d5458e835389fc591d59840f0e6ec797a004073a01c8cdbff1767a8774c7219054a56f74dacd67bdbb849f1314e427999268
   languageName: node
   linkType: hard
 
