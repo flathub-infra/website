@@ -30,7 +30,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   const title = repo === "beta" ? t("new-beta-token") : t("new-stable-token")
 
   const [comment, setComment] = useState("")
-  const [scopes, setScopes] = useState(["build", "upload", "publish"])
+  const [scopes, setScopes] = useState(["build", "upload", "publish", "jobs"])
   const [token, setToken] = useState("")
 
   const createUploadTokenMutation = useMutation({
@@ -87,7 +87,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
 
           <div>
             <h4 className="mt-3 mb-1 font-bold">{t("scopes")}</h4>
-            {["build", "upload", "publish"].map((scope) => (
+            {["build", "upload", "publish", "jobs"].map((scope) => (
               <div key={scope} className="ms-1">
                 <input
                   id={`scope-${scope}`}
