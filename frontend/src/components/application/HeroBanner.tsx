@@ -33,6 +33,9 @@ export const HeroBanner = ({
   const swiperRef = useRef(null)
   const { resolvedTheme } = useTheme()
 
+  const bannerHeight =
+    "overflow-hidden h-[288px] xl:h-[352px] shadow-md rounded-xl"
+
   useEffect(() => {
     const params = {
       modules: [Navigation, Autoplay],
@@ -44,7 +47,7 @@ export const HeroBanner = ({
       },
       loop: autoplay, // there is a bug that mixes up the indices when looping, so disable this for moderation
       navigation: true,
-      className: "h-[288px] xl:h-[352px] shadow-md rounded-xl overflow-hidden",
+      className: bannerHeight,
       injectStyles: [
         `:host {
           --swiper-theme-color: "rgb(222, 221, 218)";
@@ -85,7 +88,7 @@ export const HeroBanner = ({
   }
 
   return (
-    <swiper-container init={false} ref={swiperRef}>
+    <swiper-container init={false} ref={swiperRef} className={bannerHeight}>
       {heroBannerData.map((data) => {
         const brandingColor = chooseBrandingColor(
           data.appstream?.branding,
