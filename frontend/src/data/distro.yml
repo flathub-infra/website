@@ -27,8 +27,7 @@
 - name: Fedora
   logo: "fedora.svg"
   introduction: >
-    <!-- Flatpak has been installed by default on Fedora Workstation since F25. Previous versions are past end of life, so don’t need to be mentioned. -->
-    <p>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
+    <p>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Flathub is pre-configured as a part of the <a href="https://docs.fedoraproject.org/en-US/workstation-working-group/third-party-repos/">Third-Party Repositories</a>. Alternatively, you can download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
     <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
     <p>The above links should work on the default GNOME and KDE Fedora installations, but if they fail for some reason you can manually add the Flathub remote by running:</p>
     <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
@@ -78,7 +77,7 @@
 
 - name: Red Hat Enterprise Linux
   logo: "redhat.svg"
-  introduction: <h2>Install Flatpak</h2>
+  introduction: >
     <p>Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9 and newer. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
     <p>To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run the following in a terminal:</p>
     <!-- Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it -->
@@ -89,7 +88,7 @@
 
 - name: Linux Mint
   logo: "mint.svg"
-  introduction:
+  introduction: >
     <h2>Flatpak support is built into Linux Mint 18.3 and newer—no setup required!</h2>
     <p>If you are using an older version, <a href="https://blog.linuxmint.com/?p=3462">upgrade to Linux Mint 18.3</a>.</p>
 
@@ -127,13 +126,13 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>"
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Install the Software Flatpak plugin
       text: "
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>apt install gnome-software-plugin-flatpak</terminal-command>
+        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>
         <p>If you are running KDE, you should instead install the Plasma Discover Flatpak backend:</p>
-        <terminal-command>apt install plasma-discover-backend-flatpak</terminal-command>"
+        <terminal-command>sudo apt install plasma-discover-backend-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
@@ -275,6 +274,12 @@
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Mageia.</p>'
 
+- name: OpenMandriva Lx
+  logo: "openmandriva.svg"
+  introduction: >
+    <h2>Flatpak support is built into OpenMandriva for all actively supported versions, starting from the stable/fixed release 'Rock 5.0', through the development release 'Cooker', and ending with the rolling release 'ROME'.</h2>
+    <p>Flatpak comes with the pre-configured Flathub repository.</p>
+
 - name: "Pop!_OS"
   logo: "pop-os.svg"
   introduction: >
@@ -309,7 +314,7 @@
     - name: Install Flatpak
       text: "
         <p>A flatpak package is available in Raspberry Pi OS (previously called Raspbian) Stretch and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>"
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
@@ -448,12 +453,12 @@
     - name: Install Flatpak
       text: '
         <p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p>
-        <terminal-command>apt install flatpak</terminal-command>
+        <terminal-command>sudo apt install flatpak</terminal-command>
         <p>For Pardus 2017 and older versions, a flatpak package is available in the <a href="https://backports.debian.org/Instructions/">official backports repository</a>. </p>'
     - name: Install the Software Flatpak plugin
       text: "
         <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>apt install gnome-software-plugin-flatpak</terminal-command>"
+        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
@@ -512,7 +517,7 @@
 
 - name: KDE neon
   logo: "kdeneon.svg"
-  introduction:
+  introduction: >
     <h2>Flatpak support is built into KDE neon 19 and newer—no setup required!</h2>
     <p>If you are using an older version, you can refer to the instructions below.</p>
   steps:
@@ -537,3 +542,23 @@
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with GNU Guix.</p>'
+
+- name: Crystal Linux
+  logo: "crystallinux.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on Crystal Linux.</h2>
+    <p>If you didn't use jade_gui to install crystal or selected not to install it, you can set Flatpak up by using the following steps.</p>
+  steps:
+    - name: Install Flatpak
+      text: "
+        <p>To install Flatpak in Crystal Linux, you must first make sure your packages are up to date. Run the following in a terminal:</p>
+        <terminal-command>ame upg</terminal-command>
+        <p>Then install Flatpak:</p>
+        <terminal-command>ame ins flatpak</terminal-command>"
+    - name: Add the Flathub repository
+      text: "
+        <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
+    - name: Restart
+      text: '
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'

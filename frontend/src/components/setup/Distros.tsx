@@ -108,11 +108,15 @@ distroMap.set("Ubuntu", <Ubuntu />)
 
 export const Fedora = () => (
   <ol className="distrotut">
-    {/*  Flatpak has been installed by default on Fedora Workstation since F25. Previous versions are past end of life, so don’t need to be mentioned.  */}{" "}
     <p>
       Flatpak is installed by default on Fedora Workstation, Fedora Silverblue,
       and Fedora Kinoite. To get started, all you need to do is enable Flathub,
-      which is the best way to get Flatpak apps. Just download and install the{" "}
+      which is the best way to get Flatpak apps. Flathub is pre-configured as a
+      part of the{" "}
+      <a href="https://docs.fedoraproject.org/en-US/workstation-working-group/third-party-repos/">
+        Third-Party Repositories
+      </a>
+      . Alternatively, you can download and install the{" "}
       <a
         className="btn btn-default"
         href="https://dl.flathub.org/repo/flathub.flatpakrepo"
@@ -338,7 +342,6 @@ distroMap.set("Chrome OS", <Chrome_OS />)
 
 export const Red_Hat_Enterprise_Linux = () => (
   <ol className="distrotut">
-    <h2>Install Flatpak</h2>{" "}
     <p>
       Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9
       and newer. To get started, all you need to do is enable Flathub, which is
@@ -530,7 +533,7 @@ export const Debian = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root: apt install flatpak",
+              text: "A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root: sudo apt install flatpak",
             },
           ],
         },
@@ -540,7 +543,7 @@ export const Debian = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run: apt install gnome-software-plugin-flatpak If you are running KDE, you should instead install the Plasma Discover Flatpak backend: apt install plasma-discover-backend-flatpak",
+              text: "If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run: sudo apt install gnome-software-plugin-flatpak If you are running KDE, you should instead install the Plasma Discover Flatpak backend: sudo apt install plasma-discover-backend-flatpak",
             },
           ],
         },
@@ -573,7 +576,7 @@ export const Debian = () => (
         A flatpak package is available in Debian 10 (Buster) and newer. To
         install it, run the following as root:
       </p>{" "}
-      <CodeCopy text={`apt install flatpak`} />
+      <CodeCopy text={`sudo apt install flatpak`} />
     </li>
 
     <li>
@@ -582,12 +585,12 @@ export const Debian = () => (
         If you are running GNOME, it is also a good idea to install the Flatpak
         plugin for GNOME Software. To do this, run:
       </p>{" "}
-      <CodeCopy text={`apt install gnome-software-plugin-flatpak`} />{" "}
+      <CodeCopy text={`sudo apt install gnome-software-plugin-flatpak`} />{" "}
       <p>
         If you are running KDE, you should instead install the Plasma Discover
         Flatpak backend:
       </p>{" "}
-      <CodeCopy text={`apt install plasma-discover-backend-flatpak`} />
+      <CodeCopy text={`sudo apt install plasma-discover-backend-flatpak`} />
     </li>
 
     <li>
@@ -1219,6 +1222,18 @@ export const Mageia = () => (
 )
 distroMap.set("Mageia", <Mageia />)
 
+export const OpenMandriva_Lx = () => (
+  <ol className="distrotut">
+    <h2>
+      Flatpak support is built into OpenMandriva for all actively supported
+      versions, starting from the stable/fixed release 'Rock 5.0', through the
+      development release 'Cooker', and ending with the rolling release 'ROME'.
+    </h2>{" "}
+    <p>Flatpak comes with the pre-configured Flathub repository.</p>
+  </ol>
+)
+distroMap.set("OpenMandriva Lx", <OpenMandriva_Lx />)
+
 export const Pop_OS = () => (
   <ol className="distrotut">
     <HowToJsonLd
@@ -1352,7 +1367,7 @@ export const Raspberry_Pi_OS = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "A flatpak package is available in Raspberry Pi OS (previously called Raspbian) Stretch and newer. To install it, run the following as root: apt install flatpak",
+              text: "A flatpak package is available in Raspberry Pi OS (previously called Raspbian) Stretch and newer. To install it, run the following as root: sudo apt install flatpak",
             },
           ],
         },
@@ -1385,7 +1400,7 @@ export const Raspberry_Pi_OS = () => (
         A flatpak package is available in Raspberry Pi OS (previously called
         Raspbian) Stretch and newer. To install it, run the following as root:
       </p>{" "}
-      <CodeCopy text={`apt install flatpak`} />
+      <CodeCopy text={`sudo apt install flatpak`} />
     </li>
 
     <li>
@@ -1879,7 +1894,7 @@ export const Pardus = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root: apt install flatpak For Pardus 2017 and older versions, a flatpak package is available in the official backports repository.",
+              text: "A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root: sudo apt install flatpak For Pardus 2017 and older versions, a flatpak package is available in the official backports repository.",
             },
           ],
         },
@@ -1889,7 +1904,7 @@ export const Pardus = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run: apt install gnome-software-plugin-flatpak",
+              text: "If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run: sudo apt install gnome-software-plugin-flatpak",
             },
           ],
         },
@@ -1922,7 +1937,7 @@ export const Pardus = () => (
         A flatpak package is available in Pardus 2019 and newer. To install it,
         run the following as root:
       </p>{" "}
-      <CodeCopy text={`apt install flatpak`} />{" "}
+      <CodeCopy text={`sudo apt install flatpak`} />{" "}
       <p>
         For Pardus 2017 and older versions, a flatpak package is available in
         the{" "}
@@ -1939,7 +1954,7 @@ export const Pardus = () => (
         If you are running GNOME, it is also a good idea to install the Flatpak
         plugin for GNOME Software. To do this, run:
       </p>{" "}
-      <CodeCopy text={`apt install gnome-software-plugin-flatpak`} />
+      <CodeCopy text={`sudo apt install gnome-software-plugin-flatpak`} />
     </li>
 
     <li>
@@ -2291,3 +2306,76 @@ export const GNU_Guix = () => (
   </ol>
 )
 distroMap.set("GNU Guix", <GNU_Guix />)
+
+export const Crystal_Linux = () => (
+  <ol className="distrotut">
+    <HowToJsonLd
+      name="Crystal Linux"
+      image="https://flathub.org/img/distro/crystallinux.svg"
+      estimatedCost={{ currency: "USD", value: "0" }}
+      step={[
+        {
+          url: "https://flathub.org/setup/crystal_linux",
+          name: "Install Flatpak",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "To install Flatpak in Crystal Linux, you must first make sure your packages are up to date. Run the following in a terminal: ame upg Then install Flatpak: ame ins flatpak",
+            },
+          ],
+        },
+        {
+          url: "https://flathub.org/setup/crystal_linux",
+          name: "Add the Flathub repository",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "Flathub is the best place to get Flatpak apps. To enable it, run: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo",
+            },
+          ],
+        },
+        {
+          url: "https://flathub.org/setup/crystal_linux",
+          name: "Restart",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "To complete setup, restart your system. Now all you have to do is install some apps!",
+            },
+          ],
+        },
+      ]}
+    />
+    <h2>Flatpak is installed by default on Crystal Linux.</h2>{" "}
+    <p>
+      If you didn't use jade_gui to install crystal or selected not to install
+      it, you can set Flatpak up by using the following steps.
+    </p>
+    <li>
+      <h2>Install Flatpak</h2>
+      <p>
+        To install Flatpak in Crystal Linux, you must first make sure your
+        packages are up to date. Run the following in a terminal:
+      </p>{" "}
+      <CodeCopy text={`ame upg`} /> <p>Then install Flatpak:</p>{" "}
+      <CodeCopy text={`ame ins flatpak`} />
+    </li>
+    <li>
+      <h2>Add the Flathub repository</h2>
+      <p>
+        Flathub is the best place to get Flatpak apps. To enable it, run:
+      </p>{" "}
+      <CodeCopy
+        text={`flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`}
+      />
+    </li>
+    <li>
+      <h2>Restart</h2>
+      <p>
+        To complete setup, restart your system. Now all you have to do is{" "}
+        <a href="https://flathub.org/">install some apps</a>!
+      </p>
+    </li>
+  </ol>
+)
+distroMap.set("Crystal Linux", <Crystal_Linux />)
