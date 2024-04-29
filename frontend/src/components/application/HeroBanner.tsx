@@ -89,7 +89,7 @@ export const HeroBanner = ({
 
   return (
     <swiper-container init={false} ref={swiperRef} className={bannerHeight}>
-      {heroBannerData.map((data) => {
+      {heroBannerData.map((data, i) => {
         const brandingColor = chooseBrandingColor(
           data.appstream?.branding,
           resolvedTheme as "light" | "dark",
@@ -122,7 +122,7 @@ export const HeroBanner = ({
                 <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
                   <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
                     <LogoImage
-                      priority={aboveTheFold}
+                      priority={aboveTheFold && i === 0}
                       iconUrl={data.appstream.icon}
                       appName={data.appstream.name}
                     />
@@ -151,7 +151,7 @@ export const HeroBanner = ({
                   <Image
                     src={pickScreenshotSize(data.appstream.screenshots[0])}
                     alt={data.appstream.name}
-                    priority={aboveTheFold}
+                    priority={aboveTheFold && i === 0}
                     className={clsx(
                       "absolute rounded-lg",
                       data.app.isFullscreen ? "top-20" : "top-10 ",
