@@ -201,7 +201,7 @@
   "token-redeem-placeholder": "输入所有权 Token",
   "terms-and-conditions-description": "使用本网站即表示您同意条款和条件。",
   "submitting-apps-block": "<0>应用开发人员可以<2>提交应用</2>以分发给 Flathub 不断增长的用户群，从而为整个 Linux 桌面生态系统提供了一站式解决方案。</0><p>目前，应用必须可以合法地再分发，或者可以作为第三方下载。不过，如果你是专有应用的开发人员，并对使用 Flathub 感兴趣，我们很乐意与你交谈。</p>",
-  "about-block": "<0>所有 Linux 桌面都可以使用 Flathub 获取和分发应用。Flathub 由<1>Flatpak</1> 驱动，让 Flathub 应用在几乎所有的 Linux 发行版上都能运行。</0><1>按照<2>设置说明</2>即可使用 Flathub 获取不断增加的 Flatpak 应用。</2>.</1>",
+  "about-block": "<0>所有 Linux 桌面都可以使用 Flathub 获取和分发应用。Flathub 由 <1>Flatpak</1> 驱动，让 Flathub 应用在几乎所有的 Linux 发行版上都能运行。</0><1>按照<2>设置说明</2>即可使用 Flathub 获取不断增加的 Flatpak 应用</2>。</1>",
   "privacy-policy-description": "使用本网站即表示您同意隐私政策。",
   "purchase-terms-confirmation": "我确认我已经阅读了Flathub条款和条件，并同意放弃与此数字下载相关的14天冷却期。",
   "account-deletion-token-mismatch": "账户删除请求无法通过身份验证。",
