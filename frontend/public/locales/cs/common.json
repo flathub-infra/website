@@ -521,7 +521,7 @@
   "id": "ID",
   "token-created": "Zkopírujte tento token a uložte jej na bezpečné místo, například do úložiště tajných informací v potrubí CI. Uděluje přístup ke čtení a zápisu pro sestavení vaší aplikace.",
   "issued": "Vydáno",
-  "scope-build": "Vytváření a přístup ke sestavením a pracovním místům",
+  "scope-build": "Vytváření a přístup k sestavením a úlohám",
   "token-name": "Název tokenu",
   "revoke-token": "Zrušit token",
   "scopes": "Rozsah",
@@ -568,5 +568,6 @@
   "new": "Nové",
   "updated": "Aktualizované",
   "trending": "Trendy",
-  "trending-apps": "Trendy"
+  "trending-apps": "Trendy",
+  "scope-jobs": "Zobrazit stav úloh"
 }
