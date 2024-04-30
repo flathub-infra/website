@@ -4849,7 +4849,7 @@ __metadata:
     "@hono/swagger-ui": "npm:0.2.1"
     "@hono/zod-openapi": "npm:^0.11.0"
     "@react-email/components": "npm:0.0.17"
-    "@react-email/render": "npm:0.0.12"
+    "@react-email/render": "npm:0.0.13"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.14"
     "@types/swagger-ui-dist": "npm:^3.30.4"
