@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
-    "@floating-ui/react": "^0.26.12",
+    "@floating-ui/react": "^0.26.13",
     "@headlessui/react": "^1.7.19",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@resvg/resvg-js": "^2.6.2",
