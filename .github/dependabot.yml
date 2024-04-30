@@ -13,6 +13,10 @@ updates:
         patterns:
           - "@storybook/*"
           - storybook
+      react-email:
+        patterns: 
+          - "@react-email/*"
+          - "react-email"
   - package-ecosystem: "npm"
     directory: "/backend-node"
     schedule:
