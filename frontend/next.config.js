@@ -6,7 +6,7 @@ const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   default-src 'none';
   form-action 'none';
-  script-src 'self' 'sha256-fDVtD703YIdPFRhb6ZJE/SvcwyA7gZRWfRRM6K6r9EA=' https://webstats.gnome.org https://js.stripe.com;
+  script-src 'self' 'sha256-eMuh8xiwcX72rRYNAGENurQBAcH7kLlAUQcoOri3BIo=' https://webstats.gnome.org https://js.stripe.com;
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self';
   connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com https://o467221.ingest.sentry.io/api/6610580/;
