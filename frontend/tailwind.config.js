@@ -1,7 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class", '[data-theme="dark"]'],
-  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: ["class"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./@/components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   safelist: [
     "text-flathub-status-green",
     "bg-flathub-status-green/25",
@@ -20,49 +25,110 @@ module.exports = {
     "text-flathub-status-orange-dark",
     "bg-flathub-status-orange-dark/25",
   ],
+  prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
         "flathub-celestial-blue":
-          "rgb(var(--flathub-celestial-blue) / <alpha-value>)",
+          "hsl(var(--flathub-celestial-blue) / <alpha-value>)",
         "flathub-electric-red":
-          "rgb(var(--flathub-electric-red) / <alpha-value>)",
+          "hsl(var(--flathub-electric-red) / <alpha-value>)",
 
         "flathub-status-green":
-          "rgb(var(--flathub-status-green) / <alpha-value>)",
+          "hsl(var(--flathub-status-green) / <alpha-value>)",
         "flathub-status-green-dark":
-          "rgb(var(--flathub-status-green-dark) / <alpha-value>)",
+          "hsl(var(--flathub-status-green-dark) / <alpha-value>)",
         "flathub-status-yellow":
-          "rgb(var(--flathub-status-yellow) / <alpha-value>)",
+          "hsl(var(--flathub-status-yellow) / <alpha-value>)",
         "flathub-status-yellow-dark":
-          "rgb(var(--flathub-status-yellow-dark) / <alpha-value>)",
+          "hsl(var(--flathub-status-yellow-dark) / <alpha-value>)",
         "flathub-status-orange":
-          "rgb(var(--flathub-status-orange) / <alpha-value>)",
+          "hsl(var(--flathub-status-orange) / <alpha-value>)",
         "flathub-status-orange-dark":
-          "rgb(var(--flathub-status-orange-dark) / <alpha-value>)",
-        "flathub-status-red": "rgb(var(--flathub-status-red) / <alpha-value>)",
+          "hsl(var(--flathub-status-orange-dark) / <alpha-value>)",
+        "flathub-status-red": "hsl(var(--flathub-status-red) / <alpha-value>)",
         "flathub-status-red-dark":
-          "rgb(var(--flathub-status-red-dark) / <alpha-value>)",
+          "hsl(var(--flathub-status-red-dark) / <alpha-value>)",
 
-        "flathub-white": "rgb(var(--flathub-white) / <alpha-value>)",
-        "flathub-lotion": "rgb(var(--flathub-lotion) / <alpha-value>)",
-        "flathub-gainsborow": "rgb(var(--flathub-gainsborow) / <alpha-value>)",
-        "flathub-gray-x11": "rgb(var(--flathub-gray-x11) / <alpha-value>)",
+        "flathub-white": "hsl(var(--flathub-white) / <alpha-value>)",
+        "flathub-lotion": "hsl(var(--flathub-lotion) / <alpha-value>)",
+        "flathub-gainsborow": "hsl(var(--flathub-gainsborow) / <alpha-value>)",
+        "flathub-gray-x11": "hsl(var(--flathub-gray-x11) / <alpha-value>)",
         "flathub-spanish-gray":
-          "rgb(var(--flathub-spanish-gray) / <alpha-value>)",
+          "hsl(var(--flathub-spanish-gray) / <alpha-value>)",
         "flathub-sonic-silver":
-          "rgb(var(--flathub-sonic-silver) / <alpha-value>)",
+          "hsl(var(--flathub-sonic-silver) / <alpha-value>)",
         "flathub-granite-gray":
-          "rgb(var(--flathub-granite-gray) / <alpha-value>)",
-        "flathub-arsenic": "rgb(var(--flathub-arsenic) / <alpha-value>)",
+          "hsl(var(--flathub-granite-gray) / <alpha-value>)",
+        "flathub-arsenic": "hsl(var(--flathub-arsenic) / <alpha-value>)",
         "flathub-dark-gunmetal":
-          "rgb(var(--flathub-dark-gunmetal) / <alpha-value>)",
-        "flathub-black": "rgb(var(--flathub-black) / <alpha-value>)",
+          "hsl(var(--flathub-dark-gunmetal) / <alpha-value>)",
+        "flathub-black": "hsl(var(--flathub-black) / <alpha-value>)",
 
         "flathub-vivid-crimson":
-          "rgb(var(--flathub-vivid-crimson) / <alpha-value>)",
+          "hsl(var(--flathub-vivid-crimson) / <alpha-value>)",
         "flathub-dark-candy-apple-red":
-          "rgb(var(--flathub-dark-candy-apple-red) / <alpha-value>)",
+          "hsl(var(--flathub-dark-candy-apple-red) / <alpha-value>)",
+
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
         md: "0 0 0 1px rgba(0, 0, 0, 0.03), 0 1px 3px 1px rgba(0, 0, 0, 0.07), 0 2px 6px 2px rgba(0, 0, 0, 0.03)",
@@ -74,5 +140,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography", "@tailwindcss/forms")],
+  plugins: [
+    require("@tailwindcss/typography", "@tailwindcss/forms", "tailwindcss-animate"),
+  ],
 }

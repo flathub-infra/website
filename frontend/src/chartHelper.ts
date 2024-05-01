@@ -62,7 +62,7 @@ export function chartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
 
@@ -71,7 +71,7 @@ export function chartOptions(
           autoSkipPadding: 10,
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -82,7 +82,7 @@ export function chartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
@@ -90,7 +90,7 @@ export function chartOptions(
           precision: 0,
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -122,13 +122,13 @@ export function barChartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },
@@ -139,13 +139,13 @@ export function barChartOptions(
         border: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
         ticks: {
           color:
             resolvedTheme === "light"
-              ? "rgb(61, 56, 70)"
+              ? "hsl(261, 11%, 25%)"
               : "rgba(255, 255, 255, 0.6)",
         },
       },

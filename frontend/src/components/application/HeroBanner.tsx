@@ -12,7 +12,7 @@ import { register } from "swiper/element/bundle"
 import { Autoplay, Navigation } from "swiper/modules"
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
-import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 
 register()
 

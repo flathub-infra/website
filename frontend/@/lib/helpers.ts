@@ -1,14 +1,8 @@
-import clsx, { ClassValue } from "clsx"
 import { sanitize } from "isomorphic-dompurify"
 import { Branding } from "src/types/Appstream"
-import { twMerge } from "tailwind-merge"
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
 
 export const isValidAppId = (appId: string) => {
   if (appId.length < 5) {

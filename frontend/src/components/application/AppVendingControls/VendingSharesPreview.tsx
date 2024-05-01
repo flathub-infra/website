@@ -73,7 +73,9 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   // Corresponds to text secondary for dark and light theme
   const textColor =
-    resolvedTheme === "light" ? "rgb(36, 31, 49)" : "rgb(222, 221, 218)"
+    resolvedTheme === "light"
+      ? "hsl(261, 11%, 25%)"
+      : "rgba(255, 255, 255, 0.6)"
 
   return (
     <div>

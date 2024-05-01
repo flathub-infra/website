@@ -23,7 +23,7 @@ import {
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { useTranslation } from "next-i18next"
-import { isValidAppId } from "src/utils/helpers"
+import { isValidAppId } from "@/lib/helpers"
 import {
   getEolMessageAppidEolMessageAppIdGet,
   getEolRebaseAppidEolRebaseAppIdGet,

@@ -10,9 +10,9 @@ import {
   forwardRef,
 } from "react"
 import { HiChevronDown } from "react-icons/hi2"
-import { cn } from "src/utils/helpers"
+import { cn } from "@/lib/utils"
 
-const ListBoxMultiToggle = ({ selectedItem, items }) => {
+const ListBoxMultiToggle = ({ selectedItem, items, size }) => {
   return (
     <Listbox
       value={selectedItem}
@@ -20,7 +20,7 @@ const ListBoxMultiToggle = ({ selectedItem, items }) => {
         item.onClick()
       }}
       as={"div"}
-      className={clsx("relative", "md:hidden")}
+      className={clsx("relative", size === "sm" ? "hidden" : "md:hidden")}
     >
       <Listbox.Button
         className={clsx(
@@ -79,7 +79,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
     <LayoutGroup id={Math.random().toString(36)}>
       <ul
         className={clsx(
-          "hidden md:flex",
+          size === "sm" ? "flex" : "hidden md:flex",
           "w-full cursor-pointer justify-around rounded-full",
           variant === "primary" &&
             "border border-flathub-gray-x11 dark:border-flathub-lotion/10",
@@ -155,7 +155,11 @@ const MultiToggle: FunctionComponent<Props> = forwardRef<
 
   return (
     <>
-      <ListBoxMultiToggle items={items} selectedItem={selectedItem} />
+      <ListBoxMultiToggle
+        items={items}
+        selectedItem={selectedItem}
+        size={size}
+      />
       <MultiToggleBig items={items} variant={variant} size={size} />
     </>
   )
