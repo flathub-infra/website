@@ -27,7 +27,7 @@
     "@types/nodemailer": "^6.4.14",
     "@types/swagger-ui-dist": "^3.30.4",
     "prettier": "3.2.5",
-    "tsx": "^4.7.3",
+    "tsx": "^4.8.1",
     "typescript": "^5.4.5"
   },
   "packageManager": "yarn@4.1.1"
