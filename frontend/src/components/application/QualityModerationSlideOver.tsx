@@ -31,7 +31,7 @@ import {
 } from "@floating-ui/react"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
-import { chooseBrandingColor, getContrastColor } from "src/utils/helpers"
+import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import {
   Guideline,
   QualityModerationResponse,

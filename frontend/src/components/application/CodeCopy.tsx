@@ -2,7 +2,7 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { HiCheck, HiSquare2Stack } from "react-icons/hi2"
-import { cn } from "src/utils/helpers"
+import { cn } from "@/lib/utils"
 
 interface Props {
   text: string

@@ -2,7 +2,7 @@ import { useCollapse } from "@collapsed/react"
 import clsx from "clsx"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "next-i18next"
-import { sanitizeAppstreamDescription } from "src/utils/helpers"
+import { sanitizeAppstreamDescription } from "@/lib/helpers"
 
 export const Description = ({ app, isQualityModalOpen }) => {
   const { t } = useTranslation()

@@ -1,5 +1,5 @@
 import { FunctionComponent, forwardRef } from "react"
-import { cn } from "src/utils/helpers"
+import { cn } from "@/lib/utils"
 
 interface Props {
   children: React.ReactNode

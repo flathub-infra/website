@@ -5,7 +5,7 @@ import {
   ButtonHTMLAttributes,
 } from "react"
 import { clsx } from "clsx"
-import { cn } from "src/utils/helpers"
+import { cn } from "@/lib/utils"
 
 type Props = {
   children: React.ReactNode

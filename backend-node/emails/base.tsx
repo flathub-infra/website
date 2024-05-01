@@ -58,7 +58,7 @@ export const Base = ({
           theme: {
             extend: {
               colors: {
-                "flathub-celestial-blue": "rgb(74,144,217)",
+                "flathub-celestial-blue": "hsl(211, 65%, 57%)",
               },
             },
           },

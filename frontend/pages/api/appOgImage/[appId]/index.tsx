@@ -8,7 +8,7 @@ import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
 import { fetchAppstream } from "src/fetchers"
-import { getContrastColor } from "src/utils/helpers"
+import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 

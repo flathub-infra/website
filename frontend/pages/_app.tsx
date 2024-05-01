@@ -58,7 +58,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <MatomoProvider value={instance}>
-      <ThemeProvider>
+      <ThemeProvider attribute="class">
         <DefaultSeo
           dangerouslySetAllPagesToNoIndex={!IS_PRODUCTION}
           titleTemplate="%s | Flathub"

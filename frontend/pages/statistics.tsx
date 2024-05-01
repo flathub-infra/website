@@ -40,7 +40,7 @@ const RuntimeChart = ({ runtimes, barOptions }) => {
             datasets: [
               {
                 data: Object.values(runtimes),
-                backgroundColor: ["rgb(74, 144, 217)"],
+                backgroundColor: ["hsl(211, 65%, 57%)"],
               },
             ],
           }}
@@ -207,9 +207,9 @@ const Statistics = ({
         </h2>
         <div className={`flex justify-center ${styles.map}`}>
           <WorldMap
-            color="rgb(var(--color-primary))"
-            backgroundColor="rgb(var(--bg-color-secondary))"
-            borderColor="rgb(var(--text-primary))"
+            color="hsl(var(--color-primary))"
+            backgroundColor="hsl(var(--bg-color-secondary))"
+            borderColor="hsl(var(--text-primary))"
             size="responsive"
             data={country_data}
             tooltipTextFunction={getLocalizedText}
@@ -234,7 +234,7 @@ const Statistics = ({
               datasets: [
                 {
                   data: category_data.map((x) => x.value),
-                  backgroundColor: ["rgb(74, 144, 217)"],
+                  backgroundColor: ["hsl(211, 65%, 57%)"],
                 },
               ],
             }}
@@ -259,7 +259,7 @@ const Statistics = ({
                     datasets: [
                       {
                         data: query.data.data.map((x) => x.not_passed),
-                        backgroundColor: ["rgb(74, 144, 217)"],
+                        backgroundColor: ["hsl(211, 65%, 57%)"],
                       },
                     ],
                   }}

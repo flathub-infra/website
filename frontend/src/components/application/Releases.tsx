@@ -7,7 +7,7 @@ import { Release } from "../../types/Appstream"
 import { useCollapse } from "@collapsed/react"
 import { clsx } from "clsx"
 import { HiArrowTopRightOnSquare } from "react-icons/hi2"
-import { sanitizeAppstreamDescription } from "src/utils/helpers"
+import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import { Summary } from "src/types/Summary"
 
 interface Props {
