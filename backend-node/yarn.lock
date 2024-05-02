@@ -4638,7 +4638,7 @@ __metadata:
     nodemailer: "npm:6.9.13"
     prettier: "npm:3.2.5"
     react-email: "npm:2.1.2"
-    tsx: "npm:^4.8.1"
+    tsx: "npm:^4.8.2"
     typescript: "npm:^5.4.5"
     zod: "npm:^3.23.5"
   languageName: unknown
@@ -5174,9 +5174,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.8.1":
-  version: 4.8.1
-  resolution: "tsx@npm:4.8.1"
+"tsx@npm:^4.8.2":
+  version: 4.8.2
+  resolution: "tsx@npm:4.8.2"
   dependencies:
     esbuild: "npm:~0.20.2"
     fsevents: "npm:~2.3.3"
@@ -5186,7 +5186,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10c0/d5f5dcd6323a6113455f3e8c0dee74500ca38bf201d6989e1e39eb732fadc722520cfe493e08646a0b945175c0524d7d3c7136b12f43e65746a07bf93a777705
+  checksum: 10c0/113025f4518191b57a1600569eadbcf0b09d9fa50032a03b6d5b0c0e7e371f4ae7f9b483deff48267aecda60701ab08f1805217a1666204aac4d47d8f2045bb4
   languageName: node
   linkType: hard
 
