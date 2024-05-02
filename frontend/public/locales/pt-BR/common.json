@@ -564,5 +564,10 @@
   "manage-x": "Gerenciar {{app-name}}",
   "unverified": "Não verificado",
   "news": "Notícias",
-  "developer-portal": "Portal do Desenvolvedor"
+  "developer-portal": "Portal do Desenvolvedor",
+  "trending": "Em Alta",
+  "trending-apps": "Aplicativos Em Alta",
+  "new": "Novos",
+  "updated": "Atualizados",
+  "scope-jobs": "Exibir status dos trabalhos"
 }
