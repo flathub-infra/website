@@ -17,6 +17,7 @@ import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { i18n } from "next-i18next"
 
 export const HeroBannerNew = ({
   heroBannerData,
@@ -59,6 +60,7 @@ export const HeroBannerNew = ({
     <Carousel
       opts={{
         loop: true,
+        direction: i18n.dir(),
       }}
       plugins={[
         autoplay &&
@@ -69,7 +71,7 @@ export const HeroBannerNew = ({
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
     >
-      <CarouselContent className="h-[288px] xl:h-[352px] ms-0">
+      <CarouselContent className="h-[288px] xl:h-[352px] ml-0">
         {heroBannerData.map((data, i) => {
           const brandingColor = chooseBrandingColor(
             data.appstream?.branding,
@@ -83,7 +85,7 @@ export const HeroBannerNew = ({
             : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
           return (
-            <CarouselItem className="basis-full ps-0" key={data.appstream.id}>
+            <CarouselItem className="basis-full pl-0" key={data.appstream.id}>
               <Link
                 href={`/apps/${data.appstream.id}`}
                 passHref
@@ -143,11 +145,21 @@ export const HeroBannerNew = ({
         })}
       </CarouselContent>
       <CarouselPrevious
-        className="text-flathub-black dark:text-flathub-white hover:text-flathub-black hover:dark:text-flathub-white absolute start-4 top-1/2 -translate-y-1/2 size-11 hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10"
+        className={clsx(
+          "text-flathub-black dark:text-flathub-white",
+          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
+          "absolute left-4 top-1/2 size-11",
+        )}
         variant="ghost"
       />
       <CarouselNext
-        className="text-flathub-black dark:text-flathub-white hover:text-flathub-black hover:dark:text-flathub-white absolute end-4 z-20 top-1/2 -translate-y-1/2 size-11 hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10"
+        className={clsx(
+          "text-flathub-black dark:text-flathub-white",
+          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
+          "absolute right-4 top-1/2 size-11",
+        )}
         variant="ghost"
       />
     </Carousel>
