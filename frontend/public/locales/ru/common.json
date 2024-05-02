@@ -36,7 +36,7 @@
   "popular-apps": "Популярные приложения",
   "recently-updated-apps": "Недавно обновлённые приложения",
   "delete-account": "Удалить учётную запись",
-  "login-with-provider": "Войти с {{provider}}",
+  "login-with-provider": "Войти с помощью {{provider}}",
   "by": "от {{developer}}",
   "other-apps-by-developer": "Другие приложения от {{developer}}",
   "loading": "Загрузка…",
@@ -568,5 +568,6 @@
   "new": "Новые",
   "updated": "Обновлённые",
   "trending": "В тренде",
-  "trending-apps": "Приложения в тренде"
+  "trending-apps": "Приложения в тренде",
+  "scope-jobs": "Посмотреть статус заданий"
 }
