@@ -59,7 +59,13 @@ export function chooseBrandingColor(
   }
 
   const brandingColor = branding.find((a) => {
-    return a.scheme_preference === (theme as "light" | "dark")
+    // if theme is undefined, default to dark
+    // this happens when rendering server side
+    if (theme) {
+      return a.scheme_preference === (theme as "light" | "dark")
+    } else {
+      return a.scheme_preference === "dark"
+    }
   })
 
   if (brandingColor) {
