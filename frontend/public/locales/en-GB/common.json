@@ -567,5 +567,6 @@
   "news": "News",
   "developer-portal": "Developer Portal",
   "press-information-block": "<p>We are very happy to answer questions from journalists and tech writers. Interview opportunities can also be arranged.</p><1>Graphics and Logos</1><2>Flathub graphic assets can be found <2>here</2>.</2><3>Contact</3><4>Press queries, including requests for comments and interviews can be directed to <2>Flathub maintainers</2>.</4>",
-  "nothing-to-do": "Nothing to do"
+  "nothing-to-do": "Nothing to do",
+  "scope-jobs": "View jobs status"
 }
