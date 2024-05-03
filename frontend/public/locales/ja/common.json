@@ -528,5 +528,7 @@
   "invalid-appid": "無効なアプリID",
   "not-logged-in": "ログインしていません",
   "danger-zone": "危険区域",
-  "confirm": "確認"
+  "confirm": "確認",
+  "flathub-the-linux-app-store": "FlathubはLinuxのアプリストアです",
+  "app-of-the-day": "今日のアプリ"
 }
