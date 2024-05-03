@@ -37,24 +37,21 @@ export const HeroBanner = ({
 
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
-
-  if (current && currentIndex !== -1) {
-    setCurrent(currentIndex)
-  }
 
   useEffect(() => {
     if (!api) {
       return
     }
 
-    setCount(api.scrollSnapList().length)
+    if (current && currentIndex !== -1) {
+      api.scrollTo(currentIndex)
+    }
     setCurrent(api.selectedScrollSnap() + 1)
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1)
     })
-  }, [api])
+  }, [api, currentIndex])
 
   return (
     <Carousel
@@ -63,10 +60,10 @@ export const HeroBanner = ({
         direction: i18n.dir(),
       }}
       plugins={[
-        autoplay &&
-          Autoplay({
-            delay: 5000,
-          }),
+        Autoplay({
+          delay: 5000,
+          active: autoplay,
+        }),
       ]}
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
