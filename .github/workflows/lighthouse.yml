@@ -12,7 +12,6 @@ jobs:
         with:
           urls: |
             https://flathub.org/
-            https://flathub.org/index-new
             https://flathub.org/apps/collection/recently-added/1
             https://flathub.org/apps/collection/recently-updated/1
             https://flathub.org/apps/collection/verified/1

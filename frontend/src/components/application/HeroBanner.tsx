@@ -1,20 +1,23 @@
+import {
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 import clsx from "clsx"
 import Link from "next/link"
 import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
 
-import "swiper/css"
-import "swiper/css/navigation"
 import LogoImage from "../LogoImage"
 import Image from "../Image"
-import { register } from "swiper/element/bundle"
 
-// import required modules
-import { Autoplay, Navigation } from "swiper/modules"
-import { useEffect, useRef } from "react"
+import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
-
-register()
+import { Carousel } from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import { i18n } from "next-i18next"
 
 export const HeroBanner = ({
   heroBannerData,
@@ -30,139 +33,135 @@ export const HeroBanner = ({
   autoplay?: boolean
   aboveTheFold?: boolean
 }) => {
-  const swiperRef = useRef(null)
   const { resolvedTheme } = useTheme()
 
-  const bannerHeight =
-    "overflow-hidden h-[288px] xl:h-[352px] shadow-md rounded-xl"
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    const params = {
-      modules: [Navigation, Autoplay],
-      slidesPerView: 1,
-      centeredSlides: true,
-      autoplay: autoplay && {
-        delay: 5000,
-        disableOnInteraction: true,
-      },
-      loop: autoplay, // there is a bug that mixes up the indices when looping, so disable this for moderation
-      navigation: true,
-      className: bannerHeight,
-      injectStyles: [
-        `:host {
-          --swiper-theme-color: "rgb(222, 221, 218)";
-        }
-
-        :host([data-theme="dark"]) {
-          --swiper-theme-color: "rgb(36, 31, 49)";
-        }
-        `,
-        `
-        .swiper-button-next:hover, .swiper-button-prev:hover {
-          background-color: hsla(0, 0%, 100%, 0.2);
-        }
-        .swiper-button-next {
-          padding: 12px 10px 12px 14px;
-        }
-        .swiper-button-prev {
-          padding: 12px 14px 12px 10px;
-        }
-        .swiper-button-next,
-        .swiper-button-prev {
-          width: 20px;
-          height: 20px;
-          border-radius: 100%;
-          transition: all 0.2s ease-in-out;
-        }
-      `,
-      ],
-    }
-
-    Object.assign(swiperRef.current, params)
-
-    swiperRef.current.initialize()
-  })
-
-  if (swiperRef.current && currentIndex !== -1) {
-    swiperRef.current.swiper.slideTo(currentIndex)
+  if (current && currentIndex !== -1) {
+    setCurrent(currentIndex)
   }
 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }, [api])
+
   return (
-    <swiper-container init={false} ref={swiperRef} className={bannerHeight}>
-      {heroBannerData.map((data, i) => {
-        const brandingColor = chooseBrandingColor(
-          data.appstream?.branding,
-          resolvedTheme as "light" | "dark",
-        )
+    <Carousel
+      opts={{
+        loop: true,
+        direction: i18n.dir(),
+      }}
+      plugins={[
+        autoplay &&
+          Autoplay({
+            delay: 5000,
+          }),
+      ]}
+      className="overflow-hidden shadow-md rounded-xl"
+      setApi={setApi}
+    >
+      <CarouselContent className="h-[288px] xl:h-[352px] ml-0">
+        {heroBannerData.map((data, i) => {
+          const brandingColor = chooseBrandingColor(
+            data.appstream?.branding,
+            resolvedTheme as "light" | "dark",
+          )
 
-        const textColor = brandingColor
-          ? getContrastColor(brandingColor.value) === "black"
-            ? "text-flathub-dark-gunmetal"
-            : "text-flathub-lotion"
-          : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
+          const textColor = brandingColor
+            ? getContrastColor(brandingColor.value) === "black"
+              ? "text-flathub-dark-gunmetal"
+              : "text-flathub-lotion"
+            : "text-flathub-dark-gunmetal dark:text-flathub-lotion"
 
-        return (
-          <swiper-slide
-            className="overflow-hidden"
-            key={`hero-${data.appstream.id}`}
-          >
-            <Link
-              href={`/apps/${data.appstream.id}`}
-              passHref
-              style={{
-                backgroundColor: brandingColor && brandingColor.value,
-              }}
-              className={clsx(
-                "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
-                "hover:cursor-grab",
-                "h-full",
-              )}
-            >
-              <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
-                <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
-                  <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
-                    <LogoImage
-                      priority={aboveTheFold && i === 0}
-                      iconUrl={data.appstream.icon}
-                      appName={data.appstream.name}
-                    />
-                  </div>
-                  <div className="flex pt-3">
-                    <span
+          return (
+            <CarouselItem className="basis-full pl-0" key={data.appstream.id}>
+              <Link
+                href={`/apps/${data.appstream.id}`}
+                passHref
+                style={{
+                  backgroundColor: brandingColor && brandingColor.value,
+                }}
+                className={clsx(
+                  "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
+                  "hover:cursor-grab",
+                  "h-full",
+                )}
+              >
+                <div className="flex justify-center flex-row w-full h-full gap-6 px-16">
+                  <div className="flex flex-col justify-center items-center lg:w-1/3 h-auto w-full">
+                    <div className="relative flex flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md lg:h-[128px] lg:w-[128px]">
+                      <LogoImage
+                        priority={aboveTheFold && i === 0}
+                        iconUrl={data.appstream.icon}
+                        appName={data.appstream.name}
+                      />
+                    </div>
+                    <div className="flex pt-3">
+                      <span
+                        className={clsx(
+                          "truncate whitespace-nowrap text-2xl font-black",
+                          textColor,
+                        )}
+                      >
+                        {data.appstream.name}
+                      </span>
+                    </div>
+                    <div
                       className={clsx(
-                        "truncate whitespace-nowrap text-2xl font-black",
+                        "line-clamp-2 text-sm text-center",
                         textColor,
+                        "lg:line-clamp-3",
                       )}
                     >
-                      {data.appstream.name}
-                    </span>
+                      {data.appstream.summary}
+                    </div>
                   </div>
-                  <div
-                    className={clsx(
-                      "line-clamp-2 text-sm text-center",
-                      textColor,
-                      "lg:line-clamp-3",
-                    )}
-                  >
-                    {data.appstream.summary}
+                  <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
+                    <Image
+                      src={pickScreenshotSize(data.appstream.screenshots[0])}
+                      alt={data.appstream.name}
+                      priority={aboveTheFold && i === 0}
+                      className={clsx(
+                        "absolute rounded-lg",
+                        data.app.isFullscreen ? "top-20" : "top-10 ",
+                      )}
+                    />
                   </div>
                 </div>
-                <div className="hidden w-2/3 xl:flex justify-center items-center overflow-hidden relative h-auto">
-                  <Image
-                    src={pickScreenshotSize(data.appstream.screenshots[0])}
-                    alt={data.appstream.name}
-                    priority={aboveTheFold && i === 0}
-                    className={clsx(
-                      "absolute rounded-lg",
-                      data.app.isFullscreen ? "top-20" : "top-10 ",
-                    )}
-                  />
-                </div>
-              </div>
-            </Link>
-          </swiper-slide>
-        )
-      })}
-    </swiper-container>
+              </Link>
+            </CarouselItem>
+          )
+        })}
+      </CarouselContent>
+      <CarouselPrevious
+        className={clsx(
+          "text-flathub-black dark:text-flathub-white",
+          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
+          "absolute left-4 top-1/2 size-11",
+        )}
+        variant="ghost"
+      />
+      <CarouselNext
+        className={clsx(
+          "text-flathub-black dark:text-flathub-white",
+          "hover:text-flathub-black hover:dark:text-flathub-white",
+          "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
+          "absolute right-4 top-1/2 size-11",
+        )}
+        variant="ghost"
+      />
+    </Carousel>
   )
 }
