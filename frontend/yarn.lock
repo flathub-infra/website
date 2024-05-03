@@ -9169,7 +9169,6 @@ __metadata:
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.0.9"
     storybook-react-i18next: "npm:^3.0.1"
-    swiper: "npm:^11.1.1"
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.3"
     tailwindcss-animate: "npm:^1.0.7"
@@ -15036,13 +15035,6 @@ __metadata:
     oas-validate: oas-validate.js
     swagger2openapi: swagger2openapi.js
   checksum: 441a4d3a7d353f99395b14a0c8d6124be6390f2f8aa53336905e7314a7f80b66f5f2a40ac0dc2dbe2f7bc01f52a223a94f54a2ece345095fd3ad8ae8b03d688b
-  languageName: node
-  linkType: hard
-
-"swiper@npm:^11.1.1":
-  version: 11.1.1
-  resolution: "swiper@npm:11.1.1"
-  checksum: 02ded86e5033dbac47bbaa5e5592e15e945be990235f244236ddb2b8d6299cf6e66f1a45ad67277b1a133295daa5c7bad38e9c725b6d00b72d33431603202288
   languageName: node
   linkType: hard
 
