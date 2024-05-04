@@ -60,8 +60,8 @@ def generate_feed(key: str, title: str, description: str, link: str):
             content.append(f"<li>License: {license}")
 
         if app_releases := app.get("releases"):
-            release = app_releases[0] if len(app_releases) else None
-            if release:
+            release = app_releases[0] if len(app_releases) else {}
+            if release.get('version'):
                 content.append(f"<li>Version: {release['version']}")
 
         content.append("</ul>")
