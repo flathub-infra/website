@@ -172,7 +172,7 @@ export default function Home({
                 "rounded-xl",
                 "flex min-w-0 items-center gap-4",
                 "bg-repeat-y",
-                "bg-[url('/img/card-background.svg')]",
+                "bg-[url('/img/card-background.webp')]",
                 "shadow-md",
                 "overflow-hidden",
               )}
