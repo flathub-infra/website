@@ -4,6 +4,151 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
 
+const Acknowledgments = () => {
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">{t("acknowledgements")}</h2>
+      <Trans i18nKey={"common:acknowledgements-block"}>
+        <p>
+          Flathub wouldn&apos;t be possible without the generous support of the
+          following organizations and individuals.
+        </p>
+      </Trans>
+      <div className="flex flex-col sm:flex-row justify-between gap-3">
+        <div>
+          <h3 className="my-4 text-xl font-semibold">
+            {t("organizations-and-infrastructure")}
+          </h3>
+          <ul className="list-inside list-disc text-flathub-gainsborow">
+            <li>Codethink</li>
+            <li>Cloud Native Computing Foundation</li>
+            <li>Fastly</li>
+            <li>Mythic Beasts</li>
+            <li>Prerender.io</li>
+            <li>Scaleway</li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="my-4 text-xl font-semibold">
+            {t("individual-contributors")}
+          </h3>
+          <ul className="list-inside list-disc text-flathub-gainsborow">
+            <li>Alex Larsson</li>
+            <li>Andreas Nilsson</li>
+            <li>Arun Raghavan</li>
+            <li>Bartłomiej Piotrowski</li>
+            <li>Christian Hergert</li>
+            <li>Christopher Halse Rogers</li>
+            <li>Cosimo Cecchi</li>
+            <li>Emmanuele Bassi</li>
+            <li>G Stavracas Neto</li>
+            <li>Jakub Steiner</li>
+            <li>James Shubin</li>
+            <li>Joaquim Rocha</li>
+            <li>Jorge García Oncins</li>
+            <li>Lubomír Sedlář</li>
+            <li>Nathan Dyer</li>
+            <li>Nick Richards</li>
+            <li>Mario Sanchez Prada</li>
+            <li>Matthias Clasen</li>
+            <li>Michael Doherty</li>
+            <li>Robert McQueen</li>
+            <li>Zach Oglesby</li>
+          </ul>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const GetInTouch = () => {
+  const { t } = useTranslation()
+
+  return (
+    <>
+      <h2 className="mb-6 mt-12 text-2xl font-bold">{t("get-in-touch")}</h2>
+      <div className="flex flex-col sm:flex-row justify-between gap-14">
+        <div className="w-full sm:w-1/2">
+          <h3 className="my-4 text-xl font-semibold">{t("press")}</h3>
+          <p>{t("press-description")}</p>
+          <div>
+            <a
+              href="https://docs.flathub.org/blog"
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+            >
+              {t("read-announcements")}
+            </a>
+          </div>
+          <div>
+            <a
+              href="https://github.com/flathub-infra/assets"
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+            >
+              {t("download-press-kit")}
+            </a>
+          </div>
+          <div>
+            <a
+              href="mailto:admins@flathub.org"
+              className="no-underline hover:underline"
+            >
+              {t("contact-for-press-inquiries")}
+            </a>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2">
+          <h3 className="my-4 text-xl font-semibold">
+            {t("reporting-issues")}
+          </h3>
+          <p>{t("reporting-issues-description")}</p>
+          <div>
+            <a
+              href="mailto:admins@flathub.org"
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+            >
+              {t("report-an-issue")}
+            </a>
+          </div>
+        </div>
+        <div className="w-full sm:w-1/2">
+          <h3 className="my-4 text-xl font-semibold">
+            {t("developers-and-users")}
+          </h3>
+          <p>{t("developers-and-users-block")}</p>
+          <div>
+            <a
+              href="https://discourse.flathub.org"
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+            >
+              {t("join-discourse-forum")}
+            </a>
+          </div>
+          <div>
+            <a
+              href="https://matrix.to/#/#flathub:matrix.org"
+              target="_blank"
+              rel="noreferrer"
+              className="no-underline hover:underline"
+            >
+              {t("chat-on-matrix")}
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
 const About = () => {
   const { t } = useTranslation()
 
@@ -16,9 +161,9 @@ const About = () => {
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/about`,
         }}
       />
-      <div className="prose flex max-w-full flex-col dark:prose-invert">
+      <div className="flex max-w-full flex-col">
         <section className={`flex flex-col px-[5%] md:px-[20%] 2xl:px-[30%]`}>
-          <h1 className="mt-8 text-4xl font-extrabold">
+          <h1 className="mt-8 mb-12 text-4xl font-extrabold">
             {t("about-pagename")}
           </h1>
           <Trans i18nKey={"common:about-block"}>
@@ -113,100 +258,9 @@ const About = () => {
             </p>
           </Trans>
 
-          <h2 className="mb-6 mt-12 text-2xl font-bold">
-            {t("reporting-issues")}
-          </h2>
-          <Trans i18nKey={"common:reporting-issues-block"}>
-            <p>
-              Security or legal issues can be reported to the{" "}
-              <a
-                className="no-underline hover:underline"
-                href="mailto:admins@flathub.org"
-              >
-                Flathub maintainers
-              </a>
-              .
-            </p>
-          </Trans>
+          <GetInTouch />
 
-          <h2 className="mb-6 mt-12 text-2xl font-bold">
-            {t("press-information")}
-          </h2>
-          <Trans i18nKey={"common:press-information-block"}>
-            <p>
-              We are very happy to answer questions from journalists and tech
-              writers. Interview opportunities can also be arranged.
-            </p>
-
-            <h3>Graphics and Logos</h3>
-
-            <p>
-              Flathub graphic assets can be found{" "}
-              <a
-                className="no-underline hover:underline"
-                target="_blank"
-                rel="noreferrer"
-                href="https://github.com/flathub-infra/assets"
-              >
-                here
-              </a>
-              .
-            </p>
-
-            <h3>Contact</h3>
-            <p>
-              Press queries, including requests for comments and interviews can
-              be directed to{" "}
-              <a
-                className="no-underline hover:underline"
-                href="mailto:admins@flathub.org"
-              >
-                Flathub maintainers
-              </a>
-              .
-            </p>
-          </Trans>
-
-          <h2 className="mb-6 mt-12 text-2xl font-bold">
-            {t("acknowledgements")}
-          </h2>
-          <Trans i18nKey={"common:acknowledgements-block"}>
-            <p>
-              Flathub wouldn&apos;t be possible without the generous support of
-              the following organizations and individuals.
-            </p>
-          </Trans>
-          <ul>
-            <li>Codethink</li>
-            <li>Cloud Native Computing Foundation</li>
-            <li>Fastly</li>
-            <li>Mythic Beasts</li>
-            <li>Prerender.io</li>
-            <li>Scaleway</li>
-            <br />
-
-            <li>Alex Larsson</li>
-            <li>Andreas Nilsson</li>
-            <li>Arun Raghavan</li>
-            <li>Bartłomiej Piotrowski</li>
-            <li>Christian Hergert</li>
-            <li>Christopher Halse Rogers</li>
-            <li>Cosimo Cecchi</li>
-            <li>Emmanuele Bassi</li>
-            <li>G Stavracas Neto</li>
-            <li>Jakub Steiner</li>
-            <li>James Shubin</li>
-            <li>Joaquim Rocha</li>
-            <li>Jorge García Oncins</li>
-            <li>Lubomír Sedlář</li>
-            <li>Nathan Dyer</li>
-            <li>Nick Richards</li>
-            <li>Mario Sanchez Prada</li>
-            <li>Matthias Clasen</li>
-            <li>Michael Doherty</li>
-            <li>Robert McQueen</li>
-            <li>Zach Oglesby</li>
-          </ul>
+          <Acknowledgments />
         </section>
       </div>
     </>
