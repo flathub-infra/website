@@ -509,7 +509,7 @@
   "rebase-onto-other-app": "Enter app ID your application will be rebased into",
   "manage-x": "Manage {{app-name}}",
   "install-x": "Install {{app-name}} on Linux",
-  "press": "Press Information",
+  "press": "Press",
   "nothing-to-do": "Nothing to do",
   "unverified": "Unverified",
   "new": "New",
