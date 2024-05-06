@@ -21,7 +21,7 @@ const Acknowledgments = () => {
           <h3 className="my-4 text-xl font-semibold">
             {t("organizations-and-infrastructure")}
           </h3>
-          <ul className="list-inside list-disc text-flathub-gainsborow">
+          <ul className="list-inside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
             <li>Codethink</li>
             <li>Cloud Native Computing Foundation</li>
             <li>Fastly</li>
@@ -34,7 +34,7 @@ const Acknowledgments = () => {
           <h3 className="my-4 text-xl font-semibold">
             {t("individual-contributors")}
           </h3>
-          <ul className="list-inside list-disc text-flathub-gainsborow">
+          <ul className="list-inside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
             <li>Alex Larsson</li>
             <li>Andreas Nilsson</li>
             <li>Arun Raghavan</li>
