@@ -17,6 +17,9 @@ updates:
         patterns: 
           - "@react-email/*"
           - "react-email"
+      embla:
+        patterns: 
+          - embla
   - package-ecosystem: "npm"
     directory: "/backend-node"
     schedule:
