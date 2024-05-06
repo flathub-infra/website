@@ -4584,15 +4584,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-devtools@npm:^5.32.0":
-  version: 5.32.1
-  resolution: "@tanstack/react-query-devtools@npm:5.32.1"
+"@tanstack/react-query-devtools@npm:^5.35.1":
+  version: 5.35.1
+  resolution: "@tanstack/react-query-devtools@npm:5.35.1"
   dependencies:
     "@tanstack/query-devtools": "npm:5.32.1"
   peerDependencies:
-    "@tanstack/react-query": ^5.32.1
+    "@tanstack/react-query": ^5.35.1
     react: ^18.0.0
-  checksum: 894d85bae8ca04b777ce5bb277a6a3dbe9a94ee5a279aa4d522c6348c26a92e5f1f4cd5cac421d3e94d31019cb54ff7281487fb05d9dc0fa549e2b88fa38cc05
+  checksum: 030ed59d06824fa08d676855c1d008ded16bbc76ad4cf0fb375cacc36da4dfd3bc72b315a74f3570db7795a84601a7059d97520e1247d0084df0e1677dde198d
   languageName: node
   linkType: hard
 
@@ -9120,7 +9120,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.13"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.32.0"
-    "@tanstack/react-query-devtools": "npm:^5.32.0"
+    "@tanstack/react-query-devtools": "npm:^5.35.1"
     "@tanstack/react-table": "npm:^8.16.0"
     "@types/node": "npm:^20.12.7"
     "@types/react": "npm:^18.3.1"
