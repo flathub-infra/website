@@ -31,7 +31,6 @@
   "login": "Đăng nhập",
   "submitting-apps": "Gửi ứng dụng",
   "reporting-issues": "Báo lỗi",
-  "reporting-issues-block": "<0>Các vấn đề về bảo mật hoặc pháp lý có thể được báo cáo với <2>đội Flathub</2>.</0>",
   "preferred-badge": "Badge được ưu tiên",
   "alternative-badge": "Badge thay thế",
   "also-available-as-svg": "Cũng có sẵn ở <2>định dạng SVG</2>",
@@ -380,7 +379,7 @@
   "error": "Lỗi",
   "not-verified": "Chưa xác minh",
   "science": "Khoa học",
-  "checkout": "Checkout",
+  "checkout": "Thủ tục thanh toán",
   "verified-manually-tooltip": "Quyền sở hữu của ID ứng dụng <1>{{app_id}}</1>đã được xác minh thủ công bởi đội Flathub",
   "blocks": "Khối",
   "stripe-receipt": "Biên lai Stripe",
@@ -429,7 +428,18 @@
   "proprietary-code": "Mã nguồn độc quyền",
   "website-verification": "Xác minh website",
   "quality-guideline": {
-    "show-icon": "Hiển thị icon"
+    "show-icon": "Hiển thị icon",
+    "screenshots": "Ảnh chụp màn hình",
+    "passed": "Đi qua",
+    "not-passed": "Không được thông qua",
+    "screenshots-default-settings": "Cài đặt mặc định",
+    "screenshots-take-screenshots-on-linux": "Ảnh chụp màn hình trên Linux",
+    "details": "Chi tiết",
+    "screenshots-at-least-one-screenshot": "Ít nhất một ảnh chụp màn hình",
+    "screenshots-just-the-app-window": "Chỉ một cửa sổ ứng dụng",
+    "screenshots-good-content": "Nội dung tốt",
+    "screenshots-up-to-date": "Cập nhật",
+    "pending": "Chưa giải quyết"
   },
   "potentially-unsafe": "Có thể không an toàn",
   "invited-apps": "Lời mời",
@@ -464,5 +474,9 @@
   "desktop-application": "Ứng dụng desktop",
   "x-downloads": "{{x}} lượt tải xuống",
   "server-returned-status-code": "Máy chủ trả lại HTTP {{code}}.",
-  "contribute": "Đóng góp cho Ứng dụng"
+  "contribute": "Đóng góp cho Ứng dụng",
+  "confirm": "Xác nhận",
+  "expires": "Hết hạn",
+  "repo": "Repo",
+  "news": "Tin tức"
 }

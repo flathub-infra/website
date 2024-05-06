@@ -300,7 +300,6 @@
   "no-user-device-access": "사용자 장치에 접근할 수 없습니다",
   "user-not-found": "사용자를찾을수없습니다",
   "privacy-policy": "개인정보 보호정책",
-  "reporting-issues-block": "<0>보안이나 법적 문제가 있는 경우 <2>Flathub팀</2>으로 알려주시기 바랍니다.</0>",
   "music-folder": "음악폴더",
   "cache-subfolder-x": "캐시 하위 폴더 {{folder}}",
   "user-runtime-folder": "사용자 런타임 폴더",

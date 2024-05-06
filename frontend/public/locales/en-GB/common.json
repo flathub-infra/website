@@ -124,7 +124,6 @@
   "also-available-as-svg": "Also available in <2>SVG format</2>",
   "badge-copyright": "To the extent possible by law, <2>Jakub Steiner</2> has waived all copyright and related or neighbouring rights to <5>Flathub Badges</5>. This work is published from Czechia.",
   "rss-description": "Subscribe to RSS feeds from Flathub",
-  "reporting-issues-block": "<0>Security or legal issues can be reported to the <2>Flathub team</2>.</0>",
   "install": "Install",
   "screenshot": "Screenshot",
   "donate": "Donate",
@@ -524,7 +523,6 @@
   "confirm": "Confirm",
   "switch-to-direct-upload": "Switch App to direct upload",
   "do-you-really-want-to-switch-to-direct-upload": "Are you sure? Once you switch an application to direct uploading, there is no going back.",
-  "press-information": "Press Information",
   "danger-zone": "Danger zone",
   "archive": "Archive",
   "archive-app": "Archive this App",
@@ -566,7 +564,6 @@
   "trending-apps": "Trending Apps",
   "news": "News",
   "developer-portal": "Developer Portal",
-  "press-information-block": "<p>We are very happy to answer questions from journalists and tech writers. Interview opportunities can also be arranged.</p><1>Graphics and Logos</1><2>Flathub graphic assets can be found <2>here</2>.</2><3>Contact</3><4>Press queries, including requests for comments and interviews can be directed to <2>Flathub maintainers</2>.</4>",
   "nothing-to-do": "Nothing to do",
   "scope-jobs": "View jobs status"
 }

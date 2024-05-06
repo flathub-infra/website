@@ -172,7 +172,6 @@
   "screenshot": "Captura de pantalla",
   "entry-confirmation-prompt": "Introduïu \"{{text}}\" per continuar.",
   "donate": "Donar",
-  "reporting-issues-block": "<0>Es poden informar de problemes legals o de seguretat a <2>l'equip de Flathub</2>.</0>",
   "transaction-summary-id": "Identificador: {{id}}",
   "transaction-summary-status": "Estat: {{status}}",
   "status-pending": "Pendent",

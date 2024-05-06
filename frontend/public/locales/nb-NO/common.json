@@ -61,7 +61,6 @@
   "submitting-apps-block": "<0>Utviklere kan <2>sende inn appene sine</2> for å få dem distribuert til Flathubs stadig voksende publikum, og dermed få tilgang til hele Linux-økosystemet. </0><p>For øyeblikket må apper være enten lovlige å redistribuere, eller tilgjengelige for nedlastning et annet sted. Hvis du utvikler en proprietær app og er interessert i å bruke Flathub, ta kontakt med oss direkte.</p>",
   "about-block": "<0>Flathub er stedet for å installere og distribuere apper for Linux. Det drives av <1>Flatpak</1>-rammeverket, som gjør at apper fra Flathub kan kjøre på nesten hvilket som helst Linux-system.</0><1>Få tilgang til en stadig voksende katalog av apper ved å følge <2>oppsettsveiledningen</2>.</1>",
   "reporting-issues": "Rappotering av problemer",
-  "reporting-issues-block": "<0>Sikkerhetstrusler eller juridiske problemer kan meldes om til <2>Flathub-gruppen</2>.</0>",
   "acknowledgements": "Anerkjennelser",
   "acknowledgements-block": "<p>Flathub ville ikke vært mulig å utvikle uten generøs støtte fra de følgende organisasjonene og individene.</p>",
   "official-badges": "Offisielle Flathub-skilt",
