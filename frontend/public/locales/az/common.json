@@ -12,7 +12,7 @@
   "community": "İcma",
   "publish-your-app": "Tətbiqinizi Dərc Edin",
   "rss-feeds": "RSS Lentləri",
-  "about-app-verification-block": "<0>Tətbiq adı altında işarə nə deməkdir? </0><p>Bəzi tətbiqlərin tətbiq səhifəsində tərtibatçı adının altında işarəsi var. Bu o deməkdir ki, tətbiq Flathub-da onun orijinal tərtibatçısı və ya tərtibatçı tərəfindən təsdiqlənmiş üçüncü tərəf tərəfindən dərc olunur.</p><p>Bəzi tətbiqlər orijinal tərtibatçı ilə əlaqəli olmayan üçüncü tərəflər tərəfindən dərc olunur. Buna icazə verilir, lakin bu cür tətbiqlər qeyd işarəsi üçün uyğun deyil.</p><p>İşarənin yanında tərtibatçının veb-saytına və ya mənbə kodu hostinq saytındakı profilinə keçid var. Flathub bu linkdən istifadə edərək tərtibatçının autentifikasiyasını həyata keçirdi.</p><4>Mən Flathub-da tətbiq dərc edirəm. Necə yoxlaya bilərəm?</4><5>İlk olaraq, <2>Flathub-a daxil olun</2>. Doğrulamaq istədiyiniz proqramın altındakı \"Tərtibatçı Parametrləri\" düyməsini klikləyin. Səhifənin yuxarı hissəsində \"Doğrulama Quraşdırma\" bölməsini tapın. Buradakı təlimatlar doğrulama prosesində sizə rəhbərlik edəcək.</5>",
+  "about-app-verification-block": "<0>Tətbiq adı altında işarə nə deməkdir?</0><p>Bəzi proqramların proqram səhifəsində tərtibatçı adı altında qeyd işarəsi var. Bu o deməkdir ki, tətbiq Flathub-da onun orijinal tərtibatçısı və ya tərtibatçı tərəfindən təsdiqlənmiş üçüncü tərəf tərəfindən dərc olunur.</p><p>Bəzi proqramlar orijinal tərtibatçı ilə əlaqəsi olmayan üçüncü tərəflər tərəfindən dərc olunur. Buna icazə verilir, lakin belə proqramlar qeyd işarəsi üçün uyğun deyil.</p><p>İşarənin yanında tərtibatçının veb-saytına və ya mənbə kodu hostinq saytında onun profilinə keçid var. Flathub həmin linkdən istifadə edərək tərtibatçının kimliyini doğruladı.</p><4>Mən Flathub-da proqram dərc edirəm. Bunu necə təsdiq edə bilərəm?</4><5>Əvvəlcə, <2>Flathub-a daxil olun</2>. Səhifənin altbilgisində \"Developer Portal\" tapın. Doğrulamaq istədiyiniz proqrama klikləyin və sonra \"Yoxlama\" bölməsini tapın. Oradakı təlimatlar sizə doğrulama prosesində kömək edəcək.</5>",
   "developers": "Tərtibatçılar",
   "documentation": "Sənədləşdirmə",
   "badges": "Nişanlar",
@@ -119,7 +119,6 @@
   "page-not-found": "{{errorCode}} - Səhifə tapılmadı",
   "an-error-occurred-server": "{{errorCode}} - Serverdə xəta baş verdi.",
   "could-not-find-page": "Axtardığınız səhifəni tapa bilmədik.",
-  "reporting-issues-block": "<0>Təhlükəsizlik və ya hüquqi məsələlər <2>Flathub komandasına</2> bildirilə bilər.</0>",
   "count-downloads": "Ümumi yükləmələr",
   "login": "Daxil ol",
   "retry-or-go-home": "Yenidən cəhd etmək və ya <2>əsas səhifəyə</2> qayıtmaq istəyə bilərsiniz.",
@@ -327,5 +326,7 @@
   "recently-updated": "Bu yaxınlarda yeniləndi",
   "flathub-index-description": "İstənilən Linux paylanması üçün Flathub-dan bütün sevimli tətbiqlərinin ən son versiyalarını əldə edin.",
   "close": "Bağla",
-  "developer-invited": "Sizi developer olmağa dəvət ediblər"
+  "developer-invited": "Sizi developer olmağa dəvət ediblər",
+  "news": "Xəbərlər",
+  "developer-portal": "Tərtibatçı Portalı"
 }

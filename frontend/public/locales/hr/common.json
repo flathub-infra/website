@@ -215,7 +215,6 @@
   "token-redeemed": "Token je uspješno korišten",
   "token-failed": "Neuspjelo korištenje tokena",
   "rss-feeds-description": "Sada se možeš pretplatiti na naše RSS obavijesti za dobivanje najnovijih Flathub aplikacija u tvom čitaču obavijesti!",
-  "reporting-issues-block": "<0>Sigurnosni ili pravni problemi mogu se prijaviti <2>timu Flathuba</2>.</0>",
   "submitting-apps-block": "<0>Programeri aplikacija mogu <2>slati svoje aplikacije</2> kako bi bile dostupne svim Flathub korisnicima, pružajući jedno mjesto za pristup cijelom Linux desktop ekosustavu.</0><p>Trenutačno se aplikacije moraju smjeti distribuirati legalno ili biti dostupne kao strana preuzimanja. Međutim, ako programiraš vlasničke aplikacije i ako te zanima korištenje Flathuba, voljeli bismo s tobom razgovarati.</p>",
   "no-saved-payment-methods": "Nema nijednog spremljenog načina plaćanja.",
   "stripe-error-incorrect_cvc": "Sigurnosni kod kartice je neispravan. Provjeri sigurnosni kod kartice ili koristi jednu drugu karticu.",

@@ -172,7 +172,6 @@
   "recently-updated-description": "Apps opdateret på Flathub henover de sidste par dage.",
   "retry-or-go-home": "Du kan forsøge igen, eller gå tilbage til <2>hjem</2>.",
   "submitting-apps-block": "<0>App-udviklere kan <2>indsende deres apps</2> til distribution blandt Flathubs voksende brugerskare, som derved tilbyder en simpel vej til hele desktop-Linux økosystemet</0><p> I øjeblikket skal apps være lovligt redistribuerbare eller være tilgængelige som en tredjeparts download. Men hvis du er udvikler af proprietære apps og interesseret i at bruge Flathub, så vil vi også meget gerne snakke med dig!</p>",
-  "reporting-issues-block": "<0>Sikkerhedsmæssige eller lovmæssige forespørgsler kan rapporteres til <2>Flathub-teamet</2>.</0>",
   "acknowledgements-block": "<p>Flathub ville ikke være muligt uden den generøse støtte fra følgende organisationer og enkeltpersoner.</p>",
   "official-badges": "Officielle Flathub-emblemer",
   "manual-install-instructions": "Husk at følge <2>opsætningsguiden til din Linux-distribution</2> før du installerer",
