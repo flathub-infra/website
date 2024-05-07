@@ -5,7 +5,7 @@
   "forum": "Forum",
   "about": "Hakkında",
   "about-description": "Flathub, Linux için uygulama edinme ve dağıtma noktası olmayı hedeflemektedir. Flathub uygulamalarının neredeyse tüm Linux dağıtımlarında çalışmasına olanak tanıyan Flatpak paketleme sistemini temel almaktadır.",
-  "about-pagename": "Flathub Hakkında",
+  "about-pagename": "Flathub Hakkında: Linux Uygulama Mağazası",
   "popular": "Gözde",
   "rss-feeds": "RSS Akışları",
   "community": "Topluluk",
@@ -565,5 +565,11 @@
   "updated": "Güncellendi",
   "trending": "Öne Çıkanlar",
   "trending-apps": "Öne Çıkan Uygulamalar",
-  "scope-jobs": "Görev durumunu görüntüle"
+  "scope-jobs": "Görev durumunu görüntüle",
+  "press": "Basın",
+  "organizations-and-infrastructure": "Kurumlar ve Altyapı",
+  "individual-contributors": "Bağımsız Katkıcılar",
+  "developers-and-users": "Geliştiriciler ve Kullanıcılar",
+  "read-announcements": "Duyuruları oku",
+  "download-press-kit": "Basın Kipini İndir"
 }

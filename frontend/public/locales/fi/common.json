@@ -565,5 +565,18 @@
   "new": "Uutta",
   "trending": "Nousussa",
   "trending-apps": "Nousussa olevat sovellukset",
-  "scope-jobs": "Näytä töiden tila"
+  "scope-jobs": "Näytä töiden tila",
+  "organizations-and-infrastructure": "Organisaatiot ja infrastruktuuri",
+  "join-discourse-forum": "Liity Discourse-keskustelupalstalle",
+  "chat-on-matrix": "Keskustele Matrixissa",
+  "press-description": "Vastaamme mielellämme lehdistön kyselyihin ja järjestämme haastatteluja",
+  "read-announcements": "Lue ilmoitukset",
+  "download-press-kit": "Lataa lehdistöpaketti",
+  "reporting-issues-description": "Suhtaudumme tietoturvaongelmiin ja lainopillisiin haasteisiin hyvin vakavasti",
+  "developers-and-users-block": "Ota yhteys tiimiin ja muihin yhteisön jäseniin esitääksesi kysymyksiä sekä jakaaksesi osaamistasi",
+  "press": "Lehdistö",
+  "individual-contributors": "Yksittäiset avustajat",
+  "get-in-touch": "Ota yhteyttä",
+  "developers-and-users": "Kehittäjät ja käyttäjät",
+  "contact-for-press-inquiries": "Yhteydenotto lehdistölle"
 }
