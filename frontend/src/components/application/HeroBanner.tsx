@@ -43,6 +43,11 @@ export const HeroBanner = ({
       return
     }
 
+    const autoPlay = api.plugins()?.autoplay
+    if (!autoPlay) {
+      return
+    }
+
     if (current && currentIndex !== -1) {
       api.scrollTo(currentIndex)
     }
@@ -50,6 +55,13 @@ export const HeroBanner = ({
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1)
+      autoPlay.reset()
+    })
+    api.on("pointerDown", () => {
+      autoPlay.stop()
+    })
+    api.on("pointerUp", () => {
+      autoPlay.play()
     })
   }, [api, currentIndex])
 
