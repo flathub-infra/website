@@ -63,6 +63,7 @@ export const HeroBanner = ({
         Autoplay({
           delay: 5000,
           active: autoplay,
+          stopOnMouseEnter: true,
         }),
       ]}
       className="overflow-hidden shadow-md rounded-xl"
