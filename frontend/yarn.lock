@@ -9183,7 +9183,7 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.4.5"
     yaml: "npm:^2.4.2"
-    yet-another-react-lightbox: "npm:^3.17.5"
+    yet-another-react-lightbox: "npm:^3.18.0"
   languageName: unknown
   linkType: soft
 
@@ -16351,13 +16351,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yet-another-react-lightbox@npm:^3.17.5":
-  version: 3.17.5
-  resolution: "yet-another-react-lightbox@npm:3.17.5"
+"yet-another-react-lightbox@npm:^3.18.0":
+  version: 3.18.0
+  resolution: "yet-another-react-lightbox@npm:3.18.0"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: cc732c8a8a77fd74e7b1413dcb73716bb73d990e439e45285e391e13f4dfd6ebe970878203ae2aadde07e8722577ff3f0f8621906ce2bdab9ac6360c0cf77a5e
+  checksum: fbbd72adf1c42efe230c7c3b65f4864c905f0d5ba8faa4fef05abf0bcd1073a6e0d83e9f1cd4bb69be58e6f559515fe08d264c9e49c267c8b0e1cdb07ae99676
   languageName: node
   linkType: hard
 
