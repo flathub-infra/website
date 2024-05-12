@@ -528,6 +528,9 @@
   "read-announcements": "Read announcements",
   "download-press-kit": "Download Press Kit",
   "contact-for-press-inquiries": "Contact for press inquiries",
+  "special-license": "Special License",
+  "special-license-explanation": "This app is developed under the special license <1>{{ license }}</1>.",
+  "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
