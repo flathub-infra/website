@@ -20,7 +20,6 @@ const licenseRefRegex = /LicenseRef-proprietary=(.*)/i
 
 function getLicense(
   project_license: string | undefined,
-  is_free_license: boolean,
   t: TFunction<"translation", undefined>,
 ): string | undefined {
   if (!project_license) {
@@ -30,10 +29,6 @@ function getLicense(
   const match = project_license.match(licenseRefRegex)
   if (match) {
     return match[1]
-  }
-
-  if (!is_free_license) {
-    return t("proprietary")
   }
 
   const splitLicense = project_license.split(/\(|\)| /)
@@ -79,12 +74,57 @@ const IconInCircle = ({
   )
 }
 
-const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
+const headlineText = (licenseType: "proprietary" | "floss" | "special") => {
+  if (licenseType === "proprietary") {
+    return "proprietary"
+  } else if (licenseType === "floss") {
+    return "community-built"
+  } else {
+    return "special-license"
+  }
+}
+
+const LicenseDescription = ({
+  licenseType,
+  license,
+}: {
+  licenseType: "proprietary" | "floss" | "special"
+  license: string
+}) => {
+  const { t } = useTranslation()
+
+  if (licenseType === "proprietary") {
+    return t("proprietary-explanation")
+  }
+  if (licenseType === "floss") {
+    return (
+      <Trans i18nKey={"common:community-built-explanation"}>
+        This software is developed in the open by a community of volunteers, and
+        released under the <b>{{ license }}</b>.
+      </Trans>
+    )
+  }
+
+  return (
+    <Trans i18nKey={"common:special-license-explanation"}>
+      This app is developed under the special license <b>{{ license }}</b>.
+    </Trans>
+  )
+}
+
+const LicenseLink = ({
+  licenseType,
+  app,
+  license,
+}: {
+  licenseType: "proprietary" | "floss" | "special"
+  app: DesktopAppstream
+  license: string
+}) => {
+  const { t } = useTranslation()
   const { trackEvent } = useMatomo()
 
   const licenseIsLink = app.project_license?.match(licenseRefRegex)?.length > 0
-
-  const isProprietary = !app.is_free_license ?? true
 
   const linkClicked = () => {
     trackEvent({
@@ -94,13 +134,50 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
     })
   }
 
+  if (licenseType === "special") {
+    return t("you-may-or-may-not-be-able-to-contribute")
+  }
+
+  return (
+    ((licenseType === "proprietary" && licenseIsLink) ||
+      (licenseType === "floss" &&
+        (app.urls?.homepage || app.urls?.contribute))) && (
+      <a
+        className="flex gap-1 items-center"
+        href={
+          licenseIsLink ? license : app.urls?.contribute ?? app.urls?.homepage
+        }
+        target="_blank"
+        rel="noreferrer"
+        onClick={linkClicked}
+        title={t("open-in-new-tab")}
+      >
+        {t(licenseType === "proprietary" ? "learn-more" : "get-involved")}
+        <HiArrowTopRightOnSquare />
+      </a>
+    )
+  )
+}
+
+const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
   const { t } = useTranslation()
-  const license = getLicense(app.project_license, app.is_free_license, t)
+
+  let licenseType: "proprietary" | "floss" | "special" = app.is_free_license
+    ? "floss"
+    : "special"
+
+  licenseType = app.project_license.startsWith("LicenseRef-proprietary")
+    ? "proprietary"
+    : licenseType
+
+  const license = getLicense(app.project_license, t)
+
+  console.log(license)
 
   return (
     <div className="flex flex-col gap-1 justify-center items-center text-center p-4">
       <div className="flex gap-2">
-        {isProprietary ? (
+        {licenseType === "proprietary" || licenseType === "special" ? (
           <>
             <IconInCircle color="yellow" icon={HiMiniHandRaised} />
             <IconInCircle color="yellow" icon={HiMiniExclamationTriangle} />
@@ -114,35 +191,11 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
           </>
         )}
       </div>
-      <h1 className="text-lg font-bold">
-        {t(isProprietary ? "proprietary" : "community-built")}
-      </h1>
+      <h1 className="text-lg font-bold">{t(headlineText(licenseType))}</h1>
       <div>
-        {isProprietary ? (
-          t("proprietary-explanation")
-        ) : (
-          <Trans i18nKey={"common:community-built-explanation"}>
-            This software is developed in the open by a community of volunteers,
-            and released under the <b>{{ license }}</b>.
-          </Trans>
-        )}
+        <LicenseDescription license={license} licenseType={licenseType} />
       </div>
-      {((isProprietary && licenseIsLink) ||
-        (!isProprietary && (app.urls?.homepage || app.urls?.contribute))) && (
-        <a
-          className="flex gap-1 items-center"
-          href={
-            licenseIsLink ? license : app.urls?.contribute ?? app.urls?.homepage
-          }
-          target="_blank"
-          rel="noreferrer"
-          onClick={linkClicked}
-          title={t("open-in-new-tab")}
-        >
-          {t(isProprietary ? "learn-more" : "get-involved")}
-          <HiArrowTopRightOnSquare />
-        </a>
-      )}
+      <LicenseLink licenseType={licenseType} app={app} license={license} />
     </div>
   )
 }
