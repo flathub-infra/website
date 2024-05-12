@@ -6,7 +6,7 @@
   "rss-feeds": "Kanał RSS",
   "community": "Społeczność",
   "documentation": "Dokumentacja",
-  "about-pagename": "O Flathub",
+  "about-pagename": "O Flathub: Sklepie z aplikacjami dla systemu Linux",
   "statistics": "Statystyki",
   "source-code": "Kod źródłowy",
   "open-in-new-tab": "Otwórz w nowej karcie",
@@ -566,5 +566,18 @@
   "updated": "Zaktualizowane",
   "trending": "Ostatnio popularne",
   "trending-apps": "Ostatnio popularne aplikacje",
-  "scope-jobs": "Wyświetl status zadań"
+  "scope-jobs": "Wyświetl status zadań",
+  "reporting-issues-description": "Bardzo poważnie podchodzimy do raportów bezpieczeństwa i kwestii prawnych",
+  "press": "Prasa",
+  "organizations-and-infrastructure": "Organizacje i infrastruktura",
+  "individual-contributors": "Indywidualni współautorzy",
+  "get-in-touch": "Skontaktuj się z nami",
+  "developers-and-users": "Twórcy i użytkownicy",
+  "developers-and-users-block": "Skontaktuj się z zespołem i innymi członkami społeczności, aby zadawać pytania i dzielić się swoją wiedzą",
+  "join-discourse-forum": "Dołącz do forum Discourse",
+  "chat-on-matrix": "Rozmawiaj na Matrix",
+  "press-description": "Zawsze chętnie odpowiadamy na pytania i przeprowadzamy wywiady z dziennikarzami i autorami tekstów technicznych",
+  "read-announcements": "Przeczytaj ogłoszenia",
+  "download-press-kit": "Pobierz materiały prasowe",
+  "contact-for-press-inquiries": "Kontakt w sprawie zapytań prasowych"
 }
