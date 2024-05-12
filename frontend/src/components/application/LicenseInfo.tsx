@@ -128,10 +128,12 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
         )}
       </div>
       {((isProprietary && licenseIsLink) ||
-        (!isProprietary && app.urls?.homepage)) && (
+        (!isProprietary && (app.urls?.homepage || app.urls?.contribute))) && (
         <a
           className="flex gap-1 items-center"
-          href={licenseIsLink ? license : app.urls.homepage}
+          href={
+            licenseIsLink ? license : app.urls?.contribute ?? app.urls?.homepage
+          }
           target="_blank"
           rel="noreferrer"
           onClick={linkClicked}
