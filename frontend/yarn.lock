@@ -2577,15 +2577,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neshca/cache-handler@npm:^1.1.0":
-  version: 1.3.1
-  resolution: "@neshca/cache-handler@npm:1.3.1"
+"@neshca/cache-handler@npm:^1.3.2":
+  version: 1.3.2
+  resolution: "@neshca/cache-handler@npm:1.3.2"
   dependencies:
-    lru-cache: "npm:10.2.0"
+    lru-cache: "npm:10.2.2"
   peerDependencies:
     next: ">=13.5.1"
     redis: ">=4.6"
-  checksum: 4df8cb8611abb0a675b94fe59b9af7111043a8f6ebb0abd94f6d6f0ae3d4d756cbcd02c6a227858814fa372aa62b36f41386a2afa5189c69a674597985f0e6af
+  checksum: a1e749b89c09d0a461e4fbe841a99892b33238bd3f557777e1e1d53fe8bc3b1dd55c5bf0e368698ba427837023e679f8265783eb07a93e3ed2731ce18d82a62b
   languageName: node
   linkType: hard
 
@@ -9112,7 +9112,7 @@ __metadata:
     "@floating-ui/react": "npm:^0.26.14"
     "@headlessui/react": "npm:^1.7.19"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
-    "@neshca/cache-handler": "npm:^1.1.0"
+    "@neshca/cache-handler": "npm:^1.3.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@sentry/nextjs": "npm:^7.114.0"
@@ -11292,7 +11292,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lru-cache@npm:10.2.0, lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
+"lru-cache@npm:10.2.2":
+  version: 10.2.2
+  resolution: "lru-cache@npm:10.2.2"
+  checksum: 402d31094335851220d0b00985084288136136992979d0e015f0f1697e15d1c86052d7d53ae86b614e5b058425606efffc6969a31a091085d7a2b80a8a1e26d6
+  languageName: node
+  linkType: hard
+
+"lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
   version: 10.2.0
   resolution: "lru-cache@npm:10.2.0"
   checksum: c9847612aa2daaef102d30542a8d6d9b2c2bb36581c1bf0dc3ebf5e5f3352c772a749e604afae2e46873b930a9e9523743faac4e5b937c576ab29196774712ee
