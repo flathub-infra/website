@@ -9177,7 +9177,7 @@ __metadata:
     sharp: "npm:^0.33.3"
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.0.10"
-    storybook-react-i18next: "npm:^3.0.1"
+    storybook-react-i18next: "npm:^3.1.1"
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.3"
     tailwindcss-animate: "npm:^1.0.7"
@@ -14706,17 +14706,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook-react-i18next@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "storybook-react-i18next@npm:3.0.1"
+"storybook-react-i18next@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "storybook-react-i18next@npm:3.1.1"
   dependencies:
+    "@storybook/test": "npm:^8.0.10"
     storybook-i18n: "npm:^3.0.1"
   peerDependencies:
     i18next: ^22.0.0 || ^23.0.0 || ^24.0.0
-    i18next-browser-languagedetector: ^7.0.0
+    i18next-browser-languagedetector: ^7.0.0 || ^8.0.0
     i18next-http-backend: ^2.0.0
     react-i18next: ^12.0.0 || ^13.0.0 || ^14.0.0
-  checksum: b04094dfa0d8e69a2a070015654baf3aace91e90394820a8b0ab3e69c633d401888c6f35e9c3360f27832ad3d96d63966a77c2660f475914a80a62ddfc34f807
+  checksum: c852f575c8793f6cc82da48820656399acb0cf1bde7af7fd2f69c7bd87f4daf37844faba28c612c0b3f837e7cebdc35b7d654aebcc88df72fb9b60ccc8988440
   languageName: node
   linkType: hard
 
