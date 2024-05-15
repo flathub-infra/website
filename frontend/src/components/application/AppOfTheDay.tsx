@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 import clsx from "clsx"
 
 export const AppOfTheDay = ({
-  appOfTheDay: appOfTheDay,
+  appOfTheDay,
   className,
 }: {
   appOfTheDay: DesktopAppstream
@@ -46,18 +46,20 @@ export const AppOfTheDay = ({
         className,
       )}
     >
-      <div className="flex w-full h-full">
-        <div className="w-1/2 pb-8">
-          <div className="flex gap-1 items-center">
-            <HiMiniStar className={clsx(textColor, "size-4 shrink-0")} />
-            {t("app-of-the-day")}
-          </div>
-          <div className="flex flex-col gap-2 pt-8">
-            <span className="text-2xl font-extrabold">{appOfTheDay.name}</span>
-            <span>{appOfTheDay.summary}</span>
-          </div>
+      <div className="grid grid-cols-2 grid-rows-[auto_1fr] w-full h-full">
+        <div className="flex gap-1 col-span-2 items-center col-start-1 row-start-1">
+          <HiMiniStar className={clsx(textColor, "size-4 shrink-0")} />
+          {t("app-of-the-day")}
         </div>
-        <div className="w-1/2 relative items-center sm:items-start justify-center flex overflow-hidden">
+        <div className="flex flex-col gap-2 py-8 col-start-1 row-start-2">
+          <span className="text-2xl truncate font-extrabold">
+            {appOfTheDay.name}
+          </span>
+          <span className={clsx("line-clamp-2 text-sm", "lg:line-clamp-3")}>
+            {appOfTheDay.summary}
+          </span>
+        </div>
+        <div className="pb-8 col-start-2 row-start-1 row-span-2 relative items-center sm:items-start justify-center flex overflow-hidden">
           <div className="absolute drop-shadow-md">
             <LogoImage
               size="128"
