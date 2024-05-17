@@ -579,5 +579,8 @@
   "organizations-and-infrastructure": "Организации и инфраструктура",
   "developers-and-users": "Разработчикам и пользователям",
   "developers-and-users-block": "Свяжитесь с командой и другими участниками сообщества, чтобы задавать вопросы и делиться своим опытом",
-  "contact-for-press-inquiries": "Связаться для пресс-запросов"
+  "contact-for-press-inquiries": "Связаться для пресс-запросов",
+  "you-may-or-may-not-be-able-to-contribute": "Вы можете не иметь возможности внести вклад в это приложение.",
+  "special-license": "Специальная лицензия",
+  "special-license-explanation": "Это приложение разрабатывается под специальной лицензией <1>{{ license }}</1>."
 }

@@ -579,5 +579,8 @@
   "developers-and-users-block": "Contacté con el equipo y otros miembros de la comunidad para hacer preguntas y compartir su experiencia",
   "reporting-issues-description": "Nos tomamos muy en serio los informes de seguridad y las cuestiones legales",
   "chat-on-matrix": "Chatea en Matrix",
-  "press-description": "Siempre estaremos encantados de responder preguntas y concertar entrevistas con periodistas y redactores de tecnología"
+  "press-description": "Siempre estaremos encantados de responder preguntas y concertar entrevistas con periodistas y redactores de tecnología",
+  "special-license-explanation": "Esta aplicación fue desarrollada bajo los términos de licencia especiales <1>{{ license }}</1>.",
+  "you-may-or-may-not-be-able-to-contribute": "Es posible que puedas o no contribuir a esta aplicación.",
+  "special-license": "Términos de licencia especiales"
 }

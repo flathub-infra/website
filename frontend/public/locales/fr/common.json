@@ -505,7 +505,10 @@
     "app-summary-dont-start-with-an-article": "Ne commence pas par un article",
     "screenshots-just-the-app-window": "Juste la fenêtre de l'application",
     "branding": "Marque",
-    "request-review-description": "Notre équipe va auditer les problèmes de qualité de votre application. Cela prendra quelques jours."
+    "request-review-description": "Notre équipe va auditer les problèmes de qualité de votre application. Cela prendra quelques jours.",
+    "show-branding-preview": "Afficher l'aperçu de la marque",
+    "request-a-review-question": "Voulez-vous requérir un examen ?",
+    "hide-branding-preview": "Masquer l'aperçu de la marque"
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -565,5 +568,10 @@
   "updated": "Mises à jour",
   "news": "Nouveautés",
   "developer-portal": "Portail Développeur",
-  "trending": "Tendance"
+  "trending": "Tendance",
+  "special-license-explanation": "Cette application est développée sous la licence spéciale <1>{{ licence }}></1>.",
+  "do-you-really-want-to-switch-to-direct-upload": "Es-tu sûr ? Une fois que vous aurez basculé une application vers le téléchargement direct, vous ne pouvez plus revenir en arrière.",
+  "enter-end-of-life-message": "Saisir le message de fin de vie",
+  "special-license": "Licence spéciale",
+  "you-may-or-may-not-be-able-to-contribute": "Vous pourrez ou non contribuer à cette app."
 }
