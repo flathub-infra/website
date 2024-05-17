@@ -578,5 +578,8 @@
   "organizations-and-infrastructure": "Organisationen & Infrastruktur",
   "get-in-touch": "Kontakt aufnehmen",
   "join-discourse-forum": "Discourse Forum beitretten",
-  "press-description": "Wir freuen uns immer, Fragen zu beantworten und Interviews mit Journalisten und Tech-Autoren zu arrangieren"
+  "press-description": "Wir freuen uns immer, Fragen zu beantworten und Interviews mit Journalisten und Tech-Autoren zu arrangieren",
+  "you-may-or-may-not-be-able-to-contribute": "Beteiligung an diesem Projekt kann oder kann nicht möglich sein.",
+  "special-license": "Besondere Lizenz",
+  "special-license-explanation": "Dieses App wird unter der besondere Lizenz <1>{{ license }}</1> entwickelt."
 }

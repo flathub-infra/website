@@ -578,5 +578,8 @@
   "press-description": "Plaĉas al ni respondi demandojn de, kaj aranĝi intervjuojn kun, ĵurnalistoj kaj teknikaj verkistoj",
   "contact-for-press-inquiries": "Kontakti por gazetaj enketoj",
   "download-press-kit": "Elŝuti oficialajn emblemojn",
-  "developers-and-users-block": "Konektu kun la administrantoj kaj aliaj komunumanoj por demandi kaj disdoni viajn sciojn"
+  "developers-and-users-block": "Konektu kun la administrantoj kaj aliaj komunumanoj por demandi kaj disdoni viajn sciojn",
+  "special-license": "Speciala Licenco",
+  "special-license-explanation": "Ĉi tiu programo estas evolugata laŭ la speciala licenco <1>{{ license }}</1>.",
+  "you-may-or-may-not-be-able-to-contribute": "Vi eble rajtas aŭ eble ne rajtas kontribui por ĉi tiu programo."
 }

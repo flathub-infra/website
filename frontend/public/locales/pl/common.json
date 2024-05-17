@@ -579,5 +579,8 @@
   "press-description": "Zawsze chętnie odpowiadamy na pytania i przeprowadzamy wywiady z dziennikarzami i autorami tekstów technicznych",
   "read-announcements": "Przeczytaj ogłoszenia",
   "download-press-kit": "Pobierz materiały prasowe",
-  "contact-for-press-inquiries": "Kontakt w sprawie zapytań prasowych"
+  "contact-for-press-inquiries": "Kontakt w sprawie zapytań prasowych",
+  "special-license-explanation": "Ta aplikacja została opracowana na specjalnej licencji <1>{{ license }}</1>.",
+  "special-license": "Licencja specjalna",
+  "you-may-or-may-not-be-able-to-contribute": "Możliwe, że będziesz w stanie współtworzyć tę aplikację."
 }

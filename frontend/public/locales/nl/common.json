@@ -58,7 +58,7 @@
   "expiry": "Verval­datum",
   "confirm-selection": "Selectie bevestigen",
   "loading-saved-payment-methods": "Opgeslagen betalings­methoden aan het laden…",
-  "payment-summary": "Betalings­omschrijving",
+  "payment-summary": "Betalings­omschrĳving",
   "remove-saved-card": "Opgeslagen kaart verwijderen",
   "save-card-for-reuse": "Kaart opslaan voor her­gebruik",
   "saved-cards": "Opgeslagen kaarten",
@@ -578,5 +578,8 @@
   "organizations-and-infrastructure": "Organisaties en infrastructuur",
   "developers-and-users-block": "Maak contact met het team en andere leden van de gemeenschap om vragen te stellen en uw expertise te delen",
   "chat-on-matrix": "Chatten op Matrix",
-  "contact-for-press-inquiries": "Contactpersoon voor persvragen"
+  "contact-for-press-inquiries": "Contactpersoon voor persvragen",
+  "special-license": "Speciale licentie",
+  "special-license-explanation": "Deze app is ontwikkeld onder de speciale licentie <1>{{ license }}</1>.",
+  "you-may-or-may-not-be-able-to-contribute": "Het is onduidelĳk of u kunt bĳdragen aan deze app."
 }

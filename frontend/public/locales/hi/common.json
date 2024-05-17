@@ -578,5 +578,8 @@
   "press-description": "हमें पत्रकारों और तकनीकी लेखकों के सवालों का जवाब देने और उनके साक्षात्कार की व्यवस्था करने में हमेशा खुशी होती है",
   "read-announcements": "घोषणाएं पढ़ें",
   "download-press-kit": "प्रेस किट डाउनलोड करें",
-  "contact-for-press-inquiries": "प्रेस संबंधी पूछताछ के लिए संपर्क करें"
+  "contact-for-press-inquiries": "प्रेस संबंधी पूछताछ के लिए संपर्क करें",
+  "special-license": "विशेष लाइसेंस",
+  "special-license-explanation": "यह ऐप विशेष लाइसेंस <1>{{ license }}</1> के तहत विकसित किया गया है।",
+  "you-may-or-may-not-be-able-to-contribute": "आप इस ऐप में योगदान दे भी सकते हैं और नहीं भी।"
 }

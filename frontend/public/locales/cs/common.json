@@ -579,5 +579,8 @@
   "contact-for-press-inquiries": "Kontakt pro tiskové dotazy",
   "reporting-issues-description": "Bezpečnostní hlášení a právní otázky bereme velmi vážně",
   "get-in-touch": "Spojte se s námi",
-  "developers-and-users-block": "Spojte se s týmem a ostatními členy komunity, pokládejte otázky a sdílejte své zkušenosti"
+  "developers-and-users-block": "Spojte se s týmem a ostatními členy komunity, pokládejte otázky a sdílejte své zkušenosti",
+  "special-license": "Zvláštní licence",
+  "special-license-explanation": "Tato aplikace je vydána pod zvláštní licencí <1>{{ license }}</1>.",
+  "you-may-or-may-not-be-able-to-contribute": "Možná můžete, ale i nemusíte přispívat do této aplikace."
 }
