@@ -3204,12 +3204,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-tsconfig@npm:^4.7.3":
-  version: 4.7.3
-  resolution: "get-tsconfig@npm:4.7.3"
+"get-tsconfig@npm:^4.7.5":
+  version: 4.7.5
+  resolution: "get-tsconfig@npm:4.7.5"
   dependencies:
     resolve-pkg-maps: "npm:^1.0.0"
-  checksum: 10c0/b15ca9d5d0887ebfccadc9fe88b6ff3827a5691ec90e7608a5e9c74bef959c14aba62f6bb88ac7f50322395731789a2cf654244f00e10f4f76349911b6846d6f
+  checksum: 10c0/a917dff2ba9ee187c41945736bf9bbab65de31ce5bc1effd76267be483a7340915cff232199406379f26517d2d0a4edcdbcda8cca599c2480a0f2cf1e1de3efa
   languageName: node
   linkType: hard
 
@@ -4638,7 +4638,7 @@ __metadata:
     nodemailer: "npm:6.9.13"
     prettier: "npm:3.2.5"
     react-email: "npm:2.1.2"
-    tsx: "npm:^4.10.2"
+    tsx: "npm:^4.10.4"
     typescript: "npm:^5.4.5"
     zod: "npm:^3.23.8"
   languageName: unknown
@@ -5174,19 +5174,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.10.2":
-  version: 4.10.2
-  resolution: "tsx@npm:4.10.2"
+"tsx@npm:^4.10.4":
+  version: 4.10.4
+  resolution: "tsx@npm:4.10.4"
   dependencies:
     esbuild: "npm:~0.20.2"
     fsevents: "npm:~2.3.3"
-    get-tsconfig: "npm:^4.7.3"
+    get-tsconfig: "npm:^4.7.5"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10c0/d304427254fbc20b979ef9e817d9356f197b5caff857cbbe9df1d7b4f12c519d5f65feb746fa1728fbf5d6ec6b2008bd55c27eab744289f6c67bda94de8e1d7a
+  checksum: 10c0/2782ff1f69ddff1e45b53b48842d48b9eef28d8a6a353268b641ad974660cfd2b8ecf6e9fa8a978bcd37a58229d760f432b21de5afc576326cbcc55a44d2adcf
   languageName: node
   linkType: hard
 
