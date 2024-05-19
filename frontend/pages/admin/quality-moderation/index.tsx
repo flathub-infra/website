@@ -202,7 +202,7 @@ export default function QualityModerationDashboard() {
     setFilteredBy(
       (router.query
         .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
-        "all",
+        "todo",
     )
   }, [router.query.filter])
 
@@ -239,13 +239,14 @@ export default function QualityModerationDashboard() {
               size="lg"
               items={[
                 {
-                  id: "all",
-                  content: <span>All</span>,
+                  id: "todo",
+                  content: <span>Todo</span>,
                   selected:
                     filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilter.all,
+                    GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
                   onClick: () => {
-                    delete router.query.filter
+                    router.query.filter =
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo
 
                     router.query.page = "1"
 
@@ -272,14 +273,14 @@ export default function QualityModerationDashboard() {
                   },
                 },
                 {
-                  id: "todo",
-                  content: <span>Todo</span>,
+                  id: "all",
+                  content: <span>All</span>,
                   selected:
                     filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
+                    GetQualityModerationStatusQualityModerationStatusGetFilter.all,
                   onClick: () => {
                     router.query.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo
+                      GetQualityModerationStatusQualityModerationStatusGetFilter.all
 
                     router.query.page = "1"
 
