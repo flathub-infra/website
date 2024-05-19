@@ -42,6 +42,7 @@ import {
   sv,
   sq,
   Locale,
+  ckb,
 } from "date-fns/locale"
 
 export type Language =
@@ -92,6 +93,7 @@ export type Language =
   | "pa"
   | "sq"
   | "ia"
+  | "ckb"
 
 export const languages: Language[] = [
   "en",
@@ -141,6 +143,7 @@ export const languages: Language[] = [
   "pa",
   "sq",
   "ia",
+  "ckb",
 ]
 
 export function getLocale(language: string): Locale {
@@ -239,6 +242,8 @@ export function getLocale(language: string): Locale {
       return enUS // date-fns has no Interlingua locale
     case "sq":
       return sq
+    case "ckb":
+      return ckb
 
     default:
       return enGB
@@ -341,6 +346,8 @@ export function bcpToPosixLocale(language: string): string {
       return "sq_XK"
     case "ia":
       return "ia"
+    case "ckb":
+      return "ckb"
 
     default:
       return "en_US"
@@ -443,6 +450,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇦🇱"
     case "ia":
       return ""
+    case "ckb":
+      return "🇮🇷"
   }
 }
 
@@ -542,6 +551,8 @@ export function getLanguageName(language: Language): string {
       return "Albanian"
     case "ia":
       return "Interlingua"
+    case "ckb":
+      return "کوردی"
 
     default:
       return assertUnreachable(language)
@@ -664,6 +675,8 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("sq")
     case "ia":
       return new Intl.Locale("ia")
+    case "ckb":
+      return new Intl.Locale("ckb")
   }
 }
 
@@ -714,6 +727,7 @@ export function registerIsoCountriesLocales() {
   // No translations for pa
   countries.registerLocale(require("i18n-iso-countries/langs/sq.json"))
   // No translations for ia
+  // No translations for ckb
 
   return countries
 }
