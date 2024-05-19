@@ -21,42 +21,46 @@ const Acknowledgments = () => {
           <h3 className="my-4 text-xl font-semibold">
             {t("organizations-and-infrastructure")}
           </h3>
-          <ul className="list-inside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-            <li>Codethink</li>
-            <li>Cloud Native Computing Foundation</li>
-            <li>Fastly</li>
-            <li>Mythic Beasts</li>
-            <li>Prerender.io</li>
-            <li>Scaleway</li>
-          </ul>
+          <div className="ps-4">
+            <ul className="list-outside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+              <li>Codethink</li>
+              <li>Cloud Native Computing Foundation</li>
+              <li>Fastly</li>
+              <li>Mythic Beasts</li>
+              <li>Prerender.io</li>
+              <li>Scaleway</li>
+            </ul>
+          </div>
         </div>
         <div>
           <h3 className="my-4 text-xl font-semibold">
             {t("individual-contributors")}
           </h3>
-          <ul className="list-inside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-            <li>Alex Larsson</li>
-            <li>Andreas Nilsson</li>
-            <li>Arun Raghavan</li>
-            <li>Bartłomiej Piotrowski</li>
-            <li>Christian Hergert</li>
-            <li>Christopher Halse Rogers</li>
-            <li>Cosimo Cecchi</li>
-            <li>Emmanuele Bassi</li>
-            <li>G Stavracas Neto</li>
-            <li>Jakub Steiner</li>
-            <li>James Shubin</li>
-            <li>Joaquim Rocha</li>
-            <li>Jorge García Oncins</li>
-            <li>Lubomír Sedlář</li>
-            <li>Nathan Dyer</li>
-            <li>Nick Richards</li>
-            <li>Mario Sanchez Prada</li>
-            <li>Matthias Clasen</li>
-            <li>Michael Doherty</li>
-            <li>Robert McQueen</li>
-            <li>Zach Oglesby</li>
-          </ul>
+          <div className="ps-4">
+            <ul className="list-outside list-disc text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+              <li>Alex Larsson</li>
+              <li>Andreas Nilsson</li>
+              <li>Arun Raghavan</li>
+              <li>Bartłomiej Piotrowski</li>
+              <li>Christian Hergert</li>
+              <li>Christopher Halse Rogers</li>
+              <li>Cosimo Cecchi</li>
+              <li>Emmanuele Bassi</li>
+              <li>G Stavracas Neto</li>
+              <li>Jakub Steiner</li>
+              <li>James Shubin</li>
+              <li>Joaquim Rocha</li>
+              <li>Jorge García Oncins</li>
+              <li>Lubomír Sedlář</li>
+              <li>Nathan Dyer</li>
+              <li>Nick Richards</li>
+              <li>Mario Sanchez Prada</li>
+              <li>Matthias Clasen</li>
+              <li>Michael Doherty</li>
+              <li>Robert McQueen</li>
+              <li>Zach Oglesby</li>
+            </ul>
+          </div>
         </div>
       </div>
     </>
