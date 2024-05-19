@@ -98,10 +98,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
     <div className="space-y-8">
       <Breadcrumbs
         pages={[
-          { name: "Moderation", href: "/moderation", current: false },
+          { name: "Moderation", href: "/admin/moderation", current: false },
           {
             name: appInfoQuery.data[0].name,
-            href: `/moderation/${appInfoQuery.data[0].id}`,
+            href: `/admin/moderation/${appInfoQuery.data[0].id}`,
             current: true,
           },
         ]}

@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import { FunctionComponent, useEffect, useState } from "react"
 import { getAppsInfo } from "src/asyncs/app"
-import { useUserContext } from "src/context/user-info"
 import InlineError from "../InlineError"
 import Pagination from "../Pagination"
 import Spinner from "../Spinner"
@@ -13,7 +12,6 @@ import { getModerationAppsModerationAppsGet } from "src/codegen"
 
 const ModerationTabs: FunctionComponent = () => {
   const { t } = useTranslation()
-  const user = useUserContext()
   const router = useRouter()
 
   const PAGE_SIZE = 30
@@ -81,9 +79,10 @@ const ModerationTabs: FunctionComponent = () => {
     return <InlineError error={t(query.error.message)} shown={true} />
   } else {
     const link = (appid: string) => {
-      if (showHandledQuery) return `/moderation/${appid}?includeHandled=true`
+      if (showHandledQuery)
+        return `/admin/moderation/${appid}?includeHandled=true`
 
-      return `/moderation/${appid}`
+      return `/admin/moderation/${appid}`
     }
 
     return (
