@@ -166,13 +166,13 @@ const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
     ? "floss"
     : "special"
 
-  licenseType = app.project_license.startsWith("LicenseRef-proprietary")
-    ? "proprietary"
-    : licenseType
+  licenseType =
+    !app.project_license ||
+    app.project_license.startsWith("LicenseRef-proprietary")
+      ? "proprietary"
+      : licenseType
 
   const license = getLicense(app.project_license, t)
-
-  console.log(license)
 
   return (
     <div className="flex flex-col gap-1 justify-center items-center text-center p-4">
