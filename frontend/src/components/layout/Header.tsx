@@ -3,17 +3,21 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { HiMagnifyingGlass, HiXMark, HiBars3 } from "react-icons/hi2"
 import { useWindowSize } from "src/hooks/useWindowSize"
-import {
-  LogoJsonLd,
-  OrganizationJsonLd,
-  SiteLinksSearchBoxJsonLd,
-} from "next-seo"
+import { OrganizationJsonLd, SiteLinksSearchBoxJsonLd } from "next-seo"
 import { useTranslation } from "next-i18next"
 import { IS_PRODUCTION } from "../../env"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import Image from "next/image"
-import { Fragment } from "react"
-import { Menu, Popover, Transition } from "@headlessui/react"
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react"
 import { clsx } from "clsx"
 import Avatar from "../user/Avatar"
 import { getUserName } from "src/verificationProvider"
@@ -62,14 +66,14 @@ const MobileMenuButton = ({ open, close, width }) => {
   }, [close, open, width])
 
   return (
-    <Popover.Button className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
+    <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
       <span className="sr-only">{t("open-menu")}</span>
       {open ? (
         <HiXMark className="block size-6" aria-hidden="true" />
       ) : (
         <HiBars3 className="block size-6" aria-hidden="true" />
       )}
-    </Popover.Button>
+    </PopoverButton>
   )
 }
 
@@ -367,16 +371,15 @@ const Header = () => {
                   {user.info && (
                     <Menu as="div" className="relative ms-5">
                       <div>
-                        <Menu.Button className="flex rounded-full bg-white">
+                        <MenuButton className="flex rounded-full bg-white">
                           <span className="sr-only">{t("open-user-menu")}</span>
                           <Avatar
                             userName={displayNameWithFallback}
                             avatarUrl={userAvatarUrl}
                           />
-                        </Menu.Button>
+                        </MenuButton>
                       </div>
                       <Transition
-                        as={Fragment}
                         enter="transition ease-out duration-100"
                         enterFrom="transform opacity-0 scale-95"
                         enterTo="transform opacity-100 scale-100"
@@ -384,20 +387,20 @@ const Header = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute end-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
+                        <MenuItems className="absolute end-0 z-10 mt-2 w-48 origin-top-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border dark:border-flathub-granite-gray dark:bg-flathub-arsenic">
                           {userNavigation
                             .filter(
                               (nav) =>
                                 !nav.condition || nav.condition(user?.info),
                             )
                             .map((item) => (
-                              <Menu.Item key={item.name}>
-                                {({ active }) => (
+                              <MenuItem key={item.name}>
+                                {({ focus }) => (
                                   <Link
                                     passHref
                                     href={item.href}
                                     className={clsx(
-                                      active
+                                      focus
                                         ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                         : "",
                                       "block px-4 py-2 text-sm text-flathub-dark-gunmetal transition first:rounded-t-md hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
@@ -406,14 +409,14 @@ const Header = () => {
                                     {t(item.name)}
                                   </Link>
                                 )}
-                              </Menu.Item>
+                              </MenuItem>
                             ))}
-                          <Menu.Item key="logout">
-                            {({ active }) => (
+                          <MenuItem key="logout">
+                            {({ focus }) => (
                               <button
                                 onClick={onLogout}
                                 className={clsx(
-                                  active
+                                  focus
                                     ? "bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray"
                                     : "",
                                   "block w-full rounded-b-md px-4 py-2 text-start text-sm font-normal text-flathub-dark-gunmetal transition hover:opacity-75 dark:bg-flathub-arsenic dark:text-flathub-white",
@@ -422,8 +425,8 @@ const Header = () => {
                                 {t("log-out")}
                               </button>
                             )}
-                          </Menu.Item>
-                        </Menu.Items>
+                          </MenuItem>
+                        </MenuItems>
                       </Transition>
                     </Menu>
                   )}
@@ -431,7 +434,7 @@ const Header = () => {
               </div>
             </div>
 
-            <Popover.Panel as="nav" className="lg:hidden" aria-label="Global">
+            <PopoverPanel as="nav" className="lg:hidden" aria-label="Global">
               {({ close }) => (
                 <>
                   <div className="mx-auto max-w-3xl space-y-1 px-2 pb-3 pt-2 sm:px-4">
@@ -549,7 +552,7 @@ const Header = () => {
                   )}
                 </>
               )}
-            </Popover.Panel>
+            </PopoverPanel>
           </>
         )}
       </Popover>

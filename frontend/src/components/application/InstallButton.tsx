@@ -1,5 +1,10 @@
-import { Fragment } from "react"
-import { Popover, Transition } from "@headlessui/react"
+import {
+  Popover,
+  PopoverButton,
+  PopoverOverlay,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react"
 import { HiChevronDown } from "react-icons/hi2"
 import { clsx } from "clsx"
 import Link from "next/link"
@@ -50,8 +55,8 @@ export default function InstallButton({ appId }: { appId: string }) {
         {t("install")}
       </Link>
       <Popover as="div" className={clsx("block", "sm:relative")}>
-        <Popover.Overlay className="fixed inset-0 z-10 bg-black opacity-30" />
-        <Popover.Button
+        <PopoverOverlay className="fixed inset-0 z-10 bg-black opacity-30" />
+        <PopoverButton
           className={clsx(
             "hover:opacity-75 active:opacity-50",
             "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
@@ -60,9 +65,8 @@ export default function InstallButton({ appId }: { appId: string }) {
         >
           <span className="sr-only">Open options</span>
           <HiChevronDown className="size-5" aria-hidden="true" />
-        </Popover.Button>
+        </PopoverButton>
         <Transition
-          as={Fragment}
           enter="transition ease-out duration-100"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
@@ -70,7 +74,7 @@ export default function InstallButton({ appId }: { appId: string }) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Popover.Panel
+          <PopoverPanel
             className={clsx(
               "absolute end-0 z-20 mx-2 mt-2 w-fit origin-top-right rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:mx-0 sm:w-[450px]",
             )}
@@ -98,7 +102,7 @@ export default function InstallButton({ appId }: { appId: string }) {
               nested
               onCopy={flatpakRunCopied}
             />
-          </Popover.Panel>
+          </PopoverPanel>
         </Transition>
       </Popover>
     </div>

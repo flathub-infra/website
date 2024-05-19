@@ -1,5 +1,10 @@
-import { Fragment } from "react"
-import { Dialog, Transition } from "@headlessui/react"
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react"
 import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
 import { useTranslation } from "next-i18next"
@@ -8,15 +13,14 @@ export default function SlideOver({ shown, onClose, title, children }) {
   const { t } = useTranslation()
 
   return (
-    <Transition.Root show={shown} as={Fragment}>
+    <Transition show={shown}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
         <div className="fixed inset-0" />
 
         <div className="fixed inset-0 overflow-hidden">
           <div className="absolute inset-0 overflow-hidden">
             <div className="pointer-events-none fixed inset-y-0 end-0 flex max-w-full ps-10">
-              <Transition.Child
-                as={Fragment}
+              <TransitionChild
                 enter="transform transition ease-in-out duration-500 sm:duration-700"
                 enterFrom="translate-x-full rtl:translate-x-[-100%]"
                 enterTo="translate-x-0"
@@ -24,13 +28,13 @@ export default function SlideOver({ shown, onClose, title, children }) {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full rtl:translate-x-[-100%]"
               >
-                <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
+                <DialogPanel className="pointer-events-auto w-screen max-w-2xl">
                   <div className="relative flex h-full flex-col overflow-y-scroll bg-flathub-lotion dark:bg-flathub-dark-gunmetal py-6 shadow-xl">
                     <div className="px-4 sm:px-6">
                       <div className="flex items-start justify-between">
-                        <Dialog.Title className="text-base font-semibold leading-6">
+                        <DialogTitle className="text-base font-semibold leading-6">
                           {title}
-                        </Dialog.Title>
+                        </DialogTitle>
                         <div className="absolute end-0 top-0 pe-4 pt-6 block">
                           <button
                             type="button"
@@ -57,12 +61,12 @@ export default function SlideOver({ shown, onClose, title, children }) {
                       {children}
                     </div>
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </div>
       </Dialog>
-    </Transition.Root>
+    </Transition>
   )
 }
