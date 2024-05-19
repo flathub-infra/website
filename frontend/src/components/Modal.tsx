@@ -1,4 +1,11 @@
-import { Dialog, Transition } from "@headlessui/react"
+import {
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react"
 import { Fragment, FunctionComponent, useRef } from "react"
 import Button from "./Button"
 import { useTranslation } from "next-i18next"
@@ -42,15 +49,14 @@ const Modal: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Transition.Root show={shown} as={Fragment}>
+      <Transition show={shown}>
         <Dialog
           as="div"
           className="relative z-40"
           onClose={onClose}
           initialFocus={ref}
         >
-          <Transition.Child
-            as={Fragment}
+          <TransitionChild
             enter="ease-out duration-300"
             enterFrom="opacity-0"
             enterTo="opacity-100"
@@ -62,12 +68,11 @@ const Modal: FunctionComponent<Props> = ({
               aria-hidden
               className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
             />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-              <Transition.Child
-                as={Fragment}
+              <TransitionChild
                 enter="ease-out duration-300"
                 enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -75,7 +80,7 @@ const Modal: FunctionComponent<Props> = ({
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform w-full overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-start shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
+                <DialogPanel className="relative transform w-full overflow-hidden rounded-xl bg-flathub-white px-4 pb-4 pt-5 text-start shadow-xl transition-all dark:bg-flathub-dark-gunmetal sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
                   <div className="absolute end-0 top-0 pe-6 pt-6">
                     <button
                       type="button"
@@ -96,7 +101,7 @@ const Modal: FunctionComponent<Props> = ({
 
                   {aboveTitle}
 
-                  <Dialog.Title
+                  <DialogTitle
                     as="h3"
                     ref={ref}
                     className={clsx(
@@ -105,11 +110,11 @@ const Modal: FunctionComponent<Props> = ({
                     )}
                   >
                     {title}
-                  </Dialog.Title>
+                  </DialogTitle>
                   {description && (
-                    <Dialog.Description className="m-0 pb-4">
+                    <Description className="m-0 pb-4">
                       {description}
-                    </Dialog.Description>
+                    </Description>
                   )}
 
                   {children}
@@ -138,12 +143,12 @@ const Modal: FunctionComponent<Props> = ({
                       </Button>
                     )}
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </Dialog>
-      </Transition.Root>
+      </Transition>
     </>
   )
 }

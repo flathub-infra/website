@@ -1,5 +1,11 @@
 import { cn } from "@/lib/utils"
-import { Listbox, Transition } from "@headlessui/react"
+import {
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+  Transition,
+} from "@headlessui/react"
 import { clsx } from "clsx"
 import {
   DetailedHTMLProps,
@@ -38,7 +44,7 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
       as={"div"}
       className={cn("relative", className)}
     >
-      <Listbox.Button
+      <ListboxButton
         className={clsx(
           "bg-flathub-gainsborow dark:bg-flathub-arsenic rounded-full px-4 py-3 font-semibold flex items-center",
           "w-full",
@@ -47,9 +53,8 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
       >
         {selectedItem?.content}
         <HiChevronDown />
-      </Listbox.Button>
+      </ListboxButton>
       <Transition
-        as={Fragment}
         enter="transition duration-100 ease-out"
         enterFrom="transform scale-95 opacity-0"
         enterTo="transform scale-100 opacity-100"
@@ -57,7 +62,7 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        <Listbox.Options
+        <ListboxOptions
           className={clsx(
             "bg-flathub-white dark:bg-flathub-arsenic rounded-3xl mt-1",
             "absolute",
@@ -67,14 +72,14 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
           )}
         >
           {items.map((item) => (
-            <Listbox.Option key={item.id} value={item} as={Fragment}>
-              {({ active, selected }) => (
+            <ListboxOption key={item.id} value={item} as={Fragment}>
+              {({ focus, selected }) => (
                 <div
                   className={clsx(
                     "p-4",
                     "cursor-pointer",
                     selected && "font-semibold",
-                    active &&
+                    focus &&
                       "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10",
                     "first:rounded-t-3xl last:rounded-b-3xl",
                   )}
@@ -82,9 +87,9 @@ const FlathubListbox: FunctionComponent<Props> = forwardRef<
                   {item.content}
                 </div>
               )}
-            </Listbox.Option>
+            </ListboxOption>
           ))}
-        </Listbox.Options>
+        </ListboxOptions>
       </Transition>
     </Listbox>
   )

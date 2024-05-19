@@ -1,4 +1,4 @@
-import { Tab } from "@headlessui/react"
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
 import { Fragment, FunctionComponent } from "react"
 import { clsx } from "clsx"
 import Badge from "./application/Badge"
@@ -19,9 +19,9 @@ interface Props {
 const Tabs: FunctionComponent<Props> = ({ tabs }) => {
   return (
     <>
-      <Tab.Group>
+      <TabGroup>
         <LayoutGroup id={tabs.map((tab) => tab.name).join("-")}>
-          <Tab.List className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
+          <TabList className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
             {tabs.map((tab, index) => (
               <Tab key={index} as={Fragment}>
                 {({ selected }) => (
@@ -50,11 +50,11 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                 )}
               </Tab>
             ))}
-          </Tab.List>
+          </TabList>
         </LayoutGroup>
-        <Tab.Panels>
+        <TabPanels>
           {tabs.map((tab, index) => (
-            <Tab.Panel
+            <TabPanel
               key={index}
               className={clsx(
                 tab.replacePadding ?? "p-4",
@@ -62,10 +62,10 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
               )}
             >
               {tab.content}
-            </Tab.Panel>
+            </TabPanel>
           ))}
-        </Tab.Panels>
-      </Tab.Group>
+        </TabPanels>
+      </TabGroup>
     </>
   )
 }
