@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
@@ -73,70 +74,64 @@ const GetInTouch = () => {
   return (
     <>
       <h2 className="mb-6 mt-12 text-2xl font-bold">{t("get-in-touch")}</h2>
-      <div className="flex flex-col sm:flex-row justify-between gap-14">
-        <div className="w-full sm:w-1/2">
-          <h3 className="my-4 text-xl font-semibold">{t("press")}</h3>
-          <p>{t("press-description")}</p>
-          <div>
-            <a
-              href="https://docs.flathub.org/blog"
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-            >
-              {t("read-announcements")}
-            </a>
-          </div>
-          <div>
-            <a
-              href="https://github.com/flathub-infra/assets"
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-            >
-              {t("download-press-kit")}
-            </a>
-          </div>
-          <div>
-            <a
-              href="mailto:admins@flathub.org"
-              className="no-underline hover:underline"
-            >
-              {t("contact-for-press-inquiries")}
-            </a>
-          </div>
+      <div
+        className={clsx(
+          "grid grid-cols-1 gap-x-14 grid-rows-auto sm:grid-cols-3",
+        )}
+      >
+        <h3 className="my-4 text-xl font-semibold">{t("press")}</h3>
+        <p className="sm:row-start-2">{t("press-description")}</p>
+        <div className="sm:row-start-3 flex flex-col gap-3">
+          <a
+            href="https://docs.flathub.org/blog"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline hover:underline"
+          >
+            {t("read-announcements")}
+          </a>
+          <a
+            href="https://github.com/flathub-infra/assets"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline hover:underline"
+          >
+            {t("download-press-kit")}
+          </a>
+          <a
+            href="mailto:admins@flathub.org"
+            className="no-underline hover:underline"
+          >
+            {t("contact-for-press-inquiries")}
+          </a>
         </div>
-        <div className="w-full sm:w-1/2">
-          <h3 className="my-4 text-xl font-semibold">
-            {t("reporting-issues")}
-          </h3>
-          <p>{t("reporting-issues-description")}</p>
-          <div>
-            <a
-              href="mailto:admins@flathub.org"
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-            >
-              {t("report-an-issue")}
-            </a>
-          </div>
+        <h3 className="my-4 text-xl font-semibold pt-6 sm:pt-0">
+          {t("reporting-issues")}
+        </h3>
+        <p className="sm:row-start-2">{t("reporting-issues-description")}</p>
+        <div className="sm:row-start-3 flex flex-col gap-3">
+          <a
+            href="mailto:admins@flathub.org"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline hover:underline"
+          >
+            {t("report-an-issue")}
+          </a>
         </div>
-        <div className="w-full sm:w-1/2">
-          <h3 className="my-4 text-xl font-semibold">
-            {t("developers-and-users")}
-          </h3>
-          <p>{t("developers-and-users-block")}</p>
-          <div>
-            <a
-              href="https://discourse.flathub.org"
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-            >
-              {t("join-discourse-forum")}
-            </a>
-          </div>
+        <h3 className="my-4 text-xl font-semibold pt-6 sm:pt-0">
+          {t("developers-and-users")}
+        </h3>
+        <p className="sm:row-start-2">{t("developers-and-users-block")}</p>
+        <div className="sm:row-start-3 flex flex-col gap-3">
+          <a
+            href="https://discourse.flathub.org"
+            target="_blank"
+            rel="noreferrer"
+            className="no-underline hover:underline"
+          >
+            {t("join-discourse-forum")}
+          </a>
           <div>
             <a
               href="https://matrix.to/#/#flathub:matrix.org"
