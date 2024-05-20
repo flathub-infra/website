@@ -8370,31 +8370,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-react@npm:^8.0.4":
-  version: 8.0.4
-  resolution: "embla-carousel-react@npm:8.0.4"
+"embla-carousel-react@npm:^8.1.2":
+  version: 8.1.2
+  resolution: "embla-carousel-react@npm:8.1.2"
   dependencies:
-    embla-carousel: "npm:8.0.4"
-    embla-carousel-reactive-utils: "npm:8.0.4"
+    embla-carousel: "npm:8.1.2"
+    embla-carousel-reactive-utils: "npm:8.1.2"
   peerDependencies:
     react: ^16.8.0 || ^17.0.1 || ^18.0.0
-  checksum: 6ef8090e611e33e00e96b32f1350524f6aaabe13741a59311ae8e257e37ae8e8c12fd3857f943fd6b7e210bd5c207c194dea55f50d9930d3ae1e247025d8c5a2
+  checksum: c9c25c58ba39b707dd27d03f277f7cbb0e08d8b9f9a9c2ba94691efc7228a291a99d72689f6147bd4fcc7f6cfa26a4cf762ce362a075d6c5f9784360ce319b8a
   languageName: node
   linkType: hard
 
-"embla-carousel-reactive-utils@npm:8.0.4":
-  version: 8.0.4
-  resolution: "embla-carousel-reactive-utils@npm:8.0.4"
+"embla-carousel-reactive-utils@npm:8.1.2":
+  version: 8.1.2
+  resolution: "embla-carousel-reactive-utils@npm:8.1.2"
   peerDependencies:
-    embla-carousel: 8.0.4
-  checksum: 4178011f8d05e1752d36b90b76254e223534ad2060bf383013f0d58d365bd05475c2f739049d8f651b98345c1b9315b6a4fbca232bed3b103ccee2f78fbb1868
+    embla-carousel: 8.1.2
+  checksum: 9b76a8ba2c20f1c89a510caa734d5f51765b5c7087dd4f29c28002bda92a982a5ff05969a9a7eef4392e1d5102bb568f59f477d2b7c7051316d523cc832d7742
   languageName: node
   linkType: hard
 
-"embla-carousel@npm:8.0.4":
-  version: 8.0.4
-  resolution: "embla-carousel@npm:8.0.4"
-  checksum: f20e07d022e6514e2a6429e9e532f96cfdc49a94947c4f3c54f26fd0c99adfd2e41d29d88f9eead74be68a62e6c61f7af2d436b232414906ddb28be96d71f874
+"embla-carousel@npm:8.1.2":
+  version: 8.1.2
+  resolution: "embla-carousel@npm:8.1.2"
+  checksum: c46ced3054c424a808caebcf3d25559a50d77a2ad72e128a6f3b2e6a45c793a07243f33a5dec0fc45cc8e44de539958abd544245ad0ad9dce810f9c54fcff8c0
   languageName: node
   linkType: hard
 
@@ -9654,7 +9654,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     date-fns: "npm:^3.6.0"
     embla-carousel-autoplay: "npm:^8.0.4"
-    embla-carousel-react: "npm:^8.0.4"
+    embla-carousel-react: "npm:^8.1.2"
     eslint: "npm:^8.57.0"
     eslint-config-next: "npm:^14.2.3"
     eslint-config-prettier: "npm:^9.1.0"
