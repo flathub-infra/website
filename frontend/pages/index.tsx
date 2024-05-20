@@ -25,6 +25,7 @@ import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
 import { useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
+import { useLocalStorage } from "src/hooks/useLocalStorage"
 
 const categoryOrder = [
   Category.Office,
@@ -99,6 +100,8 @@ const TopSection = ({
   const selectedApps = topApps.find(
     (sectionData) => sectionData.name === selectedName,
   )
+
+  if (!selectedApps) return undefined
 
   return (
     <ApplicationSection
