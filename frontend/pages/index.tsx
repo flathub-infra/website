@@ -23,7 +23,7 @@ import { DesktopAppstream } from "src/types/Appstream"
 import clsx from "clsx"
 import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
 
 const categoryOrder = [
@@ -86,7 +86,15 @@ const TopSection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedName, setSelectedName] = useState(topApps[0].name)
+  const [selectedName, setSelectedName] = useState("")
+
+  useEffect(() => {
+    let selectedIndex = Number(localStorage.getItem("selected-category")) ?? 0
+    if (isNaN(selectedIndex) || selectedIndex > 3 || selectedIndex < 0)
+      selectedIndex = 0
+    setSelectedName(topApps[selectedIndex].name)
+    localStorage.setItem("selected-category", selectedIndex.toString())
+  }, [topApps])
 
   const selectedApps = topApps.find(
     (sectionData) => sectionData.name === selectedName,
@@ -102,13 +110,16 @@ const TopSection = ({
       appSelection={
         <>
           <MultiToggle
-            items={topApps.map((x) => ({
+            items={topApps.map((x, index) => ({
               id: x.name,
               content: (
                 <div className="font-semibold truncate">{t(x.name)}</div>
               ),
               selected: x.name === selectedName,
-              onClick: () => setSelectedName(x.name),
+              onClick: () => {
+                setSelectedName(x.name)
+                localStorage.setItem("selected-category", index.toString())
+              },
             }))}
             size={"lg"}
             variant="secondary"
