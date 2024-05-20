@@ -90,11 +90,8 @@ const TopSection = ({
   const [selectedName, setSelectedName] = useState("")
 
   useEffect(() => {
-    let selectedIndex = Number(localStorage.getItem("selected-category")) ?? 0
-    if (isNaN(selectedIndex) || selectedIndex > 3 || selectedIndex < 0)
-      selectedIndex = 0
-    setSelectedName(topApps[selectedIndex].name)
-    localStorage.setItem("selected-category", selectedIndex.toString())
+    if (selectedIndex >= 0 && selectedIndex < topApps.length)
+      setSelectedName(topApps[selectedIndex].name)
   }, [topApps])
 
   const selectedApps = topApps.find(
