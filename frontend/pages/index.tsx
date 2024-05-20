@@ -88,10 +88,18 @@ const TopSection = ({
   const { t } = useTranslation()
 
   const [selectedName, setSelectedName] = useState("")
+  const [selectedIndex, setSelectedIndex] = useLocalStorage(
+    "selected-category",
+    0,
+  )
 
   useEffect(() => {
     if (selectedIndex >= 0 && selectedIndex < topApps.length)
       setSelectedName(topApps[selectedIndex].name)
+    else {
+      setSelectedIndex(0)
+      setSelectedName(topApps[0].name)
+    }
   }, [topApps])
 
   const selectedApps = topApps.find(
@@ -118,7 +126,7 @@ const TopSection = ({
               selected: x.name === selectedName,
               onClick: () => {
                 setSelectedName(x.name)
-                localStorage.setItem("selected-category", index.toString())
+                setSelectedIndex(index)
               },
             }))}
             size={"lg"}
