@@ -19,14 +19,14 @@ export default function RecentlyUpdatedApps({
   return (
     <>
       <NextSeo
-        title={t("recently-updated-apps")}
+        title={t("updated-apps")}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/collection/recently-updated`,
         }}
       />
       <div className="max-w-11/12 mx-auto my-0 mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <ApplicationCollection
-          title={t("recently-updated-apps")}
+          title={t("updated-apps")}
           applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
           page={applications.page}
           totalPages={applications.totalPages}
