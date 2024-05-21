@@ -87,10 +87,9 @@ const TopSection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedName, setSelectedName] = useState("")
-  const [selectedIndex, setSelectedIndex] = useLocalStorage(
-    "selected-category",
-    0,
+  const [selectedName, setSelectedName] = useLocalStorage<string>(
+    "landing-selected-category",
+    topApps[0].name,
   )
 
   useEffect(() => {
