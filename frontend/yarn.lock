@@ -3285,14 +3285,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@redis/client@npm:1.5.14":
-  version: 1.5.14
-  resolution: "@redis/client@npm:1.5.14"
+"@redis/client@npm:1.5.16":
+  version: 1.5.16
+  resolution: "@redis/client@npm:1.5.16"
   dependencies:
     cluster-key-slot: "npm:1.1.2"
     generic-pool: "npm:3.9.0"
     yallist: "npm:4.0.0"
-  checksum: e8036ef1bce676891a492c198251238b3eb19eb7120ff974291f2a4e8cea97ac0f4aabbc0c59f40a923dcb43456e4e2a29b7287bd6a91535330e5e4631d9b176
+  checksum: 80098cff9253a78f7f9f8ffb216ef414196f148f34992a3c921595e5c358cbbea7e5c6a2e01ac55a15ef40fe929753b267941e8d71e63f93c9d396755b4ad9db
   languageName: node
   linkType: hard
 
@@ -9693,7 +9693,7 @@ __metadata:
     react-icons: "npm:^5.2.1"
     react-svg-worldmap: "npm:2.0.0-alpha.16"
     react-toastify: "npm:^10.0.5"
-    redis: "npm:^4.6.13"
+    redis: "npm:^4.6.14"
     sass: "npm:^1.77.0"
     satori: "npm:^0.10.13"
     sharp: "npm:^0.33.3"
@@ -14323,17 +14323,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis@npm:^4.6.13":
-  version: 4.6.13
-  resolution: "redis@npm:4.6.13"
+"redis@npm:^4.6.14":
+  version: 4.6.14
+  resolution: "redis@npm:4.6.14"
   dependencies:
     "@redis/bloom": "npm:1.2.0"
-    "@redis/client": "npm:1.5.14"
+    "@redis/client": "npm:1.5.16"
     "@redis/graph": "npm:1.1.1"
     "@redis/json": "npm:1.0.6"
     "@redis/search": "npm:1.1.6"
     "@redis/time-series": "npm:1.0.5"
-  checksum: 5fbbf61fc244ca0d0eeca648e470de92d30a494f724f17fac434a7b2713425fc67be31736e17dc53798eba7d236cdfb66e330034ccced51f0faa1a3df1711d5d
+  checksum: b031399a558fd6f06bf12bfe7722b67901a5cb46128ef3fb7634fbd1d3ce7dfc801ddab2500960ea7cd1c8f4a4cdda93657a4aa0eb8b705b5ed63154834ed91e
   languageName: node
   linkType: hard
 
