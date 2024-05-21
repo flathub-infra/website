@@ -31,9 +31,12 @@ export const DeveloperInviteEmail = ({
       appName={appName}
     >
       <Text>
-        {inviter} has invited you to join them as a developer of {appNameAndId}{" "}
-        on Flathub. To accept this invite, click the link below or go to the
-        Developers tab of your Flathub account settings.
+        <b>{inviter}</b> has invited you to join them as a developer of{" "}
+        <b>{appNameAndId}</b> on Flathub.
+      </Text>
+      <Text>
+        To accept this invite, click the link below or go to the Developer
+        Portal on Flathub.
       </Text>
 
       <a href={`${frontendUrl}/apps/manage/${appId}/accept-invite`}>

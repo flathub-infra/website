@@ -1,4 +1,4 @@
-import { Heading, Text } from "@react-email/components"
+import { Heading, Section, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 import {
   ModerationEmailProps,
@@ -31,16 +31,16 @@ export const ModerationApprovedEmail = ({
       appName={appName}
     >
       <Text>
-        A change in build <a href={buildLogUrl}>#{buildId}</a> of {appNameAndId}{" "}
-        has been reviewed and approved by the Flathub team.
+        A change in build <a href={buildLogUrl}>#{buildId}</a> of{" "}
+        <b>{appNameAndId}</b> has been reviewed and approved by the Flathub
+        team.
       </Text>
       {comment && (
-        <>
-          <Heading as="h2">Comment:</Heading>
-          <blockquote>{comment}</blockquote>
-        </>
+        <Section>
+          <Heading as="h4">Comment</Heading>
+          <blockquote className="text-sm">{comment}</blockquote>
+        </Section>
       )}
-      <Heading as="h2">Change:</Heading>
       <ModerationRequestItem request={request} />
     </Base>
   )

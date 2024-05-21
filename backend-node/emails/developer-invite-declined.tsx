@@ -29,7 +29,7 @@ export const DeveloperInviteDeclinedEmail = ({
       appName={appName}
     >
       <Text>
-        {login} declined their invite to {appNameAndId}.
+        <b>{login}</b> declined their invite to <b>{appNameAndId}</b>.
       </Text>
     </Base>
   )

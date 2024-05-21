@@ -1,4 +1,4 @@
-import { Heading, Section, Text } from "@react-email/components"
+import { Section, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 
 function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
@@ -203,8 +203,7 @@ export const ModerationRequestItem = ({ request }: { request: Request }) => {
   ).sort()
 
   return (
-    <Section>
-      <Heading as={"h3"}>{request.requestType}</Heading>
+    <Section className="mt-8">
       {request.requestType === "appdata" && (
         <table className="w-full table-fixed text-xs">
           <tr className="text-left rtl:text-right">
@@ -242,16 +241,17 @@ export const ModerationHeldEmail = ({
       appName={appName}
     >
       <Text>
-        Build <a href={buildLogUrl}>#{buildId}</a> of {appNameAndId} has been
-        held for review because the app's metadata has changed. You can check
-        the status of the review in the{" "}
+        Build <a href={buildLogUrl}>#{buildId}</a> of <b>{appNameAndId}</b> has
+        been held for review because the app's metadata has changed. Check the
+        status of the review in the{" "}
         <a href={`https://flathub.org/apps/manage/${appId}`}>
           app developer settings
         </a>
-        . You'll receive another email when the changes are approved or
-        rejected.
+        .
       </Text>
-      <Heading as={"h2"}>Changes:</Heading>
+      <Text>
+        You'll receive another email when the changes are approved or rejected.
+      </Text>
       {requests.map((request, i) => (
         <ModerationRequestItem key={i} request={request} />
       ))}
