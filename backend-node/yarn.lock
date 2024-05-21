@@ -1525,6 +1525,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-email/render@npm:0.0.14":
+  version: 0.0.14
+  resolution: "@react-email/render@npm:0.0.14"
+  dependencies:
+    html-to-text: "npm:9.0.5"
+    js-beautify: "npm:^1.14.11"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+    react-promise-suspense: "npm:0.3.4"
+  checksum: 10c0/ac8dc750ee3fcfa6f50e6322910d6ef0ca5b7761bf2a522fd6a3cb54d24e3d8e86f6a046fd2e5899016617f93fd3b8eb2ee43db9257f92551c9c32b1e1edf227
+  languageName: node
+  linkType: hard
+
 "@react-email/row@npm:0.0.8":
   version: 0.0.8
   resolution: "@react-email/row@npm:0.0.8"
@@ -3063,6 +3076,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-deep-equal@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "fast-deep-equal@npm:2.0.1"
+  checksum: 10c0/1602e0d6ed63493c865cc6b03f9070d6d3926e8cd086a123060b58f80a295f3f08b1ecfb479ae7c45b7fd45535202aea7cf5b49bc31bffb81c20b1502300be84
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -4456,6 +4476,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-promise-suspense@npm:0.3.4":
+  version: 0.3.4
+  resolution: "react-promise-suspense@npm:0.3.4"
+  dependencies:
+    fast-deep-equal: "npm:^2.0.1"
+  checksum: 10c0/ab7a22f5400f9e9933995537bf6430a4c79e33a121aedb51864968e7604e5c40421fd539ead62554f32300b7d49755c79636de06caa36fe52973b626b4ddfebf
+  languageName: node
+  linkType: hard
+
 "react-remove-scroll-bar@npm:^2.3.3":
   version: 2.3.6
   resolution: "react-remove-scroll-bar@npm:2.3.6"
@@ -4628,7 +4657,7 @@ __metadata:
     "@hono/swagger-ui": "npm:0.2.2"
     "@hono/zod-openapi": "npm:^0.12.1"
     "@react-email/components": "npm:0.0.17"
-    "@react-email/render": "npm:0.0.13"
+    "@react-email/render": "npm:0.0.14"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/swagger-ui-dist": "npm:^3.30.4"
