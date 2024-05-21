@@ -22,13 +22,13 @@ const AdminLayout = ({
 
   const adminNavigation = [
     {
-      name: "Moderation Dashboard",
+      name: "Moderation",
       href: "/admin/moderation",
       condition: (user: UserInfo) =>
         user?.permissions.some((a) => a === Permission.moderation),
     },
     {
-      name: "Quality Moderation Dashboard",
+      name: "Quality Moderation",
       href: "/admin/quality-moderation",
       condition: (user: UserInfo) =>
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
