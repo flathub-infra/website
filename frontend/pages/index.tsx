@@ -92,20 +92,27 @@ const TopSection = ({
     topApps[0].name,
   )
 
+  const [selectedApps, setSelectedApps] = useState<{
+    name: string
+    apps: MeilisearchResponse<AppsIndex>
+    moreLink: string
+  }>()
+
   useEffect(() => {
-    if (selectedIndex >= 0 && selectedIndex < topApps.length)
-      setSelectedName(topApps[selectedIndex].name)
-    else {
-      setSelectedIndex(0)
+    const foundSelectedApps = topApps.find(
+      (sectionData) => sectionData.name === selectedName,
+    )
+    if (foundSelectedApps) {
+      setSelectedApps(foundSelectedApps)
+    } else {
+      setSelectedApps(topApps[0])
       setSelectedName(topApps[0].name)
     }
-  }, [topApps])
+  }, [topApps, selectedName, setSelectedName])
 
-  const selectedApps = topApps.find(
-    (sectionData) => sectionData.name === selectedName,
-  )
-
-  if (!selectedApps) return undefined
+  if (!selectedApps) {
+    return undefined
+  }
 
   return (
     <ApplicationSection
@@ -125,7 +132,6 @@ const TopSection = ({
               selected: x.name === selectedName,
               onClick: () => {
                 setSelectedName(x.name)
-                setSelectedIndex(index)
               },
             }))}
             size={"lg"}
