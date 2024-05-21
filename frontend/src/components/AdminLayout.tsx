@@ -56,6 +56,7 @@ const AdminLayout = ({
             "col-start-2",
             "row-start-1",
             "lg:hidden",
+            adminNavigation.length === 1 && "hidden",
           )}
           items={adminNavigation.map((item) => ({
             id: item.name,
@@ -67,7 +68,8 @@ const AdminLayout = ({
         />
         <aside
           className={clsx(
-            "lg:col-start-1 lg:row-start-1 lg:col-span-2 hidden lg:block",
+            "lg:col-start-1 lg:row-start-1 lg:col-span-2 hidden",
+            adminNavigation.length > 1 && "lg:block",
           )}
         >
           <nav className="flex flex-1 flex-col" aria-label="Sidebar">
@@ -93,7 +95,10 @@ const AdminLayout = ({
 
         <main
           className={clsx(
-            "col-span-10 col-start-2 lg:col-span-10 lg:col-start-3 lg:row-span-2 lg:row-start-1",
+            "",
+            adminNavigation.length === 1
+              ? "col-span-12"
+              : "col-span-10 lg:col-span-10 col-start-2 lg:col-start-3 lg:row-span-2 lg:row-start-1",
           )}
         >
           {children}
