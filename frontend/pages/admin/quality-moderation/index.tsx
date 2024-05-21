@@ -227,11 +227,9 @@ export default function QualityModerationDashboard() {
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="Quality Moderation Dashboard" noindex />
+      <NextSeo title="Quality Moderation" noindex />
       <>
-        <h1 className="my-8 text-4xl font-extrabold">
-          Quality Moderation Dashboard
-        </h1>
+        <h1 className="my-8 text-4xl font-extrabold">Quality Moderation</h1>
 
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
