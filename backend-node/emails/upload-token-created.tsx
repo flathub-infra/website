@@ -36,34 +36,34 @@ export const UploadTokenCreatedEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>
-        {issuedTo} has created a new upload token for {appNameAndId}.
+      <Text className="pb-4">
+        <b>{issuedTo}</b> has created a new upload token for{" "}
+        <b>{appNameAndId}</b>.
       </Text>
 
-      <ul>
-        <li>
-          <strong>Token name: </strong>
-          {comment}
-        </li>
+      <Text className="-mt-4">
+        <b>Token name: </b>
+        {comment}
+      </Text>
 
-        <li>
-          <strong>Scopes: </strong>
-          {scopes.join(", ")}
-        </li>
+      <Text className="-mt-4">
+        <b>Scopes: </b>
+        {scopes.join(", ")}
+      </Text>
 
-        <li>
-          <strong>Repos: </strong>
-          {repos.join(", ")}
-        </li>
+      <Text className="-mt-4">
+        <b>Repos: </b>
+        {repos.join(", ")}
+      </Text>
 
-        <li>
-          <strong>Expires: </strong>
-          {expiresAt}
-        </li>
-      </ul>
+      <Text className="-mt-4">
+        <b>Expires: </b>
+        {expiresAt}
+      </Text>
 
       <Text>
-        If you do not recognize this activity, please contact us immediately.
+        If you do not recognize this activity, please{" "}
+        <a href="mailto:admins@flathub.org">contact us</a> immediately.
       </Text>
     </Base>
   )

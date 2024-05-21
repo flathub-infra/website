@@ -29,7 +29,7 @@ export const DeveloperLeftEmail = ({
       appName={appName}
     >
       <Text>
-        {login} left the developer team of {appNameAndId}.
+        <b>{login}</b> left the developer team of <b>{appNameAndId}</b>.
       </Text>
     </Base>
   )

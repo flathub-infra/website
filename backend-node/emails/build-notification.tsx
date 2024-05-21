@@ -1,4 +1,4 @@
-import { Head, Heading, Section, Text } from "@react-email/components"
+import { Heading, Section, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 
 export interface BuildNotificationEmailProps {
@@ -177,9 +177,9 @@ const Diagnostic = ({
               different architecture than the
               {diagnostic.data?.expectedArch} ref:
             </Text>
-            <table>
+            <table className="w-full table-fixed text-xs">
               <thead>
-                <tr>
+                <tr className="text-left rtl:text-right">
                   <th>Path</th>
                   <th>Detected Architecture</th>
                 </tr>
@@ -187,10 +187,10 @@ const Diagnostic = ({
               <tbody>
                 {diagnostic.data?.executables?.map((file, i) => (
                   <tr key={i}>
-                    <td>
+                    <td className="align-top">
                       <code>{file.path}</code>
                     </td>
-                    <td>
+                    <td className="align-top">
                       {file.detectedArch} ({file.detectedArchCode})
                     </td>
                   </tr>
@@ -223,11 +223,6 @@ export const BuildNotificationEmail = ({
 }: BuildNotificationEmailProps) => {
   const appNameAndId = buildAppName(appId, appName)
 
-  const text = anyErrors
-    ? `Errors were detected during validation of build #${buildId} (${buildRepo}) for ${appNameAndId}. This build
-    may not be published. Please address the issues and upload a new build.`
-    : `Warnings were detected during validation of build #{{build_id}} for ${appNameAndId}.`
-
   return (
     <Base
       previewText={previewText}
@@ -236,7 +231,20 @@ export const BuildNotificationEmail = ({
       appId={appId}
       appName={appName}
     >
-      <Text>{text}</Text>
+      <Text>
+        {anyErrors ? (
+          <>
+            Errors were detected during validation of build #{buildId} (
+            {buildRepo}) for <b>{appNameAndId}</b>. This build may not be
+            published. Please address the issues and upload a new build.
+          </>
+        ) : (
+          <>
+            Warnings were detected during validation of build #{buildId} for{" "}
+            <b>{appNameAndId}</b>.
+          </>
+        )}
+      </Text>
       {anyErrors && (
         <Section>
           <Heading as={"h2"}>Errors</Heading>

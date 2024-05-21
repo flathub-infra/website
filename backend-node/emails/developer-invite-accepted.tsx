@@ -29,8 +29,8 @@ export const DeveloperInviteAcceptedEmail = ({
       appName={appName}
     >
       <Text>
-        {login} accepted their invite and is now a developer of {appNameAndId}{" "}
-        on Flathub.
+        <b>{login}</b> accepted their invite and is now a developer of{" "}
+        <b>{appNameAndId}</b> on Flathub.
       </Text>
     </Base>
   )
