@@ -166,10 +166,12 @@ export async function fetchSearchQuery(
   )
 }
 
-export async function fetchAddons(appid: string) {
+export async function fetchAddons(appid: string, locale: string) {
   const addonList = await getAddonsAddonAppIdGet(appid)
 
-  const addonAppstreams = await Promise.all(addonList.data.map(fetchAppstream))
+  const addonAppstreams = await Promise.all(
+    addonList.data.map((addon) => fetchAppstream(addon, locale)),
+  )
 
   const addonAppStats = await Promise.all(addonList.data.map(fetchAppStats))
 
