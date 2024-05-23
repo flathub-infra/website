@@ -124,7 +124,7 @@ const TopSection = ({
       appSelection={
         <>
           <MultiToggle
-            items={topApps.map((x, index) => ({
+            items={topApps.map((x) => ({
               id: x.name,
               content: (
                 <div className="font-semibold truncate">{t(x.name)}</div>
