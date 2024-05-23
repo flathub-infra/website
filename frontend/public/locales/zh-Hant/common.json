@@ -574,5 +574,9 @@
   "developers-and-users-block": "與團隊及其他社群成員聯絡，提出問題並分享您的專業知識",
   "special-license": "特殊授權條款",
   "special-license-explanation": "此應用程式是在 <1>{{ license }}</1> 特殊授權條款下開發的。",
-  "you-may-or-may-not-be-able-to-contribute": "您可能或可能無法對此應用程式做出貢獻。"
+  "you-may-or-may-not-be-able-to-contribute": "您可能或可能無法對此應用程式做出貢獻。",
+  "new-description": "過去幾天在 Flathub 發佈的新應用程式。",
+  "new-apps": "新應用程式",
+  "updated-description": "過去幾天在 Flathub 上更新的應用程式。",
+  "updated-apps": "已更新的應用程式"
 }

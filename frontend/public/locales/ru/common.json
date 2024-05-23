@@ -576,5 +576,9 @@
   "contact-for-press-inquiries": "Связаться для пресс-запросов",
   "you-may-or-may-not-be-able-to-contribute": "Вы можете не иметь возможности внести вклад в это приложение.",
   "special-license": "Специальная лицензия",
-  "special-license-explanation": "Это приложение разрабатывается под специальной лицензией <1>{{ license }}</1>."
+  "special-license-explanation": "Это приложение разрабатывается под специальной лицензией <1>{{ license }}</1>.",
+  "new-description": "Новые приложения, опубликованные на Flathub за последние несколько дней.",
+  "updated-description": "Приложения, обновлённые на Flathub за последние несколько дней.",
+  "updated-apps": "Обновлённые приложения",
+  "new-apps": "Новые приложения"
 }

@@ -575,5 +575,9 @@
   "developers-and-users-block": "Свържете се с нашия екип и другите членове от общността, за въпроси и споделяне на опит",
   "special-license": "Специален",
   "special-license-explanation": "Този софтуер се разработва под „<1>{{ license }}</1>“.",
-  "you-may-or-may-not-be-able-to-contribute": "Допринасянето към това приложение може да не е възможно."
+  "you-may-or-may-not-be-able-to-contribute": "Допринасянето към това приложение може да не е възможно.",
+  "updated-apps": "Обновени приложения",
+  "new-apps": "Нови приложения",
+  "updated-description": "Обновени приложения във „Flathub“ през последните няколко дни.",
+  "new-description": "Нови приложения във „Flathub“ през последните няколко дни."
 }

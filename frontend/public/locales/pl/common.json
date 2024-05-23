@@ -576,5 +576,9 @@
   "contact-for-press-inquiries": "Kontakt w sprawie zapytań prasowych",
   "special-license-explanation": "Ta aplikacja została opracowana na specjalnej licencji <1>{{ license }}</1>.",
   "special-license": "Licencja specjalna",
-  "you-may-or-may-not-be-able-to-contribute": "Możliwe, że będziesz w stanie współtworzyć tę aplikację."
+  "you-may-or-may-not-be-able-to-contribute": "Możliwe, że będziesz w stanie współtworzyć tę aplikację.",
+  "updated-description": "Aplikacje zaktualizowane na Flathub w ciągu ostatnich kilku dni.",
+  "new-description": "Nowe aplikacje opublikowane na Flathub w ciągu ostatnich kilku dni.",
+  "updated-apps": "Zaktualizowane aplikacje",
+  "new-apps": "Nowe aplikacje"
 }

@@ -575,5 +575,9 @@
   "press-description": "Wir freuen uns immer, Fragen zu beantworten und Interviews mit Journalisten und Tech-Autoren zu arrangieren",
   "you-may-or-may-not-be-able-to-contribute": "Beteiligung an diesem Projekt kann oder kann nicht möglich sein.",
   "special-license": "Besondere Lizenz",
-  "special-license-explanation": "Dieses App wird unter der besondere Lizenz <1>{{ license }}</1> entwickelt."
+  "special-license-explanation": "Dieses App wird unter der besondere Lizenz <1>{{ license }}</1> entwickelt.",
+  "new-description": "Neue Apps, die in den letzten Tagen auf Flathub veröffentlicht wurden.",
+  "new-apps": "Neue Apps",
+  "updated-description": "Apps, die in den letzten Tagen auf Flathub aktualisiert wurden.",
+  "updated-apps": "Aktualisierte Apps"
 }
