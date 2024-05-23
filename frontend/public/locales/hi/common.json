@@ -575,5 +575,9 @@
   "contact-for-press-inquiries": "प्रेस संबंधी पूछताछ के लिए संपर्क करें",
   "special-license": "विशेष लाइसेंस",
   "special-license-explanation": "यह ऐप विशेष लाइसेंस <1>{{ license }}</1> के तहत विकसित किया गया है।",
-  "you-may-or-may-not-be-able-to-contribute": "आप इस ऐप में योगदान दे भी सकते हैं और नहीं भी।"
+  "you-may-or-may-not-be-able-to-contribute": "आप इस ऐप में योगदान दे भी सकते हैं और नहीं भी।",
+  "updated-description": "पिछले कुछ दिनों में Flathub पर अद्यतित किए गए ऐप्स।",
+  "new-description": "पिछले कुछ दिनों में Flathub पर प्रकाशित हुए नए ऐप्स।",
+  "updated-apps": "अद्यतित ऐप्स",
+  "new-apps": "नए ऐप्स"
 }
