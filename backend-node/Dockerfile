@@ -2,8 +2,9 @@ FROM node:20
 
 WORKDIR /app
 
-COPY package.json yarn.lock tsconfig.json ./
+COPY package.json yarn.lock tsconfig.json .yarnrc.yml ./
 
+COPY .yarn ./.yarn
 COPY emails ./emails
 COPY src ./src
 
