@@ -575,5 +575,9 @@
   "developers-and-users-block": "Konektu kun la administrantoj kaj aliaj komunumanoj por demandi kaj disdoni viajn sciojn",
   "special-license": "Speciala Licenco",
   "special-license-explanation": "Ĉi tiu programo estas evolugata laŭ la speciala licenco <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Vi eble rajtas aŭ eble ne rajtas kontribui por ĉi tiu programo."
+  "you-may-or-may-not-be-able-to-contribute": "Vi eble rajtas aŭ eble ne rajtas kontribui por ĉi tiu programo.",
+  "updated-apps": "Ĝisdatigitaj programoj",
+  "new-apps": "Novaj programoj",
+  "updated-description": "Programoj ĝisdatigitaj ĉe Flathub dum la lastaj kelkaj tagoj.",
+  "new-description": "Novaj programoj eldonitaj ĉe Flathub dum la lastaj kelkaj tagoj."
 }

@@ -502,5 +502,12 @@
   "developers-and-users": "Arendajad ja kasutajad",
   "developers-and-users-block": "Otsimaks vastusi oma küsimustele ja jagamaks oma kogemusi, suhtle meie arendustiimiga ja teiste kogukonna liikmetega",
   "special-license-explanation": "Seda rakendust on arendatud spetsiaalse <1>{{ license }}</1> litsentsi alusel.",
-  "special-license": "Spetsiaalne litsents"
+  "special-license": "Spetsiaalne litsents",
+  "cannot-abandon-app": "Seda rakendust ei saa hüljata",
+  "updated-description": "Viimase paari päeva jooksul uuendatud rakendused Flathubis.",
+  "new-apps": "Uued rakendused",
+  "app-of-the-day": "Tänase päeva rakendus",
+  "updated-apps": "Uuendatud rakendused",
+  "new-description": "Viimase paari päeva jooksul Flathubis avaldatud uued rakendused.",
+  "you-may-or-may-not-be-able-to-contribute": "Sa võib-olla saad teha sellele rakendusele kaastööd, aga võib-olla mitte."
 }

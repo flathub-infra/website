@@ -8,7 +8,7 @@
   "publish": "Julkaise",
   "forum": "Foorumi",
   "about": "Tietoja",
-  "about-pagename": "Tietoja Flathubista",
+  "about-pagename": "Tietoja Flathubista - Linux-sovelluskaupasta",
   "rss-feeds": "RSS-syötteet",
   "community": "Yhteisö",
   "publish-your-app": "Julkaise sovelluksesi",
@@ -99,7 +99,7 @@
   "languages-summary": "Valitse kieli, jolla haluat sivuston näytettävän.",
   "user-avatar": "Käyttäjän {{user}} avatar",
   "acknowledgements-block": "<p>Flathub ei olisi mahdollinen ilman seuraavien organisaatioiden ja yksilöiden tukea.</p>",
-  "about-description": "Flathubin tavoite on olla Linux-sovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa Flatpak, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.",
+  "about-description": "Flathub on Linux-sovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa Flatpak, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.",
   "submitting-apps-block": "<0>Sovelluskehittäjät voivat <2>lähettää sovelluksensa</2> jaettavaksi Flathubin kasvavalle käyttäjäkunnalle, samalla saavuttaen yhdyskäytävän Linux-työpöydän ekosysteemille.</0><p>Tällä hetkellä sovellusten tulee olla lisenssiehtojen mukaisesti uudelleenjaeltavissa tai saatavilla kolmannen osapuolen latausmahdollisuuden kautta. Jos olet suljetun ohjelmiston sovelluskehittäjä ja olet kiinnostunut Flathubin käyttämisestä, ole yhteydessä.</p>",
   "about-block": "<0>Flathub on Linux-työpöytäsovellusten keskeinen lataus- ja jakelupiste. Toiminnan mahdollistaa <1>Flatpak</1>, minkä ansiosta Flathubissa olevia sovelluksia on mahdollista suoritaa melkein millä tahansa Linux-jakelulla.</0><1>Käytä Flathubia saadaksesi pääsyn laajaan valikoimaan Flatpak-sovelluksia. Seuraa <2>asetusohjeita</2>.</1>",
   "payment": "Maksu",
@@ -572,5 +572,11 @@
   "individual-contributors": "Yksittäiset avustajat",
   "get-in-touch": "Ota yhteyttä",
   "developers-and-users": "Kehittäjät ja käyttäjät",
-  "contact-for-press-inquiries": "Yhteydenotto lehdistölle"
+  "contact-for-press-inquiries": "Yhteydenotto lehdistölle",
+  "updated-description": "Sovellukset, jotka on päivitetty Flathubiin parin viimeisen päivän aikana.",
+  "new-description": "Uudet sovellukset, jotka on julkaistu Flathubiin parin viimeisen päivän aikana.",
+  "new-apps": "Uudet sovellukset",
+  "updated-apps": "Päivitetyt sovellukset",
+  "special-license": "Erikoislisenssi",
+  "special-license-explanation": "Tätä sovellusta kehitetään erikoislisenssin <1>{{ license }}</1> ehtojen mukaisesti."
 }
