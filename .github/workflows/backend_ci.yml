@@ -70,15 +70,6 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Build Docker backend-node image
-        uses: docker/build-push-action@v5
-        with:
-          context: backend-node
-          tags: backend-node
-          load: true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
       - name: Execute smoke tests
         run: |
           docker compose --env-file .env.ci up --no-build -d
