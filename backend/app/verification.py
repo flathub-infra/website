@@ -135,8 +135,14 @@ def _get_domain_name(app_id: str) -> str | None:
         # https://sourceforge.net/p/forge/documentation/Project%20Web%20Services/
         return f"{projectname}.{domain}.io".lower()
     else:
-        [tld, domain] = app_id.split(".")[0:2]
-        domain = _demangle_name(domain)
+        compons = app_id.split(".")
+        compons.pop(-1) # remove the app name
+
+        domain = _demangle_name(compons.pop(-1))
+
+        compons.reverse()
+        tld = ".".join(compons)
+
         return f"{domain}.{tld}".lower()
 
 
