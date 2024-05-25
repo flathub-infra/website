@@ -52,7 +52,7 @@ export const AppOfTheDay = ({
           {t("app-of-the-day")}
         </div>
         <div className="flex flex-col gap-2 py-8 col-start-1 row-start-2">
-          <span className="text-2xl truncate font-extrabold">
+          <span className="text-2xl break-words font-extrabold">
             {appOfTheDay.name}
           </span>
           <span className={clsx("line-clamp-2 text-sm", "lg:line-clamp-3")}>
