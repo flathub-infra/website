@@ -139,10 +139,7 @@ def get_appstream(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
-    locale: str = "en",
 ):
-    ## TODO: Use locale to return the correct language - but fallback to english if not available
-
     if value := db.get_json_key(f"apps:{app_id}"):
         return value
 
