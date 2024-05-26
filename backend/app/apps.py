@@ -92,7 +92,7 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream(sqldb) -> None:
-    apps, apps_locale = utils.appstream2dict()
+    apps = utils.appstream2dict()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_types = db.redis_conn.smembers("types:index")
@@ -137,9 +137,6 @@ def load_appstream(sqldb) -> None:
                     "type": type,
                 }
             )
-            for key, value in apps_locale.items():
-                if app_id in value:
-                    p.set(f"apps_locale:{app_id}:{key}", json.dumps(value[app_id]))
 
         search.create_or_update_apps(search_apps)
 
@@ -154,7 +151,6 @@ def load_appstream(sqldb) -> None:
         for app_id in current_apps - set(apps):
             p.delete(
                 f"apps:{app_id}",
-                f"apps_locale:{app_id}",
                 f"summary:{app_id}",
                 f"app_stats:{app_id}",
             )
