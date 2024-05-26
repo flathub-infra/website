@@ -39,7 +39,6 @@ export default function Details({
   verificationStatus,
   eolMessage,
   addons,
-  locale,
 }: {
   app: DesktopAppstream
   summary?: Summary
@@ -48,7 +47,6 @@ export default function Details({
   verificationStatus: VerificationStatus
   eolMessage: string
   addons: AddonAppstream[]
-  locale: string
 }) {
   const { t } = useTranslation()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -66,7 +64,7 @@ export default function Details({
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}?locale=${locale}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}`,
               height: 628,
               width: 1200,
               alt: app?.name,
@@ -171,7 +169,6 @@ export const getStaticProps: GetStaticProps = async ({
       verificationStatus,
       eolMessage,
       addons,
-      locale,
     },
     revalidate: 900,
   }
