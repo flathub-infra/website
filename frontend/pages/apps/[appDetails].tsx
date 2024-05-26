@@ -36,6 +36,7 @@ export default function Details({
   verificationStatus,
   eolMessage,
   addons,
+  locale,
 }: {
   app: DesktopAppstream
   summary?: Summary
@@ -44,6 +45,7 @@ export default function Details({
   verificationStatus: VerificationStatus
   eolMessage: string
   addons: AddonAppstream[]
+  locale: string
 }) {
   const { t } = useTranslation()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -61,7 +63,7 @@ export default function Details({
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}?locale=${locale}`,
               height: 628,
               width: 1200,
               alt: app?.name,
@@ -132,7 +134,7 @@ export const getStaticProps: GetStaticProps = async ({
   }
 
   let eolMessage: string = null
-  const app = await fetchAppstream(appId as string)
+  const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {
     eolMessage = await fetchEolMessage(appId as string)
@@ -151,7 +153,7 @@ export const getStaticProps: GetStaticProps = async ({
       ? await fetchDeveloperApps(app.developer_name)
       : undefined
   const verificationStatus = await fetchVerificationStatus(appId as string)
-  const addons = await fetchAddons(appId as string)
+  const addons = await fetchAddons(appId as string, locale)
 
   return {
     props: {
@@ -163,6 +165,7 @@ export const getStaticProps: GetStaticProps = async ({
       verificationStatus,
       eolMessage,
       addons,
+      locale,
     },
     revalidate: 900,
   }
