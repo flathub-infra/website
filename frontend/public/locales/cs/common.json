@@ -576,5 +576,9 @@
   "developers-and-users-block": "Spojte se s týmem a ostatními členy komunity, pokládejte otázky a sdílejte své zkušenosti",
   "special-license": "Zvláštní licence",
   "special-license-explanation": "Tato aplikace je vydána pod zvláštní licencí <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Možná můžete, ale i nemusíte přispívat do této aplikace."
+  "you-may-or-may-not-be-able-to-contribute": "Možná můžete, ale i nemusíte přispívat do této aplikace.",
+  "new-description": "Aplikace publikované na Flathubu v posledních dnech.",
+  "updated-apps": "Aktualizované aplikace",
+  "new-apps": "Nové aplikace",
+  "updated-description": "Aplikace aktualizované na Flathubu v posledních dnech."
 }
