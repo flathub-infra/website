@@ -535,7 +535,7 @@ const SearchPanel = ({
   )
 }
 
-export default function Search() {
+export default function Search({ locale }) {
   const { t } = useTranslation()
   const { trackSiteSearch } = useMatomo()
 
@@ -562,15 +562,17 @@ export default function Search() {
   const search = useQuery({
     queryKey: ["search", q, selectedFilters],
     queryFn: async () => {
-      return fetchSearchQuery(q as string, selectedFilters).then((res) => {
-        if (q.length > 0) {
-          trackSiteSearch({
-            keyword: q,
-            count: res.data.estimatedTotalHits,
-          })
-        }
-        return res
-      })
+      return fetchSearchQuery(q as string, locale, selectedFilters).then(
+        (res) => {
+          if (q.length > 0) {
+            trackSiteSearch({
+              keyword: q,
+              count: res.data.estimatedTotalHits,
+            })
+          }
+          return res
+        },
+      )
     },
   })
 
@@ -601,6 +603,7 @@ export async function getServerSideProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
   }
 }

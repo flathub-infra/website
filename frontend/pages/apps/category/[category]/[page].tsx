@@ -98,6 +98,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   const applications = await fetchCategory(
     category,
+    locale,
     params.page as unknown as number,
     30,
   )

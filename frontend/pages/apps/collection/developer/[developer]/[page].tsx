@@ -48,6 +48,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   const applications = await fetchDeveloperApps(
     params.developer as string,
+    locale,
     params.page as unknown as number,
     30,
   )
