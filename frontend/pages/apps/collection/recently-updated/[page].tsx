@@ -47,6 +47,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     "recently-updated",
     params.page as unknown as number,
     30,
+    locale,
   )
 
   if (applications.page > applications.totalPages) {

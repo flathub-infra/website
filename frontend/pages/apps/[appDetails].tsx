@@ -150,7 +150,7 @@ export const getStaticProps: GetStaticProps = async ({
   const stats = await fetchAppStats(appId as string)
   const developerApps =
     app && app.type !== "addon"
-      ? await fetchDeveloperApps(app.developer_name)
+      ? await fetchDeveloperApps(app.developer_name, locale)
       : undefined
   const verificationStatus = await fetchVerificationStatus(appId as string)
   const addons = await fetchAddons(appId as string, locale)

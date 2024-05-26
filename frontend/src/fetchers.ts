@@ -173,23 +173,24 @@ export default async function fetchCollection(
     | "trending",
   page?: number,
   per_page?: number,
+  locale?: string,
 ): Promise<MeilisearchResponse<AppsIndex>> {
   let collectionURL: string = ""
   switch (collection) {
     case "popular":
-      collectionURL = POPULAR_LAST_MONTH_URL(page, per_page)
+      collectionURL = POPULAR_LAST_MONTH_URL(page, per_page, locale)
       break
     case "recently-updated":
-      collectionURL = RECENTLY_UPDATED_URL(page, per_page)
+      collectionURL = RECENTLY_UPDATED_URL(page, per_page, locale)
       break
     case "recently-added":
-      collectionURL = RECENTLY_ADDED_URL(page, per_page)
+      collectionURL = RECENTLY_ADDED_URL(page, per_page, locale)
       break
     case "verified":
-      collectionURL = VERIFIED_APPS_URL(page, per_page)
+      collectionURL = VERIFIED_APPS_URL(page, per_page, locale)
       break
     case "trending":
-      collectionURL = TRENDING_LAST_TWO_WEEKS_URL(page, per_page)
+      collectionURL = TRENDING_LAST_TWO_WEEKS_URL(page, per_page, locale)
       break
     default:
       collectionURL = ""
@@ -212,10 +213,11 @@ export default async function fetchCollection(
 
 export async function fetchCategory(
   category: keyof typeof Category,
+  locale: string,
   page?: number,
   per_page?: number,
 ): Promise<MeilisearchResponse<AppsIndex>> {
-  const appListRes = await fetch(CATEGORY_URL(category, page, per_page))
+  const appListRes = await fetch(CATEGORY_URL(category, page, per_page, locale))
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
   console.log(
@@ -228,11 +230,12 @@ export async function fetchCategory(
 export async function fetchSubcategory(
   category: keyof typeof Category,
   subcategory: string,
+  locale: string,
   page?: number,
   per_page?: number,
 ): Promise<MeilisearchResponse<AppsIndex>> {
   const appListRes = await fetch(
-    SUBCATEGORY_URL(category, subcategory, page, per_page),
+    SUBCATEGORY_URL(category, subcategory, page, per_page, locale),
   )
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
@@ -245,6 +248,7 @@ export async function fetchSubcategory(
 
 export async function fetchDeveloperApps(
   developer: string | undefined,
+  locale: string,
   page?: number,
   per_page?: number,
 ): Promise<MeilisearchResponse<AppsIndex>> {
@@ -253,7 +257,9 @@ export async function fetchDeveloperApps(
     return null
   }
   console.log(`Fetching apps for developer ${developer}`)
-  const appListRes = await fetch(DEVELOPER_URL(developer, page, per_page))
+  const appListRes = await fetch(
+    DEVELOPER_URL(developer, page, per_page, locale),
+  )
   if (!appListRes || appListRes.status === 404) {
     console.log(`No apps for developer ${developer}`)
     return null
@@ -268,13 +274,14 @@ export async function fetchDeveloperApps(
 
 export async function fetchSearchQuery(
   query: string,
+  locale: string,
   selectedFilters: {
     filterType: string
     value: string
   }[],
 ) {
   return axios.post<MeilisearchResponseLimited<AppsIndex>>(
-    SEARCH_APP,
+    SEARCH_APP(locale),
     {
       query: query,
       filters: selectedFilters,

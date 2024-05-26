@@ -277,14 +277,21 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     "recently-updated",
     1,
     APPS_IN_PREVIEW_COUNT * 2,
+    locale,
   )
   const popular = await fetchCollection("popular", 1, APPS_IN_PREVIEW_COUNT)
   const recentlyAdded = await fetchCollection(
     "recently-added",
     1,
     APPS_IN_PREVIEW_COUNT,
+    locale,
   )
-  const trending = await fetchCollection("trending", 1, APPS_IN_PREVIEW_COUNT)
+  const trending = await fetchCollection(
+    "trending",
+    1,
+    APPS_IN_PREVIEW_COUNT,
+    locale,
+  )
 
   let topAppsByCategory: {
     category: Category
@@ -295,7 +302,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     async (category: Category) => {
       return {
         category,
-        apps: await fetchCategory(category, 1, 6),
+        apps: await fetchCategory(category, locale, 1, 6),
       }
     },
   )
@@ -321,7 +328,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   )
 
   const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.apps.map(async (app) => fetchAppstream(app.app_id, "en")),
+    heroBannerApps.apps.map(async (app) => fetchAppstream(app.app_id, locale)),
   )
 
   const heroBannerData = heroBannerApps.apps.map((app) => {
@@ -331,7 +338,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
   })
 
-  const appOfTheDayAppstream = await fetchAppstream(appOfTheDay.app_id, "en")
+  const appOfTheDayAppstream = await fetchAppstream(appOfTheDay.app_id, locale)
 
   return {
     props: {
