@@ -111,29 +111,19 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
         screenshots = component.find("screenshots")
         if screenshots is not None:
             app["screenshots"] = []
-            for i, screenshot in enumerate(screenshots):
+            for screenshot in screenshots:
                 attrs = {}
 
                 if component.attrib.get("type") == "desktop-application":
                     for caption in screenshot.findall("caption"):
-                        if caption is not None:
-                            if (
-                                caption.attrib.get(
-                                    "{http://www.w3.org/XML/1998/namespace}lang"
-                                )
-                                is None
-                            ):
-                                attrs["caption"] = caption.text
-                            else:
-                                add_translation(
-                                    apps_locale,
-                                    desc.get(
-                                        "{http://www.w3.org/XML/1998/namespace}lang"
-                                    ),
-                                    appid,
-                                    f"screenshots_caption_{i}",
-                                    "".join(caption.text),
-                                )
+                        if (
+                            caption is not None
+                            and caption.attrib.get(
+                                "{http://www.w3.org/XML/1998/namespace}lang"
+                            )
+                            is None
+                        ):
+                            attrs["caption"] = caption.text
 
                 if screenshot.attrib.get("type") == "default":
                     attrs["default"] = True
