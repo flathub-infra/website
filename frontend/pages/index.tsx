@@ -303,9 +303,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   )
 
   const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.data.apps.map(async (app) =>
-      fetchAppstream(app.app_id, "en"),
-    ),
+    heroBannerApps.data.apps.map(async (app) => fetchAppstream(app.app_id)),
   ).then((apps) => apps.map((app) => app.data))
 
   const heroBannerData = heroBannerApps.data.apps.map((app) => {
@@ -317,7 +315,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   const appOfTheDayAppstream = await fetchAppstream(
     appOfTheDay.data.app_id,
-    "en",
   ).then((app) => app.data)
 
   return {

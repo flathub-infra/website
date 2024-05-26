@@ -92,7 +92,7 @@ export default async function handler(
   const appId = req.query.appId as string
 
   const app: DesktopAppstream = await (
-    await fetchAppstream(appId as string, locale as string)
+    await fetchAppstream(appId as string)
   ).data
 
   if (!app) {
