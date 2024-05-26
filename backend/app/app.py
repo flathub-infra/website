@@ -139,9 +139,24 @@ def get_appstream(
         pattern=r"^[A-Za-z_][\w\-\.]+$",
         examples=["org.gnome.Glade"],
     ),
+    locale: str = "en",
 ):
     if value := db.get_json_key(f"apps:{app_id}"):
-        return value
+        choosen_locale = locale
+        possible_keys = db.search_by_key(f"apps_locale:{app_id}:{locale}*")
+
+        if len(possible_keys) > 0:
+            choosen_locale = possible_keys[0].split(":")[-1]
+
+        if translation := db.get_json_key(f"apps_locale:{app_id}:{choosen_locale}"):
+            for key in translation:
+                if key.startswith("screenshots_caption_"):
+                    number = int(key.split("_")[-1])
+                    value["screenshots"][number - 1]["caption"] = translation[key]
+
+            return value | translation
+        else:
+            return value
 
     response.status_code = 404
     return None
