@@ -27,7 +27,6 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
       const getAppOfTheDayInfo = await fetchAppstream(
         getAppsOfTheDay.data.app_id,
-        "en",
       )
 
       return getAppOfTheDayInfo
