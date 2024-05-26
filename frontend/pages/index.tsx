@@ -137,9 +137,7 @@ const TopSection = ({
                 <div className="font-semibold truncate">{t(x.name)}</div>
               ),
               selected: x.name === selectedName,
-              onClick: () => {
-                setSelectedName(x.name)
-              },
+              onClick: () => setSelectedName(x.name),
             }))}
             size={"lg"}
             variant="secondary"
