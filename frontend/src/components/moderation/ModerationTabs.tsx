@@ -63,10 +63,7 @@ const ModerationTabs: FunctionComponent = () => {
 
       return {
         apps: apps.data,
-        appstream: await getAppsInfo(
-          apps.data.apps.map((app) => app.appid),
-          "en",
-        ),
+        appstream: await getAppsInfo(apps.data.apps.map((app) => app.appid)),
       }
     },
   })

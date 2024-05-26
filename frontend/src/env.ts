@@ -3,8 +3,7 @@ import { Category } from "./types/Category"
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
 export const APPSTREAM_URL: string = `${BASE_URI}/appstream`
-export const APP_DETAILS = (id: string, locale: string): string =>
-  `${APPSTREAM_URL}/${id}?locale=${locale}`
+export const APP_DETAILS = (id: string): string => `${APPSTREAM_URL}/${id}`
 export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
