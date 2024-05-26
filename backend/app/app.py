@@ -24,6 +24,7 @@ def get_category(
     category: schemas.MainCategory,
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -32,7 +33,7 @@ def get_category(
         response.status_code = 400
         return response
 
-    result = search.get_by_selected_categories([category], page, per_page)
+    result = search.get_by_selected_categories([category], page, per_page, locale)
 
     return result
 
@@ -43,6 +44,7 @@ def get_subcategory(
     subcategory: str,
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -52,7 +54,7 @@ def get_subcategory(
         return response
 
     result = search.get_by_selected_category_and_subcategory(
-        category, subcategory, page, per_page
+        category, subcategory, page, per_page, locale
     )
 
     return result
@@ -68,6 +70,7 @@ def get_developer(
     developer: str,
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -76,7 +79,7 @@ def get_developer(
         response.status_code = 400
         return response
 
-    result = search.get_by_developer(developer, page, per_page)
+    result = search.get_by_developer(developer, page, per_page, locale)
 
     return result
 
@@ -169,8 +172,8 @@ def get_isFullscreenApp(
 
 
 @router.post("/search", tags=["app"])
-def post_search(query: search.SearchQuery):
-    return search.search_apps_post(query)
+def post_search(query: search.SearchQuery, locale: str = "en"):
+    return search.search_apps_post(query, locale)
 
 
 @router.get("/runtimes", tags=["app"])
@@ -182,6 +185,7 @@ def get_runtime_list() -> dict[str, int]:
 def get_recently_updated(
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -190,7 +194,7 @@ def get_recently_updated(
         response.status_code = 400
         return response
 
-    result = search.get_by_updated_at(page, per_page)
+    result = search.get_by_updated_at(page, per_page, locale)
 
     return result
 
@@ -199,6 +203,7 @@ def get_recently_updated(
 def get_recently_added(
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -207,7 +212,7 @@ def get_recently_added(
         response.status_code = 400
         return response
 
-    result = search.get_by_added_at(page, per_page)
+    result = search.get_by_added_at(page, per_page, locale)
 
     return result
 
@@ -216,6 +221,7 @@ def get_recently_added(
 def get_verified(
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -224,7 +230,7 @@ def get_verified(
         response.status_code = 400
         return response
 
-    result = search.get_by_verified(page, per_page)
+    result = search.get_by_verified(page, per_page, locale)
 
     return result
 
@@ -233,6 +239,7 @@ def get_verified(
 def get_popular_last_month(
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -241,7 +248,7 @@ def get_popular_last_month(
         response.status_code = 400
         return response
 
-    result = search.get_by_installs_last_month(page, per_page)
+    result = search.get_by_installs_last_month(page, per_page, locale)
 
     return result
 
@@ -250,6 +257,7 @@ def get_popular_last_month(
 def get_trending_last_two_weeks(
     page: int | None = None,
     per_page: int | None = None,
+    locale: str = "en",
     response: Response = Response(),
 ):
     if (page is None and per_page is not None) or (
@@ -258,7 +266,7 @@ def get_trending_last_two_weeks(
         response.status_code = 400
         return response
 
-    result = search.get_by_trending(page, per_page)
+    result = search.get_by_trending(page, per_page, locale)
 
     return result
 

@@ -136,7 +136,7 @@ def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
                         totals_country[country] = 0
                     totals_country[country] = totals_country[country] + downloads
 
-    totals = search.search_apps_post(search.SearchQuery(query="", filters=None))
+    totals = search.search_apps_post(search.SearchQuery(query="", filters=None), "en")
 
     return {
         "countries": totals_country,
