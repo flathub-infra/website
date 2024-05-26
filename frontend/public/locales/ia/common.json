@@ -570,5 +570,9 @@
   "join-discourse-forum": "Junge te al foro de Discourse",
   "special-license": "Licentia special",
   "special-license-explanation": "Iste application es disveloppate sub le licentia special <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Tu pote o non pote contribuer a iste application."
+  "you-may-or-may-not-be-able-to-contribute": "Tu pote o non pote contribuer a iste application.",
+  "updated-description": "Applicationes actualisate in Flathub in le ultime dies.",
+  "updated-apps": "Applicationes actualisate",
+  "new-apps": "Nove applicationes",
+  "new-description": "Nove applicationes publicate in Flathub in le ultime dies."
 }
