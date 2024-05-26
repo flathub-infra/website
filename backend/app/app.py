@@ -141,17 +141,10 @@ def get_appstream(
     ),
     locale: str = "en",
 ):
+    ## TODO: Use locale to return the correct language - but fallback to english if not available
+
     if value := db.get_json_key(f"apps:{app_id}"):
-        choosen_locale = locale
-        possible_keys = db.search_by_key(f"apps_locale:{app_id}:{locale}*")
-
-        if len(possible_keys) > 0:
-            choosen_locale = possible_keys[0].split(":")[-1]
-
-        if translation := db.get_json_key(f"apps_locale:{app_id}:{choosen_locale}"):
-            return value | translation
-        else:
-            return value
+        return value
 
     response.status_code = 404
     return None
