@@ -25,7 +25,6 @@ import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
 import { useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
-import { useLocalStorage } from "src/hooks/useLocalStorage"
 
 const categoryOrder = [
   Category.Office,
@@ -87,10 +86,7 @@ const TopSection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedName, setSelectedName] = useLocalStorage<string>(
-    "landing-selected-category",
-    topApps[0].name,
-  )
+  const [selectedName, setSelectedName] = useState("")
 
   const [selectedApps, setSelectedApps] = useState<{
     name: string
@@ -99,16 +95,27 @@ const TopSection = ({
   }>()
 
   useEffect(() => {
-    const foundSelectedApps = topApps.find(
-      (sectionData) => sectionData.name === selectedName,
-    )
-    if (foundSelectedApps) {
-      setSelectedApps(foundSelectedApps)
+    const category = window.location.hash.substring(1)
+    if (category) {
+      setSelectedName(category)
     } else {
-      setSelectedApps(topApps[0])
       setSelectedName(topApps[0].name)
     }
-  }, [topApps, selectedName, setSelectedName])
+  }, [topApps])
+
+  useEffect(() => {
+    if (selectedName.length > 0) {
+      const foundSelectedApps = topApps.find(
+        (sectionData) => sectionData.name === selectedName,
+      )
+      if (foundSelectedApps) {
+        setSelectedApps(foundSelectedApps)
+        window.location.hash = selectedName
+      } else {
+        setSelectedApps(topApps[0])
+      }
+    }
+  }, [selectedName, topApps])
 
   if (!selectedApps) {
     return undefined
