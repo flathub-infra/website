@@ -86,7 +86,7 @@ const TopSection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedName, setSelectedName] = useState("")
+  const [selectedName, setSelectedName] = useState<string>()
 
   const [selectedApps, setSelectedApps] = useState<{
     name: string
@@ -104,7 +104,7 @@ const TopSection = ({
   }, [topApps])
 
   useEffect(() => {
-    if (selectedName.length > 0) {
+    if (selectedName) {
       const foundSelectedApps = topApps.find(
         (sectionData) => sectionData.name === selectedName,
       )
