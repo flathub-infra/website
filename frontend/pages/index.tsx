@@ -25,6 +25,7 @@ import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
 import { useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
+import { useRouter } from "next/router"
 
 const categoryOrder = [
   Category.Office,
@@ -86,7 +87,11 @@ const TopSection = ({
 }) => {
   const { t } = useTranslation()
 
-  const [selectedName, setSelectedName] = useState<string>()
+  const router = useRouter()
+
+  const [selectedName, setSelectedName] = useState<string>(
+    router?.query?.category?.toString() || topApps[0].name,
+  )
 
   const [selectedApps, setSelectedApps] = useState<{
     name: string
@@ -95,26 +100,16 @@ const TopSection = ({
   }>()
 
   useEffect(() => {
-    const category = window.location.hash.substring(1)
-    if (category) {
-      setSelectedName(category)
-    } else {
-      setSelectedName(topApps[0].name)
+    if (router?.query?.category) {
+      setSelectedName(router.query.category.toString())
     }
-  }, [topApps])
+  }, [router?.query?.category])
 
   useEffect(() => {
-    if (selectedName) {
-      const foundSelectedApps = topApps.find(
-        (sectionData) => sectionData.name === selectedName,
-      )
-      if (foundSelectedApps) {
-        setSelectedApps(foundSelectedApps)
-        window.location.hash = selectedName
-      } else {
-        setSelectedApps(topApps[0])
-      }
-    }
+    const foundApps = topApps.find(
+      (sectionData) => sectionData.name === selectedName,
+    )
+    setSelectedApps(foundApps)
   }, [selectedName, topApps])
 
   if (!selectedApps) {
@@ -137,7 +132,10 @@ const TopSection = ({
                 <div className="font-semibold truncate">{t(x.name)}</div>
               ),
               selected: x.name === selectedName,
-              onClick: () => setSelectedName(x.name),
+              onClick: () => {
+                router.query.category = x.name
+                router.push({ query: router.query })
+              },
             }))}
             size={"lg"}
             variant="secondary"
