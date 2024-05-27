@@ -11,7 +11,7 @@ import { IS_PRODUCTION } from "src/env"
 import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../../src/context/user-info"
-import { fetchAppstream } from "../../../../src/fetchers"
+import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
@@ -22,12 +22,10 @@ import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
 import {
-  getGlobalVendingConfigVendingConfigGet,
   Permission,
   getInviteStatusInvitesAppIdGet,
   UserInfo,
 } from "src/codegen"
-import axios from "axios"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -175,11 +173,9 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const [{ data: app }, { data: vendingConfig }] = await Promise.all([
+  const [app, vendingConfig] = await Promise.all([
     fetchAppstream(appId as string),
-    getGlobalVendingConfigVendingConfigGet(),
+    fetchVendingConfig(),
   ])
 
   return {

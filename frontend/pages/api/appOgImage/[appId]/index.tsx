@@ -91,9 +91,9 @@ export default async function handler(
 
   const appId = req.query.appId as string
 
-  const app: DesktopAppstream = await (
-    await fetchAppstream(appId as string)
-  ).data
+  const app: DesktopAppstream = (await fetchAppstream(
+    appId as string,
+  )) as DesktopAppstream
 
   if (!app) {
     return res.status(404).json({ message: "App not found" })

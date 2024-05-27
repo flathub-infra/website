@@ -12,8 +12,7 @@ import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { isInternalRedirect } from "../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
-import { getLoginMethodsAuthLoginGet } from "src/codegen"
-import axios from "axios"
+import { fetchLoginProviders } from "src/fetchers"
 
 export default function AuthReturnPage({ services }: { services: string[] }) {
   // Must access query params to POST to backend for oauth verification
@@ -97,10 +96,8 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const providers = await getLoginMethodsAuthLoginGet()
-  const services = providers.data.map((d) => d.method)
+  const providers = await fetchLoginProviders()
+  const services = providers.map((d) => d.method)
 
   return {
     props: {

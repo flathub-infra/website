@@ -3,12 +3,12 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import { fetchCollectionRecentlyAdded } from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
+import fetchCollection from "src/fetchers"
 
 export default function RecentlyAdded({
   applications,
@@ -43,7 +43,8 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCollectionRecentlyAdded(
+  const applications = await fetchCollection(
+    "recently-added",
     params.page as unknown as number,
     30,
   )

@@ -1,13 +1,11 @@
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 
-import {
+import fetchCollection, {
+  fetchAppOfTheDay,
+  fetchAppsOfTheWeek,
   fetchAppstream,
   fetchCategory,
-  fetchCollectionPopularLastMonth,
-  fetchCollectionRecentlyAdded,
-  fetchCollectionRecentlyUpdated,
-  fetchCollectionTrendingLastTwoWeeks,
 } from "../src/fetchers"
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
@@ -25,13 +23,8 @@ import { DesktopAppstream } from "src/types/Appstream"
 import clsx from "clsx"
 import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
-import {
-  getAppOfTheDayAppPicksAppOfTheDayDateGet,
-  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
-} from "src/codegen"
 import { useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
-import axios from "axios"
 
 const categoryOrder = [
   Category.Office,
@@ -249,24 +242,18 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const { data: recentlyUpdated } = await fetchCollectionRecentlyUpdated(
+  const recentlyUpdated = await fetchCollection(
+    "recently-updated",
     1,
     APPS_IN_PREVIEW_COUNT * 2,
   )
-  const { data: popular } = await fetchCollectionPopularLastMonth(
+  const popular = await fetchCollection("popular", 1, APPS_IN_PREVIEW_COUNT)
+  const recentlyAdded = await fetchCollection(
+    "recently-added",
     1,
     APPS_IN_PREVIEW_COUNT,
   )
-  const { data: recentlyAdded } = await fetchCollectionRecentlyAdded(
-    1,
-    APPS_IN_PREVIEW_COUNT,
-  )
-  const { data: trending } = await fetchCollectionTrendingLastTwoWeeks(
-    1,
-    APPS_IN_PREVIEW_COUNT,
-  )
+  const trending = await fetchCollection("trending", 1, APPS_IN_PREVIEW_COUNT)
 
   let topAppsByCategory: {
     category: Category
@@ -277,7 +264,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     async (category: Category) => {
       return {
         category,
-        apps: (await fetchCategory(category, 1, 6)).data,
+        apps: await fetchCategory(category, 1, 6),
       }
     },
   )
@@ -295,27 +282,25 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     )
     .slice(0, APPS_IN_PREVIEW_COUNT)
 
-  const heroBannerApps = await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
+  const heroBannerApps = await fetchAppsOfTheWeek(
     formatISO(new Date(), { representation: "date" }),
   )
-  const appOfTheDay = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
+  const appOfTheDay = await fetchAppOfTheDay(
     formatISO(new Date(), { representation: "date" }),
   )
 
   const heroBannerAppstreams = await Promise.all(
-    heroBannerApps.data.apps.map(async (app) => fetchAppstream(app.app_id)),
-  ).then((apps) => apps.map((app) => app.data))
+    heroBannerApps.apps.map(async (app) => fetchAppstream(app.app_id)),
+  )
 
-  const heroBannerData = heroBannerApps.data.apps.map((app) => {
+  const heroBannerData = heroBannerApps.apps.map((app) => {
     return {
       app: app,
       appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
     }
   })
 
-  const appOfTheDayAppstream = await fetchAppstream(
-    appOfTheDay.data.app_id,
-  ).then((app) => app.data)
+  const appOfTheDayAppstream = await fetchAppstream(appOfTheDay.app_id)
 
   return {
     props: {
