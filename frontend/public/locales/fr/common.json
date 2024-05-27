@@ -502,7 +502,8 @@
     "request-review-description": "Notre équipe va auditer les problèmes de qualité de votre application. Cela prendra quelques jours.",
     "show-branding-preview": "Afficher l'aperçu de la marque",
     "request-a-review-question": "Voulez-vous requérir un examen ?",
-    "hide-branding-preview": "Masquer l'aperçu de la marque"
+    "hide-branding-preview": "Masquer l'aperçu de la marque",
+    "needed-to-pass-x": "Nécessaire pour réussir {{x}}"
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -567,5 +568,12 @@
   "do-you-really-want-to-switch-to-direct-upload": "Es-tu sûr ? Une fois que vous aurez basculé une application vers le téléchargement direct, vous ne pouvez plus revenir en arrière.",
   "enter-end-of-life-message": "Saisir le message de fin de vie",
   "special-license": "Licence spéciale",
-  "you-may-or-may-not-be-able-to-contribute": "Vous pourrez ou non contribuer à cette app."
+  "you-may-or-may-not-be-able-to-contribute": "Vous pourrez ou non contribuer à cette app.",
+  "cannot-abandon-app": "Impossible d'abandonner l'application",
+  "do-you-really-want-to-archive-app": "Etês-vous sûr(e) ? Cela invalidera les jetons de téléchargement et archivera l'application.",
+  "rebase-onto-other-app": "Entrez l'ID de l'app dans laquelle votre application sera rebasée",
+  "updated-description": "Applications mises à jour sur Flathub ces derniers jours.",
+  "new-description": "Nouvelles applications publiées sur Flathub ces derniers jours.",
+  "updated-apps": "Apps mises à jour",
+  "new-apps": "Nouvelles apps"
 }
