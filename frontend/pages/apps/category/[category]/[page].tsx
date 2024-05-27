@@ -96,7 +96,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCategory(
+  const applications = await fetchCategory(
     category,
     params.page as unknown as number,
     30,

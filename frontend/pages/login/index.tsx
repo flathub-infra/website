@@ -6,8 +6,7 @@ import { useEffect } from "react"
 import LoginProviders from "../../src/components/login/Providers"
 import { useUserContext } from "../../src/context/user-info"
 import { useTranslation } from "next-i18next"
-import { getLoginMethodsAuthLoginGet } from "src/codegen"
-import axios from "axios"
+import { fetchLoginProviders } from "src/fetchers"
 
 export default function LoginPortal({ providers, locale }) {
   const { t } = useTranslation()
@@ -41,14 +40,12 @@ export default function LoginPortal({ providers, locale }) {
 
 // Providers won't change often so fetch at build time for now
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const providers = await getLoginMethodsAuthLoginGet()
+  const providers = await fetchLoginProviders()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      providers: providers.data,
+      providers,
       locale,
     },
   }

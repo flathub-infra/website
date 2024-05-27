@@ -16,19 +16,19 @@ import { FlathubCombobox } from "src/components/Combobox"
 import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { useUserContext } from "src/context/user-info"
-import { fetchAppstream } from "src/fetchers"
+import { fetchAppsOfTheWeek, fetchAppstream } from "src/fetchers"
 import { AppOfTheDayChanger } from "src/components/app-picks/AppOfTheDayChanger"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "src/components/LogoImage"
 import {
   UserInfo,
-  getAppOfTheWeekAppPicksAppsOfTheWeekDateGet,
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
   Permission,
+  getQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
-import { getQualityModerationStatusQualityModerationStatusGet } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
+import { DesktopAppstream } from "src/types/Appstream"
 
 AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -114,26 +114,25 @@ export default function AppPicks() {
   const queryAppsOfTheWeek = useQuery({
     queryKey: ["apps-of-the-week", date],
     queryFn: async () => {
-      const getAppsOfTheWeek =
-        await getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(
-          formatISO(date, { representation: "date" }),
-        )
+      const getAppsOfTheWeek = await fetchAppsOfTheWeek(
+        formatISO(date, { representation: "date" }),
+      )
 
       const heroBannerAppstreams = await Promise.all(
-        getAppsOfTheWeek.data.apps.map(async (app) =>
-          fetchAppstream(app.app_id),
-        ),
-      ).then((apps) => apps.map((app) => app.data))
+        getAppsOfTheWeek.apps.map(async (app) => fetchAppstream(app.app_id)),
+      )
 
-      const heroBannerData = getAppsOfTheWeek.data.apps.map((app) => {
+      const heroBannerData = getAppsOfTheWeek.apps.map((app) => {
         return {
           app: app,
-          appstream: heroBannerAppstreams.find((a) => a.id === app.app_id),
+          appstream: heroBannerAppstreams.find(
+            (a) => a.id === app.app_id,
+          ) as DesktopAppstream,
         }
       })
 
       const setAppDefault = async (position: number) => {
-        const currentApp = getAppsOfTheWeek.data.apps.find(
+        const currentApp = getAppsOfTheWeek.apps.find(
           (app) => app.position === position + 1,
         )
 
@@ -141,10 +140,10 @@ export default function AppPicks() {
           const appInfo = await fetchAppstream(currentApp.app_id)
 
           return {
-            id: appInfo.data.id,
-            name: appInfo.data.name,
-            subtitle: appInfo.data.subtitle,
-            icon: appInfo.data.icon,
+            id: appInfo.id,
+            name: appInfo.name,
+            subtitle: appInfo.summary,
+            icon: appInfo.icon,
           }
         } else {
           return null
@@ -199,17 +198,17 @@ export default function AppPicks() {
   useEffect(() => {
     if (queryQualityApps.data) {
       const apps = queryQualityApps.data
-        .filter((app) => app.data.id !== firstApp?.id)
-        .filter((app) => app.data.id !== secondApp?.id)
-        .filter((app) => app.data.id !== thirdApp?.id)
-        .filter((app) => app.data.id !== fourthApp?.id)
-        .filter((app) => app.data.id !== fifthApp?.id)
+        .filter((app) => app.id !== firstApp?.id)
+        .filter((app) => app.id !== secondApp?.id)
+        .filter((app) => app.id !== thirdApp?.id)
+        .filter((app) => app.id !== fourthApp?.id)
+        .filter((app) => app.id !== fifthApp?.id)
         .map((app) => {
           return {
-            id: app.data.id,
-            name: app.data.name,
-            subtitle: app.data.summary,
-            icon: app.data.icon,
+            id: app.id,
+            name: app.name,
+            subtitle: app.summary,
+            icon: app.icon,
           }
         })
 
