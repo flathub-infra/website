@@ -9817,7 +9817,7 @@ __metadata:
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:^18.3.0"
-    react-i18next: "npm:^14.1.1"
+    react-i18next: "npm:^14.1.2"
     react-icons: "npm:^5.2.1"
     react-svg-worldmap: "npm:2.0.0-alpha.16"
     react-toastify: "npm:^10.0.5"
@@ -14189,9 +14189,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^14.1.1":
-  version: 14.1.1
-  resolution: "react-i18next@npm:14.1.1"
+"react-i18next@npm:^14.1.2":
+  version: 14.1.2
+  resolution: "react-i18next@npm:14.1.2"
   dependencies:
     "@babel/runtime": "npm:^7.23.9"
     html-parse-stringify: "npm:^3.0.1"
@@ -14203,7 +14203,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: d6da148d5dd1635f57d7a85bdd5c6e1f1404982112358a5efa9f6f47d505a00e4650237d5fc94b4381dcb336c134d500268a7157e06e2b2f0293a2bcd7ec2812
+  checksum: cb8a83b3696639f083dc9f770d9d9e0681c0fe56f6b5fe24cd6facce08d363c37bd3440078e9d63abacabd7037b783e6b4e4d0c935de9c8dda7820bd4ef7e329
   languageName: node
   linkType: hard
 
