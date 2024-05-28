@@ -134,7 +134,9 @@ const TopSection = ({
               selected: x.name === selectedName,
               onClick: () => {
                 router.query.category = x.name
-                router.push({ query: router.query })
+                router.push({ query: router.query }, undefined, {
+                  scroll: false,
+                })
               },
             }))}
             size={"lg"}
