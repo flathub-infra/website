@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@collapsed/react": "^4.0.1",
-    "@floating-ui/react": "^0.26.14",
+    "@floating-ui/react": "^0.26.16",
     "@headlessui/react": "^2.0.3",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@radix-ui/react-slot": "^1.0.2",
