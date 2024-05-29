@@ -300,7 +300,7 @@ def submit_review_request(
 
     try:
         build_ref_arch = build_ref_arches.pop()
-        build_appstream = utils.appstream2dict(
+        build_appstream, _ = utils.appstream2dict(
             f"https://hub.flathub.org/build-repo/{review_request.build_id}/appstream/{build_ref_arch}/appstream.xml.gz"
         )
     except KeyError:
