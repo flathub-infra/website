@@ -37,7 +37,7 @@ psycopg2-binary = "^2.9.9"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "^0.27.0"
-ruff = "^0.4.5"
+ruff = "^0.4.6"
 pytest = "^8.2.1"
 pytest-insta = "^0.3.0"
 watchgod = "^0.8"
