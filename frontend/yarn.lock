@@ -2160,9 +2160,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@headlessui/react@npm:2.0.3"
+"@headlessui/react@npm:^2.0.4":
+  version: 2.0.4
+  resolution: "@headlessui/react@npm:2.0.4"
   dependencies:
     "@floating-ui/react": "npm:^0.26.13"
     "@react-aria/focus": "npm:^3.16.2"
@@ -2171,7 +2171,7 @@ __metadata:
   peerDependencies:
     react: ^18
     react-dom: ^18
-  checksum: 5584b3291f79ae94f8789650244388220b28e049248897cdd54778250e8aa8802589676c2ccbf4e9af8edcfaa6d532f92754d24863b11b5cf99a59d1ed7fe79c
+  checksum: 04a35b2aa165c74dbe59a6bab097842843047aa1ccb2a04f4daf74d1fdee9dc0f56a1e95d894b30036dd02563635597a021a3f018fa1aad16538f1ba80664dca
   languageName: node
   linkType: hard
 
@@ -9772,7 +9772,7 @@ __metadata:
     "@collapsed/react": "npm:^4.0.1"
     "@faker-js/faker": "npm:^8.4.1"
     "@floating-ui/react": "npm:^0.26.16"
-    "@headlessui/react": "npm:^2.0.3"
+    "@headlessui/react": "npm:^2.0.4"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@neshca/cache-handler": "npm:^1.3.2"
     "@radix-ui/react-slot": "npm:^1.0.2"
