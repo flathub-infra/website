@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
 }) => {
-  const app = await fetchAppstream(appId as string, locale)
+  const app = await fetchAppstream(appId as string)
 
   return {
     props: {

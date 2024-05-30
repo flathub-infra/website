@@ -7,8 +7,7 @@ export const EOL_REBASE_URL = (id: string): string =>
   `${BASE_URI}/eol/rebase/${id}`
 export const EOL_MESSAGE_URL = (id: string): string =>
   `${BASE_URI}/eol/message/${id}`
-export const APP_DETAILS = (id: string, locale: string): string =>
-  `${APPSTREAM_URL}/${id}?locale=${locale}`
+export const APP_DETAILS = (id: string): string => `${APPSTREAM_URL}/${id}`
 export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`

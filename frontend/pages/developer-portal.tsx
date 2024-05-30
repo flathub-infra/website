@@ -15,7 +15,7 @@ import axios from "axios"
 import { format } from "date-fns"
 import { Permission } from "src/codegen"
 
-const InviteCode = ({ locale }) => {
+const InviteCode = ({}) => {
   const { t } = useTranslation()
   const user = useUserContext()
 
@@ -32,7 +32,7 @@ const InviteCode = ({ locale }) => {
   return (
     <>
       <div>
-        <UserApps variant="invited" locale={locale} />
+        <UserApps variant="invited" />
         <div className="flex items-baseline gap-1">
           {t("invite-code")}
           <CodeCopy className="w-48" text={inviteCode} nested />
@@ -108,7 +108,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
   )
 }
 
-const DeveloperApps = ({ locale }) => {
+const DeveloperApps = ({}) => {
   const { t } = useTranslation()
   const user = useUserContext()
 
@@ -118,7 +118,6 @@ const DeveloperApps = ({ locale }) => {
 
   return (
     <UserApps
-      locale={locale}
       variant="dev"
       customButtons={
         (!IS_PRODUCTION ||
@@ -133,13 +132,7 @@ const DeveloperApps = ({ locale }) => {
   )
 }
 
-export default function DeveloperPortal({
-  feed,
-  locale,
-}: {
-  feed: DocusaurusFeed
-  locale: string
-}) {
+export default function DeveloperPortal({ feed }: { feed: DocusaurusFeed }) {
   const { t } = useTranslation()
 
   const pages = [
@@ -161,9 +154,9 @@ export default function DeveloperPortal({
                 <div className="space-y-12 w-full">
                   <News feed={feed} />
 
-                  <DeveloperApps locale={locale} />
+                  <DeveloperApps />
 
-                  <InviteCode locale={locale} />
+                  <InviteCode />
 
                   <AcceptingPayment />
                 </div>
@@ -202,7 +195,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       feed: feed.data,
-      locale,
     },
     revalidate: 900,
   }

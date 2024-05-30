@@ -22,10 +22,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
         formatISO(day, { representation: "date" }),
       )
 
-      const getAppOfTheDayInfo = await fetchAppstream(
-        getAppsOfTheDay.app_id,
-        "en",
-      )
+      const getAppOfTheDayInfo = await fetchAppstream(getAppsOfTheDay.app_id)
 
       return getAppOfTheDayInfo
     },

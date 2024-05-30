@@ -55,13 +55,10 @@ export async function fetchAppstreamList(): Promise<string[]> {
   return entryJson
 }
 
-export async function fetchAppstream(
-  appId: string,
-  locale: string,
-): Promise<Appstream> {
+export async function fetchAppstream(appId: string): Promise<Appstream> {
   let entryJson: Appstream
   try {
-    const entryData = await fetch(`${APP_DETAILS(appId, locale)}`)
+    const entryData = await fetch(`${APP_DETAILS(appId)}`)
     entryJson = await entryData.json()
   } catch (error) {
     console.log(error)
@@ -348,14 +345,12 @@ export async function fetchRuntimes(): Promise<{ [key: string]: number }> {
   return runtimes
 }
 
-export async function fetchAddons(appid: string, locale: string) {
+export async function fetchAddons(appid: string) {
   const addonListResponse = await fetch(ADDONS_URL(appid))
 
   const addonList: string[] = await addonListResponse.json()
 
-  const addonAppstreams = await Promise.all(
-    addonList.map((addon) => fetchAppstream(addon, locale)),
-  )
+  const addonAppstreams = await Promise.all(addonList.map(fetchAppstream))
 
   const addonAppStats = await Promise.all(addonList.map(fetchAppStats))
 
