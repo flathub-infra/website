@@ -11,9 +11,14 @@ import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
 interface Props {
   variant: "dev" | "owned" | "invited"
   customButtons?: JSX.Element
+  locale: string
 }
 
-const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
+const UserApps: FunctionComponent<Props> = ({
+  variant,
+  customButtons,
+  locale,
+}) => {
   const { t } = useTranslation()
   const user = useUserContext()
   const userDispatch = useUserDispatch()
@@ -23,13 +28,14 @@ const UserApps: FunctionComponent<Props> = ({ variant, customButtons }) => {
   const [page, setPage] = useState(1)
 
   const queryDevApplications = useQuery({
-    queryKey: [`${variant}-apps`, page, pageSize],
+    queryKey: [`${variant}-apps`, page, pageSize, locale],
     queryFn: async () => {
       return getAppsInfo(
         user.info[`${variant}_flatpaks`].slice(
           (page - 1) * pageSize,
           (page - 1) * pageSize + pageSize,
         ),
+        locale,
       )
     },
     enabled: !!user.info,
