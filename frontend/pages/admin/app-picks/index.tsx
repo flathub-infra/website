@@ -119,9 +119,7 @@ export default function AppPicks() {
       )
 
       const heroBannerAppstreams = await Promise.all(
-        getAppsOfTheWeek.apps.map(async (app) =>
-          fetchAppstream(app.app_id, "en"),
-        ),
+        getAppsOfTheWeek.apps.map(async (app) => fetchAppstream(app.app_id)),
       )
 
       const heroBannerData = getAppsOfTheWeek.apps.map((app) => {
@@ -139,7 +137,7 @@ export default function AppPicks() {
         )
 
         if (currentApp) {
-          const appInfo = await fetchAppstream(currentApp.app_id, "en")
+          const appInfo = await fetchAppstream(currentApp.app_id)
 
           return {
             id: appInfo.id,
@@ -184,7 +182,7 @@ export default function AppPicks() {
         getAppsWithQuality.data.apps
           .filter((app) => app.quality_moderation_status.passes)
           .map((app) => {
-            return fetchAppstream(app.id, "en")
+            return fetchAppstream(app.id)
           }),
       )
 

@@ -93,7 +93,6 @@ export default async function handler(
 
   const app: DesktopAppstream = (await fetchAppstream(
     appId as string,
-    locale as string,
   )) as DesktopAppstream
 
   if (!app) {
