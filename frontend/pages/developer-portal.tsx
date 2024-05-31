@@ -187,14 +187,13 @@ type DocusaurusFeed = {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const feed = await axios.get<DocusaurusFeed>(
-    "https://docs.flathub.org/blog/feed.json",
-  )
+  const response = await fetch("https://docs.flathub.org/blog/feed.json")
+  const feed: DocusaurusFeed = await response.json()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      feed: feed.data,
+      feed,
     },
     revalidate: 900,
   }
