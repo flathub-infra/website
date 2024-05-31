@@ -320,13 +320,9 @@ def get_summary(
     branch: Optional[str] = None,
 ):
     if not branch:
-        possible_branches = db.search_by_key(f"summary:{app_id}:*")
-        if len(possible_branches) > 0:
-            key = possible_branches[0]
-        else:
-            key = f"summary:{app_id}:{branch}"
-    else:
-        key = f"summary:{app_id}:{branch}"
+        branch = db.get_json_key(f"summary:{app_id}")
+
+    key = f"summary:{app_id}:{branch}"
 
     if value := db.get_json_key(key):
         if "metadata" in value and value["metadata"] and "runtime" in value["metadata"]:
