@@ -117,3 +117,6 @@ export const APPS_OF_THE_WEEK_URL = (date: string) =>
   `${BASE_URI}/app-picks/apps-of-the-week/${date}`
 export const APP_OF_THE_DAY_URL = (date: string) =>
   `${BASE_URI}/app-picks/app-of-the-day/${date}`
+
+export const APP_IS_FULL_SCREEN_URL = (appId: string) =>
+  `${BASE_URI}/is-fullscreen-app/${appId}`
