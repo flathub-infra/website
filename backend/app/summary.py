@@ -237,6 +237,17 @@ def update(sqldb) -> None:
         ]
     )
 
+    # todo: it seems like we only ever have one branch, so this is fine
+    # but why do we have branches then?
+    db.redis_conn.mset(
+        {
+            f"summary:{app_id}": json.dumps(
+                summary_dict[app_id]["branch"], cls=JSONSetEncoder
+            )
+            for app_id in summary_dict
+        }
+    )
+
     db.redis_conn.mset(
         {
             f"summary:{app_id}:{summary_dict[app_id]['branch']}": json.dumps(
