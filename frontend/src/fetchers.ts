@@ -26,6 +26,7 @@ import {
   ADDONS_URL,
   APP_OF_THE_DAY_URL,
   APPS_OF_THE_WEEK_URL,
+  APP_IS_FULL_SCREEN_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -399,4 +400,16 @@ export async function fetchAppOfTheDay(date: string) {
     console.log(`No app of the week data for ${date}`)
   }
   return json
+}
+
+export async function fetchAppIsFullscreen(appId: string) {
+  let isFullscreen: boolean = false
+  try {
+    const data = await fetch(APP_IS_FULL_SCREEN_URL(appId))
+    isFullscreen = await data.json()
+  } catch (error) {
+    console.log(error)
+  }
+
+  return isFullscreen
 }

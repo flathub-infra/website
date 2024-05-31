@@ -7,10 +7,9 @@ import { Resvg } from "@resvg/resvg-js"
 import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
-import { fetchAppstream } from "src/fetchers"
+import { fetchAppIsFullscreen, fetchAppstream } from "src/fetchers"
 import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
-import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 
 type ResponseData = {
   message: string
@@ -99,9 +98,7 @@ export default async function handler(
     return res.status(404).json({ message: "App not found" })
   }
 
-  const isFullscreenApp = await getIsFullscreenAppIsFullscreenAppAppIdGet(
-    appId as string,
-  )
+  const isFullscreenApp = await fetchAppIsFullscreen(appId as string)
 
   const icon =
     app.icons?.sort(
