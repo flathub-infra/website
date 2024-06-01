@@ -8,50 +8,44 @@ import ButtonLink from "../ButtonLink"
 import { motion } from "framer-motion"
 import clsx from "clsx"
 
-interface Props {
+interface PropsWithTitle {
+  type: "withTitle"
   href: string
   title: string
   applications: AppstreamListItem[]
-  appSelection?: ReactElement
-  showMore?: boolean
-  morePosition?: "top" | "bottom"
+  showMore: boolean
+  moreText: string
+}
+interface PropsWithCustomHeader {
+  type: "withCustomHeader"
+  href: string
+  applications: AppstreamListItem[]
+  customHeader: ReactElement
+  showMore: boolean
+  moreText: string
 }
 
-const ApplicationSection: FunctionComponent<Props> = ({
-  href,
-  title,
-  applications,
-  appSelection,
-  showMore = true,
-  morePosition = "top",
-}) => {
+const ApplicationSection: FunctionComponent<
+  PropsWithCustomHeader | PropsWithTitle
+> = (prop) => {
   const { t } = useTranslation()
 
-  if (!applications || !applications.length) return null
+  if (!prop.applications || !prop.applications.length) return null
 
   return (
     <div>
-      {!appSelection && (
+      {prop.type === "withTitle" && (
         <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-          <h2 className="my-auto text-2xl font-bold">{title}</h2>
-
-          {showMore && morePosition === "top" && (
-            <ButtonLink
-              href={href}
-              passHref
-              aria-label={t("more-type", { type: title })}
-              title={t("more-type", { type: title })}
-            >
-              {t("more")}
-            </ButtonLink>
-          )}
+          <h2 className="my-auto text-2xl font-bold">{prop.title}</h2>
         </header>
       )}
 
-      {appSelection && <div className="mb-3">{appSelection}</div>}
+      {prop.type === "withCustomHeader" && (
+        <div className="mb-3">{prop.customHeader}</div>
+      )}
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-        {applications.map((app) => (
+        {prop.applications.map((app) => (
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
@@ -62,23 +56,23 @@ const ApplicationSection: FunctionComponent<Props> = ({
           </motion.div>
         ))}
       </div>
-      {showMore && morePosition === "bottom" && (
+      {prop.showMore && (
         <motion.div
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          key={title}
+          key={prop.moreText}
           className={clsx("flex flex-row justify-center", "mt-5")}
         >
           <ButtonLink
-            href={href}
+            href={prop.href}
             passHref
             variant="secondary"
             className="rounded-full"
-            aria-label={t("more-type", { type: title })}
-            title={t("more-type", { type: title })}
+            aria-label={prop.moreText}
+            title={prop.moreText}
           >
-            {t("more-type", { type: title })}
+            {prop.moreText}
           </ButtonLink>
         </motion.div>
       )}

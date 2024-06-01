@@ -54,12 +54,13 @@ const CategorySection = ({
     <>
       {topAppsByCategory.map((sectionData) => (
         <ApplicationSection
+          type="withCustomHeader"
           key={`categorySection${sectionData.category}`}
           href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
           applications={sectionData.apps.hits.map((app) =>
             mapAppsIndexToAppstreamListItem(app),
           )}
-          appSelection={
+          customHeader={
             <>
               <header className="mb-3 flex max-w-full flex-row content-center justify-between">
                 <h1 className="my-auto text-2xl font-bold">
@@ -68,8 +69,8 @@ const CategorySection = ({
               </header>
             </>
           }
-          title={categoryToName(sectionData.category, t)}
-          morePosition="bottom"
+          showMore={true}
+          moreText={t(`more-${sectionData.category.toLowerCase()}`)}
         />
       ))}
     </>
@@ -118,12 +119,13 @@ const TopSection = ({
 
   return (
     <ApplicationSection
+      type="withCustomHeader"
       key={`topSection${selectedApps.name}`}
       href={selectedApps.moreLink}
       applications={selectedApps.apps.hits.map((app) =>
         mapAppsIndexToAppstreamListItem(app),
       )}
-      appSelection={
+      customHeader={
         <>
           <MultiToggle
             items={topApps.map((x) => ({
@@ -144,8 +146,8 @@ const TopSection = ({
           />
         </>
       }
-      title={t(selectedApps.name)}
-      morePosition="bottom"
+      showMore={true}
+      moreText={t(`more-${selectedApps.name}`)}
     />
   )
 }
