@@ -576,5 +576,20 @@
   "updated-apps": "Обновени приложения",
   "new-apps": "Нови приложения",
   "updated-description": "Обновени приложения във „Flathub“ през последните няколко дни.",
-  "new-description": "Нови приложения във „Flathub“ през последните няколко дни."
+  "new-description": "Нови приложения във „Flathub“ през последните няколко дни.",
+  "more-utility": "Категория „Разни“",
+  "more-apps-by-developer": "Повече приложения от {{developer}}",
+  "more-trending": "Категория „Известни“",
+  "more-popular": "Категория „Популярни“",
+  "more-new": "Категория „Нови“",
+  "more-graphics": "Категория „Графика“",
+  "more-updated": "Категория „Обновени“",
+  "more-office": "Категория „Офис“",
+  "more-audiovideo": "Категория „Мултимедия“",
+  "more-education": "Категория „Образование“",
+  "more-system": "Категория „Система“",
+  "more-game": "Категория „Игри“",
+  "more-network": "Категория „Мрежа“",
+  "more-development": "Категория „Разработка“",
+  "more-science": "Категория „Наука“"
 }
