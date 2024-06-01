@@ -3,8 +3,8 @@
     {
       "name": "Maze",
       "keywords": null,
-      "summary": "A simple maze game",
-      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+      "summary": "Ein simples Irrgartenspiel",
+      "description": "Gut deinen Weg aus einer schwierigen Situation zu finden?",
       "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
       "project_license": "GPL-3.0-or-later",
@@ -36,27 +36,10 @@
       "installs_last_month": 567
     }
   ],
-  "query": "finding your way out",
+  "query": "",
   "processingTimeMs": 0,
-  "limit": 250,
-  "offset": 0,
-  "estimatedTotalHits": 1,
-  "facetDistribution": {
-    "arches": {
-      "x86_64": 1
-    },
-    "is_free_license": {
-      "true": 1
-    },
-    "main_categories": {
-      "Game": 1
-    },
-    "type": {
-      "desktop-application": 1
-    },
-    "verification_verified": {
-      "false": 1
-    }
-  },
-  "facetStats": {}
+  "hitsPerPage": 250,
+  "page": 1,
+  "totalPages": 1,
+  "totalHits": 1
 }

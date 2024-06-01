@@ -3,8 +3,8 @@
     {
       "name": "Maze",
       "keywords": null,
-      "summary": "A simple maze game",
-      "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
+      "summary": "Ein simples Irrgartenspiel",
+      "description": "Gut deinen Weg aus einer schwierigen Situation zu finden?",
       "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
       "project_license": "GPL-3.0-or-later",

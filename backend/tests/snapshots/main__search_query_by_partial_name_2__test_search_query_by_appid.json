@@ -7,11 +7,6 @@
       "description": "Good at finding your way out of hard situations? Let's see! Try to make your way through an increasingly difficult path.",
       "id": "org_sugarlabs_Maze",
       "type": "desktop-application",
-      "translations": {
-        "de": {
-          "summary": "Should not show up as long as we don't support translations"
-        }
-      },
       "project_license": "GPL-3.0-or-later",
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
