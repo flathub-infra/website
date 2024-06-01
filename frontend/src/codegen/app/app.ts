@@ -39,6 +39,7 @@ import type {
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
   MainCategory,
+  PostSearchSearchPostParams,
   SearchQuery,
 } from ".././model"
 
@@ -1185,9 +1186,13 @@ export const useGetIsFullscreenAppIsFullscreenAppAppIdGet = <
  */
 export const postSearchSearchPost = (
   searchQuery: SearchQuery,
+  params?: PostSearchSearchPostParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/search`, searchQuery, options)
+  return axios.post(`/search`, searchQuery, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
 export const getPostSearchSearchPostMutationOptions = <
@@ -1197,25 +1202,25 @@ export const getPostSearchSearchPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
     TError,
-    { data: SearchQuery },
+    { data: SearchQuery; params?: PostSearchSearchPostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
-  { data: SearchQuery },
+  { data: SearchQuery; params?: PostSearchSearchPostParams },
   TContext
 > => {
   const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
-    { data: SearchQuery }
+    { data: SearchQuery; params?: PostSearchSearchPostParams }
   > = (props) => {
-    const { data } = props ?? {}
+    const { data, params } = props ?? {}
 
-    return postSearchSearchPost(data, axiosOptions)
+    return postSearchSearchPost(data, params, axiosOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -1237,14 +1242,14 @@ export const usePostSearchSearchPost = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
     TError,
-    { data: SearchQuery },
+    { data: SearchQuery; params?: PostSearchSearchPostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
   Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
-  { data: SearchQuery },
+  { data: SearchQuery; params?: PostSearchSearchPostParams },
   TContext
 > => {
   const mutationOptions = getPostSearchSearchPostMutationOptions(options)

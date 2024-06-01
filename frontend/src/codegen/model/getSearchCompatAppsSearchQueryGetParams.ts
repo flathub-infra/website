@@ -5,8 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams = {
-  page?: number | null
-  per_page?: number | null
+export type GetSearchCompatAppsSearchQueryGetParams = {
   locale?: string
 }

@@ -13,7 +13,10 @@ import type {
 } from "@tanstack/react-query"
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
-import type { HTTPValidationError } from ".././model"
+import type {
+  GetSearchCompatAppsSearchQueryGetParams,
+  HTTPValidationError,
+} from ".././model"
 
 /**
  * @summary Get Apps
@@ -1222,13 +1225,20 @@ export const useGetPopularAppsCompatAppsCollectionPopularGet = <
  */
 export const getSearchCompatAppsSearchQueryGet = (
   query: string,
+  params?: GetSearchCompatAppsSearchQueryGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/compat/apps/search/${query}`, options)
+  return axios.get(`/compat/apps/search/${query}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
-export const getGetSearchCompatAppsSearchQueryGetQueryKey = (query: string) => {
-  return [`/compat/apps/search/${query}`] as const
+export const getGetSearchCompatAppsSearchQueryGetQueryKey = (
+  query: string,
+  params?: GetSearchCompatAppsSearchQueryGetParams,
+) => {
+  return [`/compat/apps/search/${query}`, ...(params ? [params] : [])] as const
 }
 
 export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
@@ -1236,6 +1246,7 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
   TError = AxiosError<HTTPValidationError>,
 >(
   query: string,
+  params?: GetSearchCompatAppsSearchQueryGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1251,12 +1262,15 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetSearchCompatAppsSearchQueryGetQueryKey(query)
+    getGetSearchCompatAppsSearchQueryGetQueryKey(query, params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>
   > = ({ signal }) =>
-    getSearchCompatAppsSearchQueryGet(query, { signal, ...axiosOptions })
+    getSearchCompatAppsSearchQueryGet(query, params, {
+      signal,
+      ...axiosOptions,
+    })
 
   return {
     queryKey,
@@ -1284,6 +1298,7 @@ export const useGetSearchCompatAppsSearchQueryGet = <
   TError = AxiosError<HTTPValidationError>,
 >(
   query: string,
+  params?: GetSearchCompatAppsSearchQueryGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1297,6 +1312,7 @@ export const useGetSearchCompatAppsSearchQueryGet = <
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
   const queryOptions = getGetSearchCompatAppsSearchQueryGetQueryOptions(
     query,
+    params,
     options,
   )
 

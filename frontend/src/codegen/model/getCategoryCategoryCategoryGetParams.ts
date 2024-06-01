@@ -8,4 +8,5 @@
 export type GetCategoryCategoryCategoryGetParams = {
   page?: number | null
   per_page?: number | null
+  locale?: string
 }
