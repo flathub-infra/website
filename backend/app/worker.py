@@ -338,7 +338,7 @@ def update_app_picks():
 def pick_app_of_the_day_automatically(sqldb, day):
     # do we have an app of the day for the day?
     if x := models.AppOfTheDay.by_date(sqldb, day):
-        print("App of the day already set for ${day}")
+        print("App of the day already set for day", day)
         return
 
     x = [
