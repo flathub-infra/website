@@ -140,7 +140,8 @@ export const getStaticProps: GetStaticProps = async ({
     eolMessage = await fetchEolMessage(appId as string)
   }
 
-  if (!app && !eolMessage) {
+  //@ts-ignore
+  if ((!app && !eolMessage) || !!app?.detail?.[0]?.type) {
     return {
       notFound: true,
     }
