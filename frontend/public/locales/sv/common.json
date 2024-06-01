@@ -115,7 +115,6 @@
   "unauthorized-to-view": "Du har inte tillåtelse att visa det här innehållet.",
   "use-saved-card": "Använd ett sparat kort",
   "stripe-error-payment_intent_authentication_failure": "Autentiseringen av din betalningsmetod misslyckades. Vänligen använd en annan betalningsmetod och försök igen.",
-  "more-type": "Mer {{type}}",
   "status": "Status",
   "remove-saved-card": "Ta bort sparat kort",
   "no-transactions": "Inga överföringar",
