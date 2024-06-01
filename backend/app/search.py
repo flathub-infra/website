@@ -62,6 +62,12 @@ def _translate_name_and_summary(locale: str, searchResults: dict):
                     "summary"
                 ]
 
+            if "description" in searchResult["translations"][locale]:
+                searchResult["description"] = searchResult["translations"][locale][
+                    "description"
+                ]
+
+        if "translations" in searchResult:
             del searchResult["translations"]
 
     return searchResults

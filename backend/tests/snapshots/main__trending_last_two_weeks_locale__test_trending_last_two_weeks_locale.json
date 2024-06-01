@@ -38,8 +38,8 @@
     {
       "name": "AnyDesk",
       "keywords": null,
-      "summary": "Connect to a computer remotely",
-      "description": "AnyDesk ensures secure and reliable remote desktop connections for IT professionals and on-the-go individuals alike.NOTE: This wrapper is not verified by, affiliated with, or supported by AnyDesk.",
+      "summary": "Con\u00e9ctese a un ordenador de forma remota",
+      "description": "Gracias a AnyDesk, contar\u00e1 con conexiones seguras y fiables de escritorio remoto para profesionales inform\u00e1ticos y usuarios en movimiento.",
       "id": "com_anydesk_Anydesk",
       "type": "desktop-application",
       "project_license": "LicenseRef-proprietary",
