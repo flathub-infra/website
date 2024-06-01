@@ -270,8 +270,12 @@ const Details: FunctionComponent<Props> = ({
 
           {developerApps && developerApps.totalHits > 0 && (
             <ApplicationSection
+              type="withTitle"
               href={`/apps/collection/developer/${app.developer_name}`}
               title={t("other-apps-by-developer", {
+                developer: app.developer_name,
+              })}
+              moreText={t("more-apps-by-developer", {
                 developer: app.developer_name,
               })}
               applications={developerApps.hits
