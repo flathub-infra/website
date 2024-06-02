@@ -10,6 +10,7 @@
   "search-apps": "Search apps",
   "publish": "Publish",
   "forum": "Forum",
+  "mastodon": "Mastodon",
   "about": "About",
   "users": "Users",
   "about-description": "Flathub is the place to get and distribute apps for Linux. It is powered by Flatpak which allows Flathub apps to run on almost any Linux distribution.",

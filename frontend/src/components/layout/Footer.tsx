@@ -78,7 +78,7 @@ const Footer = () => {
               target="_blank"
               rel="noreferrer me"
             >
-              Mastodon
+              {t("mastodon")}
             </a>
           </div>
         </div>
