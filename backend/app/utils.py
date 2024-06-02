@@ -126,7 +126,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                             else:
                                 add_translation(
                                     apps_locale,
-                                    desc.get(
+                                    caption.attrib.get(
                                         "{http://www.w3.org/XML/1998/namespace}lang"
                                     ),
                                     appid,

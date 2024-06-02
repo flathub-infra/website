@@ -149,7 +149,7 @@ def get_appstream(
             for key in translation:
                 if key.startswith("screenshots_caption_"):
                     number = int(key.split("_")[-1])
-                    value["screenshots"][number - 1]["caption"] = translation[key]
+                    value["screenshots"][number]["caption"] = translation[key]
 
             return value | translation
         else:
