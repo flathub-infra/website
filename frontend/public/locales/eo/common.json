@@ -576,5 +576,20 @@
   "updated-apps": "Ĝisdatigitaj programoj",
   "new-apps": "Novaj programoj",
   "updated-description": "Programoj ĝisdatigitaj ĉe Flathub dum la lastaj kelkaj tagoj.",
-  "new-description": "Novaj programoj eldonitaj ĉe Flathub dum la lastaj kelkaj tagoj."
+  "new-description": "Novaj programoj eldonitaj ĉe Flathub dum la lastaj kelkaj tagoj.",
+  "more-trending": "Pli da laŭmodaj programoj",
+  "more-audiovideo": "Pli da programoj pri sono & filmoj",
+  "more-game": "Pli da ludoj",
+  "more-network": "Pli da retaj programoj",
+  "more-science": "Pli da sciencaj programoj",
+  "more-development": "Pli da iloj por programistoj",
+  "more-education": "Pli da edukaj programoj",
+  "more-system": "Pli da sistemaj programoj",
+  "more-utility": "Pli da ilaĵoj",
+  "more-new": "Pli da novaj",
+  "more-updated": "Pli da ĝisdatigitaj",
+  "more-apps-by-developer": "Pliaj programoj de {{developer}}",
+  "more-popular": "Pli da popularaj programoj",
+  "more-office": "Pli da programoj por laboro",
+  "more-graphics": "Pli da grafikaj & fotografiaj programoj"
 }
