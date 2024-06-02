@@ -576,5 +576,20 @@
   "updated-apps": "Päivitetyt sovellukset",
   "special-license": "Erikoislisenssi",
   "special-license-explanation": "Tätä sovellusta kehitetään erikoislisenssin <1>{{ license }}</1> ehtojen mukaisesti.",
-  "you-may-or-may-not-be-able-to-contribute": "Tämän sovelluksen kehittämisen avustaminen saattaa olla mahdollista."
+  "you-may-or-may-not-be-able-to-contribute": "Tämän sovelluksen kehittämisen avustaminen saattaa olla mahdollista.",
+  "more-popular": "Lisää suosittuja",
+  "more-office": "Lisää tuottavuussovelluksia",
+  "more-graphics": "Lisää grafiikka- ja valokuvaussovelluksia",
+  "more-audiovideo": "Lisää ääni- ja videosovelluksia",
+  "more-game": "Lisää pelejä",
+  "more-network": "Lisää verkkosovelluksia",
+  "more-development": "Lisää kehittäjän työkaluja",
+  "more-science": "Lisää tiedesovelluksia",
+  "more-system": "Lisää järjestelmäsovelluksia",
+  "more-utility": "Lisää apuohjelmia",
+  "more-apps-by-developer": "Lisää kehittäjän {{developer}} sovelluksia",
+  "more-trending": "Lisää nousussa olevia",
+  "more-new": "Lisää uusia",
+  "more-updated": "Lisää päivitettyjä",
+  "more-education": "Lisää koulutussovelluksia"
 }

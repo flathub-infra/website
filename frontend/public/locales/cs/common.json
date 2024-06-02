@@ -577,5 +577,15 @@
   "new-description": "Aplikace publikované na Flathubu v posledních dnech.",
   "updated-apps": "Aktualizované aplikace",
   "new-apps": "Nové aplikace",
-  "updated-description": "Aplikace aktualizované na Flathubu v posledních dnech."
+  "updated-description": "Aplikace aktualizované na Flathubu v posledních dnech.",
+  "more-apps-by-developer": "Více aplikací od vývojáře {{developer}}",
+  "more-trending": "Více trendů",
+  "more-updated": "Více aktualizovaných",
+  "more-graphics": "Další aplikace na grafiku a fotografie",
+  "more-audiovideo": "Další audio a video aplikace",
+  "more-education": "Více vzdělávání",
+  "more-popular": "Více populární",
+  "more-new": "Více nových",
+  "more-office": "Více produktivních",
+  "more-game": "Více her"
 }
