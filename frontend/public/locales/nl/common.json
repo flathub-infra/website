@@ -576,5 +576,20 @@
   "new-description": "Nieuw gepubliceerde apps op Flathub in de afgelopen dagen.",
   "updated-apps": "Bĳ­gewerkte apps",
   "new-apps": "Nieuwe apps",
-  "updated-description": "Bĳ­gewerkte apps op Flathub in de afgelopen dagen."
+  "updated-description": "Bĳ­gewerkte apps op Flathub in de afgelopen dagen.",
+  "more-popular": "Meer populaire apps",
+  "more-office": "Meer productiviteit-apps",
+  "more-education": "Meer educatie-apps",
+  "more-development": "Meer ontwikkelings­gereedschap",
+  "more-science": "Meer wetenschaps-apps",
+  "more-system": "Meer systeem-apps",
+  "more-utility": "Meer hulp­programma's",
+  "more-new": "Meer nieuwe apps",
+  "more-updated": "Meer bĳgewerkte apps",
+  "more-graphics": "Meer grafische en fotografie-apps",
+  "more-audiovideo": "Meer audio- en video-apps",
+  "more-game": "Meer games",
+  "more-network": "Meer netwerken-apps",
+  "more-trending": "Meer trending apps",
+  "more-apps-by-developer": "Meer apps van {{developer}}"
 }
