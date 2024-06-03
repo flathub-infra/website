@@ -25,11 +25,10 @@ vcr = vcr.VCR(
 
 def _assertAgainstSnapshotWithoutPerformance(snapshot, response, snapshotName):
     responseJson = response.json()
-    expected = snapshot(snapshotName)
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    responseJson["processingTimeMs"] = (
+        123  # Overwrite with fixed number to ignore variations
+    )
+    assert snapshot(snapshotName) == responseJson
 
 
 class Override:

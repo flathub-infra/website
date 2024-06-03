@@ -37,7 +37,7 @@
     }
   ],
   "query": "maz",
-  "processingTimeMs": 0,
+  "processingTimeMs": 123,
   "limit": 250,
   "offset": 0,
   "estimatedTotalHits": 1,
