@@ -37,7 +37,7 @@
     }
   ],
   "query": "finding your way out",
-  "processingTimeMs": 0,
+  "processingTimeMs": 123,
   "limit": 250,
   "offset": 0,
   "estimatedTotalHits": 1,
