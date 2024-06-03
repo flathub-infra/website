@@ -57,12 +57,11 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
     collapsedHeight: collapsedHeight,
   })
 
-  if (
+  const latestReleaseTimestamp =
     latestRelease.timestamp &&
     new Date(latestRelease.timestamp * 1000).getUTCFullYear() < 1990
-  ) {
-    latestRelease.timestamp = undefined
-  }
+      ? undefined
+      : new Date(latestRelease.timestamp * 1000)
 
   const descriptionSanitized = sanitizeAppstreamDescription(
     latestRelease.description,
@@ -81,17 +80,16 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
                   })}
                 </h3>
                 <div className="flex gap-1">
-                  {latestRelease.timestamp && (
+                  {latestReleaseTimestamp && (
                     <div
                       className="text-sm"
-                      title={new Date(
-                        latestRelease.timestamp * 1000,
-                      ).toLocaleString(i18n.language)}
-                    >
-                      {formatDistanceToNow(
-                        new Date(latestRelease.timestamp * 1000),
-                        { addSuffix: true },
+                      title={latestReleaseTimestamp.toLocaleString(
+                        i18n.language,
                       )}
+                    >
+                      {formatDistanceToNow(latestReleaseTimestamp, {
+                        addSuffix: true,
+                      })}
                     </div>
                   )}
                   {summary.timestamp && (
