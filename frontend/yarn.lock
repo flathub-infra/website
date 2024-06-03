@@ -10033,7 +10033,7 @@ __metadata:
     next-themes: "npm:^0.3.0"
     orval: "npm:^6.29.1"
     postcss: "npm:^8.4.38"
-    prettier: "npm:^3.2.5"
+    prettier: "npm:^3.3.0"
     prettier-plugin-tailwindcss: "npm:^0.6.0"
     react: "npm:^18.3.1"
     react-chartjs-2: "npm:^5.2.0"
@@ -13957,7 +13957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-fallback@npm:prettier@^3, prettier@npm:^3.1.1, prettier@npm:^3.2.5":
+"prettier-fallback@npm:prettier@^3, prettier@npm:^3.1.1":
   version: 3.2.5
   resolution: "prettier@npm:3.2.5"
   bin:
@@ -14027,6 +14027,15 @@ __metadata:
     prettier-plugin-svelte:
       optional: true
   checksum: 10c0/f170691cff3be2a1d5a88a36d9a28a7afa56bf039e3b84c82dcd27a211b759961ebc73d215e9c6a218506bc5e522a81ebe387d38d1ca33d2f9215013eebfd362
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "prettier@npm:3.3.0"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10c0/d033c356320aa2e468bf29c931b094ac730d2f4defd5eb2989d8589313dec901d2fc866e3788f3d161e420b142ea4ec3dda535dbe0169ef4d0026397a68ba9cf
   languageName: node
   linkType: hard
 
