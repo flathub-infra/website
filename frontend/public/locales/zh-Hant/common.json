@@ -575,5 +575,20 @@
   "new-description": "過去幾天在 Flathub 發佈的新應用程式。",
   "new-apps": "新應用程式",
   "updated-description": "過去幾天在 Flathub 上更新的應用程式。",
-  "updated-apps": "已更新的應用程式"
+  "updated-apps": "已更新的應用程式",
+  "more-office": "更多生產力",
+  "more-graphics": "更多圖形與攝影",
+  "more-audiovideo": "更多音訊與視訊",
+  "more-game": "更多遊戲",
+  "more-network": "更多網路",
+  "more-development": "更多開發者工具",
+  "more-science": "更多科學",
+  "more-utility": "更多工具程式",
+  "more-education": "更多教育",
+  "more-system": "更多系統",
+  "more-apps-by-developer": "{{developer}} 的更多應用程式",
+  "more-trending": "更多熱門",
+  "more-popular": "更多流行",
+  "more-new": "更多新品",
+  "more-updated": "更多已更新"
 }
