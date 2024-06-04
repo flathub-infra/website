@@ -506,5 +506,20 @@
   "app-of-the-day": "Tänase päeva rakendus",
   "updated-apps": "Uuendatud rakendused",
   "new-description": "Viimase paari päeva jooksul Flathubis avaldatud uued rakendused.",
-  "you-may-or-may-not-be-able-to-contribute": "Sa võib-olla saad teha sellele rakendusele kaastööd, aga võib-olla mitte."
+  "you-may-or-may-not-be-able-to-contribute": "Sa võib-olla saad teha sellele rakendusele kaastööd, aga võib-olla mitte.",
+  "more-apps-by-developer": "Muud rakendused arendajalt {{developer}}",
+  "more-office": "Vaata kõiki kontoritöörakendusi",
+  "more-updated": "Vaata veel hiljuti uuendatud rakendusi",
+  "more-new": "Vaata veel uusi rakendusi",
+  "more-popular": "Vaata teisi populaarseid rakendusi",
+  "more-trending": "Vaata teisi hetkel populaarseid rakendusi",
+  "more-utility": "Vaata kõiki tarvikuid",
+  "more-system": "Vaata kõiki süsteemirakendusi",
+  "more-science": "Vaata kõiki teadusrakendusi",
+  "more-development": "Vaata kõiki arendustarvikuid",
+  "more-network": "Vaata kõiki võrgurakendusi",
+  "more-game": "Vaata kõiki mänge",
+  "more-education": "Vaata kõiki haridusrakendusi",
+  "more-audiovideo": "Vaata kõiki multimeediarakendusi",
+  "more-graphics": "Vaata kõiki graafika- ja fotorakendusi"
 }
