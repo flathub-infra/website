@@ -99,8 +99,8 @@ const LicenseDescription = ({
   if (licenseType === "floss") {
     return (
       <Trans i18nKey={"common:community-built-explanation"}>
-        This software is developed in the open by a community of volunteers, and
-        released under the <b>{{ license }}</b>.
+        This software is developed in the open by an international community,
+        and released under the <b>{{ license }}</b>.
       </Trans>
     )
   }

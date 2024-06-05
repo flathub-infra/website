@@ -442,7 +442,7 @@
   "information": "Information",
   "proprietary-explanation": "This app is not developed in the open, so only its developers know how it works. It may be insecure in ways that are hard to detect, and it may change without oversight.",
   "community-built": "Community built",
-  "community-built-explanation": "This app is developed in the open by a community of volunteers, and released under the <1>{{ license }}</1>.",
+  "community-built-explanation": "This app is developed in the open by an international community, and released under the <1>{{ license }}</1>.",
   "learn-more": "Learn more",
   "get-involved": "Get involved",
   "links": "Links",
