@@ -243,13 +243,14 @@ export default function QualityModerationDashboard() {
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
                   onClick: () => {
-                    router.query.filter =
+                    const newQuery = { ...router.query }
+                    newQuery.filter =
                       GetQualityModerationStatusQualityModerationStatusGetFilter.todo
 
-                    router.query.page = "1"
+                    newQuery.page = "1"
 
                     router.push({
-                      query: router.query,
+                      query: newQuery,
                     })
                   },
                 },
@@ -260,13 +261,14 @@ export default function QualityModerationDashboard() {
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
                   onClick: () => {
-                    router.query.filter =
+                    const newQuery = { ...router.query }
+                    newQuery.filter =
                       GetQualityModerationStatusQualityModerationStatusGetFilter.passing
 
-                    router.query.page = "1"
+                    newQuery.page = "1"
 
                     router.push({
-                      query: router.query,
+                      query: newQuery,
                     })
                   },
                 },
@@ -277,13 +279,14 @@ export default function QualityModerationDashboard() {
                     filteredBy ===
                     GetQualityModerationStatusQualityModerationStatusGetFilter.all,
                   onClick: () => {
-                    router.query.filter =
+                    const newQuery = { ...router.query }
+                    newQuery.filter =
                       GetQualityModerationStatusQualityModerationStatusGetFilter.all
 
-                    router.query.page = "1"
+                    newQuery.page = "1"
 
                     router.push({
-                      query: router.query,
+                      query: newQuery,
                     })
                   },
                 },
