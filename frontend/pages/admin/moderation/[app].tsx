@@ -11,7 +11,7 @@ export default function ModerationTabs({ appId }) {
       <NextSeo title={appId} />
       <LoginGuard
         condition={(info: UserInfo) =>
-          info.permissions.some((a) => a === Permission.moderation)
+          info.permissions?.some((a) => a === Permission.moderation)
         }
       >
         <AppModeration appId={appId} />
@@ -23,6 +23,9 @@ export default function ModerationTabs({ appId }) {
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { app },
+}: {
+  locale: string
+  params: { app: string }
 }) => {
   return {
     props: {

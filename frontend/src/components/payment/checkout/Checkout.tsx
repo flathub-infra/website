@@ -18,10 +18,14 @@ enum Stage {
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
 const Checkout: FunctionComponent<{
-  transaction: TransactionDetailed
+  transaction: TransactionDetailed | null
   clientSecret: string
 }> = ({ transaction, clientSecret }) => {
   const router = useRouter()
+
+  if (!transaction) {
+    return <Spinner size="m" />
+  }
 
   const { id: transactionId } = transaction.summary
 

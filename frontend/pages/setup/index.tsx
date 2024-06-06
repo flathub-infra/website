@@ -119,7 +119,11 @@ export default function Setup({
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const instructions = await fetchSetupInstructions()
 
   if (!instructions) {
