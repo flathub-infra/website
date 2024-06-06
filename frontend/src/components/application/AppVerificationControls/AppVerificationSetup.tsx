@@ -42,7 +42,7 @@ const StatusInfo = ({ status }: { status: VerificationStatus }) => {
           <span className="font-medium">
             {{
               login_provider: verificationProviderToHumanReadable(
-                status.login_provider,
+                status.login_provider!,
               ),
             }}
           </span>
@@ -175,31 +175,33 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
-          verificationAvailableMethods.data?.data.methods.map((methodType) => {
-            if (methodType.method === "website") {
-              return (
-                <WebsiteVerification
-                  key={methodType.method}
-                  appId={app.id}
-                  method={methodType}
-                  isNewApp={isNewApp}
-                  onVerified={onChildVerified}
-                ></WebsiteVerification>
-              )
-            }
-            if (methodType.method === "login_provider") {
-              return (
-                <LoginVerification
-                  key={methodType.method}
-                  appId={app.id}
-                  method={methodType}
-                  isNewApp={isNewApp}
-                  onVerified={onChildVerified}
-                  onReloadNeeded={query.refetch}
-                ></LoginVerification>
-              )
-            }
-          })
+          verificationAvailableMethods.data?.data?.methods?.map(
+            (methodType) => {
+              if (methodType.method === "website") {
+                return (
+                  <WebsiteVerification
+                    key={methodType.method}
+                    appId={app.id}
+                    method={methodType}
+                    isNewApp={isNewApp}
+                    onVerified={onChildVerified}
+                  ></WebsiteVerification>
+                )
+              }
+              if (methodType.method === "login_provider") {
+                return (
+                  <LoginVerification
+                    key={methodType.method}
+                    appId={app.id}
+                    method={methodType}
+                    isNewApp={isNewApp}
+                    onVerified={onChildVerified}
+                    onReloadNeeded={query.refetch}
+                  ></LoginVerification>
+                )
+              }
+            },
+          )
         )}
       </div>
     )

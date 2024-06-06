@@ -97,7 +97,7 @@ export default function AppManagementPage({
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title={t(app.name)} noindex />
       <LoginGuard
-        condition={(info: UserInfo) => info.dev_flatpaks.includes(app.id)}
+        condition={(info: UserInfo) => info.dev_flatpaks?.includes(app.id)}
       >
         <div className="space-y-8">
           <Breadcrumbs pages={pages} />
@@ -120,7 +120,7 @@ export default function AppManagementPage({
                     />
                   </SettingsDisclosure>
                   {(!IS_PRODUCTION ||
-                    user.info?.permissions.some(
+                    user.info?.permissions?.some(
                       (a) => a === Permission.moderation,
                     )) && (
                     <>
@@ -142,7 +142,7 @@ export default function AppManagementPage({
                   </SettingsDisclosure>
 
                   {(!IS_PRODUCTION ||
-                    user.info?.permissions.some(
+                    user.info?.permissions?.some(
                       (a) => a === Permission["direct-upload"],
                     )) && (
                     <>
@@ -172,6 +172,9 @@ export default function AppManagementPage({
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
   const [app, vendingConfig] = await Promise.all([
     fetchAppstream(appId as string, locale),

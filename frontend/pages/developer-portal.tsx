@@ -11,7 +11,6 @@ import ButtonLink from "src/components/ButtonLink"
 import CodeCopy from "src/components/application/CodeCopy"
 import { HiMiniPlus } from "react-icons/hi2"
 import Breadcrumbs from "src/components/Breadcrumbs"
-import axios from "axios"
 import { format } from "date-fns"
 import { Permission } from "src/codegen"
 
@@ -23,7 +22,7 @@ const InviteCode = ({ locale }) => {
     return null
   }
 
-  if (!user.info?.permissions.some((a) => a === Permission["direct-upload"])) {
+  if (!user.info?.permissions?.some((a) => a === Permission["direct-upload"])) {
     return null
   }
 
@@ -53,7 +52,7 @@ const AcceptingPayment = ({}) => {
     return null
   }
 
-  if (IS_PRODUCTION || user.info?.dev_flatpaks.length === 0) {
+  if (IS_PRODUCTION || user.info?.dev_flatpaks?.length === 0) {
     return null
   }
 
@@ -122,7 +121,7 @@ const DeveloperApps = ({ locale }) => {
       variant="dev"
       customButtons={
         (!IS_PRODUCTION ||
-          user.info?.permissions.some((a) => a === Permission.moderation)) && (
+          user.info?.permissions?.some((a) => a === Permission.moderation)) && (
           <ButtonLink className="w-full sm:w-auto" passHref href="/apps/new">
             <HiMiniPlus className="w-5 h-5" />
             {t("new-app")}
@@ -193,7 +192,11 @@ type DocusaurusFeed = {
   }[]
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const response = await fetch("https://docs.flathub.org/blog/feed.json")
   const feed: DocusaurusFeed = await response.json()
 

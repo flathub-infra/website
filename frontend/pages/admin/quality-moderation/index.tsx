@@ -41,7 +41,7 @@ QualityModerationDashboard.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission["quality-moderation"])
+        info.permissions?.some((a) => a === Permission["quality-moderation"])
       }
     >
       {page}
@@ -81,7 +81,7 @@ export default function QualityModerationDashboard() {
           signal,
         },
       ),
-    enabled: !!user.info?.permissions.some(
+    enabled: !!user.info?.permissions?.some(
       (a) => a === Permission["quality-moderation"],
     ),
     placeholderData: (previousData) => previousData,
@@ -397,7 +397,11 @@ export default function QualityModerationDashboard() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

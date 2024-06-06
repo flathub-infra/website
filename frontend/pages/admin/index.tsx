@@ -10,8 +10,8 @@ Admin.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission.moderation) ||
-        info.permissions.some((a) => a === Permission["quality-moderation"])
+        info.permissions?.some((a) => a === Permission.moderation) ||
+        info.permissions?.some((a) => a === Permission["quality-moderation"])
       }
     >
       {page}
@@ -28,7 +28,11 @@ export default function Admin() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

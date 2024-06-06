@@ -68,9 +68,9 @@ export function mapAppsIndexToAppstreamListItem(
 }
 
 export function removeAppIdFromSearchResponse(
-  response: MeilisearchResponse<AppsIndex>,
+  response: MeilisearchResponse<AppsIndex> | undefined,
   app_id: string,
-): MeilisearchResponse<AppsIndex> {
+): MeilisearchResponse<AppsIndex> | null {
   if (!response) {
     return null
   }

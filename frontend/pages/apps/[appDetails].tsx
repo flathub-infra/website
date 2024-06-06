@@ -93,6 +93,10 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale,
   params: { appDetails: appId },
+}: {
+  locale: string
+  defaultLocale: string
+  params: { appDetails: string }
 }) => {
   console.log("Fetching data for app details: ", appId)
 
@@ -133,7 +137,7 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  let eolMessage: string = null
+  let eolMessage: string | null = null
   const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {

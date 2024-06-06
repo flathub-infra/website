@@ -18,7 +18,7 @@ interface Props {
   transaction: TransactionDetailed
   clientSecret: string
   cards: PaymentCardInfo[]
-  error: string
+  error: string | null
   submit: () => void
   skip: () => void
   transactionCancelButton: ReactElement
@@ -37,10 +37,12 @@ const CardSelect: FunctionComponent<Props> = ({
   const stripe = useStripe()
 
   const [confirmed, setConfirmed] = useState(false)
-  const [useCard, setUseCard] = useState<PaymentCardInfo>(null)
+  const [useCard, setUseCard] = useState<PaymentCardInfo | null>(null)
 
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
+      if (!useCard) return
+
       await setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
         withCredentials: true,
       })
@@ -49,6 +51,10 @@ const CardSelect: FunctionComponent<Props> = ({
       })
     },
     onSuccess: async () => {
+      if (!stripe) return
+
+      if (!useCard) return
+
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: useCard.id,
       })

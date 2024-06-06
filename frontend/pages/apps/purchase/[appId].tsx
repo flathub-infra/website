@@ -31,6 +31,9 @@ export default function AppPurchasePage({
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
   const [app, vendingConfig] = await Promise.all([
     fetchAppstream(appId as string, locale),

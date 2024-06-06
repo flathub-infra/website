@@ -29,7 +29,7 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
 
       return getAppOfTheDayInfo
     },
-    enabled: !!user.info?.permissions.some(
+    enabled: !!user.info?.permissions?.some(
       (a) => a === Permission["quality-moderation"],
     ),
   })

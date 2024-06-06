@@ -42,7 +42,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         ? "Approve With Comment"
         : "Approve"
 
-  const [error, setError] = useState<string>()
+  const [error, setError] = useState<string>("")
 
   const mutation = useMutation({
     mutationKey: ["review", request.id],
@@ -117,7 +117,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
     )
   } else if (
     user.info &&
-    user.info.permissions.some((a) => a === Permission.moderation)
+    user.info.permissions?.some((a) => a === Permission.moderation)
   ) {
     buttons = (
       <>
@@ -223,7 +223,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         {children}
 
         {user.info &&
-          user.info.permissions.some((a) => a === Permission.moderation) && (
+          user.info.permissions?.some((a) => a === Permission.moderation) && (
             <CodeCopy
               className="mt-8"
               nested

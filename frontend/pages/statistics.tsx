@@ -78,7 +78,7 @@ const Statistics = ({
       getQualityModerationStatsQualityModerationFailedByGuidelineGet({
         withCredentials: true,
       }),
-    enabled: !!user.info?.permissions.some(
+    enabled: !!user.info?.permissions?.some(
       (a) => a === Permission["quality-moderation"],
     ),
   })
@@ -117,9 +117,12 @@ const Statistics = ({
     resolvedTheme as "light" | "dark",
   )
 
-  const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
+  const options = chartOptions(
+    i18n?.language ?? "en",
+    resolvedTheme as "light" | "dark",
+  )
   const barOptions = barChartOptions(
-    i18n.language,
+    i18n?.language ?? "en",
     resolvedTheme as "light" | "dark",
   )
 
@@ -129,8 +132,8 @@ const Statistics = ({
     prefix,
     suffix,
   }: CountryContext) => {
-    const translatedCountryName = countries.getName(countryCode, i18n.language)
-    const translatedCountryValue = countryValue.toLocaleString(i18n.language)
+    const translatedCountryName = countries.getName(countryCode, i18n?.language)
+    const translatedCountryValue = countryValue?.toLocaleString(i18n?.language)
 
     const downloadTranslation = t("x-downloads", {
       x: translatedCountryValue,
@@ -166,7 +169,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.downloads?.toLocaleString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(i18n?.language),
                   ),
                 },
               },
@@ -180,7 +183,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: stats.number_of_apps?.toLocaleString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(i18n?.language),
                   ),
                 },
               },
@@ -194,7 +197,7 @@ const Statistics = ({
                 content: {
                   type: "text",
                   text: new Date(2018, 3, 29).toLocaleDateString(
-                    getIntlLocale(i18n.language),
+                    getIntlLocale(i18n?.language),
                   ),
                 },
               },
@@ -212,7 +215,7 @@ const Statistics = ({
             size="responsive"
             data={country_data}
             tooltipTextFunction={getLocalizedText}
-            rtl={i18n.dir() === "rtl"}
+            rtl={i18n?.dir() === "rtl"}
           />
         </div>
         <h2 className="mb-6 mt-12 text-2xl font-bold">
@@ -241,7 +244,7 @@ const Statistics = ({
           />
         </div>
         <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
-        {!!user.info?.permissions.some(
+        {!!user.info?.permissions?.some(
           (a) => a === Permission["quality-moderation"],
         ) &&
           query.data?.data && (
@@ -272,7 +275,11 @@ const Statistics = ({
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const stats = await fetchStats()
 
   const runtimes = await fetchRuntimes()

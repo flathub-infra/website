@@ -146,7 +146,7 @@ export const languages: Language[] = [
   "ckb",
 ]
 
-export function getLocale(language: string): Locale {
+export function getLocale(language?: string): Locale {
   switch (language) {
     case "en":
       return enUS
@@ -250,7 +250,7 @@ export function getLocale(language: string): Locale {
   }
 }
 
-export function bcpToPosixLocale(language: string): string {
+export function bcpToPosixLocale(language?: string): string {
   switch (language) {
     case "en":
       return "en_US"
@@ -559,7 +559,7 @@ export function getLanguageName(language: Language): string {
   }
 }
 
-export function getIntlLocale(language: string): Intl.Locale {
+export function getIntlLocale(language?: string): Intl.Locale {
   switch (language) {
     case "en":
     case "en-US":
@@ -677,6 +677,9 @@ export function getIntlLocale(language: string): Intl.Locale {
       return new Intl.Locale("ia")
     case "ckb":
       return new Intl.Locale("ckb")
+
+    default:
+      return new Intl.Locale("en")
   }
 }
 

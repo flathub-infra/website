@@ -34,7 +34,10 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
     t("installs"),
     resolvedTheme as "light" | "dark",
   )
-  const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
+  const options = chartOptions(
+    i18n?.language ?? "en",
+    resolvedTheme as "light" | "dark",
+  )
 
   return (
     <div className="h-[300px] p-4 pb-16">

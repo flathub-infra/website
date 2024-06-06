@@ -21,7 +21,7 @@ export const FlathubCombobox = <
   renderItem,
 }: {
   items: T[]
-  selectedItem: T
+  selectedItem: T | null
   setSelectedItem: (item: T) => void
   label?: string
   disabled?: boolean

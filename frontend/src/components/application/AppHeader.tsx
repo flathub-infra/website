@@ -26,6 +26,8 @@ export function AppHeader({
   const { push } = useRouter()
 
   const donateClicked = (e) => {
+    if (!app.urls?.donation) return
+
     e.preventDefault()
     trackEvent({ category: "App", action: "Donate", name: app.id })
     push(app.urls.donation)

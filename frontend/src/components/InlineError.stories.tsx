@@ -1,11 +1,11 @@
 import React from "react"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import InlineError from "./InlineError"
 
 export default {
   title: "Components/InlineError",
   component: InlineError,
-} as ComponentMeta<typeof InlineError>
+} as Meta<typeof InlineError>
 
 export const Primary = () => {
   return (

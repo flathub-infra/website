@@ -2,7 +2,7 @@ import { NextRouter } from "next/router"
 
 export function setQueryParams(
   router: NextRouter,
-  params: { [param: string]: string },
+  params: { [param: string]: string | undefined },
 ) {
   let query = router.query
 

@@ -1,12 +1,9 @@
 import clsx from "clsx"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect } from "react"
 import { Permission, UserInfo } from "src/codegen"
 import LoginGuard from "./login/LoginGuard"
 import { useRouter } from "next/router"
 import { useUserContext } from "src/context/user-info"
-import { Popover } from "@headlessui/react"
-import { useTranslation } from "next-i18next"
-import { HiBars3, HiXMark } from "react-icons/hi2"
 import FlathubListbox from "./FlathubListbox"
 
 const AdminLayout = ({
@@ -14,7 +11,7 @@ const AdminLayout = ({
   condition,
 }: {
   children: ReactNode
-  condition?: (user: UserInfo) => boolean
+  condition?: (user: UserInfo) => boolean | undefined
 }) => {
   const router = useRouter()
 
@@ -25,21 +22,21 @@ const AdminLayout = ({
       name: "Moderation",
       href: "/admin/moderation",
       condition: (user: UserInfo) =>
-        user?.permissions.some((a) => a === Permission.moderation),
+        user?.permissions?.some((a) => a === Permission.moderation),
     },
     {
       name: "Quality Moderation",
       href: "/admin/quality-moderation",
       condition: (user: UserInfo) =>
-        user?.permissions.some((a) => a === Permission["quality-moderation"]),
+        user?.permissions?.some((a) => a === Permission["quality-moderation"]),
     },
     {
       name: "App Picks",
       href: "/admin/app-picks",
       condition: (user: UserInfo) =>
-        user?.permissions.some((a) => a === Permission["quality-moderation"]),
+        user?.permissions?.some((a) => a === Permission["quality-moderation"]),
     },
-  ].filter((nav) => !nav.condition || nav.condition(user?.info))
+  ].filter((nav) => !nav.condition || (user.info && nav.condition(user.info)))
 
   useEffect(() => {
     if (adminNavigation.length > 0 && router.pathname === "/admin") {
@@ -63,7 +60,8 @@ const AdminLayout = ({
             content: item.name,
             onClick: () => router.push(item.href),
             selected: router.pathname === item.href,
-            disabled: !item.condition || !item.condition(user?.info),
+            disabled:
+              !item.condition || !user?.info || !item.condition(user?.info),
           }))}
         />
         <aside

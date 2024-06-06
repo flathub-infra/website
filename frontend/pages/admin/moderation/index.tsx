@@ -10,7 +10,7 @@ ModerationDashboard.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission.moderation)
+        info.permissions?.some((a) => a === Permission.moderation)
       }
     >
       {page}
@@ -30,7 +30,11 @@ export default function ModerationDashboard() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

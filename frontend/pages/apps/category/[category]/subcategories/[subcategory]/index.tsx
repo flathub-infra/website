@@ -8,6 +8,10 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale,
   params,
+}: {
+  locale: string
+  defaultLocale: string
+  params: { category: string; subcategory: string }
 }) => {
   return {
     redirect: {

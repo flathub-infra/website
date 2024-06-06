@@ -50,6 +50,9 @@ export default function Setup({ distroData }: { distroData: DistroSetup }) {
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { distro },
+}: {
+  locale: string
+  params: { distro: string }
 }) => {
   const instructions = await fetchSetupInstructions()
 
@@ -75,7 +78,11 @@ export const getStaticProps: GetStaticProps = async ({
   }
 }
 
-export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+}: {
+  locales: string[]
+}) => {
   const instructions = await fetchSetupInstructions()
 
   const instructionUrl = instructions.map((instruction) => ({

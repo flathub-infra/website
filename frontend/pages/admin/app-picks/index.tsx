@@ -34,7 +34,7 @@ AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission["quality-moderation"])
+        info?.permissions?.some((a) => a === Permission["quality-moderation"])
       }
     >
       {page}
@@ -160,7 +160,7 @@ export default function AppPicks() {
 
       return heroBannerData
     },
-    enabled: !!user.info?.permissions.some(
+    enabled: !!user.info?.permissions?.some(
       (a) => a === Permission["quality-moderation"],
     ),
   })
@@ -190,7 +190,7 @@ export default function AppPicks() {
 
       return passingApps
     },
-    enabled: !!user.info?.permissions.some(
+    enabled: !!user.info?.permissions?.some(
       (a) => a === Permission["quality-moderation"],
     ),
   })
@@ -419,7 +419,11 @@ export default function AppPicks() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

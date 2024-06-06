@@ -163,7 +163,7 @@ export const QualityModeration = ({
   const [isQualityModerator, setIsQualityModerator] = useState(false)
 
   const requirement =
-    isQualityModerator || user.info?.dev_flatpaks.includes(app.id)
+    isQualityModerator || user.info?.dev_flatpaks?.includes(app.id)
 
   const query = useQuery({
     queryKey: ["/quality-moderation-app-status", { appId: app.id }],
@@ -177,7 +177,9 @@ export const QualityModeration = ({
 
   useEffect(() => {
     if (
-      user.info?.permissions.some((a) => a === Permission["quality-moderation"])
+      user.info?.permissions?.some(
+        (a) => a === Permission["quality-moderation"],
+      )
     ) {
       setIsQualityModerator(true)
     }

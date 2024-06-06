@@ -39,7 +39,11 @@ export default function LoginPortal({ providers, locale }) {
 }
 
 // Providers won't change often so fetch at build time for now
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const providers = await fetchLoginProviders()
 
   return {

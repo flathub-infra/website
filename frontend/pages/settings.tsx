@@ -35,7 +35,11 @@ export default function Settings({
 }
 
 // Need available login providers to show options on page
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const providers = await fetchLoginProviders()
 
   return {

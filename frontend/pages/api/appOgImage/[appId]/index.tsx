@@ -107,7 +107,9 @@ export default async function handler(
     )?.[0]?.url ?? app.icon
 
   const screenshot =
-    app.screenshots?.length > 0 ? mapScreenshot(app.screenshots[0]) : null
+    app.screenshots && app.screenshots?.length > 0
+      ? mapScreenshot(app.screenshots[0])
+      : null
 
   const branding = app.branding?.[0].value ?? "#FAFAFA"
 
@@ -176,28 +178,34 @@ export default async function handler(
             {app.summary}
           </div>
         </div>
-        {screenshot && screenshot.width > screenshot.height && (
-          <img
-            style={{
-              display: "flex",
-              width: "620px",
-              borderRadius: isFullscreenApp ? "8px" : "0px",
-            }}
-            src={screenshot.src}
-            alt=""
-          />
-        )}
-        {screenshot && screenshot.width < screenshot.height && (
-          <img
-            style={{
-              display: "flex",
-              height: "420px",
-              borderRadius: isFullscreenApp ? "8px" : "0px",
-            }}
-            src={screenshot.src}
-            alt=""
-          />
-        )}
+        {screenshot &&
+          screenshot.width &&
+          screenshot.height &&
+          screenshot.width > screenshot.height && (
+            <img
+              style={{
+                display: "flex",
+                width: "620px",
+                borderRadius: isFullscreenApp ? "8px" : "0px",
+              }}
+              src={screenshot.src}
+              alt=""
+            />
+          )}
+        {screenshot &&
+          screenshot.width &&
+          screenshot.height &&
+          screenshot.width < screenshot.height && (
+            <img
+              style={{
+                display: "flex",
+                height: "420px",
+                borderRadius: isFullscreenApp ? "8px" : "0px",
+              }}
+              src={screenshot.src}
+              alt=""
+            />
+          )}
       </div>
       <div
         style={{

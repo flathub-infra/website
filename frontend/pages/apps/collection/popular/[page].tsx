@@ -37,7 +37,7 @@ export default function PopularApps({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
-  if (isNaN(params.page as unknown as number)) {
+  if (isNaN(params?.page as unknown as number)) {
     return {
       notFound: true,
     }
@@ -45,7 +45,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
 
   const applications = await fetchCollection(
     "popular",
-    params.page as unknown as number,
+    params?.page as unknown as number,
     30,
     locale,
   )
