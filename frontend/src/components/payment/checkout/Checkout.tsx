@@ -17,13 +17,30 @@ enum Stage {
 
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
+const TransactionCancelButtonPrep = ({
+  transactionId,
+}: {
+  transactionId: string
+}) => {
+  const router = useRouter()
+  return (
+    <TransactionCancelButton
+      id={transactionId}
+      className="w-full sm:w-auto"
+      onSuccess={() =>
+        router.push(`${detailsPage}/${transactionId}`, undefined, {
+          locale: router.locale,
+        })
+      }
+    />
+  )
+}
+
 const Checkout: FunctionComponent<{
-  transaction: TransactionDetailed
+  transaction: TransactionDetailed | null
   clientSecret: string
 }> = ({ transaction, clientSecret }) => {
   const router = useRouter()
-
-  const { id: transactionId } = transaction.summary
 
   // For purchases the user must agree to the T&C's before continuing
   const [currentStage, setStage] = useState(
@@ -54,21 +71,11 @@ const Checkout: FunctionComponent<{
     enabled: termsAgreed,
   })
 
-  if (walletQuery.isPending) {
+  if (walletQuery.isPending || !transaction) {
     return <Spinner size="m" />
   }
 
-  const transactionCancelButton = (
-    <TransactionCancelButton
-      id={transactionId}
-      className="w-full sm:w-auto"
-      onSuccess={() =>
-        router.push(`${detailsPage}/${transactionId}`, undefined, {
-          locale: router.locale,
-        })
-      }
-    />
-  )
+  const { id: transactionId } = transaction.summary
 
   const { data, error } = walletQuery
   const cards = data?.data.cards ?? []
@@ -79,7 +86,9 @@ const Checkout: FunctionComponent<{
       flowContent = (
         <TermsAgreement
           onConfirm={() => setTermsAgreed(true)}
-          transactionCancelButton={transactionCancelButton}
+          transactionCancelButton={
+            <TransactionCancelButtonPrep transactionId={transactionId} />
+          }
         />
       )
       break
@@ -96,7 +105,9 @@ const Checkout: FunctionComponent<{
             })
           }
           skip={() => setStage(Stage.CardInput)}
-          transactionCancelButton={transactionCancelButton}
+          transactionCancelButton={
+            <TransactionCancelButtonPrep transactionId={transactionId} />
+          }
         />
       )
       break
@@ -107,7 +118,9 @@ const Checkout: FunctionComponent<{
           callbackPage={`${detailsPage}/${transactionId}`}
           canGoBack={cards.length > 0}
           goBack={() => setStage(Stage.CardSelect)}
-          transactionCancelButton={transactionCancelButton}
+          transactionCancelButton={
+            <TransactionCancelButtonPrep transactionId={transactionId} />
+          }
         />
       )
       break

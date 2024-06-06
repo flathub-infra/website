@@ -56,7 +56,11 @@ const Feeds = (): JSX.Element => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

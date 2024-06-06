@@ -47,7 +47,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const { t } = useTranslation()
   const getLayout = Component.getLayout ?? ((page) => page)
 
-  setDefaultOptions({ locale: getLocale(i18n.language) })
+  setDefaultOptions({ locale: getLocale(i18n?.language) })
 
   const [queryClient] = useState(() => new QueryClient({}))
 
@@ -60,7 +60,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const router = useRouter()
   const instance = createInstance({
-    urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI,
+    urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
     siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
     trackerUrl: "https://webstats.gnome.org/matomo.php",
     srcUrl: "https://webstats.gnome.org/matomo.js",
@@ -86,7 +86,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           }}
           openGraph={{
             type: "website",
-            locale: bcpToPosixLocale(router.locale),
+            locale: bcpToPosixLocale(router?.locale),
             url: process.env.NEXT_PUBLIC_SITE_BASE_URI,
             siteName: t("flathub-apps-for-linux"),
             images: [
@@ -107,8 +107,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               <Main>{getLayout(<Component {...pageProps} />)}</Main>
             </UserInfoProvider>
             <ToastContainer
-              position={i18n.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-              rtl={i18n.dir() === "rtl"}
+              position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
+              rtl={i18n?.dir() === "rtl"}
             />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>
@@ -122,7 +122,7 @@ export default Sentry.withErrorBoundary(appWithTranslation(App), {
   fallback: ({ error, componentStack, resetError }) => (
     <Fragment>
       <h3>You have encountered an error</h3>
-      <p>{error.toString()}</p>
+      <p>{error!.toString()}</p>
       <p>{componentStack}</p>
       <button
         onClick={() => {

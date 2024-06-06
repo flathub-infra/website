@@ -109,7 +109,11 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
     onError: (error: AxiosError<{ status: string; error: string }>) => {
-      toast.error(t(error.response.data.error))
+      if (error && error.response) {
+        toast.error(t(error.response.data.error))
+      } else {
+        console.error(error)
+      }
     },
   })
 

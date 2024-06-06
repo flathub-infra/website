@@ -41,7 +41,7 @@ import { AppOfTheDay, AppsOfTheWeek, GetStatsStatsGet200 } from "./codegen"
 import axios from "axios"
 
 export async function fetchAppstreamList(): Promise<string[]> {
-  let entryJson: string[]
+  let entryJson: string[] = []
   try {
     const entryData = await fetch(APPSTREAM_URL)
 
@@ -60,7 +60,7 @@ export async function fetchAppstream(
   appId: string,
   locale: string,
 ): Promise<Appstream> {
-  let entryJson: Appstream
+  let entryJson: Appstream | undefined = undefined
   try {
     const entryData = await fetch(`${APP_DETAILS(appId, locale)}`)
     entryJson = await entryData.json()
@@ -93,10 +93,8 @@ export async function fetchEolRebase(
   return entryJson
 }
 
-export async function fetchEolMessage(
-  appId: string,
-): Promise<string | undefined> {
-  let entryJson: string | undefined
+export async function fetchEolMessage(appId: string): Promise<string | null> {
+  let entryJson: string | null = null
   try {
     const entryData = await fetch(`${EOL_MESSAGE_URL(appId)}`)
     if (entryData.status === 200) {

@@ -36,7 +36,9 @@ export default function TransactionPage() {
   const router = useRouter()
   const user = useUserContext()
 
-  const [transaction, setTransaction] = useState<TransactionDetailed>(null)
+  const [transaction, setTransaction] = useState<TransactionDetailed | null>(
+    null,
+  )
   const [error, setError] = useState("")
 
   // Once router is ready the transaction ID is attainable
@@ -109,7 +111,11 @@ export default function TransactionPage() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
