@@ -14,6 +14,56 @@ Pull requests are welcome. Please, create an issue first explaining what you wan
 
 If you want to contribute translations, please check out the instructions below.
 
+### Overview
+
+This overview is supposed to give you a quick grasp, of what we have and how it works. There are subtle differences between local/prod - this is an approximation.
+
+```mermaid
+block-beta
+    columns 3
+
+    block:external:1
+        columns 1
+
+        dl.flathub.org:1
+
+        hub.flathub.org/stats:1
+    end
+
+    block:group2
+        columns 3
+
+        fastly:3
+
+        down4<[" "]>(down):3
+
+        nginx:3
+
+        down1<[" "]>(down):3
+
+        frontend:3
+
+        down2<[" "]>(down):3
+
+        hub.flathub.org/stats-->backend
+        dl.flathub.org-->backend worker backend_node
+
+        down3<[" "]>(down):3
+
+        db1[("postgres")] db2[("redis")] db3[("meilisearch")]
+
+    end
+
+    block:external2:1
+        columns 1
+
+        smtp:1
+
+        backend_node-->smtp
+    end
+
+```
+
 ### Development
 
 You'll need `git`, `yarn`, `docker` and `docker-compose-plugin`.
