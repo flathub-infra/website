@@ -23,7 +23,10 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   const dispatch = useUserDispatch()
 
   const [pendingTransaction] = usePendingTransaction()
-  const [returnTo, setReturnTo] = useLocalStorage<string>("returnTo", "")
+  const [returnTo, setReturnTo] = useLocalStorage<string | null>(
+    "returnTo",
+    null,
+  )
 
   const [locale, setLocale] = useState(undefined)
 
@@ -95,7 +98,11 @@ export default function AuthReturnPage({ services }: { services: string[] }) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const providers = await fetchLoginProviders()
   const services = providers.map((d) => d.method)
 

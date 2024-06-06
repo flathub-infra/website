@@ -45,6 +45,9 @@ export default PublisherAgreementPage
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
   return {
     props: {

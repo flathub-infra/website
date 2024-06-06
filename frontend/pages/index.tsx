@@ -273,7 +273,11 @@ export default function Home({
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   const recentlyUpdated = await fetchCollection(
     "recently-updated",
     1,

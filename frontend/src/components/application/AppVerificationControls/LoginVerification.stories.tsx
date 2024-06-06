@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker"
-import { ComponentMeta } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import React from "react"
 import LoginVerification from "./LoginVerification"
 import { AvailableMethod } from "../../../codegen/model"
@@ -7,7 +7,7 @@ import { AvailableMethod } from "../../../codegen/model"
 export default {
   title: "Components/Application/AppVerificationControls/LoginVerification",
   component: LoginVerification,
-} as ComponentMeta<typeof LoginVerification>
+} as Meta<typeof LoginVerification>
 
 export const Individual = () => {
   const method: AvailableMethod = {
