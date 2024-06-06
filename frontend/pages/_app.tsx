@@ -64,6 +64,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
     trackerUrl: "https://webstats.gnome.org/matomo.php",
     srcUrl: "https://webstats.gnome.org/matomo.js",
+    configurations: {
+      disableCookies: true,
+    },
   })
 
   return (
