@@ -44,7 +44,7 @@ jobs:
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
 
-  lighthouse desktop:
+  lighthouse_desktop:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
