@@ -9,6 +9,7 @@ import {
   startOnboardingVendingStatusOnboardingPost,
   statusVendingStatusGet,
 } from "src/codegen"
+import { useRouter } from "next/router"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
@@ -19,6 +20,7 @@ import {
 const VendingLink: FunctionComponent = () => {
   const { t } = useTranslation()
   const [onboarding, setOnboarding] = useState(false)
+  const { push } = useRouter()
 
   // Serial queries needed to get the right vending link
   // First check the user's existing status
@@ -53,7 +55,7 @@ const VendingLink: FunctionComponent = () => {
       ),
     onSuccess: (data) => {
       setOnboarding(true)
-      window.location.href = data.data.target_url
+      push(data.data.target_url)
     },
     onError: (error) => {
       toast.error(t(error.message))

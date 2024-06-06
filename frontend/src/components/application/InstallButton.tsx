@@ -11,16 +11,18 @@ import Link from "next/link"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { Trans, useTranslation } from "next-i18next"
 import CodeCopy from "./CodeCopy"
+import { useRouter } from "next/router"
 
 export default function InstallButton({ appId }: { appId: string }) {
   const { t } = useTranslation()
 
   const { trackEvent } = useMatomo()
+  const { push } = useRouter()
 
   const installClicked = (e) => {
     e.preventDefault()
     trackEvent({ category: "App", action: "Install", name: appId })
-    window.location.href = `https://dl.flathub.org/repo/appstream/${appId}.flatpakref`
+    push(`https://dl.flathub.org/repo/appstream/${appId}.flatpakref`)
   }
 
   const flatpakInstallCopied = () => {

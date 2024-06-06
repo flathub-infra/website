@@ -63,7 +63,8 @@ const ProviderLink: FunctionComponent<Props> = ({
             : undefined,
         )
       }
-      window.location.href = data.redirect
+
+      router.replace(data.redirect)
     } else {
       toast.error(`${res.status} ${res.statusText}`)
       setClicked(false)
