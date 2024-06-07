@@ -1856,13 +1856,13 @@ test = ["black", "coverage", "flake8", "isort", "pytest"]
 
 [[package]]
 name = "sentry-sdk"
-version = "2.4.0"
+version = "2.5.0"
 description = "Python client for Sentry (https://sentry.io)"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "sentry_sdk-2.4.0-py2.py3-none-any.whl", hash = "sha256:a42b70981cd4ed7da3c85d0360502d2ac932a15a4a420b360e1ebded2fc19a92"},
-    {file = "sentry_sdk-2.4.0.tar.gz", hash = "sha256:62b9bb0489e731ecbce008f9647899b51d220067a75c3adfd46f8187660c0029"},
+    {file = "sentry_sdk-2.5.0-py2.py3-none-any.whl", hash = "sha256:75d2e1fd8a887fdf63df612f5d37991c248a080b886d80714560bdded2bb9051"},
+    {file = "sentry_sdk-2.5.0.tar.gz", hash = "sha256:05453f921c561b51159f712c2cd267b595e5c195b38b337d03baeb42719dd3c7"},
 ]
 
 [package.dependencies]
@@ -2759,4 +2759,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ade02d8cd55f4ffe85c5e4566357fc993516592fe3893361af6fa971fc973235"
+content-hash = "f2db7c4aa9070143db5950812f67c10711dddca84104a68ffede8074cda2b04c"
