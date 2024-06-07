@@ -10,6 +10,7 @@ jobs:
       - name: Audit URLs using Lighthouse (Mobile)
         uses: treosh/lighthouse-ci-action@v11
         with:
+          name: lighthouse-moblie-artifacts
           urls: |
             https://flathub.org/
             https://flathub.org/apps/collection/recently-added/1
@@ -51,6 +52,7 @@ jobs:
       - name: Audit URLs using Lighthouse (Desktop)
         uses: treosh/lighthouse-ci-action@v11
         with:
+          name: lighthouse-desktop-artifacts
           configPath: .github/configs/lighthouserc.yml
           urls: |
             https://flathub.org/
