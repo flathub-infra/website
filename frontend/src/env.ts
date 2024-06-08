@@ -22,100 +22,128 @@ export const POPULAR_LAST_MONTH_URL = (
   per_page?: number,
   locale?: string,
 ): string => {
-  const result =
-    page && per_page
-      ? `${BASE_URI}/popular/last-month?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/popular/last-month`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/popular/last-month?${result.toString()}`
 }
+
 export const TRENDING_LAST_TWO_WEEKS_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
 ): string => {
-  const result =
-    page && per_page
-      ? `${BASE_URI}/trending/last-two-weeks?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/trending/last-two-weeks`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/trending/last-two-weeks?${result.toString()}`
 }
+
 export const RECENTLY_UPDATED_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
 ): string => {
-  const result =
-    page && per_page
-      ? `${BASE_URI}/collection/recently-updated?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/collection/recently-updated`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/collection/recently-updated?${result.toString()}`
 }
+
 export const RECENTLY_ADDED_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
 ): string => {
-  let result =
-    page && per_page
-      ? `${BASE_URI}/collection/recently-added?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/collection/recently-added`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/collection/recently-added?${result.toString()}`
 }
+
 export const VERIFIED_APPS_URL = (
   page?: number,
   per_page?: number,
   locale?: string,
 ): string => {
-  let result =
-    page && per_page
-      ? `${BASE_URI}/collection/verified?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/collection/verified`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/collection/verified?${result.toString()}`
 }
+
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,
   per_page?: number,
   locale?: string,
 ): string => {
-  let result = ""
-  if (page && per_page) {
-    result = `${BASE_URI}/category/${category}?page=${page}&per_page=${per_page}`
-  } else {
-    result = `${BASE_URI}/category/${category}`
+  const result = new URLSearchParams()
+
+  if (page) {
+    result.append("page", page.toString())
+  }
+
+  if (per_page) {
+    result.append("per_page", per_page.toString())
   }
 
   if (locale) {
-    return `${result}&locale=${locale}`
+    result.append("locale", locale)
   }
-
-  return result
+  return `${BASE_URI}/category/${category}?${result.toString()}`
 }
+
 export const SUBCATEGORY_URL = (
   category: keyof typeof Category,
   subcategory: string,
@@ -123,18 +151,20 @@ export const SUBCATEGORY_URL = (
   per_page?: number,
   locale?: string,
 ): string => {
-  let result = ""
-  if (page && per_page) {
-    result = `${BASE_URI}/category/${category}/subcategories/${subcategory}?page=${page}&per_page=${per_page}`
-  } else {
-    result = `${BASE_URI}/category/${category}/subcategories/${subcategory}`
+  const result = new URLSearchParams()
+
+  if (page) {
+    result.append("page", page.toString())
+  }
+
+  if (per_page) {
+    result.append("per_page", per_page.toString())
   }
 
   if (locale) {
-    return `${result}&locale=${locale}`
+    result.append("locale", locale)
   }
-
-  return result
+  return `${BASE_URI}/category/${category}/subcategories/${subcategory}?${result.toString()}`
 }
 
 export const ADDONS_URL = (appid: string): string =>
@@ -146,18 +176,23 @@ export const DEVELOPER_URL = (
   per_page?: number,
   locale?: string,
 ): string => {
-  const result =
-    page && per_page
-      ? `${BASE_URI}/developer/${encodeURIComponent(
-          developer,
-        )}?page=${page}&per_page=${per_page}`
-      : `${BASE_URI}/developer/${encodeURIComponent(developer)}`
+  const result = new URLSearchParams()
 
-  if (locale) {
-    return `${result}&locale=${locale}`
+  if (page) {
+    result.append("page", page.toString())
   }
 
-  return result
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+
+  return `${BASE_URI}/developer/${encodeURIComponent(
+    developer,
+  )}?${result.toString()}`
 }
 
 export const FEED_RECENTLY_UPDATED_URL: string = `${BASE_URI}/feed/recently-updated`
