@@ -394,7 +394,7 @@
   "information": "Informace",
   "proprietary-explanation": "Tato aplikace není vyvíjena otevřeně, takže jen její vývojáři ví jak funguje. Může být nezabezpečena způsobem, který je obtížné odhalit, a může se měnit bez dohledu.",
   "community-built": "Vyvíjené komunitou",
-  "community-built-explanation": "Tato aplikace je vyvíjena komunitou dobrovolníků a je uvolněna pod licencí <1>{{ license }}</1>.",
+  "community-built-explanation": "Tato aplikace je vyvíjena otevřeně mezinárodní komunitou a je uvolněna pod licencí <1>{{ license }}</1>.",
   "can-read-all-data-on-file-system": "Může číst všechna data v souborovém systému",
   "public-share-subfolder-x": "Podsložka veřejně sdílených {{folder}}",
   "desktop-folder": "Složka plochy",
