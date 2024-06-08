@@ -388,7 +388,7 @@
   "addon-install-info": "Cómo instalar complementos",
   "information": "Información",
   "community-built": "Construido por la comunidad",
-  "community-built-explanation": "Esta aplicación ha sido desarrollada en abierto por una comunidad de voluntarios y publicada bajo la <1>{{ license }}</1>.",
+  "community-built-explanation": "Esta aplicación ha sido desarrollada abiertamente por una comunidad internacional y publicada bajo <1>{{ license }} </1>.",
   "learn-more": "Aprender más",
   "get-involved": "Involucrarse",
   "links": "Enlaces",
