@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import { fetchCollectionTrendingLastTwoWeeks } from "../../../../src/fetchers"
+import fetchCollection from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -43,9 +43,11 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     }
   }
 
-  const { data: applications } = await fetchCollectionTrendingLastTwoWeeks(
+  const applications = await fetchCollection(
+    "trending",
     params.page as unknown as number,
     30,
+    locale,
   )
 
   if (applications.page > applications.totalPages) {

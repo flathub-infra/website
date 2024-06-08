@@ -47,6 +47,32 @@ client.index("apps").update_filterable_attributes(
 )
 
 
+def _translate_name_and_summary(locale: str, searchResults: dict):
+    for searchResult in searchResults["hits"]:
+        if (
+            "translations" in searchResult
+            and searchResult["translations"]
+            and locale in searchResult["translations"].keys()
+        ):
+            if "name" in searchResult["translations"][locale]:
+                searchResult["name"] = searchResult["translations"][locale]["name"]
+
+            if "summary" in searchResult["translations"][locale]:
+                searchResult["summary"] = searchResult["translations"][locale][
+                    "summary"
+                ]
+
+            if "description" in searchResult["translations"][locale]:
+                searchResult["description"] = searchResult["translations"][locale][
+                    "description"
+                ]
+
+        if "translations" in searchResult:
+            del searchResult["translations"]
+
+    return searchResults
+
+
 def create_or_update_apps(apps_to_update: list[dict]):
     client.index("apps").update_documents(apps_to_update)
 
@@ -61,19 +87,23 @@ def get_by_selected_categories(
     selected_categories: list[schemas.MainCategory],
     page: int | None,
     hits_per_page: int | None,
+    locale: str,
 ):
     category_list = [
         f"categories = {category.value}" for category in selected_categories
     ]
 
-    return client.index("apps").search(
-        "",
-        {
-            "filter": [category_list],
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": [category_list],
+                "sort": ["installs_last_month:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
@@ -82,108 +112,137 @@ def get_by_selected_category_and_subcategory(
     selected_subcategory: str,
     page: int | None,
     hits_per_page: int | None,
+    locale: str,
 ):
-    return client.index("apps").search(
-        "",
-        {
-            "filter": [
-                f"main_categories = {selected_category.value}",
-                f"sub_categories = {selected_subcategory}",
-            ],
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": [
+                    f"main_categories = {selected_category.value}",
+                    f"sub_categories = {selected_subcategory}",
+                ],
+                "sort": ["installs_last_month:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_installs_last_month(page: int | None, hits_per_page: int | None):
-    return client.index("apps").search(
-        "",
-        {
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+def get_by_installs_last_month(
+    page: int | None, hits_per_page: int | None, locale: str
+):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "sort": ["installs_last_month:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_trending(page: int | None, hits_per_page: int | None):
-    return client.index("apps").search(
-        "",
-        {
-            "sort": ["trending:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "sort": ["trending:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_added_at(page: int | None, hits_per_page: int | None):
-    return client.index("apps").search(
-        "",
-        {
-            "sort": ["added_at:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "sort": ["added_at:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_updated_at(page: int | None, hits_per_page: int | None):
-    return client.index("apps").search(
-        "",
-        {
-            "sort": ["updated_at:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "sort": ["updated_at:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_verified(page: int | None, hits_per_page: int | None):
-    return client.index("apps").search(
-        "",
-        {
-            "filter": ["verification_verified = true"],
-            "sort": ["verification_timestamp:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": ["verification_verified = true"],
+                "sort": ["verification_timestamp:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
-def get_by_developer(developer: str, page: int | None, hits_per_page: int | None):
+def get_by_developer(
+    developer: str, page: int | None, hits_per_page: int | None, locale: str
+):
     escaped_developer = (
         developer.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
     )
 
-    return client.index("apps").search(
-        "",
-        {
-            "filter": [f"developer_name = '{escaped_developer}'"],
-            "sort": ["installs_last_month:desc"],
-            "hitsPerPage": hits_per_page or 250,
-            "page": page or 1,
-        },
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": [f"developer_name = '{escaped_developer}'"],
+                "sort": ["installs_last_month:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
     )
 
 
 ## remove this, when compat get's removed
-def search_apps(query: str, free_software_only: bool = False):
+def search_apps(query: str, locale: str, free_software_only: bool = False):
     query = unquote(query)
 
-    return client.index("apps").search(
-        query,
-        {
-            "limit": 250,
-            "sort": ["installs_last_month:desc"],
-            "filter": ["is_free_license = true"] if free_software_only else None,
-        },
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            query,
+            {
+                "limit": 250,
+                "sort": ["installs_last_month:desc"],
+                "filter": ["is_free_license = true"] if free_software_only else None,
+            },
+        ),
     )
 
 
-def search_apps_post(searchquery: SearchQuery):
+def search_apps_post(searchquery: SearchQuery, locale: str):
     filters = []
 
     for filter in searchquery.filters or []:
@@ -191,20 +250,23 @@ def search_apps_post(searchquery: SearchQuery):
 
     filterString = " AND ".join(filters)
 
-    return client.index("apps").search(
-        searchquery.query,
-        {
-            "limit": 250,
-            "sort": ["installs_last_month:desc"],
-            "filter": filterString if filterString else None,
-            "facets": [
-                "verification_verified",
-                "main_categories",
-                "is_free_license",
-                "type",
-                "arches",
-            ],
-        },
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            searchquery.query,
+            {
+                "limit": 250,
+                "sort": ["installs_last_month:desc"],
+                "filter": filterString if filterString else None,
+                "facets": [
+                    "verification_verified",
+                    "main_categories",
+                    "is_free_license",
+                    "type",
+                    "arches",
+                ],
+            },
+        ),
     )
 
 

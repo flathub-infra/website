@@ -4,7 +4,7 @@ import re
 import gi
 from fastapi_sqlalchemy import db as sqldb
 
-from . import db, models, schemas, search, utils
+from . import db, localize, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -13,7 +13,7 @@ clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
 
 
-def add_to_search(app_id: str, app: dict) -> dict:
+def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     search_description = re.sub(clean_html_re, "", app["description"])
 
     search_keywords = app.get("keywords")
@@ -32,12 +32,33 @@ def add_to_search(app_id: str, app: dict) -> dict:
 
     type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
 
+    translations = {}
+    for key, apps in apps_locale.items():
+        if app_id in apps and key in localize.LOCALES:
+            filtered_translations = dict(
+                filter(
+                    lambda x: (
+                        x[0] == "name" or x[0] == "summary" or x[0] == "description"
+                    )
+                    and len(x[1]) > 0,
+                    apps[app_id].items(),
+                )
+            )
+
+            if "description" in filtered_translations:
+                filtered_translations["description"] = re.sub(
+                    clean_html_re, "", filtered_translations["description"]
+                )
+
+            translations[key] = filtered_translations
+
     # order of the dict is important for attribute ranking
     return {
         "id": utils.get_clean_app_id(app_id),
         "type": type,
         "name": app["name"],
         "summary": app["summary"],
+        "translations": translations,
         "keywords": search_keywords,
         "project_license": project_license,
         "is_free_license": AppStream.license_is_free_license(project_license),
@@ -92,7 +113,7 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream(sqldb) -> None:
-    apps = utils.appstream2dict()
+    apps, apps_locale = utils.appstream2dict()
 
     current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
     current_types = db.redis_conn.smembers("types:index")
@@ -109,7 +130,13 @@ def load_appstream(sqldb) -> None:
             redis_key = f"apps:{app_id}"
 
             if show_in_frontend(apps[app_id]):
-                search_apps.append(add_to_search(app_id, apps[app_id]))
+                search_apps.append(
+                    add_to_search(
+                        app_id,
+                        apps[app_id],
+                        apps_locale,
+                    )
+                )
 
                 if developer_name := apps[app_id].get("developer_name"):
                     p.sadd("developers:index", developer_name)
@@ -137,6 +164,9 @@ def load_appstream(sqldb) -> None:
                     "type": type,
                 }
             )
+            for key, value in apps_locale.items():
+                if app_id in value:
+                    p.set(f"apps_locale:{app_id}:{key}", json.dumps(value[app_id]))
 
         search.create_or_update_apps(search_apps)
 
@@ -151,6 +181,7 @@ def load_appstream(sqldb) -> None:
         for app_id in current_apps - set(apps):
             p.delete(
                 f"apps:{app_id}",
+                f"apps_locale:{app_id}",
                 f"summary:{app_id}",
                 f"app_stats:{app_id}",
             )

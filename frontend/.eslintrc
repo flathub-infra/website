@@ -1,10 +1,14 @@
 {
   "extends": ["next", "prettier"],
-  "plugins": ["prettier"],
+  "plugins": [
+    "eslint-plugin-react-compiler",
+    "prettier"
+  ],
   "ignorePatterns": [
     "src/codegen/**"
   ],
   "rules": {
+    "react-compiler/react-compiler": "error",
     "prettier/prettier": "error"
   }
 }

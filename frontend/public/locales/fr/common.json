@@ -178,7 +178,6 @@
   "terms-and-conditions": "Conditions générales",
   "accepting-payment": "Acceptation du paiement",
   "entry-confirmation-prompt": "Entrez « {{text}} » pour continuer.",
-  "other-apps-by-projectgroup": "Autres applis dans le groupe {{projectgroup}}",
   "release-link": "Plus d’informations",
   "contribute-languages": "Toutes ces traductions ont été réalisées par la communauté. Si vous voulez aider à traduire Flathub, veuillez <1>rejoindre l’équipe de traduction de Flathub</1>.",
   "confirm-settings": "Confirmer les paramètres",
@@ -209,7 +208,6 @@
   "verified": "Vérifiées",
   "app-is-verified": "Cette appli est vérifiée",
   "redeem-token": "Utiliser un jeton",
-  "more-type": "Plus de {{type}}",
   "no-transactions": "Sans transaction",
   "begin": "Commencer",
   "unverify-app-prompt": "Annuler la vérification de {{appId}} ?",
@@ -257,7 +255,6 @@
   "rss-apps": "Vous avez besoin d'une application RSS ? Vous en trouverez d'excellentes sur <2>Flathub</2>.",
   "no-apps": "Absence de logiciel à montrer.",
   "apps-by-developer": "Applis par {{developer}}",
-  "apps-by-projectgroup": "Applis du groupe {{projectgroup}}",
   "about-app-verification-block": "<0>Que signifie la coche sous le nom d'une application ? </0><p>Certaines applications ont une coche sur la page de l'application sous le nom du développeur. Cela signifie que l'application est publiée sur Flathub par son développeur original ou par un tiers approuvé par le développeur.</p><p>Certaines applications sont publiées par des tiers qui ne sont pas affiliés au développeur original. Cela est autorisé, mais ces applications ne sont pas éligibles pour la coche.</p><p>À côté de la coche se trouve un lien vers le site web du développeur ou vers son profil sur un site d'hébergement de code source. Flathub a vérifié l'identité du développeur à l'aide de ce lien.</p><4>Je publie une application sur Flathub. Comment puis-je la faire vérifier ? </4><5>Tout d'abord, <2>connectez-vous à Flathub</2>. Recherchez « Portail Développeur » en bas de la page. Cliquez sur l'application que vous souhaitez vérifier, puis trouvez la section « Vérification ». Les instructions qui s'y trouvent vous guideront tout au long du processus de vérification.</5>",
   "browse": "Parcourir",
   "failed-to-find-token": "Impossible de trouver le jeton en réponse de {{domain}}.",
@@ -502,7 +499,8 @@
     "request-review-description": "Notre équipe va auditer les problèmes de qualité de votre application. Cela prendra quelques jours.",
     "show-branding-preview": "Afficher l'aperçu de la marque",
     "request-a-review-question": "Voulez-vous requérir un examen ?",
-    "hide-branding-preview": "Masquer l'aperçu de la marque"
+    "hide-branding-preview": "Masquer l'aperçu de la marque",
+    "needed-to-pass-x": "Nécessaire pour réussir {{x}}"
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -567,5 +565,12 @@
   "do-you-really-want-to-switch-to-direct-upload": "Es-tu sûr ? Une fois que vous aurez basculé une application vers le téléchargement direct, vous ne pouvez plus revenir en arrière.",
   "enter-end-of-life-message": "Saisir le message de fin de vie",
   "special-license": "Licence spéciale",
-  "you-may-or-may-not-be-able-to-contribute": "Vous pourrez ou non contribuer à cette app."
+  "you-may-or-may-not-be-able-to-contribute": "Vous pourrez ou non contribuer à cette app.",
+  "cannot-abandon-app": "Impossible d'abandonner l'application",
+  "do-you-really-want-to-archive-app": "Etês-vous sûr(e) ? Cela invalidera les jetons de téléchargement et archivera l'application.",
+  "rebase-onto-other-app": "Entrez l'ID de l'app dans laquelle votre application sera rebasée",
+  "updated-description": "Applications mises à jour sur Flathub ces derniers jours.",
+  "new-description": "Nouvelles applications publiées sur Flathub ces derniers jours.",
+  "updated-apps": "Apps mises à jour",
+  "new-apps": "Nouvelles apps"
 }

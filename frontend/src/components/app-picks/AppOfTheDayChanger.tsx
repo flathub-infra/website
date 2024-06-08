@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { format, formatISO, isBefore, isSameDay } from "date-fns"
-import { fetchAppstream } from "src/fetchers"
+import { fetchAppOfTheDay, fetchAppstream } from "src/fetchers"
 import { AppOfTheDay } from "../application/AppOfTheDay"
 import Spinner from "../Spinner"
 import { FlathubCombobox } from "../Combobox"
@@ -9,11 +9,8 @@ import { ReactElement } from "react"
 import clsx from "clsx"
 import { HiCheck } from "react-icons/hi2"
 import LogoImage from "../LogoImage"
-import {
-  getAppOfTheDayAppPicksAppOfTheDayDateGet,
-  setAppOfTheDayAppPicksAppOfTheDayPost,
-  Permission,
-} from "src/codegen"
+import { setAppOfTheDayAppPicksAppOfTheDayPost, Permission } from "src/codegen"
+import { DesktopAppstream } from "src/types/Appstream"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()
@@ -21,12 +18,13 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const queryAppOfTheDay = useQuery({
     queryKey: ["app-of-the-day", day],
     queryFn: async () => {
-      const getAppsOfTheDay = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
+      const getAppsOfTheDay = await fetchAppOfTheDay(
         formatISO(day, { representation: "date" }),
       )
 
       const getAppOfTheDayInfo = await fetchAppstream(
-        getAppsOfTheDay.data.app_id,
+        getAppsOfTheDay.app_id,
+        "en",
       )
 
       return getAppOfTheDayInfo
@@ -72,12 +70,12 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
       {queryAppOfTheDay.isPending ? (
         <Spinner size="m" />
       ) : (
-        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data.data} />
+        <AppOfTheDay appOfTheDay={queryAppOfTheDay.data as DesktopAppstream} />
       )}
       <FlathubCombobox
         disabled={isBefore(day, new Date()) && !isSameDay(day, new Date())}
         items={selectableApps}
-        selectedItem={queryAppOfTheDay.data?.data ?? null}
+        selectedItem={queryAppOfTheDay.data ?? null}
         setSelectedItem={changeAppOfTheDay}
         renderItem={(active, selected, item) => (
           <ComboboxItem active={active} selected={selected} item={item} />
@@ -94,7 +92,7 @@ const ComboboxItem = ({
 }: {
   active: boolean
   selected: boolean
-  item: { id: string; name: string; subtitle: string; icon: string }
+  item: { id: string; name: string; subtitle?: string; icon?: string }
 }): ReactElement => {
   return (
     <div className="flex gap-2 items-center cursor-pointer">

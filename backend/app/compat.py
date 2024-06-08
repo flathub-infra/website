@@ -113,7 +113,7 @@ def get_popular_apps():
 
 
 @router.get("/apps/search/{query}", tags=["compat"])
-def get_search(query: str = Path(min_length=2)):
+def get_search(query: str = Path(min_length=2), locale: str = "en"):
     results = [
         {
             "id": app["app_id"],
@@ -121,7 +121,7 @@ def get_search(query: str = Path(min_length=2)):
             "summary": app["summary"],
             "icon": app.get("icon"),
         }
-        for app in search.search_apps(query)["hits"]
+        for app in search.search_apps(query, locale)["hits"]
         if "app_id"  # this might cause hit count to be wrong, but is better then crashing
         in app
     ]

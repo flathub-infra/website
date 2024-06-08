@@ -6,8 +6,7 @@ import LoginGuard from "../src/components/login/LoginGuard"
 import DeleteButton from "../src/components/user/DeleteButton"
 import UserDetails from "../src/components/user/Details"
 import { LoginProvider } from "../src/types/Login"
-import { getLoginMethodsAuthLoginGet } from "src/codegen"
-import axios from "axios"
+import { fetchLoginProviders } from "src/fetchers"
 
 export default function Settings({
   providers,
@@ -36,15 +35,17 @@ export default function Settings({
 }
 
 // Need available login providers to show options on page
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const providers = await getLoginMethodsAuthLoginGet()
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
+  const providers = await fetchLoginProviders()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      providers: providers.data,
+      providers: providers,
     },
     revalidate: 900,
   }

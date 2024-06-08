@@ -11,7 +11,7 @@ import { motion } from "framer-motion"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
-  title: string
+  title?: string
   page?: number
   totalPages?: number
   totalHits?: number
@@ -28,8 +28,8 @@ const Header = ({
   totalHits,
   customButtons,
 }: {
-  title: string
-  refresh?: JSX.Element
+  title?: string
+  refresh: JSX.Element | null
   totalHits?: number
   customButtons?: JSX.Element
 }) => {
@@ -102,7 +102,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   if (!page && totalPages) {
     page = parseInt((router.query.page ?? "1") as string)
   }
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+  const pages = Array.from({ length: totalPages ?? 1 }, (_, i) => i + 1)
 
   return (
     <section className="flex flex-col gap-3">
@@ -132,7 +132,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         ))}
       </div>
 
-      {totalPages && <Pagination pages={pages} currentPage={page} />}
+      {totalPages && <Pagination pages={pages} currentPage={page ?? 1} />}
     </section>
   )
 }

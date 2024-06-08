@@ -23,7 +23,7 @@ export default function AcceptInvitePage({ app }) {
   const userDispatch = useUserDispatch()
 
   useEffect(() => {
-    if (user.info?.dev_flatpaks.includes(app.id)) {
+    if (user.info?.dev_flatpaks?.includes(app.id)) {
       router.push(`/apps/manage/${app.id}`)
     }
   }, [app.id, router, user.info])
@@ -127,8 +127,11 @@ export default function AcceptInvitePage({ app }) {
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
-  const app = (await fetchAppstream(appId as string))?.data
+  const app = await fetchAppstream(appId as string, locale)
 
   return {
     props: {

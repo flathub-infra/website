@@ -17,7 +17,7 @@ const LoginGuard = ({
   condition,
 }: {
   children: React.ReactNode
-  condition?: (user: UserInfo) => boolean
+  condition?: (user: UserInfo) => boolean | undefined
 }) => {
   const { t } = useTranslation()
   const user = useUserContext()

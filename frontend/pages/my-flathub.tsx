@@ -21,7 +21,7 @@ const Empty = () => {
   )
 }
 
-export default function MyFlathub() {
+export default function MyFlathub({ locale }: { locale: string }) {
   const { t } = useTranslation()
 
   const pages = [{ name: t("my-flathub"), current: true, href: "/my-flathub" }]
@@ -37,7 +37,9 @@ export default function MyFlathub() {
               <>
                 <h1 className="text-4xl font-extrabold">{t("my-flathub")}</h1>
                 <div className="space-y-12 w-full">
-                  {!IS_PRODUCTION && <UserApps variant="owned" />}
+                  {!IS_PRODUCTION && (
+                    <UserApps variant="owned" locale={locale} />
+                  )}
                   {IS_PRODUCTION && <Empty />}
                 </div>
               </>
@@ -49,10 +51,15 @@ export default function MyFlathub() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      locale,
     },
     revalidate: 900,
   }

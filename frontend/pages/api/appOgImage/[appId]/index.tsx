@@ -7,10 +7,9 @@ import { Resvg } from "@resvg/resvg-js"
 import i18next from "i18next"
 import { languages } from "src/localize"
 import satori from "satori"
-import { fetchAppstream } from "src/fetchers"
+import { fetchAppIsFullscreen, fetchAppstream } from "src/fetchers"
 import { getContrastColor } from "@/lib/helpers"
 import { DesktopAppstream, mapScreenshot } from "src/types/Appstream"
-import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 
 type ResponseData = {
   message: string
@@ -91,17 +90,16 @@ export default async function handler(
 
   const appId = req.query.appId as string
 
-  const app: DesktopAppstream = await (
-    await fetchAppstream(appId as string)
-  ).data
+  const app: DesktopAppstream = (await fetchAppstream(
+    appId as string,
+    locale as string,
+  )) as DesktopAppstream
 
   if (!app) {
     return res.status(404).json({ message: "App not found" })
   }
 
-  const isFullscreenApp = await getIsFullscreenAppIsFullscreenAppAppIdGet(
-    appId as string,
-  )
+  const isFullscreenApp = await fetchAppIsFullscreen(appId as string)
 
   const icon =
     app.icons?.sort(
@@ -109,7 +107,9 @@ export default async function handler(
     )?.[0]?.url ?? app.icon
 
   const screenshot =
-    app.screenshots?.length > 0 ? mapScreenshot(app.screenshots[0]) : null
+    app.screenshots && app.screenshots?.length > 0
+      ? mapScreenshot(app.screenshots[0])
+      : null
 
   const branding = app.branding?.[0].value ?? "#FAFAFA"
 
@@ -178,28 +178,34 @@ export default async function handler(
             {app.summary}
           </div>
         </div>
-        {screenshot && screenshot.width > screenshot.height && (
-          <img
-            style={{
-              display: "flex",
-              width: "620px",
-              borderRadius: isFullscreenApp ? "8px" : "0px",
-            }}
-            src={screenshot.src}
-            alt=""
-          />
-        )}
-        {screenshot && screenshot.width < screenshot.height && (
-          <img
-            style={{
-              display: "flex",
-              height: "420px",
-              borderRadius: isFullscreenApp ? "8px" : "0px",
-            }}
-            src={screenshot.src}
-            alt=""
-          />
-        )}
+        {screenshot &&
+          screenshot.width &&
+          screenshot.height &&
+          screenshot.width > screenshot.height && (
+            <img
+              style={{
+                display: "flex",
+                width: "620px",
+                borderRadius: isFullscreenApp ? "8px" : "0px",
+              }}
+              src={screenshot.src}
+              alt=""
+            />
+          )}
+        {screenshot &&
+          screenshot.width &&
+          screenshot.height &&
+          screenshot.width < screenshot.height && (
+            <img
+              style={{
+                display: "flex",
+                height: "420px",
+                borderRadius: isFullscreenApp ? "8px" : "0px",
+              }}
+              src={screenshot.src}
+              alt=""
+            />
+          )}
       </div>
       <div
         style={{

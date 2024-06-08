@@ -42,7 +42,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
         ? "Approve With Comment"
         : "Approve"
 
-  const [error, setError] = useState<string>()
+  const [error, setError] = useState<string>("")
 
   const mutation = useMutation({
     mutationKey: ["review", request.id],

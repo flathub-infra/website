@@ -27,7 +27,7 @@ const ProviderLink: FunctionComponent<Props> = ({
   // Using state to prevent user repeatedly initiating fetches
   const [clicked, setClicked] = useState(false)
 
-  const [, setReturnTo] = useLocalStorage<string>("returnTo", "")
+  const [, setReturnTo] = useLocalStorage<string | null>("returnTo", null)
 
   // When user clicks a provider, a redirect is fetched to initiate login flow
   const onClick = useCallback(async () => {
@@ -63,7 +63,8 @@ const ProviderLink: FunctionComponent<Props> = ({
             : undefined,
         )
       }
-      window.location.href = data.redirect
+
+      router.replace(data.redirect)
     } else {
       toast.error(`${res.status} ${res.statusText}`)
       setClicked(false)

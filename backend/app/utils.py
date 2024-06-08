@@ -19,6 +19,7 @@ gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
+remove_desktop_re = re.compile(r"\.desktop$")
 
 
 class Hasher:
@@ -43,7 +44,15 @@ class Hasher:
         return self.hasher.hexdigest()
 
 
-def appstream2dict(appstream_url=None) -> dict[str, dict]:
+def add_translation(apps_locale: dict, language: str, appid: str, key: str, value: str):
+    if language not in apps_locale:
+        apps_locale[language] = {}
+    if appid not in apps_locale[language]:
+        apps_locale[language][appid] = {}
+    apps_locale[language][appid][key] = value
+
+
+def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]]:
     if config.settings.appstream_repos:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
@@ -68,10 +77,12 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     root = etree.fromstring(appstream)
 
     apps = {}
+    apps_locale = {}
 
     media_base_url = "https://dl.flathub.org/media"
 
     for component in root:
+        appid = re.sub(remove_desktop_re, "", component.find("id").text)
         app = {}
 
         app["type"] = component.attrib.get("type", "generic")
@@ -79,35 +90,49 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         descriptions = component.findall("description")
         if len(descriptions):
             for desc in descriptions:
-                # TODO: support translations
-                if desc.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
-                    continue
                 component.remove(desc)
-                if len(desc.attrib) > 0:
-                    continue
 
                 description = [
                     etree.tostring(tag, encoding=("unicode")) for tag in desc
                 ]
-                app["description"] = "".join(description)
-                break
+
+                if len(desc.attrib) == 0:
+                    app["description"] = "".join(description)
+                else:
+                    add_translation(
+                        apps_locale,
+                        desc.get("{http://www.w3.org/XML/1998/namespace}lang"),
+                        appid,
+                        "description",
+                        "".join(description),
+                    )
 
         screenshots = component.find("screenshots")
         if screenshots is not None:
             app["screenshots"] = []
-            for screenshot in screenshots:
+            for i, screenshot in enumerate(screenshots):
                 attrs = {}
 
                 if component.attrib.get("type") == "desktop-application":
                     for caption in screenshot.findall("caption"):
-                        if (
-                            caption is not None
-                            and caption.attrib.get(
-                                "{http://www.w3.org/XML/1998/namespace}lang"
-                            )
-                            is None
-                        ):
-                            attrs["caption"] = caption.text
+                        if caption is not None:
+                            if (
+                                caption.attrib.get(
+                                    "{http://www.w3.org/XML/1998/namespace}lang"
+                                )
+                                is None
+                            ):
+                                attrs["caption"] = caption.text
+                            else:
+                                add_translation(
+                                    apps_locale,
+                                    caption.attrib.get(
+                                        "{http://www.w3.org/XML/1998/namespace}lang"
+                                    ),
+                                    appid,
+                                    f"screenshots_caption_{i}",
+                                    "".join(caption.text),
+                                )
 
                 if screenshot.attrib.get("type") == "default":
                     attrs["default"] = True
@@ -135,7 +160,6 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                             scale = image.attrib.get("scale")
                         width = image.attrib.get("width")
                         height = image.attrib.get("height")
-
                         attrs["sizes"].append(
                             {
                                 "width": width,
@@ -271,8 +295,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
             component.remove(component.find("developer"))
 
         for elem in component:
-            # TODO: support translations
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                if len(elem) == 0 and len(elem.attrib) == 1:
+                    add_translation(
+                        apps_locale,
+                        elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"),
+                        appid,
+                        elem.tag,
+                        elem.text,
+                    )
                 continue
 
             if len(elem) == 0 and len(elem.attrib) == 0:
@@ -301,8 +332,17 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         app[elem.tag].append(tag.text)
                         continue
 
-                    # TODO: support translations
                     if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
+                        if len(elem) == 0 and len(elem.attrib) == 1:
+                            add_translation(
+                                apps_locale,
+                                elem.attrib.get(
+                                    "{http://www.w3.org/XML/1998/namespace}lang"
+                                ),
+                                appid,
+                                elem.tag,
+                                elem.text,
+                            )
                         continue
 
                     attrs = {}
@@ -336,7 +376,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["id"] = appid
         apps[appid] = app
 
-    return apps
+    return apps, apps_locale
 
 
 def get_clean_app_id(app_id: str):

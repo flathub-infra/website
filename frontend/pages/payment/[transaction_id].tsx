@@ -20,7 +20,7 @@ import { TransactionDetailed } from "../../src/types/Payment"
 import { useTheme } from "next-themes"
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
-let stripePromise: Promise<Stripe>
+let stripePromise: Promise<Stripe | null>
 async function getStripeObject() {
   if (!stripePromise) {
     let res: Response
@@ -84,8 +84,10 @@ export default function TransactionPage() {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const [stripe, setStripe] = useState<Stripe>(null)
-  const [transaction, setTransaction] = useState<TransactionDetailed>(null)
+  const [stripe, setStripe] = useState<Stripe | null>(null)
+  const [transaction, setTransaction] = useState<TransactionDetailed | null>(
+    null,
+  )
   const [secret, setSecret] = useState("")
   const [error, setError] = useState("")
 
@@ -165,7 +167,11 @@ export default function TransactionPage() {
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

@@ -9,6 +9,9 @@ import {
   fetchSummary,
   fetchDeveloperApps,
   fetchAddons,
+  fetchEolRebase,
+  fetchEolMessage,
+  fetchVerificationStatus,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
 import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
@@ -24,12 +27,6 @@ import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { useTranslation } from "next-i18next"
 import { isValidAppId } from "@/lib/helpers"
-import {
-  getEolMessageAppidEolMessageAppIdGet,
-  getEolRebaseAppidEolRebaseAppIdGet,
-} from "src/codegen"
-import { getVerificationStatusVerificationAppIdStatusGet } from "src/codegen"
-import axios from "axios"
 
 export default function Details({
   app,
@@ -39,6 +36,7 @@ export default function Details({
   verificationStatus,
   eolMessage,
   addons,
+  locale,
 }: {
   app: DesktopAppstream
   summary?: Summary
@@ -47,6 +45,7 @@ export default function Details({
   verificationStatus: VerificationStatus
   eolMessage: string
   addons: AddonAppstream[]
+  locale: string
 }) {
   const { t } = useTranslation()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -64,7 +63,7 @@ export default function Details({
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
           images: [
             {
-              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}`,
+              url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/appOgImage/${app?.id}?locale=${locale}`,
               height: 628,
               width: 1200,
               alt: app?.name,
@@ -94,9 +93,11 @@ export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale,
   params: { appDetails: appId },
+}: {
+  locale: string
+  defaultLocale: string
+  params: { appDetails: string }
 }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
   console.log("Fetching data for app details: ", appId)
 
   const isFlatpakref = (appId as string).endsWith(".flatpakref")
@@ -112,9 +113,7 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  const { data: eolRebaseTo } = await getEolRebaseAppidEolRebaseAppIdGet(
-    appId as string,
-  )
+  const eolRebaseTo = await fetchEolRebase(appId as string)
 
   if (eolRebaseTo) {
     const prefix = locale && locale !== defaultLocale ? `/${locale}` : ``
@@ -138,26 +137,28 @@ export const getStaticProps: GetStaticProps = async ({
     }
   }
 
-  let eolMessage: string = null
-  const app = await (await fetchAppstream(appId as string)).data
+  let eolMessage: string | null = null
+  const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {
-    eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
-      .data
+    eolMessage = await fetchEolMessage(appId as string)
   }
 
-  if (!app && !eolMessage) {
+  //@ts-ignore
+  if ((!app && !eolMessage) || !!app?.detail?.[0]?.type) {
     return {
       notFound: true,
     }
   }
 
-  const { data: summary } = await fetchSummary(appId as string)
-  const { data: stats } = await fetchAppStats(appId as string)
-  const { data: developerApps } = await fetchDeveloperApps(app?.developer_name)
-  const { data: verificationStatus } =
-    await getVerificationStatusVerificationAppIdStatusGet(appId as string)
-  const addons = await fetchAddons(appId as string)
+  const summary = await fetchSummary(appId as string)
+  const stats = await fetchAppStats(appId as string)
+  const developerApps =
+    app && app.type !== "addon"
+      ? await fetchDeveloperApps(app.developer_name, locale)
+      : undefined
+  const verificationStatus = await fetchVerificationStatus(appId as string)
+  const addons = await fetchAddons(appId as string, locale)
 
   return {
     props: {
@@ -169,6 +170,7 @@ export const getStaticProps: GetStaticProps = async ({
       verificationStatus,
       eolMessage,
       addons,
+      locale,
     },
     revalidate: 900,
   }

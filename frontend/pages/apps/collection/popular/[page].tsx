@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import ApplicationCollection from "../../../../src/components/application/Collection"
-import { fetchCollectionPopularLastMonth } from "../../../../src/fetchers"
+import fetchCollection from "../../../../src/fetchers"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -37,15 +37,17 @@ export default function PopularApps({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
-  if (isNaN(params.page as unknown as number)) {
+  if (isNaN(params?.page as unknown as number)) {
     return {
       notFound: true,
     }
   }
 
-  const { data: applications } = await fetchCollectionPopularLastMonth(
-    params.page as unknown as number,
+  const applications = await fetchCollection(
+    "popular",
+    params?.page as unknown as number,
     30,
+    locale,
   )
 
   if (applications.page > applications.totalPages) {

@@ -8,6 +8,7 @@ import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
+import { useRouter } from "next/router"
 
 export function AppHeader({
   app,
@@ -22,11 +23,14 @@ export function AppHeader({
 }) {
   const { t } = useTranslation()
   const { trackEvent } = useMatomo()
+  const { push } = useRouter()
 
   const donateClicked = (e) => {
+    if (!app.urls?.donation) return
+
     e.preventDefault()
     trackEvent({ category: "App", action: "Donate", name: app.id })
-    window.location.href = app.urls.donation
+    push(app.urls.donation)
   }
 
   return (

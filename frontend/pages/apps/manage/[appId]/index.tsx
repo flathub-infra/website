@@ -11,7 +11,7 @@ import { IS_PRODUCTION } from "src/env"
 import * as AppVendingControls from "../../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../../src/context/user-info"
-import { fetchAppstream } from "../../../../src/fetchers"
+import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
 import { VendingConfig } from "../../../../src/types/Vending"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
@@ -22,12 +22,10 @@ import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
 import {
-  getGlobalVendingConfigVendingConfigGet,
   Permission,
   getInviteStatusInvitesAppIdGet,
   UserInfo,
 } from "src/codegen"
-import axios from "axios"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
   const variants = {
@@ -99,7 +97,7 @@ export default function AppManagementPage({
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title={t(app.name)} noindex />
       <LoginGuard
-        condition={(info: UserInfo) => info.dev_flatpaks.includes(app.id)}
+        condition={(info: UserInfo) => info.dev_flatpaks?.includes(app.id)}
       >
         <div className="space-y-8">
           <Breadcrumbs pages={pages} />
@@ -122,7 +120,7 @@ export default function AppManagementPage({
                     />
                   </SettingsDisclosure>
                   {(!IS_PRODUCTION ||
-                    user.info?.permissions.some(
+                    user.info?.permissions?.some(
                       (a) => a === Permission.moderation,
                     )) && (
                     <>
@@ -144,7 +142,7 @@ export default function AppManagementPage({
                   </SettingsDisclosure>
 
                   {(!IS_PRODUCTION ||
-                    user.info?.permissions.some(
+                    user.info?.permissions?.some(
                       (a) => a === Permission["direct-upload"],
                     )) && (
                     <>
@@ -174,12 +172,13 @@ export default function AppManagementPage({
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const [{ data: app }, { data: vendingConfig }] = await Promise.all([
-    fetchAppstream(appId as string),
-    getGlobalVendingConfigVendingConfigGet(),
+  const [app, vendingConfig] = await Promise.all([
+    fetchAppstream(appId as string, locale),
+    fetchVendingConfig(),
   ])
 
   return {

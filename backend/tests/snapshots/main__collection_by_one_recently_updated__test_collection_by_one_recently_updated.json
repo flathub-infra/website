@@ -37,7 +37,7 @@
     }
   ],
   "query": "",
-  "processingTimeMs": 0,
+  "processingTimeMs": 123,
   "hitsPerPage": 1,
   "page": 1,
   "totalPages": 3,

@@ -92,7 +92,11 @@ export default function AppRegistrationPage() {
 }
 
 // Need available login providers to show options on page
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticProps: GetStaticProps = async ({
+  locale,
+}: {
+  locale: string
+}) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),

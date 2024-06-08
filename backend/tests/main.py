@@ -25,11 +25,10 @@ vcr = vcr.VCR(
 
 def _assertAgainstSnapshotWithoutPerformance(snapshot, response, snapshotName):
     responseJson = response.json()
-    expected = snapshot(snapshotName)
-    expected["processingTimeMs"] = responseJson[
-        "processingTimeMs"
-    ]  # Match processingTimeMs to ignore differences here
-    assert expected == responseJson
+    responseJson["processingTimeMs"] = (
+        123  # Overwrite with fixed number to ignore variations
+    )
+    assert snapshot(snapshotName) == responseJson
 
 
 class Override:
@@ -79,6 +78,14 @@ def test_apps_by_category(client, snapshot):
     )
 
 
+def test_apps_by_category_locale(client, snapshot):
+    response = client.get("/category/Game?locale=de")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_apps_by_category_locale.json"
+    )
+
+
 def test_apps_by_category_paginated(client):
     response = client.get("/category/Game?page=1&per_page=10")
     assert response.status_code == 200
@@ -112,6 +119,14 @@ def test_apps_by_developer(client, snapshot):
     )
 
 
+def test_apps_by_developer_locale(client, snapshot):
+    response = client.get("/developer/Sugar Labs Community?locale=de")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_apps_by_developer_locale.json"
+    )
+
+
 def test_apps_by_non_existent_developer(client):
     response = client.get("/developer/NonExistent")
     assert response.status_code == 200
@@ -120,6 +135,18 @@ def test_apps_by_non_existent_developer(client):
 
 
 def test_appstream_by_appid(client, snapshot):
+    response = client.get("/appstream/org.sugarlabs.Maze")
+    assert response.status_code == 200
+    assert snapshot("test_appstream_by_appid.json") == response.json()
+
+
+def test_appstream_by_appid_locale(client, snapshot):
+    response = client.get("/appstream/org.sugarlabs.Maze?locale=de")
+    assert response.status_code == 200
+    assert snapshot("test_appstream_by_appid_locale.json") == response.json()
+
+
+def test_appstream_by_appid_fallback(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
     assert snapshot("test_appstream_by_appid.json") == response.json()
@@ -140,12 +167,30 @@ def test_search_query_by_partial_name(client, snapshot):
     )
 
 
+def test_search_query_by_partial_name_locale(client, snapshot):
+    post_body = {"query": "maz"}
+    response = client.post("/search?locale=de", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid_locale.json"
+    )
+
+
 def test_search_query_by_partial_name_2(client, snapshot):
     post_body = {"query": "ma"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_search_query_by_appid.json"
+    )
+
+
+def test_search_query_by_partial_name_2_locale(client, snapshot):
+    post_body = {"query": "ma"}
+    response = client.post("/search?locale=de", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid_locale.json"
     )
 
 
@@ -158,12 +203,30 @@ def test_search_query_by_name(client, snapshot):
     )
 
 
+def test_search_query_by_name_locale(client, snapshot):
+    post_body = {"query": "Maze"}
+    response = client.post("/search?locale=de", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid_locale.json"
+    )
+
+
 def test_search_query_by_summary(client, snapshot):
     post_body = {"query": "maze game"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_search_query_by_appid.json"
+    )
+
+
+def test_search_query_by_summary_locale(client, snapshot):
+    post_body = {"query": "maze game"}
+    response = client.post("/search?locale=de", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid_locale.json"
     )
 
 
@@ -176,12 +239,30 @@ def test_search_query_by_description(client, snapshot):
     )
 
 
+def test_search_query_by_description_locale(client, snapshot):
+    post_body = {"query": "finding your way out"}
+    response = client.post("/search?locale=de", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_appid_locale.json"
+    )
+
+
 def test_search_query_by_non_existent(client, snapshot):
     post_body = {"query": "NonExistent"}
     response = client.post("/search", json=post_body)
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_search_query_by_non_existent.json"
+    )
+
+
+def test_search_query_by_non_existent_locale(client, snapshot):
+    post_body = {"query": "NonExistent"}
+    response = client.post("/search?locale=es", json=post_body)
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_search_query_by_non_existent_locale.json"
     )
 
 
@@ -193,11 +274,27 @@ def test_collection_by_recently_updated(client, snapshot):
     )
 
 
+def test_collection_by_recently_updated_locale(client, snapshot):
+    response = client.get("/collection/recently-updated?locale=es")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_by_recently_updated_locale.json"
+    )
+
+
 def test_collection_by_one_recently_updated(client, snapshot):
     response = client.get("/collection/recently-updated?page=1&per_page=1")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_collection_by_one_recently_updated.json"
+    )
+
+
+def test_collection_by_one_recently_updated_locale(client, snapshot):
+    response = client.get("/collection/recently-updated?page=1&per_page=1&locale=es")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_collection_by_one_recently_updated_locale.json"
     )
 
 
@@ -209,8 +306,24 @@ def test_trending_last_two_weeks(client, snapshot):
     )
 
 
+def test_trending_last_two_weeks_locale(client, snapshot):
+    response = client.get("/trending/last-two-weeks?locale=es")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_trending_last_two_weeks_locale.json"
+    )
+
+
 def test_popular_last_month(client, snapshot):
     response = client.get("/popular/last-month")
+    assert response.status_code == 200
+    _assertAgainstSnapshotWithoutPerformance(
+        snapshot, response, "test_popular_last_month.json"
+    )
+
+
+def test_popular_last_month_locale(client, snapshot):
+    response = client.get("/popular/last-month?locale=es")
     assert response.status_code == 200
     _assertAgainstSnapshotWithoutPerformance(
         snapshot, response, "test_popular_last_month.json"

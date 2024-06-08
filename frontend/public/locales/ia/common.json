@@ -120,7 +120,6 @@
   "downloads-over-time": "Discargamentos in le tempore",
   "submitting-apps": "Submittente applicationes",
   "acknowledgements": "Recognoscimento",
-  "apps-by-projectgroup": "Applicationes in le gruppo {{projectgroup}}",
   "search-for-query": "Recerca pro “{{query}}”",
   "moderation-pending-reviews": "Revisiones pendente",
   "moderation-value": "Valor",
@@ -166,7 +165,6 @@
   "languages-summary": "Elige le lingua in le que tu vole vider le sito web.",
   "languages-description": "Selige un lingua pro cambiar a illo:",
   "switch-language": "Cambiar lingua",
-  "other-apps-by-projectgroup": "Altere applicationes in le gruppo {{projectgroup}}",
   "could-not-find-match-for-search": "Non poteva trovar alcun applicationes que coincide con tu recerca.",
   "status": "Stato",
   "status-cancelled": "Cancellate",
@@ -406,7 +404,6 @@
   "value-at-most": "Tu debe inserer un valor de maxime {{value}}",
   "require-payment": "Requirer pagamento",
   "permission-denied": "Tu non ha permission pro facer isso.",
-  "more-type": "Plus {{type}}",
   "show-less": "Monstrar minus",
   "value-at-least": "Tu debe inserer un valor de al minus {{value}}",
   "submit": "Submitter",
@@ -570,5 +567,9 @@
   "join-discourse-forum": "Junge te al foro de Discourse",
   "special-license": "Licentia special",
   "special-license-explanation": "Iste application es disveloppate sub le licentia special <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Tu pote o non pote contribuer a iste application."
+  "you-may-or-may-not-be-able-to-contribute": "Tu pote o non pote contribuer a iste application.",
+  "updated-description": "Applicationes actualisate in Flathub in le ultime dies.",
+  "updated-apps": "Applicationes actualisate",
+  "new-apps": "Nove applicationes",
+  "new-description": "Nove applicationes publicate in Flathub in le ultime dies."
 }

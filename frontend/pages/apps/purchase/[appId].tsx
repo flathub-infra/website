@@ -3,11 +3,9 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import * as AppVendingControls from "../../../src/components/application/AppVendingControls"
 import LoginGuard from "../../../src/components/login/LoginGuard"
-import { fetchAppstream } from "../../../src/fetchers"
+import { fetchAppstream, fetchVendingConfig } from "../../../src/fetchers"
 import { Appstream } from "../../../src/types/Appstream"
 import { VendingConfig } from "../../../src/types/Vending"
-import { getGlobalVendingConfigVendingConfigGet } from "src/codegen"
-import axios from "axios"
 
 export default function AppPurchasePage({
   app,
@@ -33,12 +31,13 @@ export default function AppPurchasePage({
 export const getStaticProps: GetStaticProps = async ({
   locale,
   params: { appId },
+}: {
+  locale: string
+  params: { appId: string }
 }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
-
-  const [{ data: app }, { data: vendingConfig }] = await Promise.all([
-    fetchAppstream(appId as string),
-    getGlobalVendingConfigVendingConfigGet(),
+  const [app, vendingConfig] = await Promise.all([
+    fetchAppstream(appId as string, locale),
+    fetchVendingConfig(),
   ])
 
   return {

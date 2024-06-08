@@ -19,8 +19,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 import { Permission, StatsResult } from "src/codegen/model"
 import { getQualityModerationStatsQualityModerationFailedByGuidelineGet } from "src/codegen"
-import { getRuntimeListRuntimesGet, getStatsStatsGet } from "src/codegen"
-import axios from "axios"
+import { fetchRuntimes, fetchStats } from "src/fetchers"
 
 const countries = registerIsoCountriesLocales()
 
@@ -274,11 +273,9 @@ const Statistics = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URI
+  const stats = await fetchStats()
 
-  const { data: stats } = await getStatsStatsGet()
-
-  const { data: runtimes } = await getRuntimeListRuntimesGet()
+  const runtimes = await fetchRuntimes()
 
   return {
     props: {
