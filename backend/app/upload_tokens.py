@@ -190,6 +190,7 @@ def create_upload_token(
 
     payload = {
         "messageId": f"{app_id}/{token.id}/issued",
+        "creation_timestamp": datetime.datetime.now().timestamp(),
         "subject": "New upload token issued",
         "previewText": "New upload token issued",
         "messageInfo": {

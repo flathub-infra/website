@@ -141,9 +141,11 @@ def get_moderation_apps(
             ),
         )
         .filter(
-            models.ModerationRequest.handled_at.is_(None)
-            if show_handled is False
-            else models.ModerationRequest.handled_at.isnot(None),
+            (
+                models.ModerationRequest.handled_at.is_(None)
+                if show_handled is False
+                else models.ModerationRequest.handled_at.isnot(None)
+            ),
             models.ModerationRequest.is_outdated.is_(False),
         )
         .group_by(models.ModerationRequest.appid)
@@ -449,6 +451,7 @@ def submit_review_request(
 
                 payload = {
                     "messageId": f"{app_id}/{review_request.build_id}/held",
+                    "creation_timestamp": datetime.now().timestamp(),
                     "subject": f"Build #{review_request.build_id} held for review",
                     "previewText": f"Build #{review_request.build_id} held for review",
                     "inform_moderators": True,
@@ -556,6 +559,7 @@ def submit_review(
 
     payload = {
         "messageId": f"{request.appid}/{request.build_id}/{'approved' if request.is_approved else 'rejected'}",
+        "creation_timestamp": datetime.now().timestamp(),
         "subject": subject,
         "previewText": subject,
         "inform_moderators": True,
