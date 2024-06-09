@@ -394,7 +394,7 @@
   "learn-more": "Lerni plu",
   "community-built": "Komunume evoluigata",
   "proprietary-explanation": "Ĉi tiu programo estas kaŝite evoluigata, tiel ke nur ĝiaj aŭtoroj scias kiel ĝi funkcias. Ĝi povas esti nesekura je malfacile pruvebla maniero aŭ modifata nereviziite.",
-  "community-built-explanation": "Ĉi tiu programo estas evoluigata malkaŝite far komunumo de volontuloj kaj eldonita sub la permesilo <1>{{ license }}</1>.",
+  "community-built-explanation": "Ĉi tiu programo estas malkaŝite evoluigata de internacia komunumo kaj eldonita sub la permesilo <1>{{ license }}</1>.",
   "legacy-windowing-system-description": "Uzas malmodernan fenestrosistemon",
   "can-read-all-data-on-file-system": "Povas legi ĉiajn datenojn sur la dosiersistemo",
   "user-data-subfolder-x": "Subdosierujo {{folder}} de la datenujo de la uzanto",

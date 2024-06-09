@@ -393,7 +393,7 @@
   "community-built": "社群建構",
   "learn-more": "取得更多資訊",
   "links": "連結",
-  "community-built-explanation": "此應用程式由志願者社群以開放的方式開發，並以 <1>{{ license }}</1> 釋出。",
+  "community-built-explanation": "此應用程式由國際性的志願者社群以開放的方式開發，並以 <1>{{ license }}</1> 釋出。",
   "get-involved": "參與其中",
   "legacy-windowing-system-description": "使用舊式視窗系統",
   "can-read-all-data-on-file-system": "可以讀取檔案系統上的所有資料",
