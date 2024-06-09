@@ -10,50 +10,6 @@ jobs:
       - name: Audit URLs using Lighthouse (Mobile)
         uses: treosh/lighthouse-ci-action@v11
         with:
-          name: lighthouse-moblie-artifacts
-          urls: |
-            https://flathub.org/
-            https://flathub.org/apps/collection/recently-added/1
-            https://flathub.org/apps/collection/recently-updated/1
-            https://flathub.org/apps/collection/verified/1
-            https://flathub.org/apps/collection/popular/1
-            https://flathub.org/apps/category/Office/1
-            https://flathub.org/apps/category/Graphics/1
-            https://flathub.org/apps/category/AudioVideo/1
-            https://flathub.org/apps/category/Education/1
-            https://flathub.org/apps/category/Game/1
-            https://flathub.org/apps/category/Network/1
-            https://flathub.org/apps/category/Development/1
-            https://flathub.org/apps/category/Science/1
-            https://flathub.org/apps/category/System/1
-            https://flathub.org/apps/category/Utility/1
-            https://flathub.org/feeds
-            https://flathub.org/badges
-            https://flathub.org/languages
-            https://flathub.org/terms-and-conditions
-            https://flathub.org/privacy-policy
-            https://flathub.org/statistics
-            https://flathub.org/about
-            https://flathub.org/consultants
-            https://flathub.org/apps/org.mozilla.firefox
-            https://flathub.org/apps/net.veloren.veloren
-            https://flathub.org/setup
-            https://flathub.org/setup/Ubuntu
-            https://flathub.org/setup/Debian
-            https://flathub.org/setup/Fedora
-
-          uploadArtifacts: true # save results as an action artifacts
-          temporaryPublicStorage: true # upload lighthouse report to the temporary storage
-
-  lighthouse_desktop:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Audit URLs using Lighthouse (Desktop)
-        uses: treosh/lighthouse-ci-action@v11
-        with:
-          name: lighthouse-desktop-artifacts
-          configPath: .github/configs/lighthouserc.yml
           urls: |
             https://flathub.org/
             https://flathub.org/apps/collection/recently-added/1

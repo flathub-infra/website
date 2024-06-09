@@ -1,4 +1,0 @@
-ci:
-  collect:
-    settings:
-      emulatedFormFactor: desktop
