@@ -1,4 +1,5 @@
 import base64
+import datetime
 from enum import Enum
 from typing import Any
 
@@ -170,6 +171,7 @@ def build_notification(
 
     payload = {
         "messageId": f"{request.build_repo}/{request.build_id}",
+        "creation_timestamp": datetime.datetime.now().timestamp(),
         "subject": subject,
         "previewText": subject,
         "messageInfo": {

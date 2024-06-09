@@ -836,6 +836,7 @@ def continue_oauth_flow(
 
     payload = {
         "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
+        "creation_timestamp": datetime.now().timestamp(),
         "userId": account.user,
         "subject": "New login to Flathub account",
         "previewText": "Flathub Login",

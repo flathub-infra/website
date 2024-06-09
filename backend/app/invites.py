@@ -142,6 +142,7 @@ def invite_developer(
 
     payload = {
         "messageId": f"{app.app_id}/{invite.id}/invited",
+        "creation_timestamp": datetime.now().timestamp(),
         "userId": invited_user.id,
         "subject": subject,
         "previewText": subject,
@@ -198,6 +199,7 @@ def accept_invite(
 
     payload = {
         "messageId": f"{app_id}/{invite.id}/success",
+        "creation_timestamp": datetime.now().timestamp(),
         "subject": f"{username} is now a developer",
         "previewText": f"{username} is now a developer",
         "messageInfo": {
@@ -238,6 +240,7 @@ def decline_invite(
 
     payload = {
         "messageId": f"{app.app_id}/{invite.id}/decline",
+        "creation_timestamp": datetime.now().timestamp(),
         "subject": f"{login.user.display_name} declined their invite",
         "previewText": f"{login.user.display_name} declined their invite",
         "messageInfo": {
@@ -279,6 +282,7 @@ def leave_team(
 
     payload = {
         "messageId": f"{app_id}/{login.user.id}/{datetime.now().isoformat()}/left",
+        "creation_timestamp": datetime.now().timestamp(),
         "subject": f"{login.user.display_name} left the developer team",
         "previewText": f"{login.user.display_name} left the developer team",
         "messageInfo": {
