@@ -20,7 +20,6 @@ from sqlalchemy import (
     delete,
     func,
     or_,
-    text,
 )
 from sqlalchemy.orm import (
     DeclarativeBase,
@@ -74,12 +73,6 @@ class FlathubUser(Base):
     display_name: Mapped[Optional[str]]
     default_account: Mapped[Optional[str]]
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    is_moderator: Mapped[bool] = mapped_column(  # todo remove
-        Boolean, nullable=False, server_default=text("false")
-    )
-    is_quality_moderator: Mapped[bool] = mapped_column(  # todo remove
-        Boolean, nullable=False, server_default=text("false")
-    )
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, default=None
     )
