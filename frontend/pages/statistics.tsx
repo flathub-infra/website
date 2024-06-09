@@ -3,10 +3,6 @@ import WorldMap, { CountryContext } from "react-svg-worldmap"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import styles from "./statistics.module.scss"
-import "chart.js/auto"
-import { Bar, Line } from "react-chartjs-2"
-import { chartOptions, chartStyle, barChartOptions } from "../src/chartHelper"
-import "chartjs-adapter-date-fns"
 import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
 
 import ListBox from "../src/components/application/ListBox"
@@ -20,41 +16,86 @@ import { useUserContext } from "src/context/user-info"
 import { Permission, StatsResult } from "src/codegen/model"
 import { getQualityModerationStatsQualityModerationFailedByGuidelineGet } from "src/codegen"
 import { fetchRuntimes, fetchStats } from "src/fetchers"
+import { format } from "date-fns"
+import {
+  ResponsiveContainer,
+  LineChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Line,
+  BarChart,
+  Bar,
+} from "recharts"
+import {
+  primaryStroke,
+  axisStroke,
+  RotatedAxisTick,
+  FlathubTooltip,
+} from "src/chartComponents"
+import { useState } from "react"
 
 const countries = registerIsoCountriesLocales()
 
-const RuntimeChart = ({ runtimes, barOptions }) => {
+const RuntimeChart = ({ runtimes }) => {
   const { t } = useTranslation()
   const router = useRouter()
+  const { resolvedTheme } = useTheme()
+
+  const data = []
+
+  for (const [key, value] of Object.entries(runtimes)) {
+    data.push({ name: key, value })
+  }
+
+  const [hover, setHover] = useState()
 
   return (
     <>
       <h2 className="mb-6 mt-12 text-2xl font-bold">
         {t("runtime-distribution")}
       </h2>
-      <div className="h-[800px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <Bar
-          data={{
-            labels: Object.keys(runtimes),
-            datasets: [
-              {
-                data: Object.values(runtimes),
-                backgroundColor: ["hsl(211, 65%, 57%)"],
-              },
-            ],
-          }}
-          options={{
-            ...barOptions,
-            indexAxis: "y",
-            onClick: (event: any) => {
-              router.push(
-                `/apps/search?runtime=${encodeURIComponent(
-                  event.chart.tooltip.title[0],
-                )}`,
-              )
-            },
-          }}
-        />
+      <div className=" rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ResponsiveContainer width="100%" height={800}>
+          <BarChart layout="vertical" data={data}>
+            <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
+            <YAxis
+              type="category"
+              dataKey="name"
+              width={230}
+              tick={{ fontSize: 12 }}
+              tickLine={false}
+              stroke={axisStroke(resolvedTheme)}
+            />
+            <Tooltip cursor={false} content={<FlathubTooltip />} />
+            <Bar
+              onClick={(event: any) =>
+                router.push(
+                  `/apps/search?runtime=${encodeURIComponent(event.name)}`,
+                )
+              }
+              onMouseEnter={(event: any) => {
+                setHover(event.index)
+              }}
+              onMouseLeave={(event: any) => {
+                setHover(null)
+              }}
+              dataKey="value"
+              shape={(props: any) => (
+                <rect
+                  {...props}
+                  onMouseEnter={() => setHover(props.index)}
+                  onMouseLeave={() => setHover(null)}
+                  fill={
+                    hover === props.index
+                      ? "hsl(211, 65%, 47%)"
+                      : "hsl(211, 65%, 57%"
+                  }
+                />
+              )}
+            />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
     </>
   )
@@ -97,31 +138,15 @@ const Statistics = ({
     }
   }
 
-  let downloads_labels: string[] = []
-  let downloads_data: number[] = []
+  const data = []
   if (stats.downloads_per_day) {
     for (const [key, value] of Object.entries(stats.downloads_per_day)) {
-      downloads_labels.push(key)
-      downloads_data.push(value)
+      data.push({ date: key, downloads: value })
     }
   }
 
   // Remove current day
-  downloads_labels.pop()
-  downloads_data.pop()
-
-  const data = chartStyle(
-    downloads_labels,
-    downloads_data,
-    t("downloads"),
-    resolvedTheme as "light" | "dark",
-  )
-
-  const options = chartOptions(i18n.language, resolvedTheme as "light" | "dark")
-  const barOptions = barChartOptions(
-    i18n.language,
-    resolvedTheme as "light" | "dark",
-  )
+  data.pop()
 
   const getLocalizedText = ({
     countryCode,
@@ -218,29 +243,68 @@ const Statistics = ({
         <h2 className="mb-6 mt-12 text-2xl font-bold">
           {t("downloads-over-time")}
         </h2>
-        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-          <Line data={data} options={options} />
+        <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+          <ResponsiveContainer width="100%" height={500}>
+            <LineChart data={data}>
+              <Line
+                dataKey="downloads"
+                stroke={primaryStroke(resolvedTheme)}
+                name={t("downloads")}
+                dot={false}
+                strokeWidth={3}
+              />
+              <XAxis
+                dataKey="date"
+                name={t("date")}
+                tickFormatter={(date) => {
+                  return format(date, "MMM yyyy")
+                }}
+                stroke={axisStroke(resolvedTheme)}
+                tick={<RotatedAxisTick />}
+                height={80}
+              />
+              <YAxis
+                tickFormatter={(y) => y.toLocaleString(i18n.language)}
+                stroke={axisStroke(resolvedTheme)}
+                width={80}
+              />
+              <Tooltip
+                content={<FlathubTooltip />}
+                labelFormatter={(x) => format(x, "MMM yyyy")}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
         <h2 className="mb-6 mt-12 text-2xl font-bold">
           {t("category-distribution")}
         </h2>
-        <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-          <Bar
-            data={{
-              labels: category_data.map((x) =>
-                categoryToName(x.category as Category, t),
-              ),
-              datasets: [
-                {
-                  data: category_data.map((x) => x.value),
-                  backgroundColor: ["hsl(211, 65%, 57%)"],
-                },
-              ],
-            }}
-            options={barOptions}
-          />
+        <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+          <ResponsiveContainer width="100%" height={500}>
+            <BarChart
+              layout="vertical"
+              data={category_data.map((x) => ({ ...x, name: x.category }))}
+            >
+              <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
+              <YAxis
+                stroke={axisStroke(resolvedTheme)}
+                dataKey="category"
+                tickFormatter={(x) => categoryToName(x as Category, t)}
+                type="category"
+                width={180}
+                tickLine={false}
+              />
+              <Tooltip
+                labelFormatter={(x) => categoryToName(x as Category, t)}
+                cursor={false}
+                content={<FlathubTooltip />}
+              />
+              <Bar dataKey="value" fill="hsl(211, 65%, 57%)" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
-        <RuntimeChart runtimes={runtimes} barOptions={barOptions} />
+
+        <RuntimeChart runtimes={runtimes} />
+
         {!!user.info?.permissions.some(
           (a) => a === Permission["quality-moderation"],
         ) &&
@@ -249,21 +313,33 @@ const Statistics = ({
               <h2 className="mb-6 mt-12 text-2xl font-bold">
                 Failed by guideline
               </h2>
-              <div className="h-[500px] rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-                <Bar
-                  data={{
-                    labels: query.data.data.map((x) =>
-                      t(`quality-guideline.${x.guideline_id}`),
-                    ),
-                    datasets: [
-                      {
-                        data: query.data.data.map((x) => x.not_passed),
-                        backgroundColor: ["hsl(211, 65%, 57%)"],
-                      },
-                    ],
-                  }}
-                  options={barOptions}
-                />
+              <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+                <ResponsiveContainer width="100%" height={500}>
+                  <BarChart
+                    layout="vertical"
+                    data={query.data.data.map((x) => ({
+                      ...x,
+                      guideline_id: t(`quality-guideline.${x.guideline_id}`),
+                    }))}
+                  >
+                    <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
+                    <YAxis
+                      stroke={axisStroke(resolvedTheme)}
+                      dataKey="guideline_id"
+                      tickFormatter={(x) => x}
+                      type="category"
+                      width={180}
+                      tick={{ fontSize: 12 }}
+                      tickLine={false}
+                    />
+                    <Tooltip cursor={false} content={<FlathubTooltip />} />
+                    <Bar
+                      dataKey="not_passed"
+                      name={t("quality-guideline.not-passed")}
+                      fill="hsl(211, 65%, 57%)"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </>
           )}

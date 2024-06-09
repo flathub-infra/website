@@ -1,12 +1,23 @@
 import { FunctionComponent } from "react"
-import "chart.js/auto"
-import { Line } from "react-chartjs-2"
-import { chartOptions, chartStyle } from "../../chartHelper"
 import { AppStats } from "../../types/AppStats"
-import "chartjs-adapter-date-fns"
 
-import { i18n, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
+import {
+  LineChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts"
+import { format } from "date-fns"
+import {
+  axisStroke,
+  FlathubTooltip,
+  primaryStroke,
+  RotatedAxisTick,
+} from "src/chartComponents"
 
 interface Props {
   stats: AppStats
@@ -14,37 +25,51 @@ interface Props {
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const { t } = useTranslation()
+
   const { resolvedTheme } = useTheme()
-  let installs_labels: Date[] = []
-  let installs_data: number[] = []
+
+  const data = []
+
   if (stats.installs_per_day) {
     for (const [key, value] of Object.entries(stats.installs_per_day)) {
-      installs_labels.push(new Date(key))
-      installs_data.push(value)
+      data.push({ date: key, installs: value })
     }
   }
 
   // Remove current day
-  installs_labels.pop()
-  installs_data.pop()
-
-  const data = chartStyle(
-    installs_labels,
-    installs_data,
-    t("installs"),
-    resolvedTheme as "light" | "dark",
-  )
-  const options = chartOptions(
-    i18n?.language ?? "en",
-    resolvedTheme as "light" | "dark",
-  )
+  data.pop()
 
   return (
-    <div className="h-[300px] p-4 pb-16">
+    <div className="p-4">
       <h3 className="my-4 mt-0 text-xl font-semibold">
         {t("installs-over-time")}
       </h3>
-      <Line data={data} options={options} />
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart data={data}>
+          <Line
+            dataKey="installs"
+            stroke={primaryStroke(resolvedTheme)}
+            name={t("installs")}
+            dot={false}
+            strokeWidth={3}
+          />
+          <XAxis
+            dataKey="date"
+            name={t("date")}
+            tickFormatter={(date) => {
+              return format(date, "MMM d")
+            }}
+            stroke={axisStroke(resolvedTheme)}
+            tick={<RotatedAxisTick />}
+            height={60}
+          />
+          <YAxis stroke={axisStroke(resolvedTheme)} />
+          <Tooltip
+            content={<FlathubTooltip />}
+            labelFormatter={(t) => format(t, "P")}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   )
 }

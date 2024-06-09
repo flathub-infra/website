@@ -1,34 +1,24 @@
-import "chart.js/auto"
 import { useTheme } from "next-themes"
 import { FunctionComponent, useMemo } from "react"
-import { Bar } from "react-chartjs-2"
 import { Appstream } from "../../../types/Appstream"
 import { VendingConfig } from "../../../types/Vending"
-import { stackedBarData } from "../../../utils/charts"
 import { computeAppShares, computeShares } from "../../../utils/vending"
-import { ChartType, Tooltip, TooltipPositionerFunction } from "chart.js"
+import {
+  BarChart,
+  ResponsiveContainer,
+  Bar as RechartsBar,
+  Tooltip as RechartsTooltip,
+  Legend as RechartsLegend,
+  XAxis,
+  YAxis,
+} from "recharts"
+import { FlathubTooltip, axisStroke } from "src/chartComponents"
 
 interface Props {
   price: number
   app: Appstream
   appShare: number
   vendingConfig: VendingConfig
-}
-
-declare module "chart.js" {
-  interface TooltipPositionerMap {
-    center: TooltipPositionerFunction<ChartType>
-  }
-}
-
-Tooltip.positioners.center = function (items) {
-  if (items.length) {
-    const { x, y } = items[0].element
-    const { base } = items[0].element.getProps(["base"])
-    const width = !base ? 0 : x - base
-    return { x: x - width / 2, y: y, xAlign: "center", yAlign: "bottom" }
-  }
-  return false
 }
 
 /**
@@ -59,67 +49,47 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   }
 
   const labels: string[] = []
-  const rawData: number[] = []
+
+  const data = []
+
   for (const [appId, split] of breakdown) {
-    labels.push(appId == app.id ? app.name : appId)
-    rawData.push(split / 100)
+    const name = appId == app.id ? app.name : appId
+    labels.push(name)
+
+    const splitObject = {}
+    splitObject[name] = split / 100
+
+    if (data.length == 0) {
+      data.push({
+        name: "Bar",
+        ...splitObject,
+      })
+      continue
+    }
+
+    data[0][name] = split / 100
   }
 
-  const data = stackedBarData(
-    labels,
-    rawData,
-    resolvedTheme as "light" | "dark",
-  )
-
-  // Corresponds to text secondary for dark and light theme
-  const textColor =
-    resolvedTheme === "light"
-      ? "hsl(261, 11%, 25%)"
-      : "rgba(255, 255, 255, 0.6)"
+  const lightness = resolvedTheme === "light" ? "55.1%" : "calc(55.1% - 15%)"
 
   return (
     <div>
-      <Bar
-        data={data}
-        className="inline"
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          indexAxis: "y",
-          scales: {
-            y: {
-              stacked: true,
-              max: 0, // Stack chart shows a single bar
-              display: false,
-            },
-            x: {
-              stacked: true,
-              ticks: {
-                callback: (value: number) => `$${value.toFixed(2)}`,
-                color: textColor,
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                color: textColor,
-              },
-            },
-            tooltip: {
-              callbacks: {
-                label: (context) => `$${context.parsed.x.toFixed(2)}`,
-                title: (context) => {
-                  const appId = context[0].dataset.label
-                  return appId == app.id ? app.name : appId
-                },
-              },
-              position: "center",
-            },
-          },
-        }}
-      />
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart layout="vertical" data={data}>
+          {labels.map((label, i) => (
+            <RechartsBar
+              key={label}
+              dataKey={label}
+              stackId="a"
+              fill={`hsl(${210.6 - i * 35}, 65.3%, ${lightness})`}
+            />
+          ))}
+          <RechartsTooltip shared={false} content={<FlathubTooltip />} />
+          <RechartsLegend />
+          <XAxis type="number" unit={"$"} stroke={axisStroke(resolvedTheme)} />
+          <YAxis type="category" dataKey="Bar" hide />
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   )
 }
