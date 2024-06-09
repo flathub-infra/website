@@ -1,9 +1,9 @@
-import { format } from "date-fns"
+import { useTheme } from "next-themes"
 
 export function axisStroke(resolvedTheme: string): string {
   return resolvedTheme === "light"
-    ? "rgba(255, 255, 255, 0)"
-    : "rgba(255, 255, 255, 1)"
+    ? "rgba(0, 0, 0, 0.8)"
+    : "rgba(255, 255, 255, 0.8)"
 }
 
 export function primaryStroke(resolvedTheme: string): string {
@@ -13,6 +13,7 @@ export function primaryStroke(resolvedTheme: string): string {
 }
 
 export const RotatedAxisTick = (props) => {
+  const { resolvedTheme } = useTheme()
   const { x, y, payload, stroke, tickFormatter } = props
 
   return (
@@ -22,7 +23,11 @@ export const RotatedAxisTick = (props) => {
         y={0}
         dy={16}
         textAnchor="end"
-        fill={stroke === "hsl(211, 65%, 57%)" ? "hsl(211, 65%, 57%)" : "white"}
+        fill={
+          resolvedTheme === "light"
+            ? "rgba(0, 0, 0, 0.8)"
+            : "rgba(255, 255, 255, 0.8)"
+        }
         transform="rotate(-35)"
       >
         {tickFormatter ? tickFormatter(payload.value) : payload.value}
