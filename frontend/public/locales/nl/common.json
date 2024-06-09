@@ -393,7 +393,7 @@
   "links": "Links",
   "learn-more": "Meer te weten komen",
   "get-involved": "Betrokken raken",
-  "community-built-explanation": "Deze app is in het openbaar ontwikkeld door een gemeenschap van vrijwilligers en vrijgegeven onder de <1>{{ license }}</1>.",
+  "community-built-explanation": "Deze app is in het open­baar ont­wikkeld door een inter­nationale gemeen­schap en vrij­gegeven onder de <1>{{ license }}</1>.",
   "proprietary-explanation": "Deze app is niet in het openbaar ontwikkeld, dus alleen de ontwikkelaars weten hoe het werkt. Het kan onveilig zijn op manieren die moeilijk te detecteren zijn, en het kan zonder toezicht veranderen.",
   "can-read-all-data-on-file-system": "Kan alle gegevens op het bestands­systeem lezen",
   "public-share-subfolder-x": "Publiek gedeelde submap {{folder}}",
