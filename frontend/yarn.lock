@@ -11161,7 +11161,7 @@ __metadata:
     tailwindcss: "npm:^3.4.4"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.4.5"
-    yaml: "npm:^2.4.3"
+    yaml: "npm:^2.4.5"
     yet-another-react-lightbox: "npm:^3.19.0"
   languageName: unknown
   linkType: soft
@@ -18824,12 +18824,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.4.3":
-  version: 2.4.3
-  resolution: "yaml@npm:2.4.3"
+"yaml@npm:^2.4.5":
+  version: 2.4.5
+  resolution: "yaml@npm:2.4.5"
   bin:
     yaml: bin.mjs
-  checksum: 10c0/b4a9dea34265f000402c909144ac310be42c4526dfd16dff1aee2b04a0d94051713651c0cd2b0a3d8109266997422120f16a7934629d12f22dc215839ebbeccf
+  checksum: 10c0/e1ee78b381e5c710f715cc4082fd10fc82f7f5c92bd6f075771d20559e175616f56abf1c411f545ea0e9e16e4f84a83a50b42764af5f16ec006328ba9476bb31
   languageName: node
   linkType: hard
 
