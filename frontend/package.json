@@ -78,7 +78,7 @@
     "@storybook/react": "^8.1.6",
     "@tailwindcss/typography": "^0.5.13",
     "@tanstack/eslint-plugin-query": "^5.43.1",
-    "@tanstack/react-query-devtools": "^5.40.1",
+    "@tanstack/react-query-devtools": "^5.44.0",
     "@types/node": "^20.14.2",
     "@types/react": "^18.3.3",
     "autoprefixer": "^10.4.19",
