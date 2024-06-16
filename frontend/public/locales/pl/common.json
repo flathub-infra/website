@@ -394,7 +394,7 @@
   "uses-eol-runtime": "Używa wycofanego środowiska uruchomieniowego",
   "can-acquire-arbitrary-permissions": "Może uzyskać dowolne uprawnienia",
   "proprietary-explanation": "Aplikacja ta nie jest rozwijana w sposób otwarty, więc tylko jej twórcy wiedzą, jak działa. Może być niezabezpieczona w sposób trudny do wykrycia i może się zmieniać bez nadzoru.",
-  "community-built-explanation": "Aplikacja ta jest rozwijana przez społeczność wolontariuszy i udostępniana na licencji <1>{{ license }}</1>.",
+  "community-built-explanation": "Aplikacja ta jest rozwijana przez międzynarodową społeczność i udostępniana na licencji <1>{{ license }}</1>.",
   "legacy-windowing-system-description": "Wykorzystuje przestarzały system okienkowy",
   "can-read-all-data-on-file-system": "Może odczytywać wszystkie dane w systemie",
   "public-share-subfolder-x": "Podfolder udostępniony publicznie {{folder}}",

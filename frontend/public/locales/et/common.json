@@ -338,7 +338,7 @@
   "unsafe": "Pole turvaline",
   "auditable-code": "Auditeeritav lähtekood",
   "can-access-hardware-devices": "Võib kasutada sinu seadmes leiduvat raudvara nagu näiteks veebikaamera või mängikonsooli juhtpult",
-  "community-built-explanation": "Seda rakendust arendatakse avatud meetodil kogukonna poolt ning ta on avaldatud järgneva(te) litsentsi(de) alusel: <1>{{ license }}</1>.",
+  "community-built-explanation": "Seda rakendust arendatakse avatud meetodil rahvusvahelise kogukonna poolt ning ta on avaldatud järgneva(te) litsentsi(de) alusel: <1>{{ license }}</1>.",
   "system-device-access": "Ligipääs süsteemsetele seadmetele",
   "manage-x": "Halda rakendust {{app-name}}",
   "no-network-access": "Puudub ligipääs võrgule",
