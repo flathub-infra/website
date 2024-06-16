@@ -502,7 +502,7 @@
   "can-request-data-from-system-services": "सिस्टम सेवाओं से डेटा का अनुरोध कर सकते हैं",
   "public-share-subfolder-x": "सार्वजनिक शेयर उपफोल्डर {{folder}}",
   "proprietary-code-description": "स्रोत कोड सार्वजनिक नहीं है, इसलिए इसका स्वतंत्र रूप से अंकेक्षित नहीं किया जा सकता है और यह असुरक्षित हो सकता है",
-  "community-built-explanation": "यह ऐप स्वयंसेवकों के एक समुदाय द्वारा खुले में विकसित किया गया है, और <1>{{ license }}</1> के तहत जारी किया गया है।",
+  "community-built-explanation": "यह ऐप अंतरराष्ट्रीय समुदाय द्वारा खुले तौर पर विकसित किया गया है, और <1>{{ license }}</1> के तहत जारी किया गया है।",
   "community-repository-description": "अपने Flatpak मेनिफेस्ट और सहायक फाइलों को हमारे GitHub संगठन में एक रिपॉजिटरी में अपलोड करके अपना ऐप Flathub पर अपलोड करें। Flathub का बिल्डबॉट ऐप बनाएगा और उसे Flathub पर प्रकाशित करेगा।",
   "login-provider-verification-enable-github-app": "सत्यापन जारी रखने के लिए, Flathub को <1>{{organization}}</1> संगठन में आपके सदस्यता स्तर को पढ़ने की अनुमति की आवश्यकता है। आप यह अनुमति <3>अपनी GitHub सेटिंग में</3> दे सकते हैं।",
   "user-configuration-subfolder-x": "उपयोक्ता विन्यास उपफोल्डर {{folder}}",
