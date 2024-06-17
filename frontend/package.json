@@ -42,7 +42,7 @@
     "i18n-iso-countries": "^7.11.2",
     "i18next": "^23.11.5",
     "isomorphic-dompurify": "^2.12.0",
-    "next": "^14.2.3",
+    "next": "^14.2.4",
     "next-i18next": "^15.3.0",
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
