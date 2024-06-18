@@ -9903,31 +9903,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-react@npm:^8.1.4":
-  version: 8.1.4
-  resolution: "embla-carousel-react@npm:8.1.4"
+"embla-carousel-react@npm:^8.1.5":
+  version: 8.1.5
+  resolution: "embla-carousel-react@npm:8.1.5"
   dependencies:
-    embla-carousel: "npm:8.1.4"
-    embla-carousel-reactive-utils: "npm:8.1.4"
+    embla-carousel: "npm:8.1.5"
+    embla-carousel-reactive-utils: "npm:8.1.5"
   peerDependencies:
     react: ^16.8.0 || ^17.0.1 || ^18.0.0
-  checksum: 10c0/9844f7e7fc631edcc8f49dc11ee458d4cc7469ab9f4d783cc90e9d3ec3ee82cea96b0e604add6cdc6cfdb5d1a41eb0c7f525d392ffa3eac8f3722c86449406f9
+  checksum: 10c0/a8c64e948f7bbe11a5d62ca4ebd70030a7a0dea2d772ab0c545026f2facea493bd5ddabccdb915922ed41f8af44d61140ae485521fb3495af8e13d7e43405aed
   languageName: node
   linkType: hard
 
-"embla-carousel-reactive-utils@npm:8.1.4":
-  version: 8.1.4
-  resolution: "embla-carousel-reactive-utils@npm:8.1.4"
+"embla-carousel-reactive-utils@npm:8.1.5":
+  version: 8.1.5
+  resolution: "embla-carousel-reactive-utils@npm:8.1.5"
   peerDependencies:
-    embla-carousel: 8.1.4
-  checksum: 10c0/76ea0b7d9d1a35809e024ddb258a09c0a322adc5ba49914a7a15999e8f78781821af3847b327c09365506a925bec3895a6d74c5d486d17b236c4f74f727408ca
+    embla-carousel: 8.1.5
+  checksum: 10c0/813a358f7372ddeb7a49e637e21b1580bda42797f97cbb8f7a2ad63a1803b0f2a9d2ecd5f0c088bd2447bb0a6c932f31e5c820698d83324a23548bd9242deb41
   languageName: node
   linkType: hard
 
-"embla-carousel@npm:8.1.4":
-  version: 8.1.4
-  resolution: "embla-carousel@npm:8.1.4"
-  checksum: 10c0/8dcd7fa5561fc354dd422440f3e24da8e2bc75617d8c053b88d44a603b69cb123a7ff3deae3eaa174b60a3a2d6bd8852b8ad21c7a3cca4692ce7da4078febf66
+"embla-carousel@npm:8.1.5":
+  version: 8.1.5
+  resolution: "embla-carousel@npm:8.1.5"
+  checksum: 10c0/5fa18cf332654ce3f380874e41caa6a520a04c5d43f2832f1d797b74e822f271de61f27346155fc3a8321633f1968b7b808ad0d56152305c8696ff5d12d3200f
   languageName: node
   linkType: hard
 
@@ -11215,7 +11215,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     date-fns: "npm:^3.6.0"
     embla-carousel-autoplay: "npm:^8.1.5"
-    embla-carousel-react: "npm:^8.1.4"
+    embla-carousel-react: "npm:^8.1.5"
     eslint: "npm:^8.57.0"
     eslint-config-next: "npm:^14.2.3"
     eslint-config-prettier: "npm:^9.1.0"
