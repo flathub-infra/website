@@ -151,6 +151,17 @@ def get_appstream(
                     number = int(key.split("_")[-1])
                     value["screenshots"][number]["caption"] = translation[key]
 
+                if key.startswith("release_description_"):
+                    number = int(key.split("_")[-1])
+                    value["releases"][number]["description"] = translation[key]
+
+            translation = {
+                k: v
+                for k, v in translation.items()
+                if not k.startswith("screenshots_caption_")
+                and not k.startswith("release_description_")
+            }
+
             return value | translation
         else:
             return value
