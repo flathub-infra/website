@@ -41,7 +41,7 @@ def generate_feed(key: str, title: str, description: str, link: str):
         entry.pubDate(f"{entry_date} UTC")
 
         content = [
-            '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.png">'.format(
+            '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.webp">'.format(
                 app["id"]
             ),
             f"<p>{app['summary']}</p>",
@@ -131,7 +131,7 @@ def generate_feed_postgres(mode: str, title: str, description: str, link: str):
         entry.pubDate(f"{entry_date} UTC")
 
         content = [
-            '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.png">'.format(
+            '<img src="https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{}.webp">'.format(
                 app["id"]
             ),
             f"<p>{app['summary']}</p>",

@@ -10,7 +10,7 @@
       "project_license": "GPL-3.0-or-later",
       "is_free_license": true,
       "app_id": "org.sugarlabs.Maze",
-      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.webp",
       "categories": [
         "Game"
       ],
