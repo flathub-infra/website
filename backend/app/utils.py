@@ -180,19 +180,34 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
         releases = component.find("releases")
         if releases is not None:
             app["releases"] = []
-            for rel in releases:
+            for i, release in enumerate(releases):
                 attrs = {}
-                for attr in rel.attrib:
-                    attrs[attr] = rel.attrib[attr]
+                for attr in release.attrib:
+                    attrs[attr] = release.attrib[attr]
 
-                desc = rel.find("description")
-                if desc is not None:
-                    description = [
-                        etree.tostring(tag, encoding=("unicode")) for tag in desc
-                    ]
-                    attrs["description"] = "".join(description)
+                descs = release.findall("description")
+                for desc in descs:
+                    if desc is not None:
+                        description = [
+                            etree.tostring(tag, encoding=("unicode")) for tag in desc
+                        ]
+                        if (
+                            desc.attrib.get(
+                                "{http://www.w3.org/XML/1998/namespace}lang"
+                            )
+                            is None
+                        ):
+                            attrs["description"] = "".join(description)
+                        else:
+                            add_translation(
+                                apps_locale,
+                                desc.get("{http://www.w3.org/XML/1998/namespace}lang"),
+                                appid,
+                                "release_description_" + str(i),
+                                "".join(description),
+                            )
 
-                url = rel.find("url")
+                url = release.find("url")
                 if url is not None:
                     attrs["url"] = url.text
 
