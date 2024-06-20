@@ -11235,7 +11235,7 @@ __metadata:
     orval: "npm:^6.30.2"
     postcss: "npm:^8.4.38"
     prettier: "npm:^3.3.2"
-    prettier-plugin-tailwindcss: "npm:^0.6.4"
+    prettier-plugin-tailwindcss: "npm:^0.6.5"
     react: "npm:^18.3.1"
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
@@ -15381,9 +15381,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.6.4":
-  version: 0.6.4
-  resolution: "prettier-plugin-tailwindcss@npm:0.6.4"
+"prettier-plugin-tailwindcss@npm:^0.6.5":
+  version: 0.6.5
+  resolution: "prettier-plugin-tailwindcss@npm:0.6.5"
   peerDependencies:
     "@ianvs/prettier-plugin-sort-imports": "*"
     "@prettier/plugin-pug": "*"
@@ -15432,7 +15432,7 @@ __metadata:
       optional: true
     prettier-plugin-svelte:
       optional: true
-  checksum: 10c0/4c486b1119d80b3d0eab951f4e70c1ea7250c8f43d5caa646b60648a20187fb21f5d43507525d7850a9b6b1cfa0d5a602a14d6e347a0d737dfb7740d5f559e18
+  checksum: 10c0/30d62928592b48cab03c46ff63edd35d4a33c4e7c40e583f12bff7223eba8b6f780fd394965b0250160bcf39688f6fb602420374b2055bcbb6a69560b818ca4e
   languageName: node
   linkType: hard
 
