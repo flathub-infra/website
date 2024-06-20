@@ -11,7 +11,7 @@
   "dependencies": {
     "@hono/node-server": "^1.11.3",
     "@hono/sentry": "^1.1.0",
-    "@hono/swagger-ui": "0.2.2",
+    "@hono/swagger-ui": "0.3.0",
     "@hono/zod-openapi": "^0.14.5",
     "@react-email/components": "0.0.19",
     "@react-email/render": "0.0.15",
