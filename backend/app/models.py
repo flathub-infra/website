@@ -1835,6 +1835,11 @@ class QualityModerationDashboardResponse(BaseModel):
     pagination: Pagination
 
 
+class SimpleQualityModerationResponse(BaseModel):
+    apps: list[str]
+    pagination: Pagination
+
+
 class Apps(Base):
     """An app"""
 
