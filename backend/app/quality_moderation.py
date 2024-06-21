@@ -15,6 +15,7 @@ from .models import (
     QualityModerationDashboardResponse,
     QualityModerationRequest,
     QualityModerationStatus,
+    SimpleQualityModerationResponse,
 )
 
 router = APIRouter(prefix="/quality-moderation", default_response_class=ORJSONResponse)
@@ -73,6 +74,19 @@ def get_quality_moderation_status(
         app.appstream = get_json_key(f"apps:{app.id}")
 
     return all_quality_apps
+
+
+@router.get("/passing-apps", tags=["quality-moderation"])
+def get_passing_quality_apps(
+    page: int = 1,
+    page_size: int = 25,
+) -> SimpleQualityModerationResponse:
+    passing_quality_apps = Apps.status_summarized(db, page, page_size, "passing")
+
+    return SimpleQualityModerationResponse(
+        apps=[app.id for app in passing_quality_apps.apps],
+        pagination=passing_quality_apps.pagination,
+    )
 
 
 @router.get("/failed-by-guideline", tags=["quality-moderation"])
