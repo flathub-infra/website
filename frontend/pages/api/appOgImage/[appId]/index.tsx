@@ -154,7 +154,7 @@ export default async function handler(
                 filter:
                   "drop-shadow(0 4px 3px #00000009) drop-shadow(0 2px 2px #00000040)",
               }}
-              src={icon}
+              src={icon.replace(/.webp$/, ".png")}
               alt=""
             />
           )}
@@ -188,7 +188,7 @@ export default async function handler(
                 width: "620px",
                 borderRadius: isFullscreenApp ? "8px" : "0px",
               }}
-              src={screenshot.src}
+              src={screenshot.src.replace(/.webp$/, ".png")}
               alt=""
             />
           )}
