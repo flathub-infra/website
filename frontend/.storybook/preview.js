@@ -1,7 +1,7 @@
 import "../styles/main.scss"
 import i18n from "./i18next"
 import { languages, getLanguageName, getLanguageFlag } from "../src/localize"
-import { withThemeByDataAttribute } from "@storybook/addon-themes"
+import { withThemeByClassName } from "@storybook/addon-themes"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { appWithTranslation } from "next-i18next"
 import React, { Suspense, useEffect } from "react"
@@ -54,7 +54,7 @@ export default {
     (Story) => (
       <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
     ),
-    withThemeByDataAttribute({
+    withThemeByClassName({
       themes: {
         light: "light",
         dark: "dark",
