@@ -5,7 +5,6 @@ module.exports = {
     "@storybook/addon-themes",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    "storybook-react-i18next",
   ],
   framework: {
     name: "@storybook/nextjs",

@@ -12,40 +12,44 @@ export default {
 } as Meta<typeof Details>
 
 export const Generated = () => {
-  const developerApps = [
-    ...Array(faker.datatype.number({ min: 1, max: 12 })),
-  ].map((item, index) => ({
-    id: index,
-    icon: faker.image.image(),
-    name: faker.commerce.product(),
-    summary: faker.commerce.productDescription(),
-  }))
+  const developerApps = [...Array(faker.number.int({ min: 1, max: 12 }))].map(
+    (item, index) => ({
+      id: index,
+      icon: faker.image.url(),
+      name: faker.commerce.product(),
+      summary: faker.commerce.productDescription(),
+    }),
+  )
 
   const stats: AppStats = {
     id: faker.string.uuid(),
-    installs_last_7_days: faker.datatype.number({ min: 0, max: 100 }),
-    installs_last_month: faker.datatype.number({ min: 0, max: 100 }),
+    installs_last_7_days: faker.number.int({ min: 0, max: 100 }),
+    installs_last_month: faker.number.int({ min: 0, max: 100 }),
     installs_per_day: {
-      [faker.date.recent().toISOString()]: faker.datatype.number({
+      [faker.date.recent().toISOString()]: faker.number.int({
         min: 0,
         max: 100,
       }),
     },
-    installs_total: faker.datatype.number({ min: 0, max: 100 }),
+    installs_total: faker.number.int({ min: 0, max: 100 }),
   }
 
   const app: Appstream = {
-    id: faker.datatype.number().toString(),
+    id: faker.number.int().toString(),
+    name: faker.commerce.productName(),
+    summary: faker.commerce.productDescription(),
     releases: [
       {
-        version: faker.datatype.number().toString(),
+        timestamp: faker.date.recent().getTime() / 1000,
+        version: faker.number.int().toString(),
       },
     ],
   }
 
   const summary: Summary = {
-    download_size: faker.datatype.number({ min: 0, max: 100 }),
-    installed_size: faker.datatype.number({ min: 0, max: 100 }),
+    timestamp: faker.date.recent().getTime() / 1000,
+    download_size: faker.number.int({ min: 0, max: 100 }),
+    installed_size: faker.number.int({ min: 0, max: 100 }),
   }
 
   return (
