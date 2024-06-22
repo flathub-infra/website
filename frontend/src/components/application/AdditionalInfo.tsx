@@ -3,7 +3,7 @@ import ListBox from "./ListBox"
 import { HiCloudArrowDown, HiFolderArrowDown } from "react-icons/hi2"
 import { BsHddFill, BsLaptop } from "react-icons/bs"
 import { AppStats } from "../../types/AppStats"
-import { i18n, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
 
@@ -14,7 +14,7 @@ const SummaryInfo = ({
   summary?: Summary
   stats: AppStats
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   return (
     <div className="relative flex flex-wrap gap-2">

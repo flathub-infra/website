@@ -1,30 +1,59 @@
 import "../styles/main.scss"
 import i18n from "./i18next"
-import { languages, getLanguageName } from "../src/localize"
+import { languages, getLanguageName, getLanguageFlag } from "../src/localize"
 import { withThemeByDataAttribute } from "@storybook/addon-themes"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { appWithTranslation } from "next-i18next"
+import React, { Suspense, useEffect } from "react"
 
-function createLocales() {
-  const locales = {}
-  languages.forEach((lng) => {
-    locales[lng] = getLanguageName(lng)
-  })
-  return locales
-}
+const queryClient = new QueryClient()
 
-export const parameters = {
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+// Create a global variable called locale in storybook
+// and add a menu in the toolbar to change your locale
+export const globalTypes = {
+  locale: {
+    name: "Locale",
+    description: "Internationalization locale",
+    toolbar: {
+      icon: "globe",
+      items: languages.map((lng) => ({
+        value: lng,
+        title: getLanguageName(lng),
+        right: getLanguageFlag(lng),
+      })),
+      showName: true,
     },
   },
-  i18n,
-  locale: "en",
-  locales: createLocales(),
+}
+
+const withI18next = (Story, context) => {
+  const { locale } = context.globals
+
+  // When the locale global changes
+  // Set the new locale in i18n
+  useEffect(() => {
+    i18n.changeLanguage(locale)
+  }, [locale])
+
+  const AppWithTranslation = appWithTranslation(Story)
+
+  return (
+    // This catches the suspense from components not yet ready (still loading translations)
+    // Alternative: set useSuspense to false on i18next.options.react when initializing i18next
+    <Suspense fallback={<div>loading translations...</div>}>
+      <AppWithTranslation i18n={i18n}>
+        <Story />
+      </AppWithTranslation>
+    </Suspense>
+  )
 }
 
 export default {
   decorators: [
+    withI18next,
+    (Story) => (
+      <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
+    ),
     withThemeByDataAttribute({
       themes: {
         light: "light",
