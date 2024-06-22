@@ -131,3 +131,9 @@ We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate t
 
 In both staging and development environments, Stripe is running in test mode (all data is fake).
 To test payment, card details can be used from https://stripe.com/docs/testing.
+
+## Thanks
+
+<a href="https://www.chromatic.com/"><img src="https://user-images.githubusercontent.com/321738/84662277-e3db4f80-af1b-11ea-88f5-91d67a5e59f6.png" width="153" height="30" alt="Chromatic" /></a>
+
+Thanks to [Chromatic](https://www.chromatic.com/) for providing the visual testing platform that helps us review UI changes and catch visual regressions.
