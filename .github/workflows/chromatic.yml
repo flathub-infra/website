@@ -5,6 +5,7 @@ on:
     paths:
       - "frontend/**"
       - ".github/workflows/frontend_ci.yml"
+  workflow_dispatch:
 
 jobs:
   chromatic:
