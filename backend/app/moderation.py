@@ -464,7 +464,7 @@ def submit_review_request(
                         "requests": [
                             {
                                 "requestType": request.request_type,
-                                "requestData": createRequestData(request.request_data),
+                                "requestData": json.loads(request.request_data),
                                 "isNewSubmission": request.is_new_submission,
                             }
                             for request in requests
@@ -572,7 +572,7 @@ def submit_review(
             "buildLogUrl": request.build_log_url,
             "request": {
                 "requestType": request.request_type,
-                "requestData": createRequestData(request.request_data),
+                "requestData": json.loads(request.request_data),
                 "isNewSubmission": request.is_new_submission,
             },
             "references": f"{request.appid}/{request.build_id}/held",
@@ -585,17 +585,6 @@ def submit_review(
     worker.send_email_new.send(payload)
 
     return ReviewResponse(github_issue_url=issue.url) if issue else None
-
-
-def createRequestData(request_data: str):
-    requestDataLoaded = json.loads(request_data)
-
-    return RequestData(
-        current_values=json.loads(
-            requestDataLoaded["current_values"].replace("'", '"')
-        ),
-        keys=json.loads(requestDataLoaded["keys"].replace("'", '"')),
-    )
 
 
 def register_to_app(app: FastAPI):
