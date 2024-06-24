@@ -58,6 +58,7 @@
   "app-logo": "{{app-name}} Logo",
   "user-wallet": "User Wallet",
   "flathub-statistics": "Flathub Statistics",
+  "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform.",
   "count-downloads": "Total downloads",
   "count-desktop-apps": "Total desktop apps",
   "since": "Since",
