@@ -42,5 +42,5 @@ jobs:
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          projectToken: chpt_683b948867f365a
           workingDir: ./frontend
