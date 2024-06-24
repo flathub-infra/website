@@ -5,6 +5,11 @@ import { withThemeByClassName } from "@storybook/addon-themes"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { appWithTranslation } from "next-i18next"
 import React, { Suspense, useEffect } from "react"
+import { faker } from "@faker-js/faker"
+
+// Use a fixed seed, so that the faker data doesn't change
+// Important for chromatic change detection
+faker.seed(42)
 
 const queryClient = new QueryClient()
 
