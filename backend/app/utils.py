@@ -242,11 +242,11 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                 if icon_type == "remote":
                     if icon.text.startswith("https://dl.flathub.org/media/"):
                         if "icon" not in app:
-                            app["icon"] = re.sub(".png$", ".webp", icon.text)
+                            app["icon"] = icon.text
                         attrs = {}
                         for attr in icon.attrib:
                             attrs[attr] = icon.attrib[attr]
-                        attrs.update({"url": re.sub(".png$", ".webp", icon.text)})
+                        attrs.update({"url": icon.text})
                         iconListNewLocation.append(attrs)
 
             if not app.get("icon"):
@@ -255,7 +255,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                     if icon_type == "cached":
                         if "icon" not in app:
                             app["icon"] = (
-                                f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{re.sub('.png$', '.webp', icon.text)}"
+                                f"https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/{icon.text}"
                             )
                         attrs = {}
                         for attr in icon.attrib:
@@ -263,7 +263,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                         scaleSuffix = f"@{attrs['scale']}" if "scale" in attrs else ""
                         attrs.update(
                             {
-                                "url": f"https://dl.flathub.org/repo/appstream/x86_64/icons/{attrs['height']}x{attrs['width']}{scaleSuffix}/{re.sub('.png$', '.webp', icon.text)}"
+                                "url": f"https://dl.flathub.org/repo/appstream/x86_64/icons/{attrs['height']}x{attrs['width']}{scaleSuffix}/{icon.text}"
                             }
                         )
                         iconListOldLocation.append(attrs)
