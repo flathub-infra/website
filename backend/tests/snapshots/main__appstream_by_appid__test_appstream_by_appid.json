@@ -119,7 +119,7 @@
     "bugtracker": "https://github.com/sugarlabs/maze-activity",
     "homepage": "https://github.com/sugarlabs/maze-activity"
   },
-  "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.webp",
+  "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/org.sugarlabs.Maze.png",
   "icons": [],
   "id": "org.sugarlabs.Maze",
   "translation": {
@@ -129,8 +129,12 @@
   "name": "Maze",
   "summary": "A simple maze game",
   "developer_name": "Sugar Labs Community",
-  "categories": ["Game"],
-  "kudos": ["HiDpiIcon"],
+  "categories": [
+    "Game"
+  ],
+  "kudos": [
+    "HiDpiIcon"
+  ],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
