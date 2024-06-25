@@ -10,6 +10,7 @@ import { faker } from "@faker-js/faker"
 // Use a fixed seed, so that the faker data doesn't change
 // Important for chromatic change detection
 faker.seed(42)
+faker.setDefaultRefDate(new Date(2024, 0, 1))
 
 const queryClient = new QueryClient()
 
@@ -54,6 +55,7 @@ const withI18next = (Story, context) => {
 }
 
 export default {
+  parameters: { mockingDate: new Date(2024, 0, 1) },
   decorators: [
     withI18next,
     (Story) => (
