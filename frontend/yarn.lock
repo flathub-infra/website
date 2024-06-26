@@ -11167,6 +11167,7 @@ __metadata:
     sharp: "npm:^0.33.4"
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.1.10"
+    storybook-addon-mock-date: "npm:^0.6.0"
     tailwind-merge: "npm:^2.3.0"
     tailwindcss: "npm:^3.4.4"
     tailwindcss-animate: "npm:^1.0.7"
@@ -17172,6 +17173,13 @@ __metadata:
   version: 2.14.3
   resolution: "store2@npm:2.14.3"
   checksum: 10c0/22e1096e6d69590672ca0b7f891d82b060837ef4c3e5df0d4563e6cbed14c52ddf2589fa94b79f4311b6ec41d95d6142e5d01d194539e0175c3fb4090cca8244
+  languageName: node
+  linkType: hard
+
+"storybook-addon-mock-date@npm:^0.6.0":
+  version: 0.6.0
+  resolution: "storybook-addon-mock-date@npm:0.6.0"
+  checksum: 10c0/24c48d65a04eb1931e39495fe42692cea428db4b66874db86ab4e9e6f99cd0bba56cd25c56c9a56b42e53a14edfd38f79bcdef4c1f0e2758096528863d32d408
   languageName: node
   linkType: hard
 
