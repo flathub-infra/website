@@ -217,7 +217,7 @@
   "card": "Kortspill",
   "app-id": "App-ID",
   "unverify": "Opphev verifisering",
-  "verified-website-tooltip": "<1><{{app_id}}</1> har blitt verifisert av <4>{{website}}</4>",
+  "verified-website-tooltip": "<1>{{app_id}}</1> har blitt verifisert av <4>{{website}}</4>",
   "verified-login-provider-tooltip": "<1>{{app_id}}</1> har blitt verifisert av <4>{{login_name}}</4> på <8>{{login_provider}}</8>",
   "setup-flathub": "Sett opp Flathub",
   "show-less": "Vis mindre",
