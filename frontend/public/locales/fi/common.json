@@ -591,5 +591,6 @@
   "more-trending": "Lisää nousussa olevia",
   "more-new": "Lisää uusia",
   "more-updated": "Lisää päivitettyjä",
-  "more-education": "Lisää koulutussovelluksia"
+  "more-education": "Lisää koulutussovelluksia",
+  "flathub-statistics-description": "Yhteenveto alustan kautta olevien sovellusten käytöstä ja jakaumasta."
 }
