@@ -578,7 +578,7 @@
   "updated-apps": "अद्यतित ऐप्स",
   "new-apps": "नए ऐप्स",
   "more-popular": "अधिक लोकप्रिय",
-  "more-new": "और नए",
+  "more-new": "अधिक नए",
   "more-updated": "अधिक अद्यतित",
   "more-office": "अधिक उत्पादकता",
   "more-graphics": "अधिक ग्राफिक्स एवं फोटोग्राफी",
@@ -591,5 +591,6 @@
   "more-system": "अधिक सिस्टम",
   "more-utility": "अधिक उपयोगिताएं",
   "more-apps-by-developer": "{{developer}} द्वारा अधिक ऐप्स",
-  "more-trending": "अधिक रुझानित"
+  "more-trending": "अधिक रुझानित",
+  "flathub-statistics-description": "प्लेटफ़ॉर्म पर उपलब्ध ऐप्स के उपयोग और वितरण का अवलोकन।"
 }
