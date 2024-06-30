@@ -591,5 +591,6 @@
   "more-apps-by-developer": "Pliaj programoj de {{developer}}",
   "more-popular": "Pli da popularaj programoj",
   "more-office": "Pli da programoj por laboro",
-  "more-graphics": "Pli da grafikaj & fotografiaj programoj"
+  "more-graphics": "Pli da grafikaj & fotografiaj programoj",
+  "flathub-statistics-description": "Resumo pri la uzado kaj distribuado de programoj disponeblaj ĉe la platformo."
 }
