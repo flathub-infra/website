@@ -10556,9 +10556,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-compiler@npm:0.0.0-experimental-51a85ea-20240601":
-  version: 0.0.0-experimental-51a85ea-20240601
-  resolution: "eslint-plugin-react-compiler@npm:0.0.0-experimental-51a85ea-20240601"
+"eslint-plugin-react-compiler@npm:0.0.0-experimental-0998c1e-20240625":
+  version: 0.0.0-experimental-0998c1e-20240625
+  resolution: "eslint-plugin-react-compiler@npm:0.0.0-experimental-0998c1e-20240625"
   dependencies:
     "@babel/core": "npm:^7.24.4"
     "@babel/parser": "npm:^7.24.4"
@@ -10568,7 +10568,7 @@ __metadata:
     zod-validation-error: "npm:^3.0.3"
   peerDependencies:
     eslint: ">=7"
-  checksum: 10c0/01402080cf9a081de3e89ef6dab4ee25118c702388ac35fe37b5248b07bdc483c41933afbef177f48177141fffa7c0ace1bdf8aada57665c9c253b87bf2709aa
+  checksum: 10c0/2f858c539aee04e9c8a9fdf35a95e4ab9048b11a93df109130763b90260d7e6172500cb1404288b2fe258324878e0f6002a36cbd4fe6ce54c72cffff8dffd517
   languageName: node
   linkType: hard
 
@@ -11156,7 +11156,7 @@ __metadata:
     eslint-config-next: "npm:^14.2.4"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.1.3"
-    eslint-plugin-react-compiler: "npm:0.0.0-experimental-51a85ea-20240601"
+    eslint-plugin-react-compiler: "npm:0.0.0-experimental-0998c1e-20240625"
     fast-diff: "npm:^1.3.0"
     framer-motion: "npm:^11.2.11"
     i18n-iso-countries: "npm:^7.11.2"
