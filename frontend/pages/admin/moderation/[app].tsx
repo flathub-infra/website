@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps = async ({
       ...(await serverSideTranslations(locale, ["common"])),
       appId: app,
     },
+    revalidate: 900,
   }
 }
 
