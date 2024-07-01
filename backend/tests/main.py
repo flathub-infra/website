@@ -465,6 +465,9 @@ def test_verification_domain_names():
         _get_domain_name("net.sourceforge._0example.App") == "0example.sourceforge.io"
     )
 
+    # Subdomain
+    assert _get_domain_name("io.frama.tractor.carburetor") == "tractor.frama.io"
+
     # Normal top-level domain
     assert _get_domain_name("org.flathub.TestApp") == "flathub.org"
     assert _get_domain_name("org._0example.TestApp") == "0example.org"
