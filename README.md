@@ -115,6 +115,8 @@ You can also start the storybook via:
 yarn storybook
 ```
 
+Or [view the current state of our storybook](https://main--6676acc57f6288e909a4e184.chromatic.com/)
+
 ## More backend instructions
 
 You can find more backend instructions in the README in the backend folder.
