@@ -8,7 +8,14 @@ import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
+import {
+  getIntlLocale,
+  getLanguageFlag,
+  getLanguageName,
+  getLocale,
+  Language,
+  registerIsoCountriesLocales,
+} from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
@@ -34,6 +41,7 @@ import {
   FlathubTooltip,
 } from "src/chartComponents"
 import { useState } from "react"
+import ReactCountryFlag from "react-country-flag"
 
 const countries = registerIsoCountriesLocales()
 
@@ -229,7 +237,9 @@ const Statistics = ({
         <h2 className="mb-6 mt-12 text-2xl font-bold">
           {t("downloads-per-country")}
         </h2>
-        <div className={`flex justify-center ${styles.map}`}>
+        <div
+          className={`grid gap-4 grid-rows-2 md:grid-cols-2 h-[500px] ${styles.map}`}
+        >
           <WorldMap
             color="hsl(var(--color-primary))"
             backgroundColor="hsl(var(--bg-color-secondary))"
@@ -239,6 +249,29 @@ const Statistics = ({
             tooltipTextFunction={getLocalizedText}
             rtl={i18n.dir() === "rtl"}
           />
+          <div className="overflow-y-auto flex flex-col">
+            {country_data
+              .toSorted((a, b) => b.value - a.value)
+              .map(({ country, value }, i) => {
+                const translatedCountryName = countries.getName(
+                  country,
+                  i18n.language,
+                )
+                return (
+                  <div
+                    key={country}
+                    className="flex gap-4 items-center justify-between px-4 py-2"
+                  >
+                    <div className="text-lg font-semibold">{i + 1}.</div>
+                    <div className="flex gap-2 items-center">
+                      <ReactCountryFlag countryCode={country} />
+                      <div>{translatedCountryName}</div>
+                    </div>
+                    <div>{value.toLocaleString(i18n.language)}</div>
+                  </div>
+                )
+              })}
+          </div>
         </div>
         <h2 className="mb-6 mt-12 text-2xl font-bold">
           {t("downloads-over-time")}
