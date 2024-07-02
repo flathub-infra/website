@@ -41,6 +41,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   if (isNaN(params.page as unknown as number)) {
     return {
       notFound: true,
+      revalidate: 60,
     }
   }
 
@@ -54,6 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   if (applications.page > applications.totalPages) {
     return {
       notFound: true,
+      revalidate: 60,
     }
   }
 
