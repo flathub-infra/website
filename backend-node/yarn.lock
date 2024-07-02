@@ -1625,9 +1625,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.0.19":
-  version: 0.0.19
-  resolution: "@react-email/components@npm:0.0.19"
+"@react-email/components@npm:0.0.20":
+  version: 0.0.20
+  resolution: "@react-email/components@npm:0.0.20"
   dependencies:
     "@react-email/body": "npm:0.0.8"
     "@react-email/button": "npm:0.0.15"
@@ -1644,14 +1644,14 @@ __metadata:
     "@react-email/link": "npm:0.0.8"
     "@react-email/markdown": "npm:0.0.10"
     "@react-email/preview": "npm:0.0.9"
-    "@react-email/render": "npm:0.0.15"
+    "@react-email/render": "npm:0.0.16"
     "@react-email/row": "npm:0.0.8"
     "@react-email/section": "npm:0.0.12"
     "@react-email/tailwind": "npm:0.0.18"
     "@react-email/text": "npm:0.0.8"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/efe1b84abdd690e69912b0bb4d4ee7549a3488967fa41401f40a4ba494eb2890e376f7e2ca22f2c612dd23c882ff03ad6b7e503c21e5c88b33aa3c97284f1b07
+  checksum: 10c0/a847e30f119aeb7d8554e6320e1ca13707193a2a68fa77e14d59ea49d531f8023a58f2492b83e7f39f7bce69d0a7f8f6fcb449f23f82ce571f647862f3f31deb
   languageName: node
   linkType: hard
 
@@ -1759,6 +1759,20 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-promise-suspense: "npm:0.3.4"
   checksum: 10c0/6e3b1623be97bd1451bd6d558050d53ca9c74c830b156ccb8b35efbdd68277a9f4a514892cf82da4957d28e536d49a77f576b02b382538686adf3fafd3c33d5e
+  languageName: node
+  linkType: hard
+
+"@react-email/render@npm:0.0.16":
+  version: 0.0.16
+  resolution: "@react-email/render@npm:0.0.16"
+  dependencies:
+    html-to-text: "npm:9.0.5"
+    js-beautify: "npm:^1.14.11"
+    react-promise-suspense: "npm:0.3.4"
+  peerDependencies:
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  checksum: 10c0/1cc3479f674f070f8564b8944dcb86081b7f52b67742d0c255d79b6cea989be0e2207d2adcd5a920ff4b41fbe360d655ac97a71f8ebd5e6d78441cafcfc668dc
   languageName: node
   linkType: hard
 
@@ -5328,7 +5342,7 @@ __metadata:
     "@hono/sentry": "npm:^1.1.0"
     "@hono/swagger-ui": "npm:0.3.0"
     "@hono/zod-openapi": "npm:^0.14.7"
-    "@react-email/components": "npm:0.0.19"
+    "@react-email/components": "npm:0.0.20"
     "@react-email/render": "npm:0.0.15"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.15"
