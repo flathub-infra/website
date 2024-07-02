@@ -110,6 +110,7 @@ export const getStaticProps: GetStaticProps = async ({
     console.log("Not a valid app id: ", appId)
     return {
       notFound: true,
+      revalidate: 60,
     }
   }
 
@@ -148,6 +149,7 @@ export const getStaticProps: GetStaticProps = async ({
   if ((!app && !eolMessage) || !!app?.detail?.[0]?.type) {
     return {
       notFound: true,
+      revalidate: 60,
     }
   }
 
