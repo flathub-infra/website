@@ -98,7 +98,7 @@ export const getStaticProps: GetStaticProps = async ({
   defaultLocale: string
   params: { appDetails: string }
 }) => {
-  console.log("Fetching data for app details: ", appId)
+  console.log("Fetching data for app details: ", appId, locale)
 
   const isFlatpakref = (appId as string).endsWith(".flatpakref")
 
