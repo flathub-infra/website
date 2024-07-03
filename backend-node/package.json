@@ -20,7 +20,7 @@
     "hono": "^4.4.10",
     "nodemailer": "6.9.14",
     "react": "^18.3.1",
-    "react-email": "2.1.4",
+    "react-email": "2.1.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
