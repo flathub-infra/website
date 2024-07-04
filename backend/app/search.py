@@ -48,24 +48,32 @@ client.index("apps").update_filterable_attributes(
 
 
 def _translate_name_and_summary(locale: str, searchResults: dict):
+    fallbackLocale = locale.split("-")[0]
+
     for searchResult in searchResults["hits"]:
-        if (
-            "translations" in searchResult
-            and searchResult["translations"]
-            and locale in searchResult["translations"].keys()
-        ):
-            if "name" in searchResult["translations"][locale]:
-                searchResult["name"] = searchResult["translations"][locale]["name"]
+        picked_locale = None
 
-            if "summary" in searchResult["translations"][locale]:
-                searchResult["summary"] = searchResult["translations"][locale][
-                    "summary"
-                ]
+        if "translations" in searchResult and searchResult["translations"]:
+            if locale in searchResult["translations"].keys():
+                picked_locale = locale
+            elif fallbackLocale in searchResult["translations"].keys():
+                picked_locale = fallbackLocale
 
-            if "description" in searchResult["translations"][locale]:
-                searchResult["description"] = searchResult["translations"][locale][
-                    "description"
-                ]
+        if not picked_locale:
+            continue
+
+        if "name" in searchResult["translations"][picked_locale]:
+            searchResult["name"] = searchResult["translations"][picked_locale]["name"]
+
+        if "summary" in searchResult["translations"][picked_locale]:
+            searchResult["summary"] = searchResult["translations"][picked_locale][
+                "summary"
+            ]
+
+        if "description" in searchResult["translations"][picked_locale]:
+            searchResult["description"] = searchResult["translations"][picked_locale][
+                "description"
+            ]
 
         if "translations" in searchResult:
             del searchResult["translations"]

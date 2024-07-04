@@ -1,14 +1,17 @@
 # List of available locales needs to match localize.ts
+# Also add all parent locales here
 LOCALES = [
     "en",
     "en-GB",
     "de",
     "fr",
+    "nb",
     "nb-NO",
     "tr",
     "fi",
     "id",
     "pl",
+    "pt",
     "pt-BR",
     "it",
     "ru",
@@ -18,6 +21,7 @@ LOCALES = [
     "es",
     "ja",
     "cs",
+    "zh",
     "zh-Hans",
     "bg",
     "uk",
@@ -34,7 +38,6 @@ LOCALES = [
     "be",
     "hu",
     "nl",
-    "pt",
     "zh-Hant",
     "oc",
     "da",
