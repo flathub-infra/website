@@ -1,0 +1,4 @@
+Contact: mailto:admins@flathub.org
+Expires: 2025-12-30T23:00:00.000Z
+Preferred-Languages: en
+Canonical: https://flathub.org/.well-known/security.txt
