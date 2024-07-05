@@ -1591,14 +1591,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/code-block@npm:0.0.4":
-  version: 0.0.4
-  resolution: "@react-email/code-block@npm:0.0.4"
+"@react-email/code-block@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@react-email/code-block@npm:0.0.5"
   dependencies:
     prismjs: "npm:1.29.0"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/a5e46dcf177dca30bdd980a55bf1c00dcb56cc0b915aff23217cbf04e25d75e838796cfb3f2e9b276193001178631ddd96dbe6c25ae510ff85d6498f07dc8a39
+  checksum: 10c0/e1aaf1659b6a599f3954edbdbcd8635d9b22abfe2e82dc8487aa49f73fdfa82defbf1e3efb1dd85774806c9104c54b68bdacb4ef53eecd19b2185277052d88e6
   languageName: node
   linkType: hard
 
@@ -1620,13 +1620,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.0.20":
-  version: 0.0.20
-  resolution: "@react-email/components@npm:0.0.20"
+"@react-email/components@npm:0.0.21":
+  version: 0.0.21
+  resolution: "@react-email/components@npm:0.0.21"
   dependencies:
     "@react-email/body": "npm:0.0.8"
     "@react-email/button": "npm:0.0.15"
-    "@react-email/code-block": "npm:0.0.4"
+    "@react-email/code-block": "npm:0.0.5"
     "@react-email/code-inline": "npm:0.0.2"
     "@react-email/column": "npm:0.0.10"
     "@react-email/container": "npm:0.0.12"
@@ -1646,7 +1646,7 @@ __metadata:
     "@react-email/text": "npm:0.0.8"
   peerDependencies:
     react: ^18.2.0
-  checksum: 10c0/a847e30f119aeb7d8554e6320e1ca13707193a2a68fa77e14d59ea49d531f8023a58f2492b83e7f39f7bce69d0a7f8f6fcb449f23f82ce571f647862f3f31deb
+  checksum: 10c0/0d1aa2d3c340211e9c82fc253e1d4fa942e4c17ebe99d11cbd98761642d07f3baa9a60354594e517db60078540b2410c39eb3a2e1b7665549fdfe8ffadc6a086
   languageName: node
   linkType: hard
 
@@ -5278,7 +5278,7 @@ __metadata:
     "@hono/sentry": "npm:^1.1.0"
     "@hono/swagger-ui": "npm:0.3.0"
     "@hono/zod-openapi": "npm:^0.14.7"
-    "@react-email/components": "npm:0.0.20"
+    "@react-email/components": "npm:0.0.21"
     "@react-email/render": "npm:0.0.16"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.15"
