@@ -39,6 +39,7 @@ import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
 import { formatISO } from "date-fns"
 import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
+import { UTCDate } from "@date-fns/utc"
 
 interface Props {
   app?: DesktopAppstream
@@ -168,7 +169,7 @@ const Details: FunctionComponent<Props> = ({
         ? pickScreenshotSize(app.screenshots[0])
         : undefined
 
-    const datePublished = formatISO(new Date(summary.timestamp * 1000))
+    const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
 
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
