@@ -168,6 +168,8 @@ const Details: FunctionComponent<Props> = ({
         ? pickScreenshotSize(app.screenshots[0])
         : undefined
 
+    const datePublished = formatISO(new Date(summary.timestamp * 1000))
+
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
         <SoftwareAppJsonLd
@@ -185,7 +187,7 @@ const Details: FunctionComponent<Props> = ({
               ? calculateHumanReadableSize(summary.download_size)
               : t("unknown")
           }
-          datePublished={formatISO(new Date(summary.timestamp * 1000))}
+          datePublished={datePublished}
           screenshot={
             screenshot
               ? {
@@ -226,7 +228,7 @@ const Details: FunctionComponent<Props> = ({
                 ? calculateHumanReadableSize(summary.download_size)
                 : t("unknown")
             }
-            datePublished={formatISO(new Date(summary.timestamp * 1000))}
+            datePublished={datePublished}
             screenshot={
               screenshot
                 ? {
