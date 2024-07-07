@@ -79,6 +79,7 @@ export default function Details({
   eolMessage,
   addons,
   locale,
+  datePublished,
 }: {
   app: DesktopAppstream
   summary?: Summary
@@ -88,6 +89,7 @@ export default function Details({
   eolMessage: string
   addons: AddonAppstream[]
   locale: string
+  datePublished: string
 }) {
   const { t } = useTranslation()
   const [isQualityModalOpen, setIsQualityModalOpen] = useState(false)
@@ -102,8 +104,6 @@ export default function Details({
     app.screenshots?.length > 0
       ? pickScreenshotSize(app.screenshots[0])
       : undefined
-
-  const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
 
   const lastStableVersion = app.releases?.filter(
     (release) => release.type === undefined || release.type === "stable",
@@ -292,6 +292,8 @@ export const getStaticProps: GetStaticProps = async ({
   const verificationStatus = await fetchVerificationStatus(appId as string)
   const addons = await fetchAddons(appId as string, locale)
 
+  const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -303,6 +305,7 @@ export const getStaticProps: GetStaticProps = async ({
       eolMessage,
       addons,
       locale,
+      datePublished,
     },
     revalidate: 900,
   }
