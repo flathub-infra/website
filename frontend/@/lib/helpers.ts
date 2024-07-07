@@ -1,5 +1,5 @@
 import { sanitize } from "isomorphic-dompurify"
-import { Branding } from "src/types/Appstream"
+import { Branding, DesktopAppstream } from "src/types/Appstream"
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
@@ -77,4 +77,22 @@ export function chooseBrandingColor(
   }
 
   return branding.find((a) => a.scheme_preference === undefined)
+}
+
+export function getKeywords(app: DesktopAppstream) {
+  // Remove duplicates
+  const keywordSet = new Set(
+    (app.keywords ?? []).map((keyword) => keyword.toLowerCase()),
+  )
+
+  if (!keywordSet.has("linux")) {
+    keywordSet.add("linux")
+  }
+
+  if (!keywordSet.has("flatpak")) {
+    keywordSet.add("flatpak")
+  }
+
+  const keywords = Array.from(keywordSet)
+  return keywords
 }

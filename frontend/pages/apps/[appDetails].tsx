@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 
 import ApplicationDetails from "../../src/components/application/Details"
 import EolMessageDetails from "../../src/components/application/EolMessage"
@@ -14,7 +15,11 @@ import {
   fetchVerificationStatus,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
-import { AddonAppstream, DesktopAppstream } from "../../src/types/Appstream"
+import {
+  AddonAppstream,
+  DesktopAppstream,
+  pickScreenshotSize,
+} from "../../src/types/Appstream"
 import { Summary } from "../../src/types/Summary"
 import { AppStats } from "../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
@@ -26,7 +31,44 @@ import {
 import { QualityModeration } from "src/components/application/QualityModeration"
 import { useState } from "react"
 import { useTranslation } from "next-i18next"
-import { isValidAppId } from "@/lib/helpers"
+import { getKeywords, isValidAppId } from "@/lib/helpers"
+import { calculateHumanReadableSize } from "src/size"
+import { formatISO } from "date-fns"
+import { UTCDate } from "@date-fns/utc"
+
+function categoryToSeoCategories(categories: string[]) {
+  if (!categories) {
+    return ""
+  }
+
+  return categories.map(categoryToSeoCategory).join(" ")
+}
+
+function categoryToSeoCategory(category) {
+  switch (category) {
+    case "AudioVideo":
+      return "Multimedia"
+    case "Development":
+      return "Developer"
+    case "Education":
+      return "Educational"
+    case "Game":
+      return "Game"
+    case "Graphics":
+      return "Design"
+    case "Network":
+      return "SocialNetworking"
+    case "Office":
+      return "Business"
+    case "Science":
+      // Unsure what else we could map this to
+      return "Educational"
+    case "System":
+      return "DesktopEnhancement"
+    case "Utility":
+      return "Utilities"
+  }
+}
 
 export default function Details({
   app,
@@ -54,6 +96,19 @@ export default function Details({
     return <EolMessageDetails message={eolMessage} />
   }
 
+  const keywords = getKeywords(app)
+
+  const screenshot =
+    app.screenshots?.length > 0
+      ? pickScreenshotSize(app.screenshots[0])
+      : undefined
+
+  const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
+
+  const lastStableVersion = app.releases?.filter(
+    (release) => release.type === undefined || release.type === "stable",
+  )?.[0]?.version
+
   return (
     <>
       <NextSeo
@@ -76,6 +131,80 @@ export default function Details({
         isQualityModalOpen={isQualityModalOpen}
         setIsQualityModalOpen={setIsQualityModalOpen}
       />
+      <SoftwareAppJsonLd
+        name={app.name}
+        author={{ name: app.developer_name, type: "Person" }}
+        maintainer={{ name: app.developer_name, type: "Person" }}
+        operatingSystem="linux"
+        price="0"
+        priceCurrency="USD"
+        applicationCategory={categoryToSeoCategories(app.categories)}
+        keywords={keywords.join(", ")}
+        description={app.summary}
+        fileSize={
+          summary
+            ? calculateHumanReadableSize(summary.download_size)
+            : t("unknown")
+        }
+        datePublished={datePublished}
+        screenshot={
+          screenshot
+            ? {
+                type: "ImageObject",
+                url: screenshot.src,
+                caption: screenshot.caption,
+                height: screenshot.height,
+                width: screenshot.width,
+              }
+            : undefined
+        }
+        softwareVersion={lastStableVersion}
+        storageRequirements={
+          summary
+            ? calculateHumanReadableSize(summary.installed_size)
+            : t("unknown")
+        }
+      />
+      {app.categories?.includes("Game") && (
+        <VideoGameJsonLd
+          name={app.name}
+          authorName={app.developer_name}
+          maintainer={{ name: app.developer_name, type: "Person" }}
+          operatingSystemName={"linux"}
+          platformName={"linux"}
+          applicationCategory={categoryToSeoCategories(app.categories)}
+          keywords={keywords.join(", ")}
+          description={app.summary}
+          operatingSystem="linux"
+          offers={{
+            price: "0",
+            priceCurrency: "USD",
+          }}
+          fileSize={
+            summary
+              ? calculateHumanReadableSize(summary.download_size)
+              : t("unknown")
+          }
+          datePublished={datePublished}
+          screenshot={
+            screenshot
+              ? {
+                  type: "ImageObject",
+                  url: screenshot.src,
+                  caption: screenshot.caption,
+                  height: screenshot.height,
+                  width: screenshot.width,
+                }
+              : undefined
+          }
+          softwareVersion={lastStableVersion}
+          storageRequirements={
+            summary
+              ? calculateHumanReadableSize(summary.installed_size)
+              : t("unknown")
+          }
+        />
+      )}
       <ApplicationDetails
         app={app}
         summary={summary}
@@ -84,6 +213,7 @@ export default function Details({
         verificationStatus={verificationStatus}
         addons={addons}
         isQualityModalOpen={isQualityModalOpen}
+        keywords={keywords}
       />
     </>
   )
