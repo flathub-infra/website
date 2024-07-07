@@ -59,6 +59,7 @@ export const Generated = () => {
       stats={stats}
       developerApps={developerApps}
       verificationStatus={{ verified: true }}
+      keywords={["linux", "flatpak"]}
     />
   )
 }

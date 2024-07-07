@@ -1,11 +1,7 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import {
-  AddonAppstream,
-  DesktopAppstream,
-  pickScreenshotSize,
-} from "../../types/Appstream"
+import { AddonAppstream, DesktopAppstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -15,9 +11,8 @@ import Releases from "./Releases"
 import SummaryInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
-import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
+
 import ApplicationSection from "./ApplicationSection"
-import { calculateHumanReadableSize } from "../../size"
 
 import { VerificationStatus } from "src/types/VerificationStatus"
 import {
@@ -37,9 +32,7 @@ import Addons from "./Addons"
 import Tabs, { Tab } from "../Tabs"
 import LicenseInfo from "./LicenseInfo"
 import Links from "./Links"
-import { formatISO } from "date-fns"
 import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
-import { UTCDate } from "@date-fns/utc"
 
 interface Props {
   app?: DesktopAppstream
@@ -49,40 +42,7 @@ interface Props {
   verificationStatus: VerificationStatus
   addons: AddonAppstream[]
   isQualityModalOpen: boolean
-}
-
-function categoryToSeoCategories(categories: string[]) {
-  if (!categories) {
-    return ""
-  }
-
-  return categories.map(categoryToSeoCategory).join(" ")
-}
-
-function categoryToSeoCategory(category) {
-  switch (category) {
-    case "AudioVideo":
-      return "Multimedia"
-    case "Development":
-      return "Developer"
-    case "Education":
-      return "Educational"
-    case "Game":
-      return "Game"
-    case "Graphics":
-      return "Design"
-    case "Network":
-      return "SocialNetworking"
-    case "Office":
-      return "Business"
-    case "Science":
-      // Unsure what else we could map this to
-      return "Educational"
-    case "System":
-      return "DesktopEnhancement"
-    case "Utility":
-      return "Utilities"
-  }
+  keywords: string[]
 }
 
 const Details: FunctionComponent<Props> = ({
@@ -93,6 +53,7 @@ const Details: FunctionComponent<Props> = ({
   verificationStatus,
   addons,
   isQualityModalOpen,
+  keywords,
 }) => {
   const { t } = useTranslation()
 
@@ -149,108 +110,8 @@ const Details: FunctionComponent<Props> = ({
       )
     }
 
-    // Remove duplicates
-    const keywordSet = new Set(
-      (app.keywords ?? []).map((keyword) => keyword.toLowerCase()),
-    )
-
-    if (!keywordSet.has("linux")) {
-      keywordSet.add("linux")
-    }
-
-    if (!keywordSet.has("flatpak")) {
-      keywordSet.add("flatpak")
-    }
-
-    const keywords = Array.from(keywordSet)
-
-    const screenshot =
-      app.screenshots?.length > 0
-        ? pickScreenshotSize(app.screenshots[0])
-        : undefined
-
-    const datePublished = formatISO(new UTCDate(summary.timestamp * 1000))
-
     return (
       <div className="grid grid-cols-details 2xl:grid-cols-details2xl">
-        <SoftwareAppJsonLd
-          name={app.name}
-          author={{ name: app.developer_name, type: "Person" }}
-          maintainer={{ name: app.developer_name, type: "Person" }}
-          operatingSystem="linux"
-          price="0"
-          priceCurrency="USD"
-          applicationCategory={categoryToSeoCategories(app.categories)}
-          keywords={keywords.join(", ")}
-          description={app.summary}
-          fileSize={
-            summary
-              ? calculateHumanReadableSize(summary.download_size)
-              : t("unknown")
-          }
-          datePublished={datePublished}
-          screenshot={
-            screenshot
-              ? {
-                  type: "ImageObject",
-                  url: screenshot.src,
-                  caption: screenshot.caption,
-                  height: screenshot.height,
-                  width: screenshot.width,
-                }
-              : undefined
-          }
-          softwareVersion={
-            stableReleases?.length > 0 ? stableReleases[0].version : undefined
-          }
-          storageRequirements={
-            summary
-              ? calculateHumanReadableSize(summary.installed_size)
-              : t("unknown")
-          }
-        />
-        {app.categories?.includes("Game") && (
-          <VideoGameJsonLd
-            name={app.name}
-            authorName={app.developer_name}
-            maintainer={{ name: app.developer_name, type: "Person" }}
-            operatingSystemName={"linux"}
-            platformName={"linux"}
-            applicationCategory={categoryToSeoCategories(app.categories)}
-            keywords={keywords.join(", ")}
-            description={app.summary}
-            operatingSystem="linux"
-            offers={{
-              price: "0",
-              priceCurrency: "USD",
-            }}
-            fileSize={
-              summary
-                ? calculateHumanReadableSize(summary.download_size)
-                : t("unknown")
-            }
-            datePublished={datePublished}
-            screenshot={
-              screenshot
-                ? {
-                    type: "ImageObject",
-                    url: screenshot.src,
-                    caption: screenshot.caption,
-                    height: screenshot.height,
-                    width: screenshot.width,
-                  }
-                : undefined
-            }
-            softwareVersion={
-              stableReleases?.length > 0 ? stableReleases[0].version : undefined
-            }
-            storageRequirements={
-              summary
-                ? calculateHumanReadableSize(summary.installed_size)
-                : t("unknown")
-            }
-          />
-        )}
         <AppHeader
           app={app}
           vendingSetup={vendingSetup?.data}
