@@ -20,6 +20,7 @@
     "hono": "^4.4.11",
     "nodemailer": "6.9.14",
     "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-email": "2.1.5",
     "zod": "^3.23.8"
   },
@@ -27,6 +28,7 @@
     "@types/html-to-text": "^9.0.4",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",
+    "@types/react-dom": "^18",
     "@types/swagger-ui-dist": "^3.30.5",
     "eslint": "^9.6.0",
     "prettier": "3.3.2",
