@@ -62,7 +62,7 @@ const Consultants = (): JSX.Element => {
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://theevilskeleton.gitlab.io/"
+            href="https://tesk.page/"
           >
             his website
           </a>{" "}
