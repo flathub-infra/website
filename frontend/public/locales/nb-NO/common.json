@@ -286,7 +286,7 @@
   "invite-code": "Invitasjonskoden din er:",
   "app-is-currently-not-verified": "Appen er for øyeblikket ikke verifisert",
   "verify-app": "Verifiser app",
-  "flathub-index-description": "Få tak i alle favoritt-appene dine på hvilket som helst Linux-system",
+  "flathub-index-description": "Få tak i alle favorittappene dine på hvilket som helst Linux-system",
   "app-eol": "Denne appen er ikke tilgjengelig på Flathub lenger",
   "distribution-flathub-setup": "Oppsett av Flathub på {{distribution}}",
   "find-your-distribution": "Finn ditt system",
@@ -591,5 +591,6 @@
   "scope-jobs": "Se status for byggeprosesser",
   "organizations-and-infrastructure": "Organisasjoner og infrastruktur",
   "special-license-explanation": "Denne appen utgis under den spesielle lisensen <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Du kan sannsynligvis ikke hjelpe til med å forbedre den."
+  "you-may-or-may-not-be-able-to-contribute": "Du kan sannsynligvis ikke hjelpe til med å forbedre den.",
+  "flathub-statistics-description": "En oversikt over bruken og fordelingen av tilgjengelige apper."
 }
