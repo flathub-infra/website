@@ -1,7 +1,11 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import { AddonAppstream, DesktopAppstream } from "../../types/Appstream"
+import {
+  AddonAppstream,
+  Appstream,
+  DesktopAppstream,
+} from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
@@ -35,7 +39,7 @@ import Links from "./Links"
 import { getAppVendingSetupVendingappAppIdSetupGet } from "src/codegen"
 
 interface Props {
-  app?: DesktopAppstream
+  app?: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>

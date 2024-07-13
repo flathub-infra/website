@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import React from "react"
-import { DesktopAppstream } from "src/types/Appstream"
+import { Appstream } from "src/types/Appstream"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
@@ -16,7 +16,7 @@ export function AppHeader({
   verificationStatus,
   isQualityModalOpen,
 }: {
-  app: DesktopAppstream
+  app: Appstream
   vendingSetup: VendingSetup | undefined
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean

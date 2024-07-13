@@ -17,7 +17,7 @@ import {
 import { NextSeo } from "next-seo"
 import {
   AddonAppstream,
-  DesktopAppstream,
+  Appstream,
   pickScreenshotSize,
 } from "../../src/types/Appstream"
 import { Summary } from "../../src/types/Summary"
@@ -81,7 +81,7 @@ export default function Details({
   locale,
   datePublished,
 }: {
-  app: DesktopAppstream
+  app: Appstream
   summary?: Summary
   stats: AppStats
   developerApps: MeilisearchResponse<AppsIndex>
@@ -101,7 +101,7 @@ export default function Details({
   const keywords = getKeywords(app)
 
   const screenshot =
-    app.screenshots?.length > 0
+    app.type !== "addon" && app.screenshots?.length > 0
       ? pickScreenshotSize(app.screenshots[0])
       : undefined
 
@@ -113,6 +113,8 @@ export default function Details({
     <>
       <NextSeo
         title={t("install-x", { "app-name": app?.name })}
+        nofollow={app.type === "addon"}
+        noindex={app.type === "addon"}
         description={app?.summary}
         openGraph={{
           url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/${app?.id}`,
@@ -126,11 +128,13 @@ export default function Details({
           ],
         }}
       />
-      <QualityModeration
-        app={app}
-        isQualityModalOpen={isQualityModalOpen}
-        setIsQualityModalOpen={setIsQualityModalOpen}
-      />
+      {app.type !== "addon" && (
+        <QualityModeration
+          app={app}
+          isQualityModalOpen={isQualityModalOpen}
+          setIsQualityModalOpen={setIsQualityModalOpen}
+        />
+      )}
       <SoftwareAppJsonLd
         name={app.name}
         author={{ name: app.developer_name, type: "Person" }}
@@ -138,7 +142,9 @@ export default function Details({
         operatingSystem="linux"
         price="0"
         priceCurrency="USD"
-        applicationCategory={categoryToSeoCategories(app.categories)}
+        applicationCategory={categoryToSeoCategories(
+          app.type === "addon" ? [] : app.categories,
+        )}
         keywords={keywords.join(", ")}
         description={app.summary}
         fileSize={
@@ -165,7 +171,7 @@ export default function Details({
             : t("unknown")
         }
       />
-      {app.categories?.includes("Game") && (
+      {app.type !== "addon" && app.categories?.includes("Game") && (
         <VideoGameJsonLd
           name={app.name}
           authorName={app.developer_name}

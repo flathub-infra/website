@@ -13,7 +13,7 @@ import {
   HiMiniUserGroup,
 } from "react-icons/hi2"
 import spdxLicenseList from "spdx-license-list"
-import { DesktopAppstream } from "src/types/Appstream"
+import { Appstream } from "src/types/Appstream"
 import { IconType } from "react-icons"
 
 const licenseRefRegex = /LicenseRef-proprietary=(.*)/i
@@ -118,7 +118,7 @@ const LicenseLink = ({
   license,
 }: {
   licenseType: "proprietary" | "floss" | "special"
-  app: DesktopAppstream
+  app: Appstream
   license: string
 }) => {
   const { t } = useTranslation()
@@ -159,7 +159,7 @@ const LicenseLink = ({
   )
 }
 
-const LicenseInfo = ({ app }: { app: DesktopAppstream }) => {
+const LicenseInfo = ({ app }: { app: Appstream }) => {
   const { t } = useTranslation()
 
   let licenseType: "proprietary" | "floss" | "special" = app.is_free_license
