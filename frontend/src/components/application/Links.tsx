@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react"
 
-import { DesktopAppstream } from "../../types/Appstream"
+import { Appstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 import {
   HiChatBubbleLeftRight,
@@ -20,7 +20,7 @@ import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { ProjectUrl } from "src/types/ProjectUrl"
 
 interface Props {
-  app: DesktopAppstream
+  app: Appstream
 }
 
 const Links: FunctionComponent<Props> = ({ app }) => {

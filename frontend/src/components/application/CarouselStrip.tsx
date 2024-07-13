@@ -1,10 +1,9 @@
-import Button from "../Button"
 import {
   HiChevronRight,
   HiChevronLeft,
   HiMagnifyingGlassPlus,
 } from "react-icons/hi2"
-import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
+import { Appstream, mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Inline from "yet-another-react-lightbox/plugins/inline"
@@ -14,7 +13,7 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 
-export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
+export const CarouselStrip = ({ app }: { app: Appstream }) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -28,7 +27,7 @@ export const CarouselStrip = ({ app }: { app: DesktopAppstream }) => {
     setCurrentIndex(lightboxState?.currentIndex)
   }, [lightboxState?.currentIndex])
 
-  if (!app.screenshots) {
+  if (app.type === "addon" || !app.screenshots) {
     return null
   }
 

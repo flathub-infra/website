@@ -47,6 +47,7 @@ export interface Branding {
 
 export interface AddonAppstream {
   type: "addon"
+  releases: Release[]
   content_rating: ContentRating
   urls: Urls
   icon?: any
@@ -54,6 +55,7 @@ export interface AddonAppstream {
   id: string
   name: string
   summary: string
+  developer_name: string
   project_license?: string
   extends: string
   bundle: Bundle
