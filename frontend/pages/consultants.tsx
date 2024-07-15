@@ -59,11 +59,7 @@ const Consultants = (): JSX.Element => {
           </a>
           , a Flatpak-centric distribution. He maintains a number of apps on
           Flathub, including three Chromium-based web browsers. See{" "}
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://tesk.page/"
-          >
+          <a target="_blank" rel="noreferrer" href="https://tesk.page/">
             his website
           </a>{" "}
           for more details and contact information.
