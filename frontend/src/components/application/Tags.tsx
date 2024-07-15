@@ -17,18 +17,17 @@ const Tags: FunctionComponent<Props> = ({ keywords }) => {
 
   return (
     <>
-      {keywordSet.size && (
+      {keywordSet.size > 0 && (
         <div className="flex gap-2 text-sm">
           <div>{t("tags-colon")}</div>
           <div className="flex flex-wrap gap-2 lowercase">
-            {keywordSet.size &&
-              Array.from(keywordSet).map((item, index) => {
-                return (
-                  <Link key={index} href={`/apps/search?q=${item}`}>
-                    <Badge text={item} />
-                  </Link>
-                )
-              })}
+            {Array.from(keywordSet).map((item, index) => {
+              return (
+                <Link key={index} href={`/apps/search?q=${item}`}>
+                  <Badge text={item} />
+                </Link>
+              )
+            })}
           </div>
         </div>
       )}
