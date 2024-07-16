@@ -75,7 +75,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   return (
     <div>
       <ResponsiveContainer width="100%" height={200}>
-        <BarChart layout="vertical" data={data}>
+        <BarChart accessibilityLayer layout="vertical" data={data}>
           {labels.map((label, i) => (
             <RechartsBar
               key={label}

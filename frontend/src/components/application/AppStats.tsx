@@ -3,14 +3,7 @@ import { AppStats } from "../../types/AppStats"
 
 import { useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import {
-  LineChart,
-  Line,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts"
+import { LineChart, Line, Tooltip, XAxis, YAxis } from "recharts"
 import { format } from "date-fns"
 import {
   axisStroke,
@@ -18,6 +11,7 @@ import {
   primaryStroke,
   RotatedAxisTick,
 } from "src/chartComponents"
+import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 
 interface Props {
   stats: AppStats
@@ -39,13 +33,15 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   // Remove current day
   data.pop()
 
+  const chartConfig = {} satisfies ChartConfig
+
   return (
     <div className="p-4">
       <h3 className="my-4 mt-0 text-xl font-semibold">
         {t("installs-over-time")}
       </h3>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
+      <ChartContainer config={chartConfig} className="min-h-[400px] w-full">
+        <LineChart accessibilityLayer data={data}>
           <Line
             dataKey="installs"
             stroke={primaryStroke(resolvedTheme)}
@@ -69,7 +65,7 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
             labelFormatter={(t) => format(t, "P")}
           />
         </LineChart>
-      </ResponsiveContainer>
+      </ChartContainer>
     </div>
   )
 }
