@@ -227,9 +227,10 @@ const Header = () => {
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                       logo={logoEmail.src}
                       sameAs={[
+                        "https://docs.flathub.org/",
+                        "https://discourse.flathub.org/",
                         "https://wikipedia.org/wiki/Flathub",
                         "https://fosstodon.org/@FlatpakApps",
-                        "https://discourse.flathub.org/",
                         "https://github.com/flathub",
                         "https://github.com/flathub-infra",
                       ]}
