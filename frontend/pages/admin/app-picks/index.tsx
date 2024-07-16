@@ -226,195 +226,188 @@ export default function AppPicks() {
     thirdApp?.id,
   ])
 
-  let content: ReactElement
-
-  if (queryAppsOfTheWeek.isPending || queryQualityApps.isPending) {
-    content = <Spinner size="m" />
-  } else if (queryAppsOfTheWeek.isError || queryQualityApps.isError) {
-    content = (
-      <>
-        <h1 className="my-8">{t("whoops")}</h1>
-
-        <p>{t("an-error-occurred-server", { errorCode: "500" })}</p>
-        <p>
-          <Trans i18nKey={"common:retry-or-go-home"}>
-            You might want to retry or go back{" "}
-            <a className="no-underline hover:underline" href=".">
-              home
-            </a>
-            .
-          </Trans>
-        </p>
-      </>
-    )
-  } else {
-    content = (
-      <>
-        <h1 className="mt-8 text-4xl font-extrabold">App Picks</h1>
-        <div className="text-sm flex">
-          For week {getISOWeek(date)} of {date.getFullYear()}
-        </div>
-        <div className="text-sm">
-          {startOfThisWeek.toDateString()} to{" "}
-          {endOfISOWeek(date).toDateString()}
-        </div>
-
-        <div className="flex flex-col lg:flex-row gap-2 justify-between">
-          <FlathubCombobox
-            items={selectableApps}
-            selectedItem={firstApp}
-            renderItem={(active, selected, item) => (
-              <ComboboxItem active={active} selected={selected} item={item} />
-            )}
-            setSelectedItem={(app) => {
-              setFirstApp(app)
-              if (app) {
-                mutateAppForWeek.mutateAsync({
-                  id: app.id,
-                  name: app.name,
-                  position: 1,
-                })
-              }
-            }}
-          />
-          <FlathubCombobox
-            items={selectableApps}
-            selectedItem={secondApp}
-            renderItem={(active, selected, item) => (
-              <ComboboxItem active={active} selected={selected} item={item} />
-            )}
-            setSelectedItem={(app) => {
-              setSecondApp(app)
-              if (app) {
-                mutateAppForWeek.mutateAsync({
-                  id: app.id,
-                  name: app.name,
-                  position: 2,
-                })
-              }
-            }}
-          />
-          <FlathubCombobox
-            items={selectableApps}
-            selectedItem={thirdApp}
-            renderItem={(active, selected, item) => (
-              <ComboboxItem active={active} selected={selected} item={item} />
-            )}
-            setSelectedItem={(app) => {
-              setThirdApp(app)
-              if (app) {
-                mutateAppForWeek.mutateAsync({
-                  id: app.id,
-                  name: app.name,
-                  position: 3,
-                })
-              }
-            }}
-          />
-          <FlathubCombobox
-            items={selectableApps}
-            selectedItem={fourthApp}
-            renderItem={(active, selected, item) => (
-              <ComboboxItem active={active} selected={selected} item={item} />
-            )}
-            setSelectedItem={(app) => {
-              setFourthApp(app)
-              if (app) {
-                mutateAppForWeek.mutateAsync({
-                  id: app.id,
-                  name: app.name,
-                  position: 4,
-                })
-              }
-            }}
-          />
-          <FlathubCombobox
-            items={selectableApps}
-            selectedItem={fifthApp}
-            renderItem={(active, selected, item) => (
-              <ComboboxItem active={active} selected={selected} item={item} />
-            )}
-            setSelectedItem={(app) => {
-              setFifthApp(app)
-              if (app) {
-                mutateAppForWeek.mutateAsync({
-                  id: app.id,
-                  name: app.name,
-                  position: 5,
-                })
-              }
-            }}
-          />
-        </div>
-
-        <div className="flex justify-between pt-4">
-          <Button
-            onClick={() => {
-              setDate(addDays(startOfISOWeek(date), -1))
-            }}
-          >
-            Previous week
-          </Button>
-          <Button
-            onClick={() => {
-              setDate(addDays(endOfISOWeek(date), 1))
-            }}
-          >
-            Next week
-          </Button>
-        </div>
-
-        <h2 className="text-2xl my-4">Preview</h2>
-        {queryAppsOfTheWeek.data.length > 0 && !queryAppsOfTheWeek.isPending ? (
-          <HeroBanner
-            heroBannerData={queryAppsOfTheWeek.data}
-            currentIndex={currentIndex}
-            autoplay={false}
-          />
-        ) : (
-          <div className="text-sm">
-            No apps for this week. Please select apps above.
-          </div>
-        )}
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 0)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 1)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 2)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 3)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 4)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 5)}
-            selectableApps={selectableApps}
-          />
-          <AppOfTheDayChanger
-            day={addDays(startOfThisWeek, 6)}
-            selectableApps={selectableApps}
-          />
-        </div>
-      </>
-    )
-  }
-
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <NextSeo title="App Picks" noindex />
-      {content}
+      {queryAppsOfTheWeek.isPending || queryQualityApps.isPending ? (
+        <Spinner size="m" />
+      ) : queryAppsOfTheWeek.isError || queryQualityApps.isError ? (
+        <>
+          <h1 className="my-8">{t("whoops")}</h1>
+
+          <p>{t("an-error-occurred-server", { errorCode: "500" })}</p>
+          <p>
+            <Trans i18nKey={"common:retry-or-go-home"}>
+              You might want to retry or go back{" "}
+              <a className="no-underline hover:underline" href=".">
+                home
+              </a>
+              .
+            </Trans>
+          </p>
+        </>
+      ) : (
+        <>
+          <h1 className="mt-8 text-4xl font-extrabold">App Picks</h1>
+          <div className="text-sm flex">
+            For week {getISOWeek(date)} of {date.getFullYear()}
+          </div>
+          <div className="text-sm">
+            {startOfThisWeek.toDateString()} to{" "}
+            {endOfISOWeek(date).toDateString()}
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-2 justify-between">
+            <FlathubCombobox
+              items={selectableApps}
+              selectedItem={firstApp}
+              renderItem={(active, selected, item) => (
+                <ComboboxItem active={active} selected={selected} item={item} />
+              )}
+              setSelectedItem={(app) => {
+                setFirstApp(app)
+                if (app) {
+                  mutateAppForWeek.mutateAsync({
+                    id: app.id,
+                    name: app.name,
+                    position: 1,
+                  })
+                }
+              }}
+            />
+            <FlathubCombobox
+              items={selectableApps}
+              selectedItem={secondApp}
+              renderItem={(active, selected, item) => (
+                <ComboboxItem active={active} selected={selected} item={item} />
+              )}
+              setSelectedItem={(app) => {
+                setSecondApp(app)
+                if (app) {
+                  mutateAppForWeek.mutateAsync({
+                    id: app.id,
+                    name: app.name,
+                    position: 2,
+                  })
+                }
+              }}
+            />
+            <FlathubCombobox
+              items={selectableApps}
+              selectedItem={thirdApp}
+              renderItem={(active, selected, item) => (
+                <ComboboxItem active={active} selected={selected} item={item} />
+              )}
+              setSelectedItem={(app) => {
+                setThirdApp(app)
+                if (app) {
+                  mutateAppForWeek.mutateAsync({
+                    id: app.id,
+                    name: app.name,
+                    position: 3,
+                  })
+                }
+              }}
+            />
+            <FlathubCombobox
+              items={selectableApps}
+              selectedItem={fourthApp}
+              renderItem={(active, selected, item) => (
+                <ComboboxItem active={active} selected={selected} item={item} />
+              )}
+              setSelectedItem={(app) => {
+                setFourthApp(app)
+                if (app) {
+                  mutateAppForWeek.mutateAsync({
+                    id: app.id,
+                    name: app.name,
+                    position: 4,
+                  })
+                }
+              }}
+            />
+            <FlathubCombobox
+              items={selectableApps}
+              selectedItem={fifthApp}
+              renderItem={(active, selected, item) => (
+                <ComboboxItem active={active} selected={selected} item={item} />
+              )}
+              setSelectedItem={(app) => {
+                setFifthApp(app)
+                if (app) {
+                  mutateAppForWeek.mutateAsync({
+                    id: app.id,
+                    name: app.name,
+                    position: 5,
+                  })
+                }
+              }}
+            />
+          </div>
+
+          <div className="flex justify-between pt-4">
+            <Button
+              onClick={() => {
+                setDate(addDays(startOfISOWeek(date), -1))
+              }}
+            >
+              Previous week
+            </Button>
+            <Button
+              onClick={() => {
+                setDate(addDays(endOfISOWeek(date), 1))
+              }}
+            >
+              Next week
+            </Button>
+          </div>
+
+          <h2 className="text-2xl my-4">Preview</h2>
+          {queryAppsOfTheWeek.data.length > 0 &&
+          !queryAppsOfTheWeek.isPending ? (
+            <HeroBanner
+              heroBannerData={queryAppsOfTheWeek.data}
+              currentIndex={currentIndex}
+              autoplay={false}
+            />
+          ) : (
+            <div className="text-sm">
+              No apps for this week. Please select apps above.
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 0)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 1)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 2)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 3)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 4)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 5)}
+              selectableApps={selectableApps}
+            />
+            <AppOfTheDayChanger
+              day={addDays(startOfThisWeek, 6)}
+              selectableApps={selectableApps}
+            />
+          </div>
+        </>
+      )}
     </div>
   )
 }
