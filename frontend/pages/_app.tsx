@@ -77,10 +77,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
           titleTemplate="%s | Flathub"
           defaultTitle={t("flathub-apps-for-linux")}
           description={t("flathub-description")}
-          languageAlternates={languages.map((lang) => ({
-            hrefLang: lang,
-            href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
-          }))}
+          languageAlternates={languages
+            .filter((lang) => lang !== router?.locale)
+            .map((lang) => ({
+              hrefLang: lang,
+              href: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${lang}`,
+            }))}
           twitter={{
             cardType: "summary_large_image",
           }}
