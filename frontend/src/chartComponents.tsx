@@ -1,3 +1,4 @@
+import { i18n } from "next-i18next"
 import { useTheme } from "next-themes"
 
 export function axisStroke(resolvedTheme: string): string {
@@ -47,8 +48,10 @@ export const FlathubTooltip = (props) => {
         </div>
         <div className="label">
           {payload[0].name === "value"
-            ? payload[0].value
-            : `${payload[0].name}: ${payload[0].value}`}
+            ? payload[0].value.toLocaleString(i18n.language)
+            : `${payload[0].name}: ${payload[0].value.toLocaleString(
+                i18n.language,
+              )}`}
         </div>
       </div>
     )
