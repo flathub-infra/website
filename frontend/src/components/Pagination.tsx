@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
 import { clsx } from "clsx"
+import { HiEllipsisHorizontal } from "react-icons/hi2"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   currentPage: number
@@ -15,13 +17,18 @@ const Pagination: FunctionComponent<Props> = ({
   onClick,
 }) => {
   const router = useRouter()
+  const { t } = useTranslation()
 
   if (pages.length < 2) {
     return null
   }
 
   return (
-    <nav className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl">
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl"
+    >
       {pages
         .filter(
           (page) =>
@@ -35,7 +42,10 @@ const Pagination: FunctionComponent<Props> = ({
           return (
             <React.Fragment key={`pagination-${index}`}>
               {index > 0 && array[index - 1] + 1 !== curr && (
-                <div className={`w-12 text-center`}>...</div>
+                <span aria-hidden className={`w-12 flex justify-center`}>
+                  <HiEllipsisHorizontal className="size-5" />
+                  <span className="sr-only">{t("more-pages")}</span>
+                </span>
               )}
 
               {onClick && (
@@ -60,7 +70,7 @@ const Pagination: FunctionComponent<Props> = ({
                       page: curr.toString(),
                     },
                   }}
-                  aria-current={isActive ? "page" : null}
+                  aria-current={isActive ? "page" : undefined}
                   className={clsx(
                     isActive &&
                       `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`,
