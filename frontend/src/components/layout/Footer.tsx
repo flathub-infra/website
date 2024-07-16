@@ -125,6 +125,12 @@ const Footer = () => {
           </div>
           <div className="flex flex-col sm:space-y-3">
             <Link
+              href="/setup"
+              className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
+            >
+              {t("setup")}
+            </Link>
+            <Link
               href="/languages"
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
             >
