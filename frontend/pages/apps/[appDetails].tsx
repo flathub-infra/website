@@ -35,6 +35,7 @@ import { getKeywords, isValidAppId } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "src/size"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
+import { bcpToPosixLocale } from "src/localize"
 
 function categoryToSeoCategories(categories: string[]) {
   if (!categories) {
@@ -137,6 +138,7 @@ export default function Details({
       )}
       <SoftwareAppJsonLd
         name={app.name}
+        inLanguage={bcpToPosixLocale(locale)}
         author={{ name: app.developer_name, type: "Person" }}
         maintainer={{ name: app.developer_name, type: "Person" }}
         operatingSystem="linux"
@@ -174,6 +176,7 @@ export default function Details({
       {app.type !== "addon" && app.categories?.includes("Game") && (
         <VideoGameJsonLd
           name={app.name}
+          inLanguage={bcpToPosixLocale(locale)}
           authorName={app.developer_name}
           maintainer={{ name: app.developer_name, type: "Person" }}
           operatingSystemName={"linux"}
