@@ -18,7 +18,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
         itemListElements={pages.map((page) => ({
           position: pages.indexOf(page) + 1,
           name: t(page.name),
-          item: page.href,
+          item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${page.href}`,
         }))}
       />
       <nav className="flex">
