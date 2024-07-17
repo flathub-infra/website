@@ -246,6 +246,7 @@ const Header = () => {
                             alt="Flathub Logo"
                             width={88}
                             height={24}
+                            priority
                           />
                         </div>
                         <div className="block lg:hidden">
@@ -255,6 +256,7 @@ const Header = () => {
                             width={24}
                             height={22}
                             style={{ width: 24, height: 22 }}
+                            priority
                           />
                         </div>
                       </div>
@@ -511,6 +513,7 @@ const Header = () => {
                             alt={t("user-avatar", {
                               user: displayNameWithFallback,
                             })}
+                            priority
                           />
                         </div>
                         <div className="ms-3">

@@ -63,6 +63,7 @@ export const AppOfTheDay = ({
           <div className="absolute drop-shadow-md">
             <LogoImage
               size="128"
+              priority
               iconUrl={appOfTheDay.icon}
               appName={appOfTheDay.name}
             />

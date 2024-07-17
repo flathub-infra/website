@@ -81,7 +81,7 @@ export default function Setup({
               </p>
             </div>
           )}
-          {instructionsFilteredAndSorted.map((instruction) => (
+          {instructionsFilteredAndSorted.map((instruction, index) => (
             <Link
               key={instruction.name}
               href={`/setup/${encodeURIComponent(
@@ -105,6 +105,7 @@ export default function Setup({
                   src={instruction.logo}
                   width={96}
                   height={96}
+                  priority={index < 7}
                   alt={instruction.name}
                 />
               </picture>
