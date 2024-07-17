@@ -1,4 +1,3 @@
-import FlathubImage from "../src/components/Image"
 import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
 import cc0 from "/public/img/CC0.png"
@@ -20,6 +19,7 @@ const BadgePreview = ({ locale, preferred }) => {
         {t(preferred ? "preferred-badge" : "alternative-badge")}
       </h3>
       <Image
+        priority
         width="240"
         height="80"
         alt="Get it on Flathub"
@@ -99,7 +99,7 @@ const Badges = () => {
               rel="license"
               href="http://creativecommons.org/publicdomain/zero/1.0/"
             >
-              <FlathubImage src={cc0} alt="CC0" />
+              <Image priority src={cc0} alt="CC0" />
             </a>
             <br />
             <Trans i18nKey={"common:badge-copyright"}>
