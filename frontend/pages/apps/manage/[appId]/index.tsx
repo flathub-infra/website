@@ -17,7 +17,12 @@ import { VendingConfig } from "../../../../src/types/Vending"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import Link from "next/link"
-import { Disclosure, Transition } from "@headlessui/react"
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Transition,
+} from "@headlessui/react"
 import LogoImage from "src/components/LogoImage"
 import { HiChevronUp } from "react-icons/hi2"
 import { motion } from "framer-motion"
@@ -37,7 +42,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
     <Disclosure as={"div"} className="pt-4">
       {({ open }) => (
         <>
-          <Disclosure.Button className="w-full flex items-start justify-between">
+          <DisclosureButton className="w-full flex items-start justify-between">
             <div className="flex text-xl font-semibold gap-3">
               {sectionTitle}
             </div>
@@ -48,7 +53,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
             >
               <HiChevronUp className="h-6 w-6" aria-hidden="true" />
             </motion.span>
-          </Disclosure.Button>
+          </DisclosureButton>
           <Transition
             enter="transition duration-100 ease-out"
             enterFrom="transform scale-95 opacity-0"
@@ -57,7 +62,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className={"pt-6"}>{children}</Disclosure.Panel>
+            <DisclosurePanel className={"pt-6"}>{children}</DisclosurePanel>
           </Transition>
         </>
       )}

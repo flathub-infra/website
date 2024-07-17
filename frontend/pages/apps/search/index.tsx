@@ -11,7 +11,12 @@ import {
 } from "src/meilisearch"
 import ApplicationCard from "src/components/application/ApplicationCard"
 import { categoryToName, stringToCategory } from "src/types/Category"
-import { Disclosure, Transition } from "@headlessui/react"
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Transition,
+} from "@headlessui/react"
 import { HiOutlineFunnel } from "react-icons/hi2"
 import clsx from "clsx"
 import Button from "src/components/Button"
@@ -490,7 +495,7 @@ const SearchPanel = ({
           <Disclosure>
             {({ open }) => (
               <>
-                <Disclosure.Button
+                <DisclosureButton
                   as={Button}
                   variant="secondary"
                   className="w-full"
@@ -501,7 +506,7 @@ const SearchPanel = ({
                     />
                     {t("filters")}
                   </div>
-                </Disclosure.Button>
+                </DisclosureButton>
                 <Transition
                   enter="transition duration-100 ease-out"
                   enterFrom="transform scale-95 opacity-0"
@@ -510,13 +515,13 @@ const SearchPanel = ({
                   leaveFrom="transform scale-100 opacity-100"
                   leaveTo="transform scale-95 opacity-0"
                 >
-                  <Disclosure.Panel className={"px-4"}>
+                  <DisclosurePanel className={"px-4"}>
                     <SearchFilters
                       results={searchResultData}
                       selectedFilters={selectedFilters}
                       setSelectedFilters={setSelectedFilters}
                     />
-                  </Disclosure.Panel>
+                  </DisclosurePanel>
                 </Transition>
               </>
             )}

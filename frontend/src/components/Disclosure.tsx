@@ -1,4 +1,9 @@
-import { Disclosure, Transition } from "@headlessui/react"
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Transition,
+} from "@headlessui/react"
 import { FunctionComponent, ReactElement } from "react"
 import { HiChevronRight } from "react-icons/hi2"
 import { clsx } from "clsx"
@@ -11,15 +16,15 @@ export const FlathubDisclosure: FunctionComponent<{
     <Disclosure>
       {({ open }) => (
         <>
-          <Disclosure.Button className="flex w-full items-center gap-3 px-4 py-3">
+          <DisclosureButton className="flex w-full items-center gap-3 px-4 py-3">
             <HiChevronRight
               className={clsx(
-                open ? "rotate-90 " : "",
+                open && "rotate-90",
                 "size-6 transform text-flathub-sonic-silver duration-150 dark:text-flathub-spanish-gray",
               )}
             />
             {buttonItems}
-          </Disclosure.Button>
+          </DisclosureButton>
           <Transition
             enter="transition duration-100 ease-out"
             enterFrom="transform scale-95 opacity-0"
@@ -28,7 +33,7 @@ export const FlathubDisclosure: FunctionComponent<{
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className={"px-4"}>{children}</Disclosure.Panel>
+            <DisclosurePanel className={"px-4"}>{children}</DisclosurePanel>
           </Transition>
         </>
       )}

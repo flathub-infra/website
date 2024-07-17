@@ -1,4 +1,4 @@
-import { Disclosure } from "@headlessui/react"
+import { DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 import { FunctionComponent } from "react"
@@ -19,7 +19,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
 
   return (
     <>
-      <Disclosure.Button className="flex justify-between rounded-lg border p-2 hover:opacity-80 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
+      <DisclosureButton className="flex justify-between rounded-lg border p-2 hover:opacity-80 focus:outline-none focus-visible:ring focus-visible:ring-opacity-75">
         <div className="grid w-full grid-cols-3 justify-items-start">
           <span>{token.id}</span>
           <span>{token.name}</span>
@@ -30,8 +30,8 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
         ) : (
           <HiChevronDown className="text-2xl" />
         )}
-      </Disclosure.Button>
-      <Disclosure.Panel className="flex flex-wrap justify-between gap-y-4 pe-4 ps-4">
+      </DisclosureButton>
+      <DisclosurePanel className="flex flex-wrap justify-between gap-y-4 pe-4 ps-4">
         <div className="flex flex-col gap-4">
           <span>{token.token}</span>
           <span>
@@ -41,7 +41,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
         {state === "unredeemed" && (
           <TokenCancelButton token={token} appId={appId} setState={setState} />
         )}
-      </Disclosure.Panel>
+      </DisclosurePanel>
     </>
   )
 }
