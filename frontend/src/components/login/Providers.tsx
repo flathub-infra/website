@@ -1,7 +1,6 @@
 import { FunctionComponent } from "react"
 import { LoginProvider } from "../../types/Login"
 import ProviderLink from "./ProviderLink"
-import { motion } from "framer-motion"
 
 interface Props {
   providers: LoginProvider[]
@@ -9,14 +8,9 @@ interface Props {
 
 const LoginProviders: FunctionComponent<Props> = ({ providers }) => {
   const links = providers.map((p) => (
-    <motion.div
-      initial={{ opacity: 0, y: 100 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      key={p.method}
-    >
+    <div key={p.method}>
       <ProviderLink provider={p} />
-    </motion.div>
+    </div>
   ))
 
   return (

@@ -7,7 +7,6 @@ import { useTranslation } from "next-i18next"
 import Button from "../Button"
 import Pagination from "../Pagination"
 import ApplicationCard from "./ApplicationCard"
-import { motion } from "framer-motion"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
@@ -115,20 +114,14 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app) => (
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            key={app.id}
-            className={"flex flex-col gap-2"}
-          >
+          <div key={app.id} className="flex flex-col gap-2">
             <ApplicationCard
               application={app}
               link={link}
               inACard={inACard}
               showId={showId}
             />
-          </motion.div>
+          </div>
         ))}
       </div>
 

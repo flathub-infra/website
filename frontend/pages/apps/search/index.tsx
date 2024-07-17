@@ -19,7 +19,6 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query"
 import { fetchSearchQuery } from "src/fetchers"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { AxiosResponse } from "axios"
-import { motion } from "framer-motion"
 
 interface Props {
   results: MeilisearchResponseLimited<AppsIndex>
@@ -29,15 +28,9 @@ const SearchResults: FunctionComponent<Props> = ({ results }) => {
   return (
     <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
       {results.hits.map((app) => (
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          key={app.app_id}
-          className={"flex flex-col gap-2"}
-        >
+        <div key={app.app_id} className={"flex flex-col gap-2"}>
           <ApplicationCard application={mapAppsIndexToAppstreamListItem(app)} />
-        </motion.div>
+        </div>
       ))}
     </div>
   )

@@ -3,9 +3,7 @@ import { FunctionComponent, ReactElement } from "react"
 import { AppstreamListItem } from "../../types/Appstream"
 
 import ApplicationCard from "./ApplicationCard"
-import { useTranslation } from "next-i18next"
 import ButtonLink from "../ButtonLink"
-import { motion } from "framer-motion"
 import clsx from "clsx"
 
 interface PropsWithTitle {
@@ -28,8 +26,6 @@ interface PropsWithCustomHeader {
 const ApplicationSection: FunctionComponent<
   PropsWithCustomHeader | PropsWithTitle
 > = (prop) => {
-  const { t } = useTranslation()
-
   if (!prop.applications || !prop.applications.length) return null
 
   return (
@@ -46,21 +42,13 @@ const ApplicationSection: FunctionComponent<
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {prop.applications.map((app) => (
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            key={app.id}
-          >
+          <div key={app.id}>
             <ApplicationCard application={app} />
-          </motion.div>
+          </div>
         ))}
       </div>
       {prop.showMore && (
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+        <div
           key={prop.moreText}
           className={clsx("flex flex-row justify-center", "mt-5")}
         >
@@ -74,7 +62,7 @@ const ApplicationSection: FunctionComponent<
           >
             {prop.moreText}
           </ButtonLink>
-        </motion.div>
+        </div>
       )}
     </div>
   )
