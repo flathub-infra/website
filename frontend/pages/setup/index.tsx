@@ -5,7 +5,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useTranslation } from "next-i18next"
 import clsx from "clsx"
-import { useTheme } from "next-themes"
 import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
@@ -16,7 +15,6 @@ export default function Setup({
   instructions: DistroSetup[]
 }) {
   const { t } = useTranslation()
-  const { resolvedTheme } = useTheme()
 
   // linux distros by approximate popularity or if setup is needed
   const distroOrder: { name: string; order: number }[] = [
@@ -97,17 +95,19 @@ export default function Setup({
                 "px-8 py-6",
               )}
             >
-              <Image
-                className="h-24 w-24"
-                src={
-                  resolvedTheme === "light"
-                    ? instruction.logo
-                    : instruction.logo_dark ?? instruction.logo
-                }
-                width={96}
-                height={96}
-                alt={instruction.name}
-              />
+              <picture>
+                <source
+                  srcSet={instruction.logo_dark}
+                  media="(prefers-color-scheme: dark)"
+                />
+                <Image
+                  className="size-24"
+                  src={instruction.logo}
+                  width={96}
+                  height={96}
+                  alt={instruction.name}
+                />
+              </picture>
               <span className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
                 {instruction.name}
               </span>
