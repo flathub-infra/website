@@ -511,8 +511,8 @@
   "more-office": "Vaata kõiki kontoritöörakendusi",
   "more-updated": "Vaata veel hiljuti uuendatud rakendusi",
   "more-new": "Vaata veel uusi rakendusi",
-  "more-popular": "Vaata teisi populaarseid rakendusi",
-  "more-trending": "Vaata teisi hetkel populaarseid rakendusi",
+  "more-popular": "Vaata kõiki populaarseid rakendusi",
+  "more-trending": "Vaata kõiki hetkel populaarseid rakendusi",
   "more-utility": "Vaata kõiki tarvikuid",
   "more-system": "Vaata kõiki süsteemirakendusi",
   "more-science": "Vaata kõiki teadusrakendusi",
@@ -522,5 +522,7 @@
   "more-education": "Vaata kõiki haridusrakendusi",
   "more-audiovideo": "Vaata kõiki multimeediarakendusi",
   "more-graphics": "Vaata kõiki graafika- ja fotorakendusi",
-  "flathub-statistics-description": "Platvormil saadaolevate rakenduste kasutuse ja jaotuse ülevaade."
+  "flathub-statistics-description": "Platvormil saadaolevate rakenduste kasutuse ja jaotuse ülevaade.",
+  "setup": "Paigaldus",
+  "more-pages": "Järgnevad lehed"
 }
