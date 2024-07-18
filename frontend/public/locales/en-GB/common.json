@@ -592,5 +592,7 @@
   "developers-and-users-block": "Connect with the team and other members of the community to ask questions and share your expertise",
   "special-license-explanation": "This app is developed under the special licence <1>{{ license }}</1>.",
   "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
-  "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform."
+  "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform.",
+  "more-pages": "More pages",
+  "setup": "Setup"
 }

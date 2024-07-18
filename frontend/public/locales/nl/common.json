@@ -592,5 +592,7 @@
   "more-network": "Meer netwerken-apps",
   "more-trending": "Meer trending apps",
   "more-apps-by-developer": "Meer apps van {{developer}}",
-  "flathub-statistics-description": "Overzicht van het gebruik en de distributie van apps die beschikbaar zĳn op het platform."
+  "flathub-statistics-description": "Overzicht van het gebruik en de distributie van apps die beschikbaar zĳn op het platform.",
+  "more-pages": "Meer pagina's",
+  "setup": "Installatie"
 }

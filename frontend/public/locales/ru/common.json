@@ -316,10 +316,10 @@
   "not-verified": "Не проверенные",
   "moderation-no-review-requests": "Нет отзывов для этого приложения.",
   "flathub-index-description": "Получите последние версии всех ваших любимых приложений для любого дистрибутива Linux",
-  "distribution-flathub-setup": "Настройка Flathub для {{distribution}}",
+  "distribution-flathub-setup": "Установка Flathub на {{distribution}}",
   "find-your-distribution": "Найдите свой дистрибутив",
   "no-results-found": "Результаты не найдены",
-  "app-eol": "Это приложение более недоступно в Flathub",
+  "app-eol": "Это приложение больше не доступно в Flathub",
   "console-application": "Консольное приложение",
   "app-type": "Тип приложения",
   "desktop-application": "Настольное приложение",
@@ -593,5 +593,7 @@
   "more-science": "Больше научных приложений",
   "more-utility": "Больше утилит",
   "more-office": "Больше приложений для продуктивности",
-  "flathub-statistics-description": "Обзор использования и распределения приложений, доступных на платформе."
+  "flathub-statistics-description": "Обзор использования и распределения приложений, доступных на платформе.",
+  "more-pages": "Больше",
+  "setup": "Установить"
 }
