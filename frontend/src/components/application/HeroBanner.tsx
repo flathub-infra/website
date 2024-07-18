@@ -10,7 +10,7 @@ import Link from "next/link"
 import { DesktopAppstream, pickScreenshotSize } from "src/types/Appstream"
 
 import LogoImage from "../LogoImage"
-import Image from "../Image"
+import Image from "next/image"
 
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"

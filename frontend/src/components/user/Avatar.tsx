@@ -1,5 +1,5 @@
 import { default as Image } from "next/image"
-import { default as UnoptimizedImage } from "../Image"
+import { default as FlathubImage } from "../Image"
 import React, { FunctionComponent } from "react"
 import FallbackAvatar from "boring-avatars"
 import { useTranslation } from "next-i18next"
@@ -46,7 +46,7 @@ const Avatar: FunctionComponent<Props> = (props: Props) => {
   // optimized image loader because it will append image sizes to the URL
   // which KDE GitLab doesn't seem to like.
   if (avatarUrl.startsWith("https://invent.kde.org/uploads/")) {
-    return React.createElement(UnoptimizedImage, elementStyle)
+    return React.createElement(FlathubImage, elementStyle)
   }
 
   return React.createElement(Image, elementStyle)
