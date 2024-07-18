@@ -12,6 +12,7 @@ import Captions from "yet-another-react-lightbox/plugins/captions"
 import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
+import CarouselNextJsImage from "./CarouselNextJsImage"
 
 export const CarouselStrip = ({ app }: { app: Appstream }) => {
   const { t } = useTranslation()
@@ -53,6 +54,7 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
           render={{
             buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
             buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
+            slide: CarouselNextJsImage,
           }}
         />
       )}
@@ -100,6 +102,7 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
               ),
               buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
               buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
+              slide: CarouselNextJsImage,
             }}
           />
         </div>
