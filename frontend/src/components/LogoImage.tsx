@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import FlathubImage from "../components/Image"
+import Image from "next/image"
 
 import logoMini from "public/img/logo/flathub-logo-mini.svg"
 
@@ -24,7 +24,7 @@ const LogoImage: FunctionComponent<Props> = ({
       {iconUrl &&
       (iconUrl.startsWith("https://dl.flathub.org") ||
         iconUrl.startsWith("https://flathub.org")) ? (
-        <FlathubImage
+        <Image
           src={iconUrl}
           alt={t("app-logo", { "app-name": appName })}
           aria-hidden
@@ -35,7 +35,7 @@ const LogoImage: FunctionComponent<Props> = ({
         />
       ) : (
         <div className="dark:invert p-1">
-          <FlathubImage
+          <Image
             src={logoMini}
             alt={t("app-logo", { "app-name": appName })}
             width={size}
