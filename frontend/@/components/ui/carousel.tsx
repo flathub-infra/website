@@ -8,6 +8,7 @@ import useEmblaCarousel, {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2"
+import { useTranslation } from "next-i18next"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -58,6 +59,8 @@ const Carousel = React.forwardRef<
     },
     ref,
   ) => {
+    const { t } = useTranslation()
+
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -139,7 +142,7 @@ const Carousel = React.forwardRef<
           onKeyDownCapture={handleKeyDown}
           className={cn("relative", className)}
           role="region"
-          aria-roledescription="carousel"
+          aria-roledescription={t("carousel")}
           {...props}
         >
           {children}
@@ -176,13 +179,14 @@ const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
+  const { t } = useTranslation()
   const { orientation } = useCarousel()
 
   return (
     <div
       ref={ref}
       role="group"
-      aria-roledescription="slide"
+      aria-roledescription={t("slide")}
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-4" : "pt-4",
