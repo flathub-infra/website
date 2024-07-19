@@ -15,11 +15,18 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
   return (
     <>
       <BreadcrumbJsonLd
-        itemListElements={pages.map((page) => ({
-          position: pages.indexOf(page) + 1,
-          name: t(page.name),
-          item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${page.href}`,
-        }))}
+        itemListElements={[
+          {
+            position: 1,
+            name: t("home"),
+            item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}`,
+          },
+          ...pages.map((page) => ({
+            position: pages.indexOf(page) + 2,
+            name: t(page.name),
+            item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${page.href}`,
+          })),
+        ]}
       />
       <nav className="flex">
         <ol role="list" className="flex items-center space-x-4">
