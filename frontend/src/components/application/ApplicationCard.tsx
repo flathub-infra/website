@@ -52,6 +52,8 @@ const ApplicationCard: FunctionComponent<Props> = ({
     <Link
       href={linkFunc(application.id)}
       passHref
+      aria-label={application.name}
+      aria-description={application.summary}
       className={clsx(
         inACard
           ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20"
