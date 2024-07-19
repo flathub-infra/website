@@ -56,7 +56,7 @@ const ApplicationSection: FunctionComponent<
             href={prop.href}
             passHref
             variant="secondary"
-            className="rounded-full"
+            className="rounded-full px-8"
             aria-label={prop.moreText}
             title={prop.moreText}
           >
