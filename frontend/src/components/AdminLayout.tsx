@@ -81,7 +81,7 @@ const AdminLayout = ({
                     className={clsx(
                       router.pathname === item.href
                         ? "bg-flathub-gainsborow text-flathub-celestial-blue dark:bg-flathub-arsenic dark:text-flathub-white"
-                        : "text-flathub-black hover:text-flathub-celestial-blue hover:bg-flathub-gainsborow/50 dark:text-flathub-white dark:hover:text-flathub-celestial-blue dark:hover:bg-flathub-arsenic",
+                        : "text-flathub-black hover:text-flathub-celestial-blue hover:bg-flathub-gainsborow/50 dark:text-flathub-white dark:hover:bg-flathub-arsenic",
                       "group flex gap-x-3 rounded-md p-2 pl-3 text-sm leading-6 font-semibold",
                     )}
                   >
