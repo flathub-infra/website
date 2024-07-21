@@ -524,5 +524,7 @@
   "more-graphics": "Vaata kõiki graafika- ja fotorakendusi",
   "flathub-statistics-description": "Platvormil saadaolevate rakenduste kasutuse ja jaotuse ülevaade.",
   "setup": "Paigaldus",
-  "more-pages": "Järgnevad lehed"
+  "more-pages": "Järgnevad lehed",
+  "slide": "Slaidid",
+  "carousel": "Karussell"
 }
