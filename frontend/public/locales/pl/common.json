@@ -595,5 +595,7 @@
   "more-popular": "Więcej popularnych",
   "flathub-statistics-description": "Przegląd wykorzystania i dystrybucji aplikacji dostępnych na platformie.",
   "setup": "Konfiguracja",
-  "more-pages": "Więcej stron"
+  "more-pages": "Więcej stron",
+  "slide": "Slajd",
+  "carousel": "Karuzela"
 }

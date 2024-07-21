@@ -594,5 +594,7 @@
   "more-apps-by-developer": "Meer apps van {{developer}}",
   "flathub-statistics-description": "Overzicht van het gebruik en de distributie van apps die beschikbaar zĳn op het platform.",
   "more-pages": "Meer pagina's",
-  "setup": "Installatie"
+  "setup": "Installatie",
+  "carousel": "Carrousel",
+  "slide": "Dia"
 }

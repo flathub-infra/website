@@ -592,5 +592,9 @@
   "more-utility": "अधिक उपयोगिताएं",
   "more-apps-by-developer": "{{developer}} द्वारा अधिक ऐप्स",
   "more-trending": "अधिक रुझानित",
-  "flathub-statistics-description": "प्लेटफ़ॉर्म पर उपलब्ध ऐप्स के उपयोग और वितरण का अवलोकन।"
+  "flathub-statistics-description": "प्लेटफ़ॉर्म पर उपलब्ध ऐप्स के उपयोग और वितरण का अवलोकन।",
+  "more-pages": "अधिक पृष्ठ",
+  "setup": "सेटअप",
+  "carousel": "कैरोसेल",
+  "slide": "स्लाइड"
 }

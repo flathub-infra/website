@@ -592,5 +592,9 @@
   "more-new": "Lisää uusia",
   "more-updated": "Lisää päivitettyjä",
   "more-education": "Lisää koulutussovelluksia",
-  "flathub-statistics-description": "Yhteenveto alustan kautta olevien sovellusten käytöstä ja jakaumasta."
+  "flathub-statistics-description": "Yhteenveto alustan kautta olevien sovellusten käytöstä ja jakaumasta.",
+  "slide": "Dia",
+  "carousel": "Karuselli",
+  "setup": "Määritys",
+  "more-pages": "Lisää sivuja"
 }
