@@ -6,7 +6,7 @@ import { Appstream, AppstreamListItem } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 import Button from "../Button"
 import Pagination from "../Pagination"
-import ApplicationCard from "./ApplicationCard"
+import { ApplicationCard } from "./ApplicationCard"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]

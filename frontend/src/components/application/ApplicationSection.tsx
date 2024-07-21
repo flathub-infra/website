@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
-import ApplicationCard from "./ApplicationCard"
+import { ApplicationCard } from "./ApplicationCard"
 import ButtonLink from "../ButtonLink"
 import clsx from "clsx"
 

@@ -7,6 +7,7 @@ import { clsx } from "clsx"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import { VerificationProvider } from "src/verificationProvider"
 import VerificationIcon from "./VerificationIcon"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Props {
   application: AppstreamListItem
@@ -15,7 +16,27 @@ interface Props {
   showId?: boolean
 }
 
-const ApplicationCard: FunctionComponent<Props> = ({
+function cardClass(inACard: boolean): string {
+  return clsx(
+    inACard
+      ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20"
+      : "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md hover:bg-flathub-lotion dark:hover:bg-flathub-arsenic/90",
+    "flex min-w-0 items-center gap-4 p-4 duration-500",
+    "hover:cursor-pointer hover:no-underline",
+    "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
+    "h-full",
+  )
+}
+
+export const ApplicationCardSkeleton = ({
+  inACard = false,
+}: {
+  inACard?: boolean
+}) => {
+  return <Skeleton className={clsx(cardClass(inACard), "h-32")} />
+}
+
+export const ApplicationCard: FunctionComponent<Props> = ({
   application,
   link,
   inACard,
@@ -54,15 +75,7 @@ const ApplicationCard: FunctionComponent<Props> = ({
       passHref
       aria-label={application.name}
       aria-description={application.summary}
-      className={clsx(
-        inACard
-          ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20"
-          : "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md hover:bg-flathub-lotion dark:hover:bg-flathub-arsenic/90",
-        "flex min-w-0 items-center gap-4 p-4 duration-500",
-        "hover:cursor-pointer hover:no-underline",
-        "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
-        "h-full",
-      )}
+      className={cardClass(inACard)}
     >
       <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
         <LogoImage iconUrl={application.icon} appName={application.name} />
@@ -89,5 +102,3 @@ const ApplicationCard: FunctionComponent<Props> = ({
     </Link>
   )
 }
-
-export default ApplicationCard
