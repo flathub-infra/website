@@ -4967,9 +4967,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-email@npm:2.1.5":
-  version: 2.1.5
-  resolution: "react-email@npm:2.1.5"
+"react-email@npm:2.1.6":
+  version: 2.1.6
+  resolution: "react-email@npm:2.1.6"
   dependencies:
     "@babel/core": "npm:7.24.5"
     "@babel/parser": "npm:7.24.5"
@@ -5013,7 +5013,7 @@ __metadata:
     typescript: "npm:5.1.6"
   bin:
     email: cli/index.js
-  checksum: 10c0/a9f77554711c70af08efb70b913543fc57403fcb609e57a4f88ce9d56359889a659d80d4037dd76205d8e5c0b00a35ff75f71a7c0e828a617975fad8cd8122b2
+  checksum: 10c0/4b7d758b9762b1c2d6bd206133a331a5c5d7766f2bec781095efff3103265ebdbc8b9fa7b4b32aa36768315c867e01522d2537b907c4d44f6f68aa70a3b7a44a
   languageName: node
   linkType: hard
 
@@ -5210,7 +5210,7 @@ __metadata:
     prettier: "npm:3.3.3"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
-    react-email: "npm:2.1.5"
+    react-email: "npm:2.1.6"
     tsx: "npm:^4.16.2"
     typescript: "npm:^5.5.3"
     zod: "npm:^3.23.8"
