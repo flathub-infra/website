@@ -594,5 +594,7 @@
   "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
   "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform.",
   "more-pages": "More pages",
-  "setup": "Setup"
+  "setup": "Setup",
+  "slide": "Slide",
+  "carousel": "Carousel"
 }
