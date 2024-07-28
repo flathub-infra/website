@@ -217,6 +217,84 @@ export const Endless_OS = () => (
 )
 distroMap.set("Endless OS", <Endless_OS />)
 
+export const ALT_Linux = () => (
+  <ol className="distrotut">
+    <HowToJsonLd
+      name="ALT Linux"
+      image="https://flathub.org/img/distro/altlinux.svg"
+      estimatedCost={{ currency: "USD", value: "0" }}
+      step={[
+        {
+          url: "https://flathub.org/setup/alt_linux",
+          name: "Install Flatpak",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "To install Flatpak on operating systems of the Alt family, simply run: su - apt-get update apt-get install flatpak",
+            },
+          ],
+        },
+        {
+          url: "https://flathub.org/setup/alt_linux",
+          name: "Add the Flathub repository",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "Flathub is a great place to get Flatpak apps. To enable it on your Alt system, run: su - apt-get update apt-get install flatpak-repo-flathub",
+            },
+          ],
+        },
+        {
+          url: "https://flathub.org/setup/alt_linux",
+          name: "Restart",
+          itemListElement: [
+            {
+              type: "HowToDirection",
+              text: "Restart your device to complete the Flatpak installation. Now you can install some apps!",
+            },
+          ],
+        },
+      ]}
+    />
+
+    <li>
+      <h2>Install Flatpak</h2>
+      <p>
+        To install Flatpak on operating systems of the Alt family, simply run:
+      </p>{" "}
+      <CodeCopy
+        text={` su -
+ apt-get update
+ apt-get install flatpak
+ `}
+      />
+    </li>
+
+    <li>
+      <h2>Add the Flathub repository</h2>
+      <p>
+        Flathub is a great place to get Flatpak apps. To enable it on your Alt
+        system, run:
+      </p>{" "}
+      <CodeCopy
+        text={` su -
+ apt-get update
+ apt-get install flatpak-repo-flathub
+ `}
+      />
+    </li>
+
+    <li>
+      <h2>Restart</h2>
+      <p>
+        Restart your device to complete the Flatpak installation. Now you can{" "}
+        <a href="https://flathub.org/">install some apps</a>!
+      </p>
+    </li>
+  </ol>
+)
+distroMap.set("ALT Linux", <ALT_Linux />)
+
 export const Chrome_OS = () => (
   <ol className="distrotut">
     <HowToJsonLd
