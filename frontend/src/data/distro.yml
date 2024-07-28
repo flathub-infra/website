@@ -51,6 +51,30 @@
     <h2>Flatpak support is built into Endless OS 3.0.0 and newer—no setup required!</h2>
     <p>If you are using an older version, <a href="https://community.endlessos.com/t/upgrade-from-endless-os-2-x-to-endless-os-3/967">upgrade to Endless OS 3</a>.</p>
 
+- name: ALT Linux
+  logo: "altlinux.svg"
+  logo_dark: "altlinux-dark.svg"
+  steps:
+    - name: Install Flatpak
+      text: "
+        <p>To install Flatpak on operating systems of the Alt family, simply run:</p>
+        <terminal-command>
+          su -\n
+          apt-get update\n
+          apt-get install flatpak\n
+        </terminal-command>"
+    - name: Add the Flathub repository
+      text: "
+        <p>Flathub is a great place to get Flatpak apps. To enable it on your Alt system, run:</p>
+        <terminal-command>
+          su -\n
+          apt-get update\n
+          apt-get install flatpak-repo-flathub\n
+        </terminal-command>"
+    - name: Restart
+      text: '
+        <p>Restart your device to complete the Flatpak installation. Now you can <a href="https://flathub.org/">install some apps</a>!</p>'
+
 - name: Chrome OS
   logo: "chrome-os.svg"
   introduction: >
