@@ -17,7 +17,7 @@
     "openapi-codegen": "orval"
   },
   "dependencies": {
-    "@collapsed/react": "^4.0.1",
+    "@collapsed/react": "^5.0.0",
     "@date-fns/utc": "^1.2.0",
     "@floating-ui/react": "^0.26.18",
     "@headlessui/react": "^2.1.0",
