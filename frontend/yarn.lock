@@ -8865,12 +8865,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-autoplay@npm:^8.1.5":
-  version: 8.1.5
-  resolution: "embla-carousel-autoplay@npm:8.1.5"
+"embla-carousel-autoplay@npm:^8.1.7":
+  version: 8.1.7
+  resolution: "embla-carousel-autoplay@npm:8.1.7"
   peerDependencies:
-    embla-carousel: 8.1.5
-  checksum: 10c0/1798bdff3684e579cadabe5e2667405a0313dd348d398194f958a7e4d840d256026e9650856bbd4045d785b04ec4a02fa0f9e7f598cfd6b68f13689dbd497812
+    embla-carousel: 8.1.7
+  checksum: 10c0/ba3918081cec8a0e70eb925a4a83d09d334e3fccbbbdaff0049a4d3af5adb87b794a3e9ce30c4f6e1cc67025cdeb7d4d8a5ab2704454d0420f6e7c5fd16e74ab
   languageName: node
   linkType: hard
 
@@ -10137,7 +10137,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.1"
     date-fns: "npm:^3.6.0"
-    embla-carousel-autoplay: "npm:^8.1.5"
+    embla-carousel-autoplay: "npm:^8.1.7"
     embla-carousel-react: "npm:^8.1.5"
     eslint: "npm:^8.57.0"
     eslint-config-next: "npm:^14.2.4"
