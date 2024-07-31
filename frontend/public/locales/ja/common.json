@@ -178,7 +178,7 @@
   "contribute": "アプリの開発に協力",
   "vending-dashboard": "あなたのStripe Express アカウントを見る",
   "purchase-terms-confirmation": "私はFlathubの利用規約を読み、このデジタルダウンロードに関連する14日間のクーリングオフ期間の放棄に同意します。",
-  "release-link": "詳細情報",
+  "release-link": "詳細",
   "contribute-languages": "このサイトはコミュニティにより翻訳されました。Flathubの翻訳を手伝ってくださる方は <1>Flathub翻訳チームにご参加ください</1>。",
   "owned-apps": "所有しているアプリ",
   "value-at-least": "{{value}} 以上の値を入力してください",
@@ -363,7 +363,7 @@
   "remove": "削除",
   "information": "情報",
   "links": "リンク",
-  "learn-more": "詳細情報",
+  "learn-more": "詳細",
   "issued-to": "発行期限",
   "legacy-windowing-system-description": "古いウィンドウシステムを使用",
   "can-read-all-data-on-file-system": "ファイルシステム上の全データを読み取り可能",
@@ -548,7 +548,7 @@
   "archive": "アーカイブ",
   "nothing-to-do": "すべきことはありません",
   "organizations-and-infrastructure": "組織やインフラ",
-  "individual-contributors": "個々の貢献者たち",
+  "individual-contributors": "個人の貢献者たち",
   "press": "報道",
   "reporting-issues-description": "安全性の報告と法的問題を重大に捉えています",
   "developers-and-users-block": "チームやコミュニティの他の人々とつながり、質問したり、あなたの専門的な意見を共有できます",
@@ -582,5 +582,8 @@
   "manage-x": "{{app-name}} の管理",
   "do-you-really-want-to-archive-app": "よろしいですか？アップロードトークンは無効になり、アプリはアーカイブされます。",
   "special-license-explanation": "このアプリは <1>{{ license }}</1> の特殊ライセンスで開発されています。",
-  "more-popular": "人気をもっと表示"
+  "more-popular": "人気をもっと表示",
+  "slide": "スライド",
+  "carousel": "カルーセル",
+  "more-apps-by-developer": "{{developer}} のほかのアプリ"
 }
