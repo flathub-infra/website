@@ -591,5 +591,9 @@
   "more-popular": "更多流行",
   "more-new": "更多新品",
   "more-updated": "更多已更新",
-  "flathub-statistics-description": "平台上可用應用程式的使用與散佈概覽。"
+  "flathub-statistics-description": "平台上可用應用程式的使用與散佈概覽。",
+  "more-pages": "更多頁面",
+  "carousel": "輪播",
+  "slide": "投影片",
+  "setup": "設定"
 }
