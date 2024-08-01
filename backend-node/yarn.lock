@@ -5197,7 +5197,7 @@ __metadata:
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
     react-email: "npm:2.1.6"
-    tsx: "npm:^4.16.2"
+    tsx: "npm:^4.16.4"
     typescript: "npm:^5.5.4"
     zod: "npm:^3.23.8"
   languageName: unknown
@@ -5749,9 +5749,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.16.2":
-  version: 4.16.2
-  resolution: "tsx@npm:4.16.2"
+"tsx@npm:^4.16.4":
+  version: 4.16.4
+  resolution: "tsx@npm:4.16.4"
   dependencies:
     esbuild: "npm:~0.21.5"
     fsevents: "npm:~2.3.3"
@@ -5761,7 +5761,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 10c0/9df52264f88be00ca473e7d7eda43bb038cc09028514996b864db78645e9cd297c71485f0fdd4985464d6dc46424f8bef9f8c4bd56692c4fcf4d71621ae21763
+  checksum: 10c0/fa95522689f8c8cc08fecbd819b116c53664788c7ab3bec7730a149b8480d703f60fe7442f58470b755f3e8e720391721fc86e1e6617d57cc267b2b1e012f8ea
   languageName: node
   linkType: hard
 
