@@ -32,7 +32,7 @@
     "@types/swagger-ui-dist": "^3.30.5",
     "eslint": "^9.8.0",
     "prettier": "3.3.3",
-    "tsx": "^4.16.2",
+    "tsx": "^4.16.5",
     "typescript": "^5.5.4"
   },
   "packageManager": "yarn@4.2.2"
