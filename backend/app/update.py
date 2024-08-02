@@ -14,7 +14,6 @@ def register_to_app(app: FastAPI):
 async def update():
     worker.update.send()
     worker.update_quality_moderation.send()
-    worker.update_app_picks.send()
 
 
 @router.post("/stats", tags=["update"])

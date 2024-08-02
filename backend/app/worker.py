@@ -9,12 +9,14 @@ import dramatiq.brokers.redis
 import requests
 import sentry_dramatiq
 import sentry_sdk
+from apscheduler.schedulers.blocking import BlockingScheduler
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from . import (
     apps,
     config,
+    cron,
     db,
     exceptions,
     logins,
@@ -325,6 +327,7 @@ def refresh_github_repo_list(gh_access_token: str, accountId: int):
         sqldb.session.commit()
 
 
+@cron.cron("0 3 * * *")  # every day at 3am
 @dramatiq.actor
 def update_app_picks():
     with WorkerDB() as sqldb:
@@ -387,3 +390,15 @@ def pick_app_of_the_day_automatically(sqldb, day):
 
     if len(oldest_apps) > 0:
         models.AppOfTheDay.set_app_of_the_day(sqldb, oldest_apps[0], day)
+
+
+if settings.is_worker:
+    scheduler = BlockingScheduler()
+    for trigger, module_path, func_name in cron.JOBS:
+        job_path = f"{module_path}:{func_name}.send"
+        job_name = f"{module_path}.{func_name}"
+        scheduler.add_job(job_path, trigger=trigger, name=job_name)
+    try:
+        scheduler.start()
+    except KeyboardInterrupt:
+        scheduler.shutdown()
