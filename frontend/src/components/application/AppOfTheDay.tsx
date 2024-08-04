@@ -19,6 +19,10 @@ export const AppOfTheDay = ({
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
+  if (!appOfTheDay) {
+    return null
+  }
+
   const brandingColor = chooseBrandingColor(
     appOfTheDay.branding,
     resolvedTheme as "light" | "dark",
