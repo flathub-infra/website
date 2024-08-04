@@ -36,7 +36,7 @@ const CodeCopy: FunctionComponent<Props> = ({
         "font-mono",
         nested
           ? "rounded-lg bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
-          : "rounded-xl bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-spanish-gray",
+          : "rounded-xl bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-gray-x11",
         className,
       )}
     >
