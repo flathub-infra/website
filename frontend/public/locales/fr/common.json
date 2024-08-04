@@ -572,5 +572,8 @@
   "updated-description": "Applications mises à jour sur Flathub ces derniers jours.",
   "new-description": "Nouvelles applications publiées sur Flathub ces derniers jours.",
   "updated-apps": "Apps mises à jour",
-  "new-apps": "Nouvelles apps"
+  "new-apps": "Nouvelles apps",
+  "carousel": "Carrousel",
+  "setup": "Configuration",
+  "more-pages": "Plus de pages"
 }
