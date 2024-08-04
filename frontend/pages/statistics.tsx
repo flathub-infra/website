@@ -142,7 +142,7 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   )
 }
 
-const FailedByGuideline = ({ stats }: { stats: StatsResult }) => {
+const FailedByGuideline = () => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
@@ -197,7 +197,7 @@ const FailedByGuideline = ({ stats }: { stats: StatsResult }) => {
                 <Bar
                   dataKey="not_passed"
                   name={t("quality-guideline.not-passed")}
-                  fill="var(--color-category)"
+                  fill="var(--color-downloads)"
                 />
               </BarChart>
             </ChartContainer>
@@ -398,7 +398,7 @@ const Statistics = ({
 
         <RuntimeChart runtimes={runtimes} />
 
-        <FailedByGuideline stats={stats} />
+        <FailedByGuideline />
       </div>
     </>
   )
