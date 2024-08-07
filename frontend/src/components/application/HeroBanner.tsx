@@ -114,6 +114,8 @@ export const HeroBanner = ({
                         priority={aboveTheFold && i === 0}
                         iconUrl={data.appstream.icon}
                         appName={data.appstream.name}
+                        loading="eager"
+                        quality={100}
                       />
                     </div>
                     <div className="flex pt-3">
@@ -141,6 +143,7 @@ export const HeroBanner = ({
                       src={pickScreenshotSize(data.appstream.screenshots[0])}
                       alt={data.appstream.name}
                       priority={aboveTheFold && i === 0}
+                      loading="eager"
                       className={clsx(
                         "absolute rounded-lg",
                         data.app.isFullscreen ? "top-20" : "top-10 ",
