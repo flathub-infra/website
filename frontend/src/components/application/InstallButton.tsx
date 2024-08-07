@@ -1,7 +1,7 @@
 import {
   Popover,
   PopoverButton,
-  PopoverOverlay,
+  PopoverBackdrop,
   PopoverPanel,
   Transition,
 } from "@headlessui/react"
@@ -57,7 +57,7 @@ export default function InstallButton({ appId }: { appId: string }) {
         {t("install")}
       </Link>
       <Popover as="div" className={clsx("block", "sm:relative")}>
-        <PopoverOverlay className="fixed inset-0 z-10 bg-black opacity-30" />
+        <PopoverBackdrop className="fixed inset-0 z-10 bg-black opacity-30" />
         <PopoverButton
           className={clsx(
             "hover:opacity-75 active:opacity-50",
