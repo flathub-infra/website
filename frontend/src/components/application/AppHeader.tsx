@@ -37,7 +37,12 @@ export function AppHeader({
     <header className="col-start-2 flex w-full flex-col gap-4 py-7 sm:flex-row">
       {app.icon && (
         <div className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md">
-          <LogoImage iconUrl={app.icon} appName={app.name} />
+          <LogoImage
+            iconUrl={app.icon}
+            appName={app.name}
+            quality={100}
+            priority
+          />
         </div>
       )}
 

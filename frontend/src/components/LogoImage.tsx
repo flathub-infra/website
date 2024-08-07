@@ -8,14 +8,14 @@ interface Props {
   iconUrl: string
   appName: string
   size?: "24" | "64" | "128" | "256"
-  priority?: boolean
+  [key: string]: unknown
 }
 
 const LogoImage: FunctionComponent<Props> = ({
   iconUrl,
   appName,
   size = "128",
-  priority = false,
+  ...props
 }) => {
   const { t } = useTranslation()
 
@@ -31,7 +31,7 @@ const LogoImage: FunctionComponent<Props> = ({
           width={size}
           height={size}
           style={{ maxHeight: "auto", maxWidth: "100%" }}
-          priority={priority}
+          {...props}
         />
       ) : (
         <div className="dark:invert p-1">
@@ -42,7 +42,7 @@ const LogoImage: FunctionComponent<Props> = ({
             height={size}
             aria-hidden
             style={{ maxHeight: "auto", maxWidth: "100%" }}
-            priority={priority}
+            {...props}
           />
         </div>
       )}

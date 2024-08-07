@@ -68,6 +68,7 @@ export const AppOfTheDay = ({
             <LogoImage
               size="128"
               priority
+              quality={100}
               iconUrl={appOfTheDay.icon}
               appName={appOfTheDay.name}
             />
