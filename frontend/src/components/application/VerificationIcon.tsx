@@ -71,9 +71,9 @@ const VerificationIcon: FunctionComponent<Props> = ({
             }}
             className={clsx(
               "text-xs font-semibold",
-              "z-40 mx-1 max-w-sm rounded-xl p-4",
-              "border-1 border border-flathub-gray-x11 dark:border-flathub-sonic-silver",
-              "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow",
+              "z-40 mx-1 max-w-xs rounded-xl p-3",
+              "drop-shadow",
+              "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow text-flathub-arsenic",
             )}
             {...getFloatingProps()}
           >
