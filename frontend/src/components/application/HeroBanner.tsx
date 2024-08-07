@@ -17,6 +17,7 @@ import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { i18n } from "next-i18next"
 
 export const HeroBanner = ({
@@ -76,6 +77,7 @@ export const HeroBanner = ({
           delay: 5000,
           active: autoplay,
         }),
+        WheelGesturesPlugin(),
       ]}
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
