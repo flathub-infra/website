@@ -16,7 +16,7 @@ import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import { Carousel } from "@/components/ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay, { AutoplayType } from "embla-carousel-autoplay"
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures"
 import { i18n } from "next-i18next"
 
@@ -44,7 +44,7 @@ export const HeroBanner = ({
       return
     }
 
-    const autoPlay = api.plugins()?.autoplay
+    const autoPlay = api.plugins()?.autoplay as AutoplayType
     if (!autoPlay) {
       return
     }
@@ -73,11 +73,11 @@ export const HeroBanner = ({
         direction: i18n.dir(),
       }}
       plugins={[
+        WheelGesturesPlugin(),
         Autoplay({
           delay: 5000,
           active: autoplay,
         }),
-        WheelGesturesPlugin(),
       ]}
       className="overflow-hidden shadow-md rounded-xl"
       setApi={setApi}
