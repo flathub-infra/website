@@ -23,14 +23,16 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
         <LayoutGroup id={tabs.map((tab) => tab.name).join("-")}>
           <TabList className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
             {tabs.map((tab, index) => (
-              <Tab key={index} as={Fragment}>
+              <Tab
+                key={index}
+                className={clsx(
+                  "relative",
+                  "flex whitespace-nowrap px-1 py-4 text-sm font-medium transition",
+                  "focus:outline-none  data-[focus]:outline-1 data-[focus]:outline-flathub-celestial-blue",
+                )}
+              >
                 {({ selected }) => (
-                  <button
-                    className={clsx(
-                      "relative",
-                      "flex whitespace-nowrap px-1 py-4 text-sm font-medium transition focus:outline-none",
-                    )}
-                  >
+                  <>
                     {tab.name}
                     {!!tab.badge && (
                       <span className="ms-1">
@@ -46,7 +48,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
                         )}
                       />
                     )}
-                  </button>
+                  </>
                 )}
               </Tab>
             ))}
@@ -59,6 +61,7 @@ const Tabs: FunctionComponent<Props> = ({ tabs }) => {
               className={clsx(
                 tab.replacePadding ?? "p-4",
                 "rounded-b-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
+                "focus:outline-none data-[focus]:outline-1 data-[focus]:outline-flathub-celestial-blue",
               )}
             >
               {tab.content}
