@@ -66,7 +66,7 @@ const MobileMenuButton = ({ open, close, width }) => {
   }, [close, open, width])
 
   return (
-    <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 focus:outline-none dark:text-white dark:hover:bg-white/5">
+    <PopoverButton className="inline-flex items-center justify-center rounded-md p-2 text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5">
       <span className="sr-only">{t("open-menu")}</span>
       {open ? (
         <HiXMark className="block size-6" aria-hidden="true" />
