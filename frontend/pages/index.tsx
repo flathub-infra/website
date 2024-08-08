@@ -60,6 +60,7 @@ const CategorySection = ({
           applications={sectionData.apps.hits.map((app) =>
             mapAppsIndexToAppstreamListItem(app),
           )}
+          numberOfApps={6}
           customHeader={
             <>
               <header className="mb-3 flex max-w-full flex-row content-center justify-between">
@@ -125,6 +126,7 @@ const TopSection = ({
       applications={selectedApps.apps.hits.map((app) =>
         mapAppsIndexToAppstreamListItem(app),
       )}
+      numberOfApps={APPS_IN_PREVIEW_COUNT}
       customHeader={
         <>
           <MultiToggle

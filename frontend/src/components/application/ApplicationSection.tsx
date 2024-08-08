@@ -2,7 +2,7 @@ import { FunctionComponent, ReactElement } from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
-import { ApplicationCard } from "./ApplicationCard"
+import { ApplicationCard, ApplicationCardSkeleton } from "./ApplicationCard"
 import ButtonLink from "../ButtonLink"
 import clsx from "clsx"
 
@@ -13,6 +13,7 @@ interface PropsWithTitle {
   applications: AppstreamListItem[]
   showMore: boolean
   moreText: string
+  numberOfApps?: number
 }
 interface PropsWithCustomHeader {
   type: "withCustomHeader"
@@ -21,13 +22,12 @@ interface PropsWithCustomHeader {
   customHeader: ReactElement
   showMore: boolean
   moreText: string
+  numberOfApps?: number
 }
 
 const ApplicationSection: FunctionComponent<
   PropsWithCustomHeader | PropsWithTitle
 > = (prop) => {
-  if (!prop.applications || !prop.applications.length) return null
-
   return (
     <div>
       {prop.type === "withTitle" && (
@@ -41,6 +41,11 @@ const ApplicationSection: FunctionComponent<
       )}
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
+        {!prop.applications &&
+          prop.numberOfApps &&
+          [...new Array(prop.numberOfApps)].map((a, i) => (
+            <ApplicationCardSkeleton key={i} />
+          ))}
         {prop.applications.map((app) => (
           <div key={app.id}>
             <ApplicationCard application={app} />
