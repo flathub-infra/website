@@ -19,7 +19,7 @@
   "dependencies": {
     "@collapsed/react": "^4.0.1",
     "@date-fns/utc": "^1.2.0",
-    "@floating-ui/react": "^0.26.18",
+    "@floating-ui/react": "^0.26.22",
     "@headlessui/react": "^2.1.2",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@radix-ui/react-slot": "^1.1.0",
