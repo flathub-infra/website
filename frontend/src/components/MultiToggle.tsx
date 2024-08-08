@@ -26,7 +26,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
         )}
       >
         {items.map((item) => (
-          <div key={item.id} className="relative z-10 mx-1 w-full truncate">
+          <li key={item.id} className="relative z-10 mx-1 w-full truncate">
             <button
               type="button" // If this isn't set to button, the button will submit the form
               onClick={item.onClick}
@@ -48,7 +48,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                 size === "lg" && "px-4",
               )}
             >
-              <li className="truncate">{item.content}</li>
+              <span className="truncate">{item.content}</span>
             </button>
             {item.selected && (
               <motion.div
@@ -63,7 +63,7 @@ const MultiToggleBig = ({ items, variant = "primary", size = "sm" }) => {
                 layout="position"
               />
             )}
-          </div>
+          </li>
         ))}
       </ul>
     </LayoutGroup>
