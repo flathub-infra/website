@@ -54,6 +54,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
           ref={refs.setReference}
           {...getReferenceProps}
           aria-label={t("app-is-verified")}
+          className="size-6 flex justify-center items-center"
         >
           <HiMiniCheckBadge
             className="size-5 text-flathub-celestial-blue"
