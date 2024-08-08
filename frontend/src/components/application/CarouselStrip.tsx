@@ -13,6 +13,7 @@ import { useTranslation } from "next-i18next"
 import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import CarouselNextJsImage from "./CarouselNextJsImage"
+import { CarouselJsonLd } from "next-seo"
 
 export const CarouselStrip = ({ app }: { app: Appstream }) => {
   const { t } = useTranslation()
@@ -44,19 +45,27 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
   return (
     <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
       {slides && (
-        <Lightbox
-          controller={{ closeOnBackdropClick: true }}
-          open={showLightbox}
-          close={() => setShowLightbox(false)}
-          plugins={[Captions]}
-          slides={slides}
-          index={currentIndex}
-          render={{
-            buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
-            buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
-            slide: CarouselNextJsImage,
-          }}
-        />
+        <>
+          <CarouselJsonLd
+            ofType="default"
+            data={slides.map((slide) => {
+              return { url: slide.src }
+            })}
+          />
+          <Lightbox
+            controller={{ closeOnBackdropClick: true }}
+            open={showLightbox}
+            close={() => setShowLightbox(false)}
+            plugins={[Captions]}
+            slides={slides}
+            index={currentIndex}
+            render={{
+              buttonPrev: app.screenshots.length <= 1 ? () => null : undefined,
+              buttonNext: app.screenshots.length <= 1 ? () => null : undefined,
+              slide: CarouselNextJsImage,
+            }}
+          />
+        </>
       )}
       <div className="max-w-11/12 relative mx-auto my-0 2xl:max-w-[1400px]">
         {slides && slides?.length > 0 && (
