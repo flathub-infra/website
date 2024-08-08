@@ -416,7 +416,8 @@
     "hide-branding-preview": "ブランディングのプレビューを隠す",
     "request-review-description": "我々のチームがアプリの品質に問題がないか審査しています。数日経ってからもう一度ご確認ください。",
     "branding": "ブランディング",
-    "branding-has-primary-brand-colors": "メインブランドカラーを持っている"
+    "branding-has-primary-brand-colors": "メインブランドカラーを持っている",
+    "needed-to-pass-x": "{{x}}に合格する必要あり"
   },
   "user-data-subfolder-x": "ユーザーデータサブフォルダー {{folder}}",
   "can-acquire-arbitrary-permissions": "任意の権限を取得可能",
@@ -561,7 +562,7 @@
   "unverified": "認証なし",
   "updated-description": "更新されたアプリ。数日以内にFlathubに更新されたもの。",
   "special-license": "特殊なライセンス",
-  "you-may-or-may-not-be-able-to-contribute": "このアプリに貢献できる、またはできないかもしれません。",
+  "you-may-or-may-not-be-able-to-contribute": "このアプリに貢献可能かは不明です。",
   "get-it-on": "Linuxアプリなら",
   "setup": "セットアップする",
   "more-pages": "ページをもっと表示",
@@ -585,5 +586,6 @@
   "more-popular": "人気をもっと表示",
   "slide": "スライド",
   "carousel": "カルーセル",
-  "more-apps-by-developer": "{{developer}} のほかのアプリ"
+  "more-apps-by-developer": "{{developer}} のほかのアプリ",
+  "flathub-statistics-description": "本プラットフォームから利用できるアプリの使用状況と分布の概要。"
 }
