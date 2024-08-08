@@ -149,6 +149,7 @@ const Details: FunctionComponent<Props> = ({
               applications={developerApps.hits
                 .slice(0, 6)
                 .map(mapAppsIndexToAppstreamListItem)}
+              numberOfApps={developerApps.totalHits}
               showMore={developerApps.totalHits > 6}
             />
           )}
