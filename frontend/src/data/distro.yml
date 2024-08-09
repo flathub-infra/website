@@ -586,3 +586,15 @@
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+
+- name: Aeon
+  logo: "aeon.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on Aeon.</h2>
+    <p>You can use the Software app or browse <a href="https://flathub.org/">Flathub</a> to install some flatpak apps.</p>
+
+- name: Vanilla OS
+  logo: "vanillaos.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on Vanilla OS.</h2>
+    <p>You can use the Software app or browse <a href="https://flathub.org/">Flathub</a> to install some flatpak apps.</p>

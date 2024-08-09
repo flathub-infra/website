@@ -2457,3 +2457,25 @@ export const Crystal_Linux = () => (
   </ol>
 )
 distroMap.set("Crystal Linux", <Crystal_Linux />)
+
+export const Aeon = () => (
+  <ol className="distrotut">
+    <h2>Flatpak is installed by default on Aeon.</h2>{" "}
+    <p>
+      You can use the Software app or browse{" "}
+      <a href="https://flathub.org/">Flathub</a> to install some flatpak apps.
+    </p>
+  </ol>
+)
+distroMap.set("Aeon", <Aeon />)
+
+export const Vanilla_OS = () => (
+  <ol className="distrotut">
+    <h2>Flatpak is installed by default on Vanilla OS.</h2>{" "}
+    <p>
+      You can use the Software app or browse{" "}
+      <a href="https://flathub.org/">Flathub</a> to install some flatpak apps.
+    </p>
+  </ol>
+)
+distroMap.set("Vanilla OS", <Vanilla_OS />)
