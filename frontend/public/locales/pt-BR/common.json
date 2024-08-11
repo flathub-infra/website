@@ -343,7 +343,7 @@
   "information": "Informação",
   "cannot-access-the-internet": "Não acessa a internet",
   "can-read-write-all-data-on-file-system": "Pode ler e gravar todos os dados no sistema de arquivos",
-  "community-built-explanation": "Este aplicativo foi desenvolvido abertamente por uma comunidade de voluntários e disponibilizado sob a licença <1>{{ license }}</1>.",
+  "community-built-explanation": "Este aplicativo foi desenvolvido abertamente por uma comunidade internacional e disponibilizado sob a licença <1>{{ license }}</1>.",
   "add-ons": "Complementos",
   "no-file-system-access": "Sem acesso ao sistema de arquivos",
   "software-developer-verified-description": "O desenvolvedor do software verificou sua identidade, o que aumenta a probabilidade de o aplicativo ser seguro",
@@ -577,5 +577,11 @@
   "special-license": "Licença especial",
   "contact-for-press-inquiries": "Contato para consultas de imprensa",
   "special-license-explanation": "Este aplicativo é desenvolvido sob a licença especial <1>{{ license }}</1>.",
-  "you-may-or-may-not-be-able-to-contribute": "Você pode ou não contribuir com este aplicativo."
+  "you-may-or-may-not-be-able-to-contribute": "Você pode ou não contribuir com este aplicativo.",
+  "carousel": "Carrossel",
+  "slide": "Deslizar",
+  "setup": "Configurar",
+  "flathub-statistics-description": "Visão geral do uso e distribuição dos apps disponíveis na plataforma.",
+  "more-apps-by-developer": "Mais aplicativos de {{developer}}",
+  "more-pages": "Mais páginas"
 }
