@@ -23,7 +23,7 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
           },
           ...pages.map((page) => ({
             position: pages.indexOf(page) + 2,
-            name: t(page.name),
+            name: page.name,
             item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${page.href}`,
           })),
         ]}
