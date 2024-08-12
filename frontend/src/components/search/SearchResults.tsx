@@ -21,7 +21,7 @@ interface Props {
 export const SearchResults: FunctionComponent<Props> = ({ results }) => {
   return (
     <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
-      {results.isFetching &&
+      {results.isLoading &&
         [...new Array(20)].map((a, i) => {
           return (
             <>

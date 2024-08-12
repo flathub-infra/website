@@ -124,25 +124,25 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
           <div>
             <ul className="flex list-none justify-center gap-4 pb-8">
               {slides?.map((screenshot, index) => (
-                <li
-                  key={index}
-                  role="button"
-                  aria-label={`slide item ${index}`}
-                  tabIndex={0}
-                  className={clsx(
-                    index !== currentIndex && "opacity-50",
-                    "size-2 cursor-pointer rounded-full bg-flathub-dark-gunmetal transition duration-200 dark:bg-flathub-gainsborow",
-                    "hover:opacity-100",
-                  )}
-                  value={index}
-                  onClick={() => {
-                    if (index > currentIndex) {
-                      ref.current?.next({ count: index - currentIndex })
-                    } else {
-                      ref.current?.prev({ count: currentIndex - index })
+                <li key={index} value={index}>
+                  <button
+                    className={clsx(
+                      index !== currentIndex && "opacity-50",
+                      "size-2 cursor-pointer rounded-full bg-flathub-dark-gunmetal transition duration-200 dark:bg-flathub-gainsborow",
+                      "hover:opacity-100",
+                    )}
+                    aria-label={
+                      screenshot.caption ?? t("screenshot") + " " + index
                     }
-                  }}
-                ></li>
+                    onClick={() => {
+                      if (index > currentIndex) {
+                        ref.current?.next({ count: index - currentIndex })
+                      } else {
+                        ref.current?.prev({ count: currentIndex - index })
+                      }
+                    }}
+                  ></button>
+                </li>
               ))}
             </ul>
           </div>
