@@ -99,7 +99,7 @@ const TopSection = ({
     name: string
     apps: MeilisearchResponse<AppsIndex>
     moreLink: string
-  }>()
+  }>(topApps.find((x) => x.name === selectedName) || topApps[0])
 
   useEffect(() => {
     if (router?.query?.category) {
@@ -113,10 +113,6 @@ const TopSection = ({
     )
     setSelectedApps(foundApps)
   }, [selectedName, topApps])
-
-  if (!selectedApps) {
-    return undefined
-  }
 
   return (
     <ApplicationSection

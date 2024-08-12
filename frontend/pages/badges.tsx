@@ -67,8 +67,11 @@ const Badges = () => {
           <p>{t("badges-block")}</p>
 
           <div className="pt-8 flex flex-col w-full sm:flex-row sm:items-center gap-x-6 gap-y-4">
-            <div className="w-48 font-semibold">{t("switch-language")}</div>
+            <label htmlFor="language" className="w-48 font-semibold">
+              {t("switch-language")}
+            </label>
             <select
+              id="language"
               className="p-2 rounded-sm w-full sm:max-w-[240px]"
               onChange={(e) => setLocale(e.target.value)}
             >

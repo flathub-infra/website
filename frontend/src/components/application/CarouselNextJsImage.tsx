@@ -46,6 +46,7 @@ export default function CarouselNextJsImage({ slide, offset, rect }) {
         src={slide}
         loading="eager"
         draggable={false}
+        priority={offset === 0}
         placeholder={slide.blurDataURL ? "blur" : undefined}
         style={{
           objectFit: cover ? "cover" : "contain",

@@ -38,6 +38,8 @@ module.exports = {
       colors: {
         "flathub-celestial-blue":
           "hsl(var(--flathub-celestial-blue) / <alpha-value>)",
+        "flathub-celestial-blue-dark":
+          "hsl(var(--flathub-celestial-blue-dark) / <alpha-value>)",
         "flathub-electric-red":
           "hsl(var(--flathub-electric-red) / <alpha-value>)",
 

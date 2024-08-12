@@ -17,7 +17,7 @@ const TermsAndConditions = (): JSX.Element => {
       />
       <div className="prose mt-12 flex max-w-full flex-col px-[5%] text-justify dark:prose-invert md:px-[20%] 2xl:px-[30%]">
         <h1>Terms Of Service</h1>
-        <h3 className="mb-4 mt-0">Overview</h3>
+        <h2 className="mb-4 mt-0">Overview</h2>
         <p>
           This website is operated by Flathub. Throughout the site, the terms
           “we”, “us” and “our” refer to Flathub. Flathub offers this website,
@@ -50,7 +50,7 @@ const TermsAndConditions = (): JSX.Element => {
           continued use of or access to the website following the posting of any
           changes constitutes acceptance of those changes.
         </p>
-        <h3>Section 1 - Online Store Terms </h3>
+        <h2>Section 1 - Online Store Terms </h2>
         <p>
           By agreeing to these Terms of Service, you represent that you are at
           least the age of majority in your state or province of residence, or
@@ -71,7 +71,7 @@ const TermsAndConditions = (): JSX.Element => {
           A breach or violation of any of the Terms will result in an immediate
           termination of your Services.
         </p>
-        <h3>Section 2 - General Conditions</h3>
+        <h2>Section 2 - General Conditions</h2>
         <p>
           We reserve the right to refuse service to anyone for any reason at any
           time.
@@ -94,9 +94,9 @@ const TermsAndConditions = (): JSX.Element => {
           The headings used in this agreement are included for convenience only
           and will not limit or otherwise affect these Terms.
         </p>
-        <h3>
+        <h2>
           Section 3 - Accuracy, Completeness And Timeliness Of Information
-        </h3>
+        </h2>
         <p>
           We are not responsible if information made available on this site is
           not accurate, complete or current. The material on this site is
@@ -114,7 +114,7 @@ const TermsAndConditions = (): JSX.Element => {
           on our site. You agree that it is your responsibility to monitor
           changes to our site.
         </p>
-        <h3>Section 4 - Modifications To The Service And Prices</h3>
+        <h2>Section 4 - Modifications To The Service And Prices</h2>
         <p>Prices for products are subject to change without notice.</p>
         <p>
           We reserve the right at any time to modify or discontinue the Service
@@ -125,7 +125,7 @@ const TermsAndConditions = (): JSX.Element => {
           modification, price change, suspension or discontinuance of the
           Service.
         </p>
-        <h3>Section 5 - Products Or Services</h3>
+        <h2>Section 5 - Products Or Services</h2>
         <p>
           Certain products or services may be available exclusively online
           through the website.
@@ -146,7 +146,7 @@ const TermsAndConditions = (): JSX.Element => {
           your expectations, or that any errors in the Service will be
           corrected.
         </p>
-        <h3>Section 6 - Accuracy Of Billing And Account Information </h3>
+        <h2>Section 6 - Accuracy Of Billing And Account Information </h2>
         <p>
           We reserve the right to refuse any order you place with us. We may, in
           our sole discretion, limit or cancel quantities purchased per person,
@@ -166,7 +166,7 @@ const TermsAndConditions = (): JSX.Element => {
           email address and credit card numbers and expiration dates, so that we
           can complete your transactions and contact you as needed.
         </p>
-        <h3>Section 7 - Optional Tools </h3>
+        <h2>Section 7 - Optional Tools </h2>
         <p>
           We may provide you with access to third-party tools over which we
           neither monitor nor have any control nor input.
@@ -190,7 +190,7 @@ const TermsAndConditions = (): JSX.Element => {
           new features and/or services shall also be subject to these Terms of
           Service.
         </p>
-        <h3>Section 8 - Third-Party Links</h3>
+        <h2>Section 8 - Third-Party Links</h2>
         <p>
           Certain content, products and services available via our Service may
           include materials from third-parties.
@@ -212,7 +212,7 @@ const TermsAndConditions = (): JSX.Element => {
           claims, concerns, or questions regarding third-party products should
           be directed to the third-party.
         </p>
-        <h3>Section 9 - User Comments, Feedback And Other Submissions</h3>
+        <h2>Section 9 - User Comments, Feedback And Other Submissions</h2>
         <p>
           If, at our request, you send certain specific submissions or without a
           request from us you send creative ideas, suggestions, proposals,
@@ -244,12 +244,12 @@ const TermsAndConditions = (): JSX.Element => {
           comments you make and their accuracy. We take no responsibility and
           assume no liability for any comments posted by you or any third-party.
         </p>
-        <h3>Section 10 - Personal Information </h3>
+        <h2>Section 10 - Personal Information </h2>
         <p>
           Your submission of personal information through the store is governed
           by our Privacy Policy.
         </p>
-        <h3>Section 11 - Errors, Inaccuracies And Omissions</h3>
+        <h2>Section 11 - Errors, Inaccuracies And Omissions</h2>
         <p>
           Occasionally there may be information on our site or in the Service
           that contains typographical errors, inaccuracies or omissions that may
@@ -268,7 +268,7 @@ const TermsAndConditions = (): JSX.Element => {
           be taken to indicate that all information in the Service or on any
           related website has been modified or updated.
         </p>
-        <h3>Section 12 - Prohibited Uses </h3>
+        <h2>Section 12 - Prohibited Uses </h2>
         <p>
           In addition to other prohibitions as set forth in the Terms of
           Service, you are prohibited from using the site or its content: (a)
@@ -294,7 +294,7 @@ const TermsAndConditions = (): JSX.Element => {
           terminate your use of the Service or any related website for violating
           any of the prohibited uses.
         </p>
-        <h3>Section 13 - Disclaimer Of Warranties; Limitation Of Liability</h3>
+        <h2>Section 13 - Disclaimer Of Warranties; Limitation Of Liability</h2>
         <p>
           We do not guarantee, represent or warrant that your use of our service
           will be uninterrupted, timely, secure or error-free.
@@ -339,7 +339,7 @@ const TermsAndConditions = (): JSX.Element => {
           such states or jurisdictions, our liability shall be limited to the
           maximum extent permitted by law.
         </p>
-        <h3>Section 14 - Indemnification</h3>
+        <h2>Section 14 - Indemnification</h2>
         <p>
           You agree to indemnify, defend and hold harmless Flathub and our
           parent, subsidiaries, affiliates, partners, officers, directors,
@@ -350,7 +350,7 @@ const TermsAndConditions = (): JSX.Element => {
           documents they incorporate by reference, or your violation of any law
           or the rights of a third-party.
         </p>
-        <h3>Section 15 - Severability </h3>
+        <h2>Section 15 - Severability </h2>
         <p>
           In the event that any provision of these Terms of Service is
           determined to be unlawful, void or unenforceable, such provision shall
@@ -360,7 +360,7 @@ const TermsAndConditions = (): JSX.Element => {
           affect the validity and enforceability of any other remaining
           provisions.
         </p>
-        <h3>Section 16 - Termination </h3>
+        <h2>Section 16 - Termination </h2>
         <p>
           The obligations and liabilities of the parties incurred prior to the
           termination date shall survive the termination of this agreement for
@@ -380,7 +380,7 @@ const TermsAndConditions = (): JSX.Element => {
           termination; and/or accordingly may deny you access to our Services
           (or any part thereof).
         </p>
-        <h3>Section 17 - Entire Agreement </h3>
+        <h2>Section 17 - Entire Agreement </h2>
         <p>
           The failure of us to exercise or enforce any right or provision of
           these Terms of Service shall not constitute a waiver of such right or
@@ -399,13 +399,13 @@ const TermsAndConditions = (): JSX.Element => {
           Any ambiguities in the interpretation of these Terms of Service shall
           not be construed against the drafting party.
         </p>
-        <h3>Section 18 - Governing Law </h3>
+        <h2>Section 18 - Governing Law </h2>
         <p>
           These Terms of Service and any separate agreements whereby we provide
           you Services shall be governed by and construed in accordance with the
           laws of DE, United States.
         </p>
-        <h3>Section 19 - Changes To Terms Of Service </h3>
+        <h2>Section 19 - Changes To Terms Of Service </h2>
         <p>
           You can review the most current version of the Terms of Service at any
           time at this page.
@@ -418,7 +418,7 @@ const TermsAndConditions = (): JSX.Element => {
           website or the Service following the posting of any changes to these
           Terms of Service constitutes acceptance of those changes.
         </p>
-        <h3>Section 20 - Contact Information</h3>
+        <h2>Section 20 - Contact Information</h2>
         <p>
           Questions about the Terms of Service should be sent to us at{" "}
           <a

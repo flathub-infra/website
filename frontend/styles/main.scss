@@ -43,7 +43,11 @@
   }
 
   a {
-    @apply text-flathub-celestial-blue;
+    @apply text-flathub-celestial-blue-dark;
+
+    @media (prefers-color-scheme: dark) {
+      @apply text-flathub-celestial-blue;
+    }
   }
 
   mark {
@@ -56,6 +60,7 @@
 :root {
   // colors used via tailwind
   --flathub-celestial-blue: 211 65% 57%;
+  --flathub-celestial-blue-dark: 211 65% 40%;
   --flathub-electric-red: 0 100% 44%;
 
   --flathub-status-green: 153 55% 43%;
