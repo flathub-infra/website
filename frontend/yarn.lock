@@ -10556,7 +10556,7 @@ __metadata:
     i18next: "npm:^23.11.5"
     isomorphic-dompurify: "npm:^2.14.0"
     lucide-react: "npm:^0.408.0"
-    msw: "npm:^2.3.4"
+    msw: "npm:^2.3.5"
     next: "npm:^14.2.4"
     next-i18next: "npm:^15.3.0"
     next-seo: "npm:^6.5.0"
@@ -13223,9 +13223,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.3.4":
-  version: 2.3.4
-  resolution: "msw@npm:2.3.4"
+"msw@npm:^2.3.5":
+  version: 2.3.5
+  resolution: "msw@npm:2.3.5"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
@@ -13251,7 +13251,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/e9a5a1de80f1688c1dd5c4de86c0192891568912d0f98500b552ecfe233d80559941d2bd563b3f7a792919a8a5fd380e222461f4b2a331ab1ab65fcb5fe30a97
+  checksum: 10c0/f944d8eb67ccdcf74aba0ce433395a9616420b8b36d43f033635817ef7535553c7bf6854392a95b093546e3481ca99e9017525b6c0bd02f51528b669e672214d
   languageName: node
   linkType: hard
 
