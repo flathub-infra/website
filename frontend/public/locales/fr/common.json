@@ -575,5 +575,22 @@
   "new-apps": "Nouvelles apps",
   "carousel": "Carrousel",
   "setup": "Configuration",
-  "more-pages": "Plus de pages"
+  "more-pages": "Plus de pages",
+  "more-updated": "Plus de mis à jour",
+  "more-office": "Plus de productivité",
+  "more-game": "Plus de jeux",
+  "more-science": "Plus de science",
+  "more-system": "Plus de sytème",
+  "more-trending": "Plus de tendances",
+  "more-new": "Plus récent",
+  "more-audiovideo": "Plus d'audio et vidéo",
+  "more-education": "Plus d'éducation",
+  "more-network": "Plus de réseau",
+  "more-development": "Plus d'outils de développement",
+  "more-utility": "Plus d'utilitaires",
+  "more-apps-by-developer": "Davantage d'apps par {{developer}}",
+  "more-popular": "Plus populaire",
+  "more-graphics": "Plus de graphiques et photographie",
+  "flathub-statistics-description": "Aperçu de l’utilisation et de la distribution des applications disponibles sur la plateforme.",
+  "danger-zone": "Zone de danger"
 }
