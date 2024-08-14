@@ -24,7 +24,7 @@
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@resvg/resvg-js": "^2.6.2",
-    "@sentry/nextjs": "^8.13.0",
+    "@sentry/nextjs": "^8.25.0",
     "@storybook/test": "^8.2.8",
     "@stripe/react-stripe-js": "^2.7.3",
     "@stripe/stripe-js": "^4.1.0",
