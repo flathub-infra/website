@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -88,10 +91,55 @@ export type GetModerationAppsModerationAppsGetQueryResult = NonNullable<
 export type GetModerationAppsModerationAppsGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Moderation Apps
- */
-export const useGetModerationAppsModerationAppsGet = <
+export function useGetModerationAppsModerationAppsGet<
+  TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetModerationAppsModerationAppsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetModerationAppsModerationAppsGet<
+  TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetModerationAppsModerationAppsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -106,7 +154,27 @@ export const useGetModerationAppsModerationAppsGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Moderation Apps
+ */
+
+export function useGetModerationAppsModerationAppsGet<
+  TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetModerationAppsModerationAppsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetModerationAppsModerationAppsGetQueryOptions(
     params,
     options,
@@ -192,10 +260,57 @@ export type GetModerationAppModerationAppsAppIdGetQueryResult = NonNullable<
 export type GetModerationAppModerationAppsAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Moderation App
- */
-export const useGetModerationAppModerationAppsAppIdGet = <
+export function useGetModerationAppModerationAppsAppIdGet<
+  TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetModerationAppModerationAppsAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetModerationAppModerationAppsAppIdGet<
+  TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetModerationAppModerationAppsAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -211,7 +326,28 @@ export const useGetModerationAppModerationAppsAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Moderation App
+ */
+
+export function useGetModerationAppModerationAppsAppIdGet<
+  TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetModerationAppModerationAppsAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetModerationAppModerationAppsAppIdGetQueryOptions(
     appId,
     params,

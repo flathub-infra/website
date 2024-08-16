@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -79,10 +82,49 @@ export type GetWalletinfoWalletWalletinfoGetQueryResult = NonNullable<
 >
 export type GetWalletinfoWalletWalletinfoGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Walletinfo
- */
-export const useGetWalletinfoWalletWalletinfoGet = <
+export function useGetWalletinfoWalletWalletinfoGet<
+  TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetWalletinfoWalletWalletinfoGet<
+  TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -94,7 +136,24 @@ export const useGetWalletinfoWalletWalletinfoGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Walletinfo
+ */
+
+export function useGetWalletinfoWalletWalletinfoGet<
+  TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetWalletinfoWalletWalletinfoGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -246,10 +305,55 @@ export type GetTransactionsWalletTransactionsGetQueryResult = NonNullable<
 export type GetTransactionsWalletTransactionsGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Transactions
- */
-export const useGetTransactionsWalletTransactionsGet = <
+export function useGetTransactionsWalletTransactionsGet<
+  TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetTransactionsWalletTransactionsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTransactionsWalletTransactionsGet<
+  TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTransactionsWalletTransactionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -264,7 +368,27 @@ export const useGetTransactionsWalletTransactionsGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Transactions
+ */
+
+export function useGetTransactionsWalletTransactionsGet<
+  TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTransactionsWalletTransactionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetTransactionsWalletTransactionsGetQueryOptions(
     params,
     options,
@@ -425,10 +549,63 @@ export type GetTransactionByIdWalletTransactionsTxnGetQueryResult = NonNullable<
 export type GetTransactionByIdWalletTransactionsTxnGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Transaction By Id
- */
-export const useGetTransactionByIdWalletTransactionsTxnGet = <
+export function useGetTransactionByIdWalletTransactionsTxnGet<
+  TData = Awaited<
+    ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTransactionByIdWalletTransactionsTxnGet<
+  TData = Awaited<
+    ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
   >,
@@ -445,7 +622,29 @@ export const useGetTransactionByIdWalletTransactionsTxnGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Transaction By Id
+ */
+
+export function useGetTransactionByIdWalletTransactionsTxnGet<
+  TData = Awaited<
+    ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetTransactionByIdWalletTransactionsTxnGetQueryOptions(txn, options)
 
@@ -693,10 +892,49 @@ export type GetStripedataWalletStripedataGetQueryResult = NonNullable<
 >
 export type GetStripedataWalletStripedataGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Stripedata
- */
-export const useGetStripedataWalletStripedataGet = <
+export function useGetStripedataWalletStripedataGet<
+  TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStripedataWalletStripedataGet<
+  TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -708,7 +946,24 @@ export const useGetStripedataWalletStripedataGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Stripedata
+ */
+
+export function useGetStripedataWalletStripedataGet<
+  TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetStripedataWalletStripedataGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -793,10 +1048,67 @@ export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryResult =
 export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Txn Stripedata
- */
-export const useGetTxnStripedataWalletTransactionsTxnStripeGet = <
+export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
+  TData = Awaited<
+    ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
+  TData = Awaited<
+    ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
   >,
@@ -815,7 +1127,31 @@ export const useGetTxnStripedataWalletTransactionsTxnStripeGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Txn Stripedata
+ */
+
+export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
+  TData = Awaited<
+    ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  txn: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions(txn, options)
 

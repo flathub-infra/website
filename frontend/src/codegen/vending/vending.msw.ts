@@ -172,24 +172,22 @@ export const getAppInfoVendingappAppIdInfoGetResponseMock = (
 export const getStatusVendingStatusGetMockHandler = (
   overrideResponse?:
     | VendingStatus
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => VendingStatus),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<VendingStatus> | VendingStatus),
 ) => {
   return http.get("*/vending/status", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getStatusVendingStatusGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -199,24 +197,20 @@ export const getStartOnboardingVendingStatusOnboardingPostMockHandler = (
     | VendingRedirect
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => VendingRedirect),
+      ) => Promise<VendingRedirect> | VendingRedirect),
 ) => {
   return http.post("*/vending/status/onboarding", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getStartOnboardingVendingStatusOnboardingPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -226,24 +220,20 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetMockHandler = (
     | VendingRedirect
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => VendingRedirect),
+      ) => Promise<VendingRedirect> | VendingRedirect),
 ) => {
   return http.get("*/vending/status/dashboardlink", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetDashboardLinkVendingStatusDashboardlinkGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -251,24 +241,22 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetMockHandler = (
 export const getGetGlobalVendingConfigVendingConfigGetMockHandler = (
   overrideResponse?:
     | VendingConfig
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => VendingConfig),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<VendingConfig> | VendingConfig),
 ) => {
   return http.get("*/vending/config", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetGlobalVendingConfigVendingConfigGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -276,24 +264,22 @@ export const getGetGlobalVendingConfigVendingConfigGetMockHandler = (
 export const getGetAppVendingSetupVendingappAppIdSetupGetMockHandler = (
   overrideResponse?:
     | VendingSetup
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => VendingSetup),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<VendingSetup> | VendingSetup),
 ) => {
   return http.get("*/vendingapp/:appId/setup", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetAppVendingSetupVendingappAppIdSetupGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -301,24 +287,22 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetMockHandler = (
 export const getPostAppVendingSetupVendingappAppIdSetupPostMockHandler = (
   overrideResponse?:
     | VendingSetup
-    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => VendingSetup),
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<VendingSetup> | VendingSetup),
 ) => {
   return http.post("*/vendingapp/:appId/setup", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getPostAppVendingSetupVendingappAppIdSetupPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -326,24 +310,22 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMockHandler = (
 export const getPostAppVendingStatusVendingappAppIdPostMockHandler = (
   overrideResponse?:
     | VendingOutput
-    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => VendingOutput),
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<VendingOutput> | VendingOutput),
 ) => {
   return http.post("*/vendingapp/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getPostAppVendingStatusVendingappAppIdPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -351,24 +333,22 @@ export const getPostAppVendingStatusVendingappAppIdPostMockHandler = (
 export const getGetRedeemableTokensVendingappAppIdTokensGetMockHandler = (
   overrideResponse?:
     | TokenList
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => TokenList),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<TokenList> | TokenList),
 ) => {
   return http.get("*/vendingapp/:appId/tokens", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetRedeemableTokensVendingappAppIdTokensGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -376,24 +356,22 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetMockHandler = (
 export const getCreateTokensVendingappAppIdTokensPostMockHandler = (
   overrideResponse?:
     | TokenModel[]
-    | ((info: Parameters<Parameters<typeof http.post>[1]>[0]) => TokenModel[]),
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<TokenModel[]> | TokenModel[]),
 ) => {
   return http.post("*/vendingapp/:appId/tokens", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getCreateTokensVendingappAppIdTokensPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -403,24 +381,20 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMockHandler = (
     | TokenCancellation[]
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => TokenCancellation[]),
+      ) => Promise<TokenCancellation[]> | TokenCancellation[]),
 ) => {
   return http.post("*/vendingapp/:appId/tokens/cancel", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getCancelTokensVendingappAppIdTokensCancelPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -430,24 +404,20 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMockHandler = (
     | RedemptionResult
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => RedemptionResult),
+      ) => Promise<RedemptionResult> | RedemptionResult),
 ) => {
   return http.post("*/vendingapp/:appId/tokens/redeem/:token", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getRedeemTokenVendingappAppIdTokensRedeemTokenPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -457,24 +427,22 @@ export const getAppInfoVendingappAppIdInfoGetMockHandler = (
     | VendingApplicationInformation
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => VendingApplicationInformation),
+      ) =>
+        | Promise<VendingApplicationInformation>
+        | VendingApplicationInformation),
 ) => {
   return http.get("*/vendingapp/:appId/info", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getAppInfoVendingappAppIdInfoGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }

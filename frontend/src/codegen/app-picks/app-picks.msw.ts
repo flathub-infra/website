@@ -33,24 +33,22 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler = (
   overrideResponse?:
     | AppOfTheDay
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => AppOfTheDay),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<AppOfTheDay> | AppOfTheDay),
 ) => {
   return http.get("*/app-picks/app-of-the-day/:date", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -58,49 +56,55 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler = (
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler = (
   overrideResponse?:
     | AppsOfTheWeek
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => AppsOfTheWeek),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<AppsOfTheWeek> | AppsOfTheWeek),
 ) => {
   return http.get("*/app-picks/apps-of-the-week/:date", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler = () => {
-  return http.post("*/app-picks/app-of-the-week", async () => {
+export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/app-picks/app-of-the-week", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = () => {
-  return http.post("*/app-picks/app-of-the-day", async () => {
+export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/app-picks/app-of-the-day", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 export const getAppPicksMock = () => [

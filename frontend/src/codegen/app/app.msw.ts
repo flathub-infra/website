@@ -129,52 +129,58 @@ export const getGetAddonsAddonAppIdGetResponseMock = (): string[] =>
 export const getGetCategoriesCategoriesGetMockHandler = (
   overrideResponse?:
     | string[]
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => string[]),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
 ) => {
   return http.get("*/categories", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetCategoriesCategoriesGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetCategoryCategoryCategoryGetMockHandler = () => {
-  return http.get("*/category/:category", async () => {
+export const getGetCategoryCategoryCategoryGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/category/:category", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
 export const getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetMockHandler =
-  () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
     return http.get(
       "*/category/:category/subcategories/:subcategory",
-      async () => {
+      async (info) => {
         await delay(1000)
-        return new HttpResponse(null, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
       },
     )
   }
@@ -182,37 +188,39 @@ export const getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetMockHan
 export const getGetDevelopersDeveloperGetMockHandler = (
   overrideResponse?:
     | string[]
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => string[]),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
 ) => {
   return http.get("*/developer", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetDevelopersDeveloperGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetDeveloperDeveloperDeveloperGetMockHandler = () => {
-  return http.get("*/developer/:developer", async () => {
+export const getGetDeveloperDeveloperDeveloperGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/developer/:developer", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
@@ -221,24 +229,20 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
     | GetEolRebaseEolRebaseGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetEolRebaseEolRebaseGet200),
+      ) => Promise<GetEolRebaseEolRebaseGet200> | GetEolRebaseEolRebaseGet200),
 ) => {
   return http.get("*/eol/rebase", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetEolRebaseEolRebaseGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -248,24 +252,22 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
     | GetEolRebaseAppidEolRebaseAppIdGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetEolRebaseAppidEolRebaseAppIdGet200),
+      ) =>
+        | Promise<GetEolRebaseAppidEolRebaseAppIdGet200>
+        | GetEolRebaseAppidEolRebaseAppIdGet200),
 ) => {
   return http.get("*/eol/rebase/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetEolRebaseAppidEolRebaseAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -275,24 +277,22 @@ export const getGetEolMessageEolMessageGetMockHandler = (
     | GetEolMessageEolMessageGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetEolMessageEolMessageGet200),
+      ) =>
+        | Promise<GetEolMessageEolMessageGet200>
+        | GetEolMessageEolMessageGet200),
 ) => {
   return http.get("*/eol/message", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetEolMessageEolMessageGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -302,24 +302,22 @@ export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
     | GetEolMessageAppidEolMessageAppIdGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetEolMessageAppidEolMessageAppIdGet200),
+      ) =>
+        | Promise<GetEolMessageAppidEolMessageAppIdGet200>
+        | GetEolMessageAppidEolMessageAppIdGet200),
 ) => {
   return http.get("*/eol/message/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetEolMessageAppidEolMessageAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -327,74 +325,78 @@ export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
 export const getListAppstreamAppstreamGetMockHandler = (
   overrideResponse?:
     | string[]
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => string[]),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
 ) => {
   return http.get("*/appstream", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getListAppstreamAppstreamGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetAppstreamAppstreamAppIdGetMockHandler = () => {
-  return http.get("*/appstream/:appId", async () => {
+export const getGetAppstreamAppstreamAppIdGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/appstream/:appId", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
   overrideResponse?:
     | boolean
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => boolean),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<boolean> | boolean),
 ) => {
   return http.get("*/is-fullscreen-app/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetIsFullscreenAppIsFullscreenAppAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getPostSearchSearchPostMockHandler = () => {
-  return http.post("*/search", async () => {
+export const getPostSearchSearchPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/search", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
@@ -403,138 +405,158 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
     | GetRuntimeListRuntimesGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetRuntimeListRuntimesGet200),
+      ) =>
+        | Promise<GetRuntimeListRuntimesGet200>
+        | GetRuntimeListRuntimesGet200),
 ) => {
   return http.get("*/runtimes", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetRuntimeListRuntimesGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler =
-  () => {
-    return http.get("*/collection/recently-updated", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = () => {
-  return http.get("*/collection/recently-added", async () => {
+export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/recently-updated", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetVerifiedCollectionVerifiedGetMockHandler = () => {
-  return http.get("*/collection/verified", async () => {
+export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/recently-added", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetPopularLastMonthPopularLastMonthGetMockHandler = () => {
-  return http.get("*/popular/last-month", async () => {
+export const getGetVerifiedCollectionVerifiedGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/verified", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler =
-  () => {
-    return http.get("*/trending/last-two-weeks", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
+export const getGetPopularLastMonthPopularLastMonthGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/popular/last-month", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/trending/last-two-weeks", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 
 export const getGetStatsStatsGetMockHandler = (
   overrideResponse?:
     | GetStatsStatsGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetStatsStatsGet200),
+      ) => Promise<GetStatsStatsGet200> | GetStatsStatsGet200),
 ) => {
   return http.get("*/stats", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetStatsStatsGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetStatsForAppStatsAppIdGetMockHandler = () => {
-  return http.get("*/stats/:appId", async () => {
+export const getGetStatsForAppStatsAppIdGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/stats/:appId", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetSummarySummaryAppIdGetMockHandler = () => {
-  return http.get("*/summary/:appId", async () => {
+export const getGetSummarySummaryAppIdGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/summary/:appId", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
@@ -543,73 +565,75 @@ export const getGetPlatformsPlatformsGetMockHandler = (
     | GetPlatformsPlatformsGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => GetPlatformsPlatformsGet200),
+      ) => Promise<GetPlatformsPlatformsGet200> | GetPlatformsPlatformsGet200),
 ) => {
   return http.get("*/platforms", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetPlatformsPlatformsGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getGetExceptionsExceptionsGetMockHandler = () => {
-  return http.get("*/exceptions", async () => {
+export const getGetExceptionsExceptionsGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/exceptions", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = () => {
-  return http.get("*/exceptions/:appId", async () => {
+export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/exceptions/:appId", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
 export const getGetAddonsAddonAppIdGetMockHandler = (
   overrideResponse?:
     | string[]
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => string[]),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<string[]> | string[]),
 ) => {
   return http.get("*/addon/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetAddonsAddonAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }

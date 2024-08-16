@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -87,10 +90,49 @@ export type GetLoginMethodsAuthLoginGetQueryResult = NonNullable<
 >
 export type GetLoginMethodsAuthLoginGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Login Methods
- */
-export const useGetLoginMethodsAuthLoginGet = <
+export function useGetLoginMethodsAuthLoginGet<
+  TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLoginMethodsAuthLoginGet<
+  TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -102,7 +144,24 @@ export const useGetLoginMethodsAuthLoginGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Login Methods
+ */
+
+export function useGetLoginMethodsAuthLoginGet<
+  TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetLoginMethodsAuthLoginGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -171,10 +230,49 @@ export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
 >
 export type StartGithubFlowAuthLoginGithubGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Start Github Flow
- */
-export const useStartGithubFlowAuthLoginGithubGet = <
+export function useStartGithubFlowAuthLoginGithubGet<
+  TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGithubFlowAuthLoginGithubGet<
+  TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -186,7 +284,24 @@ export const useStartGithubFlowAuthLoginGithubGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Start Github Flow
+ */
+
+export function useStartGithubFlowAuthLoginGithubGet<
+  TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getStartGithubFlowAuthLoginGithubGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -357,10 +472,49 @@ export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
 >
 export type StartGitlabFlowAuthLoginGitlabGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Start Gitlab Flow
- */
-export const useStartGitlabFlowAuthLoginGitlabGet = <
+export function useStartGitlabFlowAuthLoginGitlabGet<
+  TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGitlabFlowAuthLoginGitlabGet<
+  TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -372,7 +526,24 @@ export const useStartGitlabFlowAuthLoginGitlabGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Start Gitlab Flow
+ */
+
+export function useStartGitlabFlowAuthLoginGitlabGet<
+  TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getStartGitlabFlowAuthLoginGitlabGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -543,10 +714,49 @@ export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
 >
 export type StartGnomeFlowAuthLoginGnomeGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Start Gnome Flow
- */
-export const useStartGnomeFlowAuthLoginGnomeGet = <
+export function useStartGnomeFlowAuthLoginGnomeGet<
+  TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGnomeFlowAuthLoginGnomeGet<
+  TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -558,7 +768,24 @@ export const useStartGnomeFlowAuthLoginGnomeGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Start Gnome Flow
+ */
+
+export function useStartGnomeFlowAuthLoginGnomeGet<
+  TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getStartGnomeFlowAuthLoginGnomeGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -719,10 +946,49 @@ export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
 >
 export type StartKdeFlowAuthLoginKdeGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Start Kde Flow
- */
-export const useStartKdeFlowAuthLoginKdeGet = <
+export function useStartKdeFlowAuthLoginKdeGet<
+  TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartKdeFlowAuthLoginKdeGet<
+  TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -734,7 +1000,24 @@ export const useStartKdeFlowAuthLoginKdeGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Start Kde Flow
+ */
+
+export function useStartKdeFlowAuthLoginKdeGet<
+  TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getStartKdeFlowAuthLoginKdeGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -991,10 +1274,49 @@ export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
 >
 export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Userinfo
- */
-export const useGetUserinfoAuthUserinfoGet = <
+export function useGetUserinfoAuthUserinfoGet<
+  TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserinfoAuthUserinfoGet<
+  TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -1006,7 +1328,24 @@ export const useGetUserinfoAuthUserinfoGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Userinfo
+ */
+
+export function useGetUserinfoAuthUserinfoGet<
+  TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUserinfoAuthUserinfoGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -1213,10 +1552,49 @@ export type GetDeleteuserAuthDeleteuserGetQueryResult = NonNullable<
 >
 export type GetDeleteuserAuthDeleteuserGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Deleteuser
- */
-export const useGetDeleteuserAuthDeleteuserGet = <
+export function useGetDeleteuserAuthDeleteuserGet<
+  TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDeleteuserAuthDeleteuserGet<
+  TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -1228,7 +1606,24 @@ export const useGetDeleteuserAuthDeleteuserGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Deleteuser
+ */
+
+export function useGetDeleteuserAuthDeleteuserGet<
+  TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDeleteuserAuthDeleteuserGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {

@@ -6,8 +6,11 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query"
@@ -60,10 +63,49 @@ export type HealthcheckStatusGetQueryResult = NonNullable<
 >
 export type HealthcheckStatusGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Healthcheck
- */
-export const useHealthcheckStatusGet = <
+export function useHealthcheckStatusGet<
+  TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof healthcheckStatusGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof healthcheckStatusGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useHealthcheckStatusGet<
+  TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof healthcheckStatusGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof healthcheckStatusGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -75,7 +117,24 @@ export const useHealthcheckStatusGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Healthcheck
+ */
+
+export function useHealthcheckStatusGet<
+  TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof healthcheckStatusGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getHealthcheckStatusGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {

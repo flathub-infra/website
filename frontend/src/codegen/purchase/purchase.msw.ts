@@ -118,24 +118,22 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock =
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetMockHandler = (
   overrideResponse?:
     | StorefrontInfo
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => StorefrontInfo),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<StorefrontInfo> | StorefrontInfo),
 ) => {
   return http.get("*/purchases/storefront-info", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -144,26 +142,24 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetMockHan
   (
     overrideResponse?:
       | boolean
-      | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => boolean),
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<boolean> | boolean),
   ) => {
     return http.get(
       "*/purchases/storefront-info/is-free-software",
       async (info) => {
         await delay(1000)
+
         return new HttpResponse(
           JSON.stringify(
             overrideResponse !== undefined
               ? typeof overrideResponse === "function"
-                ? overrideResponse(info)
+                ? await overrideResponse(info)
                 : overrideResponse
               : getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetResponseMock(),
           ),
-          {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
+          { status: 200, headers: { "Content-Type": "application/json" } },
         )
       },
     )
@@ -174,24 +170,20 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMockHandler = (
     | GenerateUpdateTokenResponse
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => GenerateUpdateTokenResponse),
+      ) => Promise<GenerateUpdateTokenResponse> | GenerateUpdateTokenResponse),
 ) => {
   return http.post("*/purchases/generate-update-token", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -201,24 +193,22 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMockHandler = (
     | CheckPurchasesResponseSuccess
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => CheckPurchasesResponseSuccess),
+      ) =>
+        | Promise<CheckPurchasesResponseSuccess>
+        | CheckPurchasesResponseSuccess),
 ) => {
   return http.post("*/purchases/check-purchases", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getCheckPurchasesPurchasesCheckPurchasesPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -229,24 +219,20 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMockHandler =
       | GetDownloadTokenResponse
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => GetDownloadTokenResponse),
+        ) => Promise<GetDownloadTokenResponse> | GetDownloadTokenResponse),
   ) => {
     return http.post("*/purchases/generate-download-token", async (info) => {
       await delay(1000)
+
       return new HttpResponse(
         JSON.stringify(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
-              ? overrideResponse(info)
+              ? await overrideResponse(info)
               : overrideResponse
             : getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock(),
         ),
-        {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+        { status: 200, headers: { "Content-Type": "application/json" } },
       )
     })
   }

@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -84,10 +87,55 @@ export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get App Of The Day
- */
-export const useGetAppOfTheDayAppPicksAppOfTheDayDateGet = <
+export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
+  TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
+  TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -102,7 +150,27 @@ export const useGetAppOfTheDayAppPicksAppOfTheDayDateGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get App Of The Day
+ */
+
+export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
+  TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions(
     date,
     options,
@@ -185,10 +253,63 @@ export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get App Of The Week
- */
-export const useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet = <
+export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
   >,
@@ -205,7 +326,29 @@ export const useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get App Of The Week
+ */
+
+export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions(date, options)
 

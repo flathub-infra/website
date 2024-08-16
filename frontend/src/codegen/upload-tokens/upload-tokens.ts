@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -95,10 +98,57 @@ export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
 export type GetUploadTokensUploadTokensAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Upload Tokens
- */
-export const useGetUploadTokensUploadTokensAppIdGet = <
+export function useGetUploadTokensUploadTokensAppIdGet<
+  TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetUploadTokensUploadTokensAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUploadTokensUploadTokensAppIdGet<
+  TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetUploadTokensUploadTokensAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -114,7 +164,28 @@ export const useGetUploadTokensUploadTokensAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Upload Tokens
+ */
+
+export function useGetUploadTokensUploadTokensAppIdGet<
+  TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetUploadTokensUploadTokensAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUploadTokensUploadTokensAppIdGetQueryOptions(
     appId,
     params,

@@ -6,8 +6,11 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query"
@@ -75,10 +78,61 @@ export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryResult =
 export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryError =
   AxiosError<unknown>
 
-/**
- * @summary Get Recently Updated Apps Feed
- */
-export const useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = <
+export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+        >,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+        >,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
   >,
@@ -94,7 +148,28 @@ export const useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Recently Updated Apps Feed
+ */
+
+export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions(options)
 
@@ -154,10 +229,49 @@ export type GetNewAppsFeedFeedNewGetQueryResult = NonNullable<
 >
 export type GetNewAppsFeedFeedNewGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get New Apps Feed
- */
-export const useGetNewAppsFeedFeedNewGet = <
+export function useGetNewAppsFeedFeedNewGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNewAppsFeedFeedNewGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -169,7 +283,24 @@ export const useGetNewAppsFeedFeedNewGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get New Apps Feed
+ */
+
+export function useGetNewAppsFeedFeedNewGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetNewAppsFeedFeedNewGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -256,20 +387,27 @@ export type GetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetQuer
 export type GetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetQueryError =
   AxiosError<unknown>
 
-/**
- * @summary Get Recently Updated Apps Feed Postgres
- */
-export const useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
-      >
-    >,
-    TError = AxiosError<unknown>,
-  >(options?: {
-    query?: Partial<
-      UseQueryOptions<
+export function useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+        >
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
         Awaited<
           ReturnType<
             typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
@@ -277,23 +415,103 @@ export const useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
         >,
         TError,
         TData
-      >
+      >,
+      "initialData"
     >
-    axios?: AxiosRequestConfig
-  }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-      getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetQueryOptions(
-        options,
-      )
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+        >
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<
+          ReturnType<
+            typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+          >
+        >,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+        >
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Recently Updated Apps Feed Postgres
+ */
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-      queryKey: QueryKey
-    }
+export function useGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGet
+        >
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions =
+    getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetQueryOptions(
+      options,
+    )
 
-    query.queryKey = queryOptions.queryKey
-
-    return query
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
   }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
 
 /**
  * @summary Get New Apps Feed Postgres
@@ -345,10 +563,49 @@ export type GetNewAppsFeedPostgresFeedNewPostgresGetQueryResult = NonNullable<
 export type GetNewAppsFeedPostgresFeedNewPostgresGetQueryError =
   AxiosError<unknown>
 
-/**
- * @summary Get New Apps Feed Postgres
- */
-export const useGetNewAppsFeedPostgresFeedNewPostgresGet = <
+export function useGetNewAppsFeedPostgresFeedNewPostgresGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNewAppsFeedPostgresFeedNewPostgresGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetNewAppsFeedPostgresFeedNewPostgresGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -360,7 +617,24 @@ export const useGetNewAppsFeedPostgresFeedNewPostgresGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get New Apps Feed Postgres
+ */
+
+export function useGetNewAppsFeedPostgresFeedNewPostgresGet<
+  TData = Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getNewAppsFeedPostgresFeedNewPostgresGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetNewAppsFeedPostgresFeedNewPostgresGetQueryOptions(options)
 

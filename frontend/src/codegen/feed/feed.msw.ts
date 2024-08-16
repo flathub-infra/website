@@ -6,53 +6,68 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler =
-  () => {
-    return http.get("*/feed/recently-updated", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetNewAppsFeedFeedNewGetMockHandler = () => {
-  return http.get("*/feed/new", async () => {
+export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/feed/recently-updated", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetNewAppsFeedFeedNewGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/feed/new", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
 export const getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetMockHandler =
-  () => {
-    return http.get("*/feed/recently-updated-postgres", async () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
+    return http.get("*/feed/recently-updated-postgres", async (info) => {
       await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
     })
   }
 
-export const getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler = () => {
-  return http.get("*/feed/new-postgres", async () => {
+export const getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/feed/new-postgres", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 export const getFeedMock = () => [

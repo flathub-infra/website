@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -101,10 +104,67 @@ export type GetVerificationStatusVerificationAppIdStatusGetQueryResult =
 export type GetVerificationStatusVerificationAppIdStatusGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Verification Status
- */
-export const useGetVerificationStatusVerificationAppIdStatusGet = <
+export function useGetVerificationStatusVerificationAppIdStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetVerificationStatusVerificationAppIdStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
   >,
@@ -123,7 +183,31 @@ export const useGetVerificationStatusVerificationAppIdStatusGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Verification Status
+ */
+
+export function useGetVerificationStatusVerificationAppIdStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetVerificationStatusVerificationAppIdStatusGetQueryOptions(
       appId,
@@ -235,10 +319,79 @@ export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryResult =
 export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Available Methods
- */
-export const useGetAvailableMethodsVerificationAppIdAvailableMethodsGet = <
+export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
+  TData = Awaited<
+    ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params:
+    | undefined
+    | GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
+  TData = Awaited<
+    ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
   >,
@@ -260,7 +413,34 @@ export const useGetAvailableMethodsVerificationAppIdAvailableMethodsGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Available Methods
+ */
+
+export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
+  TData = Awaited<
+    ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryOptions(
       appId,
@@ -482,20 +662,27 @@ export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccess
 export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryError =
   AxiosError<unknown>
 
-/**
- * @summary Request Organization Access Github
- */
-export const useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet =
-  <
-    TData = Awaited<
-      ReturnType<
-        typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
-      >
-    >,
-    TError = AxiosError<unknown>,
-  >(options?: {
-    query?: Partial<
-      UseQueryOptions<
+export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
+  TData = Awaited<
+    ReturnType<
+      typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        >
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
         Awaited<
           ReturnType<
             typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
@@ -503,23 +690,103 @@ export const useRequestOrganizationAccessGithubVerificationRequestOrganizationAc
         >,
         TError,
         TData
-      >
+      >,
+      "initialData"
     >
-    axios?: AxiosRequestConfig
-  }): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
-    const queryOptions =
-      getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryOptions(
-        options,
-      )
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
+  TData = Awaited<
+    ReturnType<
+      typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        >
+      >,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<
+          ReturnType<
+            typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+          >
+        >,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
+  TData = Awaited<
+    ReturnType<
+      typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        >
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Request Organization Access Github
+ */
 
-    const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-      queryKey: QueryKey
-    }
+export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
+  TData = Awaited<
+    ReturnType<
+      typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+    >
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof requestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet
+        >
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions =
+    getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryOptions(
+      options,
+    )
 
-    query.queryKey = queryOptions.queryKey
-
-    return query
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
   }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
 
 /**
  * Creates a token for the user to verify the app via website.

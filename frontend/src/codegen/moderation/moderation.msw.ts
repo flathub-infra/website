@@ -6,6 +6,7 @@
  */
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
+import { ModerationRequestType } from ".././model"
 import type {
   ModerationApp,
   ModerationAppsResponse,
@@ -22,10 +23,9 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
   ).map(() => ({
     appid: faker.word.sample(),
     is_new_submission: faker.datatype.boolean(),
-    request_types: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    request_types: faker.helpers.arrayElements(
+      Object.values(ModerationRequestType),
+    ),
     updated_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -103,7 +103,9 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       ]),
       undefined,
     ]),
-    request_type: faker.word.sample(),
+    request_type: faker.helpers.arrayElement(
+      Object.values(ModerationRequestType),
+    ),
   })),
   requests_count: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
@@ -129,24 +131,20 @@ export const getGetModerationAppsModerationAppsGetMockHandler = (
     | ModerationAppsResponse
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => ModerationAppsResponse),
+      ) => Promise<ModerationAppsResponse> | ModerationAppsResponse),
 ) => {
   return http.get("*/moderation/apps", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetModerationAppsModerationAppsGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -154,24 +152,22 @@ export const getGetModerationAppsModerationAppsGetMockHandler = (
 export const getGetModerationAppModerationAppsAppIdGetMockHandler = (
   overrideResponse?:
     | ModerationApp
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => ModerationApp),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<ModerationApp> | ModerationApp),
 ) => {
   return http.get("*/moderation/apps/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetModerationAppModerationAppsAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -182,24 +178,20 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler 
       | ReviewRequestResponse
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => ReviewRequestResponse),
+        ) => Promise<ReviewRequestResponse> | ReviewRequestResponse),
   ) => {
     return http.post("*/moderation/submit_review_request", async (info) => {
       await delay(1000)
+
       return new HttpResponse(
         JSON.stringify(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
-              ? overrideResponse(info)
+              ? await overrideResponse(info)
               : overrideResponse
             : getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock(),
         ),
-        {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+        { status: 200, headers: { "Content-Type": "application/json" } },
       )
     })
   }
@@ -209,24 +201,22 @@ export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
     | SubmitReviewModerationRequestsIdReviewPost200
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => SubmitReviewModerationRequestsIdReviewPost200),
+      ) =>
+        | Promise<SubmitReviewModerationRequestsIdReviewPost200>
+        | SubmitReviewModerationRequestsIdReviewPost200),
 ) => {
   return http.post("*/moderation/requests/:id/review", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getSubmitReviewModerationRequestsIdReviewPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }

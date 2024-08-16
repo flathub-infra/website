@@ -6,42 +6,53 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getUpdateUpdatePostMockHandler = () => {
-  return http.post("*/update", async () => {
+export const getUpdateUpdatePostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/update", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getUpdateStatsUpdateStatsPostMockHandler = () => {
-  return http.post("*/update/stats", async () => {
+export const getUpdateStatsUpdateStatsPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/update/stats", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getProcessTransfersUpdateProcessPendingTransfersPostMockHandler =
-  () => {
-    return http.post("*/update/process-pending-transfers", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
+export const getProcessTransfersUpdateProcessPendingTransfersPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/update/process-pending-transfers", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 export const getUpdateMock = () => [
   getUpdateUpdatePostMockHandler(),
   getUpdateStatsUpdateStatsPostMockHandler(),

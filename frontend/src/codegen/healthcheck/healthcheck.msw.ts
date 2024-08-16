@@ -6,15 +6,19 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getHealthcheckStatusGetMockHandler = () => {
-  return http.get("*/status", async () => {
+export const getHealthcheckStatusGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/status", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 export const getHealthcheckMock = () => [getHealthcheckStatusGetMockHandler()]

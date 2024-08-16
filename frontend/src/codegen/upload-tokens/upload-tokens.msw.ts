@@ -62,24 +62,22 @@ export const getCreateUploadTokenUploadTokensAppIdPostResponseMock = (
 export const getGetUploadTokensUploadTokensAppIdGetMockHandler = (
   overrideResponse?:
     | TokensResponse
-    | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => TokensResponse),
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<TokensResponse> | TokensResponse),
 ) => {
   return http.get("*/upload-tokens/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getGetUploadTokensUploadTokensAppIdGetResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
@@ -89,40 +87,39 @@ export const getCreateUploadTokenUploadTokensAppIdPostMockHandler = (
     | NewTokenResponse
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
-      ) => NewTokenResponse),
+      ) => Promise<NewTokenResponse> | NewTokenResponse),
 ) => {
   return http.post("*/upload-tokens/:appId", async (info) => {
     await delay(1000)
+
     return new HttpResponse(
       JSON.stringify(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
-            ? overrideResponse(info)
+            ? await overrideResponse(info)
             : overrideResponse
           : getCreateUploadTokenUploadTokensAppIdPostResponseMock(),
       ),
-      {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+      { status: 200, headers: { "Content-Type": "application/json" } },
     )
   })
 }
 
-export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler =
-  () => {
-    return http.post("*/upload-tokens/:tokenId/revoke", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
+export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMockHandler = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<void> | void),
+) => {
+  return http.post("*/upload-tokens/:tokenId/revoke", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 204 })
+  })
+}
 export const getUploadTokensMock = () => [
   getGetUploadTokensUploadTokensAppIdGetMockHandler(),
   getCreateUploadTokenUploadTokensAppIdPostMockHandler(),

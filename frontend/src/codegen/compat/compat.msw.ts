@@ -6,190 +6,248 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getGetAppsCompatAppsGetMockHandler = () => {
-  return http.get("*/compat/apps", async () => {
+export const getGetAppsCompatAppsGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetAppsInCategoryCompatAppsCategoryCategoryGetMockHandler =
-  () => {
-    return http.get("*/compat/apps/category/:category", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
+export const getGetAppsInCategoryCompatAppsCategoryCategoryGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/category/:category", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50GetMockHandler =
-  () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
     return http.get(
       "*/compat/apps/collection/recently-updated/50",
-      async () => {
+      async (info) => {
         await delay(1000)
-        return new HttpResponse(null, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
       },
     )
   }
 
 export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/recently-updated", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetRecentlyAddedCompatAppsCollectionNew50GetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/new/50", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = () => {
-  return http.get("*/compat/apps/collection/new", async () => {
-    await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
+    return http.get(
+      "*/compat/apps/collection/recently-updated",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
       },
-    })
+    )
+  }
+
+export const getGetRecentlyAddedCompatAppsCollectionNew50GetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/collection/new/50", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/collection/new", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
 export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetMockHandler =
-  () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
     return http.get(
       "*/compat/apps/collection/recently-updated-postgres/50",
-      async () => {
+      async (info) => {
         await delay(1000)
-        return new HttpResponse(null, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
       },
     )
   }
 
 export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetMockHandler =
-  () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
     return http.get(
       "*/compat/apps/collection/recently-updated-postgres",
-      async () => {
+      async (info) => {
         await delay(1000)
-        return new HttpResponse(null, {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
       },
     )
   }
 
 export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/new-postgres/50", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
+    return http.get(
+      "*/compat/apps/collection/new-postgres/50",
+      async (info) => {
+        await delay(1000)
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+        return new HttpResponse(null, { status: 200 })
+      },
+    )
   }
 
 export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/new-postgres", async () => {
+  (
+    overrideResponse?:
+      | unknown
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<unknown> | unknown),
+  ) => {
+    return http.get("*/compat/apps/collection/new-postgres", async (info) => {
       await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+      return new HttpResponse(null, { status: 200 })
     })
   }
 
-export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/popular/50", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetPopularAppsCompatAppsCollectionPopularGetMockHandler =
-  () => {
-    return http.get("*/compat/apps/collection/popular", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
-
-export const getGetSearchCompatAppsSearchQueryGetMockHandler = () => {
-  return http.get("*/compat/apps/search/:query", async () => {
+export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/collection/popular/50", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 
-export const getGetSingleAppCompatAppsAppIdGetMockHandler = () => {
-  return http.get("*/compat/apps/:appId", async () => {
+export const getGetPopularAppsCompatAppsCollectionPopularGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/collection/popular", async (info) => {
     await delay(1000)
-    return new HttpResponse(null, {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetSearchCompatAppsSearchQueryGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/search/:query", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getGetSingleAppCompatAppsAppIdGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/compat/apps/:appId", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
   })
 }
 export const getCompatMock = () => [

@@ -6,18 +6,21 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getBuildNotificationEmailsBuildNotificationPostMockHandler =
-  () => {
-    return http.post("*/emails/build-notification", async () => {
-      await delay(1000)
-      return new HttpResponse(null, {
-        status: 200,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-    })
-  }
+export const getBuildNotificationEmailsBuildNotificationPostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/emails/build-notification", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 export const getEmailMock = () => [
   getBuildNotificationEmailsBuildNotificationPostMockHandler(),
 ]
