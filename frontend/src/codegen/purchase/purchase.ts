@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -94,10 +97,63 @@ export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryResult =
 export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Storefront Info
- */
-export const useGetStorefrontInfoPurchasesStorefrontInfoGet = <
+export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
+  TData = Awaited<
+    ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
+  TData = Awaited<
+    ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
   >,
@@ -114,7 +170,29 @@ export const useGetStorefrontInfoPurchasesStorefrontInfoGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Storefront Info
+ */
+
+export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
+  TData = Awaited<
+    ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions(params, options)
 
@@ -217,10 +295,75 @@ export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryResult
 export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Is Free Software
- */
-export const useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = <
+export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
+  TData = Awaited<
+    ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
+  TData = Awaited<
+    ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
   >,
@@ -241,7 +384,33 @@ export const useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Is Free Software
+ */
+
+export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
+  TData = Awaited<
+    ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOptions(
       params,

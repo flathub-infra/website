@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -83,10 +86,55 @@ export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
 export type GetInviteStatusInvitesAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Invite Status
- */
-export const useGetInviteStatusInvitesAppIdGet = <
+export function useGetInviteStatusInvitesAppIdGet<
+  TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetInviteStatusInvitesAppIdGet<
+  TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -101,7 +149,27 @@ export const useGetInviteStatusInvitesAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Invite Status
+ */
+
+export function useGetInviteStatusInvitesAppIdGet<
+  TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetInviteStatusInvitesAppIdGetQueryOptions(
     appId,
     options,
@@ -473,10 +541,55 @@ export type GetDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
 export type GetDevelopersInvitesAppIdDevelopersGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Developers
- */
-export const useGetDevelopersInvitesAppIdDevelopersGet = <
+export function useGetDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -491,7 +604,27 @@ export const useGetDevelopersInvitesAppIdDevelopersGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Developers
+ */
+
+export function useGetDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDevelopersInvitesAppIdDevelopersGetQueryOptions(
     appId,
     options,

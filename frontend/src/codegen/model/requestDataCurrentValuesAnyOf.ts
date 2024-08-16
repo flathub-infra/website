@@ -5,4 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type RequestDataCurrentValuesAnyOf = { [key: string]: any }
+export type RequestDataCurrentValuesAnyOf = { [key: string]: unknown }

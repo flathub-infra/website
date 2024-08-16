@@ -6,9 +6,12 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
@@ -90,10 +93,49 @@ export type GetCategoriesCategoriesGetQueryResult = NonNullable<
 >
 export type GetCategoriesCategoriesGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Categories
- */
-export const useGetCategoriesCategoriesGet = <
+export function useGetCategoriesCategoriesGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetCategoriesCategoriesGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetCategoriesCategoriesGet<
   TData = Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -105,7 +147,24 @@ export const useGetCategoriesCategoriesGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Categories
+ */
+
+export function useGetCategoriesCategoriesGet<
+  TData = Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getCategoriesCategoriesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetCategoriesCategoriesGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -187,10 +246,57 @@ export type GetCategoryCategoryCategoryGetQueryResult = NonNullable<
 export type GetCategoryCategoryCategoryGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Category
- */
-export const useGetCategoryCategoryCategoryGet = <
+export function useGetCategoryCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params: undefined | GetCategoryCategoryCategoryGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetCategoryCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetCategoryCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -206,7 +312,28 @@ export const useGetCategoryCategoryCategoryGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Category
+ */
+
+export function useGetCategoryCategoryCategoryGet<
+  TData = Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  params?: GetCategoryCategoryCategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getCategoryCategoryCategoryGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetCategoryCategoryCategoryGetQueryOptions(
     category,
     params,
@@ -327,10 +454,81 @@ export type GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryResult
 export type GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Subcategory
- */
-export const useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet = <
+export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  subcategory: string,
+  params:
+    | undefined
+    | GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  subcategory: string,
+  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
   >,
@@ -353,7 +551,35 @@ export const useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Subcategory
+ */
+
+export function useGetSubcategoryCategoryCategorySubcategoriesSubcategoryGet<
+  TData = Awaited<
+    ReturnType<typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  category: MainCategory,
+  subcategory: string,
+  params?: GetSubcategoryCategoryCategorySubcategoriesSubcategoryGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getSubcategoryCategoryCategorySubcategoriesSubcategoryGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetSubcategoryCategoryCategorySubcategoriesSubcategoryGetQueryOptions(
       category,
@@ -418,10 +644,49 @@ export type GetDevelopersDeveloperGetQueryResult = NonNullable<
 >
 export type GetDevelopersDeveloperGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Developers
- */
-export const useGetDevelopersDeveloperGet = <
+export function useGetDevelopersDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDevelopersDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDevelopersDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -433,7 +698,24 @@ export const useGetDevelopersDeveloperGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Developers
+ */
+
+export function useGetDevelopersDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getDevelopersDeveloperGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDevelopersDeveloperGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -515,10 +797,57 @@ export type GetDeveloperDeveloperDeveloperGetQueryResult = NonNullable<
 export type GetDeveloperDeveloperDeveloperGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Developer
- */
-export const useGetDeveloperDeveloperDeveloperGet = <
+export function useGetDeveloperDeveloperDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  developer: string,
+  params: undefined | GetDeveloperDeveloperDeveloperGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDeveloperDeveloperDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  developer: string,
+  params?: GetDeveloperDeveloperDeveloperGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetDeveloperDeveloperDeveloperGet<
   TData = Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -534,7 +863,28 @@ export const useGetDeveloperDeveloperDeveloperGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Developer
+ */
+
+export function useGetDeveloperDeveloperDeveloperGet<
+  TData = Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  developer: string,
+  params?: GetDeveloperDeveloperDeveloperGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getDeveloperDeveloperDeveloperGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetDeveloperDeveloperDeveloperGetQueryOptions(
     developer,
     params,
@@ -597,10 +947,49 @@ export type GetEolRebaseEolRebaseGetQueryResult = NonNullable<
 >
 export type GetEolRebaseEolRebaseGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Eol Rebase
- */
-export const useGetEolRebaseEolRebaseGet = <
+export function useGetEolRebaseEolRebaseGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolRebaseEolRebaseGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -612,7 +1001,24 @@ export const useGetEolRebaseEolRebaseGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Eol Rebase
+ */
+
+export function useGetEolRebaseEolRebaseGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetEolRebaseEolRebaseGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -694,10 +1100,57 @@ export type GetEolRebaseAppidEolRebaseAppIdGetQueryResult = NonNullable<
 export type GetEolRebaseAppidEolRebaseAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Eol Rebase Appid
- */
-export const useGetEolRebaseAppidEolRebaseAppIdGet = <
+export function useGetEolRebaseAppidEolRebaseAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetEolRebaseAppidEolRebaseAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolRebaseAppidEolRebaseAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -713,7 +1166,28 @@ export const useGetEolRebaseAppidEolRebaseAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Eol Rebase Appid
+ */
+
+export function useGetEolRebaseAppidEolRebaseAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetEolRebaseAppidEolRebaseAppIdGetQueryOptions(
     appId,
     params,
@@ -776,10 +1250,49 @@ export type GetEolMessageEolMessageGetQueryResult = NonNullable<
 >
 export type GetEolMessageEolMessageGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Eol Message
- */
-export const useGetEolMessageEolMessageGet = <
+export function useGetEolMessageEolMessageGet<
+  TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolMessageEolMessageGet<
+  TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -791,7 +1304,24 @@ export const useGetEolMessageEolMessageGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Eol Message
+ */
+
+export function useGetEolMessageEolMessageGet<
+  TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetEolMessageEolMessageGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -873,10 +1403,57 @@ export type GetEolMessageAppidEolMessageAppIdGetQueryResult = NonNullable<
 export type GetEolMessageAppidEolMessageAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Eol Message Appid
- */
-export const useGetEolMessageAppidEolMessageAppIdGet = <
+export function useGetEolMessageAppidEolMessageAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetEolMessageAppidEolMessageAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolMessageAppidEolMessageAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetEolMessageAppidEolMessageAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -892,7 +1469,28 @@ export const useGetEolMessageAppidEolMessageAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Eol Message Appid
+ */
+
+export function useGetEolMessageAppidEolMessageAppIdGet<
+  TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetEolMessageAppidEolMessageAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetEolMessageAppidEolMessageAppIdGetQueryOptions(
     appId,
     params,
@@ -955,10 +1553,49 @@ export type ListAppstreamAppstreamGetQueryResult = NonNullable<
 >
 export type ListAppstreamAppstreamGetQueryError = AxiosError<unknown>
 
-/**
- * @summary List Appstream
- */
-export const useListAppstreamAppstreamGet = <
+export function useListAppstreamAppstreamGet<
+  TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useListAppstreamAppstreamGet<
+  TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -970,7 +1607,24 @@ export const useListAppstreamAppstreamGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary List Appstream
+ */
+
+export function useListAppstreamAppstreamGet<
+  TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getListAppstreamAppstreamGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -1049,10 +1703,57 @@ export type GetAppstreamAppstreamAppIdGetQueryResult = NonNullable<
 export type GetAppstreamAppstreamAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Appstream
- */
-export const useGetAppstreamAppstreamAppIdGet = <
+export function useGetAppstreamAppstreamAppIdGet<
+  TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetAppstreamAppstreamAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppstreamAppstreamAppIdGet<
+  TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetAppstreamAppstreamAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -1068,7 +1769,28 @@ export const useGetAppstreamAppstreamAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Appstream
+ */
+
+export function useGetAppstreamAppstreamAppIdGet<
+  TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetAppstreamAppstreamAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetAppstreamAppstreamAppIdGetQueryOptions(
     appId,
     params,
@@ -1148,10 +1870,55 @@ export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryResult = NonNullable<
 export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Isfullscreenapp
- */
-export const useGetIsFullscreenAppIsFullscreenAppAppIdGet = <
+export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
+  TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
+  TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -1166,7 +1933,27 @@ export const useGetIsFullscreenAppIsFullscreenAppAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Isfullscreenapp
+ */
+
+export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
+  TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryOptions(
     appId,
     options,
@@ -1303,10 +2090,49 @@ export type GetRuntimeListRuntimesGetQueryResult = NonNullable<
 >
 export type GetRuntimeListRuntimesGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Runtime List
- */
-export const useGetRuntimeListRuntimesGet = <
+export function useGetRuntimeListRuntimesGet<
+  TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRuntimeListRuntimesGet<
+  TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -1318,7 +2144,24 @@ export const useGetRuntimeListRuntimesGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Runtime List
+ */
+
+export function useGetRuntimeListRuntimesGet<
+  TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetRuntimeListRuntimesGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -1397,10 +2240,67 @@ export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryResult =
 export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Recently Updated
- */
-export const useGetRecentlyUpdatedCollectionRecentlyUpdatedGet = <
+export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
   >,
@@ -1419,7 +2319,31 @@ export const useGetRecentlyUpdatedCollectionRecentlyUpdatedGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Recently Updated
+ */
+
+export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryOptions(
       params,
@@ -1499,10 +2423,63 @@ export type GetRecentlyAddedCollectionRecentlyAddedGetQueryResult = NonNullable<
 export type GetRecentlyAddedCollectionRecentlyAddedGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Recently Added
- */
-export const useGetRecentlyAddedCollectionRecentlyAddedGet = <
+export function useGetRecentlyAddedCollectionRecentlyAddedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetRecentlyAddedCollectionRecentlyAddedGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyAddedCollectionRecentlyAddedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
   >,
@@ -1519,7 +2496,29 @@ export const useGetRecentlyAddedCollectionRecentlyAddedGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Recently Added
+ */
+
+export function useGetRecentlyAddedCollectionRecentlyAddedGet<
+  TData = Awaited<
+    ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetRecentlyAddedCollectionRecentlyAddedGetQueryOptions(params, options)
 
@@ -1591,10 +2590,55 @@ export type GetVerifiedCollectionVerifiedGetQueryResult = NonNullable<
 export type GetVerifiedCollectionVerifiedGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Verified
- */
-export const useGetVerifiedCollectionVerifiedGet = <
+export function useGetVerifiedCollectionVerifiedGet<
+  TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetVerifiedCollectionVerifiedGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetVerifiedCollectionVerifiedGet<
+  TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetVerifiedCollectionVerifiedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -1609,7 +2653,27 @@ export const useGetVerifiedCollectionVerifiedGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Verified
+ */
+
+export function useGetVerifiedCollectionVerifiedGet<
+  TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetVerifiedCollectionVerifiedGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetVerifiedCollectionVerifiedGetQueryOptions(
     params,
     options,
@@ -1683,10 +2747,55 @@ export type GetPopularLastMonthPopularLastMonthGetQueryResult = NonNullable<
 export type GetPopularLastMonthPopularLastMonthGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Popular Last Month
- */
-export const useGetPopularLastMonthPopularLastMonthGet = <
+export function useGetPopularLastMonthPopularLastMonthGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetPopularLastMonthPopularLastMonthGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetPopularLastMonthPopularLastMonthGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthPopularLastMonthGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetPopularLastMonthPopularLastMonthGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -1701,7 +2810,27 @@ export const useGetPopularLastMonthPopularLastMonthGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Popular Last Month
+ */
+
+export function useGetPopularLastMonthPopularLastMonthGet<
+  TData = Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPopularLastMonthPopularLastMonthGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPopularLastMonthPopularLastMonthGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetPopularLastMonthPopularLastMonthGetQueryOptions(
     params,
     options,
@@ -1783,10 +2912,67 @@ export type GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryResult =
 export type GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Trending Last Two Weeks
- */
-export const useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet = <
+export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
   >,
@@ -1805,7 +2991,31 @@ export const useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Trending Last Two Weeks
+ */
+
+export function useGetTrendingLastTwoWeeksTrendingLastTwoWeeksGet<
+  TData = Awaited<
+    ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getTrendingLastTwoWeeksTrendingLastTwoWeeksGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions =
     getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetQueryOptions(
       params,
@@ -1863,10 +3073,41 @@ export type GetStatsStatsGetQueryResult = NonNullable<
 >
 export type GetStatsStatsGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Stats
- */
-export const useGetStatsStatsGet = <
+export function useGetStatsStatsGet<
+  TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getStatsStatsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStatsStatsGet<
+  TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getStatsStatsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -1874,7 +3115,20 @@ export const useGetStatsStatsGet = <
     UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Stats
+ */
+
+export function useGetStatsStatsGet<
+  TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<Awaited<ReturnType<typeof getStatsStatsGet>>, TError, TData>
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetStatsStatsGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -1953,10 +3207,57 @@ export type GetStatsForAppStatsAppIdGetQueryResult = NonNullable<
 export type GetStatsForAppStatsAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Stats For App
- */
-export const useGetStatsForAppStatsAppIdGet = <
+export function useGetStatsForAppStatsAppIdGet<
+  TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetStatsForAppStatsAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStatsForAppStatsAppIdGet<
+  TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetStatsForAppStatsAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -1972,7 +3273,28 @@ export const useGetStatsForAppStatsAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Stats For App
+ */
+
+export function useGetStatsForAppStatsAppIdGet<
+  TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetStatsForAppStatsAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetStatsForAppStatsAppIdGetQueryOptions(
     appId,
     params,
@@ -2055,10 +3377,57 @@ export type GetSummarySummaryAppIdGetQueryResult = NonNullable<
 export type GetSummarySummaryAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Summary
- */
-export const useGetSummarySummaryAppIdGet = <
+export function useGetSummarySummaryAppIdGet<
+  TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: undefined | GetSummarySummaryAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSummarySummaryAppIdGet<
+  TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetSummarySummaryAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -2074,7 +3443,28 @@ export const useGetSummarySummaryAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Summary
+ */
+
+export function useGetSummarySummaryAppIdGet<
+  TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params?: GetSummarySummaryAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetSummarySummaryAppIdGetQueryOptions(
     appId,
     params,
@@ -2140,10 +3530,49 @@ export type GetPlatformsPlatformsGetQueryResult = NonNullable<
 >
 export type GetPlatformsPlatformsGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Platforms
- */
-export const useGetPlatformsPlatformsGet = <
+export function useGetPlatformsPlatformsGet<
+  TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetPlatformsPlatformsGet<
+  TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -2155,7 +3584,24 @@ export const useGetPlatformsPlatformsGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Platforms
+ */
+
+export function useGetPlatformsPlatformsGet<
+  TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetPlatformsPlatformsGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -2214,10 +3660,49 @@ export type GetExceptionsExceptionsGetQueryResult = NonNullable<
 >
 export type GetExceptionsExceptionsGetQueryError = AxiosError<unknown>
 
-/**
- * @summary Get Exceptions
- */
-export const useGetExceptionsExceptionsGet = <
+export function useGetExceptionsExceptionsGet<
+  TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetExceptionsExceptionsGet<
+  TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
   TError = AxiosError<unknown>,
 >(options?: {
@@ -2229,7 +3714,24 @@ export const useGetExceptionsExceptionsGet = <
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Exceptions
+ */
+
+export function useGetExceptionsExceptionsGet<
+  TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetExceptionsExceptionsGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
@@ -2302,10 +3804,55 @@ export type GetExceptionsForAppExceptionsAppIdGetQueryResult = NonNullable<
 export type GetExceptionsForAppExceptionsAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Exceptions For App
- */
-export const useGetExceptionsForAppExceptionsAppIdGet = <
+export function useGetExceptionsForAppExceptionsAppIdGet<
+  TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetExceptionsForAppExceptionsAppIdGet<
+  TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -2320,7 +3867,27 @@ export const useGetExceptionsForAppExceptionsAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Exceptions For App
+ */
+
+export function useGetExceptionsForAppExceptionsAppIdGet<
+  TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetExceptionsForAppExceptionsAppIdGetQueryOptions(
     appId,
     options,
@@ -2391,10 +3958,55 @@ export type GetAddonsAddonAppIdGetQueryResult = NonNullable<
 >
 export type GetAddonsAddonAppIdGetQueryError = AxiosError<HTTPValidationError>
 
-/**
- * @summary Get Addons
- */
-export const useGetAddonsAddonAppIdGet = <
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
@@ -2409,7 +4021,27 @@ export const useGetAddonsAddonAppIdGet = <
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Get Addons
+ */
+
+export function useGetAddonsAddonAppIdGet<
+  TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetAddonsAddonAppIdGetQueryOptions(appId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
