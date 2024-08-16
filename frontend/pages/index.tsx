@@ -285,7 +285,12 @@ export const getStaticProps: GetStaticProps = async ({
     APPS_IN_PREVIEW_COUNT * 2,
     locale,
   )
-  const popular = await fetchCollection("popular", 1, APPS_IN_PREVIEW_COUNT)
+  const popular = await fetchCollection(
+    "popular",
+    1,
+    APPS_IN_PREVIEW_COUNT,
+    locale,
+  )
   const recentlyAdded = await fetchCollection(
     "recently-added",
     1,
