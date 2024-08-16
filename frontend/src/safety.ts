@@ -14,6 +14,7 @@ import {
   HiShieldCheck,
   HiOutlineWrenchScrewdriver,
   HiOutlineCog6Tooth,
+  HiOutlineMicrophone,
 } from "react-icons/hi2"
 import { IoGameControllerOutline } from "react-icons/io5"
 import { Appstream } from "./types/Appstream"
@@ -86,6 +87,14 @@ export function safetyRatingToTranslationKey(
     case SafetyRating.unsafe:
       return "unsafe"
   }
+}
+
+const microphoneAccess: AppSafetyRating = {
+  safetyRating: SafetyRating.probably_safe,
+  title: "microphone-access",
+  description: "can-listen-using-microphones-without-asking-permission",
+  icon: HiOutlineMicrophone,
+  showOnSummaryOrDetails: "both",
 }
 
 // reimplementation of https://gitlab.gnome.org/GNOME/gnome-software/-/blob/main/src/gs-app-context-bar.c
@@ -255,6 +264,15 @@ export function getSafetyRating(
     })
   }
 
+  /* pulseaudio */
+  if (
+    summaryMetadata.permissions.sockets?.some(
+      (x) => x.toLowerCase() === "pulseaudio",
+    )
+  ) {
+    appSafetyRating.push(microphoneAccess)
+  }
+
   // can acquire arbitrary permissions
   if (
     summaryMetadata.permissions.filesystems?.some(
@@ -271,6 +289,7 @@ export function getSafetyRating(
       safetyRating: SafetyRating.potentially_unsafe,
       title: "arbitrary-permissions",
       description: "can-acquire-arbitrary-permissions",
+      icon: HiOutlineExclamationTriangle,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -327,6 +346,10 @@ export function getSafetyRating(
       showOnSummaryOrDetails: "both",
     })
   }
+
+  // deduplicate
+
+  appSafetyRating = deduplicateAppSafetyRatings(appSafetyRating)
 
   return appSafetyRating
 }
@@ -412,6 +435,22 @@ function addFileSafetyRatings(permissions: Permissions): AppSafetyRating[] {
       title: "download-folder-read-access",
       description: "can-read-all-data-in-your-download-folder",
       icon: HiOutlineArrowDownTray,
+      showOnSummaryOrDetails: "both",
+    })
+  }
+
+  // pipewire access
+  if (
+    permissions.filesystems?.some(
+      (x) => x.toLowerCase() === "xdg-run/pipewire-0",
+    )
+  ) {
+    appSafetyRating.push(microphoneAccess)
+    appSafetyRating.push({
+      safetyRating: SafetyRating.potentially_unsafe,
+      title: "screen-contents-access",
+      description: "can-access-the-contents-of-the-screen-or-other-windows",
+      icon: HiOutlineComputerDesktop,
       showOnSummaryOrDetails: "both",
     })
   }
@@ -529,7 +568,8 @@ function specificFileHandling(
       x.toLowerCase() !== "xdg-download" &&
       x.toLowerCase() !== "xdg-download:rw" &&
       x.toLowerCase() !== "xdg-download:ro" &&
-      x.toLowerCase() !== "xdg-config/kdeglobals:ro",
+      x.toLowerCase() !== "xdg-config/kdeglobals:ro" &&
+      x.toLowerCase() !== "xdg-run/pipewire-0",
   )
 
   if (prefilteredPermissions?.length > 0) {
@@ -629,4 +669,10 @@ function trimPermission(filesystemPermission: string): string {
   } else {
     return filesystemPermission.substring(startIndex)
   }
+}
+
+function deduplicateAppSafetyRatings(
+  appSafetyRating: AppSafetyRating[],
+): AppSafetyRating[] {
+  return Array.from(new Set(appSafetyRating))
 }
