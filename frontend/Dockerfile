@@ -1,8 +1,8 @@
-FROM node:20 as base
+FROM node:20 AS base
 
 RUN corepack enable
 
-FROM base as dev
+FROM base AS dev
 
 WORKDIR /app
 COPY package.json yarn.lock .yarnrc.yml ./
@@ -12,7 +12,7 @@ RUN yarn install --immutable
 COPY . .
 CMD ["yarn", "dev"]
 
-FROM base as builder
+FROM base AS builder
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG ENABLE_SENTRY=false
 ARG SENTRY_AUTH_TOKEN
@@ -26,7 +26,7 @@ COPY . .
 
 RUN yarn build && yarn postbuild
 
-FROM node:20-slim as prod
+FROM node:20-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG GITHUB_SHA
 
