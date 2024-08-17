@@ -129,6 +129,8 @@ def send_one_email_new(payload: dict, dest: str):
     result = requests.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
+        logging.error("Payload when sending", payload)
+        logging.error("Result received", result)
         raise Exception(
             "Failed to send email",
             result.json(),
