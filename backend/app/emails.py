@@ -1,5 +1,6 @@
 import base64
 import datetime
+import logging
 from enum import Enum
 from typing import Any
 
@@ -117,6 +118,7 @@ def send_email_new(payload: dict, db):
     messages = [m for m in messages if m is not None]
 
     for dest, message in messages:
+        logging.info("Payload when sending", message)
         # Queue each message separately so that if one fails, the others won't be resent when the task is retried
         worker.send_one_email_new.send(message, dest)
 
