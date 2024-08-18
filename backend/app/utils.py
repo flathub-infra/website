@@ -45,6 +45,9 @@ class Hasher:
 
 
 def add_translation(apps_locale: dict, language: str, appid: str, key: str, value: str):
+    # normalize multi part languages, as the frontend
+    #  always asks for the ones with a dash
+    language = language.replace("_", "-")
     if language not in apps_locale:
         apps_locale[language] = {}
     if appid not in apps_locale[language]:
