@@ -596,5 +596,9 @@
   "setup": "Настройка",
   "more-pages": "Повече страници",
   "slide": "Слайд",
-  "carousel": "Карусел"
+  "carousel": "Карусел",
+  "screen-contents-access": "Достъп до съдържанието на екрана",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Има достъп до съдържанието на екрана или другите прозорци",
+  "microphone-access": "Достъп до микрофона",
+  "can-listen-using-microphones-without-asking-permission": "Може да слуша чрез микрофонa, без да иска разрешение"
 }

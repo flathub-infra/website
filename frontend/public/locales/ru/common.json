@@ -597,5 +597,9 @@
   "more-pages": "Больше",
   "setup": "Установить",
   "carousel": "Карусель",
-  "slide": "Слайд"
+  "slide": "Слайд",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Может получить доступ к содержимому экрана или других окон",
+  "microphone-access": "Доступ к микрофону",
+  "can-listen-using-microphones-without-asking-permission": "Может прослушивать микрофон, не спрашивая разрешения",
+  "screen-contents-access": "Доступ к содержимому экрана"
 }

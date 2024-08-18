@@ -596,5 +596,9 @@
   "carousel": "Karuselo",
   "slide": "Bildo",
   "more-pages": "Pli da paĝoj",
-  "setup": "Agordi"
+  "setup": "Agordi",
+  "microphone-access": "Atingo al mikrofono",
+  "can-listen-using-microphones-without-asking-permission": "Povas aŭskulti mikrofone sen permeso",
+  "screen-contents-access": "Atingo al ekrana enhavo",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Povas atingi la enhavon de la ekrano aŭ en aliaj fenestroj"
 }

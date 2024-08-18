@@ -597,5 +597,9 @@
   "setup": "Configurar",
   "more-pages": "Más páginas",
   "slide": "Deslizar",
-  "carousel": "Carrusel"
+  "carousel": "Carrusel",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Puedes acceder al contenido de la pantalla o de otras ventanas",
+  "microphone-access": "Acceso al micrófono",
+  "screen-contents-access": "Acceso al contenido de la pantalla",
+  "can-listen-using-microphones-without-asking-permission": "Puedes escuchar utilizando los micrófonos sin pedir permiso"
 }
