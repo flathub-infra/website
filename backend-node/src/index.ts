@@ -22,19 +22,23 @@ const RequestSchema = z.object({
   requestType: z.literal("appdata"),
   requestData: z.object({
     keys: z.record(
+      z.string(),
       z.union([
         z.string(),
         z.array(z.string()),
         z.boolean(),
         z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
+        z.null(),
       ]),
     ),
     current_values: z.record(
+      z.string(),
       z.union([
         z.string(),
         z.array(z.string()),
         z.boolean(),
         z.record(z.union([z.array(z.string()), z.record(z.array(z.string()))])),
+        z.null(),
       ]),
     ),
   }),

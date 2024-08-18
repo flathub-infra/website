@@ -39,6 +39,7 @@ export interface Request {
         | string[]
         | boolean
         | { [key: string]: string[] | { [key: string]: string[] } }
+        | null
     }
     current_values: {
       [key: string]:
@@ -46,6 +47,7 @@ export interface Request {
         | string[]
         | boolean
         | { [key: string]: string[] | { [key: string]: string[] } }
+        | null
     }
   }
   isNewSubmission: boolean
