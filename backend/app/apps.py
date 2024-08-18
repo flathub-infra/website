@@ -164,9 +164,9 @@ def load_appstream(sqldb) -> None:
                     "type": type,
                 }
             )
-            for key, value in apps_locale.items():
+            for locale, value in apps_locale.items():
                 if app_id in value:
-                    p.set(f"apps_locale:{app_id}:{key}", json.dumps(value[app_id]))
+                    p.set(f"apps_locale:{app_id}:{locale}", json.dumps(value[app_id]))
 
         search.create_or_update_apps(search_apps)
 
