@@ -47,6 +47,10 @@
         "es": {
           "description": "Gracias a AnyDesk, contar\u00e1 con conexiones seguras y fiables de escritorio remoto para profesionales inform\u00e1ticos y usuarios en movimiento.",
           "summary": "Con\u00e9ctese a un ordenador de forma remota"
+        },
+        "pt-BR": {
+          "description": "A AnyDesk assegura ligações de computador remoto seguras e fiáveis tanto para profissionais de TI como para pessoas em viagem.",
+          "summary": "Conectar com um computador remotamente"
         }
       },
       "project_license": "LicenseRef-proprietary",
