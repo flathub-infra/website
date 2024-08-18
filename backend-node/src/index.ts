@@ -17,6 +17,7 @@ import DeveloperInviteEmail from "../emails/developer-invite"
 import { logger } from "hono/logger"
 import { sentry } from "@hono/sentry"
 import { env } from "hono/adapter"
+import { isBefore, subDays } from "date-fns"
 
 const RequestSchema = z.object({
   requestType: z.literal("appdata"),
@@ -49,6 +50,10 @@ const EmailBody = z.object({
   messageId: z.string().min(3).openapi({
     example: "1212121",
   }),
+  creation_timestamp: z.union([
+    z.number().openapi({ example: 123456789 }),
+    z.null(),
+  ]),
   to: z.string().min(3).openapi({
     example: "test@flathub.org",
   }),
@@ -207,8 +212,22 @@ app.use("*", (c, next) => {
 app.use(logger())
 
 app.openapi(route, async (c) => {
-  const { messageId, to, subject, messageInfo, previewText } =
-    c.req.valid("json")
+  const {
+    messageId,
+    creation_timestamp,
+    to,
+    subject,
+    messageInfo,
+    previewText,
+  } = c.req.valid("json")
+
+  if (
+    !creation_timestamp ||
+    isBefore(new Date(creation_timestamp), subDays(new Date(), 2))
+  ) {
+    // Ignore old messages
+    return c.json({})
+  }
 
   let emailHtml = undefined
 
