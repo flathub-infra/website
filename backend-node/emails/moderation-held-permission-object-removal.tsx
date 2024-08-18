@@ -15,6 +15,7 @@ ModerationHeldEmail.PreviewProps = {
         keys: {
           shared: ["network"],
           sockets: ["x11"],
+          filesystems: null,
         },
         current_values: {
           shared: ["network", "ipc"],
