@@ -596,5 +596,9 @@
   "more-pages": "More pages",
   "setup": "Setup",
   "slide": "Slide",
-  "carousel": "Carousel"
+  "carousel": "Carousel",
+  "microphone-access": "Microphone access",
+  "can-listen-using-microphones-without-asking-permission": "Can listen using microphones without asking permission",
+  "screen-contents-access": "Screen contents access",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Can access the contents of the screen or other windows"
 }

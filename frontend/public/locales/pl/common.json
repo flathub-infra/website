@@ -597,5 +597,9 @@
   "setup": "Konfiguracja",
   "more-pages": "Więcej stron",
   "slide": "Slajd",
-  "carousel": "Karuzela"
+  "carousel": "Karuzela",
+  "microphone-access": "Dostęp do mikrofonu",
+  "can-listen-using-microphones-without-asking-permission": "Może słuchać za pomocą mikrofonów bez pytania o pozwolenie",
+  "screen-contents-access": "Dostęp do zawartości ekranu",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Może uzyskać dostęp do zawartości ekranu lub innych okien"
 }
