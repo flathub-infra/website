@@ -526,5 +526,9 @@
   "setup": "Paigaldus",
   "more-pages": "Järgnevad lehed",
   "slide": "Slaidid",
-  "carousel": "Karussell"
+  "carousel": "Karussell",
+  "screen-contents-access": "Ligipääs ekraani sisule",
+  "microphone-access": "Õigus kasutada mikrofoni",
+  "can-listen-using-microphones-without-asking-permission": "Võib ilma luba küsimata mikrofoni abil kuulata ümbritseva keskkonna helisid",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Võib lugeda ekraani ja muude akende sisu"
 }

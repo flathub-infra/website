@@ -596,5 +596,9 @@
   "slide": "Dia",
   "carousel": "Karuselli",
   "setup": "Määritys",
-  "more-pages": "Lisää sivuja"
+  "more-pages": "Lisää sivuja",
+  "screen-contents-access": "Näytön sisällön käyttö",
+  "microphone-access": "Mikrofonin käyttö",
+  "can-listen-using-microphones-without-asking-permission": "Voi kuunnella mikrofonia käyttäen kysymättä erillistä lupaa",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Pääsy näytön ja muiden näytöllä olevien ikkunoiden sisältöön"
 }
