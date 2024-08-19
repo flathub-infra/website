@@ -595,5 +595,9 @@
   "more-pages": "更多頁面",
   "carousel": "輪播",
   "slide": "投影片",
-  "setup": "設定"
+  "setup": "設定",
+  "microphone-access": "麥克風存取權",
+  "screen-contents-access": "螢幕內容存取權",
+  "can-listen-using-microphones-without-asking-permission": "無須徵得許可即可使用麥克風收聽",
+  "can-access-the-contents-of-the-screen-or-other-windows": "可以存取螢幕或其他視窗的內容"
 }

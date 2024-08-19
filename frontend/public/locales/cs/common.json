@@ -597,5 +597,9 @@
   "more-pages": "Více stránek",
   "setup": "Nastavení",
   "slide": "Sklíčko",
-  "carousel": "Kolotoč"
+  "carousel": "Kolotoč",
+  "can-listen-using-microphones-without-asking-permission": "Může poslouchat pomocí mikrofonů bez vyžádání oprávnění",
+  "microphone-access": "Přístup k mikrofonu",
+  "screen-contents-access": "Přístup k obsahu obrazovky",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Může přistupovat k obsahu obrazovky nebo jiných oken"
 }
