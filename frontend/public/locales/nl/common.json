@@ -596,5 +596,9 @@
   "more-pages": "Meer pagina's",
   "setup": "Installatie",
   "carousel": "Carrousel",
-  "slide": "Dia"
+  "slide": "Dia",
+  "can-listen-using-microphones-without-asking-permission": "Kan mee­luisteren met microfoons zonder toe­stemming te vragen",
+  "microphone-access": "Toegang tot microfoon",
+  "screen-contents-access": "Toegang tot scherm­inhoud",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Heeft toegang tot de inhoud van het scherm of andere vensters"
 }
