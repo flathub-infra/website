@@ -63,7 +63,7 @@
     "satori": "^0.10.13",
     "sharp": "^0.33.4",
     "spdx-license-list": "^6.9.0",
-    "tailwind-merge": "^2.4.0",
+    "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "yaml": "^2.5.0",
     "yet-another-react-lightbox": "^3.21.3"
