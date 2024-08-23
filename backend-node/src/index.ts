@@ -229,10 +229,10 @@ app.openapi(route, async (c) => {
     return c.json({})
   }
 
-  let emailHtml = undefined
+  let emailHtml: string | undefined = undefined
 
   if (messageInfo.category === "security_login") {
-    emailHtml = render(
+    emailHtml = await render(
       SecurityLoginEmail({
         subject,
         previewText,
@@ -240,7 +240,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "build_notification") {
-    emailHtml = render(
+    emailHtml = await render(
       BuildNotificationEmail({
         subject,
         previewText,
@@ -248,7 +248,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "developer_invite") {
-    emailHtml = render(
+    emailHtml = await render(
       DeveloperInviteEmail({
         subject,
         previewText,
@@ -256,7 +256,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "developer_invite_accepted") {
-    emailHtml = render(
+    emailHtml = await render(
       DeveloperInviteAcceptedEmail({
         subject,
         previewText,
@@ -264,7 +264,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "developer_invite_declined") {
-    emailHtml = render(
+    emailHtml = await render(
       DeveloperInviteDeclinedEmail({
         subject,
         previewText,
@@ -272,7 +272,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "developer_left") {
-    emailHtml = render(
+    emailHtml = await render(
       DeveloperLeftEmail({
         subject,
         previewText,
@@ -280,7 +280,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "moderation_approved") {
-    emailHtml = render(
+    emailHtml = await render(
       ModerationApprovedEmail({
         subject,
         previewText,
@@ -288,7 +288,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "moderation_held") {
-    emailHtml = render(
+    emailHtml = await render(
       ModerationHeldEmail({
         subject,
         previewText,
@@ -296,7 +296,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "moderation_rejected") {
-    emailHtml = render(
+    emailHtml = await render(
       ModerationRejectedEmail({
         subject,
         previewText,
@@ -304,7 +304,7 @@ app.openapi(route, async (c) => {
       }),
     )
   } else if (messageInfo.category === "upload_token_created") {
-    emailHtml = render(
+    emailHtml = await render(
       UploadTokenCreatedEmail({
         subject,
         previewText,
