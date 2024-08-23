@@ -1697,20 +1697,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/render@npm:0.0.17":
-  version: 0.0.17
-  resolution: "@react-email/render@npm:0.0.17"
-  dependencies:
-    html-to-text: "npm:9.0.5"
-    js-beautify: "npm:^1.14.11"
-    react-promise-suspense: "npm:0.3.4"
-  peerDependencies:
-    react: ^18.2.0
-    react-dom: ^18.2.0
-  checksum: 10c0/34a1c5a55586d7cd723638d8cd5328fddf30015e5065a2e9d5204772e0532e84d63af1b2b1b8ec02cef52a8f57d34871200c0075a9ed7b2861362d8138d3db5e
-  languageName: node
-  linkType: hard
-
 "@react-email/render@npm:1.0.0":
   version: 1.0.0
   resolution: "@react-email/render@npm:1.0.0"
@@ -5209,7 +5195,7 @@ __metadata:
     "@hono/swagger-ui": "npm:0.4.0"
     "@hono/zod-openapi": "npm:^0.15.3"
     "@react-email/components": "npm:0.0.23"
-    "@react-email/render": "npm:0.0.17"
+    "@react-email/render": "npm:1.0.0"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/react": "npm:^18"
