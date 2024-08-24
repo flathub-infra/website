@@ -51,4 +51,5 @@ LOCALES = [
     "sq",
     "ia",
     "ckb",
+    "ga",
 ]

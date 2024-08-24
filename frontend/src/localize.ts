@@ -94,6 +94,7 @@ export type Language =
   | "sq"
   | "ia"
   | "ckb"
+  | "ga"
 
 export const languages: Language[] = [
   "en",
@@ -144,6 +145,7 @@ export const languages: Language[] = [
   "sq",
   "ia",
   "ckb",
+  "ga",
 ]
 
 export function getLocale(language?: string): Locale {
@@ -244,6 +246,8 @@ export function getLocale(language?: string): Locale {
       return sq
     case "ckb":
       return ckb
+    case "ga":
+      return enUS // date-fns has no Irish locale
 
     default:
       return enGB
@@ -348,6 +352,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "ia"
     case "ckb":
       return "ckb"
+    case "ga":
+      return "ga"
 
     default:
       return "en_US"
@@ -452,6 +458,8 @@ export function getLanguageFlag(language: Language): string {
       return ""
     case "ckb":
       return "🇮🇷"
+    case "ga":
+      return "🇮🇳"
   }
 }
 
@@ -553,6 +561,8 @@ export function getLanguageName(language: Language): string {
       return "Interlingua"
     case "ckb":
       return "کوردی"
+    case "ga":
+      return "Gaeilge"
 
     default:
       return assertUnreachable(language)
@@ -677,6 +687,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("ia")
     case "ckb":
       return new Intl.Locale("ckb")
+    case "ga":
+      return new Intl.Locale("ga")
 
     default:
       return new Intl.Locale("en")
@@ -731,6 +743,7 @@ export function registerIsoCountriesLocales() {
   countries.registerLocale(require("i18n-iso-countries/langs/sq.json"))
   // No translations for ia
   // No translations for ckb
+  countries.registerLocale(require("i18n-iso-countries/langs/ga.json"))
 
   return countries
 }
