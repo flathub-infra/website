@@ -1,7 +1,6 @@
 import base64
 import itertools
 import json
-import logging
 from datetime import datetime
 from enum import Enum
 from typing import Optional
@@ -473,9 +472,6 @@ def submit_review_request(
                     },
                 }
 
-                logging.info("requestData", json.loads(request.request_data))
-                logging.info("sending email approve/reject", payload)
-
                 worker.send_email_new.send(payload)
 
             return ReviewRequestResponse(requires_review=True)
@@ -582,9 +578,6 @@ def submit_review(
             "references": f"{request.appid}/{request.build_id}/held",
         },
     }
-
-    logging.info("requestData", json.loads(request.request_data))
-    logging.info("sending email approve/reject", payload)
 
     if request.comment is not None:
         payload["messageInfo"]["comment"] = request.comment
