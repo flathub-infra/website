@@ -53,6 +53,7 @@ module.exports = {
       "sq",
       "ia",
       "ckb",
+      "ga",
     ],
   },
   // debug: true,
