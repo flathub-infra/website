@@ -145,7 +145,7 @@ const LicenseLink = ({
       <a
         className="flex gap-1 items-center"
         href={
-          licenseIsLink ? license : app.urls?.contribute ?? app.urls?.homepage
+          licenseIsLink ? license : (app.urls?.contribute ?? app.urls?.homepage)
         }
         target="_blank"
         rel="noreferrer"
