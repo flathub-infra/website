@@ -4,8 +4,8 @@
 
 @layer base {
   * {
-      @apply border-border;
-    }
+    @apply border-border;
+  }
 
   p {
     @apply mb-4;
@@ -111,7 +111,6 @@
   --bg-color-secondary: var(--flathub-white);
   --color-primary: var(--flathub-celestial-blue);
 
-
   // shad/cn theme
   --background: var(--flathub-white);
   --foreground: var(--flathub-dark-gunmetal);
@@ -174,11 +173,8 @@
   --input: var(--flathub-arsenic);
   --ring: 0 0% 83.1%;
 
-
   // Override react-tostify variable here for easy theme adherence
-  --toastify-color-light: var(
-    --toastify-color-dark
-  );
+  --toastify-color-light: var(--toastify-color-dark);
   --toastify-text-color-light: var(--flathub-gainsborow);
 
   // for worldmap and below css
@@ -188,18 +184,18 @@
 
   // for chart colors
   :root {
-      --chart-1: 12 76% 61%;
-      --chart-2: 173 58% 39%;
-      --chart-3: 197 37% 24%;
-      --chart-4: 43 74% 66%;
-      --chart-5: 27 87% 67%;
-    }
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
 
-    .dark {
-      --chart-1: 220 70% 50%;
-      --chart-2: 160 60% 45%;
-      --chart-3: 30 80% 55%;
-      --chart-4: 280 65% 60%;
-      --chart-5: 340 75% 55%;
-    }
+  .dark {
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
