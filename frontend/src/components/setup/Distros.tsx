@@ -860,7 +860,7 @@ export const Gentoo = () => (
           itemListElement: [
             {
               type: "HowToDirection",
-              text: "To install Flatpak, enable the ~amd64 keyword for sys-apps/flatpak, acct-user/flatpak and acct-group/flatpak: echo -e 'sys-apps/flatpak ~amd64\nacct-user/flatpak ~amd64\nacct-group/flatpak ~amd64\ndev-util/ostree ~amd64' >> /etc/portage/package.accept_keywords/flatpak Then, install Flatpak: emerge sys-apps/flatpak",
+              text: "To install Flatpak on Gentoo, simply run: emerge --ask --verbose sys-apps/flatpak",
             },
           ],
         },
@@ -889,15 +889,8 @@ export const Gentoo = () => (
 
     <li>
       <h2>Install Flatpak</h2>
-      <p>
-        To install Flatpak, enable the ~amd64 keyword for sys-apps/flatpak,
-        acct-user/flatpak and acct-group/flatpak:
-      </p>{" "}
-      <CodeCopy
-        text={`echo -e 'sys-apps/flatpak ~amd64\nacct-user/flatpak ~amd64\nacct-group/flatpak ~amd64\ndev-util/ostree ~amd64' >> /etc/portage/package.accept_keywords/flatpak`}
-      />{" "}
-      <p>Then, install Flatpak:</p>{" "}
-      <CodeCopy text={`emerge sys-apps/flatpak`} />
+      <p>To install Flatpak on Gentoo, simply run:</p>{" "}
+      <CodeCopy text={`emerge --ask --verbose sys-apps/flatpak`} />
     </li>
 
     <li>
@@ -2475,3 +2468,21 @@ export const Vanilla_OS = () => (
   </ol>
 )
 distroMap.set("Vanilla OS", <Vanilla_OS />)
+
+export const Salix = () => (
+  <ol className="distrotut">
+    <h2>
+      Flatpak is installed by default on Salix since version 15.0—no setup
+      required!
+    </h2>{" "}
+    <p>
+      Flatpak comes preconfigured with the Flathub repository and desktop
+      integration tools are included to allow 1-click install from Flathub.
+    </p>{" "}
+    <p>
+      All you have to do is <a href="https://flathub.org/">install some apps</a>
+      !
+    </p>
+  </ol>
+)
+distroMap.set("Salix", <Salix />)
