@@ -203,10 +203,8 @@
   steps:
     - name: Install Flatpak
       text: "
-        <p>To install Flatpak, enable the ~amd64 keyword for sys-apps/flatpak, acct-user/flatpak and acct-group/flatpak:</p>
-        <terminal-command>echo -e 'sys-apps/flatpak ~amd64\\nacct-user/flatpak ~amd64\\nacct-group/flatpak ~amd64\\ndev-util/ostree ~amd64' >> /etc/portage/package.accept_keywords/flatpak</terminal-command>
-        <p>Then, install Flatpak:</p>
-        <terminal-command>emerge sys-apps/flatpak</terminal-command>"
+        <p>To install Flatpak on Gentoo, simply run:</p>
+        <terminal-command>emerge --ask --verbose sys-apps/flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
         <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
@@ -594,3 +592,10 @@
     <p>You can use the Software app or browse <a href="https://flathub.org/">Flathub</a> to install some apps.</p>
     <p>If for some reason Flathub is not available, you can configure it manually using the following command:</p>
     <terminal-command>host-shell flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
+
+- name: Salix
+  logo: "salix.svg"
+  introduction: >
+    <h2>Flatpak is installed by default on Salix since version 15.0—no setup required!</h2>
+    <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p>
+    <p>All you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
