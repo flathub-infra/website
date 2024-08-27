@@ -351,8 +351,10 @@ def submit_review_request(
         ):
             continue
 
-        keys = {}
-        current_values = {}
+        if 'keys' not in locals():
+            keys = {}
+        if 'current_values' not in locals():
+            current_values = {}
 
         if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
             if not direct_upload_app.first_seen_at:
