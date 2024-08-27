@@ -173,6 +173,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "world") -> list[str]:
             repo_name = "gnome-characters"
         case "org.gnome.Nibbles":
             repo_name = "gnome-nibbles"
+        case "org.gnome.PowerStats":
+            repo_name = "gnome-power-manager"
         case _:
             repo_name = None
 
