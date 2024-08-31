@@ -592,5 +592,6 @@
   "carousel": "Carosello",
   "setup": "Configurar",
   "download-press-kit": "Discargar kit de pressa",
-  "press": "Pressa"
+  "press": "Pressa",
+  "microphone-access": "Accesso al microphono"
 }
