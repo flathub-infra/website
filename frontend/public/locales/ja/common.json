@@ -228,7 +228,7 @@
   "verification": "認証",
   "open-menu": "メニューを開く",
   "open-user-menu": "ユーザーメニューを開く",
-  "no-apps": "表示するアプリはありません。",
+  "no-apps": "アプリなし。",
   "setup-flathub": "Flathubをセットアップ",
   "verified-apps": "認証済みのアプリ",
   "apps": "アプリ",
@@ -587,5 +587,9 @@
   "slide": "スライド",
   "carousel": "カルーセル",
   "more-apps-by-developer": "{{developer}} のほかのアプリ",
-  "flathub-statistics-description": "本プラットフォームから利用できるアプリの使用状況と分布の概要。"
+  "flathub-statistics-description": "本プラットフォームから利用できるアプリの使用状況と分布の概要。",
+  "can-listen-using-microphones-without-asking-permission": "許可なくマイクを使って視聴可能",
+  "screen-contents-access": "画面内のコンテンツにアクセス",
+  "can-access-the-contents-of-the-screen-or-other-windows": "画面やほかのウィンドウ内のコンテンツにアクセス可能",
+  "microphone-access": "マイクにアクセス"
 }

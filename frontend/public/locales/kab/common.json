@@ -116,7 +116,8 @@
     "screenshots-take-screenshots-on-linux": "Tuṭṭfiwin n ugdil deg linux",
     "hide-icon": "Ffer tignit",
     "show-icon": "Sken-d tignit",
-    "app-icon": "Tignit n usnas"
+    "app-icon": "Tignit n usnas",
+    "screenshots-default-settings": "Iɣewwaṛen imezwar"
   },
   "moderation-new-value": "Azal amaynut",
   "transaction-summary-value": "Azal: {{value}}",
@@ -178,5 +179,19 @@
   "user-settings": "Iɣewwaṛen n useqdac",
   "install-x": "Sbedd {{app-name}} deg Linux",
   "flathub-statistics": "Tidaddanin n Flathub",
-  "app-of-the-day": "Asnas n wass-a"
+  "app-of-the-day": "Asnas n wass-a",
+  "about-description": "Flathub d amkan ansa ara d-awiḍ yerna ad tferqeḍ isnasen i Linux. Yettwaxdem s Flatpak i yettaǧǧan isnasen n Flathub ad ddun deg qrib yal tafreqt n Linux.",
+  "vcs_browser": "Inig angal uɣbalu",
+  "contribute": "Ttekki deg usnas",
+  "downloads-per-country": "Isadaren deg yal tamurt",
+  "more-game": "Ugar n wuraren",
+  "flos": "Ilelli d weɣbalu-s yeldi",
+  "new-apps": "Isnasen imaynuten",
+  "pictures-folder": "Akaram n tugniwin",
+  "videos-folder": "Akaram n tvidyutin",
+  "network-access": "Akeččum ɣer uẓeṭṭa",
+  "network-error-try-again": "Teḍra-d tuccḍa deg uẓeṭṭa. Ɛreḍ tikkelt nniḍen.",
+  "apps-by-developer": "Isnasen sɣur {{developer}}",
+  "donate-to": "Mudd tawsa i {{project}}",
+  "more-pages": "Isebtar nniḍen"
 }

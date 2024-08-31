@@ -500,7 +500,8 @@
     "show-branding-preview": "Afficher l'aperçu de la marque",
     "request-a-review-question": "Voulez-vous requérir un examen ?",
     "hide-branding-preview": "Masquer l'aperçu de la marque",
-    "needed-to-pass-x": "Nécessaire pour réussir {{x}}"
+    "needed-to-pass-x": "Nécessaire pour réussir {{x}}",
+    "branding-has-primary-brand-colors": "Possède les couleurs principales de la marque"
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -592,5 +593,8 @@
   "more-popular": "Plus populaire",
   "more-graphics": "Plus de graphiques et photographie",
   "flathub-statistics-description": "Aperçu de l’utilisation et de la distribution des applications disponibles sur la plateforme.",
-  "danger-zone": "Zone de danger"
+  "danger-zone": "Zone de danger",
+  "not-onboarded": "Merci de vous enregistrer au préalable",
+  "microphone-access": "Accès au microphone",
+  "screen-contents-access": "Accès au contenu de l'écran"
 }
