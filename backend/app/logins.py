@@ -16,7 +16,6 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 import requests
-from authlib.integrations.base_client import OAuthError
 from authlib.integrations.starlette_client import OAuth
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
