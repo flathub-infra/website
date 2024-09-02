@@ -56,9 +56,8 @@ services:
     restart: unless-stopped
     ports:
       - "2525:2525"
-      - "80:80"
-      - "143:143"
-      - "25:25"
+      - "8080:80"
+      - "1143:143"
 
   worker:
     image: backend_backend:latest
