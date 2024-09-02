@@ -206,6 +206,22 @@ export const getContinueGithubFlowAuthLoginGithubPostMockHandler = (
   })
 }
 
+export const getAuthGithubAuthAuthGithubGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/auth/auth/github", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
 export const getStartGitlabFlowAuthLoginGitlabGetMockHandler = (
   overrideResponse?:
     | unknown
@@ -463,6 +479,7 @@ export const getAuthMock = () => [
   getGetLoginMethodsAuthLoginGetMockHandler(),
   getStartGithubFlowAuthLoginGithubGetMockHandler(),
   getContinueGithubFlowAuthLoginGithubPostMockHandler(),
+  getAuthGithubAuthAuthGithubGetMockHandler(),
   getStartGitlabFlowAuthLoginGitlabGetMockHandler(),
   getContinueGitlabFlowAuthLoginGitlabPostMockHandler(),
   getStartGnomeFlowAuthLoginGnomeGetMockHandler(),

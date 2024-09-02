@@ -174,15 +174,6 @@ export function useGetLoginMethodsAuthLoginGet<
 }
 
 /**
- * Starts a github login flow.  This will set session cookie values and
-will return a redirect.  The frontend is expected to save the cookie
-for use later, and follow the redirect to Github
-
-Upon return from Github to the frontend, the frontend should POST to this
-endpoint with the relevant data from Github
-
-If the user is already logged in, and has a valid github token stored,
-then this will return an error instead.
  * @summary Start Github Flow
  */
 export const startGithubFlowAuthLoginGithubGet = (
@@ -415,6 +406,136 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
 
   return useMutation(mutationOptions)
 }
+/**
+ * @summary Auth Github
+ */
+export const authGithubAuthAuthGithubGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/auth/auth/github`, options)
+}
+
+export const getAuthGithubAuthAuthGithubGetQueryKey = () => {
+  return [`/auth/auth/github`] as const
+}
+
+export const getAuthGithubAuthAuthGithubGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAuthGithubAuthAuthGithubGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>
+  > = ({ signal }) => authGithubAuthAuthGithubGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey }
+}
+
+export type AuthGithubAuthAuthGithubGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>
+>
+export type AuthGithubAuthAuthGithubGetQueryError = AxiosError<unknown>
+
+export function useAuthGithubAuthAuthGithubGet<
+  TData = Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useAuthGithubAuthAuthGithubGet<
+  TData = Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+export function useAuthGithubAuthAuthGithubGet<
+  TData = Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+/**
+ * @summary Auth Github
+ */
+
+export function useAuthGithubAuthAuthGithubGet<
+  TData = Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authGithubAuthAuthGithubGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getAuthGithubAuthAuthGithubGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
 /**
  * Starts a gitlab login flow.  This will set session cookie values and
 will return a redirect.  The frontend is expected to save the cookie
