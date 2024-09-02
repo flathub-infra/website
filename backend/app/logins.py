@@ -237,7 +237,7 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
 
     intermediate = login.method_intermediate
     if intermediate is not None:
-        intermediate = db.session.query(models.GithubFlowToken).get(intermediate)
+        intermediate = db.query(models.GithubFlowToken).get(intermediate)
 
     if intermediate is None:
         state = uuid4().hex
@@ -245,8 +245,8 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
             state=state,
             created=datetime.now(),
         )
-        db.session.add(intermediate)
-        db.session.commit()
+        db.add(intermediate)
+        db.commit()
 
     oauth_args = {
         "client_id": config.settings.github_client_id,
@@ -274,7 +274,7 @@ async def auth_github(request: Request, login: LoginStatusDep):
             status_code=400,
         )
 
-    flow_token = db.session.query(models.GithubFlowToken).get(flow_id)
+    flow_token = db.query(models.GithubFlowToken).get(flow_id)
     if not flow_token:
         return JSONResponse(
             {"state": "error", "error": "Invalid login flow"},
