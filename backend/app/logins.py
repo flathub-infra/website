@@ -16,6 +16,7 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 import requests
+from authlib.integrations.starlette_client import OAuth
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi_sqlalchemy import DBSessionMiddleware, db
@@ -159,6 +160,16 @@ def refresh_oauth_token(account) -> str:
             config.settings.kde_client_id,
             config.settings.kde_client_secret,
         )
+    elif isinstance(account, models.GithubAccount):
+        if account.token_expiry is None or account.token_expiry > datetime.now():
+            return account.token
+
+        token = oauth.github.refresh_token(account.refresh_token)
+        account.token = token["access_token"]
+        account.refresh_token = token.get("refresh_token", account.refresh_token)
+        account.token_expiry = datetime.now() + timedelta(seconds=token["expires_in"])
+        db.session.commit()
+        return account.token
 
 
 # Routers etc.
@@ -192,33 +203,107 @@ def get_login_methods() -> list[LoginMethod]:
     ]
 
 
+# Initialize OAuth
+oauth = OAuth()
+oauth.register(
+    name="github",
+    client_id=config.settings.github_client_id,
+    client_secret=config.settings.github_client_secret,
+    access_token_url="https://github.com/login/oauth/access_token",
+    authorize_url="https://github.com/login/oauth/authorize",
+    api_base_url="https://api.github.com/",
+    client_kwargs={"scope": "read:user read:org user:email"},
+)
+
+
 @router.get("/login/github", tags=["auth"])
-def start_github_flow(request: Request, login: LoginStatusDep):
-    """
-    Starts a github login flow.  This will set session cookie values and
-    will return a redirect.  The frontend is expected to save the cookie
-    for use later, and follow the redirect to Github
+async def start_github_flow(request: Request, login: LoginStatusDep):
+    if login["state"].logging_in():
+        # Already logging in to something
+        if login["method"] == "github":
+            # Already logging into correct method, so assume something went squiffy
+            # and send them back with the same in-progress login
+            pass
+        else:
+            # Just assume things will work out for the best
+            pass
 
-    Upon return from Github to the frontend, the frontend should POST to this
-    endpoint with the relevant data from Github
+    user = login["user"]
+    if user is not None:
+        account = models.GithubAccount.by_user(db, user)
+        if account is not None and account.token is not None:
+            return JSONResponse(
+                {"state": "error", "error": "User already logged into GitHub"},
+                status_code=400,
+            )
 
-    If the user is already logged in, and has a valid github token stored,
-    then this will return an error instead.
-    """
-    return start_oauth_flow(
-        request,
-        login,
-        "github",
-        models.GithubAccount,
-        models.GithubFlowToken,
-        "https://github.com/login/oauth/authorize",
-        {
-            "client_id": config.settings.github_client_id,
-            "redirect_uri": config.settings.github_return_url,
-            "allow_signup": "false",
-            "scope": "read:user read:org user:email",
+    redirect_uri = config.settings.github_return_url
+    return await oauth.github.authorize_redirect(request, redirect_uri)
+
+
+@router.get("/auth/github", tags=["auth"])
+async def auth_github(request: Request, login: LoginStatusDep):
+    token = await oauth.github.authorize_access_token(request)
+    resp = await oauth.github.get("user", token=token)
+    profile = resp.json()
+
+    emails_resp = await oauth.github.get("user/emails", token=token)
+    emails = emails_resp.json()
+    primary_email = next((e["email"] for e in emails if e["primary"]), None)
+
+    account = models.GithubAccount.by_provider_id(db, str(profile["id"]))
+
+    if account is None:
+        user = models.FlathubUser(display_name=profile["name"])
+        db.session.add(user)
+        db.session.flush()
+
+        account = models.GithubAccount(
+            github_userid=str(profile["id"]),
+            token=token["access_token"],
+            refresh_token=token.get("refresh_token"),
+            token_expiry=datetime.now() + timedelta(seconds=token["expires_in"]),
+            last_used=datetime.now(),
+            user=user.id,
+            login=profile["login"],
+            avatar_url=profile["avatar_url"],
+            display_name=profile["name"],
+            email=primary_email,
+        )
+        db.session.add(account)
+    else:
+        account.token = token["access_token"]
+        account.refresh_token = token.get("refresh_token", account.refresh_token)
+        account.token_expiry = datetime.now() + timedelta(seconds=token["expires_in"])
+        account.last_used = datetime.now()
+        account.login = profile["login"]
+        account.avatar_url = profile["avatar_url"]
+        account.display_name = profile["name"]
+        account.email = primary_email
+
+    db.session.commit()
+
+    request.session["user-id"] = account.user
+
+    worker.refresh_github_repo_list.send(token["access_token"], account.id)
+
+    payload = {
+        "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
+        "creation_timestamp": datetime.now().timestamp(),
+        "userId": account.user,
+        "subject": "New login to Flathub account",
+        "previewText": "Flathub Login",
+        "messageInfo": {
+            "category": EmailCategory.SECURITY_LOGIN,
+            "provider": "github",
+            "login": profile["login"],
+            "time": datetime.now().isoformat(),
+            "ipAddress": request.client.host if request.client else "Unknown",
         },
-    )
+    }
+    worker.send_email_new.send(payload)
+
+    return {"status": "ok", "result": "logged_in"}
 
 
 @router.get("/login/gitlab", tags=["auth"])
