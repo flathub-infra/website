@@ -203,7 +203,6 @@ def get_login_methods() -> list[LoginMethod]:
     ]
 
 
-# Initialize OAuth
 oauth = OAuth()
 oauth.register(
     name="github",
@@ -243,7 +242,7 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
     return {"state": "ok", "redirect": redirect_url}
 
 
-@router.get("/auth/github", tags=["auth"])
+@router.post("/auth/github", tags=["auth"])
 async def auth_github(request: Request, login: LoginStatusDep):
     token = await oauth.github.authorize_access_token(request)
     resp = await oauth.github.get("user", token=token)
@@ -481,71 +480,6 @@ class ProviderInfo:
     name: str | None = None
     avatar_url: str | None = None
     email: str | None = None
-
-
-@router.post("/login/github", tags=["auth"])
-def continue_github_flow(
-    data: OauthLoginResponse, request: Request, login: LoginStatusDep
-):
-    """
-    Process the result of the Github oauth flow
-
-    This expects to have some JSON posted to it which (on success) contains:
-
-    ```
-    {
-        "state": "the state code",
-        "code": "the github oauth code",
-    }
-    ```
-
-    On failure, the frontend should pass through the state and error so that
-    the backend can clear the flow tokens
-
-    ```
-    {
-        "state": "the state code",
-        "error": "the error code returned from github",
-    }
-    ```
-
-    This endpoint will either return an error, if something was wrong in the
-    backend state machines; or it will return a success code with an indication
-    of whether or not the login sequence completed OK.
-    """
-
-    def github_userdata(tokens) -> ProviderInfo:
-        gh = Github(tokens["access_token"])
-        ghuser = gh.get_user()
-
-        email = next((e.email for e in ghuser.get_emails() if e.primary), None)
-
-        return ProviderInfo(
-            ghuser.id,
-            ghuser.login,
-            name=ghuser.name,
-            avatar_url=ghuser.avatar_url,
-            email=email,
-        )
-
-    def github_postlogin(tokens, account: models.GithubAccount):
-        worker.refresh_github_repo_list.send(tokens["access_token"], account.id)
-
-    return continue_oauth_flow(
-        request,
-        login,
-        data,
-        "github",
-        models.GithubFlowToken,
-        "https://github.com/login/oauth/access_token",
-        {
-            "client_id": config.settings.github_client_id,
-            "client_secret": config.settings.github_client_secret,
-        },
-        github_userdata,
-        models.GithubAccount,
-        github_postlogin,
-    )
 
 
 def _gitlab_provider_info(url, tokens) -> ProviderInfo:
