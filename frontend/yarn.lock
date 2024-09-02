@@ -7590,10 +7590,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boring-avatars@npm:^1.10.2":
-  version: 1.10.2
-  resolution: "boring-avatars@npm:1.10.2"
-  checksum: 10c0/3613beecc44de8192aed4e3ccdf9d0794ff1a49f6d77af9827c0c73f9a5624ea896d12a02022ce530045ea410c17e02b1a916174cd78adc7923111cf4fd0c1e3
+"boring-avatars@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "boring-avatars@npm:1.11.0"
+  checksum: 10c0/cc4c548a70f08052b83291210306d27ffad3214c9c7174f2182f8edfdad1d06b0c251b5ee01f29df9b7c64f04c612420086c081f2460de88639234b6c10ee94f
   languageName: node
   linkType: hard
 
@@ -10451,7 +10451,7 @@ __metadata:
     "@types/react": "npm:^18.3.4"
     autoprefixer: "npm:^10.4.19"
     axios: "npm:^1.7.4"
-    boring-avatars: "npm:^1.10.2"
+    boring-avatars: "npm:^1.11.0"
     chromatic: "npm:^11.7.0"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.1"
