@@ -235,7 +235,7 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
 
     models.GithubFlowToken.housekeeping(db)
 
-    intermediate = login.method_intermediate
+    intermediate = login.get("method_intermediate")
     if intermediate is not None:
         intermediate = db.query(models.GithubFlowToken).get(intermediate)
 
@@ -505,7 +505,7 @@ def start_oauth_flow(
     # Okay, we're preparing a login, step one, do we already have an
     # intermediate we're using?
     flowtoken_model.housekeeping(db)
-    intermediate = login.method_intermediate
+    intermediate = login["method_intermediate"]
     if intermediate is not None:
         # Yes, retrieve it from the db
         intermediate = db.session.get(flowtoken_model, intermediate)
