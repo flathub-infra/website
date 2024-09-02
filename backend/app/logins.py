@@ -219,14 +219,10 @@ oauth.register(
 @router.get("/login/github", tags=["auth"])
 async def start_github_flow(request: Request, login: LoginStatusDep):
     if login["state"].logging_in():
-        # Already logging in to something
         if login["method"] == "github":
-            # Already logging into correct method, so assume something went squiffy
-            # and send them back with the same in-progress login
-            pass
+            pass  # Already logging into GitHub, assume something went wrong and retry
         else:
-            # Just assume things will work out for the best
-            pass
+            pass  # Assume things will work out for the best
 
     user = login["user"]
     if user is not None:
@@ -237,18 +233,61 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
                 status_code=400,
             )
 
-    return_url = config.settings.github_return_url
-    state = secrets.token_urlsafe(16)
-    request.session["oauth_state"] = state
-    authorize_redirect = await oauth.github.authorize_redirect(
-        request, return_url, state=state
-    )
-    redirect_url = authorize_redirect.headers.get("Location")
-    return {"state": "ok", "redirect": redirect_url}
+    models.GithubFlowToken.housekeeping(db)
+
+    intermediate = login.get("method_intermediate")
+    if intermediate is not None:
+        intermediate = db.query(models.GithubFlowToken).get(intermediate)
+
+    if intermediate is None:
+        state = uuid4().hex
+        intermediate = models.GithubFlowToken(
+            state=state,
+            created=datetime.now(),
+        )
+        db.add(intermediate)
+        db.commit()
+
+    oauth_args = {
+        "client_id": config.settings.github_client_id,
+        "redirect_uri": config.settings.github_return_url,
+        "scope": "user:email",
+        "state": intermediate.state,
+    }
+    args = urlencode(oauth_args)
+
+    request.session["active-login-flow"] = "github"
+    request.session["active-login-flow-intermediate"] = intermediate.id
+
+    return {
+        "state": "ok",
+        "redirect": f"https://github.com/login/oauth/authorize?{args}",
+    }
 
 
 @router.post("/login/github", tags=["auth"])
 async def auth_github(request: Request, login: LoginStatusDep):
+    flow_id = request.session.get("active-login-flow-intermediate")
+    if not flow_id:
+        return JSONResponse(
+            {"state": "error", "error": "No active login flow"},
+            status_code=400,
+        )
+
+    flow_token = db.query(models.GithubFlowToken).get(flow_id)
+    if not flow_token:
+        return JSONResponse(
+            {"state": "error", "error": "Invalid login flow"},
+            status_code=400,
+        )
+
+    received_state = request.query_params.get("state")
+    if flow_token.state != received_state:
+        return JSONResponse(
+            {"state": "error", "error": "Invalid state parameter"},
+            status_code=400,
+        )
+
     try:
         token = await oauth.github.authorize_access_token(request)
     except OAuthError as error:
@@ -295,6 +334,12 @@ async def auth_github(request: Request, login: LoginStatusDep):
         account.email = primary_email
 
     db.session.commit()
+
+    db.session.delete(flow_token)
+    db.session.commit()
+
+    request.session.pop("active-login-flow", None)
+    request.session.pop("active-login-flow-intermediate", None)
 
     request.session["user-id"] = account.user
 
