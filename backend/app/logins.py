@@ -242,7 +242,7 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
     return {"state": "ok", "redirect": redirect_url}
 
 
-@router.post("/login/github", tags=["auth"])
+@router.post("/auth/github", tags=["auth"])
 async def auth_github(request: Request, login: LoginStatusDep):
     token = await oauth.github.authorize_access_token(request)
     resp = await oauth.github.get("user", token=token)
