@@ -237,25 +237,14 @@ async def start_github_flow(request: Request, login: LoginStatusDep):
             )
 
     return_url = config.settings.github_return_url
-    state = secrets.token_urlsafe(16)
-    request.session["oauth_state"] = state
-    authorize_redirect = await oauth.github.authorize_redirect(
-        request, return_url, state=state
-    )
+    authorize_redirect = await oauth.github.authorize_redirect(request, return_url)
     redirect_url = authorize_redirect.headers.get("Location")
     return {"state": "ok", "redirect": redirect_url}
 
 
 @router.post("/login/github", tags=["auth"])
 async def auth_github(request: Request, login: LoginStatusDep):
-    try:
-        token = await oauth.github.authorize_access_token(request)
-    except OAuthError as error:
-        return JSONResponse(
-            {"state": "error", "error": str(error)},
-            status_code=400,
-        )
-
+    token = await oauth.github.authorize_access_token(request)
     resp = await oauth.github.get("user", token=token)
     profile = resp.json()
 
