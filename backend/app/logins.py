@@ -135,33 +135,33 @@ def refresh_oauth_token(account) -> str:
     """Makes sure the account has an up to date access token, refreshing it with the refresh token if needed.
     If the token is updated, db.session.commit() is called to save the change."""
 
-    if isinstance(account, models.GitlabAccount):
-        return _refresh_token(
-            account,
-            "gitlab",
-            "https://gitlab.com/oauth/token",
-            config.settings.gitlab_client_id,
-            config.settings.gitlab_client_secret,
-        )
-    elif isinstance(account, models.GnomeAccount):
-        return _refresh_token(
-            account,
-            "gnome",
-            "https://gitlab.gnome.org/oauth/token",
-            config.settings.gnome_client_id,
-            config.settings.gnome_client_secret,
-        )
-    elif isinstance(account, models.KdeAccount):
-        return _refresh_token(
-            account,
-            "gnome",
-            "https://invent.kde.org/oauth/token",
-            config.settings.kde_client_id,
-            config.settings.kde_client_secret,
-        )
-
-
-# Routers etc.
+    match account:
+        case models.GitlabAccount():
+            return _refresh_token(
+                account,
+                "gitlab",
+                "https://gitlab.com/oauth/token",
+                config.settings.gitlab_client_id,
+                config.settings.gitlab_client_secret,
+            )
+        case models.GnomeAccount():
+            return _refresh_token(
+                account,
+                "gnome",
+                "https://gitlab.gnome.org/oauth/token",
+                config.settings.gnome_client_id,
+                config.settings.gnome_client_secret,
+            )
+        case models.KdeAccount():
+            return _refresh_token(
+                account,
+                "gnome",
+                "https://invent.kde.org/oauth/token",
+                config.settings.kde_client_id,
+                config.settings.kde_client_secret,
+            )
+        case _:
+            raise ValueError(f"Unsupported account type: {type(account)}")
 
 
 router = APIRouter(prefix="/auth")
@@ -325,7 +325,7 @@ def start_oauth_flow(
             flowtoken_model.housekeeping(db)
 
     user = login["user"]
-    if user is not None:
+    if user:
         account = account_model.by_user(db, user)
         if account is not None and account.token is not None:
             return JSONResponse(
@@ -336,11 +336,11 @@ def start_oauth_flow(
     # intermediate we're using?
     flowtoken_model.housekeeping(db)
     intermediate = login["method_intermediate"]
-    if intermediate is not None:
-        # Yes, retrieve it from the db
+
+    if intermediate:
         intermediate = db.session.get(flowtoken_model, intermediate)
-    if intermediate is None:
-        # No, let's create one
+
+    if not intermediate:
         randomtoken = uuid4().hex
         intermediate = flowtoken_model(
             state=randomtoken,
