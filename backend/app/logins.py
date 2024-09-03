@@ -319,9 +319,9 @@ def start_oauth_flow(
             # and send them back with the same in-progress login
             pass
         else:
-            del request.session["user-id"]
-            del request.session["active-login-flow"]
-            del request.session["active-login-flow-intermediate"]
+            request.session.pop("user-id", None)
+            request.session.pop("active-login-flow", None)
+            request.session.pop("active-login-flow-intermediate", None)
             flowtoken_model.housekeeping(db)
 
     user = login["user"]
