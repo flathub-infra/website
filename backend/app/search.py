@@ -224,7 +224,9 @@ def get_by_developer(
         client.index("apps").search(
             "",
             {
-                "filter": [f"developer_name = '{escaped_developer}'"],
+                "filter": [
+                    f"developer_name = '{escaped_developer}' AND verification_verified = true"
+                ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
