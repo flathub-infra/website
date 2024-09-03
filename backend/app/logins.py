@@ -319,8 +319,10 @@ def start_oauth_flow(
             # and send them back with the same in-progress login
             pass
         else:
-            # Just assume things will work out for the best
-            pass
+            del request.session["user-id"]
+            del request.session["active-login-flow"]
+            del request.session["active-login-flow-intermediate"]
+            flowtoken_model.housekeeping(db)
 
     user = login["user"]
     if user is not None:
