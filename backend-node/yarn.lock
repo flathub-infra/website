@@ -1548,14 +1548,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/code-block@npm:0.0.8":
-  version: 0.0.8
-  resolution: "@react-email/code-block@npm:0.0.8"
+"@react-email/code-block@npm:0.0.9":
+  version: 0.0.9
+  resolution: "@react-email/code-block@npm:0.0.9"
   dependencies:
     prismjs: "npm:1.29.0"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/566039eee48c3bbf6bc949f3081db2c51e47603298f50c3c000f229f572abb6ddaf0f7259b1f30172084ea386729a8d19876bc52f50a4f62affbc7e4c9cd8a6e
+  checksum: 10c0/cc2f23b5a423193f29515128151aad414c572ab1bc539995a339e27b9991d5204813d5eb78a09972e782b4435af0618f4b77972ca0a4ba17ce9563a630ba7537
   languageName: node
   linkType: hard
 
@@ -1577,13 +1577,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-email/components@npm:0.0.24":
-  version: 0.0.24
-  resolution: "@react-email/components@npm:0.0.24"
+"@react-email/components@npm:0.0.25":
+  version: 0.0.25
+  resolution: "@react-email/components@npm:0.0.25"
   dependencies:
     "@react-email/body": "npm:0.0.10"
     "@react-email/button": "npm:0.0.17"
-    "@react-email/code-block": "npm:0.0.8"
+    "@react-email/code-block": "npm:0.0.9"
     "@react-email/code-inline": "npm:0.0.4"
     "@react-email/column": "npm:0.0.12"
     "@react-email/container": "npm:0.0.14"
@@ -1603,7 +1603,7 @@ __metadata:
     "@react-email/text": "npm:0.0.10"
   peerDependencies:
     react: ^18.0 || ^19.0 || ^19.0.0-rc
-  checksum: 10c0/4bd067a9e5149a2a8475c921f81c9cc505aca81c7f4a4ef5c048b5eb097bea47255bed9aa6c4598e1f03608ecac334cd5cb3149aeaaf6a7b2a6c54d129467e1b
+  checksum: 10c0/cae11479238f2efb4e9ebce8ebdd48c57ee94ad9cc4071d7116ae7aa43985038f1b02982011df51d775ec83c228725067eb1ca3a4e91dc38135441717e5e8c27
   languageName: node
   linkType: hard
 
@@ -5176,7 +5176,7 @@ __metadata:
     "@hono/sentry": "npm:^1.1.0"
     "@hono/swagger-ui": "npm:0.4.1"
     "@hono/zod-openapi": "npm:^0.16.0"
-    "@react-email/components": "npm:0.0.24"
+    "@react-email/components": "npm:0.0.25"
     "@react-email/render": "npm:1.0.1"
     "@types/html-to-text": "npm:^9.0.4"
     "@types/nodemailer": "npm:^6.4.15"
