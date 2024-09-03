@@ -4,6 +4,7 @@ from uuid import uuid4
 
 import github
 import gitlab
+import publicsuffixlist
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi_sqlalchemy import DBSessionMiddleware
@@ -119,8 +120,7 @@ def _demangle_name(name: str) -> str:
 
 def _get_domain_name(app_id: str) -> str | None:
     if _matches_prefixes(app_id, "com.github", "com.gitlab"):
-        # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's
-        # main website.
+        # These app IDs are common, and we don't want to confuse people by saying they can put a file on GitHub/GitLab's main website.
         return None
     elif _matches_prefixes(
         app_id, "io.github", "io.gitlab", "io.frama", "page.codeberg"
@@ -135,6 +135,13 @@ def _get_domain_name(app_id: str) -> str | None:
         # https://sourceforge.net/p/forge/documentation/Project%20Web%20Services/
         return f"{projectname}.{domain}.io".lower()
     else:
+        fqdn = ".".join(reversed(app_id.split("."))).lower()
+
+        psl = publicsuffixlist.PublicSuffixList()
+        if psl.is_private(fqdn):
+            return _demangle_name(psl.privatesuffix(fqdn))
+
+        # fallback to the top-level domain
         [tld, domain] = app_id.split(".")[0:2]
         domain = _demangle_name(domain)
         return f"{domain}.{tld}".lower()
