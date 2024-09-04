@@ -14,7 +14,6 @@ from . import (
     config,
     db,
     emails,
-    feed,
     invites,
     logins,
     moderation,
@@ -26,6 +25,7 @@ from . import (
     verification,
     wallet,
 )
+from .routes import feed
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
