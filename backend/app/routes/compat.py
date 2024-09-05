@@ -13,6 +13,17 @@ def register_to_app(app: FastAPI):
     app.include_router(router)
 
 
+def get_created_at(key: str):
+    with get_db("replica") as sqldb:
+        if created_at := (
+            sqldb.query(models.Apps.initial_release_at)
+            .filter(models.Apps.app_id == key)
+            .scalar()
+        ):
+            # for backwards compatibility, convert the data to string with the unix timestamp
+            return str(int(created_at.timestamp()))
+
+
 def get_short_app(key: str):
     compat_app = None
     if app := db.get_json_key(key):
@@ -25,7 +36,7 @@ def get_short_app(key: str):
             "iconMobileUrl": app.get("icon"),
             "currentReleaseVersion": None,
             "currentReleaseDate": None,
-            "inStoreSinceDate": db.redis_conn.get(f"created_at:{app_id}"),
+            "inStoreSinceDate": get_created_at(app_id),
         }
 
     return compat_app
@@ -179,7 +190,7 @@ def get_single_app(
                     release_ts
                 ).strftime("%Y-%m-%d")
 
-        if created_at := db.redis_conn.get(f"created_at:{app_id}"):
+        if created_at := get_created_at(app_id):
             compat_app["inStoreSinceDate"] = created_at
 
         if screenshots := app.get("screenshots"):
