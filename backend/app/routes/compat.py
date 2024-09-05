@@ -4,7 +4,7 @@ import requests
 from fastapi import APIRouter, BackgroundTasks, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 
-from . import apps, db, search, stats
+from .. import apps, db, search, stats
 
 router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
 
