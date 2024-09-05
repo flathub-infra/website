@@ -1,10 +1,10 @@
 from datetime import datetime
 
-import requests
 from fastapi import APIRouter, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 
-from .. import apps, db, search, stats
+from .. import db, models, search, stats
+from ..database import get_db
 
 router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
 
@@ -60,7 +60,17 @@ def get_apps_in_category(
 @router.get("/apps/collection/recently-updated", tags=["compat"])
 @router.get("/apps/collection/recently-updated/25", tags=["compat"])
 def get_recently_updated():
-    recent = apps.get_recently_updated(50)
+    with get_db("replica") as sqldb:
+        appids = (
+            sqldb.query(models.Apps.app_id)
+            .filter(models.Apps.type == "desktop")
+            .filter(models.Apps.last_updated_at.isnot(None))
+            .order_by(models.Apps.last_updated_at.desc())
+            .limit(25)
+            .all()
+        )
+
+    recent = [app_id[0] for app_id in appids]
     compat = [get_short_app(f"apps:{app_id}") for app_id in recent]
     return [app for app in compat if app]
 
@@ -68,7 +78,17 @@ def get_recently_updated():
 @router.get("/apps/collection/new", tags=["compat"])
 @router.get("/apps/collection/new/25", tags=["compat"])
 def get_recently_added():
-    added = apps.get_recently_added(50)
+    with get_db("replica") as sqldb:
+        appids = (
+            sqldb.query(models.Apps.app_id)
+            .filter(models.Apps.type == "desktop")
+            .filter(models.Apps.initial_release_at.isnot(None))
+            .order_by(models.Apps.initial_release_at.desc())
+            .limit(25)
+            .all()
+        )
+
+    added = [app_id[0] for app_id in appids]
     compat = [get_short_app(f"apps:{app_id}") for app_id in added]
     return [app for app in compat if app]
 
