@@ -112,7 +112,7 @@ def parse_metadata(ini: str):
 
 def parse_summary(summary, sqldb):
     summary_dict = defaultdict(lambda: {"arches": set(), "branch": "stable"})
-    recently_updated_zset = {}
+    updated_at_dict = {}
 
     if isinstance(summary, bytes):
         summary_data = GLib.Bytes.new(summary)
@@ -135,7 +135,7 @@ def parse_summary(summary, sqldb):
         timestamp_be_uint = struct.pack("<Q", info["ostree.commit.timestamp"])
         timestamp = struct.unpack(">Q", timestamp_be_uint)[0]
 
-        recently_updated_zset[app_id] = timestamp
+        updated_at_dict[app_id] = timestamp
         models.Apps.set_last_updated_at(
             sqldb,
             app_id,
@@ -172,7 +172,7 @@ def parse_summary(summary, sqldb):
         ):
             summary_dict[app_id]["installed_size"] += download_size
 
-    return summary_dict, recently_updated_zset, metadata
+    return summary_dict, updated_at_dict, metadata
 
 
 def update(sqldb) -> None:
@@ -183,7 +183,7 @@ def update(sqldb) -> None:
     repo.open(None)
 
     _, summary, _ = repo.remote_fetch_summary("flathub", None)
-    summary_dict, recently_updated_zset, metadata = parse_summary(summary, sqldb)
+    summary_dict, updated_at_dict, metadata = parse_summary(summary, sqldb)
 
     # The main summary file contains only x86_64 refs due to ostree file size
     # limitations. Since 2020, aarch64 is the only additional arch supported,
@@ -206,11 +206,10 @@ def update(sqldb) -> None:
             _, app_id, arch, branch = valid_ref
             summary_dict[app_id]["arches"].add(arch)
 
-    if recently_updated_zset:
-        db.redis_conn.zadd("recently_updated_zset", recently_updated_zset)
+    if updated_at_dict:
         updated: list = []
 
-        for app_id in recently_updated_zset:
+        for app_id in updated_at_dict:
             if app_id not in current_apps:
                 continue
 
@@ -220,7 +219,7 @@ def update(sqldb) -> None:
             updated.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
-                    "updated_at": recently_updated_zset[app_id],
+                    "updated_at": updated_at_dict[app_id],
                 }
             )
 
