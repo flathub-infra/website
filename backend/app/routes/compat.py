@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import requests
-from fastapi import APIRouter, BackgroundTasks, FastAPI, Path
+from fastapi import APIRouter, FastAPI, Path
 from fastapi.responses import ORJSONResponse
 
 from .. import apps, db, search, stats
@@ -11,21 +11,6 @@ router = APIRouter(prefix="/compat", default_response_class=ORJSONResponse)
 
 def register_to_app(app: FastAPI):
     app.include_router(router)
-
-
-def get_repo_creation_date(app_id: str) -> str | None:
-    key = f"created_at:{app_id}"
-    if created_at := db.redis_conn.get(key):
-        return created_at
-    else:
-        try:
-            github_repo = requests.get(f"https://api.github.com/repos/flathub/{app_id}")
-            github_repo.raise_for_status()
-            created_at = github_repo.json().get("created_at")
-            db.redis_conn.set(key, created_at)
-            return created_at
-        except requests.exceptions.RequestException:
-            pass
 
 
 def get_short_app(key: str):
@@ -130,7 +115,6 @@ def get_search(query: str = Path(min_length=2), locale: str = "en"):
 
 @router.get("/apps/{app_id}", tags=["compat"])
 def get_single_app(
-    background_tasks: BackgroundTasks,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -177,8 +161,6 @@ def get_single_app(
 
         if created_at := db.redis_conn.get(f"created_at:{app_id}"):
             compat_app["inStoreSinceDate"] = created_at
-        else:
-            background_tasks.add_task(get_repo_creation_date, app_id)
 
         if screenshots := app.get("screenshots"):
             screenshots = list(filter(None, screenshots))
