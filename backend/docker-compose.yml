@@ -78,6 +78,7 @@ services:
       - SMTP_PASSWORD=$SMTP_PASSWORD
       - EMAIL_FROM=$EMAIL_FROM
       - BACKEND_NODE_URL=${BACKEND_NODE_URL-http://backend-node:8001}
+      - IS_WORKER=true
     depends_on:
       - redis
       - db
