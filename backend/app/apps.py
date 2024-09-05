@@ -5,6 +5,7 @@ import gi
 from fastapi_sqlalchemy import db as sqldb
 
 from . import db, localize, models, schemas, search, utils
+from .database import get_db
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -214,14 +215,15 @@ def list_desktop_appstream():
 # Only used for compat
 # We're hardcoding limit to 25 as compat endpoints are being deprecated
 def get_recently_updated(limit: int = 25):
-    appids = (
-        sqldb.session.query(models.Apps.app_id)
-        .filter(models.Apps.type == "desktop")
-        .filter(models.Apps.last_updated_at.isnot(None))
-        .order_by(models.Apps.last_updated_at.desc())
-        .limit(20)
-        .all()
-    )
+    with get_db("replica") as sqldb:
+        appids = (
+            sqldb.query(models.Apps.app_id)
+            .filter(models.Apps.type == "desktop")
+            .filter(models.Apps.last_updated_at.isnot(None))
+            .order_by(models.Apps.last_updated_at.desc())
+            .limit(20)
+            .all()
+        )
 
     return [app_id[0] for app_id in appids]
 
@@ -229,14 +231,15 @@ def get_recently_updated(limit: int = 25):
 # Only used for compat
 # We're hardcoding limit to 25 as compat endpoints are being deprecated
 def get_recently_added(limit: int = 25):
-    appids = (
-        sqldb.session.query(models.Apps.app_id)
-        .filter(models.Apps.type == "desktop")
-        .filter(models.Apps.initial_release_at.isnot(None))
-        .order_by(models.Apps.initial_release_at.desc())
-        .limit(25)
-        .all()
-    )
+    with get_db("replica") as sqldb:
+        appids = (
+            sqldb.query(models.Apps.app_id)
+            .filter(models.Apps.type == "desktop")
+            .filter(models.Apps.initial_release_at.isnot(None))
+            .order_by(models.Apps.initial_release_at.desc())
+            .limit(25)
+            .all()
+        )
 
     return [app_id[0] for app_id in appids]
 
