@@ -4,7 +4,7 @@ from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
 
 from .. import db, models
-from ..database import get_db_session
+from ..database import get_db
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -46,8 +46,6 @@ def get_new_apps_feed():
 
 
 def generate_feed(column_name: str, title: str, description: str, link: str):
-    sqldb = get_db_session()
-
     feed = FeedGenerator()
     feed.title(title)
     feed.description(description)
@@ -56,13 +54,14 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
 
     column = getattr(models.Apps, column_name)
 
-    appids = (
-        sqldb.query(models.Apps)
-        .filter(column.isnot(None))
-        .order_by(column.desc())
-        .limit(10)
-        .all()
-    )
+    with get_db("replica") as sqldb:
+        appids = (
+            sqldb.query(models.Apps)
+            .filter(column.isnot(None))
+            .order_by(column.desc())
+            .limit(10)
+            .all()
+        )
 
     appids_for_frontend: List[Tuple[str, datetime]] = [
         (app.app_id, getattr(app, column_name))
