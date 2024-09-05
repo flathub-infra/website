@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect, useRef, useState } from "react"
+import { FunctionComponent, useCallback, useState } from "react"
 import { getIntlLocale } from "../../localize"
 
 import { Release } from "../../types/Appstream"
@@ -44,14 +44,15 @@ const ReleaseLink = ({
 }
 
 const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
-  const ref = useRef(null)
   const { t, i18n } = useTranslation()
   const collapsedHeight = 46
   const [showCollapseButton, setShowCollapseButton] = useState(false)
 
-  useEffect(() => {
-    setShowCollapseButton(ref.current.scrollHeight > collapsedHeight)
-  }, [ref])
+  const ref = useCallback((node) => {
+    if (node !== null) {
+      setShowCollapseButton(node.scrollHeight > collapsedHeight)
+    }
+  }, [])
 
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
