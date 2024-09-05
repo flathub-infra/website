@@ -1,11 +1,10 @@
 from typing import TYPE_CHECKING, List, Tuple
 
-from fastapi import APIRouter, Depends, FastAPI, Response
+from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
-from sqlalchemy.orm import Session
 
-from .. import models
-from ..database import get_db
+from .. import db, models
+from ..database import get_db_session
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -18,9 +17,8 @@ def register_to_app(app: FastAPI):
 
 
 @router.get("/recently-updated", tags=["feed"])
-def get_recently_updated_apps_feed(db: Session = Depends(get_db)):
+def get_recently_updated_apps_feed():
     feed = generate_feed(
-        db,
         "last_updated_at",
         "Flathub – recently updated applications",
         "Recently updated applications published on Flathub",
@@ -34,9 +32,8 @@ def get_recently_updated_apps_feed(db: Session = Depends(get_db)):
 
 
 @router.get("/new", tags=["feed"])
-def get_new_apps_feed(db: Session = Depends(get_db)):
+def get_new_apps_feed():
     feed = generate_feed(
-        db,
         "initial_release_at",
         "Flathub – recently added applications",
         "Applications recently published on Flathub",
@@ -48,9 +45,9 @@ def get_new_apps_feed(db: Session = Depends(get_db)):
     )
 
 
-def generate_feed(
-    db: Session, column_name: str, title: str, description: str, link: str
-):
+def generate_feed(column_name: str, title: str, description: str, link: str):
+    sqldb = get_db_session()
+
     feed = FeedGenerator()
     feed.title(title)
     feed.description(description)
@@ -60,7 +57,7 @@ def generate_feed(
     column = getattr(models.Apps, column_name)
 
     appids = (
-        db.query(models.Apps)
+        sqldb.query(models.Apps)
         .filter(column.isnot(None))
         .order_by(column.desc())
         .limit(10)
