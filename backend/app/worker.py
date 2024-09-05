@@ -116,9 +116,6 @@ def update():
                     ),
                 )
 
-    if apps_created_at:
-        db.redis_conn.zadd("new_apps_zset", apps_created_at)
-
     search_added_at = []
     for app_id, value in apps_created_at.items():
         if app_id not in current_apps:
