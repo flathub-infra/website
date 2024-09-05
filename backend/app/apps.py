@@ -2,7 +2,6 @@ import json
 import re
 
 import gi
-from fastapi_sqlalchemy import db as sqldb
 
 from . import db, localize, models, schemas, search, utils
 
