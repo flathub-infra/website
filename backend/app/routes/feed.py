@@ -45,24 +45,25 @@ def get_new_apps_feed():
     )
 
 
-def generate_feed(column: str, title: str, description: str, link: str):
+def generate_feed(column_name: str, title: str, description: str, link: str):
     feed = FeedGenerator()
     feed.title(title)
     feed.description(description)
     feed.link(href=link)
     feed.language("en")
 
-    order_by_column = getattr(models.Apps, column)
+    column = getattr(models.Apps, column_name)
 
     appids = (
         sqldb.session.query(models.Apps)
-        .order_by(order_by_column.desc())
+        .filter(column.isnot(None))
+        .order_by(column.desc())
         .limit(10)
         .all()
     )
 
     appids_for_frontend: List[Tuple[str, datetime]] = [
-        (app.app_id, getattr(app, column))
+        (app.app_id, getattr(app, column_name))
         for app in appids
         if db.is_appid_for_frontend(app.app_id)
     ]
