@@ -1202,13 +1202,13 @@ files = [
 
 [[package]]
 name = "publicsuffixlist"
-version = "1.0.2.20240903"
+version = "1.0.2.20240905"
 description = "publicsuffixlist implement"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "publicsuffixlist-1.0.2.20240903-py2.py3-none-any.whl", hash = "sha256:d4436dead5f6da280eb0d3e4139a0f30077ba4bff2de837c91ff58d40af7e705"},
-    {file = "publicsuffixlist-1.0.2.20240903.tar.gz", hash = "sha256:99c7f35974ef30a5dbe57739736a7078e16e304f0a520b7234fa11b2cc5fec40"},
+    {file = "publicsuffixlist-1.0.2.20240905-py2.py3-none-any.whl", hash = "sha256:a94d6831c5ea0e03075aa83ac3c755cb975c793d7fb530b6dc65e1db52466db1"},
+    {file = "publicsuffixlist-1.0.2.20240905.tar.gz", hash = "sha256:a834fe92c4b0264832795265de1a9cda9e2e3eec7c1a3b2ae9c9d6fd24383431"},
 ]
 
 [package.extras]
@@ -2338,4 +2338,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "28fcec8fe61ecee50ee12645ed25ee9ab87c23b6258ce9a1fac98cdeb94cd4d9"
+content-hash = "f94969a65ac86a18fa1537abc1b299986ab3c1149d569d4c660c083d01e1f804"
