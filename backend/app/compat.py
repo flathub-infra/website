@@ -73,7 +73,7 @@ def get_apps_in_category(
 
 
 @router.get("/apps/collection/recently-updated", tags=["compat"])
-@router.get("/apps/collection/recently-updated/50", tags=["compat"])
+@router.get("/apps/collection/recently-updated/25", tags=["compat"])
 def get_recently_updated():
     recent = apps.get_recently_updated(50)
     compat = [get_short_app(f"apps:{app_id}") for app_id in recent]
@@ -81,25 +81,9 @@ def get_recently_updated():
 
 
 @router.get("/apps/collection/new", tags=["compat"])
-@router.get("/apps/collection/new/50", tags=["compat"])
+@router.get("/apps/collection/new/25", tags=["compat"])
 def get_recently_added():
     added = apps.get_recently_added(50)
-    compat = [get_short_app(f"apps:{app_id}") for app_id in added]
-    return [app for app in compat if app]
-
-
-@router.get("/apps/collection/recently-updated-postgres", tags=["compat"])
-@router.get("/apps/collection/recently-updated-postgres/50", tags=["compat"])
-def get_recently_updated_postgres():
-    recent = apps.get_recently_updated_postgres(50)
-    compat = [get_short_app(f"apps:{app_id}") for app_id in recent]
-    return [app for app in compat if app]
-
-
-@router.get("/apps/collection/new-postgres", tags=["compat"])
-@router.get("/apps/collection/new-postgres/50", tags=["compat"])
-def get_recently_added_postgres():
-    added = apps.get_recently_added_postgres(50)
     compat = [get_short_app(f"apps:{app_id}") for app_id in added]
     return [app for app in compat if app]
 

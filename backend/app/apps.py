@@ -212,33 +212,14 @@ def list_desktop_appstream():
 
 
 # Only used for compat
-def get_recently_updated(limit: int = 100):
-    zset = db.redis_conn.zrevrange("recently_updated_zset", 0, limit - 1)
-    return [
-        app_id
-        for app_id in zset
-        if db.redis_conn.exists("types:desktop-application", f"apps:{app_id}")
-        or db.redis_conn.exists("types:desktop", f"apps:{app_id}")
-    ]
-
-
-# Only used for compat
-def get_recently_added(limit: int = 100):
-    zset = db.redis_conn.zrevrange("new_apps_zset", 0, limit - 1)
-    return [
-        app_id
-        for app_id in zset
-        if db.redis_conn.exists("types:desktop-application", f"apps:{app_id}")
-        or db.redis_conn.exists("types:desktop", f"apps:{app_id}")
-    ]
-
-
-def get_recently_updated_postgres(limit: int = 100):
+# We're hardcoding limit to 25 as compat endpoints are being deprecated
+def get_recently_updated(limit: int = 25):
     appids = (
         sqldb.session.query(models.Apps.app_id)
         .filter(models.Apps.type == "desktop")
+        .filter(models.Apps.last_updated_at.isnot(None))
         .order_by(models.Apps.last_updated_at.desc())
-        .limit(limit)
+        .limit(20)
         .all()
     )
 
@@ -246,12 +227,14 @@ def get_recently_updated_postgres(limit: int = 100):
 
 
 # Only used for compat
-def get_recently_added_postgres(limit: int = 100):
+# We're hardcoding limit to 25 as compat endpoints are being deprecated
+def get_recently_added(limit: int = 25):
     appids = (
         sqldb.session.query(models.Apps.app_id)
         .filter(models.Apps.type == "desktop")
+        .filter(models.Apps.initial_release_at.isnot(None))
         .order_by(models.Apps.initial_release_at.desc())
-        .limit(limit)
+        .limit(25)
         .all()
     )
 
