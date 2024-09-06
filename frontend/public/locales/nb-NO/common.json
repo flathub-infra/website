@@ -592,5 +592,13 @@
   "organizations-and-infrastructure": "Organisasjoner og infrastruktur",
   "special-license-explanation": "Denne appen utgis under den spesielle lisensen <1>{{ license }}</1>.",
   "you-may-or-may-not-be-able-to-contribute": "Du kan sannsynligvis ikke hjelpe til med å forbedre den.",
-  "flathub-statistics-description": "En oversikt over bruken og fordelingen av tilgjengelige apper."
+  "flathub-statistics-description": "En oversikt over bruken og fordelingen av tilgjengelige apper.",
+  "can-listen-using-microphones-without-asking-permission": "Kan lytte med mikrofon uten å be om tillatelse",
+  "slide": "Lysbilde",
+  "setup": "Oppsett",
+  "carousel": "Karusell",
+  "microphone-access": "Mikrofontilgang",
+  "screen-contents-access": "Skjermtilgang",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Kan se innhold på skjermen eller i vinduer",
+  "more-pages": "Flere sider"
 }

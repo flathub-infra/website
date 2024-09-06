@@ -597,5 +597,8 @@
   "more-pages": "Mehr Seiten",
   "carousel": "Karussell",
   "slide": "Dia",
-  "microphone-access": "Mikrofonzugriff"
+  "microphone-access": "Mikrofonzugriff",
+  "screen-contents-access": "Zugriff auf Bildschirminhalte",
+  "can-listen-using-microphones-without-asking-permission": "Kann über Mikrofone zuhören, ohne um Berechtigung zu fragen",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Kann auf den Inhalt des Bildschirms oder anderer Fenster zugreifen"
 }
