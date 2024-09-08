@@ -93,6 +93,7 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
         "\n"
         f"> {comment}"
         "\n"
+        "\nPlease tag @flathub/build-moderation on GitHub for any help.\n"
         "## Changes\n"
         "| Field | Old value | New value |\n"
         "| --- | --- | --- |\n"
