@@ -89,11 +89,10 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
 
     title = f"Change in build {build_id} rejected"
     body = (
-        f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team, and rejected for the following reason:\n"
+        f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team (@flathub/build-moderation), and rejected for the following reason:\n"
         "\n"
         f"> {comment}"
         "\n"
-        "\nPlease tag @flathub/build-moderation on GitHub for any help.\n"
         "## Changes\n"
         "| Field | Old value | New value |\n"
         "| --- | --- | --- |\n"
