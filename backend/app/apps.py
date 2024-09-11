@@ -114,17 +114,14 @@ def show_in_frontend(app: dict) -> bool:
 def load_appstream(sqldb) -> None:
     apps, apps_locale = utils.appstream2dict()
 
-    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
-    current_types = db.redis_conn.smembers("types:index")
+    current_apps = get_appids()
 
     with db.redis_conn.pipeline() as p:
         p.delete("developers:index")
-        p.delete("types:index")
-        for type in current_types:
-            p.delete(f"types:{type}")
 
         search_apps = []
         postgres_apps = []
+
         for app_id in apps:
             redis_key = f"apps:{app_id}"
 
@@ -143,19 +140,11 @@ def load_appstream(sqldb) -> None:
             p.set(redis_key, json.dumps(apps[app_id]))
 
             if type := apps[app_id].get("type"):
-                # TODO: standardize around desktop-application
-                if type == "desktop-application":
-                    type = "desktop"
-
-                p.sadd("types:index", type)
-                p.sadd(f"types:{type}", redis_key)
+                # "desktop" dates back to appstream-glib, need to handle that for backwards compat
+                if type == "desktop":
+                    type = "desktop-application"
             else:
                 type = None
-
-            # only used for compat
-            if categories := apps[app_id].get("categories"):
-                for category in categories:
-                    p.sadd(f"categories:{category}", redis_key)
 
             postgres_apps.append(
                 {
@@ -167,14 +156,9 @@ def load_appstream(sqldb) -> None:
                 if app_id in value:
                     p.set(f"apps_locale:{app_id}:{locale}", json.dumps(value[app_id]))
 
+            models.Apps.set_app(sqldb, app_id, type)
+
         search.create_or_update_apps(search_apps)
-
-        for app in postgres_apps:
-            # TODO: standardize around desktop-application
-            if app["type"] == "desktop-application":
-                app["type"] = "desktop"
-
-            models.Apps.set_app(sqldb, app["app_id"], app["type"])
 
         apps_to_delete_from_search = []
         for app_id in current_apps - set(apps):
@@ -190,8 +174,6 @@ def load_appstream(sqldb) -> None:
         for app_id in current_apps - set(apps):
             models.Apps.delete_app(sqldb, app_id)
 
-        p.delete("apps:index")
-        p.sadd("apps:index", *[f"apps:{app_id}" for app_id in apps])
         p.execute()
 
 
@@ -218,11 +200,17 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
     ):
         extension_ids = list(summary["metadata"]["extensions"].keys())
 
-        apps = {app[5:] for app in db.redis_conn.smembers("types:addon")}
+        with database.get_db() as sqldb:
+            addons = set(
+                addon.app_id
+                for addon in sqldb.session.query(models.Apps.app_id)
+                .filter(models.Apps.type == "addon")
+                .all()
+            )
 
-        for app in apps:
+        for addon in addons:
             for extension_id in extension_ids:
-                if app.startswith(extension_id):
-                    result.append(app)
+                if addon.startswith(extension_id):
+                    result.append(addon)
 
     return result
