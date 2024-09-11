@@ -73,7 +73,7 @@ def update():
         summary.update(sqldb)
     exceptions.update()
 
-    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+    current_apps = apps.get_appids()
     apps_created_at = {}
 
     for app_id in current_apps:
@@ -198,7 +198,7 @@ def send_one_email_new(message: dict, dest: str):
 @dramatiq.actor
 def update_quality_moderation():
     with WorkerDB() as sqldb:
-        appids = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+        appids = apps.get_appids()
 
         if not appids:
             return
