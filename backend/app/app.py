@@ -130,7 +130,7 @@ def get_eol_message_appid(
 
 @router.get("/appstream", tags=["app"])
 def list_appstream() -> list[str]:
-    return apps.list_desktop_appstream()
+    return apps.get_appids()
 
 
 def get_translation(
