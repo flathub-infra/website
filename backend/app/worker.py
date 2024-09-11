@@ -101,22 +101,23 @@ def update():
                     datetime.fromtimestamp(float(created_at)),
                 )
 
-    search_added_at = []
-    for app_id, value in apps_created_at.items():
-        if app_id not in current_apps:
-            continue
+    if apps_created_at:
+        search_added_at = []
+        for app_id, value in apps_created_at.items():
+            if app_id not in current_apps:
+                continue
 
-        if not db.is_appid_for_frontend(app_id):
-            continue
+            if not db.is_appid_for_frontend(app_id):
+                continue
 
-        search_added_at.append(
-            {
-                "id": utils.get_clean_app_id(app_id),
-                "added_at": int(value),
-            }
-        )
+            search_added_at.append(
+                {
+                    "id": utils.get_clean_app_id(app_id),
+                    "added_at": int(value),
+                }
+            )
 
-    search.create_or_update_apps(search_added_at)
+        search.create_or_update_apps(search_added_at)
 
 
 @dramatiq.actor
