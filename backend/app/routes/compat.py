@@ -42,32 +42,6 @@ def get_short_app(key: str):
     return compat_app
 
 
-def list_apps_in_index(index="types:desktop"):
-    appids = sorted(db.redis_conn.smembers(index))
-    ret = []
-
-    for app_id in appids:
-        if app := get_short_app(app_id):
-            ret.append(app)
-
-    return ret
-
-
-@router.get("/apps", tags=["compat"])
-def get_apps():
-    return list_apps_in_index()
-
-
-@router.get("/apps/category/{category}", tags=["compat"])
-def get_apps_in_category(
-    category: str = Path(
-        min_length=2,
-        examples=["Games"],
-    ),
-):
-    return list_apps_in_index(f"categories:{category}")
-
-
 @router.get("/apps/collection/recently-updated", tags=["compat"])
 @router.get("/apps/collection/recently-updated/25", tags=["compat"])
 def get_recently_updated():
