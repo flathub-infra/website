@@ -95,10 +95,8 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 
 # keep in sync with db.is_appid_for_frontend
 def show_in_frontend(app: dict) -> bool:
-    if app.get("type") == "desktop":
-        return True
-
-    if app.get("type") == "desktop-application":
+    # this is executed before we normalize the desktop type to desktop-application
+    if app.get("type") in ("desktop-application", "desktop"):
         return True
 
     if (
@@ -161,7 +159,7 @@ def load_appstream(sqldb) -> None:
         search.create_or_update_apps(search_apps)
 
         apps_to_delete_from_search = []
-        for app_id in current_apps - set(apps):
+        for app_id in set(current_apps) - set(apps):
             p.delete(
                 f"apps:{app_id}",
                 f"apps_locale:{app_id}",
@@ -169,10 +167,9 @@ def load_appstream(sqldb) -> None:
                 f"app_stats:{app_id}",
             )
             apps_to_delete_from_search.append(utils.get_clean_app_id(app_id))
-        search.delete_apps(apps_to_delete_from_search)
-
-        for app_id in current_apps - set(apps):
             models.Apps.delete_app(sqldb, app_id)
+
+        search.delete_apps(apps_to_delete_from_search)
 
         p.execute()
 
@@ -182,7 +179,9 @@ def get_appids() -> list[str]:
         current_apps = set(
             app.app_id
             for app in sqldb.query(models.Apps.app_id)
-            .filter(models.Apps.type.in_(["desktop", "console-application"]))
+            .filter(
+                models.Apps.type.in_(["desktop-application", "console-application"])
+            )
             .all()
         )
     return list(current_apps)

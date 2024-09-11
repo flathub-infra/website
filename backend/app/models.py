@@ -1855,6 +1855,7 @@ class Apps(Base):
             "generic",
             "runtime",
             "addon",
+            "desktop-application",
             name="app_type",
         ),
         nullable=False,

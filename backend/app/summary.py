@@ -179,7 +179,7 @@ def update(sqldb) -> None:
     current_apps = set(
         app.app_id
         for app in sqldb.session.query(models.Apps.app_id)
-        .filter(models.Apps.type.in_(["desktop", "console-application"]))
+        .filter(models.Apps.type.in_(["desktop-application", "console-application"]))
         .all()
     )
 
