@@ -176,7 +176,12 @@ def parse_summary(summary, sqldb):
 
 
 def update(sqldb) -> None:
-    current_apps = {app[5:] for app in db.redis_conn.smembers("apps:index")}
+    current_apps = set(
+        app.app_id
+        for app in sqldb.session.query(models.Apps.app_id)
+        .filter(models.Apps.type.in_(["desktop", "console-application"]))
+        .all()
+    )
 
     repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
     repo = OSTree.Repo.new(repo_file)
