@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import gi
 
-from . import config, configParserCustom, db, models, search, utils
+from . import apps, config, configParserCustom, db, models, search, utils
 
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree
@@ -176,12 +176,7 @@ def parse_summary(summary, sqldb):
 
 
 def update(sqldb) -> None:
-    current_apps = set(
-        app.app_id
-        for app in sqldb.session.query(models.Apps.app_id)
-        .filter(models.Apps.type.in_(["desktop-application", "console-application"]))
-        .all()
-    )
+    current_apps = set(apps.get_appids())
 
     repo_file = Gio.File.new_for_path(f"{config.settings.flatpak_user_dir}/repo")
     repo = OSTree.Repo.new(repo_file)
