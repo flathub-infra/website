@@ -25,8 +25,7 @@ from pydantic import BaseModel
 from sqlalchemy import func
 from starlette.middleware.sessions import SessionMiddleware
 
-from . import config, models, worker
-from . import db as apps_db
+from . import apps, config, models, worker
 from .emails import EmailCategory
 from .login_info import (
     LoginInformation,
@@ -899,7 +898,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
 
     default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
 
-    appstream = [app[5:] for app in apps_db.redis_conn.smembers("apps:index")]
+    appstream = apps.get_appids()
     dev_flatpaks = user.dev_flatpaks(db)
     permissions = user.permissions()
     owned_flatpaks = {
