@@ -195,7 +195,7 @@ def load_appstream(sqldb) -> None:
         p.execute()
 
 
-def list_desktop_appstream() -> list[str]:
+def get_appids() -> list[str]:
     with database.get_db() as sqldb:
         current_apps = set(
             app.app_id
