@@ -1,4 +1,3 @@
-import contextlib
 import random
 import typing as T
 from datetime import datetime, timedelta
@@ -81,22 +80,12 @@ def update():
         if not db.is_appid_for_frontend(app_id):
             continue
 
-        # created_at keys were used by the old backend to store the repository
-        # creation date; attempt to re-use that by checking if it's string
-        # and converting it to Unix timestamp, then rewriting to that form in
-        # Redis
-        if created_at := db.redis_conn.get(f"created_at:{app_id}"):
-            if isinstance(created_at, str):
-                with contextlib.suppress(ValueError):
-                    created_at = int(created_at)
-
-            if isinstance(created_at, str):
-                try:
-                    created_at_format = "%Y-%m-%dT%H:%M:%SZ"
-                    created_at_dt = datetime.strptime(created_at, created_at_format)
-                    created_at = int(created_at_dt.timestamp())
-                except (ValueError, TypeError):
-                    created_at = None
+        with WorkerDB() as sqldb:
+            created_at = (
+                sqldb.session.query(models.Apps.initial_release_at)
+                .filter(models.Apps.app_id == app_id)
+                .scalar()
+            )
 
         if not created_at:
             if metadata := db.get_json_key(f"summary:{app_id}:stable"):
@@ -104,16 +93,12 @@ def update():
             else:
                 created_at = int(datetime.utcnow().timestamp())
 
-        if created_at:
-            db.redis_conn.set(f"created_at:{app_id}", created_at)
             apps_created_at[app_id] = float(created_at)
             with WorkerDB() as sqldb:
                 models.Apps.set_initial_release_at(
                     sqldb,
                     app_id,
-                    datetime.fromtimestamp(
-                        float(created_at),
-                    ),
+                    datetime.fromtimestamp(float(created_at)),
                 )
 
     search_added_at = []
