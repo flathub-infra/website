@@ -3,7 +3,7 @@ import re
 
 import gi
 
-from . import db, localize, models, schemas, search, utils
+from . import database, db, localize, models, schemas, search, utils
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -195,19 +195,15 @@ def load_appstream(sqldb) -> None:
         p.execute()
 
 
-# Only used for sitemap
-def list_desktop_appstream():
-    apps_desktop = {app[5:] for app in db.redis_conn.smembers("types:desktop")}
-    apps_desktop_application = {
-        app[5:] for app in db.redis_conn.smembers("types:desktop-application")
-    }
-    apps_console_application = {
-        app[5:] for app in db.redis_conn.smembers("types:console-application")
-    }
-
-    return sorted(
-        list(apps_desktop | apps_desktop_application | apps_console_application)
-    )
+def list_desktop_appstream() -> list[str]:
+    with database.get_db() as sqldb:
+        current_apps = set(
+            app.app_id
+            for app in sqldb.query(models.Apps.app_id)
+            .filter(models.Apps.type.in_(["desktop", "console-application"]))
+            .all()
+        )
+    return list(current_apps)
 
 
 def get_addons(app_id: str, branch: str = "stable") -> list[str]:
