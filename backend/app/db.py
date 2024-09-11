@@ -2,8 +2,10 @@ import time
 
 import orjson
 import redis
+from sqlalchemy import or_
 
-from . import config
+from . import config, models
+from .database import get_db
 
 redis_conn = redis.Redis(
     db=config.settings.redis_db,
@@ -45,28 +47,41 @@ def get_developers():
 
 
 def get_all_appids_for_frontend():
-    return {
-        app_id[5:]
-        for app_id in redis_conn.smembers("apps:index")
-        if is_appid_for_frontend(app_id[5:])
-    }
+    appids = []
+
+    with get_db() as sqldb:
+        apps = (
+            sqldb.query(models.Apps.app_id, models.Apps.type)
+            .filter(
+                or_(
+                    models.Apps.type == "desktop",
+                    models.Apps.type == "console-application",
+                )
+            )
+            .all()
+        )
+
+    for app in apps:
+        if app.type == "desktop":
+            appids.append(app.app_id)
+        elif app.type == "console-application" and is_appid_for_frontend(app.app_id):
+            appids.append(app.app_id)
+
+    return appids
 
 
-# keep in sync with show_in_frontend
 def is_appid_for_frontend(app_id: str):
-    if redis_conn.sismember("types:desktop", f"apps:{app_id}"):
+    with get_db() as sqldb:
+        app_type = (
+            sqldb.query(models.Apps.type).filter(models.Apps.app_id == app_id).scalar()
+        )
+
+    if app_type == "desktop":
         return True
 
-    if redis_conn.sismember("types:desktop-application", f"apps:{app_id}"):
-        return True
-
-    # get app from redis
-    if app := get_json_key(f"apps:{app_id}"):
-        if (
-            app.get("type") == "console-application"
-            and app.get("icon")
-            and app.get("screenshots")
-        ):
+    if app_type == "console-application":
+        app_data = get_json_key(f"apps:{app_id}")
+        if app_data and app_data.get("icon") and app_data.get("screenshots"):
             return True
 
     return False
