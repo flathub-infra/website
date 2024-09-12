@@ -202,7 +202,7 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
         with database.get_db() as sqldb:
             addons = set(
                 addon.app_id
-                for addon in sqldb.session.query(models.Apps.app_id)
+                for addon in sqldb.query(models.Apps.app_id)
                 .filter(models.Apps.type == "addon")
                 .all()
             )
