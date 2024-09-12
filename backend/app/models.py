@@ -2002,7 +2002,7 @@ class Apps(Base):
             )
             .where(
                 or_(
-                    Apps.type == "desktop",
+                    Apps.type == "desktop-application",
                     Apps.type == "console-application",
                 )
             )
