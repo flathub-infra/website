@@ -1,6 +1,6 @@
 import { useCollapse } from "@collapsed/react"
 import clsx from "clsx"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 
@@ -16,11 +16,11 @@ export const Description = ({ app, isQualityModalOpen }) => {
 
   const [scrollHeight, setScrollHeight] = useState(0)
 
-  const ref = useRef(null)
-
-  useEffect(() => {
-    setScrollHeight(ref.current.scrollHeight)
-  }, [ref])
+  const ref = useCallback((node) => {
+    if (node !== null) {
+      setScrollHeight(node.scrollHeight)
+    }
+  }, [])
 
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse({
     collapsedHeight: collapsedHeight,
