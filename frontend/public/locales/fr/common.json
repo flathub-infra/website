@@ -596,5 +596,7 @@
   "danger-zone": "Zone de danger",
   "not-onboarded": "Merci de vous enregistrer au préalable",
   "microphone-access": "Accès au microphone",
-  "screen-contents-access": "Accès au contenu de l'écran"
+  "screen-contents-access": "Accès au contenu de l'écran",
+  "can-listen-using-microphones-without-asking-permission": "Peut écouter à l’aide de microphones sans demander la permission",
+  "can-access-the-contents-of-the-screen-or-other-windows": "Peut accéder au contenu de l’écran ou d’autres fenêtres"
 }

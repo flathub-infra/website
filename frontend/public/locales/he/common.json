@@ -423,5 +423,19 @@
   "invite-pending": "הזמנה ממתינה",
   "leave": "עזיבה",
   "app-id": "מזהה יישום",
-  "moderation-build-id": "מזהה בנייה"
+  "moderation-build-id": "מזהה בנייה",
+  "more-new": "עוד חדשים",
+  "more-updated": "עוד עדכניים",
+  "more-office": "עוד כלי הפקה",
+  "more-trending": "עוד מובילים",
+  "more-popular": "עוד נפוצים",
+  "more-graphics": "עוד גרפיקה וצילום",
+  "more-audiovideo": "עוד וידאו ושמע",
+  "more-education": "עוד לימודי",
+  "more-game": "עוד משחקים",
+  "more-network": "עוד תקשורת",
+  "more-utility": "עוד עזרים",
+  "invite-code": "קוד ההזמנה שלך הוא:",
+  "more-science": "עוד מדעי",
+  "more-system": "עוד מערכת"
 }
