@@ -15,7 +15,7 @@
     "@hono/zod-openapi": "^0.16.0",
     "@react-email/components": "0.0.25",
     "@react-email/render": "1.0.1",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
     "hono": "^4.6.1",
     "nodemailer": "6.9.15",
