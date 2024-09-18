@@ -1,7 +1,6 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import VendingSharesPreview from "./VendingSharesPreview"
-import { faker } from "@faker-js/faker"
 
 export default {
   title: "Components/Application/VendingSharesPreview",

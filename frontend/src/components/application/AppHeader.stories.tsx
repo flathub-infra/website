@@ -3,7 +3,7 @@ import { Meta } from "@storybook/react"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
 import { Appstream } from "../../../src/types/Appstream"
-import { VendingSetup } from "../../../src/types/Vending"
+import { VendingSetup } from "../../codegen/model"
 
 export default {
   title: "Components/Application/AppHeader",
@@ -79,7 +79,7 @@ export const WithVending = () => {
   }
 
   const vending: VendingSetup = {
-    recommended_donation: faker.commerce.price(),
+    recommended_donation: faker.number.int({ min: 1, max: 150 }),
   }
 
   return (
