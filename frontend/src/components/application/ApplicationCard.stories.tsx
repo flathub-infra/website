@@ -4,6 +4,7 @@ import { faker } from "@faker-js/faker"
 import type { Meta, StoryObj } from "@storybook/react"
 
 const meta: Meta<typeof ApplicationCard> = {
+  title: "Components/ApplicationCard",
   component: ApplicationCard,
 }
 

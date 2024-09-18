@@ -3,6 +3,7 @@ import { ApplicationCardSkeleton } from "./ApplicationCard"
 import type { Meta, StoryObj } from "@storybook/react"
 
 const meta: Meta<typeof ApplicationCardSkeleton> = {
+  title: "Components/ApplicationCardSkeleton",
   component: ApplicationCardSkeleton,
 }
 
