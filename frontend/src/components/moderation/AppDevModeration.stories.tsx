@@ -1,7 +1,6 @@
 import React from "react"
 import { Meta } from "@storybook/react"
 import { AppDevModeration } from "./AppDevModeration"
-import { faker } from "@faker-js/faker"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 const queryClient = new QueryClient({
