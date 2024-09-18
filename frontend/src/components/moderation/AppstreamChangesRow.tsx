@@ -131,7 +131,7 @@ const TableRow = ({
 }
 
 const DiffRow = ({
-  valueKey: valueKey,
+  valueKey,
   request,
 }: {
   valueKey: string
@@ -159,6 +159,7 @@ const DiffRow = ({
 
     return (
       <TableRow
+        key={valueKey}
         valueKey={valueKey}
         is_new_submission={request.is_new_submission}
         currentValueList={currentValueList}
@@ -167,7 +168,32 @@ const DiffRow = ({
     )
   }
 
-  // handle mapped strings
+  if (
+    typeof currentValues === "string" ||
+    typeof newValues === "string" ||
+    typeof currentValues === "boolean" ||
+    typeof newValues === "boolean"
+  ) {
+    const diffString = diff(
+      currentValues?.toString() ?? "",
+      newValues?.toString() ?? "",
+    )
+
+    return (
+      <tr>
+        <td className="align-top">{valueKey}</td>
+        {!request.is_new_submission && (
+          <td className="align-top">
+            <MarkDiff diff={diffString} type="old" />
+          </td>
+        )}
+        <td className="align-top">
+          <MarkDiff diff={diffString} type="new" />
+        </td>
+      </tr>
+    )
+  }
+
   if (typeof currentValues === "object" || typeof newValues === "object") {
     const uniqueKeys = Array.from(
       new Set([
@@ -210,25 +236,6 @@ const DiffRow = ({
       </>
     )
   }
-
-  const diffString = diff(
-    currentValues.toString() ?? "",
-    newValues.toString() ?? "",
-  )
-
-  return (
-    <tr>
-      <td className="align-top">{valueKey}</td>
-      {!request.is_new_submission && (
-        <td className="align-top">
-          <MarkDiff diff={diffString} type="old" />
-        </td>
-      )}
-      <td className="align-top">
-        <MarkDiff diff={diffString} type="new" />
-      </td>
-    </tr>
-  )
 }
 
 const AppstreamChangesRow: FunctionComponent<Props> = ({ request }) => {

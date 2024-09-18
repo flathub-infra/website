@@ -13,35 +13,33 @@ export default {
   component: AppDevModeration,
   decorators: [
     (Story) => {
-      queryClient.setQueryData(["moderation", "tv.abc.TestApp", 0], {
+      queryClient.setQueryData(["moderation", "tv.abc.TestApp", 10, 0], {
         data: {
           requests: [
             {
+              id: 1332,
+              app_id: "org.kde.kstars",
+              created_at: "2024-09-17T06:47:06.087839",
+              build_id: 130350,
+              job_id: 234976,
+              is_outdated: false,
               request_type: "appdata",
               request_data: {
-                keys: {
-                  name: "My Awesome Test App",
-                },
+                keys: { developer_name: "KDE" },
                 current_values: {
-                  name: "Test App",
+                  name: "KStars",
+                  summary: "Desktop Planetarium",
+                  developer_name: null,
+                  project_license: "GPL-2.0+",
                 },
               },
-              id: 1,
-              app_id: "tv.abc.TestApp",
-              created_at: faker.date.past().toISOString(),
-
-              build_id: faker.number.int(),
-              job_id: faker.number.int(),
-              is_outdated: false,
-
               is_new_submission: false,
-
-              handled_by: "Kolja",
-              handled_at: faker.date.past().toISOString(),
-              is_approved: false,
-              comment: null,
+              handled_by: "Bartłomiej Piotrowski",
+              handled_at: "2024-09-17T08:02:23.399999",
+              is_approved: true,
             },
           ],
+          requests_count: 1,
         },
       })
       return (
