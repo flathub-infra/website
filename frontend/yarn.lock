@@ -5152,6 +5152,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/addon-a11y@npm:^8.3.1":
+  version: 8.3.1
+  resolution: "@storybook/addon-a11y@npm:8.3.1"
+  dependencies:
+    "@storybook/addon-highlight": "npm:8.3.1"
+    axe-core: "npm:^4.2.0"
+  peerDependencies:
+    storybook: ^8.3.1
+  checksum: 10c0/f089f882dde992231f005ede08282dad5210d43fde852c37c90f50739e954879147fb73c81c111fb401356941caa896e75d9873797b5b7b9f839faf88bf911de
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-actions@npm:8.3.1, @storybook/addon-actions@npm:^8.3.1":
   version: 8.3.1
   resolution: "@storybook/addon-actions@npm:8.3.1"
@@ -7450,6 +7462,13 @@ __metadata:
   version: 4.7.0
   resolution: "axe-core@npm:4.7.0"
   checksum: 10c0/89ac5712b5932ac7d23398b4cb5ba081c394a086e343acc68ba49c83472706e18e0799804e8388c779dcdacc465377deb29f2714241d3fbb389cf3a6b275c9ba
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.2.0":
+  version: 4.10.0
+  resolution: "axe-core@npm:4.10.0"
+  checksum: 10c0/732c171d48caaace5e784895c4dacb8ca6155e9d98045138ebe3952f78457dd05b92c57d05b41ce2a570aff87dbd0471e8398d2c0f6ebe79617b746c8f658998
   languageName: node
   linkType: hard
 
@@ -10335,6 +10354,7 @@ __metadata:
     "@radix-ui/react-slot": "npm:^1.1.0"
     "@resvg/resvg-js": "npm:^2.6.2"
     "@sentry/nextjs": "npm:^8.26.0"
+    "@storybook/addon-a11y": "npm:^8.3.1"
     "@storybook/addon-actions": "npm:^8.3.1"
     "@storybook/addon-essentials": "npm:^8.3.1"
     "@storybook/addon-interactions": "npm:^8.3.1"
