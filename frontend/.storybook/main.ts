@@ -5,6 +5,7 @@ module.exports = {
     "@storybook/addon-themes",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
+    "@storybook/addon-a11y",
     "storybook-addon-mock-date",
   ],
   framework: {
