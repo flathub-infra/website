@@ -4,6 +4,7 @@ import { FlathubDisclosure } from "./Disclosure"
 import React from "react"
 
 const meta: Meta<typeof FlathubDisclosure> = {
+  title: "Components/Disclosure",
   component: FlathubDisclosure,
 }
 
