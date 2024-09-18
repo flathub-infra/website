@@ -21,7 +21,7 @@ const Toggle: FunctionComponent<Props> = ({ enabled, setEnabled }) => {
         enabled
           ? "bg-flathub-celestial-blue dark:bg-flathub-celestial-blue"
           : "bg-flathub-sonic-silver dark:bg-flathub-granite-gray",
-        `relative inline-flex size-61 items-center rounded-full`,
+        `relative inline-flex h-6 w-11 items-center rounded-full`,
       )}
     >
       <span
