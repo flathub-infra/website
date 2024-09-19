@@ -10392,7 +10392,7 @@ __metadata:
     i18n-iso-countries: "npm:^7.11.3"
     i18next: "npm:^23.11.5"
     isomorphic-dompurify: "npm:^2.14.0"
-    lucide-react: "npm:^0.436.0"
+    lucide-react: "npm:^0.441.0"
     msw: "npm:^2.3.5"
     next: "npm:^14.2.12"
     next-i18next: "npm:^15.3.1"
@@ -12507,12 +12507,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.436.0":
-  version: 0.436.0
-  resolution: "lucide-react@npm:0.436.0"
+"lucide-react@npm:^0.441.0":
+  version: 0.441.0
+  resolution: "lucide-react@npm:0.441.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
-  checksum: 10c0/4cf3dd21de9ab955dd5c4557e0798eb6c780d1df0d4a1f766e89faa88c1a6798da512f29ae2a61577c2d62f1945b9abd1a1108a41f1eb9d7d1cceca79a5e1622
+  checksum: 10c0/3c8bc83cb72b5fa7b391cdce32b25c2212ff2fd3b66f6e989f130d9e53c69ac4cc9782ae499d639026357c5cc5e280b8ae91fd81743b14ffc98d940b6d5c17c2
   languageName: node
   linkType: hard
 
