@@ -115,7 +115,7 @@ def load_appstream(sqldb) -> None:
     current_apps = get_appids()
 
     with db.redis_conn.pipeline() as p:
-        p.delete("developers:index")
+        p.unlink("developers:index")
 
         search_apps = []
         postgres_apps = []
@@ -150,6 +150,10 @@ def load_appstream(sqldb) -> None:
                     "type": type,
                 }
             )
+
+            for key in db.redis_conn.scan_iter(f"apps_locale:{app_id}:*"):
+                p.unlink(key)
+
             for locale, value in apps_locale.items():
                 if app_id in value:
                     p.set(f"apps_locale:{app_id}:{locale}", json.dumps(value[app_id]))
@@ -160,7 +164,7 @@ def load_appstream(sqldb) -> None:
 
         apps_to_delete_from_search = []
         for app_id in set(current_apps) - set(apps):
-            p.delete(
+            p.unlink(
                 f"apps:{app_id}",
                 f"apps_locale:{app_id}",
                 f"summary:{app_id}",
