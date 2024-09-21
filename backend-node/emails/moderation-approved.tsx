@@ -5,6 +5,7 @@ import {
   ModerationRequestItem,
   Request,
 } from "./moderation-held"
+import { BuildLog } from "./buildlog"
 
 export const ModerationApprovedEmail = ({
   category,
@@ -31,7 +32,8 @@ export const ModerationApprovedEmail = ({
       appName={appName}
     >
       <Text>
-        A change in build <a href={buildLogUrl}>#{buildId}</a> of{" "}
+        A change in build{" "}
+        <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
         <b>{appNameAndId}</b> has been reviewed and approved by the Flathub
         team.
       </Text>
