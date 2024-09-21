@@ -6,6 +6,7 @@ import {
   Hr,
   Html,
   Img,
+  Link,
   Preview,
   Section,
   Text,
@@ -40,13 +41,12 @@ export const Base = ({
 }) => {
   const appNameAndId = buildAppName(appId, appName)
 
-  let emailReason =
-    "You are receiving this email because you have an account on Flathub."
+  let footerMode: "developer_invite" | "developer_app" | "default" = "default"
 
   if (category === "developer_invite" && appNameAndId) {
-    emailReason = `You are receiving this email because someone has invited you to become a developer of the app ${appNameAndId} on Flathub.`
+    footerMode = "developer_invite"
   } else if (appId) {
-    emailReason = `You are receiving this email because you are a maintainer of the app ${appNameAndId} on Flathub.`
+    footerMode = "developer_app"
   }
 
   return (
@@ -86,7 +86,34 @@ export const Base = ({
             <Hr />
 
             <Text className="text-black text-[14px] leading-[24px]">
-              {emailReason}
+              {footerMode === "developer_invite" && (
+                <Text>
+                  You are receiving this email because someone has invited you
+                  to become a developer of the app{" "}
+                  <Link href={`https://flathub.org/apps/${appId}`}>
+                    {appNameAndId}
+                  </Link>{" "}
+                  on Flathub.
+                </Text>
+              )}
+
+              {footerMode === "developer_app" && (
+                <Text>
+                  You are receiving this email because you are a maintainer of
+                  the app{" "}
+                  <Link href={`https://flathub.org/apps/${appId}`}>
+                    {appNameAndId}
+                  </Link>{" "}
+                  on Flathub.
+                </Text>
+              )}
+
+              {footerMode === "default" && (
+                <Text>
+                  You are receiving this email because you have an account on
+                  Flathub.
+                </Text>
+              )}
             </Text>
           </Container>
         </Body>
