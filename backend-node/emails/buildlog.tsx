@@ -1,3 +1,5 @@
+import { Link } from "@react-email/components"
+
 export const BuildLog = ({
   buildLogUrl,
   buildId,
@@ -8,5 +10,5 @@ export const BuildLog = ({
   if (!buildLogUrl) {
     return `#${buildId}`
   }
-  return <a href={buildLogUrl}>#{buildId}</a>
+  return <Link href={buildLogUrl}>#{buildId}</Link>
 }

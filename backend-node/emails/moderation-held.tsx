@@ -1,4 +1,4 @@
-import { Section, Text } from "@react-email/components"
+import { Link, Section, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 import { BuildLog } from "./buildlog"
 
@@ -247,9 +247,9 @@ export const ModerationHeldEmail = ({
         Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
         <b>{appNameAndId}</b> has been held for review because the app's
         metadata has changed. Check the status of the review in the{" "}
-        <a href={`https://flathub.org/apps/manage/${appId}`}>
+        <Link href={`https://flathub.org/apps/manage/${appId}`}>
           app developer settings
-        </a>
+        </Link>
         .
       </Text>
       <Text>
