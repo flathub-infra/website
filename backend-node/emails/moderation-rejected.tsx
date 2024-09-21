@@ -5,6 +5,7 @@ import {
   ModerationRequestItem,
   Request,
 } from "./moderation-held"
+import { BuildLog } from "./buildlog"
 
 export const ModerationRejectedEmail = ({
   category,
@@ -31,7 +32,8 @@ export const ModerationRejectedEmail = ({
       appName={appName}
     >
       <Text>
-        A change in build <a href={buildLogUrl}>#{buildId}</a> of{" "}
+        A change in build{" "}
+        <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
         <b>{appNameAndId}</b> has been reviewed by the Flathub team, and the
         build has been rejected for the following reason.
       </Text>

@@ -94,7 +94,10 @@ const EmailBody = z.object({
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
-      buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
+      buildLogUrl: z
+        .string()
+        .nullable()
+        .openapi({ example: "https://flathub.org" }),
       comment: z.string().openapi({ example: "There is something wrong" }),
       request: RequestSchema,
       references: z.string().min(3).openapi({
@@ -108,7 +111,10 @@ const EmailBody = z.object({
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
-      buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
+      buildLogUrl: z
+        .string()
+        .nullable()
+        .openapi({ example: "https://flathub.org" }),
       requests: z.array(RequestSchema),
     }),
     z.object({
@@ -118,7 +124,10 @@ const EmailBody = z.object({
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
       appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
-      buildLogUrl: z.string().openapi({ example: "https://flathub.org" }),
+      buildLogUrl: z
+        .string()
+        .nullable()
+        .openapi({ example: "https://flathub.org" }),
       comment: z
         .string()
         .optional()

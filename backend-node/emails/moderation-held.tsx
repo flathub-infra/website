@@ -1,5 +1,6 @@
 import { Section, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
+import { BuildLog } from "./buildlog"
 
 function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
   const orig = [a ?? [], b ?? []]
@@ -26,7 +27,7 @@ export interface ModerationEmailProps {
   subject: string
   previewText: string
   buildId: number
-  buildLogUrl: string
+  buildLogUrl: string | null
   requests: Request[]
 }
 
@@ -243,9 +244,9 @@ export const ModerationHeldEmail = ({
       appName={appName}
     >
       <Text>
-        Build <a href={buildLogUrl}>#{buildId}</a> of <b>{appNameAndId}</b> has
-        been held for review because the app's metadata has changed. Check the
-        status of the review in the{" "}
+        Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+        <b>{appNameAndId}</b> has been held for review because the app's
+        metadata has changed. Check the status of the review in the{" "}
         <a href={`https://flathub.org/apps/manage/${appId}`}>
           app developer settings
         </a>
