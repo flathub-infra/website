@@ -1,4 +1,4 @@
-import { Text } from "@react-email/components"
+import { Link, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 
 interface UploadTokenCreatedEmailProps {
@@ -63,7 +63,7 @@ export const UploadTokenCreatedEmail = ({
 
       <Text>
         If you do not recognize this activity, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
+        <Link href="mailto:admins@flathub.org">contact us</Link> immediately.
       </Text>
     </Base>
   )

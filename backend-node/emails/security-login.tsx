@@ -1,4 +1,4 @@
-import { Text } from "@react-email/components"
+import { Link, Text } from "@react-email/components"
 import { format } from "date-fns"
 import { Base } from "./base"
 
@@ -47,7 +47,7 @@ export const SecurityLoginEmail = ({
       </Text>
       <Text>
         If it wasn't you, please{" "}
-        <a href="mailto:admins@flathub.org">contact us</a> immediately.
+        <Link href="mailto:admins@flathub.org">contact us</Link> immediately.
       </Text>
     </Base>
   )
