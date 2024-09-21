@@ -1,4 +1,4 @@
-import { Text } from "@react-email/components"
+import { Button, Text } from "@react-email/components"
 import { Base, buildAppName } from "./base"
 
 interface DeveloperInviteEmailProps {
@@ -39,9 +39,12 @@ export const DeveloperInviteEmail = ({
         Portal on Flathub.
       </Text>
 
-      <a href={`${frontendUrl}/apps/manage/${appId}/accept-invite`}>
+      <Button
+        href={`${frontendUrl}/apps/manage/${appId}/accept-invite`}
+        className="box-border w-full rounded-[8px] bg-flathub-celestial-blue py-[12px] text-center font-semibold text-white"
+      >
         Accept Invite
-      </a>
+      </Button>
     </Base>
   )
 }
