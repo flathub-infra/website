@@ -22,7 +22,7 @@ function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
 
 export interface ModerationEmailProps {
   appId: string
-  appName?: string
+  appName: string | null
   category: "moderation_approved" | "moderation_held" | "moderation_rejected"
   subject: string
   previewText: string

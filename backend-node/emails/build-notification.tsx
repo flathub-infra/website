@@ -3,7 +3,7 @@ import { Base, buildAppName } from "./base"
 
 export interface BuildNotificationEmailProps {
   appId: string
-  appName?: string
+  appName: string | null
   category: "build_notification"
   subject: string
   previewText: string
