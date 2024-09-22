@@ -16,7 +16,7 @@ import * as React from "react"
 
 const isProduction = process.env.NODE_ENV === "production"
 
-export function buildAppName(appId?: string, appName?: string) {
+export function buildAppName(appId?: string, appName?: string | null) {
   if (!appId && !appName) {
     return undefined
   }
@@ -36,7 +36,7 @@ export const Base = ({
   subject: string
   category: string
   appId?: string
-  appName?: string
+  appName?: string | null
   previewText: string
 }) => {
   const appNameAndId = buildAppName(appId, appName)

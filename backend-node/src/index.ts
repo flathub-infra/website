@@ -78,7 +78,7 @@ const EmailBody = z.object({
         .literal("upload_token_created")
         .openapi({ example: "upload_token_created" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       issuedTo: z.string().min(2).openapi({ example: "username" }),
       comment: z.string().min(2).openapi({ example: "My token" }),
       expiresAt: z.string().min(2).openapi({ example: "Tomorrow" }),
@@ -92,7 +92,7 @@ const EmailBody = z.object({
         .literal("moderation_rejected")
         .openapi({ example: "moderation_rejected" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
       buildLogUrl: z
         .string()
@@ -109,7 +109,7 @@ const EmailBody = z.object({
         .literal("moderation_held")
         .openapi({ example: "moderation_held" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
       buildLogUrl: z
         .string()
@@ -122,7 +122,7 @@ const EmailBody = z.object({
         .literal("moderation_approved")
         .openapi({ example: "moderation_approved" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       buildId: z.number().openapi({ example: 1 }),
       buildLogUrl: z
         .string()
@@ -142,7 +142,7 @@ const EmailBody = z.object({
         .literal("developer_left")
         .openapi({ example: "developer_left" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       login: z.string().min(2).openapi({ example: "testuser" }),
     }),
     z.object({
@@ -150,7 +150,7 @@ const EmailBody = z.object({
         .literal("developer_invite")
         .openapi({ example: "developer_invite" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       inviter: z.string().min(2).openapi({ example: "testuser" }),
     }),
     z.object({
@@ -158,7 +158,7 @@ const EmailBody = z.object({
         .literal("developer_invite_accepted")
         .openapi({ example: "developer_invite_accepted" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       login: z.string().min(2).openapi({ example: "testuser" }),
       references: z.string().min(3).openapi({
         example: "1212121",
@@ -169,7 +169,7 @@ const EmailBody = z.object({
         .literal("developer_invite_declined")
         .openapi({ example: "developer_invite_declined" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       login: z.string().min(2).openapi({ example: "testuser" }),
       references: z.string().min(3).openapi({
         example: "1212121",
@@ -180,7 +180,7 @@ const EmailBody = z.object({
         .literal("build_notification")
         .openapi({ example: "build_notification" }),
       appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
-      appName: z.string().min(2).optional().openapi({ example: "Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
       diagnostics: z
         .array(z.any())
         .openapi({ example: ["problem 1", "problem 2"] }),

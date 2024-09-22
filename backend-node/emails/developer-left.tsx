@@ -3,7 +3,7 @@ import { Base, buildAppName } from "./base"
 
 interface DeveloperLeftEmailProps {
   appId: string
-  appName?: string
+  appName: string | null
   category: "developer_left"
   subject: string
   previewText: string

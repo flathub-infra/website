@@ -3,7 +3,7 @@ import { Base, buildAppName } from "./base"
 
 interface UploadTokenCreatedEmailProps {
   appId: string
-  appName?: string
+  appName: string | null
   category: "upload_token_created"
   subject: string
   previewText: string
