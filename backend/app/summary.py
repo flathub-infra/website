@@ -50,6 +50,7 @@ def get_parent_id(app_id: str):
 
 def parse_metadata(ini: str):
     parser = configParserCustom.ConfigParserMultiOpt()
+    parser.optionxform = lambda option: option
     parser.read_string(ini)
 
     if "Application" not in parser:
