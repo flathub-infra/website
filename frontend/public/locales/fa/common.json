@@ -558,5 +558,14 @@
   "you-may-or-may-not-be-able-to-contribute": "ممکن است بتوانید با نتوانید در این کاره مشارکت کنید.",
   "special-license-explanation": "این کاره پروانهٔ ویژهٔ <1>{{ license }}</1> را دارد.",
   "more-pages": "صفحه‌های بیش‌تر",
-  "setup": "برپایی"
+  "setup": "برپایی",
+  "direct-upload-description": "ساخت کاره‌تان در محیط یکپارچگی پیوسته‌تان در بارگذاری مستقیمش روی فلت‌هاب.",
+  "verified-manually-tooltip": "مالکیت شناسهٔ کارهٔ <1>{{app_id}}</1> به صورت دستی از سوی گروه فلت‌هاب تأیید شده",
+  "press": "نشریات",
+  "microphone-access": "دسترسی صدابَر",
+  "screen-contents-access": "دسترسی به محتوای صفحه",
+  "can-listen-using-microphones-without-asking-permission": "می‌تواند بدون اجازه با استفاده از صدابَر شنود کند",
+  "can-access-the-contents-of-the-screen-or-other-windows": "می‌تواند به محتوای صفحهٔ دیگر پنجره‌ها دسترسی داشته باشد",
+  "invite-code-hint": "دادن این کد به توسعه‌دهنده‌ای دیگر برای اجازهٔ دعوتتان به کاره‌اش.",
+  "verified-login-provider-tooltip": "مالکیت شناسهٔ کارهٔ <1>{{app_id}}</1> به دست <4>{{login_name}}</4> روی <8>{{login_provider}}</8> تأیید شده"
 }

@@ -602,5 +602,6 @@
   "microphone-access": "وصول للميكروفون",
   "can-listen-using-microphones-without-asking-permission": "إمكانية الاستماع باستخدام الميكروفونات دون طلب الإذن",
   "can-access-the-contents-of-the-screen-or-other-windows": "إمكانية الوصول إلى المحتويات المعروضة على الشاشة أو النوافذ الأخرى",
-  "setup": "إعداد"
+  "setup": "إعداد",
+  "carousel": "دوارة"
 }
