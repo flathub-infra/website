@@ -1,4 +1,4 @@
-FROM node:20 AS base
+FROM node:22 AS base
 
 RUN corepack enable
 
@@ -26,7 +26,7 @@ COPY . .
 
 RUN yarn build && yarn postbuild
 
-FROM node:20-slim AS prod
+FROM node:22-slim AS prod
 ARG NEXT_PUBLIC_IS_PRODUCTION=false
 ARG GITHUB_SHA
 
