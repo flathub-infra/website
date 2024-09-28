@@ -596,5 +596,17 @@
   "microphone-access": "Dostęp do mikrofonu",
   "can-listen-using-microphones-without-asking-permission": "Może słuchać za pomocą mikrofonów bez pytania o pozwolenie",
   "screen-contents-access": "Dostęp do zawartości ekranu",
-  "can-access-the-contents-of-the-screen-or-other-windows": "Może uzyskać dostęp do zawartości ekranu lub innych okien"
+  "can-access-the-contents-of-the-screen-or-other-windows": "Może uzyskać dostęp do zawartości ekranu lub innych okien",
+  "users": "Użytkownicy",
+  "date": "Data",
+  "get-apps": "Pobierz aplikacje",
+  "about-claim": "<0>Niezależnie od tego, czy jesteś użytkownikiem szukającym aplikacji, czy deweloperem, który chce dotrzeć do większej liczby użytkowników, <2>Flathub jest najlepszym wyborem dla aplikacji na Linuksa.</2></0>",
+  "all-the-apps-you-want": "<0>Wszystkie aplikacje, których potrzebujesz</0> — Od znanych marek, których można się spodziewać, po nowych niezależnych programistów, Flathub ma tysiące aplikacji spełniających Twoje potrzeby.",
+  "transparent-safety": "<0>Transparentne bezpieczeństwo</0> — Wyraźnie widać, kiedy aplikacja jest <3>zweryfikowana</3> jako pochodząca od jej twórcy, jakich uprawnień wymaga oraz czy jest open source i czy można poddać ją audytowi",
+  "tastefully-curated": "<0>Doskonale wyselekcjonowane</0> — Odkryj interesujące, najwyższej jakości aplikacje we Flathub dzięki naszej selekcji, która prezentuje to, co najlepsze w ofercie",
+  "apps-for-you-where-you-are": "<0>Aplikacje dla ciebie, na każdym urządzeniu</0> — bez względu na to, czy korzystasz ze Steam Decka, potężnej stacji roboczej z Linuksem, Raspberry Pi, czy nietypowego telefonu z Linuksem, Flathub ma aplikacje, których potrzebujesz",
+  "millions-users": "<0>Dotrzyj do milionów użytkowników</0> — Flathub działa na wielu dystrybucjach Linuksa, jest<2> łatwy do zainstalowania</2> na pozostałych i ma ponad milion aktywnych użytkowników",
+  "transparent": "<0>Niezależni i transparentni</0> — Jesteśmy oddolną społecznością open source, która dba o to, co najlepsze w ekosystemie",
+  "docs-guidance": "<0>Jasna dokumentacja i wskazówki</0> — Obszerna <2>dokumentacja</2>, tysiące publicznych <5>manifestów aplikacji</5> i duża społeczność oznaczają, że zawsze możesz uzyskać pomoc",
+  "integration": "<0>Integracja z natywnymi sklepami z aplikacjami</0> — Zapomnij o pobieraniu z Internetu; Flathub dostarcza aplikacje i <3>automatyczne aktualizacje</3> użytkownikom w ich natywnym kliencie sklepu z aplikacjami, tam, gdzie się tego spodziewają"
 }

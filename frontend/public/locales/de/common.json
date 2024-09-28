@@ -595,5 +595,17 @@
   "microphone-access": "Mikrofonzugriff",
   "screen-contents-access": "Zugriff auf Bildschirminhalte",
   "can-listen-using-microphones-without-asking-permission": "Kann über Mikrofone zuhören, ohne um Berechtigung zu fragen",
-  "can-access-the-contents-of-the-screen-or-other-windows": "Kann auf den Inhalt des Bildschirms oder anderer Fenster zugreifen"
+  "can-access-the-contents-of-the-screen-or-other-windows": "Kann auf den Inhalt des Bildschirms oder anderer Fenster zugreifen",
+  "users": "Benutzer",
+  "transparent": "<0>Unabhängig und transparent</0> — Wir sind eine Open-Source-Gemeinschaft an der Basis, die das Beste, was das Ökosystem zu bieten hat, verwaltet",
+  "docs-guidance": "<0>Klare Dokumentation & Anleitung</0> — Umfangreiche<2> Dokumentation</2>, tausende von öffentlichen <5>App-Manifesten</5> und eine große Community bedeuten, dass du immer in der Lage bist, Hilfe zu bekommen",
+  "date": "Datum",
+  "about-claim": "<0>Egal, ob du ein Nutzer bist, der nach Apps sucht, oder ein Entwickler, der mehr Nutzer erreichen will, <2>Flathub ist die beste Wahl für Apps unter Linux.</2></0>",
+  "all-the-apps-you-want": "<0>Alle Apps, die du willst</0> — Von großen Namen, die du erwarten würdest, bis hin zu neuen Indie-Entwicklern hat Flathub Tausende von Apps, die deine Bedürfnisse erfüllen.",
+  "transparent-safety": "<0>Transparente Sicherheit</0> — Es ist klar ersichtlich, ob eine App <3>verifiziert</3> ist und von ihrem Entwickler kommt, welche Berechtigungen sie benötigt und ob sie quelloffen und auditierbar ist oder nicht",
+  "tastefully-curated": "<0>Geschmackvoll kuratiert</0> — Entdecke interessante, hochwertige Apps auf Flathub, die von unseren Mitarbeitern kuratiert werden und die besten Angebote präsentieren",
+  "apps-for-you-where-you-are": "<0>Apps für dich, wo immer du bist</0> — Egal, ob du auf einem Steam Deck, einer leistungsstarken Linux-Workstation, einem Raspberry Pi oder dem seltenen Linux-Telefon bist; Flathub hat Apps für dich",
+  "millions-users": "<0>Millionen von Nutzern erreichen</0> — Flathub ist standardmäßig auf mehreren Linux-Distributionen verfügbar, lässt sich auf den übrigen<2> leicht installieren</2> und hat über eine Million aktive Nutzer",
+  "integration": "<0>Native App-Store-Integration</0> — Vergiss Web-Downloads; Flathub liefert Apps und <3>automatische Aktualisierungen</3> an die Benutzer in ihrem nativen App-Store-Client, wo sie es erwarten würden",
+  "get-apps": "Apps bekommen"
 }

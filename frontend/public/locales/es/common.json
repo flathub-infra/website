@@ -596,5 +596,17 @@
   "can-access-the-contents-of-the-screen-or-other-windows": "Puedes acceder al contenido de la pantalla o de otras ventanas",
   "microphone-access": "Acceso al micrófono",
   "screen-contents-access": "Acceso al contenido de la pantalla",
-  "can-listen-using-microphones-without-asking-permission": "Puedes escuchar utilizando los micrófonos sin pedir permiso"
+  "can-listen-using-microphones-without-asking-permission": "Puedes escuchar utilizando los micrófonos sin pedir permiso",
+  "date": "Fecha",
+  "get-apps": "Obtener aplicaciones",
+  "all-the-apps-you-want": "<0>Todas las aplicaciones que quieras</0> - Desde los grandes nombres que esperas hasta los nuevos desarrolladores independientes, Flathub tiene miles de aplicaciones para satisfacer tus necesidades.",
+  "apps-for-you-where-you-are": "<0>Aplicaciones para ti donde quiera que estés</0> - Tanto si estás en un Steam Deck, una potente estación de trabajo Linux, una Raspberry Pi, o el raro teléfono Linux; Flathub tiene aplicaciones para ti",
+  "millions-users": "<0>Llegar a millones de usuarios</0> - Flathub viene de fábrica en múltiples distribuciones Linux, es<2> fácilmente instalable</2> en el resto, y tiene más de un millón de usuarios activos",
+  "integration": "<0>Integración nativa de la tienda de aplicaciones</0> - Olvídate de las descargas web; Flathub ofrece aplicaciones y <3>actualizaciones automáticas</3> a los usuarios en su cliente nativo de la tienda de aplicaciones, donde esperaban",
+  "users": "Usuarios",
+  "about-claim": "<0>Ya seas un usuario que busca aplicaciones o un desarrollador que quiere llegar a más usuarios, <2>Flathub es la mejor opción para aplicaciones en Linux.</2></0>",
+  "transparent-safety": "<0>Seguridad transparente</0>: vea claramente cuándo una aplicación está <3>verificada</3> como procedente de su desarrollador, qué permisos requiere y si es o no de código abierto y auditable",
+  "tastefully-curated": "<0>Seleccionadas con buen gusto</0>: descubre aplicaciones interesantes y de calidad en Flathub con la selección de nuestro personal que muestra lo mejor de la oferta",
+  "transparent": "<0>Independientes y transparentes</0> - Somos una comunidad de código abierto que gestiona lo mejor que el ecosistema puede ofrecer",
+  "docs-guidance": "<0>Documentación y orientación claras</0> - Gracias a la extensa documentación, a los miles de manifiestos públicos de aplicaciones y a la gran comunidad, siempre podrás obtener ayuda"
 }
