@@ -362,7 +362,7 @@ const Header = () => {
                   {!user.info && (
                     <Link
                       passHref
-                      href="/login"
+                      href={`/login?returnTo=${encodeURIComponent(router.asPath)}`}
                       key="login"
                       className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
