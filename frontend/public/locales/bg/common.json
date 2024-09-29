@@ -49,7 +49,7 @@
   "about": "Относно",
   "developers": "Разработчици",
   "popular": "Популярни",
-  "publish-your-app": "Публикуване на приложение",
+  "publish-your-app": "Публикуване на приложения",
   "documentation": "Документация",
   "statistics": "Статистика",
   "badges": "Значки",
@@ -595,5 +595,9 @@
   "screen-contents-access": "Достъп до съдържанието на екрана",
   "can-access-the-contents-of-the-screen-or-other-windows": "Има достъп до съдържанието на екрана или другите прозорци",
   "microphone-access": "Достъп до микрофона",
-  "can-listen-using-microphones-without-asking-permission": "Може да слуша чрез микрофонa, без да иска разрешение"
+  "can-listen-using-microphones-without-asking-permission": "Може да слуша чрез микрофонa, без да иска разрешение",
+  "date": "Дата",
+  "get-apps": "Изтегляне на приложения",
+  "users": "Потребители",
+  "about-claim": "<0>Независимо дали сте потребител, който търси приложения, или разработчик, който иска да достигне до повече потребители, <2>„Flathub“ е най-добрият избор.</2></0>"
 }
