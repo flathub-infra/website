@@ -1536,13 +1536,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "python-gitlab"
-version = "4.11.1"
+version = "4.12.0"
 description = "A python wrapper for the GitLab API"
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "python_gitlab-4.11.1-py3-none-any.whl", hash = "sha256:f15fe4f4cbaa58c04e422ad30a2d4fc7976294dfdf1f90f81ab927e5b2238f33"},
-    {file = "python_gitlab-4.11.1.tar.gz", hash = "sha256:7afa2f9c30618bc3daee95d2186a06e1cf18ca2fa97890eb55fd8ddc4e339812"},
+    {file = "python_gitlab-4.12.0-py3-none-any.whl", hash = "sha256:bb82f877d4af48dc94f1fdc3f83abdc2fcb811bf3b523c03b90a618519dff80c"},
+    {file = "python_gitlab-4.12.0.tar.gz", hash = "sha256:d65c08ba787156e01f7359429b201a83395bde3f2ea01f51115996be0e346d8e"},
 ]
 
 [package.dependencies]
@@ -2332,4 +2332,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "02cd0ffee3884f7834351687105e2d729c1556d621bba53ed8208fc5e611d0b7"
+content-hash = "f575da8f0bb9d3e2e50149a0a34fa8afce47520b0e7a048c30b3df3096246780"
