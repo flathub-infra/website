@@ -552,5 +552,8 @@
   "id": "ID",
   "name": "Nimi",
   "revoked": "Tühistatud",
-  "error": "Viga"
+  "error": "Viga",
+  "get-apps": "Laadi rakendusi",
+  "date": "Kuupäev",
+  "users": "Kasutajad"
 }
