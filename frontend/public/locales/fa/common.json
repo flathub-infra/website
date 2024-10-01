@@ -620,5 +620,7 @@
   "action-donate": "",
   "login-provider-verification-not-org-admin": "",
   "token-creation-placeholder": "",
-  "community-repository-description": ""
+  "community-repository-description": "",
+  "millions-users": "",
+  "docs-guidance": ""
 }
