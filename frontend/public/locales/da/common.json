@@ -620,5 +620,7 @@
   "kind-donate-app": "",
   "kind-purchase-app": "",
   "recipient": "",
-  "do-you-really-want-to-switch-to-direct-upload": ""
+  "do-you-really-want-to-switch-to-direct-upload": "",
+  "millions-users": "",
+  "docs-guidance": ""
 }
