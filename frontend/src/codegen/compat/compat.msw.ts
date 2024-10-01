@@ -6,39 +6,7 @@
  */
 import { HttpResponse, delay, http } from "msw"
 
-export const getGetAppsCompatAppsGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/compat/apps", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetAppsInCategoryCompatAppsCategoryCategoryGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/compat/apps/category/:category", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
-
-export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50GetMockHandler =
+export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHandler =
   (
     overrideResponse?:
       | unknown
@@ -47,7 +15,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50GetMockHa
         ) => Promise<unknown> | unknown),
   ) => {
     return http.get(
-      "*/compat/apps/collection/recently-updated/50",
+      "*/compat/apps/collection/recently-updated/25",
       async (info) => {
         await delay(1000)
         if (typeof overrideResponse === "function") {
@@ -78,14 +46,14 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHand
     )
   }
 
-export const getGetRecentlyAddedCompatAppsCollectionNew50GetMockHandler = (
+export const getGetRecentlyAddedCompatAppsCollectionNew25GetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) => Promise<unknown> | unknown),
 ) => {
-  return http.get("*/compat/apps/collection/new/50", async (info) => {
+  return http.get("*/compat/apps/collection/new/25", async (info) => {
     await delay(1000)
     if (typeof overrideResponse === "function") {
       await overrideResponse(info)
@@ -109,83 +77,6 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler = (
     return new HttpResponse(null, { status: 200 })
   })
 }
-
-export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get(
-      "*/compat/apps/collection/recently-updated-postgres/50",
-      async (info) => {
-        await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
-      },
-    )
-  }
-
-export const getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get(
-      "*/compat/apps/collection/recently-updated-postgres",
-      async (info) => {
-        await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
-      },
-    )
-  }
-
-export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get(
-      "*/compat/apps/collection/new-postgres/50",
-      async (info) => {
-        await delay(1000)
-        if (typeof overrideResponse === "function") {
-          await overrideResponse(info)
-        }
-        return new HttpResponse(null, { status: 200 })
-      },
-    )
-  }
-
-export const getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get("*/compat/apps/collection/new-postgres", async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
-    })
-  }
 
 export const getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler = (
   overrideResponse?:
@@ -251,16 +142,10 @@ export const getGetSingleAppCompatAppsAppIdGetMockHandler = (
   })
 }
 export const getCompatMock = () => [
-  getGetAppsCompatAppsGetMockHandler(),
-  getGetAppsInCategoryCompatAppsCategoryCategoryGetMockHandler(),
-  getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated50GetMockHandler(),
+  getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetMockHandler(),
   getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetMockHandler(),
-  getGetRecentlyAddedCompatAppsCollectionNew50GetMockHandler(),
+  getGetRecentlyAddedCompatAppsCollectionNew25GetMockHandler(),
   getGetRecentlyAddedCompatAppsCollectionNewGetMockHandler(),
-  getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgres50GetMockHandler(),
-  getGetRecentlyUpdatedPostgresCompatAppsCollectionRecentlyUpdatedPostgresGetMockHandler(),
-  getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgres50GetMockHandler(),
-  getGetRecentlyAddedPostgresCompatAppsCollectionNewPostgresGetMockHandler(),
   getGetPopularAppsCompatAppsCollectionPopular50GetMockHandler(),
   getGetPopularAppsCompatAppsCollectionPopularGetMockHandler(),
   getGetSearchCompatAppsSearchQueryGetMockHandler(),
