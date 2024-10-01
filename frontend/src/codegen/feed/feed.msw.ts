@@ -37,42 +37,7 @@ export const getGetNewAppsFeedFeedNewGetMockHandler = (
     return new HttpResponse(null, { status: 200 })
   })
 }
-
-export const getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetMockHandler =
-  (
-    overrideResponse?:
-      | unknown
-      | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
-        ) => Promise<unknown> | unknown),
-  ) => {
-    return http.get("*/feed/recently-updated-postgres", async (info) => {
-      await delay(1000)
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-      return new HttpResponse(null, { status: 200 })
-    })
-  }
-
-export const getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
-) => {
-  return http.get("*/feed/new-postgres", async (info) => {
-    await delay(1000)
-    if (typeof overrideResponse === "function") {
-      await overrideResponse(info)
-    }
-    return new HttpResponse(null, { status: 200 })
-  })
-}
 export const getFeedMock = () => [
   getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetMockHandler(),
   getGetNewAppsFeedFeedNewGetMockHandler(),
-  getGetRecentlyUpdatedAppsFeedPostgresFeedRecentlyUpdatedPostgresGetMockHandler(),
-  getGetNewAppsFeedPostgresFeedNewPostgresGetMockHandler(),
 ]
