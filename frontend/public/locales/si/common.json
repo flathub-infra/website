@@ -620,5 +620,7 @@
   "app-listing-quality": "",
   "can-access-and-change-user-settings": "",
   "verified-manually-tooltip": "",
-  "uses-session-services": ""
+  "uses-session-services": "",
+  "millions-users": "",
+  "docs-guidance": ""
 }
