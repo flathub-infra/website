@@ -631,5 +631,7 @@
   "login-provider-verification-not-org-member": "",
   "login-provider-verification-not-org-admin": "",
   "community-repository-description": "",
-  "login-provider-verification-enable-github-app": ""
+  "login-provider-verification-enable-github-app": "",
+  "docs-guidance": "",
+  "millions-users": ""
 }
