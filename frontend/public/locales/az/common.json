@@ -620,5 +620,7 @@
   "direct-upload-description": "",
   "host-system-configuration-from-etc": "",
   "show-expired-tokens": "",
-  "appname-is-safety-rating-1": ""
+  "appname-is-safety-rating-1": "",
+  "millions-users": "",
+  "docs-guidance": ""
 }
