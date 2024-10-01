@@ -11,7 +11,11 @@ import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
 import { AxiosError, AxiosResponse } from "axios"
-import { AvailableMethods, VerificationStatus } from "src/codegen/model"
+import {
+  AvailableMethods,
+  VerificationMethod,
+  VerificationStatus,
+} from "src/codegen/model"
 import {
   getAvailableMethodsVerificationAppIdAvailableMethodsGet,
   getVerificationStatusVerificationAppIdStatusGet,
@@ -29,9 +33,9 @@ const StatusInfo = ({ status }: { status: VerificationStatus }) => {
   const { t } = useTranslation()
 
   switch (status.method) {
-    case "none" || !status.verified:
+    case VerificationMethod.none || !status.verified:
       return <span>{t("app-is-currently-not-verified")}</span>
-    case "login_provider":
+    case VerificationMethod.login_provider:
       return (
         <Trans i18nKey="app-is-currently-verified-by-login-provider">
           Your app is currently verified by your login
@@ -49,14 +53,14 @@ const StatusInfo = ({ status }: { status: VerificationStatus }) => {
           .
         </Trans>
       )
-    case "website":
+    case VerificationMethod.website:
       return (
         <Trans i18nKey="app-is-currently-verified-by-website">
           Your app is currently verified by your website
           <span className="font-medium">{{ website: status.website }}</span>
         </Trans>
       )
-    case "manual":
+    case VerificationMethod.manual:
       return <span>{t("app-is-currently-verified-manually")}</span>
   }
 }
