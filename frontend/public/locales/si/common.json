@@ -631,5 +631,7 @@
   "no-user-device-access-description": "",
   "login-provider-verification-not-org-member": "",
   "malformed-app-id": "",
-  "system-device-access": ""
+  "system-device-access": "",
+  "docs-guidance": "",
+  "millions-users": ""
 }
