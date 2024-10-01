@@ -631,5 +631,7 @@
   "app-is-verified": "",
   "templates-subfolder-x": "",
   "stripe-declined-insufficient_funds": "",
-  "documents-folder": ""
+  "documents-folder": "",
+  "docs-guidance": "",
+  "millions-users": ""
 }
