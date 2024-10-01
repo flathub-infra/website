@@ -619,5 +619,7 @@
   "revoke-token": "",
   "show-expired-tokens": "",
   "revoke-token-description": "",
-  "switch-to-direct-upload": ""
+  "switch-to-direct-upload": "",
+  "millions-users": "",
+  "docs-guidance": ""
 }
