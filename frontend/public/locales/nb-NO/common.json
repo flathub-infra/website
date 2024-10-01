@@ -299,7 +299,7 @@
   "terms-and-conditions-description": "Ved å bruke dette nettstedet, samtykker du til bruksvilkårene.",
   "value-at-least": "Du må angi en sum på minst {{value}}",
   "require-payment": "Krev betaling",
-  "accepting-payment": "Godkjenner betaling",
+  "accepting-payment": "Godkjenning av betalinger",
   "stripe-api-error": "Betaling med Stripe mislyktes. Prøv igjen senere.",
   "terms-and-conditions": "Bruksvilkår",
   "developer-settings": "Utviklerinnstillinger",
@@ -595,5 +595,17 @@
   "microphone-access": "Mikrofontilgang",
   "screen-contents-access": "Skjermtilgang",
   "can-access-the-contents-of-the-screen-or-other-windows": "Kan se innhold på skjermen eller i vinduer",
-  "more-pages": "Flere sider"
+  "more-pages": "Flere sider",
+  "users": "Brukere",
+  "date": "Dato",
+  "get-apps": "Installer apper",
+  "millions-users": "<0>Nå ut til millioner av brukere</0> — Flathub er tilgjengelig på en rekke Linux-systemer, er <2>lett å sette opp</2> på resten, og har over en million aktive brukere",
+  "all-the-apps-you-want": "<0>Alle appene du trenger</0> — Flathub har tusenvis av apper klare til installering, fra store navn du allerede kjenner til nye prosjekter fra fremadstormende utviklere.",
+  "transparent-safety": "<0>Sikkerhet i sentrum</0> — Se lett om en app er <3>verifisert</3> som utgitt av sin opprinnelige utvikler, hvilke tillatelser den trenger og om den er fri og åpen",
+  "transparent": "<0>Åpent og selvstendig</0> — Flathub bygges og drives på dugnad av et fellesskap, med mål om å være et godt hjem til apper av alle slag",
+  "docs-guidance": "<0>Klar veiledning</0> — Omfattende <2>dokumentasjon</2>, tusenvis av åpent tilgjengelige <5>manifester</5> og et stort fellesskap av utviklere sørger for at det alltid er hjelp å få",
+  "integration": "<0>Systemintegrering</0> — Unngå slitsomme nedlastinger via nettleseren; Flathub leverer apper og <3>automatiske oppdateringer</3> rett til brukernes appsentre, der de forventer å finne dem",
+  "about-claim": "<0>Uansett om du er en bruker som ser etter apper eller en utvikler som ønsker å nå et større publikum, <2>er Flathub det beste stedet for apper til Linux.</2></0>",
+  "apps-for-you-where-you-are": "<0>Apper til der du er</0> — Uansett om du har en Steam Deck-konsoll, en kraftig stasjonær datamaskin, en Raspberry Pi eller en mobiltelefon, har Flathub apper du kan få glede av",
+  "tastefully-curated": "<0>Oppdag nye favoritter</0> — Med et stadig oppdatert utvalg av fremhevede apper, er det lett å komme over nye og spennende prosjekter av høy kvalitet"
 }
