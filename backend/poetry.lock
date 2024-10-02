@@ -1536,13 +1536,13 @@ cli = ["click (>=5.0)"]
 
 [[package]]
 name = "python-gitlab"
-version = "4.12.1"
+version = "4.12.2"
 description = "A python wrapper for the GitLab API"
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "python_gitlab-4.12.1-py3-none-any.whl", hash = "sha256:4d9e033cfe369942d0ff0ac2acffd187e1db5adc25de2c0a73790f131909193c"},
-    {file = "python_gitlab-4.12.1.tar.gz", hash = "sha256:f4bc9e3267d255b18038c4bcdecce95c2ca792fc5654e1f6fbfd16962b73449c"},
+    {file = "python_gitlab-4.12.2-py3-none-any.whl", hash = "sha256:c4476372112f920c37555e5e2b02d7092220cf4a4cb9f37dfdb35c569e89415a"},
+    {file = "python_gitlab-4.12.2.tar.gz", hash = "sha256:8c140a2603ad8eff7fcab6f3faabf5fc8baaba8def125eb309a32d6aa3a23a56"},
 ]
 
 [package.dependencies]
