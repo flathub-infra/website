@@ -588,5 +588,6 @@
   "setup": "Configurar",
   "download-press-kit": "Discargar kit de pressa",
   "press": "Pressa",
-  "microphone-access": "Accesso al microphono"
+  "microphone-access": "Accesso al microphono",
+  "users": "Usatores"
 }
