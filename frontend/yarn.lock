@@ -9124,24 +9124,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-react@npm:^8.2.1":
-  version: 8.2.1
-  resolution: "embla-carousel-react@npm:8.2.1"
+"embla-carousel-react@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "embla-carousel-react@npm:8.3.0"
   dependencies:
-    embla-carousel: "npm:8.2.1"
-    embla-carousel-reactive-utils: "npm:8.2.1"
+    embla-carousel: "npm:8.3.0"
+    embla-carousel-reactive-utils: "npm:8.3.0"
   peerDependencies:
     react: ^16.8.0 || ^17.0.1 || ^18.0.0
-  checksum: 10c0/ecc167163c47a831b1c2cfd88f4fe11c04841511a7009ee20c1b6c25da6f60c981da91bcc4d6d98074b09ff10e1ae17a62d18fbae6930a1794411512ec8080ee
+  checksum: 10c0/ee3492dfbc900391c8137cca2f55c403307e3dd121a77ea3bbacca33afb82715647eaae5a6d6cc25590284892e45c75e70ab5bb033ebc20016a1972333104dc6
   languageName: node
   linkType: hard
 
-"embla-carousel-reactive-utils@npm:8.2.1":
-  version: 8.2.1
-  resolution: "embla-carousel-reactive-utils@npm:8.2.1"
+"embla-carousel-reactive-utils@npm:8.3.0":
+  version: 8.3.0
+  resolution: "embla-carousel-reactive-utils@npm:8.3.0"
   peerDependencies:
-    embla-carousel: 8.2.1
-  checksum: 10c0/7611dd66299c5da50f9b30ab78a296bd1d6ed67e4a687df7e77b2fb05074ef7e652060940595643b1977a9df362ff42b253f5ca2fc4b08612422ef9a57c8190d
+    embla-carousel: 8.3.0
+  checksum: 10c0/64769d7b5d0169f7cda810d909b446ccd47b28afbcb205196c0e1799c51ebbefaa71465cabd6bc5ab92bad78da99fdf2808dc8e1a3f3f18a7e428ae2e0136a0e
   languageName: node
   linkType: hard
 
@@ -9156,10 +9156,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel@npm:8.2.1":
-  version: 8.2.1
-  resolution: "embla-carousel@npm:8.2.1"
-  checksum: 10c0/7b480be5a57b9d1f12f880f2048e6019cc53b41bd1a30a1b1bd5f0b93328bda40761e82ab1457918ce3e1469afbce457665fdf16a349f7c7ed3ce6ab8930da41
+"embla-carousel@npm:8.3.0":
+  version: 8.3.0
+  resolution: "embla-carousel@npm:8.3.0"
+  checksum: 10c0/0240156d6a736603d82ddfe93b03ce296e385e9c18ed2cca9465634c8adb7560bfc2fbef6368a4da2a54926c4ba6de1012ebb33d2fc92c052030ea2288e4cc92
   languageName: node
   linkType: hard
 
@@ -10373,7 +10373,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     date-fns: "npm:^3.6.0"
     embla-carousel-autoplay: "npm:^8.2.0"
-    embla-carousel-react: "npm:^8.2.1"
+    embla-carousel-react: "npm:^8.3.0"
     embla-carousel-wheel-gestures: "npm:^8.0.1"
     eslint: "npm:^8.57.0"
     eslint-config-next: "npm:^14.2.13"
