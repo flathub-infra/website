@@ -555,7 +555,7 @@
   "can-access-input-devices": "Có thể truy cập các thiết bị đầu vào như bàn phím, chuột hoặc bộ điều khiển trò chơi",
   "developers-and-users-block": "Kết nối với đội chúng tôi và các thành viên khác trong cộng đồng để đặt câu hỏi và chia sẻ chuyên môn của bạn",
   "special-license-explanation": "Ứng dụng được phát triển dưới giấy phép đặc biệt <1>{{ license }}</1>.",
-  "press-description": "Chúng tôi rất vui lòng trả lời câu hỏi và sắp xếp phỏng vấn với nhà báo và tác giả viết về công nghệ",
+  "press-description": "Chúng tôi rất vui lòng trả lời câu hỏi và sắp xếp phỏng vấn với các nhà báo và tác giả viết về công nghệ",
   "no-tokens-to-show": "Không có mã nào để hiển thị.",
   "scopes": "Phạm vi",
   "new-beta-token": "Mã Beta mới",
@@ -601,10 +601,10 @@
   "transparent-safety": "<0>Minh bạch về độ an toàn</0> — Nhận biết rõ ràng nếu ứng dụng đã được <3>xác minh</3> là đến từ nhà phát triển gốc, những quyền nào nó yêu cầu, và liệu nó có mã nguồn mở có thể được kiểm tra hay không",
   "tastefully-curated": "<0>Chọn lọc tinh tế</0> — Khám phá các ứng dụng thú vị và chất lượng trên Flathub đã được đội ngũ nhân viên của chúng tôi chọn lọc để trưng bày những sản phẩm tốt nhất",
   "millions-users": "<0>Tiếp cận hàng triệu người dùng</0> — Flathub có sẵn trên nhiều bản phân phối Linux, có thể <2>dễ dàng cài đặt</2> trên số còn lại, và có hơn một nghìn người dùng đang hoạt động",
-  "transparent": "<0>Độc lập và minh bạch</0> — Chúng tôi là một cộng đồng mã nguồn mở quần chúng với nhiệm vụ phục vụ những gì tốt nhất của hệ sinh thái cho người dùng",
-  "docs-guidance": "<0>Tài liệu và hướng dẫn rõ ràng</0> — Bạn luôn có thể tìm được trợ giúp đến từ <2>tài liệu</2> sâu rộng, hàng ngàn <5>manifest ứng dụng</5> công khai, và một cộng đồng lớn",
+  "transparent": "<0>Độc lập & minh bạch</0> — Chúng tôi là một cộng đồng mã nguồn mở quần chúng với nhiệm vụ phục vụ những gì tốt nhất của hệ sinh thái cho người dùng",
+  "docs-guidance": "<0>Tài liệu & hướng dẫn rõ ràng</0> — Bạn luôn có thể tìm được trợ giúp đến từ <2>tài liệu</2> sâu rộng, hàng ngàn <5>manifest ứng dụng</5> công khai, và một cộng đồng lớn",
   "can-listen-using-microphones-without-asking-permission": "Có thể nghe thông qua microphone mà không xin phép",
-  "apps-for-you-where-you-are": "<0>Ứng cho bạn bất kể bạn ở đâu</0> — Dù bạn đang dùng Steam Deck, máy trạm Linux mạnh mẽ, Raspberry Pi, hay chiếc điện thoại Linux hiếm thấy, Flathub có ứng dụng dành cho bạn",
+  "apps-for-you-where-you-are": "<0>Ứng dụng cho bạn bất kể bạn ở đâu</0> — Dù bạn đang dùng Steam Deck, máy trạm Linux mạnh mẽ, Raspberry Pi, hay chiếc điện thoại Linux hiếm thấy, Flathub có ứng dụng dành cho bạn",
   "integration": "<0>Tích hợp với của hàng ứng dụng gốc</0> — Hãy quên đi bản tải xuống qua web; Flathub vận chuyển các ứng dụng và các <3>bản cập nhật tự động</3> đến người dùng qua cửa hàng ứng dụng gốc mà họ quen thuộc",
   "can-access-the-contents-of-the-screen-or-other-windows": "Có thể truy cập nội dụng của màn hình và các cửa sổ khác"
 }
