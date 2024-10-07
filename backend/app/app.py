@@ -167,11 +167,17 @@ def get_appstream(
     locale: str = "en",
 ):
     if value := db.get_json_key(f"apps:{app_id}"):
-        if translation := db.get_json_key(f"apps_locale:{app_id}:{locale}"):
+        app = models.Apps.by_appid(sqldb, app_id)
+
+        if not app:
+            return value
+
+        if not (app and app.localization_json):
+            return value
+
+        if translation := app.localization_json.get(locale):
             return get_translation(translation, value)
-        elif translation := db.get_json_key(
-            f"apps_locale:{app_id}:{locale.split('-')[0]}"
-        ):
+        elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
             return get_translation(translation, value)
         else:
             return value
