@@ -50,12 +50,10 @@ def add_translation(apps_locale: dict, language: str, appid: str, key: str, valu
     language = language.replace("_", "-")
     if language not in apps_locale:
         apps_locale[language] = {}
-    if appid not in apps_locale[language]:
-        apps_locale[language][appid] = {}
-    apps_locale[language][appid][key] = value
+    apps_locale[language][key] = value
 
 
-def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]]:
+def appstream2dict(appstream_url=None) -> dict[str, dict]:
     if config.settings.appstream_repos:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
@@ -80,7 +78,6 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
     root = etree.fromstring(appstream)
 
     apps = {}
-    apps_locale = {}
 
     media_base_url = "https://dl.flathub.org/media"
 
@@ -89,6 +86,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
         app = {}
 
         app["type"] = component.attrib.get("type", "generic")
+        app["locales"] = {}
 
         descriptions = component.findall("description")
         if len(descriptions):
@@ -103,7 +101,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                     app["description"] = "".join(description)
                 else:
                     add_translation(
-                        apps_locale,
+                        app["locales"],
                         desc.get("{http://www.w3.org/XML/1998/namespace}lang"),
                         appid,
                         "description",
@@ -128,7 +126,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                                 attrs["caption"] = caption.text
                             else:
                                 add_translation(
-                                    apps_locale,
+                                    app["locales"],
                                     caption.attrib.get(
                                         "{http://www.w3.org/XML/1998/namespace}lang"
                                     ),
@@ -203,7 +201,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                             attrs["description"] = "".join(description)
                         else:
                             add_translation(
-                                apps_locale,
+                                app["locales"],
                                 desc.get("{http://www.w3.org/XML/1998/namespace}lang"),
                                 appid,
                                 "release_description_" + str(i),
@@ -316,7 +314,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
             if elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                 if len(elem) == 0 and len(elem.attrib) == 1:
                     add_translation(
-                        apps_locale,
+                        app["locales"],
                         elem.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"),
                         appid,
                         elem.tag,
@@ -353,7 +351,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
                     if tag.attrib.get("{http://www.w3.org/XML/1998/namespace}lang"):
                         if len(elem) == 0 and len(elem.attrib) == 1:
                             add_translation(
-                                apps_locale,
+                                app["locales"],
                                 elem.attrib.get(
                                     "{http://www.w3.org/XML/1998/namespace}lang"
                                 ),
@@ -394,7 +392,7 @@ def appstream2dict(appstream_url=None) -> tuple[dict[str, dict], dict[str, dict]
         app["id"] = appid
         apps[appid] = app
 
-    return apps, apps_locale
+    return apps
 
 
 def get_clean_app_id(app_id: str):

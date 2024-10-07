@@ -33,14 +33,14 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
 
     translations = {}
     for key, apps in apps_locale.items():
-        if app_id in apps and key in localize.LOCALES:
+        if key in localize.LOCALES:
             filtered_translations = dict(
                 filter(
                     lambda x: (
                         x[0] == "name" or x[0] == "summary" or x[0] == "description"
                     )
                     and len(x[1]) > 0,
-                    apps[app_id].items(),
+                    apps.items(),
                 )
             )
 
@@ -110,7 +110,7 @@ def show_in_frontend(app: dict) -> bool:
 
 
 def load_appstream(sqldb) -> None:
-    apps, apps_locale = utils.appstream2dict()
+    apps = utils.appstream2dict()
 
     current_apps = get_appids()
 
@@ -128,14 +128,12 @@ def load_appstream(sqldb) -> None:
                     add_to_search(
                         app_id,
                         apps[app_id],
-                        apps_locale,
+                        apps[app_id]["locales"],
                     )
                 )
 
                 if developer_name := apps[app_id].get("developer_name"):
                     p.sadd("developers:index", developer_name)
-
-            p.set(redis_key, json.dumps(apps[app_id]))
 
             if type := apps[app_id].get("type"):
                 # "desktop" dates back to appstream-glib, need to handle that for backwards compat
@@ -150,11 +148,11 @@ def load_appstream(sqldb) -> None:
                     "type": type,
                 }
             )
-            for locale, value in apps_locale.items():
-                if app_id in value:
-                    p.set(f"apps_locale:{app_id}:{locale}", json.dumps(value[app_id]))
 
-            models.Apps.set_app(sqldb, app_id, type)
+            models.Apps.set_app(sqldb, app_id, type, apps[app_id]["locales"])
+
+            del apps[app_id]["locales"]
+            p.set(redis_key, json.dumps(apps[app_id]))
 
         search.create_or_update_apps(search_apps)
 
@@ -162,7 +160,6 @@ def load_appstream(sqldb) -> None:
         for app_id in set(current_apps) - set(apps):
             p.delete(
                 f"apps:{app_id}",
-                f"apps_locale:{app_id}",
                 f"summary:{app_id}",
                 f"app_stats:{app_id}",
             )

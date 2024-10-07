@@ -7,6 +7,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import (
+    JSON,
     Boolean,
     CheckConstraint,
     Date,
@@ -1868,6 +1869,7 @@ class Apps(Base):
         nullable=True,
     )
     last_updated_at = mapped_column(DateTime, nullable=True)
+    localization_json = mapped_column(JSON, nullable=True)
 
     __table_args__ = (Index("apps_unique", app_id, unique=True),)
 
@@ -1876,12 +1878,16 @@ class Apps(Base):
         return db.session.query(Apps).filter(Apps.app_id == app_id).first()
 
     @classmethod
-    def set_app(cls, db, app_id: str, type) -> Optional["Apps"]:
+    def set_app(cls, db, app_id: str, type, app_locales) -> Optional["Apps"]:
         app = Apps.by_appid(db, app_id)
 
+        if bool(app_locales) is False:
+            app_locales = None
+
         if app:
-            if app.type == type:
+            if app.type == type and app.localization_json == app_locales:
                 return app
+            app.localization_json = app_locales
             app.type = type
             db.session.commit()
             return app
@@ -1889,6 +1895,7 @@ class Apps(Base):
             app = Apps(
                 app_id=app_id,
                 type=type,
+                localization_json=app_locales,
             )
             db.session.add(app)
             db.session.commit()
