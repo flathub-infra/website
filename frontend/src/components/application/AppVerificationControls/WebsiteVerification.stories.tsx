@@ -31,7 +31,7 @@ export const HasTokenSecondStep = () => {
   const method: AvailableMethod = {
     method: "website",
     website: faker.internet.url(),
-    website_token: faker.datatype.uuid(),
+    website_token: faker.string.uuid(),
   }
 
   return (

@@ -16,7 +16,7 @@ export const mastercard = () => {
     country: "JP",
     exp_month: 12,
     exp_year: 2021,
-    id: faker.datatype.uuid(),
+    id: faker.string.uuid(),
   }
 
   return <CardInfo card={card} />
@@ -29,7 +29,7 @@ export const amex = () => {
     country: "US",
     exp_month: 12,
     exp_year: 2021,
-    id: faker.datatype.uuid(),
+    id: faker.string.uuid(),
   }
 
   return <CardInfo card={card} />
@@ -42,7 +42,7 @@ export const visa = () => {
     country: "DE",
     exp_month: 12,
     exp_year: 2021,
-    id: faker.datatype.uuid(),
+    id: faker.string.uuid(),
   }
 
   return <CardInfo card={card} />

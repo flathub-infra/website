@@ -17,7 +17,7 @@ export function AppHeader({
   isQualityModalOpen,
 }: {
   app: Appstream
-  vendingSetup: VendingSetup | undefined
+  vendingSetup: Pick<VendingSetup, "recommended_donation"> | undefined
   verificationStatus: VerificationStatus
   isQualityModalOpen: boolean
 }) {
