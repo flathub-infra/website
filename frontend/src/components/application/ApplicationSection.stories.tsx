@@ -9,7 +9,7 @@ export default {
 } as Meta<typeof ApplicationSection>
 
 export const Generated = () => {
-  const popular = [...Array(faker.datatype.number({ min: 1, max: 30 }))].map(
+  const popular = [...Array(faker.number.int({ min: 1, max: 30 }))].map(
     (_item, index) => ({
       id: index.toString(),
       icon: faker.image.url(),
