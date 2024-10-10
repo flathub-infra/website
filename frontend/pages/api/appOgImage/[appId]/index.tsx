@@ -163,6 +163,7 @@ export default async function handler(
               fontFamily: "Inter-Black",
               fontSize: "40px",
               lineHeight: "48px",
+              textAlign: "center",
             }}
           >
             {app.name}
