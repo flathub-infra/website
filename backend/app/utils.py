@@ -1,4 +1,5 @@
 import base64
+import ctypes
 import gzip
 import hashlib
 import json
@@ -20,6 +21,8 @@ from gi.repository import AppStream
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 remove_desktop_re = re.compile(r"\.desktop$")
+
+MAXUINT = ctypes.c_uint(-1).value
 
 
 class Hasher:
@@ -393,6 +396,33 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
     return apps
+
+
+def get_content_rating_details(content_rating: dict, locale: str) -> dict:
+    system = AppStream.ContentRatingSystem.from_locale(locale)
+    rating = AppStream.ContentRating()
+    rating.set_kind(content_rating["kind"])
+    details = {"attrs": []}
+
+    for attr, level in content_rating.items():
+        if attr == 'kind':
+            continue
+        c_level = AppStream.ContentRatingValue.from_string(level)
+        rating.add_attribute(attr, c_level)
+        description = AppStream.ContentRating.attribute_get_description(attr, c_level)
+        details["attrs"] = {
+            "attr": attr,
+            "level": level,
+            "description": description,
+        }
+
+    min_age = AppStream.ContentRating.get_minimum_age(rating)
+    if min_age == MAXUINT:
+        details["minimumAge"] = None
+    else:
+        details["minimumAge"] = AppStream.ContentRatingSystem.format_age(system, min_age)
+
+    return details
 
 
 def get_clean_app_id(app_id: str):
