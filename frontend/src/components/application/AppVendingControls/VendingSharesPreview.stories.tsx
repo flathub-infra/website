@@ -15,8 +15,9 @@ export const Generated = () => {
       app={{
         id: "org.flathub.arsenal",
         name: "Arsenal",
-        icon: "",
-        summary: "",
+        bundle: {
+          runtime: "org.freedesktop.Gnome",
+        },
       }}
       vendingConfig={{
         fee_cost_percent: 5,
