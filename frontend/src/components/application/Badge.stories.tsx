@@ -11,6 +11,10 @@ export const TextOnly = () => {
   return <Badge text={"Outdated"} />
 }
 
-export const ChangedClassName = () => {
-  return <Badge text={"Outdated"} inACard={true} />
+export const InACard = () => {
+  return (
+    <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
+      <Badge text={"Outdated"} inACard={true} />
+    </div>
+  )
 }

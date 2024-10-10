@@ -27,7 +27,7 @@ function flathubFee(total: number, vendingConfig: VendingConfig): number {
  * @returns Percentage splits shared between app and its dependencies
  */
 export function computeShares(
-  app: Appstream,
+  app: Pick<Appstream, "id" | "bundle">,
   appShare: number,
   vendingConfig: VendingConfig,
 ): VendingShare[] {

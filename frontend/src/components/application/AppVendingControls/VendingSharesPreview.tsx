@@ -16,7 +16,7 @@ import { FlathubTooltip, axisStroke } from "src/chartComponents"
 
 interface Props {
   price: number
-  app: Appstream
+  app: Pick<Appstream, "id" | "name" | "bundle">
   appShare: number
   vendingConfig: VendingConfig
 }

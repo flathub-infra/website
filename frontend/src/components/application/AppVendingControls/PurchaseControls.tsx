@@ -18,7 +18,7 @@ import {
 } from "src/codegen"
 
 interface Props {
-  app: Appstream
+  app: Pick<Appstream, "id" | "name" | "bundle">
   vendingConfig: VendingConfig
 }
 
