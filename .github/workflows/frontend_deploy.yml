@@ -37,6 +37,7 @@ jobs:
           file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           no-cache: true
+          platforms: linux/amd64,linux/arm64
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION=true
             ENABLE_SENTRY=true
