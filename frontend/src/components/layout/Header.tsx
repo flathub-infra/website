@@ -223,7 +223,7 @@ const Header = () => {
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full flex-shrink-0 items-center">
                     <OrganizationJsonLd
-                      name="Flathub"
+                      name={t("flathub")}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                       logo={logoEmail.src}
                       sameAs={[
@@ -243,7 +243,7 @@ const Header = () => {
                         <div className="hidden lg:block">
                           <Image
                             src={logoToolbarSvg}
-                            alt="Flathub Logo"
+                            alt={t("flathub-logo")}
                             width={88}
                             height={24}
                             priority
@@ -252,7 +252,7 @@ const Header = () => {
                         <div className="block lg:hidden">
                           <Image
                             src={logoMini}
-                            alt="Flathub Logo"
+                            alt={t("flathub-logo")}
                             width={24}
                             height={22}
                             style={{ width: 24, height: 22 }}
