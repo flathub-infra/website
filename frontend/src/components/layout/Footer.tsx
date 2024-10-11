@@ -121,7 +121,7 @@ const Footer = () => {
 
         <div>
           <div className="flex justify-center text-2xl font-bold sm:block sm:text-base pb-3">
-            {t("Flathub")}
+            {t("flathub")}
           </div>
           <div className="flex flex-col sm:space-y-3">
             <Link
