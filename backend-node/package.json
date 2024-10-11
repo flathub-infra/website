@@ -9,7 +9,7 @@
     "email-export": "email export"
   },
   "dependencies": {
-    "@hono/node-server": "^1.13.1",
+    "@hono/node-server": "^1.13.2",
     "@hono/sentry": "^1.1.0",
     "@hono/swagger-ui": "0.4.1",
     "@hono/zod-openapi": "^0.16.4",
