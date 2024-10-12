@@ -3,6 +3,7 @@ import clsx from "clsx"
 import { useCallback, useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
+import linkifyHtml from "linkify-html"
 
 export const Description = ({ app, isQualityModalOpen }) => {
   const { t } = useTranslation()
@@ -10,7 +11,12 @@ export const Description = ({ app, isQualityModalOpen }) => {
 
   const description = useMemo(
     () =>
-      app.description ? sanitizeAppstreamDescription(app.description) : "",
+      app.description
+        ? linkifyHtml(sanitizeAppstreamDescription(app.description), {
+            rel: "noopener noreferrer",
+            target: "_blank",
+          })
+        : "",
     [app.description],
   )
 
