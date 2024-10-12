@@ -501,14 +501,20 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["id"] = appid
         apps[appid] = app
 
+        if "content_rating" in app:
+            print(get_content_rating_details(app["content_rating"], "de_DE"))
+
     return apps
 
 
 def get_content_rating_details(content_rating: dict, locale: str) -> dict:
+    if content_rating is None or content_rating.get("type") is None:
+        return {}
     system = AppStream.ContentRatingSystem.from_locale(locale)
     rating = AppStream.ContentRating()
-    rating.set_kind(content_rating["kind"])
-    details = {"attrs": []}
+
+    rating.set_kind(content_rating["type"])
+    details_list = []
 
     for attr, level in content_rating.items():
         if attr == "kind":
@@ -516,21 +522,26 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
         c_level = AppStream.ContentRatingValue.from_string(level)
         rating.add_attribute(attr, c_level)
         description = AppStream.ContentRating.attribute_get_description(attr, c_level)
-        details["attrs"].append({
-            "attr": attr,
+        details_list.append({
+            "id": attr,
             "level": level,
             "description": description,
         })
 
     min_age = AppStream.ContentRating.get_minimum_age(rating)
+    # Maxint is used for no details available
     if min_age == MAXUINT:
-        details["minimumAge"] = None
+        minimum_age = None
     else:
-        details["minimumAge"] = AppStream.ContentRatingSystem.format_age(
-            system, min_age
-        )
+        minimum_age = AppStream.ContentRatingSystem.format_age(system, min_age)
 
-    return details
+    content_rating_system = AppStream.ContentRatingSystem.to_string(system)
+
+    return {
+        "details": details_list,
+        "minimumAge": minimum_age,
+        "contentRatingSystem": content_rating_system,
+    }
 
 
 def display_length_supports_mobile(display_lengths: list[etree.Element]) -> bool:
