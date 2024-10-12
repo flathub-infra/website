@@ -86,7 +86,7 @@ export const Base = ({
             {children}
             <Hr />
 
-            <Container className={`${Math.random()}`}>
+            <Container>
               <Text className="text-black text-[14px] leading-[24px]">
                 {footerMode === "developer_invite" && (
                   <Text>
@@ -118,6 +118,8 @@ export const Base = ({
                 )}
               </Text>
             </Container>
+            {/* this ensures Gmail doesn't trim the email */}
+            <Container id={new Date().getTime().toString()}></Container>
           </Container>
         </Body>
       </Tailwind>
