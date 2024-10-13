@@ -3,19 +3,14 @@ import { FunctionComponent, useState } from "react"
 import { AddonAppstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 import { HiMiniInformationCircle } from "react-icons/hi2"
-import {
-  useFloating,
-  useHover,
-  useInteractions,
-  offset,
-  shift,
-  autoPlacement,
-  useRole,
-  useDismiss,
-  useFocus,
-} from "@floating-ui/react"
 import clsx from "clsx"
 import Modal from "../Modal"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface Props {
   addons: AddonAppstream[]
@@ -26,61 +21,29 @@ const Addons: FunctionComponent<Props> = ({ addons }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const [isInfoOpen, setIsInfoOpen] = useState(false)
-  const { x, y, refs, strategy, context } = useFloating({
-    open: isInfoOpen,
-    onOpenChange: setIsInfoOpen,
-    middleware: [shift(), autoPlacement(), offset(6)],
-  })
-  const hover = useHover(context, { move: false })
-  const focus = useFocus(context)
-  const dismiss = useDismiss(context)
-  const role = useRole(context, { role: "tooltip" })
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-    role,
-  ])
-
   return (
     <>
       {addons && addons.length > 0 && (
         <>
           <div className="flex gap-2 relative">
-            <>
-              <button
-                ref={refs.setReference}
-                {...getReferenceProps}
-                className="absolute top-0 end-0 mt-1 me-1"
-                aria-label={t("addon-install-info")}
-              >
-                <HiMiniInformationCircle
-                  className="size-5"
-                  aria-label={t("addon-install-info")}
-                />
-              </button>
-              {isInfoOpen && (
-                <div
-                  ref={refs.setFloating}
-                  style={{
-                    position: strategy,
-                    top: y ?? 0,
-                    left: x ?? 0,
-                  }}
-                  className={clsx(
-                    "text-xs font-semibold",
-                    "z-40 mx-1 max-w-xs rounded-xl p-3",
-                    "drop-shadow",
-                    "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow text-flathub-arsenic",
-                  )}
-                  {...getFloatingProps()}
-                >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className="absolute top-0 end-0 mt-1 me-1"
+                    aria-label={t("addon-install-info")}
+                  >
+                    <HiMiniInformationCircle
+                      className="size-5"
+                      aria-label={t("addon-install-info")}
+                    />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="left" className={clsx("max-w-xs")}>
                   {t("addon-install-info-text")}
-                </div>
-              )}
-            </>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           <div className="flex flex-col divide-y dark:divide-flathub-granite-gray">
             {addons.slice(0, 5).map((addon) => {

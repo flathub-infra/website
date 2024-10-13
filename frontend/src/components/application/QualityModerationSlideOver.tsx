@@ -21,14 +21,6 @@ import { useCollapse } from "@collapsed/react"
 import Button from "../Button"
 import { IconGrid } from "./IconGrid"
 import { useTranslation } from "next-i18next"
-import {
-  useFloating,
-  autoPlacement,
-  offset,
-  useHover,
-  useInteractions,
-  useRole,
-} from "@floating-ui/react"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
@@ -43,8 +35,14 @@ import {
   setFullscreenAppQualityModerationAppIdFullscreenPost,
   setQualityModerationForAppQualityModerationAppIdPost,
 } from "src/codegen"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
-const ShowIconButton = ({ app }: { app: DesktopAppstream }) => {
+const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
@@ -105,7 +103,7 @@ const BrandingPreview = ({
   app,
   color,
 }: {
-  app: DesktopAppstream
+  app: Pick<DesktopAppstream, "icon" | "name" | "summary">
   color: Branding
 }) => {
   const textColor = color
@@ -159,7 +157,11 @@ const BrandingPreview = ({
   )
 }
 
-const ShowBrandingButton = ({ app }: { app: DesktopAppstream }) => {
+const ShowBrandingButton = ({
+  app,
+}: {
+  app: Pick<DesktopAppstream, "branding" | "icon" | "name" | "summary">
+}) => {
   const { t } = useTranslation()
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
 
@@ -206,7 +208,7 @@ const QualityCategories = ({
   query,
   mode,
 }: {
-  app: DesktopAppstream
+  app: Pick<DesktopAppstream, "id" | "name" | "summary" | "icon" | "branding">
   query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
   mode: "developer" | "moderator"
 }) => {
@@ -491,19 +493,8 @@ const ScreenShotTypeItem = ({
   )
 }
 
-const ReadOnlyItem = ({ toggle }) => {
+const ReadOnlyItem = ({ toggle }: { toggle: boolean }) => {
   const { t } = useTranslation()
-
-  const [isOpen, setIsOpen] = useState(false)
-  const { x, y, refs, strategy, context } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [autoPlacement(), offset(6)],
-  })
-  const hover = useHover(context, { move: false })
-  const role = useRole(context, { role: "tooltip" })
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover, role])
 
   const status =
     toggle === null ? "pending" : toggle === true ? "passed" : "not-passed"
@@ -525,35 +516,21 @@ const ReadOnlyItem = ({ toggle }) => {
   }
 
   return (
-    <>
-      <button
-        ref={refs.setReference}
-        className="flex items-center justify-center"
-        aria-label="read-only"
-        {...getReferenceProps}
-      >
-        {content}
-      </button>
-      {isOpen && (
-        <div
-          ref={refs.setFloating}
-          style={{
-            position: strategy,
-            top: y ?? 0,
-            left: x ?? 0,
-          }}
-          className={clsx(
-            "text-xs font-semibold",
-            "z-40 mx-1 max-w-xs rounded-xl p-3",
-            "drop-shadow",
-            "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow text-flathub-arsenic",
-          )}
-          {...getFloatingProps()}
-        >
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button
+            className="flex items-center justify-center"
+            aria-label="read-only"
+          >
+            {content}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent className={clsx("max-w-xs")}>
           {t(hoverText)}
-        </div>
-      )}
-    </>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
