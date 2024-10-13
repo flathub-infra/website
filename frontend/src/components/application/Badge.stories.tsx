@@ -1,20 +1,30 @@
-import React from "react"
-import { Meta } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/react"
+
 import Badge from "./Badge"
+import React from "react"
 
-export default {
-  title: "Components/Application/Badge",
+const meta = {
   component: Badge,
-} as Meta<typeof Badge>
+} satisfies Meta<typeof Badge>
 
-export const TextOnly = () => {
-  return <Badge text={"Outdated"} />
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+export const TextOnly: Story = {
+  args: {
+    text: "Outdated",
+  },
 }
 
-export const InACard = () => {
-  return (
+export const InACard: Story = {
+  args: {
+    text: "Outdated",
+    inACard: true,
+  },
+  render: (args) => (
     <div className="rounded-xl bg-flathub-white p-4 pt-3 shadow-md dark:bg-flathub-arsenic">
-      <Badge text={"Outdated"} inACard={true} />
+      <Badge {...args} />
     </div>
-  )
+  ),
 }
