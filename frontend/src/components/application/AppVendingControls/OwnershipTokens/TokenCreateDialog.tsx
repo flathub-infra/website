@@ -9,7 +9,7 @@ import { AxiosError } from "axios"
 import { createTokensVendingappAppIdTokensPost } from "src/codegen"
 
 interface Props {
-  app: Appstream
+  app: Pick<Appstream, "id">
   updateCallback: CallableFunction
 }
 
