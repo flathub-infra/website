@@ -19,6 +19,7 @@ import {
   revokeInviteInvitesAppIdRevokePost,
 } from "src/codegen"
 import { Developer } from "src/codegen/model"
+import { Input } from "@/components/ui/input"
 
 interface Props {
   app: Appstream
@@ -340,8 +341,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
       })}
     >
       <InlineError error={t(error)} shown={!!error} />
-      <input
-        className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+      <Input
         value={inviteCode}
         onInput={(e) => setInviteCode((e.target as HTMLInputElement).value)}
       />

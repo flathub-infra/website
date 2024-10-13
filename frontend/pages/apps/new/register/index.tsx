@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input"
 import { GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
@@ -42,10 +43,9 @@ export default function AppRegistrationPage() {
 
         <Notice>{t("app-id-instructions")}</Notice>
 
-        <input
+        <Input
           type="text"
           placeholder={t("app-id")}
-          className="my-5 w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
           onChange={(e) => {
             setAppId(e.target.value)
             setStep("start")

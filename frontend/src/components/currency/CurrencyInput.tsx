@@ -9,6 +9,7 @@ import {
   useState,
 } from "react"
 import { NumericInputValue } from "../../types/Input"
+import { Input } from "@/components/ui/input"
 
 type Props = {
   inputValue: NumericInputValue
@@ -71,7 +72,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
   return (
     <div>
       <label className="absolute ms-2 mt-2 text-xl">$</label>
-      <input
+      <Input
         type="text"
         inputMode="numeric"
         pattern="\d*(\.\d{0,2})?"
@@ -80,9 +81,7 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
         onChange={handleChange}
         onBlur={handleBlur}
         ref={ref}
-        className={
-          "rounded-xl border-none bg-flathub-gainsborow p-2 ps-7 text-flathub-dark-gunmetal outline-none  dark:bg-flathub-dark-gunmetal dark:text-flathub-gainsborow"
-        }
+        className={"ps-7"}
         {...inputProps}
       />
     </div>

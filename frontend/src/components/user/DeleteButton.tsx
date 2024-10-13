@@ -11,6 +11,7 @@ import {
   doDeleteuserAuthDeleteuserPost,
   getDeleteuserAuthDeleteuserGet,
 } from "src/codegen"
+import { Input } from "@/components/ui/input"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -91,8 +92,7 @@ const DeleteButton: FunctionComponent = () => {
         submitDisabled={entry && text !== entry}
       >
         <div>
-          <input
-            className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+          <Input
             value={text}
             onInput={(e) => setText((e.target as HTMLInputElement).value)}
           />

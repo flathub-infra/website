@@ -8,6 +8,7 @@ import clsx from "clsx"
 import { DistroSetup, fetchSetupInstructions } from "src/distro-setup"
 import { useState } from "react"
 import { HiMagnifyingGlass } from "react-icons/hi2"
+import { Input } from "@/components/ui/input"
 
 export default function Setup({
   instructions,
@@ -63,12 +64,8 @@ export default function Setup({
           <div className="absolute inset-y-0 start-0 flex items-center ps-2">
             <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
           </div>
-          <input
+          <Input
             type="text"
-            className={clsx(
-              "w-full rounded-full bg-flathub-white p-4 ps-9 shadow-md duration-500 dark:bg-flathub-arsenic/70",
-              "placeholder-flathub-dark-gunmetal/50 focus:placeholder-flathub-dark-gunmetal/75 focus:outline-none dark:placeholder-flathub-granite-gray dark:focus:placeholder-flathub-sonic-silver dark:focus:outline-none",
-            )}
             placeholder={t("find-your-distribution")}
             onChange={(e) => setDistroFilter(e.target.value)}
           />
