@@ -1,22 +1,16 @@
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent } from "react"
 import React from "react"
 
 import { HiMiniCheckBadge } from "react-icons/hi2"
 import { Trans, useTranslation } from "next-i18next"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import {
-  useFloating,
-  useHover,
-  useInteractions,
-  offset,
-  shift,
-  autoPlacement,
-  useRole,
-  useDismiss,
-  useFocus,
-} from "@floating-ui/react"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
-import { clsx } from "clsx"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface Props {
   appId: string
@@ -29,55 +23,23 @@ const VerificationIcon: FunctionComponent<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const [isOpen, setIsOpen] = useState(false)
-  const { x, y, refs, strategy, context, placement } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
-    middleware: [shift(), autoPlacement(), offset(6)],
-  })
-  const hover = useHover(context, { move: false })
-  const focus = useFocus(context)
-  const dismiss = useDismiss(context)
-  const role = useRole(context, { role: "tooltip" })
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-    role,
-  ])
-
   if (verificationStatus?.verified == true) {
     return (
-      <>
-        <button
-          ref={refs.setReference}
-          {...getReferenceProps}
-          aria-label={t("app-is-verified")}
-          className="size-6 flex justify-center items-center"
-        >
-          <HiMiniCheckBadge
-            className="size-5 text-flathub-celestial-blue"
-            aria-label={t("app-is-verified")}
-          />
-        </button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              aria-label={t("app-is-verified")}
+              className="size-6 flex justify-center items-center"
+            >
+              <HiMiniCheckBadge
+                className="size-5 text-flathub-celestial-blue"
+                aria-label={t("app-is-verified")}
+              />
+            </button>
+          </TooltipTrigger>
 
-        {isOpen && (
-          <div
-            ref={refs.setFloating}
-            style={{
-              position: strategy,
-              top: y ?? 0,
-              left: x ?? 0,
-            }}
-            className={clsx(
-              "text-xs font-semibold",
-              "z-40 mx-1 max-w-xs rounded-xl p-3",
-              "drop-shadow",
-              "bg-flathub-white dark:bg-flathub-granite-gray dark:text-flathub-gainsborow text-flathub-arsenic",
-            )}
-            {...getFloatingProps()}
-          >
+          <TooltipContent side="right" className="max-w-xs">
             {
               verificationStatus.method == "manual" ? (
                 <Trans i18nKey={"verified-manually-tooltip"}>
@@ -118,9 +80,9 @@ const VerificationIcon: FunctionComponent<Props> = ({
                 t("verified")
               ) // Should never happen
             }
-          </div>
-        )}
-      </>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     )
   } else {
     return null
