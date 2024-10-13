@@ -137,7 +137,7 @@
   --destructive-foreground: var(--flathub-lotion);
 
   --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
+  --input: var(--flathub-sonic-silver);
   --ring: var(--flathub-dark-gunmetal);
 
   --radius: 0.5rem;
@@ -170,7 +170,7 @@
   --destructive-foreground: var(--flathub-lotion);
 
   --border: var(--flathub-arsenic);
-  --input: var(--flathub-arsenic);
+  --input: var(--flathub-spanish-gray);
   --ring: 0 0% 83.1%;
 
   // Override react-tostify variable here for easy theme adherence

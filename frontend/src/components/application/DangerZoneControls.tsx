@@ -13,8 +13,10 @@ import {
   switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
 } from "src/codegen"
 import { getUploadTokensUploadTokensAppIdGet } from "src/codegen"
+import { Input } from "@/components/ui/input"
+import { Appstream } from "src/types/Appstream"
 
-const SwitchToDirectUpload = ({ app }: { app: { id: string } }) => {
+const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const { t } = useTranslation()
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -103,12 +105,11 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
           </div>
           <div>
             {t("rebase-onto-other-app")}
-            <input
+            <Input
               type="text"
               placeholder={t("app-id")}
               value={endoflifeRebase}
               onChange={(e) => setEndoflifeRebase(e.target.value)}
-              className="rounded-xl p-3 w-full"
             />
           </div>
         </div>

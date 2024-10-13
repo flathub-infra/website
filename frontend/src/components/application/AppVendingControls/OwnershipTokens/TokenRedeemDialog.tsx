@@ -1,20 +1,17 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useCallback, useState } from "react"
+import { useCallback, useState } from "react"
 import { toast } from "react-toastify"
 import { Appstream } from "../../../../types/Appstream"
 import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "src/codegen"
-
-interface Props {
-  app: Appstream
-}
+import { Input } from "@/components/ui/input"
 
 /**
  * A set of controls for redemption of application ownership tokens.
  */
-const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
+const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const { t } = useTranslation()
 
   const [text, setText] = useState("")
@@ -51,16 +48,17 @@ const TokenRedeemDialog: FunctionComponent<Props> = ({ app }) => {
 
   return (
     <div className="inline-flex gap-2 rounded-xl bg-flathub-white p-4 dark:bg-flathub-arsenic">
-      <input
+      <Input
         type="text"
         placeholder={t("token-redeem-placeholder")}
         value={text}
         onChange={textUpdate}
-        className="w-80 rounded-xl bg-flathub-gainsborow p-2 dark:bg-flathub-dark-gunmetal"
+        className="w-80"
       />
       <Button
         disabled={text.trim().length === 0}
         onClick={() => redeemVendingToken.mutate()}
+        className="h-12"
       >
         {t("redeem-token")}
       </Button>

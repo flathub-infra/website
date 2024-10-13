@@ -7,6 +7,7 @@ import { Repo } from "src/types/UploadTokens"
 import { useMutation } from "@tanstack/react-query"
 import { createUploadTokenUploadTokensAppIdPost } from "src/codegen"
 import { NewTokenResponse } from "src/codegen/model"
+import { Input } from "@/components/ui/input"
 
 interface Props {
   app_id: string
@@ -78,8 +79,7 @@ const NewTokenDialog: FunctionComponent<Props> = ({
     case "new":
       content = (
         <>
-          <input
-            className="w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+          <Input
             placeholder={t("token-name")}
             value={comment}
             onInput={(e) => setComment((e.target as HTMLInputElement).value)}
