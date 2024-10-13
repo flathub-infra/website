@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 import { createTokensVendingappAppIdTokensPost } from "src/codegen"
+import { Textarea } from "@/components/ui/textarea"
 
 interface Props {
   app: Pick<Appstream, "id">
@@ -65,11 +66,7 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
       >
         <div className="space-y-3">
           <div>{t("token-creation-placeholder")}</div>
-          <textarea
-            value={text}
-            onChange={textUpdate}
-            className="h-40 rounded-xl p-3 w-full"
-          />
+          <Textarea value={text} onChange={textUpdate} className="h-40" />
         </div>
       </Modal>
     </>

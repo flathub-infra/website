@@ -15,6 +15,7 @@ import {
 import { getUploadTokensUploadTokensAppIdGet } from "src/codegen"
 import { Input } from "@/components/ui/input"
 import { Appstream } from "src/types/Appstream"
+import { Textarea } from "@/components/ui/textarea"
 
 const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const { t } = useTranslation()
@@ -97,10 +98,10 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
         <div className="space-y-3">
           <div>
             {t("enter-end-of-life-message")}
-            <textarea
+            <Textarea
               value={endoflife}
               onChange={(e) => setEndoflife(e.target.value)}
-              className="h-20 rounded-xl p-3 w-full"
+              className="h-20"
             />
           </div>
           <div>
