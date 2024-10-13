@@ -16,6 +16,7 @@ import {
   ModerationRequestResponse,
   Permission,
 } from "src/codegen"
+import { Textarea } from "@/components/ui/textarea"
 
 interface Props {
   title: string
@@ -169,8 +170,8 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
           disabled: modalState === "reject" && !comment,
         }}
       >
-        <textarea
-          className="h-40 w-full rounded-xl border border-flathub-sonic-silver p-3 dark:border-flathub-spanish-gray"
+        <Textarea
+          className="h-40"
           value={comment}
           placeholder={
             modalState === "reject" ? "Comment" : "Comment (optional)"
