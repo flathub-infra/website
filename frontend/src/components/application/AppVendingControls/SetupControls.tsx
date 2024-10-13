@@ -15,7 +15,6 @@ import { VendingConfig } from "../../../types/Vending"
 import Button from "../../Button"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
-import Toggle from "../../Toggle"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -24,6 +23,7 @@ import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
 } from "src/codegen"
+import { Switch } from "@/components/ui/switch"
 
 interface Props {
   app: Appstream
@@ -149,7 +149,10 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       >
         <div className="flex gap-3 border-b border-slate-400/20 pb-3">
           <label>{t("enable-app-vending")}</label>
-          <Toggle enabled={vendingEnabled} setEnabled={setVendingEnabled} />
+          <Switch
+            checked={vendingEnabled}
+            onCheckedChange={setVendingEnabled}
+          />
         </div>
         <div>
           <label>{t("recommended-payment")}</label>
@@ -188,7 +191,10 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         )}
         <div className="flex gap-3 border-t border-slate-400/20 pt-3">
           <label>{t("require-payment")}</label>
-          <Toggle enabled={requirePayment} setEnabled={setRequirePayment} />
+          <Switch
+            checked={requirePayment}
+            onCheckedChange={setRequirePayment}
+          />
         </div>
         <div>
           <label>{t("minimum-payment")}</label>

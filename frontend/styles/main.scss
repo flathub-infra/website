@@ -121,7 +121,7 @@
   --popover: var(--flathub-white);
   --popover-foreground: var(--flathub-dark-gunmetal);
 
-  --primary: 0 0% 9%;
+  --primary: var(--flathub-celestial-blue);
   --primary-foreground: var(--flathub-lotion);
 
   --secondary: 0 0% 96.1%;
@@ -154,7 +154,7 @@
   --popover: var(--flathub-dark-gunmetal);
   --popover-foreground: var(--flathub-lotion);
 
-  --primary: var(--flathub-lotion);
+  --primary: var(--flathub-celestial-blue);
   --primary-foreground: 0 0% 9%;
 
   --secondary: var(--flathub-arsenic);

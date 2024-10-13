@@ -23,6 +23,7 @@
     "@headlessui/react": "^2.1.2",
     "@mitresthen/matomo-tracker-react": "^0.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
     "@resvg/resvg-js": "^2.6.2",
     "@sentry/nextjs": "^8.34.0",
     "@storybook/test": "^8.3.5",
