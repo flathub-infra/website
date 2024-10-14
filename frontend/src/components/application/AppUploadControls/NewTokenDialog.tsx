@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query"
 import { createUploadTokenUploadTokensAppIdPost } from "src/codegen"
 import { NewTokenResponse } from "src/codegen/model"
 import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
   app_id: string
@@ -88,16 +89,21 @@ const NewTokenDialog: FunctionComponent<Props> = ({
           <div>
             <h4 className="mt-3 mb-1 font-bold">{t("scopes")}</h4>
             {["build", "upload", "publish", "jobs"].map((scope) => (
-              <div key={scope} className="ms-1">
-                <input
+              <div key={scope} className="items-top flex space-x-2 pt-2">
+                <Checkbox
                   id={`scope-${scope}`}
-                  type="checkbox"
-                  className="me-2"
                   checked={scopes.includes(scope)}
-                  onChange={(event) => setScope(scope, event.target.checked)}
+                  onCheckedChange={(event) => setScope(scope, Boolean(event))}
                   disabled={scope === "build"}
                 />
-                <label htmlFor={`scope-${scope}`}>{t(`scope-${scope}`)}</label>
+                <div className="grid gap-1.5 leading-none">
+                  <label
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    htmlFor={`scope-${scope}`}
+                  >
+                    {t(`scope-${scope}`)}
+                  </label>
+                </div>
               </div>
             ))}
           </div>
