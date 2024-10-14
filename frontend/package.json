@@ -89,7 +89,7 @@
     "@tanstack/eslint-plugin-query": "^5.53.0",
     "@tanstack/react-query-devtools": "^5.45.1",
     "@types/node": "^22.7.5",
-    "@types/react": "^18.3.4",
+    "@types/react": "^18.3.11",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.11.0",
     "eslint": "^8.57.0",
