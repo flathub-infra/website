@@ -59,6 +59,7 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
         size="xl"
         disabled={text.trim().length === 0}
         onClick={() => redeemVendingToken.mutate()}
+        className="h-12"
       >
         {t("redeem-token")}
       </Button>
