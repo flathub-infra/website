@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useUserContext } from "src/context/user-info"
-import Button from "../Button"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
@@ -23,6 +22,7 @@ import {
   Permission,
   QualityModerationStatus,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 const QualityModerationStatusComponent = ({
   status,
@@ -102,6 +102,7 @@ const ReviewButton = ({
   if (!review_requested_at) {
     return (
       <Button
+        size="lg"
         className="me-2 flex items-center gap-1"
         variant="secondary"
         onClick={() => {
@@ -137,6 +138,7 @@ const ReviewButton = ({
 
   return (
     <Button
+      size="lg"
       className="me-2 flex items-center gap-1"
       variant="secondary"
       disabled
@@ -221,6 +223,7 @@ export const QualityModeration = ({
             mode={mode}
           />
           <Button
+            size="lg"
             onClick={() => {
               setIsQualityModalOpen(true)
             }}

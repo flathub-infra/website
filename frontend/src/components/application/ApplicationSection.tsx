@@ -3,8 +3,9 @@ import { FunctionComponent, ReactElement } from "react"
 import { AppstreamListItem } from "../../types/Appstream"
 
 import { ApplicationCard, ApplicationCardSkeleton } from "./ApplicationCard"
-import ButtonLink from "../ButtonLink"
 import clsx from "clsx"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 interface PropsWithTitle {
   type: "withTitle"
@@ -57,16 +58,16 @@ const ApplicationSection: FunctionComponent<
           key={prop.moreText}
           className={clsx("flex flex-row justify-center", "mt-5")}
         >
-          <ButtonLink
-            href={prop.href}
-            passHref
+          <Button
+            asChild
             variant="secondary"
+            size="xl"
             className="rounded-full px-8"
             aria-label={prop.moreText}
             title={prop.moreText}
           >
-            {prop.moreText}
-          </ButtonLink>
+            <Link href={prop.href}>{prop.moreText}</Link>
+          </Button>
         </div>
       )}
     </div>

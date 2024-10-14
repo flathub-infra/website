@@ -2,7 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
-import Button from "../Button"
 import Spinner from "../Spinner"
 import {
   getDashboardLinkVendingStatusDashboardlinkGet,
@@ -10,6 +9,7 @@ import {
   statusVendingStatusGet,
 } from "src/codegen"
 import { useRouter } from "next/router"
+import { Button } from "@/components/ui/button"
 
 /**
  * A link to the user's account for donations and payments. Will be one of:
@@ -84,7 +84,7 @@ const VendingLink: FunctionComponent = () => {
   if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
     return (
       <Button
-        variant="primary"
+        size="lg"
         onClick={() => {
           if (onboarding) return
 

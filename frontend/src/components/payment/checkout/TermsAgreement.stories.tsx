@@ -1,7 +1,7 @@
 import React from "react"
 import { Meta } from "@storybook/react"
+import { Button } from "@/components/ui/button"
 import TermsAgreement from "./TermsAgreement"
-import Button from "../../Button"
 
 export default {
   title: "Components/Payment/TermsAgreement",
@@ -12,7 +12,7 @@ export const Generated = () => {
   return (
     <TermsAgreement
       onConfirm={() => {}}
-      transactionCancelButton={<Button>Cancel</Button>}
+      transactionCancelButton={<Button size="lg">Cancel</Button>}
     />
   )
 }

@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { getIntlLocale } from "src/localize"
-import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import Badge from "../application/Badge"
@@ -16,6 +15,7 @@ import {
   ModerationRequestResponse,
   Permission,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
 interface Props {
@@ -123,6 +123,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
     buttons = (
       <>
         <Button
+          size="lg"
           variant="destructive"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
@@ -133,6 +134,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
           Reject
         </Button>
         <Button
+          size="lg"
           variant="secondary"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
@@ -143,7 +145,7 @@ const ReviewCard: FunctionComponent<Props> = ({ title, request, children }) => {
           Approve With Comment
         </Button>
         <Button
-          variant="primary"
+          size="lg"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
             mutation.mutate({ approve: true, comment })

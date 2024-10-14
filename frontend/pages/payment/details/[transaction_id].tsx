@@ -12,7 +12,8 @@ import { useUserContext } from "../../../src/context/user-info"
 import { TRANSACTION_INFO_URL } from "../../../src/env"
 import { TransactionDetailed } from "../../../src/types/Payment"
 import LoginGuard from "../../../src/components/login/LoginGuard"
-import ButtonLink from "src/components/ButtonLink"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 async function getTransaction(transactionId: string) {
   let res: Response
@@ -74,9 +75,11 @@ export default function TransactionPage() {
               id={transaction.summary.id}
               onSuccess={() => router.reload()}
             />
-            <ButtonLink href={`/payment/${transaction.summary.id}`} passHref>
-              {t("retry-checkout")}
-            </ButtonLink>
+            <Button asChild>
+              <Link href={`/payment/${transaction.summary.id}`}>
+                {t("retry-checkout")}
+              </Link>
+            </Button>
           </div>
         </>
       )

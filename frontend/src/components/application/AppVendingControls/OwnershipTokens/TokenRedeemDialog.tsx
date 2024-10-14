@@ -2,10 +2,10 @@ import { useTranslation } from "next-i18next"
 import { useCallback, useState } from "react"
 import { toast } from "react-toastify"
 import { Appstream } from "../../../../types/Appstream"
-import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { redeemTokenVendingappAppIdTokensRedeemTokenPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 /**
@@ -56,9 +56,9 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
         className="w-80"
       />
       <Button
+        size="xl"
         disabled={text.trim().length === 0}
         onClick={() => redeemVendingToken.mutate()}
-        className="h-12"
       >
         {t("redeem-token")}
       </Button>

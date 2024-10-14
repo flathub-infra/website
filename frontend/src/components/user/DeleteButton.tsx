@@ -2,7 +2,6 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
 import { useUserDispatch } from "../../context/user-info"
-import Button from "../Button"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"
 import { useMutation } from "@tanstack/react-query"
@@ -12,6 +11,7 @@ import {
   getDeleteuserAuthDeleteuserGet,
 } from "src/codegen"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 const DeleteButton: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -71,6 +71,7 @@ const DeleteButton: FunctionComponent = () => {
   return (
     <>
       <Button
+        size="xl"
         onClick={() => prepareDeleteUserMutation.mutate()}
         variant="destructive"
       >

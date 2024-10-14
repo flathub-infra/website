@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import Button from "../../Button"
 import { cancelTransactionWalletTransactionsTxnCancelPost } from "src/codegen"
 
 interface Props {
@@ -40,6 +40,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
 
   return (
     <Button
+      size="lg"
       className={className}
       onClick={() => setClicked(true)}
       variant="secondary"

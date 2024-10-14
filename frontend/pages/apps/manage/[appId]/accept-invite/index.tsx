@@ -5,7 +5,6 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect } from "react"
 import { useTranslation } from "next-i18next"
-import Button from "src/components/Button"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { fetchAppstream } from "src/fetchers"
@@ -15,6 +14,7 @@ import {
   declineInviteInvitesAppIdDeclinePost,
   getInviteStatusInvitesAppIdGet,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 export default function AcceptInvitePage({ app }) {
   const { t } = useTranslation()
@@ -70,6 +70,7 @@ export default function AcceptInvitePage({ app }) {
 
           <div className="mt-8 w-1/2 space-y-4">
             <Button
+              size="xl"
               onClick={async () => {
                 if (user.info?.accepted_publisher_agreement_at) {
                   acceptInviteMutation.mutate()
@@ -85,6 +86,7 @@ export default function AcceptInvitePage({ app }) {
             </Button>
 
             <Button
+              size="xl"
               onClick={() => {
                 declineInviteMutation.mutate()
               }}

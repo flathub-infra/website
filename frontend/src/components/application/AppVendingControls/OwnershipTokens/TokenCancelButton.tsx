@@ -1,11 +1,11 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { toast } from "react-toastify"
-import Button from "../../../Button"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { TokenModel } from "src/codegen/model"
 import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   token: TokenModel
@@ -52,6 +52,7 @@ const TokenCancelButton: FunctionComponent<Props> = ({
 
   return (
     <Button
+      size="lg"
       variant="destructive"
       onClick={() => cancelVendingTokensMutation.mutate()}
     >

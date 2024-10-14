@@ -7,7 +7,6 @@ import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
 import { formatCurrency } from "../../../utils/localize"
-import Button from "../../Button"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
@@ -16,6 +15,7 @@ import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingStatusVendingappAppIdPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">
@@ -156,7 +156,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         vendingConfig={vendingConfig}
       />
       <div>
-        <Button disabled={!canSubmit}>
+        <Button size="lg" disabled={!canSubmit}>
           {t(isDonationOnly ? "make-donation" : "kind-purchase")}
         </Button>
       </div>

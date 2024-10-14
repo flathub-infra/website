@@ -1,6 +1,5 @@
 import { ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
-import Button from "src/components/Button"
 import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation, useQuery } from "@tanstack/react-query"
@@ -13,6 +12,7 @@ import {
   switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
 } from "src/codegen"
 import { getUploadTokensUploadTokensAppIdGet } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Appstream } from "src/types/Appstream"
 import { Textarea } from "@/components/ui/textarea"
@@ -81,7 +81,11 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 
   return (
     <>
-      <Button onClick={() => setModalVisible(true)} variant="secondary">
+      <Button
+        size="lg"
+        onClick={() => setModalVisible(true)}
+        variant="secondary"
+      >
         {t("archive-app")}
       </Button>
       <Modal

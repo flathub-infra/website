@@ -4,9 +4,9 @@ import { FunctionComponent } from "react"
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
 
 import { useTranslation } from "next-i18next"
-import Button from "../Button"
 import Pagination from "../Pagination"
 import { ApplicationCard } from "./ApplicationCard"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   applications: Appstream[] | AppstreamListItem[]
@@ -73,6 +73,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
 
   const refresh = onRefresh ? (
     <Button
+      size="lg"
       className="w-full sm:w-auto"
       variant="secondary"
       onClick={onRefresh}

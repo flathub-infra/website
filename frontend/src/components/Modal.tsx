@@ -6,11 +6,11 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react"
-import { Fragment, FunctionComponent, useRef } from "react"
-import Button from "./Button"
+import { FunctionComponent, useRef } from "react"
 import { useTranslation } from "next-i18next"
 import { HiMiniXMark } from "react-icons/hi2"
 import clsx from "clsx"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   shown: boolean
@@ -29,7 +29,7 @@ interface Props {
     label?: string
     onClick: () => void
     disabled?: boolean
-    variant?: "primary" | "secondary" | "destructive"
+    variant?: "default" | "secondary" | "destructive"
   }
 }
 
@@ -122,9 +122,10 @@ const Modal: FunctionComponent<Props> = ({
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     {submitButton && (
                       <Button
+                        size="lg"
                         className="w-full px-3 py-2 sm:ms-3 sm:w-auto"
                         onClick={submitButton.onClick}
-                        variant={submitButton.variant ?? "primary"}
+                        variant={submitButton.variant ?? "default"}
                         aria-label={submitButton.label ?? t("submit")}
                         disabled={submitButton.disabled}
                       >
@@ -133,6 +134,7 @@ const Modal: FunctionComponent<Props> = ({
                     )}
                     {cancelButton && (
                       <Button
+                        size="lg"
                         className="mt-3 w-full px-3 py-2 sm:mt-0 sm:w-auto"
                         onClick={cancelButton.onClick}
                         variant="secondary"

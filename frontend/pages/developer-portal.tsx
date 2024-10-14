@@ -7,13 +7,13 @@ import UserApps from "../src/components/user/UserApps"
 import { IS_PRODUCTION } from "src/env"
 import VendingLink from "src/components/user/VendingLink"
 import { useUserContext } from "src/context/user-info"
-import ButtonLink from "src/components/ButtonLink"
 import CodeCopy from "src/components/application/CodeCopy"
 import { HiMiniPlus } from "react-icons/hi2"
 import Breadcrumbs from "src/components/Breadcrumbs"
-import axios from "axios"
 import { format } from "date-fns"
 import { Permission } from "src/codegen"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 const InviteCode = ({ locale }) => {
   const { t } = useTranslation()
@@ -123,10 +123,12 @@ const DeveloperApps = ({ locale }) => {
       customButtons={
         (!IS_PRODUCTION ||
           user.info?.permissions.some((a) => a === Permission.moderation)) && (
-          <ButtonLink className="w-full sm:w-auto" passHref href="/apps/new">
-            <HiMiniPlus className="w-5 h-5" />
-            {t("new-app")}
-          </ButtonLink>
+          <Button size="lg" className="w-full sm:w-auto" asChild>
+            <Link href="/apps/new">
+              <HiMiniPlus className="w-5 h-5" />
+              {t("new-app")}
+            </Link>
+          </Button>
         )
       }
     />

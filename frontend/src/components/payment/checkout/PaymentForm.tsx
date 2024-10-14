@@ -1,7 +1,6 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
-import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
 import { useMutation } from "@tanstack/react-query"
@@ -10,6 +9,7 @@ import {
   setPendingWalletTransactionsTxnSetpendingPost,
   setSavecardWalletTransactionsTxnSavecardPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
@@ -103,6 +103,7 @@ const PaymentForm: FunctionComponent<Props> = ({
           <div className="flex flex-col-reverse gap-4 sm:flex-row">
             {transactionCancelButton}
             <Button
+              size="lg"
               className="ms-auto w-full sm:w-auto"
               type="button"
               onClick={goBack}
@@ -110,7 +111,9 @@ const PaymentForm: FunctionComponent<Props> = ({
             >
               {t("use-saved-card")}
             </Button>
-            <Button className="w-full sm:w-auto">{t("submit-payment")}</Button>
+            <Button size="lg" className="w-full sm:w-auto">
+              {t("submit-payment")}
+            </Button>
           </div>
         </>
       )}

@@ -6,13 +6,13 @@ import {
 } from "@headlessui/react"
 import { HiOutlineFunnel } from "react-icons/hi2"
 import clsx from "clsx"
-import Button from "src/components/Button"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseQueryResult } from "@tanstack/react-query"
 import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
 import { AxiosResponse } from "axios"
 import { useTranslation, Trans } from "next-i18next"
 import { SearchResults } from "./SearchResults"
+import { Button } from "@/components/ui/button"
 
 export const SearchPanel = ({
   searchResult,
@@ -95,6 +95,7 @@ export const SearchPanel = ({
               <>
                 <DisclosureButton
                   as={Button}
+                  size="lg"
                   disabled={searchResult.isPending}
                   variant="secondary"
                   className="w-full"

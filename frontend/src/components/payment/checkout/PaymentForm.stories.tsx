@@ -3,7 +3,7 @@ import { Meta } from "@storybook/react"
 import PaymentForm from "./PaymentForm"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import Button from "../../Button"
+import { Button } from "@/components/ui/button"
 
 export default {
   title: "Components/Payment/PaymentForm",
@@ -25,7 +25,7 @@ export const Generated = () => {
         callbackPage={`'details/1'`}
         canGoBack={true}
         goBack={() => {}}
-        transactionCancelButton={<Button>Cancel</Button>}
+        transactionCancelButton={<Button size="lg">Cancel</Button>}
       />
     </Elements>
   )

@@ -1,7 +1,6 @@
 import { FunctionComponent, ReactElement, useState } from "react"
 import { useTranslation } from "next-i18next"
 import { Appstream } from "src/types/Appstream"
-import Button from "../Button"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
@@ -19,6 +18,7 @@ import {
   revokeInviteInvitesAppIdRevokePost,
 } from "src/codegen"
 import { Developer } from "src/codegen/model"
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 interface Props {
@@ -112,8 +112,8 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
           {selfIsPrimary && (
             <>
               <Button
+                size="lg"
                 className="w-full"
-                variant="primary"
                 onClick={() => setInviteDialogVisible(true)}
               >
                 {t("invite-developer")}
@@ -131,6 +131,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
           {!selfIsPrimary && (
             <>
               <Button
+                size="lg"
                 className="w-full"
                 variant="destructive"
                 onClick={() => setLeaveDialogVisible(true)}
@@ -240,6 +241,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         {selfIsPrimary && !developer.is_self && (
           <div>
             <Button
+              size="lg"
               variant="destructive"
               onClick={async () => {
                 setDialogVisible(true)

@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import Button from "../../Button"
+import { FunctionComponent, ReactElement, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
@@ -38,6 +38,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
         <Button
+          size="lg"
           className="ms-auto w-full sm:w-auto"
           disabled={!checked}
           onClick={onConfirm}

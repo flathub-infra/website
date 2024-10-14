@@ -1,10 +1,10 @@
+import { Button } from "@/components/ui/button"
 import clsx from "clsx"
 import { GetStaticProps } from "next"
 import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import Link from "next/link"
-import Button from "src/components/Button"
 
 const Acknowledgments = () => {
   const { t } = useTranslation()
@@ -113,7 +113,7 @@ const Users = () => {
       </p>
       <div className="mt-10">
         <Link href={"/"}>
-          <Button>{t("get-apps")}</Button>
+          <Button size="xl">{t("get-apps")}</Button>
         </Link>
       </div>
     </div>
@@ -178,13 +178,13 @@ const Developers = () => {
         </Trans>
       </p>
       <div className="mt-10">
-        <Link
+        <a
           href={"https://docs.flathub.org/docs/category/for-app-authors"}
           target="_blank"
           rel="noreferrer"
         >
-          <Button>{t("publish-your-app")}</Button>
-        </Link>
+          <Button size="xl">{t("publish-your-app")}</Button>
+        </a>
       </div>
     </div>
   )
