@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { setQueryParams } from "src/utils/queryParams"
 import { getModerationAppsModerationAppsGet } from "src/codegen"
+import { Checkbox } from "@/components/ui/checkbox"
 
 const ModerationTabs: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -91,39 +92,47 @@ const ModerationTabs: FunctionComponent = () => {
     return (
       <>
         <div className="flex space-x-8">
-          <span>
-            <input
+          <div className="items-top flex space-x-1 pt-2">
+            <Checkbox
               id="filter-new"
-              type="checkbox"
               checked={filterNewSubmissionsQuery}
-              onChange={() => {
+              onCheckedChange={(event) => {
                 setQueryParams(router, {
-                  filterNew: filterNewSubmissionsQuery ? undefined : "true",
+                  filterNew: event ? undefined : "true",
                   page: "1",
                 })
               }}
             />
-            <label htmlFor="filter-new" className="ms-2">
-              Only show new submissions
-            </label>
-          </span>
+            <div className="grid gap-1.5 leading-none">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="filter-new"
+              >
+                Only show new submissions
+              </label>
+            </div>
+          </div>
 
-          <span>
-            <input
+          <div className="items-top flex space-x-1 pt-2">
+            <Checkbox
               id="include-handled"
-              type="checkbox"
               checked={showHandledQuery}
-              onChange={() => {
+              onCheckedChange={(event) => {
                 setQueryParams(router, {
-                  includeHandled: showHandledQuery ? undefined : "true",
+                  includeHandled: event ? undefined : "true",
                   page: "1",
                 })
               }}
             />
-            <label htmlFor="include-handled" className="ms-2">
-              Include handled requests
-            </label>
-          </span>
+            <div className="grid gap-1.5 leading-none">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="include-handled"
+              >
+                Include handled requests
+              </label>
+            </div>
+          </div>
         </div>
         <ApplicationCollection
           title={undefined}

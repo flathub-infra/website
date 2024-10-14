@@ -1,3 +1,5 @@
+import { Checkbox } from "@/components/ui/checkbox"
+import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseQueryResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
 import { useTranslation } from "next-i18next"
@@ -8,22 +10,17 @@ const FilterFacette = ({
   label,
   count,
   checked,
-  onChange,
+  onCheckedChange,
 }: {
   label: string
   count: number
   checked: boolean
-  onChange: (e) => void
+  onCheckedChange: (e: CheckedState) => void
 }) => {
   return (
-    <label className="flex items-center">
-      <input
-        type="checkbox"
-        className="form-checkbox"
-        checked={checked}
-        onChange={onChange}
-      />
-      <span className="ms-2">{`${label} (${count})`}</span>
+    <label className="items-top flex space-x-2 pt-1.5">
+      <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
+      <span className="grid gap-1.5 leading-none">{`${label} (${count})`}</span>
     </label>
   )
 }
@@ -57,7 +54,7 @@ const SearchFilterCategories = ({
                   label={"Loading..."}
                   count={0}
                   checked={false}
-                  onChange={() => {}}
+                  onCheckedChange={() => {}}
                 />
               </div>
             </>
@@ -78,8 +75,8 @@ const SearchFilterCategories = ({
                   filter.filterType === "main_categories" &&
                   filter.value === category,
               )}
-              onChange={(e) => {
-                if (e.target.checked) {
+              onCheckedChange={(e) => {
+                if (e) {
                   setSelectedFilters([
                     ...selectedFilters,
                     {
@@ -135,7 +132,7 @@ const SearchFilterFloss = ({
                   label={"Loading..."}
                   count={0}
                   checked={false}
-                  onChange={() => {}}
+                  onCheckedChange={() => {}}
                 />
               </div>
             </>
@@ -165,8 +162,8 @@ const SearchFilterFloss = ({
                   filter.filterType === "is_free_license" &&
                   filter.value === license,
               )}
-              onChange={(e) => {
-                if (e.target.checked) {
+              onCheckedChange={(e) => {
+                if (e) {
                   setSelectedFilters([
                     ...selectedFilters,
                     {
@@ -221,7 +218,7 @@ const SearchFilterVerified = ({
                   label={"Loading..."}
                   count={0}
                   checked={false}
-                  onChange={() => {}}
+                  onCheckedChange={() => {}}
                 />
               </div>
             </>
@@ -253,8 +250,8 @@ const SearchFilterVerified = ({
                   filter.filterType === "verification_verified" &&
                   filter.value === verified,
               )}
-              onChange={(e) => {
-                if (e.target.checked) {
+              onCheckedChange={(e) => {
+                if (e) {
                   setSelectedFilters([
                     ...selectedFilters,
                     {
@@ -309,7 +306,7 @@ const SearchFilterTypes = ({
                   label={"Loading..."}
                   count={0}
                   checked={false}
-                  onChange={() => {}}
+                  onCheckedChange={() => {}}
                 />
               </div>
             </>
@@ -325,8 +322,8 @@ const SearchFilterTypes = ({
             checked={selectedFilters.some(
               (filter) => filter.filterType === "type" && filter.value === type,
             )}
-            onChange={(e) => {
-              if (e.target.checked) {
+            onCheckedChange={(e) => {
+              if (e) {
                 setSelectedFilters([
                   ...selectedFilters,
                   {
@@ -378,7 +375,7 @@ const SearchFilterArches = ({
                   label={"Loading..."}
                   count={0}
                   checked={false}
-                  onChange={() => {}}
+                  onCheckedChange={() => {}}
                 />
               </div>
             </>
@@ -396,8 +393,8 @@ const SearchFilterArches = ({
                 (filter) =>
                   filter.filterType === "arches" && filter.value === arch,
               )}
-              onChange={(e) => {
-                if (e.target.checked) {
+              onCheckedChange={(e) => {
+                if (e) {
                   setSelectedFilters([
                     ...selectedFilters,
                     {

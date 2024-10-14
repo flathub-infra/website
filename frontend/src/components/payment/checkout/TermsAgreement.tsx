@@ -1,6 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import Button from "../../Button"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
   onConfirm: () => void
@@ -15,23 +16,21 @@ const TermsAgreement: FunctionComponent<Props> = ({
 
   const [checked, setChecked] = useState(false)
 
-  const invertCheck = useCallback(() => setChecked(!checked), [checked])
-
   return (
     <div className="flex flex-col gap-5 p-5">
-      <div className="relative flex items-start">
-        <div className="flex h-5 items-center">
-          <input
-            id="save-card"
-            type="checkbox"
-            checked={checked}
-            onChange={invertCheck}
-            aria-describedby="card-description"
-            className="size-4"
-          />
-        </div>
-        <div className="ms-3 text-sm">
-          <label htmlFor="save-card" className="font-medium">
+      <div className="items-top flex space-x-3 pt-2">
+        <Checkbox
+          id="purcase-terms-confirm"
+          checked={checked}
+          onCheckedChange={(event) => {
+            setChecked(Boolean(event))
+          }}
+        />
+        <div className="grid gap-1.5 leading-none">
+          <label
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="purcase-terms-confirm"
+          >
             {t("purchase-terms-confirmation")}
           </label>
         </div>

@@ -7,6 +7,7 @@ import LoginGuard from "../login/LoginGuard"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
 import { doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost } from "src/codegen"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
   continueText?: string
@@ -150,17 +151,22 @@ const PublisherAgreement: FunctionComponent<Props> = ({
 
       <hr className="my-8" />
 
-      <div>
-        <input
-          type="checkbox"
-          className="me-2"
+      <div className="items-top flex space-x-3 pt-2">
+        <Checkbox
           id="agree"
           checked={accepted}
-          onChange={(event) => setAccepted(event.target.checked)}
+          onCheckedChange={(event) => {
+            setAccepted(Boolean(event))
+          }}
         />
-        <label htmlFor="agree" className="mb-8">
-          {t("publisher-agreement-accept")}
-        </label>
+        <div className="grid gap-1.5 leading-none">
+          <label
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            htmlFor="agree"
+          >
+            {t("publisher-agreement-accept")}
+          </label>
+        </div>
       </div>
 
       <Button

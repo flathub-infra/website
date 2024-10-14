@@ -10,6 +10,7 @@ import {
   setPendingWalletTransactionsTxnSetpendingPost,
   setSavecardWalletTransactionsTxnSavecardPost,
 } from "src/codegen"
+import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
   transactionId: string
@@ -82,19 +83,19 @@ const PaymentForm: FunctionComponent<Props> = ({
         <Spinner size="s" />
       ) : (
         <>
-          <div className="relative flex items-start">
-            <div className="flex h-5 items-center">
-              <input
-                id="save-card"
-                type="checkbox"
-                aria-describedby="card-description"
-                className="size-4"
-                checked={checked}
-                onChange={() => setChecked(!checked)}
-              />
-            </div>
-            <div className="ms-3 text-sm">
-              <label htmlFor="save-card" className="font-medium">
+          <div className="items-top flex space-x-3 pt-2">
+            <Checkbox
+              id="save-card"
+              checked={checked}
+              onCheckedChange={(event) => {
+                setChecked(Boolean(event))
+              }}
+            />
+            <div className="grid gap-1.5 leading-none">
+              <label
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                htmlFor="save-card"
+              >
                 {t("save-card-for-reuse")}
               </label>
             </div>
