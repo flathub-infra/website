@@ -5,6 +5,8 @@ import { expect, userEvent, waitFor, within } from "@storybook/test"
 import React from "react"
 
 const meta = {
+  title:
+    "Components/Application/AppVendingControls/OwnershipTokens/TokenCreateDialog",
   component: TokenCreateDialog,
 } satisfies Meta<typeof TokenCreateDialog>
 

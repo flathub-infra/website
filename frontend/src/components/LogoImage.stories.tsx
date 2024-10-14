@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import LogoImage from "./LogoImage"
 
 const meta = {
+  title: "Components/LogoImage",
   component: LogoImage,
 } satisfies Meta<typeof LogoImage>
 

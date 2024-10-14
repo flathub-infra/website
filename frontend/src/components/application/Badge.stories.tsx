@@ -4,6 +4,7 @@ import Badge from "./Badge"
 import React from "react"
 
 const meta = {
+  title: "Components/Badge",
   component: Badge,
 } satisfies Meta<typeof Badge>
 
