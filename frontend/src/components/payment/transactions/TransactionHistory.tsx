@@ -8,18 +8,18 @@ import {
 import { toast } from "react-toastify"
 import { useUserContext } from "../../../context/user-info"
 import { TransactionDetailed, TransactionStatus } from "../../../types/Payment"
-import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { FlathubDisclosure } from "./../../Disclosure"
 import { getIntlLocale } from "src/localize"
 import { formatCurrency } from "src/utils/localize"
 import { clsx } from "clsx"
-import ButtonLink from "src/components/ButtonLink"
 import TransactionCancelButton from "./TransactionCancelButton"
 import { TRANSACTION_INFO_URL } from "src/env"
 import { AxiosResponse } from "axios"
 import { TransactionSummary } from "src/codegen/model/transactionSummary"
 import { getTransactionsWalletTransactionsGet } from "src/codegen"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const perPage = 10
 
@@ -77,14 +77,11 @@ const TransactionPanel = ({
       )}
       {!error && needsAttention && (
         <div className="flex gap-3">
-          <ButtonLink
-            href={`/payment/${transaction.id}`}
-            passHref
-            variant="primary"
-            className="w-full md:w-auto"
-          >
-            {t("retry-checkout")}
-          </ButtonLink>
+          <Button className="w-full md:w-auto" asChild>
+            <Link href={`/payment/${transaction.id}`}>
+              {t("retry-checkout")}
+            </Link>
+          </Button>
           <TransactionCancelButton
             id={transaction.id}
             onSuccess={() => setStatus("cancelled")}
@@ -298,6 +295,7 @@ const TransactionHistory: FunctionComponent = () => {
           })}
           <div className="flex justify-center gap-5 pt-4">
             <Button
+              size="lg"
               variant="secondary"
               onClick={pageBack}
               disabled={page === 0}
@@ -306,6 +304,7 @@ const TransactionHistory: FunctionComponent = () => {
               <HiChevronLeft className="text-2xl" />
             </Button>
             <Button
+              size="lg"
               variant="secondary"
               onClick={pageForward}
               disabled={page === endPage || perPage > pageSlice.length}

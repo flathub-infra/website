@@ -3,9 +3,9 @@ import { Meta } from "@storybook/react"
 import CardSelect from "./CardSelect"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import Button from "../../Button"
 import { TransactionDetailed } from "../../../types/Payment"
 import { PaymentCardInfo } from "../../../codegen"
+import { Button } from "@/components/ui/button"
 
 export default {
   title: "Components/Payment/CardSelect",
@@ -72,7 +72,7 @@ export const Generated = () => {
         error={"error"}
         submit={() => {}}
         skip={() => {}}
-        transactionCancelButton={<Button>Cancel</Button>}
+        transactionCancelButton={<Button size="lg">Cancel</Button>}
       />
     </Elements>
   )

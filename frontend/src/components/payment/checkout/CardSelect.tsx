@@ -2,7 +2,6 @@ import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useEffect, useState } from "react"
 import { TransactionDetailed } from "../../../types/Payment"
-import Button from "../../Button"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
@@ -13,6 +12,7 @@ import {
   setTransactionCardWalletTransactionsTxnSetcardPost,
 } from "src/codegen"
 import { PaymentCardInfo } from "src/codegen/model"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   transaction: TransactionDetailed
@@ -124,10 +124,11 @@ const CardSelect: FunctionComponent<Props> = ({
       {cardSection}
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
         {transactionCancelButton}
-        <Button className="ms-auto w-full sm:w-auto" onClick={skip}>
+        <Button size="lg" className="ms-auto w-full sm:w-auto" onClick={skip}>
           {t("use-new-card")}
         </Button>
         <Button
+          size="lg"
           className="w-full sm:w-auto"
           onClick={() => setConfirmed(true)}
           disabled={!useCard}

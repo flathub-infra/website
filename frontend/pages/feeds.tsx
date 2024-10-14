@@ -3,8 +3,8 @@ import { NextSeo } from "next-seo"
 import { Trans, useTranslation } from "next-i18next"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import ButtonLink from "src/components/ButtonLink"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
@@ -23,20 +23,16 @@ const Feeds = (): JSX.Element => {
         <h2 className="my-4 text-xl font-semibold">{t("new-apps")}</h2>
         <div className="flex flex-col pb-4">
           <p>{t("new-description")}</p>
-          <ButtonLink className="w-52" href={FEED_NEW_URL} passHref>
-            {t("subscribe")}
-          </ButtonLink>
+          <Button className="w-52" asChild size="xl">
+            <Link href={FEED_NEW_URL}>{t("subscribe")}</Link>
+          </Button>
         </div>
         <h2 className="my-4 text-xl font-semibold">{t("updated-apps")}</h2>
         <div className="flex flex-col pb-4">
           <p>{t("updated-description")}</p>
-          <ButtonLink
-            className="w-52"
-            href={FEED_RECENTLY_UPDATED_URL}
-            passHref
-          >
-            {t("subscribe")}
-          </ButtonLink>
+          <Button className="w-52" asChild size="xl">
+            <Link href={FEED_RECENTLY_UPDATED_URL}>{t("subscribe")}</Link>
+          </Button>
         </div>
 
         <h6 className="mt-2 text-xs font-normal">

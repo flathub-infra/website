@@ -11,7 +11,6 @@ import { Trans, useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { ReactElement, useEffect, useState } from "react"
-import Button from "src/components/Button"
 import { FlathubCombobox } from "src/components/Combobox"
 import Spinner from "src/components/Spinner"
 import { HeroBanner } from "src/components/application/HeroBanner"
@@ -29,6 +28,7 @@ import {
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
 import { DesktopAppstream } from "src/types/Appstream"
+import { Button } from "@/components/ui/button"
 
 AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -347,6 +347,7 @@ export default function AppPicks() {
 
           <div className="flex justify-between pt-4">
             <Button
+              size="lg"
               onClick={() => {
                 setDate(addDays(startOfISOWeek(date), -1))
               }}
@@ -354,6 +355,7 @@ export default function AppPicks() {
               Previous week
             </Button>
             <Button
+              size="lg"
               onClick={() => {
                 setDate(addDays(endOfISOWeek(date), 1))
               }}

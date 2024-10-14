@@ -6,7 +6,7 @@ interface Props {
   prompt: string
   description?: string
   action: string
-  actionVariant?: "primary" | "secondary" | "destructive"
+  actionVariant?: "default" | "secondary" | "destructive"
   onConfirmed: () => void
   onCancelled: () => void
   submitDisabled?: boolean

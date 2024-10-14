@@ -10,7 +10,6 @@ import fetchCollection, {
 import { APPS_IN_PREVIEW_COUNT, IS_PRODUCTION } from "../src/env"
 import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
-import ButtonLink from "src/components/ButtonLink"
 import {
   AppsIndex,
   MeilisearchResponse,
@@ -26,6 +25,8 @@ import { formatISO } from "date-fns"
 import { useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
 import { useRouter } from "next/router"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const categoryOrder = [
   Category.Office,
@@ -210,7 +211,7 @@ export default function Home({
                   "p-8 w-full h-full",
                 )}
               >
-                <div className="prose dark:prose-invert max-w-none">
+                <div className="max-w-none">
                   <div className="mb-0 text-2xl font-extrabold">
                     {t("flathub-the-linux-app-store")}
                   </div>
@@ -218,23 +219,25 @@ export default function Home({
                     {t("flathub-index-description")}
                   </p>
                   <div className="flex flex-wrap gap-3">
-                    <ButtonLink
+                    <Button
                       variant="secondary"
-                      href={"/setup"}
-                      passHref
+                      asChild
+                      size="xl"
                       aria-label={t("setup-flathub-description")}
                     >
-                      {t("setup-flathub")}
-                    </ButtonLink>
+                      <Link href={"/setup"}>{t("setup-flathub")}</Link>
+                    </Button>
                     {!IS_PRODUCTION && (
-                      <ButtonLink
+                      <Button
                         variant="secondary"
-                        href={"/donate"}
-                        passHref
+                        asChild
+                        size="xl"
                         aria-label={t("donate-to", { project: "Flathub" })}
                       >
-                        {t("donate-to", { project: "Flathub" })}
-                      </ButtonLink>
+                        <Link href={"/donate"}>
+                          {t("donate-to", { project: "Flathub" })}
+                        </Link>
+                      </Button>
                     )}
                   </div>
                 </div>

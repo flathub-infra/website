@@ -1,6 +1,5 @@
 import { ReactElement, useCallback, useState } from "react"
 import { useTranslation } from "next-i18next"
-import Button from "src/components/Button"
 import NewTokenDialog from "./NewTokenDialog"
 import Spinner from "src/components/Spinner"
 import { getIntlLocale } from "src/localize"
@@ -12,6 +11,7 @@ import {
   getUploadTokensUploadTokensAppIdGet,
   revokeUploadTokenUploadTokensTokenIdRevokePost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 export default function UploadTokenControls({ app }: { app: { id: string } }) {
   const { t } = useTranslation()
@@ -56,6 +56,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
       <>
         <div className="grid w-full grid-cols-2 gap-4">
           <Button
+            size="lg"
             onClick={() => {
               setRepo("beta")
               setModalVisible(true)
@@ -65,6 +66,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
           </Button>
           {query.data.data.is_direct_upload_app && (
             <Button
+              size="lg"
               onClick={() => {
                 setRepo("stable")
                 setModalVisible(true)
@@ -143,6 +145,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
                         t("revoked")
                       ) : (
                         <Button
+                          size="lg"
                           variant="destructive"
                           onClick={() => {
                             setTokenToRevoke(token.id)
@@ -160,7 +163,11 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
         )}
 
         {!showExpired && (
-          <Button className="mt-4" onClick={() => setShowExpired(true)}>
+          <Button
+            size="lg"
+            className="mt-4"
+            onClick={() => setShowExpired(true)}
+          >
             {t("show-expired-tokens")}
           </Button>
         )}

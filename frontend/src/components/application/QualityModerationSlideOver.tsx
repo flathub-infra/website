@@ -18,7 +18,6 @@ import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
-import Button from "../Button"
 import { IconGrid } from "./IconGrid"
 import { useTranslation } from "next-i18next"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
@@ -35,6 +34,7 @@ import {
   setFullscreenAppQualityModerationAppIdFullscreenPost,
   setQualityModerationForAppQualityModerationAppIdPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import {
   Tooltip,
   TooltipContent,
@@ -49,6 +49,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   return (
     <div>
       <Button
+        size="lg"
         variant="secondary"
         className="flex items-center gap-1"
         {...getToggleProps()}
@@ -175,6 +176,7 @@ const ShowBrandingButton = ({
   return (
     <div>
       <Button
+        size="lg"
         variant="secondary"
         className="flex items-center gap-1"
         {...getToggleProps()}
@@ -259,7 +261,7 @@ const QualityCategories = ({
         <div className="flex gap-3">
           {query.data.data.review_requested_at && (
             <Button
-              variant="primary"
+              size="lg"
               className="w-full"
               onClick={() => {
                 dismissReviewMutation.mutateAsync()
@@ -269,6 +271,7 @@ const QualityCategories = ({
             </Button>
           )}
           <Button
+            size="lg"
             variant="secondary"
             className="w-full"
             onClick={() => {

@@ -4,10 +4,10 @@ import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
-import Button from "../Button"
 import * as Currency from "../currency"
 import Spinner from "../Spinner"
 import { createTransactionWalletTransactionsPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   org: string
@@ -69,6 +69,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   const presets = [5, 10, 15, 20].map((val) => {
     return (
       <Button
+        size="lg"
         key={val}
         variant="secondary"
         type="button"
@@ -104,6 +105,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         </div>
       </div>
       <Button
+        size="lg"
         disabled={
           amount.live < FLATHUB_MIN_PAYMENT || amount.live > STRIPE_MAX_PAYMENT
         }

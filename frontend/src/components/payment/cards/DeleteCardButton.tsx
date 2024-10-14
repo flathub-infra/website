@@ -2,11 +2,11 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
-import Button from "../../Button"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { PaymentCardInfo, WalletInfo } from "src/codegen/model"
 import { postRemovecardWalletRemovecardPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 const DeleteCardButton: FunctionComponent<{
   card: PaymentCardInfo
@@ -44,6 +44,7 @@ const DeleteCardButton: FunctionComponent<{
     return (
       <div className="flex justify-evenly gap-4">
         <Button
+          size="lg"
           variant="secondary"
           onClick={() => setConfirming(false)}
           aria-label={t("cancel")}
@@ -52,6 +53,7 @@ const DeleteCardButton: FunctionComponent<{
           <HiXCircle className="text-2xl" />
         </Button>
         <Button
+          size="lg"
           variant="destructive"
           onClick={() => deleteCard.mutate()}
           aria-label={t("delete")}
@@ -65,6 +67,7 @@ const DeleteCardButton: FunctionComponent<{
 
   return (
     <Button
+      size="lg"
       className="w-[250px] min-w-[200px] max-w-[300px]"
       variant="secondary"
       onClick={() => setConfirming(true)}

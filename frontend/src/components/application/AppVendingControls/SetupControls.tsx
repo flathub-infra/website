@@ -12,7 +12,6 @@ import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
 import { VendingConfig } from "../../../types/Vending"
-import Button from "../../Button"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import AppShareSlider from "./AppShareSlider"
@@ -23,6 +22,7 @@ import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 
 interface Props {
@@ -221,7 +221,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           </div>
         )}
         <div className="border-t border-slate-400/20 pt-3">
-          <Button disabled={!isValidState} type="submit">
+          <Button size="lg" disabled={!isValidState} type="submit">
             {t("confirm-settings")}
           </Button>
         </div>

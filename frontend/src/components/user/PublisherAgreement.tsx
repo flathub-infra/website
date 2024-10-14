@@ -1,5 +1,4 @@
 import { FunctionComponent, useState } from "react"
-import Button from "../Button"
 import { useTranslation } from "next-i18next"
 import { useUserDispatch } from "src/context/user-info"
 import { NextSeo } from "next-seo"
@@ -7,6 +6,7 @@ import LoginGuard from "../login/LoginGuard"
 import { getUserData } from "src/asyncs/login"
 import { useMutation } from "@tanstack/react-query"
 import { doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 
 interface Props {
@@ -170,6 +170,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
       </div>
 
       <Button
+        size="lg"
         className="mt-6"
         disabled={!accepted}
         onClick={() => {
@@ -182,6 +183,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
       </Button>
 
       <Button
+        size="lg"
         className="mt-4"
         variant="secondary"
         onClick={async () => {

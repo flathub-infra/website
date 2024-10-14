@@ -1,6 +1,5 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
-import Button from "src/components/Button"
 import InlineError from "src/components/InlineError"
 import Spinner from "src/components/Spinner"
 import { FlathubDisclosure } from "../../Disclosure"
@@ -10,6 +9,7 @@ import {
   confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost,
   setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   appId: string
@@ -128,7 +128,10 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           </Trans>
         </div>
 
-        <Button onClick={() => confirmWebsiteVerificationMutation.mutate()}>
+        <Button
+          size="lg"
+          onClick={() => confirmWebsiteVerificationMutation.mutate()}
+        >
           {t("continue")}
         </Button>
 
@@ -153,6 +156,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
           </Trans>
         </p>
         <Button
+          size="lg"
           onClick={() => setupWebsiteVerificationMutation.mutate()}
           disabled={setupWebsiteVerificationMutation.isPending}
         >

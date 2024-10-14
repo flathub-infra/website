@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { GetStaticProps } from "next"
 import { useTranslation } from "next-i18next"
@@ -6,7 +7,6 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
 import { getUserData } from "src/asyncs/login"
-import Button from "src/components/Button"
 import { Notice } from "src/components/Notice"
 import Spinner from "src/components/Spinner"
 import { AppVerificationSetup } from "src/components/application/AppVerificationControls"
@@ -58,7 +58,7 @@ export default function AppRegistrationPage() {
         />
 
         {step === "start" && (
-          <Button disabled={!appId} onClick={() => setStep("verify")}>
+          <Button size="xl" disabled={!appId} onClick={() => setStep("verify")}>
             {t("verify-app-id")}
           </Button>
         )}

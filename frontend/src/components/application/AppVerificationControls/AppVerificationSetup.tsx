@@ -3,7 +3,6 @@ import { FunctionComponent, ReactElement, useCallback, useState } from "react"
 import { Notice } from "src/components/Notice"
 import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
-import Button from "../../Button"
 import ConfirmDialog from "../../ConfirmDialog"
 import Spinner from "../../Spinner"
 import LoginVerification from "./LoginVerification"
@@ -21,6 +20,7 @@ import {
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
 } from "src/codegen"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   app: Appstream
@@ -132,7 +132,11 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 
               <br />
 
-              <Button className="mt-3" onClick={() => setConfirmUnverify(true)}>
+              <Button
+                size="lg"
+                className="mt-3"
+                onClick={() => setConfirmUnverify(true)}
+              >
                 {t("unverify")}
               </Button>
 

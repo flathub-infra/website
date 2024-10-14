@@ -1,6 +1,5 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
-import Button from "src/components/Button"
 import ProviderLink from "src/components/login/ProviderLink"
 import { useUserContext } from "src/context/user-info"
 import InlineError from "src/components/InlineError"
@@ -14,6 +13,7 @@ import {
   verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost,
 } from "src/codegen"
 import { AvailableMethod } from "src/codegen/model"
+import { Button } from "@/components/ui/button"
 
 interface Props {
   appId: string
@@ -88,7 +88,9 @@ const LoginVerification: FunctionComponent<Props> = ({
 
   const try_again = (
     <div>
-      <Button onClick={() => verify.mutate()}>{t("try-again")}</Button>
+      <Button size="lg" onClick={() => verify.mutate()}>
+        {t("try-again")}
+      </Button>
       {verify.isPending && (
         <div className="flex flex-col items-start">
           <Spinner size="s" text={t("verifying")} />
@@ -170,7 +172,9 @@ const LoginVerification: FunctionComponent<Props> = ({
   switch (method.login_status) {
     case "ready":
       content = (
-        <Button onClick={() => verify.mutate()}>{t("verify-app")}</Button>
+        <Button size="lg" onClick={() => verify.mutate()}>
+          {t("verify-app")}
+        </Button>
       )
       break
 

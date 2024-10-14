@@ -1,12 +1,12 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useCallback, useState } from "react"
 import { Appstream } from "../../../../types/Appstream"
-import Button from "../../../Button"
 import Modal from "src/components/Modal"
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 import { createTokensVendingappAppIdTokensPost } from "src/codegen"
+import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
 interface Props {
@@ -49,7 +49,9 @@ const TokenCreateDialog: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Button onClick={() => setShown(true)}>{t("create-tokens")}</Button>
+      <Button size="lg" onClick={() => setShown(true)}>
+        {t("create-tokens")}
+      </Button>
       <Modal
         shown={shown}
         title={t("create-tokens")}

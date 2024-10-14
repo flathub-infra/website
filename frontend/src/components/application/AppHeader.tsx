@@ -2,13 +2,14 @@ import { useTranslation } from "next-i18next"
 import React from "react"
 import { Appstream } from "src/types/Appstream"
 import { VerificationStatus } from "src/types/VerificationStatus"
-import ButtonLink from "../ButtonLink"
 import LogoImage from "../LogoImage"
 import Verification from "./Verification"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import InstallButton from "../application/InstallButton"
 import { VendingSetup } from "src/codegen"
 import { useRouter } from "next/router"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
 export function AppHeader({
   app,
@@ -79,26 +80,22 @@ export function AppHeader({
       <div className="flex items-center justify-center gap-4 sm:ms-auto">
         <InstallButton appId={app.id} />
         {app.urls?.donation && (
-          <ButtonLink
-            href={app.urls.donation}
-            target="_blank"
-            rel="noreferrer"
+          <Button
             onClick={donateClicked}
-            passHref
+            asChild
             className="w-52 basis-1/2 sm:w-32 md:w-40"
             variant="secondary"
+            size="xl"
           >
-            {t("donate")}
-          </ButtonLink>
+            <a target="_blank" rel="noreferrer" href={app.urls.donation}>
+              {t("donate")}
+            </a>
+          </Button>
         )}
         {!!vendingSetup?.recommended_donation && (
-          <ButtonLink
-            passHref
-            href={`/apps/purchase/${app.id}`}
-            className="w-52 sm:w-32 md:w-40"
-          >
-            {t("kind-purchase")}
-          </ButtonLink>
+          <Button size="xl" asChild className="w-52 sm:w-32 md:w-40">
+            <Link href={`/apps/purchase/${app.id}`}>{t("kind-purchase")}</Link>
+          </Button>
         )}
       </div>
     </header>

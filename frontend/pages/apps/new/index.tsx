@@ -2,8 +2,9 @@ import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useTranslation } from "next-i18next"
-import ButtonLink from "src/components/ButtonLink"
 import LoginGuard from "src/components/login/LoginGuard"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function NewAppPage() {
   const { t } = useTranslation()
@@ -18,20 +19,21 @@ export default function NewAppPage() {
           {t("community-repository")}
         </h2>
         <p>{t("community-repository-description")}</p>
-        <ButtonLink
-          passHref
-          href="https://docs.flathub.org/docs/for-app-authors/submission#how-to-submit-an-app"
-          rel="noreferrer"
-          target="_blank"
-        >
-          {t("new-community-repository")}
-        </ButtonLink>
+        <Button asChild className="w-full" size="xl">
+          <a
+            href="https://docs.flathub.org/docs/for-app-authors/submission#how-to-submit-an-app"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {t("new-community-repository")}
+          </a>
+        </Button>
 
         <h2 className="mb-6 mt-12 text-2xl font-bold">{t("direct-upload")}</h2>
         <p>{t("direct-upload-description")}</p>
-        <ButtonLink passHref href="/apps/new/register">
-          {t("new-direct-upload")}
-        </ButtonLink>
+        <Button asChild className="w-full" size="xl">
+          <Link href="/apps/new/register">{t("new-direct-upload")}</Link>
+        </Button>
       </LoginGuard>
     </div>
   )
