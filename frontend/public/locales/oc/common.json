@@ -280,5 +280,8 @@
   "recorder": "Enregistrador",
   "updated-apps": "Aplicacions mesas a jorn",
   "scopes": "Encastres",
-  "action": "Accion"
+  "action": "Accion",
+  "moderation-approved-by": "Aprovat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
+  "moderation-rejected-by": "Refusat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
+  "rss-description": "S’abonar als fluxes RSS de Flathub"
 }

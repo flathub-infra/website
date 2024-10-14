@@ -610,5 +610,8 @@
   "apps-for-you-where-you-are": "<0>Aipeanna duit san áit a bhfuil tú</0> - Cibé an bhfuil tú ar Dheic Gaile, ar stáisiún oibre cumhachtach Linux, ar Raspberry Pi, nó ar an bhfón tearc Linux; Tá aipeanna ag Flathub duit",
   "transparent": "<0>Neamhspleách & trédhearcach</0> - Is pobal bunfhoinse oscailte muid a dhéanann an chuid is fearr den éiceachóras a thairiscint",
   "docs-guidance": "<0>Doiciméid agus treoir shoiléir</0> - <2>doiciméadúchán fairsing</2>, na mílte <5>feidhmchlár poiblí</5>, agus ciallaíonn pobal mór go mbeidh tú in ann cabhair a fháil i gcónaí",
-  "integration": "<0>Comhtháthú aipstórais dhúchais</0> - Déan dearmad ar íoslódálacha gréasáin; Seachadann Flathub aipeanna agus <3>nuashonruithe uathoibríocha</3> d'úsáideoirí ina gcliant appstore dúchais a mbeidís ag súil leo"
+  "integration": "<0>Comhtháthú aipstórais dhúchais</0> - Déan dearmad ar íoslódálacha gréasáin; Seachadann Flathub aipeanna agus <3>nuashonruithe uathoibríocha</3> d'úsáideoirí ina gcliant appstore dúchais a mbeidís ag súil leo",
+  "flathub-logo": "Lógó Flathub",
+  "mastodon": "Mastodon",
+  "flathub": "Flathub"
 }
