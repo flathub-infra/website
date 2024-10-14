@@ -3,6 +3,8 @@ import type { Meta, StoryObj } from "@storybook/react"
 import TokenRedeemDialog from "./TokenRedeemDialog"
 
 const meta = {
+  title:
+    "Components/Application/AppVendingControls/OwnershipTokens/TokenRedeemDialog",
   component: TokenRedeemDialog,
 } satisfies Meta<typeof TokenRedeemDialog>
 

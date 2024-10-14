@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import AppShareSlider from "./AppShareSlider"
 
 const meta = {
+  title: "Components/Application/AppVendingControls/AppShareSlider",
   component: AppShareSlider,
 } satisfies Meta<typeof AppShareSlider>
 

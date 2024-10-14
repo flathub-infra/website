@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import NewTokenDialog from "./NewTokenDialog"
 
 const meta = {
+  title: "Components/Application/AppUploadControls/NewTokenDialog",
   component: NewTokenDialog,
 } satisfies Meta<typeof NewTokenDialog>
 
