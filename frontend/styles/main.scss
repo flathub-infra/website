@@ -136,7 +136,7 @@
   --destructive: var(--flathub-vivid-crimson);
   --destructive-foreground: var(--flathub-lotion);
 
-  --border: 0 0% 89.8%;
+  --border: var(--flathub-gainsborow);
   --input: var(--flathub-sonic-silver);
   --ring: var(--flathub-dark-gunmetal);
 
@@ -145,7 +145,7 @@
 
 // shad/cn theme
 .dark {
-  --background: var(--flathub-dark-gunmetal);
+  --background: var(--flathub-arsenic);
   --foreground: var(--flathub-gainsborow);
 
   --card: var(--flathub-dark-gunmetal);
@@ -169,7 +169,7 @@
   --destructive: var(--flathub-dark-candy-apple-red);
   --destructive-foreground: var(--flathub-lotion);
 
-  --border: var(--flathub-arsenic);
+  --border: var(--flathub-granite-gray);
   --input: var(--flathub-spanish-gray);
   --ring: 0 0% 83.1%;
 

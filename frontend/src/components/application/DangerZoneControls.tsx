@@ -6,7 +6,6 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
-import { Notice } from "../Notice"
 import {
   archiveVerificationAppIdArchivePost,
   switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost,
@@ -16,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Appstream } from "src/types/Appstream"
 import { Textarea } from "@/components/ui/textarea"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const { t } = useTranslation()
@@ -81,11 +81,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 
   return (
     <>
-      <Button
-        size="lg"
-        onClick={() => setModalVisible(true)}
-        variant="secondary"
-      >
+      <Button onClick={() => setModalVisible(true)} variant="secondary">
         {t("archive-app")}
       </Button>
       <Modal
@@ -146,14 +142,16 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (
-      <Notice variant="danger">
-        <div className="flex flex-col gap-3">
-          {!query.data.data.is_direct_upload_app && (
-            <SwitchToDirectUpload app={app} />
-          )}
-          <ArchiveApp app={app} />
-        </div>
-      </Notice>
+      <>
+        <Alert variant="destructive">
+          <AlertDescription className="flex flex-col gap-3">
+            {!query.data.data.is_direct_upload_app && (
+              <SwitchToDirectUpload app={app} />
+            )}
+            <ArchiveApp app={app} />
+          </AlertDescription>
+        </Alert>
+      </>
     )
   }
 

@@ -1,3 +1,4 @@
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { GetStaticProps } from "next"
@@ -7,7 +8,6 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement, useEffect, useState } from "react"
 import { getUserData } from "src/asyncs/login"
-import { Notice } from "src/components/Notice"
 import Spinner from "src/components/Spinner"
 import { AppVerificationSetup } from "src/components/application/AppVerificationControls"
 import LoginGuard from "src/components/login/LoginGuard"
@@ -36,12 +36,14 @@ export default function AppRegistrationPage() {
     content = <Spinner size="m" />
   } else {
     content = (
-      <>
+      <div className="space-y-4">
         <h1 className="mb-8 mt-8 text-4xl font-extrabold">
           {t("new-direct-upload")}
         </h1>
 
-        <Notice>{t("app-id-instructions")}</Notice>
+        <Alert>
+          <AlertDescription>{t("app-id-instructions")}</AlertDescription>
+        </Alert>
 
         <Input
           type="text"
@@ -79,7 +81,7 @@ export default function AppRegistrationPage() {
         )}
 
         {step === "wait" && <Spinner size="m" />}
-      </>
+      </div>
     )
   }
 
