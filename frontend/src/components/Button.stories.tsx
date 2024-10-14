@@ -8,47 +8,52 @@ export default {
   component: Button,
 } as Meta<typeof Button>
 
-export const Primary = () => {
+const ButtonRow = ({ variant = "default", size = "default" }) => {
   return (
     <div className="flex gap-6">
-      <Button>Test</Button>
-      <Button>
+      <Button size={size} variant={variant}>
+        Test
+      </Button>
+      <Button size={size} variant={variant}>
         <HiMiniPlus className="w-5 h-5" />
         New app
       </Button>
-      <Button disabled variant="primary">
+      <Button size={size} disabled variant={variant}>
         Disabled
       </Button>
+    </div>
+  )
+}
+
+export const Primary = () => {
+  return (
+    <div className="flex gap-6 flex-col">
+      <ButtonRow size="sm" />
+      <ButtonRow />
+      <ButtonRow size="lg" />
+      <ButtonRow size="xl" />
     </div>
   )
 }
 
 export const Secondary = () => {
   return (
-    <div className="flex gap-6">
-      <Button variant="secondary">Test</Button>
-      <Button variant="secondary">
-        <HiMiniPlus className="w-5 h-5" />
-        New app
-      </Button>
-      <Button disabled variant="secondary">
-        Disabled
-      </Button>
+    <div className="flex gap-6 flex-col">
+      <ButtonRow size="sm" variant="secondary" />
+      <ButtonRow variant="secondary" />
+      <ButtonRow size="lg" variant="secondary" />
+      <ButtonRow size="xl" variant="secondary" />
     </div>
   )
 }
 
 export const Destructive = () => {
   return (
-    <div className="flex gap-6">
-      <Button variant="destructive">Test</Button>
-      <Button variant="destructive">
-        <HiMiniPlus className="w-5 h-5" />
-        New app
-      </Button>
-      <Button disabled variant="destructive">
-        Disabled
-      </Button>
+    <div className="flex gap-6 flex-col">
+      <ButtonRow size="sm" variant="destructive" />
+      <ButtonRow variant="destructive" />
+      <ButtonRow size="lg" variant="destructive" />
+      <ButtonRow size="xl" variant="destructive" />
     </div>
   )
 }
