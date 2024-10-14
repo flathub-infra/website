@@ -1,6 +1,5 @@
 import { Trans, useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useCallback, useState } from "react"
-import { Notice } from "src/components/Notice"
 import { Appstream } from "src/types/Appstream"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import ConfirmDialog from "../../ConfirmDialog"
@@ -21,6 +20,7 @@ import {
   unverifyVerificationAppIdUnverifyPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 
 interface Props {
   app: Appstream
@@ -177,7 +177,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       <div className="space-y-3">
         <p className="xl:max-w-[75%]">{t("verification-instructions")}</p>
         <div className="xl:max-w-[75%]">
-          <Notice>{t("verification-warning")}</Notice>
+          <Alert>
+            <AlertDescription>{t("verification-warning")}</AlertDescription>
+          </Alert>
         </div>
 
         {verificationAvailableMethods.isPending ? (
