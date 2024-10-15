@@ -100,7 +100,7 @@
     "orval": "^7.1.1",
     "postcss": "^8.4.40",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "redis": "^4.7.0",
     "storybook": "^8.3.5",
     "storybook-addon-mock-date": "^0.6.0",
