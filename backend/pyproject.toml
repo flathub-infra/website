@@ -11,7 +11,7 @@ strict = ["app/**.py"]
 [tool.poetry.dependencies]
 python = "^3.11"
 fastapi = "^0.115.2"
-uvicorn = "^0.31.1"
+uvicorn = "^0.32.0"
 sentry-sdk = "^2.16.0"
 lxml = "^5.2.2"
 requests = "^2.32.3"
