@@ -606,5 +606,8 @@
   "apps-for-you-where-you-are": "<0>隨時隨地為您提供應用程式</0> — 無論您使用的是 Steam Deck、功能強大的 Linux 工作站、Raspberry Pi，還是罕見的 Linux 手機，Flathub 都能為您提供應用程式",
   "transparent": "<0>獨立與透明</0> — 我們是一個草根開放原始碼社群，管理著生態系所能提供的最佳資源",
   "docs-guidance": "<0>清晰的文件與指南</0> — 大量的<2>說明文件</2>、數以千計的公開<5>應用程式清單</5>，以及龐大的社群，意味著您隨時都能獲得協助",
-  "integration": "<0>原生應用程式商店整合</0> — 忘了網頁下載吧！Flathub 在使用者期望的原生應用程式商店客戶端提供應用程式與<3>自動更新</3>"
+  "integration": "<0>原生應用程式商店整合</0> — 忘了網頁下載吧！Flathub 在使用者期望的原生應用程式商店客戶端提供應用程式與<3>自動更新</3>",
+  "mastodon": "Mastodon",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub 標誌"
 }
