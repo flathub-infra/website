@@ -12,9 +12,9 @@ export const HorizontalStackedListBox = ({
   return (
     <ul
       className={clsx(
-        "flex flex-col sm:flex-row rounded-xl flex-grow",
+        "flex flex-col md:flex-row rounded-xl flex-grow",
         "shadow-md dark:bg-flathub-arsenic dark:divide-flathub-dark-gunmetal",
-        "sm:divide-x-2 sm:divide-y-0 divide-y-2",
+        "md:divide-x-2 md:divide-y-0 divide-y-2",
       )}
     >
       {Array.isArray(children) ? (
