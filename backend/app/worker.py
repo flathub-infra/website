@@ -88,7 +88,7 @@ def update():
             )
 
         if created_at:
-            apps_created_at[app_id] = float(created_at)
+            apps_created_at[app_id] = created_at.timestamp()
         else:
             if metadata := db.get_json_key(f"summary:{app_id}:stable"):
                 created_at = metadata.get("timestamp")
