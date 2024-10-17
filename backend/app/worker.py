@@ -87,7 +87,9 @@ def update():
                 .scalar()
             )
 
-        if not created_at:
+        if created_at:
+            apps_created_at[app_id] = float(created_at)
+        else:
             if metadata := db.get_json_key(f"summary:{app_id}:stable"):
                 created_at = metadata.get("timestamp")
             else:
