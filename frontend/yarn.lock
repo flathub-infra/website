@@ -3377,16 +3377,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neshca/cache-handler@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "@neshca/cache-handler@npm:1.7.2"
+"@neshca/cache-handler@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@neshca/cache-handler@npm:1.8.0"
   dependencies:
     cluster-key-slot: "npm:1.1.2"
     lru-cache: "npm:10.4.3"
   peerDependencies:
     next: ">=13.5.1"
     redis: ">=4.6"
-  checksum: 10c0/fc72ebef49dfc36633e062ba59d688b6407a861ce83d0ef9bdb62e9c1c4e17e216230aa2068ab1431eb8863f6a33846bdacfc442923dcddd4b4fce7073e4c783
+  checksum: 10c0/22e2f4d1b502cb76641ca2a4964b70b3bd52fe906db0190f3fe504910e66f2fca86e10ccfa5461aac644cadabcb1296e74fa88747dd3907468236fd7dbe2b440
   languageName: node
   linkType: hard
 
@@ -10735,7 +10735,7 @@ __metadata:
     "@faker-js/faker": "npm:^9.0.3"
     "@headlessui/react": "npm:^2.1.2"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
-    "@neshca/cache-handler": "npm:^1.7.2"
+    "@neshca/cache-handler": "npm:^1.8.0"
     "@radix-ui/react-checkbox": "npm:^1.1.2"
     "@radix-ui/react-icons": "npm:^1.3.0"
     "@radix-ui/react-slot": "npm:^1.1.0"
