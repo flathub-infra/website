@@ -94,7 +94,36 @@ interface ContentRating {
   "money-gambling": ContentRatingLevel
 }
 
-type ContentRatingLevel = "none" | "mild" | "moderate" | "intense"
+export type ContentRatingLevel = "none" | "mild" | "moderate" | "intense"
+
+export type ContentRatingAttribute =
+  | "violence-cartoon"
+  | "violence-fantasy"
+  | "violence-realistic"
+  | "violence-bloodshed"
+  | "violence-sexual"
+  | "violence-desecration"
+  | "violence-slavery"
+  | "violence-worship"
+  | "drugs-alcohol"
+  | "drugs-narcotics"
+  | "drugs-tobacco"
+  | "sex-nudity"
+  | "sex-themes"
+  | "sex-homosexuality"
+  | "sex-prostitution"
+  | "sex-adultery"
+  | "sex-appearance"
+  | "language-profanity"
+  | "language-humor"
+  | "language-discrimination"
+  | "social-chat"
+  | "social-info"
+  | "social-audio"
+  | "social-location"
+  | "social-contacts"
+  | "money-purchasing"
+  | "money-gambling"
 
 export interface Urls {
   bugtracker: string
