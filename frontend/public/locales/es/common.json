@@ -608,5 +608,8 @@
   "transparent-safety": "<0>Seguridad transparente</0>: vea claramente cuándo una aplicación está <3>verificada</3> como procedente de su desarrollador, qué permisos requiere y si es o no de código abierto y auditable",
   "tastefully-curated": "<0>Seleccionadas con buen gusto</0>: descubre aplicaciones interesantes y de calidad en Flathub con la selección de nuestro personal que muestra lo mejor de la oferta",
   "transparent": "<0>Independientes y transparentes</0> - Somos una comunidad de código abierto que gestiona lo mejor que el ecosistema puede ofrecer",
-  "docs-guidance": "<0>Documentación y orientación claros</0>: una <2>documentación</2> extensa, miles de <5> manifiestos de aplicaciones </5> públicos y una gran comunidad significan que siempre podrá obtener ayuda"
+  "docs-guidance": "<0>Documentación y orientación claros</0>: una <2>documentación</2> extensa, miles de <5> manifiestos de aplicaciones </5> públicos y una gran comunidad significan que siempre podrá obtener ayuda",
+  "flathub-logo": "Logotipo de Flathub",
+  "flathub": "Flathub",
+  "mastodon": "Mastodon"
 }
