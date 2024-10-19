@@ -1860,6 +1860,7 @@ class Apps(Base):
             name="app_type",
         ),
         nullable=False,
+        index=True,
     )
     installs_last_7_days = mapped_column(Integer, nullable=False, default=0)
     is_fullscreen_app = mapped_column(Boolean, nullable=False, default=False)
