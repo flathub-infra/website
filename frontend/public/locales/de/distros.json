@@ -1,0 +1,125 @@
+{
+  "ubuntu": {
+    "distroName": ""
+  },
+  "fedora": {
+    "distroName": ""
+  },
+  "manjaro": {
+    "distroName": ""
+  },
+  "endless_os": {
+    "distroName": ""
+  },
+  "alt_linux": {
+    "distroName": ""
+  },
+  "chrome_os": {
+    "distroName": ""
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": ""
+  },
+  "linux_mint": {
+    "distroName": ""
+  },
+  "opensuse": {
+    "distroName": ""
+  },
+  "arch": {
+    "distroName": ""
+  },
+  "debian": {
+    "distroName": ""
+  },
+  "rocky_linux": {
+    "distroName": ""
+  },
+  "centos": {
+    "distroName": ""
+  },
+  "eurolinux": {
+    "distroName": ""
+  },
+  "almalinux": {
+    "distroName": ""
+  },
+  "gentoo": {
+    "distroName": ""
+  },
+  "kubuntu": {
+    "distroName": ""
+  },
+  "solus": {
+    "distroName": ""
+  },
+  "alpine": {
+    "distroName": ""
+  },
+  "mageia": {
+    "distroName": ""
+  },
+  "openmandriva_lx": {
+    "distroName": ""
+  },
+  "pop_os": {
+    "distroName": ""
+  },
+  "elementary_os": {
+    "distroName": ""
+  },
+  "raspberry_pi_os": {
+    "distroName": ""
+  },
+  "clear_linux": {
+    "distroName": ""
+  },
+  "void_linux": {
+    "distroName": ""
+  },
+  "nixos": {
+    "distroName": ""
+  },
+  "pureos": {
+    "distroName": ""
+  },
+  "turkman_linux": {
+    "distroName": ""
+  },
+  "ataraxia_linux": {
+    "distroName": ""
+  },
+  "zorin_os": {
+    "distroName": ""
+  },
+  "deepin": {
+    "distroName": ""
+  },
+  "pardus": {
+    "distroName": ""
+  },
+  "mx_linux": {
+    "distroName": ""
+  },
+  "pisi_gnulinux": {
+    "distroName": ""
+  },
+  "endeavouros": {
+    "distroName": ""
+  },
+  "kde_neon": {
+    "distroName": ""
+  },
+  "gnu_guix": {
+    "distroName": ""
+  },
+  "crystal_linux": {
+    "distroName": ""
+  },
+  "vanilla_os": {
+    "distroName": ""
+  },
+  "salix": {
+    "distroName": ""
+  }
+}
