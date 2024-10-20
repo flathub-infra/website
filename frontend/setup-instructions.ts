@@ -6,6 +6,7 @@ import * as prettier from "prettier"
 
 const distroYamlPath = "src/data/distro.yml"
 const distrosTsPath = "src/components/setup/Distros.tsx"
+const enTranslationsPath = "public/locales/en/distros.json"
 
 export interface Distro {
   name: string
@@ -42,6 +43,8 @@ async function generateSetupInstructions() {
 
   fs.rmSync(distrosTsPath)
 
+  const translations = {}
+
   // Iterate over each distro
   for (const distro of parsedDistros) {
     const originalName = distro.name.replaceAll("/", "")
@@ -56,6 +59,10 @@ async function generateSetupInstructions() {
     const introduction = distro.introduction
     const steps = distro.steps
 
+    translations[slugName] = {
+      distroName: distro.name,
+    }
+
     // Create temporary file for distro setup instructions
     const tempFilePath = `src/components/setup/${slugName}.tsx`
     fs.writeFileSync(tempFilePath, "")
@@ -63,7 +70,10 @@ async function generateSetupInstructions() {
     if (steps) {
       // HowToJsonLd
       fs.appendFileSync(tempFilePath, "<HowToJsonLd\n")
-      fs.appendFileSync(tempFilePath, `name="${originalName}"\n`)
+      fs.appendFileSync(
+        tempFilePath,
+        `name={t('distros:${slugName}.distroName')}\n`,
+      )
       fs.appendFileSync(
         tempFilePath,
         `image="https://flathub.org/img/distro/${logo}"\n`,
@@ -138,14 +148,15 @@ async function generateSetupInstructions() {
 
     // Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
     const modifiedContent4 =
-      `export const ${name} = () => <ol className='distrotut'>\n` +
-      modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
+      `export const ${name} = () => {const {t} = useTranslation()
+      return <><h1>{t("distros:${slugName}.distroName")}</h1><ol className='distrotut'>
+      ` + modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
     const modifiedContent5 = modifiedContent4.replace(
       /<\/terminal-command>/g,
       "`} />",
     )
 
-    const modifiedContent6 = modifiedContent5 + `</ol>\n`
+    const modifiedContent6 = modifiedContent5 + `</ol></>}\n`
 
     fs.writeFileSync(tempFilePath, modifiedContent6)
 
@@ -165,6 +176,10 @@ async function generateSetupInstructions() {
   const importStatement =
     'import CodeCopy from "src/components/application/CodeCopy";\n'
 
+  // Prefix with import { useTranslation } from "next-i18next";
+  const useTranslationStatement =
+    'import { useTranslation } from "next-i18next";\n'
+
   // Prefix with import { HowToJsonLd } from "next-seo";
   const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'
 
@@ -175,6 +190,7 @@ async function generateSetupInstructions() {
   fs.writeFileSync(
     distrosTsPath,
     distroMapStatement +
+      useTranslationStatement +
       nextSeoStatement +
       importStatement +
       fs.readFileSync(distrosTsPath, "utf8"),
@@ -190,6 +206,12 @@ async function generateSetupInstructions() {
     },
   )
   fs.writeFileSync(distrosTsPath, formattedFile)
+
+  fs.writeFileSync(
+    enTranslationsPath,
+    JSON.stringify(translations, null, 2),
+    "utf8",
+  )
 
   // Copy images
   fs.cpSync("flatpak.github.io/source/img/distro", "public/img/distro", {

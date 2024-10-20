@@ -1,0 +1,125 @@
+{
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro"
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux"
+  },
+  "chrome_os": {
+    "distroName": "Chrome OS"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE"
+  },
+  "arch": {
+    "distroName": "Arch"
+  },
+  "debian": {
+    "distroName": "Debian"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux"
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo"
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu"
+  },
+  "solus": {
+    "distroName": "Solus"
+  },
+  "alpine": {
+    "distroName": "Alpine"
+  },
+  "mageia": {
+    "distroName": "Mageia"
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS"
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "void_linux": {
+    "distroName": "Void Linux"
+  },
+  "nixos": {
+    "distroName": "NixOS"
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "turkman_linux": {
+    "distroName": "Turkman Linux"
+  },
+  "ataraxia_linux": {
+    "distroName": "Ataraxia Linux"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin"
+  },
+  "pardus": {
+    "distroName": "Pardus"
+  },
+  "mx_linux": {
+    "distroName": "MX Linux"
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux"
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS"
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix"
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux"
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  }
+}
