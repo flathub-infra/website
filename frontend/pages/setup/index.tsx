@@ -67,6 +67,7 @@ export default function Setup({
           <Input
             type="text"
             placeholder={t("find-your-distribution")}
+            className={clsx("ps-9")}
             onChange={(e) => setDistroFilter(e.target.value)}
           />
         </div>
