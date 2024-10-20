@@ -1,21 +1,21 @@
 {
   "ubuntu": {
-    "distroName": ""
+    "distroName": "Ubuntu"
   },
   "fedora": {
-    "distroName": ""
+    "distroName": "Fedora"
   },
   "manjaro": {
-    "distroName": ""
+    "distroName": "Manjaro"
   },
   "endless_os": {
-    "distroName": ""
+    "distroName": "Endless OS"
   },
   "alt_linux": {
-    "distroName": ""
+    "distroName": "ALT Linux"
   },
   "chrome_os": {
-    "distroName": ""
+    "distroName": "Chrome OS"
   },
   "red_hat_enterprise_linux": {
     "distroName": ""
