@@ -607,5 +607,8 @@
   "about-claim": "<0>Olit sitten sovelluksia etsivä käyttäjä tai käyttäjiä tavoittamaan pyrkivä kehittäjä, <2>Flathub on paras valinta Linux-sovelluksille.</2></0>",
   "docs-guidance": "<0>Selkeä dokumentaatio ja ohjeistus</0> – kattava <2>dokumentaatio</2>, tuhansia julkisia <5>sovellusten selosteita</5> ja iso yhteisö takaavat, että saat aina apua",
   "integration": "<0>Natiivien sovelluskauppojen integraatio</0> – unohda netistä latailu: Flathub toimittaa sovellukset ja <3>automaattiset päivitykset</3> käyttäjille heidän natiiveihin sovelluskauppaohjelmiinsa",
-  "users": "Käyttäjät"
+  "users": "Käyttäjät",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub-logo",
+  "mastodon": "Mastodon"
 }
