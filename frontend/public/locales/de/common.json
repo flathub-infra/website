@@ -607,5 +607,8 @@
   "apps-for-you-where-you-are": "<0>Apps für dich, wo immer du bist</0> — Egal, ob du auf einem Steam Deck, einer leistungsstarken Linux-Workstation, einem Raspberry Pi oder dem seltenen Linux-Telefon bist; Flathub hat Apps für dich",
   "millions-users": "<0>Millionen von Nutzern erreichen</0> — Flathub ist standardmäßig auf mehreren Linux-Distributionen verfügbar, lässt sich auf den übrigen <2>leicht installieren</2> und hat über eine Million aktive Nutzer",
   "integration": "<0>Native App-Store-Integration</0> — Vergiss Web-Downloads; Flathub liefert Apps und <3>automatische Aktualisierungen</3> an die Benutzer in ihrem nativen App-Store-Client, wo sie es erwarten würden",
-  "get-apps": "Apps bekommen"
+  "get-apps": "Apps bekommen",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub Logo",
+  "mastodon": "Mastodon"
 }
