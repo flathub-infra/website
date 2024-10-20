@@ -1,0 +1,203 @@
+// frontend/setup-instructions.ts
+import * as fs from "fs"
+import { parse } from "yaml"
+import { simpleGit } from "simple-git"
+import * as prettier from "prettier"
+
+const distroYamlPath = "src/data/distro.yml"
+const distrosTsPath = "src/components/setup/Distros.tsx"
+
+export interface Distro {
+  name: string
+  logo: string
+  steps?: Step[]
+  introduction?: string
+  logo_dark?: string
+  slug?: string
+}
+
+export interface Step {
+  name: string
+  text: string
+}
+
+async function generateSetupInstructions() {
+  if (fs.existsSync("flatpak.github.io")) {
+    fs.rmSync("flatpak.github.io", { recursive: true })
+  }
+
+  const git = simpleGit()
+
+  // Clone flatpak.github.io
+  await git.clone("git@github.com:flatpak/flatpak.github.io.git", {
+    "--depth": "1",
+  })
+
+  // Copy distro.yml file
+  fs.copyFileSync("flatpak.github.io/data/distro.yml", distroYamlPath)
+
+  // Read distro.yml file
+  const distroYaml = fs.readFileSync(distroYamlPath, "utf8")
+  const parsedDistros: Distro[] = parse(distroYaml)
+
+  fs.rmSync(distrosTsPath)
+
+  // Iterate over each distro
+  for (const distro of parsedDistros) {
+    const originalName = distro.name.replaceAll("/", "")
+    let name = distro.name
+      .replaceAll("/", "")
+      .replaceAll(" ", "_")
+      .replaceAll("!", "")
+    // Uppercase first letter
+    name = name.charAt(0).toUpperCase() + name.slice(1)
+    const logo = distro.logo
+    const slugName = name.toLowerCase()
+    const introduction = distro.introduction
+    const steps = distro.steps
+
+    // Create temporary file for distro setup instructions
+    const tempFilePath = `src/components/setup/${slugName}.tsx`
+    fs.writeFileSync(tempFilePath, "")
+
+    if (steps) {
+      // HowToJsonLd
+      fs.appendFileSync(tempFilePath, "<HowToJsonLd\n")
+      fs.appendFileSync(tempFilePath, `name="${originalName}"\n`)
+      fs.appendFileSync(
+        tempFilePath,
+        `image="https://flathub.org/img/distro/${logo}"\n`,
+      )
+      fs.appendFileSync(
+        tempFilePath,
+        "estimatedCost={{ currency: 'USD', value: '0' }}\n",
+      )
+      fs.appendFileSync(tempFilePath, "step={[\n")
+
+      let index = 0
+      for (const step of steps) {
+        const stepName = step.name
+        const stepText = step.text
+          // Remove HTML tags
+          .replace(/<[^>]*>/g, "")
+          // Escape single quotes
+          .replace(/'/g, "\\'")
+          // Remove newlines
+          .replace(/\n/g, "")
+          // Trim double spaces
+          .replace(/\s{2,}/g, " ")
+          .trim()
+
+        fs.appendFileSync(
+          tempFilePath,
+          `{url: 'https://flathub.org/setup/${slugName}', name: '${stepName}', itemListElement: [{type: 'HowToDirection', text: '${stepText}'}]}`,
+        )
+
+        if (index !== steps.length - 1) {
+          fs.appendFileSync(tempFilePath, ",\n")
+        }
+
+        index++
+      }
+
+      fs.appendFileSync(tempFilePath, "]\n")
+      fs.appendFileSync(tempFilePath, "}/>\n\n")
+    }
+
+    // Write introduction to temporary file
+    if (introduction) {
+      fs.appendFileSync(tempFilePath, introduction)
+
+      // Add a new line after the introduction
+      fs.appendFileSync(tempFilePath, "\n\n")
+    }
+
+    // Write steps to temporary file
+    if (steps) {
+      for (const step of steps) {
+        const stepName = step.name
+        const stepText = step.text.trim()
+        fs.appendFileSync(
+          tempFilePath,
+          `<li><h2>${stepName}</h2>\n${stepText}</li>\n\n`,
+        )
+      }
+    }
+
+    // Convert comment to JSX comment
+    const tempFileContent = fs.readFileSync(tempFilePath, "utf8")
+    const modifiedContent = tempFileContent
+      .replace(/<!--/g, "{/* ")
+      .replace(/-->/g, " */}")
+
+    // Replace all \" with "
+    const modifiedContent2 = modifiedContent.replace(/\\\"/g, '"')
+
+    // Replace class= with className=
+    const modifiedContent3 = modifiedContent2.replace(/class=/g, "className=")
+
+    // Use sed to replace <terminal-command> tags with <CodeCopy text={...} />
+    const modifiedContent4 =
+      `export const ${name} = () => <ol className='distrotut'>\n` +
+      modifiedContent3.replace(/<terminal-command>/g, "<CodeCopy text={`")
+    const modifiedContent5 = modifiedContent4.replace(
+      /<\/terminal-command>/g,
+      "`} />",
+    )
+
+    const modifiedContent6 = modifiedContent5 + `</ol>\n`
+
+    fs.writeFileSync(tempFilePath, modifiedContent6)
+
+    // Postfix with distroMap.set("Fedora", <Fedora />)
+    const distroMapStatement = `distroMap.set("${originalName}", <${name} />);`
+    fs.appendFileSync(tempFilePath, distroMapStatement)
+
+    // Concat to shared file and a newline
+    fs.appendFileSync(distrosTsPath, fs.readFileSync(tempFilePath, "utf8"))
+    fs.appendFileSync(distrosTsPath, "\n\n")
+
+    // Remove temporary file
+    fs.unlinkSync(tempFilePath)
+  }
+
+  // Prefix with import CodeCopy from "src/components/application/CodeCopy"; and a newline
+  const importStatement =
+    'import CodeCopy from "src/components/application/CodeCopy";\n'
+
+  // Prefix with import { HowToJsonLd } from "next-seo";
+  const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'
+
+  // Prefix with export const distroMap = new Map<string, JSX.Element>()
+  const distroMapStatement =
+    "export const distroMap = new Map<string, JSX.Element>();\n"
+
+  fs.writeFileSync(
+    distrosTsPath,
+    distroMapStatement +
+      nextSeoStatement +
+      importStatement +
+      fs.readFileSync(distrosTsPath, "utf8"),
+  )
+
+  // Run prettier on distros.tsx
+  const prettierConfig = await prettier.resolveConfig(distrosTsPath)
+  const formattedFile = await prettier.format(
+    fs.readFileSync(distrosTsPath, "utf8"),
+    {
+      ...prettierConfig,
+      filepath: distrosTsPath,
+    },
+  )
+  fs.writeFileSync(distrosTsPath, formattedFile)
+
+  // Copy images
+  fs.cpSync("flatpak.github.io/source/img/distro", "public/img/distro", {
+    recursive: true,
+  })
+
+  // Remove flatpak.github.io directory
+  fs.rmSync("flatpak.github.io", { recursive: true })
+}
+
+generateSetupInstructions()

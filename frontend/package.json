@@ -13,7 +13,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "postbuild": "next-sitemap",
-    "update-setup-instructions": "./setup-instructions.sh",
+    "update-setup-instructions": "tsx ./setup-instructions.ts",
     "openapi-codegen": "orval"
   },
   "dependencies": {
@@ -102,9 +102,11 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "redis": "^4.7.0",
+    "simple-git": "^3.27.0",
     "storybook": "^8.3.5",
     "storybook-addon-mock-date": "^0.6.0",
     "tailwindcss": "^3.4.13",
+    "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   },
   "packageManager": "yarn@4.3.1"
