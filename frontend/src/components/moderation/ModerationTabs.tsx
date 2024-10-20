@@ -98,7 +98,7 @@ const ModerationTabs: FunctionComponent = () => {
               checked={filterNewSubmissionsQuery}
               onCheckedChange={(event) => {
                 setQueryParams(router, {
-                  filterNew: event ? undefined : "true",
+                  filterNew: event ? "true" : undefined,
                   page: "1",
                 })
               }}
@@ -119,7 +119,7 @@ const ModerationTabs: FunctionComponent = () => {
               checked={showHandledQuery}
               onCheckedChange={(event) => {
                 setQueryParams(router, {
-                  includeHandled: event ? undefined : "true",
+                  includeHandled: event ? "true" : undefined,
                   page: "1",
                 })
               }}

@@ -135,7 +135,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             checked={includeOutdatedQuery}
             onCheckedChange={(event) => {
               setQueryParams(router, {
-                includeOutdated: event ? undefined : "true",
+                includeOutdated: event ? "true" : undefined,
                 page: "1",
               })
             }}
@@ -156,7 +156,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
             checked={includeHandledQuery}
             onCheckedChange={(event) => {
               setQueryParams(router, {
-                includeHandled: event ? undefined : "true",
+                includeHandled: event ? "true" : undefined,
                 page: "1",
               })
             }}
