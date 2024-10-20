@@ -18,108 +18,108 @@
     "distroName": "Chrome OS"
   },
   "red_hat_enterprise_linux": {
-    "distroName": ""
+    "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": ""
+    "distroName": "Linux Mint"
   },
   "opensuse": {
-    "distroName": ""
+    "distroName": "openSUSE"
   },
   "arch": {
-    "distroName": ""
+    "distroName": "Arch"
   },
   "debian": {
-    "distroName": ""
+    "distroName": "Debian"
   },
   "rocky_linux": {
-    "distroName": ""
+    "distroName": "Rocky Linux"
   },
   "centos": {
-    "distroName": ""
+    "distroName": "CentOS"
   },
   "eurolinux": {
-    "distroName": ""
+    "distroName": "EuroLinux"
   },
   "almalinux": {
-    "distroName": ""
+    "distroName": "AlmaLinux"
   },
   "gentoo": {
-    "distroName": ""
+    "distroName": "Gentoo"
   },
   "kubuntu": {
-    "distroName": ""
+    "distroName": "Kubuntu"
   },
   "solus": {
-    "distroName": ""
+    "distroName": "Solus"
   },
   "alpine": {
-    "distroName": ""
+    "distroName": "Alpine"
   },
   "mageia": {
-    "distroName": ""
+    "distroName": "Mageia"
   },
   "openmandriva_lx": {
-    "distroName": ""
+    "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": ""
+    "distroName": "Pop!_OS"
   },
   "elementary_os": {
-    "distroName": ""
+    "distroName": "elementary OS"
   },
   "raspberry_pi_os": {
-    "distroName": ""
+    "distroName": "Raspberry Pi OS"
   },
   "clear_linux": {
-    "distroName": ""
+    "distroName": "Clear Linux"
   },
   "void_linux": {
-    "distroName": ""
+    "distroName": "Void Linux"
   },
   "nixos": {
-    "distroName": ""
+    "distroName": "NixOS"
   },
   "pureos": {
-    "distroName": ""
+    "distroName": "PureOS"
   },
   "turkman_linux": {
-    "distroName": ""
+    "distroName": "Turkman Linux"
   },
   "ataraxia_linux": {
-    "distroName": ""
+    "distroName": "Ataraxia Linux"
   },
   "zorin_os": {
-    "distroName": ""
+    "distroName": "Zorin OS"
   },
   "deepin": {
-    "distroName": ""
+    "distroName": "Deepin"
   },
   "pardus": {
-    "distroName": ""
+    "distroName": "Pardus"
   },
   "mx_linux": {
-    "distroName": ""
+    "distroName": "MX Linux"
   },
   "pisi_gnulinux": {
-    "distroName": ""
+    "distroName": "Pisi GNU/Linux"
   },
   "endeavouros": {
-    "distroName": ""
+    "distroName": "EndeavourOS"
   },
   "kde_neon": {
-    "distroName": ""
+    "distroName": "KDE neon"
   },
   "gnu_guix": {
-    "distroName": ""
+    "distroName": "GNU Guix"
   },
   "crystal_linux": {
-    "distroName": ""
+    "distroName": "Crystal Linux"
   },
   "vanilla_os": {
-    "distroName": ""
+    "distroName": "Vanilla OS"
   },
   "salix": {
-    "distroName": ""
+    "distroName": "Salix"
   }
 }
