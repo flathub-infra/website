@@ -10,6 +10,8 @@ import React from "react"
 export default function Setup({ distroData }: { distroData: DistroSetup }) {
   const { t } = useTranslation()
 
+  const translatedDistroName = t(distroData.translatedNameKey)
+
   const pages = [
     {
       name: t("setup-flathub"),
@@ -17,7 +19,7 @@ export default function Setup({ distroData }: { distroData: DistroSetup }) {
       current: false,
     },
     {
-      name: distroData.name,
+      name: translatedDistroName,
       href: `/setup/${encodeURIComponent(distroData.name)}`,
       current: true,
     },
@@ -27,7 +29,7 @@ export default function Setup({ distroData }: { distroData: DistroSetup }) {
     <>
       <NextSeo
         title={t("distribution-flathub-setup", {
-          distribution: distroData.name,
+          distribution: translatedDistroName,
         })}
         description={t("setup-flathub-description")}
       />
@@ -38,7 +40,6 @@ export default function Setup({ distroData }: { distroData: DistroSetup }) {
 
         <div className="prose mx-auto dark:prose-invert prose-pre:rounded-xl">
           <div key={distroData.name} className="space-y-4">
-            <h1>{distroData.name}</h1>
             {distroMap.get(distroData.name.replaceAll("/", ""))}
           </div>
         </div>
@@ -72,7 +73,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common", "distros"])),
       distroData,
     },
   }

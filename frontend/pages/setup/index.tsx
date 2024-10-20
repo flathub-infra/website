@@ -32,7 +32,9 @@ export default function Setup({
 
   const instructionsFilteredAndSorted = instructions
     .filter((instruction) =>
-      instruction.name.toLowerCase().includes(distroFilter.toLowerCase()),
+      t(instruction.translatedNameKey)
+        .toLowerCase()
+        .includes(distroFilter.toLowerCase()),
     )
     .sort((a, b) => {
       const aIndex = distroOrder.findIndex((distro) => distro.name === a.name)
@@ -104,11 +106,11 @@ export default function Setup({
                   width={96}
                   height={96}
                   priority={index < 7}
-                  alt={instruction.name}
+                  alt={t(instruction.translatedNameKey)}
                 />
               </picture>
               <span className="text-lg font-semibold text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-                {instruction.name}
+                {t(instruction.translatedNameKey)}
               </span>
             </Link>
           ))}
@@ -133,7 +135,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ["common", "distros"])),
       instructions,
     },
   }
