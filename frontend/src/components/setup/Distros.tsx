@@ -354,6 +354,7 @@ export const Chrome_OS = () => (
         },
       ]}
     />
+
     <p>
       Flatpak applications can be installed on ChromeOS with the Crostini Linux
       compatibility layer. This is not available for all ChromeOS devices, so
