@@ -39,8 +39,8 @@
   "log-out": "خروج",
   "network-error-try-again": "یک خطای شبکه وجود داشت. دوباره تلاش کنید.",
   "error-already-logged-in": "حساب گزیده از پیش وارد شده.",
-  "failed-to-load-refresh": "منبع بارگزاری نشد. تازه کردن را امتحان کنید.",
-  "loading-user-apps": "در حال بارگزاری برنامه‌های کاربر…",
+  "failed-to-load-refresh": "بار کردن منبع شکست خورد. آزمودن تازه‌سازی.",
+  "loading-user-apps": "بار کردن کاره‌های کاربر…",
   "authored-apps": "برنامه‌های نگاشته",
   "owned-apps": "کاره‌های داشته",
   "app-logo": "لوگوی {{app-name}}",
@@ -568,5 +568,8 @@
   "users": "کاربران",
   "date": "تاریخ",
   "get-apps": "گرفتن کاره‌ها",
-  "download-press-kit": "بارگیری بستهٔ جراید"
+  "download-press-kit": "بارگیری بستهٔ جراید",
+  "flathub": "فلت‌هاب",
+  "flathub-logo": "نشان فلت‌هاب",
+  "mastodon": "ماستودون"
 }
