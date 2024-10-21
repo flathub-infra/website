@@ -1,72 +1,15 @@
 {
-  "ubuntu": {
-    "distroName": "Ubuntu"
-  },
-  "fedora": {
-    "distroName": "Fedora"
-  },
-  "manjaro": {
-    "distroName": "Manjaro"
-  },
-  "endless_os": {
-    "distroName": "Endless OS"
-  },
-  "alt_linux": {
-    "distroName": "ALT Linux"
-  },
-  "chrome_os": {
-    "distroName": "ChromeOS"
-  },
-  "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
-  },
-  "linux_mint": {
-    "distroName": "Linux Mint"
-  },
-  "opensuse": {
-    "distroName": "openSUSE"
-  },
-  "arch": {
-    "distroName": "Arch"
-  },
-  "debian": {
-    "distroName": "Debian"
-  },
-  "rocky_linux": {
-    "distroName": "Rocky Linux"
-  },
-  "centos": {
-    "distroName": "CentOS"
-  },
   "eurolinux": {
     "distroName": "EuroLinux"
   },
-  "almalinux": {
-    "distroName": "AlmaLinux"
-  },
-  "gentoo": {
-    "distroName": "Gentoo"
-  },
-  "kubuntu": {
-    "distroName": "Kubuntu"
-  },
   "solus": {
     "distroName": "Solus"
-  },
-  "alpine": {
-    "distroName": "Alpine"
-  },
-  "mageia": {
-    "distroName": "Mageia"
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
     "distroName": "Pop!_OS"
-  },
-  "elementary_os": {
-    "distroName": "elementary OS"
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS"
@@ -83,6 +26,81 @@
   "pureos": {
     "distroName": "PureOS"
   },
+  "pardus": {
+    "distroName": "Pardus"
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix"
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS"
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux"
+  },
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro"
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS"
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE"
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu"
+  },
+  "arch": {
+    "distroName": "Arch"
+  },
+  "debian": {
+    "distroName": "Debian"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "mageia": {
+    "distroName": "Mageia"
+  },
+  "gentoo": {
+    "distroName": "Gentoo"
+  },
+  "alpine": {
+    "distroName": "Alpine"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
+  },
   "turkman_linux": {
     "distroName": "Turkman Linux"
   },
@@ -95,26 +113,8 @@
   "deepin": {
     "distroName": "Deepin"
   },
-  "pardus": {
-    "distroName": "Pardus"
-  },
   "mx_linux": {
     "distroName": "MX Linux"
-  },
-  "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux"
-  },
-  "endeavouros": {
-    "distroName": "EndeavourOS"
-  },
-  "kde_neon": {
-    "distroName": "KDE neon"
-  },
-  "gnu_guix": {
-    "distroName": "GNU Guix"
-  },
-  "crystal_linux": {
-    "distroName": "Crystal Linux"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS"

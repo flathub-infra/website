@@ -1,0 +1,125 @@
+{
+  "manjaro": {
+    "distroName": "مانجارو"
+  },
+  "endless_os": {
+    "distroName": "سیستم‌عامل اندلس"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "لینوکس تجاری ردهت"
+  },
+  "arch": {
+    "distroName": "آرچ"
+  },
+  "rocky_linux": {
+    "distroName": "لینوکس راکی"
+  },
+  "centos": {
+    "distroName": "سنت‌اواس"
+  },
+  "eurolinux": {
+    "distroName": "یورولینوکس"
+  },
+  "almalinux": {
+    "distroName": "آلمالینوکس"
+  },
+  "solus": {
+    "distroName": "سولوس"
+  },
+  "void_linux": {
+    "distroName": "لینوکس ووید"
+  },
+  "gnu_guix": {
+    "distroName": "گیکس گنو"
+  },
+  "crystal_linux": {
+    "distroName": "لینوکس کریستال"
+  },
+  "salix": {
+    "distroName": "سالیکس"
+  },
+  "alt_linux": {
+    "distroName": "آلت لینوکس"
+  },
+  "ubuntu": {
+    "distroName": "اوبونتو"
+  },
+  "fedora": {
+    "distroName": "فدورا"
+  },
+  "chrome_os": {
+    "distroName": "سیستم‌عامل کروم"
+  },
+  "linux_mint": {
+    "distroName": "لینوکس مینت"
+  },
+  "opensuse": {
+    "distroName": "اوپن سوزه"
+  },
+  "debian": {
+    "distroName": "دبیان"
+  },
+  "gentoo": {
+    "distroName": "جنتو"
+  },
+  "kubuntu": {
+    "distroName": "کوبونتو"
+  },
+  "zorin_os": {
+    "distroName": "سیستم‌عامل زورین"
+  },
+  "pop_os": {
+    "distroName": "پاپ!_اواس"
+  },
+  "deepin": {
+    "distroName": "دیپین"
+  },
+  "alpine": {
+    "distroName": "آلپاین"
+  },
+  "clear_linux": {
+    "distroName": "لینوکس کلیر"
+  },
+  "mageia": {
+    "distroName": "مگیا"
+  },
+  "elementary_os": {
+    "distroName": "سیستم‌عامل المنتری"
+  },
+  "raspberry_pi_os": {
+    "distroName": "سیستم‌عامل رزبری پای"
+  },
+  "pureos": {
+    "distroName": "پیوراواس"
+  },
+  "openmandriva_lx": {
+    "distroName": "اوپن‌مندریوا لکس"
+  },
+  "nixos": {
+    "distroName": "نیکس‌اواس"
+  },
+  "turkman_linux": {
+    "distroName": "لینوکس ترکمن"
+  },
+  "ataraxia_linux": {
+    "distroName": "لینوکس آتاراکسیا"
+  },
+  "pardus": {
+    "distroName": "پردوس"
+  },
+  "endeavouros": {
+    "distroName": "اندوراواس"
+  },
+  "mx_linux": {
+    "distroName": "لینوکس ام‌اکس"
+  },
+  "pisi_gnulinux": {
+    "distroName": "گنو/لینوکس پیشی"
+  },
+  "vanilla_os": {
+    "distroName": "سیستم‌عامل وانیالا"
+  },
+  "kde_neon": {
+    "distroName": "نئون کی‌دی‌ای"
+  }
+}

@@ -607,5 +607,8 @@
   "integration": "<0>Systemintegrering</0> — Unngå slitsomme nedlastinger via nettleseren; Flathub leverer apper og <3>automatiske oppdateringer</3> rett til brukernes appsentre, der de forventer å finne dem",
   "about-claim": "<0>Uansett om du er en bruker som ser etter apper eller en utvikler som ønsker å nå et større publikum, <2>er Flathub det beste stedet for apper til Linux.</2></0>",
   "apps-for-you-where-you-are": "<0>Apper til der du er</0> — Uansett om du har en Steam Deck-konsoll, en kraftig stasjonær datamaskin, en Raspberry Pi eller en mobiltelefon, har Flathub apper du kan få glede av",
-  "tastefully-curated": "<0>Oppdag nye favoritter</0> — Med et stadig oppdatert utvalg av fremhevede apper, er det lett å komme over nye og spennende prosjekter av høy kvalitet"
+  "tastefully-curated": "<0>Oppdag nye favoritter</0> — Med et stadig oppdatert utvalg av fremhevede apper, er det lett å komme over nye og spennende prosjekter av høy kvalitet",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub-logo",
+  "mastodon": "Mastodon"
 }
