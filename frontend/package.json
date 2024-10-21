@@ -98,7 +98,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "msw": "^2.4.9",
     "orval": "^7.1.1",
-    "postcss": "^8.4.40",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "redis": "^4.7.0",
