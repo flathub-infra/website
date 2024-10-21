@@ -1,0 +1,125 @@
+{
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE"
+  },
+  "arch": {
+    "distroName": "Arch"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "nixos": {
+    "distroName": "NixOS"
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "turkman_linux": {
+    "distroName": "Turkman Linux"
+  },
+  "ataraxia_linux": {
+    "distroName": "Ataraxia Linux"
+  },
+  "mx_linux": {
+    "distroName": "MX Linux"
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux"
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS"
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix"
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux"
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  },
+  "manjaro": {
+    "distroName": "Manjaro"
+  },
+  "alpine": {
+    "distroName": "Alpine"
+  },
+  "mageia": {
+    "distroName": "Mageia"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
+  },
+  "gentoo": {
+    "distroName": "Gentoo"
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu"
+  },
+  "debian": {
+    "distroName": "Debian"
+  },
+  "solus": {
+    "distroName": "Solus"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux"
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS"
+  },
+  "void_linux": {
+    "distroName": "Void Linux"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "pardus": {
+    "distroName": "Pardus"
+  },
+  "deepin": {
+    "distroName": "Deepin"
+  },
+  "salix": {
+    "distroName": "Salix"
+  }
+}
