@@ -219,24 +219,14 @@
   steps:
     - name: Install Flatpak
       text: "
-        <p>To install Flatpak on Kubuntu 18.10 (Cosmic Cuttlefish) or later, simply run:</p>
-        <terminal-command>sudo apt install flatpak</terminal-command>
-        <p>With older Kubuntu versions, the official Flatpak PPA is the recommended way to install Flatpak. To install it, run the following in a terminal:</p>
-        <terminal-command>
-          sudo add-apt-repository ppa:alexlarsson/flatpak\n
-          sudo apt update\n
-          sudo apt install flatpak\n
-        </terminal-command>"
-    - name: Install the Discover Flatpak backend
+        <p>To install Flatpak on Kubuntu, simply open Discover, go to Settings, install the Flatpak backend and restart Discover.</p>"
+    - name: Install the Flatpak system settings add-on
       text: "
-        <p>The Flatpak plugin for the Software app makes it possible to install apps without needing the command line (available on Kubuntu 18.04 and newer). To install on 20.04 or later, run:</p>
-        <terminal-command>sudo apt install plasma-discover-backend-flatpak</terminal-command>
-        <p>On Kubuntu 18.04, you should run this instead:</p>
-        <terminal-command>sudo apt install plasma-discover-flatpak-backend</terminal-command>"
+        <p>To integrate Flatpak support into the Plasma System Settings, simply run:</p>
+        <terminal-command>sudo apt install kde-config-flatpak</terminal-command>"
     - name: Add the Flathub repository
-      text: '
-        <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run the following in a terminal:</p>
-        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+      text: "
+        <p>Flathub is the best place to get Flatpak apps. To enable it, open Discover, go to Settings and add the Flathub repository.</p>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
