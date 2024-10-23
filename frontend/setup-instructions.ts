@@ -84,28 +84,14 @@ async function generateSetupInstructions() {
       )
       fs.appendFileSync(tempFilePath, "step={[\n")
 
-      let index = 0
+      let index = 1
       for (const step of steps) {
-        const stepName = step.name
-        const stepText = step.text
-          // Remove HTML tags
-          .replace(/<[^>]*>/g, "")
-          // Escape single quotes
-          .replace(/'/g, "\\'")
-          // Remove newlines
-          .replace(/\n/g, "")
-          // Trim double spaces
-          .replace(/\s{2,}/g, " ")
-          .trim()
-
         fs.appendFileSync(
           tempFilePath,
-          `{url: 'https://flathub.org/setup/${slugName}', name: '${stepName}', itemListElement: [{type: 'HowToDirection', text: '${stepText}'}]}`,
+          `{url: 'https://flathub.org/setup/${slugName}',
+          name: t('distros:${slugName}.step-${index}.name'),
+          itemListElement: [{type: 'HowToDirection', text: t('distros:${slugName}.step-${index}.text').replace(/<[^>]*>/g, "").replace(/\s{2,}/g, " ").trim()}]},`,
         )
-
-        if (index !== steps.length - 1) {
-          fs.appendFileSync(tempFilePath, ",\n")
-        }
 
         index++
       }
@@ -116,21 +102,24 @@ async function generateSetupInstructions() {
 
     // Write introduction to temporary file
     if (introduction) {
-      fs.appendFileSync(tempFilePath, introduction)
-
-      // Add a new line after the introduction
-      fs.appendFileSync(tempFilePath, "\n\n")
+      fs.appendFileSync(
+        tempFilePath,
+        `<Trans i18nKey="distros:${slugName}.introduction">\n${introduction}</Trans>\n\n`,
+      )
     }
 
     // Write steps to temporary file
     if (steps) {
+      let index = 1
       for (const step of steps) {
         const stepName = step.name
         const stepText = step.text.trim()
         fs.appendFileSync(
           tempFilePath,
-          `<li><h2>${stepName}</h2>\n${stepText}</li>\n\n`,
+          `<li><h2><Trans i18nKey="distros:${slugName}.step-${index}.name">${stepName}</Trans></h2>\n<Trans i18nKey="distros:${slugName}.step-${index}.text">${stepText}</Trans></li>\n\n`,
         )
+
+        index++
       }
     }
 
@@ -178,7 +167,7 @@ async function generateSetupInstructions() {
 
   // Prefix with import { useTranslation } from "next-i18next";
   const useTranslationStatement =
-    'import { useTranslation } from "next-i18next";\n'
+    'import { Trans, useTranslation } from "next-i18next";\n'
 
   // Prefix with import { HowToJsonLd } from "next-seo";
   const nextSeoStatement = 'import { HowToJsonLd } from "next-seo";\n'
