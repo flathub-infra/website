@@ -1,0 +1,125 @@
+{
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux"
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo"
+  },
+  "solus": {
+    "distroName": "Solus"
+  },
+  "alpine": {
+    "distroName": "Alpine"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS"
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "void_linux": {
+    "distroName": "Void Linux"
+  },
+  "nixos": {
+    "distroName": "NixOS"
+  },
+  "pardus": {
+    "distroName": "Pardus"
+  },
+  "mx_linux": {
+    "distroName": "MX Linux"
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux"
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS"
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix"
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux"
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu"
+  },
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  },
+  "manjaro": {
+    "distroName": "Manjaro"
+  },
+  "mageia": {
+    "distroName": "Mageia"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux"
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS"
+  },
+  "debian": {
+    "distroName": "Debian"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "arch": {
+    "distroName": "Arch"
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "turkman_linux": {
+    "distroName": "Turkman Linux"
+  },
+  "ataraxia_linux": {
+    "distroName": "Ataraxia Linux"
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin"
+  }
+}

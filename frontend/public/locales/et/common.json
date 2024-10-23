@@ -489,7 +489,8 @@
     "app-name": "Rakenduse nimi",
     "app-summary": "Kokkuvõte",
     "screenshots-default-settings": "Vaikimisi seaded",
-    "screenshots-include-window-shadow-and-rounded-corners": "Sisaldab akna varju ja ümardatud nurkasid"
+    "screenshots-include-window-shadow-and-rounded-corners": "Sisaldab akna varju ja ümardatud nurkasid",
+    "request-review-description": "Meie tiim vaatab sinu rakenduse kvaliteediprobleemide osas üle. Palun kontrolli tulemust paari päeva pärast."
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",
@@ -555,5 +556,27 @@
   "error": "Viga",
   "get-apps": "Laadi rakendusi",
   "date": "Kuupäev",
-  "users": "Kasutajad"
+  "users": "Kasutajad",
+  "begin": "Alusta",
+  "direct-upload": "Otse üleslaaditav rakendus",
+  "new-direct-upload": "Uus otse üleslaaditav rakendus",
+  "do-you-really-want-to-switch-to-direct-upload": "Kas sa oled kindel? Kui kord oled rakenduse määranud otse üleslaaditavaks, siis tagasiteed enam pole.",
+  "millions-users": "<0>Jõua miljonite kasutajateni</0> — Flathub on kaasas paljudes Linuxi distributsioonides ja teistes on <2>kergesti paigaldatav</2> ning meil on üle miljoni aktiivse kasutaja",
+  "danger-zone": "Ohutsoon",
+  "mastodon": "Mastodon",
+  "flathub-logo": "Flathubi logo",
+  "about-claim": "<0>Kas oled kasutaja, kes otsib rakendusi või arendaja, kes soovib leida uusi kasutajaid <2>Flathubis on parim rakendustevalik Linuxile.</2></0>",
+  "all-the-apps-you-want": "<0>Kõik rakendused, mida vajad</0> — Alates tavapärastest suurtegijatest kuni väikeste sõltumatute arendajateni, Flathubis on tuhandeid rakendusi sinu vajaduste jaoks.",
+  "transparent-safety": "<0>Läbipaistev turvalisus</0> — Selgelt on näha, kas rakendus on <3>verifitseeeritud</3> arendaja poolt, mis õigusi ta vajab ning kas ta põhineb avatud lähtekoodil ja on auditeeritav",
+  "apps-for-you-where-you-are": "<0>Rakendused seal, kus sa tegutsed</0> — Kas sul on kasutusel Steam Deck, võimas Linuxi-põhine tööjaam, lihtne Raspberry Pi karbike, harvaesinev Linuxi-põhine telefon, siis Flathubil on alati olemas rakendused sinu jaoks",
+  "transparent": "<0>Sõltumatu ja läbipaistev</0> — Me oleme rohujuuretasandilt võrsunud avatud lähtekoodil põhinev kogukond, mis hoolitseb ökosüsteemi parima tulemuse eest",
+  "docs-guidance": "<0>Selged juhendid ja abimaterjalid</0> — Mahukas <2>dokumentatsioon</2>, tuhanded avalikud <5>rakenduste kontrollfailid</5> ja suur kogukond võimaldavad sul alati leida vajalikku abi",
+  "integration": "<0>Lõiming tavapärase rakendustepoega</0> — Unusta allalaadimised veebist; kasutajad saavad Flathubist rakendused ja <3>nende automaatsed uuendused</3> oma tavapärasest rakendustepoest, just sealt kust nad seda eeldavad",
+  "community-repository": "Kogukonna tarkvarahoidla",
+  "tastefully-curated": "<0>Maitsekalt hallatud</0> - Avasta huvitavaid ja kvaliteetseid rakendusi kogu Flathubis, sealhulgas meie töötajate eelvaliku abil, mis tutvustab parimaid pakkumisi",
+  "community-repository-description": "Oma rakenduse Flathubi lisamiseks laadi oma rakenduse Flatpaki kontrollfail ja tugifailid meie koodihoidlasse GitHubis. Flathubi kompileerimisrobot kompileerib rakenduse ja avaldab selle Flathubis.",
+  "new-community-repository": "Uus rakendus kogukonna tarkvarahoidlas",
+  "flathub": "Flathub",
+  "switch-to-direct-upload": "Määra rakendus otse üleslaaditavaks",
+  "direct-upload-description": "Kompileeri oma rakendus oma tavapärases pidevkooste keskkonnas ja laadi ta otse Flathubi üles."
 }
