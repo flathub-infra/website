@@ -91,7 +91,7 @@
     "@types/node": "^22.7.5",
     "@types/react": "^18.3.11",
     "autoprefixer": "^10.4.20",
-    "chromatic": "^11.12.5",
+    "chromatic": "^11.15.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.15",
     "eslint-config-prettier": "^9.1.0",
