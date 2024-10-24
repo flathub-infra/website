@@ -1,0 +1,26 @@
+{
+  "manjaro": {
+    "distroName": "Manjaro"
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  }
+}

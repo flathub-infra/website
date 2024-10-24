@@ -446,7 +446,7 @@
   "build-x": "Construído {{build-ago}}",
   "can-read-write-all-data-on-file-system": "Pode ler e gravar todos os dados no sistema de ficheiros",
   "home-folder-read-write-access": "Acesso de leitura e gravação à pasta Home",
-  "community-built-explanation": "Esta app foi desenvolvida abertamente por uma comunidade de voluntários e disponibilizada sob a licença <1>{{ license }}</1>.",
+  "community-built-explanation": "Esta app foi desenvolvida abertamente por uma comunidade internacional e disponibilizada sob a licença <1>{{ license }}</1>.",
   "scopes": "Escopos",
   "add-ons": "Complementos",
   "name": "Nome",
