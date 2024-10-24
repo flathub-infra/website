@@ -386,18 +386,18 @@ watch = ["watchdog (>=4.0)", "watchdog-gevent (>=0.2)"]
 
 [[package]]
 name = "fastapi"
-version = "0.115.2"
+version = "0.115.3"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fastapi-0.115.2-py3-none-any.whl", hash = "sha256:61704c71286579cc5a598763905928f24ee98bfcc07aabe84cfefb98812bbc86"},
-    {file = "fastapi-0.115.2.tar.gz", hash = "sha256:3995739e0b09fa12f984bce8fa9ae197b35d433750d3d312422d846e283697ee"},
+    {file = "fastapi-0.115.3-py3-none-any.whl", hash = "sha256:8035e8f9a2b0aa89cea03b6c77721178ed5358e1aea4cd8570d9466895c0638c"},
+    {file = "fastapi-0.115.3.tar.gz", hash = "sha256:c091c6a35599c036d676fa24bd4a6e19fa30058d93d950216cdc672881f6f7db"},
 ]
 
 [package.dependencies]
 pydantic = ">=1.7.4,<1.8 || >1.8,<1.8.1 || >1.8.1,<2.0.0 || >2.0.0,<2.0.1 || >2.0.1,<2.1.0 || >2.1.0,<3.0.0"
-starlette = ">=0.37.2,<0.41.0"
+starlette = ">=0.40.0,<0.42.0"
 typing-extensions = ">=4.8.0"
 
 [package.extras]
@@ -2345,4 +2345,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "369ce14e7fc77b15a88f90b638bf4f26db37145d2af27df4247b8562345bd2f8"
+content-hash = "4c1f5badd10d20b7c1fde4e366de16356471c1e44568d3938b3651ee1d8c59ee"
