@@ -234,7 +234,7 @@
   "failed-to-load-refresh": "Le ressourse falleva a cargar. Tenta refrescar la pagina.",
   "acknowledgements-block": "<p>Flathub non serea possibile sin le appoio generose del sequente organisationes e individuos.</p>",
   "also-available-as-svg": "Anque disponibile in formato <2>SVG</2>",
-  "badge-copyright": "In le mesura que le lege permitte, <2>Jakub Steiner</2> ha renunciate a tote le derectos de autor e derectos connexe o vicinos a <5>Insignias de Flathub</5>. Iste labor es publicate ab Chechia.",
+  "badge-copyright": "In le mesura que le lege permitte, <2>Jakub Steiner</2> ha renunciate a tote le derectos de autor e derectos connexe o vicinos a <5>Insignias de Flathub</5>. Iste travalio es publicate ab Chechia.",
   "rss-apps": "Necessita tu un application RSS? Trova excellentes in <2>Flathub</2>.",
   "manual-install-instructions": "Assecura te de sequer le <2>guida de configuration pro tu distribution Linux</2> ante installar",
   "install": "Installar",
@@ -607,5 +607,8 @@
   "all-the-apps-you-want": "<0>Tote le applicationes que tu vole</0> — Ab nomines grande que tu expectarea a nove disveloppatores independente, Flathub ha milles de applicationes pro satisfacer tu necessitates.",
   "integration": "<0>Integration native con le magazin de applicationes</0> — Oblida le discargamentos per web; Flathub livra applicationes e <3>actualisationes automatic</3> al usatores in lor cliente native de magazin de applicationes ubi illos lo expectarea",
   "tastefully-curated": "<0>Seligite con gusto</0> — Discoperi applicationes interessante e de qualitate in Flathub con nostre selection de personal que exhibi le melior de lo que es offerite",
-  "apps-for-you-where-you-are": "<0>Applicationes pro te ubi tu es</0> — Si tu es sur un Steam Deck, un potente station de labor Linux, un Raspberry Pi, o le rar telephono Linux; Flathub ha applicationes pro te"
+  "apps-for-you-where-you-are": "<0>Applicationes pro te ubi tu es</0> — Si tu es sur un Steam Deck, un potente station de travalio Linux, un Raspberry Pi, o le rar telephono Linux; Flathub ha applicationes pro te",
+  "millions-users": "<0>Attinge milliones de usatores</0> — Flathub veni preste pro usar in multiple distributiones Linux, es <2>facilemente installabile</2> sur le resto, e ha plus de un million de usatores active",
+  "transparent": "<0>Independente & transparente</0> — Nos son un communitate de base e de codice aperte que gestiona le melior de lo que le ecosystema ha pro offerer",
+  "docs-guidance": "<0>Documentation & guida clar</0> — Extensive <2>documentation</2>, milles de <5>manifestos de applicationes</5> public, e un grande communitate significa que tu sempre pote obtener adjuta"
 }

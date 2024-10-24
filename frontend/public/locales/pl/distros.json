@@ -1,15 +1,37 @@
 {
   "endless_os": {
-    "distroName": "Endless OS"
+    "distroName": "Endless OS",
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w Endless OS 3.0.0 i nowsze - nie wymaga konfiguracji! </0> <2>Jeśli używasz starszej wersji, <2>zaktualizuj Endless OS do wersji 3</2>.</2>"
   },
   "alt_linux": {
-    "distroName": "ALT Linux"
+    "distroName": "ALT Linux",
+    "step-3": {
+      "text": "<0>Uruchom ponownie urządzenie, aby zakończyć instalację Flatpak. Teraz możesz <1>zainstalować wybrane aplikacje</1>!</0>",
+      "name": "Uruchom ponownie"
+    },
+    "step-1": {
+      "text": "<p>Aby zainstalować Flatpak na systemach operacyjnych z rodziny Alt, wystarczy uruchomić:</p> <2></2>",
+      "name": "Zainstaluj Flatpak"
+    },
+    "step-2": {
+      "text": "<p>Flathub to świetne miejsce do pobierania aplikacji Flatpak. Aby włączyć go w systemie Alt, uruchom:</p> <2></2>",
+      "name": "Dodaj repozytorium Flathub"
+    }
   },
   "fedora": {
-    "distroName": "Fedora"
+    "distroName": "Fedora",
+    "introduction": "<0>Flatpak jest domyślnie zainstalowany na Fedora Workstation, Fedora Silverblue i Fedora Kinoite. Aby rozpocząć, wystarczy włączyć Flathub, który jest najlepszym sposobem na uzyskanie aplikacji Flatpak. Flathub jest wstępnie skonfigurowany jako część <2>Third-Party Repositories</2>. Alternatywnie, możesz pobrać i zainstalować <5>plik repozytorium Flathub</5>.</0> <2>Teraz wszystko, co musisz zrobić to <2>zainstalować wybrane aplikacje</2>!</2> <p>Powyższe linki powinny działać na domyślnych instalacjach GNOME i KDE Fedory, ale jeśli z jakiegoś powodu się nie powiedzie, możesz ręcznie dodać Flathub uruchamiając:</p> <6></6>"
   },
   "chrome_os": {
-    "distroName": "ChromeOS"
+    "distroName": "ChromeOS",
+    "step-1": {
+      "text": "<0>Przejdź do <2>chrome://os-settings</2>, przewiń w dół do<strong>Programiści</strong> and turn on <i>Środowisko programistyczne Linux</i>. ChromeOS będzie potrzebował trochę czasu na pobranie i zainstalowanie Linuksa.</0>",
+      "name": "Włącz obsługę systemu Linux"
+    },
+    "introduction": "<0> Aplikacje Flatpak mogą być instalowane na ChromeOS z warstwą kompatybilności Crostini Linux. Nie jest to dostępne dla wszystkich urządzeń z systemem ChromeOS, więc przed kontynuowaniem należy upewnić się, że urządzenie jest kompatybilne. Lista kompatybilnych urządzeń znajduje się <2>tutaj</2>.</0>",
+    "step-2": {
+      "name": "Uruchom terminal Linux"
+    }
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux"
@@ -69,10 +91,34 @@
     "distroName": "Vanilla OS"
   },
   "ubuntu": {
-    "distroName": "Ubuntu"
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Zainstaluj Flatpak",
+      "text": "<p>Aby zainstalować Flatpak na Ubuntu 18.10 (Cosmic Cuttlefish) lub nowszym, wystarczy uruchomić:</p> <2></2> <p>W starszych wersjach Ubuntu, oficjalne Flatpak PPA jest zalecanym sposobem instalacji Flatpak. Aby go zainstalować, uruchom następujące polecenie w terminalu:</p> <6></6>"
+    },
+    "step-2": {
+      "name": "Zainstaluj wtyczkę Flatpak",
+      "text": "<p>Wtyczka Flatpak dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby zainstalować, uruchom:</p> <2></2> <p>Uwaga: aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</p>"
+    },
+    "step-3": {
+      "name": "Dodaj repozytorium Flathub",
+      "text": "<p>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, uruchom:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Uruchom ponownie",
+      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować wybrane aplikacje</2>!</0>"
+    }
   },
   "manjaro": {
-    "distroName": "Manjaro"
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Włącz Flatpak za pomocą Menedżera oprogramowania",
+      "text": "<p> Flatpak jest zainstalowany domyślnie na Manjaro 20 lub nowszym. </p> <2>Aby włączyć jego obsługę, należy przejść do <strong>Menedżera oprogramowania</strong> (Dodaj/Usuń programy)</2> <p>Kliknąć menu [lub kropki w zależności od środowiska graficznego] po prawej stronie, z rozwijanego menu wybrać „Preferencje”</p> <p>Przejść do zakładki „Flatpak” i przesunąć przełącznik na Włącz obsługę Flatpak (możliwe jest również włączenie sprawdzania aktualizacji, co jest zalecane).</p>"
+    },
+    "step-2": {
+      "name": "Uruchom ponownie",
+      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować wybrane aplikacje</2>!</0>"
+    }
   },
   "alpine": {
     "distroName": "Alpine"
