@@ -237,7 +237,6 @@ class ReviewItem(BaseModel):
     summary: str | None = None
     developer_name: str | None = None
     project_license: str | None = None
-    compulsory_for_desktop: bool | None = None
 
 
 class ReviewRequest(BaseModel):
