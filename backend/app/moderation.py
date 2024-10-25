@@ -350,6 +350,16 @@ def submit_review_request(
         ):
             continue
 
+        if app_id in (
+            "org.freedesktop.Platform",
+            "org.freedesktop.Sdk",
+            "org.gnome.Platform",
+            "org.gnome.Sdk",
+            "org.kde.Platform",
+            "org.kde.Sdk",
+        ):
+            continue
+
         if "keys" not in locals():
             keys = {}
         if "current_values" not in locals():
