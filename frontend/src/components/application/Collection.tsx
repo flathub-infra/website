@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { FunctionComponent } from "react"
+import { FunctionComponent, type JSX } from "react"
 
 import { Appstream, AppstreamListItem } from "../../types/Appstream"
 

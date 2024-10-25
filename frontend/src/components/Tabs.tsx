@@ -1,5 +1,5 @@
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
-import { Fragment, FunctionComponent } from "react"
+import { FunctionComponent, type JSX } from "react"
 import { clsx } from "clsx"
 import Badge from "./application/Badge"
 import { LayoutGroup, motion } from "framer-motion"

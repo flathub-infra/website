@@ -2,6 +2,7 @@ export const distroMap = new Map<string, JSX.Element>()
 import { Trans, useTranslation } from "next-i18next"
 import { HowToJsonLd } from "next-seo"
 import CodeCopy from "src/components/application/CodeCopy"
+import type { JSX } from "react"
 export const Ubuntu = () => {
   const { t } = useTranslation()
   return (
@@ -88,9 +89,9 @@ export const Ubuntu = () => {
             </p>{" "}
             <CodeCopy
               text={` sudo add-apt-repository ppa:flatpak/stable
- sudo apt update
- sudo apt install flatpak
- `}
+sudo apt update
+sudo apt install flatpak
+`}
             />
           </Trans>
         </li>
@@ -368,9 +369,9 @@ export const ALT_Linux = () => {
             </p>{" "}
             <CodeCopy
               text={` su -
- apt-get update
- apt-get install flatpak
- `}
+apt-get update
+apt-get install flatpak
+`}
             />
           </Trans>
         </li>
@@ -388,9 +389,9 @@ export const ALT_Linux = () => {
             </p>{" "}
             <CodeCopy
               text={` su -
- apt-get update
- apt-get install flatpak-repo-flathub
- `}
+apt-get update
+apt-get install flatpak-repo-flathub
+`}
             />
           </Trans>
         </li>

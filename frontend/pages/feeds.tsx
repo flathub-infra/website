@@ -6,6 +6,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
+import type { JSX } from "react"
+
 const Feeds = (): JSX.Element => {
   const { t } = useTranslation()
   return (

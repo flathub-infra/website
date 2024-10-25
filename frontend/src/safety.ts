@@ -19,7 +19,7 @@ import {
 import { IoGameControllerOutline } from "react-icons/io5"
 import { Appstream } from "./types/Appstream"
 import { Permissions, Metadata } from "./types/Summary"
-import React from "react"
+import React, { type JSX } from "react"
 import { IconType } from "react-icons"
 import { BsWifiOff } from "react-icons/bs"
 

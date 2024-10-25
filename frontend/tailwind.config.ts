@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+import type { Config } from "tailwindcss"
+
+export default {
   darkMode: ["selector"],
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -143,6 +144,8 @@ module.exports = {
     },
   },
   plugins: [
-    require("@tailwindcss/typography", "@tailwindcss/forms", "tailwindcss-animate"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("tailwindcss-animate"),
   ],
-}
+} satisfies Config

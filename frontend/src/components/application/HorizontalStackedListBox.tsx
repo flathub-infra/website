@@ -1,5 +1,7 @@
 import clsx from "clsx"
 
+import type { JSX } from "react"
+
 const Item = ({ children }: { children: JSX.Element | JSX.Element[] }) => {
   return <li className={`flex justify-center w-full`}>{children}</li>
 }

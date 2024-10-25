@@ -24,7 +24,7 @@ import {
   RotatedAxisTick,
   FlathubTooltip,
 } from "src/chartComponents"
-import { useState } from "react"
+import { useState, type JSX } from "react"
 import { ChartContainer, ChartConfig } from "@/components/ui/chart"
 
 const countries = registerIsoCountriesLocales()
