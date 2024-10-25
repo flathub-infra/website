@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, useEffect, useState } from "react"
+import { FunctionComponent, useEffect, useState, type JSX } from "react"
 import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import ApplicationCollection from "../application/Collection"

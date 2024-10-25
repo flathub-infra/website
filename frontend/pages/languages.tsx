@@ -5,6 +5,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { getLanguageFlag, getLanguageName, languages } from "../src/localize"
 import Link from "next/link"
 
+import type { JSX } from "react"
+
 const Languages = (): JSX.Element => {
   const { t } = useTranslation()
 

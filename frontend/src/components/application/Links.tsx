@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, type JSX } from "react"
 
 import { Appstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"

@@ -3,6 +3,8 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 
+import type { JSX } from "react"
+
 const Consultants = (): JSX.Element => {
   const { t } = useTranslation()
 
