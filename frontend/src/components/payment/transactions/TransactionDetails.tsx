@@ -27,7 +27,9 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
         <h3 className="my-4 text-xl font-semibold">
           {t("transaction-breakdown")}
         </h3>
-        {entries}
+        <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic">
+          {entries}
+        </div>
       </div>
     </div>
   )
