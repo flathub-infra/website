@@ -1,6 +1,12 @@
 {
   "ubuntu": {
-    "distroName": "Ubuntu"
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Flatpak installieren"
+    },
+    "step-4": {
+      "name": "Neustart"
+    }
   },
   "fedora": {
     "distroName": "Fedora"

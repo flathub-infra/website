@@ -81,19 +81,63 @@
     "distroName": "Kubuntu"
   },
   "ubuntu": {
-    "distroName": "Ubuntu"
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Ubuntu 18.10 (Cosmic Cuttlefish) o posterior, simplemente ejecute:</p> <2></2> <p>Con versiones antiguas de Ubuntu, el PPA oficial de Flatpak es la forma recomendada de instalar Flatpak. Para instalarlo, ejecute lo siguiente en un terminal:</p> <6></6>"
+    },
+    "step-2": {
+      "name": "Instalar el complemento Flatpak de GNOME Software"
+    },
+    "step-3": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p>Flathub es el mejor lugar para conseguir aplicaciones Flatpak. Para activarlo, ejecute:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Reiniciar"
+    }
   },
   "manjaro": {
-    "distroName": "Manjaro"
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Reiniciar"
+    },
+    "step-1": {
+      "name": "Activar Flatpak a través del Gestor de software"
+    }
   },
   "mageia": {
     "distroName": "Mageia"
   },
   "alt_linux": {
-    "distroName": "ALT Linux"
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Instalar Flatpak"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-3": {
+      "name": "Reiniciar"
+    }
   },
   "chrome_os": {
-    "distroName": "ChromeOS"
+    "distroName": "ChromeOS",
+    "step-3": {
+      "name": "Instalar Flatpak"
+    },
+    "step-5": {
+      "name": "Reiniciar"
+    },
+    "step-1": {
+      "name": "Activar la compatibilidad con Linux"
+    },
+    "step-4": {
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-2": {
+      "name": "Iniciar un terminal Linux"
+    }
   },
   "debian": {
     "distroName": "Debian"

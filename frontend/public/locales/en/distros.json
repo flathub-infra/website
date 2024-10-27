@@ -6,8 +6,8 @@
       "text": "<p>To install Flatpak on Ubuntu 18.10 (Cosmic Cuttlefish) or later, simply run:</p> <2></2> <p>With older Ubuntu versions, the official Flatpak PPA is the recommended way to install Flatpak. To install it, run the following in a terminal:</p> <6></6>"
     },
     "step-2": {
-      "name": "Install the Software Flatpak plugin",
-      "text": "<p>The Flatpak plugin for the Software app makes it possible to install apps without needing the command line. To install, run:</p> <2></2> <p>Note: the Software app is distributed as a Snap since Ubuntu 20.04 and does not support graphical installation of Flatpak apps. Installing the Flatpak plugin will also install a deb version of Software and result in two Software apps being installed at the same time.</p>"
+      "name": "Install GNOME Software Flatpak plugin",
+      "text": "<p>The GNOME Software Flatpak plugin makes it possible to install apps without needing the command line. To install, run:</p> <2></2> <p><strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap in versions 20.04 to 23.04, and replaced it with App Center in 23.10 and newer—neither of which support installing Flatpak apps. Installing the Flatpak plugin will also install a deb version of GNOME Software, resulting in two \"Software\" apps being installed at the same time on Ubuntu 20.04 to 23.04, and a single new \"Software\" app on Ubuntu 23.10 and newer.</p>"
     },
     "step-3": {
       "name": "Add the Flathub repository",
