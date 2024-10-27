@@ -28,6 +28,7 @@ import logoMini from "public/img/logo/flathub-logo-mini.svg"
 import logoEmail from "public/img/logo/logo-horizontal-email.png"
 import { AxiosError } from "axios"
 import { doLogoutAuthLogoutPost, Permission, UserInfo } from "src/codegen"
+import Form from "next/form"
 
 const navigation = [
   {
@@ -150,21 +151,6 @@ const Header = () => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     setQuery(e.target.value)
-  }
-
-  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const disallowedQueries = [".", ".."]
-    if (!disallowedQueries.includes(query)) {
-      const queryEncoded = encodeURIComponent(query).replace(/\./g, "%2E")
-      router.push(
-        `/apps/search${queryEncoded ? `?q=${queryEncoded}` : ""}`,
-        undefined,
-        {
-          locale: router.locale,
-        },
-      )
-    }
   }
 
   function onClickSearch(): void {
@@ -290,14 +276,14 @@ const Header = () => {
                             <HiMagnifyingGlass className="size-5 text-flathub-spanish-gray" />
                           </button>
                         </div>
-                        <form
+                        <Form
+                          action={"/apps/search"}
                           id="search-form"
                           role="search"
-                          onSubmit={onSubmit}
                         >
                           <input
                             id="search"
-                            name="q'"
+                            name="q"
                             onChange={onChange}
                             value={query}
                             className={clsx(
@@ -321,7 +307,7 @@ const Header = () => {
                               </kbd>
                             </div>
                           )}
-                        </form>
+                        </Form>
                       </div>
                     </div>
                   </div>
