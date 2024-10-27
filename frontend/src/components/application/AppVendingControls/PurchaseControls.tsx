@@ -155,7 +155,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         appShare={vendingSetup.data.data.appshare}
         vendingConfig={vendingConfig}
       />
-      <div>
+      <div className="flex justify-end">
         <Button size="lg" disabled={!canSubmit}>
           {t(isDonationOnly ? "make-donation" : "kind-purchase")}
         </Button>
