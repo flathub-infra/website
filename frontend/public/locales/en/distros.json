@@ -3,11 +3,11 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Ubuntu 18.10 (Cosmic Cuttlefish) or later, simply run:</p> <2></2> <p>With older Ubuntu versions, the official Flatpak PPA is the recommended way to install Flatpak. To install it, run the following in a terminal:</p> <6></6>"
+      "text": "<0>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</0> <2></2> <4>For older versions <strong>up to Ubuntu 18.04 LTS (Bionic Beaver)</strong>, the official Flatpak PPA is required to install Flatpak and keep it up to date. To add the PPA and install Flatpak, open the Terminal app and run:</4> <6></6>"
     },
     "step-2": {
       "name": "Install GNOME Software Flatpak plugin",
-      "text": "<p>The GNOME Software Flatpak plugin makes it possible to install apps without needing the command line. To install, run:</p> <2></2> <p><strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap in versions 20.04 to 23.04, and replaced it with App Center in 23.10 and newer—neither of which support installing Flatpak apps. Installing the Flatpak plugin will also install a deb version of GNOME Software, resulting in two \"Software\" apps being installed at the same time on Ubuntu 20.04 to 23.04, and a single new \"Software\" app on Ubuntu 23.10 and newer.</p>"
+      "text": "<p>The GNOME Software plugin makes it possible to install apps without needing the command line. To install, run:</p> <2></2> <4><strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap in versions 20.04 to 23.04, and replaced it with App Center in 23.10 and newer—neither of which support installing Flatpak apps. Installing the Flatpak plugin will also install a deb version of GNOME Software, resulting in two \"Software\" apps being installed at the same time on Ubuntu 20.04 to 23.04, and a single new \"Software\" app on Ubuntu 23.10 and newer.</4>"
     },
     "step-3": {
       "name": "Add the Flathub repository",
@@ -41,7 +41,7 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on operating systems of the Alt family, simply run:</p> <2></2>"
+      "text": "<p>To install Flatpak on operating systems of the Alt family, open the Terminal app and run:</p> <2></2>"
     },
     "step-2": {
       "name": "Add the Flathub repository",
@@ -103,7 +103,7 @@
     "distroName": "Arch",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Arch, simply run:</p> <2></2>"
+      "text": "<p>To install Flatpak on Arch, open the Terminal app and run:</p> <2></2>"
     },
     "step-2": {
       "name": "Restart",
@@ -160,7 +160,7 @@
     "distroName": "Gentoo",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Gentoo, simply run:</p> <2></2>"
+      "text": "<p>To install Flatpak on Gentoo, open the Terminal app and run:</p> <2></2>"
     },
     "step-2": {
       "name": "Add the Flathub repository",
@@ -175,11 +175,11 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Kubuntu, simply open Discover, go to Settings, install the Flatpak backend and restart Discover.</p>"
+      "text": "<p>To install Flatpak on Kubuntu, open Discover, go to Settings, install the Flatpak backend and restart Discover.</p>"
     },
     "step-2": {
       "name": "Install the Flatpak system settings add-on",
-      "text": "<p>To integrate Flatpak support into the Plasma System Settings, simply run:</p> <2></2>"
+      "text": "<p>To integrate Flatpak support into the Plasma System Settings, open the Terminal app and run:</p> <2></2>"
     },
     "step-3": {
       "name": "Add the Flathub repository",
@@ -194,7 +194,7 @@
     "distroName": "Solus",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Solus, simply run:</p> <2></2>"
+      "text": "<p>To install Flatpak on Solus, open the Terminal app and run:</p> <2></2>"
     },
     "step-2": {
       "name": "Add the Flathub repository",
@@ -248,7 +248,7 @@
     "introduction": "<0>Flatpak support is built into Pop!_OS 20.04 and newer—no setup required!</0> <p>If you are using an older version, you can refer to the instructions below.</p>",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<p>To install Flatpak on Pop!_OS 19.10 and earlier, simply run:</p> <2></2>"
+      "text": "<p>To install Flatpak on Pop!_OS 19.10 and earlier, open the Terminal app and run:</p> <2></2>"
     },
     "step-2": {
       "name": "Add the Flathub repository",
