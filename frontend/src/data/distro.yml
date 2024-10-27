@@ -22,13 +22,13 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Fedora
   logo: "fedora.svg"
   introduction: >
     <p>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Flathub is pre-configured as a part of the <a href="https://docs.fedoraproject.org/en-US/workstation-working-group/third-party-repos/">Third-Party Repositories</a>. Alternatively, you can download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
     <p>The above links should work on the default GNOME and KDE Fedora installations, but if they fail for some reason you can manually add the Flathub remote by running:</p>
     <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
 
@@ -43,7 +43,7 @@
         <p>Navigate to the "Flatpak" tab and slide the toggle to Enable Flatpak support (it is also possible to enable checking for updates, which is recommended).</p>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Endless OS
   logo: "endless.svg"
@@ -73,7 +73,7 @@
         </terminal-command>"
     - name: Restart
       text: '
-        <p>Restart your device to complete the Flatpak installation. Now you can <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>Restart your device to complete the Flatpak installation. Now you can <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Chrome OS
   logo: "chrome-os.svg"
@@ -97,7 +97,7 @@
         <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart Linux. You can do this by right-clicking terminal, and then clicking "Shut down Linux". Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart Linux. You can do this by right-clicking terminal, and then clicking "Shut down Linux". Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Red Hat Enterprise Linux
   logo: "redhat.svg"
@@ -106,7 +106,7 @@
     <p>To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run the following in a terminal:</p>
     <!-- Apparently the GNOME Software Flatpak plugin is shipped as part of the GNOME Software package, so there’s no need to separately install it -->
     <terminal-command>sudo yum install flatpak</terminal-command>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
     <p>The above links should work on the default Red Hat Enterprise Linux Workstation 9 installation, but if they fail for some reason you can manually add the Flathub remote by running:</p>
     <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
 
@@ -131,7 +131,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Arch
   logo: "arch.svg"
@@ -142,7 +142,7 @@
         <terminal-command>sudo pacman -S flatpak</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Debian
   logo: "debian.svg"
@@ -163,7 +163,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Rocky Linux
   logo: "rockylinux.svg"
@@ -178,25 +178,25 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: CentOS
   logo: "cent-os.svg"
   introduction: >
     <p>Flatpak is installed by default on CentOS 7 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
 - name: EuroLinux
   logo: "eurolinux.svg"
   introduction: >
     <p>Flatpak is installed by default on EuroLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
 - name: AlmaLinux
   logo: "almalinux.svg"
   introduction: >
     <p>Flatpak is installed by default on AlmaLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
 - name: Gentoo
   logo: "gentoo.svg"
@@ -211,7 +211,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Gentoo.</p>'
 
 - name: Kubuntu
@@ -229,7 +229,7 @@
         <p>Flathub is the best place to get Flatpak apps. To enable it, open Discover, go to Settings and add the Flathub repository.</p>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Solus
   logo: "solus.svg"
@@ -244,7 +244,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps is not yet possible with Solus, but will be available in the near future.</p>'
 
 - name: Alpine
@@ -266,7 +266,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete the setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete the setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Mageia
   logo: "mageia.svg"
@@ -283,7 +283,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Mageia.</p>'
 
 - name: OpenMandriva Lx
@@ -308,14 +308,14 @@
         <terminal-command>flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text:
-        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Pop!_OS 19.10 and earlier.</p>'
 
 - name: elementary OS
   logo: "elementary-os.svg"
   logo_dark: "elementary-os-dark.svg"
   steps:
-    - name: Install Some Apps
+    - name: Install Apps
       text:
         '<p>elementary OS 5.1 and newer comes with Flatpak support out of the box. For non-curated apps, head to <a href="https://flathub.org/">Flathub</a> to install any app using the big "Install" button, and open the downloaded `.flatpakref` file with Sideload.</p>
         <p>Note: After installing one app from a remote like Flathub, all other apps from that remote will also automatically show up in AppCenter.</p>'
@@ -334,7 +334,7 @@
         <p><b>Important note:</b> As of March 2021, Raspberry Pi computers still ship with the 32-bit version of Raspberry Pi OS. However Flathub started phasing out support for that architecture. If you consider Flathub as an important source of applications, it is recommended to use Raspberry Pi OS 64-bit as newer applications are more likely to be available for that platform.</p>"
     - name: Restart
       text:
-        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Raspberry Pi OS.</p>'
 
 - name: Clear Linux
@@ -342,7 +342,7 @@
   introduction: >
     <p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p>
     <terminal-command>sudo swupd bundle-add desktop</terminal-command>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
 - name: Void Linux
   logo: "void.svg"
@@ -358,7 +358,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: NixOS
   logo: "nixos.svg"
@@ -376,14 +376,14 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: PureOS
   logo: "pureos.svg"
   logo_dark: "pureos-dark.svg"
   introduction: >
     <p>Flatpak is installed by default on PureOS. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a>.</p>
-    <p>Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
 - name: Turkman Linux
   logo: "turkman.svg"
@@ -412,7 +412,7 @@
         <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Turkman Linux.</p>'
 
 - name: Ataraxia Linux
@@ -429,7 +429,7 @@
         <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Zorin OS
   logo: "zorin-os.svg"
@@ -457,7 +457,7 @@
         </terminal-command>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Pardus
   logo: "pardus.svg"
@@ -477,7 +477,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: MX Linux
   logo: "mxlinux.svg"
@@ -488,7 +488,7 @@
         <p>Open <strong>MX Package Installer</strong> (open the menu and look in MX Tools), select the "Flatpaks" tab, to activate the repository you will need to enter the root password.</p>'
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: "Pisi GNU/Linux"
   slug: "Pisi GNU Linux"
@@ -505,7 +505,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with Pisi GNU/Linux.</p>'
 
 - name: EndeavourOS
@@ -524,7 +524,7 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text:
-        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        '<p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with EndeavourOS.</p>'
 
 - name: KDE neon
@@ -552,7 +552,7 @@
         <terminal-command>flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
         <p>Note: graphical installation of Flatpak apps may not be possible with GNU Guix.</p>'
 
 - name: Crystal Linux
@@ -573,13 +573,13 @@
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install some apps</a>!</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Vanilla OS
   logo: "vanillaos.svg"
   introduction: >
     <h2>Flatpak is installed by default on Vanilla OS.</h2>
-    <p>You can use the Software app or browse <a href="https://flathub.org/">Flathub</a> to install some apps.</p>
+    <p>You can use the Software app or browse <a href="https://flathub.org/">Flathub</a> to install apps.</p>
     <p>If for some reason Flathub is not available, you can configure it manually using the following command:</p>
     <terminal-command>host-shell flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>
 
@@ -588,4 +588,4 @@
   introduction: >
     <h2>Flatpak is installed by default on Salix since version 15.0—no setup required!</h2>
     <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p>
-    <p>All you have to do is <a href="https://flathub.org/">install some apps</a>!</p>
+    <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>

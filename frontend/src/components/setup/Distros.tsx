@@ -142,7 +142,7 @@ export const Ubuntu = () => {
           <Trans i18nKey="distros:ubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -178,7 +178,7 @@ export const Fedora = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>{" "}
           <p>
             The above links should work on the default GNOME and KDE Fedora
@@ -267,7 +267,7 @@ export const Manjaro = () => {
           <Trans i18nKey="distros:manjaro.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -402,7 +402,7 @@ export const ALT_Linux = () => {
           <Trans i18nKey="distros:alt_linux.step-3.text">
             <p>
               Restart your device to complete the Flatpak installation. Now you
-              can <a href="https://flathub.org/">install some apps</a>!
+              can <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -579,7 +579,7 @@ export const Chrome_OS = () => {
               To complete setup, restart Linux. You can do this by
               right-clicking terminal, and then clicking "Shut down Linux". Now
               all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -617,7 +617,7 @@ export const Red_Hat_Enterprise_Linux = () => {
           <CodeCopy text={`sudo yum install flatpak`} />{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>{" "}
           <p>
             The above links should work on the default Red Hat Enterprise Linux
@@ -763,7 +763,7 @@ export const OpenSUSE = () => {
           <Trans i18nKey="distros:opensuse.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -830,7 +830,7 @@ export const Arch = () => {
           <Trans i18nKey="distros:arch.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -972,7 +972,7 @@ export const Debian = () => {
           <Trans i18nKey="distros:debian.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -1084,7 +1084,7 @@ export const Rocky_Linux = () => {
           <Trans i18nKey="distros:rocky_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -1115,7 +1115,7 @@ export const CentOS = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>
@@ -1145,7 +1145,7 @@ export const EuroLinux = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>
@@ -1175,7 +1175,7 @@ export const AlmaLinux = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>
@@ -1270,7 +1270,7 @@ export const Gentoo = () => {
           <Trans i18nKey="distros:gentoo.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1398,7 +1398,7 @@ export const Kubuntu = () => {
           <Trans i18nKey="distros:kubuntu.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -1502,7 +1502,7 @@ export const Solus = () => {
           <Trans i18nKey="distros:solus.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps is not yet possible
@@ -1645,7 +1645,7 @@ export const Alpine = () => {
           <Trans i18nKey="distros:alpine.step-4.text">
             <p>
               To complete the setup, restart your system. Now all you have to do
-              is <a href="https://flathub.org/">install some apps</a>!
+              is <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -1756,7 +1756,7 @@ export const Mageia = () => {
           <Trans i18nKey="distros:mageia.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1899,7 +1899,7 @@ export const Pop_OS = () => {
           <Trans i18nKey="distros:pop_os.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -1943,7 +1943,7 @@ export const Elementary_OS = () => {
         <li>
           <h2>
             <Trans i18nKey="distros:elementary_os.step-1.name">
-              Install Some Apps
+              Install Apps
             </Trans>
           </h2>
           <Trans i18nKey="distros:elementary_os.step-1.text">
@@ -2067,7 +2067,7 @@ export const Raspberry_Pi_OS = () => {
           <Trans i18nKey="distros:raspberry_pi_os.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -2095,7 +2095,7 @@ export const Clear_Linux = () => {
           <CodeCopy text={`sudo swupd bundle-add desktop`} />{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>
@@ -2194,7 +2194,7 @@ export const Void_Linux = () => {
           <Trans i18nKey="distros:void_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -2304,7 +2304,7 @@ export const NixOS = () => {
           <Trans i18nKey="distros:nixos.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -2335,7 +2335,7 @@ export const PureOS = () => {
           </p>{" "}
           <p>
             Now all you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>
@@ -2470,7 +2470,7 @@ export const Turkman_Linux = () => {
           <Trans i18nKey="distros:turkman_linux.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -2575,7 +2575,7 @@ export const Ataraxia_Linux = () => {
           <Trans i18nKey="distros:ataraxia_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -2716,7 +2716,7 @@ export const Deepin = () => {
           <Trans i18nKey="distros:deepin.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -2851,7 +2851,7 @@ export const Pardus = () => {
           <Trans i18nKey="distros:pardus.step-4.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -2928,7 +2928,7 @@ export const MX_Linux = () => {
           <Trans i18nKey="distros:mx_linux.step-2.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -3029,7 +3029,7 @@ export const Pisi_GNULinux = () => {
           <Trans i18nKey="distros:pisi_gnulinux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -3135,7 +3135,7 @@ export const EndeavourOS = () => {
           <Trans i18nKey="distros:endeavouros.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -3320,7 +3320,7 @@ export const GNU_Guix = () => {
           <Trans i18nKey="distros:gnu_guix.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>{" "}
             <p>
               Note: graphical installation of Flatpak apps may not be possible
@@ -3434,7 +3434,7 @@ export const Crystal_Linux = () => {
           <Trans i18nKey="distros:crystal_linux.step-3.text">
             <p>
               To complete setup, restart your system. Now all you have to do is{" "}
-              <a href="https://flathub.org/">install some apps</a>!
+              <a href="https://flathub.org/">install apps</a>!
             </p>
           </Trans>
         </li>
@@ -3454,7 +3454,7 @@ export const Vanilla_OS = () => {
           <h2>Flatpak is installed by default on Vanilla OS.</h2>{" "}
           <p>
             You can use the Software app or browse{" "}
-            <a href="https://flathub.org/">Flathub</a> to install some apps.
+            <a href="https://flathub.org/">Flathub</a> to install apps.
           </p>{" "}
           <p>
             If for some reason Flathub is not available, you can configure it
@@ -3488,7 +3488,7 @@ export const Salix = () => {
           </p>{" "}
           <p>
             All you have to do is{" "}
-            <a href="https://flathub.org/">install some apps</a>!
+            <a href="https://flathub.org/">install apps</a>!
           </p>
         </Trans>
       </ol>

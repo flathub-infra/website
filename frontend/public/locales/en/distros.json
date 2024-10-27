@@ -15,12 +15,12 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<0>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Flathub is pre-configured as a part of the <2>Third-Party Repositories</2>. Alternatively, you can download and install the <5>Flathub repository file</5>.</0> <2>Now all you have to do is <2>install some apps</2>!</2> <p>The above links should work on the default GNOME and KDE Fedora installations, but if they fail for some reason you can manually add the Flathub remote by running:</p> <6></6>"
+    "introduction": "<0>Flatpak is installed by default on Fedora Workstation, Fedora Silverblue, and Fedora Kinoite. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Flathub is pre-configured as a part of the <2>Third-Party Repositories</2>. Alternatively, you can download and install the <5>Flathub repository file</5>.</0> <2>Now all you have to do is <2>install apps</2>!</2> <p>The above links should work on the default GNOME and KDE Fedora installations, but if they fail for some reason you can manually add the Flathub remote by running:</p> <6></6>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -30,7 +30,7 @@
     },
     "step-2": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "endless_os": {
@@ -49,7 +49,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>Restart your device to complete the Flatpak installation. Now you can <1>install some apps</1>!</0>"
+      "text": "<0>Restart your device to complete the Flatpak installation. Now you can <1>install apps</1>!</0>"
     }
   },
   "chrome_os": {
@@ -73,12 +73,12 @@
     },
     "step-5": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart Linux. You can do this by right-clicking terminal, and then clicking \"Shut down Linux\". Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart Linux. You can do this by right-clicking terminal, and then clicking \"Shut down Linux\". Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<0>Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9 and newer. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <p>To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run the following in a terminal:</p>  <5></5> <7>Now all you have to do is <2>install some apps</2>!</7> <p>The above links should work on the default Red Hat Enterprise Linux Workstation 9 installation, but if they fail for some reason you can manually add the Flathub remote by running:</p> <11></11>"
+    "introduction": "<0>Flatpak is installed by default on Red Hat Enterprise Linux Workstation 9 and newer. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <p>To install Flatpak on Red Hat Enterprise Linux Workstation 8 or older, run the following in a terminal:</p>  <5></5> <7>Now all you have to do is <2>install apps</2>!</7> <p>The above links should work on the default Red Hat Enterprise Linux Workstation 9 installation, but if they fail for some reason you can manually add the Flathub remote by running:</p> <11></11>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -96,7 +96,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "arch": {
@@ -107,7 +107,7 @@
     },
     "step-2": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "debian": {
@@ -126,7 +126,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "rocky_linux": {
@@ -141,20 +141,20 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "centos": {
     "distroName": "CentOS",
-    "introduction": "<0>Flatpak is installed by default on CentOS 7 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install some apps</2>!</2>"
+    "introduction": "<0>Flatpak is installed by default on CentOS 7 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
   },
   "eurolinux": {
     "distroName": "EuroLinux",
-    "introduction": "<0>Flatpak is installed by default on EuroLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install some apps</2>!</2>"
+    "introduction": "<0>Flatpak is installed by default on EuroLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<0>Flatpak is installed by default on AlmaLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install some apps</2>!</2>"
+    "introduction": "<0>Flatpak is installed by default on AlmaLinux 8 and newer, when using GNOME. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -168,7 +168,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Gentoo.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Gentoo.</p>"
     }
   },
   "kubuntu": {
@@ -187,7 +187,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "solus": {
@@ -202,7 +202,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps is not yet possible with Solus, but will be available in the near future.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps is not yet possible with Solus, but will be available in the near future.</p>"
     }
   },
   "alpine": {
@@ -221,7 +221,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete the setup, restart your system. Now all you have to do is <1>install some apps</1>!</0>"
+      "text": "<0>To complete the setup, restart your system. Now all you have to do is <1>install apps</1>!</0>"
     }
   },
   "mageia": {
@@ -236,7 +236,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Mageia.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Mageia.</p>"
     }
   },
   "openmandriva_lx": {
@@ -256,13 +256,13 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pop!_OS 19.10 and earlier.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pop!_OS 19.10 and earlier.</p>"
     }
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Install Some Apps",
+      "name": "Install Apps",
       "text": "<0>elementary OS 5.1 and newer comes with Flatpak support out of the box. For non-curated apps, head to <2>Flathub</2> to install any app using the big \"Install\" button, and open the downloaded `.flatpakref` file with Sideload.</0> <p>Note: After installing one app from a remote like Flathub, all other apps from that remote will also automatically show up in AppCenter.</p>"
     }
   },
@@ -278,12 +278,12 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Raspberry Pi OS.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Raspberry Pi OS.</p>"
     }
   },
   "clear_linux": {
     "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p> <2></2> <4>Now all you have to do is <2>install some apps</2>!</4>"
+    "introduction": "<p>Flatpak is installed and Flathub repository is pre-configured by default on Clear Linux when installing the desktop bundle.</p> <2></2> <4>Now all you have to do is <2>install apps</2>!</4>"
   },
   "void_linux": {
     "distroName": "Void Linux",
@@ -297,7 +297,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "nixos": {
@@ -312,12 +312,12 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "pureos": {
     "distroName": "PureOS",
-    "introduction": "<0>Flatpak is installed by default on PureOS. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install some apps</2>!</2>"
+    "introduction": "<0>Flatpak is installed by default on PureOS. To get started, all you need to do is enable Flathub, which is the best way to get Flatpak apps. Just download and install the <2>Flathub repository file</2>.</0> <2>Now all you have to do is <2>install apps</2>!</2>"
   },
   "turkman_linux": {
     "distroName": "Turkman Linux",
@@ -335,7 +335,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Turkman Linux.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Turkman Linux.</p>"
     }
   },
   "ataraxia_linux": {
@@ -350,7 +350,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "zorin_os": {
@@ -373,7 +373,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "pardus": {
@@ -392,7 +392,7 @@
     },
     "step-4": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "mx_linux": {
@@ -403,7 +403,7 @@
     },
     "step-2": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "pisi_gnulinux": {
@@ -418,7 +418,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pisi GNU/Linux.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with Pisi GNU/Linux.</p>"
     }
   },
   "endeavouros": {
@@ -433,7 +433,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with EndeavourOS.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with EndeavourOS.</p>"
     }
   },
   "kde_neon": {
@@ -460,7 +460,7 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with GNU Guix.</p>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0> <p>Note: graphical installation of Flatpak apps may not be possible with GNU Guix.</p>"
     }
   },
   "crystal_linux": {
@@ -476,15 +476,15 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install some apps</2>!</0>"
+      "text": "<0>To complete setup, restart your system. Now all you have to do is <2>install apps</2>!</0>"
     }
   },
   "vanilla_os": {
     "distroName": "Vanilla OS",
-    "introduction": "<0>Flatpak is installed by default on Vanilla OS.</0> <2>You can use the Software app or browse <2>Flathub</2> to install some apps.</2> <p>If for some reason Flathub is not available, you can configure it manually using the following command:</p> <6></6>"
+    "introduction": "<0>Flatpak is installed by default on Vanilla OS.</0> <2>You can use the Software app or browse <2>Flathub</2> to install apps.</2> <p>If for some reason Flathub is not available, you can configure it manually using the following command:</p> <6></6>"
   },
   "salix": {
     "distroName": "Salix",
-    "introduction": "<0>Flatpak is installed by default on Salix since version 15.0—no setup required!</0> <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p> <4>All you have to do is <2>install some apps</2>!</4>"
+    "introduction": "<0>Flatpak is installed by default on Salix since version 15.0—no setup required!</0> <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p> <4>All you have to do is <2>install apps</2>!</4>"
   }
 }
