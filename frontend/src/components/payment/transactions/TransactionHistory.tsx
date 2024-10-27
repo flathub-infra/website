@@ -236,8 +236,6 @@ const TransactionHistory: FunctionComponent = () => {
           getTransactionsWalletTransactionsGet(
             {
               sort: "recent",
-              since: perPage.toString(),
-              limit: undefined,
             },
             {
               withCredentials: true,
