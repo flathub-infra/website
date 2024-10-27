@@ -1,6 +1,6 @@
 import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useEffect, useState } from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import { TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
@@ -13,6 +13,8 @@ import {
 } from "src/codegen"
 import { PaymentCardInfo } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { TransactionCancelButtonPrep } from "./Checkout"
 
 interface Props {
   transaction: TransactionDetailed
@@ -21,7 +23,6 @@ interface Props {
   error: string | null
   submit: () => void
   skip: () => void
-  transactionCancelButton: ReactElement
 }
 
 const CardSelect: FunctionComponent<Props> = ({
@@ -31,12 +32,10 @@ const CardSelect: FunctionComponent<Props> = ({
   error,
   submit,
   skip,
-  transactionCancelButton,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
 
-  const [confirmed, setConfirmed] = useState(false)
   const [useCard, setUseCard] = useState<PaymentCardInfo | null>(null)
 
   const mutation = useMutation({
@@ -65,32 +64,8 @@ const CardSelect: FunctionComponent<Props> = ({
         submit()
       }
     },
-    onError: (err: AxiosError) => {
-      setConfirmed(false)
-    },
+    onError: (err: AxiosError) => {},
   })
-
-  // User must confirm card selection so their intent to pay is explicit
-  useEffect(() => {
-    // Payment confirmation can only occur once a card is selected
-    if (confirmed && !useCard) {
-      setConfirmed(false)
-    }
-
-    if (stripe && useCard && confirmed) {
-      mutation.mutate({ id: transaction.summary.id })
-    }
-  }, [
-    transaction,
-    confirmed,
-    clientSecret,
-    cards,
-    submit,
-    stripe,
-    useCard,
-    t,
-    mutation,
-  ])
 
   let cardSection: ReactElement
   if (error) {
@@ -123,16 +98,32 @@ const CardSelect: FunctionComponent<Props> = ({
       <h3 className="my-4 text-xl font-semibold">{t("saved-cards")}</h3>
       {cardSection}
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
-        {transactionCancelButton}
-        <Button size="lg" className="ms-auto w-full sm:w-auto" onClick={skip}>
+        <TransactionCancelButtonPrep
+          transactionId={transaction.summary.id}
+          disabled={mutation.isPending}
+        />
+
+        <Button
+          size="lg"
+          className="ms-auto w-full sm:w-auto"
+          onClick={skip}
+          disabled={mutation.isPending}
+        >
           {t("use-new-card")}
         </Button>
         <Button
           size="lg"
           className="w-full sm:w-auto"
-          onClick={() => setConfirmed(true)}
-          disabled={!useCard}
+          onClick={() => {
+            if (stripe && useCard) {
+              mutation.mutate({ id: transaction.summary.id })
+            }
+          }}
+          disabled={!useCard || mutation.isPending}
         >
+          {mutation.isPending && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
           {t("confirm-selection")}
         </Button>
       </div>

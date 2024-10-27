@@ -1,6 +1,6 @@
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
-import { FormEvent, FunctionComponent, ReactElement, useState } from "react"
+import { FormEvent, FunctionComponent, useState } from "react"
 import Spinner from "../../Spinner"
 import { handleStripeError } from "./stripe"
 import { useMutation } from "@tanstack/react-query"
@@ -11,13 +11,13 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { TransactionCancelButtonPrep } from "./Checkout"
 
 interface Props {
   transactionId: string
   callbackPage: string
   canGoBack: boolean
   goBack: () => void
-  transactionCancelButton: ReactElement
 }
 
 const PaymentForm: FunctionComponent<Props> = ({
@@ -25,7 +25,6 @@ const PaymentForm: FunctionComponent<Props> = ({
   callbackPage,
   canGoBack,
   goBack,
-  transactionCancelButton,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
@@ -101,7 +100,7 @@ const PaymentForm: FunctionComponent<Props> = ({
             </div>
           </div>
           <div className="flex flex-col-reverse gap-4 sm:flex-row">
-            {transactionCancelButton}
+            <TransactionCancelButtonPrep transactionId={transactionId} />
             <Button
               size="lg"
               className="ms-auto w-full sm:w-auto"

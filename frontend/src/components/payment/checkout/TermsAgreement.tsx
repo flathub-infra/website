@@ -1,16 +1,17 @@
 import { Button } from "@/components/ui/button"
 import { useTranslation } from "next-i18next"
-import { FunctionComponent, ReactElement, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
+import { TransactionCancelButtonPrep } from "./Checkout"
 
 interface Props {
   onConfirm: () => void
-  transactionCancelButton: ReactElement
+  transactionId: string
 }
 
 const TermsAgreement: FunctionComponent<Props> = ({
   onConfirm,
-  transactionCancelButton,
+  transactionId,
 }) => {
   const { t } = useTranslation()
 
@@ -36,7 +37,7 @@ const TermsAgreement: FunctionComponent<Props> = ({
         </div>
       </div>
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
-        {transactionCancelButton}
+        <TransactionCancelButtonPrep transactionId={transactionId} />
         <Button
           size="lg"
           className="ms-auto w-full sm:w-auto"

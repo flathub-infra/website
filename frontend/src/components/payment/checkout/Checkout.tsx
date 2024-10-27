@@ -17,16 +17,19 @@ enum Stage {
 
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
 
-const TransactionCancelButtonPrep = ({
+export const TransactionCancelButtonPrep = ({
   transactionId,
+  disabled = false,
 }: {
   transactionId: string
+  disabled?: boolean
 }) => {
   const router = useRouter()
   return (
     <TransactionCancelButton
       id={transactionId}
       className="w-full sm:w-auto"
+      disabled={disabled}
       onSuccess={() =>
         router.push(`${detailsPage}/${transactionId}`, undefined, {
           locale: router.locale,
@@ -86,9 +89,7 @@ const Checkout: FunctionComponent<{
       flowContent = (
         <TermsAgreement
           onConfirm={() => setTermsAgreed(true)}
-          transactionCancelButton={
-            <TransactionCancelButtonPrep transactionId={transactionId} />
-          }
+          transactionId={transactionId}
         />
       )
       break
@@ -105,9 +106,6 @@ const Checkout: FunctionComponent<{
             })
           }
           skip={() => setStage(Stage.CardInput)}
-          transactionCancelButton={
-            <TransactionCancelButtonPrep transactionId={transactionId} />
-          }
         />
       )
       break
@@ -118,9 +116,6 @@ const Checkout: FunctionComponent<{
           callbackPage={`${detailsPage}/${transactionId}`}
           canGoBack={cards.length > 0}
           goBack={() => setStage(Stage.CardSelect)}
-          transactionCancelButton={
-            <TransactionCancelButtonPrep transactionId={transactionId} />
-          }
         />
       )
       break
