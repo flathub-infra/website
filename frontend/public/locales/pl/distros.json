@@ -101,8 +101,8 @@
       "text": "<p>Aby zainstalować Flatpak na Ubuntu 18.10 (Cosmic Cuttlefish) lub nowszym, wystarczy uruchomić:</p> <2></2> <p>W starszych wersjach Ubuntu, oficjalne Flatpak PPA jest zalecanym sposobem instalacji Flatpak. Aby go zainstalować, uruchom następujące polecenie w terminalu:</p> <6></6>"
     },
     "step-2": {
-      "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<p>Wtyczka Flatpak dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby zainstalować, uruchom:</p> <2></2> <p>Uwaga: aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</p>"
+      "name": "Zainstaluj wtyczkę Flatpak do GNOME Software",
+      "text": "<p>Wtyczka dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby zainstalować, uruchom:</p> <2></2> <4><strong>Uwaga:</strong> aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</4>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",

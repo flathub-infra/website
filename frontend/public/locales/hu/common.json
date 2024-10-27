@@ -607,5 +607,8 @@
   "transparent": "<0>Független és átlátható</0> — Alulról építkező, nyílt forráskódú közösség vagyunk, amely az ökoszisztéma által kínált lehetőségekből a legjobbat irányítja",
   "docs-guidance": "<0>Tiszta dokumentumok és útmutatás</0> — kiterjedt <2>dokumentáció</2>, több ezer nyilvános <5>szerelvényjegyzékfájl</5> és a nagy közösség azt jelenti, hogy mindig kaphat segítséget",
   "integration": "<0>Natív alkalmazásbolt-integráció</0> — Felejtse el az internetes letöltéseket; A Flathub az alkalmazásokat és az <3>automatikus frissítéseket</3> szállítja a felhasználóknak a natív alkalmazásbolt-ügyfelükön, ahol az elvárható",
-  "millions-users": "<0>Felhasználók millióinak elérése</0> — A Flathub több Linux disztribúción is megjelenik, a többire <2>könnyen telepíthető</2>, és több mint egymillió aktív felhasználóval rendelkezik"
+  "millions-users": "<0>Felhasználók millióinak elérése</0> — A Flathub több Linux disztribúción is megjelenik, a többire <2>könnyen telepíthető</2>, és több mint egymillió aktív felhasználóval rendelkezik",
+  "flathub-logo": "Flathub embléma",
+  "flathub": "Flathub",
+  "mastodon": "Mastodon"
 }
