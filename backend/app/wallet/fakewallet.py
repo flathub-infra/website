@@ -30,7 +30,7 @@ from .walletbase import (
     WalletInfo,
 )
 
-FAKE_CARD_EXP = PaymentCardInfo.parse_obj(
+FAKE_CARD_EXP = PaymentCardInfo.model_validate(
     {
         "id": "fake_card_exp",
         "brand": "visa",
@@ -41,7 +41,7 @@ FAKE_CARD_EXP = PaymentCardInfo.parse_obj(
     }
 )
 
-FAKE_CARD_OK = PaymentCardInfo.parse_obj(
+FAKE_CARD_OK = PaymentCardInfo.model_validate(
     {
         "id": "fake_card_ok",
         "brand": "mastercard",
@@ -53,9 +53,9 @@ FAKE_CARD_OK = PaymentCardInfo.parse_obj(
 )
 
 FAKE_TXNS = [
-    Transaction.parse_obj(
+    Transaction.model_validate(
         {
-            "summary": TransactionSummary.parse_obj(
+            "summary": TransactionSummary.model_validate(
                 {
                     "id": "45",
                     "value": 1000,
@@ -68,7 +68,7 @@ FAKE_TXNS = [
             ),
             "card": FAKE_CARD_EXP,
             "details": [
-                TransactionRow.parse_obj(
+                TransactionRow.model_validate(
                     {
                         "recipient": "org.flathub.Flathub",
                         "amount": 1000,
@@ -79,9 +79,9 @@ FAKE_TXNS = [
             ],
         }
     ),
-    Transaction.parse_obj(
+    Transaction.model_validate(
         {
-            "summary": TransactionSummary.parse_obj(
+            "summary": TransactionSummary.model_validate(
                 {
                     "id": "12",
                     "value": 1000,
@@ -94,7 +94,7 @@ FAKE_TXNS = [
                 }
             ),
             "details": [
-                TransactionRow.parse_obj(
+                TransactionRow.model_validate(
                     {
                         "recipient": "org.flathub.Flathub",
                         "amount": 1000,
@@ -152,7 +152,7 @@ class FakeWallet(WalletBase):
         raw = request.session.get("txns", [])
         ret = {}
         for txn in raw:
-            txn = Transaction.parse_obj(txn)
+            txn = Transaction.model_validate(txn)
             ret[txn.summary.id] = txn
         return ret
 
