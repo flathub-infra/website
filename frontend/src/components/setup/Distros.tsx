@@ -89,9 +89,9 @@ export const Ubuntu = () => {
             </p>{" "}
             <CodeCopy
               text={` sudo add-apt-repository ppa:flatpak/stable
-sudo apt update
-sudo apt install flatpak
-`}
+ sudo apt update
+ sudo apt install flatpak
+ `}
             />
           </Trans>
         </li>
@@ -369,9 +369,9 @@ export const ALT_Linux = () => {
             </p>{" "}
             <CodeCopy
               text={` su -
-apt-get update
-apt-get install flatpak
-`}
+ apt-get update
+ apt-get install flatpak
+ `}
             />
           </Trans>
         </li>
@@ -389,9 +389,9 @@ apt-get install flatpak
             </p>{" "}
             <CodeCopy
               text={` su -
-apt-get update
-apt-get install flatpak-repo-flathub
-`}
+ apt-get update
+ apt-get install flatpak-repo-flathub
+ `}
             />
           </Trans>
         </li>
