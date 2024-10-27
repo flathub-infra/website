@@ -74,14 +74,17 @@ export const Ubuntu = () => {
           </h2>
           <Trans i18nKey="distros:ubuntu.step-1.text">
             <p>
-              To install Flatpak on Ubuntu 18.10 (Cosmic Cuttlefish) or later,
-              simply run:
+              To install Flatpak on{" "}
+              <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open
+              the Terminal app and run:
             </p>{" "}
             <CodeCopy text={`sudo apt install flatpak`} />{" "}
             <p>
-              With older Ubuntu versions, the official Flatpak PPA is the
-              recommended way to install Flatpak. To install it, run the
-              following in a terminal:
+              For older versions{" "}
+              <strong>up to Ubuntu 18.04 LTS (Bionic Beaver)</strong>, the
+              official Flatpak PPA is required to install Flatpak and keep it up
+              to date. To add the PPA and install Flatpak, open the Terminal app
+              and run:
             </p>{" "}
             <CodeCopy
               text={` sudo add-apt-repository ppa:flatpak/stable
@@ -95,21 +98,23 @@ export const Ubuntu = () => {
         <li>
           <h2>
             <Trans i18nKey="distros:ubuntu.step-2.name">
-              Install the Software Flatpak plugin
+              Install GNOME Software Flatpak plugin
             </Trans>
           </h2>
           <Trans i18nKey="distros:ubuntu.step-2.text">
             <p>
-              The Flatpak plugin for the Software app makes it possible to
-              install apps without needing the command line. To install, run:
+              The GNOME Software plugin makes it possible to install apps
+              without needing the command line. To install, run:
             </p>{" "}
             <CodeCopy text={`sudo apt install gnome-software-plugin-flatpak`} />{" "}
             <p>
-              Note: the Software app is distributed as a Snap since Ubuntu 20.04
-              and does not support graphical installation of Flatpak apps.
+              <strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap
+              in versions 20.04 to 23.04, and replaced it with App Center in
+              23.10 and newer—neither of which support installing Flatpak apps.
               Installing the Flatpak plugin will also install a deb version of
-              Software and result in two Software apps being installed at the
-              same time.
+              GNOME Software, resulting in two "Software" apps being installed
+              at the same time on Ubuntu 20.04 to 23.04, and a single new
+              "Software" app on Ubuntu 23.10 and newer.
             </p>
           </Trans>
         </li>
@@ -358,8 +363,8 @@ export const ALT_Linux = () => {
           </h2>
           <Trans i18nKey="distros:alt_linux.step-1.text">
             <p>
-              To install Flatpak on operating systems of the Alt family, simply
-              run:
+              To install Flatpak on operating systems of the Alt family, open
+              the Terminal app and run:
             </p>{" "}
             <CodeCopy
               text={` su -
@@ -813,7 +818,7 @@ export const Arch = () => {
             <Trans i18nKey="distros:arch.step-1.name">Install Flatpak</Trans>
           </h2>
           <Trans i18nKey="distros:arch.step-1.text">
-            <p>To install Flatpak on Arch, simply run:</p>{" "}
+            <p>To install Flatpak on Arch, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`sudo pacman -S flatpak`} />
           </Trans>
         </li>
@@ -1237,7 +1242,7 @@ export const Gentoo = () => {
             <Trans i18nKey="distros:gentoo.step-1.name">Install Flatpak</Trans>
           </h2>
           <Trans i18nKey="distros:gentoo.step-1.text">
-            <p>To install Flatpak on Gentoo, simply run:</p>{" "}
+            <p>To install Flatpak on Gentoo, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`emerge --ask --verbose sys-apps/flatpak`} />
           </Trans>
         </li>
@@ -1351,8 +1356,8 @@ export const Kubuntu = () => {
           </h2>
           <Trans i18nKey="distros:kubuntu.step-1.text">
             <p>
-              To install Flatpak on Kubuntu, simply open Discover, go to
-              Settings, install the Flatpak backend and restart Discover.
+              To install Flatpak on Kubuntu, open Discover, go to Settings,
+              install the Flatpak backend and restart Discover.
             </p>
           </Trans>
         </li>
@@ -1365,8 +1370,8 @@ export const Kubuntu = () => {
           </h2>
           <Trans i18nKey="distros:kubuntu.step-2.text">
             <p>
-              To integrate Flatpak support into the Plasma System Settings,
-              simply run:
+              To integrate Flatpak support into the Plasma System Settings, open
+              the Terminal app and run:
             </p>{" "}
             <CodeCopy text={`sudo apt install kde-config-flatpak`} />
           </Trans>
@@ -1461,7 +1466,7 @@ export const Solus = () => {
             <Trans i18nKey="distros:solus.step-1.name">Install Flatpak</Trans>
           </h2>
           <Trans i18nKey="distros:solus.step-1.text">
-            <p>To install Flatpak on Solus, simply run:</p>{" "}
+            <p>To install Flatpak on Solus, open the Terminal app and run:</p>{" "}
             <CodeCopy text={`sudo eopkg install flatpak`} />
           </Trans>
         </li>
@@ -1855,7 +1860,10 @@ export const Pop_OS = () => {
             <Trans i18nKey="distros:pop_os.step-1.name">Install Flatpak</Trans>
           </h2>
           <Trans i18nKey="distros:pop_os.step-1.text">
-            <p>To install Flatpak on Pop!_OS 19.10 and earlier, simply run:</p>{" "}
+            <p>
+              To install Flatpak on Pop!_OS 19.10 and earlier, open the Terminal
+              app and run:
+            </p>{" "}
             <CodeCopy text={`sudo apt install flatpak`} />
           </Trans>
         </li>
