@@ -608,5 +608,8 @@
   "millions-users": "<0>Dosáhnout miliony uživatelů</0> - Flathub je dodáván jako hotový na několika distribucích Linuxu, na ostatních je <2>snadno instalovatelný</2> a má více než milion aktivních uživatelů",
   "all-the-apps-you-want": "<0>Všechny aplikace, které chcete</0> - Flathub nabízí tisíce aplikací pro vaše potřeby, od velkých jmen, která byste očekávali, až po čerstvé nezávislé vývojáře.",
   "transparent-safety": "<0>Transparentní bezpečnost</0> - Jasně vidíte, kdy je aplikace <3>ověřená</3>, že pochází od jejího vývojáře, jaká oprávnění vyžaduje a zda má otevřený zdrojový kód a zda je auditovatelná",
-  "docs-guidance": "<0>Přehledné dokumenty a návody</0> - Rozsáhlá <2>dokumentace</2>, tisíce veřejných <5>aplikačních manifestů</5> a rozsáhlá komunita znamenají, že vždy můžete získat pomoc"
+  "docs-guidance": "<0>Přehledné dokumenty a návody</0> - Rozsáhlá <2>dokumentace</2>, tisíce veřejných <5>aplikačních manifestů</5> a rozsáhlá komunita znamenají, že vždy můžete získat pomoc",
+  "flathub": "Flathub",
+  "flathub-logo": "Logo Flathub",
+  "mastodon": "Mastodon"
 }
