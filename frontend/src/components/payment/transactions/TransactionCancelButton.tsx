@@ -8,12 +8,14 @@ interface Props {
   id: string
   onSuccess?: () => void
   className?: string
+  disabled?: boolean
 }
 
 const TransactionCancelButton: FunctionComponent<Props> = ({
   id,
   onSuccess,
   className,
+  disabled = false,
 }) => {
   const { t } = useTranslation()
   // Using state to prevent user repeatedly initating fetches
@@ -41,6 +43,7 @@ const TransactionCancelButton: FunctionComponent<Props> = ({
   return (
     <Button
       size="lg"
+      disabled={disabled || clicked}
       className={className}
       onClick={() => setClicked(true)}
       variant="secondary"
