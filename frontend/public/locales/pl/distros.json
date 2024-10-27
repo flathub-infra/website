@@ -110,7 +110,7 @@
     },
     "step-4": {
       "name": "Uruchom ponownie",
-      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować wybrane aplikacje</2>!</0>"
+      "text": "<0>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
     }
   },
   "manjaro": {
