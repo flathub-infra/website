@@ -10811,7 +10811,7 @@ __metadata:
     isomorphic-dompurify: "npm:^2.16.0"
     linkify-html: "npm:^4.1.3"
     linkifyjs: "npm:^4.1.3"
-    lucide-react: "npm:^0.451.0"
+    lucide-react: "npm:^0.453.0"
     msw: "npm:^2.4.9"
     next: "npm:^14.2.12"
     next-i18next: "npm:^15.3.1"
@@ -12937,12 +12937,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.451.0":
-  version: 0.451.0
-  resolution: "lucide-react@npm:0.451.0"
+"lucide-react@npm:^0.453.0":
+  version: 0.453.0
+  resolution: "lucide-react@npm:0.453.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
-  checksum: 10c0/12c37f4d88adc5d2ba58eb7e13b5fe6b2af06328d16a79e65cf92d7b9c844e1313fa0b185e216e1e0cf42a903e2994a37a824bdee009e1f90abb023ce5c32763
+  checksum: 10c0/eec257049609eff958329943da6e129c8db1969aa789c6e922f59418d7b6f6913c22e971ac7885efc80eeb3e41e180c48afdee92738a63a31ef5a39836037b7e
   languageName: node
   linkType: hard
 
