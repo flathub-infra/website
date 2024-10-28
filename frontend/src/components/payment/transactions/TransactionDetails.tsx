@@ -40,7 +40,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
           <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
             <div>{t("transaction-summary-created")}</div>
             <div className="md:col-span-2">
-              {format(new UTCDate(created * 1000), "P p", {
+              {format(new UTCDate(created * 1000), "Pp", {
                 locale: getLocale(i18n.language),
               })}
             </div>
@@ -48,7 +48,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
           <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
             <div>{t("transaction-summary-updated")}</div>
             <div className="md:col-span-2">
-              {format(new UTCDate(updated * 1000), "P p", {
+              {format(new UTCDate(updated * 1000), "Pp", {
                 locale: getLocale(i18n.language),
               })}
             </div>
