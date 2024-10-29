@@ -95,14 +95,11 @@
   "status-retry": "Reprovi",
   "stripe-receipt": "Kvitanco ĉe Stripe",
   "submit-payment": "Sendi pagon",
-  "transaction-breakdown": "Detaloj pri transakcio",
   "status-pending": "Traktata",
   "transaction-summary": "Resumo pri transakcio",
   "transaction-cancel": "Nuligi transakcion",
   "transaction-cancelled": "Transakcio nuliĝis",
-  "transaction-summary-id": "Identigilo: {{id}}",
   "transaction-summary-type": "Speco: {{type}}",
-  "transaction-summary-value": "Valoro: {{value}}",
   "use-new-card": "Uzi novan karton",
   "transaction-summary-updated": "Lasta ĝisdatigo: {{date}}",
   "transaction-went-wrong": "Io misfunkciis pri ĉi tiu transakcio.",
@@ -607,5 +604,8 @@
   "users": "Uzantoj",
   "about-claim": "<0>Ĉu vi estas uzanto serĉanta programojn, ĉu programisto volanta atingi pli da uzantoj, <2>Flathub estas la plej bona ejo por programoj sur Linux.</2></0>",
   "transparent": "<0>Sendependa & travida</0> — Ni estas popola malfermitkoda komunumo montranta la plej bonajn el la ofertaĵoj de la ekosistemo",
-  "transparent-safety": "<0>Klara sekureco</0> — klare vidu, ĉu programo <3>konfirmite</3> devenas de ĝia aŭtoro; tiujn permesojn, kiujn ĝi postulas; kaj ĉu ĝi estas malfermitkoda kaj reviziebla"
+  "transparent-safety": "<0>Klara sekureco</0> — klare vidu, ĉu programo <3>konfirmite</3> devenas de ĝia aŭtoro; tiujn permesojn, kiujn ĝi postulas; kaj ĉu ĝi estas malfermitkoda kaj reviziebla",
+  "flathub": "Flathub",
+  "flathub-logo": "Emblemo de Flathub",
+  "mastodon": "Mastodon"
 }
