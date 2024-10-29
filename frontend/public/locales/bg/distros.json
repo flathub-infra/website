@@ -1,1 +1,356 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-2": {
+      "name": "Инсталирайте приставката на „Flatpak“"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Рестартирайте"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-3": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-5": {
+      "name": "Рестартирайте"
+    },
+    "step-4": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-2": {
+      "name": "Рестартирайте"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-2": {
+      "name": "Инсталирайте приставката на „Flatpak“ за GNOME или KDE"
+    },
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-2": {
+      "name": "Инсталирайте приставката на „Flatpak“ за вашата графична среда"
+    }
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "elementary_os": {
+    "distroName": "elementary OS"
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux"
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "turkman_linux": {
+    "distroName": "Turkman Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "ataraxia_linux": {
+    "distroName": "Ataraxia Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-4": {
+      "name": "Рестартирайте"
+    },
+    "step-3": {
+      "name": "Добавете хранилището на „Flathub“"
+    },
+    "step-2": {
+      "name": "Инсталирайте приставката на „Flatpak“ за GNOME"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "Рестартирайте"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Инсталирайте „Flatpak“"
+    },
+    "step-3": {
+      "name": "Рестартирайте"
+    },
+    "step-2": {
+      "name": "Добавете хранилището на „Flathub“"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  }
+}

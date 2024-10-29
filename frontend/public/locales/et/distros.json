@@ -120,6 +120,7 @@
     "distroName": "Vanilla OS"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<0>Alates Salixi versioonist 15.0 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</0> <p>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad ühe klõpsuga rakenduste paigaldamist Flathubist.</p> <4>Sul pole vaja muud teha, <2>kui paigaldada rakendusi</2>!</4>"
   }
 }

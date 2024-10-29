@@ -25,11 +25,21 @@
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Instalar Flatpak"
+      "name": "Instalar Flatpak",
+      "text": "<p>Flatpak se instala por defecto en Rocky Linux 8 y versiones posteriores, cuando se instala con una selección de software que incluye GNOME (servidor con interfaz gráfica de usuario, estación de trabajo). Si está utilizando un sistema de este tipo, puede omitir este paso. Para instalar Flatpak en Rocky Linux, ejecute lo siguiente en una terminal:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, descargue e instale el <2>archivo de repositorio Flathub</2> o ejecute lo siguiente en un terminal:</0> <2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
     }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<0>Flatpak está instalado por defecto en CentOS 7 y posteriores, cuando se utiliza GNOME. Para empezar, todo lo que necesitas hacer es habilitar Flathub, que es la mejor manera de obtener aplicaciones Flatpak. Solo tiene que descargar e instalar el archivo de repositorio <2>Flathub</2>.</0> <2>¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>!</2>"
   },
   "eurolinux": {
     "distroName": "EuroLinux"
