@@ -8,13 +8,16 @@ import * as Currency from "../currency"
 import Spinner from "../Spinner"
 import { createTransactionWalletTransactionsPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { formatCurrency } from "src/utils/localize"
 
 interface Props {
   org: string
 }
 
 const DonationInput: FunctionComponent<Props> = ({ org }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+
+  const currency = "USD"
 
   const [amount, setAmount] = useState<NumericInputValue>({
     live: FLATHUB_MIN_PAYMENT,
@@ -31,14 +34,14 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       {
         summary: {
           value: amount.settled * 100,
-          currency: "usd",
+          currency,
           kind: "donation",
         },
         details: [
           {
             recipient: org,
             amount: amount.settled * 100,
-            currency: "usd",
+            currency,
             kind: "donation",
           },
         ],
@@ -75,7 +78,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         type="button"
         onClick={() => setAmount({ ...amount, settled: val })}
       >
-        ${val}
+        {formatCurrency(val, i18n.language, currency)}
       </Button>
     )
   })
@@ -88,21 +91,20 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       <h4 className="m-0 text-base font-normal">
         {t("select-donation-amount")}
       </h4>
-      <div className="flex flex-wrap items-center justify-center gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-center gap-5">
         {presets}
-
-        <div>
-          <Currency.Input
-            inputValue={amount}
-            setValue={setAmount}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-          <Currency.MinMaxError
-            value={amount}
-            minimum={FLATHUB_MIN_PAYMENT}
-            maximum={STRIPE_MAX_PAYMENT}
-          />
-        </div>
+      </div>
+      <div className="pt-5">
+        <Currency.Input
+          inputValue={amount}
+          setValue={setAmount}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
+        <Currency.MinMaxError
+          value={amount}
+          minimum={FLATHUB_MIN_PAYMENT}
+          maximum={STRIPE_MAX_PAYMENT}
+        />
       </div>
       <Button
         size="lg"

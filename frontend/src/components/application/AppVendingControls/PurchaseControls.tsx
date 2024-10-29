@@ -29,7 +29,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
 
-  // Need app vending configuration to initialise payment value
+  // Need app vending configuration to initialize payment value
   const [amount, setAmount] = useState<NumericInputValue>({
     live: 0,
     settled: 0,
