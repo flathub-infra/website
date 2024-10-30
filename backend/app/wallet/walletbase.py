@@ -181,8 +181,8 @@ class WalletBase:
             row.kind == "purchase" for row in transaction.details
         ):
             raise WalletError(error="inconsistent details")
-        if transaction.summary.currency != "usd" or any(
-            row.currency != "usd" for row in transaction.details
+        if transaction.summary.currency.lower() != "usd" or any(
+            row.currency.lower() != "usd" for row in transaction.details
         ):
             raise WalletError(error="must be usd")
         if transaction.summary.value < 200:
