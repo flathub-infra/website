@@ -1,13 +1,12 @@
 import { useRouter } from "next/router"
 import { FunctionComponent, ReactElement, useState } from "react"
-import { TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import TransactionCancelButton from "../transactions/TransactionCancelButton"
 import CardSelect from "./CardSelect"
 import PaymentForm from "./PaymentForm"
 import TermsAgreement from "./TermsAgreement"
 import { useQuery } from "@tanstack/react-query"
-import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
+import { getWalletinfoWalletWalletinfoGet, Transaction } from "src/codegen"
 
 enum Stage {
   TermsAgreement,
@@ -40,7 +39,7 @@ export const TransactionCancelButtonPrep = ({
 }
 
 const Checkout: FunctionComponent<{
-  transaction: TransactionDetailed | null
+  transaction: Transaction | null
   clientSecret: string
 }> = ({ transaction, clientSecret }) => {
   const router = useRouter()
