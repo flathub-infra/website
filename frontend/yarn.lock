@@ -2837,10 +2837,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@faker-js/faker@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "@faker-js/faker@npm:9.0.3"
-  checksum: 10c0/fde52946e7042e6273cf2ea3726a8a4b794c5b0fa8ac22cb9edcc5c436aec1b07fcb925e13abd663e86cd35d0286be0c65639d429b21bcd458205edaaa6394d0
+"@faker-js/faker@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "@faker-js/faker@npm:9.1.0"
+  checksum: 10c0/bfcde8032f0b0ee94e3e52157a86c0a3f8d85899ff126b4e3e030fcb9fec1949e21c9ce5ae3d0af5f192c13641cc2003fefa55768d9620d27eb061cea5b83769
   languageName: node
   linkType: hard
 
@@ -10760,7 +10760,7 @@ __metadata:
     "@babel/core": "npm:^7.25.7"
     "@collapsed/react": "npm:^4.0.1"
     "@date-fns/utc": "npm:^2.1.0"
-    "@faker-js/faker": "npm:^9.0.3"
+    "@faker-js/faker": "npm:^9.1.0"
     "@headlessui/react": "npm:^2.1.2"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
     "@neshca/cache-handler": "npm:^1.8.0"
