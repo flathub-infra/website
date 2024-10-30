@@ -96,14 +96,14 @@ export default function TransactionPage() {
     },
     {
       href: `/payment/details/${router.query.transaction_id}`,
-      name: t("payment-summary"),
+      name: t("transaction-summary"),
       current: true,
     },
   ]
 
   return (
     <>
-      <NextSeo title={t("payment-summary")} noindex={true}></NextSeo>
+      <NextSeo title={t("transaction-summary")} noindex={true}></NextSeo>
       <div className="max-w-11/12 mx-auto my-0 w-11/12 pt-4 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <LoginGuard>
           <Breadcrumbs pages={pages} />
