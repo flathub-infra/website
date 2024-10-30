@@ -13,7 +13,11 @@ export const Generated = () => {
 
   const pages = [
     { name: t("user-wallet"), href: "/wallet", current: false },
-    { name: t("payment-summary"), href: "/payment/details/12", current: true },
+    {
+      name: t("transaction-summary"),
+      href: "/payment/details/12",
+      current: true,
+    },
   ]
 
   return <Breadcrumbs pages={pages} />
