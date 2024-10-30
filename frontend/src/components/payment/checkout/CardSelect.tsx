@@ -1,7 +1,6 @@
 import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
-import { TransactionDetailed } from "../../../types/Payment"
 import Spinner from "../../Spinner"
 import CardInfo from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
@@ -11,13 +10,13 @@ import {
   setPendingWalletTransactionsTxnSetpendingPost,
   setTransactionCardWalletTransactionsTxnSetcardPost,
 } from "src/codegen"
-import { PaymentCardInfo } from "src/codegen/model"
+import { PaymentCardInfo, Transaction } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { TransactionCancelButtonPrep } from "./Checkout"
 
 interface Props {
-  transaction: TransactionDetailed
+  transaction: Transaction
   clientSecret: string
   cards: PaymentCardInfo[]
   error: string | null

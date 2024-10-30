@@ -1,6 +1,5 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import { TransactionDetailed } from "../../../types/Payment"
 import { formatCurrency } from "../../../utils/localize"
 import { format } from "date-fns"
 import { getLocale } from "../../../localize"
@@ -14,9 +13,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { UTCDate } from "@date-fns/utc"
+import { Transaction } from "src/codegen"
 
 interface Props {
-  transaction: TransactionDetailed
+  transaction: Transaction
 }
 
 const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {

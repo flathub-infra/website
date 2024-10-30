@@ -3,68 +3,42 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement } from "react"
 import Breadcrumbs from "../../../src/components/Breadcrumbs"
 import TransactionCancelButton from "../../../src/components/payment/transactions/TransactionCancelButton"
 import TransactionDetails from "../../../src/components/payment/transactions/TransactionDetails"
 import Spinner from "../../../src/components/Spinner"
-import { useUserContext } from "../../../src/context/user-info"
-import { TRANSACTION_INFO_URL } from "../../../src/env"
-import { TransactionDetailed } from "../../../src/types/Payment"
 import LoginGuard from "../../../src/components/login/LoginGuard"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-
-async function getTransaction(transactionId: string) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_INFO_URL(transactionId), {
-      credentials: "include",
-    })
-  } catch {
-    throw "failed-to-load-refresh"
-  }
-
-  if (res.ok) {
-    return await res.json()
-  } else {
-    throw "failed-to-load-refresh"
-  }
-}
+import { useGetTransactionByIdWalletTransactionsTxnGet } from "src/codegen"
 
 export default function TransactionPage() {
   const { t } = useTranslation()
   const router = useRouter()
-  const user = useUserContext()
 
-  const [transaction, setTransaction] = useState<TransactionDetailed | null>(
-    null,
+  const query = useGetTransactionByIdWalletTransactionsTxnGet(
+    router.query.transaction_id as string,
+    {
+      axios: {
+        withCredentials: true,
+      },
+      query: {
+        enabled: !!router.query.transaction_id,
+      },
+    },
   )
-  const [error, setError] = useState("")
-
-  // Once router is ready the transaction ID is attainable
-  useEffect(() => {
-    // Router must be ready to access query parameters
-    if (!router.isReady) {
-      return
-    }
-
-    // Once the transaction ID is known, the associated data can be fetched
-    const transaction_id = router.query.transaction_id as string
-
-    getTransaction(transaction_id).then(setTransaction).catch(setError)
-  }, [router, user])
 
   let content: ReactElement = <Spinner size="l" />
-  if (error) {
+  if (query.error) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(error)}</p>
+        <p>{t(query.error.message)}</p>
       </>
     )
-  } else if (transaction) {
-    const unresolved = ["new", "retry"].includes(transaction.summary.status)
+  } else if (query.data) {
+    const unresolved = ["new", "retry"].includes(query.data.data.summary.status)
     if (unresolved) {
       content = (
         <>
@@ -72,11 +46,11 @@ export default function TransactionPage() {
           <p>{t("transaction-went-wrong")}</p>
           <div className="flex gap-3">
             <TransactionCancelButton
-              id={transaction.summary.id}
+              id={query.data.data.summary.id}
               onSuccess={() => router.reload()}
             />
             <Button asChild size="lg">
-              <Link href={`/payment/${transaction.summary.id}`}>
+              <Link href={`/payment/${query.data.data.summary.id}`}>
                 {t("retry-checkout")}
               </Link>
             </Button>
@@ -84,7 +58,7 @@ export default function TransactionPage() {
         </>
       )
     } else {
-      content = <TransactionDetails transaction={transaction} />
+      content = <TransactionDetails transaction={query.data.data} />
     }
   }
 

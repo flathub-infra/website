@@ -1,5 +1,5 @@
-import { useTranslation } from "next-i18next"
-import { Dispatch, FunctionComponent, useEffect, useState } from "react"
+import { i18n, useTranslation } from "next-i18next"
+import { FunctionComponent, useEffect, useState } from "react"
 import {
   HiChevronLeft,
   HiChevronRight,
@@ -7,185 +7,26 @@ import {
 } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import { useUserContext } from "../../../context/user-info"
-import { TransactionDetailed, TransactionStatus } from "../../../types/Payment"
 import Spinner from "../../Spinner"
-import { FlathubDisclosure } from "./../../Disclosure"
-import { getIntlLocale } from "src/localize"
 import { formatCurrency } from "src/utils/localize"
 import { clsx } from "clsx"
-import TransactionCancelButton from "./TransactionCancelButton"
-import { TRANSACTION_INFO_URL } from "src/env"
 import { AxiosResponse } from "axios"
 import { TransactionSummary } from "src/codegen/model/transactionSummary"
 import { getTransactionsWalletTransactionsGet } from "src/codegen"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { UTCDate } from "@date-fns/utc"
+import { format } from "date-fns"
+import router from "next/router"
 
 const perPage = 10
-
-const TransactionPanel = ({
-  transaction,
-  needsAttention,
-  setStatus,
-}: {
-  transaction: TransactionSummary
-  needsAttention: boolean
-  setStatus: Dispatch<TransactionStatus>
-}) => {
-  const { t } = useTranslation()
-
-  const [transactionDetailed, setTransactionDetailed] =
-    useState<TransactionDetailed>(null)
-  const [error, setError] = useState("")
-
-  useEffect(() => {
-    getTransaction(transaction.id).then(setTransactionDetailed).catch(setError)
-  }, [transaction.id])
-
-  async function getTransaction(transactionId: string) {
-    let res: Response
-    try {
-      res = await fetch(TRANSACTION_INFO_URL(transactionId), {
-        credentials: "include",
-      })
-    } catch {
-      throw "failed-to-load-refresh"
-    }
-
-    if (res.ok) {
-      return await res.json()
-    } else {
-      throw "failed-to-load-refresh"
-    }
-  }
-
-  if (transactionDetailed == null && !error) {
-    return (
-      <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic">
-        <Spinner size="m" />
-      </div>
-    )
-  }
-
-  return (
-    <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic">
-      {error && (
-        <>
-          <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-          <p>{t(error)}</p>
-        </>
-      )}
-      {!error && needsAttention && (
-        <div className="flex gap-3">
-          <Button className="w-full md:w-auto" asChild size="lg">
-            <Link href={`/payment/${transaction.id}`}>
-              {t("retry-checkout")}
-            </Link>
-          </Button>
-          <TransactionCancelButton
-            id={transaction.id}
-            onSuccess={() => setStatus("cancelled")}
-            className="w-full md:w-auto"
-          />
-        </div>
-      )}
-      {!error && transactionDetailed && (
-        <div className="flex flex-col gap-1">
-          {transactionDetailed.details.map((entry, i) => {
-            return <span key={entry.recipient}>{entry.recipient}</span>
-          })}
-          {transactionDetailed.receipt ? (
-            <a
-              href={transactionDetailed.receipt}
-              target="_blank"
-              rel="noreferrer"
-              className="no-underline hover:underline"
-            >
-              {t("stripe-receipt")}
-            </a>
-          ) : (
-            <></>
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
-
-const TransactionDisclosure = ({
-  transaction,
-}: {
-  transaction: TransactionSummary
-}) => {
-  const [shownStatus, setStatus] = useState<string>(transaction.status)
-  const needsAttention = ["new", "retry"].includes(shownStatus)
-  return (
-    <FlathubDisclosure
-      buttonItems={
-        <TransactionHeader
-          transaction={transaction}
-          needsAttention={needsAttention}
-        />
-      }
-    >
-      <TransactionPanel
-        needsAttention={needsAttention}
-        setStatus={setStatus}
-        transaction={transaction}
-      />
-    </FlathubDisclosure>
-  )
-}
-
-const TransactionHeader = ({
-  transaction,
-  needsAttention,
-}: {
-  transaction: TransactionSummary
-  needsAttention: boolean
-}) => {
-  const { t, i18n } = useTranslation()
-
-  const { created, updated, kind, value, status } = transaction
-
-  // Status may change through interaction
-  const [shownStatus, setStatus] = useState(status)
-
-  // Date object expects milliseconds since epoch
-  const prettyUpdated = new Date(updated * 1000).toLocaleDateString(
-    getIntlLocale(i18n.language),
-    {
-      month: "numeric",
-      day: "numeric",
-    },
-  )
-  const prettyValue = formatCurrency(value / 100, i18n.language)
-
-  return (
-    <div className="flex w-full flex-col gap-1">
-      <div className="flex items-center justify-between">
-        <div>{t(`kind-${kind}`)}</div>
-
-        <div className="flex items-center gap-2">
-          {needsAttention && <HiExclamationTriangle className="text-red-500" />}
-          <span className={clsx(status === "cancelled" && "line-through")}>
-            {prettyValue}
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-1 text-sm font-medium">
-        <div
-          title={new Date(updated * 1000).toLocaleString(
-            getIntlLocale(i18n.language),
-          )}
-        >
-          {prettyUpdated}
-        </div>
-        <div>{t(`status-${shownStatus}`)}</div>
-      </div>
-    </div>
-  )
-}
 
 const TransactionHistory: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -215,36 +56,19 @@ const TransactionHistory: FunctionComponent = () => {
     }
 
     if (user.info && isNewPage()) {
-      if (page > 0) {
-        const since = transactions.at(-1)
-        getTransactionsWalletTransactionsGet(
-          {
-            sort: "recent",
-            since: perPage.toString(),
-            limit: Number(since.id),
-          },
-          {
-            withCredentials: true,
-          },
-        )
-          .then(addNewPage)
-          .catch(setError)
-      } else {
-        // Fetch the first page only if we've not tried before, otherwise if
-        // the user has no transactions we keep re-fetching.
-        if (page == 0 && transactions === null) {
-          getTransactionsWalletTransactionsGet(
-            {
-              sort: "recent",
-            },
-            {
-              withCredentials: true,
-            },
-          )
-            .then(addNewPage)
-            .catch(setError)
-        }
-      }
+      const since = transactions?.at(-1)
+      getTransactionsWalletTransactionsGet(
+        {
+          sort: "recent",
+          since: page > 0 ? since.id : null,
+          limit: perPage,
+        },
+        {
+          withCredentials: true,
+        },
+      )
+        .then(addNewPage)
+        .catch(setError)
     }
   }, [user, page, transactions, t])
 
@@ -261,56 +85,79 @@ const TransactionHistory: FunctionComponent = () => {
     ? []
     : transactions.slice(page * perPage, page * perPage + perPage)
 
-  let currentYear = null
-
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <h3 className="my-4 text-xl font-semibold">{t("transaction-history")}</h3>
       {error ? (
         <p>{t(error)}</p>
       ) : (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 w-full lg:max-w-6xl">
           {transactions.length === 0 && <p>{t("no-transactions")}</p>}
 
-          {pageSlice.map((transaction) => {
-            const currentYearChanged =
-              currentYear !== new Date(transaction.created * 1000).getFullYear()
-            currentYear = new Date(transaction.created * 1000).getFullYear()
-
-            return (
-              <>
-                {currentYearChanged && (
-                  <div className="pt-4 font-bold first:pt-0">
-                    {new Date(transaction.created * 1000).getFullYear()}
-                  </div>
-                )}
-                <TransactionDisclosure
-                  key={transaction.id}
-                  transaction={transaction}
-                />
-              </>
-            )
-          })}
-          <div className="flex justify-center gap-5 pt-4">
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={pageBack}
-              disabled={page === 0}
-              aria-label={t("previous-page")}
-            >
-              <HiChevronLeft className="text-2xl" />
-            </Button>
-            <Button
-              size="lg"
-              variant="secondary"
-              onClick={pageForward}
-              disabled={page === endPage || perPage > pageSlice.length}
-              aria-label={t("next-page")}
-            >
-              <HiChevronRight className="text-2xl" />
-            </Button>
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t("type")}</TableHead>
+                <TableHead>{t("created")}</TableHead>
+                <TableHead>{t("status")}</TableHead>
+                <TableHead className="text-right">{t("amount")}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {pageSlice.map((entry) => {
+                const needsAttention = ["new", "retry"].includes(entry.status)
+                return (
+                  <TableRow
+                    key={entry.id}
+                    onClick={() => router.push(`/payment/details/${entry.id}`)}
+                    className="cursor-pointer"
+                  >
+                    <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
+                    <TableCell>
+                      {format(new UTCDate(entry.created * 1000), "Pp")}
+                    </TableCell>
+                    <TableCell>{t(`status-${entry.status}`)}</TableCell>
+                    <TableCell className="text-right flex justify-end gap-1 items-center">
+                      {needsAttention && (
+                        <HiExclamationTriangle className="text-red-500" />
+                      )}
+                      <span
+                        className={clsx(
+                          entry.status === "cancelled" && "line-through",
+                        )}
+                      >
+                        {formatCurrency(
+                          entry.value / 100,
+                          i18n.language,
+                          entry.currency,
+                        )}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+          {transactions.length > 0 && (
+            <div className="flex justify-center gap-5 pt-4">
+              <Button
+                variant="secondary"
+                onClick={pageBack}
+                disabled={page === 0}
+                aria-label={t("previous-page")}
+              >
+                <HiChevronLeft className="text-2xl" />
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={pageForward}
+                disabled={page === endPage || perPage > pageSlice.length}
+                aria-label={t("next-page")}
+              >
+                <HiChevronRight className="text-2xl" />
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>

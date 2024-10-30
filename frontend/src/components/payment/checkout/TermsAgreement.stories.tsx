@@ -1,6 +1,5 @@
 import React from "react"
 import { Meta } from "@storybook/react"
-import { Button } from "@/components/ui/button"
 import TermsAgreement from "./TermsAgreement"
 
 export default {
@@ -9,10 +8,5 @@ export default {
 } as Meta<typeof TermsAgreement>
 
 export const Generated = () => {
-  return (
-    <TermsAgreement
-      onConfirm={() => {}}
-      transactionCancelButton={<Button size="lg">Cancel</Button>}
-    />
-  )
+  return <TermsAgreement onConfirm={() => {}} transactionId={""} />
 }

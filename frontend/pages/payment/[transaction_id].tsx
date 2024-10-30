@@ -16,8 +16,8 @@ import {
   TRANSACTION_INFO_URL,
   TRANSACTION_STRIPE_INFO_URL,
 } from "../../src/env"
-import { TransactionDetailed } from "../../src/types/Payment"
 import { useTheme } from "next-themes"
+import { Transaction } from "src/codegen"
 
 // Memoized Stripe object retrieval so it's only retrieved on demand
 let stripePromise: Promise<Stripe | null>
@@ -85,9 +85,7 @@ export default function TransactionPage() {
   const router = useRouter()
 
   const [stripe, setStripe] = useState<Stripe | null>(null)
-  const [transaction, setTransaction] = useState<TransactionDetailed | null>(
-    null,
-  )
+  const [transaction, setTransaction] = useState<Transaction | null>(null)
   const [secret, setSecret] = useState("")
   const [error, setError] = useState("")
 

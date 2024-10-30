@@ -3,9 +3,7 @@ import { Meta } from "@storybook/react"
 import CardSelect from "./CardSelect"
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import { TransactionDetailed } from "../../../types/Payment"
-import { PaymentCardInfo } from "../../../codegen"
-import { Button } from "@/components/ui/button"
+import { PaymentCardInfo, Transaction } from "../../../codegen"
 
 export default {
   title: "Components/Payment/CardSelect",
@@ -21,7 +19,7 @@ export const Generated = () => {
     clientSecret,
   }
 
-  const transaction: TransactionDetailed = {
+  const transaction: Transaction = {
     summary: {
       id: "1",
       created: new Date().getDate(),
@@ -72,7 +70,6 @@ export const Generated = () => {
         error={"error"}
         submit={() => {}}
         skip={() => {}}
-        transactionCancelButton={<Button size="lg">Cancel</Button>}
       />
     </Elements>
   )
