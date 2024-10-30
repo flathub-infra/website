@@ -75,7 +75,7 @@ export default function TransactionPage() {
               id={transaction.summary.id}
               onSuccess={() => router.reload()}
             />
-            <Button asChild>
+            <Button asChild size="lg">
               <Link href={`/payment/${transaction.summary.id}`}>
                 {t("retry-checkout")}
               </Link>
