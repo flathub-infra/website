@@ -77,7 +77,7 @@ const TransactionPanel = ({
       )}
       {!error && needsAttention && (
         <div className="flex gap-3">
-          <Button className="w-full md:w-auto" asChild>
+          <Button className="w-full md:w-auto" asChild size="lg">
             <Link href={`/payment/${transaction.id}`}>
               {t("retry-checkout")}
             </Link>
