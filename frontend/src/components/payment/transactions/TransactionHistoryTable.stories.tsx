@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import { TransactionHistoryTable } from "./TransactionHistoryTable"
 import { TransactionSummary } from "../../../codegen/model"
+import { faker } from "@faker-js/faker"
 
 const meta = {
   component: TransactionHistoryTable,
@@ -17,41 +18,41 @@ export const Default: Story = {
       {
         id: "1",
         kind: "donation",
-        created: 1612119840,
+        created: faker.date.recent().getTime() / 1000,
         status: "new",
-        value: 1000,
+        value: faker.number.int({ min: 100, max: 5000 }),
         currency: "USD",
       },
       {
         id: "2",
         kind: "purchase",
-        created: 1612119840,
+        created: faker.date.past().getTime() / 1000,
         status: "pending",
-        value: 2000,
+        value: faker.number.int({ min: 100, max: 5000 }),
         currency: "usd",
       },
       {
         id: "3",
         kind: "donation",
-        created: 1612119840,
+        created: faker.date.past().getTime() / 1000,
         status: "success",
-        value: 3000,
+        value: faker.number.int({ min: 100, max: 5000 }),
         currency: "USD",
       },
       {
         id: "4",
         kind: "donation",
-        created: 1612119840,
+        created: faker.date.past().getTime() / 1000,
         status: "cancelled",
-        value: 4000,
+        value: faker.number.int({ min: 100, max: 5000 }),
         currency: "USD",
       },
       {
         id: "5",
         kind: "donation",
-        created: 1612119840,
+        created: faker.date.past().getTime() / 1000,
         status: "retry",
-        value: 5000,
+        value: faker.number.int({ min: 100, max: 5000 }),
         currency: "USD",
       },
     ] as TransactionSummary[],
