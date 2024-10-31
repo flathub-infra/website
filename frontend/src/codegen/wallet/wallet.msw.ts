@@ -51,7 +51,13 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         faker.helpers.arrayElement([faker.word.sample(), null]),
         undefined,
       ]),
-      status: faker.word.sample(),
+      status: faker.helpers.arrayElement([
+        "new",
+        "retry",
+        "pending",
+        "success",
+        "cancelled",
+      ] as const),
       updated: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.number.int({ min: undefined, max: undefined }),
@@ -115,7 +121,13 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       faker.helpers.arrayElement([faker.word.sample(), null]),
       undefined,
     ]),
-    status: faker.word.sample(),
+    status: faker.helpers.arrayElement([
+      "new",
+      "retry",
+      "pending",
+      "success",
+      "cancelled",
+    ] as const),
     updated: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
