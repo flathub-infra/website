@@ -26,13 +26,15 @@ class PaymentCardInfo(BaseModel):
 
 TransactionKind = Literal["donation", "purchase"]
 
+TransactionStatus = Literal["new", "retry", "pending", "success", "cancelled"]
+
 
 class TransactionSummary(BaseModel):
     id: str
     value: int
     currency: str
     kind: TransactionKind
-    status: str
+    status: TransactionStatus
     reason: str | None = None
     created: int | None = None
     updated: int | None = None
