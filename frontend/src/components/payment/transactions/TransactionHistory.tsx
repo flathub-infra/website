@@ -66,7 +66,7 @@ const TransactionHistory: FunctionComponent = () => {
   }
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2TransactionHistoryTablexl:w-[1400px] 2xl:max-w-[1400px]">
+    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <h3 className="my-4 text-xl font-semibold">{t("transaction-history")}</h3>
       {error ? (
         <p>{t(error)}</p>
