@@ -38,20 +38,26 @@ export const RotatedAxisTick = (props) => {
 }
 
 export const FlathubTooltip = (props) => {
-  const { active, payload, label, labelFormatter } = props
+  const { active, payload, label, labelFormatter, formatter } = props
 
   if (active && payload && payload.length) {
+    const formattedValue = formatter
+      ? formatter(
+          payload[0].value.toLocaleString(i18n.language),
+          payload[0].name,
+          payload[0],
+        )
+      : payload[0].value.toLocaleString(i18n.language)
+
     return (
       <div className="bg-flathub-lotion dark:bg-flathub-dark-gunmetal p-4 rounded-lg">
         <div className="font-bold">
           {labelFormatter ? labelFormatter(label) : label}
         </div>
-        <div className="label">
+        <div>
           {payload[0].name === "value"
-            ? payload[0].value.toLocaleString(i18n.language)
-            : `${payload[0].name}: ${payload[0].value.toLocaleString(
-                i18n.language,
-              )}`}
+            ? formattedValue
+            : `${payload[0].name}: ${formattedValue}`}
         </div>
       </div>
     )
