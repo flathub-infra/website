@@ -198,6 +198,7 @@
   "recipient": "Recipient",
   "amount": "Amount",
   "total": "Total",
+  "created": "Created",
   "transaction-went-wrong": "Something went wrong with this transaction.",
   "use-new-card": "Use a new card",
   "use-saved-card": "Use a saved card",
