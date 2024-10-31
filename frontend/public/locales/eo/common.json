@@ -1,7 +1,7 @@
 {
   "flathub-description": "Trovu kaj instalu centojn da programoj kaj ludoj por Linux. Ĝuu Firefox, Telegram, RetroArch, GIMP kaj multajn pli!",
   "developer-tools": "Iloj por programistoj",
-  "transaction-summary-created": "Dato de kreo: {{date}}",
+  "transaction-summary-created": "Dato de kreo:",
   "go-home": "Ĉefpaĝen",
   "search-apps": "Serĉi programojn",
   "popular": "Popularaj",
@@ -99,9 +99,9 @@
   "transaction-summary": "Resumo pri transakcio",
   "transaction-cancel": "Nuligi transakcion",
   "transaction-cancelled": "Transakcio nuliĝis",
-  "transaction-summary-type": "Speco: {{type}}",
+  "transaction-summary-type": "Speco:",
   "use-new-card": "Uzi novan karton",
-  "transaction-summary-updated": "Lasta ĝisdatigo: {{date}}",
+  "transaction-summary-updated": "Lasta ĝisdatigo:",
   "transaction-went-wrong": "Io misfunkciis pri ĉi tiu transakcio.",
   "use-saved-card": "Uzi konservitan karton",
   "stripe-api-error": "Okazis eraro pri la API de Stripe. Reprovu poste.",
@@ -181,7 +181,7 @@
   "app-logo": "Emblemo de {{app-name}}",
   "server-error": "Servila eraro",
   "purchase-apps-title": "Aĉeti programojn",
-  "transaction-summary-status": "Stato: {{status}}",
+  "transaction-summary-status": "Stato:",
   "login-with-provider": "Saluti per {{provider}}",
   "show-more": "Montri pli",
   "also-available-as-svg": "Ankaŭ havebla kiel <2>SVG</2>",
@@ -607,5 +607,11 @@
   "transparent-safety": "<0>Klara sekureco</0> — klare vidu, ĉu programo <3>konfirmite</3> devenas de ĝia aŭtoro; tiujn permesojn, kiujn ĝi postulas; kaj ĉu ĝi estas malfermitkoda kaj reviziebla",
   "flathub": "Flathub",
   "flathub-logo": "Emblemo de Flathub",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "type": "Speco",
+  "amount": "Kvanto",
+  "positions": "Pozicioj",
+  "receipt": "Kvitanco",
+  "total": "Totalo",
+  "position-short": "Poz."
 }

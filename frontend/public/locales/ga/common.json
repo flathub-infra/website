@@ -302,10 +302,10 @@
   "transaction-cancelled": "Cealaíodh idirbheart",
   "transaction-history": "Stair Idirbheart",
   "transaction-summary": "Achoimre Idirbheart",
-  "transaction-summary-created": "Dáta cruthaithe: {{date}}",
-  "transaction-summary-updated": "Nuashonraithe go deireanach: {{date}}",
-  "transaction-summary-status": "Stádas: {{status}}",
-  "transaction-summary-type": "Cineál: {{type}}",
+  "transaction-summary-created": "Dáta cruthaithe:",
+  "transaction-summary-updated": "Nuashonraithe is déanaí:",
+  "transaction-summary-status": "Stádas:",
+  "transaction-summary-type": "Cineál:",
   "stripe-error-expired_card": "Tá an cárta in éag. Seiceáil an dáta éaga nó bain úsáid as cárta difriúil.",
   "stripe-error-incorrect_cvc": "Tá cód slándála an chárta mícheart. Seiceáil cód slándála an chárta nó bain úsáid as cárta difriúil.",
   "stripe-error-incorrect_number": "Tá uimhir an chárta mícheart. Seiceáil uimhir an chárta nó bain úsáid as cárta difriúil.",
@@ -610,5 +610,11 @@
   "integration": "<0>Comhtháthú aipstórais dhúchais</0> - Déan dearmad ar íoslódálacha gréasáin; Seachadann Flathub aipeanna agus <3>nuashonruithe uathoibríocha</3> d'úsáideoirí ina gcliant appstore dúchais a mbeidís ag súil leo",
   "flathub-logo": "Lógó Flathub",
   "mastodon": "Mastodon",
-  "flathub": "Flathub"
+  "flathub": "Flathub",
+  "positions": "Poist",
+  "position-short": "Seas.",
+  "type": "Cineál",
+  "receipt": "Admháil",
+  "amount": "Méid",
+  "total": "Iomlán"
 }
