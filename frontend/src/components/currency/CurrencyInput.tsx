@@ -10,6 +10,7 @@ import {
 } from "react"
 import { NumericInputValue } from "../../types/Input"
 import { Input } from "@/components/ui/input"
+import { DollarSign } from "lucide-react"
 
 type Props = {
   inputValue: NumericInputValue
@@ -71,7 +72,9 @@ const CurrencyInput: FunctionComponent<Props> = forwardRef<
 
   return (
     <div>
-      <label className="absolute ms-2 mt-2 text-xl">$</label>
+      <label className="absolute ms-1 mt-3.5 text-lg">
+        <DollarSign className="size-5" />
+      </label>
       <Input
         type="text"
         inputMode="numeric"
