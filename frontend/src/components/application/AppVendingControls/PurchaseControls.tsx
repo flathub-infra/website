@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { FormEvent, FunctionComponent, useCallback, useState } from "react"
+import { FunctionComponent, useState } from "react"
 import { toast } from "react-toastify"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"
@@ -16,10 +16,16 @@ import {
   postAppVendingStatusVendingappAppIdPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { useForm } from "react-hook-form"
 
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">
   vendingConfig: VendingConfig
+}
+
+type FormData = {
+  amount: number
 }
 
 /**
@@ -28,6 +34,8 @@ interface Props {
 const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
+
+  const { handleSubmit, control } = useForm<FormData>()
 
   // Need app vending configuration to initialize payment value
   const [amount, setAmount] = useState<NumericInputValue>({
@@ -78,14 +86,6 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     },
   })
 
-  const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      submitPurchaseMutation.mutate()
-    },
-    [submitPurchaseMutation],
-  )
-
   if (vendingSetup.isError) {
     return (
       <>
@@ -96,7 +96,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   }
 
   // Prevent control interaction while initalising and awaiting submission redirection
-  if (vendingSetup.isPending || submitPurchaseMutation.isPending) {
+  if (vendingSetup.isPending) {
     return <Spinner size="s" />
   }
 
@@ -121,7 +121,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   return (
     <form
       className="mx-0 my-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit(() => submitPurchaseMutation.mutate())}
     >
       {!isDonationOnly && (
         <p>
@@ -156,7 +156,13 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
         vendingConfig={vendingConfig}
       />
       <div className="flex justify-end">
-        <Button size="lg" disabled={!canSubmit}>
+        <Button
+          size="lg"
+          disabled={!canSubmit || submitPurchaseMutation.isPending}
+        >
+          {submitPurchaseMutation.isPending && (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
           {t(isDonationOnly ? "make-donation" : "kind-purchase")}
         </Button>
       </div>
