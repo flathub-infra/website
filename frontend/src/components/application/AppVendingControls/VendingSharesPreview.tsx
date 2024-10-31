@@ -13,6 +13,8 @@ import {
   YAxis,
 } from "recharts"
 import { FlathubTooltip, axisStroke } from "src/chartComponents"
+import { formatCurrency } from "src/utils/localize"
+import { useTranslation } from "next-i18next"
 
 interface Props {
   price: number
@@ -33,6 +35,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   vendingConfig,
 }) => {
   const { resolvedTheme } = useTheme()
+  const { i18n } = useTranslation()
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(
@@ -84,9 +87,19 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
               fill={`hsl(${210.6 - i * 35}, 65.3%, ${lightness})`}
             />
           ))}
-          <RechartsTooltip shared={false} content={<FlathubTooltip />} />
+          <RechartsTooltip
+            shared={false}
+            content={<FlathubTooltip />}
+            formatter={(value) =>
+              `${formatCurrency(Number(value), i18n.language)}`
+            }
+          />
           <RechartsLegend />
-          <XAxis type="number" unit={"$"} stroke={axisStroke(resolvedTheme)} />
+          <XAxis
+            type="number"
+            tickFormatter={(x) => formatCurrency(x)}
+            stroke={axisStroke(resolvedTheme)}
+          />
           <YAxis type="category" dataKey="Bar" hide />
         </BarChart>
       </ResponsiveContainer>
