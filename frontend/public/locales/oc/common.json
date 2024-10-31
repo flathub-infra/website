@@ -65,8 +65,8 @@
   "no-transactions": "Cap de transaccion",
   "status": "Estat",
   "status-cancelled": "Anullada",
-  "transaction-summary-status": "Estat : {{status}}",
-  "transaction-summary-type": "Tipe : {{type}}",
+  "transaction-summary-status": "Estat :",
+  "transaction-summary-type": "Tipe :",
   "previous-page": "Pagina precedenta",
   "next-page": "Pagina seguenta",
   "less": "Mens",
@@ -157,8 +157,8 @@
   "loading-saved-payment-methods": "Cargament dels metòdes de paga enregistrats…",
   "remove-saved-card": "Suprimir la carta salvagarda",
   "retry-checkout": "Tornar ensajar lo pagament",
-  "transaction-summary-created": "Data de creacion : {{date}}",
-  "transaction-summary-updated": "Darnièra mesa a jorn : {{date}}",
+  "transaction-summary-created": "Data de creacion :",
+  "transaction-summary-updated": "Darnièra mesa a jorn :",
   "use-new-card": "Utilizar una carta novèla",
   "use-saved-card": "Utilizar una carta gardada",
   "requires-attention": "Demanda vòstra atencion",
@@ -281,5 +281,7 @@
   "action": "Accion",
   "moderation-approved-by": "Aprovat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
   "moderation-rejected-by": "Refusat per {{handledBy}} a {{handledAt}} ({{handledAtRel}})",
-  "rss-description": "S’abonar als fluxes RSS de Flathub"
+  "rss-description": "S’abonar als fluxes RSS de Flathub",
+  "positions": "Posicions",
+  "type": "Tipe"
 }

@@ -583,5 +583,14 @@
   "can-listen-using-microphones-without-asking-permission": "許可なくマイクを使って視聴可能",
   "screen-contents-access": "画面内のコンテンツにアクセス",
   "can-access-the-contents-of-the-screen-or-other-windows": "画面やほかのウィンドウ内のコンテンツにアクセス可能",
-  "microphone-access": "マイクにアクセス"
+  "microphone-access": "マイクにアクセス",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathubロゴ",
+  "mastodon": "Mastodon",
+  "users": "ユーザー",
+  "date": "日付",
+  "get-apps": "アプリを入手",
+  "about-claim": "<0>アプリを探がしているユーザーでも、より多くのユーザーにアプリを配布したい開発者でも、<2>FlathubはアプリをLinuxで使うのに最適です。</2></0>",
+  "all-the-apps-you-want": "<0>使いたいアプリを全てここに</0> — 大手企業からインディー開発者まで、Flathubはあなたの目的に合わせたアプリがたくさんあります。",
+  "transparent-safety": "<0>透明化された安全性</0> — いつアプリが開発者から<3>認証</3>されたか、どんな許可が必要か、そしてそれがオープンソースで公開されているかどうかも明確に確認できます"
 }

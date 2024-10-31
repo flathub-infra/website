@@ -594,5 +594,17 @@
   "transparent": "<0>I pavarur & transparent</0> — Jemi një bashkësi burimi të hapët me shtrirje kapilare, me flamur atë çka ka më të mirë ekosistemi",
   "integration": "<0>Integrim me shitore origjinale aplikacionesh</0> — Harrojini shkarkimet nga interneti; Flathub-i u jep përdoruesve aplikacione dhe <3>përditësime të automatizuara</3> te klienti i tyre për shitore origjinale aplikacionesh, atje ku do të prisnin të tilla",
   "docs-guidance": "<0>Dokumentim & udhëzime të qarta</0> — <2> Dokumentim</2> i zgjeruar, mijëra <5>manifeste publikë aplikacionesh</5> dhe një bashkësi e gjerë do të thonë se jeni përherë në gjendje të merrni ndihmë",
-  "can-access-the-contents-of-the-screen-or-other-windows": "Mund të shohë lëndën e ekranit apo dritareve të tjera"
+  "can-access-the-contents-of-the-screen-or-other-windows": "Mund të shohë lëndën e ekranit apo dritareve të tjera",
+  "screen-contents-access": "Përdorim lënde ekrani",
+  "role-playing": "Me Role",
+  "flathub": "Flathub",
+  "flathub-logo": "Stemë Flathub-i",
+  "mastodon": "Mastodon",
+  "positions": "Pozicione",
+  "position-short": "Poz.",
+  "type": "Lloj",
+  "amount": "Sasi",
+  "receipt": "Faturë",
+  "total": "Gjithsej",
+  "system-device-access": "Përdorim pajisjesh sistemi"
 }
