@@ -5,138 +5,74 @@ import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement, useState } from "react"
 import LoginGuard from "../../src/components/login/LoginGuard"
 import Checkout from "../../src/components/payment/checkout/Checkout"
 import Breadcrumbs from "../../src/components/Breadcrumbs"
 import Spinner from "../../src/components/Spinner"
-import { useUserContext } from "../../src/context/user-info"
-import {
-  STRIPE_DATA_URL,
-  TRANSACTION_INFO_URL,
-  TRANSACTION_STRIPE_INFO_URL,
-} from "../../src/env"
 import { useTheme } from "next-themes"
-import { Transaction } from "src/codegen"
+import {
+  getStripedataWalletStripedataGet,
+  useGetTransactionByIdWalletTransactionsTxnGet,
+  useGetTxnStripedataWalletTransactionsTxnStripeGet,
+} from "src/codegen"
 
-// Memoized Stripe object retrieval so it's only retrieved on demand
-let stripePromise: Promise<Stripe | null>
-async function getStripeObject() {
-  if (!stripePromise) {
-    let res: Response
-    try {
-      res = await fetch(STRIPE_DATA_URL)
-    } catch {
-      throw "network-error-try-again"
-    }
-
-    if (res.ok) {
-      const stripeData = await res.json()
-      stripePromise = loadStripe(stripeData.public_key)
-      return stripePromise
-    } else {
-      throw "network-error-try-again"
-    }
-  } else {
-    return stripePromise
-  }
-}
-
-async function getTransaction(transactionId: string) {
-  let res: Response
-  try {
-    res = await fetch(TRANSACTION_INFO_URL(transactionId), {
-      credentials: "include",
-    })
-  } catch {
-    throw "network-error-try-again"
-  }
-
-  if (res.ok) {
-    const transactionData = await res.json()
-    const pending = ["new", "retry"].includes(transactionData.summary.status)
-
-    let stripeData = { client_secret: null }
-
-    if (pending) {
-      try {
-        res = await fetch(TRANSACTION_STRIPE_INFO_URL(transactionId), {
-          credentials: "include",
-        })
-      } catch {
-        throw "network-error-try-again"
-      }
-
-      if (!res.ok) {
-        throw "network-error-try-again"
-      }
-
-      stripeData = await res.json()
-    }
-
-    return [transactionData, stripeData.client_secret]
-  } else {
-    throw "network-error-try-again"
-  }
-}
-
-export default function TransactionPage() {
+export default function TransactionPage({ stripePublicKey }) {
   const { t } = useTranslation()
   const router = useRouter()
 
-  const [stripe, setStripe] = useState<Stripe | null>(null)
-  const [transaction, setTransaction] = useState<Transaction | null>(null)
-  const [secret, setSecret] = useState("")
-  const [error, setError] = useState("")
+  const stripe = loadStripe(stripePublicKey)
 
-  const user = useUserContext()
+  const query = useGetTransactionByIdWalletTransactionsTxnGet(
+    router.query.transaction_id as string,
+    {
+      axios: {
+        withCredentials: true,
+      },
+      query: {
+        enabled: !!router.query.transaction_id,
+      },
+    },
+  )
 
-  // Fetch the stripe object only on page mount
-  useEffect(() => {
-    getStripeObject().then(setStripe).catch(setError)
-  }, [])
-
-  // Once router is ready the transaction ID is attainable
-  useEffect(() => {
-    // Router must be ready to access query parameters
-    if (!router.isReady) {
-      return
-    }
-
-    // Once the transaction ID is known, the client secret is fetched
-    const transaction_id = router.query.transaction_id as string
-
-    getTransaction(transaction_id)
-      .then(([transaction, secret]) => {
-        setTransaction(transaction)
-        setSecret(secret)
-      })
-      .catch(setError)
-  }, [router, user])
+  const queryStripe = useGetTxnStripedataWalletTransactionsTxnStripeGet(
+    router.query.transaction_id as string,
+    {
+      axios: {
+        withCredentials: true,
+      },
+      query: {
+        enabled: !!router.query.transaction_id,
+      },
+    },
+  )
 
   const { resolvedTheme } = useTheme()
 
   let content: ReactElement
-  if (error) {
+  if (query.isFetching || queryStripe.isFetching) {
+    content = <Spinner size="l" />
+  } else if (query.isError || queryStripe.isError) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(error)}</p>
+        <p>{t(query.error.message || queryStripe.error.message)}</p>
       </>
     )
-  } else if (secret) {
+  } else if (queryStripe.data.data.client_secret) {
     const options: StripeElementsOptions = {
-      clientSecret: secret,
+      clientSecret: queryStripe.data.data.client_secret,
       appearance: { theme: resolvedTheme === "dark" ? "night" : "stripe" },
     }
 
     content = (
       <Elements stripe={stripe} options={options}>
-        <Checkout transaction={transaction} clientSecret={secret} />
+        <Checkout
+          transaction={query.data.data}
+          clientSecret={queryStripe.data.data.client_secret}
+        />
       </Elements>
     )
-  } else {
-    content = <Spinner size="l" />
   }
 
   const pages = [
@@ -170,8 +106,11 @@ export const getStaticProps: GetStaticProps = async ({
 }: {
   locale: string
 }) => {
+  const stripeDataQuery = await getStripedataWalletStripedataGet()
+
   return {
     props: {
+      stripePublicKey: stripeDataQuery.data.public_key,
       ...(await serverSideTranslations(locale, ["common"])),
     },
   }

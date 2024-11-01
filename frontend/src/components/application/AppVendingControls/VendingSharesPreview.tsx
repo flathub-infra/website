@@ -92,8 +92,6 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
       <ChartContainer config={chartConfig}>
         <BarChart accessibilityLayer layout="vertical" data={data}>
           {labels.map((label, i) => {
-            console.log(label)
-
             return (
               <Bar
                 key={label}
@@ -117,8 +115,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
                         } as React.CSSProperties
                       }
                     />
-                    {chartConfig[name as keyof typeof chartConfig]?.label ||
-                      name}
+                    {chartConfig[name]?.label || name}
                     <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
                       {formatCurrency(Number(value))}
                     </div>

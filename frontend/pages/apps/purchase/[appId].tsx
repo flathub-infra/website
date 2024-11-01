@@ -69,7 +69,11 @@ export default function AppPurchasePage({
 
   return (
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title={app?.name} />
+      <NextSeo
+        title={t(isDonationOnly ? "kind-donation-app" : "kind-purchase-app", {
+          appName: app?.name,
+        })}
+      />
       <LoginGuard>
         <h1 className="my-8 text-4xl font-extrabold">
           {t(isDonationOnly ? "kind-donation-app" : "kind-purchase-app", {

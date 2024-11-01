@@ -202,17 +202,6 @@ export const APPS_IN_PREVIEW_COUNT: number = 12
 
 export const LOGIN_PROVIDERS_URL: string = `${BASE_URI}/auth/login`
 
-export const WALLET_BASE_URL: string = `${BASE_URI}/wallet`
-export const WALLET_INFO_URL: string = `${WALLET_BASE_URL}/walletinfo`
-export const TRANSACTIONS_URL: string = `${WALLET_BASE_URL}/transactions`
-export const STRIPE_DATA_URL: string = `${WALLET_BASE_URL}/stripedata`
-export const TRANSACTION_INFO_URL = (transaction: string) => {
-  return `${TRANSACTIONS_URL}/${transaction}`
-}
-export const TRANSACTION_STRIPE_INFO_URL = (transaction: string) => {
-  return `${TRANSACTION_INFO_URL(transaction)}/stripe`
-}
-
 export const VENDING_CONFIG_URL = `${BASE_URI}/vending/config`
 
 export const IS_PRODUCTION: boolean =

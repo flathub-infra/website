@@ -39,7 +39,7 @@ export const TransactionCancelButtonPrep = ({
 }
 
 const Checkout: FunctionComponent<{
-  transaction: Transaction | null
+  transaction: Transaction
   clientSecret: string
 }> = ({ transaction, clientSecret }) => {
   const router = useRouter()
@@ -72,10 +72,6 @@ const Checkout: FunctionComponent<{
     },
     enabled: termsAgreed,
   })
-
-  if (!transaction) {
-    return <Spinner size="m" />
-  }
 
   const { id: transactionId } = transaction.summary
 
