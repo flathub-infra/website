@@ -128,8 +128,6 @@
   "confirm-selection": "确认选择",
   "kind-donation": "捐助",
   "kind-purchase": "购买",
-  "loading-saved-payment-methods": "正在加载保存的支付方式…",
-  "payment-summary": "支付总结",
   "retry-checkout": "重试结账",
   "save-card-for-reuse": "保存信用卡以重用",
   "remove-saved-card": "移除保存的信用卡",

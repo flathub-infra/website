@@ -286,7 +286,6 @@
   "payment": "Íocaíocht",
   "make-donation": "Déan Síntiús",
   "no-transactions": "Gan aon idirbhearta",
-  "payment-summary": "achoimre íocaíochta",
   "expiry": "Dul in éag",
   "status-pending": "Ar feitheamh",
   "status-retry": "Déan iarracht arís",
@@ -591,7 +590,6 @@
   "carousel": "Timpealláin",
   "no-saved-payment-methods": "Níl aon mhodhanna íocaíochta sábháilte le taispeáint.",
   "privacy-policy-description": "Trí úsáid a bhaint as an suíomh Gréasáin seo, aontaíonn tú leis an bPolasaí Príobháideachta.",
-  "loading-saved-payment-methods": "Modhanna íocaíochta sábháilte á lódáil…",
   "invited-apps": "Cuirí",
   "stripe-error-payment_intent_authentication_failure": "Theip ar fhíordheimhniú do mhodh íocaíochta. Roghnaigh modh eile íocaíochta agus bain triail eile as.",
   "repo": "Stór",
@@ -614,7 +612,6 @@
   "positions": "Poist",
   "position-short": "Seas.",
   "type": "Cineál",
-  "receipt": "Admháil",
   "amount": "Méid",
   "total": "Iomlán"
 }

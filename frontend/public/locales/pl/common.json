@@ -53,7 +53,6 @@
   "confirm-selection": "Potwierdź wybór",
   "kind-donation": "Donacja",
   "kind-purchase": "Zakup",
-  "loading-saved-payment-methods": "Wczytywanie zapisanych sposobów płatności…",
   "payment": "Zapłata",
   "make-donation": "Przekaż darowiznę",
   "no-saved-payment-methods": "Brak zapisanych sposobów płatności.",
@@ -103,7 +102,6 @@
   "network-error-try-again": "Wystąpił błąd sieci. Spróbuj ponownie.",
   "failed-to-load-refresh": "Zasób nie mógł być wczytany. Spróbuj odświeżyć stronę.",
   "app-install-error-try-again": "Nie udało się zainstalować aplikacji. Spróbuj wrócić do sklepu i zainstalować ponownie.",
-  "payment-summary": "Podsumowanie zapłaty",
   "transaction-history": "Historia transakcji",
   "remove-saved-card": "Usuń zapisaną kartę",
   "transaction-cancelled": "Transakcja anulowana",
@@ -612,7 +610,18 @@
   "positions": "Pozycje",
   "position-short": "Poz.",
   "total": "Łącznie",
-  "receipt": "Pokwitowanie",
   "type": "Typ",
-  "amount": "Kwota"
+  "amount": "Kwota",
+  "recipient": "Odbiorca",
+  "created": "Utworzono",
+  "action-donate": "Wesprzyj",
+  "zoom": "Powiększ",
+  "platform": {
+    "org-kde-platform": "Platforma KDE",
+    "org-gnome-platform": "Platforma GNOME",
+    "org-freedesktop-platform": "Platforma Freedesktop"
+  },
+  "kind-purchase-app": "Kup {{appName}}",
+  "action-purchase": "Kup",
+  "kind-donate-app": "Przekaż darowiznę {{appName}}"
 }

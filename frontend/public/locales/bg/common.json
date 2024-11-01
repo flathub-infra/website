@@ -136,7 +136,6 @@
   "checkout": "Отчитане",
   "payment": "Плащане",
   "no-saved-payment-methods": "Няма запазени начини на плащане.",
-  "payment-summary": "Обобщение на плащането",
   "make-donation": "Направете дарение",
   "retry-checkout": "Повторно отчитане",
   "status-success": "Успешно",
@@ -164,7 +163,6 @@
   "terms-and-conditions-description": "С използването на този уебсайт, вие се съгласявате с Общите условия.",
   "stripe-declined-generic_decline": "Картата е отхвърлена по неизвестна причина.",
   "transaction-summary": "Обобщение на транзакцията",
-  "loading-saved-payment-methods": "Зареждане на запазените начини на плащане…",
   "vending-onboard": "Създаване на профил в „Stripe Express“",
   "stripe-error-incorrect_number": "Номерът на картата е грешен.",
   "stripe-error-incorrect_cvc": "Кодът за сигурност на картата е грешен.",
@@ -611,7 +609,8 @@
   "type": "Вид",
   "positions": "Позиции",
   "position-short": "Поз.",
-  "receipt": "Разписка",
   "total": "Общо",
-  "amount": "Сума"
+  "amount": "Сума",
+  "recipient": "Получател",
+  "created": "Създадено"
 }

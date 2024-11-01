@@ -31,7 +31,7 @@
     "introduction": "<0> Aplikacje Flatpak mogą być instalowane na ChromeOS z warstwą kompatybilności Crostini Linux. Nie jest to dostępne dla wszystkich urządzeń z systemem ChromeOS, więc przed kontynuowaniem należy upewnić się, że urządzenie jest kompatybilne. Lista kompatybilnych urządzeń znajduje się <2>tutaj</2>.</0>",
     "step-2": {
       "name": "Uruchom terminal Linux",
-      "text": "<p>Naciśnij klawisz Wyszukaj/Uruchom, wpisz „Terminal” i uruchom aplikację Terminal.</p>"
+      "text": "<p>Naciśnij klawisz Wyszukiwania/Uruchamiania, wpisz „Terminal” i uruchom aplikację Terminal.</p>"
     },
     "step-3": {
       "name": "Zainstaluj Flatpak",
@@ -66,14 +66,14 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "0>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
+      "text": "<0>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
     }
   },
   "arch": {
     "distroName": "Arch",
     "step-2": {
       "name": "Uruchom ponownie",
-      "text": "0>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
+      "text": "<0>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy <2>zainstalować aplikacje</2>!</0>"
     },
     "step-1": {
       "name": "Zainstaluj Flatpak",
@@ -90,7 +90,7 @@
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
-    "introduction": "<0>Obsługa Flatpak jest wbudowana w OpenMandriva dla wszystkich aktywnie wspieranych wersji, począwszy od stabilnego/poprawionego wydania „Rock 5.0”, poprzez wydanie rozwojowe „Cooker”, a skończywszy na wydaniu kroczącym „ROME”.</0> <p>Flatpak jest dostarczany ze wstępnie skonfigurowanym repozytorium Flathub.</p>"
+    "introduction": "<0>Obsługa Flatpak jest wbudowana w OpenMandriva dla wszystkich aktywnie wspieranych wersji, począwszy od stabilnego/poprawionego wydania 'Rock 5.0', poprzez wydanie rozwojowe 'Cooker', a skończywszy na wydaniu rolling release 'ROME'.</0> <p>Flatpak jest dostarczany ze wstępnie skonfigurowanym repozytorium Flathub.</p>"
   },
   "clear_linux": {
     "distroName": "Clear Linux",
@@ -245,7 +245,7 @@
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak do GNOME Software",
-      "text": "<p>Wtyczka dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby zainstalować, uruchom:</p> <2></2> <4><strong>Uwaga:</strong> aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</4>"
+      "text": "<p>Wtyczka dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby ją zainstalować, uruchom:</p> <2></2> <4><strong>Uwaga:</strong> aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</4>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
@@ -275,7 +275,7 @@
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<p>Wtyczkę Flatpak można zainstalować dla oprogramowania GNOME (od wersji 3.13) lub KDE Discover (od wersji 3.11), umożliwiając instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby zainstalować, dla GNOME Software uruchom:</p> <2></2> <p>Dla KDE Discover uruchom:</p> <6></6>"
+      "text": "<p>Wtyczkę Flatpak można zainstalować dla GNOME Software (od wersji 3.13) lub KDE Discover (od wersji 3.11), umożliwiając instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby ją zainstalować, dla GNOME Software uruchom:</p> <2></2> <p>Dla KDE Discover uruchom:</p> <6></6>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
@@ -305,7 +305,7 @@
     "distroName": "elementary OS",
     "step-1": {
       "name": "Zainstaluj aplikacje",
-      "text": "<0>elementary OS 5.1 i nowsze są dostarczane z obsługą Flatpak po instalacji. W przypadku aplikacji nieobjętych opieką, przejdź do <2>Flathub</2>, aby zainstalować dowolną aplikację za pomocą dużego przycisku „Zainstaluj” i otwórz pobrany plik `.flatpakref` za pomocą Sideload.</0> <p>Uwaga: Po zainstalowaniu jednej aplikacji z repozytorium, takiego jak Flathub, wszystkie inne aplikacje z tego pilota również automatycznie pojawią się w AppCenter.</p>"
+      "text": "<0>elementary OS 5.1 i nowsze są dostarczane z obsługą Flatpak po instalacji. W przypadku aplikacji nieobjętych opieką, przejdź do <2>Flathub</2>, aby zainstalować dowolną aplikację za pomocą dużego przycisku „Zainstaluj” i otwórz pobrany plik `.flatpakref` za pomocą Sideload.</0> <p>Uwaga: Po zainstalowaniu jednej aplikacji z repozytorium, takiego jak Flathub, wszystkie inne aplikacje z tego repozytorium również automatycznie pojawią się w AppCenter.</p>"
     }
   },
   "gentoo": {
@@ -350,7 +350,7 @@
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<p>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla oprogramowania GNOME. Aby to zrobić, uruchom:</p> <2></2> <p>Jeśli używasz KDE, powinieneś, zamiast tego zainstalować backend Plasma Discover Flatpak:</p> <6></6>"
+      "text": "<p>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla GNOME Software. Aby to zrobić, uruchom:</p> <2></2> <p>Jeśli używasz KDE, powinieneś, zamiast tego zainstalować Plasma Discover Backend Flatpak:</p> <6></6>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
@@ -443,7 +443,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<0>Obsługa flatpak jest wbudowana w Zorin OS</0> <p>Możesz użyć aplikacji Software Store do pobrania aplikacji flatpak.</p>"
+    "introduction": "<0>Obsługa flatpak jest wbudowana w Zorin OS</0> <p>Możesz użyć aplikacji Software Store do pobierania aplikacji flatpak.</p>"
   },
   "pardus": {
     "distroName": "Pardus",
@@ -461,7 +461,7 @@
     },
     "step-2": {
       "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<p>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla oprogramowania GNOME. Aby to zrobić, uruchom:</p> <2></2>"
+      "text": "<p>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla GNOME Software. Aby to zrobić, uruchom:</p> <2></2>"
     }
   },
   "deepin": {

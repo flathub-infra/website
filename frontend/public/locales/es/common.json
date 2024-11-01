@@ -114,7 +114,6 @@
   "checkout": "Pedido",
   "confirm-selection": "Confirmar selección",
   "kind-purchase": "Comprar",
-  "payment-summary": "Resumen de los pagos",
   "saved-cards": "Tarjetas guardadas",
   "status": "Estado",
   "retry-checkout": "Reintentar el pago",
@@ -150,7 +149,6 @@
   "delete-account-prompt": "¿Eliminar su cuenta?",
   "entry-confirmation-prompt": "Introduzca \"{{text}}\" para continuar.",
   "delete-account-entry": "Deseo eliminar mi cuenta",
-  "loading-saved-payment-methods": "Cargando métodos de pago guardados…",
   "payment": "Formas de pago",
   "make-donation": "Hacer donación",
   "no-saved-payment-methods": "No hay métodos de pago guardados para mostrar.",
@@ -611,7 +609,9 @@
   "mastodon": "Mastodon",
   "positions": "Posiciones",
   "type": "Tipo",
-  "receipt": "Recibo",
   "amount": "Importe",
-  "total": "Total"
+  "total": "Total",
+  "position-short": "Pos.",
+  "recipient": "Destinatario",
+  "created": "Creado"
 }

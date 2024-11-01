@@ -86,7 +86,6 @@
   "kind-donation": "Donaco",
   "kind-purchase": "Aĉeti",
   "make-donation": "Donaci",
-  "payment-summary": "Resumo pri pago",
   "remove-saved-card": "Forigi konservitan karton",
   "save-card-for-reuse": "Konservi karton por reuzo",
   "retry-checkout": "Reprovi pagadon",
@@ -197,7 +196,6 @@
   "terms-and-conditions-description": "Uzante ĉi tiun retejon, vi konsentas la Kondiĉojn pri Uzado.",
   "transaction-history": "Historio de transakcioj",
   "badges-description": "Oficialaj insignoj por reklami vian programon ĉe Flathub",
-  "loading-saved-payment-methods": "Ŝargante konservitajn pagmetodojn…",
   "stripe-validation-error": "La kartaj detaloj ne validas.",
   "error-already-logged-in": "Vi jam salutis en la elektitan konton.",
   "failed-to-load-refresh": "Ne eblis ŝargi la rimedon. Provu reŝargi la paĝon.",
@@ -611,7 +609,8 @@
   "type": "Speco",
   "amount": "Kvanto",
   "positions": "Pozicioj",
-  "receipt": "Kvitanco",
   "total": "Totalo",
-  "position-short": "Poz."
+  "position-short": "Poz.",
+  "created": "Kreita",
+  "recipient": "Ricevanto"
 }

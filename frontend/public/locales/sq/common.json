@@ -67,10 +67,8 @@
   "confirm-selection": "Ripohoni Përzgjedhjen",
   "kind-donation": "Dhurim",
   "kind-purchase": "Blijeni",
-  "loading-saved-payment-methods": "Po ngarkohen metoda pagesash të ruajtura…",
   "make-donation": "Bëni një Dhurim",
   "no-saved-payment-methods": "S’ka metoda të ruajtura pagesash për shfaqje.",
-  "payment-summary": "Përmbledhje pagese",
   "remove-saved-card": "Hiqe Kartën e Ruajtur",
   "retry-checkout": "Riprovoni pagesën",
   "save-card-for-reuse": "Ruaje kartë, për ripërdorim",
@@ -604,7 +602,6 @@
   "position-short": "Poz.",
   "type": "Lloj",
   "amount": "Sasi",
-  "receipt": "Faturë",
   "total": "Gjithsej",
   "system-device-access": "Përdorim pajisjesh sistemi"
 }
