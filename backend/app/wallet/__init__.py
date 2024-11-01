@@ -17,9 +17,11 @@ from ..logins import login_state
 from .walletbase import (
     NascentTransaction,
     PaymentCardInfo,
+    StripeKeys,
     Transaction,
     TransactionSaveCard,
     TransactionSortOrder,
+    TransactionStripeData,
     TransactionSummary,
     WalletError,
     WalletInfo,
@@ -179,7 +181,7 @@ def cancel_transaction(txn: str, request: Request, login=Depends(login_state)):
 
 
 @router.get("/stripedata", tags=["wallet"])
-def get_stripedata():
+def get_stripedata() -> StripeKeys:
     """
     Return the stripe public key to use in the frontend.  Since this is not
     considered secret, we don't need a login or anything for this
@@ -188,7 +190,9 @@ def get_stripedata():
 
 
 @router.get("/transactions/{txn}/stripe", tags=["wallet"])
-def get_txn_stripedata(txn: str, request: Request, login=Depends(login_state)):
+def get_txn_stripedata(
+    txn: str, request: Request, login=Depends(login_state)
+) -> TransactionStripeData:
     """
     Return the Stripe data associated with the given transaction.
 

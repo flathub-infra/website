@@ -25,8 +25,10 @@ import type {
   NascentTransaction,
   PaymentCardInfo,
   PostTransactionResponse,
+  StripeKeys,
   Transaction,
   TransactionSaveCard,
+  TransactionStripeData,
   TransactionSummary,
   WalletInfo,
 } from ".././model"
@@ -849,7 +851,7 @@ considered secret, we don't need a login or anything for this
  */
 export const getStripedataWalletStripedataGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<StripeKeys>> => {
   return axios.get(`/wallet/stripedata`, options)
 }
 
@@ -985,7 +987,7 @@ will only work for transactions which *are* Stripe transactions.
 export const getTxnStripedataWalletTransactionsTxnStripeGet = (
   txn: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<TransactionStripeData>> => {
   return axios.get(`/wallet/transactions/${txn}/stripe`, options)
 }
 
