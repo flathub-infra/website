@@ -7,6 +7,10 @@ import React, { Suspense, useEffect } from "react"
 import { faker } from "@faker-js/faker"
 import { I18nextProvider } from "react-i18next"
 
+import { initialize, mswLoader } from "msw-storybook-addon"
+
+initialize()
+
 // Use a fixed seed, so that the faker data doesn't change
 // Important for chromatic change detection
 faker.seed(42)
@@ -54,6 +58,7 @@ const withI18next = (Story, context) => {
 
 export default {
   parameters: { mockingDate: new Date(2024, 0, 1) },
+  loaders: [mswLoader],
   decorators: [
     withI18next,
     (Story) => (
