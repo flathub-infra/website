@@ -1,5 +1,5 @@
 import { GetStaticProps } from "next"
-import { Trans, useTranslation } from "next-i18next"
+import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import LoginGuard from "../src/components/login/LoginGuard"
@@ -33,54 +33,51 @@ export default function Donate() {
             )}
           >
             <div className="col-span-1 lg:col-span-2 mx-0 mt-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic">
-              <p className="prose dark:prose-invert">
-                <Trans i18nKey={"common:donate-flatpak-description"}>
-                  <ul>
-                    <li>
-                      🌐 <strong>Flathub welcomes your donations</strong>: Your
-                      support helps maintain the app repository for Flatpak
-                      applications and keeps its vital infrastructure in top
-                      shape
-                    </li>
-                    <li>
-                      💰 <strong>Where your funds go</strong>:
-                      <ul>
-                        <li>
-                          🌐 <strong>Infrastructure</strong>: Keep the platform
-                          running smoothly
-                        </li>
-                        <li>
-                          💻 <strong>Hosting services</strong>: Cover the costs
-                          of keeping everything online and accessible
-                        </li>
-                        <li>
-                          📦 <strong>Software development</strong>: Cover the
-                          costs of developing Flathub and related tools
-                        </li>
-                        <li>
-                          🚀 <strong>Development</strong>: Support ongoing
-                          development of Flatpak technology, enhancing its
-                          features and expanding its reach
-                        </li>
-                        <li>
-                          🔧 <strong>Portal development</strong>: Support the
-                          creation and improvement of portals, which provide
-                          secure, easy access to system services for Flatpak
-                          apps
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      🌟 <strong>Your impact</strong>: Every contribution helps
-                      create a robust and diverse ecosystem of apps for all
-                      Linux users
-                    </li>
-                  </ul>
-                  <p>
-                    <strong>Your support makes a difference!</strong> 🙌
-                  </p>
-                </Trans>
-              </p>
+              <div className="prose dark:prose-invert">
+                {/* TODO: Translatie this */}
+                <ul>
+                  <li>
+                    🌐 <strong>Flathub welcomes your donations</strong>: Your
+                    support helps maintain the app repository for Flatpak
+                    applications and keeps its vital infrastructure in top shape
+                  </li>
+                  <li>
+                    💰 <strong>Where your funds go</strong>:
+                    <ul>
+                      <li>
+                        🌐 <strong>Infrastructure</strong>: Keep the platform
+                        running smoothly
+                      </li>
+                      <li>
+                        💻 <strong>Hosting services</strong>: Cover the costs of
+                        keeping everything online and accessible
+                      </li>
+                      <li>
+                        📦 <strong>Software development</strong>: Cover the
+                        costs of developing Flathub and related tools
+                      </li>
+                      <li>
+                        🚀 <strong>Development</strong>: Support ongoing
+                        development of Flatpak technology, enhancing its
+                        features and expanding its reach
+                      </li>
+                      <li>
+                        🔧 <strong>Portal development</strong>: Support the
+                        creation and improvement of portals, which provide
+                        secure, easy access to system services for Flatpak apps
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    🌟 <strong>Your impact</strong>: Every contribution helps
+                    create a robust and diverse ecosystem of apps for all Linux
+                    users
+                  </li>
+                </ul>
+                <div>
+                  <strong>Your support makes a difference!</strong> 🙌
+                </div>
+              </div>
             </div>
             <DonationInput org="org.flathub.Flathub" />
           </div>
