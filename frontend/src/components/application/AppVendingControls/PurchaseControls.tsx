@@ -1,19 +1,18 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { FunctionComponent, useState } from "react"
+import { FunctionComponent } from "react"
 import { toast } from "react-toastify"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
-import { VendingConfig } from "../../../types/Vending"
 import { formatCurrency } from "../../../utils/localize"
 import * as Currency from "../../currency"
-import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import {
-  getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingStatusVendingappAppIdPost,
+  VendingConfig,
+  VendingSetup,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
@@ -22,6 +21,9 @@ import { useForm } from "react-hook-form"
 interface Props {
   app: Pick<Appstream, "id" | "name" | "bundle">
   vendingConfig: VendingConfig
+  amount: NumericInputValue
+  setAmount: (amount: NumericInputValue) => void
+  vendingSetup: VendingSetup
 }
 
 type FormData = {
@@ -31,39 +33,21 @@ type FormData = {
 /**
  * The control elements to set purchasers intent before creating a transaction.
  */
-const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
+const PurchaseControls: FunctionComponent<Props> = ({
+  app,
+  vendingConfig,
+  amount,
+  setAmount,
+  vendingSetup,
+}) => {
   const { t, i18n } = useTranslation()
   const router = useRouter()
 
   const { handleSubmit, control } = useForm<FormData>()
 
-  // Need app vending configuration to initialize payment value
-  const [amount, setAmount] = useState<NumericInputValue>({
-    live: 0,
-    settled: 0,
-  })
-
-  const vendingSetup = useQuery({
-    queryKey: ["appVendingSetup", app.id],
-    queryFn: async () => {
-      const setup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
-      })
-
-      const decimalValue = setup.data.recommended_donation / 100
-      setAmount({
-        live: decimalValue,
-        settled: decimalValue,
-      })
-
-      return setup
-    },
-    enabled: !!app.id,
-  })
-
   // Prepare submission logic to create a transaction
   const submitPurchaseMutation = useMutation({
-    mutationKey: ["vending-status-app", app.id, amount.settled * 100],
+    mutationKey: ["vending-status-app", app.id, amount.settled * 100, "usd"],
     mutationFn: () => {
       return postAppVendingStatusVendingappAppIdPost(
         app.id,
@@ -86,37 +70,23 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     },
   })
 
-  if (vendingSetup.isError) {
-    return (
-      <>
-        <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-        <p>{t(vendingSetup.error.message)}</p>
-      </>
-    )
-  }
-
-  // Prevent control interaction while initalising and awaiting submission redirection
-  if (vendingSetup.isPending) {
-    return <Spinner size="s" />
-  }
-
   // Obtain currency values for display
   const prettyMinimum = formatCurrency(
-    vendingSetup.data.data.minimum_payment / 100,
+    vendingSetup.minimum_payment / 100,
     i18n.language,
   )
   const prettyRecommended = formatCurrency(
-    vendingSetup.data.data.recommended_donation / 100,
+    vendingSetup.recommended_donation / 100,
     i18n.language,
   )
 
   const canSubmit =
-    amount.live * 100 >= vendingSetup.data.data.minimum_payment &&
+    amount.live * 100 >= vendingSetup.minimum_payment &&
     amount.live >= FLATHUB_MIN_PAYMENT &&
     amount.live <= STRIPE_MAX_PAYMENT
 
   // When the minimum payment is 0, the application does not require payment
-  const isDonationOnly = vendingSetup.data.data.minimum_payment === 0
+  const isDonationOnly = vendingSetup.minimum_payment === 0
 
   return (
     <form
@@ -144,7 +114,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       <Currency.MinMaxError
         value={amount}
         minimum={Math.max(
-          vendingSetup.data.data.minimum_payment / 100,
+          vendingSetup.minimum_payment / 100,
           FLATHUB_MIN_PAYMENT,
         )}
         maximum={STRIPE_MAX_PAYMENT}
@@ -152,7 +122,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
       <VendingSharesPreview
         price={amount.live * 100}
         app={app}
-        appShare={vendingSetup.data.data.appshare}
+        appShare={vendingSetup.appshare}
         vendingConfig={vendingConfig}
       />
       <div className="flex justify-end">
@@ -163,7 +133,7 @@ const PurchaseControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           {submitPurchaseMutation.isPending && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          {t(isDonationOnly ? "make-donation" : "kind-purchase")}
+          {t(isDonationOnly ? "kind-donation" : "kind-purchase")}
         </Button>
       </div>
     </form>

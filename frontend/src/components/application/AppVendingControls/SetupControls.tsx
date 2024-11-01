@@ -11,7 +11,6 @@ import { toast } from "react-toastify"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"
-import { VendingConfig } from "../../../types/Vending"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import AppShareSlider from "./AppShareSlider"
@@ -21,6 +20,7 @@ import { AxiosError } from "axios"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
+  VendingConfig,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
