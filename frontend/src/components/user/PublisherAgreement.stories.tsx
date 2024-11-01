@@ -9,6 +9,7 @@ import { expect, within } from "@storybook/test"
 
 const meta = {
   component: PublisherAgreement,
+  title: "Components/User/PublisherAgreement",
 } satisfies Meta<typeof PublisherAgreement>
 
 export default meta

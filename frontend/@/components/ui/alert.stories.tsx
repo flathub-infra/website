@@ -6,6 +6,7 @@ import React from "react"
 
 const meta = {
   component: Alert,
+  title: "Components/UI/Alert",
 } satisfies Meta<typeof Alert>
 
 export default meta

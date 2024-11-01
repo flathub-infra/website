@@ -5,6 +5,7 @@ import { getVendingMock } from "../../../codegen/vending/vending.msw"
 
 const meta = {
   component: PurchaseControls,
+  title: "Components/Application/AppVendingControls/PurchaseControls",
 } satisfies Meta<typeof PurchaseControls>
 
 export default meta
