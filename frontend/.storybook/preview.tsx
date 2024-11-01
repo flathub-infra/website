@@ -6,10 +6,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import React, { Suspense, useEffect } from "react"
 import { faker } from "@faker-js/faker"
 import { I18nextProvider } from "react-i18next"
+import { MotionGlobalConfig } from "framer-motion"
+import isChromatic from "chromatic/isChromatic"
 
 import { initialize, mswLoader } from "msw-storybook-addon"
 
 initialize()
+
+MotionGlobalConfig.skipAnimations = isChromatic()
 
 // Use a fixed seed, so that the faker data doesn't change
 // Important for chromatic change detection
