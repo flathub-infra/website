@@ -18,6 +18,7 @@ import TransactionCancelButton from "./TransactionCancelButton"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface Props {
   transaction: Transaction
@@ -73,18 +74,20 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             )}
             {unresolved && (
               <>
-                <p>{t("transaction-went-wrong")}</p>
-                <div className="flex gap-3">
-                  <TransactionCancelButton
-                    id={transaction.summary.id}
-                    onSuccess={() => router.reload()}
-                  />
-                  <Button asChild size="lg">
-                    <Link href={`/payment/${transaction.summary.id}`}>
-                      {t("retry-checkout")}
-                    </Link>
-                  </Button>
-                </div>
+                <Alert variant="destructive" className="flex flex-col gap-2">
+                  <AlertTitle>{t("transaction-went-wrong")}</AlertTitle>
+                  <AlertDescription className="flex gap-3">
+                    <TransactionCancelButton
+                      id={transaction.summary.id}
+                      onSuccess={() => router.reload()}
+                    />
+                    <Button asChild size="lg">
+                      <Link href={`/payment/${transaction.summary.id}`}>
+                        {t("retry-checkout")}
+                      </Link>
+                    </Button>
+                  </AlertDescription>
+                </Alert>
               </>
             )}
           </div>
