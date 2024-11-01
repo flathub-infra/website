@@ -1,5 +1,6 @@
+import { VendingConfig } from "src/codegen"
 import { Appstream } from "../types/Appstream"
-import { VendingConfig, VendingShare } from "../types/Vending"
+import { VendingShare } from "../types/Vending"
 
 /**
  * Finds the fee Flathub will take to cover this transaction.
@@ -100,7 +101,7 @@ export function computeAppShares(
     splits[0] = [splits[0][0], splits[0][1] + remaining]
   }
 
-  splits.push(["org.flathub.Flathub", fhFee])
+  splits.push(["Flathub", fhFee])
 
   return splits
 }

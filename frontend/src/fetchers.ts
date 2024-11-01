@@ -30,14 +30,18 @@ import {
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
-import { VendingConfig } from "./types/Vending"
 import { VerificationStatus } from "./types/VerificationStatus"
 import {
   AppsIndex,
   MeilisearchResponse,
   MeilisearchResponseLimited,
 } from "./meilisearch"
-import { AppOfTheDay, AppsOfTheWeek, GetStatsStatsGet200 } from "./codegen"
+import {
+  AppOfTheDay,
+  AppsOfTheWeek,
+  GetStatsStatsGet200,
+  VendingConfig,
+} from "./codegen"
 import axios from "axios"
 
 export async function fetchAppstreamList(): Promise<string[]> {

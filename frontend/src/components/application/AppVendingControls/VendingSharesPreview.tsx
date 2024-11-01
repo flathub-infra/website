@@ -1,20 +1,21 @@
 import { useTheme } from "next-themes"
 import { FunctionComponent, useMemo } from "react"
 import { Appstream } from "../../../types/Appstream"
-import { VendingConfig } from "../../../types/Vending"
 import { computeAppShares, computeShares } from "../../../utils/vending"
-import {
-  BarChart,
-  ResponsiveContainer,
-  Bar as RechartsBar,
-  Tooltip as RechartsTooltip,
-  Legend as RechartsLegend,
-  XAxis,
-  YAxis,
-} from "recharts"
-import { FlathubTooltip, axisStroke } from "src/chartComponents"
+import { axisStroke } from "src/chartComponents"
 import { formatCurrency } from "src/utils/localize"
 import { useTranslation } from "next-i18next"
+import { VendingConfig } from "src/codegen"
+import { translatePlatformName } from "@/lib/helpers"
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegendContent,
+} from "@/components/ui/chart"
+import { Bar, BarChart, XAxis, YAxis } from "recharts"
 
 interface Props {
   price: number
@@ -35,7 +36,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   vendingConfig,
 }) => {
   const { resolvedTheme } = useTheme()
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   // Don't re-run computations unnecessarily
   const shares = useMemo(
@@ -56,7 +57,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
   const data = []
 
   for (const [appId, split] of breakdown) {
-    const name = appId == app.id ? app.name : appId
+    const name = (appId == app.id ? app.name : appId).replaceAll(".", "-")
     labels.push(name)
 
     const splitObject = {}
@@ -75,26 +76,58 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   const lightness = resolvedTheme === "light" ? "55.1%" : "calc(55.1% - 15%)"
 
+  const chartConfig = Object.values(labels).reduce(
+    (red, label, i) => ({
+      ...red,
+      [label]: {
+        label: t(translatePlatformName(label)),
+        color: `hsl(${210.6 - i * 35}, 65.3%, ${lightness})`,
+      },
+    }),
+    {},
+  ) satisfies ChartConfig
+
   return (
     <div>
-      <ResponsiveContainer width="100%" height={200}>
+      <ChartContainer config={chartConfig}>
         <BarChart accessibilityLayer layout="vertical" data={data}>
-          {labels.map((label, i) => (
-            <RechartsBar
-              key={label}
-              dataKey={label}
-              stackId="a"
-              fill={`hsl(${210.6 - i * 35}, 65.3%, ${lightness})`}
-            />
-          ))}
-          <RechartsTooltip
-            shared={false}
-            content={<FlathubTooltip />}
-            formatter={(value) =>
-              `${formatCurrency(Number(value), i18n.language)}`
+          {labels.map((label, i) => {
+            console.log(label)
+
+            return (
+              <Bar
+                key={label}
+                dataKey={label}
+                stackId="a"
+                fill={`var(--color-${label})`}
+              />
+            )
+          })}
+          <ChartTooltip
+            cursor={false}
+            content={
+              <ChartTooltipContent
+                formatter={(value, name) => (
+                  <>
+                    <div
+                      className="h-2.5 w-2.5 shrink-0 rounded-[2px] bg-[--color-bg]"
+                      style={
+                        {
+                          "--color-bg": `var(--color-${name})`,
+                        } as React.CSSProperties
+                      }
+                    />
+                    {chartConfig[name as keyof typeof chartConfig]?.label ||
+                      name}
+                    <div className="ml-auto flex items-baseline gap-0.5 font-mono font-medium tabular-nums text-foreground">
+                      {formatCurrency(Number(value))}
+                    </div>
+                  </>
+                )}
+              />
             }
           />
-          <RechartsLegend />
+          <ChartLegend content={<ChartLegendContent />} />
           <XAxis
             type="number"
             tickFormatter={(x) => formatCurrency(x)}
@@ -102,7 +135,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
           />
           <YAxis type="category" dataKey="Bar" hide />
         </BarChart>
-      </ResponsiveContainer>
+      </ChartContainer>
     </div>
   )
 }

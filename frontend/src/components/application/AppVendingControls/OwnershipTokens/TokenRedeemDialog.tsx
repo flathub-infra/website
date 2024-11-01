@@ -47,13 +47,13 @@ const TokenRedeemDialog = ({ app }: { app: Pick<Appstream, "id"> }) => {
   }
 
   return (
-    <div className="inline-flex gap-2 rounded-xl bg-flathub-white p-4 dark:bg-flathub-arsenic">
+    <div className="inline-flex w-full flex-col gap-2 rounded-xl bg-flathub-white p-4 dark:bg-flathub-arsenic">
       <Input
         type="text"
         placeholder={t("token-redeem-placeholder")}
         value={text}
         onChange={textUpdate}
-        className="w-80"
+        className="w-full"
       />
       <Button
         size="xl"

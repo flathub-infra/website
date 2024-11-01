@@ -164,8 +164,10 @@
   "expiry": "Expiry",
   "checkout": "Checkout",
   "confirm-selection": "Confirm Selection",
-  "kind-donation": "Donation",
+  "kind-donation": "Donate",
   "kind-purchase": "Purchase",
+  "kind-purchase-app": "Purchase {{appName}}",
+  "kind-donation-app": "Donate to {{appName}}",
   "loading-saved-payment-methods": "Loading saved payment methods…",
   "payment": "Payment",
   "make-donation": "Make Donation",
@@ -563,6 +565,11 @@
   "special-license": "Special License",
   "special-license-explanation": "This app is developed under the special license <1>{{ license }}</1>.",
   "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
+  "platform": {
+    "org-kde-platform": "KDE Platform",
+    "org-gnome-platform": "GNOME Platform",
+    "org-freedesktop-platform": "Freedesktop Platform"
+  },
   "quality-guideline": {
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",

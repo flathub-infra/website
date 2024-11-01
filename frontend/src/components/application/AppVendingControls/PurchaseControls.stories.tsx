@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 
 import PurchaseControls from "./PurchaseControls"
 import { getVendingMock } from "../../../codegen/vending/vending.msw"
+import { VendingSetup } from "../../../codegen/model"
 
 const meta = {
   component: PurchaseControls,
@@ -36,5 +37,16 @@ export const Default: Story = {
       platforms: { "org.freedesktop.Gnome": { keep: 100, aliases: [] } },
       status: "ok",
     },
+    amount: {
+      live: 0,
+      settled: 0,
+    },
+    setAmount: () => {},
+    vendingSetup: {
+      appshare: 50,
+      currency: "usd",
+      minimum_payment: 0,
+      recommended_donation: 0,
+    } as VendingSetup,
   },
 }

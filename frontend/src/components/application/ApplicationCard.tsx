@@ -14,9 +14,10 @@ interface Props {
   link?: (appid: string) => string
   inACard?: boolean
   showId?: boolean
+  className?: string
 }
 
-function cardClass(inACard: boolean): string {
+function cardClass(inACard: boolean, className: string): string {
   return clsx(
     inACard
       ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20"
@@ -25,15 +26,18 @@ function cardClass(inACard: boolean): string {
     "hover:cursor-pointer hover:no-underline",
     "active:bg-flathub-gainsborow/40 active:dark:bg-flathub-arsenic",
     "h-full",
+    className,
   )
 }
 
 export const ApplicationCardSkeleton = ({
   inACard = false,
+  className,
 }: {
   inACard?: boolean
+  className?: string
 }) => {
-  return <Skeleton className={clsx(cardClass(inACard), "h-32")} />
+  return <Skeleton className={clsx(cardClass(inACard, className), "h-32")} />
 }
 
 export const ApplicationCard: FunctionComponent<Props> = ({
@@ -41,6 +45,7 @@ export const ApplicationCard: FunctionComponent<Props> = ({
   link,
   inACard,
   showId = false,
+  className,
 }) => {
   const isVerified =
     application.metadata?.["flathub::verification::verified"] === "true"
@@ -75,7 +80,7 @@ export const ApplicationCard: FunctionComponent<Props> = ({
       passHref
       aria-label={application.name}
       aria-description={application.summary}
-      className={cardClass(inACard)}
+      className={cardClass(inACard, className)}
     >
       <div className="relative flex h-[64px] w-[64px] flex-shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
         <LogoImage iconUrl={application.icon} appName={application.name} />
