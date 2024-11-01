@@ -94,12 +94,12 @@ const PurchaseControls: FunctionComponent<Props> = ({
       onSubmit={handleSubmit(() => submitPurchaseMutation.mutate())}
     >
       {!isDonationOnly && (
-        <p>
+        <div className={"mb-2 text-sm"}>
           {t("app-payment-information", {
             minvalue: prettyMinimum,
             recvalue: prettyRecommended,
           })}
-        </p>
+        </div>
       )}
       <h4 className="m-0 text-base font-normal">
         {t(
