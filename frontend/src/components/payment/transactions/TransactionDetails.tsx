@@ -14,6 +14,10 @@ import {
 } from "@/components/ui/table"
 import { UTCDate } from "@date-fns/utc"
 import { Transaction } from "src/codegen"
+import TransactionCancelButton from "./TransactionCancelButton"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 interface Props {
   transaction: Transaction
@@ -21,8 +25,11 @@ interface Props {
 
 const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
   const { t, i18n } = useTranslation()
+  const router = useRouter()
 
   const { created, updated, kind, value, status } = transaction.summary
+
+  const unresolved = ["new", "retry"].includes(transaction.summary.status)
 
   return (
     <div>
@@ -53,7 +60,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
               })}
             </div>
           </div>
-          <div>
+          <div className="grid col-span-3">
             {transaction.receipt && (
               <a
                 href={transaction.receipt}
@@ -63,6 +70,22 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
               >
                 {t("stripe-receipt")}
               </a>
+            )}
+            {unresolved && (
+              <>
+                <p>{t("transaction-went-wrong")}</p>
+                <div className="flex gap-3">
+                  <TransactionCancelButton
+                    id={transaction.summary.id}
+                    onSuccess={() => router.reload()}
+                  />
+                  <Button asChild size="lg">
+                    <Link href={`/payment/${transaction.summary.id}`}>
+                      {t("retry-checkout")}
+                    </Link>
+                  </Button>
+                </div>
+              </>
             )}
           </div>
         </div>

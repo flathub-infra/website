@@ -13,7 +13,6 @@ import LoginGuard from "../../../../src/components/login/LoginGuard"
 import { useUserContext } from "../../../../src/context/user-info"
 import { fetchAppstream, fetchVendingConfig } from "../../../../src/fetchers"
 import { Appstream } from "../../../../src/types/Appstream"
-import { VendingConfig } from "../../../../src/types/Vending"
 import DangerZoneControls from "src/components/application/DangerZoneControls"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import Link from "next/link"
@@ -30,6 +29,7 @@ import {
   Permission,
   getInviteStatusInvitesAppIdGet,
   UserInfo,
+  VendingConfig,
 } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {

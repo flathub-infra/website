@@ -1,8 +1,7 @@
 import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
-import Spinner from "../../Spinner"
-import CardInfo from "../cards/CardInfo"
+import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
@@ -14,28 +13,33 @@ import { PaymentCardInfo, Transaction } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { TransactionCancelButtonPrep } from "./Checkout"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 interface Props {
   transaction: Transaction
   clientSecret: string
-  cards: PaymentCardInfo[]
-  error: string | null
   submit: () => void
   skip: () => void
+  walletQuery: any
 }
 
 const CardSelect: FunctionComponent<Props> = ({
   transaction,
   clientSecret,
-  cards,
-  error,
   submit,
   skip,
+  walletQuery,
 }) => {
   const { t } = useTranslation()
   const stripe = useStripe()
 
-  const [useCard, setUseCard] = useState<PaymentCardInfo | null>(null)
+  const error = walletQuery.isError ? "failed-to-load-refresh" : null
+
+  const cards = walletQuery?.data?.data.cards ?? []
+
+  const [useCard, setUseCard] = useState<PaymentCardInfo | null>(
+    cards[0] ?? null,
+  )
 
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
@@ -69,31 +73,43 @@ const CardSelect: FunctionComponent<Props> = ({
   let cardSection: ReactElement
   if (error) {
     cardSection = <p>{t(error)}</p>
+  } else if (walletQuery.isPending) {
+    cardSection = (
+      <div className="flex flex-row gap-5">
+        <RadioGroup className="flex items-center space-x-2">
+          <RadioGroupItem value={""} />
+          <CardInfoSkeleton />
+        </RadioGroup>
+      </div>
+    )
   } else if (cards) {
-    const cardElems = cards.map((card) => {
-      return (
-        <CardInfo
-          key={card.id}
-          card={card}
-          onClick={() => setUseCard(card)}
-          className={
-            useCard && card.id === useCard.id
-              ? "border border-flathub-celestial-blue dark:border-flathub-celestial-blue"
-              : ""
-          }
-        />
-      )
-    })
-
-    cardSection = <div className="flex flex-row gap-5 p-5">{cardElems}</div>
-  } else {
-    cardSection = <Spinner size="m" text={t("loading-saved-payment-methods")} />
+    cardSection = (
+      <RadioGroup value={useCard?.id} className="flex flex-row gap-5">
+        {cards.map((card) => {
+          return (
+            <div className="flex items-center space-x-2" key={card.id}>
+              <RadioGroupItem value={card.id} id={card.id} />
+              <CardInfo
+                key={card.id}
+                card={card}
+                onClick={() => setUseCard(card)}
+                className={
+                  useCard &&
+                  card.id === useCard.id &&
+                  "border border-flathub-celestial-blue dark:border-flathub-celestial-blue"
+                }
+              />
+            </div>
+          )
+        })}
+      </RadioGroup>
+    )
   }
 
   // Should always present the option to use a new card in case user
   // doesn't want to wait for a slow network
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px] flex gap-4 flex-col">
       <h3 className="my-4 text-xl font-semibold">{t("saved-cards")}</h3>
       {cardSection}
       <div className="flex flex-col-reverse gap-4 sm:flex-row">
