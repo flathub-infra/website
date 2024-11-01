@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
 import PurchaseControls from "./PurchaseControls"
-import { getVendingMock } from "../../../codegen/vending/vending.msw"
-import { VendingSetup } from "../../../codegen/model"
+import { VendingConfig, VendingSetup } from "../../../codegen/model"
 
 const meta = {
   component: PurchaseControls,
@@ -14,19 +13,14 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  parameters: {
-    msw: {
-      handlers: [...getVendingMock()],
-    },
-  },
   args: {
     app: {
       id: "org.flathub.arsenal",
       name: "Arsenal",
       bundle: {
-        runtime: "org.freedesktop.Gnome",
+        runtime: "org.freedesktop.Platform",
         sdk: "org.freedesktop.Sdk",
-        value: "app/org.flathub.arsenal/org.freedesktop.Gnome",
+        value: "app/org.flathub.arsenal/org.freedesktop.Platform",
         type: "flatpak",
       },
     },
@@ -34,19 +28,56 @@ export const Default: Story = {
       fee_cost_percent: 5,
       fee_fixed_cost: 2,
       fee_prefer_percent: 2,
-      platforms: { "org.freedesktop.Gnome": { keep: 100, aliases: [] } },
+      platforms: {
+        "org.freedesktop.Platform": { keep: 10, aliases: [] },
+      },
       status: "ok",
     },
     amount: {
-      live: 0,
-      settled: 0,
+      live: 4,
+      settled: 4,
     },
     setAmount: () => {},
     vendingSetup: {
       appshare: 50,
       currency: "usd",
-      minimum_payment: 0,
-      recommended_donation: 0,
+      minimum_payment: 400,
+      recommended_donation: 400,
+    } as VendingSetup,
+  },
+}
+
+export const UnderMinimum: Story = {
+  args: {
+    app: {
+      id: "org.flathub.arsenal",
+      name: "Arsenal",
+      bundle: {
+        runtime: "org.freedesktop.Platform",
+        sdk: "org.freedesktop.Sdk",
+        value: "app/org.flathub.arsenal/org.freedesktop.Platform",
+        type: "flatpak",
+      },
+    },
+    vendingConfig: {
+      fee_cost_percent: 5,
+      fee_fixed_cost: 2,
+      fee_prefer_percent: 2,
+      platforms: {
+        "org.freedesktop.Platform": { keep: 10, aliases: [] },
+      },
+      status: "ok",
+    } as VendingConfig,
+    amount: {
+      live: 1,
+      settled: 1,
+    },
+    setAmount: () => {},
+    vendingSetup: {
+      appshare: 50,
+      currency: "usd",
+      minimum_payment: 4000,
+      recommended_donation: 5000,
     } as VendingSetup,
   },
 }
