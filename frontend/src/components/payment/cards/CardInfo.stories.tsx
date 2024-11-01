@@ -1,6 +1,6 @@
 import React from "react"
 import { Meta } from "@storybook/react"
-import CardInfo from "./CardInfo"
+import { CardInfo } from "./CardInfo"
 import { faker } from "@faker-js/faker"
 import { PaymentCardInfo } from "../../../codegen"
 
