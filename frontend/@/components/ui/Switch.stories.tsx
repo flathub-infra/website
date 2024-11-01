@@ -6,7 +6,7 @@ import { useArgs } from "@storybook/preview-api"
 import React from "react"
 
 const meta = {
-  title: "Components/Switch",
+  title: "Components/UI/Switch",
   component: Switch,
 } satisfies Meta<typeof Switch>
 
