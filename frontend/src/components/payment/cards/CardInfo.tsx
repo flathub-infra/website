@@ -9,6 +9,7 @@ import amex from "public/img/payment-methods/amex.svg"
 import mastercard from "public/img/payment-methods/mastercard.svg"
 import visa from "public/img/payment-methods/visa.svg"
 import visaDark from "public/img/payment-methods/visa-dark.svg"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface Props {
   card: PaymentCardInfo
@@ -29,12 +30,22 @@ function getBrandImage(brand: string, theme: string): string {
   }
 }
 
-const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
+export const CardInfoSkeleton: FunctionComponent = () => {
+  return (
+    <Skeleton className="grid grid-cols-3 grid-rows-3 shadow-md w-[250px] h-44 min-w-[200px] p-4 rounded-xl bg-flathub-white dark:bg-flathub-arsenic max-w-[300px]" />
+  )
+}
+
+export const CardInfo: FunctionComponent<Props> = ({
+  card,
+  onClick,
+  className,
+}) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
   const classes = [
-    "grid grid-cols-3 grid-rows-3 shadow-md w-[250px] min-w-[200px] p-4 rounded-xl bg-flathub-white dark:bg-flathub-arsenic max-w-[300px]",
+    "grid grid-cols-3 grid-rows-3 shadow-md w-[250px] min-w-[200px] h-44 p-4 rounded-xl bg-flathub-white dark:bg-flathub-arsenic max-w-[300px]",
   ]
   if (onClick) {
     classes.push("hover:cursor-pointer")
@@ -95,5 +106,3 @@ const CardInfo: FunctionComponent<Props> = ({ card, onClick, className }) => {
     </div>
   )
 }
-
-export default CardInfo

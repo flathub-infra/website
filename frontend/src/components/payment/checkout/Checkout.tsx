@@ -11,7 +11,7 @@ import { getWalletinfoWalletWalletinfoGet, Transaction } from "src/codegen"
 enum Stage {
   TermsAgreement,
   CardSelect,
-  CardInput,
+  AmountInput,
 }
 
 const detailsPage = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/payment/details`
@@ -65,7 +65,7 @@ const Checkout: FunctionComponent<{
 
       // User may have no saved cards to select from
       setStage(
-        wallet.data.cards.length > 0 ? Stage.CardSelect : Stage.CardInput,
+        wallet.data.cards.length > 0 ? Stage.CardSelect : Stage.AmountInput,
       )
 
       return wallet
@@ -73,7 +73,7 @@ const Checkout: FunctionComponent<{
     enabled: termsAgreed,
   })
 
-  if (walletQuery.isPending || !transaction) {
+  if (!transaction) {
     return <Spinner size="m" />
   }
 
@@ -97,18 +97,17 @@ const Checkout: FunctionComponent<{
         <CardSelect
           transaction={transaction}
           clientSecret={clientSecret}
-          cards={cards}
-          error={walletQuery.isError ? "failed-to-load-refresh" : null}
+          walletQuery={walletQuery}
           submit={() =>
             router.push(`${detailsPage}/${transactionId}`, undefined, {
               locale: router.locale,
             })
           }
-          skip={() => setStage(Stage.CardInput)}
+          skip={() => setStage(Stage.AmountInput)}
         />
       )
       break
-    case Stage.CardInput:
+    case Stage.AmountInput:
       flowContent = (
         <PaymentForm
           transactionId={transactionId}

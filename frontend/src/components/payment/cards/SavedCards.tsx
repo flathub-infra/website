@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactNode } from "react"
-import Spinner from "../../Spinner"
-import CardInfo from "./CardInfo"
 import DeleteCardButton from "./DeleteCardButton"
 import { getWalletinfoWalletWalletinfoGet } from "src/codegen"
+import { CardInfo, CardInfoSkeleton } from "./CardInfo"
 
 const SavedCards: FunctionComponent = () => {
   const { t } = useTranslation()
@@ -19,7 +18,7 @@ const SavedCards: FunctionComponent = () => {
   })
 
   if (walletQuery.isPending) {
-    return <Spinner size="m" text={t("loading-saved-payment-methods")} />
+    return <CardInfoSkeleton />
   }
 
   let content: ReactNode

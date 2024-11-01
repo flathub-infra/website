@@ -66,10 +66,9 @@ export const Generated = () => {
       <CardSelect
         transaction={transaction}
         clientSecret={clientSecret}
-        cards={cards}
-        error={"error"}
         submit={() => {}}
         skip={() => {}}
+        walletQuery={{ data: { data: { cards } } }}
       />
     </Elements>
   )

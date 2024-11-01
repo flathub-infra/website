@@ -168,7 +168,6 @@
   "kind-purchase": "Purchase",
   "kind-purchase-app": "Purchase {{appName}}",
   "kind-donation-app": "Donate to {{appName}}",
-  "loading-saved-payment-methods": "Loading saved payment methods…",
   "payment": "Payment",
   "make-donation": "Make Donation",
   "no-saved-payment-methods": "No saved payment methods to show.",

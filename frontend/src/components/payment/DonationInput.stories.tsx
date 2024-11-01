@@ -13,6 +13,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    org: "https://www.flathub.org/",
+    org: "Flathub",
   },
 }

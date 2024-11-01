@@ -5,12 +5,9 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { ReactElement } from "react"
 import Breadcrumbs from "../../../src/components/Breadcrumbs"
-import TransactionCancelButton from "../../../src/components/payment/transactions/TransactionCancelButton"
 import TransactionDetails from "../../../src/components/payment/transactions/TransactionDetails"
 import Spinner from "../../../src/components/Spinner"
 import LoginGuard from "../../../src/components/login/LoginGuard"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { useGetTransactionByIdWalletTransactionsTxnGet } from "src/codegen"
 
 export default function TransactionPage() {
@@ -29,37 +26,19 @@ export default function TransactionPage() {
     },
   )
 
-  let content: ReactElement = <Spinner size="l" />
-  if (query.error) {
+  let content: ReactElement
+
+  if (query.isFetching) {
+    content = <Spinner size="l" />
+  } else if (query.isError) {
     content = (
       <>
         <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
         <p>{t(query.error.message)}</p>
       </>
     )
-  } else if (query.data) {
-    const unresolved = ["new", "retry"].includes(query.data.data.summary.status)
-    if (unresolved) {
-      content = (
-        <>
-          <h1 className="my-8 text-4xl font-extrabold">{t("whoops")}</h1>
-          <p>{t("transaction-went-wrong")}</p>
-          <div className="flex gap-3">
-            <TransactionCancelButton
-              id={query.data.data.summary.id}
-              onSuccess={() => router.reload()}
-            />
-            <Button asChild size="lg">
-              <Link href={`/payment/${query.data.data.summary.id}`}>
-                {t("retry-checkout")}
-              </Link>
-            </Button>
-          </div>
-        </>
-      )
-    } else {
-      content = <TransactionDetails transaction={query.data.data} />
-    }
+  } else {
+    content = <TransactionDetails transaction={query.data.data} />
   }
 
   const pages = [

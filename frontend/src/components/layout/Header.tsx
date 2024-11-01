@@ -41,6 +41,11 @@ const navigation = [
 
 let userNavigation = [
   { name: "my-flathub", href: "/my-flathub" },
+  {
+    name: "view-wallet",
+    href: "/wallet",
+    condition: (user: UserInfo) => !IS_PRODUCTION,
+  },
   { name: "developer-portal", href: "/developer-portal" },
   {
     name: "Admin",
@@ -51,10 +56,6 @@ let userNavigation = [
   },
   { name: "settings", href: "/settings" },
 ]
-
-if (!IS_PRODUCTION) {
-  userNavigation.push({ name: "view-wallet", href: "/wallet" })
-}
 
 const MobileMenuButton = ({ open, close, width }) => {
   const { t } = useTranslation()
