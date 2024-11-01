@@ -133,7 +133,7 @@ const PurchaseControls: FunctionComponent<Props> = ({
           {submitPurchaseMutation.isPending && (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           )}
-          {t(isDonationOnly ? "kind-donation" : "kind-purchase")}
+          {t(isDonationOnly ? "action-donate" : "action-purchase")}
         </Button>
       </div>
     </form>
