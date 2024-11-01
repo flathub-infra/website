@@ -3,13 +3,13 @@ import { useTranslation } from "next-i18next"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
-import { useMutation } from "@tanstack/react-query"
-import { AxiosError } from "axios"
+import { useMutation, UseQueryResult } from "@tanstack/react-query"
+import { AxiosError, AxiosResponse } from "axios"
 import {
   setPendingWalletTransactionsTxnSetpendingPost,
   setTransactionCardWalletTransactionsTxnSetcardPost,
 } from "src/codegen"
-import { PaymentCardInfo, Transaction } from "src/codegen/model"
+import { PaymentCardInfo, Transaction, WalletInfo } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { TransactionCancelButtonPrep } from "./Checkout"
@@ -20,7 +20,7 @@ interface Props {
   clientSecret: string
   submit: () => void
   skip: () => void
-  walletQuery: any
+  walletQuery: UseQueryResult<AxiosResponse<WalletInfo, any>, Error>
 }
 
 const CardSelect: FunctionComponent<Props> = ({
