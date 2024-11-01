@@ -89,7 +89,6 @@
   "transaction-summary-type": "Typ: {{type}}",
   "no-apps": "Inga appar att visa.",
   "new-app": "Ny app",
-  "loading-saved-payment-methods": "Laddar sparade betalningsmetoder…",
   "kind-donation": "Donation",
   "direct-upload": "Direktuppladdning",
   "submit": "Skicka in",

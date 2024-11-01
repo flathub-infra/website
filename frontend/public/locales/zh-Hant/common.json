@@ -175,8 +175,6 @@
   "no-transactions": "無交易",
   "retry-checkout": "重試結帳",
   "kind-donation": "捐款",
-  "loading-saved-payment-methods": "正在載入已儲存的付款方法……",
-  "payment-summary": "付款摘要",
   "remove-saved-card": "移除已儲存的卡片",
   "status": "狀態",
   "switch-language": "切換語言",
@@ -610,7 +608,6 @@
   "positions": "款項",
   "type": "類型",
   "position-short": "編號",
-  "receipt": "收據",
   "amount": "金額",
   "total": "總計"
 }

@@ -42,61 +42,228 @@
     "introduction": "<0>Flatpak está instalado por defecto en CentOS 7 y posteriores, cuando se utiliza GNOME. Para empezar, todo lo que necesitas hacer es habilitar Flathub, que es la mejor manera de obtener aplicaciones Flatpak. Solo tiene que descargar e instalar el archivo de repositorio <2>Flathub</2>.</0> <2>¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>!</2>"
   },
   "eurolinux": {
-    "distroName": "EuroLinux"
+    "distroName": "EuroLinux",
+    "introduction": "<0>Flatpak está instalado por defecto en EuroLinux 8 y posteriores, cuando se usa GNOME. Para empezar, todo lo que necesitas hacer es habilitar Flathub, que es la mejor forma de obtener aplicaciones de Flatpak. Solamente descarga e instala el <2>archivo de repositorio de Flatpak</2>.</0><2>Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</2>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<0>Flatpak está instalado por defecto en AlmaLinux 8 y posteriores, cuando se usa GNOME. Para empezar, todo lo que necesitas hacer es habilitar Flathub, que es la mejor forma de obtener aplicaciones de Flatpak. Solamente descarga e instala el <2>archivo de repositorio de Flatpak</2>.</0><2>¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</2>"
   },
   "gentoo": {
-    "distroName": "Gentoo"
+    "distroName": "Gentoo",
+    "step-1": {
+      "text": "<p>Para instalar Flatpak en Gentoo, abre la terminal y ejecuta:</p><2></2>",
+      "name": "Instala Flatpak"
+    },
+    "step-2": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, ejecuta:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Gentoo.</p>"
+    }
   },
   "solus": {
-    "distroName": "Solus"
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Instala Flatpak",
+      "text": "<p>Para instalar Flatpak en Solus, abre la terminal y ejecuta:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak aún no es posible con Solus, pero estará disponible en un futuro cercano.</p>"
+    },
+    "step-2": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
+    }
   },
   "alpine": {
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "step-1": {
+      "text": "<p>Flatpak se puede instalar desde el repositorio de la comunidad. Ejecuta lo siguiente en una terminal:</p> <2></2>",
+      "name": "Instala Flatpak"
+    },
+    "step-2": {
+      "name": "Instala la extensión de software de Flatpak",
+      "text": "<p>Puedes instalar la extensión de Flatpak tanto para GNOME Software (desde la versión 3.13) como para KDE Discover (desde la versión 3.11), haciendo posible instalar aplicaciones sin necesidad de línea de comandos. Para instalarla, para GNOME Software ejecuta:</p> <2></2> <p>Para KDE Discover ejecuta:</p> <6></6>"
+    },
+    "step-3": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
+    },
+    "step-4": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <1>instalar aplicaciones</1>!</0>"
+    }
   },
   "elementary_os": {
-    "distroName": "elementary OS"
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Instala aplicaciones",
+      "text": "<0>elementary OS 5.1 y posteriores nunca viene con soporte para Flatpak fuera de serie. Para aplicaciones no seleccionadas, dirígete a <2>Flathub</2> para instalar cualquier aplicación usando el botón grande \"Instalar\", y abre el archivo descargado `.flatpakref` con Sideload.</0> <p>Nota: Después de instalar una aplicación desde un sitio remoto como Flathub, el resto de aplicaciones de ese sitio remoto también se mostrarán automáticamente en el Centro de Aplicaciones.</p>"
+    }
   },
   "raspberry_pi_os": {
-    "distroName": "Raspberry Pi OS"
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Instala Flatpak",
+      "text": "<p>Está disponible un paquete de Flatpak en Raspberry Pi OS (anteriormente llamado Raspbian) Stretch y posterior. Para instalarlo, ejecuta lo siguiente como root:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<p> Flathub es el mejor lugar para obtener aplicaciones Flatpak . Para habilitarlo, ejecute:</p> <2></2> <4><0>Nota importante:</0> A partir de marzo de 2021, las Raspberry Pi todavía se envían con la versión de 32 bits del sistema operativo Raspberry Pi. Sin embargo, Flathub comenzó a eliminar gradualmente el soporte para esa arquitectura. Si considera que Flathub es una fuente importante de aplicaciones, se recomienda utilizar el sistema operativo Raspberry Pi de 64 bits, ya que es más probable que haya aplicaciones más nuevas disponibles para esa plataforma.</4>"
+    },
+    "step-3": {
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Raspberry Pi OS.</p>",
+      "name": "Reiniciar"
+    }
   },
   "clear_linux": {
-    "distroName": "Clear Linux"
+    "distroName": "Clear Linux",
+    "introduction": "<p> Flatpak está instalado y el repositorio Flathub está preconfigurado de manera predeterminada en Clear Linux al instalar el paquete de escritorio.</p> <2></2> <4>¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</4>"
   },
   "void_linux": {
-    "distroName": "Void Linux"
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Void Linux, ejecute lo siguiente en una terminal:</p><2></2>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p> Flathub es el mejor lugar para obtener aplicaciones Flatpak . Para habilitarlo, ejecute:</p><2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>!</0>"
+    }
   },
   "nixos": {
-    "distroName": "NixOS"
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<0>Para instalar Flatpak , configure la opción <2>services. flatpak .enable</2> de NixOS en <4>true</4> colocando lo siguiente en su <7>/etc/nixos/configuration.nix</7>:</0> <2></2> <p>Luego, reconstruya y cambie a la nueva configuración con:</p> <6></6> <8>Para obtener más detalles, consulte la <2>documentación de NixOS</2>.</8>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p> Flathub es el mejor lugar para obtener aplicaciones Flatpak . Para habilitarlo, ejecute:</p><2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>!</0>"
+    }
   },
   "pardus": {
-    "distroName": "Pardus"
+    "distroName": "Pardus",
+    "step-2": {
+      "name": "Instalar el plugin Flatpak",
+      "text": "<p>Si utiliza GNOME, también es una buena idea instalar el complemento Flatpak para el software de GNOME. Para ello, ejecute:</p><2></2>"
+    },
+    "step-3": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
+    },
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Hay un paquete flatpak disponible en Pardus 2019 y versiones posteriores. Para instalarlo, ejecute lo siguiente como root:</p> <2></2> <4>Para Pardus 2017 y versiones anteriores, hay un paquete flatpak disponible en el <2>repositorio oficial de backports</2>. </4>"
+    }
   },
   "mx_linux": {
-    "distroName": "MX Linux"
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
+    },
+    "step-1": {
+      "name": "Habilitar Flatpak a través del Administrador de software",
+      "text": "<p> El soporte de Flatpak está integrado a partir de MX 18 y versiones posteriores. Solo es necesario activar el repositorio Flathub siguiendo estas instrucciones:</p> <2>Abre el <strong>Instalador de paquetes MX</strong> (abre el menú y busca en Herramientas MX), selecciona la pestaña \"Flatpaks\", para activar el repositorio deberás ingresar la contraseña de root.</2>"
+    }
   },
   "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux"
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Hay un paquete flatpak disponible en Pisi 2.1 y versiones posteriores. Para instalarlo, ejecute lo siguiente como root:</p><2></2>"
+    },
+    "step-2": {
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>",
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>.</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak puede no ser posible con Pisi GNU/Linux.</p>"
+    }
   },
   "endeavouros": {
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en EndeavourOS, primero debes asegurarte de que tu instalación esté actualizada, ejecuta lo siguiente en una terminal:</p> <2></2> <p>Luego instala Flatpak :</p> <6></6>"
+    },
+    "step-2": {
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>",
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. Ahora, todo lo que tiene que hacer es <2>instalar aplicaciones</2>.</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak puede no ser posible con EndeavourOS.</p>"
+    }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "step-1": {
+      "name": "Activar Flatpak",
+      "text": "Abre Discover y haz clic en Configuración (esquina inferior izquierda)."
+    },
+    "step-2": {
+      "name": "Comprobar la configuración de Flatpak",
+      "text": "<p>Compruebe que en la sección Flatpak la casilla está marcada. </p><p>Nota: con esta búsqueda de la aplicación Flathub se integrará en Discover, si desea limitar la búsqueda de la aplicación a Flathub puede marcar Flatpak como predeterminado haciendo clic en la estrella. </p>"
+    },
+    "introduction": "<0> El soporte de Flatpak está integrado en KDE neon 19 y versiones posteriores, ¡no requiere configuración!</0> <p>Si está utilizando una versión anterior, puede consultar las instrucciones a continuación.</p>"
   },
   "gnu_guix": {
-    "distroName": "GNU Guix"
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en GNU Guix, ejecute lo siguiente en un terminal:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak puede no ser posible con GNU Guix.</p>"
+    }
   },
   "crystal_linux": {
-    "distroName": "Crystal Linux"
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Crystal Linux, primero debe asegurarse de que sus paquetes estén actualizados. Ejecute lo siguiente en un terminal:</p> <2></2> <p>Luego instale Flatpak:</p> <6></6>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
+    },
+    "introduction": "<0>Flatpak está instalado por defecto en Crystal Linux.</0> <p>Si no usaste jade_gui para instalar Crystal o seleccionaste no instalarlo, puedes configurar Flatpak siguiendo los pasos a continuación. </p>"
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<0>Flatpak está instalado por defecto en el sistema operativo Vanilla.</0> <2>Puede utilizar la aplicación de software o buscar <2>Flathub</2> para instalar aplicaciones. </2> <p>Si por alguna razón Flathub no está disponible, puede configurarlo manualmente usando el siguiente comando:</p> <6></6>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<0> Flatpak está instalado de manera predeterminada en Salix desde la versión 15.0, ¡no requiere configuración!</0> <p> Flatpak viene preconfigurado con el repositorio Flathub y se incluyen herramientas de integración de escritorio para permitir la instalación con un solo clic desde Flathub .</p> <4>¡Todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</4>"
   },
   "fedora": {
     "distroName": "Fedora",
@@ -107,7 +274,23 @@
     "introduction": "<0>Flatpak soporte está construido en Endless OS 3.0.0 y más reciente-no hay configuración requerida! </0> <2>Si está usando una versión anterior, <2>actualice a Endless OS 3</2>. </2>"
   },
   "kubuntu": {
-    "distroName": "Kubuntu"
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Instala Flatpak",
+      "text": "<p>Para instalar Flatpak en Kubuntu abre Discover, ve a Preferencias, instala el backend de Flatpak y reinicia Discover.</p>"
+    },
+    "step-2": {
+      "name": "Instala el complemento de configuración de sistema de Flatpak",
+      "text": "<p>Para integrar el soporte de Flatpak en la Configuración de Sistema de Plasma, abre la terminal y ejecuta:</p><2></2>"
+    },
+    "step-3": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo abre Discover, ve a Preferencias y añade el repositorio de Flathub.</p>"
+    },
+    "step-4": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0>"
+    }
   },
   "ubuntu": {
     "distroName": "Ubuntu",
@@ -140,7 +323,19 @@
     }
   },
   "mageia": {
-    "distroName": "Mageia"
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Instala Flatpak",
+      "text": "<p>Está disponible un paquete de Flatpak para Mageia 6 o superiores. Para instalarlo con DNF, ejecuta lo siguiente como root:</p> <2></2> <4>O para instalarlo con <1>urpmi</1>, ejecuta:</4> <6></6>"
+    },
+    "step-3": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Mageia.</p>"
+    },
+    "step-2": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
+    }
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -201,7 +396,20 @@
     }
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "introduction": "<0>El soporte de Flatpak está construido en Pop!_OS 20.04 y posteriores—¡no se requiere configuración!</0> <p>Si estás usando una versión anterior, puedes consultar las instrucciones debajo.</p>",
+    "step-1": {
+      "name": "Instala Flatpak",
+      "text": "<p>Para instalar Flatpak en Pop!_OS 19.10 y anteriores, abre la terminal y ejecuta:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Añade el repositorio de Flathub",
+      "text": "<0>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <2>archivo de repositorio de Flathub</2> o ejecuta lo siguiente en una terminal:</0> <2></2>"
+    },
+    "step-3": {
+      "name": "Reinicia",
+      "text": "<0>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</0> <p>Nota: la instalación gráfica de aplicaciones de Flatpak podría no ser posible con Pop!_OS 19.10 y anteriores.</p>"
+    }
   },
   "arch": {
     "distroName": "Arch",
@@ -215,21 +423,68 @@
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<0>El soporte de Flatpak está construido en OpenMandriva para todas las versiones soportadas de forma activa, comenzando desde el lanzamiento estable/corregido 'Rock 5.0', pasando por el lanzamiento de desarrollo 'Cooker', y finalizando con el lanzamiento progresivo 'ROME'.</0> <p> Flatpak viene con el repositorio de Flathub preconfigurado.</p>"
   },
   "turkman_linux": {
-    "distroName": "Turkman Linux"
+    "distroName": "Turkman Linux",
+    "step-2": {
+      "name": "Activar servicios",
+      "text": "<p>Para activar servicios en Turkman Linux, ejecute lo siguiente en una terminal:</p> <2></2>"
+    },
+    "step-3": {
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>",
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-4": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la instalación, reinicie el sistema. Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>.</0> <p>Nota: la instalación gráfica de aplicaciones Flatpak puede no ser posible con Turkman Linux.</p>"
+    },
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Turkman Linux, ejecute lo siguiente en una terminal:</p> <p>Método Emerge</p> <4></4> <p>Sin método Emerge</p> <8></8>"
+    }
   },
   "ataraxia_linux": {
-    "distroName": "Ataraxia Linux"
+    "distroName": "Ataraxia Linux",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Ataraxia Linux, ejecute lo siguiente en una terminal:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
+    },
+    "step-2": {
+      "name": "Añadir el repositorio Flathub",
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>"
+    }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<0> Flatpak se instala de forma predeterminada en PureOS. Para comenzar, todo lo que necesitas hacer es habilitar Flathub , que es la mejor manera de obtener aplicaciones de Flatpak . Simplemente descarga e instala el <2> archivo de repositorio de Flathub </2>.</0> <2>¡Ahora todo lo que tienes que hacer es <2>instalar aplicaciones</2>!</2>"
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<0> El soporte de Flatpak está integrado en Zorin OS</0> <p>Puedes usar la aplicación Software Store para descargar aplicaciones Flatpak .</p>"
   },
   "deepin": {
-    "distroName": "Deepin"
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<p>Para instalar Flatpak en Deepin, ejecute lo siguiente en una terminal:</p> <2></2>"
+    },
+    "step-2": {
+      "text": "<p>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para activarlo, ejecute:</p> <2></2>",
+      "name": "Añadir el repositorio Flathub"
+    },
+    "step-3": {
+      "text": "<p>Para instalar temas claros y oscuros, ejecute:</p><2></2>",
+      "name": "Instalar los temas de Deepin"
+    },
+    "step-4": {
+      "name": "Reiniciar",
+      "text": "<0>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <2>instalar aplicaciones</2>! </0>"
+    }
   }
 }

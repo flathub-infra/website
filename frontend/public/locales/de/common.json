@@ -104,7 +104,6 @@
   "confirm-selection": "Auswahl bestätigen",
   "kind-donation": "Spende",
   "kind-purchase": "Kauf",
-  "loading-saved-payment-methods": "Gespeicherte Zahlungsmittel werden geladen…",
   "status": "Status",
   "status-cancelled": "Abgebrochen",
   "less": "Weniger",
@@ -140,7 +139,6 @@
   "view-wallet": "Wallet anschauen",
   "checkout": "Zur Kasse gehen",
   "select-donation-amount": "Wähle eine Spendensumme aus",
-  "payment-summary": "Zahlungsübersicht",
   "stripe-error-incorrect_cvc": "Der Sicherheitscode der Karte ist falsch. Überprüfe den Sicherheitscode oder verwende eine andere Karte.",
   "stripe-validation-error": "Ein ungültiges Kartendetail wurde eingegeben.",
   "stripe-error-incorrect_number": "Die Kartennummer stimmt nicht. Überprüfe die Kartennummer oder verwende eine andere Karte.",
@@ -611,7 +609,7 @@
   "positions": "Positionen",
   "position-short": "Pos.",
   "type": "Typ",
-  "receipt": "Beleg",
   "amount": "Betrag",
-  "total": "Summe"
+  "total": "Summe",
+  "created": "Erstellt"
 }
