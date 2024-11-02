@@ -611,7 +611,5 @@
   "amount": "Сумма",
   "total": "Итого",
   "positions": "Позиции",
-  "type": "Тип",
-  "recipient": "Получатель",
-  "created": "Создано"
+  "type": "Тип"
 }
