@@ -611,5 +611,8 @@
   "amount": "Сумма",
   "total": "Итого",
   "positions": "Позиции",
-  "type": "Тип"
+  "type": "Тип",
+  "recipient": "Получатель",
+  "created": "Создано",
+  "action-donate": "Пожертвовать"
 }
