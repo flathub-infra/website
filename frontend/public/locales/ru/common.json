@@ -97,7 +97,6 @@
   "languages-description": "Выберите язык, чтобы переключиться на него:",
   "switch-language": "Переключить язык",
   "languages-summary": "Выберите язык, на котором вы хотите видеть сайт.",
-  "loading-saved-payment-methods": "Загрузка сохранённых способов оплаты…",
   "safe-to-close-page": "Эту страницу можно закрыть.",
   "thank-you-for-your-purchase": "Спасибо за покупку!",
   "make-donation": "Сделать пожертвование",
@@ -164,7 +163,6 @@
   "transaction-summary": "Сводка транзакции",
   "transaction-summary-type": "Тип:",
   "stripe-api-error": "Произошла ошибка со Stripe API. Попробуйте позже.",
-  "payment-summary": "Сводка платежа",
   "stripe-declined-generic_decline": "Карта была отклонена по неизвестной причине.",
   "stripe-declined-insufficient_funds": "На карте недостаточно средств.",
   "stripe-error-payment_intent_authentication_failure": "Не удалось аутентифицировать ваш метод оплаты. Пожалуйста, используйте другой метод оплаты и повторите попытку.",
@@ -610,9 +608,11 @@
   "flathub": "Flathub",
   "mastodon": "Mastodon",
   "position-short": "Поз.",
-  "receipt": "Квитанция",
   "amount": "Сумма",
   "total": "Итого",
   "positions": "Позиции",
-  "type": "Тип"
+  "type": "Тип",
+  "recipient": "Получатель",
+  "created": "Создано",
+  "action-donate": "Пожертвовать"
 }

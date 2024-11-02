@@ -118,7 +118,6 @@
   "vcs_browser": "Sfoglia il codice sorgente",
   "entry-confirmation-prompt": "Inserisci \"{{text}}\" per continuare.",
   "transaction-summary-type": "Tipo:",
-  "loading-saved-payment-methods": "Caricamento metodi di pagamento salvati…",
   "kind-purchase": "Acquista",
   "make-donation": "Fai una Donazione",
   "no-saved-payment-methods": "Nessun metodo di pagamento salvato da mostrare.",
@@ -144,7 +143,6 @@
   "rss-description": "Iscriviti ai feed RSS di Flathub",
   "confirm-selection": "Conferma Selezione",
   "stripe-error-processing_error": "Si è verificato un errore durante l'elaborazione della carta. Prova più tardi o con un altro metodo di pagamento.",
-  "payment-summary": "Riepilogo pagamento",
   "remove-saved-card": "Rimuovi Carta Salvata",
   "saved-cards": "Carte Salvate",
   "transaction-summary": "Riepilogo Transazione",
@@ -612,7 +610,6 @@
   "positions": "Posizioni",
   "position-short": "Pos.",
   "type": "Tipo",
-  "receipt": "Ricevuta",
   "amount": "Importo",
   "total": "Totale"
 }

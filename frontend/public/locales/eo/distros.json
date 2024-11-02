@@ -1,1 +1,426 @@
-{}
+{
+  "manjaro": {
+    "step-2": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "Manjaro"
+  },
+  "ubuntu": {
+    "step-3": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instali Flatpak"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<0>Versioj de Endless OS ne malpli novaj ol 3.0.0 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Endless OS 3</2>.</2>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur mastrumaj sistemoj de la familio Alt, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian aparaton. Nun vi povas <1>instali programojn</1>!</0>"
+    }
+  },
+  "chrome_os": {
+    "step-1": {
+      "name": "Ŝalti subtenon por Linux"
+    },
+    "step-2": {
+      "name": "Lanĉi Linux-terminalon"
+    },
+    "step-4": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Instali Flatpak"
+    },
+    "distroName": "ChromeOS",
+    "step-5": {
+      "name": "Restartigi"
+    }
+  },
+  "opensuse": {
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "distroName": "openSUSE"
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Arch, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    }
+  },
+  "debian": {
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "step-3": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    },
+    "distroName": "Debiano"
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    }
+  },
+  "kubuntu": {
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "Kubuntu",
+    "step-3": {
+      "name": "Aldoni la deponejon Flathub"
+    }
+  },
+  "solus": {
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Solus, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ankoraŭ ne eblas ĉe Solus, sed tio eblos baldaŭ.</p>"
+    },
+    "distroName": "Solus",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    }
+  },
+  "alpine": {
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Flatpak estas instalebla per la komunuma deponejo. Rulu la jenon en terminalo:</p> <2></2>"
+    },
+    "distroName": "Alpine",
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <1>instali programojn</1>!</0>"
+    },
+    "step-3": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    }
+  },
+  "gentoo": {
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Gentoo, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Gentoo.</p>"
+    },
+    "distroName": "Gentoo"
+  },
+  "mageia": {
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Mageia.</p>"
+    },
+    "distroName": "Mageia",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    }
+  },
+  "pop_os": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe versioj de Pop!_OS ne pli novaj ol 19.10.</p>"
+    },
+    "distroName": "Pop!_OS",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur versioj de Pop!_OS ne pli novaj ol 19.10, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    }
+  },
+  "raspberry_pi_os": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Raspberry Pi OS.</p>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub"
+    },
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Instali Flatpak"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "void_linux": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Void Linux, rulu la jenon en terminalo:</p> <2></2>"
+    },
+    "distroName": "Void Linux"
+  },
+  "nixos": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "NixOS",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak"
+    }
+  },
+  "turkman_linux": {
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Turkman Linux.</p>"
+    },
+    "distroName": "Turkman Linux",
+    "step-3": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Turkman Linux, rulu la jenon en terminalo:</p> <p>Uzante Emerge</p> <4></4> <p>Ne uzante Emerge</p> <8></8>"
+    },
+    "step-2": {
+      "name": "Ŝalti servojn",
+      "text": "<p>Por ŝalti servojn sur Turkman Linux, rulu la jenon en terminalo:</p> <2></2>"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "ataraxia_linux": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Ataraxia Linux, rulu la jenon en terminalo:</p> <2></2>"
+    },
+    "distroName": "Ataraxia Linux"
+  },
+  "deepin": {
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "Deepin",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Instali la Deepin-etosojn",
+      "text": "<p>Por instali la helan kaj la malhelan etosojn, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Deepin, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-4": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-3": {
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>",
+      "name": "Aldoni la deponejon Flathub"
+    }
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "mx_linux": {
+    "step-2": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "MX Linux"
+  },
+  "pisi_gnulinux": {
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Pisi GNU/Linux.</p>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "distroName": "Pisi GNU/Linux"
+  },
+  "endeavouros": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe EndeavourOS.</p>"
+    },
+    "distroName": "EndeavourOS",
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak"
+    }
+  },
+  "gnu_guix": {
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe GNU Guix.</p>"
+    },
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur GNU Guix, rulu la jenon en terminalo:</p> <2></2>"
+    },
+    "distroName": "GNU Guix"
+  },
+  "kde_neon": {
+    "step-1": {
+      "name": "Ŝalti Flatpak"
+    },
+    "distroName": "KDE neon",
+    "step-2": {
+      "name": "Kontroli agordojn pri Flatpak"
+    }
+  },
+  "salix": {
+    "distroName": "Salix"
+  },
+  "crystal_linux": {
+    "step-2": {
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Instali Flatpak"
+    },
+    "step-3": {
+      "name": "Restartigi",
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+    },
+    "distroName": "Crystal Linux"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "eurolinux": {
+    "distroName": "EuroLinux"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<0>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Linux Mint 18.3</2>.</2>"
+  },
+  "centos": {
+    "distroName": "CentOS"
+  },
+  "clear_linux": {
+    "distroName": "Clear Linux",
+    "introduction": "<p>Flatpak estas instalita, kaj la deponejo Flathub estas aŭtomate agordita ĉe Clear Linux dum instalado de la labortabla medio.</p> <2></2> <4>Vi pretas <2>instali programojn</2>!</4>"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Install programojn"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  }
+}
