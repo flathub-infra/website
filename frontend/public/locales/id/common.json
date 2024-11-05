@@ -601,5 +601,25 @@
   "special-license": "Lisensi Khusus",
   "special-license-explanation": "Aplikasi ini dikembangkan di bawah lisensi khusus <1>{{ license }}</1>.",
   "you-may-or-may-not-be-able-to-contribute": "Anda mungkin dapat atau tidak dapat berkontribusi pada aplikasi ini.",
-  "press": "Pers"
+  "press": "Pers",
+  "flathub": "",
+  "mastodon": "",
+  "position-short": "",
+  "total": "",
+  "amount": "",
+  "positions": "",
+  "type": "",
+  "kind-purchase-app": "",
+  "platform": {
+    "org-kde-platform": "",
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": ""
+  },
+  "kind-donate-app": "",
+  "recipient": "",
+  "created": "",
+  "action-donate": "",
+  "action-purchase": "",
+  "zoom": "",
+  "flathub-logo": ""
 }
