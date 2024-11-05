@@ -42,6 +42,20 @@
         <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png</image>
         <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-5d288daae5069cde2ffe86ab4a9285a7.png</image>
       </screenshot>
+      <screenshot environment="windows">
+        <image type="source" height="500" width="800">https://i.imgur.com/xyz.png</image>
+        <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-29ac855438b134cd6dac78c8c02cfb6c.png</image>
+        <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-29ac855438b134cd6dac78c8c02cfb6c.png</image>
+        <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-29ac855438b134cd6dac78c8c02cfb6c.png</image>
+        <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-29ac855438b134cd6dac78c8c02cfb6c.png</image>
+      </screenshot>
+      <screenshot environment="macos">
+        <image type="source" height="500" width="800">https://i.imgur.com/abc.png</image>
+        <image type="thumbnail" height="351" width="624">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/624x351/org.sugarlabs.Maze-0bee89b07a248e27c83fc3d5951213c1.png</image>
+        <image type="thumbnail" height="63" width="112">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/112x63/org.sugarlabs.Maze-0bee89b07a248e27c83fc3d5951213c1.png</image>
+        <image type="thumbnail" height="126" width="224">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/224x126/org.sugarlabs.Maze-0bee89b07a248e27c83fc3d5951213c1.png</image>
+        <image type="thumbnail" height="423" width="752">https://dl.flathub.org/repo/screenshots/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-0bee89b07a248e27c83fc3d5951213c1.png</image>
+      </screenshot>
     </screenshots>
     <content_rating type="oars-1.1"/>
     <releases>
