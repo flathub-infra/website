@@ -613,5 +613,15 @@
   "total": "Total",
   "position-short": "Pos.",
   "recipient": "Destinatario",
-  "created": "Creado"
+  "created": "Creado",
+  "kind-purchase-app": "Comprar {{appName}}",
+  "action-donate": "Donar",
+  "platform": {
+    "org-kde-platform": "KDE Platform",
+    "org-gnome-platform": "GNOME Platform",
+    "org-freedesktop-platform": "Freedesktop Platform"
+  },
+  "action-purchase": "Comprar",
+  "kind-donate-app": "Donar a {{appName}}",
+  "zoom": "Ampliar"
 }

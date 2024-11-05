@@ -31,7 +31,7 @@
   "networking": "Мрежа",
   "productivity": "Офис",
   "utilities": "Разни",
-  "donate-to": "Дарение за „{{project}}“",
+  "donate-to": "Допринесете за „{{project}}“",
   "screenshot": "Снимка",
   "loading": "Зареждане…",
   "kind-donation": "Дарение",
@@ -131,7 +131,7 @@
   "languages-summary": "Изберете езика на уебсайта.",
   "switch-language": "Смяна на езика",
   "expiry": "Изтича",
-  "kind-purchase": "Закупуване",
+  "kind-purchase": "Купуване",
   "confirm-selection": "Потвърждаване на избора",
   "checkout": "Отчитане",
   "payment": "Плащане",
@@ -152,7 +152,7 @@
   "vending-dashboard": "Към вашия профил в „Stripe Express“",
   "account-deletion-token-mismatch": "Удостоверяването на заявката за изтриване на профила е неуспешно.",
   "badge-copyright": "<2>Jakub Steiner</2> се отказва от всичките авторски права, свързани с <5>значките на „Flathub“</5>. Публикувани от Чехия.",
-  "purchase-apps-title": "Закупуване на приложения",
+  "purchase-apps-title": "Купуване на приложения",
   "thank-you-for-your-purchase": "Благодарим ви за покупката!",
   "request-new-app": "Ако търсите приложение, което не е налично във „Flathub“, натиснете <1>тук<1>.",
   "purchase-terms-confirmation": "Прочетох Общите условия на „Flathub“ и се съгласявам да се откажа от изчакването на 14-дневния срок, свързан с това изтегляне.",
@@ -612,5 +612,15 @@
   "total": "Общо",
   "amount": "Сума",
   "recipient": "Получател",
-  "created": "Създадено"
+  "created": "Създадено",
+  "zoom": "Мащабиране",
+  "platform": {
+    "org-gnome-platform": "Платформа на „GNOME“",
+    "org-freedesktop-platform": "Платформа на „Freedesktop“",
+    "org-kde-platform": "Платформа на „KDE“"
+  },
+  "action-donate": "Допринесете",
+  "kind-purchase-app": "Купете „{{appName}}“",
+  "action-purchase": "Купете",
+  "kind-donate-app": "Допринесете за „{{appName}}“"
 }

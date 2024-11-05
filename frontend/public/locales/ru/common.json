@@ -614,5 +614,14 @@
   "type": "Тип",
   "recipient": "Получатель",
   "created": "Создано",
-  "action-donate": "Пожертвовать"
+  "action-donate": "Пожертвовать",
+  "kind-donate-app": "Пожертвовать для {{appName}}",
+  "platform": {
+    "org-gnome-platform": "Платформа GNOME",
+    "org-freedesktop-platform": "Платформа Freedesktop",
+    "org-kde-platform": "Платформа KDE"
+  },
+  "action-purchase": "Купить",
+  "kind-purchase-app": "Купить {{appName}}",
+  "zoom": "Масштаб"
 }
