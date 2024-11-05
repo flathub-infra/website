@@ -2,14 +2,19 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<0>Paigaldamaks Flatpakki <strong>Ubuntu versioonis 18.10 (Cosmic Cuttlefish) või hilisemas</strong>, ava terminalirakendus ja käivita:</0> <2></2> <4>Vanemate versioonide puhul <strong>kuni Ubuntu versioonini 18.04 LTS (Bionic Beaver)</strong>, ametlik Flatpaki PPA on vajalik Flatpaki paigaldamiseks ja uuendamiseks. PPA lisamiseks ja Flatpaki paigaldamiseks, ava terminalirakendus ja käivita:</4> <6></6>"
     },
     "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
+    },
+    "step-2": {
+      "name": "Paigalda GNOME Tarkvara Flatpaki plugin"
     }
   },
   "fedora": {
@@ -23,7 +28,8 @@
     }
   },
   "endless_os": {
-    "distroName": "Endless OS"
+    "distroName": "Endless OS",
+    "introduction": "<0>Flatpaki tugi on olemas alates Endless OSi versioonist 3.0.0 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis <2>uuenda Endless OS versioonini 3</2>.</p>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -44,7 +50,8 @@
       "name": "Paigalda Flatpak"
     },
     "step-4": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     },
     "step-5": {
       "name": "Käivita arvuti uuesti",
@@ -55,7 +62,8 @@
     "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<0>Flatpaki tugi on olemas alates Linux Minti versioonist 18.3 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis <2>uuenda Linux Mint versioonini 18.3</2>.</p>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -67,7 +75,8 @@
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
     },
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     }
   },
   "arch": {
@@ -82,30 +91,10 @@
     }
   },
   "debian": {
-    "distroName": "Debian",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
+    "distroName": "Debian"
   },
   "rocky_linux": {
-    "distroName": "Rocky Linux",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    }
+    "distroName": "Rocky Linux"
   },
   "centos": {
     "distroName": "CentOS"
@@ -117,83 +106,25 @@
     "distroName": "AlmaLinux"
   },
   "gentoo": {
-    "distroName": "Gentoo",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Gentoo puhul toimida.</p>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    }
+    "distroName": "Gentoo"
   },
   "kubuntu": {
-    "distroName": "Kubuntu",
-    "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    }
+    "distroName": "Kubuntu"
   },
   "solus": {
-    "distroName": "Solus",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti"
-    }
+    "distroName": "Solus"
   },
   "alpine": {
-    "distroName": "Alpine",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <1>hakka rakendusi paigaldama</1>!</0>"
-    }
+    "distroName": "Alpine"
   },
   "mageia": {
-    "distroName": "Mageia",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Mageia puhul toimida.</p>"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "Mageia"
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti"
-    }
+    "distroName": "Pop!_OS"
   },
   "elementary_os": {
     "distroName": "elementary OS"
@@ -214,87 +145,28 @@
     "distroName": "Clear Linux"
   },
   "void_linux": {
-    "distroName": "Void Linux",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
+    "distroName": "Void Linux"
   },
   "nixos": {
-    "distroName": "NixOS",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    }
+    "distroName": "NixOS"
   },
   "pureos": {
     "distroName": "PureOS"
   },
   "turkman_linux": {
-    "distroName": "Turkman Linux",
-    "step-4": {
-      "name": "Käivita arvuti uuesti"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "Turkman Linux"
   },
   "ataraxia_linux": {
-    "distroName": "Ataraxia Linux",
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
+    "distroName": "Ataraxia Linux"
   },
   "zorin_os": {
     "distroName": "Zorin OS"
   },
   "deepin": {
-    "distroName": "Deepin",
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "Deepin"
   },
   "pardus": {
-    "distroName": "Pardus",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-4": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    },
-    "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "Pardus"
   },
   "mx_linux": {
     "distroName": "MX Linux",
@@ -304,58 +176,20 @@
     }
   },
   "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux",
-    "step-3": {
-      "name": "Käivita arvuti uuesti"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "Pisi GNU/Linux"
   },
   "endeavouros": {
-    "distroName": "EndeavourOS",
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi EndeavourOSi puhul toimida.</p>"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "EndeavourOS"
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
   },
   "gnu_guix": {
-    "distroName": "GNU Guix",
-    "step-3": {
-      "name": "Käivita arvuti uuesti"
-    },
-    "step-1": {
-      "name": "Paigalda Flatpak"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    }
+    "distroName": "GNU Guix"
   },
   "crystal_linux": {
-    "distroName": "Crystal Linux",
-    "step-1": {
-      "name": "Paigalda Flatpak",
-      "text": "<p>Paigaldamaks Flatpaki Crystal Linuxis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</p> <2></2> <p>Seejärel paigalda Flatpak:</p> <6></6>"
-    },
-    "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
-    },
-    "step-3": {
-      "name": "Käivita arvuti uuesti",
-      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
-    }
+    "distroName": "Crystal Linux"
   },
   "vanilla_os": {
     "distroName": "Vanilla OS"

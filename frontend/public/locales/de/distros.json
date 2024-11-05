@@ -3,7 +3,7 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<0>Um Flatpak auf <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder später </strong> zu installieren, öffne die Terminal-App und führe aus:</0> <2>/2> <4>Für ältere Versionen <strong> bis zu Ubuntu 18.04 LTS (Bionic Beaver)>/strong> ist die offizielle Flatpak PPA erforderlich, um Flatpak zu installieren und um die PPA hinzuzufügen und Flatpak zu installieren, öffne die Terminal-App und führe aus:</4 <6>/6>"
+      "text": "<0>Um Flatpak auf <strong>Ubuntu 18.10 (Cosmic Cuttlefish) oder später </strong> zu installieren, öffne die Terminal-App und führe aus:</0> <2></2> <4>Für ältere Versionen <strong> bis zu Ubuntu 18.04 LTS (Bionic Beaver)</strong> ist die offizielle Flatpak PPA erforderlich, um Flatpak zu installieren und um die PPA hinzuzufügen und Flatpak zu installieren, öffne die Terminal-App und führe aus:</4> <6></6>"
     },
     "step-4": {
       "name": "Neustart",
@@ -11,16 +11,16 @@
     },
     "step-2": {
       "name": "GNOME Software Flatpak Plugin installieren",
-      "text": "<p> Das GNOME Software-Plugin ermöglicht es, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation, ausführen:</p> <2>/2> <4><strong>Anmerkung:</strong> Ubuntu liefert GNOME Software als Snap in den Versionen 20.04 bis 23.04 und ersetzt es durch App Center in 23.10 und neuer – beide Unterstützen Flatpak Apps nicht. Bei der Installation des Flatpak Plugins wird auch eine Deb-Version von GNOME Software installieren, wodurch zwei \"Software\" Apps gleichzeitig auf Ubuntu 20.04 bis 23.04 installiert werden, und eine einzige neue \"Software\" App auf Ubuntu 23.10 und neuer.</4>"
+      "text": "<p> Das GNOME Software-Plugin ermöglicht es, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation, ausführen:</p> <2></2> <4><strong>Anmerkung:</strong> Ubuntu liefert GNOME Software als Snap in den Versionen 20.04 bis 23.04 und ersetzt es durch App Center in 23.10 und neuer – beide Unterstützen Flatpak Apps nicht. Bei der Installation des Flatpak Plugins wird auch eine Deb-Version von GNOME Software installieren, wodurch zwei \"Software\" Apps gleichzeitig auf Ubuntu 20.04 bis 23.04 installiert werden, und eine einzige neue \"Software\" App auf Ubuntu 23.10 und neuer.</4>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<0>Flatpak wird standardmäßig auf Fedora Workstation, Fedora Silverblue und Fedora Kinoite installiert. Alles, was du tun musst, ist Flathub zu aktivieren, was der beste Weg ist, um Flatpak Apps zu bekommen. Flathub ist als Teil der <2>Third-Party Repositories</2> vorkonfiguriert. Alternativ kannst du die <5>Flathub-Repository-Datei>/5>.</0> herunterladen und installieren <2>Nun musst du nur noch <2>apps installieren</2>!</2> <p>Der oben genannte Link sollten mit den Standard GNOME- und KDE Fedora-Installationen funktionieren, aber wenn dies aus irgendeinem Grund nicht klappt, kannst du die Flathub-Remote manuell hinzufügen:</p> <6>/6>"
+    "introduction": "<0>Flatpak wird standardmäßig auf Fedora Workstation, Fedora Silverblue und Fedora Kinoite installiert. Alles, was du tun musst, ist Flathub zu aktivieren, was der beste Weg ist, um Flatpak Apps zu bekommen. Flathub ist als Teil der <2>Third-Party Repositories</2> vorkonfiguriert. Alternativ kannst du die <5>Flathub-Repository-Datei</5>.</0> herunterladen und installieren <2>Nun musst du nur noch <2>apps installieren</2>!</2> <p>Der oben genannte Link sollten mit den Standard GNOME- und KDE Fedora-Installationen funktionieren, aber wenn dies aus irgendeinem Grund nicht klappt, kannst du die Flathub-Remote manuell hinzufügen:</p> <6></6>"
   },
   "manjaro": {
     "distroName": "Manjaro",
@@ -41,7 +41,7 @@
     "distroName": "ALT Linux",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Betriebssystemen der Alt-Familie zu installieren, öffnest du die Terminal-App und führst aus:</p> <2>/2>"
+      "text": "<p>Um Flatpak auf Betriebssystemen der Alt-Familie zu installieren, öffnest du die Terminal-App und führst aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Neustart",
@@ -60,11 +60,11 @@
     },
     "step-3": {
       "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak zu installieren, führe folgendes im Terminal aus:</p> <2>/2> <4>Ein aktuelleres Flatpak-Paket ist im <2>Debian backports repository</2> verfügbar. </4>"
+      "text": "<p>Um Flatpak zu installieren, führe folgendes im Terminal aus:</p> <2></2> <4>Ein aktuelleres Flatpak-Paket ist im <2>Debian backports repository</2> verfügbar. </4>"
     },
     "step-4": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Starte ein Linux-Terminal",
@@ -80,7 +80,8 @@
     "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<0>Flatpak wird in Linux Mint 18.3 und neuer unterstützung – kein Setup erforderlich!</0> <2>Wenn du eine ältere Version verwendest, <2>upgrade zu Linux Mint 18.3</2>.</2>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -93,14 +94,14 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "arch": {
     "distroName": "Arch",
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Arch zu installieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
+      "text": "<p>Um Flatpak auf Arch zu installieren, öffne die Terminal-App und führe aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Neustart",
@@ -110,14 +111,15 @@
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Ein Flatpak Paket ist in Debian 10 (Buster) und neuer verfügbar. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Installier das Software Flatpak Plugin"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     },
     "step-4": {
       "name": "Neustart",
@@ -135,7 +137,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     }
   },
   "centos": {
@@ -154,12 +156,11 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Gentoo nicht möglich sein.</p>"
     },
     "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Gentoo zu installieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
+      "name": "Flatpak installieren"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "kubuntu": {
@@ -173,8 +174,7 @@
       "text": "<p> Um Flatpak auf Kubuntu zu installieren, Öffne Discover, gehe auf Einstellungen, installiere das Flatpak Backend und starte Discover neu.</p>"
     },
     "step-2": {
-      "name": "Installier das Flatpak-Systemeinstellungs Addon",
-      "text": "<p> Um die Flatpak-Unterstützung in die Plasma-Systemeinstellungen zu integrieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
+      "name": "Installier das Flatpak-Systemeinstellungs Addon"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -184,8 +184,7 @@
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Um Flatpak auf Solus zu installieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
+      "name": "Flatpak installieren"
     },
     "step-3": {
       "name": "Neustart",
@@ -193,7 +192,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     }
   },
   "alpine": {
@@ -206,19 +205,18 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <1>Apps installieren</1>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren",
-      "text": "<p>Flatpak kann aus dem Community-Repository installiert werden. Führe Folgendes in einem Terminal aus:</p> <2>/2>"
+      "name": "Flatpak installieren"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     }
   },
   "mageia": {
     "distroName": "Mageia",
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     },
     "step-3": {
       "name": "Neustart",
@@ -239,7 +237,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2>/2>"
+      "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     },
     "step-1": {
       "name": "Flatpak installieren"
@@ -278,14 +276,14 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "nixos": {
     "distroName": "NixOS",
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Neustart",
@@ -308,7 +306,7 @@
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     },
     "step-4": {
       "name": "Neustart",
@@ -326,7 +324,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "zorin_os": {
@@ -346,7 +344,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "pardus": {
@@ -363,7 +361,7 @@
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "mx_linux": {
@@ -387,7 +385,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "endeavouros": {
@@ -401,7 +399,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "kde_neon": {
@@ -420,7 +418,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Neustart",
@@ -438,7 +436,7 @@
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2>/2>"
+      "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
     }
   },
   "vanilla_os": {
