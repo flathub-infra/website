@@ -611,5 +611,17 @@
   "position-short": "Pos.",
   "type": "Tipo",
   "amount": "Importo",
-  "total": "Totale"
+  "total": "Totale",
+  "created": "",
+  "platform": {
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": "",
+    "org-kde-platform": ""
+  },
+  "zoom": "",
+  "recipient": "",
+  "action-donate": "",
+  "action-purchase": "",
+  "kind-purchase-app": "",
+  "kind-donate-app": ""
 }
