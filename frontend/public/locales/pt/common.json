@@ -606,22 +606,5 @@
   "slide": "Slide",
   "flathub": "Flathub",
   "flathub-logo": "Logótipo do Flathub",
-  "mastodon": "Mastodon",
-  "type": "",
-  "amount": "",
-  "position-short": "",
-  "action-purchase": "",
-  "action-donate": "",
-  "kind-purchase-app": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-kde-platform": "",
-    "org-gnome-platform": ""
-  },
-  "positions": "",
-  "recipient": "",
-  "kind-donate-app": "",
-  "created": "",
-  "total": "",
-  "zoom": ""
+  "mastodon": "Mastodon"
 }

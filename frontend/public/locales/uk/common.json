@@ -606,22 +606,5 @@
   "docs-guidance": "<0>Зрозумілі документація і посібники</0> — Розгорнута <2>документація</2>, тисячі відкритих <5>маніфестів застосунків</5> і численна спільнота означають, що ви завжди можете отримати допомогу",
   "mastodon": "Mastodon",
   "flathub": "Flathub",
-  "flathub-logo": "Логотип Flathub",
-  "amount": "",
-  "total": "",
-  "position-short": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-gnome-platform": "",
-    "org-kde-platform": ""
-  },
-  "action-donate": "",
-  "created": "",
-  "kind-donate-app": "",
-  "zoom": "",
-  "recipient": "",
-  "kind-purchase-app": "",
-  "type": "",
-  "positions": "",
-  "action-purchase": ""
+  "flathub-logo": "Логотип Flathub"
 }

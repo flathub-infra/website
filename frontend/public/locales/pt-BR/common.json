@@ -606,22 +606,5 @@
   "can-listen-using-microphones-without-asking-permission": "Pode ouvir usando o microfone sem pedir permissão",
   "flathub": "Flathub",
   "flathub-logo": "Logotipo de Flathub",
-  "mastodon": "Mastodon",
-  "action-donate": "",
-  "kind-purchase-app": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-kde-platform": "",
-    "org-gnome-platform": ""
-  },
-  "total": "",
-  "zoom": "",
-  "position-short": "",
-  "positions": "",
-  "recipient": "",
-  "kind-donate-app": "",
-  "type": "",
-  "created": "",
-  "action-purchase": "",
-  "amount": ""
+  "mastodon": "Mastodon"
 }

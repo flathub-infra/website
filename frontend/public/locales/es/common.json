@@ -613,15 +613,5 @@
   "total": "Total",
   "position-short": "Pos.",
   "recipient": "Destinatario",
-  "created": "Creado",
-  "platform": {
-    "org-kde-platform": "",
-    "org-gnome-platform": "",
-    "org-freedesktop-platform": ""
-  },
-  "zoom": "",
-  "action-purchase": "",
-  "action-donate": "",
-  "kind-purchase-app": "",
-  "kind-donate-app": ""
+  "created": "Creado"
 }

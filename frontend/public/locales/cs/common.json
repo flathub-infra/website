@@ -606,22 +606,5 @@
   "docs-guidance": "<0>Přehledné dokumenty a návody</0> - Rozsáhlá <2>dokumentace</2>, tisíce veřejných <5>aplikačních manifestů</5> a rozsáhlá komunita znamenají, že vždy můžete získat pomoc",
   "flathub": "Flathub",
   "flathub-logo": "Logo Flathub",
-  "mastodon": "Mastodon",
-  "positions": "",
-  "position-short": "",
-  "type": "",
-  "total": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-kde-platform": "",
-    "org-gnome-platform": ""
-  },
-  "kind-purchase-app": "",
-  "action-purchase": "",
-  "amount": "",
-  "action-donate": "",
-  "kind-donate-app": "",
-  "zoom": "",
-  "created": "",
-  "recipient": ""
+  "mastodon": "Mastodon"
 }

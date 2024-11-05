@@ -605,22 +605,5 @@
   "users": "Käyttäjät",
   "flathub": "Flathub",
   "flathub-logo": "Flathub-logo",
-  "mastodon": "Mastodon",
-  "type": "",
-  "position-short": "",
-  "total": "",
-  "amount": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-kde-platform": "",
-    "org-gnome-platform": ""
-  },
-  "action-purchase": "",
-  "kind-purchase-app": "",
-  "created": "",
-  "recipient": "",
-  "positions": "",
-  "action-donate": "",
-  "zoom": "",
-  "kind-donate-app": ""
+  "mastodon": "Mastodon"
 }
