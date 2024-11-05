@@ -610,5 +610,17 @@
   "position-short": "Pos.",
   "type": "Typ",
   "amount": "Betrag",
-  "total": "Summe"
+  "total": "Summe",
+  "action-donate": "Spenden",
+  "action-purchase": "Kaufen",
+  "zoom": "Vergrössern",
+  "created": "Erstellt",
+  "kind-donate-app": "An {{appName}} spenden",
+  "platform": {
+    "org-kde-platform": "KDE-Plattform",
+    "org-gnome-platform": "GNOME-Plattform",
+    "org-freedesktop-platform": "Freedesktop-Plattform"
+  },
+  "kind-purchase-app": "{{appName}} kaufen",
+  "recipient": "Empfänger"
 }
