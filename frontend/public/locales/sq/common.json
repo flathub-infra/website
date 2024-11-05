@@ -247,7 +247,8 @@
     "needed-to-pass-x": "Lypset të kalojë {{x}}",
     "branding-has-primary-brand-colors": "Ka ngjyra parësore marke",
     "hide-branding-preview": "Fshih paraparje elementësh marke",
-    "show-branding-preview": "Shfaq paraparje elementësh marke"
+    "show-branding-preview": "Shfaq paraparje elementësh marke",
+    "branding": ""
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -603,5 +604,23 @@
   "type": "Lloj",
   "amount": "Sasi",
   "total": "Gjithsej",
-  "system-device-access": "Përdorim pajisjesh sistemi"
+  "system-device-access": "Përdorim pajisjesh sistemi",
+  "arcade": "",
+  "shooter": "",
+  "sequencer": "",
+  "moderation-appstream": "",
+  "runtime-distribution": "",
+  "platform": {
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": "",
+    "org-kde-platform": ""
+  },
+  "kind-donate-app": "",
+  "recipient": "",
+  "app-share": "",
+  "action-donate": "",
+  "zoom": "",
+  "action-purchase": "",
+  "kind-purchase-app": "",
+  "created": ""
 }
