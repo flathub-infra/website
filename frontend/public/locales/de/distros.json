@@ -154,7 +154,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Gentoo nicht möglich sein.</p>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Gentoo zu installieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -168,10 +169,12 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p> Um Flatpak auf Kubuntu zu installieren, Öffne Discover, gehe auf Einstellungen, installiere das Flatpak Backend und starte Discover neu.</p>"
     },
     "step-2": {
-      "name": "Installier das Flatpak-Systemeinstellungs Addon"
+      "name": "Installier das Flatpak-Systemeinstellungs Addon",
+      "text": "<p> Um die Flatpak-Unterstützung in die Plasma-Systemeinstellungen zu integrieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -181,7 +184,8 @@
   "solus": {
     "distroName": "Solus",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Solus zu installieren, öffne die Terminal-App und führe aus:</p> <2>/2>"
     },
     "step-3": {
       "name": "Neustart",
@@ -202,7 +206,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <1>Apps installieren</1>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Flatpak kann aus dem Community-Repository installiert werden. Führe Folgendes in einem Terminal aus:</p> <2>/2>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",

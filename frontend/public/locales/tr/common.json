@@ -581,5 +581,13 @@
   "join-discourse-forum": "Discourse forumuna katılın",
   "developers-and-users-block": "Soru sormak ve uzmanlığınızı paylaşmak için ekiple ve topluluğun diğer üyeleriyle bağlantı kurun",
   "updated-apps": "Güncellenen Uygulamalar",
-  "special-license-explanation": "Bu uygulama özel lisans altında geliştirilmiştir <1>{{ license }}</1>."
+  "special-license-explanation": "Bu uygulama özel lisans altında geliştirilmiştir <1>{{ license }}</1>.",
+  "get-apps": "Uygulamaları edin",
+  "setup": "Kurulum",
+  "users": "Kullanıcılar",
+  "flathub": "Flathub",
+  "flathub-logo": "Flathub Logosu",
+  "date": "Tarih",
+  "mastodon": "Mastodon",
+  "more-pages": "Daha çok sayfa"
 }
