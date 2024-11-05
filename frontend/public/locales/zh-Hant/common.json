@@ -609,5 +609,17 @@
   "type": "類型",
   "position-short": "編號",
   "amount": "金額",
-  "total": "總計"
+  "total": "總計",
+  "action-purchase": "",
+  "zoom": "",
+  "kind-donate-app": "",
+  "kind-purchase-app": "",
+  "action-donate": "",
+  "created": "",
+  "recipient": "",
+  "platform": {
+    "org-kde-platform": "",
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": ""
+  }
 }
