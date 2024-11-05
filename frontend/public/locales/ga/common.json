@@ -613,5 +613,17 @@
   "position-short": "Seas.",
   "type": "Cineál",
   "amount": "Méid",
-  "total": "Iomlán"
+  "total": "Iomlán",
+  "action-donate": "",
+  "created": "",
+  "zoom": "",
+  "kind-purchase-app": "",
+  "kind-donate-app": "",
+  "action-purchase": "",
+  "platform": {
+    "org-kde-platform": "",
+    "org-freedesktop-platform": "",
+    "org-gnome-platform": ""
+  },
+  "recipient": ""
 }
