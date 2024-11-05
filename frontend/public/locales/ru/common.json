@@ -614,5 +614,14 @@
   "type": "Тип",
   "recipient": "Получатель",
   "created": "Создано",
-  "action-donate": "Пожертвовать"
+  "action-donate": "Пожертвовать",
+  "action-purchase": "",
+  "kind-purchase-app": "",
+  "zoom": "",
+  "platform": {
+    "org-kde-platform": "",
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": ""
+  },
+  "kind-donate-app": ""
 }
