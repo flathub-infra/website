@@ -612,5 +612,15 @@
   "total": "Общо",
   "amount": "Сума",
   "recipient": "Получател",
-  "created": "Създадено"
+  "created": "Създадено",
+  "action-purchase": "",
+  "action-donate": "",
+  "zoom": "",
+  "platform": {
+    "org-gnome-platform": "",
+    "org-freedesktop-platform": "",
+    "org-kde-platform": ""
+  },
+  "kind-purchase-app": "",
+  "kind-donate-app": ""
 }
