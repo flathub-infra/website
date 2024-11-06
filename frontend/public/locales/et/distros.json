@@ -3,11 +3,11 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<0>Paigaldamaks Flatpakki <strong>Ubuntu versioonis 18.10 (Cosmic Cuttlefish) või hilisemas</strong>, ava terminalirakendus ja käivita:</0> <2></2> <4>Vanemate versioonide puhul <strong>kuni Ubuntu versioonini 18.04 LTS (Bionic Beaver)</strong>, ametlik Flatpaki PPA on vajalik Flatpaki paigaldamiseks ja uuendamiseks. PPA lisamiseks ja Flatpaki paigaldamiseks, ava terminalirakendus ja käivita:</4> <6></6>"
+      "text": "<0>Paigaldamaks Flatpakki <strong>Ubuntu versioonis 18.10 (Cosmic Cuttlefish) või hilisemas</strong>, ava terminalirakendus ja käivita:</0> <2></2> <4>Vanemate versioonide puhul <strong>kuni Ubuntu versioonini 18.04 LTS (Bionic Beaver)</strong>, ametlik on Flatpaki paigaldamiseks ja uuendamiseks vajalik Flatpaki PPA. Selle lisamiseks ja Flatpaki paigaldamiseks, ava terminalirakendus ja käivita:</4> <6></6>"
     },
     "step-3": {
       "name": "Lisa Flathubi koodihoidla",
-      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
+      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
@@ -25,6 +25,10 @@
     "step-2": {
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
+    },
+    "step-1": {
+      "name": "Võta Flatpak kasutusele Tarkvarahalduris (Software Manager)",
+      "text": "<p>Flatpak on vaikimisi paigaldatud Manjaro versioonis 20 uuemas.</p> <2>Kasutuselevõtmiseks ava <strong>Tarkvarahaldur (Software Manager)</strong> (Lisa/Eemalda rakendusi)</2> <p>Klõpsi kolme triibuga menüüikooni [sõltuvalt kasutatavast töölauast võib olla ka kolme punktiga menüüikoon] paremal, avanevast menüüst vali „Eelistused“</p> <p>Leia vahekaart „Flatpak“ ja libista liugurlüliti asendisse „Luba Flatpaki tugi“ (soovitame, et teed sama ka uuenduse kontrollimise valiku juures).</p>"
     }
   },
   "endless_os": {
@@ -51,11 +55,17 @@
     },
     "step-4": {
       "name": "Lisa Flathubi koodihoidla",
-      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
+      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     },
     "step-5": {
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Saa saad teha parema hiireklõpsuga terminalis ja valides „Taaskäivita Linux“. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
+    },
+    "step-1": {
+      "name": "Lülita Linuxi tugi sisse"
+    },
+    "step-2": {
+      "name": "Käivita Linuxi terminal"
     }
   },
   "red_hat_enterprise_linux": {
@@ -76,7 +86,7 @@
     },
     "step-2": {
       "name": "Lisa Flathubi koodihoidla",
-      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
+      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     }
   },
   "arch": {
@@ -91,10 +101,31 @@
     }
   },
   "debian": {
-    "distroName": "Debian"
+    "distroName": "Debian",
+    "step-2": {
+      "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-3": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "rocky_linux": {
-    "distroName": "Rocky Linux"
+    "distroName": "Rocky Linux",
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    }
   },
   "centos": {
     "distroName": "CentOS"
@@ -106,28 +137,91 @@
     "distroName": "AlmaLinux"
   },
   "gentoo": {
-    "distroName": "Gentoo"
+    "distroName": "Gentoo",
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "kubuntu": {
-    "distroName": "Kubuntu"
+    "distroName": "Kubuntu",
+    "step-3": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-2": {
+      "name": "Paigalda süsteemiseadistuse jaoks Flatpaki plugin"
+    },
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "solus": {
-    "distroName": "Solus"
+    "distroName": "Solus",
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "alpine": {
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-3": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-2": {
+      "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
+    }
   },
   "mageia": {
-    "distroName": "Mageia"
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx"
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "elementary_os": {
-    "distroName": "elementary OS"
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Paigalda rakendusi"
+    }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
@@ -145,51 +239,160 @@
     "distroName": "Clear Linux"
   },
   "void_linux": {
-    "distroName": "Void Linux"
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    }
   },
   "nixos": {
-    "distroName": "NixOS"
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "pureos": {
     "distroName": "PureOS"
   },
   "turkman_linux": {
-    "distroName": "Turkman Linux"
+    "distroName": "Turkman Linux",
+    "step-2": {
+      "name": "Lülita teenused sisse"
+    },
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-3": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "ataraxia_linux": {
-    "distroName": "Ataraxia Linux"
+    "distroName": "Ataraxia Linux",
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    }
   },
   "zorin_os": {
     "distroName": "Zorin OS"
   },
   "deepin": {
-    "distroName": "Deepin"
+    "distroName": "Deepin",
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-3": {
+      "name": "Paigalda Deepini kujundused",
+      "text": "<p>Heleda ja tumeda kujunduse paigaldamiseks käivita:</p> <2></2>"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "pardus": {
-    "distroName": "Pardus"
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-2": {
+      "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
+    },
+    "step-4": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-3": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "mx_linux": {
     "distroName": "MX Linux",
     "step-2": {
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
+    },
+    "step-1": {
+      "name": "Võta Flatpak kasutusele Tarkvarahalduris (Software Manager)"
     }
   },
   "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux"
+    "distroName": "Pisi GNU/Linux",
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "endeavouros": {
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "kde_neon": {
     "distroName": "KDE neon",
-    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
+    "introduction": "<0>Flatpaki tugi on olemas alates KDE Neoni versioonist 19 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>",
+    "step-1": {
+      "name": "Võta Flatpak kasutusele"
+    },
+    "step-2": {
+      "name": "Kontrolli Flatpaki seadistusi"
+    }
   },
   "gnu_guix": {
-    "distroName": "GNU Guix"
+    "distroName": "GNU Guix",
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    }
   },
   "crystal_linux": {
-    "distroName": "Crystal Linux"
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Paigalda Flatpak"
+    },
+    "step-3": {
+      "name": "Käivita arvuti uuesti"
+    },
+    "step-2": {
+      "name": "Lisa Flathubi koodihoidla"
+    }
   },
   "vanilla_os": {
     "distroName": "Vanilla OS"
