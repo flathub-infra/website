@@ -613,5 +613,17 @@
   "position-short": "Seas.",
   "type": "Cineál",
   "amount": "Méid",
-  "total": "Iomlán"
+  "total": "Iomlán",
+  "action-donate": "Síntiúis",
+  "action-purchase": "Ceannach",
+  "kind-purchase-app": "Ceannaigh {{appName}}",
+  "kind-donate-app": "Deonaigh do {{appName}}",
+  "zoom": "Súmáil",
+  "recipient": "Faighteoir",
+  "created": "Cruthaithe",
+  "platform": {
+    "org-kde-platform": "Ardán KDE",
+    "org-gnome-platform": "Ardán GNOME",
+    "org-freedesktop-platform": "Ardán Freedesk"
+  }
 }
