@@ -111,9 +111,16 @@ const Users = () => {
           Raspberry Pi, or the rare Linux phone; Flathub has apps for you
         </Trans>
       </p>
-      <div className="mt-10">
-        <Link href={"/"}>
-          <Button size="xl">{t("get-apps")}</Button>
+      <div className="mt-10 flex gap-3">
+        <Link href={"/setup"} className="w-1/2 sm:w-auto">
+          <Button size="xl" className="w-full">
+            {t("setup")}
+          </Button>
+        </Link>
+        <Link href={"/"} className="w-1/2 sm:w-auto">
+          <Button size="xl" className="w-full">
+            {t("get-apps")}
+          </Button>
         </Link>
       </div>
     </div>
@@ -177,13 +184,16 @@ const Developers = () => {
           to users in their native app store client where they&apos;d expect
         </Trans>
       </p>
-      <div className="mt-10">
+      <div className="mt-10 flex">
         <a
           href={"https://docs.flathub.org/docs/category/for-app-authors"}
           target="_blank"
           rel="noreferrer"
+          className="w-full sm:w-auto"
         >
-          <Button size="xl">{t("publish-your-app")}</Button>
+          <Button size="xl" className="w-full">
+            {t("publish-your-app")}
+          </Button>
         </a>
       </div>
     </div>
