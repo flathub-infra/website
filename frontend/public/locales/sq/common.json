@@ -603,5 +603,17 @@
   "type": "Lloj",
   "amount": "Sasi",
   "total": "Gjithsej",
-  "system-device-access": "Përdorim pajisjesh sistemi"
+  "system-device-access": "Përdorim pajisjesh sistemi",
+  "zoom": "Zoom",
+  "action-purchase": "Blini",
+  "kind-purchase-app": "Blijeni {{appName}}",
+  "kind-donate-app": "Dhuroni për {{appName}}",
+  "recipient": "Marrës",
+  "app-share": "Përqindje për aplikacionin",
+  "action-donate": "Dhuroni",
+  "platform": {
+    "org-kde-platform": "Platformë KDE",
+    "org-gnome-platform": "Platformë GNOME",
+    "org-freedesktop-platform": "Platformë Freedesktop"
+  }
 }
