@@ -474,7 +474,8 @@
     "screenshots": "스크린샷",
     "screenshots-default-settings": "기본 설정이어야 함",
     "high-quality-app-data": "높은 품질의 앱 데이터",
-    "app-data-review-pending": "앱 데이터 검수 중"
+    "app-data-review-pending": "앱 데이터 검수 중",
+    "failing-x-checks_other": ""
   },
   "news": "뉴스",
   "developer-portal": "개발자 포털",
