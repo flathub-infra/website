@@ -1,4 +1,7 @@
-FROM debian:testing AS builder
+FROM ubuntu:latest AS builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
+        && add-apt-repository ppa:flatpak/stable
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -14,11 +17,14 @@ RUN /root/.local/bin/poetry export -f requirements.txt --output requirements.txt
     python -m venv /venv && \
     /venv/bin/python -m pip install --no-cache-dir -r requirements.txt
 
-FROM debian:testing-slim
+FROM ubuntu:latest
 ARG SENTRY_RELEASE
 ENV PATH="/venv/bin:$PATH"
 
 EXPOSE 8000
+
+RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
+        && add-apt-repository ppa:flatpak/stable
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
