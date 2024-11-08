@@ -621,5 +621,6 @@
   "action-purchase": "Kopen",
   "kind-purchase-app": "{{appName}} kopen",
   "kind-donate-app": "Doneren aan {{appName}}",
-  "zoom": "Zoomen"
+  "zoom": "Zoomen",
+  "transparent": ""
 }
