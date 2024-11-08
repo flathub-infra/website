@@ -111,15 +111,28 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         screenshotsComponent = component.find("screenshots")
 
         if screenshotsComponent is not None:
-            screenshots = [
-                screenshot
-                for screenshot in screenshotsComponent
-                if screenshot.attrib.get("environment")
-                not in (
-                    "windows",
-                    "macos",
-                )
-            ]
+            if not all(
+                [
+                    screenshot.attrib.get("environment")
+                    in (
+                        "windows",
+                        "macos",
+                    )
+                    for screenshot in screenshotsComponent
+                ]
+            ):
+                screenshots = [
+                    screenshot
+                    for screenshot in screenshotsComponent
+                    if screenshot.attrib.get("environment")
+                    not in (
+                        "windows",
+                        "macos",
+                    )
+                ]
+            else:
+                screenshots = [screenshot for screenshot in screenshotsComponent]
+
             app["screenshots"] = []
             for i, screenshot in enumerate(screenshots):
                 attrs = {}
