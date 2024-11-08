@@ -359,7 +359,9 @@
     "high-quality-app-data": "נתוני יישום באיכות גבוהה",
     "app-data-review-pending": "סקירת נתוני יישום ממתימה",
     "app-name-just-the-name": "רק השם",
-    "screenshots-up-to-date": "עדכני"
+    "screenshots-up-to-date": "עדכני",
+    "pending": "בהמתנה",
+    "screenshots-tag-screenshots-with-correct-language": "תיוג צילומי מסך עם השפה הנכונה"
   },
   "no-network-access": "אין גישה לרשת",
   "system-folder-x": "תיקיית המערכת {{folder}}",

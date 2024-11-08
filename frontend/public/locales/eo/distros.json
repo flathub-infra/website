@@ -17,7 +17,12 @@
     },
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<0>Por instali Flatpak sur <strong>Ubuntu versio 18.10 (Cosmic Cuttlefish) aŭ pli nova</strong>, malfermu Terminalon kaj rulu la jenon:</0> <2></2> <4>Pli malnovaj versioj <strong>ĝis Ubuntu 18.04 LTS (Bionic Beaver)</strong> postulas la oficialan Flatpak-PPA por instali Flatpak kaj teni ĝin ĝisdata. Por aldoni la PPA kaj instali Flatpak, malfermu Terminalon kaj rulu la jenon:</4> <6></6>"
+    },
+    "step-2": {
+      "name": "Instalu la Flatpak-kromprogramon por la GNOME-programvendejo",
+      "text": "La GNOME Softvaro faras ebla instali programojn sen bezonado de la komandlinio. Por instali, kuri:</p> <2> / 2><4><strong>Not:</strong> Ubuntu distribuas GNOME Softvaron kiel Snap en versioj 20.04 ĝis 23.04, kaj anstataŭigis ĝin kun App Center en 23.10 kaj pli nova - naŭ de kiu subteno instalanta Flatpak programojn. Instali la Flatpak-aldonaĵon ankaŭ instalas deb version de GNOME Softvaro, rezultigante du \"Software\" programojn estantajn instalita en la sama tempo sur Ubuntu 20.04 ĝis 23.04, kaj ununuran novan \"Software-\" programon sur Ubuntu 23.10 kaj pli nova"
     }
   },
   "endless_os": {
@@ -94,7 +99,10 @@
       "name": "Aldoni la deponejon Flathub",
       "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
     },
-    "distroName": "Debiano"
+    "distroName": "Debiano",
+    "step-2": {
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
+    }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
@@ -151,6 +159,9 @@
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
+    },
+    "step-2": {
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
     }
   },
   "gentoo": {
@@ -170,7 +181,8 @@
   },
   "mageia": {
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Pako por Flatpak estas instalebla sur Mageia, versio 6 aŭ pli nova. Por instali per DNF, rulu la jenon kiel la ĉefuzanto:</p> <2></2> <4>Alternative, por instali per <1>urpmi</1>, rulu la jenon:</4> <6></6>"
     },
     "step-3": {
       "name": "Restartigi",
@@ -195,7 +207,8 @@
     "step-1": {
       "name": "Instali Flatpak",
       "text": "<p>Por instali Flatpak sur versioj de Pop!_OS ne pli novaj ol 19.10, lanĉu la programon Terminalo, kaj rulu la jenon:</p> <2></2>"
-    }
+    },
+    "introduction": "<0>Subteno por Flatpak estas integrita en Pop!_OS versio 20.04 aŭ pli nova — neniu agordado necesas!</0> <p>Se vi uzas pli malnovan version, sekvu la ĉi-subajn instrukciojn.</p>"
   },
   "raspberry_pi_os": {
     "step-3": {
@@ -203,7 +216,8 @@
       "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Raspberry Pi OS.</p>"
     },
     "step-2": {
-      "name": "Aldoni la deponejon Flathub"
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2> <4><0>Averto:</0> Je la Marto de 2021, Rasberry Pi komputiloj kvieta ŝipo kun la 32-peca versio de Frambo Pi OS. Tamen Flathub komencis phasing ekstere subteni por tiu arkitekturo. Se vi konsideras Flathub kiel grava fonto de aplikoj, ĝi estas rekomendita uzi la 64-bitan version de Raspberry Pi OS, ĉar pli novaj aplikoj estas disponeblaj por tiu platformo.</4>"
     },
     "distroName": "Raspberry Pi OS",
     "step-1": {
@@ -310,6 +324,9 @@
     "step-3": {
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>",
       "name": "Aldoni la deponejon Flathub"
+    },
+    "step-2": {
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
     }
   },
   "zorin_os": {
@@ -332,7 +349,8 @@
       "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Pisi GNU/Linux.</p>"
     },
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Pako por Flatpak estas disponebla en Pisi versio 2.1 aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2>"
     },
     "distroName": "Pisi GNU/Linux"
   },
@@ -372,7 +390,8 @@
     "distroName": "KDE neon",
     "step-2": {
       "name": "Kontroli agordojn pri Flatpak"
-    }
+    },
+    "introduction": "<0>Flatpak funkcias apriore en KDE neon, versio 19 aŭ pli nova — agordado ne necesas!</0> <p>Se vi uzas pli malnovan version, vi povas sekvi la instrukciojn ĉi-subajn.</p>"
   },
   "salix": {
     "distroName": "Salix"
@@ -395,10 +414,12 @@
     "distroName": "AlmaLinux"
   },
   "fedora": {
-    "distroName": "Fedora"
+    "distroName": "Fedora",
+    "introduction": "Flatpak estas apriore instalita sur Fedora Workstation, Fedora Silverblue kaj Fedora Kinoite. Por komenci, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Flathub estas apriore agordita kiel unu el la <2>Triapartiaj Deponejoj</2>. Alternative, vi povas elŝuti kaj instali la <5>Flathub-deponejodosieron</5>. <2>Nun vi pretas <2>instali programojn</2>!</2> <p>La ĉi-supraj ligoj supozeble funkcios sur la aprioraj instalaĵoj de Fedora por GNOME aŭ KDE, sed se ili ial ne funkcias, vi povas malaŭtomate instali Flathub rulante la jenon:</p> <6> / 6>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<0>Flatpak estas apriore instalita sur Red Hat Enterprise Linux Workstation, versio 9 aŭ pli nova. Por eki, vi ŝaltu Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejan dosieron</2>.</0> <p>Por instali Flatpak sur Red Hat Enterprise Linux Workstation, versio 8 aŭ pli malnova, rulu la jenon en terminalo:</p>  <5></5> <7>Nun povas <2>instali programojn</2>!</7> <p>La ĉi-supraj ligoj supozeble funkcios sur la apriora instalaĵo de Red Hat Enterprise Linux Workstation 9, sed se tiuj ial ne funkcias, vi povas malaŭtomate agordi Flathub rulante la jenon:</p> <11></11>"
   },
   "eurolinux": {
     "distroName": "EuroLinux"
