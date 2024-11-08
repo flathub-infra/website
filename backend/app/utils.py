@@ -108,8 +108,18 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                         "".join(description),
                     )
 
-        screenshots = component.find("screenshots")
-        if screenshots is not None:
+        screenshotsComponent = component.find("screenshots")
+
+        if screenshotsComponent is not None:
+            screenshots = [
+                screenshot
+                for screenshot in screenshotsComponent
+                if screenshot.attrib.get("environment")
+                not in (
+                    "windows",
+                    "macos",
+                )
+            ]
             app["screenshots"] = []
             for i, screenshot in enumerate(screenshots):
                 attrs = {}
@@ -179,15 +189,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
                 if attrs and len(attrs["sizes"]) > 0:
                     app["screenshots"].append(attrs.copy())
-            component.remove(screenshots)
-
-            if not all(
-                sc.get("environment") in ("windows", "macos")
-                for sc in app["screenshots"]
-            ):
-                for sc in app["screenshots"][:]:
-                    if sc.get("environment") in ("windows", "macos"):
-                        app["screenshots"].remove(sc)
+            component.remove(screenshotsComponent)
 
         releases = component.find("releases")
         if releases is not None:
