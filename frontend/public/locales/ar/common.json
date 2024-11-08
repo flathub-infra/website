@@ -608,23 +608,5 @@
   "integration": "<0>تكامل متجر التطبيقات الأصلي</0> — انسَ عمليات التنزيل عبر الويب؛ حيث توفر فلاتهب التطبيقات و<3>التحديثات التلقائية</3> للمستخدمين في عميل متجر التطبيقات الأصلي الخاص بهم حيث يتوقعون",
   "flathub": "فلاتهب",
   "flathub-logo": "شعار فلاتهب",
-  "mastodon": "ماستدون",
-  "recipient": "",
-  "action-donate": "",
-  "slide": "",
-  "created": "",
-  "action-purchase": "",
-  "type": "",
-  "position-short": "",
-  "positions": "",
-  "total": "",
-  "amount": "",
-  "platform": {
-    "org-kde-platform": "",
-    "org-freedesktop-platform": "",
-    "org-gnome-platform": ""
-  },
-  "kind-donate-app": "",
-  "kind-purchase-app": "",
-  "zoom": ""
+  "mastodon": "ماستدون"
 }

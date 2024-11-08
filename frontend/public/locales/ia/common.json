@@ -610,17 +610,5 @@
   "total": "Total",
   "positions": "Positiones",
   "type": "Typo",
-  "position-short": "Pos.",
-  "platform": {
-    "org-gnome-platform": "",
-    "org-freedesktop-platform": "",
-    "org-kde-platform": ""
-  },
-  "kind-donate-app": "",
-  "action-donate": "",
-  "action-purchase": "",
-  "recipient": "",
-  "created": "",
-  "kind-purchase-app": "",
-  "zoom": ""
+  "position-short": "Pos."
 }

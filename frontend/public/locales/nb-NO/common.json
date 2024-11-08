@@ -605,22 +605,5 @@
   "tastefully-curated": "<0>Oppdag nye favoritter</0> — Med et stadig oppdatert utvalg av fremhevede apper, er det lett å komme over nye og spennende prosjekter av høy kvalitet",
   "flathub": "Flathub",
   "flathub-logo": "Flathub-logo",
-  "mastodon": "Mastodon",
-  "type": "",
-  "recipient": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-kde-platform": "",
-    "org-gnome-platform": ""
-  },
-  "created": "",
-  "position-short": "",
-  "total": "",
-  "amount": "",
-  "action-donate": "",
-  "zoom": "",
-  "action-purchase": "",
-  "kind-donate-app": "",
-  "positions": "",
-  "kind-purchase-app": ""
+  "mastodon": "Mastodon"
 }

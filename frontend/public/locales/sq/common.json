@@ -247,8 +247,7 @@
     "needed-to-pass-x": "Lypset të kalojë {{x}}",
     "branding-has-primary-brand-colors": "Ka ngjyra parësore marke",
     "hide-branding-preview": "Fshih paraparje elementësh marke",
-    "show-branding-preview": "Shfaq paraparje elementësh marke",
-    "branding": ""
+    "show-branding-preview": "Shfaq paraparje elementësh marke"
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -616,11 +615,5 @@
     "org-kde-platform": "Platformë KDE",
     "org-gnome-platform": "Platformë GNOME",
     "org-freedesktop-platform": "Platformë Freedesktop"
-  },
-  "runtime-distribution": "",
-  "created": "",
-  "arcade": "",
-  "shooter": "",
-  "sequencer": "",
-  "moderation-appstream": ""
+  }
 }

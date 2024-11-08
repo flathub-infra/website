@@ -601,25 +601,5 @@
   "can-listen-using-microphones-without-asking-permission": "Có thể nghe thông qua microphone mà không xin phép",
   "apps-for-you-where-you-are": "<0>Ứng dụng cho bạn bất kể bạn ở đâu</0> — Dù bạn đang dùng Steam Deck, máy trạm Linux mạnh mẽ, Raspberry Pi, hay chiếc điện thoại Linux hiếm thấy, Flathub có ứng dụng dành cho bạn",
   "integration": "<0>Tích hợp với của hàng ứng dụng gốc</0> — Hãy quên đi bản tải xuống qua web; Flathub vận chuyển các ứng dụng và các <3>bản cập nhật tự động</3> đến người dùng qua cửa hàng ứng dụng gốc mà họ quen thuộc",
-  "can-access-the-contents-of-the-screen-or-other-windows": "Có thể truy cập nội dụng của màn hình và các cửa sổ khác",
-  "total": "",
-  "position-short": "",
-  "platform": {
-    "org-gnome-platform": "",
-    "org-freedesktop-platform": "",
-    "org-kde-platform": ""
-  },
-  "amount": "",
-  "kind-donate-app": "",
-  "flathub": "",
-  "type": "",
-  "flathub-logo": "",
-  "zoom": "",
-  "positions": "",
-  "kind-purchase-app": "",
-  "created": "",
-  "action-donate": "",
-  "action-purchase": "",
-  "recipient": "",
-  "mastodon": ""
+  "can-access-the-contents-of-the-screen-or-other-windows": "Có thể truy cập nội dụng của màn hình và các cửa sổ khác"
 }
