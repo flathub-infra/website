@@ -605,5 +605,22 @@
   "millions-users": "<0>Felhasználók millióinak elérése</0> — A Flathub több Linux disztribúción is megjelenik, a többire <2>könnyen telepíthető</2>, és több mint egymillió aktív felhasználóval rendelkezik",
   "flathub-logo": "Flathub embléma",
   "flathub": "Flathub",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "amount": "",
+  "platform": {
+    "org-freedesktop-platform": "",
+    "org-kde-platform": "",
+    "org-gnome-platform": ""
+  },
+  "kind-purchase-app": "",
+  "action-purchase": "",
+  "total": "",
+  "action-donate": "",
+  "recipient": "",
+  "zoom": "",
+  "created": "",
+  "positions": "",
+  "type": "",
+  "position-short": "",
+  "kind-donate-app": ""
 }
