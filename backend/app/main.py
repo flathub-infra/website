@@ -20,6 +20,7 @@ from . import (
     quality_moderation,
     update,
     upload_tokens,
+    users,
     vending,
     verification,
     wallet,
@@ -74,6 +75,8 @@ compat.register_to_app(router)
 
 quality_moderation.register_to_app(router)
 app_picks.register_to_app(router)
+
+users.register_to_app(router)
 
 
 @router.on_event("startup")
