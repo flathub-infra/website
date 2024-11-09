@@ -150,14 +150,11 @@ class FlathubUser(Base):
 
     @staticmethod
     def all(db, page, page_size) -> FlathubUserResult:
-        users = (
-            db.session.query(FlathubUser)
-            .limit(page_size)
-            .offset((page - 1) * page_size)
-            .all()
-        )
+        offset = (page - 1) * page_size
+        query = db.session.query(FlathubUser)
+        users = query.offset(offset).limit(page_size).all()
 
-        query_count = len(users)
+        total_count = query.count()
 
         return FlathubUserResult(
             users=[
@@ -188,8 +185,8 @@ class FlathubUser(Base):
             pagination=Pagination(
                 page=page,
                 page_size=page_size,
-                total=query_count,
-                total_pages=ceil(query_count / page_size),
+                total=total_count,
+                total_pages=ceil(total_count / page_size),
             ),
         )
 
