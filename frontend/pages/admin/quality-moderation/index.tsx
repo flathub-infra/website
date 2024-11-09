@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { QueryObserverSuccessResult, useQuery } from "@tanstack/react-query"
 import {
   ColumnDef,
   flexRender,
@@ -36,6 +36,8 @@ import {
   getQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
+import { AxiosResponse } from "axios"
+import Spinner from "src/components/Spinner"
 
 QualityModerationDashboard.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -50,7 +52,6 @@ QualityModerationDashboard.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default function QualityModerationDashboard() {
-  const { i18n } = useTranslation()
   const user = useUserContext()
   const router = useRouter()
 
@@ -64,7 +65,7 @@ export default function QualityModerationDashboard() {
     useState<GetQualityModerationStatusQualityModerationStatusGetFilter>(
       (router.query
         .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
-        "all",
+        "todo",
     )
 
   const query = useQuery({
@@ -86,6 +87,60 @@ export default function QualityModerationDashboard() {
     ),
     placeholderData: (previousData) => previousData,
   })
+
+  useEffect(() => {
+    setPage(router?.query?.page ? Number(router.query.page) : 1)
+  }, [router.query.page])
+
+  useEffect(() => {
+    setFilteredBy(
+      (router.query
+        .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
+        "todo",
+    )
+  }, [router.query.filter])
+
+  const pages = Array.from(
+    { length: query.data?.data?.pagination?.total_pages ?? 1 },
+    (_, i) => i + 1,
+  )
+
+  return (
+    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <NextSeo title="Quality Moderation" noindex />
+      <>
+        <h1 className="my-8 text-4xl font-extrabold">Quality Moderation</h1>
+
+        <div className="px-4 sm:px-6 lg:px-8">
+          {query.isLoading && <Spinner size="m" />}
+          {query.isSuccess && (
+            <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <QualityModerationTable
+                currentPage={page}
+                data={query.data.data}
+                filteredBy={filteredBy}
+              />
+              <Pagination currentPage={page} pages={pages} />
+            </div>
+          )}
+        </div>
+      </>
+    </div>
+  )
+}
+
+const QualityModerationTable = ({
+  data,
+  filteredBy,
+}: {
+  data: QualityModerationDashboardResponse
+
+  filteredBy: GetQualityModerationStatusQualityModerationStatusGetFilter
+  currentPage: number
+}) => {
+  const { i18n } = useTranslation()
+
+  const router = useRouter()
 
   const columns: ColumnDef<QualityModerationDashboardRow>[] = [
     {
@@ -192,24 +247,6 @@ export default function QualityModerationDashboard() {
     },
   ]
 
-  const [data, setData] = useState<QualityModerationDashboardResponse>()
-
-  useEffect(() => {
-    setPage(router?.query?.page ? Number(router.query.page) : 1)
-  }, [router.query.page])
-
-  useEffect(() => {
-    setFilteredBy(
-      (router.query
-        .filter as GetQualityModerationStatusQualityModerationStatusGetFilter) ??
-        "todo",
-    )
-  }, [router.query.filter])
-
-  useEffect(() => {
-    setData(query?.data?.data)
-  }, [query?.data])
-
   const table = useReactTable<QualityModerationDashboardRow>({
     data: data?.apps ?? [],
     columns: columns,
@@ -220,180 +257,154 @@ export default function QualityModerationDashboard() {
 
   const tableRows = table.getRowModel().rows
 
-  const pages = Array.from(
-    { length: data?.pagination?.total_pages ?? 1 },
-    (_, i) => i + 1,
-  )
-
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <NextSeo title="Quality Moderation" noindex />
-      <>
-        <h1 className="my-8 text-4xl font-extrabold">Quality Moderation</h1>
+    <>
+      <MultiToggle
+        size="lg"
+        items={[
+          {
+            id: "todo",
+            content: <span>Todo</span>,
+            selected:
+              filteredBy ===
+              GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
+            onClick: () => {
+              const newQuery = { ...router.query }
+              newQuery.filter =
+                GetQualityModerationStatusQualityModerationStatusGetFilter.todo
 
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <MultiToggle
-              size="lg"
-              items={[
-                {
-                  id: "todo",
-                  content: <span>Todo</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilter.todo,
-                  onClick: () => {
-                    const newQuery = { ...router.query }
-                    newQuery.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.todo
+              newQuery.page = "1"
 
-                    newQuery.page = "1"
+              router.push({
+                query: newQuery,
+              })
+            },
+          },
+          {
+            id: "passed",
+            content: <span>Passing</span>,
+            selected:
+              filteredBy ===
+              GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
+            onClick: () => {
+              const newQuery = { ...router.query }
+              newQuery.filter =
+                GetQualityModerationStatusQualityModerationStatusGetFilter.passing
 
-                    router.push({
-                      query: newQuery,
-                    })
-                  },
-                },
-                {
-                  id: "passed",
-                  content: <span>Passing</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilter.passing,
-                  onClick: () => {
-                    const newQuery = { ...router.query }
-                    newQuery.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.passing
+              newQuery.page = "1"
 
-                    newQuery.page = "1"
+              router.push({
+                query: newQuery,
+              })
+            },
+          },
+          {
+            id: "all",
+            content: <span>All</span>,
+            selected:
+              filteredBy ===
+              GetQualityModerationStatusQualityModerationStatusGetFilter.all,
+            onClick: () => {
+              const newQuery = { ...router.query }
+              newQuery.filter =
+                GetQualityModerationStatusQualityModerationStatusGetFilter.all
 
-                    router.push({
-                      query: newQuery,
-                    })
-                  },
-                },
-                {
-                  id: "all",
-                  content: <span>All</span>,
-                  selected:
-                    filteredBy ===
-                    GetQualityModerationStatusQualityModerationStatusGetFilter.all,
-                  onClick: () => {
-                    const newQuery = { ...router.query }
-                    newQuery.filter =
-                      GetQualityModerationStatusQualityModerationStatusGetFilter.all
+              newQuery.page = "1"
 
-                    newQuery.page = "1"
-
-                    router.push({
-                      query: newQuery,
-                    })
-                  },
-                },
-              ]}
-            />
-            <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-              <thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id} className="relative">
-                    {headerGroup.headers.map((header) => {
-                      return (
-                        <th
-                          key={header.id}
-                          colSpan={header.colSpan}
-                          className="h-20 text-sm font-normal"
+              router.push({
+                query: newQuery,
+              })
+            },
+          },
+        ]}
+      />
+      <table className="min-w-full divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id} className="relative">
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    className="h-20 text-sm font-normal"
+                  >
+                    {header.isPlaceholder ? null : (
+                      <div className="flex w-full">
+                        <button
+                          type="button"
+                          {...{
+                            className: clsx(
+                              header.column.getCanSort() &&
+                                "cursor-pointer select-none",
+                              "flex items-center justify-between gap-1",
+                            ),
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
                         >
-                          {header.isPlaceholder ? null : (
-                            <div className="flex w-full">
-                              <button
-                                type="button"
-                                {...{
-                                  className: clsx(
-                                    header.column.getCanSort() &&
-                                      "cursor-pointer select-none",
-                                    "flex items-center justify-between gap-1",
-                                  ),
-                                  onClick:
-                                    header.column.getToggleSortingHandler(),
-                                }}
-                              >
-                                {flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
-                                {{
-                                  asc: <HiMiniChevronUp className="size-4" />,
-                                  desc: (
-                                    <HiMiniChevronDown className="size-4" />
-                                  ),
-                                }[header.column.getIsSorted() as string] ??
-                                  null}
-                              </button>
-                            </div>
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
                           )}
-                        </th>
-                      )
-                    })}
-                  </tr>
-                ))}
-              </thead>
-              <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
-                <LayoutGroup>
-                  <AnimatePresence>
-                    {tableRows.length === 0 && (
-                      <tr className="h-12">
-                        <td
-                          colSpan={columns.length}
-                          className="p-8 text-center"
-                        >
-                          No items
-                        </td>
-                      </tr>
+                          {{
+                            asc: <HiMiniChevronUp className="size-4" />,
+                            desc: <HiMiniChevronDown className="size-4" />,
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </button>
+                      </div>
                     )}
-                    {tableRows.map((row) => {
-                      return (
-                        <Fragment key={row.id}>
-                          <motion.tr
-                            layoutId={row.id}
-                            key={row.id}
-                            transition={{ delay: 0 }}
-                            className={clsx("h-12 font-medium")}
+                  </th>
+                )
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody className="divide-y divide-flathub-gray-x11 dark:divide-flathub-arsenic">
+          <LayoutGroup>
+            <AnimatePresence>
+              {tableRows.length === 0 && (
+                <tr className="h-12">
+                  <td colSpan={columns.length} className="p-8 text-center">
+                    No items
+                  </td>
+                </tr>
+              )}
+              {tableRows.map((row) => {
+                return (
+                  <Fragment key={row.id}>
+                    <motion.tr
+                      layoutId={row.id}
+                      key={row.id}
+                      transition={{ delay: 0 }}
+                      className={clsx("h-12 font-medium")}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <td
+                            key={cell.id}
+                            className={clsx("whitespace-nowrap py-5 text-sm")}
                           >
-                            {row.getVisibleCells().map((cell) => {
-                              return (
-                                <td
-                                  key={cell.id}
-                                  className={clsx(
-                                    "whitespace-nowrap py-5 text-sm",
-                                  )}
-                                >
-                                  {flexRender(
-                                    cell.column.columnDef.cell,
-                                    cell.getContext(),
-                                  )}
-                                </td>
-                              )
-                            })}
-                          </motion.tr>
-                        </Fragment>
-                      )
-                    })}
-                  </AnimatePresence>
-                </LayoutGroup>
-              </tbody>
-            </table>
-            {data && (
-              <div>
-                <div className="ms-auto w-fit">
-                  {data.pagination.total} apps
-                </div>
-              </div>
-            )}
-            <Pagination currentPage={page} pages={pages} />
-          </div>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </td>
+                        )
+                      })}
+                    </motion.tr>
+                  </Fragment>
+                )
+              })}
+            </AnimatePresence>
+          </LayoutGroup>
+        </tbody>
+      </table>
+      {data && (
+        <div>
+          <div className="ms-auto w-fit">{data.pagination.total} apps</div>
         </div>
-      </>
-    </div>
+      )}
+    </>
   )
 }
 
