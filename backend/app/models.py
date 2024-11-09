@@ -32,6 +32,13 @@ from sqlalchemy.orm import (
 from . import utils
 
 
+class Pagination(BaseModel):
+    page: int
+    page_size: int
+    total: int
+    total_pages: int
+
+
 class QualityModerationStatus(BaseModel):
     passes: bool
     unrated: int
@@ -65,6 +72,32 @@ class ConnectedAccountProvider(str, enum.Enum):
 class DeleteUserResult(BaseModel):
     status: str
     message: Optional[str] = None
+
+
+class PermissionResult(BaseModel):
+    created_at: datetime
+    name: str
+
+
+class UserRoleResult(BaseModel):
+    id: int
+    name: str
+    created_at: datetime
+    permissions: list[PermissionResult]
+
+
+class UserResult(BaseModel):
+    id: int
+    display_name: Optional[str]
+    default_account: Optional[str]
+    deleted: bool
+    accepted_publisher_agreement_at: Optional[datetime]
+    roles: list[UserRoleResult]
+
+
+class FlathubUserResult(BaseModel):
+    users: list[UserResult]
+    pagination: Pagination
 
 
 class FlathubUser(Base):
@@ -114,6 +147,51 @@ class FlathubUser(Base):
                 return account
 
         return None
+
+    @staticmethod
+    def all(db, page, page_size) -> FlathubUserResult:
+        users = (
+            db.session.query(FlathubUser)
+            .limit(page_size)
+            .offset((page - 1) * page_size)
+            .all()
+        )
+
+        query_count = len(users)
+
+        return FlathubUserResult(
+            users=[
+                UserResult(
+                    id=user.id,
+                    display_name=user.display_name,
+                    default_account=user.default_account,
+                    deleted=user.deleted,
+                    accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
+                    roles=[
+                        UserRoleResult(
+                            id=role.id,
+                            name=role.name,
+                            created_at=role.created_at,
+                            permissions=[
+                                PermissionResult(
+                                    created_at=permission.created_at,
+                                    name=permission.name,
+                                )
+                                for permission in role.permissions
+                            ],
+                        )
+                        for role in user.roles
+                    ],
+                )
+                for user in users
+            ],
+            pagination=Pagination(
+                page=page,
+                page_size=page_size,
+                total=query_count,
+                total_pages=ceil(query_count / page_size),
+            ),
+        )
 
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
@@ -1822,13 +1900,6 @@ class AppsOfTheWeek(Base):
             db.session.add(app)
             db.session.commit()
             return app
-
-
-class Pagination(BaseModel):
-    page: int
-    page_size: int
-    total: int
-    total_pages: int
 
 
 class QualityModerationDashboardResponse(BaseModel):

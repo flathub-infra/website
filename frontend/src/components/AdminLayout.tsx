@@ -39,6 +39,12 @@ const AdminLayout = ({
       condition: (user: UserInfo) =>
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },
+    {
+      name: "Users",
+      href: "/admin/users",
+      condition: (user: UserInfo) =>
+        user?.permissions.some((a) => a === Permission.moderation),
+    },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))
 
   useEffect(() => {
