@@ -56,7 +56,6 @@ export const Base = ({
       </Head>
       <Preview>{previewText}</Preview>
       <Tailwind
-        // @ts-expect-error this can be removed when https://github.com/resend/react-email/issues/1616 is fixed
         config={{
           theme: {
             extend: {
