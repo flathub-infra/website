@@ -172,10 +172,10 @@ class FlathubUser(Base):
 
         if filterString is not None:
             query = (
-                query.filter(FlathubUser.display_name.ilike(f"%{filterString}%"))
-                .join(
+                query.join(
                     GithubAccount,
                     or_(
+                        FlathubUser.display_name.ilike(f"%{filterString}%"),
                         GithubAccount.login.ilike(f"%{filterString}%"),
                         GithubAccount.display_name.ilike(f"%{filterString}%"),
                         GithubAccount.email.ilike(f"%{filterString}%"),
