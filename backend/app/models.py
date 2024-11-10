@@ -462,7 +462,7 @@ class GithubAccountResult(BaseModel):
     id: int
     github_userid: int
     login: str
-    avatar_url: str
+    avatar_url: Optional[str]
     display_name: Optional[str]
     email: Optional[str]
     last_used: Optional[datetime]
@@ -720,7 +720,7 @@ class GnomeAccountResult(BaseModel):
     id: int
     gnome_userid: int
     login: str
-    avatar_url: str
+    avatar_url: Optional[str]
     display_name: Optional[str]
     email: Optional[str]
     last_used: Optional[datetime]
@@ -813,7 +813,7 @@ class GoogleAccountResult(BaseModel):
     id: int
     google_userid: int
     login: str
-    avatar_url: str
+    avatar_url: Optional[str]
     display_name: Optional[str]
     email: Optional[str]
     last_used: Optional[datetime]
@@ -904,7 +904,7 @@ class KdeAccountResult(BaseModel):
     id: int
     kde_userid: int
     login: str
-    avatar_url: str
+    avatar_url: Optional[str]
     display_name: Optional[str]
     email: Optional[str]
     last_used: Optional[datetime]

@@ -4,13 +4,14 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { KdeAccountResultAvatarUrl } from "./kdeAccountResultAvatarUrl"
 import type { KdeAccountResultDisplayName } from "./kdeAccountResultDisplayName"
 import type { KdeAccountResultEmail } from "./kdeAccountResultEmail"
 import type { KdeAccountResultLastUsed } from "./kdeAccountResultLastUsed"
 import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface KdeAccountResult {
-  avatar_url: string
+  avatar_url: KdeAccountResultAvatarUrl
   display_name: KdeAccountResultDisplayName
   email: KdeAccountResultEmail
   id: number
