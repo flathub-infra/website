@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ConditionalWrapper } from "@/lib/helpers"
 import { format, formatDistanceToNow } from "date-fns"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
@@ -22,16 +23,38 @@ const ProviderProfileLink = ({
   provider: ConnectedAccountProvider
   login: string
 }) => {
+  let url = ""
+  switch (provider) {
+    case ConnectedAccountProvider.github:
+      url = `https://github.com/${login}`
+      break
+    case ConnectedAccountProvider.gitlab:
+      url = `https://gitlab.com/${login}`
+      break
+    case ConnectedAccountProvider.kde:
+      url = `https://invent.kde.org/${login}`
+      break
+    case ConnectedAccountProvider.gnome:
+      url = `https://gitlab.gnome.org/${login}`
+      break
+    default:
+      break
+  }
+
   return (
-    <a
-      href={`https://github.com/${login}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center space-x-2"
+    <ConditionalWrapper
+      condition={url.length > 0}
+      wrapper={(a) => (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {a}
+        </a>
+      )}
     >
-      <ProviderLogo provider={provider} />
-      <span>{login}</span>
-    </a>
+      <div className="flex items-center space-x-2">
+        <ProviderLogo provider={provider} />
+        <span>{login}</span>
+      </div>
+    </ConditionalWrapper>
   )
 }
 
