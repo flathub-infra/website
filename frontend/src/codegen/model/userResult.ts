@@ -7,6 +7,7 @@
 import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
 import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
 import type { UserResultDisplayName } from "./userResultDisplayName"
+import type { UserResultGithubRepos } from "./userResultGithubRepos"
 import type { UserResultOwnedApps } from "./userResultOwnedApps"
 import type { UserRoleResult } from "./userRoleResult"
 
@@ -15,6 +16,7 @@ export interface UserResult {
   default_account: UserResultDefaultAccount
   deleted: boolean
   display_name: UserResultDisplayName
+  github_repos: UserResultGithubRepos
   id: number
   owned_apps: UserResultOwnedApps
   roles: UserRoleResult[]
