@@ -255,6 +255,8 @@ class FlathubUser(Base):
     def to_result(self, db, owned_apps=None, get_github_repos=False) -> UserResult:
         default_account = self.get_default_account(db)
 
+        github_repos = []
+
         if default_account is None:
             default_account_result = None
         else:
