@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input"
 import {
   ColumnDef,
   flexRender,
@@ -48,6 +49,10 @@ export default function UserModeration() {
 
   const router = useRouter()
 
+  const [filterString, setFilterString] = useState<string>(
+    router?.query?.filterString ? String(router.query.filterString) : undefined,
+  )
+
   const [page, setPage] = useState<number>(
     router?.query?.page ? Number(router.query.page) : 1,
   )
@@ -56,6 +61,7 @@ export default function UserModeration() {
     {
       page: page,
       page_size: pageSize,
+      filterString: filterString,
     },
     {
       axios: {
@@ -69,6 +75,20 @@ export default function UserModeration() {
   useEffect(() => {
     setPage(router?.query?.page ? Number(router.query.page) : 1)
   }, [router.query.page])
+
+  useEffect(() => {
+    const newQuery = { ...router.query }
+
+    if (filterString) {
+      newQuery.filterString = filterString
+    } else {
+      delete newQuery.filterString
+    }
+
+    router.push({
+      query: newQuery,
+    })
+  }, [filterString])
 
   useEffect(() => {
     setData(query?.data?.data)
@@ -89,6 +109,12 @@ export default function UserModeration() {
 
           {query.isSuccess && (
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <Input
+                type="text"
+                placeholder="Search"
+                defaultValue={filterString}
+                onBlur={(e) => setFilterString(e.target.value)}
+              />
               <UserTable data={query.data.data} />
               <Pagination currentPage={page} pages={pages} />
             </div>
