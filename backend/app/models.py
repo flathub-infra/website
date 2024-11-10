@@ -163,10 +163,63 @@ class FlathubUser(Base):
         return None
 
     @staticmethod
-    def all(db, page, page_size) -> FlathubUsersResult:
+    def all(
+        db, page, page_size, filterString: Optional[str] = None
+    ) -> FlathubUsersResult:
         offset = (page - 1) * page_size
         query = db.session.query(FlathubUser)
-        users = query.offset(offset).limit(page_size).all()
+
+        if filterString is not None:
+            query = (
+                query.filter(FlathubUser.display_name.ilike(f"%{filterString}%"))
+                .join(
+                    GithubAccount,
+                    or_(
+                        GithubAccount.login.ilike(f"%{filterString}%"),
+                        GithubAccount.display_name.ilike(f"%{filterString}%"),
+                        GithubAccount.email.ilike(f"%{filterString}%"),
+                    ),
+                    isouter=True,
+                )
+                .join(
+                    GitlabAccount,
+                    or_(
+                        GitlabAccount.login.ilike(f"%{filterString}%"),
+                        GitlabAccount.display_name.ilike(f"%{filterString}%"),
+                        GitlabAccount.email.ilike(f"%{filterString}%"),
+                    ),
+                    isouter=True,
+                )
+                .join(
+                    GnomeAccount,
+                    or_(
+                        GnomeAccount.login.ilike(f"%{filterString}%"),
+                        GnomeAccount.display_name.ilike(f"%{filterString}%"),
+                        GnomeAccount.email.ilike(f"%{filterString}%"),
+                    ),
+                    isouter=True,
+                )
+                .join(
+                    KdeAccount,
+                    or_(
+                        KdeAccount.login.ilike(f"%{filterString}%"),
+                        KdeAccount.display_name.ilike(f"%{filterString}%"),
+                        KdeAccount.email.ilike(f"%{filterString}%"),
+                    ),
+                    isouter=True,
+                )
+                .join(
+                    GoogleAccount,
+                    or_(
+                        GoogleAccount.login.ilike(f"%{filterString}%"),
+                        GoogleAccount.display_name.ilike(f"%{filterString}%"),
+                        GoogleAccount.email.ilike(f"%{filterString}%"),
+                    ),
+                    isouter=True,
+                )
+            )
+
+        users = query.order_by(FlathubUser.id).offset(offset).limit(page_size).all()
 
         total_count = query.count()
 

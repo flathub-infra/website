@@ -17,12 +17,15 @@ def register_to_app(app: FastAPI):
     tags=["users"],
 )
 def users(
-    page: int = 1, page_size: int = 30, _moderator=Depends(moderator_only)
+    page: int = 1,
+    page_size: int = 30,
+    filterString: str | None = None,
+    _moderator=Depends(moderator_only),
 ) -> models.FlathubUsersResult:
     """
     Return a list of all known users
     """
-    return models.FlathubUser.all(sqldb, page, page_size)
+    return models.FlathubUser.all(sqldb, page, page_size, filterString)
 
 
 @router.get(
