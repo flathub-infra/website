@@ -99,7 +99,7 @@ export default function UserAdmin({ userId }) {
               {query.data.data.default_account && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Default Account</h2>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
                     <Card>
                       <CardHeader>
                         <CardTitle>
@@ -123,11 +123,13 @@ export default function UserAdmin({ userId }) {
                             query.data.data.default_account.last_used,
                             "PP",
                           )}{" "}
+                          (
                           {formatDistanceToNow(
                             query.data.data.default_account.last_used,
+                            { addSuffix: true },
                           )}
+                          )
                         </div>
-                        <div></div>
                       </CardContent>
                     </Card>
                   </div>
