@@ -106,6 +106,7 @@ class UserResult(BaseModel):
     deleted: bool
     accepted_publisher_agreement_at: Optional[datetime]
     roles: list[UserRoleResult]
+    github_repos: Optional[list["GithubRepositoryResult"]]
     owned_apps: Optional[list[UserOwnedAppResult]]
 
 
@@ -249,9 +250,9 @@ class FlathubUser(Base):
 
         owned_apps = user.get_owned_apps(db, user)
 
-        return user.to_result(db, owned_apps)
+        return user.to_result(db, owned_apps, get_github_repos=True)
 
-    def to_result(self, db, owned_apps=None) -> UserResult:
+    def to_result(self, db, owned_apps=None, get_github_repos=False) -> UserResult:
         default_account = self.get_default_account(db)
 
         if default_account is None:
@@ -259,12 +260,19 @@ class FlathubUser(Base):
         else:
             default_account_result = default_account.to_result()
 
+        if (
+            get_github_repos
+            and default_account.provider == ConnectedAccountProvider.GITHUB
+        ):
+            github_repos = GithubRepository.all_by_account(db, default_account)
+
         return UserResult(
             id=self.id,
             display_name=self.display_name,
             deleted=self.deleted,
             accepted_publisher_agreement_at=self.accepted_publisher_agreement_at,
             default_account=default_account_result,
+            github_repos=[repo.to_result() for repo in github_repos],
             owned_apps=(
                 None if owned_apps is None else [app.to_result() for app in owned_apps]
             ),
@@ -554,6 +562,11 @@ class GithubFlowToken(Base):
         db.session.flush()
 
 
+class GithubRepositoryResult(BaseModel):
+    id: int
+    reponame: str
+
+
 class GithubRepository(Base):
     __tablename__ = "githubrepository"
 
@@ -562,6 +575,9 @@ class GithubRepository(Base):
         Integer, ForeignKey(GithubAccount.id), nullable=False, index=True
     )
     reponame = mapped_column(String, nullable=False)
+
+    def to_result(self: "GithubRepository") -> GithubRepositoryResult:
+        return GithubRepositoryResult(id=self.id, reponame=self.reponame)
 
     @staticmethod
     def unify_repolist(db, accountId: int, repolist: list[str]):

@@ -134,16 +134,32 @@ export default function UserAdmin({ userId }) {
                 </div>
               )}
 
+              {query.data.data.github_repos.length > 0 && (
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-extrabold">Managed repos</h2>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                    {query.data.data.github_repos.map((repo) => (
+                      <a
+                        key={repo.id}
+                        href={`https://github.com/${repo.reponame}`}
+                      >
+                        <Card key={repo.reponame}>
+                          <CardHeader>
+                            <CardTitle>{repo.reponame}</CardTitle>
+                          </CardHeader>
+                        </Card>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {query.data.data.owned_apps.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Owned Apps</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
                     {query.data.data.owned_apps.map((app) => (
-                      <Link
-                        key={app.app_id}
-                        href={`/apps/${app.app_id}`}
-                        className=""
-                      >
+                      <Link key={app.app_id} href={`/apps/${app.app_id}`}>
                         <Card key={app.app_id}>
                           <CardHeader>
                             <CardTitle>{app.app_id}</CardTitle>
