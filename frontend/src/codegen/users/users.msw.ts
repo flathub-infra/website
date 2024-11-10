@@ -6,17 +6,19 @@
  */
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
-import type { FlathubUserResult, UserResult } from ".././model"
+import { ConnectedAccountProvider } from ".././model"
+import type { FlathubUsersResult, UserResult } from ".././model"
 
 export const getUsersUsersGetResponseMock = (
-  overrideResponse: Partial<FlathubUserResult> = {},
-): FlathubUserResult => ({
+  overrideResponse: Partial<FlathubUsersResult> = {},
+): FlathubUsersResult => ({
   pagination: {
     page: faker.number.int({ min: undefined, max: undefined }),
     page_size: faker.number.int({ min: undefined, max: undefined }),
     total: faker.number.int({ min: undefined, max: undefined }),
     total_pages: faker.number.int({ min: undefined, max: undefined }),
   },
+  // @ts-expect-error
   users: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -25,10 +27,41 @@ export const getUsersUsersGetResponseMock = (
       `${faker.date.past().toISOString().split(".")[0]}Z`,
       null,
     ]),
-    default_account: faker.helpers.arrayElement([faker.word.sample(), null]),
+    default_account: faker.helpers.arrayElement([
+      {
+        avatar_url: faker.word.sample(),
+        display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+        email: faker.helpers.arrayElement([faker.word.sample(), null]),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        last_used: faker.helpers.arrayElement([
+          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          null,
+        ]),
+        login: faker.word.sample(),
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+      },
+      { gitlab_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { gnome_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { google_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
+      null,
+    ]),
     deleted: faker.datatype.boolean(),
     display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
     id: faker.number.int({ min: undefined, max: undefined }),
+    owned_apps: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        app_id: faker.word.sample(),
+        created: `${faker.date.past().toISOString().split(".")[0]}Z`,
+      })),
+      null,
+    ]),
     roles: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -55,10 +88,42 @@ export const getUserUsersUserIdGetResponseMock = (
     `${faker.date.past().toISOString().split(".")[0]}Z`,
     null,
   ]),
-  default_account: faker.helpers.arrayElement([faker.word.sample(), null]),
+  // @ts-expect-error
+  default_account: faker.helpers.arrayElement([
+    {
+      avatar_url: faker.word.sample(),
+      display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+      email: faker.helpers.arrayElement([faker.word.sample(), null]),
+      github_userid: faker.number.int({ min: undefined, max: undefined }),
+      id: faker.number.int({ min: undefined, max: undefined }),
+      last_used: faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        null,
+      ]),
+      login: faker.word.sample(),
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+    },
+    { gitlab_userid: faker.number.int({ min: undefined, max: undefined }) },
+    { gnome_userid: faker.number.int({ min: undefined, max: undefined }) },
+    { google_userid: faker.number.int({ min: undefined, max: undefined }) },
+    { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
+    null,
+  ]),
   deleted: faker.datatype.boolean(),
   display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
   id: faker.number.int({ min: undefined, max: undefined }),
+  owned_apps: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.word.sample(),
+      created: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    })),
+    null,
+  ]),
   roles: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
@@ -79,10 +144,10 @@ export const getUserUsersUserIdGetResponseMock = (
 
 export const getUsersUsersGetMockHandler = (
   overrideResponse?:
-    | FlathubUserResult
+    | FlathubUsersResult
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<FlathubUserResult> | FlathubUserResult),
+      ) => Promise<FlathubUsersResult> | FlathubUsersResult),
 ) => {
   return http.get("*/users", async (info) => {
     await delay(1000)

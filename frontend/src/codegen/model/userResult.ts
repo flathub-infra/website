@@ -7,6 +7,7 @@
 import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
 import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
 import type { UserResultDisplayName } from "./userResultDisplayName"
+import type { UserResultOwnedApps } from "./userResultOwnedApps"
 import type { UserRoleResult } from "./userRoleResult"
 
 export interface UserResult {
@@ -15,5 +16,6 @@ export interface UserResult {
   deleted: boolean
   display_name: UserResultDisplayName
   id: number
+  owned_apps: UserResultOwnedApps
   roles: UserRoleResult[]
 }

@@ -17,7 +17,7 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
-  FlathubUserResult,
+  FlathubUsersResult,
   HTTPValidationError,
   UserResult,
   UsersUsersGetParams,
@@ -30,7 +30,7 @@ import type {
 export const usersUsersGet = (
   params?: UsersUsersGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<FlathubUserResult>> => {
+): Promise<AxiosResponse<FlathubUsersResult>> => {
   return axios.get(`/users`, {
     ...options,
     params: { ...params, ...options?.params },
