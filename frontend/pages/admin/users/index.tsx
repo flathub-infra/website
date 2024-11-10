@@ -113,6 +113,9 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
       header: "Provider",
       accessorFn: (row) => row.default_account.provider,
       cell: ({ row }) => {
+        if (!row.original.default_account?.provider) {
+          return null
+        }
         return <ProviderLogo provider={row.original.default_account.provider} />
       },
     },
@@ -124,18 +127,31 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
     {
       id: "username",
       header: "Username",
-      accessorFn: (row) => row.default_account.login,
+      accessorFn: (row) => {
+        if (!row.default_account?.login) {
+          return null
+        }
+        return row.default_account.login
+      },
     },
 
     {
       id: "email",
       header: "Email",
-      accessorFn: (row) => row.default_account.email,
+      accessorFn: (row) => {
+        if (!row.default_account?.email) {
+          return null
+        }
+        return row.default_account.email
+      },
     },
     {
       id: "last_used",
       header: "Last Used",
       accessorFn: (row) => {
+        if (!row.default_account?.last_used) {
+          return null
+        }
         return format(row.default_account.last_used, "PP")
       },
     },
