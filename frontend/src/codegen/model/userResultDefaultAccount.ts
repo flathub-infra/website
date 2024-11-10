@@ -4,5 +4,16 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { GithubAccountResult } from "./githubAccountResult"
+import type { GitlabAccountResult } from "./gitlabAccountResult"
+import type { GnomeAccountResult } from "./gnomeAccountResult"
+import type { GoogleAccountResult } from "./googleAccountResult"
+import type { KdeAccountResult } from "./kdeAccountResult"
 
-export type UserResultDefaultAccount = string | null
+export type UserResultDefaultAccount =
+  | GithubAccountResult
+  | GitlabAccountResult
+  | GnomeAccountResult
+  | GoogleAccountResult
+  | KdeAccountResult
+  | null

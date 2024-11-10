@@ -7,7 +7,7 @@
 import type { Pagination } from "./pagination"
 import type { UserResult } from "./userResult"
 
-export interface FlathubUserResult {
+export interface FlathubUsersResult {
   pagination: Pagination
   users: UserResult[]
 }

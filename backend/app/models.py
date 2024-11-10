@@ -60,6 +60,14 @@ ConnectedAccount = Union[
     "KdeAccount",
 ]
 
+ConnectedAccountResult = Union[
+    "GithubAccountResult",
+    "GitlabAccountResult",
+    "GnomeAccountResult",
+    "GoogleAccountResult",
+    "KdeAccountResult",
+]
+
 
 class ConnectedAccountProvider(str, enum.Enum):
     GITHUB = "github"
@@ -86,16 +94,22 @@ class UserRoleResult(BaseModel):
     permissions: list[PermissionResult]
 
 
+class UserOwnedAppResult(BaseModel):
+    app_id: str
+    created: datetime
+
+
 class UserResult(BaseModel):
     id: int
     display_name: Optional[str]
-    default_account: Optional[str]
+    default_account: Optional[ConnectedAccountResult]
     deleted: bool
     accepted_publisher_agreement_at: Optional[datetime]
     roles: list[UserRoleResult]
+    owned_apps: Optional[list[UserOwnedAppResult]]
 
 
-class FlathubUserResult(BaseModel):
+class FlathubUsersResult(BaseModel):
     users: list[UserResult]
     pagination: Pagination
 
@@ -149,39 +163,15 @@ class FlathubUser(Base):
         return None
 
     @staticmethod
-    def all(db, page, page_size) -> FlathubUserResult:
+    def all(db, page, page_size) -> FlathubUsersResult:
         offset = (page - 1) * page_size
         query = db.session.query(FlathubUser)
         users = query.offset(offset).limit(page_size).all()
 
         total_count = query.count()
 
-        return FlathubUserResult(
-            users=[
-                UserResult(
-                    id=user.id,
-                    display_name=user.display_name,
-                    default_account=user.default_account,
-                    deleted=user.deleted,
-                    accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
-                    roles=[
-                        UserRoleResult(
-                            id=role.id,
-                            name=role.name,
-                            created_at=role.created_at,
-                            permissions=[
-                                PermissionResult(
-                                    created_at=permission.created_at,
-                                    name=permission.name,
-                                )
-                                for permission in role.permissions
-                            ],
-                        )
-                        for role in user.roles
-                    ],
-                )
-                for user in users
-            ],
+        return FlathubUsersResult(
+            users=[user.to_result(db) for user in users],
             pagination=Pagination(
                 page=page,
                 page_size=page_size,
@@ -193,6 +183,54 @@ class FlathubUser(Base):
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
         return db.session.get(FlathubUser, user_id)
+
+    @staticmethod
+    def get_owned_apps(db, user: "FlathubUser") -> list["UserOwnedApp"]:
+        return db.session.query(UserOwnedApp).filter_by(account=user.id).all()
+
+    @staticmethod
+    def by_id_result(db, user_id: int) -> Optional["UserResult"]:
+        user = db.session.get(FlathubUser, user_id)
+        if user is None:
+            return None
+
+        owned_apps = user.get_owned_apps(db, user)
+
+        return user.to_result(db, owned_apps)
+
+    def to_result(self, db, owned_apps=None) -> UserResult:
+        default_account = self.get_default_account(db)
+
+        if default_account is None:
+            default_account_result = None
+        else:
+            default_account_result = default_account.to_result()
+
+        return UserResult(
+            id=self.id,
+            display_name=self.display_name,
+            deleted=self.deleted,
+            accepted_publisher_agreement_at=self.accepted_publisher_agreement_at,
+            default_account=default_account_result,
+            owned_apps=(
+                None if owned_apps is None else [app.to_result() for app in owned_apps]
+            ),
+            roles=[
+                UserRoleResult(
+                    id=role.id,
+                    name=role.name,
+                    created_at=role.created_at,
+                    permissions=[
+                        PermissionResult(
+                            created_at=permission.created_at,
+                            name=permission.name,
+                        )
+                        for permission in role.permissions
+                    ],
+                )
+                for role in self.roles
+            ],
+        )
 
     @staticmethod
     def by_invite_code(db, invite_code: str) -> Optional["FlathubUser"]:
@@ -358,6 +396,17 @@ class Permission(Base):
     )
 
 
+class GithubAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    github_userid: int
+    login: str
+    avatar_url: str
+    display_name: Optional[str]
+    email: Optional[str]
+    last_used: Optional[datetime]
+
+
 class GithubAccount(Base):
     __tablename__ = "githubaccount"
 
@@ -374,6 +423,18 @@ class GithubAccount(Base):
     email: Mapped[Optional[str]]
     token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
+
+    def to_result(self: "GithubAccount") -> GithubAccountResult:
+        return GithubAccountResult(
+            provider=self.provider,
+            id=self.id,
+            github_userid=self.github_userid,
+            login=self.login,
+            avatar_url=self.avatar_url,
+            display_name=self.display_name,
+            email=self.email,
+            last_used=self.last_used,
+        )
 
     @staticmethod
     def by_user(db, user: FlathubUser) -> Optional["GithubAccount"]:
@@ -492,6 +553,17 @@ class GitlabFlowToken(Base):
         db.session.flush()
 
 
+class GitlabAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    gitlab_userid: int
+    login: str
+    avatar_url: Optional[str]
+    display_name: Optional[str]
+    email: Optional[str]
+    last_used: Optional[datetime]
+
+
 class GitlabAccount(Base):
     __tablename__ = "gitlabaccount"
 
@@ -510,6 +582,18 @@ class GitlabAccount(Base):
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
+
+    def to_result(self) -> GitlabAccountResult:
+        return GitlabAccountResult(
+            provider=self.provider,
+            id=self.id,
+            gitlab_userid=self.gitlab_userid,
+            login=self.login,
+            avatar_url=self.avatar_url,
+            display_name=self.display_name,
+            email=self.email,
+            last_used=self.last_used,
+        )
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -562,6 +646,17 @@ class GnomeFlowToken(Base):
         db.session.flush()
 
 
+class GnomeAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    gnome_userid: int
+    login: str
+    avatar_url: str
+    display_name: Optional[str]
+    email: Optional[str]
+    last_used: Optional[datetime]
+
+
 class GnomeAccount(Base):
     __tablename__ = "gnomeaccount"
 
@@ -580,6 +675,18 @@ class GnomeAccount(Base):
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
+
+    def to_result(self) -> GnomeAccountResult:
+        return GnomeAccountResult(
+            provider=self.provider,
+            id=self.id,
+            gnome_userid=self.gnome_userid,
+            login=self.login,
+            avatar_url=self.avatar_url,
+            display_name=self.display_name,
+            email=self.email,
+            last_used=self.last_used,
+        )
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -632,6 +739,17 @@ class GoogleFlowToken(Base):
         db.session.flush()
 
 
+class GoogleAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    google_userid: int
+    login: str
+    avatar_url: str
+    display_name: Optional[str]
+    email: Optional[str]
+    last_used: Optional[datetime]
+
+
 class GoogleAccount(Base):
     __tablename__ = "googleaccount"
 
@@ -650,6 +768,18 @@ class GoogleAccount(Base):
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
+
+    def to_result(self) -> GoogleAccountResult:
+        return GoogleAccountResult(
+            provider=self.provider,
+            id=self.id,
+            google_userid=self.google_userid,
+            login=self.login,
+            avatar_url=self.avatar_url,
+            display_name=self.display_name,
+            email=self.email,
+            last_used=self.last_used,
+        )
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -700,6 +830,17 @@ class KdeFlowToken(Base):
         db.session.flush()
 
 
+class KdeAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    kde_userid: int
+    login: str
+    avatar_url: str
+    display_name: Optional[str]
+    email: Optional[str]
+    last_used: Optional[datetime]
+
+
 class KdeAccount(Base):
     __tablename__ = "kdeaccount"
 
@@ -718,6 +859,18 @@ class KdeAccount(Base):
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
+
+    def to_result(self) -> KdeAccountResult:
+        return KdeAccountResult(
+            provider=self.provider,
+            id=self.id,
+            kde_userid=self.kde_userid,
+            login=self.login,
+            avatar_url=self.avatar_url,
+            display_name=self.display_name,
+            email=self.email,
+            last_used=self.last_used,
+        )
 
     @staticmethod
     def by_user(db, user: FlathubUser):
@@ -1244,6 +1397,9 @@ class UserOwnedApp(Base):
         primary_key=True,
     )
     created = mapped_column(DateTime, nullable=False)
+
+    def to_result(self) -> UserOwnedAppResult:
+        return UserOwnedAppResult(app_id=self.app_id, created=self.created)
 
     @staticmethod
     def user_owns_app(db, user_id: int, app_id: str):

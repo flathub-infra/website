@@ -6,11 +6,13 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
+import { format } from "date-fns"
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
+import React from "react"
 import { ReactElement, useEffect, useState } from "react"
 import {
   HiExclamationTriangle,
@@ -18,13 +20,14 @@ import {
   HiMiniChevronUp,
 } from "react-icons/hi2"
 import {
-  FlathubUserResult,
+  FlathubUsersResult,
   Permission,
   UserInfo,
   UserResult,
   useUsersUsersGet,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
+import { ProviderLogo } from "src/components/login/ProviderLogo"
 import Pagination from "src/components/Pagination"
 import Spinner from "src/components/Spinner"
 
@@ -61,7 +64,7 @@ export default function UserModeration() {
     },
   )
 
-  const [data, setData] = useState<FlathubUserResult>()
+  const [data, setData] = useState<FlathubUsersResult>()
 
   useEffect(() => {
     setPage(router?.query?.page ? Number(router.query.page) : 1)
@@ -96,7 +99,7 @@ export default function UserModeration() {
   )
 }
 
-const UserTable = ({ data }: { data: FlathubUserResult }) => {
+const UserTable = ({ data }: { data: FlathubUsersResult }) => {
   const router = useRouter()
 
   const columns: ColumnDef<UserResult>[] = [
@@ -106,9 +109,35 @@ const UserTable = ({ data }: { data: FlathubUserResult }) => {
       accessorKey: "id",
     },
     {
+      id: "provider",
+      header: "Provider",
+      accessorFn: (row) => row.default_account.provider,
+      cell: ({ row }) => {
+        return <ProviderLogo provider={row.original.default_account.provider} />
+      },
+    },
+    {
       id: "display_name",
       header: "Display Name",
       accessorKey: "display_name",
+    },
+    {
+      id: "username",
+      header: "Username",
+      accessorFn: (row) => row.default_account.login,
+    },
+
+    {
+      id: "email",
+      header: "Email",
+      accessorFn: (row) => row.default_account.email,
+    },
+    {
+      id: "last_used",
+      header: "Last Used",
+      accessorFn: (row) => {
+        return format(row.default_account.last_used, "PP")
+      },
     },
     {
       id: "deleted",

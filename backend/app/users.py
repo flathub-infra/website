@@ -18,7 +18,7 @@ def register_to_app(app: FastAPI):
 )
 def users(
     page: int = 1, page_size: int = 30, _moderator=Depends(moderator_only)
-) -> models.FlathubUserResult:
+) -> models.FlathubUsersResult:
     """
     Return a list of all known users
     """
@@ -33,7 +33,7 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     """
     Return the current user
     """
-    user = models.FlathubUser.by_id(sqldb, user_id)
+    user = models.FlathubUser.by_id_result(sqldb, user_id)
 
     if user is None:
         raise HTTPException(status_code=404, detail="user not found")
