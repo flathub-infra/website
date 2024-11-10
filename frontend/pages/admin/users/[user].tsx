@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { format } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
@@ -13,7 +13,6 @@ import {
 import Breadcrumbs from "src/components/Breadcrumbs"
 import LoginGuard from "src/components/login/LoginGuard"
 import { ProviderLogo } from "src/components/login/ProviderLogo"
-import LogoImage from "src/components/LogoImage"
 import Spinner from "src/components/Spinner"
 
 const ProviderProfileLink = ({
@@ -77,7 +76,7 @@ export default function UserAdmin({ userId }) {
               {query.data.data.default_account && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Default Account</h2>
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
                     <Card>
                       <CardHeader>
                         <CardTitle>
@@ -100,6 +99,9 @@ export default function UserAdmin({ userId }) {
                           {format(
                             query.data.data.default_account.last_used,
                             "PP",
+                          )}{" "}
+                          {formatDistanceToNow(
+                            query.data.data.default_account.last_used,
                           )}
                         </div>
                         <div></div>
@@ -112,7 +114,7 @@ export default function UserAdmin({ userId }) {
               {query.data.data.owned_apps.length > 0 && (
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Owned Apps</h2>
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-6">
                     {query.data.data.owned_apps.map((app) => (
                       <Link
                         key={app.app_id}
