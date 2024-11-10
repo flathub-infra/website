@@ -4,13 +4,14 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { GithubAccountResultAvatarUrl } from "./githubAccountResultAvatarUrl"
 import type { GithubAccountResultDisplayName } from "./githubAccountResultDisplayName"
 import type { GithubAccountResultEmail } from "./githubAccountResultEmail"
 import type { GithubAccountResultLastUsed } from "./githubAccountResultLastUsed"
 import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface GithubAccountResult {
-  avatar_url: string
+  avatar_url: GithubAccountResultAvatarUrl
   display_name: GithubAccountResultDisplayName
   email: GithubAccountResultEmail
   github_userid: number
