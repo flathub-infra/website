@@ -8,4 +8,5 @@
 export type UsersUsersGetParams = {
   page?: number
   page_size?: number
+  filterString?: string | null
 }
