@@ -2,9 +2,13 @@
   "manjaro": {
     "step-2": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
-    "distroName": "Manjaro"
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Ŝalti Flatpak per la Programadministrilo",
+      "text": "<p>Flatpak estas apriore instalita ĉe Manjaro versio 20 aŭ pli nova.</p> <2>Por aktivigi ĝin, lanĉu <strong>Software Manager</strong> (Aldoni/Forigi Programojn)</2> <p>Alklaku la deksteran trioblalinian menuon [aŭ punktojn, depende de la labortabla medio], ĉe la menuo elektu «Preferoj»</p> <p>Navigu al la langeto «Flatpak», kaj baskuligu la opcion pri subteno de Flatpak (ankaŭ kontrolado pri ĝisdatigoj estas rekomendata).</p>"
+    }
   },
   "ubuntu": {
     "step-3": {
@@ -13,7 +17,7 @@
     },
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "distroName": "Ubuntu",
     "step-1": {
@@ -22,7 +26,7 @@
     },
     "step-2": {
       "name": "Instalu la Flatpak-kromprogramon por la GNOME-programvendejo",
-      "text": "La GNOME Softvaro faras ebla instali programojn sen bezonado de la komandlinio. Por instali, kuri:</p> <2> / 2><4><strong>Not:</strong> Ubuntu distribuas GNOME Softvaron kiel Snap en versioj 20.04 ĝis 23.04, kaj anstataŭigis ĝin kun App Center en 23.10 kaj pli nova - naŭ de kiu subteno instalanta Flatpak programojn. Instali la Flatpak-aldonaĵon ankaŭ instalas deb version de GNOME Softvaro, rezultigante du \"Software\" programojn estantajn instalita en la sama tempo sur Ubuntu 20.04 ĝis 23.04, kaj ununuran novan \"Software-\" programon sur Ubuntu 23.10 kaj pli nova"
+      "text": "<p>La kromprogramo por GNOME Software ebligas instali programojn sen la terminalo. Por instali ĝin, rulu la jenon:</p> <2></2> <4><strong>Notu:</strong> Ubuntu distribuas GNOME Software kiel Snap en versioj 20.04 ĝis 23.04, kaj anstataŭigis ĝin per App Center en versioj 23.10 kaj pli novaj — neniu el tiuj du subtenas instali Flatpak-programojn. Instalado de la Flatpak-kromprogramo ankaŭ instalos .deb-version de GNOME Software, kaŭzante du programojn nomitajn «Software» instalitajn kune ĉe Ubuntu 20.04 ĝis 23.04, kaj unu novan programon «Software» ĉe Ubuntu 23.10 aŭ pli nova.</4>"
     }
   },
   "endless_os": {
@@ -32,7 +36,8 @@
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-2": {
-      "name": "Aldoni la deponejon Flathub"
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas bonega loko akiri Flatpak-programojn. Por ŝalti ĝin sur via Alt-sistemo, rulu la jenon:</p> <2></2>"
     },
     "step-1": {
       "name": "Instali Flatpak",
@@ -40,35 +45,41 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian aparaton. Nun vi povas <1>instali programojn</1>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian aparaton. Nun vi pretas <1>instali programojn</1>!</0>"
     }
   },
   "chrome_os": {
     "step-1": {
-      "name": "Ŝalti subtenon por Linux"
+      "name": "Ŝalti subtenon por Linux",
+      "text": "<0>Navigu al <2>chrome://os-settings</2>, foliumu al <strong>Developers</strong>, kaj ŝaltu <i>Linux development environment</i>. Instalado de Linux iom daŭros.</0>"
     },
     "step-2": {
-      "name": "Lanĉi Linux-terminalon"
+      "name": "Lanĉi Linux-terminalon",
+      "text": "<p>Premu la klavon por Serĉi/Lanĉi, kaj lanĉu la Terminalon tajpante «Terminalo».</p>"
     },
     "step-4": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
     },
     "step-3": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak, rulu la jenon en la terminalo:</p> <2><2> <4>Pli ĝisdata pako por Flatpak estas disponebla ĉe la <2>deponejo «backports» de Debiano</2>. <4>"
     },
     "distroName": "ChromeOS",
     "step-5": {
-      "name": "Restartigi"
-    }
+      "name": "Restartigi",
+      "text": "<0>Por fini la instaladon, restartigu Linux. Vi povas fari tion dekstre alklakante la terminalon kaj poste alklakante «Shut down Linux». Nun vi pretas<2>instali programojn</2>!</0>"
+    },
+    "introduction": "<0>Flatpak-programoj estas instaleblaj sur ChromeOS per la kongruiga tavolo Crostini Linux. Tio ĉi ne estas havebla por ĉiuj aparatoj kun ChromeOS; tial certigu la kongruecon de via aparato antaŭ ol instalado. <2>Jen</2> la listo de kongruaj aparatoj.</0>"
   },
   "opensuse": {
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Flatpak estas disponebla ĉe la aprioraj deponejoj de ĉiuj aktuale subtenataj versioj de openSUSE Leap kaj openSUSE Tumbleweed.</p> <2>Se vi preferas grafikan instaladon, vi povas instali Flatpak per «unu-alklaka instalilo» ĉe <2>software.opensuse.org</2>. Se via mastrumasistema versio ne troviĝas, unue alklaku <5>Montri Flatpak por aliaj distribuoj</5> kaj poste elektu el la listo.</2> <p>Alternative, instalu Flatpak per la terminalo uzante Zypper:</p> <6></6>"
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
@@ -84,16 +95,17 @@
     },
     "step-2": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     }
   },
   "debian": {
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Pako por Flatpak pako estas disponebla en Debian versio 10 (Buster) aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2>"
     },
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
@@ -101,13 +113,15 @@
     },
     "distroName": "Debiano",
     "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
+      "text": "<p>Se vi uzas GNOME, ankaŭ estas rekomendata instali la Flatpak-kromprogramon por GNOME Software. Por fari tion, rulu la jenon:</p> <2></2> <p>Se vi uzas KDE, vi anstataŭe instalu la Flatpak-kromprogramon por Plasma Discover:</p> <6></6>"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<0>Flatpak estas apriore instalita sur Rocky Linux versio 8 aŭ pli nova, kiam oni instalis ĝin elektinte GNOME (aŭ Servilon kun Grafika Fasado aŭ Laborkomputilon). Se vi uzas tian sistemo, vi povas preterpasi ĉi tiun paŝon. Por instali Flatpak sur Rocky Linux, rulu la jenon en terminalo:</p> <2></2>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
@@ -115,20 +129,26 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     }
   },
   "kubuntu": {
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Kubuntu, lanĉu Discover, iru al Agordoj, instalu la Flatpak-subtenon, kaj relanĉu Discover.</p>"
     },
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "distroName": "Kubuntu",
     "step-3": {
-      "name": "Aldoni la deponejon Flathub"
+      "name": "Aldoni la deponejon Flathub",
+      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, lanĉu Discover, iru al la Agordoj, kaj aldonu la Flathub-deponejon.</p>"
+    },
+    "step-2": {
+      "text": "<p>Por integri Flatpak en la sisteman agordejon de Plasma, lanĉu la terminalon kaj rulu la jenon:</p> <2></2>",
+      "name": "Instali la Flatpak-kromprogramon por la sistema agordejo"
     }
   },
   "solus": {
@@ -138,7 +158,7 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ankoraŭ ne eblas ĉe Solus, sed tio eblos baldaŭ.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ankoraŭ ne eblas ĉe Solus, sed tio eblos baldaŭ.</p>"
     },
     "distroName": "Solus",
     "step-2": {
@@ -154,14 +174,15 @@
     "distroName": "Alpine",
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <1>instali programojn</1>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <1>instali programojn</1>!</0>"
     },
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<0>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <2>la Flathub-deponejodosieron</2>, aŭ rulu la jenon en terminalo:</0> <2></2>"
     },
     "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
+      "text": "<p>Vi povas instali la Flatpak-kromprogramon por aŭ GNOME Software (ekde versio 3.13) aŭ KDE Discover (ekde versio 3.11), ebligante instaladon de prgramoj sen terminalo. Por instali ĉe GNOME Software, rulu la jenon:</p> <2></2> <p>Ĉe KDE Discover, rulu la jenon:</p> <6></6>"
     }
   },
   "gentoo": {
@@ -175,7 +196,7 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Gentoo.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Gentoo.</p>"
     },
     "distroName": "Gentoo"
   },
@@ -186,7 +207,7 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Mageia.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Mageia.</p>"
     },
     "distroName": "Mageia",
     "step-2": {
@@ -197,7 +218,7 @@
   "pop_os": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe versioj de Pop!_OS ne pli novaj ol 19.10.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe versioj de Pop!_OS ne pli novaj ol 19.10.</p>"
     },
     "distroName": "Pop!_OS",
     "step-2": {
@@ -213,24 +234,26 @@
   "raspberry_pi_os": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Raspberry Pi OS.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Raspberry Pi OS.</p>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2> <4><0>Averto:</0> Je la Marto de 2021, Rasberry Pi komputiloj kvieta ŝipo kun la 32-peca versio de Frambo Pi OS. Tamen Flathub komencis phasing ekstere subteni por tiu arkitekturo. Se vi konsideras Flathub kiel grava fonto de aplikoj, ĝi estas rekomendita uzi la 64-bitan version de Raspberry Pi OS, ĉar pli novaj aplikoj estas disponeblaj por tiu platformo.</4>"
+      "text": "<p>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2> <4><0>Averto:</0> Je la Marto de 2021, sur komputiloj Rasberry Pi estas apriore instalita la 32-bita versio de Raspberry Pi OS. Tamen Flathub estas malsubtenanta tiun arĥitekturon. Se vi rigardas Flathub grava, oni uzu la 64-bitan version de Raspberry Pi OS, ĉar pli novaj programoj estos pli probable disponeblaj por tiu platformo.</4>"
     },
     "distroName": "Raspberry Pi OS",
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Pako por Flatpak estas disponebla ĉe Raspberry Pi OS (eksnome Raspbian) versio Stretch aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2>"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<0>Flatpak estas apriore instalita ĉe ĉiuj aktive subtenataj versioj de OpenMandriva, ekde de la stabila fiksita versio «Rock 5.0», tra la evoluata versio «Cooker», ĝis la daŭrigata versio «ROME».</0> <p>La deponejo Flathub estas antaŭagordita kun Flatpak.</p>"
   },
   "void_linux": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
@@ -245,7 +268,7 @@
   "nixos": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "distroName": "NixOS",
     "step-2": {
@@ -253,13 +276,14 @@
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
     },
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<0>Por instali Flatpak, agordu la NixOS-opcion <2>services.flatpak.enable</2> al <4>true</4> tajpante la jenon en la dosieron <7>/etc/nixos/configuration.nix</7>:</0> <2></2> <p>Poste, aktivigu la novajn agordojn ĉi-tiel:</p> <6></6> <8>Por pli da detaloj, legu la <2>dokumentaron de NixOS</2>.</8>"
     }
   },
   "turkman_linux": {
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Turkman Linux.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Turkman Linux.</p>"
     },
     "distroName": "Turkman Linux",
     "step-3": {
@@ -276,12 +300,13 @@
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": "<0>Flatpak estas apriore instalita sur PureOS. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
   "ataraxia_linux": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
@@ -296,7 +321,7 @@
   "deepin": {
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "distroName": "Deepin",
     "step-2": {
@@ -316,28 +341,35 @@
     "distroName": "Pardus",
     "step-4": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Pako por Flatpak estas disponebla ĉe Pardus versio 2019 aŭ pli nova. Por instali ĝin, rulu la jenon kiel la ĉefuzanto:</p> <2></2> <4>Por Pardus versio 2017 kaj pli malnovaj versioj, pako por Flatpak estas disponebla ĉe la <2>oficiala retroportitaĵa deponejo</2>. </4>"
     },
     "step-3": {
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>",
       "name": "Aldoni la deponejon Flathub"
     },
     "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo"
+      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
+      "text": "<p>Se vi uzas GNOME, estas rekomendate instali la Flatpak-kromprogramon por GNOME Software. Por fari tion, rulu la jenon:</p> <2></2>"
     }
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<0>Flatpak estas apriore agordita sur Zorin OS</0> <p>Vi povas uzi la programon Software Store por elŝuti Flatpak-programojn.</p>"
   },
   "mx_linux": {
     "step-2": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
-    "distroName": "MX Linux"
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "Ŝalti Flatpak per la Programadministrilo",
+      "text": "<p>Flatpak estas apriore instalita ĉe MX versioj 18 kaj pli novaj. Necesas nur aktivigi la deponejon Flathub per jenaj instrukcioj:</p> <2>Lanĉu <strong>MX Package Installer</strong> (malfermu la menuon kaj rigardu en «MX Tools») kaj elektu la langeton «Flatpaks». Por aktivigi la deponejon, oni devas tajpi la pasvorton de la ĉefuzanto.</2>"
+    }
   },
   "pisi_gnulinux": {
     "step-2": {
@@ -346,7 +378,7 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Pisi GNU/Linux.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe Pisi GNU/Linux.</p>"
     },
     "step-1": {
       "name": "Instali Flatpak",
@@ -357,7 +389,7 @@
   "endeavouros": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe EndeavourOS.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe EndeavourOS.</p>"
     },
     "distroName": "EndeavourOS",
     "step-2": {
@@ -365,13 +397,14 @@
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
     },
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur EndeavorOS, vi unue devas certigi, ke via sistemo estas ĝisdata, rulante la jenon en terminalo:</p> <2></2> <p>Poste instalu Flatpak:</p> <6></6>"
     }
   },
   "gnu_guix": {
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe GNU Guix.</p>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0> <p>Notu: grafika instalado de Flatpak-programoj ne eblas ĉe GNU Guix.</p>"
     },
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
@@ -385,16 +418,19 @@
   },
   "kde_neon": {
     "step-1": {
-      "name": "Ŝalti Flatpak"
+      "name": "Ŝalti Flatpak",
+      "text": "Lanĉu Discover, kaj alklaku ĉe Agordoj (malsupra maldekstra angulo)."
     },
     "distroName": "KDE neon",
     "step-2": {
-      "name": "Kontroli agordojn pri Flatpak"
+      "name": "Kontroli agordojn pri Flatpak",
+      "text": "<p>Kontrolu, ĉu en la sekcio «Flatpak» la elektobutono estas elektita.</p><p>Notu: kun ĉi tio, serĉado de Flathub-programoj estos integrigita al Discover. Se vi deziras limigi la serĉadon al Flathub, alklakante la stelon marku Flatpak kiel la implicitan.</p>"
     },
     "introduction": "<0>Flatpak funkcias apriore en KDE neon, versio 19 aŭ pli nova — agordado ne necesas!</0> <p>Se vi uzas pli malnovan version, vi povas sekvi la instrukciojn ĉi-subajn.</p>"
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": "<0>Flatpak estas apriore instalita sur Salix ekde versio 15.0 — neniu agordado necesas!</0> <p>Flatpak estas antaŭagordita por la deponejo Flathub, kaj ilaĵoj ebligas unu-alklakan instaladon ĉe Flathub.</p> <4>Nun vi pretas <2>instali programojn</2>!</4>"
   },
   "crystal_linux": {
     "step-2": {
@@ -402,16 +438,19 @@
       "text": "<p>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</p> <2></2>"
     },
     "step-1": {
-      "name": "Instali Flatpak"
+      "name": "Instali Flatpak",
+      "text": "<p>Por instali Flatpak sur Crystal Linukso, vi unue devas certigi, ke la pakoj estas ĝisdataj. Rulu la jenon en terminalo:</p> <2></2> <p>Poste instalu Flatpak:</p> <6></6>"
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi povas <2>instali programojn</2>!</0>"
+      "text": "<0>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <2>instali programojn</2>!</0>"
     },
-    "distroName": "Crystal Linux"
+    "distroName": "Crystal Linux",
+    "introduction": "<0>Flatpak estas apriore instalita sur Crystal Linux.</0> <p>Se vi ne uzis jade_gui dum instalado de Crystal Linux, aŭ elektis ne instali ĝin, vi povas agordi Flatpak per la jenaj paŝoj.</p>"
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": "<0>Flatpak estas apriore instalita sur AlmaLinux versio 8 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
   "fedora": {
     "distroName": "Fedora",
@@ -422,26 +461,30 @@
     "introduction": "<0>Flatpak estas apriore instalita sur Red Hat Enterprise Linux Workstation, versio 9 aŭ pli nova. Por eki, vi ŝaltu Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejan dosieron</2>.</0> <p>Por instali Flatpak sur Red Hat Enterprise Linux Workstation, versio 8 aŭ pli malnova, rulu la jenon en terminalo:</p>  <5></5> <7>Nun povas <2>instali programojn</2>!</7> <p>La ĉi-supraj ligoj supozeble funkcios sur la apriora instalaĵo de Red Hat Enterprise Linux Workstation 9, sed se tiuj ial ne funkcias, vi povas malaŭtomate agordi Flathub rulante la jenon:</p> <11></11>"
   },
   "eurolinux": {
-    "distroName": "EuroLinux"
+    "distroName": "EuroLinux",
+    "introduction": "<0>Flatpak estas apriore instalita sur EuroLinux versio 8 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
     "introduction": "<0>Versioj de Linux Mint ne malpli novaj ol 18.3 subtenas Flatpak — neniu agordado necesas!</0> <2>Se vi uzas malpli novan version, <2>ĝisdatigu al Linux Mint 18.3</2>.</2>"
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": "<0>Flatpak estas apriore instalita sur CentOS versio 7 aŭ pli nova, kiam oni uzas GNOME. Por eki, vi devas ŝalti Flathub, kiu estas la plej bona maniero akiri Flatpak-programojn. Elŝutu kaj instalu la <2>Flathub-deponejodosiero</2>.</0> <2>Nun vi pretas <2>instali programojn</2>!</2>"
   },
   "clear_linux": {
     "distroName": "Clear Linux",
-    "introduction": "<p>Flatpak estas instalita, kaj la deponejo Flathub estas aŭtomate agordita ĉe Clear Linux dum instalado de la labortabla medio.</p> <2></2> <4>Vi pretas <2>instali programojn</2>!</4>"
+    "introduction": "<p>Flatpak estas apriore instalita kaj la deponejo Flathub estas apriore agordita ĉe Clear Linux dum instalado de la labortabla medio.</p> <2></2> <4>Nun vi pretas <2>instali programojn</2>!</4>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Install programojn"
+      "name": "Install programojn",
+      "text": "<0>Flatpak estas apriore instalita sur elementary OS versio 5.1 aŭ pli nova. Por nereviziitaj programoj, vizitu <2>Flathub</2> por instali ajnan programon per la granda butono «Instali», kaj malfermu la elŝutitan `.flatpakref`-dosieron per Sideload.</0> <p>Notu: Post instalado de unu programo el fora deponejo kiel Flathub, ĉiuj aliaj programoj el la sama fora deponejo aŭtomate aperos ĉe AppCenter.</p>"
     }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": "<0>Flatpak estas apriore instalita sur Vanilla OS.</0> <2>Vi povas uzi la sisteman programvendejon aŭ foliumi <2>Flathub</2> por instali programojn.</2> <p>Se ial Flathub ne estas instalita, vi povas malaŭtomate instali ĝin rulante la jenan komandon:</p> <6></6>"
   }
 }
