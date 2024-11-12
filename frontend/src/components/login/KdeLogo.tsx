@@ -1,10 +1,5 @@
 export const KdeLogo = () => (
-  <svg
-    height="128"
-    viewBox="0 0 33.8667 33.8667"
-    width="128"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg viewBox="0 0 33.8667 33.8667" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(0 -263.13)">
       <path d="m0 263.13h33.87v33.87h-33.87z" fill="#1d99f3" />
       <path
