@@ -1403,13 +1403,13 @@ yaml = ["pyyaml (>=6.0.1)"]
 
 [[package]]
 name = "pygithub"
-version = "2.4.0"
+version = "2.5.0"
 description = "Use the full Github API v3"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "PyGithub-2.4.0-py3-none-any.whl", hash = "sha256:81935aa4bdc939fba98fee1cb47422c09157c56a27966476ff92775602b9ee24"},
-    {file = "pygithub-2.4.0.tar.gz", hash = "sha256:6601e22627e87bac192f1e2e39c6e6f69a43152cfb8f307cee575879320b3051"},
+    {file = "PyGithub-2.5.0-py3-none-any.whl", hash = "sha256:b0b635999a658ab8e08720bdd3318893ff20e2275f6446fcf35bf3f44f2c0fd2"},
+    {file = "pygithub-2.5.0.tar.gz", hash = "sha256:e1613ac508a9be710920d26eb18b1905ebd9926aa49398e88151c1b526aad3cf"},
 ]
 
 [package.dependencies]
@@ -2354,4 +2354,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ab10a1c8082c9a9de48854fbcc27c3e3df455c0846090425da6e31726a54513b"
+content-hash = "6dbc8d9d42f10a313705061dca42747a1326e6d87ed781d9fa8e82cead7722ae"
