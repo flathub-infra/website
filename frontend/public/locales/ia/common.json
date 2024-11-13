@@ -610,5 +610,6 @@
   "total": "Total",
   "positions": "Positiones",
   "type": "Typo",
-  "position-short": "Pos."
+  "position-short": "Pos.",
+  "created": "Create"
 }

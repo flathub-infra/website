@@ -120,10 +120,10 @@
   "transaction-cancelled": "Transação cancelada",
   "transaction-history": "Histórico da transação",
   "transaction-summary": "Resumo da transação",
-  "transaction-summary-created": "Data de criação: {{date}}",
-  "transaction-summary-updated": "Última atualização: {{date}}",
-  "transaction-summary-status": "Status: {{status}}",
-  "transaction-summary-type": "Tipo: {{type}}",
+  "transaction-summary-created": "Data de criação:",
+  "transaction-summary-updated": "Última atualização:",
+  "transaction-summary-status": "Status:",
+  "transaction-summary-type": "Tipo:",
   "transaction-went-wrong": "Algo deu errado com esta transação.",
   "use-new-card": "Usar um novo cartão",
   "stripe-api-error": "A API do Stripe encontrou um erro. Tente novamente mais tarde.",
@@ -606,5 +606,22 @@
   "can-listen-using-microphones-without-asking-permission": "Pode ouvir usando o microfone sem pedir permissão",
   "flathub": "Flathub",
   "flathub-logo": "Logotipo de Flathub",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "action-purchase": "Comprar",
+  "amount": "Quantia",
+  "kind-purchase-app": "Comprar {{appName}}",
+  "action-donate": "Doar",
+  "created": "Criado",
+  "zoom": "Zoom",
+  "positions": "Posições",
+  "position-short": "Pos.",
+  "type": "Tipo",
+  "recipient": "Recebedor",
+  "platform": {
+    "org-kde-platform": "Plataforma KDE",
+    "org-gnome-platform": "Plataforma GNOME",
+    "org-freedesktop-platform": "Plataforma Freedesktop"
+  },
+  "kind-donate-app": "Doar para {{appName}}",
+  "total": "Total"
 }

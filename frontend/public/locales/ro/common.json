@@ -69,5 +69,11 @@
   "flathub-statistics": "Statistici Flathub",
   "flathub-description": "Găsiți și instalați sute de aplicații și jocuri pentru Linux. Bucurați-vă de Firefox, Telegram, RetroArch, GIMP și multe altele!",
   "an-error-occurred-server": "{{errorCode}} - A apărut o eroare pe server.",
-  "close": "Închide"
+  "close": "Închide",
+  "slide": "Diapozitiv",
+  "setup": "Configurare",
+  "flathub-logo": "Sigla Flathub",
+  "more-pages": "Mai multe pagini",
+  "carousel": "Carusel",
+  "flathub": "Flathub"
 }
