@@ -2,9 +2,11 @@ import { DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { useTranslation } from "next-i18next"
 import { useState } from "react"
 import { FunctionComponent } from "react"
-import { HiChevronDown, HiChevronUp } from "react-icons/hi2"
+import { HiChevronUp } from "react-icons/hi2"
 import TokenCancelButton from "./TokenCancelButton"
 import { TokenModel } from "src/codegen"
+import { format } from "date-fns"
+import clsx from "clsx"
 
 interface Props {
   open: boolean
@@ -25,17 +27,15 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
           <span>{token.name}</span>
           <span>{t(`status-${state}`)}</span>
         </div>
-        {!open ? (
-          <HiChevronUp className="text-2xl" />
-        ) : (
-          <HiChevronDown className="text-2xl" />
-        )}
+        <HiChevronUp
+          className={clsx("text-2xl transition", !open && "rotate-180")}
+        />
       </DisclosureButton>
       <DisclosurePanel className="flex flex-wrap justify-between gap-y-4 pe-4 ps-4">
         <div className="flex flex-col gap-4">
-          <span>{token.token}</span>
+          {token.token && <span>{token.token}</span>}
           <span>
-            {t("transaction-summary-created", { date: token.created })}
+            {t("transaction-summary-created")} {format(token.created, "PP")}
           </span>
         </div>
         {state === "unredeemed" && (

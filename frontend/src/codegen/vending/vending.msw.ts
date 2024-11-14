@@ -68,7 +68,7 @@ export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
       ]),
     },
   },
-  status: faker.word.sample(),
+  status: faker.helpers.arrayElement(["ok"] as const),
   ...overrideResponse,
 })
 
@@ -79,6 +79,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetResponseMock = (
   currency: faker.word.sample(),
   minimum_payment: faker.number.int({ min: undefined, max: undefined }),
   recommended_donation: faker.number.int({ min: undefined, max: undefined }),
+  status: faker.helpers.arrayElement(["ok", "no-config"] as const),
   ...overrideResponse,
 })
 
@@ -89,6 +90,7 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostResponseMock = (
   currency: faker.word.sample(),
   minimum_payment: faker.number.int({ min: undefined, max: undefined }),
   recommended_donation: faker.number.int({ min: undefined, max: undefined }),
+  status: faker.helpers.arrayElement(["ok", "no-config"] as const),
   ...overrideResponse,
 })
 
@@ -108,11 +110,15 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    changed: faker.word.sample(),
-    created: faker.word.sample(),
+    changed: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     id: faker.word.sample(),
     name: faker.word.sample(),
-    state: faker.word.sample(),
+    state: faker.helpers.arrayElement([
+      "unredeemed",
+      "redeemed",
+      "cancelled",
+    ] as const),
     token: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.word.sample(), null]),
       undefined,
@@ -128,11 +134,15 @@ export const getCreateTokensVendingappAppIdTokensPostResponseMock =
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      changed: faker.word.sample(),
-      created: faker.word.sample(),
+      changed: `${faker.date.past().toISOString().split(".")[0]}Z`,
+      created: `${faker.date.past().toISOString().split(".")[0]}Z`,
       id: faker.word.sample(),
       name: faker.word.sample(),
-      state: faker.word.sample(),
+      state: faker.helpers.arrayElement([
+        "unredeemed",
+        "redeemed",
+        "cancelled",
+      ] as const),
       token: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.word.sample(), null]),
         undefined,
