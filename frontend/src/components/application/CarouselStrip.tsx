@@ -24,10 +24,10 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
   useEffect(() => {
     setCurrentIndex(0)
   }, [])
-  const lightboxState = ref.current?.getLightboxState()
+
   useEffect(() => {
-    setCurrentIndex(lightboxState?.currentIndex)
-  }, [lightboxState?.currentIndex])
+    setCurrentIndex(ref.current?.getLightboxState()?.currentIndex)
+  }, [])
 
   if (app.type === "addon" || !app.screenshots) {
     return null
