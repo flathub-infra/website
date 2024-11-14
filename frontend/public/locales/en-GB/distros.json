@@ -1,1 +1,12 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Install Flatpak",
+      "text": "<0>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</0> <2></2> <4>For older versions <strong>up to Ubuntu 18.04 LTS (Bionic Beaver)</strong>, the official Flatpak PPA is required to install Flatpak and keep it up to date. To add the PPA and install Flatpak, open the Terminal app and run:</4> <6></6>"
+    },
+    "step-2": {
+      "name": "Install GNOME Software Flatpak plugin"
+    }
+  }
+}
