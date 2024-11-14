@@ -154,7 +154,14 @@ export const getCancelTokensVendingappAppIdTokensCancelPostResponseMock =
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => ({ status: faker.word.sample(), token: faker.word.sample() }))
+    ).map(() => ({
+      status: faker.helpers.arrayElement([
+        "invalid",
+        "cancelled",
+        "error",
+      ] as const),
+      token: faker.word.sample(),
+    }))
 
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostResponseMock = (
   overrideResponse: Partial<RedemptionResult> = {},

@@ -29,7 +29,7 @@ export const getUsersUsersGetResponseMock = (
     ]),
     default_account: faker.helpers.arrayElement([
       {
-        avatar_url: faker.word.sample(),
+        avatar_url: faker.helpers.arrayElement([faker.word.sample(), null]),
         display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
         email: faker.helpers.arrayElement([faker.word.sample(), null]),
         github_userid: faker.number.int({ min: undefined, max: undefined }),
@@ -51,6 +51,16 @@ export const getUsersUsersGetResponseMock = (
     ]),
     deleted: faker.datatype.boolean(),
     display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+    github_repos: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        id: faker.number.int({ min: undefined, max: undefined }),
+        reponame: faker.word.sample(),
+      })),
+      null,
+    ]),
     id: faker.number.int({ min: undefined, max: undefined }),
     owned_apps: faker.helpers.arrayElement([
       Array.from(
@@ -91,7 +101,7 @@ export const getUserUsersUserIdGetResponseMock = (
   // @ts-expect-error
   default_account: faker.helpers.arrayElement([
     {
-      avatar_url: faker.word.sample(),
+      avatar_url: faker.helpers.arrayElement([faker.word.sample(), null]),
       display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
       email: faker.helpers.arrayElement([faker.word.sample(), null]),
       github_userid: faker.number.int({ min: undefined, max: undefined }),
@@ -113,6 +123,16 @@ export const getUserUsersUserIdGetResponseMock = (
   ]),
   deleted: faker.datatype.boolean(),
   display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+  github_repos: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int({ min: undefined, max: undefined }),
+      reponame: faker.word.sample(),
+    })),
+    null,
+  ]),
   id: faker.number.int({ min: undefined, max: undefined }),
   owned_apps: faker.helpers.arrayElement([
     Array.from(
