@@ -1,14 +1,14 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
 import { toast } from "react-toastify"
-import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
 import { TokenModel } from "src/codegen/model"
 import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
 
 interface Props {
-  token: Pick<TokenModel, "id">
+  token: Pick<TokenModel, "token">
   appId: string
   setState: React.Dispatch<React.SetStateAction<string>>
 }
@@ -21,9 +21,9 @@ const TokenCancelButton: FunctionComponent<Props> = ({
   const { t } = useTranslation()
 
   const cancelVendingTokensMutation = useMutation({
-    mutationKey: ["cancel-token", appId, token.id],
+    mutationKey: ["cancel-token", appId, token.token],
     mutationFn: () => {
-      return cancelTokensVendingappAppIdTokensCancelPost(appId, [token.id], {
+      return cancelTokensVendingappAppIdTokensCancelPost(appId, [token.token], {
         withCredentials: true,
       })
     },
@@ -38,10 +38,6 @@ const TokenCancelButton: FunctionComponent<Props> = ({
     },
   })
 
-  if (cancelVendingTokensMutation.isPending) {
-    return <Spinner size="s" />
-  }
-
   // Button is spent after successful use
   if (
     cancelVendingTokensMutation.isSuccess &&
@@ -55,7 +51,11 @@ const TokenCancelButton: FunctionComponent<Props> = ({
       size="lg"
       variant="destructive"
       onClick={() => cancelVendingTokensMutation.mutate()}
+      disabled={cancelVendingTokensMutation.isPending}
     >
+      {cancelVendingTokensMutation.isPending && (
+        <Loader2 className="animate-spin" />
+      )}
       {t("cancel")}
     </Button>
   )

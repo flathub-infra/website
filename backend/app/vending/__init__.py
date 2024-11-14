@@ -590,7 +590,7 @@ def create_tokens(
 
 class TokenCancellation(BaseModel):
     token: str
-    status: str
+    status: Literal["invalid", "cancelled", "error"]
 
 
 @router.post("app/{app_id}/tokens/cancel", tags=["vending"])
