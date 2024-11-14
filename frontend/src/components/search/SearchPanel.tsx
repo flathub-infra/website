@@ -91,40 +91,36 @@ export const SearchPanel = ({
         </span>
         <div className="md:hidden">
           <Disclosure>
-            {({ open }) => (
-              <>
-                <DisclosureButton
-                  as={Button}
-                  size="lg"
-                  disabled={searchResult.isPending}
-                  variant="secondary"
-                  className="w-full"
-                >
-                  <div className="flex gap-3">
-                    <HiOutlineFunnel
-                      className={clsx("size-6 transform duration-150")}
-                    />
-                    {t("filters")}
-                  </div>
-                </DisclosureButton>
-                <Transition
-                  enter="transition duration-100 ease-out"
-                  enterFrom="transform scale-95 opacity-0"
-                  enterTo="transform scale-100 opacity-100"
-                  leave="transition duration-75 ease-out"
-                  leaveFrom="transform scale-100 opacity-100"
-                  leaveTo="transform scale-95 opacity-0"
-                >
-                  <DisclosurePanel className={"px-4"}>
-                    <SearchFilters
-                      results={searchResult}
-                      selectedFilters={selectedFilters}
-                      setSelectedFilters={setSelectedFilters}
-                    />
-                  </DisclosurePanel>
-                </Transition>
-              </>
-            )}
+            <DisclosureButton
+              as={Button}
+              size="lg"
+              disabled={searchResult.isPending}
+              variant="secondary"
+              className="w-full"
+            >
+              <div className="flex gap-3">
+                <HiOutlineFunnel
+                  className={clsx("size-6 transform duration-150")}
+                />
+                {t("filters")}
+              </div>
+            </DisclosureButton>
+            <Transition
+              enter="transition duration-100 ease-out"
+              enterFrom="transform scale-95 opacity-0"
+              enterTo="transform scale-100 opacity-100"
+              leave="transition duration-75 ease-out"
+              leaveFrom="transform scale-100 opacity-100"
+              leaveTo="transform scale-95 opacity-0"
+            >
+              <DisclosurePanel className={"px-4"}>
+                <SearchFilters
+                  results={searchResult}
+                  selectedFilters={selectedFilters}
+                  setSelectedFilters={setSelectedFilters}
+                />
+              </DisclosurePanel>
+            </Transition>
           </Disclosure>
         </div>
         <SearchResults results={searchResult} />
