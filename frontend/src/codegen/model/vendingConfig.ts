@@ -5,6 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { VendingConfigPlatforms } from "./vendingConfigPlatforms"
+import type { VendingConfigStatus } from "./vendingConfigStatus"
 
 /**
  * Global vending environment configuration values
@@ -14,5 +15,5 @@ export interface VendingConfig {
   fee_fixed_cost: number
   fee_prefer_percent: number
   platforms: VendingConfigPlatforms
-  status: string
+  status: VendingConfigStatus
 }

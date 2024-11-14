@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { TokenModelState } from "./tokenModelState"
 import type { TokenModelToken } from "./tokenModelToken"
 
 export interface TokenModel {
@@ -11,6 +12,6 @@ export interface TokenModel {
   created: string
   id: string
   name: string
-  state: string
+  state: TokenModelState
   token?: TokenModelToken
 }

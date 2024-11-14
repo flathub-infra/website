@@ -30,6 +30,7 @@ import {
   getInviteStatusInvitesAppIdGet,
   UserInfo,
   VendingConfig,
+  useGetAppVendingSetupVendingappAppIdSetupGet,
 } from "src/codegen"
 
 const SettingsDisclosure = ({ sectionTitle, children }) => {
@@ -79,6 +80,11 @@ export default function AppManagementPage({
 }) {
   const { t } = useTranslation()
   const user = useUserContext()
+
+  const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
+    query: { enabled: !!app.id },
+    axios: { withCredentials: true },
+  })
 
   const pages = [
     { name: t("developer-portal"), current: false, href: "/developer-portal" },
@@ -135,9 +141,13 @@ export default function AppManagementPage({
                           vendingConfig={vendingConfig}
                         />
                       </SettingsDisclosure>
-                      <SettingsDisclosure sectionTitle={t("ownership-tokens")}>
-                        <AppVendingControls.OwnershipTokens app={app} />
-                      </SettingsDisclosure>
+                      {query.isSuccess && query.data?.data?.status === "ok" && (
+                        <SettingsDisclosure
+                          sectionTitle={t("ownership-tokens")}
+                        >
+                          <AppVendingControls.OwnershipTokens app={app} />
+                        </SettingsDisclosure>
+                      )}
                     </>
                   )}
                   <SettingsDisclosure

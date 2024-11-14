@@ -8,7 +8,7 @@ import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"
 import { Button } from "@/components/ui/button"
 
 interface Props {
-  token: TokenModel
+  token: Pick<TokenModel, "id">
   appId: string
   setState: React.Dispatch<React.SetStateAction<string>>
 }

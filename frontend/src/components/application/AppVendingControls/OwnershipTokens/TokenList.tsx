@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getRedeemableTokensVendingappAppIdTokensGet } from "src/codegen"
 
 interface Props {
-  app: Appstream
+  app: Pick<Appstream, "id">
 }
 
 /**

@@ -10,6 +10,7 @@ The core vending behaviours are:
    users so as to not need to pay money for access (e.g. beta testers)
 """
 
+import datetime
 from typing import Literal
 
 import gi
@@ -103,7 +104,7 @@ class VendingConfig(BaseModel):
     Global vending environment configuration values
     """
 
-    status: str
+    status: Literal["ok"]
     platforms: dict[str, Platform]
     fee_fixed_cost: int
     fee_cost_percent: int
@@ -134,11 +135,23 @@ class VendingSplit(BaseModel):
     splits: list[tuple[str, int]]
 
 
+class VendingSetupRequest(BaseModel):
+    """
+    Configuration for a vended application
+    """
+
+    currency: str
+    appshare: int
+    recommended_donation: int
+    minimum_payment: int
+
+
 class VendingSetup(BaseModel):
     """
     Configuration for a vended application
     """
 
+    status: Literal["ok", "no-config"]
     currency: str
     appshare: int
     recommended_donation: int
@@ -356,7 +369,7 @@ def get_app_vending_setup(
 
 @router.post("app/{app_id}/setup", tags=["vending"])
 def post_app_vending_setup(
-    setup: VendingSetup,
+    setup: VendingSetupRequest,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -477,11 +490,11 @@ def post_app_vending_status(
 
 class TokenModel(BaseModel):
     id: str
-    state: str
+    state: Literal["unredeemed", "redeemed", "cancelled"]
     name: str
     token: str | None = None
-    created: str
-    changed: str
+    created: datetime.datetime
+    changed: datetime.datetime
 
 
 class TokenList(BaseModel):
@@ -522,8 +535,8 @@ def get_redeemable_tokens(
                 id=str(token.id),
                 state=token.state,
                 name=token.name,
-                created=str(token.created),
-                changed=str(token.changed),
+                created=token.created,
+                changed=token.changed,
                 token=token.token,
             )
         )

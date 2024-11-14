@@ -32,6 +32,7 @@ import type {
   VendingOutput,
   VendingRedirect,
   VendingSetup,
+  VendingSetupRequest,
   VendingStatus,
 } from ".././model"
 
@@ -717,10 +718,10 @@ then you will get an error
  */
 export const postAppVendingSetupVendingappAppIdSetupPost = (
   appId: string,
-  vendingSetup: VendingSetup,
+  vendingSetupRequest: VendingSetupRequest,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingSetup>> => {
-  return axios.post(`/vendingapp/${appId}/setup`, vendingSetup, options)
+  return axios.post(`/vendingapp/${appId}/setup`, vendingSetupRequest, options)
 }
 
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
@@ -730,21 +731,21 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
     TError,
-    { appId: string; data: VendingSetup },
+    { appId: string; data: VendingSetupRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
-  { appId: string; data: VendingSetup },
+  { appId: string; data: VendingSetupRequest },
   TContext
 > => {
   const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
-    { appId: string; data: VendingSetup }
+    { appId: string; data: VendingSetupRequest }
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -763,7 +764,7 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationResult =
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>
   >
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationBody =
-  VendingSetup
+  VendingSetupRequest
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationError =
   AxiosError<HTTPValidationError>
 
@@ -777,14 +778,14 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
     TError,
-    { appId: string; data: VendingSetup },
+    { appId: string; data: VendingSetupRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
-  { appId: string; data: VendingSetup },
+  { appId: string; data: VendingSetupRequest },
   TContext
 > => {
   const mutationOptions =
