@@ -95,6 +95,7 @@ export type Language =
   | "ia"
   | "ckb"
   | "ga"
+  | "kab"
 
 export const languages: Language[] = [
   "en",
@@ -116,7 +117,6 @@ export const languages: Language[] = [
   "ja",
   "cs",
   "zh-Hans",
-  "bg",
   "uk",
   "et",
   "ca",
@@ -146,6 +146,7 @@ export const languages: Language[] = [
   "ia",
   "ckb",
   "ga",
+  "kab",
 ]
 
 export function getLocale(language?: string): Locale {
@@ -248,6 +249,8 @@ export function getLocale(language?: string): Locale {
       return ckb
     case "ga":
       return enUS // date-fns has no Irish locale
+    case "kab":
+      return enUS // date-fns has no Kurdish locale
 
     default:
       return enGB
@@ -354,6 +357,8 @@ export function bcpToPosixLocale(language?: string): string {
       return "ckb"
     case "ga":
       return "ga"
+    case "kab":
+      return "kab"
 
     default:
       return "en_US"
@@ -460,6 +465,8 @@ export function getLanguageFlag(language: Language): string {
       return "🇮🇷"
     case "ga":
       return "🇮🇳"
+    case "kab":
+      return "🇮🇳"
   }
 }
 
@@ -563,6 +570,8 @@ export function getLanguageName(language: Language): string {
       return "کوردی"
     case "ga":
       return "Gaeilge"
+    case "kab":
+      return "Kabyle"
 
     default:
       return assertUnreachable(language)
@@ -689,6 +698,8 @@ export function getIntlLocale(language?: string): Intl.Locale {
       return new Intl.Locale("ckb")
     case "ga":
       return new Intl.Locale("ga")
+    case "kab":
+      return new Intl.Locale("kab")
 
     default:
       return new Intl.Locale("en")
@@ -744,6 +755,7 @@ export function registerIsoCountriesLocales() {
   // No translations for ia
   // No translations for ckb
   countries.registerLocale(require("i18n-iso-countries/langs/ga.json"))
+  // No translations for kab
 
   return countries
 }

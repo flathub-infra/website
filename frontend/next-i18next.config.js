@@ -54,6 +54,7 @@ module.exports = {
       "ia",
       "ckb",
       "ga",
+      "kab",
     ],
   },
   // debug: true,
