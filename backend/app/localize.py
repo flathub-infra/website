@@ -52,4 +52,5 @@ LOCALES = [
     "ia",
     "ckb",
     "ga",
+    "kab",
 ]
