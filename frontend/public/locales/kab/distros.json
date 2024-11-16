@@ -2,7 +2,8 @@
   "ubuntu": {
     "step-1": {
       "name": "Sbedd Flatpak"
-    }
+    },
+    "distroName": ""
   },
   "fedora": {
     "distroName": "Fedora"
