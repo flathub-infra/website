@@ -698,16 +698,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hono/zod-openapi@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "@hono/zod-openapi@npm:0.17.0"
+"@hono/zod-openapi@npm:^0.17.1":
+  version: 0.17.1
+  resolution: "@hono/zod-openapi@npm:0.17.1"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^7.1.0"
     "@hono/zod-validator": "npm:0.3.0"
   peerDependencies:
     hono: ">=4.3.6"
     zod: 3.*
-  checksum: 10c0/3e8c51907ea18ff8ef30f9f75fec296e33b7098da9e48113dd37e3290ba9bdad12e82280156ccf9d88eeae82878ba257f594942bccd82ef2bf4c80688650914e
+  checksum: 10c0/c26916154103db73354a13a40bb2e8876d4d55a9d0e4e625fedc9b4d8c1111bcb0e9095f4f5ffd77cfa1ff4ab58f4df48812bf0201cf51ec458114b5ffe0768b
   languageName: node
   linkType: hard
 
@@ -3458,7 +3458,7 @@ __metadata:
     "@hono/node-server": "npm:^1.13.7"
     "@hono/sentry": "npm:^1.1.0"
     "@hono/swagger-ui": "npm:0.4.1"
-    "@hono/zod-openapi": "npm:^0.17.0"
+    "@hono/zod-openapi": "npm:^0.17.1"
     "@react-email/components": "npm:0.0.28"
     "@react-email/render": "npm:1.0.2"
     "@types/html-to-text": "npm:^9.0.4"
