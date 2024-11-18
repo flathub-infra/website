@@ -42,7 +42,13 @@ if (!buildId) {
  * @type {import('next').NextConfig}
  */
 const nextConfig = (phase) => ({
+  // Recommended: this will reduce output
+  // Docker image size by 80%+
   output: "standalone",
+  // Nginx will do gzip compression. We disable
+  // compression here so we can prevent buffering
+  // streaming responses
+  compress: false,
   experimental: {
     scrollRestoration: true,
   },
