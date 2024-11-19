@@ -1,6 +1,9 @@
 {
   "manjaro": {
-    "distroName": "مانجارو"
+    "distroName": "مانجارو",
+    "step-2": {
+      "name": "آغاز دوباره"
+    }
   },
   "endless_os": {
     "distroName": "سیستم‌عامل اندلس"
@@ -39,16 +42,28 @@
     "distroName": "سالیکس"
   },
   "alt_linux": {
-    "distroName": "آلت لینوکس"
+    "distroName": "آلت لینوکس",
+    "step-3": {
+      "name": "آغاز دوباره"
+    }
   },
   "ubuntu": {
-    "distroName": "اوبونتو"
+    "distroName": "اوبونتو",
+    "step-1": {
+      "name": "نصب فلت‌پک"
+    },
+    "step-4": {
+      "name": "آغاز دوباره"
+    }
   },
   "fedora": {
     "distroName": "فدورا"
   },
   "chrome_os": {
-    "distroName": "کروم‌اواس"
+    "distroName": "کروم‌اواس",
+    "step-5": {
+      "name": "آغاز دوباره"
+    }
   },
   "linux_mint": {
     "distroName": "لینوکس مینت"

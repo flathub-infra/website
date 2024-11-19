@@ -2,7 +2,78 @@
   "ubuntu": {
     "distroName": "Ubuntu",
     "step-1": {
-      "name": "Nainstalovat Flatpak"
+      "name": "Nainstalovat Flatpak",
+      "text": "Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </0> <2></2> <4>Pro starší verze <strong>do Ubuntu 18.04 LTS (Bionický bobr)</strong>, je vyžadováno Flatpak PPA pro instalaci Flatpaku a zajištění jeho aktuálnosti. Pro přidání PPA a instalaci Flatpaku, otevřete aplikaci Terminál a spusťte:</4> <6></6>"
+    },
+    "step-2": {
+      "name": "Nainstalujte plugin Flatpaku pro GNOME Software",
+      "text": "<p>Plugin GNOME Softwaru umožňuje nainstalovat aplikace bez potřeby příkazového řádku. Pro instalaci spusťte:</p> <2></2> <4><strong>Poznámka:</strong> Ubuntu distribuuje GNOME Software jako Snap ve verzích 20.04 až 23.04 a nahradilo jej aplikací App Center ve verzi 23.10 a novější–ani jeden z nich nepodporuje instalaci aplikací Flatpak. Instalací doplňku Flatpak se nainstaluje také deb verze GNOME Software, což vede k tomu, že v Ubuntu 20.04 až 23.04 se nainstalují dvě aplikace „Software“ najednou a v Ubuntu 23.10 a novějším jedna nová aplikace „Software“.</4>"
+    },
+    "step-3": {
+      "name": "Přidejte repozitář Flathub",
+      "text": "<p>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení spusťte:</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Restartujte",
+      "text": "<0>Pro dokončení nastavení, restartuje váš systém. Teď už stačí jen <2>nainstalovat aplikace</2>!</0>"
     }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<0>Flatpak je nainstalován na Fedoře Workstation, Fedoře Silverblue, a Fedoře Kinoite již ve výchozím nastavení. Jediné co potřebujete pro začátek, je povolit repozitář Flathub, který je nejlepším místem pro získávání aplikací Flatpak. Flathub je předkonfigurovaný jako součást <2>repozitářů třetích stran</2>. Případně můžete stáhnout a nainstalovat <5>soubor repositáře Flathub</5>.</0> <2>Teď už jen stačí <2>nainstalovat aplikace</2>!</2> <p>Výše uvedené odkazy by měly fungovat ve výchozích instalacích Fedory GNOME a KDE, ale pokud z jakéhokoliv důvodu selžou, můžete přidat repozitář Flathub ručně spuštěním:</p> <6></6>"
+  },
+  "manjaro": {
+    "step-1": {
+      "name": "Povolit Flatpak skrze ve Správci softwaru",
+      "text": "<p>Flatpak je nainstalován již ve výchozím nastavení na Manjaro 20 nebo vyšším.</p> <2>Pro povolení jeho podpory, přejděte do <strong>Správce softwaru</strong> (Nainstalovat/Odstranit software)</2> <p>Klikněte na tříčárkovanou nabídku [nebo tečky v závislosti na desktopovém prostředí] vpravo, v rolovací nabídce zvolte \"Předvolby\"</p> <p>Přejděte na kartu \"Flatpak\" a posuňte přepínač pro Povolení podpory Flatpak (je také možné povolit kontrolu aktualizací, což je doporučováno).</p>"
+    },
+    "step-2": {
+      "name": "Restartovat",
+      "text": "<0>Pro dokončení nastavení, restartujte váš systém. Teď už jen stačí <2>nainstalovat aplikace</2>!</0>"
+    },
+    "distroName": "Manjaro"
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<0>Podpora Flatpaku je zabudována v Endless OS 3.0.0 nebo novější–žádné nastavování není potřeba</0> <2>Pokud používáte starší verzi, <2>proveďte povýšení na Endless OS 3</2>.</2>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Nainstalujte Flatpak",
+      "text": "<p>Pro instalaci Flatpaku na operační systémy rodiny Alt, otevřete aplikaci Terminál a spusťte:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Přidejte repozitář Flathub",
+      "text": "<p>Flathub je skvělým místem pro získávání aplikací Flatpak. Pro jeho povolení na systému Alt, spusťte:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartovat",
+      "text": "<0>Restartujte vaše zařízení pro dokončení instalace Flatpaku. Teď už jen stačí <1>nainstalovat aplikace</1>!</0>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-1": {
+      "name": "Povolte Linuxovou podporu",
+      "text": "<0>Přejděte do <2>chrome://os-settings</2>, a posuňte se dolů do sekce <strong>Vývojáře</strong> a povolte <i>Vývojové prostředí Linux</i>. Stažení a instalace systému Linux zabere nějaký čas.</0>"
+    },
+    "step-2": {
+      "name": "Spusťte Linuxový termínal",
+      "text": "<p>Stiskněte klávesu Hledat/Spouštěč, zadejte \"Terminál\", a spusťte aplikaci Terminál.</p>"
+    },
+    "step-3": {
+      "name": "Nainstalujte Flatpak",
+      "text": "<p>Pro instalaci Flatpaku, spusťte v terminálu následující:</p> <2></2> <4>Aktuálnější balíček Flatpak je k dispozici v <2>repozitáři Debian backports</2>. </4>"
+    },
+    "step-4": {
+      "name": "Přidejte repozitář Flathub",
+      "text": "<p>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení, spusťte</p> <2></2>"
+    },
+    "step-5": {
+      "name": "Restartovat",
+      "text": "<0>Pro dokončení nastavení restartujte systém Linux. To provedete kliknutím pravým tlačítkem myši na terminál a poté kliknutím na „Vypnout Linux“. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
+    },
+    "introduction": "<0>Aplikace Flatpak mohou být nainstalovány na ChromeOS pomocí vrstvy kompatibility Crostini Linux. Tohle není k dispozici pro všechna zařízení ChromeOS, takže se nejdříve ujistěte, že vaše zařízení je kompatibilní. Seznam kompatibilních zařízení je spravován <2>zde</2>.</0>"
   }
 }
