@@ -38,6 +38,7 @@ const SafetyRatingIcon = ({
       {icon
         ? createElement(icon, {
             className: "w-full h-full",
+            "aria-hidden": true,
           })
         : safetyRatingToIcon(highestSafetyRating)}
     </div>

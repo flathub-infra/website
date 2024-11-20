@@ -22,7 +22,7 @@ const SummaryInfo = ({
         inACard
         items={[
           {
-            icon: <BsHddFill />,
+            icon: <BsHddFill aria-hidden />,
             header: t("installed-size"),
             content: {
               type: "text",
@@ -53,7 +53,7 @@ const SummaryInfo = ({
         inACard
         items={[
           {
-            icon: <BsLaptop />,
+            icon: <BsLaptop aria-hidden />,
             header: t("available-architectures"),
             content: {
               type: "text",
