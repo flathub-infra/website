@@ -71,7 +71,7 @@
     "spdx-license-list": "^6.9.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "yaml": "^2.6.0",
+    "yaml": "^2.6.1",
     "yet-another-react-lightbox": "^3.21.6"
   },
   "devDependencies": {
