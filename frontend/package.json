@@ -56,10 +56,10 @@
     "next-seo": "^6.6.0",
     "next-sitemap": "^4.2.3",
     "next-themes": "^0.4.3",
-    "react": "19.0.0-rc-69d4b800-20241021",
+    "react": "19.0.0-rc.1",
     "react-copy-to-clipboard": "^5.1.0",
     "react-country-flag": "^3.1.0",
-    "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "react-dom": "19.0.0-rc.1",
     "react-hook-form": "^7.53.1",
     "react-i18next": "^15.1.0",
     "react-icons": "^5.3.0",
@@ -113,7 +113,7 @@
   },
   "packageManager": "yarn@4.3.1",
   "resolutions": {
-    "react-is": "19.0.0-rc-69d4b800-20241021",
+    "react-is": "19.0.0-rc.1",
     "@types/react": "npm:types-react@19.0.0-rc.1"
   }
 }
