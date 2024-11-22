@@ -116,7 +116,7 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
           />
         </div>
         {slides?.length > 0 && slides[currentIndex]?.title && (
-          <div className="flex justify-center pb-4">
+          <div className="flex justify-center text-center pb-4">
             {slides[currentIndex]?.title}
           </div>
         )}
