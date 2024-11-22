@@ -8859,6 +8859,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"css-gradient-parser@npm:^0.0.16":
+  version: 0.0.16
+  resolution: "css-gradient-parser@npm:0.0.16"
+  checksum: 10c0/7f05794ad99927ed4dcb9b96571117eea5d4426366f6dc38932035f0e73729ed0edc2a4144576851b2987cdfe8acf9e8d9f2f08c9daf69d085ae2679779bbc5a
+  languageName: node
+  linkType: hard
+
 "css-loader@npm:^6.7.1, css-loader@npm:^6.7.3":
   version: 6.11.0
   resolution: "css-loader@npm:6.11.0"
@@ -10797,7 +10804,7 @@ __metadata:
     recharts: "npm:^2.13.3"
     redis: "npm:^4.7.0"
     sass: "npm:^1.80.6"
-    satori: "npm:^0.10.13"
+    satori: "npm:^0.12.0"
     simple-git: "npm:^3.27.0"
     spdx-license-list: "npm:^6.9.0"
     storybook: "npm:^8.4.5"
@@ -15437,13 +15444,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"satori@npm:^0.10.13":
-  version: 0.10.13
-  resolution: "satori@npm:0.10.13"
+"satori@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "satori@npm:0.12.0"
   dependencies:
     "@shuding/opentype.js": "npm:1.4.0-beta.0"
     css-background-parser: "npm:^0.1.0"
     css-box-shadow: "npm:1.0.0-3"
+    css-gradient-parser: "npm:^0.0.16"
     css-to-react-native: "npm:^3.0.0"
     emoji-regex: "npm:^10.2.1"
     escape-html: "npm:^1.0.3"
@@ -15451,7 +15459,7 @@ __metadata:
     parse-css-color: "npm:^0.2.1"
     postcss-value-parser: "npm:^4.2.0"
     yoga-wasm-web: "npm:^0.3.3"
-  checksum: 10c0/21258f971463f6dfb7c64a11d5407507fc210c728adda5df13630f461b169a6b49a67b0cb8a41861616817b6816a11bc8a64a5d75e399d164a2a8130e74901e5
+  checksum: 10c0/8ec7f76ac6ef5d01c357f31abf0f67a00ea682f4da329040b63c5cf1e3790da41c7e492ebf4a947f8ded6f329232459b6b945b4a54296b87bded21d76eb75439
   languageName: node
   linkType: hard
 
