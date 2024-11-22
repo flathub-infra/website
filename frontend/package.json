@@ -67,7 +67,7 @@
     "react-toastify": "^10.0.5",
     "recharts": "^2.13.3",
     "sass": "^1.80.6",
-    "satori": "^0.10.13",
+    "satori": "^0.12.0",
     "spdx-license-list": "^6.9.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
