@@ -102,7 +102,7 @@
     "orval": "^7.2.0",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "redis": "^4.7.0",
     "simple-git": "^3.27.0",
     "storybook": "^8.4.4",
