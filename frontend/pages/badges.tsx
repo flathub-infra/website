@@ -1,6 +1,6 @@
 import CodeCopy from "../src/components/application/CodeCopy"
 import { NextSeo } from "next-seo"
-import cc0 from "/public/img/CC0.png"
+import cc0 from "../public/img/CC0.png"
 import { GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Trans, useTranslation } from "next-i18next"
