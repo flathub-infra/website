@@ -63,6 +63,36 @@ async function createNotoSCSemiBold() {
   }
 }
 
+async function createNotoKRSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansKR-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansKR-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
+async function createNotoHebrewSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansHebrew-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansHebrew-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
 async function createNotoSemiBold() {
   const fontPath = path.join(
     process.cwd(),
@@ -209,6 +239,8 @@ export default async function handler(
         (await createNotoTamilSemiBold()) as any,
         (await createNotoSCSemiBold()) as any,
         (await createNotoSemiBold()) as any,
+        (await createNotoHebrewSemiBold()) as any,
+        (await createNotoKRSemiBold()) as any,
       ],
     },
   )
