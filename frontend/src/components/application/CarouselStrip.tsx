@@ -6,6 +6,7 @@ import {
 import { Appstream, mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
+import Zoom from "yet-another-react-lightbox/plugins/zoom"
 import Inline from "yet-another-react-lightbox/plugins/inline"
 import "yet-another-react-lightbox/styles.css"
 import Captions from "yet-another-react-lightbox/plugins/captions"
@@ -56,7 +57,7 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
             controller={{ closeOnBackdropClick: true }}
             open={showLightbox}
             close={() => setShowLightbox(false)}
-            plugins={[Captions]}
+            plugins={[Captions, Zoom]}
             slides={slides}
             index={currentIndex}
             render={{
