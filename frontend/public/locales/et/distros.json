@@ -42,16 +42,19 @@
       "name": "Käivita arvuti uuesti"
     },
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki paigaldamiseks Alt perekonna operatsioonisüsteemides, ava terminalirakendus ja käivita:</p> <2></2>"
     },
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks oma Alti-põhises arvutis, käivita:</p> <2></2>"
     }
   },
   "chrome_os": {
     "distroName": "ChromeOS",
     "step-3": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki paigaldamiseks käivita terminalis:</p> <2></2> <4>Uuem Flatpaki pakett on saadaval <2>Debiani backports-tarkvarahoidlas</2>. </4>"
     },
     "step-4": {
       "name": "Lisa Flathubi koodihoidla",
@@ -62,12 +65,14 @@
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Saa saad teha parema hiireklõpsuga terminalis ja valides „Taaskäivita Linux“. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
     },
     "step-1": {
-      "name": "Lülita Linuxi tugi sisse"
+      "name": "Lülita Linuxi tugi sisse",
+      "text": "<0>Ava <2>chrome://os-settings</2>, liigu jaotiseni <strong>Arendajad</strong> ja lülita sisse <i>Linuxi arenduskeskkond</i>. Järgmiseks kulub ChromeOSil natuke aega Linuxi allalaadimiseks ja paigaldamiseks.</0>"
     },
     "step-2": {
       "name": "Käivita Linuxi terminal",
       "text": "<p>Vajuta Otsi/käivita klahvi, kirjuta „Terminal“ ja käivita terminalirakendus.</p>"
-    }
+    },
+    "introduction": "<0>Flatpaki saad ChromeOSis paigaldada Crostini Linuxi ühilduvuskihi abil. See pole saadaval kõikides ChromeOSi seadmetes, seega enne jätkamist palun kontrolli ühilduvust. Vastavate seadmete loend on olemas <2>siin</2>.</0>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux"
@@ -104,23 +109,27 @@
   "debian": {
     "distroName": "Debian",
     "step-2": {
-      "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
+      "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
+      "text": "<p>Kui kasutad GNOME'i, siis on hea mõtepaigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</p> <2></2> <p>Kui kasutad KDE Plasmat, siis selle asemel paigalda Plasma Discoveri jaoks Flatpaki taustateenus:</p> <6></6>"
     },
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki tarkvarapakett on olemas Debiani versioonis 10 (Buster) ja uuemates. Selle paigaldamiseks käivita juurkasutajana:</p> <2></2>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
     },
     "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     },
     "step-1": {
       "name": "Paigalda Flatpak"
@@ -142,7 +151,8 @@
   "gentoo": {
     "distroName": "Gentoo",
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Gentoo puhul toimida.</p>"
     },
     "step-2": {
       "name": "Lisa Flathubi koodihoidla",
@@ -156,7 +166,8 @@
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<p>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks ava Discover, klõpsi valikut Seadistused ning lisa Flathubi tarkvarahoidla:</p>"
     },
     "step-2": {
       "name": "Paigalda süsteemiseadistuse jaoks Flatpaki plugin",
@@ -167,16 +178,19 @@
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0>"
     },
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki paigaldamiseks Kubuntus, ava rakendus Discover, vali Seaded, paigalda Flatpaki taustateenus ja käivita Discover uuesti.</p>"
     }
   },
   "solus": {
     "distroName": "Solus",
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Soluse puhul toimida, kuid ta saab olema saadaval lähitulevikus.</p>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
@@ -194,7 +208,8 @@
       "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <1>hakka rakendusi paigaldama</1>!</0>"
     },
     "step-3": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     },
     "step-2": {
       "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
@@ -203,13 +218,16 @@
   "mageia": {
     "distroName": "Mageia",
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki pakett on saadaval Mageia 6 ja uuema jaoks. Paigaldamaks DNFi abil, käivita juurkasutajana:</p> <2></2> <4>Või kui eelistad <1>urpmit</1>, siis käivita:</4> <6></6>"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Mageia puhul toimida.</p>"
     },
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     }
   },
   "openmandriva_lx": {
@@ -218,15 +236,18 @@
   "pop_os": {
     "distroName": "Pop!_OS",
     "step-2": {
-      "name": "Lisa Flathubi koodihoidla"
+      "name": "Lisa Flathubi koodihoidla",
+      "text": "<0>Flathub parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <2>Flathubi tarkvarahoidla seadistusfail</2> või käivita terminalis järgnev käsk:</0> <2></2>"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Pop!_OS 19.10 ja varasemate puhul toimida.</p>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
       "text": "<p>Paigaldamaks Flatpakki Pop!_OSi versioonis 19.10 või varasemas, ava terminalirakendus ja käivita:</p> <2></2>"
-    }
+    },
+    "introduction": "<0>Flatpaki tugi on olemas alates Pop!_OSi versioonist 20.04 — lisatoimingud pole vajalikud!</0> <p>Kui kasutad vanemat versiooni, siis järgi allpool toodud juhendit.</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -243,7 +264,8 @@
       "name": "Lisa Flathubi koodihoidla"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Raspberry Pi OSi puhul toimida.</p>"
     }
   },
   "clear_linux": {
@@ -288,7 +310,8 @@
       "text": "<p>Lubamaks Flatpak teenust Turkman Linuxis, ava terminalirakendus ja käivita:</p> <2></2>"
     },
     "step-4": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Turkman Linuxi puhul toimida.</p>"
     },
     "step-3": {
       "name": "Lisa Flathubi koodihoidla",
@@ -341,7 +364,8 @@
       "name": "Paigalda Flatpak"
     },
     "step-2": {
-      "name": "Paigalda tarkvarahalduritele Flatpaki plugin"
+      "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
+      "text": "<p>Kui kasutad GNOME'i, siis on hea mõte paigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</p> <2></2>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
@@ -365,10 +389,12 @@
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi Pisi GNU/Linuxi puhul toimida.</p>"
     },
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki pakett on saadaval alates Pisi versioonist 2.1. Selle paigaldamiseks käivita juurkasutajana:</p> <2></2>"
     },
     "step-2": {
       "name": "Lisa Flathubi koodihoidla",
@@ -378,10 +404,12 @@
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki paigaldamiseks EndeavorOSis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</p> <2></2> <p>Seejärel paigalda Flatpak:</p> <6></6>"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi EndeavourOSi puhul toimida.</p>"
     },
     "step-2": {
       "name": "Lisa Flathubi koodihoidla",
@@ -406,7 +434,8 @@
       "text": "<p>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käivita arvuti uuesti"
+      "name": "Käivita arvuti uuesti",
+      "text": "<0>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <2>hakka rakendusi paigaldama</2>!</0> <p>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides ei pruugi GNU Guixi puhul toimida.</p>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
@@ -416,7 +445,8 @@
   "crystal_linux": {
     "distroName": "Crystal Linux",
     "step-1": {
-      "name": "Paigalda Flatpak"
+      "name": "Paigalda Flatpak",
+      "text": "<p>Flatpaki paigaldamiseks Crystal Linuxis esmalt kontrolli, et kõik paketid on uuendatud. Käivita terminalis järgnev käsk:</p> <2></2> <p>Seejärel paigalda Flatpak:</p> <6></6>"
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
