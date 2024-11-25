@@ -17,7 +17,7 @@
     "@react-email/render": "1.0.2",
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.5",
-    "hono": "^4.6.11",
+    "hono": "^4.6.12",
     "nodemailer": "6.9.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
