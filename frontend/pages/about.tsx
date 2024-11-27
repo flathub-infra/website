@@ -136,8 +136,8 @@ const Developers = () => {
       <p>
         <Trans i18nKey={"common:millions-users"}>
           <span className="font-bold">Reach millions of users</span> — Flathub
-          comes out of the box on multiple Linux distros, is
-          <Link href="/setup"> easily installable</Link> on the rest, and has
+          comes out of the box on multiple Linux distros, is{" "}
+          <Link href="/setup">easily installable</Link> on the rest, and has
           over a million active users
         </Trans>
       </p>
