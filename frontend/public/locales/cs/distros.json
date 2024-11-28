@@ -75,5 +75,19 @@
       "text": "<0>Pro dokončení nastavení restartujte systém Linux. To provedete kliknutím pravým tlačítkem myši na terminál a poté kliknutím na „Vypnout Linux“. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
     },
     "introduction": "<0>Aplikace Flatpak mohou být nainstalovány na ChromeOS pomocí vrstvy kompatibility Crostini Linux. Tohle není k dispozici pro všechna zařízení ChromeOS, takže se nejdříve ujistěte, že vaše zařízení je kompatibilní. Seznam kompatibilních zařízení je spravován <2>zde</2>.</0>"
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<0>Flatpak je nainstalován již v základu na Red Hat Enterprise Linux, od verze 9 nebo novější. Jediné co potřebujete pro začátek, je povolení Flathubu, což je nejlepší způsob pro získávání aplikací Flatpak. Stačí jen stáhnout <2>soubor repozitáře Flathub</2>.</0> <p>Pro instalaci Flatpaku na Red Hat Enterprise Linux, verze 8 nebo starší, spusťte následující příkaz v terminálu: </p>  <5></5> <7>Nyní již můžete začít s <2>instalací aplikací</2>!</7> <p>Výše uvedené odkazy by měly fungovat ve výchozí instalaci Red Hat Enterprise Linux 9, nicméně pokud by z jakéhokoliv důvodu nefungovaly, můžete přidat repozitář Flathub ručně spuštěním:</p> <11></11>"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<0>Podpora Flatpaku je již zabudovaná v Linux Mint 18.3 a novější–žádné další nastavení není potřeba</0> <2>Pokud používáte starší verzi, <2>proveďte povýšení na Linux Mint 18.3</2>.</2>"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Nainstalujte Flatpak"
+    }
   }
 }
