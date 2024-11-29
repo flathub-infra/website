@@ -10950,7 +10950,7 @@ __metadata:
     tsx: "npm:^4.19.2"
     typescript: "npm:^5.7.2"
     yaml: "npm:^2.6.1"
-    yet-another-react-lightbox: "npm:^3.21.6"
+    yet-another-react-lightbox: "npm:^3.21.7"
   languageName: unknown
   linkType: soft
 
@@ -17704,13 +17704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yet-another-react-lightbox@npm:^3.21.6":
-  version: 3.21.6
-  resolution: "yet-another-react-lightbox@npm:3.21.6"
+"yet-another-react-lightbox@npm:^3.21.7":
+  version: 3.21.7
+  resolution: "yet-another-react-lightbox@npm:3.21.7"
   peerDependencies:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
-  checksum: 10c0/5488949baf3a03a78a450a50b1e490f1d9baa1ccc79e95bdff35e1dc781121889cfff6a2087da1396547003b7bf22d46050375e58bbb840d86350677a8d4fe93
+  checksum: 10c0/05f939552e16bca5d7dcf28448ff807ee93f26ec1fa6aee9f22f98657d7f7f56740529a8716c90f8cc425ae2b2e4dcb569e22d9f46e9e48eb1bab65d85b59ee5
   languageName: node
   linkType: hard
 
