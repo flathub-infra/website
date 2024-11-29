@@ -1580,13 +1580,13 @@ yaml = ["PyYaml (>=6.0.1)"]
 
 [[package]]
 name = "python-multipart"
-version = "0.0.17"
+version = "0.0.18"
 description = "A streaming multipart parser for Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "python_multipart-0.0.17-py3-none-any.whl", hash = "sha256:15dc4f487e0a9476cc1201261188ee0940165cffc94429b6fc565c4d3045cb5d"},
-    {file = "python_multipart-0.0.17.tar.gz", hash = "sha256:41330d831cae6e2f22902704ead2826ea038d0419530eadff3ea80175aec5538"},
+    {file = "python_multipart-0.0.18-py3-none-any.whl", hash = "sha256:efe91480f485f6a361427a541db4796f9e1591afc0fb8e7a4ba06bfbc6708996"},
+    {file = "python_multipart-0.0.18.tar.gz", hash = "sha256:7a68db60c8bfb82e460637fa4750727b45af1d5e2ed215593f917f64694d34fe"},
 ]
 
 [[package]]
@@ -2370,4 +2370,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "9fbf48a67f1fd3bf4b0e9be91cada49fc0da677b48874809c312cdfaac86d0b6"
+content-hash = "bb003b14aeafe0e7dd33e8c465ef1ad8101bc3a9837565259d5077285fe2166c"
