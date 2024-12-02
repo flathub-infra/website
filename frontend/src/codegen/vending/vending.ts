@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -78,7 +79,7 @@ export const getStatusVendingStatusGetQueryOptions = <
     Awaited<ReturnType<typeof statusVendingStatusGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type StatusVendingStatusGetQueryResult = NonNullable<
@@ -106,7 +107,9 @@ export function useStatusVendingStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<unknown>,
@@ -127,7 +130,7 @@ export function useStatusVendingStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<unknown>,
@@ -140,7 +143,7 @@ export function useStatusVendingStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Status
  */
@@ -157,11 +160,11 @@ export function useStatusVendingStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getStatusVendingStatusGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -295,7 +298,7 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetDashboardLinkVendingStatusDashboardlinkGetQueryResult =
@@ -329,7 +332,9 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -354,7 +359,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -369,7 +374,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Dashboard Link
  */
@@ -388,12 +393,12 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -448,7 +453,7 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
     Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetGlobalVendingConfigVendingConfigGetQueryResult = NonNullable<
@@ -477,7 +482,9 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<unknown>,
@@ -498,7 +505,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<unknown>,
@@ -511,7 +518,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Global Vending Config
  */
@@ -528,12 +535,12 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetGlobalVendingConfigVendingConfigGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -597,7 +604,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
     Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAppVendingSetupVendingappAppIdSetupGetQueryResult = NonNullable<
@@ -629,7 +636,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -653,7 +660,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -669,7 +676,7 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get App Vending Setup
  */
@@ -689,14 +696,14 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -936,7 +943,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetRedeemableTokensVendingappAppIdTokensGetQueryResult =
@@ -973,7 +980,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1001,7 +1008,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1019,7 +1026,7 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Redeemable Tokens
  */
@@ -1041,12 +1048,12 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions(appId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1357,7 +1364,7 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
     Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type AppInfoVendingappAppIdInfoGetQueryResult = NonNullable<
@@ -1389,7 +1396,7 @@ export function useAppInfoVendingappAppIdInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1413,7 +1420,7 @@ export function useAppInfoVendingappAppIdInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1429,7 +1436,7 @@ export function useAppInfoVendingappAppIdInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary App Info
  */
@@ -1449,14 +1456,14 @@ export function useAppInfoVendingappAppIdInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getAppInfoVendingappAppIdInfoGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

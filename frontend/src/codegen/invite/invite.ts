@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -77,7 +78,7 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
     Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
@@ -109,7 +110,7 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -133,7 +134,7 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -149,7 +150,7 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Invite Status
  */
@@ -169,14 +170,14 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetInviteStatusInvitesAppIdGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -532,7 +533,7 @@ export const getGetDevelopersInvitesAppIdDevelopersGetQueryOptions = <
     Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
@@ -564,7 +565,7 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -588,7 +589,7 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -604,7 +605,7 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Developers
  */
@@ -624,14 +625,14 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetDevelopersInvitesAppIdDevelopersGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

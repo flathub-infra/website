@@ -6,6 +6,7 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   QueryFunction,
@@ -83,7 +84,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryO
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryResult =
@@ -129,7 +130,9 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
   TData = Awaited<
     ReturnType<
@@ -162,7 +165,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
   TData = Awaited<
     ReturnType<
@@ -183,7 +186,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Recently Updated
  */
@@ -208,14 +211,14 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdated25GetQueryOptions(
       options,
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -285,7 +288,7 @@ export const getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOpt
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryResult =
@@ -329,7 +332,9 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
@@ -360,7 +365,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet>
@@ -379,7 +384,7 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Recently Updated
  */
@@ -402,14 +407,14 @@ export function useGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRecentlyUpdatedCompatAppsCollectionRecentlyUpdatedGetQueryOptions(
       options,
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -460,7 +465,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions = <
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetRecentlyAddedCompatAppsCollectionNew25GetQueryResult =
@@ -494,7 +499,9 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
@@ -519,7 +526,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNew25Get>
@@ -534,7 +541,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Recently Added
  */
@@ -553,12 +560,12 @@ export function useGetRecentlyAddedCompatAppsCollectionNew25Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRecentlyAddedCompatAppsCollectionNew25GetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -609,7 +616,7 @@ export const getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions = <
     Awaited<ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetRecentlyAddedCompatAppsCollectionNewGetQueryResult = NonNullable<
@@ -640,7 +647,9 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
@@ -663,7 +672,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRecentlyAddedCompatAppsCollectionNewGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCompatAppsCollectionNewGet>
@@ -678,7 +687,7 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Recently Added
  */
@@ -697,12 +706,12 @@ export function useGetRecentlyAddedCompatAppsCollectionNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRecentlyAddedCompatAppsCollectionNewGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -755,7 +764,7 @@ export const getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions = <
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetPopularAppsCompatAppsCollectionPopular50GetQueryResult =
@@ -791,7 +800,9 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
@@ -818,7 +829,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetPopularAppsCompatAppsCollectionPopular50Get<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopular50Get>
@@ -835,7 +846,7 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Popular Apps
  */
@@ -856,12 +867,12 @@ export function useGetPopularAppsCompatAppsCollectionPopular50Get<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetPopularAppsCompatAppsCollectionPopular50GetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -912,7 +923,7 @@ export const getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions = <
     Awaited<ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetPopularAppsCompatAppsCollectionPopularGetQueryResult =
@@ -946,7 +957,9 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
@@ -971,7 +984,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetPopularAppsCompatAppsCollectionPopularGet<
   TData = Awaited<
     ReturnType<typeof getPopularAppsCompatAppsCollectionPopularGet>
@@ -986,7 +999,7 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Popular Apps
  */
@@ -1005,12 +1018,12 @@ export function useGetPopularAppsCompatAppsCollectionPopularGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetPopularAppsCompatAppsCollectionPopularGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1079,7 +1092,7 @@ export const getGetSearchCompatAppsSearchQueryGetQueryOptions = <
     Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetSearchCompatAppsSearchQueryGetQueryResult = NonNullable<
@@ -1112,7 +1125,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1137,7 +1150,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetSearchCompatAppsSearchQueryGet<
   TData = Awaited<ReturnType<typeof getSearchCompatAppsSearchQueryGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1154,7 +1167,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Search
  */
@@ -1175,7 +1188,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetSearchCompatAppsSearchQueryGetQueryOptions(
     query,
     params,
@@ -1183,7 +1196,7 @@ export function useGetSearchCompatAppsSearchQueryGet<
   )
 
   const _query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   _query.queryKey = queryOptions.queryKey
@@ -1240,7 +1253,7 @@ export const getGetSingleAppCompatAppsAppIdGetQueryOptions = <
     Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetSingleAppCompatAppsAppIdGetQueryResult = NonNullable<
@@ -1272,7 +1285,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1296,7 +1309,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetSingleAppCompatAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getSingleAppCompatAppsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1312,7 +1325,7 @@ export function useGetSingleAppCompatAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Single App
  */
@@ -1332,14 +1345,14 @@ export function useGetSingleAppCompatAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetSingleAppCompatAppsAppIdGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

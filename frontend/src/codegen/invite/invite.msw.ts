@@ -32,7 +32,7 @@ export const getGetDevelopersInvitesAppIdDevelopersGetResponseMock = (
       undefined,
     ]),
     is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.word.sample(), null]),
+    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   })),
   invites: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -44,7 +44,7 @@ export const getGetDevelopersInvitesAppIdDevelopersGetResponseMock = (
       undefined,
     ]),
     is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.word.sample(), null]),
+    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   })),
   ...overrideResponse,
 })

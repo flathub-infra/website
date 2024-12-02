@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -78,7 +79,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
     Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
@@ -110,7 +111,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -134,7 +135,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -150,7 +151,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get App Of The Day
  */
@@ -170,14 +171,14 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions(
     date,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -243,7 +244,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
@@ -280,7 +281,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -308,7 +309,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -326,7 +327,7 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get App Of The Week
  */
@@ -348,12 +349,12 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions(date, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

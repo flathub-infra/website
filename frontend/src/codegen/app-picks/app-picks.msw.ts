@@ -11,7 +11,7 @@ import type { AppOfTheDay, AppsOfTheWeek } from ".././model"
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock = (
   overrideResponse: Partial<AppOfTheDay> = {},
 ): AppOfTheDay => ({
-  app_id: faker.word.sample(),
+  app_id: faker.string.alpha(20),
   day: faker.date.past().toISOString().split("T")[0],
   ...overrideResponse,
 })
@@ -23,7 +23,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    app_id: faker.word.sample(),
+    app_id: faker.string.alpha(20),
     isFullscreen: faker.datatype.boolean(),
     position: faker.number.int({ min: undefined, max: undefined }),
   })),

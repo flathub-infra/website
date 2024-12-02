@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -96,7 +97,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetQueryOptions
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetQualityModerationStatusQualityModerationStatusGetQueryResult =
@@ -143,7 +144,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -177,7 +178,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -199,7 +200,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Quality Moderation Status
  */
@@ -225,7 +226,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetQualityModerationStatusQualityModerationStatusGetQueryOptions(
       params,
@@ -233,7 +234,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -308,7 +309,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryResult =
@@ -355,7 +356,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -389,7 +390,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -411,7 +412,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Passing Quality Apps
  */
@@ -437,7 +438,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions(
       params,
@@ -445,7 +446,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -515,7 +516,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQu
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryResult =
@@ -561,7 +562,9 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -594,7 +597,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -615,7 +618,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Quality Moderation Stats
  */
@@ -640,14 +643,14 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryOptions(
       options,
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -721,7 +724,7 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions 
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetQualityModerationForAppQualityModerationAppIdGetQueryResult =
@@ -764,7 +767,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -796,7 +799,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -816,7 +819,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Quality Moderation For App
  */
@@ -840,7 +843,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetQualityModerationForAppQualityModerationAppIdGetQueryOptions(
       appId,
@@ -848,7 +851,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1025,7 +1028,7 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQ
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryResult =
@@ -1074,7 +1077,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -1110,7 +1113,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -1134,7 +1137,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Quality Moderation Status For App
  */
@@ -1162,7 +1165,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryOptions(
       appId,
@@ -1170,7 +1173,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

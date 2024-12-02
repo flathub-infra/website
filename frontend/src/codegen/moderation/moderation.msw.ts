@@ -21,7 +21,7 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    appid: faker.word.sample(),
+    appid: faker.string.alpha(20),
     is_new_submission: faker.datatype.boolean(),
     request_types: faker.helpers.arrayElements(
       Object.values(ModerationRequestType),
@@ -45,10 +45,10 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    app_id: faker.word.sample(),
+    app_id: faker.string.alpha(20),
     build_id: faker.number.int({ min: undefined, max: undefined }),
     comment: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
     created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -60,7 +60,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       undefined,
     ]),
     handled_by: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
     id: faker.number.int({ min: undefined, max: undefined }),
@@ -76,7 +76,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
         {
           current_values: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.word.sample(),
+              faker.string.alpha(20),
               Array.from(
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1,
@@ -87,7 +87,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
           },
           keys: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.word.sample(),
+              faker.string.alpha(20),
               Array.from(
                 { length: faker.number.int({ min: 1, max: 10 }) },
                 (_, i) => i + 1,
@@ -120,7 +120,7 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostResponseMock
 export const getSubmitReviewModerationRequestsIdReviewPostResponseMock =
   (): SubmitReviewModerationRequestsIdReviewPost200 =>
     faker.helpers.arrayElement([
-      { github_issue_url: faker.word.sample() },
+      { github_issue_url: faker.string.alpha(20) },
       null,
     ])
 

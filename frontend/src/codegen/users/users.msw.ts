@@ -29,16 +29,19 @@ export const getUsersUsersGetResponseMock = (
     ]),
     default_account: faker.helpers.arrayElement([
       {
-        avatar_url: faker.helpers.arrayElement([faker.word.sample(), null]),
-        display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
-        email: faker.helpers.arrayElement([faker.word.sample(), null]),
+        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha(20),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
         github_userid: faker.number.int({ min: undefined, max: undefined }),
         id: faker.number.int({ min: undefined, max: undefined }),
         last_used: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
         ]),
-        login: faker.word.sample(),
+        login: faker.string.alpha(20),
         provider: faker.helpers.arrayElement(
           Object.values(ConnectedAccountProvider),
         ),
@@ -50,14 +53,14 @@ export const getUsersUsersGetResponseMock = (
       null,
     ]),
     deleted: faker.datatype.boolean(),
-    display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+    display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     github_repos: faker.helpers.arrayElement([
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
         id: faker.number.int({ min: undefined, max: undefined }),
-        reponame: faker.word.sample(),
+        reponame: faker.string.alpha(20),
       })),
       null,
     ]),
@@ -67,7 +70,7 @@ export const getUsersUsersGetResponseMock = (
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
-        app_id: faker.word.sample(),
+        app_id: faker.string.alpha(20),
         created: `${faker.date.past().toISOString().split(".")[0]}Z`,
       })),
       null,
@@ -78,13 +81,13 @@ export const getUsersUsersGetResponseMock = (
     ).map(() => ({
       created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
       id: faker.number.int({ min: undefined, max: undefined }),
-      name: faker.word.sample(),
+      name: faker.string.alpha(20),
       permissions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
         created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-        name: faker.word.sample(),
+        name: faker.string.alpha(20),
       })),
     })),
   })),
@@ -101,16 +104,16 @@ export const getUserUsersUserIdGetResponseMock = (
   // @ts-expect-error
   default_account: faker.helpers.arrayElement([
     {
-      avatar_url: faker.helpers.arrayElement([faker.word.sample(), null]),
-      display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
-      email: faker.helpers.arrayElement([faker.word.sample(), null]),
+      avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
       github_userid: faker.number.int({ min: undefined, max: undefined }),
       id: faker.number.int({ min: undefined, max: undefined }),
       last_used: faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
         null,
       ]),
-      login: faker.word.sample(),
+      login: faker.string.alpha(20),
       provider: faker.helpers.arrayElement(
         Object.values(ConnectedAccountProvider),
       ),
@@ -122,14 +125,14 @@ export const getUserUsersUserIdGetResponseMock = (
     null,
   ]),
   deleted: faker.datatype.boolean(),
-  display_name: faker.helpers.arrayElement([faker.word.sample(), null]),
+  display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   github_repos: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
       id: faker.number.int({ min: undefined, max: undefined }),
-      reponame: faker.word.sample(),
+      reponame: faker.string.alpha(20),
     })),
     null,
   ]),
@@ -139,7 +142,7 @@ export const getUserUsersUserIdGetResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.word.sample(),
+      app_id: faker.string.alpha(20),
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
     })),
     null,
@@ -150,13 +153,13 @@ export const getUserUsersUserIdGetResponseMock = (
   ).map(() => ({
     created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
     id: faker.number.int({ min: undefined, max: undefined }),
-    name: faker.word.sample(),
+    name: faker.string.alpha(20),
     permissions: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
       created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-      name: faker.word.sample(),
+      name: faker.string.alpha(20),
     })),
   })),
   ...overrideResponse,

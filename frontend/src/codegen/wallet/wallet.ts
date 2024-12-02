@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -76,7 +77,7 @@ export const getGetWalletinfoWalletWalletinfoGetQueryOptions = <
     Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetWalletinfoWalletWalletinfoGetQueryResult = NonNullable<
@@ -104,7 +105,9 @@ export function useGetWalletinfoWalletWalletinfoGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
@@ -125,7 +128,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<unknown>,
@@ -138,7 +141,7 @@ export function useGetWalletinfoWalletWalletinfoGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Walletinfo
  */
@@ -155,11 +158,11 @@ export function useGetWalletinfoWalletWalletinfoGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetWalletinfoWalletWalletinfoGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -298,7 +301,7 @@ export const getGetTransactionsWalletTransactionsGetQueryOptions = <
     Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetTransactionsWalletTransactionsGetQueryResult = NonNullable<
@@ -330,7 +333,7 @@ export function useGetTransactionsWalletTransactionsGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -354,7 +357,7 @@ export function useGetTransactionsWalletTransactionsGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -370,7 +373,7 @@ export function useGetTransactionsWalletTransactionsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Transactions
  */
@@ -390,14 +393,14 @@ export function useGetTransactionsWalletTransactionsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetTransactionsWalletTransactionsGetQueryOptions(
     params,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -542,7 +545,7 @@ export const getGetTransactionByIdWalletTransactionsTxnGetQueryOptions = <
     Awaited<ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetTransactionByIdWalletTransactionsTxnGetQueryResult = NonNullable<
@@ -578,7 +581,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -606,7 +609,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -624,7 +627,7 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Transaction By Id
  */
@@ -646,12 +649,12 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetTransactionByIdWalletTransactionsTxnGetQueryOptions(txn, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -886,7 +889,7 @@ export const getGetStripedataWalletStripedataGetQueryOptions = <
     Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetStripedataWalletStripedataGetQueryResult = NonNullable<
@@ -914,7 +917,9 @@ export function useGetStripedataWalletStripedataGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
@@ -935,7 +940,7 @@ export function useGetStripedataWalletStripedataGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<unknown>,
@@ -948,7 +953,7 @@ export function useGetStripedataWalletStripedataGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Stripedata
  */
@@ -965,11 +970,11 @@ export function useGetStripedataWalletStripedataGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetStripedataWalletStripedataGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1040,7 +1045,7 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions = <
     Awaited<ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryResult =
@@ -1079,7 +1084,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1109,7 +1114,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1129,7 +1134,7 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Txn Stripedata
  */
@@ -1153,12 +1158,12 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetTxnStripedataWalletTransactionsTxnStripeGetQueryOptions(txn, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

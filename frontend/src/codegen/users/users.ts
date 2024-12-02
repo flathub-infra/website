@@ -6,6 +6,7 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   QueryFunction,
@@ -65,7 +66,7 @@ export const getUsersUsersGetQueryOptions = <
     Awaited<ReturnType<typeof usersUsersGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type UsersUsersGetQueryResult = NonNullable<
@@ -92,7 +93,7 @@ export function useUsersUsersGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -112,7 +113,7 @@ export function useUsersUsersGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -124,7 +125,7 @@ export function useUsersUsersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Users
  */
@@ -140,11 +141,11 @@ export function useUsersUsersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getUsersUsersGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -201,7 +202,7 @@ export const getUserUsersUserIdGetQueryOptions = <
     Awaited<ReturnType<typeof userUsersUserIdGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type UserUsersUserIdGetQueryResult = NonNullable<
@@ -232,7 +233,7 @@ export function useUserUsersUserIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -256,7 +257,7 @@ export function useUserUsersUserIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -272,7 +273,7 @@ export function useUserUsersUserIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary User
  */
@@ -292,11 +293,11 @@ export function useUserUsersUserIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getUserUsersUserIdGetQueryOptions(userId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

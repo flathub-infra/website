@@ -6,6 +6,7 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   QueryFunction,
@@ -55,7 +56,7 @@ export const getHealthcheckStatusGetQueryOptions = <
     Awaited<ReturnType<typeof healthcheckStatusGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type HealthcheckStatusGetQueryResult = NonNullable<
@@ -83,7 +84,9 @@ export function useHealthcheckStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -104,7 +107,7 @@ export function useHealthcheckStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -117,7 +120,7 @@ export function useHealthcheckStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Healthcheck
  */
@@ -134,11 +137,11 @@ export function useHealthcheckStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getHealthcheckStatusGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
