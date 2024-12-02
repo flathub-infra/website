@@ -26,7 +26,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
   overrideResponse: Partial<VerificationStatus> = {},
 ): VerificationStatus => ({
   detail: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   login_is_organization: faker.helpers.arrayElement([
@@ -34,7 +34,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     undefined,
   ]),
   login_name: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   login_provider: faker.helpers.arrayElement([
@@ -52,12 +52,12 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     undefined,
   ]),
   timestamp: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   verified: faker.datatype.boolean(),
   website: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   ...overrideResponse,
@@ -66,7 +66,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseMock =
   (overrideResponse: Partial<AvailableMethods> = {}): AvailableMethods => ({
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
     methods: faker.helpers.arrayElement([
@@ -80,7 +80,7 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             undefined,
           ]),
           login_name: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
           login_provider: faker.helpers.arrayElement([
@@ -103,11 +103,11 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             Object.values(AvailableMethodType),
           ),
           website: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
           website_token: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
         })),
@@ -127,7 +127,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostR
 
 export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetResponseMock =
   (overrideResponse: Partial<LinkResponse> = {}): LinkResponse => ({
-    link: faker.word.sample(),
+    link: faker.string.alpha(20),
     ...overrideResponse,
   })
 
@@ -135,8 +135,8 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
   (
     overrideResponse: Partial<WebsiteVerificationToken> = {},
   ): WebsiteVerificationToken => ({
-    domain: faker.word.sample(),
-    token: faker.word.sample(),
+    domain: faker.string.alpha(20),
+    token: faker.string.alpha(20),
     ...overrideResponse,
   })
 

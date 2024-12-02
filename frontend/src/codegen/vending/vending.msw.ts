@@ -25,23 +25,23 @@ export const getStatusVendingStatusGetResponseMock = (
   can_take_payments: faker.datatype.boolean(),
   details_submitted: faker.datatype.boolean(),
   needs_attention: faker.datatype.boolean(),
-  status: faker.word.sample(),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getStartOnboardingVendingStatusOnboardingPostResponseMock = (
   overrideResponse: Partial<VendingRedirect> = {},
 ): VendingRedirect => ({
-  status: faker.word.sample(),
-  target_url: faker.word.sample(),
+  status: faker.string.alpha(20),
+  target_url: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetResponseMock = (
   overrideResponse: Partial<VendingRedirect> = {},
 ): VendingRedirect => ({
-  status: faker.word.sample(),
-  target_url: faker.word.sample(),
+  status: faker.string.alpha(20),
+  target_url: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -56,14 +56,14 @@ export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
       aliases: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
-      ).map(() => faker.word.sample()),
+      ).map(() => faker.string.alpha(20)),
       depends: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
       keep: faker.number.int({ min: undefined, max: undefined }),
       stripe_account: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
     },
@@ -76,7 +76,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetResponseMock = (
   overrideResponse: Partial<VendingSetup> = {},
 ): VendingSetup => ({
   appshare: faker.number.int({ min: undefined, max: undefined }),
-  currency: faker.word.sample(),
+  currency: faker.string.alpha(20),
   minimum_payment: faker.number.int({ min: undefined, max: undefined }),
   recommended_donation: faker.number.int({ min: undefined, max: undefined }),
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
@@ -87,7 +87,7 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostResponseMock = (
   overrideResponse: Partial<VendingSetup> = {},
 ): VendingSetup => ({
   appshare: faker.number.int({ min: undefined, max: undefined }),
-  currency: faker.word.sample(),
+  currency: faker.string.alpha(20),
   minimum_payment: faker.number.int({ min: undefined, max: undefined }),
   recommended_donation: faker.number.int({ min: undefined, max: undefined }),
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
@@ -97,30 +97,30 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostResponseMock = (
 export const getPostAppVendingStatusVendingappAppIdPostResponseMock = (
   overrideResponse: Partial<VendingOutput> = {},
 ): VendingOutput => ({
-  status: faker.word.sample(),
-  transaction: faker.word.sample(),
+  status: faker.string.alpha(20),
+  transaction: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
   overrideResponse: Partial<TokenList> = {},
 ): TokenList => ({
-  status: faker.word.sample(),
+  status: faker.string.alpha(20),
   tokens: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
     changed: `${faker.date.past().toISOString().split(".")[0]}Z`,
     created: `${faker.date.past().toISOString().split(".")[0]}Z`,
-    id: faker.word.sample(),
-    name: faker.word.sample(),
+    id: faker.string.alpha(20),
+    name: faker.string.alpha(20),
     state: faker.helpers.arrayElement([
       "unredeemed",
       "redeemed",
       "cancelled",
     ] as const),
     token: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
   })),
@@ -136,15 +136,15 @@ export const getCreateTokensVendingappAppIdTokensPostResponseMock =
     ).map(() => ({
       changed: `${faker.date.past().toISOString().split(".")[0]}Z`,
       created: `${faker.date.past().toISOString().split(".")[0]}Z`,
-      id: faker.word.sample(),
-      name: faker.word.sample(),
+      id: faker.string.alpha(20),
+      name: faker.string.alpha(20),
       state: faker.helpers.arrayElement([
         "unredeemed",
         "redeemed",
         "cancelled",
       ] as const),
       token: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
     }))
@@ -160,29 +160,29 @@ export const getCancelTokensVendingappAppIdTokensCancelPostResponseMock =
         "cancelled",
         "error",
       ] as const),
-      token: faker.word.sample(),
+      token: faker.string.alpha(20),
     }))
 
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostResponseMock = (
   overrideResponse: Partial<RedemptionResult> = {},
 ): RedemptionResult => ({
-  reason: faker.word.sample(),
-  status: faker.word.sample(),
+  reason: faker.string.alpha(20),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getAppInfoVendingappAppIdInfoGetResponseMock = (
   overrideResponse: Partial<VendingApplicationInformation> = {},
 ): VendingApplicationInformation => ({
-  app_id: faker.word.sample(),
+  app_id: faker.string.alpha(20),
   foss: faker.datatype.boolean(),
-  foss_reason: faker.word.sample(),
+  foss_reason: faker.string.alpha(20),
   kind: faker.helpers.arrayElement([
     "GAME",
     "PRODUCTIVITY",
     "GENERIC",
   ] as const),
-  kind_reason: faker.word.sample(),
+  kind_reason: faker.string.alpha(20),
   ...overrideResponse,
 })
 

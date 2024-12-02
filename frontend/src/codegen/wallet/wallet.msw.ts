@@ -22,14 +22,14 @@ export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    brand: faker.word.sample(),
-    country: faker.word.sample(),
+    brand: faker.string.alpha(20),
+    country: faker.string.alpha(20),
     exp_month: faker.number.int({ min: undefined, max: undefined }),
     exp_year: faker.number.int({ min: undefined, max: undefined }),
-    id: faker.word.sample(),
-    last4: faker.word.sample(),
+    id: faker.string.alpha(20),
+    last4: faker.string.alpha(20),
   })),
-  status: faker.word.sample(),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -46,11 +46,11 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         ]),
         undefined,
       ]),
-      currency: faker.word.sample(),
-      id: faker.word.sample(),
+      currency: faker.string.alpha(20),
+      id: faker.string.alpha(20),
       kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
       reason: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
       status: faker.helpers.arrayElement([
@@ -73,8 +73,8 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
 export const getCreateTransactionWalletTransactionsPostResponseMock = (
   overrideResponse: Partial<PostTransactionResponse> = {},
 ): PostTransactionResponse => ({
-  id: faker.word.sample(),
-  status: faker.word.sample(),
+  id: faker.string.alpha(20),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -84,12 +84,12 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
-        brand: faker.word.sample(),
-        country: faker.word.sample(),
+        brand: faker.string.alpha(20),
+        country: faker.string.alpha(20),
         exp_month: faker.number.int({ min: undefined, max: undefined }),
         exp_year: faker.number.int({ min: undefined, max: undefined }),
-        id: faker.word.sample(),
-        last4: faker.word.sample(),
+        id: faker.string.alpha(20),
+        last4: faker.string.alpha(20),
       },
       null,
     ]),
@@ -100,12 +100,12 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
     (_, i) => i + 1,
   ).map(() => ({
     amount: faker.number.int({ min: undefined, max: undefined }),
-    currency: faker.word.sample(),
+    currency: faker.string.alpha(20),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
-    recipient: faker.word.sample(),
+    recipient: faker.string.alpha(20),
   })),
   receipt: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
   summary: {
@@ -116,11 +116,11 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       ]),
       undefined,
     ]),
-    currency: faker.word.sample(),
-    id: faker.word.sample(),
+    currency: faker.string.alpha(20),
+    id: faker.string.alpha(20),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
     reason: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
     status: faker.helpers.arrayElement([
@@ -145,8 +145,8 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
 export const getGetStripedataWalletStripedataGetResponseMock = (
   overrideResponse: Partial<StripeKeys> = {},
 ): StripeKeys => ({
-  public_key: faker.word.sample(),
-  status: faker.word.sample(),
+  public_key: faker.string.alpha(20),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -156,19 +156,19 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
-        brand: faker.word.sample(),
-        country: faker.word.sample(),
+        brand: faker.string.alpha(20),
+        country: faker.string.alpha(20),
         exp_month: faker.number.int({ min: undefined, max: undefined }),
         exp_year: faker.number.int({ min: undefined, max: undefined }),
-        id: faker.word.sample(),
-        last4: faker.word.sample(),
+        id: faker.string.alpha(20),
+        last4: faker.string.alpha(20),
       },
       null,
     ]),
     undefined,
   ]),
-  client_secret: faker.word.sample(),
-  status: faker.word.sample(),
+  client_secret: faker.string.alpha(20),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 

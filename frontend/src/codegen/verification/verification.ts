@@ -6,6 +6,7 @@
  */
 import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   MutationFunction,
@@ -94,7 +95,7 @@ export const getGetVerificationStatusVerificationAppIdStatusGetQueryOptions = <
     Awaited<ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetVerificationStatusVerificationAppIdStatusGetQueryResult =
@@ -133,7 +134,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -163,7 +164,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -183,7 +184,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Verification Status
  */
@@ -207,7 +208,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetVerificationStatusVerificationAppIdStatusGetQueryOptions(
       appId,
@@ -215,7 +216,7 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -307,7 +308,7 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryOpti
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryResult =
@@ -355,7 +356,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -390,7 +391,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -413,7 +414,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Available Methods
  */
@@ -440,7 +441,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryOptions(
       appId,
@@ -449,7 +450,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -648,7 +649,7 @@ export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAc
       >,
       TError,
       TData
-    > & { queryKey: QueryKey }
+    > & { queryKey: DataTag<QueryKey, TData> }
   }
 
 export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryResult =
@@ -694,7 +695,9 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -727,7 +730,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -748,7 +751,7 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Request Organization Access Github
  */
@@ -773,14 +776,14 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryOptions(
       options,
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

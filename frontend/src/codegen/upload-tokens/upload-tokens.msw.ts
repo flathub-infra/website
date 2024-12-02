@@ -16,21 +16,21 @@ export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    app_id: faker.word.sample(),
-    comment: faker.word.sample(),
+    app_id: faker.string.alpha(20),
+    comment: faker.string.alpha(20),
     expires_at: faker.number.int({ min: undefined, max: undefined }),
     id: faker.number.int({ min: undefined, max: undefined }),
     issued_at: faker.number.int({ min: undefined, max: undefined }),
-    issued_to: faker.helpers.arrayElement([faker.word.sample(), null]),
+    issued_to: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     repos: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     revoked: faker.datatype.boolean(),
     scopes: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
   })),
   ...overrideResponse,
 })
@@ -39,23 +39,23 @@ export const getCreateUploadTokenUploadTokensAppIdPostResponseMock = (
   overrideResponse: Partial<NewTokenResponse> = {},
 ): NewTokenResponse => ({
   details: {
-    app_id: faker.word.sample(),
-    comment: faker.word.sample(),
+    app_id: faker.string.alpha(20),
+    comment: faker.string.alpha(20),
     expires_at: faker.number.int({ min: undefined, max: undefined }),
     id: faker.number.int({ min: undefined, max: undefined }),
     issued_at: faker.number.int({ min: undefined, max: undefined }),
-    issued_to: faker.helpers.arrayElement([faker.word.sample(), null]),
+    issued_to: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     repos: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     revoked: faker.datatype.boolean(),
     scopes: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
   },
-  token: faker.word.sample(),
+  token: faker.string.alpha(20),
   ...overrideResponse,
 })
 

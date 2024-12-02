@@ -26,7 +26,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
         faker.helpers.arrayElement([{}, null]),
         undefined,
       ]),
-      id: faker.word.sample(),
+      id: faker.string.alpha(20),
       installs_last_7_days: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.number.int({ min: undefined, max: undefined }),
@@ -68,7 +68,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetResponseMock
     apps: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     pagination: {
       page: faker.number.int({ min: undefined, max: undefined }),
       page_size: faker.number.int({ min: undefined, max: undefined }),
@@ -84,7 +84,7 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetRe
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      guideline_id: faker.word.sample(),
+      guideline_id: faker.string.alpha(20),
       not_passed: faker.number.int({ min: undefined, max: undefined }),
     }))
 
@@ -96,19 +96,19 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.word.sample(),
-      comment: faker.helpers.arrayElement([faker.word.sample(), null]),
+      app_id: faker.string.alpha(20),
+      comment: faker.helpers.arrayElement([faker.string.alpha(20), null]),
       guideline: {
-        category: faker.word.sample(),
-        id: faker.word.sample(),
+        category: faker.string.alpha(20),
+        id: faker.string.alpha(20),
         needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
         read_only: faker.helpers.arrayElement([
           faker.datatype.boolean(),
           undefined,
         ]),
-        url: faker.word.sample(),
+        url: faker.string.alpha(20),
       },
-      guideline_id: faker.word.sample(),
+      guideline_id: faker.string.alpha(20),
       needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       updated_at: `${faker.date.past().toISOString().split(".")[0]}Z`,

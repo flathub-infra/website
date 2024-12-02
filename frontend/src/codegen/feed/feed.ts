@@ -6,6 +6,7 @@
  */
 import { useQuery } from "@tanstack/react-query"
 import type {
+  DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
   QueryFunction,
@@ -68,7 +69,7 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
     >,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryResult =
@@ -104,7 +105,9 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -131,7 +134,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -148,7 +151,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get Recently Updated Apps Feed
  */
@@ -169,12 +172,12 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -221,7 +224,7 @@ export const getGetNewAppsFeedFeedNewGetQueryOptions = <
     Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
     TError,
     TData
-  > & { queryKey: QueryKey }
+  > & { queryKey: DataTag<QueryKey, TData> }
 }
 
 export type GetNewAppsFeedFeedNewGetQueryResult = NonNullable<
@@ -249,7 +252,9 @@ export function useGetNewAppsFeedFeedNewGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -270,7 +275,7 @@ export function useGetNewAppsFeedFeedNewGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -283,7 +288,7 @@ export function useGetNewAppsFeedFeedNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey }
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get New Apps Feed
  */
@@ -300,11 +305,11 @@ export function useGetNewAppsFeedFeedNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetNewAppsFeedFeedNewGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey
+    queryKey: DataTag<QueryKey, TData>
   }
 
   query.queryKey = queryOptions.queryKey

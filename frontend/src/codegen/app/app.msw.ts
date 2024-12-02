@@ -31,21 +31,21 @@ export const getGetEolRebaseEolRebaseGetResponseMock =
     [faker.string.alphanumeric(5)]: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
   })
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetResponseMock =
   (): GetEolRebaseAppidEolRebaseAppIdGet200 =>
-    faker.helpers.arrayElement([faker.word.sample(), null])
+    faker.helpers.arrayElement([faker.string.alpha(20), null])
 
 export const getGetEolMessageEolMessageGetResponseMock =
   (): GetEolMessageEolMessageGet200 => ({
-    [faker.string.alphanumeric(5)]: faker.word.sample(),
+    [faker.string.alphanumeric(5)]: faker.string.alpha(20),
   })
 
 export const getGetEolMessageAppidEolMessageAppIdGetResponseMock =
   (): GetEolMessageAppidEolMessageAppIdGet200 =>
-    faker.helpers.arrayElement([faker.word.sample(), null])
+    faker.helpers.arrayElement([faker.string.alpha(20), null])
 
 export const getListAppstreamAppstreamGetResponseMock = (): string[] =>
   Array.from({ length: faker.number.int({ min: 1, max: 10 }) }, () =>
@@ -108,14 +108,14 @@ export const getGetPlatformsPlatformsGetResponseMock =
       aliases: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
-      ).map(() => faker.word.sample()),
+      ).map(() => faker.string.alpha(20)),
       depends: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
       keep: faker.number.int({ min: undefined, max: undefined }),
       stripe_account: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.word.sample(), null]),
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
     },

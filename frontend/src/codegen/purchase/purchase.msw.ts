@@ -47,7 +47,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
     faker.helpers.arrayElement([
       {
         detail: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.word.sample(), null]),
+          faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
         login_is_organization: faker.helpers.arrayElement([
@@ -55,7 +55,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           undefined,
         ]),
         login_name: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.word.sample(), null]),
+          faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
         login_provider: faker.helpers.arrayElement([
@@ -73,12 +73,12 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           undefined,
         ]),
         timestamp: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.word.sample(), null]),
+          faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
         verified: faker.datatype.boolean(),
         website: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.word.sample(), null]),
+          faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
       },
@@ -95,14 +95,14 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetRespons
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostResponseMock = (
   overrideResponse: Partial<GenerateUpdateTokenResponse> = {},
 ): GenerateUpdateTokenResponse => ({
-  token: faker.word.sample(),
+  token: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostResponseMock = (
   overrideResponse: Partial<CheckPurchasesResponseSuccess> = {},
 ): CheckPurchasesResponseSuccess => ({
-  status: faker.helpers.arrayElement([faker.word.sample(), undefined]),
+  status: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
   ...overrideResponse,
 })
 
@@ -110,8 +110,8 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostResponseMock =
   (
     overrideResponse: Partial<GetDownloadTokenResponse> = {},
   ): GetDownloadTokenResponse => ({
-    token: faker.word.sample(),
-    update_token: faker.word.sample(),
+    token: faker.string.alpha(20),
+    update_token: faker.string.alpha(20),
     ...overrideResponse,
   })
 

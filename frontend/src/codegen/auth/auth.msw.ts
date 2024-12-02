@@ -19,7 +19,10 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
   Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
-  ).map(() => ({ method: faker.word.sample(), name: faker.word.sample() }))
+  ).map(() => ({
+    method: faker.string.alpha(20),
+    name: faker.string.alpha(20),
+  }))
 
 export const getGetUserinfoAuthUserinfoGetResponseMock = (
   overrideResponse: Partial<UserInfo> = {},
@@ -33,10 +36,10 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
       faker.helpers.arrayElement([
         {
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
-          login: faker.word.sample(),
+          login: faker.string.alpha(20),
         },
         null,
       ]),
@@ -46,10 +49,10 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
       faker.helpers.arrayElement([
         {
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
-          login: faker.word.sample(),
+          login: faker.string.alpha(20),
         },
         null,
       ]),
@@ -59,10 +62,10 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
       faker.helpers.arrayElement([
         {
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
-          login: faker.word.sample(),
+          login: faker.string.alpha(20),
         },
         null,
       ]),
@@ -72,10 +75,10 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
       faker.helpers.arrayElement([
         {
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.word.sample(), null]),
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
-          login: faker.word.sample(),
+          login: faker.string.alpha(20),
         },
         null,
       ]),
@@ -84,35 +87,35 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
   },
   default_account: {
     avatar: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.word.sample(), null]),
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
-    login: faker.word.sample(),
+    login: faker.string.alpha(20),
   },
   dev_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     undefined,
   ]),
   displayname: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  invite_code: faker.word.sample(),
+  invite_code: faker.string.alpha(20),
   invited_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     undefined,
   ]),
   owned_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => faker.word.sample()),
+    ).map(() => faker.string.alpha(20)),
     undefined,
   ]),
   permissions: faker.helpers.arrayElement([
@@ -128,15 +131,15 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostResponseMock = (
   dev_flatpaks: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
-  ).map(() => faker.word.sample()),
+  ).map(() => faker.string.alpha(20)),
   ...overrideResponse,
 })
 
 export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
   overrideResponse: Partial<GetDeleteUserResult> = {},
 ): GetDeleteUserResult => ({
-  status: faker.word.sample(),
-  token: faker.word.sample(),
+  status: faker.string.alpha(20),
+  token: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -144,10 +147,10 @@ export const getDoDeleteuserAuthDeleteuserPostResponseMock = (
   overrideResponse: Partial<DeleteUserResult> = {},
 ): DeleteUserResult => ({
   message: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.word.sample(), null]),
+    faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  status: faker.word.sample(),
+  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
