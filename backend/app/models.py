@@ -1,7 +1,7 @@
 import enum
 from datetime import datetime, timedelta
 from math import ceil
-from typing import Any, List, Optional, Union
+from typing import Any, Optional, Union
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -130,7 +130,7 @@ class FlathubUser(Base):
         String, nullable=True, unique=True, index=True
     )
 
-    roles: Mapped[List["Role"]] = relationship(
+    roles: Mapped[list["Role"]] = relationship(
         "Role", secondary="flathubuser_role", back_populates="flathubusers"
     )
 
@@ -430,12 +430,12 @@ class Role(Base):
     name = mapped_column(String, unique=True)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
-    flathubusers: Mapped[List["FlathubUser"]] = relationship(
+    flathubusers: Mapped[list["FlathubUser"]] = relationship(
         "FlathubUser",
         secondary="flathubuser_role",
         back_populates="roles",
     )
-    permissions: Mapped[List["Permission"]] = relationship(
+    permissions: Mapped[list["Permission"]] = relationship(
         "Permission",
         secondary="role_permission",
         back_populates="roles",
@@ -452,7 +452,7 @@ class Permission(Base):
     name = mapped_column(String, unique=True, primary_key=True)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
-    roles: Mapped[List["Role"]] = relationship(
+    roles: Mapped[list["Role"]] = relationship(
         "Role",
         secondary="role_permission",
         back_populates="permissions",

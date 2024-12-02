@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, List, Tuple
+from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, FastAPI, Response
 from feedgen.feed import FeedGenerator
@@ -63,7 +63,7 @@ def generate_feed(column_name: str, title: str, description: str, link: str):
             .all()
         )
 
-    appids_for_frontend: List[Tuple[str, datetime]] = [
+    appids_for_frontend: list[tuple[str, datetime]] = [
         (app.app_id, getattr(app, column_name))
         for app in appids
         if db.is_appid_for_frontend(app.app_id)

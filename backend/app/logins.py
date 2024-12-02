@@ -11,7 +11,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import List, Optional
+from typing import Optional
 from urllib.parse import urlencode
 from uuid import uuid4
 
@@ -850,10 +850,10 @@ class Permission(str, Enum):
 
 class UserInfo(BaseModel):
     displayname: Optional[str] = None
-    dev_flatpaks: List[str] = []
-    permissions: List[Permission] = []
-    owned_flatpaks: List[str] = []
-    invited_flatpaks: List[str] = []
+    dev_flatpaks: list[str] = []
+    permissions: list[Permission] = []
+    owned_flatpaks: list[str] = []
+    invited_flatpaks: list[str] = []
     invite_code: str
     accepted_publisher_agreement_at: Optional[datetime]
     default_account: AuthInfo
@@ -937,7 +937,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
 
 
 class RefreshDevFlatpaksReturn(BaseModel):
-    dev_flatpaks: List[str]
+    dev_flatpaks: list[str]
 
 
 @router.post("/refresh-dev-flatpaks", tags=["auth"])

@@ -6,8 +6,6 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
-from typing import List
-
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -83,14 +81,14 @@ def post_removecard(
     return Response(None, status_code=201)
 
 
-@router.get("/transactions", response_model=List[TransactionSummary], tags=["wallet"])
+@router.get("/transactions", response_model=list[TransactionSummary], tags=["wallet"])
 def get_transactions(
     request: Request,
     login=Depends(login_state),
     sort: TransactionSortOrder = TransactionSortOrder.RECENT,
     since: str | None = None,
     limit: int = 100,
-) -> List[TransactionSummary]:
+) -> list[TransactionSummary]:
     """
     Return a list of transactions associated with this user.
 
