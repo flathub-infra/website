@@ -27,8 +27,11 @@ export const HeroBanner = ({
   aboveTheFold = false,
 }: {
   heroBannerData: {
-    app: { position: number; app_id: string; isFullscreen: boolean }
-    appstream: DesktopAppstream
+    app: { isFullscreen: boolean }
+    appstream: Pick<
+      DesktopAppstream,
+      "id" | "name" | "branding" | "icon" | "summary" | "screenshots"
+    >
   }[]
   currentIndex?: number
   autoplay?: boolean
@@ -70,7 +73,7 @@ export const HeroBanner = ({
     <Carousel
       opts={{
         loop: true,
-        direction: i18n.dir(),
+        direction: i18n?.dir() ?? "ltr",
       }}
       plugins={[
         WheelGesturesPlugin(),

@@ -4,6 +4,8 @@ import TokenCancelButton from "./TokenCancelButton"
 
 const meta = {
   component: TokenCancelButton,
+  title:
+    "Components/Application/AppVendingControls/OwnershipTokens/TokenCancelButton",
 } satisfies Meta<typeof TokenCancelButton>
 
 export default meta
@@ -15,7 +17,7 @@ export const Default: Story = {
     appId: "tv.kodi.Kodi",
     setState: () => {},
     token: {
-      id: "1",
+      token: "1",
     },
   },
 }

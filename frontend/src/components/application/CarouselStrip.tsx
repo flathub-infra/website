@@ -3,7 +3,7 @@ import {
   HiChevronLeft,
   HiMagnifyingGlassPlus,
 } from "react-icons/hi2"
-import { Appstream, mapScreenshot } from "../../types/Appstream"
+import { DesktopAppstream, mapScreenshot } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
@@ -16,7 +16,11 @@ import clsx from "clsx"
 import CarouselNextJsImage from "./CarouselNextJsImage"
 import { CarouselJsonLd } from "next-seo"
 
-export const CarouselStrip = ({ app }: { app: Appstream }) => {
+export const CarouselStrip = ({
+  app,
+}: {
+  app: Pick<DesktopAppstream, "screenshots">
+}) => {
   const { t } = useTranslation()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -29,10 +33,6 @@ export const CarouselStrip = ({ app }: { app: Appstream }) => {
   useEffect(() => {
     setCurrentIndex(ref.current?.getLightboxState()?.currentIndex)
   }, [])
-
-  if (app.type === "addon" || !app.screenshots) {
-    return null
-  }
 
   const slides = app.screenshots?.map(mapScreenshot).map((screenshot) => {
     return {

@@ -6,6 +6,7 @@ import { getVendingMock } from "../../../../codegen/vending/vending.msw"
 
 const meta = {
   component: TokenList,
+  title: "Components/Application/AppVendingControls/OwnershipTokens/TokenList",
 } satisfies Meta<typeof TokenList>
 
 export default meta

@@ -18,7 +18,7 @@ import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
-import { IconGrid } from "./IconGrid"
+import { IconGridOverlay } from "./IconGridOverlay"
 import { useTranslation } from "next-i18next"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
@@ -79,7 +79,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
           >
             <LogoImage iconUrl={app.icon} appName="" size="256" quality={100} />
             <div className="z-10 absolute">
-              <IconGrid />
+              <IconGridOverlay />
             </div>
           </div>
           <div
@@ -91,7 +91,7 @@ const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
           >
             <LogoImage iconUrl={app.icon} appName="" size="256" quality={100} />
             <div className="z-10 absolute">
-              <IconGrid />
+              <IconGridOverlay />
             </div>
           </div>
         </div>

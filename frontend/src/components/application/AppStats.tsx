@@ -14,7 +14,7 @@ import {
 import { ChartConfig, ChartContainer } from "@/components/ui/chart"
 
 interface Props {
-  stats: AppStats
+  stats: Pick<AppStats, "installs_per_day">
 }
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {

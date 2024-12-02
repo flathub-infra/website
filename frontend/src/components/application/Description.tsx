@@ -4,8 +4,15 @@ import { useCallback, useMemo, useState } from "react"
 import { useTranslation } from "next-i18next"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
 import linkifyHtml from "linkify-html"
+import { DesktopAppstream } from "src/types/Appstream"
 
-export const Description = ({ app, isQualityModalOpen }) => {
+export const Description = ({
+  app,
+  isQualityModalOpen,
+}: {
+  app: Pick<DesktopAppstream, "description" | "summary">
+  isQualityModalOpen: boolean
+}) => {
   const { t } = useTranslation()
   const collapsedHeight = 356
 

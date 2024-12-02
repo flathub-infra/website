@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/tooltip"
 
 interface Props {
-  addons: AddonAppstream[]
+  addons: Pick<AddonAppstream, "id" | "name" | "summary">[]
 }
 
 const Addons: FunctionComponent<Props> = ({ addons }) => {

@@ -1,18 +1,14 @@
 import { AppHeader } from "./AppHeader"
 import { FunctionComponent } from "react"
 import React from "react"
-import {
-  AddonAppstream,
-  Appstream,
-  DesktopAppstream,
-} from "../../types/Appstream"
+import { AddonAppstream, Appstream } from "../../types/Appstream"
 import { useTranslation } from "next-i18next"
 
 import { Summary } from "../../types/Summary"
 
 import Releases from "./Releases"
 
-import SummaryInfo from "./AdditionalInfo"
+import AdditionalInfo from "./AdditionalInfo"
 import { AppStats } from "../../types/AppStats"
 import AppStatistics from "./AppStats"
 
@@ -79,7 +75,9 @@ const Details: FunctionComponent<Props> = ({
     const tabs: Tab[] = [
       {
         name: t("information"),
-        content: <SummaryInfo summary={summary} stats={stats}></SummaryInfo>,
+        content: (
+          <AdditionalInfo summary={summary} stats={stats}></AdditionalInfo>
+        ),
         replacePadding: "p-0 pb-3",
       },
       {
@@ -108,9 +106,13 @@ const Details: FunctionComponent<Props> = ({
 
     const children = [<LicenseInfo key={"license-info"} app={app} />]
 
-    if (summary !== null && summary.metadata !== null) {
+    if (summary !== null && summary.metadata !== null && app.type !== "addon") {
       children.unshift(
-        <SafetyRating key={"safety-rating"} data={app} summary={summary} />,
+        <SafetyRating
+          key={"safety-rating"}
+          data={app}
+          summaryMetadata={summary.metadata}
+        />,
       )
     }
 
@@ -122,9 +124,11 @@ const Details: FunctionComponent<Props> = ({
           verificationStatus={verificationStatus}
           isQualityModalOpen={isQualityModalOpen}
         />
-        <CarouselStrip app={app} />
+        {app.type !== "addon" && app.screenshots && <CarouselStrip app={app} />}
         <div className="col-start-2 flex flex-col gap-6">
-          <Description app={app} isQualityModalOpen={isQualityModalOpen} />
+          {app.type !== "addon" && (
+            <Description app={app} isQualityModalOpen={isQualityModalOpen} />
+          )}
 
           {stableReleases && stableReleases.length > 0 && (
             <Releases latestRelease={stableReleases[0]} summary={summary} />

@@ -20,7 +20,9 @@ import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { ProjectUrl } from "src/types/ProjectUrl"
 
 interface Props {
-  app: Appstream
+  app: Pick<Appstream, "id" | "urls"> & {
+    metadata?: Pick<Appstream["metadata"], "flathub::manifest">
+  }
 }
 
 const Links: FunctionComponent<Props> = ({ app }) => {

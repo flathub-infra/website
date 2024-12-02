@@ -99,8 +99,10 @@ const microphoneAccess: AppSafetyRating = {
 
 // reimplementation of https://gitlab.gnome.org/GNOME/gnome-software/-/blob/main/src/gs-app-context-bar.c
 export function getSafetyRating(
-  appstream: Appstream,
-  summaryMetadata: Metadata,
+  appstream: Pick<Appstream, "project_license" | "is_free_license"> & {
+    metadata?: Pick<Appstream["metadata"], "flathub::verification::verified">
+  },
+  summaryMetadata: Pick<Metadata, "permissions" | "runtimeIsEol">,
 ): AppSafetyRating[] {
   let appSafetyRating: AppSafetyRating[] = []
 

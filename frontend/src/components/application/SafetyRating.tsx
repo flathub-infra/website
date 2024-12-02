@@ -8,14 +8,17 @@ import {
   safetyRatingToTranslationKey,
 } from "src/safety"
 import { Appstream } from "src/types/Appstream"
-import { Summary } from "src/types/Summary"
+import { Metadata } from "src/types/Summary"
 import { StackedListBox } from "./StackedListBox"
 import { IconType } from "react-icons"
 import Modal from "../Modal"
 
 interface Props {
-  data: Appstream
-  summary: Summary
+  data: Pick<Appstream, "name" | "project_license" | "is_free_license"> & {
+    metadata?: Pick<Appstream["metadata"], "flathub::verification::verified">
+  }
+
+  summaryMetadata: Pick<Metadata, "permissions" | "runtimeIsEol">
 }
 
 const SafetyRatingIcon = ({
@@ -45,11 +48,11 @@ const SafetyRatingIcon = ({
   )
 }
 
-const SafetyRating: FunctionComponent<Props> = ({ data, summary }) => {
+const SafetyRating: FunctionComponent<Props> = ({ data, summaryMetadata }) => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
-  const safetyRating = getSafetyRating(data, summary.metadata)
+  const safetyRating = getSafetyRating(data, summaryMetadata)
 
   const highestSafetyRating = Math.max(
     ...Object.values(safetyRating).map((x) => x.safetyRating),

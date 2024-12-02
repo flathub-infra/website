@@ -7,6 +7,8 @@ import React from "react"
 
 const meta = {
   component: TokenListItem,
+  title:
+    "Components/Application/AppVendingControls/OwnershipTokens/TokenListItem",
 } satisfies Meta<typeof TokenListItem>
 
 export default meta
