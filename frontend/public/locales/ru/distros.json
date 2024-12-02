@@ -204,7 +204,10 @@
     }
   },
   "elementary_os": {
-    "distroName": "elementary OS"
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Установить приложения"
+    }
   },
   "raspberry_pi_os": {
     "distroName": "Raspberry Pi OS",
@@ -290,7 +293,8 @@
       "name": "Перезагрузка"
     },
     "step-3": {
-      "name": "Установка тем Deepin"
+      "name": "Установка тем Deepin",
+      "text": "<p>Для установки светлых и тёмных тем, выполните:</p> <2></2>"
     }
   },
   "pardus": {
