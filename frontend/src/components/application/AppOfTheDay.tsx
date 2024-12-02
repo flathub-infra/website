@@ -13,7 +13,10 @@ export const AppOfTheDay = ({
   appOfTheDay,
   className,
 }: {
-  appOfTheDay: DesktopAppstream
+  appOfTheDay: Pick<
+    DesktopAppstream,
+    "id" | "name" | "branding" | "summary" | "icon"
+  >
   className?: string
 }) => {
   const { t } = useTranslation()

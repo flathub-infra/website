@@ -7,12 +7,12 @@ import { useTranslation } from "next-i18next"
 import { calculateHumanReadableSize } from "../../size"
 import { getIntlLocale } from "../../localize"
 
-const SummaryInfo = ({
+const AdditionalInfo = ({
   summary,
   stats,
 }: {
-  summary?: Summary
-  stats: AppStats
+  summary?: Pick<Summary, "installed_size" | "download_size" | "arches">
+  stats: Pick<AppStats, "installs_total">
 }) => {
   const { t, i18n } = useTranslation()
 
@@ -86,4 +86,4 @@ const SummaryInfo = ({
   )
 }
 
-export default SummaryInfo
+export default AdditionalInfo

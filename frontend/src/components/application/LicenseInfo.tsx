@@ -118,7 +118,7 @@ const LicenseLink = ({
   license,
 }: {
   licenseType: "proprietary" | "floss" | "special"
-  app: Appstream
+  app: Pick<Appstream, "id" | "project_license" | "urls">
   license: string
 }) => {
   const { t } = useTranslation()
@@ -159,7 +159,11 @@ const LicenseLink = ({
   )
 }
 
-const LicenseInfo = ({ app }: { app: Appstream }) => {
+const LicenseInfo = ({
+  app,
+}: {
+  app: Pick<Appstream, "id" | "is_free_license" | "project_license" | "urls">
+}) => {
   const { t } = useTranslation()
 
   let licenseType: "proprietary" | "floss" | "special" = app.is_free_license

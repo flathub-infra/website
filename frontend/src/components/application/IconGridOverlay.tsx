@@ -1,4 +1,4 @@
-export const IconGrid = () => (
+export const IconGridOverlay = () => (
   <svg
     width="256"
     height="256"
