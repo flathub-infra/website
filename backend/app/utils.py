@@ -48,6 +48,14 @@ def add_translation(apps_locale: dict, language: str, appid: str, key: str, valu
     # normalize multi part languages, as the frontend
     #  always asks for the ones with a dash
     language = language.replace("_", "-")
+
+    # map languages to the ones we use
+    if language == "zh-CN":
+        language = "zh-Hans"
+
+    if language == "zh-TW":
+        language = "zh-Hant"
+
     if language not in apps_locale:
         apps_locale[language] = {}
     apps_locale[language][key] = value
