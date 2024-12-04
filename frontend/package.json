@@ -100,7 +100,7 @@
     "msw": "^2.6.0",
     "msw-storybook-addon": "^2.0.4",
     "orval": "^7.3.0",
-    "postcss": "^8.4.47",
+    "postcss": "^8.4.49",
     "prettier": "^3.4.1",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "redis": "^4.7.0",
