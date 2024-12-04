@@ -10925,7 +10925,7 @@ __metadata:
     i18n-iso-countries: "npm:^7.13.0"
     i18next: "npm:^23.16.8"
     isomorphic-dompurify: "npm:^2.18.0"
-    linkify-html: "npm:^4.1.3"
+    linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.1.4"
     lucide-react: "npm:^0.460.0"
     msw: "npm:^2.6.0"
@@ -12684,12 +12684,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"linkify-html@npm:^4.1.3":
-  version: 4.1.3
-  resolution: "linkify-html@npm:4.1.3"
+"linkify-html@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "linkify-html@npm:4.2.0"
   peerDependencies:
     linkifyjs: ^4.0.0
-  checksum: 10c0/4bd69c3ce6d776075c873c70fd69862c784ffeabe07872ce14692dacb3be8e65b4f1880b208133575c356729de6c4ef53294138c21dde7ade9ade58656c72e51
+  checksum: 10c0/445a48fa16783f6984e8aa59a9309c2bb4d15f37dc1d4252382e590a265ce25ed964d1c61d3ff7e95c8ed644da453eed478fd39ed22d37fbb7c1ed897fc352e9
   languageName: node
   linkType: hard
 
