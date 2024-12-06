@@ -93,7 +93,7 @@
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.15.0",
-    "eslint": "^9.15.0",
+    "eslint": "^9.16.0",
     "eslint-config-next": "15.0.3",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
