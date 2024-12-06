@@ -611,5 +611,17 @@
   "position-short": "Pos.",
   "type": "Tipo",
   "amount": "Importo",
-  "total": "Totale"
+  "total": "Totale",
+  "kind-donate-app": "Fai una donazione a {{appName}}",
+  "zoom": "Zoom",
+  "platform": {
+    "org-kde-platform": "Piattaforma KDE",
+    "org-freedesktop-platform": "Piattaforma Freedesktop",
+    "org-gnome-platform": "Piattaforma GNOME"
+  },
+  "action-donate": "Donazione",
+  "action-purchase": "Acquisto",
+  "recipient": "Destinatario",
+  "created": "Creato",
+  "kind-purchase-app": "Acquista {{appName}}"
 }
