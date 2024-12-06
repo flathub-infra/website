@@ -19,7 +19,7 @@
     "dotenv": "^16.4.7",
     "hono": "^4.6.12",
     "nodemailer": "6.9.16",
-    "react": "^18.3.1",
+    "react": "^19.0.0",
     "react-dom": "^18.3.1",
     "react-email": "3.0.3",
     "zod": "^3.23.8"
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@types/html-to-text": "^9.0.4",
     "@types/nodemailer": "^6.4.17",
-    "@types/react": "^18",
+    "@types/react": "^19",
     "@types/react-dom": "^18",
     "@types/swagger-ui-dist": "^3.30.5",
     "eslint": "^9.16.0",
