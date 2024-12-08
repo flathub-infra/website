@@ -14,12 +14,13 @@ import {
   HiQuestionMarkCircle,
   HiXMark,
 } from "react-icons/hi2"
+import newGithubIssueUrl from "new-github-issue-url"
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { useCollapse } from "@collapsed/react"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { useTranslation } from "next-i18next"
+import { Trans, useTranslation } from "next-i18next"
 import { Branding, DesktopAppstream } from "src/types/Appstream"
 import { formatDistanceToNow, isFuture } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
@@ -255,6 +256,20 @@ const QualityCategories = ({
     query.data.data.guidelines.map((guideline) => guideline.guideline.category),
   )
 
+  const issueLink = newGithubIssueUrl({
+    title: `Quality guideline problems for ${app.name}`,
+    template: "1-quality-mod.md",
+    user: "flathub",
+    repo: "flathub",
+    body: `### Flathub store page link
+
+https://flathub.org/apps/details/${app.id}
+
+
+### Questions or Feedback
+`,
+  })
+
   return (
     <div className="flex flex-col gap-4 dark:divide-flathub-granite-gray">
       {mode === "moderator" && (
@@ -282,6 +297,18 @@ const QualityCategories = ({
           </Button>
         </div>
       )}
+
+      <div>
+        <Trans i18nKey={"quality-guideline.problems"}>
+          If you would like to ask us about specific quality guideline problems,
+          feel free to open{" "}
+          <a href={issueLink} target="_blank" rel="noreferrer">
+            an issue
+          </a>
+          .
+        </Trans>
+      </div>
+
       {Array.from(categories).map((category) => {
         return (
           <div className="flex flex-col" key={category}>

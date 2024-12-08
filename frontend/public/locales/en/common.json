@@ -573,6 +573,7 @@
     "org-freedesktop-platform": "Freedesktop Platform"
   },
   "quality-guideline": {
+    "problems": "If you would like to ask us about specific quality guideline problems, feel free to open <2>an issue</2>.",
     "general": "General",
     "general-no-trademark-violations": "No trademark violations (name or icon)",
     "branding": "Branding",
