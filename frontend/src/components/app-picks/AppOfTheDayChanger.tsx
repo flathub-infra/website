@@ -1,5 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { format, formatISO, isBefore, isSameDay } from "date-fns"
+import {
+  format,
+  formatDistanceToNow,
+  formatISO,
+  isBefore,
+  isSameDay,
+} from "date-fns"
 import { fetchAppOfTheDay, fetchAppstream } from "src/fetchers"
 import { AppOfTheDay } from "../application/AppOfTheDay"
 import Spinner from "../Spinner"
@@ -11,6 +17,7 @@ import { HiCheck } from "react-icons/hi2"
 import LogoImage from "../LogoImage"
 import { setAppOfTheDayAppPicksAppOfTheDayPost, Permission } from "src/codegen"
 import { DesktopAppstream } from "src/types/Appstream"
+import { UTCDate } from "@date-fns/utc"
 
 export const AppOfTheDayChanger = ({ selectableApps, day }) => {
   const user = useUserContext()
@@ -92,12 +99,19 @@ const ComboboxItem = ({
 }: {
   active: boolean
   selected: boolean
-  item: { id: string; name: string; subtitle?: string; icon?: string }
+  item: {
+    id: string
+    name: string
+    subtitle?: string
+    icon?: string
+    lastTimeAppOfTheDay?: UTCDate
+    numberOfTimesAppOfTheDay?: number
+  }
 }): ReactElement => {
   return (
     <div className="flex gap-2 items-center cursor-pointer">
       <LogoImage iconUrl={item.icon} appName={item.name} size="24" />
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full pe-4">
         <span
           className={clsx(
             "block truncate font-semibold",
@@ -109,6 +123,25 @@ const ComboboxItem = ({
         {item.subtitle && (
           <span className={clsx("block truncate text-sm opacity-70")}>
             {item.subtitle}
+          </span>
+        )}
+        {item.numberOfTimesAppOfTheDay > 0 && (
+          <span
+            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+          >
+            Last picked
+            <strong>
+              {formatDistanceToNow(item.lastTimeAppOfTheDay, {
+                addSuffix: true,
+              })}
+            </strong>
+          </span>
+        )}
+        {item.numberOfTimesAppOfTheDay > 0 && (
+          <span
+            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+          >
+            Times picked <strong>{item.numberOfTimesAppOfTheDay}</strong>
           </span>
         )}
         {selected && (

@@ -7,6 +7,7 @@
 import { faker } from "@faker-js/faker"
 import { HttpResponse, delay, http } from "msw"
 import type {
+  AppPickRecommendationsResponse,
   FailedByGuideline,
   QualityModerationDashboardResponse,
   QualityModerationResponse,
@@ -75,6 +76,35 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetResponseMock
       total: faker.number.int({ min: undefined, max: undefined }),
       total_pages: faker.number.int({ min: undefined, max: undefined }),
     },
+    ...overrideResponse,
+  })
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseMock =
+  (
+    overrideResponse: Partial<AppPickRecommendationsResponse> = {},
+  ): AppPickRecommendationsResponse => ({
+    recommendations: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      app_id: faker.string.alpha(20),
+      lastTimeAppOfTheDay: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split("T")[0],
+        null,
+      ]),
+      lastTimeAppOfTheWeek: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split("T")[0],
+        null,
+      ]),
+      numberOfTimesAppOfTheDay: faker.number.int({
+        min: undefined,
+        max: undefined,
+      }),
+      numberOfTimesAppOfTheWeek: faker.number.int({
+        min: undefined,
+        max: undefined,
+      }),
+    })),
     ...overrideResponse,
   })
 
@@ -200,6 +230,35 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler 
         { status: 200, headers: { "Content-Type": "application/json" } },
       )
     })
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetMockHandler =
+  (
+    overrideResponse?:
+      | AppPickRecommendationsResponse
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) =>
+          | Promise<AppPickRecommendationsResponse>
+          | AppPickRecommendationsResponse),
+  ) => {
+    return http.get(
+      "*/quality-moderation/app-pick-recommendations",
+      async (info) => {
+        await delay(1000)
+
+        return new HttpResponse(
+          JSON.stringify(
+            overrideResponse !== undefined
+              ? typeof overrideResponse === "function"
+                ? await overrideResponse(info)
+                : overrideResponse
+              : getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetResponseMock(),
+          ),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        )
+      },
+    )
   }
 
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMockHandler =
@@ -353,6 +412,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMockHandler 
 export const getQualityModerationMock = () => [
   getGetQualityModerationStatusQualityModerationStatusGetMockHandler(),
   getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler(),
+  getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetMockHandler(),
   getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMockHandler(),
   getGetQualityModerationForAppQualityModerationAppIdGetMockHandler(),
   getSetQualityModerationForAppQualityModerationAppIdPostMockHandler(),

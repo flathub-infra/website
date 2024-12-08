@@ -36,7 +36,6 @@ import {
   getQualityModerationStatusQualityModerationStatusGet,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
-import { AxiosResponse } from "axios"
 import Spinner from "src/components/Spinner"
 
 QualityModerationDashboard.getLayout = function getLayout(page: ReactElement) {
