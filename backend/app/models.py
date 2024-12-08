@@ -2384,7 +2384,9 @@ class Apps(Base):
         )
 
     @classmethod
-    def app_pick_recommendations(cls, db) -> AppPickRecommendationsResponse:
+    def app_pick_recommendations(
+        cls, db, recommendation_date: date
+    ) -> AppPickRecommendationsResponse:
         """
         Return recommendations for app picks
         """
@@ -2392,16 +2394,40 @@ class Apps(Base):
             db.session.query(
                 Apps.app_id,
                 db.session.query(func.max(AppOfTheDay.date))
-                .where(AppOfTheDay.app_id == Apps.app_id)
+                .where(
+                    and_(
+                        AppOfTheDay.app_id == Apps.app_id,
+                        AppOfTheDay.date <= recommendation_date,
+                    )
+                )
                 .correlate(Apps)
                 .label("lastTimeAppOfTheDay"),
                 db.session.query(func.count(AppOfTheDay.app_id))
-                .where(AppOfTheDay.app_id == Apps.app_id)
+                .where(
+                    and_(
+                        AppOfTheDay.app_id == Apps.app_id,
+                        AppOfTheDay.date <= recommendation_date,
+                    )
+                )
                 .correlate(Apps)
                 .label("timesAppOfTheDay"),
                 func.max(
                     db.session.query(AppsOfTheWeek.year)
-                    .where(AppsOfTheWeek.app_id == Apps.app_id)
+                    .where(
+                        and_(
+                            AppsOfTheWeek.app_id == Apps.app_id,
+                            or_(
+                                and_(
+                                    AppsOfTheWeek.year < recommendation_date.year,
+                                ),
+                                and_(
+                                    AppsOfTheWeek.year == recommendation_date.year,
+                                    AppsOfTheWeek.weekNumber
+                                    <= recommendation_date.isocalendar()[1],
+                                ),
+                            ),
+                        ),
+                    )
                     .group_by(
                         AppsOfTheWeek.app_id,
                         AppsOfTheWeek.year,
@@ -2415,7 +2441,21 @@ class Apps(Base):
                 ),
                 func.max(
                     db.session.query(AppsOfTheWeek.weekNumber)
-                    .where(AppsOfTheWeek.app_id == Apps.app_id)
+                    .where(
+                        and_(
+                            AppsOfTheWeek.app_id == Apps.app_id,
+                            or_(
+                                and_(
+                                    AppsOfTheWeek.year < recommendation_date.year,
+                                ),
+                                and_(
+                                    AppsOfTheWeek.year == recommendation_date.year,
+                                    AppsOfTheWeek.weekNumber
+                                    <= recommendation_date.isocalendar()[1],
+                                ),
+                            ),
+                        ),
+                    )
                     .group_by(
                         AppsOfTheWeek.app_id,
                         AppsOfTheWeek.year,
@@ -2428,7 +2468,21 @@ class Apps(Base):
                     .correlate(Apps)
                 ),
                 db.session.query(func.count(AppsOfTheWeek.app_id))
-                .where(AppsOfTheWeek.app_id == Apps.app_id)
+                .where(
+                    and_(
+                        AppsOfTheWeek.app_id == Apps.app_id,
+                        or_(
+                            and_(
+                                AppsOfTheWeek.year < recommendation_date.year,
+                            ),
+                            and_(
+                                AppsOfTheWeek.year == recommendation_date.year,
+                                AppsOfTheWeek.weekNumber
+                                <= recommendation_date.isocalendar()[1],
+                            ),
+                        ),
+                    ),
+                )
                 .correlate(Apps)
                 .label("timesAppOfTheWeek"),
             )

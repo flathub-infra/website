@@ -92,9 +92,10 @@ def get_passing_quality_apps(
 
 @router.get("/app-pick-recommendations", tags=["quality-moderation"])
 def get_app_pick_recommendations(
+    recommendation_date: datetime.date = datetime.date.today(),
     _moderator=Depends(quality_moderator_only),
 ) -> AppPickRecommendationsResponse:
-    return Apps.app_pick_recommendations(db)
+    return Apps.app_pick_recommendations(db, recommendation_date)
 
 
 @router.get("/failed-by-guideline", tags=["quality-moderation"])
