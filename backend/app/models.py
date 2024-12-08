@@ -1,5 +1,5 @@
 import enum
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from math import ceil
 from typing import Any, Optional, Union
 from uuid import uuid4
@@ -2136,6 +2136,18 @@ class SimpleQualityModerationResponse(BaseModel):
     pagination: Pagination
 
 
+class AppPickRecommendation(BaseModel):
+    app_id: str
+    numberOfTimesAppOfTheWeek: int
+    lastTimeAppOfTheWeek: date | None
+    numberOfTimesAppOfTheDay: int
+    lastTimeAppOfTheDay: date | None
+
+
+class AppPickRecommendationsResponse(BaseModel):
+    recommendations: list[AppPickRecommendation]
+
+
 class Apps(Base):
     """An app"""
 
@@ -2371,4 +2383,93 @@ class Apps(Base):
                 total=query_count,
                 total_pages=ceil(query_count / page_size),
             ),
+        )
+
+    @classmethod
+    def app_pick_recommendations(cls, db) -> AppPickRecommendationsResponse:
+        """
+        Return recommendations for app picks
+        """
+        query = (
+            db.session.query(
+                Apps.app_id,
+                db.session.query(func.max(AppOfTheDay.date))
+                .where(AppOfTheDay.app_id == Apps.app_id)
+                .correlate(Apps)
+                .label("lastTimeAppOfTheDay"),
+                db.session.query(func.count(AppOfTheDay.app_id))
+                .where(AppOfTheDay.app_id == Apps.app_id)
+                .correlate(Apps)
+                .label("timesAppOfTheDay"),
+                AppsOfTheWeek.year.label("lastYearAppOfTheWeek"),
+                AppsOfTheWeek.weekNumber.label("lastWeekAppOfTheWeek"),
+                db.session.query(func.count(AppsOfTheWeek.app_id))
+                .where(AppsOfTheWeek.app_id == Apps.app_id)
+                .correlate(Apps)
+                .label("timesAppOfTheWeek"),
+            )
+            .join(
+                Guideline,
+                and_(
+                    Guideline.needed_to_pass_since <= datetime.now().date(),
+                    or_(
+                        Apps.is_fullscreen_app == False,  # noqa: E712
+                        Apps.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .join(
+                QualityModeration,
+                and_(
+                    QualityModeration.guideline_id == Guideline.id,
+                    QualityModeration.app_id == Apps.app_id,
+                ),
+                isouter=True,
+            )
+            .outerjoin(
+                AppsOfTheWeek,
+                and_(
+                    AppsOfTheWeek.app_id == Apps.app_id,
+                ),
+            )
+            .where(
+                or_(
+                    Apps.type == "desktop-application",
+                    Apps.type == "console-application",
+                )
+            )
+            .having(func.max(QualityModeration.updated_at).isnot(None))
+            .group_by(Apps.app_id, AppsOfTheWeek.year, AppsOfTheWeek.weekNumber)
+            .having(
+                func.count(Guideline.id)
+                == func.sum(func.cast(QualityModeration.passed, Integer))
+            )
+        )
+
+        return AppPickRecommendationsResponse(
+            recommendations=[
+                AppPickRecommendation(
+                    app_id=app_id,
+                    lastTimeAppOfTheDay=lastTimeAppOfTheDay,
+                    numberOfTimesAppOfTheDay=numberOfTimesAppOfTheDay,
+                    lastTimeAppOfTheWeek=(
+                        date.fromisocalendar(
+                            lastTimeAppOfTheWeekYear,
+                            lastTimeAppOfTheWeek,
+                            1,
+                        )
+                        if lastTimeAppOfTheWeek is not None
+                        else None
+                    ),
+                    numberOfTimesAppOfTheWeek=numberOfTimesAppOfTheWeek,
+                )
+                for (
+                    app_id,
+                    lastTimeAppOfTheDay,
+                    numberOfTimesAppOfTheDay,
+                    lastTimeAppOfTheWeekYear,
+                    lastTimeAppOfTheWeek,
+                    numberOfTimesAppOfTheWeek,
+                ) in query.all()
+            ],
         )
