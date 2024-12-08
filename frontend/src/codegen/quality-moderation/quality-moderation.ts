@@ -21,7 +21,9 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
+  AppPickRecommendationsResponse,
   FailedByGuideline,
+  GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
   GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   GetQualityModerationStatusQualityModerationStatusGetParams,
   HTTPValidationError,
@@ -441,6 +443,238 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions =
     getGetPassingQualityAppsQualityModerationPassingAppsGetQueryOptions(
+      params,
+      options,
+    )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get App Pick Recommendations
+ */
+export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet =
+  (
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<AppPickRecommendationsResponse>> => {
+    return axios.get(`/quality-moderation/app-pick-recommendations`, {
+      ...options,
+      params: { ...params, ...options?.params },
+    })
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey =
+  (
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  ) => {
+    return [
+      `/quality-moderation/app-pick-recommendations`,
+      ...(params ? [params] : []),
+    ] as const
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+      >
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey(
+        params,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+        >
+      >
+    > = ({ signal }) =>
+      getAppPickRecommendationsQualityModerationAppPickRecommendationsGet(
+        params,
+        { signal, ...axiosOptions },
+      )
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData> }
+  }
+
+export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+      >
+    >
+  >
+export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params:
+    | undefined
+    | GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+            >
+          >,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get App Pick Recommendations
+ */
+
+export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions =
+    getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryOptions(
       params,
       options,
     )

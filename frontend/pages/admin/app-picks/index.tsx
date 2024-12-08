@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query"
 import {
   addDays,
   endOfISOWeek,
+  formatDistanceToNow,
   formatISO,
   getISOWeek,
   startOfISOWeek,
@@ -24,11 +25,12 @@ import {
   UserInfo,
   setAppOfTheWeekAppPicksAppOfTheWeekPost,
   Permission,
-  getQualityModerationStatusQualityModerationStatusGet,
+  getAppPickRecommendationsQualityModerationAppPickRecommendationsGet,
 } from "src/codegen"
 import AdminLayout from "src/components/AdminLayout"
 import { DesktopAppstream } from "src/types/Appstream"
 import { Button } from "@/components/ui/button"
+import { UTCDate } from "@date-fns/utc"
 
 AppPicks.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -49,9 +51,32 @@ export default function AppPicks() {
   const [date, setDate] = useState(new Date())
   const [currentIndex, setCurrentIndex] = useState(-1)
 
-  const [selectableApps, setSelectableApps] = useState<
-    { id: string; name: string; subtitle: string; icon: string }[]
+  const [selectableAppsAppOfTheDay, setSelectableAppsAppOfTheDay] = useState<
+    {
+      id: string
+      name: string
+      subtitle: string
+      icon: string
+      lastTimeAppOfTheDay: UTCDate
+      lastTimeAppOfTheWeek: UTCDate
+      numberOfTimesAppOfTheDay: number
+      numberOfTimesAppOfTheWeek: number
+    }[]
   >([])
+
+  const [selectableAppsAppsOfTheWeek, setSelectableAppsAppsOfTheWeek] =
+    useState<
+      {
+        id: string
+        name: string
+        subtitle: string
+        icon: string
+        lastTimeAppOfTheDay: UTCDate
+        lastTimeAppOfTheWeek: UTCDate
+        numberOfTimesAppOfTheDay: number
+        numberOfTimesAppOfTheWeek: number
+      }[]
+    >([])
 
   const [firstApp, setFirstApp] = useState<{
     id: string
@@ -166,26 +191,29 @@ export default function AppPicks() {
   })
 
   const queryQualityApps = useQuery({
-    queryKey: ["potential-passing-apps"],
+    queryKey: ["potential-passing-apps", date],
     queryFn: async () => {
       const getAppsWithQuality =
-        await getQualityModerationStatusQualityModerationStatusGet(
+        await getAppPickRecommendationsQualityModerationAppPickRecommendationsGet(
           {
-            page: 1,
-            page_size: 9999999,
-            filter: "passing",
+            recommendation_date: formatISO(date, { representation: "date" }),
           },
           {
             withCredentials: true,
           },
         )
 
-      const passingApps = Promise.all(
-        getAppsWithQuality.data.apps
-          .filter((app) => app.quality_moderation_status.passes)
-          .map((app) => {
-            return fetchAppstream(app.id, "en")
-          }),
+      const passingApps = await Promise.all(
+        getAppsWithQuality.data.recommendations.map(async (app) => {
+          return {
+            id: app.app_id,
+            lastTimeAppOfTheDay: app.lastTimeAppOfTheDay,
+            lastTimeAppOfTheWeek: app.lastTimeAppOfTheWeek,
+            numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
+            numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
+            appstream: await fetchAppstream(app.app_id, "en"),
+          }
+        }),
       )
 
       return passingApps
@@ -208,22 +236,56 @@ export default function AppPicks() {
         .map((app) => {
           return {
             id: app.id,
-            name: app.name,
-            subtitle: app.summary,
-            icon: app.icon,
+            name: app.appstream.name,
+            subtitle: app.appstream.summary,
+            icon: app.appstream.icon,
+            lastTimeAppOfTheDay: new UTCDate(app.lastTimeAppOfTheDay),
+            numberOfTimesAppOfTheDay: app.numberOfTimesAppOfTheDay,
+            lastTimeAppOfTheWeek: new UTCDate(app.lastTimeAppOfTheWeek),
+            numberOfTimesAppOfTheWeek: app.numberOfTimesAppOfTheWeek,
           }
         })
 
-      setSelectableApps(apps)
+      setSelectableAppsAppOfTheDay(
+        apps.sort((a, b) => {
+          if (a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay !== 0) {
+            return a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay
+          }
+
+          if (a.lastTimeAppOfTheDay && b.lastTimeAppOfTheDay) {
+            return (
+              b.lastTimeAppOfTheDay.getTime() - a.lastTimeAppOfTheDay.getTime()
+            )
+          }
+
+          return 0
+        }),
+      )
+      setSelectableAppsAppsOfTheWeek(
+        apps.sort((a, b) => {
+          if (a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek !== 0) {
+            return a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek
+          }
+
+          if (b.lastTimeAppOfTheWeek && a.lastTimeAppOfTheWeek) {
+            return (
+              b.lastTimeAppOfTheWeek.getTime() -
+              a.lastTimeAppOfTheWeek.getTime()
+            )
+          }
+
+          return 0
+        }),
+      )
     }
   }, [
-    fifthApp?.id,
     firstApp?.id,
-    fourthApp?.id,
-    queryAppsOfTheWeek.data,
-    queryQualityApps.data,
     secondApp?.id,
     thirdApp?.id,
+    fourthApp?.id,
+    fifthApp?.id,
+    queryAppsOfTheWeek.data,
+    queryQualityApps.data,
   ])
 
   return (
@@ -259,7 +321,7 @@ export default function AppPicks() {
 
           <div className="flex flex-col lg:flex-row gap-2 justify-between">
             <FlathubCombobox
-              items={selectableApps}
+              items={selectableAppsAppsOfTheWeek}
               selectedItem={firstApp}
               renderItem={(active, selected, item) => (
                 <ComboboxItem active={active} selected={selected} item={item} />
@@ -276,7 +338,7 @@ export default function AppPicks() {
               }}
             />
             <FlathubCombobox
-              items={selectableApps}
+              items={selectableAppsAppsOfTheWeek}
               selectedItem={secondApp}
               renderItem={(active, selected, item) => (
                 <ComboboxItem active={active} selected={selected} item={item} />
@@ -293,7 +355,7 @@ export default function AppPicks() {
               }}
             />
             <FlathubCombobox
-              items={selectableApps}
+              items={selectableAppsAppsOfTheWeek}
               selectedItem={thirdApp}
               renderItem={(active, selected, item) => (
                 <ComboboxItem active={active} selected={selected} item={item} />
@@ -310,7 +372,7 @@ export default function AppPicks() {
               }}
             />
             <FlathubCombobox
-              items={selectableApps}
+              items={selectableAppsAppsOfTheWeek}
               selectedItem={fourthApp}
               renderItem={(active, selected, item) => (
                 <ComboboxItem active={active} selected={selected} item={item} />
@@ -327,7 +389,7 @@ export default function AppPicks() {
               }}
             />
             <FlathubCombobox
-              items={selectableApps}
+              items={selectableAppsAppsOfTheWeek}
               selectedItem={fifthApp}
               renderItem={(active, selected, item) => (
                 <ComboboxItem active={active} selected={selected} item={item} />
@@ -381,31 +443,31 @@ export default function AppPicks() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 0)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 1)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 2)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 3)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 4)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 5)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
             <AppOfTheDayChanger
               day={addDays(startOfThisWeek, 6)}
-              selectableApps={selectableApps}
+              selectableApps={selectableAppsAppOfTheDay}
             />
           </div>
         </>
@@ -429,7 +491,14 @@ const ComboboxItem = ({
 }: {
   active: boolean
   selected: boolean
-  item: { id: string; name: string; subtitle: string; icon: string }
+  item: {
+    id: string
+    name: string
+    subtitle: string
+    icon: string
+    lastTimeAppOfTheWeek?: UTCDate
+    numberOfTimesAppOfTheWeek?: number
+  }
 }): ReactElement => {
   return (
     <div className="flex gap-2 items-center cursor-pointer">
@@ -446,6 +515,25 @@ const ComboboxItem = ({
         {item.subtitle && (
           <span className={clsx("block truncate text-sm opacity-70")}>
             {item.subtitle}
+          </span>
+        )}
+        {item.numberOfTimesAppOfTheWeek > 0 && (
+          <span
+            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+          >
+            Last picked
+            <strong>
+              {formatDistanceToNow(item.lastTimeAppOfTheWeek, {
+                addSuffix: true,
+              })}
+            </strong>
+          </span>
+        )}
+        {item.numberOfTimesAppOfTheWeek > 0 && (
+          <span
+            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+          >
+            Times picked <strong>{item.numberOfTimesAppOfTheWeek}</strong>
           </span>
         )}
         {selected && (
