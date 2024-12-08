@@ -10930,6 +10930,7 @@ __metadata:
     lucide-react: "npm:^0.460.0"
     msw: "npm:^2.6.0"
     msw-storybook-addon: "npm:^2.0.4"
+    new-github-issue-url: "npm:^1.0.0"
     next: "npm:15.0.3"
     next-i18next: "npm:^15.4.0"
     next-seo: "npm:^6.6.0"
@@ -13366,6 +13367,13 @@ __metadata:
   version: 2.6.2
   resolution: "neo-async@npm:2.6.2"
   checksum: 10c0/c2f5a604a54a8ec5438a342e1f356dff4bc33ccccdb6dc668d94fe8e5eccfc9d2c2eea6064b0967a767ba63b33763f51ccf2cd2441b461a7322656c1f06b3f5d
+  languageName: node
+  linkType: hard
+
+"new-github-issue-url@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "new-github-issue-url@npm:1.0.0"
+  checksum: 10c0/6e255d55d62b1e772ee94a0aad7713d61f8cb35d20f3fc5cd5c3e7b62db57e6bb426ed922c8014a83e437a6e07756f721a5b3b9c355ae8b97e24ad302c52f248
   languageName: node
   linkType: hard
 
