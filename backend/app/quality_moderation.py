@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from .db import get_json_key
 from .login_info import quality_moderator_only, quality_moderator_or_app_author_only
 from .models import (
+    AppPickRecommendationsResponse,
     Apps,
     QualityModeration,
     QualityModerationDashboardResponse,
@@ -87,6 +88,13 @@ def get_passing_quality_apps(
         apps=[app.id for app in passing_quality_apps.apps],
         pagination=passing_quality_apps.pagination,
     )
+
+
+@router.get("/app-pick-recommendations", tags=["quality-moderation"])
+def get_app_pick_recommendations(
+    _moderator=Depends(quality_moderator_only),
+) -> AppPickRecommendationsResponse:
+    return Apps.app_pick_recommendations(db)
 
 
 @router.get("/failed-by-guideline", tags=["quality-moderation"])
