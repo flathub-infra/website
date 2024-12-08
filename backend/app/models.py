@@ -79,7 +79,7 @@ class ConnectedAccountProvider(str, enum.Enum):
 
 class DeleteUserResult(BaseModel):
     status: str
-    message: Optional[str] = None
+    message: str | None = None
 
 
 class PermissionResult(BaseModel):
@@ -101,13 +101,13 @@ class UserOwnedAppResult(BaseModel):
 
 class UserResult(BaseModel):
     id: int
-    display_name: Optional[str]
-    default_account: Optional[ConnectedAccountResult]
+    display_name: str | None
+    default_account: ConnectedAccountResult | None
     deleted: bool
-    accepted_publisher_agreement_at: Optional[datetime]
+    accepted_publisher_agreement_at: datetime | None
     roles: list[UserRoleResult]
-    github_repos: Optional[list["GithubRepositoryResult"]]
-    owned_apps: Optional[list[UserOwnedAppResult]]
+    github_repos: list["GithubRepositoryResult"] | None
+    owned_apps: list[UserOwnedAppResult] | None
 
 
 class FlathubUsersResult(BaseModel):
@@ -119,8 +119,8 @@ class FlathubUser(Base):
     __tablename__ = "flathubuser"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    display_name: Mapped[Optional[str]]
-    default_account: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    default_account: Mapped[str | None]
     deleted: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     accepted_publisher_agreement_at: Mapped[bool] = mapped_column(
         DateTime, nullable=True, default=None
@@ -164,9 +164,7 @@ class FlathubUser(Base):
         return None
 
     @staticmethod
-    def all(
-        db, page, page_size, filterString: Optional[str] = None
-    ) -> FlathubUsersResult:
+    def all(db, page, page_size, filterString: str | None = None) -> FlathubUsersResult:
         offset = (page - 1) * page_size
         query = db.session.query(FlathubUser)
 
@@ -464,10 +462,10 @@ class GithubAccountResult(BaseModel):
     id: int
     github_userid: int
     login: str
-    avatar_url: Optional[str]
-    display_name: Optional[str]
-    email: Optional[str]
-    last_used: Optional[datetime]
+    avatar_url: str | None
+    display_name: str | None
+    email: str | None
+    last_used: datetime | None
 
 
 class GithubAccount(Base):
@@ -482,8 +480,8 @@ class GithubAccount(Base):
     github_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
-    display_name: Mapped[Optional[str]]
-    email: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    email: Mapped[str | None]
     token = mapped_column(String, nullable=True, default=None)
     last_used = mapped_column(DateTime, nullable=True, default=None)
 
@@ -629,10 +627,10 @@ class GitlabAccountResult(BaseModel):
     id: int
     gitlab_userid: int
     login: str
-    avatar_url: Optional[str]
-    display_name: Optional[str]
-    email: Optional[str]
-    last_used: Optional[datetime]
+    avatar_url: str | None
+    display_name: str | None
+    email: str | None
+    last_used: datetime | None
 
 
 class GitlabAccount(Base):
@@ -647,8 +645,8 @@ class GitlabAccount(Base):
     gitlab_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
-    display_name: Mapped[Optional[str]]
-    email: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    email: Mapped[str | None]
     token = mapped_column(String, nullable=True, default=None)
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
@@ -722,10 +720,10 @@ class GnomeAccountResult(BaseModel):
     id: int
     gnome_userid: int
     login: str
-    avatar_url: Optional[str]
-    display_name: Optional[str]
-    email: Optional[str]
-    last_used: Optional[datetime]
+    avatar_url: str | None
+    display_name: str | None
+    email: str | None
+    last_used: datetime | None
 
 
 class GnomeAccount(Base):
@@ -740,8 +738,8 @@ class GnomeAccount(Base):
     gnome_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
-    display_name: Mapped[Optional[str]]
-    email: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    email: Mapped[str | None]
     token = mapped_column(String, nullable=True, default=None)
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
@@ -815,10 +813,10 @@ class GoogleAccountResult(BaseModel):
     id: int
     google_userid: int
     login: str
-    avatar_url: Optional[str]
-    display_name: Optional[str]
-    email: Optional[str]
-    last_used: Optional[datetime]
+    avatar_url: str | None
+    display_name: str | None
+    email: str | None
+    last_used: datetime | None
 
 
 class GoogleAccount(Base):
@@ -833,8 +831,8 @@ class GoogleAccount(Base):
     google_userid = mapped_column(String, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
-    display_name: Mapped[Optional[str]]
-    email: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    email: Mapped[str | None]
     token = mapped_column(String, nullable=True, default=None)
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
@@ -906,10 +904,10 @@ class KdeAccountResult(BaseModel):
     id: int
     kde_userid: int
     login: str
-    avatar_url: Optional[str]
-    display_name: Optional[str]
-    email: Optional[str]
-    last_used: Optional[datetime]
+    avatar_url: str | None
+    display_name: str | None
+    email: str | None
+    last_used: datetime | None
 
 
 class KdeAccount(Base):
@@ -924,8 +922,8 @@ class KdeAccount(Base):
     kde_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
-    display_name: Mapped[Optional[str]]
-    email: Mapped[Optional[str]]
+    display_name: Mapped[str | None]
+    email: Mapped[str | None]
     token = mapped_column(String, nullable=True, default=None)
     token_expiry = mapped_column(DateTime, nullable=True, default=None)
     refresh_token = mapped_column(String, nullable=True, default=None)
@@ -2401,8 +2399,34 @@ class Apps(Base):
                 .where(AppOfTheDay.app_id == Apps.app_id)
                 .correlate(Apps)
                 .label("timesAppOfTheDay"),
-                AppsOfTheWeek.year.label("lastYearAppOfTheWeek"),
-                AppsOfTheWeek.weekNumber.label("lastWeekAppOfTheWeek"),
+                func.max(
+                    db.session.query(AppsOfTheWeek.year)
+                    .where(AppsOfTheWeek.app_id == Apps.app_id)
+                    .group_by(
+                        AppsOfTheWeek.app_id,
+                        AppsOfTheWeek.year,
+                        AppsOfTheWeek.weekNumber,
+                    )
+                    .order_by(
+                        AppsOfTheWeek.year.desc(), AppsOfTheWeek.weekNumber.desc()
+                    )
+                    .limit(1)
+                    .correlate(Apps)
+                ),
+                func.max(
+                    db.session.query(AppsOfTheWeek.weekNumber)
+                    .where(AppsOfTheWeek.app_id == Apps.app_id)
+                    .group_by(
+                        AppsOfTheWeek.app_id,
+                        AppsOfTheWeek.year,
+                        AppsOfTheWeek.weekNumber,
+                    )
+                    .order_by(
+                        AppsOfTheWeek.year.desc(), AppsOfTheWeek.weekNumber.desc()
+                    )
+                    .limit(1)
+                    .correlate(Apps)
+                ),
                 db.session.query(func.count(AppsOfTheWeek.app_id))
                 .where(AppsOfTheWeek.app_id == Apps.app_id)
                 .correlate(Apps)
@@ -2426,12 +2450,6 @@ class Apps(Base):
                 ),
                 isouter=True,
             )
-            .outerjoin(
-                AppsOfTheWeek,
-                and_(
-                    AppsOfTheWeek.app_id == Apps.app_id,
-                ),
-            )
             .where(
                 or_(
                     Apps.type == "desktop-application",
@@ -2439,7 +2457,7 @@ class Apps(Base):
                 )
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
-            .group_by(Apps.app_id, AppsOfTheWeek.year, AppsOfTheWeek.weekNumber)
+            .group_by(Apps.app_id)
             .having(
                 func.count(Guideline.id)
                 == func.sum(func.cast(QualityModeration.passed, Integer))
