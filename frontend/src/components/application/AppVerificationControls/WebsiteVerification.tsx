@@ -152,9 +152,7 @@ const WebsiteVerification: FunctionComponent<Props> = ({
             Verify your right to use the app ID
             <span className="font-semibold">{{ id: appId }}</span> by placing a
             token at a specific page on
-            <span className="font-semibold">
-              {{ domain: method.website }}
-            </span>.
+            <span className="font-semibold">{{ domain: method.website }}</span>.
           </Trans>
         </p>
         <Button
