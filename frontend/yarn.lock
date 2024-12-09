@@ -10940,7 +10940,7 @@ __metadata:
     postcss: "npm:^8.4.49"
     prettier: "npm:^3.4.2"
     prettier-plugin-tailwindcss: "npm:^0.6.9"
-    react: "npm:19.0.0-rc.1"
+    react: "npm:19.0.0"
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.0.0-rc.1"
@@ -15109,10 +15109,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.0.0-rc.1":
-  version: 19.0.0-rc.1
-  resolution: "react@npm:19.0.0-rc.1"
-  checksum: 10c0/8f453ee0ff05ec4b11701cf4240fb0039217e73f576d2a9b871a91e34ff17d66e16294ebd0fc72c237918a3a997cc42f0328c860bc0a2cfa18e6a41f49a1c871
+"react@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react@npm:19.0.0"
+  checksum: 10c0/9cad8f103e8e3a16d15cb18a0d8115d8bd9f9e1ce3420310aea381eb42aa0a4f812cf047bb5441349257a05fba8a291515691e3cb51267279b2d2c3253f38471
   languageName: node
   linkType: hard
 
