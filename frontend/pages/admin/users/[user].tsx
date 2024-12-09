@@ -143,7 +143,7 @@ export default function UserAdmin({ userId }) {
                     {query.data.data.github_repos.map((repo) => (
                       <a
                         key={repo.id}
-                        href={`https://github.com/${repo.reponame}`}
+                        href={`https://github.com/flathub/${repo.reponame}`}
                       >
                         <Card key={repo.reponame}>
                           <CardHeader>
