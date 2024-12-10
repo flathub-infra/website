@@ -10943,7 +10943,7 @@ __metadata:
     react: "npm:19.0.0"
     react-copy-to-clipboard: "npm:^5.1.0"
     react-country-flag: "npm:^3.1.0"
-    react-dom: "npm:19.0.0-rc.1"
+    react-dom: "npm:19.0.0"
     react-hook-form: "npm:^7.53.1"
     react-i18next: "npm:^15.1.1"
     react-icons: "npm:^5.3.0"
@@ -14971,14 +14971,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.0.0-rc.1":
-  version: 19.0.0-rc.1
-  resolution: "react-dom@npm:19.0.0-rc.1"
+"react-dom@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react-dom@npm:19.0.0"
   dependencies:
-    scheduler: "npm:0.25.0-rc.1"
+    scheduler: "npm:^0.25.0"
   peerDependencies:
-    react: 19.0.0-rc.1
-  checksum: 10c0/26fba423f41c8b3c7a47278ea490146506333175028e111e49eb39310110b6bda956cc772c77412abc8a7f28244eea80ebade15ec5b4382d79e2ac1b39bd2d0c
+    react: ^19.0.0
+  checksum: 10c0/a36ce7ab507b237ae2759c984cdaad4af4096d8199fb65b3815c16825e5cfeb7293da790a3fc2184b52bfba7ba3ff31c058c01947aff6fd1a3701632aabaa6a9
   languageName: node
   linkType: hard
 
@@ -15668,19 +15668,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:0.25.0-rc.1":
-  version: 0.25.0-rc.1
-  resolution: "scheduler@npm:0.25.0-rc.1"
-  checksum: 10c0/dd4549eeb54cf3019c04257c622c4bbee12ef99dc547c4a96e1d5da8985ae44534111275ebcc4fea84b0d1299197b69071f912928adc5da4cab1e8168d09a44d
-  languageName: node
-  linkType: hard
-
 "scheduler@npm:^0.23.2":
   version: 0.23.2
   resolution: "scheduler@npm:0.23.2"
   dependencies:
     loose-envify: "npm:^1.1.0"
   checksum: 10c0/26383305e249651d4c58e6705d5f8425f153211aef95f15161c151f7b8de885f24751b377e4a0b3dd42cce09aad3f87a61dab7636859c0d89b7daf1a1e2a5c78
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.25.0":
+  version: 0.25.0
+  resolution: "scheduler@npm:0.25.0"
+  checksum: 10c0/a4bb1da406b613ce72c1299db43759526058fdcc413999c3c3e0db8956df7633acf395cb20eb2303b6a65d658d66b6585d344460abaee8080b4aa931f10eaafe
   languageName: node
   linkType: hard
 
