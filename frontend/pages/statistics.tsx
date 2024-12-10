@@ -24,8 +24,10 @@ import {
   RotatedAxisTick,
   FlathubTooltip,
 } from "src/chartComponents"
-import { useState, type JSX } from "react"
+import { createRef, useState, type JSX } from "react"
 import { ChartContainer, ChartConfig } from "@/components/ui/chart"
+import ReactCountryFlag from "react-country-flag"
+import clsx from "clsx"
 
 const countries = registerIsoCountriesLocales()
 
@@ -62,21 +64,65 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     return translation
   }
 
+  const refs = country_data.reduce((acc, value) => {
+    acc[value.country] = createRef()
+    return acc
+  }, {})
+
+  const handleClick = (id) =>
+    refs[id].current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    })
+
   return (
     <>
       <h2 className="mb-6 mt-12 text-2xl font-bold">
         {t("downloads-per-country")}
       </h2>
-      <div className={`flex justify-center ${styles.map}`}>
-        <WorldMap
-          color="hsl(var(--color-primary))"
-          backgroundColor="hsl(var(--bg-color-secondary))"
-          borderColor="hsl(var(--text-primary))"
-          size="responsive"
-          data={country_data}
-          tooltipTextFunction={getLocalizedText}
-          rtl={i18n.dir() === "rtl"}
-        />
+      <div className="flex flex-col gap-5">
+        <div className={`flex justify-center ${styles.map}`}>
+          <WorldMap
+            color="hsl(var(--color-primary))"
+            backgroundColor="hsl(var(--bg-color-secondary))"
+            borderColor="hsl(var(--text-primary))"
+            size="responsive"
+            data={country_data}
+            tooltipTextFunction={getLocalizedText}
+            rtl={i18n.dir() === "rtl"}
+            onClickFunction={(context) => handleClick(context.countryCode)}
+          />
+        </div>
+        <div
+          className={clsx(
+            "overflow-y-auto max-h-[500px]",
+            "flex flex-col self-center",
+            "rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic",
+          )}
+        >
+          {country_data
+            .toSorted((a, b) => b.value - a.value)
+            .map(({ country, value }, i) => {
+              const translatedCountryName = countries.getName(
+                country,
+                i18n.language,
+              )
+              return (
+                <div
+                  key={country}
+                  ref={refs[country]}
+                  className="flex gap-4 items-center justify-between px-4 py-2"
+                >
+                  <div className="text-lg font-semibold">{i + 1}.</div>
+                  <div className="flex gap-2 items-center">
+                    <ReactCountryFlag countryCode={country} />
+                    <div>{translatedCountryName}</div>
+                  </div>
+                  <div>{value.toLocaleString(i18n.language)}</div>
+                </div>
+              )
+            })}
+        </div>
       </div>
     </>
   )
