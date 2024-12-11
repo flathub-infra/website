@@ -47,7 +47,7 @@
     "framer-motion": "^12.0.0-alpha.2",
     "i18n-iso-countries": "^7.13.0",
     "i18next": "^24.0.5",
-    "isomorphic-dompurify": "^2.18.0",
+    "isomorphic-dompurify": "^2.19.0",
     "linkify-html": "^4.2.0",
     "linkifyjs": "^4.2.0",
     "lucide-react": "^0.460.0",

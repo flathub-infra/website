@@ -9576,15 +9576,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.2.2":
-  version: 3.2.2
-  resolution: "dompurify@npm:3.2.2"
+"dompurify@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "dompurify@npm:3.2.3"
   dependencies:
     "@types/trusted-types": "npm:^2.0.7"
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 10c0/04fa1509a75c6c1dfc1f00c579253bd4781e291836176578927f5cb683dc904175c4fb71f9c40438b0b4b13fc306f79922d220200f3bd01eabe12727588afd1f
+  checksum: 10c0/0ce5cb89b76f396d800751bcb48e0d137792891d350ccc049f1bc9a5eca7332cc69030c25007ff4962e0824a5696904d4d74264df9277b5ad955642dfb6f313f
   languageName: node
   linkType: hard
 
@@ -10924,7 +10924,7 @@ __metadata:
     framer-motion: "npm:^12.0.0-alpha.2"
     i18n-iso-countries: "npm:^7.13.0"
     i18next: "npm:^24.0.5"
-    isomorphic-dompurify: "npm:^2.18.0"
+    isomorphic-dompurify: "npm:^2.19.0"
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
     lucide-react: "npm:^0.460.0"
@@ -12223,13 +12223,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isomorphic-dompurify@npm:^2.18.0":
-  version: 2.18.0
-  resolution: "isomorphic-dompurify@npm:2.18.0"
+"isomorphic-dompurify@npm:^2.19.0":
+  version: 2.19.0
+  resolution: "isomorphic-dompurify@npm:2.19.0"
   dependencies:
-    dompurify: "npm:^3.2.2"
+    dompurify: "npm:^3.2.3"
     jsdom: "npm:^25.0.1"
-  checksum: 10c0/8befe0ffb64b21e20c0ee1bc27321f9d3db5d952318e93532a151c353ec282987a773a8230938c172b3033cfc9e792118b978e7936c025b641ad67bf5124819c
+  checksum: 10c0/80460bb29c227fb1e3a7ed3150d23f6ab19b9ebc232591a6132c955a51b0060995c42975039507cf11edc71dd3e0764fa60657c586d62475b75ad3f088334c98
   languageName: node
   linkType: hard
 
