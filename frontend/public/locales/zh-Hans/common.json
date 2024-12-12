@@ -585,5 +585,12 @@
   "microphone-access": "能访问麦克风",
   "can-listen-using-microphones-without-asking-permission": "在没有询问您的情况下拥有麦克风访问权限",
   "setup": "设置",
-  "more-pages": "更多页面"
+  "more-pages": "更多页面",
+  "flathub": "Flathub",
+  "mastodon": "Mastodon",
+  "get-apps": "获取应用",
+  "action-purchase": "购买",
+  "users": "用户",
+  "date": "日期",
+  "action-donate": "捐助"
 }

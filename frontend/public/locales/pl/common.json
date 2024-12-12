@@ -492,7 +492,8 @@
     "branding-good-primary-brand-colors": "Dobre podstawowe kolory marki",
     "hide-branding-preview": "Ukryj podgląd identyfikacji wizualnej",
     "show-branding-preview": "Pokaż podgląd identyfikacji wizualnej",
-    "needed-to-pass-x": "Niezbędne do zaliczenia {{x}}"
+    "needed-to-pass-x": "Niezbędne do zaliczenia {{x}}",
+    "problems": "Jeśli chcesz zapytać nas o konkretne problemy związane z wytycznymi dotyczącymi jakości, możesz śmiało otworzyć <2>zgłoszenie</2>."
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
