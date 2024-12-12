@@ -501,7 +501,8 @@
     "app-data-review-pending": "Rakenduse andmete ülevaatamine on ootel",
     "failing-x-checks_one": "{{count}} kontroll ei õnnestunud",
     "failing-x-checks_other": "{{count}} kontrolli ei õnnestunud",
-    "high-quality-app-data": "Rakenduse andmed on kõrgekvaliteedilised"
+    "high-quality-app-data": "Rakenduse andmed on kõrgekvaliteedilised",
+    "problems": "Kui soovid küsida meil nõu konkreetses kvaliteedikontrolli kontekstis, siis palun tee seda <2>meie arenduse haldusliideses</2>."
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",

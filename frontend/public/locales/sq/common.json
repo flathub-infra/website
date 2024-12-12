@@ -247,7 +247,8 @@
     "needed-to-pass-x": "Lypset të kalojë {{x}}",
     "branding-has-primary-brand-colors": "Ka ngjyra parësore marke",
     "hide-branding-preview": "Fshih paraparje elementësh marke",
-    "show-branding-preview": "Shfaq paraparje elementësh marke"
+    "show-branding-preview": "Shfaq paraparje elementësh marke",
+    "problems": "Nëse do të donit të na pyesnit rreth problemesh specifike lidhur me udhëzime cilësie, mos ngurroni të hapni <2>një çështje</2>."
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -485,7 +486,6 @@
   "user-settings": "Rregullime përdoruesi",
   "can-request-data-from-session-services": "Mund të kërkojë të dhëna nga shërbime sesioni",
   "can-request-data-from-system-services": "Mund të kërkojë të dhëna nga shërbime sistemi",
-  "app-listing-quality": "Ujdisni Google Listing & Ads",
   "flathub-apps-for-linux": "Flathub - Aplikacione për Linux",
   "build-x": "Montuar {{build-ago}}",
   "get-it-on": "Merreni në",
