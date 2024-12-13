@@ -2480,12 +2480,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bundled-es-modules/cookie@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@bundled-es-modules/cookie@npm:2.0.0"
+"@bundled-es-modules/cookie@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@bundled-es-modules/cookie@npm:2.0.1"
   dependencies:
-    cookie: "npm:^0.5.0"
-  checksum: 10c0/0655dd331b35d7b5b6dd2301c3bcfb7233018c0e3235a40ced1d53f00463ab92dc01f0091f153812867bc0ef0f8e0a157a30acb16e8d7ef149702bf8db9fe7a6
+    cookie: "npm:^0.7.2"
+  checksum: 10c0/dfac5e36127e827c5557b8577f17a8aa94c057baff6d38555917927b99da0ecf0b1357e7fedadc8853ecdbd4a8a7fa1f5e64111b2a656612f4a36376f5bdbe8d
   languageName: node
   linkType: hard
 
@@ -3552,9 +3552,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.36.5":
-  version: 0.36.7
-  resolution: "@mswjs/interceptors@npm:0.36.7"
+"@mswjs/interceptors@npm:^0.37.0":
+  version: 0.37.3
+  resolution: "@mswjs/interceptors@npm:0.37.3"
   dependencies:
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/logger": "npm:^0.3.0"
@@ -3562,7 +3562,7 @@ __metadata:
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.4.3"
     strict-event-emitter: "npm:^0.5.1"
-  checksum: 10c0/3a5be0b1c5cac0a5338458bba182c650961950fc8e0143e45cdf66201886a1bc95c4dca7aeee254cd331c6dd8acb630eb6db6bbaef08f629f9da95974314622d
+  checksum: 10c0/5a8d9ab7c491d14dff996f23bda0fa7b7059f68a1d4981b804b6114f1c0c0490bc35860df135ed36da1720984323878b1a9d13dbc80936bbfa67b3d3c3476f6c
   languageName: node
   linkType: hard
 
@@ -8830,10 +8830,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "cookie@npm:0.5.0"
-  checksum: 10c0/c01ca3ef8d7b8187bae434434582288681273b5a9ed27521d4d7f9f7928fe0c920df0decd9f9d3bbd2d14ac432b8c8cf42b98b3bdd5bfe0e6edddeebebe8b61d
+"cookie@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "cookie@npm:0.7.2"
+  checksum: 10c0/9596e8ccdbf1a3a88ae02cf5ee80c1c50959423e1022e4e60b91dd87c622af1da309253d8abdb258fb5e3eacb4f08e579dc58b4897b8087574eee0fd35dfa5d2
   languageName: node
   linkType: hard
 
@@ -10928,7 +10928,7 @@ __metadata:
     linkify-html: "npm:^4.2.0"
     linkifyjs: "npm:^4.2.0"
     lucide-react: "npm:^0.468.0"
-    msw: "npm:^2.6.0"
+    msw: "npm:^2.6.8"
     msw-storybook-addon: "npm:^2.0.4"
     new-github-issue-url: "npm:^1.0.0"
     next: "npm:15.0.4"
@@ -13294,15 +13294,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "msw@npm:2.6.0"
+"msw@npm:^2.6.8":
+  version: 2.6.8
+  resolution: "msw@npm:2.6.8"
   dependencies:
-    "@bundled-es-modules/cookie": "npm:^2.0.0"
+    "@bundled-es-modules/cookie": "npm:^2.0.1"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
     "@bundled-es-modules/tough-cookie": "npm:^0.1.6"
     "@inquirer/confirm": "npm:^5.0.0"
-    "@mswjs/interceptors": "npm:^0.36.5"
+    "@mswjs/interceptors": "npm:^0.37.0"
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
@@ -13323,7 +13323,7 @@ __metadata:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 10c0/157c92d8faf1871acc1f4e965916ffcc8dd51aa7b1317b58749d8ef427e392db7549dc4ae3aac6b0295a6305f53a985c743272ec4445556b07439fefe5d77529
+  checksum: 10c0/72a7d22155b6107ef6cb586e3a97d118427760a6da0216d35b1a0db43cc3352a62e767edbf137b00162fd4156fe757ea8841f3273a18621eabfc4f42380e9a38
   languageName: node
   linkType: hard
 
