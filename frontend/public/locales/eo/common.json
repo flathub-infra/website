@@ -487,7 +487,8 @@
     "branding-has-primary-brand-colors": "Havas markajn ĉefkolorojn",
     "hide-branding-preview": "Kaŝi markan antaŭrigardon",
     "show-branding-preview": "Malkaŝi markan antaŭrigardon",
-    "branding-good-primary-brand-colors": "Havas bonajn markajn ĉefkolorojn"
+    "branding-good-primary-brand-colors": "Havas bonajn markajn ĉefkolorojn",
+    "problems": "Se vi volas pridemandi specifajn normojn pri kvalito, bonvolu raporti <2>problemon</2>."
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
