@@ -492,7 +492,8 @@
     "branding-good-primary-brand-colors": "Buenos colores primarios de la marca",
     "hide-branding-preview": "Ocultar la vista previa de la marca",
     "show-branding-preview": "Vista previa de la marca",
-    "needed-to-pass-x": "Necesario para aprobar {{x}}"
+    "needed-to-pass-x": "Necesario para aprobar {{x}}",
+    "problems": "Si te gustaría preguntarnos acerca de problemas específicos en la guía de calidad, siéntete libre de abrir <2>un tema</2>."
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
