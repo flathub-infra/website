@@ -1,5 +1,6 @@
 import json
 import re
+from enum import Enum
 
 import gi
 
@@ -10,6 +11,12 @@ from gi.repository import AppStream
 
 clean_html_re = re.compile("<.*?>")
 all_main_categories = schemas.get_main_categories()
+
+
+class AppType(str, Enum):
+    APPS = "apps"
+    EXTENSION = "extension"
+    RUNTIME = "runtime"
 
 
 def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
@@ -171,14 +178,21 @@ def load_appstream(sqldb) -> None:
         p.execute()
 
 
-def get_appids() -> list[str]:
+def get_appids(type: AppType = AppType.APPS) -> list[str]:
+    filter = None
+
+    if type == AppType.EXTENSION:
+        filter = ["addon"]
+    elif type == AppType.RUNTIME:
+        filter = ["runtime"]
+    else:
+        filter = ["desktop-application", "console-application"]
+
     with database.get_db() as sqldb:
         current_apps = set(
             app.app_id
             for app in sqldb.query(models.Apps.app_id)
-            .filter(
-                models.Apps.type.in_(["desktop-application", "console-application"])
-            )
+            .filter(models.Apps.type.in_(filter))
             .all()
         )
     return list(current_apps)
