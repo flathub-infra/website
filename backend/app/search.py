@@ -43,6 +43,7 @@ client.index("apps").update_filterable_attributes(
         "runtime",
         "type",
         "arches",
+        "icon",
     ]
 )
 
@@ -106,7 +107,11 @@ def get_by_selected_categories(
         client.index("apps").search(
             "",
             {
-                "filter": [category_list],
+                "filter": [
+                    category_list,
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
@@ -130,6 +135,8 @@ def get_by_selected_category_and_subcategory(
                 "filter": [
                     f"main_categories = {selected_category.value}",
                     f"sub_categories = {selected_subcategory}",
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
                 ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
@@ -150,6 +157,10 @@ def get_by_installs_last_month(
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
+                "filter": [
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
             },
         ),
     )
@@ -164,6 +175,10 @@ def get_by_trending(page: int | None, hits_per_page: int | None, locale: str):
                 "sort": ["trending:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
+                "filter": [
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
             },
         ),
     )
@@ -178,6 +193,10 @@ def get_by_added_at(page: int | None, hits_per_page: int | None, locale: str):
                 "sort": ["added_at:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
+                "filter": [
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
             },
         ),
     )
@@ -192,6 +211,10 @@ def get_by_updated_at(page: int | None, hits_per_page: int | None, locale: str):
                 "sort": ["updated_at:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
+                "filter": [
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
             },
         ),
     )
@@ -203,7 +226,11 @@ def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
         client.index("apps").search(
             "",
             {
-                "filter": ["verification_verified = true"],
+                "filter": [
+                    "verification_verified = true",
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
                 "sort": ["verification_timestamp:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
@@ -224,7 +251,11 @@ def get_by_developer(
         client.index("apps").search(
             "",
             {
-                "filter": [f"developer_name = '{escaped_developer}'"],
+                "filter": [
+                    f"developer_name = '{escaped_developer}'",
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
@@ -237,15 +268,16 @@ def get_by_developer(
 def search_apps(query: str, locale: str, free_software_only: bool = False):
     query = unquote(query)
 
+    filters = ["type in desktop-application, console-application"]
+
+    if free_software_only:
+        filters.append("is_free_license = true")
+
     return _translate_name_and_summary(
         locale,
         client.index("apps").search(
             query,
-            {
-                "limit": 250,
-                "sort": ["installs_last_month:desc"],
-                "filter": ["is_free_license = true"] if free_software_only else None,
-            },
+            {"limit": 250, "sort": ["installs_last_month:desc"], "filter": filters},
         ),
     )
 
@@ -253,8 +285,25 @@ def search_apps(query: str, locale: str, free_software_only: bool = False):
 def search_apps_post(searchquery: SearchQuery, locale: str):
     filters = []
 
+    filteringForType = False
+    filteringForDesktopOrConsole = False
+
     for filter in searchquery.filters or []:
+        if filter.filterType == "type":
+            filteringForType = True
+
+            if filter.value == "desktop-application":
+                filteringForDesktopOrConsole = True
+            elif filter.value == "console-application":
+                filteringForDesktopOrConsole = True
+
         filters.append(f"{filter.filterType} = '{filter.value}'")
+
+    if not filteringForType and not filteringForDesktopOrConsole:
+        filters.append("type IN [desktop-application, console-application]")
+
+    if not (filteringForType and not filteringForDesktopOrConsole):
+        filters.append("NOT icon IS NULL")
 
     filterString = " AND ".join(filters)
 

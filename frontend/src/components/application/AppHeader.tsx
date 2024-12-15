@@ -35,7 +35,7 @@ export function AppHeader({
   }
 
   return (
-    <header className="col-start-2 flex w-full flex-col gap-4 py-7 sm:flex-row">
+    <header className="col-start-2 flex w-full flex-col gap-7 py-7 sm:flex-row">
       {app.icon && (
         <div className="relative m-2 flex h-[128px] min-w-[128px] self-center drop-shadow-md">
           <LogoImage
@@ -47,7 +47,7 @@ export function AppHeader({
         </div>
       )}
 
-      <div className="flex flex-col mx-3 my-auto gap-1">
+      <div className="flex flex-col my-auto gap-1">
         <div className="flex items-center justify-center space-x-3 sm:justify-start">
           <h1 className="my-0 text-center text-4xl font-extrabold sm:text-start">
             {app.name.length > 20 && isQualityModalOpen ? (

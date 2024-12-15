@@ -42,6 +42,7 @@ import type {
   GetTrendingLastTwoWeeksTrendingLastTwoWeeksGetParams,
   GetVerifiedCollectionVerifiedGetParams,
   HTTPValidationError,
+  ListAppstreamAppstreamGetParams,
   MainCategory,
   PostSearchSearchPostParams,
   SearchQuery,
@@ -1519,36 +1520,46 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
  * @summary List Appstream
  */
 export const listAppstreamAppstreamGet = (
+  params?: ListAppstreamAppstreamGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
-  return axios.get(`/appstream`, options)
+  return axios.get(`/appstream`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
 }
 
-export const getListAppstreamAppstreamGetQueryKey = () => {
-  return [`/appstream`] as const
+export const getListAppstreamAppstreamGetQueryKey = (
+  params?: ListAppstreamAppstreamGetParams,
+) => {
+  return [`/appstream`, ...(params ? [params] : [])] as const
 }
 
 export const getListAppstreamAppstreamGetQueryOptions = <
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-      TError,
-      TData
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListAppstreamAppstreamGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}) => {
+    axios?: AxiosRequestConfig
+  },
+) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getListAppstreamAppstreamGetQueryKey()
+    queryOptions?.queryKey ?? getListAppstreamAppstreamGetQueryKey(params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
-  > = ({ signal }) => listAppstreamAppstreamGet({ signal, ...axiosOptions })
+  > = ({ signal }) =>
+    listAppstreamAppstreamGet(params, { signal, ...axiosOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
@@ -1560,83 +1571,94 @@ export const getListAppstreamAppstreamGetQueryOptions = <
 export type ListAppstreamAppstreamGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof listAppstreamAppstreamGet>>
 >
-export type ListAppstreamAppstreamGetQueryError = AxiosError<unknown>
+export type ListAppstreamAppstreamGetQueryError =
+  AxiosError<HTTPValidationError>
 
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<unknown>,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | ListAppstreamAppstreamGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
         TError,
         TData
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
-}
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListAppstreamAppstreamGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
         TError,
         TData
-      >,
-      "initialData"
-    >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-      TError,
-      TData
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListAppstreamAppstreamGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary List Appstream
  */
 
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-  TError = AxiosError<unknown>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
-      TError,
-      TData
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListAppstreamAppstreamGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getListAppstreamAppstreamGetQueryOptions(options)
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getListAppstreamAppstreamGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>

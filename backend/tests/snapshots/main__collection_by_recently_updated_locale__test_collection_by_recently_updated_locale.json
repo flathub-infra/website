@@ -46,7 +46,7 @@
       "project_license": "LicenseRef-proprietary=http://wps-community.org/license.md",
       "is_free_license": false,
       "app_id": "com.wps.Office",
-      "icon": null,
+      "icon": "https://dl.flathub.org/repo/appstream/x86_64/icons/128x128/com.wps.Office.png",
       "categories": [
         "Office"
       ],

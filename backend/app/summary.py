@@ -214,9 +214,6 @@ def update(sqldb) -> None:
             if app_id not in current_apps:
                 continue
 
-            if not db.is_appid_for_frontend(app_id):
-                continue
-
             updated.append(
                 {
                     "id": utils.get_clean_app_id(app_id),
@@ -233,7 +230,6 @@ def update(sqldb) -> None:
                 "arches": list(summary_dict[app_id]["arches"]),
             }
             for app_id in summary_dict
-            if db.is_appid_for_frontend(app_id)
         ]
     )
 
