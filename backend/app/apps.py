@@ -20,7 +20,11 @@ class AppType(str, Enum):
 
 
 def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
-    search_description = re.sub(clean_html_re, "", app["description"])
+    search_description = (
+        re.sub(clean_html_re, "", app["description"])
+        if app and app.get("description")
+        else ""
+    )
 
     search_keywords = app.get("keywords")
 
@@ -100,22 +104,6 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     }
 
 
-# keep in sync with db.is_appid_for_frontend
-def show_in_frontend(app: dict) -> bool:
-    # this is executed before we normalize the desktop type to desktop-application
-    if app.get("type") in ("desktop-application", "desktop"):
-        return True
-
-    if (
-        app.get("type") == "console-application"
-        and app.get("icon")
-        and app.get("screenshots")
-    ):
-        return True
-
-    return False
-
-
 def load_appstream(sqldb) -> None:
     apps = utils.appstream2dict()
 
@@ -130,17 +118,16 @@ def load_appstream(sqldb) -> None:
         for app_id in apps:
             redis_key = f"apps:{app_id}"
 
-            if show_in_frontend(apps[app_id]):
-                search_apps.append(
-                    add_to_search(
-                        app_id,
-                        apps[app_id],
-                        apps[app_id]["locales"],
-                    )
+            search_apps.append(
+                add_to_search(
+                    app_id,
+                    apps[app_id],
+                    apps[app_id]["locales"],
                 )
+            )
 
-                if developer_name := apps[app_id].get("developer_name"):
-                    p.sadd("developers:index", developer_name)
+            if developer_name := apps[app_id].get("developer_name"):
+                p.sadd("developers:index", developer_name)
 
             if type := apps[app_id].get("type"):
                 # "desktop" dates back to appstream-glib, need to handle that for backwards compat

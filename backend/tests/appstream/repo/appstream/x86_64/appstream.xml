@@ -219,7 +219,7 @@
     <summary>WPS Office Suite</summary>
     <developer_name>Kingsoft Office Corporation</developer_name>
     <description><p>WPS Office including Writer, Presentation and Spreadsheets, is a powerful office suite, which is able to process word file, produce wonderful slides, and analyze data as well. It is deeply compatible with all of the latest Microsoft Office file formats. It can easily open and read the documents created with Microsoft Office.</p><p>NOTE: This wrapper is not verified by, affiliated with, or supported by Kingsoft Office Corporation</p></description>
-    <icon type="remote">https://www.wps.com/assets/mediahub/WPS-Office-Mobile.png</icon>
+    <icon type="cached" height="128" width="128">com.wps.Office.png</icon>
     <categories>
       <category>Office</category>
     </categories>

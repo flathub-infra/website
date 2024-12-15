@@ -26,6 +26,13 @@ export default function Search({ locale }) {
     })
   }
 
+  if (query.type) {
+    filtersFromQuery.push({
+      filterType: "type",
+      value: query.type as string,
+    })
+  }
+
   const [selectedFilters, setSelectedFilters] = useState<
     {
       filterType: string

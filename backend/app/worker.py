@@ -77,9 +77,6 @@ def update():
     apps_created_at = {}
 
     for app_id in current_apps:
-        if not db.is_appid_for_frontend(app_id):
-            continue
-
         with WorkerDB() as sqldb:
             created_at = (
                 sqldb.session.query(models.Apps.initial_release_at)
@@ -107,9 +104,6 @@ def update():
         search_added_at = []
         for app_id, value in apps_created_at.items():
             if app_id not in current_apps:
-                continue
-
-            if not db.is_appid_for_frontend(app_id):
                 continue
 
             search_added_at.append(
