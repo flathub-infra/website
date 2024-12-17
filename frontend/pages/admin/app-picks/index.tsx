@@ -520,7 +520,9 @@ const ComboboxItem = ({
         )}
         {item.numberOfTimesAppOfTheWeek > 0 && (
           <span
-            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+            className={clsx(
+              "flex truncate gap-6 text-sm opacity-70 justify-between",
+            )}
           >
             Last picked
             <strong>
@@ -532,7 +534,9 @@ const ComboboxItem = ({
         )}
         {item.numberOfTimesAppOfTheWeek > 0 && (
           <span
-            className={clsx("flex truncate text-sm opacity-70 justify-between")}
+            className={clsx(
+              "flex truncate gap-6 text-sm opacity-70 justify-between",
+            )}
           >
             Times picked <strong>{item.numberOfTimesAppOfTheWeek}</strong>
           </span>
