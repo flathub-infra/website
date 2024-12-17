@@ -247,30 +247,31 @@ export default function AppPicks() {
         })
 
       setSelectableAppsAppOfTheDay(
-        apps.sort((a, b) => {
+        apps.toSorted((a, b) => {
           if (a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay !== 0) {
             return a.numberOfTimesAppOfTheDay - b.numberOfTimesAppOfTheDay
           }
 
           if (a.lastTimeAppOfTheDay && b.lastTimeAppOfTheDay) {
             return (
-              b.lastTimeAppOfTheDay.getTime() - a.lastTimeAppOfTheDay.getTime()
+              a.lastTimeAppOfTheDay.getTime() - b.lastTimeAppOfTheDay.getTime()
             )
           }
 
           return 0
         }),
       )
+
       setSelectableAppsAppsOfTheWeek(
-        apps.sort((a, b) => {
+        apps.toSorted((a, b) => {
           if (a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek !== 0) {
             return a.numberOfTimesAppOfTheWeek - b.numberOfTimesAppOfTheWeek
           }
 
           if (b.lastTimeAppOfTheWeek && a.lastTimeAppOfTheWeek) {
             return (
-              b.lastTimeAppOfTheWeek.getTime() -
-              a.lastTimeAppOfTheWeek.getTime()
+              a.lastTimeAppOfTheWeek.getTime() -
+              b.lastTimeAppOfTheWeek.getTime()
             )
           }
 
