@@ -2429,10 +2429,12 @@ class Apps(Base):
                             AppsOfTheWeek.app_id == Apps.app_id,
                             or_(
                                 and_(
-                                    AppsOfTheWeek.year < recommendation_date.year,
+                                    AppsOfTheWeek.year
+                                    < recommendation_date.isocalendar()[0]
                                 ),
                                 and_(
-                                    AppsOfTheWeek.year == recommendation_date.year,
+                                    AppsOfTheWeek.year
+                                    == recommendation_date.isocalendar()[0],
                                     AppsOfTheWeek.weekNumber
                                     <= recommendation_date.isocalendar()[1],
                                 ),
@@ -2457,10 +2459,12 @@ class Apps(Base):
                             AppsOfTheWeek.app_id == Apps.app_id,
                             or_(
                                 and_(
-                                    AppsOfTheWeek.year < recommendation_date.year,
+                                    AppsOfTheWeek.year
+                                    < recommendation_date.isocalendar()[0]
                                 ),
                                 and_(
-                                    AppsOfTheWeek.year == recommendation_date.year,
+                                    AppsOfTheWeek.year
+                                    == recommendation_date.isocalendar()[0],
                                     AppsOfTheWeek.weekNumber
                                     <= recommendation_date.isocalendar()[1],
                                 ),
@@ -2484,10 +2488,12 @@ class Apps(Base):
                         AppsOfTheWeek.app_id == Apps.app_id,
                         or_(
                             and_(
-                                AppsOfTheWeek.year < recommendation_date.year,
+                                AppsOfTheWeek.year
+                                < recommendation_date.isocalendar()[0]
                             ),
                             and_(
-                                AppsOfTheWeek.year == recommendation_date.year,
+                                AppsOfTheWeek.year
+                                == recommendation_date.isocalendar()[0],
                                 AppsOfTheWeek.weekNumber
                                 <= recommendation_date.isocalendar()[1],
                             ),
