@@ -134,6 +134,20 @@ class FlathubUser(Base):
         "Role", secondary="flathubuser_role", back_populates="flathubusers"
     )
 
+    githubAccount = relationship(
+        "GithubAccount", uselist=False, back_populates="user_entity"
+    )
+    gitlabAccount = relationship(
+        "GitlabAccount", uselist=False, back_populates="user_entity"
+    )
+    gnomeAccount = relationship(
+        "GnomeAccount", uselist=False, back_populates="user_entity"
+    )
+    googleAccount = relationship(
+        "GoogleAccount", uselist=False, back_populates="user_entity"
+    )
+    kdeAccount = relationship("KdeAccount", uselist=False, back_populates="user_entity")
+
     TABLES_FOR_DELETE = []
 
     def connected_accounts(self, db) -> list["ConnectedAccount"]:
@@ -168,53 +182,45 @@ class FlathubUser(Base):
         offset = (page - 1) * page_size
         query = db.session.query(FlathubUser)
 
-        if filterString is not None:
-            query = (
-                query.join(
-                    GithubAccount,
-                    or_(
-                        FlathubUser.display_name.ilike(f"%{filterString}%"),
-                        GithubAccount.login.ilike(f"%{filterString}%"),
-                        GithubAccount.display_name.ilike(f"%{filterString}%"),
-                        GithubAccount.email.ilike(f"%{filterString}%"),
+        if filterString is not None and len(filterString) > 0:
+            query = query.filter(
+                or_(
+                    FlathubUser.display_name.ilike(f"%{filterString}%"),
+                    FlathubUser.githubAccount.has(
+                        or_(
+                            GithubAccount.login.ilike(f"%{filterString}%"),
+                            GithubAccount.display_name.ilike(f"%{filterString}%"),
+                            GithubAccount.email.ilike(f"%{filterString}%"),
+                        )
                     ),
-                    isouter=True,
-                )
-                .join(
-                    GitlabAccount,
-                    or_(
-                        GitlabAccount.login.ilike(f"%{filterString}%"),
-                        GitlabAccount.display_name.ilike(f"%{filterString}%"),
-                        GitlabAccount.email.ilike(f"%{filterString}%"),
+                    FlathubUser.gitlabAccount.has(
+                        or_(
+                            GitlabAccount.login.ilike(f"%{filterString}%"),
+                            GitlabAccount.display_name.ilike(f"%{filterString}%"),
+                            GitlabAccount.email.ilike(f"%{filterString}%"),
+                        )
                     ),
-                    isouter=True,
-                )
-                .join(
-                    GnomeAccount,
-                    or_(
-                        GnomeAccount.login.ilike(f"%{filterString}%"),
-                        GnomeAccount.display_name.ilike(f"%{filterString}%"),
-                        GnomeAccount.email.ilike(f"%{filterString}%"),
+                    FlathubUser.gnomeAccount.has(
+                        or_(
+                            GnomeAccount.login.ilike(f"%{filterString}%"),
+                            GnomeAccount.display_name.ilike(f"%{filterString}%"),
+                            GnomeAccount.email.ilike(f"%{filterString}%"),
+                        )
                     ),
-                    isouter=True,
-                )
-                .join(
-                    KdeAccount,
-                    or_(
-                        KdeAccount.login.ilike(f"%{filterString}%"),
-                        KdeAccount.display_name.ilike(f"%{filterString}%"),
-                        KdeAccount.email.ilike(f"%{filterString}%"),
+                    FlathubUser.googleAccount.has(
+                        or_(
+                            GoogleAccount.login.ilike(f"%{filterString}%"),
+                            GoogleAccount.display_name.ilike(f"%{filterString}%"),
+                            GoogleAccount.email.ilike(f"%{filterString}%"),
+                        )
                     ),
-                    isouter=True,
-                )
-                .join(
-                    GoogleAccount,
-                    or_(
-                        GoogleAccount.login.ilike(f"%{filterString}%"),
-                        GoogleAccount.display_name.ilike(f"%{filterString}%"),
-                        GoogleAccount.email.ilike(f"%{filterString}%"),
+                    FlathubUser.kdeAccount.has(
+                        or_(
+                            KdeAccount.login.ilike(f"%{filterString}%"),
+                            KdeAccount.display_name.ilike(f"%{filterString}%"),
+                            KdeAccount.email.ilike(f"%{filterString}%"),
+                        )
                     ),
-                    isouter=True,
                 )
             )
 
@@ -477,6 +483,7 @@ class GithubAccount(Base):
     user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
+    user_entity = relationship("FlathubUser")
     github_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
@@ -642,6 +649,7 @@ class GitlabAccount(Base):
     user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
+    user_entity = relationship(FlathubUser)
     gitlab_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
@@ -735,6 +743,7 @@ class GnomeAccount(Base):
     user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
+    user_entity = relationship(FlathubUser)
     gnome_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
@@ -828,6 +837,7 @@ class GoogleAccount(Base):
     user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
+    user_entity = relationship(FlathubUser)
     google_userid = mapped_column(String, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
@@ -919,6 +929,7 @@ class KdeAccount(Base):
     user = mapped_column(
         Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
     )
+    user_entity = relationship(FlathubUser)
     kde_userid = mapped_column(Integer, nullable=False)
     login = mapped_column(String)
     avatar_url = mapped_column(String)
