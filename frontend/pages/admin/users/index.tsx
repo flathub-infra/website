@@ -181,17 +181,6 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
         return format(row.default_account.last_used, "PP")
       },
     },
-    {
-      id: "deleted",
-      header: "Deleted",
-      cell: ({ row }) => {
-        return (
-          row.original.deleted && (
-            <HiExclamationTriangle className="w-6 h-6 text-flathub-electric-red" />
-          )
-        )
-      },
-    },
   ]
 
   const table = useReactTable<UserResult>({

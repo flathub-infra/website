@@ -9,6 +9,8 @@ import {
   ConnectedAccountProvider,
   Permission,
   UserInfo,
+  UserResultConnectedAccountsItem,
+  UserResultDefaultAccount,
   useUserUsersUserIdGet,
 } from "src/codegen"
 import Breadcrumbs from "src/components/Breadcrumbs"
@@ -100,38 +102,23 @@ export default function UserAdmin({ userId }) {
                 <div className="space-y-4">
                   <h2 className="text-2xl font-extrabold">Default Account</h2>
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>
-                          {" "}
-                          <ProviderProfileLink
-                            {...query.data.data.default_account}
-                          />
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-2">
-                        <div>
-                          Email: {query.data.data.default_account.email}
-                        </div>
-                        <div>
-                          Display Name:{" "}
-                          {query.data.data.default_account.display_name}
-                        </div>
-                        <div>
-                          Last Used:{" "}
-                          {format(
-                            query.data.data.default_account.last_used,
-                            "PP",
-                          )}{" "}
-                          (
-                          {formatDistanceToNow(
-                            query.data.data.default_account.last_used,
-                            { addSuffix: true },
-                          )}
-                          )
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <AccountCard account={query.data.data.default_account} />
+                  </div>
+                </div>
+              )}
+
+              {query.data.data.connected_accounts && (
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-extrabold">
+                    Connected Accounts
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+                    {query.data.data.connected_accounts.map((account) => (
+                      <AccountCard
+                        key={`${account.id}-${account.provider}`}
+                        account={account}
+                      />
+                    ))}
                   </div>
                 </div>
               )}
@@ -212,4 +199,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: [],
     fallback: "blocking",
   }
+}
+
+const AccountCard = ({
+  account,
+}: {
+  account: UserResultDefaultAccount | UserResultConnectedAccountsItem
+}) => {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <ProviderProfileLink {...account} />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <div>Email: {account.email}</div>
+        <div>Display Name: {account.display_name}</div>
+        <div>
+          Last Used: {format(account.last_used, "PP")} (
+          {formatDistanceToNow(account.last_used, {
+            addSuffix: true,
+          })}
+          )
+        </div>
+      </CardContent>
+    </Card>
+  )
 }

@@ -103,7 +103,7 @@ class UserResult(BaseModel):
     id: int
     display_name: str | None
     default_account: ConnectedAccountResult | None
-    deleted: bool
+    connected_accounts: list[ConnectedAccountResult]
     accepted_publisher_agreement_at: datetime | None
     roles: list[UserRoleResult]
     github_repos: list["GithubRepositoryResult"] | None
@@ -182,6 +182,10 @@ class FlathubUser(Base):
         offset = (page - 1) * page_size
         query = db.session.query(FlathubUser)
 
+        query = query.filter(
+            FlathubUser.deleted.is_(False),
+        )
+
         if filterString is not None and len(filterString) > 0:
             query = query.filter(
                 or_(
@@ -221,7 +225,7 @@ class FlathubUser(Base):
                             KdeAccount.email.ilike(f"%{filterString}%"),
                         )
                     ),
-                )
+                ),
             )
 
         users = query.order_by(FlathubUser.id).offset(offset).limit(page_size).all()
@@ -275,9 +279,11 @@ class FlathubUser(Base):
         return UserResult(
             id=self.id,
             display_name=self.display_name,
-            deleted=self.deleted,
             accepted_publisher_agreement_at=self.accepted_publisher_agreement_at,
             default_account=default_account_result,
+            connected_accounts=[
+                account.to_result() for account in self.connected_accounts(db)
+            ],
             github_repos=[repo.to_result() for repo in github_repos],
             owned_apps=(
                 None if owned_apps is None else [app.to_result() for app in owned_apps]
