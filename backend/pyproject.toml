@@ -32,7 +32,7 @@ python-multipart = "^0.0.20"
 dramatiq = {extras = ["redis", "watch"], version = "^1.17.1"}
 sqlalchemy = "2.0.36"
 sentry-dramatiq = "^0.3.3"
-pydantic-settings = "^2.6.1"
+pydantic-settings = "^2.7.0"
 psycopg2-binary = "^2.9.10"
 publicsuffixlist = "^1.0.2.20240903"
 
