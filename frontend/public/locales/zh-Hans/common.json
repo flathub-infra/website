@@ -592,5 +592,8 @@
   "action-purchase": "购买",
   "users": "用户",
   "date": "日期",
-  "action-donate": "捐助"
+  "action-donate": "捐助",
+  "carousel": "轮播",
+  "flathub-logo": "Flathub 徽标",
+  "about-claim": "<0>无论您是寻找应用程序的用户，还是希望接触更多用户的开发人员，<2>Flathub 都是 Linux 上应用程序的最佳选择。</2></0>"
 }

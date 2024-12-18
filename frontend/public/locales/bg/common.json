@@ -491,7 +491,8 @@
     "branding-good-primary-brand-colors": "Има добри основни цветове",
     "needed-to-pass-x": "Трябва да премине {{x}}",
     "hide-branding-preview": "Скриване на предварителния преглед",
-    "show-branding-preview": "Показване на предварителния преглед"
+    "show-branding-preview": "Показване на предварителния преглед",
+    "problems": "Ако имате въпроси, натиснете <2>тук</2>."
   },
   "app-listing-quality": "Свойства на приложението",
   "moderation-build-id": "Идентификатор на компилацията",

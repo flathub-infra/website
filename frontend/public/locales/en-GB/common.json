@@ -468,7 +468,8 @@
     "screenshots-include-window-shadow-and-rounded-corners": "Include window shadow and rounded corners",
     "screenshots-take-screenshots-on-linux": "Screenshots taken on Linux",
     "screenshots-at-least-one-screenshot": "At least one screenshot",
-    "screenshots": "Screenshots"
+    "screenshots": "Screenshots",
+    "problems": "If you would like to ask us about specific quality guideline problems, feel free to open <2>an issue</2>."
   },
   "desktop-subfolder-x": "Desktop subfolder {{folder}}",
   "cache-folder": "Cache folder",
