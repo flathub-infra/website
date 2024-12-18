@@ -315,7 +315,7 @@
   "app-type": "應用程式類型",
   "new-app": "新應用程式",
   "community-repository": "社群軟體庫",
-  "community-repository-description": "透過將 Flatpak 規格與支援檔案上傳到我們 GitHub 組織中的儲存庫，將您的應用程式上傳到 Flathub。Flathub 的建構機器人將建構應用程式並將其發佈到 Flathub。",
+  "community-repository-description": "將 Flatpak 清單和支援文件上傳到我們 GitHub 組織中的儲存庫，即可將應用程式上傳到 Flathub。 Flathub 的建造機器人將建構並發布應用。",
   "new-community-repository": "新的社群軟體庫應用程式",
   "direct-upload": "直接上傳",
   "direct-upload-description": "在您自己的連續整合環境中建構您的應用程式並直接上傳至 Flathub。",
@@ -490,7 +490,8 @@
     "branding-good-primary-brand-colors": "良好的品牌主色",
     "show-branding-preview": "顯示品牌預覽",
     "hide-branding-preview": "隱藏品牌預覽",
-    "needed-to-pass-x": "必須通過 {{x}}"
+    "needed-to-pass-x": "必須通過 {{x}}",
+    "problems": "若您想詢問我們具體的品質指引問題，請不吝開啟<2>問題</2>。"
   },
   "app-listing-quality": "應用程式清單品質",
   "moderation-build-id": "建構 ID",

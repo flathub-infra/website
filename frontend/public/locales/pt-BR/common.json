@@ -402,7 +402,7 @@
     "screenshots-take-screenshots-on-linux": "Capturas de tela obtidas no Linux",
     "app-icon": "Ícone do app",
     "app-icon-no-baked-in-shadows": "Sem sombras embutidas",
-    "general": "Geral",
+    "general": "Em geral",
     "app-name-just-the-name": "Apenas o nome",
     "app-icon-in-line-with-contemporary-styles": "Em linha com estilos contemporâneos",
     "app-name-not-too-long": "Menos de 20 caracteres",
@@ -429,7 +429,8 @@
     "hide-branding-preview": "Ocultar visualização da marca",
     "show-branding-preview": "Mostrar visualização da marca",
     "needed-to-pass-x": "Necessário passar {{x}}",
-    "request-a-review-question": "Deseja solicitar uma revisão?"
+    "request-a-review-question": "Deseja solicitar uma revisão?",
+    "problems": "Se você quiser nos perguntar sobre problemas específicos de diretrizes de qualidade, sinta-se à vontade para abrir <2>um problema</2>."
   },
   "user-data-subfolder-x": "Subpasta de dados do usuário {{folder}}",
   "new-community-repository": "Novo aplicativo de repositório comunitário",

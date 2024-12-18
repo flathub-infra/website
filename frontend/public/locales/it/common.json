@@ -404,7 +404,8 @@
     "review-requested": "Richiesta Revisione",
     "failing-x-checks_one": "{{count}} controllo non superato",
     "failing-x-checks_many": "{{count}} controlli non superati",
-    "failing-x-checks_other": "{{count}} controlli non superati"
+    "failing-x-checks_other": "{{count}} controlli non superati",
+    "problems": "Se desideri porci domande su specifici problemi relativi alle linee guida sulla qualità, sentiti libero di aprire <2>un problema</2>."
   },
   "audio-video-editing": "Montaggio Audio e Video",
   "appname-is-safety-rating-1": "{{appName}} è sicuro",
