@@ -1959,13 +1959,13 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7
 
 [[package]]
 name = "stripe"
-version = "11.3.0"
+version = "11.4.0"
 description = "Python bindings for the Stripe API"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "stripe-11.3.0-py2.py3-none-any.whl", hash = "sha256:9d2e86943e1e4f325835d3860c4f58aa98d49229c9caf67588f9f9b2451e8e56"},
-    {file = "stripe-11.3.0.tar.gz", hash = "sha256:98e625d9ddbabcecf02666867169696e113d9eaba27979fb310a7a8dfd44097c"},
+    {file = "stripe-11.4.0-py2.py3-none-any.whl", hash = "sha256:a53e510e14fbaad45e4161c1d47bbc8fae052daa51f965ecf0c171ad6719dd1c"},
+    {file = "stripe-11.4.0.tar.gz", hash = "sha256:dbb629dd7a86ad1c66a42ca636da4fdbb5ce6a16e34d843bd123c46e804b15fe"},
 ]
 
 [package.dependencies]
@@ -2370,4 +2370,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bebbf8302dca303aceaa07a7a30c0838b0d6e7894e7aca4bf550f99c465aead5"
+content-hash = "a3a296022f03cc1e868c862d228c27952beb68c99e9c2d9eb537e1625dc8d21d"
