@@ -44,6 +44,7 @@ client.index("apps").update_filterable_attributes(
         "type",
         "arches",
         "icon",
+        "keywords",
     ]
 )
 
@@ -255,6 +256,27 @@ def get_by_developer(
                     f"developer_name = '{escaped_developer}'",
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
+                ],
+                "sort": ["installs_last_month:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
+    )
+
+
+def get_by_keyword(
+    keyword: str, page: int | None, hits_per_page: int | None, locale: str
+):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": [
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                    f"keywords = {keyword}",
                 ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
