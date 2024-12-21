@@ -2066,15 +2066,14 @@ class AppOfTheDay(Base):
 
     @classmethod
     def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
-        latest_date = (
-            db.session.query(AppOfTheDay)
+        latest_date = db.session.execute(
+            db.session.query(func.max(AppOfTheDay.date))
             .filter(AppOfTheDay.app_id == app_id)
-            .order_by(AppOfTheDay.date.desc())
-            .first()
-        )
+            .scalar_subquery()
+        ).scalar()
 
         if latest_date:
-            return latest_date.date
+            return latest_date
 
         return datetime.min.date()
 
@@ -2099,10 +2098,13 @@ class AppsOfTheWeek(Base):
     @classmethod
     def by_week(cls, db, weekNumber: int, year: int) -> list["AppsOfTheWeek"]:
         return (
-            db.session.query(AppsOfTheWeek)
-            .filter(AppsOfTheWeek.weekNumber == weekNumber)
-            .filter(AppsOfTheWeek.year == year)
-            .order_by(AppsOfTheWeek.position)
+            db.session.execute(
+                db.session.query(AppsOfTheWeek)
+                .filter_by(weekNumber=weekNumber, year=year)
+                .order_by(AppsOfTheWeek.position)
+                .statement
+            )
+            .scalars()
             .all()
         )
 
@@ -2407,107 +2409,58 @@ class Apps(Base):
         """
         Return recommendations for app picks
         """
+        subquery = (
+            db.session.query(
+                AppsOfTheWeek.app_id,
+                func.max(AppsOfTheWeek.year).label("lastTimeAppOfTheWeekYear"),
+                func.max(AppsOfTheWeek.weekNumber).label("lastTimeAppOfTheWeek"),
+                func.count(AppsOfTheWeek.app_id).label("numberOfTimesAppOfTheWeek"),
+            )
+            .where(
+                or_(
+                    and_(AppsOfTheWeek.year < recommendation_date.isocalendar()[0]),
+                    and_(
+                        AppsOfTheWeek.year == recommendation_date.isocalendar()[0],
+                        AppsOfTheWeek.weekNumber
+                        <= recommendation_date.isocalendar()[1],
+                    ),
+                ),
+            )
+            .group_by(AppsOfTheWeek.app_id)
+            .subquery()
+        )
+
+        subquery2 = (
+            db.session.query(
+                AppOfTheDay.app_id,
+                func.max(AppOfTheDay.date).label("lastTimeAppOfTheDay"),
+                func.count(AppOfTheDay.app_id).label("numberOfTimesAppOfTheDay"),
+            )
+            .where(
+                AppOfTheDay.date <= recommendation_date,
+            )
+            .group_by(AppOfTheDay.app_id)
+            .subquery()
+        )
+
         query = (
             db.session.query(
                 Apps.app_id,
-                db.session.query(func.max(AppOfTheDay.date))
-                .where(
-                    and_(
-                        AppOfTheDay.app_id == Apps.app_id,
-                        AppOfTheDay.date <= recommendation_date,
-                    )
-                )
-                .correlate(Apps)
-                .label("lastTimeAppOfTheDay"),
-                db.session.query(func.count(AppOfTheDay.app_id))
-                .where(
-                    and_(
-                        AppOfTheDay.app_id == Apps.app_id,
-                        AppOfTheDay.date <= recommendation_date,
-                    )
-                )
-                .correlate(Apps)
-                .label("timesAppOfTheDay"),
-                func.max(
-                    db.session.query(AppsOfTheWeek.year)
-                    .where(
-                        and_(
-                            AppsOfTheWeek.app_id == Apps.app_id,
-                            or_(
-                                and_(
-                                    AppsOfTheWeek.year
-                                    < recommendation_date.isocalendar()[0]
-                                ),
-                                and_(
-                                    AppsOfTheWeek.year
-                                    == recommendation_date.isocalendar()[0],
-                                    AppsOfTheWeek.weekNumber
-                                    <= recommendation_date.isocalendar()[1],
-                                ),
-                            ),
-                        ),
-                    )
-                    .group_by(
-                        AppsOfTheWeek.app_id,
-                        AppsOfTheWeek.year,
-                        AppsOfTheWeek.weekNumber,
-                    )
-                    .order_by(
-                        AppsOfTheWeek.year.desc(), AppsOfTheWeek.weekNumber.desc()
-                    )
-                    .limit(1)
-                    .correlate(Apps)
-                ),
-                func.max(
-                    db.session.query(AppsOfTheWeek.weekNumber)
-                    .where(
-                        and_(
-                            AppsOfTheWeek.app_id == Apps.app_id,
-                            or_(
-                                and_(
-                                    AppsOfTheWeek.year
-                                    < recommendation_date.isocalendar()[0]
-                                ),
-                                and_(
-                                    AppsOfTheWeek.year
-                                    == recommendation_date.isocalendar()[0],
-                                    AppsOfTheWeek.weekNumber
-                                    <= recommendation_date.isocalendar()[1],
-                                ),
-                            ),
-                        ),
-                    )
-                    .group_by(
-                        AppsOfTheWeek.app_id,
-                        AppsOfTheWeek.year,
-                        AppsOfTheWeek.weekNumber,
-                    )
-                    .order_by(
-                        AppsOfTheWeek.year.desc(), AppsOfTheWeek.weekNumber.desc()
-                    )
-                    .limit(1)
-                    .correlate(Apps)
-                ),
-                db.session.query(func.count(AppsOfTheWeek.app_id))
-                .where(
-                    and_(
-                        AppsOfTheWeek.app_id == Apps.app_id,
-                        or_(
-                            and_(
-                                AppsOfTheWeek.year
-                                < recommendation_date.isocalendar()[0]
-                            ),
-                            and_(
-                                AppsOfTheWeek.year
-                                == recommendation_date.isocalendar()[0],
-                                AppsOfTheWeek.weekNumber
-                                <= recommendation_date.isocalendar()[1],
-                            ),
-                        ),
-                    ),
-                )
-                .correlate(Apps)
-                .label("timesAppOfTheWeek"),
+                subquery2.c.lastTimeAppOfTheDay,
+                subquery2.c.numberOfTimesAppOfTheDay,
+                subquery.c.lastTimeAppOfTheWeekYear,
+                subquery.c.lastTimeAppOfTheWeek,
+                subquery.c.numberOfTimesAppOfTheWeek,
+            )
+            .join(
+                subquery,
+                subquery.c.app_id == Apps.app_id,
+                isouter=True,
+            )
+            .join(
+                subquery2,
+                subquery2.c.app_id == Apps.app_id,
+                isouter=True,
             )
             .join(
                 Guideline,
@@ -2534,7 +2487,14 @@ class Apps(Base):
                 )
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
-            .group_by(Apps.app_id)
+            .group_by(
+                Apps.app_id,
+                subquery.c.lastTimeAppOfTheWeekYear,
+                subquery.c.lastTimeAppOfTheWeek,
+                subquery.c.numberOfTimesAppOfTheWeek,
+                subquery2.c.lastTimeAppOfTheDay,
+                subquery2.c.numberOfTimesAppOfTheDay,
+            )
             .having(
                 func.count(Guideline.id)
                 == func.sum(func.cast(QualityModeration.passed, Integer))
@@ -2546,7 +2506,11 @@ class Apps(Base):
                 AppPickRecommendation(
                     app_id=app_id,
                     lastTimeAppOfTheDay=lastTimeAppOfTheDay,
-                    numberOfTimesAppOfTheDay=numberOfTimesAppOfTheDay,
+                    numberOfTimesAppOfTheDay=(
+                        numberOfTimesAppOfTheDay
+                        if numberOfTimesAppOfTheDay is not None
+                        else 0
+                    ),
                     lastTimeAppOfTheWeek=(
                         date.fromisocalendar(
                             lastTimeAppOfTheWeekYear,
@@ -2556,7 +2520,11 @@ class Apps(Base):
                         if lastTimeAppOfTheWeek is not None
                         else None
                     ),
-                    numberOfTimesAppOfTheWeek=numberOfTimesAppOfTheWeek,
+                    numberOfTimesAppOfTheWeek=(
+                        numberOfTimesAppOfTheWeek
+                        if numberOfTimesAppOfTheWeek is not None
+                        else 0
+                    ),
                 )
                 for (
                     app_id,
