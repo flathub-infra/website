@@ -98,6 +98,7 @@
   "rss-description": "Subscribe to RSS feeds from Flathub",
   "rss-apps": "Do you need an RSS app? Find excellent ones on <2>Flathub</2>.",
   "apps-by-developer": "Apps by {{developer}}",
+  "apps-by-tag": "Apps by tag '{{tag}}'",
   "search-for-query": "Search for '{{query}}'",
   "moderation-pending-reviews": "Pending Reviews",
   "moderation-appstream-changes": "Appstream Changes",
