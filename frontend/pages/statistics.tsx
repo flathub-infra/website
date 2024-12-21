@@ -8,7 +8,7 @@ import { HiCloudArrowDown, HiCalendar, HiListBullet } from "react-icons/hi2"
 import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
-import { getIntlLocale, registerIsoCountriesLocales } from "../src/localize"
+import { getIntlLocale } from "../src/localize"
 import { Category, categoryToName } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
@@ -29,10 +29,11 @@ import { ChartContainer, ChartConfig } from "@/components/ui/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 
-const countries = registerIsoCountriesLocales()
-
 const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
   const { t } = useTranslation()
+
+  const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
+  const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
   let country_data: { country: string; value: number }[] = []
   if (stats.countries) {
@@ -47,7 +48,9 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     prefix,
     suffix,
   }: CountryContext) => {
-    const translatedCountryName = countries.getName(countryCode, i18n.language)
+    const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
+    const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
+
     const translatedCountryValue = countryValue.toLocaleString(i18n.language)
 
     const downloadTranslation = t("x-downloads", {
@@ -56,8 +59,8 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
     })
 
     const translation = `${
-      translatedCountryName ??
-      countries.getName(countryCode, "en") ??
+      regionName.of(countryCode) ??
+      regionNameFallback.of(countryCode) ??
       t("unknown")
     }: ${downloadTranslation}`
 
@@ -103,10 +106,6 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
           {country_data
             .toSorted((a, b) => b.value - a.value)
             .map(({ country, value }, i) => {
-              const translatedCountryName = countries.getName(
-                country,
-                i18n.language,
-              )
               return (
                 <div
                   key={country}
@@ -116,7 +115,11 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                   <div className="text-lg font-semibold">{i + 1}.</div>
                   <div className="flex gap-2 items-center">
                     <ReactCountryFlag countryCode={country} />
-                    <div>{translatedCountryName}</div>
+                    <div>
+                      {regionName.of(country) ??
+                        regionNameFallback.of(country) ??
+                        t("unknown")}
+                    </div>
                   </div>
                   <div>{value.toLocaleString(i18n.language)}</div>
                 </div>
