@@ -84,6 +84,25 @@ def get_developer(
     return result
 
 
+@router.get("/keyword", tags=["app"])
+def get_keyword(
+    keyword: str,
+    page: int | None = None,
+    per_page: int | None = None,
+    locale: str = "en",
+    response: Response = Response(),
+):
+    if (page is None and per_page is not None) or (
+        page is not None and per_page is None
+    ):
+        response.status_code = 400
+        return response
+
+    result = search.get_by_keyword(keyword, page, per_page, locale)
+
+    return result
+
+
 @router.get("/eol/rebase", tags=["app"])
 def get_eol_rebase() -> dict[str, list[str]]:
     eol_rebase = db.get_json_key("eol_rebase")
