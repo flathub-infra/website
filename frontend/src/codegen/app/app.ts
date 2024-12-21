@@ -30,6 +30,7 @@ import type {
   GetEolRebaseAppidEolRebaseAppIdGet200,
   GetEolRebaseAppidEolRebaseAppIdGetParams,
   GetEolRebaseEolRebaseGet200,
+  GetKeywordKeywordGetParams,
   GetPlatformsPlatformsGet200,
   GetPopularLastMonthPopularLastMonthGetParams,
   GetRecentlyAddedCollectionRecentlyAddedGetParams,
@@ -896,6 +897,157 @@ export function useGetDeveloperDeveloperDeveloperGet<
     params,
     options,
   )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Keyword
+ */
+export const getKeywordKeywordGet = (
+  params: GetKeywordKeywordGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/keyword`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetKeywordKeywordGetQueryKey = (
+  params: GetKeywordKeywordGetParams,
+) => {
+  return [`/keyword`, ...(params ? [params] : [])] as const
+}
+
+export const getGetKeywordKeywordGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetKeywordKeywordGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getKeywordKeywordGet>>
+  > = ({ signal }) => getKeywordKeywordGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetKeywordKeywordGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getKeywordKeywordGet>>
+>
+export type GetKeywordKeywordGetQueryError = AxiosError<HTTPValidationError>
+
+export function useGetKeywordKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordKeywordGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetKeywordKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetKeywordKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get Keyword
+ */
+
+export function useGetKeywordKeywordGet<
+  TData = Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: GetKeywordKeywordGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getKeywordKeywordGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetKeywordKeywordGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: DataTag<QueryKey, TData>

@@ -22,8 +22,17 @@ const Tags: FunctionComponent<Props> = ({ keywords }) => {
           <div>{t("tags-colon")}</div>
           <div className="flex flex-wrap gap-2 lowercase">
             {Array.from(keywordSet).map((item, index) => {
+              const synteticTag = item === "linux" || item === "flatpak"
+
               return (
-                <Link key={index} href={`/apps/search?q=${item}`}>
+                <Link
+                  key={index}
+                  href={
+                    synteticTag
+                      ? `/apps/search?q=${item}`
+                      : `/apps/collection/tag/${item}`
+                  }
+                >
                   <Badge text={item} />
                 </Link>
               )
