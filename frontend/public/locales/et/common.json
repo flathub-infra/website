@@ -623,5 +623,6 @@
   },
   "zoom": "Suum",
   "recipient": "Saaja",
-  "created": "Loodud"
+  "created": "Loodud",
+  "apps-by-tag": "„{{tag}}“ sildiga märgitud rakendused"
 }

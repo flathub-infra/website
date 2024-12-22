@@ -615,5 +615,6 @@
     "org-kde-platform": "Platformë KDE",
     "org-gnome-platform": "Platformë GNOME",
     "org-freedesktop-platform": "Platformë Freedesktop"
-  }
+  },
+  "apps-by-tag": "Aplikacione sipas etikete '{{tag}}'"
 }

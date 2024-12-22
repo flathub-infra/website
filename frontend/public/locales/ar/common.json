@@ -625,5 +625,6 @@
   "type": "النوع",
   "amount": "الكمية",
   "total": "الإجمالي",
-  "kind-donate-app": "تبرَّع لـ {{appName}}"
+  "kind-donate-app": "تبرَّع لـ {{appName}}",
+  "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'"
 }

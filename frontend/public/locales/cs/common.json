@@ -492,7 +492,8 @@
     "branding-has-primary-brand-colors": "Má primární barvy značky",
     "needed-to-pass-x": "Potřebné k předání {{x}}",
     "hide-branding-preview": "Skrýt náhled značky",
-    "show-branding-preview": "Zobrazit náhled značky"
+    "show-branding-preview": "Zobrazit náhled značky",
+    "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <2>problém</2>."
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",

@@ -87,7 +87,27 @@
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Nainstalujte Flatpak"
+      "name": "Nainstalujte Flatpak",
+      "text": "<p>Flatpak je k dispozici ve výchozích repozitářích všech aktuálně udržovaných verzí openSUSE Leap a openSUSE Tumbleweed.</p> <2>Pokud dáváte přednost grafické instalaci, můžete Flatpak nainstalovat pomocí „instalátoru na jedno kliknutí“ z <2>software.opensuse.org</2>. Pokud se verze vaší distribuce ve výchozím nastavení nezobrazuje, klikněte nejprve na <5>Zobrazit Flatpak pro jiné distribuce</5> a poté vyberte ze seznamu.</2> <p>Alternativně můžete Flatpak nainstalovat z příkazového řádku pomocí nástroje Zypper:</p> <6></6>"
+    },
+    "step-2": {
+      "name": "Přidejte repositář Flathub",
+      "text": "<p>Flathub je nejlepším místem pro získání aplikací Flatpak. Chcete-li ji povolit, spusťte:</p> <2></2>"
+    },
+    "step-3": {
+      "name": "Restartujte",
+      "text": "<0>Pro dokončení nastavení restartujte systém. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Nainstalujte Flatpak",
+      "text": "<p>Pro instalaci Flatpaků na Arch, otevřete aplikaci Terminal a spusťte:</p> <2></2>"
+    },
+    "step-2": {
+      "name": "Restartujte",
+      "text": "<0>Pro dokončení nastavení restartujte systém. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
     }
   }
 }

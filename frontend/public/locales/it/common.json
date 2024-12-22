@@ -624,5 +624,6 @@
   "action-purchase": "Acquisto",
   "recipient": "Destinatario",
   "created": "Creato",
-  "kind-purchase-app": "Acquista {{appName}}"
+  "kind-purchase-app": "Acquista {{appName}}",
+  "apps-by-tag": "App per tag '{{tag}}'"
 }
