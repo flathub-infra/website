@@ -137,7 +137,7 @@ const Details: FunctionComponent<Props> = ({
           <HorizontalStackedListBox>{children}</HorizontalStackedListBox>
 
           <div>
-            <Tabs tabs={tabs} />
+            <Tabs tabs={tabs} tabsIdentifier={app.id} />
           </div>
 
           {developerApps && developerApps.totalHits > 0 && (
