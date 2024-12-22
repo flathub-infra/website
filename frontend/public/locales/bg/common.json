@@ -623,5 +623,6 @@
   "action-donate": "Допринесете",
   "kind-purchase-app": "Купете „{{appName}}“",
   "action-purchase": "Купете",
-  "kind-donate-app": "Допринесете за „{{appName}}“"
+  "kind-donate-app": "Допринесете за „{{appName}}“",
+  "apps-by-tag": "Приложения с етикет „{{tag}}“"
 }

@@ -492,7 +492,8 @@
     "branding-good-primary-brand-colors": "Хорошие основные фирменные цвета",
     "needed-to-pass-x": "Потребуется пройти {{x}}",
     "hide-branding-preview": "Скрыть предпросмотр брендинга",
-    "show-branding-preview": "Показать предпросмотр брендинга"
+    "show-branding-preview": "Показать предпросмотр брендинга",
+    "problems": "Если вы хотите спросить нас о конкретных проблемах, связанных с требованиями к качеству, не стесняйтесь <2>открыть issue</2>."
   },
   "app-listing-quality": "Качество выдачи приложений",
   "moderation-build-id": "ID сборки",
@@ -623,5 +624,6 @@
   },
   "action-purchase": "Купить",
   "kind-purchase-app": "Купить {{appName}}",
-  "zoom": "Масштаб"
+  "zoom": "Масштаб",
+  "apps-by-tag": "Приложения с меткой «{{tag}}»"
 }

@@ -626,5 +626,6 @@
     "org-kde-platform": "Ardán KDE",
     "org-gnome-platform": "Ardán GNOME",
     "org-freedesktop-platform": "Ardán Freedesk"
-  }
+  },
+  "apps-by-tag": "Aipeanna le clib '{{tag}}'"
 }
