@@ -268,13 +268,17 @@ def get_by_developer(
 def get_by_keyword(
     keyword: str, page: int | None, hits_per_page: int | None, locale: str
 ):
+    escaped_keyword = (
+        keyword.replace("'", "\\'").replace('"', '\\"').replace("/", "\\/")
+    )
+
     return _translate_name_and_summary(
         locale,
         client.index("apps").search(
             "",
             {
                 "filter": [
-                    f"keywords = '{keyword}'",
+                    f"keywords = '{escaped_keyword}'",
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
