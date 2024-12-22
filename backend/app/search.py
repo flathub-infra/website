@@ -274,9 +274,9 @@ def get_by_keyword(
             "",
             {
                 "filter": [
+                    f"keywords = '{keyword}'",
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
-                    f"keywords = {keyword}",
                 ],
                 "sort": ["installs_last_month:desc"],
                 "hitsPerPage": hits_per_page or 250,
