@@ -2343,7 +2343,8 @@ class Apps(Base):
             # sort by review_requested, passed, then by weekly downloads
             .order_by(
                 func.max(QualityModerationRequest.created_at).desc().nulls_last(),
-                func.sum(func.cast(QualityModeration.passed, Integer)).desc(),
+                func.count(Guideline.id)
+                - func.sum(func.cast(~QualityModeration.passed, Integer)),
                 Apps.installs_last_7_days.desc(),
             )
         )
