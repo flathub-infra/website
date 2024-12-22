@@ -14,7 +14,7 @@ export const Generated = () => {
     { name: "Tab 3", content: <div>Tab 3 content</div> },
   ]
 
-  return <Tabs tabs={tabs} />
+  return <Tabs tabs={tabs} tabsIdentifier="tabs" />
 }
 
 export const GeneratedWithBadge = () => {
@@ -24,5 +24,5 @@ export const GeneratedWithBadge = () => {
     { name: "Tab 3", content: <div>Tab 3 content</div> },
   ]
 
-  return <Tabs tabs={tabs} />
+  return <Tabs tabs={tabs} tabsIdentifier="tabs" />
 }

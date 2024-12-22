@@ -13,14 +13,17 @@ export interface Tab {
 
 interface Props {
   tabs: Tab[]
+  tabsIdentifier: string
 }
 
 /** A link placed at the top of a page's main container to return to some other page */
-const Tabs: FunctionComponent<Props> = ({ tabs }) => {
+const Tabs: FunctionComponent<Props> = ({ tabs, tabsIdentifier }) => {
   return (
     <>
       <TabGroup>
-        <LayoutGroup id={tabs.map((tab) => tab.name).join("-")}>
+        <LayoutGroup
+          id={tabsIdentifier + "-" + tabs.map((tab) => tab.name).join("-")}
+        >
           <TabList className="flex flex-wrap gap-3 rounded-t-xl bg-flathub-white px-3 shadow-md dark:bg-flathub-arsenic">
             {tabs.map((tab, index) => (
               <Tab
