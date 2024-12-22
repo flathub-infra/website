@@ -1,6 +1,5 @@
 import { Appstream } from "./types/Appstream"
 import { Category } from "./types/Category"
-import { LoginProvider } from "./types/Login"
 
 import {
   POPULAR_LAST_MONTH_URL,
@@ -11,21 +10,16 @@ import {
   SEARCH_APP,
   SUMMARY_DETAILS,
   STATS_DETAILS,
-  STATS,
   DEVELOPER_URL,
-  LOGIN_PROVIDERS_URL,
   VENDING_CONFIG_URL,
   EOL_REBASE_URL,
-  EOL_MESSAGE_URL,
   APP_VERIFICATION_STATUS,
   VERIFIED_APPS_URL,
   SUBCATEGORY_URL,
-  RUNTIMES,
   TRENDING_LAST_TWO_WEEKS_URL,
   ADDONS_URL,
   APP_OF_THE_DAY_URL,
   APPS_OF_THE_WEEK_URL,
-  APP_IS_FULL_SCREEN_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -35,12 +29,7 @@ import {
   MeilisearchResponse,
   MeilisearchResponseLimited,
 } from "./meilisearch"
-import {
-  AppOfTheDay,
-  AppsOfTheWeek,
-  GetStatsStatsGet200,
-  VendingConfig,
-} from "./codegen"
+import { AppOfTheDay, AppsOfTheWeek, VendingConfig } from "./codegen"
 import axios from "axios"
 
 export async function fetchAppstream(
@@ -80,23 +69,6 @@ export async function fetchEolRebase(
   return entryJson
 }
 
-export async function fetchEolMessage(appId: string): Promise<string | null> {
-  let entryJson: string | null = null
-  try {
-    const entryData = await fetch(`${EOL_MESSAGE_URL(appId)}`)
-    if (entryData.status === 200) {
-      entryJson = await entryData.json()
-    }
-  } catch (error) {
-    console.log(error)
-  }
-
-  if (!entryJson) {
-    console.log(`No eol message data`)
-  }
-  return entryJson
-}
-
 export async function fetchSummary(appId: string): Promise<Summary> {
   let summaryJson: Summary
   try {
@@ -110,21 +82,6 @@ export async function fetchSummary(appId: string): Promise<Summary> {
     console.log(`No summary data for ${appId}`)
   }
   return summaryJson
-}
-
-export async function fetchStats(): Promise<GetStatsStatsGet200> {
-  let statsJson: GetStatsStatsGet200
-  try {
-    const statsData = await fetch(`${STATS}`)
-    statsJson = await statsData.json()
-  } catch (error) {
-    console.log(error)
-  }
-
-  if (!statsJson) {
-    console.log("No stats data")
-  }
-  return statsJson
 }
 
 export async function fetchAppStats(appId: string): Promise<AppStats> {
@@ -279,26 +236,6 @@ export async function fetchSearchQuery(
   )
 }
 
-export async function fetchLoginProviders(): Promise<LoginProvider[]> {
-  // Ensure problem is visible in logs if fetch fails at build
-  let providersRes: Response
-  try {
-    providersRes = await fetch(LOGIN_PROVIDERS_URL)
-
-    if (!providersRes.ok) {
-      console.log(
-        `No login providers data fetched, status ${providersRes.status}`,
-      )
-      return null
-    }
-  } catch (error) {
-    console.log(error)
-    return null
-  }
-
-  return await providersRes.json()
-}
-
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {
   let res: Response
   try {
@@ -328,17 +265,6 @@ export async function fetchVerificationStatus(
     console.log(`No verification data for ${appId}`)
   }
   return verification
-}
-
-export async function fetchRuntimes(): Promise<{ [key: string]: number }> {
-  let runtimes: { [key: string]: number } = {}
-  try {
-    const verificationResponse = await fetch(RUNTIMES)
-    runtimes = await verificationResponse.json()
-  } catch (error) {
-    console.log(`Could not fetch runtimes`)
-  }
-  return runtimes
 }
 
 export async function fetchAddons(appid: string, locale: string) {
@@ -397,16 +323,4 @@ export async function fetchAppOfTheDay(date: string) {
     console.log(`No app of the week data for ${date}`)
   }
   return json
-}
-
-export async function fetchAppIsFullscreen(appId: string) {
-  let isFullscreen: boolean = false
-  try {
-    const data = await fetch(APP_IS_FULL_SCREEN_URL(appId))
-    isFullscreen = await data.json()
-  } catch (error) {
-    console.log(error)
-  }
-
-  return isFullscreen
 }

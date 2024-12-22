@@ -11,7 +11,6 @@ import {
   fetchDeveloperApps,
   fetchAddons,
   fetchEolRebase,
-  fetchEolMessage,
   fetchVerificationStatus,
 } from "../../src/fetchers"
 import { NextSeo } from "next-seo"
@@ -36,6 +35,7 @@ import { calculateHumanReadableSize } from "src/size"
 import { formatISO } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { bcpToPosixLocale } from "src/localize"
+import { getEolMessageAppidEolMessageAppIdGet } from "src/codegen"
 
 function categoryToSeoCategories(categories: string[]) {
   if (!categories) {
@@ -281,7 +281,8 @@ export const getStaticProps: GetStaticProps = async ({
   const app = await fetchAppstream(appId as string, locale)
 
   if (!app) {
-    eolMessage = await fetchEolMessage(appId as string)
+    eolMessage = (await getEolMessageAppidEolMessageAppIdGet(appId as string))
+      .data
   }
 
   //@ts-ignore

@@ -5,17 +5,13 @@ const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 const APPSTREAM_URL: string = `${BASE_URI}/appstream`
 export const EOL_REBASE_URL = (id: string): string =>
   `${BASE_URI}/eol/rebase/${id}`
-export const EOL_MESSAGE_URL = (id: string): string =>
-  `${BASE_URI}/eol/message/${id}`
 export const APP_DETAILS = (id: string, locale: string): string =>
   `${APPSTREAM_URL}/${id}?locale=${locale}`
 export const SUMMARY_DETAILS = (id: string): string =>
   `${BASE_URI}/summary/${id}`
 export const STATS_DETAILS = (id: string): string => `${BASE_URI}/stats/${id}`
-export const STATS = `${BASE_URI}/stats`
 export const SEARCH_APP = (locale?: string): string =>
   locale ? `${BASE_URI}/search?locale=${locale}` : `${BASE_URI}/search`
-export const RUNTIMES: string = `${BASE_URI}/runtimes`
 
 export const POPULAR_LAST_MONTH_URL = (
   page?: number,
@@ -219,6 +215,3 @@ export const APPS_OF_THE_WEEK_URL = (date: string) =>
   `${BASE_URI}/app-picks/apps-of-the-week/${date}`
 export const APP_OF_THE_DAY_URL = (date: string) =>
   `${BASE_URI}/app-picks/app-of-the-day/${date}`
-
-export const APP_IS_FULL_SCREEN_URL = (appId: string) =>
-  `${BASE_URI}/is-fullscreen-app/${appId}`
