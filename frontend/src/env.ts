@@ -2,7 +2,7 @@ import { Category } from "./types/Category"
 
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
-export const APPSTREAM_URL: string = `${BASE_URI}/appstream`
+const APPSTREAM_URL: string = `${BASE_URI}/appstream`
 export const EOL_REBASE_URL = (id: string): string =>
   `${BASE_URI}/eol/rebase/${id}`
 export const EOL_MESSAGE_URL = (id: string): string =>
