@@ -6,13 +6,13 @@ const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   default-src 'none';
   form-action 'none';
-  script-src 'self' 'sha256-0Q45p6ODxDbb6JoBmPTEm/f0wPjrDDWqatAj8JtG+Rc=' https://webstats.gnome.org https://js.stripe.com;
+  script-src 'self' 'sha256-0Q45p6ODxDbb6JoBmPTEm/f0wPjrDDWqatAj8JtG+Rc=' https://webstats.gnome.org https://js.stripe.com https://js.stripe.com https://maps.googleapis.com;
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self';
-  connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com https://o467221.ingest.sentry.io/api/6610580/;
+  connect-src 'self' https://flathub.org https://webstats.gnome.org https://api.stripe.com https://maps.googleapis.com https://o467221.ingest.sentry.io/api/6610580/;
   img-src 'self' https://dl.flathub.org https://webstats.gnome.org https://avatars.githubusercontent.com https://gitlab.com https://gitlab.gnome.org https://lh3.googleusercontent.com https://secure.gravatar.com https://invent.kde.org data:;
   frame-ancestors 'none';
-  frame-src 'self' https://js.stripe.com https://hooks.stripe.com;
+  frame-src 'self' https://*.js.stripe.com https://js.stripe.com https://hooks.stripe.com;
 `
 
   .replace(/\s{2,}/g, " ")
