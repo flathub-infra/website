@@ -24,7 +24,7 @@ const ListBox: FunctionComponent<Props> = ({ inACard, items }) => {
                   inACard
                     ? "bg-transparent"
                     : "bg-flathub-white dark:bg-flathub-arsenic shadow-md first:rounded-t-xl last:rounded-b-xl",
-                  `grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center p-4 dark:bg-flathub-arsenic`,
+                  `grid h-full w-full grid-cols-[36px_calc(100%_-_36px_-_36px)_36px] items-center p-4`,
                   item.content.type === "text" &&
                     "grid-cols-[36px_calc(100%_-_36px)]",
                 )}
