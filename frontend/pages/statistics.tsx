@@ -14,8 +14,11 @@ import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 import { Permission, StatsResult } from "src/codegen/model"
-import { getQualityModerationStatsQualityModerationFailedByGuidelineGet } from "src/codegen"
-import { fetchRuntimes, fetchStats } from "src/fetchers"
+import {
+  getQualityModerationStatsQualityModerationFailedByGuidelineGet,
+  getRuntimeListRuntimesGet,
+  getStatsStatsGet,
+} from "src/codegen"
 import { format } from "date-fns"
 import { LineChart, XAxis, YAxis, Tooltip, Line, BarChart, Bar } from "recharts"
 import {
@@ -454,15 +457,15 @@ const Statistics = ({
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const stats = await fetchStats()
+  const stats = await getStatsStatsGet()
 
-  const runtimes = await fetchRuntimes()
+  const runtimes = await getRuntimeListRuntimesGet()
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      stats,
-      runtimes,
+      stats: stats.data,
+      runtimes: runtimes.data,
     },
     revalidate: 900,
   }

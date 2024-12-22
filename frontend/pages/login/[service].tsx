@@ -12,7 +12,7 @@ import { useLocalStorage } from "../../src/hooks/useLocalStorage"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import { isInternalRedirect } from "../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
-import { fetchLoginProviders } from "src/fetchers"
+import { getLoginMethodsAuthLoginGet } from "src/codegen"
 
 export default function AuthReturnPage({ services }: { services: string[] }) {
   // Must access query params to POST to backend for oauth verification
@@ -103,8 +103,8 @@ export const getStaticProps: GetStaticProps = async ({
 }: {
   locale: string
 }) => {
-  const providers = await fetchLoginProviders()
-  const services = providers.map((d) => d.method)
+  const providers = await getLoginMethodsAuthLoginGet()
+  const services = providers.data.map((d) => d.method)
 
   return {
     props: {
