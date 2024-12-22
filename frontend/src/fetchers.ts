@@ -20,7 +20,6 @@ import {
   APP_VERIFICATION_STATUS,
   VERIFIED_APPS_URL,
   SUBCATEGORY_URL,
-  APPSTREAM_URL,
   RUNTIMES,
   TRENDING_LAST_TWO_WEEKS_URL,
   ADDONS_URL,
@@ -43,22 +42,6 @@ import {
   VendingConfig,
 } from "./codegen"
 import axios from "axios"
-
-export async function fetchAppstreamList(): Promise<string[]> {
-  let entryJson: string[] = []
-  try {
-    const entryData = await fetch(APPSTREAM_URL)
-
-    entryJson = await entryData.json()
-  } catch (error) {
-    console.log(error)
-  }
-
-  if (!entryJson) {
-    console.log(`Couldn't get appstream list`)
-  }
-  return entryJson
-}
 
 export async function fetchAppstream(
   appId: string,

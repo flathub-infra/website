@@ -1,14 +1,14 @@
 // pages/server-sitemap-index.xml/index.tsx
 import { getServerSideSitemapIndexLegacy } from "next-sitemap"
 import { GetServerSideProps } from "next"
-import { fetchAppstreamList } from "src/fetchers"
+import { listAppstreamAppstreamGet } from "src/codegen"
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const appstreamList = await fetchAppstreamList()
+  const appstreamList = await listAppstreamAppstreamGet()
 
   // make chunks
   const chunkSize = Number(process.env.NEXT_PUBLIC_SITEMAP_SIZE || 5000)
-  const numberOfChunks = Math.ceil(appstreamList.length / chunkSize)
+  const numberOfChunks = Math.ceil(appstreamList.data.length / chunkSize)
 
   return getServerSideSitemapIndexLegacy(
     ctx,
