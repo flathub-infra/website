@@ -676,7 +676,11 @@ def continue_oauth_flow(
     """
     if login.method != method:
         return JSONResponse(
-            {"state": "error", "error": f"Not mid-{method} login flow"}, status_code=400
+            {
+                "state": "error",
+                "error": f"Not mid-{method} login flow. Try to resume a {login.method} login",
+            },
+            status_code=400,
         )
     flowtoken_model.housekeeping(db)
     flowtokens = db.session.get(flowtoken_model, login.method_intermediate)
