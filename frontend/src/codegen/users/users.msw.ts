@@ -27,6 +27,38 @@ export const getUsersUsersGetResponseMock = (
       `${faker.date.past().toISOString().split(".")[0]}Z`,
       null,
     ]),
+    connected_accounts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() =>
+      faker.helpers.arrayElement([
+        {
+          avatar_url: faker.helpers.arrayElement([
+            faker.string.alpha(20),
+            null,
+          ]),
+          display_name: faker.helpers.arrayElement([
+            faker.string.alpha(20),
+            null,
+          ]),
+          email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+          github_userid: faker.number.int({ min: undefined, max: undefined }),
+          id: faker.number.int({ min: undefined, max: undefined }),
+          last_used: faker.helpers.arrayElement([
+            `${faker.date.past().toISOString().split(".")[0]}Z`,
+            null,
+          ]),
+          login: faker.string.alpha(20),
+          provider: faker.helpers.arrayElement(
+            Object.values(ConnectedAccountProvider),
+          ),
+        },
+        { gitlab_userid: faker.number.int({ min: undefined, max: undefined }) },
+        { gnome_userid: faker.number.int({ min: undefined, max: undefined }) },
+        { google_userid: faker.number.int({ min: undefined, max: undefined }) },
+        { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
+      ]),
+    ),
     default_account: faker.helpers.arrayElement([
       {
         avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
@@ -52,7 +84,6 @@ export const getUsersUsersGetResponseMock = (
       { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
       null,
     ]),
-    deleted: faker.datatype.boolean(),
     display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     github_repos: faker.helpers.arrayElement([
       Array.from(
@@ -102,6 +133,36 @@ export const getUserUsersUserIdGetResponseMock = (
     null,
   ]),
   // @ts-expect-error
+  connected_accounts: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() =>
+    faker.helpers.arrayElement([
+      {
+        avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        display_name: faker.helpers.arrayElement([
+          faker.string.alpha(20),
+          null,
+        ]),
+        email: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        github_userid: faker.number.int({ min: undefined, max: undefined }),
+        id: faker.number.int({ min: undefined, max: undefined }),
+        last_used: faker.helpers.arrayElement([
+          `${faker.date.past().toISOString().split(".")[0]}Z`,
+          null,
+        ]),
+        login: faker.string.alpha(20),
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+      },
+      { gitlab_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { gnome_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { google_userid: faker.number.int({ min: undefined, max: undefined }) },
+      { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
+    ]),
+  ),
+  // @ts-expect-error
   default_account: faker.helpers.arrayElement([
     {
       avatar_url: faker.helpers.arrayElement([faker.string.alpha(20), null]),
@@ -124,7 +185,6 @@ export const getUserUsersUserIdGetResponseMock = (
     { kde_userid: faker.number.int({ min: undefined, max: undefined }) },
     null,
   ]),
-  deleted: faker.datatype.boolean(),
   display_name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   github_repos: faker.helpers.arrayElement([
     Array.from(
@@ -210,7 +270,41 @@ export const getUserUsersUserIdGetMockHandler = (
     )
   })
 }
+
+export const getSetUserRoleUsersUserIdRolePostMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.post("*/users/:userId/role", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
+export const getDeleteUserRoleUsersUserIdRoleDeleteMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.delete("*/users/:userId/role", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
 export const getUsersMock = () => [
   getUsersUsersGetMockHandler(),
   getUserUsersUserIdGetMockHandler(),
+  getSetUserRoleUsersUserIdRolePostMockHandler(),
+  getDeleteUserRoleUsersUserIdRoleDeleteMockHandler(),
 ]

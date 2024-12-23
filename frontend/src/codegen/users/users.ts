@@ -4,22 +4,27 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import type {
   DataTag,
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query"
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
+  DeleteUserRoleUsersUserIdRoleDeleteParams,
   FlathubUsersResult,
   HTTPValidationError,
+  SetUserRoleUsersUserIdRolePostParams,
   UserResult,
   UsersUsersGetParams,
 } from ".././model"
@@ -303,4 +308,159 @@ export function useUserUsersUserIdGet<
   query.queryKey = queryOptions.queryKey
 
   return query
+}
+
+/**
+ * @summary Set User Role
+ */
+export const setUserRoleUsersUserIdRolePost = (
+  userId: number,
+  params: SetUserRoleUsersUserIdRolePostParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.post(`/users/${userId}/role`, undefined, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getSetUserRoleUsersUserIdRolePostMutationOptions = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>,
+    TError,
+    { userId: number; params: SetUserRoleUsersUserIdRolePostParams },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>,
+  TError,
+  { userId: number; params: SetUserRoleUsersUserIdRolePostParams },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>,
+    { userId: number; params: SetUserRoleUsersUserIdRolePostParams }
+  > = (props) => {
+    const { userId, params } = props ?? {}
+
+    return setUserRoleUsersUserIdRolePost(userId, params, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type SetUserRoleUsersUserIdRolePostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>
+>
+
+export type SetUserRoleUsersUserIdRolePostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Set User Role
+ */
+export const useSetUserRoleUsersUserIdRolePost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>,
+    TError,
+    { userId: number; params: SetUserRoleUsersUserIdRolePostParams },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationResult<
+  Awaited<ReturnType<typeof setUserRoleUsersUserIdRolePost>>,
+  TError,
+  { userId: number; params: SetUserRoleUsersUserIdRolePostParams },
+  TContext
+> => {
+  const mutationOptions =
+    getSetUserRoleUsersUserIdRolePostMutationOptions(options)
+
+  return useMutation(mutationOptions)
+}
+/**
+ * @summary Delete User Role
+ */
+export const deleteUserRoleUsersUserIdRoleDelete = (
+  userId: number,
+  params: DeleteUserRoleUsersUserIdRoleDeleteParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.delete(`/users/${userId}/role`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+    TError,
+    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+  TError,
+  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams }
+  > = (props) => {
+    const { userId, params } = props ?? {}
+
+    return deleteUserRoleUsersUserIdRoleDelete(userId, params, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>
+>
+
+export type DeleteUserRoleUsersUserIdRoleDeleteMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Delete User Role
+ */
+export const useDeleteUserRoleUsersUserIdRoleDelete = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+    TError,
+    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationResult<
+  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+  TError,
+  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+  TContext
+> => {
+  const mutationOptions =
+    getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions(options)
+
+  return useMutation(mutationOptions)
 }
