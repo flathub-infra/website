@@ -404,6 +404,18 @@ class FlathubUser(Base):
 
         return permissions
 
+    def role_list(self):
+        """
+        Retrieve a list of roles the user has.
+        """
+
+        roles = set()
+
+        for role in self.roles:
+            roles.add(role.name)
+
+        return roles
+
     @staticmethod
     def by_permission(db, permission_name: str):
         result = (
@@ -429,6 +441,10 @@ class flathubuser_role(Base):
     __table_args__ = (
         Index("flathubuser_role_unique", flathubuser_id, role_id, unique=True),
     )
+
+    @staticmethod
+    def all(db):
+        return db.session.query(flathubuser_role).all()
 
     @staticmethod
     def by_user_role(db, user: FlathubUser, role: "Role"):
@@ -506,6 +522,10 @@ class Role(Base):
         secondary="role_permission",
         back_populates="roles",
     )
+
+    @staticmethod
+    def all(db):
+        return db.session.query(Role).all()
 
     @staticmethod
     def by_name(db, name: RoleName) -> Optional["Role"]:

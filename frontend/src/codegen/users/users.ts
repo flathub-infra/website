@@ -159,6 +159,138 @@ export function useUsersUsersGet<
 }
 
 /**
+ * Return a list of all known role names
+ * @summary Roles
+ */
+export const rolesUsersRolesGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<string[]>> => {
+  return axios.get(`/users/roles`, options)
+}
+
+export const getRolesUsersRolesGetQueryKey = () => {
+  return [`/users/roles`] as const
+}
+
+export const getRolesUsersRolesGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey = queryOptions?.queryKey ?? getRolesUsersRolesGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof rolesUsersRolesGet>>
+  > = ({ signal }) => rolesUsersRolesGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type RolesUsersRolesGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof rolesUsersRolesGet>>
+>
+export type RolesUsersRolesGetQueryError = AxiosError<unknown>
+
+export function useRolesUsersRolesGet<
+  TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+  TError = AxiosError<unknown>,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>
+}
+export function useRolesUsersRolesGet<
+  TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useRolesUsersRolesGet<
+  TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Roles
+ */
+
+export function useRolesUsersRolesGet<
+  TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof rolesUsersRolesGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getRolesUsersRolesGetQueryOptions(options)
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
  * Return the current user
  * @summary User
  */
@@ -311,13 +443,14 @@ export function useUserUsersUserIdGet<
 }
 
 /**
+ * Add a role to a user
  * @summary Set User Role
  */
 export const setUserRoleUsersUserIdRolePost = (
   userId: number,
   params: SetUserRoleUsersUserIdRolePostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<UserResult>> => {
   return axios.post(`/users/${userId}/role`, undefined, {
     ...options,
     params: { ...params, ...options?.params },
@@ -388,13 +521,14 @@ export const useSetUserRoleUsersUserIdRolePost = <
   return useMutation(mutationOptions)
 }
 /**
+ * Remove a role from a user
  * @summary Delete User Role
  */
 export const deleteUserRoleUsersUserIdRoleDelete = (
   userId: number,
   params: DeleteUserRoleUsersUserIdRoleDeleteParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<UserResult>> => {
   return axios.delete(`/users/${userId}/role`, {
     ...options,
     params: { ...params, ...options?.params },

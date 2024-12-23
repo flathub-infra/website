@@ -29,6 +29,17 @@ def users(
 
 
 @router.get(
+    "/roles",
+    tags=["users"],
+)
+def roles(_admin=Depends(admin_only)) -> list[str]:
+    """
+    Return a list of all known role names
+    """
+    return [role.name for role in models.Role.all(sqldb)]
+
+
+@router.get(
     "/{user_id}",
     tags=["users"],
 )
@@ -48,7 +59,12 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     "/{user_id}/role",
     tags=["users"],
 )
-def set_user_role(user_id: int, role: models.RoleName, _admin=Depends(admin_only)):
+def set_user_role(
+    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+) -> models.UserResult:
+    """
+    Add a role to a user
+    """
     user = models.FlathubUser.by_id(sqldb, user_id)
 
     if user is None:
@@ -56,14 +72,19 @@ def set_user_role(user_id: int, role: models.RoleName, _admin=Depends(admin_only
 
     user.add_role(sqldb, role)
 
-    return user
+    return user.to_result(sqldb)
 
 
 @router.delete(
     "/{user_id}/role",
     tags=["users"],
 )
-def delete_user_role(user_id: int, role: models.RoleName, _admin=Depends(admin_only)):
+def delete_user_role(
+    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+) -> models.UserResult:
+    """
+    Remove a role from a user
+    """
     user = models.FlathubUser.by_id(sqldb, user_id)
 
     if user is None:
@@ -71,4 +92,4 @@ def delete_user_role(user_id: int, role: models.RoleName, _admin=Depends(admin_o
 
     user.remove_role(sqldb, role)
 
-    return user
+    return user.to_result(sqldb)
