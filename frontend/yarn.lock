@@ -11004,7 +11004,7 @@ __metadata:
     react-country-flag: "npm:^3.1.0"
     react-dom: "npm:19.0.0"
     react-hook-form: "npm:^7.54.1"
-    react-i18next: "npm:^15.1.1"
+    react-i18next: "npm:^15.2.0"
     react-icons: "npm:^5.4.0"
     react-svg-worldmap: "npm:2.0.0-alpha.16"
     react-toastify: "npm:^10.0.6"
@@ -15053,9 +15053,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-i18next@npm:^15.1.1":
-  version: 15.1.1
-  resolution: "react-i18next@npm:15.1.1"
+"react-i18next@npm:^15.2.0":
+  version: 15.2.0
+  resolution: "react-i18next@npm:15.2.0"
   dependencies:
     "@babel/runtime": "npm:^7.25.0"
     html-parse-stringify: "npm:^3.0.1"
@@ -15067,7 +15067,7 @@ __metadata:
       optional: true
     react-native:
       optional: true
-  checksum: 10c0/c1e8af21422cdaa1a493b1d73502a496aab84c3318de1137bb56b1f2f37eae4ba5856cf079b0a0abe9f2a18e0457c986ad2e43e70875f7cd43d0efa2f70897a5
+  checksum: 10c0/e6dfd3f04a070777231ea50e750d74ed7a72c56e3f2da238e8666db65431c805482706bbc76bdb69e5196c4125ff4c955ea4166a1788997a679c3a5c03590654
   languageName: node
   linkType: hard
 
