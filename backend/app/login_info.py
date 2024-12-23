@@ -94,6 +94,12 @@ def quality_moderator_only(login=Depends(logged_in)):
     return login
 
 
+def admin_only(login=Depends(logged_in)):
+    print(login.user.role_list())
+    if "admin" not in login.user.role_list():
+        raise HTTPException(status_code=403, detail="not_admin")
+
+
 def moderator_only(login=Depends(logged_in)):
     if "moderation" not in login.user.permissions():
         raise HTTPException(status_code=403, detail="not_moderator")
