@@ -622,5 +622,6 @@
   "action-purchase": "購買",
   "recipient": "收款者",
   "created": "已建立",
-  "zoom": "縮放"
+  "zoom": "縮放",
+  "apps-by-tag": "標籤為「{{tag}}」的應用程式"
 }
