@@ -2501,25 +2501,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@collapsed/core@npm:4.0.1":
-  version: 4.0.1
-  resolution: "@collapsed/core@npm:4.0.1"
+"@collapsed/core@npm:5.0.0":
+  version: 5.0.0
+  resolution: "@collapsed/core@npm:5.0.0"
   dependencies:
     tiny-warning: "npm:^1.0.3"
-  checksum: 10c0/3289cc2cc3432f3ed8304f19d53d38a4ecc35964664450e8b9b06cdda9efe13be8a46947af82f99356067ec6c3e1bb2e9db400183496fa41adda893a6e177fc6
+  checksum: 10c0/bb2fb019fbbc4c07082d6d79dc37efaa7e71ae45a241f667165f48614a031601888d2b36b96ca3b0f90e822102245dce87e51291bd3f36140620ca4c0316c7db
   languageName: node
   linkType: hard
 
-"@collapsed/react@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@collapsed/react@npm:4.0.1"
+"@collapsed/react@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@collapsed/react@npm:5.1.0"
   dependencies:
-    "@collapsed/core": "npm:4.0.1"
+    "@collapsed/core": "npm:5.0.0"
     tiny-warning: "npm:^1.0.3"
   peerDependencies:
-    react: ^18
-    react-dom: ^18
-  checksum: 10c0/7546f6fe4b8408ed3e53d3cf5fb50c07e5a093ac08f789fc3e9b2070e4bf8842a05c18477f8d35d1b5f385397ba8e883087d5ef8d7cb1dffead18b7e0322e141
+    react: ^18 || ^19
+    react-dom: ^18 || ^19
+  checksum: 10c0/d0c973b8fe57799439a387aad5036b3e204112a38dda5848ca797b9c0935e63ee7533f4a747f3b8df18c56c130d8b37bfd25ff0048bc4d1b73cca2eb59b9744a
   languageName: node
   linkType: hard
 
@@ -10933,7 +10933,7 @@ __metadata:
   resolution: "flathub@workspace:."
   dependencies:
     "@babel/core": "npm:^7.26.0"
-    "@collapsed/react": "npm:^4.0.1"
+    "@collapsed/react": "npm:^5.1.0"
     "@date-fns/utc": "npm:^2.1.0"
     "@faker-js/faker": "npm:^9.3.0"
     "@headlessui/react": "npm:^2.2.0"
