@@ -36,7 +36,7 @@
   "preferred-badge": "Stemë e Parapëlqyer",
   "alternative-badge": "Stemë Alternative",
   "code-examples": "Shembuj Kodi",
-  "also-available-as-svg": "E passhme edhe në <2>format SVG</2>",
+  "also-available-as-svg": "Mund të kihet edhe në <2>format SVG</2>",
   "badge-copyright": "Aq sa e lejon ligji, <2>Jakub Steiner</2> ka hequr dorë nga krejt të drejtat e kopjimit dhe të drejta të lidhura, apo afër <5>Stemave Flathub</5>. Kjo vepër publikohet prej Çekisë.",
   "rss-description": "Pajtohuni te prurjet RSS nga Flathub-i",
   "rss-apps": "Keni nevojë për një aplikacion për RSS? Gjeni të tillë të shkëlqyer në <2>Flathub</2>.",
@@ -585,7 +585,7 @@
   "microphone-access": "Përdorim mikrofoni",
   "can-listen-using-microphones-without-asking-permission": "Mund të përgjojë duke përdorur mikrofona pa kërkuar leje",
   "scope-jobs": "Shihni gjendjen e aktit",
-  "all-the-apps-you-want": "<0>Krejt aplikacionet që doni</0> — Që nga emra të mëdhenj të pritëshëm e deri ter zhvillues rishtarë të pavarur, Flathub-i ka me mijëra aplikacione për të plotësuar nevojat tuaja.",
+  "all-the-apps-you-want": "<0>Krejt aplikacionet që doni</0> — Që nga emra të mëdhenj të pritshëm e deri ter zhvillues rishtarë të pavarur, Flathub-i ka me mijëra aplikacione për të plotësuar nevojat tuaja.",
   "transparent-safety": "<0>Siguri e tejdukshme</0> — Shihni troç kur një aplikacion është i <3>verifikuared</3>, pra i ardhur nga zhvilluesit e tij, çfarë lejesh do dhe nëse është apo jo me burim të hapët dhe i kontrollueshëm",
   "tastefully-curated": "<0>Nën përkujdesje plot shije</0> — Zbuloni aplikacione cilësore, interesante, nëpër Flathub, nën kujdesin e ekipit tonë, që shpalos më të mirat e çka ofrohet",
   "apps-for-you-where-you-are": "<0>Aplikacione për kudo që gjendeni</0> — Qoftë kur gjendeni në një Steam Deck, në një “workstation” të fuqishëm Linux, në një Raspberry Pi, apo te telefoni i rrallë Linux; Flathub-i ka aplikacione për ju",
@@ -616,5 +616,6 @@
     "org-gnome-platform": "Platformë GNOME",
     "org-freedesktop-platform": "Platformë Freedesktop"
   },
-  "apps-by-tag": "Aplikacione sipas etikete '{{tag}}'"
+  "apps-by-tag": "Aplikacione sipas etikete '{{tag}}'",
+  "app-listing-quality": "Ujdisni Google Listing & Ads"
 }

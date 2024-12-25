@@ -619,5 +619,6 @@
   "action-donate": "Faire un don",
   "kind-purchase-app": "Acheter {{appName}}",
   "mastodon": "Mastodon",
-  "positions": "Positions"
+  "positions": "Positions",
+  "apps-by-tag": "Applis par '{{tag}}'"
 }
