@@ -624,5 +624,6 @@
   },
   "action-purchase": "Comprar",
   "kind-donate-app": "Donar a {{appName}}",
-  "zoom": "Ampliar"
+  "zoom": "Ampliar",
+  "apps-by-tag": "Aplicaciones por etiqueta '{{tag}}'"
 }
