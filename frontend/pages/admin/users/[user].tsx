@@ -194,9 +194,8 @@ export default function UserAdmin({ userId }) {
                   <h2 className="text-2xl font-extrabold">Roles</h2>
                   <div className="space-y-2">
                     {query.data.data.roles.map((role) => (
-                      <div className="flex gap-2 items-center">
+                      <div key={role.name} className="flex gap-2 items-center">
                         <Switch
-                          key={role.name}
                           checked={role.hasRole}
                           onCheckedChange={(enabled) => {
                             if (enabled) {

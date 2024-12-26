@@ -93,3 +93,18 @@ def delete_user_role(
     user.remove_role(sqldb, role)
 
     return user.to_result(sqldb)
+
+
+@router.get(
+    "/roles/{role_name}",
+    tags=["users"],
+)
+def role_users(
+    role_name: models.RoleName, _admin=Depends(admin_only)
+) -> list[models.UserResult]:
+    """
+    Return all users with a specific role
+    """
+    return [
+        user.to_result(sqldb) for user in models.Role.by_name_users(sqldb, role_name)
+    ]

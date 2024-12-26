@@ -512,6 +512,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMockHandler = (
     )
   })
 }
+
 export const getUsersMock = () => [
   getUsersUsersGetMockHandler(),
   getRolesUsersRolesGetMockHandler(),

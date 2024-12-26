@@ -25,6 +25,7 @@ import type {
   DeleteUserRoleUsersUserIdRoleDeleteParams,
   FlathubUsersResult,
   HTTPValidationError,
+  RoleName,
   UserResult,
   UsersUsersGetParams,
 } from ".././model"
@@ -597,4 +598,163 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
     getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions(options)
 
   return useMutation(mutationOptions)
+}
+/**
+ * Return all users with a specific role
+ * @summary Role Users
+ */
+export const roleUsersUsersRolesRoleNameGet = (
+  roleName: RoleName,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<UserResult[]>> => {
+  return axios.get(`/users/roles/${roleName}`, options)
+}
+
+export const getRoleUsersUsersRolesRoleNameGetQueryKey = (
+  roleName: RoleName,
+) => {
+  return [`/users/roles/${roleName}`] as const
+}
+
+export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  roleName: RoleName,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getRoleUsersUsersRolesRoleNameGetQueryKey(roleName)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
+  > = ({ signal }) =>
+    roleUsersUsersRolesRoleNameGet(roleName, { signal, ...axiosOptions })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!roleName,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type RoleUsersUsersRolesRoleNameGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>
+>
+export type RoleUsersUsersRolesRoleNameGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useRoleUsersUsersRolesRoleNameGet<
+  TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  roleName: RoleName,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useRoleUsersUsersRolesRoleNameGet<
+  TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  roleName: RoleName,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useRoleUsersUsersRolesRoleNameGet<
+  TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  roleName: RoleName,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Role Users
+ */
+
+export function useRoleUsersUsersRolesRoleNameGet<
+  TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  roleName: RoleName,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getRoleUsersUsersRolesRoleNameGetQueryOptions(
+    roleName,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
 }
