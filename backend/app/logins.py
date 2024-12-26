@@ -966,18 +966,27 @@ def do_refresh_dev_flatpaks(
 @router.post("/logout", tags=["auth"])
 def do_logout(request: Request, login: LoginStatusDep):
     """
-    Clear the login state.  This will discard tokens which access socials,
+    Clear the login state. This will discard tokens which access socials,
     and will clear the session cookie so that the user is not logged in.
     """
-    if login.state == LoginState.LOGGED_OUT:
-        return {}
+    try:
+        if login.state == LoginState.LOGGED_OUT:
+            return {}
 
-    # Clear the login ID
-    del request.session["user-id"]
-    if login.state.logging_in():
-        # Also clear any pending login-flow from the session
-        del request.session["active-login-flow"]
-        del request.session["active-login-flow-intermediate"]
+        # Clear the login ID
+        if "user-id" in request.session:
+            del request.session["user-id"]
+
+        if login.state.logging_in():
+            # Also clear any pending login-flow from the session
+            if "active-login-flow" in request.session:
+                del request.session["active-login-flow"]
+            if "active-login-flow-intermediate" in request.session:
+                del request.session["active-login-flow-intermediate"]
+
+    except KeyError as e:
+        raise HTTPException(status_code=500, detail=f"Session error: {str(e)}")
+
     return {}
 
 
