@@ -6544,16 +6544,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stripe/react-stripe-js@npm:^2.8.0":
-  version: 2.8.0
-  resolution: "@stripe/react-stripe-js@npm:2.8.0"
+"@stripe/react-stripe-js@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@stripe/react-stripe-js@npm:3.1.1"
   dependencies:
     prop-types: "npm:^15.7.2"
   peerDependencies:
-    "@stripe/stripe-js": ^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/101cedd521ec90fa446fa333f5464899036bd089d6e9798961f956c66975f066cd19625ce81b1c1becd9323b2a72addd1f4f63444404ebf6a6b12e27ba2bd91b
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+    react: ">=16.8.0 <20.0.0"
+    react-dom: ">=16.8.0 <20.0.0"
+  checksum: 10c0/d8f877e956f711acb96248ab6b183d330c6b194884aeeb82e96bc05dab08020a2c53f0c13359e893ac22bc7e15facc720877cfb04d999b1f3050bb58aca5124f
   languageName: node
   linkType: hard
 
@@ -10956,7 +10956,7 @@ __metadata:
     "@storybook/nextjs": "npm:^8.4.7"
     "@storybook/react": "npm:^8.4.7"
     "@storybook/test": "npm:^8.4.7"
-    "@stripe/react-stripe-js": "npm:^2.8.0"
+    "@stripe/react-stripe-js": "npm:^3.1.1"
     "@stripe/stripe-js": "npm:^5.2.0"
     "@tailwindcss/typography": "npm:^0.5.15"
     "@tanstack/eslint-plugin-query": "npm:^5.62.1"
