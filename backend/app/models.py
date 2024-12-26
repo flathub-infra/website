@@ -520,6 +520,16 @@ class Role(Base):
     def by_name(db, name: RoleName) -> Optional["Role"]:
         return db.session.query(Role).filter_by(name=name).first()
 
+    @staticmethod
+    def by_name_users(db, name: RoleName) -> list["FlathubUser"]:
+        return (
+            db.session.query(FlathubUser)
+            .where(~FlathubUser.deleted)
+            .join(FlathubUser.roles)
+            .filter_by(name=name)
+            .all()
+        )
+
 
 class Permission(Base):
     __tablename__ = "permission"

@@ -45,6 +45,12 @@ const AdminLayout = ({
       condition: (user: UserInfo) =>
         user?.permissions.some((a) => a === Permission.moderation),
     },
+    {
+      name: "Roles",
+      href: "/admin/roles",
+      condition: (user: UserInfo) =>
+        user?.permissions.some((a) => a === Permission.moderation),
+    },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))
 
   useEffect(() => {
