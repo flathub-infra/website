@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
 import { ConditionalWrapper } from "@/lib/helpers"
 import { format, formatDistanceToNow } from "date-fns"
 import { GetStaticPaths, GetStaticProps } from "next"
@@ -8,6 +9,9 @@ import Link from "next/link"
 import {
   ConnectedAccountProvider,
   Permission,
+  RoleName,
+  useAddUserRoleUsersUserIdRolePost,
+  useDeleteUserRoleUsersUserIdRoleDelete,
   UserInfo,
   UserResultConnectedAccountsItem,
   UserResultDefaultAccount,
@@ -64,6 +68,28 @@ export default function UserAdmin({ userId }) {
   const query = useUserUsersUserIdGet(userId, {
     axios: {
       withCredentials: true,
+    },
+  })
+
+  const addRoleQuery = useAddUserRoleUsersUserIdRolePost({
+    axios: {
+      withCredentials: true,
+    },
+    mutation: {
+      onSuccess: () => {
+        query.refetch()
+      },
+    },
+  })
+
+  const removeRoleQuery = useDeleteUserRoleUsersUserIdRoleDelete({
+    axios: {
+      withCredentials: true,
+    },
+    mutation: {
+      onSuccess: () => {
+        query.refetch()
+      },
     },
   })
 
@@ -168,7 +194,26 @@ export default function UserAdmin({ userId }) {
                   <h2 className="text-2xl font-extrabold">Roles</h2>
                   <div className="space-y-2">
                     {query.data.data.roles.map((role) => (
-                      <div key={role.id}>{role.name}</div>
+                      <div className="flex gap-2 items-center">
+                        <Switch
+                          key={role.name}
+                          checked={role.hasRole}
+                          onCheckedChange={(enabled) => {
+                            if (enabled) {
+                              addRoleQuery.mutate({
+                                userId,
+                                params: { role: role.name as RoleName },
+                              })
+                            } else {
+                              removeRoleQuery.mutate({
+                                userId,
+                                params: { role: role.name as RoleName },
+                              })
+                            }
+                          }}
+                        />
+                        <span>{role.name}</span>
+                      </div>
                     ))}
                   </div>
                 </div>

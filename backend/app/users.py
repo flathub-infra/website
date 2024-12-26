@@ -3,7 +3,7 @@ from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db as sqldb
 
 from . import models
-from .login_info import moderator_only
+from .login_info import admin_only, moderator_only
 
 router = APIRouter(prefix="/users", default_response_class=ORJSONResponse)
 
@@ -29,6 +29,17 @@ def users(
 
 
 @router.get(
+    "/roles",
+    tags=["users"],
+)
+def roles(_admin=Depends(admin_only)) -> list[str]:
+    """
+    Return a list of all known role names
+    """
+    return [role.name for role in models.Role.all(sqldb)]
+
+
+@router.get(
     "/{user_id}",
     tags=["users"],
 )
@@ -42,3 +53,43 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
         raise HTTPException(status_code=404, detail="user not found")
 
     return user
+
+
+@router.post(
+    "/{user_id}/role",
+    tags=["users"],
+)
+def add_user_role(
+    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+) -> models.UserResult:
+    """
+    Add a role to a user
+    """
+    user = models.FlathubUser.by_id(sqldb, user_id)
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="user not found")
+
+    user.add_role(sqldb, role)
+
+    return user.to_result(sqldb)
+
+
+@router.delete(
+    "/{user_id}/role",
+    tags=["users"],
+)
+def delete_user_role(
+    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+) -> models.UserResult:
+    """
+    Remove a role from a user
+    """
+    user = models.FlathubUser.by_id(sqldb, user_id)
+
+    if user is None:
+        raise HTTPException(status_code=404, detail="user not found")
+
+    user.remove_role(sqldb, role)
+
+    return user.to_result(sqldb)

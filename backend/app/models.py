@@ -77,21 +77,21 @@ class ConnectedAccountProvider(str, enum.Enum):
     KDE = "kde"
 
 
+class RoleName(str, enum.Enum):
+    ADMIN = "admin"
+    MODERATOR = "moderator"
+    QUALITY_MODERATOR = "quality-moderator"
+    UPLOADER = "uploader"
+
+
 class DeleteUserResult(BaseModel):
     status: str
     message: str | None = None
 
 
-class PermissionResult(BaseModel):
-    created_at: datetime
-    name: str
-
-
 class UserRoleResult(BaseModel):
-    id: int
     name: str
-    created_at: datetime
-    permissions: list[PermissionResult]
+    hasRole: bool
 
 
 class UserOwnedAppResult(BaseModel):
@@ -244,7 +244,9 @@ class FlathubUser(Base):
 
     @staticmethod
     def by_id(db, user_id: int) -> Optional["FlathubUser"]:
-        return db.session.get(FlathubUser, user_id)
+        return (
+            db.session.query(FlathubUser).filter_by(id=user_id, deleted=False).first()
+        )
 
     @staticmethod
     def get_owned_apps(db, user: "FlathubUser") -> list["UserOwnedApp"]:
@@ -252,7 +254,8 @@ class FlathubUser(Base):
 
     @staticmethod
     def by_id_result(db, user_id: int) -> Optional["UserResult"]:
-        user = db.session.get(FlathubUser, user_id)
+        user = FlathubUser.by_id(db, user_id)
+
         if user is None:
             return None
 
@@ -288,20 +291,13 @@ class FlathubUser(Base):
             owned_apps=(
                 None if owned_apps is None else [app.to_result() for app in owned_apps]
             ),
+            # generate one entry per available role
             roles=[
                 UserRoleResult(
-                    id=role.id,
-                    name=role.name,
-                    created_at=role.created_at,
-                    permissions=[
-                        PermissionResult(
-                            created_at=permission.created_at,
-                            name=permission.name,
-                        )
-                        for permission in role.permissions
-                    ],
+                    name=role.value,
+                    hasRole=self.role_list().__contains__(role.value),
                 )
-                for role in self.roles
+                for role in RoleName
             ],
         )
 
@@ -370,6 +366,20 @@ class FlathubUser(Base):
 
         return flatpaks
 
+    def add_role(self, db, roleName: "RoleName") -> "FlathubUser":
+        role = Role.by_name(db, roleName)
+        flathubuser_role.add_user_role(db, self, role)
+        db.session.commit()
+
+        return self.by_id(db, self.id)
+
+    def remove_role(self, db, roleName: "RoleName") -> "FlathubUser":
+        role = Role.by_name(db, roleName)
+        flathubuser_role.delete_user_role(db, self, role)
+        db.session.commit()
+
+        return self.by_id(db, self.id)
+
     def permissions(self):
         """
         Retrieve a list of permissions the user has.
@@ -382,6 +392,18 @@ class FlathubUser(Base):
                 permissions.add(permission.name)
 
         return permissions
+
+    def role_list(self):
+        """
+        Retrieve a list of roles the user has.
+        """
+
+        roles = set()
+
+        for role in self.roles:
+            roles.add(role.name)
+
+        return roles
 
     @staticmethod
     def by_permission(db, permission_name: str):
@@ -405,10 +427,49 @@ class flathubuser_role(Base):
         Integer, ForeignKey("role.id"), nullable=False, primary_key=True
     )
 
+    __table_args__ = (
+        Index("flathubuser_role_unique", flathubuser_id, role_id, unique=True),
+    )
+
+    @staticmethod
+    def all(db):
+        return db.session.query(flathubuser_role).all()
+
+    @staticmethod
+    def by_user_role(db, user: FlathubUser, role: "Role"):
+        return (
+            db.session.query(flathubuser_role)
+            .filter_by(flathubuser_id=user.id, role_id=role.id)
+            .first()
+        )
+
     @staticmethod
     def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
         """Don't include role in the hash"""
         pass
+
+    @staticmethod
+    def add_user_role(db, user: FlathubUser, role: "Role"):
+        if flathubuser_role.by_user_role(db, user, role):
+            return
+
+        db.session.add(flathubuser_role(flathubuser_id=user.id, role_id=role.id))
+        db.session.commit()
+
+    @staticmethod
+    def delete_user_role(db, user: FlathubUser, role: "Role"):
+        if not flathubuser_role.by_user_role(db, user, role):
+            return
+
+        db.session.execute(
+            delete(flathubuser_role).where(
+                and_(
+                    flathubuser_role.flathubuser_id == user.id,
+                    flathubuser_role.role_id == role.id,
+                )
+            )
+        )
+        db.session.commit()
 
     @staticmethod
     def delete_user(db, self):
@@ -452,8 +513,12 @@ class Role(Base):
     )
 
     @staticmethod
-    def by_name(db, name: str) -> Optional["Role"]:
-        return db.session.query(Role).filter_by(name=name)
+    def all(db):
+        return db.session.query(Role).all()
+
+    @staticmethod
+    def by_name(db, name: RoleName) -> Optional["Role"]:
+        return db.session.query(Role).filter_by(name=name).first()
 
 
 class Permission(Base):
