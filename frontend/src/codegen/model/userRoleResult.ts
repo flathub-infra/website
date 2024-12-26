@@ -4,11 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { PermissionResult } from "./permissionResult"
 
 export interface UserRoleResult {
-  created_at: string
-  id: number
+  hasRole: boolean
   name: string
-  permissions: PermissionResult[]
 }
