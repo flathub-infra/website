@@ -19,6 +19,7 @@ from sqlalchemy import (
     String,
     and_,
     delete,
+    desc,
     func,
     or_,
 )
@@ -2415,11 +2416,14 @@ class Apps(Base):
             )
             .having(func.max(QualityModeration.updated_at).isnot(None))
             .group_by(Apps.app_id, Apps.installs_last_7_days)
-            # sort by review_requested, passed, then by weekly downloads
+            # sort by review_requested, passed in percentage, then by weekly downloads
             .order_by(
                 func.max(QualityModerationRequest.created_at).desc().nulls_last(),
-                func.count(Guideline.id)
-                - func.sum(func.cast(~QualityModeration.passed, Integer)),
+                desc(
+                    func.sum(func.cast(QualityModeration.passed, Integer))
+                    / func.count(Guideline.id)
+                    * (100)
+                ),
                 Apps.installs_last_7_days.desc(),
             )
         )
