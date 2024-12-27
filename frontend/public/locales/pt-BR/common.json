@@ -624,5 +624,6 @@
     "org-freedesktop-platform": "Plataforma Freedesktop"
   },
   "kind-donate-app": "Doar para {{appName}}",
-  "total": "Total"
+  "total": "Total",
+  "apps-by-tag": "Aplicativos por tag '{{tag}}'"
 }

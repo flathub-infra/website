@@ -105,7 +105,7 @@
   "expiry": "Utløpsdato",
   "privacy-policy": "Personvernerklæring",
   "browse": "Lesing",
-  "transaction-summary-created": "Dato opprettet: {{date}}",
+  "transaction-summary-created": "Dato opprettet:",
   "status-success": "Ferdig",
   "stripe-receipt": "Stripe-kvittering",
   "payment": "Betaling",
@@ -113,7 +113,7 @@
   "select-donation-amount": "Velg en sum å donere",
   "status": "Status",
   "status-new": "Ny",
-  "transaction-summary-updated": "Sist oppdatert: {{date}}",
+  "transaction-summary-updated": "Sist oppdatert:",
   "use-new-card": "Bruk nytt kort",
   "use-saved-card": "Bruk lagret kort",
   "view-wallet": "Vis lommebok",
@@ -145,8 +145,8 @@
   "saved-cards": "Lagrede kort",
   "status-cancelled": "Avbrutt",
   "status-retry": "Prøv igjen",
-  "transaction-summary-status": "Status: {{status}}",
-  "transaction-summary-type": "Type: {{type}}",
+  "transaction-summary-status": "Status:",
+  "transaction-summary-type": "Type:",
   "confirm-selection": "Bekreft valg",
   "kind-donation": "Donasjon",
   "kind-purchase": "Kjøp",
@@ -354,7 +354,8 @@
     "screenshots-default-settings": "Standardinnstillinger",
     "screenshots-good-content": "Tilstrekkelig med eksempelinnhold",
     "pending": "Venter",
-    "request-review": "Be om kontroll"
+    "request-review": "Be om kontroll",
+    "problems": "Hvis du har spørsmål om spesifikke retningslinjer, åpne gjerne en <2>sak</2> i arbeidsområdet vårt."
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -605,5 +606,23 @@
   "tastefully-curated": "<0>Oppdag nye favoritter</0> — Med et stadig oppdatert utvalg av fremhevede apper, er det lett å komme over nye og spennende prosjekter av høy kvalitet",
   "flathub": "Flathub",
   "flathub-logo": "Flathub-logo",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "type": "Type",
+  "platform": {
+    "org-freedesktop-platform": "Freedesktop-plattformen",
+    "org-kde-platform": "KDE-plattformen",
+    "org-gnome-platform": "GNOME-plattformen"
+  },
+  "total": "Sum",
+  "zoom": "Forstørr",
+  "action-purchase": "Kjøp",
+  "recipient": "Mottaker",
+  "amount": "Beløp",
+  "position-short": "Pos.",
+  "kind-donate-app": "Doner til {{appName}}",
+  "action-donate": "Doner",
+  "positions": "Posisjoner",
+  "apps-by-tag": "Apper med nøkkelord «{{tag}}»",
+  "created": "Opprettet",
+  "kind-purchase-app": "Kjøp {{appName}}"
 }
