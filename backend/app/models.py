@@ -2142,14 +2142,14 @@ class AppOfTheDay(Base):
 
     @classmethod
     def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
-        latest_date = db.session.execute(
-            db.session.query(func.max(AppOfTheDay.date))
+        latest_date = (
+            db.session.query(AppOfTheDay)
             .filter(AppOfTheDay.app_id == app_id)
-            .scalar_subquery()
-        ).scalar()
+            .order_by(AppOfTheDay.date.desc())
+            .first())
 
         if latest_date:
-            return latest_date
+            return latest_date.date
 
         return datetime.min.date()
 
