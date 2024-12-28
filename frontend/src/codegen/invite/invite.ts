@@ -482,30 +482,30 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
   return useMutation(mutationOptions)
 }
 /**
- * @summary Get Developers
+ * @summary Get App Developers
  */
-export const getDevelopersInvitesAppIdDevelopersGet = (
+export const getAppDevelopersInvitesAppIdDevelopersGet = (
   appId: string,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<DevelopersResponse>> => {
   return axios.get(`/invites/${appId}/developers`, options)
 }
 
-export const getGetDevelopersInvitesAppIdDevelopersGetQueryKey = (
+export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
   appId: string,
 ) => {
   return [`/invites/${appId}/developers`] as const
 }
 
-export const getGetDevelopersInvitesAppIdDevelopersGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
   appId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
         TError,
         TData
       >
@@ -517,12 +517,15 @@ export const getGetDevelopersInvitesAppIdDevelopersGetQueryOptions = <
 
   const queryKey =
     queryOptions?.queryKey ??
-    getGetDevelopersInvitesAppIdDevelopersGetQueryKey(appId)
+    getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey(appId)
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>
+    Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>
   > = ({ signal }) =>
-    getDevelopersInvitesAppIdDevelopersGet(appId, { signal, ...axiosOptions })
+    getAppDevelopersInvitesAppIdDevelopersGet(appId, {
+      signal,
+      ...axiosOptions,
+    })
 
   return {
     queryKey,
@@ -530,34 +533,34 @@ export const getGetDevelopersInvitesAppIdDevelopersGetQueryOptions = <
     enabled: !!appId,
     ...queryOptions,
   } as UseQueryOptions<
-    Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+    Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData> }
 }
 
-export type GetDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>
+export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>
 >
-export type GetDevelopersInvitesAppIdDevelopersGetQueryError =
+export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError =
   AxiosError<HTTPValidationError>
 
-export function useGetDevelopersInvitesAppIdDevelopersGet<
-  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+export function useGetAppDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
   appId: string,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+          Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
           TError,
           TData
         >,
@@ -566,22 +569,22 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
     axios?: AxiosRequestConfig
   },
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetDevelopersInvitesAppIdDevelopersGet<
-  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+export function useGetAppDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
   appId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+          Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
           TError,
           TData
         >,
@@ -590,15 +593,15 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
     axios?: AxiosRequestConfig
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetDevelopersInvitesAppIdDevelopersGet<
-  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+export function useGetAppDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
   appId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
         TError,
         TData
       >
@@ -607,18 +610,18 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
- * @summary Get Developers
+ * @summary Get App Developers
  */
 
-export function useGetDevelopersInvitesAppIdDevelopersGet<
-  TData = Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+export function useGetAppDevelopersInvitesAppIdDevelopersGet<
+  TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
 >(
   appId: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getDevelopersInvitesAppIdDevelopersGet>>,
+        Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
         TError,
         TData
       >
@@ -626,7 +629,7 @@ export function useGetDevelopersInvitesAppIdDevelopersGet<
     axios?: AxiosRequestConfig
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
-  const queryOptions = getGetDevelopersInvitesAppIdDevelopersGetQueryOptions(
+  const queryOptions = getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions(
     appId,
     options,
   )

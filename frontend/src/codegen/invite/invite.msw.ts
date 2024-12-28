@@ -19,7 +19,7 @@ export const getGetInviteStatusInvitesAppIdGetResponseMock = (
   ...overrideResponse,
 })
 
-export const getGetDevelopersInvitesAppIdDevelopersGetResponseMock = (
+export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
   overrideResponse: Partial<DevelopersResponse> = {},
 ): DevelopersResponse => ({
   developers: Array.from(
@@ -136,7 +136,7 @@ export const getLeaveTeamInvitesAppIdLeavePostMockHandler = (
   })
 }
 
-export const getGetDevelopersInvitesAppIdDevelopersGetMockHandler = (
+export const getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler = (
   overrideResponse?:
     | DevelopersResponse
     | ((
@@ -152,7 +152,7 @@ export const getGetDevelopersInvitesAppIdDevelopersGetMockHandler = (
           ? typeof overrideResponse === "function"
             ? await overrideResponse(info)
             : overrideResponse
-          : getGetDevelopersInvitesAppIdDevelopersGetResponseMock(),
+          : getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock(),
       ),
       { status: 200, headers: { "Content-Type": "application/json" } },
     )
@@ -196,7 +196,7 @@ export const getInviteMock = () => [
   getAcceptInviteInvitesAppIdAcceptPostMockHandler(),
   getDeclineInviteInvitesAppIdDeclinePostMockHandler(),
   getLeaveTeamInvitesAppIdLeavePostMockHandler(),
-  getGetDevelopersInvitesAppIdDevelopersGetMockHandler(),
+  getGetAppDevelopersInvitesAppIdDevelopersGetMockHandler(),
   getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMockHandler(),
   getRevokeInviteInvitesAppIdRevokePostMockHandler(),
 ]

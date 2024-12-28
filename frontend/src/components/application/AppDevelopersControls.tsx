@@ -11,7 +11,7 @@ import Modal from "../Modal"
 import { getUserData } from "src/asyncs/login"
 import { AxiosError } from "axios"
 import {
-  getDevelopersInvitesAppIdDevelopersGet,
+  getAppDevelopersInvitesAppIdDevelopersGet,
   inviteDeveloperInvitesAppIdInvitePost,
   leaveTeamInvitesAppIdLeavePost,
   removeDeveloperInvitesAppIdRemoveDeveloperPost,
@@ -33,7 +33,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const developersQuery = useQuery({
     queryKey: ["developers", app.id],
     queryFn: () =>
-      getDevelopersInvitesAppIdDevelopersGet(app.id, {
+      getAppDevelopersInvitesAppIdDevelopersGet(app.id, {
         withCredentials: true,
       }),
   })
