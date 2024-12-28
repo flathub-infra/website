@@ -2146,7 +2146,8 @@ class AppOfTheDay(Base):
             db.session.query(AppOfTheDay)
             .filter(AppOfTheDay.app_id == app_id)
             .order_by(AppOfTheDay.date.desc())
-            .first())
+            .first()
+        )
 
         if latest_date:
             return latest_date.date
@@ -2616,3 +2617,38 @@ class Apps(Base):
                 ) in query.all()
             ],
         )
+
+
+class Developers(Base):
+    __tablename__ = "developers"
+
+    id = mapped_column(Integer, primary_key=True)
+    name = mapped_column(String, nullable=False, unique=True, index=True)
+    updated_at = mapped_column(DateTime, nullable=False)
+    created_at = mapped_column(DateTime, nullable=False)
+
+    @classmethod
+    def all(cls, db):
+        return db.session.query(Developers).all()
+
+    @classmethod
+    def by_name(cls, db, name: str):
+        return db.session.query(Developers).filter(Developers.name == name).first()
+
+    @classmethod
+    def create(cls, db, name: str):
+        if cls.by_name(db, name):
+            return None
+        developer = cls(name=name, updated_at=datetime.now(), created_at=datetime.now())
+        db.session.add(developer)
+        db.session.commit()
+        return developer
+
+    @classmethod
+    def delete(cls, db, name: str):
+        developer = cls.by_name(db, name)
+        if developer:
+            db.session.delete(developer)
+            db.session.commit()
+
+        return developer
