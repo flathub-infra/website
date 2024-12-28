@@ -309,7 +309,7 @@ class DevelopersResponse(BaseModel):
 
 
 @router.get("/{app_id}/developers", tags=["invite"])
-def get_developers(
+def get_app_developers(
     login=Depends(logged_in),
     app_id: str = Path(
         min_length=6,

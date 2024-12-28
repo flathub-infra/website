@@ -1444,7 +1444,7 @@ export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
   return useMutation(mutationOptions)
 }
 /**
- * Clear the login state.  This will discard tokens which access socials,
+ * Clear the login state. This will discard tokens which access socials,
 and will clear the session cookie so that the user is not logged in.
  * @summary Do Logout
  */
