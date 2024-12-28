@@ -46,6 +46,11 @@ def get_developers():
     return {developer for developer in redis_conn.smembers("developers:index")}
 
 
+def get_developers_new():
+    with get_db() as sqldb:
+        return models.Developers.all(sqldb)
+
+
 def get_all_appids_for_frontend():
     appids = []
 
