@@ -3559,16 +3559,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@neshca/cache-handler@npm:^1.8.1":
-  version: 1.8.1
-  resolution: "@neshca/cache-handler@npm:1.8.1"
+"@neshca/cache-handler@npm:^1.9.0":
+  version: 1.9.0
+  resolution: "@neshca/cache-handler@npm:1.9.0"
   dependencies:
     cluster-key-slot: "npm:1.1.2"
     lru-cache: "npm:10.4.3"
   peerDependencies:
-    next: ">= 13.5.1"
+    next: ">= 13.5.1 < 15"
     redis: ">= 4.6"
-  checksum: 10c0/85816fa351b653073741007373e9fbfd15a004f1ec697ac35067308c9f009612d6e3ac4347bca410b543529605ea156b7ebfd74ac753d6812753981ec485d29e
+  checksum: 10c0/883360e0979181448c8a81886d69e3460d3ea60283ceaaf1941a8bc8255cb1dedf5ba448951cf0cabf9969381a4481777d3c408cd7a5537e7e4d0c13f89544a4
   languageName: node
   linkType: hard
 
@@ -10880,7 +10880,7 @@ __metadata:
     "@faker-js/faker": "npm:^9.3.0"
     "@headlessui/react": "npm:^2.2.0"
     "@mitresthen/matomo-tracker-react": "npm:^0.1.1"
-    "@neshca/cache-handler": "npm:^1.8.1"
+    "@neshca/cache-handler": "npm:^1.9.0"
     "@radix-ui/react-checkbox": "npm:^1.1.3"
     "@radix-ui/react-icons": "npm:^1.3.2"
     "@radix-ui/react-radio-group": "npm:^1.2.2"
