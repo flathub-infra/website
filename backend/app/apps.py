@@ -114,6 +114,7 @@ def load_appstream(sqldb) -> None:
 
         search_apps = []
         postgres_apps = []
+        postgres_developers = set()
 
         for app_id in apps:
             redis_key = f"apps:{app_id}"
@@ -127,6 +128,8 @@ def load_appstream(sqldb) -> None:
             )
 
             if developer_name := apps[app_id].get("developer_name"):
+                models.Developers.create(sqldb, developer_name)
+                postgres_developers.add(apps[app_id].get("developer_name"))
                 p.sadd("developers:index", developer_name)
 
             if type := apps[app_id].get("type"):
@@ -149,6 +152,12 @@ def load_appstream(sqldb) -> None:
             p.set(redis_key, json.dumps(apps[app_id]))
 
         search.create_or_update_apps(search_apps)
+
+        developers = models.Developers.all(sqldb)
+
+        for developer in developers:
+            if developer.name not in postgres_developers:
+                models.Developers.delete(sqldb, developer.name)
 
         apps_to_delete_from_search = []
         for app_id in set(current_apps) - set(apps):
