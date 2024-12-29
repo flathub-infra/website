@@ -2,7 +2,7 @@ from contextlib import contextmanager
 from typing import Literal
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import QueuePool
 
 from . import config
@@ -41,7 +41,7 @@ def get_db(db_type: Literal["writer", "replica"] = "replica"):
         db.close()
 
 
-def get_db_session(db_type: Literal["writer", "replica"] = "replica"):
+def get_db_session(db_type: Literal["writer", "replica"] = "replica") -> Session:
     return WriterSessionLocal() if db_type == "writer" else ReplicaSessionLocal()
 
 

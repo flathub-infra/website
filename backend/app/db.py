@@ -5,7 +5,7 @@ import redis
 from sqlalchemy import or_
 
 from . import config, models
-from .database import get_db
+from .database import get_db, get_db_session
 
 redis_conn = redis.Redis(
     db=config.settings.redis_db,
@@ -47,8 +47,8 @@ def get_developers():
 
 
 def get_developers_new():
-    with get_db() as sqldb:
-        return models.Developers.all(sqldb)
+    with get_db_session() as sqldb:
+        return {developer.name for developer in models.Developers.all(sqldb)}
 
 
 def get_all_appids_for_frontend():

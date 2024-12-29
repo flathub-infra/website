@@ -153,7 +153,7 @@ def load_appstream(sqldb) -> None:
 
         search.create_or_update_apps(search_apps)
 
-        developers = models.Developers.all(sqldb)
+        developers = models.Developers.all(sqldb.session)
 
         for developer in developers:
             if developer.name not in postgres_developers:

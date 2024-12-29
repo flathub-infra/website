@@ -23,12 +23,7 @@ from sqlalchemy import (
     func,
     or_,
 )
-from sqlalchemy.orm import (
-    DeclarativeBase,
-    Mapped,
-    mapped_column,
-    relationship,
-)
+from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 
 from . import utils
 
@@ -2628,8 +2623,8 @@ class Developers(Base):
     created_at = mapped_column(DateTime, nullable=False)
 
     @classmethod
-    def all(cls, db):
-        return db.session.query(Developers).all()
+    def all(cls, session: Session):
+        return session.query(Developers).all()
 
     @classmethod
     def by_name(cls, db, name: str):
