@@ -134,7 +134,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Flatpak wird standardmäßig auf Rocky Linux 8 und neuer installiert, falls dieses mit GNOME (Server mit GUI, Workstation) installiert wurde. Wenn du ein solches System verwendest, kannst du diesen Schritt überspringen. Um Flatpak auf Rocky Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2>/2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -212,7 +213,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <1>Apps installieren</1>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Flatpak kann aus dem Community-Repository installiert werden. Führe Folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -230,11 +232,13 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Mageia nicht möglich sein.</p>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Ein Flatpak Paket ist für Mageia 6 und neuer erhältlich. Um mit DNF zu installieren, führe folgendes als root aus:</p> <2>/2> <4>Oder, um mit <1>urpmi</1> zu installieren, führe folgendes aus:</4> <6></6>"
     }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<0>Flatpak-Unterstützung ist in OpenMandriva für alle aktiv unterstützten Versionen eingebaut, ausgehend von dem stabilen/fixierten Release 'Rock 5.0', über die Entwicklung Release 'Cooker' und endend mit dem rollenden Release 'ROME'.</0> <p>Flatpak kommt mit dem vorkonfigurierten Flathub-Repository.</p>"
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -247,8 +251,10 @@
       "text": "<0>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <2>Flathub-Repository Datei</2> oder führe aus:</0> <2></2>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
-    }
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Pop!_OS 19.10 und früher zu installieren, öffne die Terminal-App und führe aus:</p> <2></2>"
+    },
+    "introduction": "<0>Flatpak wird in Pop!_OS 20.04 und neuer unterstützt – kein Setup erforderlich!</0> <p>Wenn du eine ältere Version verwendest, kannst du dich auf die folgenden Anweisungen beziehen.</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -263,14 +269,16 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0> <p>Merke: Grafische Installation von Flatpak apps mag mit Raspberry Pi OS nicht möglich sein.</p>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Ein Flatpak Paket ist in Raspberry Pi OS (früher Raspbian) Stretch und neuer erhältlich. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen"
     }
   },
   "clear_linux": {
-    "distroName": "Clear Linux"
+    "distroName": "Clear Linux",
+    "introduction": "<p>Flatpak ist installiert und das Flathub-Repository wird standardmäßig auf Clear Linux bei der Installation des Desktop-Pakets vorkonfiguriert.</p> <2></2> <4>Alles, was du tun musst, ist <2> Apps installieren</2>!</4>"
   },
   "void_linux": {
     "distroName": "Void Linux",
@@ -279,7 +287,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Void Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -306,10 +315,12 @@
   "turkman_linux": {
     "distroName": "Turkman Linux",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Turkman Linux zu installieren, führe folgendes in einem Terminal aus:</p> <p>Mit Emerge</p> < 4></4> <p>Ohne emerge</p> <8> </8>"
     },
     "step-2": {
-      "name": "Dienstprogramm aktivieren"
+      "name": "Dienstprogramm aktivieren",
+      "text": "<p>Um Dienste auf Turkman Linux zu aktivieren, führe folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -327,7 +338,8 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Ataraxia Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -335,7 +347,8 @@
     }
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": "<0>Flatpak-Unterstützung ist in Zorin OS eingebaut</0> <p>Du kannst die Software Store-App verwenden, um Flatpak-Apps herunterzuladen.</p>"
   },
   "deepin": {
     "distroName": "Deepin",
