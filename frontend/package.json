@@ -89,7 +89,7 @@
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/eslint-plugin-query": "^5.62.1",
     "@tanstack/react-query-devtools": "^5.62.10",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.2",
     "@types/react": "19.0.2",
     "autoprefixer": "^10.4.20",
     "chromatic": "^11.20.2",
