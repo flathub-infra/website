@@ -491,7 +491,8 @@
     "branding-good-primary-brand-colors": "Gute primäre Markenfarben",
     "hide-branding-preview": "Brandingvorschau ausblenden",
     "show-branding-preview": "Brandingvorschau anzeigen",
-    "branding": "Branding"
+    "branding": "Branding",
+    "problems": "Wenn du uns Fragen zu bestimmten Qualitätsrichtlinienproblemen stellen möchtest, öffne bitte <2>ein Issue</2>."
   },
   "app-listing-quality": "Qualität des Applistings",
   "moderation-build-id": "Build-ID",
@@ -622,5 +623,6 @@
     "org-freedesktop-platform": "Freedesktop-Plattform"
   },
   "kind-purchase-app": "{{appName}} kaufen",
-  "recipient": "Empfänger"
+  "recipient": "Empfänger",
+  "apps-by-tag": "Apps nach Tag '{{tag}}'"
 }
