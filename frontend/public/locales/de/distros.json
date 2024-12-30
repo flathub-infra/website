@@ -135,7 +135,7 @@
     },
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<p>Flatpak wird standardmäßig auf Rocky Linux 8 und neuer installiert, falls dieses mit GNOME (Server mit GUI, Workstation) installiert wurde. Wenn du ein solches System verwendest, kannst du diesen Schritt überspringen. Um Flatpak auf Rocky Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2>/2>"
+      "text": "<p>Flatpak wird standardmäßig auf Rocky Linux 8 und neuer installiert, falls dieses mit GNOME (Server mit GUI, Workstation) installiert wurde. Wenn du ein solches System verwendest, kannst du diesen Schritt überspringen. Um Flatpak auf Rocky Linux zu installieren, führe folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -233,7 +233,7 @@
     },
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<p>Ein Flatpak Paket ist für Mageia 6 und neuer erhältlich. Um mit DNF zu installieren, führe folgendes als root aus:</p> <2>/2> <4>Oder, um mit <1>urpmi</1> zu installieren, führe folgendes aus:</4> <6></6>"
+      "text": "<p>Ein Flatpak Paket ist für Mageia 6 und neuer erhältlich. Um mit DNF zu installieren, führe folgendes als root aus:</p> <2></2> <4>Oder, um mit <1>urpmi</1> zu installieren, führe folgendes aus:</4> <6></6>"
     }
   },
   "openmandriva_lx": {
