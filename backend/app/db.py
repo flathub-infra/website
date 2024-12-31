@@ -43,10 +43,6 @@ def get_json_key(key: str):
 
 
 def get_developers():
-    return {developer for developer in redis_conn.smembers("developers:index")}
-
-
-def get_developers_new():
     with get_db_session() as sqldb:
         return {developer.name for developer in models.Developers.all(sqldb)}
 

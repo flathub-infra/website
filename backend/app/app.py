@@ -65,11 +65,6 @@ def get_developers() -> set[str]:
     return db.get_developers()
 
 
-@router.get("/developer-new", tags=["app"])
-def get_developers_new() -> set[str]:
-    return db.get_developers_new()
-
-
 @router.get("/developer/{developer:path}", tags=["app"])
 def get_developer(
     developer: str,
