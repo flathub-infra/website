@@ -22,7 +22,7 @@ FastAPI-SQLAlchemy = "^0.2.1"
 alembic = "^1.14.0"
 itsdangerous = "^2.2"
 PyGithub = "^2.5"
-vcrpy = "^6.0.2"
+vcrpy = "^7.0.0"
 python-gitlab = "^5.2"
 stripe = "^11.4"
 PyJWT = "^2.10.1"
@@ -42,7 +42,7 @@ ruff = "^0.8.4"
 pytest = "^8.3.4"
 pytest-insta = "^0.3.0"
 watchgod = "^0.8"
-vcrpy = "^6.0.2"
+vcrpy = "^7.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
