@@ -130,7 +130,6 @@ def load_appstream(sqldb) -> None:
             if developer_name := apps[app_id].get("developer_name"):
                 models.Developers.create(sqldb, developer_name)
                 postgres_developers.add(apps[app_id].get("developer_name"))
-                p.sadd("developers:index", developer_name)
 
             if type := apps[app_id].get("type"):
                 # "desktop" dates back to appstream-glib, need to handle that for backwards compat
