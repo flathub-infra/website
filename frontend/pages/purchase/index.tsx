@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import Spinner from "../../src/components/Spinner"
 import { usePendingTransaction } from "../../src/hooks/usePendingTransaction"
 import {

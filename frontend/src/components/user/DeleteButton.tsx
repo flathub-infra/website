@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { useUserDispatch } from "../../context/user-info"
 import ConfirmDialog from "../ConfirmDialog"
 import Spinner from "../Spinner"

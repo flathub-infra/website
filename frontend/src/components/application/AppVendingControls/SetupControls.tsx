@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { Appstream } from "../../../types/Appstream"
 import { NumericInputValue } from "../../../types/Input"

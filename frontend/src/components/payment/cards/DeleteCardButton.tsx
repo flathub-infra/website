@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
 import { HiXCircle, HiTrash } from "react-icons/hi2"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import Spinner from "../../Spinner"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { PaymentCardInfo, WalletInfo } from "src/codegen/model"

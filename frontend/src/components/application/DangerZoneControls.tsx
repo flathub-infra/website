@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next"
 import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
