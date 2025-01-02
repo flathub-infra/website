@@ -6553,14 +6553,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.62.10":
-  version: 5.62.10
-  resolution: "@tanstack/react-query@npm:5.62.10"
+"@tanstack/react-query@npm:^5.62.11":
+  version: 5.62.11
+  resolution: "@tanstack/react-query@npm:5.62.11"
   dependencies:
     "@tanstack/query-core": "npm:5.62.9"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/df6dab08dcbec5d7458855107d81e9a4cb4fef9f2302341168ec2de42fa2935f523b4086b77ab626aa7baf468cb4cd050ab6043fafae794544273d1e7f5cead9
+  checksum: 10c0/358ffb3d80aba9e1dec51205b318ff9d162c5ba54a79e44ddcf3986fcf6529a4b2cb9504dbabd39cdfc164f6215e3fcd59e5e174f8b4c670e164d13ad9ba3034
   languageName: node
   linkType: hard
 
@@ -10874,7 +10874,7 @@ __metadata:
     "@stripe/stripe-js": "npm:^5.2.0"
     "@tailwindcss/typography": "npm:^0.5.15"
     "@tanstack/eslint-plugin-query": "npm:^5.62.1"
-    "@tanstack/react-query": "npm:^5.62.10"
+    "@tanstack/react-query": "npm:^5.62.11"
     "@tanstack/react-query-devtools": "npm:^5.62.10"
     "@tanstack/react-table": "npm:^8.20.6"
     "@types/node": "npm:^22.10.2"
