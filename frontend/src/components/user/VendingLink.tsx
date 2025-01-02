@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import Spinner from "../Spinner"
 import {
   getDashboardLinkVendingStatusDashboardlinkGet,

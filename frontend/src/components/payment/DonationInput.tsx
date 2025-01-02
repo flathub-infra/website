@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import Router from "next/router"
 import React, { FormEvent, FunctionComponent, useEffect, useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../env"
 import { NumericInputValue } from "../../types/Input"
 import * as Currency from "../currency"

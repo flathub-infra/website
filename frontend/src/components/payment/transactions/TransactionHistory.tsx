@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent, useEffect, useState } from "react"
 
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { useUserContext } from "../../../context/user-info"
 import Spinner from "../../Spinner"
 import { AxiosResponse } from "axios"

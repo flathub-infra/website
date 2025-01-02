@@ -10,9 +10,6 @@ import { UserInfoProvider } from "../src/context/user-info"
 import { IS_PRODUCTION } from "../src/env"
 import { appWithTranslation, i18n, useTranslation } from "next-i18next"
 
-import "react-toastify/dist/ReactToastify.css"
-import { toast, ToastContainer } from "react-toastify"
-
 import "../styles/main.scss"
 import { useRouter } from "next/router"
 import { bcpToPosixLocale, getLocale, languages } from "../src/localize"
@@ -29,6 +26,7 @@ import { Fragment, ReactElement, ReactNode, useState } from "react"
 import { setDefaultOptions } from "date-fns"
 import axios from "axios"
 import { NextPage } from "next"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -108,9 +106,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
               `}</style>
               <Main>{getLayout(<Component {...pageProps} />)}</Main>
             </UserInfoProvider>
-            <ToastContainer
+            <Toaster
               position={i18n?.dir() === "rtl" ? "bottom-left" : "bottom-right"}
-              rtl={i18n?.dir() === "rtl"}
+              dir={i18n?.dir()}
             />
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProvider>

@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 import { FunctionComponent, useCallback, useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { LOGIN_PROVIDERS_URL } from "../../env"
 import { useLocalStorage } from "../../hooks/useLocalStorage"
 import { LoginProvider, LoginRedirect } from "../../types/Login"

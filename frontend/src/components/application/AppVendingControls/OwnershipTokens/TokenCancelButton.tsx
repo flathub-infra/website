@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { FunctionComponent } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { useMutation } from "@tanstack/react-query"
 import { TokenModel } from "src/codegen/model"
 import { cancelTokensVendingappAppIdTokensCancelPost } from "src/codegen"

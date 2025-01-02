@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next"
 import { useCallback, useState } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 import { Appstream } from "../../../../types/Appstream"
 import Spinner from "../../../Spinner"
 import { useMutation } from "@tanstack/react-query"
