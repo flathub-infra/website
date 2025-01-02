@@ -10908,7 +10908,7 @@ __metadata:
     next-i18next: "npm:^15.4.1"
     next-seo: "npm:^6.6.0"
     next-sitemap: "npm:^4.2.3"
-    next-themes: "npm:^0.4.3"
+    next-themes: "npm:^0.4.4"
     orval: "npm:^7.3.0"
     postcss: "npm:^8.4.49"
     prettier: "npm:^3.4.2"
@@ -13391,13 +13391,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next-themes@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "next-themes@npm:0.4.3"
+"next-themes@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "next-themes@npm:0.4.4"
   peerDependencies:
     react: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
     react-dom: ^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc
-  checksum: 10c0/81dbe9efed2b10169e4ecd2ff59f3dedc091518c92a79354b863ccdcc444a061125de975af5c0c123ce9a1ebd7b20b05a1fdbfcf2aaeeb337fec03fe38fd8cb0
+  checksum: 10c0/45d82f968ccfc90f6e6e3cdb95962132f6d1e19eaf614c4e824fc5d079ec522dd50cc196c58da2f000d755b81dbb0caf378c4f512a9e6b6c0a0daa3f99f1a2c7
   languageName: node
   linkType: hard
 
