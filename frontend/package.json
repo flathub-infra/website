@@ -64,7 +64,7 @@
     "react-i18next": "^15.2.0",
     "react-icons": "^5.4.0",
     "react-svg-worldmap": "2.0.0-alpha.16",
-    "react-toastify": "^10.0.6",
+    "react-toastify": "^11.0.2",
     "recharts": "^2.13.3",
     "sass": "^1.83.0",
     "satori": "^0.12.0",
