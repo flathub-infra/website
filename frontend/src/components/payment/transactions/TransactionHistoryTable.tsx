@@ -55,69 +55,71 @@ export const TransactionHistoryTable = ({
     <div className="flex flex-col gap-3 w-full lg:max-w-6xl">
       {transactions.length === 0 && <p>{t("no-transactions")}</p>}
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t("type")}</TableHead>
-            <TableHead>{t("created")}</TableHead>
-            <TableHead>{t("status")}</TableHead>
-            <TableHead className="text-right">{t("amount")}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {pageSlice.map((entry) => {
-            const needsAttention = ["new", "retry"].includes(entry.status)
-            return (
-              <TableRow
-                key={entry.id}
-                onClick={() => router.push(`/payment/details/${entry.id}`)}
-                className="cursor-pointer"
-              >
-                <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
-                <TableCell>
-                  {format(new UTCDate(entry.created * 1000), "Pp")}
-                </TableCell>
-                <TableCell>{t(`status-${entry.status}`)}</TableCell>
-                <TableCell className="text-right flex justify-end gap-1 items-center">
-                  {needsAttention && (
-                    <HiExclamationTriangle className="text-red-500" />
-                  )}
-                  <span
-                    className={clsx(
-                      entry.status === "cancelled" && "line-through",
-                    )}
-                  >
-                    {formatCurrency(
-                      entry.value / 100,
-                      i18n.language,
-                      entry.currency,
-                    )}
-                  </span>
-                </TableCell>
-              </TableRow>
-            )
-          })}
-        </TableBody>
-      </Table>
       {transactions.length > 0 && (
-        <div className="flex justify-center gap-5 pt-4">
-          <Button
-            variant="secondary"
-            onClick={pageBack}
-            disabled={page === 0}
-            aria-label={t("previous-page")}
-          >
-            <HiChevronLeft className="text-2xl" />
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={pageForward}
-            disabled={page === endPage || perPage > pageSlice.length}
-            aria-label={t("next-page")}
-          >
-            <HiChevronRight className="text-2xl" />
-          </Button>
-        </div>
+        <>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t("type")}</TableHead>
+                <TableHead>{t("created")}</TableHead>
+                <TableHead>{t("status")}</TableHead>
+                <TableHead className="text-right">{t("amount")}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {pageSlice.map((entry) => {
+                const needsAttention = ["new", "retry"].includes(entry.status)
+                return (
+                  <TableRow
+                    key={entry.id}
+                    onClick={() => router.push(`/payment/details/${entry.id}`)}
+                    className="cursor-pointer"
+                  >
+                    <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
+                    <TableCell>
+                      {format(new UTCDate(entry.created * 1000), "Pp")}
+                    </TableCell>
+                    <TableCell>{t(`status-${entry.status}`)}</TableCell>
+                    <TableCell className="text-right flex justify-end gap-1 items-center">
+                      {needsAttention && (
+                        <HiExclamationTriangle className="text-red-500" />
+                      )}
+                      <span
+                        className={clsx(
+                          entry.status === "cancelled" && "line-through",
+                        )}
+                      >
+                        {formatCurrency(
+                          entry.value / 100,
+                          i18n.language,
+                          entry.currency,
+                        )}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+          <div className="flex justify-center gap-5 pt-4">
+            <Button
+              variant="secondary"
+              onClick={pageBack}
+              disabled={page === 0}
+              aria-label={t("previous-page")}
+            >
+              <HiChevronLeft className="text-2xl" />
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={pageForward}
+              disabled={page === endPage || perPage > pageSlice.length}
+              aria-label={t("next-page")}
+            >
+              <HiChevronRight className="text-2xl" />
+            </Button>
+          </div>
+        </>
       )}
     </div>
   )
