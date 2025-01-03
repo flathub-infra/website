@@ -62,7 +62,7 @@ const LoginVerification: FunctionComponent<Props> = ({
         appId,
         { new_app: isNewApp ?? false },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },

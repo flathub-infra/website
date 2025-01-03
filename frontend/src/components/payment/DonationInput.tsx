@@ -47,7 +47,7 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
         ],
       },
       {
-        withCredentials: true,
+        credentials: "include",
       },
     )
       .then((result) => setTransaction(result.data.id))

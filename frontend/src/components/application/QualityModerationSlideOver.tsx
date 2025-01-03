@@ -2,7 +2,6 @@ import { UseQueryResult, useMutation, useQuery } from "@tanstack/react-query"
 import Spinner from "../Spinner"
 import clsx from "clsx"
 import { useEffect, useState } from "react"
-import { AxiosResponse } from "axios"
 import {
   HiArrowTopRightOnSquare,
   HiArrowsPointingOut,
@@ -32,6 +31,7 @@ import {
 import {
   deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
   getQualityModerationForAppQualityModerationAppIdGet,
+  getQualityModerationForAppQualityModerationAppIdGetResponse,
   setFullscreenAppQualityModerationAppIdFullscreenPost,
   setQualityModerationForAppQualityModerationAppIdPost,
 } from "src/codegen"
@@ -212,7 +212,10 @@ const QualityCategories = ({
   mode,
 }: {
   app: Pick<DesktopAppstream, "id" | "name" | "summary" | "icon" | "branding">
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
   mode: "developer" | "moderator"
 }) => {
   const { t } = useTranslation()
@@ -227,7 +230,7 @@ const QualityCategories = ({
               app.id,
               { guideline_id: guideline.guideline_id, passed: true },
               {
-                withCredentials: true,
+                credentials: "include",
               },
             ),
           ) ?? [],
@@ -244,7 +247,7 @@ const QualityCategories = ({
       deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete(
         app.id,
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
@@ -364,7 +367,10 @@ const QualityItem = ({
   appId: string
   qualityModeration?: QualityModerationType
   qualityGuideline: Guideline | undefined
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
 }) => {
   const { t } = useTranslation()
   const [toggle, setToggle] = useState<boolean | null>(
@@ -381,7 +387,7 @@ const QualityItem = ({
         appId,
         { guideline_id: qualityGuideline.id, passed },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
 
@@ -457,7 +463,10 @@ const ScreenShotTypeItem = ({
   mode: "developer" | "moderator"
   appId: string
   is_fullscreen_app: boolean
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    getQualityModerationForAppQualityModerationAppIdGetResponse,
+    unknown
+  >
 }) => {
   const { t } = useTranslation()
   const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
@@ -472,7 +481,7 @@ const ScreenShotTypeItem = ({
         appId,
         { is_fullscreen_app: is_fullscreen_app },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
 
@@ -581,7 +590,7 @@ export const QualityModerationSlideOver = ({
     queryKey: ["qualityModeration", { appId: app.id }],
     queryFn: ({ signal }) =>
       getQualityModerationForAppQualityModerationAppIdGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
         signal,
       }),
     enabled: !!app.id,

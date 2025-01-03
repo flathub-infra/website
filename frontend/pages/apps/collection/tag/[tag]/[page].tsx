@@ -9,7 +9,6 @@ import {
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
 import { getKeywordKeywordGet } from "src/codegen"
-import { AxiosResponse } from "axios"
 
 export default function Tag({
   applications,
@@ -53,7 +52,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
     locale: locale,
     page: params.page as unknown as number,
     per_page: 30,
-  })) as AxiosResponse<MeilisearchResponse<AppsIndex>>
+  })) as { data: MeilisearchResponse<AppsIndex> }
 
   if (applications.data.page > applications.data.totalPages) {
     return {

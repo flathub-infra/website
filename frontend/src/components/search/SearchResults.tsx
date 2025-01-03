@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import {
   ApplicationCard,
   ApplicationCardSkeleton,
@@ -12,10 +11,7 @@ import {
 import { UseQueryResult } from "@tanstack/react-query"
 
 interface Props {
-  results: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  results: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
 }
 
 export const SearchResults: FunctionComponent<Props> = ({ results }) => {
@@ -32,7 +28,7 @@ export const SearchResults: FunctionComponent<Props> = ({ results }) => {
           )
         })}
       {results.isSuccess &&
-        results.data?.data.hits.map((app) => (
+        results.data?.hits.map((app) => (
           <div key={app.app_id} className={"flex flex-col gap-2"}>
             <ApplicationCard
               application={mapAppsIndexToAppstreamListItem(app)}

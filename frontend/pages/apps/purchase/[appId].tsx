@@ -36,7 +36,7 @@ export default function AppPurchasePage({
     queryKey: ["appVendingSetup", app.id],
     queryFn: async () => {
       const setup = await getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       })
 
       const decimalValue = setup.data.recommended_donation / 100
