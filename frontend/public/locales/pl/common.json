@@ -624,5 +624,6 @@
   },
   "kind-purchase-app": "Kup {{appName}}",
   "action-purchase": "Kup",
-  "kind-donate-app": "Przekaż darowiznę {{appName}}"
+  "kind-donate-app": "Przekaż darowiznę {{appName}}",
+  "apps-by-tag": "Aplikacje według tagu '{{tag}}'"
 }
