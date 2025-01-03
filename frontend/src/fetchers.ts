@@ -24,13 +24,8 @@ import {
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
 import { VerificationStatus } from "./types/VerificationStatus"
-import {
-  AppsIndex,
-  MeilisearchResponse,
-  MeilisearchResponseLimited,
-} from "./meilisearch"
+import { AppsIndex, MeilisearchResponse } from "./meilisearch"
 import { AppOfTheDay, AppsOfTheWeek, VendingConfig } from "./codegen"
-import axios from "axios"
 
 export async function fetchAppstream(
   appId: string,
@@ -222,18 +217,16 @@ export async function fetchSearchQuery(
     value: string
   }[],
 ) {
-  return axios.post<MeilisearchResponseLimited<AppsIndex>>(
-    SEARCH_APP(locale),
-    {
+  return fetch(SEARCH_APP(locale), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
       query: query,
       filters: selectedFilters,
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  )
+    }),
+  })
 }
 
 export async function fetchVendingConfig(): Promise<VendingConfig | null> {

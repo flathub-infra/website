@@ -4,7 +4,6 @@ import Spinner from "src/components/Spinner"
 import ConfirmDialog from "src/components/ConfirmDialog"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { AxiosError } from "axios"
 import Modal from "../Modal"
 import {
   archiveVerificationAppIdArchivePost,
@@ -24,12 +23,12 @@ const SwitchToDirectUpload = ({ app }: { app: Pick<Appstream, "id"> }) => {
   const switchToDirectUploadMutation = useMutation({
     mutationFn: () =>
       switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: AxiosError<{ detail: string }>) => {
+    onError: (err: Error) => {
       toast.error(t(err.response.data.detail))
     },
   })
@@ -68,13 +67,13 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
           endoflife_rebase: endoflifeRebase,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: () => {
       setModalVisible(false)
     },
-    onError: (err: AxiosError<{ detail: string }>) => {
+    onError: (err: Error) => {
       toast.error(t(err.response.data.detail))
     },
   })
@@ -129,7 +128,7 @@ export default function DangerZoneControls({ app }: { app: { id: string } }) {
         app.id,
         { include_expired: false },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     enabled: !!app.id,

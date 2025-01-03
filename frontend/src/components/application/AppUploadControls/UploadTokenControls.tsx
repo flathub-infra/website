@@ -27,7 +27,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
         app.id,
         { include_expired: showExpired },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     enabled: !!app.id,
@@ -39,7 +39,7 @@ export default function UploadTokenControls({ app }: { app: { id: string } }) {
 
   const revoke = useCallback(() => {
     revokeUploadTokenUploadTokensTokenIdRevokePost(tokenToRevoke, {
-      withCredentials: true,
+      credentials: "include",
     }).then(() => {
       setTokenToRevoke(undefined)
       query.refetch()

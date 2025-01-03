@@ -64,8 +64,8 @@ export default function UserModeration() {
       filterString: filterString,
     },
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
     },
   )

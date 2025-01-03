@@ -16,7 +16,6 @@ import Spinner from "../../Spinner"
 import AppShareSlider from "./AppShareSlider"
 import VendingSharesPreview from "./VendingSharesPreview"
 import { useMutation, useQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 import {
   getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
@@ -45,7 +44,7 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     queryKey: ["appVendingSetup", app.id],
     queryFn: () =>
       getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -102,13 +101,13 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             : 0,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: (data) => {
       toast.success(t("app-vending-settings-confirmed"))
     },
-    onError: (error: AxiosError<{ status: string; error: string }>) => {
+    onError: (error: Error) => {
       if (error && error.response) {
         toast.error(t(error.response.data.error))
       } else {

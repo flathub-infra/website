@@ -66,14 +66,14 @@ const ProviderProfileLink = ({
 
 export default function UserAdmin({ userId }) {
   const query = useUserUsersUserIdGet(userId, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
   const addRoleQuery = useAddUserRoleUsersUserIdRolePost({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {
@@ -83,8 +83,8 @@ export default function UserAdmin({ userId }) {
   })
 
   const removeRoleQuery = useDeleteUserRoleUsersUserIdRoleDelete({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
     mutation: {
       onSuccess: () => {

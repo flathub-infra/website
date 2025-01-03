@@ -1,4 +1,3 @@
-import axios, { AxiosResponse } from "axios"
 import { APP_DETAILS } from "../env"
 import { Appstream } from "../types/Appstream"
 
@@ -13,16 +12,14 @@ export async function getAppsInfo(
   const responses = await Promise.allSettled(
     appIds.map(async (id) => ({
       id,
-      response: await axios
-        .get<Appstream>(`${APP_DETAILS(id, locale)}`)
-        .catch(() => {
-          return {
-            data: {
-              id: id,
-              name: id,
-            } as Appstream,
-          } as AxiosResponse<Appstream>
-        }),
+      response: await fetch(`${APP_DETAILS(id, locale)}`).catch(() => {
+        return {
+          data: {
+            id: id,
+            name: id,
+          } as Appstream,
+        }
+      }),
     })),
   )
 

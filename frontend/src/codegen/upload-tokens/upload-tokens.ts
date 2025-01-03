@@ -18,8 +18,6 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query"
-import axios from "axios"
-import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import type {
   GetUploadTokensUploadTokensAppIdGetParams,
   HTTPValidationError,
@@ -32,27 +30,59 @@ import type {
  * Get all upload tokens for the given app
  * @summary Get Upload Tokens
  */
-export const getUploadTokensUploadTokensAppIdGet = (
+export type getUploadTokensUploadTokensAppIdGetResponse = {
+  data: TokensResponse
+  status: number
+  headers: Headers
+}
+
+export const getGetUploadTokensUploadTokensAppIdGetUrl = (
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<TokensResponse>> => {
-  return axios.get(`/upload-tokens/${appId}`, {
-    ...options,
-    params: { ...params, ...options?.params },
+) => {
+  const normalizedParams = new URLSearchParams()
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString())
+    }
   })
+
+  return normalizedParams.size
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}?${normalizedParams.toString()}`
+    : `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`
+}
+
+export const getUploadTokensUploadTokensAppIdGet = async (
+  appId: string,
+  params?: GetUploadTokensUploadTokensAppIdGetParams,
+  options?: RequestInit,
+): Promise<getUploadTokensUploadTokensAppIdGetResponse> => {
+  const res = await fetch(
+    getGetUploadTokensUploadTokensAppIdGetUrl(appId, params),
+    {
+      ...options,
+      method: "GET",
+    },
+  )
+  const data = await res.json()
+
+  return { status: res.status, data, headers: res.headers }
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
 ) => {
-  return [`/upload-tokens/${appId}`, ...(params ? [params] : [])] as const
+  return [
+    `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`,
+    ...(params ? [params] : []),
+  ] as const
 }
 
 export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -64,10 +94,10 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+  const { query: queryOptions, fetch: fetchOptions } = options ?? {}
 
   const queryKey =
     queryOptions?.queryKey ??
@@ -78,7 +108,7 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
   > = ({ signal }) =>
     getUploadTokensUploadTokensAppIdGet(appId, params, {
       signal,
-      ...axiosOptions,
+      ...fetchOptions,
     })
 
   return {
@@ -96,12 +126,11 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
 export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>
 >
-export type GetUploadTokensUploadTokensAppIdGetQueryError =
-  AxiosError<HTTPValidationError>
+export type GetUploadTokensUploadTokensAppIdGetQueryError = HTTPValidationError
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params: undefined | GetUploadTokensUploadTokensAppIdGetParams,
@@ -121,12 +150,12 @@ export function useGetUploadTokensUploadTokensAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -146,12 +175,12 @@ export function useGetUploadTokensUploadTokensAppIdGet<
         >,
         "initialData"
       >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -163,7 +192,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
@@ -172,7 +201,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
 >(
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -184,7 +213,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
         TData
       >
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetUploadTokensUploadTokensAppIdGetQueryOptions(
@@ -205,16 +234,34 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 /**
  * @summary Create Upload Token
  */
-export const createUploadTokenUploadTokensAppIdPost = (
+export type createUploadTokenUploadTokensAppIdPostResponse = {
+  data: NewTokenResponse
+  status: number
+  headers: Headers
+}
+
+export const getCreateUploadTokenUploadTokensAppIdPostUrl = (appId: string) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${appId}`
+}
+
+export const createUploadTokenUploadTokensAppIdPost = async (
   appId: string,
   uploadTokenRequest: UploadTokenRequest,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<NewTokenResponse>> => {
-  return axios.post(`/upload-tokens/${appId}`, uploadTokenRequest, options)
+  options?: RequestInit,
+): Promise<createUploadTokenUploadTokensAppIdPostResponse> => {
+  const res = await fetch(getCreateUploadTokenUploadTokensAppIdPostUrl(appId), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(uploadTokenRequest),
+  })
+  const data = await res.json()
+
+  return { status: res.status, data, headers: res.headers }
 }
 
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -223,14 +270,14 @@ export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
     { appId: string; data: UploadTokenRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError,
   { appId: string; data: UploadTokenRequest },
   TContext
 > => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  const { mutation: mutationOptions, fetch: fetchOptions } = options ?? {}
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
@@ -238,7 +285,7 @@ export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
   > = (props) => {
     const { appId, data } = props ?? {}
 
-    return createUploadTokenUploadTokensAppIdPost(appId, data, axiosOptions)
+    return createUploadTokenUploadTokensAppIdPost(appId, data, fetchOptions)
   }
 
   return { mutationFn, ...mutationOptions }
@@ -250,13 +297,13 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationResult = NonNullable<
 export type CreateUploadTokenUploadTokensAppIdPostMutationBody =
   UploadTokenRequest
 export type CreateUploadTokenUploadTokensAppIdPostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Create Upload Token
  */
 export const useCreateUploadTokenUploadTokensAppIdPost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -265,7 +312,7 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
     { appId: string; data: UploadTokenRequest },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError,
@@ -280,15 +327,36 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
 /**
  * @summary Revoke Upload Token
  */
-export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
+export type revokeUploadTokenUploadTokensTokenIdRevokePostResponse = {
+  data: void
+  status: number
+  headers: Headers
+}
+
+export const getRevokeUploadTokenUploadTokensTokenIdRevokePostUrl = (
   tokenId: number,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<void>> => {
-  return axios.post(`/upload-tokens/${tokenId}/revoke`, undefined, options)
+) => {
+  return `${process.env.NEXT_PUBLIC_API_BASE_URI}/upload-tokens/${tokenId}/revoke`
+}
+
+export const revokeUploadTokenUploadTokensTokenIdRevokePost = async (
+  tokenId: number,
+  options?: RequestInit,
+): Promise<revokeUploadTokenUploadTokensTokenIdRevokePostResponse> => {
+  const res = await fetch(
+    getRevokeUploadTokenUploadTokensTokenIdRevokePostUrl(tokenId),
+    {
+      ...options,
+      method: "POST",
+    },
+  )
+  const data = await res.json()
+
+  return { status: res.status, data, headers: res.headers }
 }
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <TError = HTTPValidationError, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
       Awaited<
         ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
@@ -297,14 +365,14 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
       { tokenId: number },
       TContext
     >
-    axios?: AxiosRequestConfig
+    fetch?: RequestInit
   }): UseMutationOptions<
     Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
     TError,
     { tokenId: number },
     TContext
   > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+    const { mutation: mutationOptions, fetch: fetchOptions } = options ?? {}
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -316,7 +384,7 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
 
       return revokeUploadTokenUploadTokensTokenIdRevokePost(
         tokenId,
-        axiosOptions,
+        fetchOptions,
       )
     }
 
@@ -329,13 +397,13 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationResult =
   >
 
 export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationError =
-  AxiosError<HTTPValidationError>
+  HTTPValidationError
 
 /**
  * @summary Revoke Upload Token
  */
 export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
-  TError = AxiosError<HTTPValidationError>,
+  TError = HTTPValidationError,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
@@ -344,7 +412,7 @@ export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
     { tokenId: number },
     TContext
   >
-  axios?: AxiosRequestConfig
+  fetch?: RequestInit
 }): UseMutationResult<
   Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
   TError,

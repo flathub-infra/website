@@ -77,7 +77,7 @@ export default function QualityModerationDashboard() {
           filter: filteredBy,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),
