@@ -491,7 +491,8 @@
     "branding-good-primary-brand-colors": "Jó elsődleges márkaszínek",
     "needed-to-pass-x": "Átmenni kell: {{x}}",
     "hide-branding-preview": "Márkaépítés előnézetének elrejtése",
-    "show-branding-preview": "Márkaépítés előnézetének megjelenítése"
+    "show-branding-preview": "Márkaépítés előnézetének megjelenítése",
+    "problems": "Ha különleges minőségi irányelvekkel kapcsolatos problémákról szeretne érdeklődni, nyisson meg egy <2>jegyet</2>."
   },
   "app-listing-quality": "Alkalmazáslista minősége",
   "moderation-build-id": "Összeállítás-azonosító",
@@ -622,5 +623,6 @@
   },
   "positions": "Helyek",
   "position-short": "Hely",
-  "type": "Típus"
+  "type": "Típus",
+  "apps-by-tag": "Alkalmazások „{{tag}}” címke szerint"
 }
