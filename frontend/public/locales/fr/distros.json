@@ -1,1 +1,30 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Installer Flatpak",
+      "text": "<0>Pour installer Flatpak sur <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou version ultérieure</strong>, ouvrez l'application Terminal et exécutez :</0> <2></2> <4>Pour les versions antérieures <strong>jusqu'à Ubuntu 18.04 LTS (Bionic Beaver)</strong>, le PPA officiel de Flatpak est requis pour installer Flatpak et le maintenir à jour. Pour ajouter le PPA et installer Flatpak, ouvrez l'application Terminal et exécutez :</4> <6></6>"
+    },
+    "step-2": {
+      "name": "Installer le plugin Flatpak dans GNOME Logiciel",
+      "text": "<p>Le plugin GNOME Software permet d'installer des applications sans avoir besoin de la ligne de commande. Pour l'installer, exécutez :</p> <2></2> <4><strong>Remarque :</strong> Ubuntu distribue GNOME Software sous forme de Snap dans les versions 20.04 à 23.04, et l'a remplacé par App Center dans les versions 23.10 et ultérieures, qui ne prennent pas en charge l'installation d'applications Flatpak. L'installation du plugin Flatpak installera également une version Deb de GNOME Software, ce qui entraînera l'installation simultanée de deux applications « Logiciel » sur Ubuntu 20.04 à 23.04, et d'une seule nouvelle application « Logiciel » sur Ubuntu 23.10 et ultérieures.</4>"
+    },
+    "step-3": {
+      "name": "Ajouter le dépôt Flathub",
+      "text": "<p>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, exécutez :</p> <2></2>"
+    },
+    "step-4": {
+      "name": "Redémarrer",
+      "text": "<0>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <2>installer des applications</2> !</0>"
+    }
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Activer Flatpak via le gestionnaire de logiciels"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  }
+}
