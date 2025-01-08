@@ -40,7 +40,7 @@ const SettingsDisclosure = ({ sectionTitle, children }) => {
   }
 
   return (
-    <Disclosure as={"div"} className="pt-4">
+    <Disclosure as={"div"} className="pt-4" defaultOpen>
       {({ open }) => (
         <>
           <DisclosureButton className="w-full flex items-start justify-between">
