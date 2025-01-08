@@ -231,11 +231,11 @@ export default function Details({
 export const getStaticProps: GetStaticProps = async ({
   locale,
   defaultLocale,
-  params: { appDetails: appId },
+  params: { appId: appId },
 }: {
   locale: string
   defaultLocale: string
-  params: { appDetails: string }
+  params: { appId: string }
 }) => {
   console.log("Fetching data for app details: ", appId, locale)
 
