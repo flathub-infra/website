@@ -89,7 +89,7 @@ const VendingSharesPreview: FunctionComponent<Props> = ({
 
   return (
     <div>
-      <ChartContainer config={chartConfig}>
+      <ChartContainer className="h-32 w-full" config={chartConfig}>
         <BarChart accessibilityLayer layout="vertical" data={data}>
           {labels.map((label, i) => {
             return (

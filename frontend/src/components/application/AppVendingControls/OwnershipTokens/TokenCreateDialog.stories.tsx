@@ -36,7 +36,7 @@ export const Default: Story = {
     await userEvent.click(button)
 
     await waitFor(() => {
-      expect(canvas.getByText("Create Tokens")).toBeInTheDocument()
+      expect(canvas.getByText("Create tokens")).toBeInTheDocument()
     })
   },
 }
