@@ -1,12 +1,9 @@
 import clsx from "clsx"
-import { ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect } from "react"
 import { Permission, UserInfo } from "src/codegen"
 import LoginGuard from "./login/LoginGuard"
 import { useRouter } from "next/router"
 import { useUserContext } from "src/context/user-info"
-import { Popover } from "@headlessui/react"
-import { useTranslation } from "next-i18next"
-import { HiBars3, HiXMark } from "react-icons/hi2"
 import FlathubListbox from "./FlathubListbox"
 
 const AdminLayout = ({
@@ -43,13 +40,13 @@ const AdminLayout = ({
       name: "Users",
       href: "/admin/users",
       condition: (user: UserInfo) =>
-        user?.permissions.some((a) => a === Permission.moderation),
+        user?.permissions.some((a) => a === Permission["view-users"]),
     },
     {
       name: "Roles",
       href: "/admin/roles",
       condition: (user: UserInfo) =>
-        user?.permissions.some((a) => a === Permission.moderation),
+        user?.permissions.some((a) => a === Permission["view-users"]),
     },
   ].filter((nav) => !nav.condition || nav.condition(user?.info))
 

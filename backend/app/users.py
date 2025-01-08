@@ -3,7 +3,7 @@ from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db as sqldb
 
 from . import models
-from .login_info import admin_only, moderator_only
+from .login_info import moderator_only, modify_users_only, view_users_only
 
 router = APIRouter(prefix="/users", default_response_class=ORJSONResponse)
 
@@ -32,7 +32,7 @@ def users(
     "/roles",
     tags=["users"],
 )
-def roles(_admin=Depends(admin_only)) -> list[str]:
+def roles(_admin=Depends(view_users_only)) -> list[str]:
     """
     Return a list of all known role names
     """
@@ -60,7 +60,7 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     tags=["users"],
 )
 def add_user_role(
-    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+    user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
 ) -> models.UserResult:
     """
     Add a role to a user
@@ -80,7 +80,7 @@ def add_user_role(
     tags=["users"],
 )
 def delete_user_role(
-    user_id: int, role: models.RoleName, _admin=Depends(admin_only)
+    user_id: int, role: models.RoleName, _admin=Depends(modify_users_only)
 ) -> models.UserResult:
     """
     Remove a role from a user
@@ -100,7 +100,7 @@ def delete_user_role(
     tags=["users"],
 )
 def role_users(
-    role_name: models.RoleName, _admin=Depends(admin_only)
+    role_name: models.RoleName, _admin=Depends(view_users_only)
 ) -> list[models.UserResult]:
     """
     Return all users with a specific role

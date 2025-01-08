@@ -98,7 +98,7 @@ export default function UserAdmin({ userId }) {
       <NextSeo title={query?.data?.data?.default_account.login ?? userId} />
       <LoginGuard
         condition={(info: UserInfo) =>
-          info.permissions.some((a) => a === Permission.moderation)
+          info.permissions.some((a) => a === Permission["view-users"])
         }
       >
         {query.isLoading && <Spinner size="m" />}

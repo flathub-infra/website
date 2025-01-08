@@ -850,6 +850,8 @@ class Permission(str, Enum):
     MODERATION = "moderation"
     PAYMENT = "payment"
     DIRECT_UPLOAD = "direct-upload"
+    VIEW_USERS = "view-users"
+    MODIFY_USERS = "modify-users"
 
 
 class UserInfo(BaseModel):
