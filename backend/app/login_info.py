@@ -94,9 +94,14 @@ def quality_moderator_only(login=Depends(logged_in)):
     return login
 
 
-def admin_only(login=Depends(logged_in)):
-    if "admin" not in login.user.role_list():
-        raise HTTPException(status_code=403, detail="not_admin")
+def view_users_only(login=Depends(logged_in)):
+    if "view-users" not in login.user.permissions():
+        raise HTTPException(status_code=403, detail="no_permission_to_view_users")
+
+
+def modify_users_only(login=Depends(logged_in)):
+    if "modify-users" not in login.user.permissions():
+        raise HTTPException(status_code=403, detail="no_permission_to_modify_users")
 
 
 def moderator_only(login=Depends(logged_in)):

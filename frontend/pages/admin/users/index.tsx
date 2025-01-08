@@ -15,11 +15,7 @@ import { NextSeo } from "next-seo"
 import { useRouter } from "next/router"
 import React from "react"
 import { ReactElement, useEffect, useState } from "react"
-import {
-  HiExclamationTriangle,
-  HiMiniChevronDown,
-  HiMiniChevronUp,
-} from "react-icons/hi2"
+import { HiMiniChevronDown, HiMiniChevronUp } from "react-icons/hi2"
 import {
   FlathubUsersResult,
   Permission,
@@ -36,7 +32,7 @@ UserModeration.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission.moderation)
+        info.permissions.some((a) => a === Permission["view-users"])
       }
     >
       {page}

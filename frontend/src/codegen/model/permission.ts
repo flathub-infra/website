@@ -13,4 +13,6 @@ export const Permission = {
   moderation: "moderation",
   payment: "payment",
   "direct-upload": "direct-upload",
+  "view-users": "view-users",
+  "modify-users": "modify-users",
 } as const

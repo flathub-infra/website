@@ -19,7 +19,7 @@ UserModeration.getLayout = function getLayout(page: ReactElement) {
   return (
     <AdminLayout
       condition={(info: UserInfo) =>
-        info.permissions.some((a) => a === Permission.moderation)
+        info.permissions.some((a) => a === Permission["view-users"])
       }
     >
       {page}
