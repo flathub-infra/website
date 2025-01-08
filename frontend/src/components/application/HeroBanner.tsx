@@ -25,6 +25,7 @@ export const HeroBanner = ({
   currentIndex,
   autoplay = true,
   aboveTheFold = false,
+  forceTheme = undefined,
 }: {
   heroBannerData: {
     app: { isFullscreen: boolean }
@@ -36,6 +37,7 @@ export const HeroBanner = ({
   currentIndex?: number
   autoplay?: boolean
   aboveTheFold?: boolean
+  forceTheme?: "light" | "dark"
 }) => {
   const { resolvedTheme } = useTheme()
 
@@ -89,7 +91,7 @@ export const HeroBanner = ({
         {heroBannerData.map((data, i) => {
           const brandingColor = chooseBrandingColor(
             data.appstream?.branding,
-            resolvedTheme as "light" | "dark",
+            forceTheme ?? (resolvedTheme as "light" | "dark"),
           )
 
           const textColor = brandingColor
@@ -104,7 +106,8 @@ export const HeroBanner = ({
                 href={`/apps/${data.appstream.id}`}
                 passHref
                 style={{
-                  backgroundColor: brandingColor && brandingColor.value,
+                  backgroundColor:
+                    (brandingColor && brandingColor.value) ?? "#FF00DC",
                 }}
                 className={clsx(
                   "flex min-w-0 items-center gap-4 p-4 py-0 duration-500",
@@ -167,6 +170,7 @@ export const HeroBanner = ({
           "hover:text-flathub-black hover:dark:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
           "absolute left-4 top-1/2 size-11",
+          forceTheme && "hidden",
         )}
         variant="ghost"
       />
@@ -176,6 +180,7 @@ export const HeroBanner = ({
           "hover:text-flathub-black hover:dark:text-flathub-white",
           "hover:bg-flathub-black/10 dark:hover:bg-flathub-white/10",
           "absolute right-4 top-1/2 size-11",
+          forceTheme && "hidden",
         )}
         variant="ghost"
       />
