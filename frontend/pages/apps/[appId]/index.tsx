@@ -2,8 +2,8 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
 
-import ApplicationDetails from "../../src/components/application/Details"
-import EolMessageDetails from "../../src/components/application/EolMessage"
+import ApplicationDetails from "../../../src/components/application/Details"
+import EolMessageDetails from "../../../src/components/application/EolMessage"
 import {
   fetchAppstream,
   fetchAppStats,
@@ -12,15 +12,15 @@ import {
   fetchAddons,
   fetchEolRebase,
   fetchVerificationStatus,
-} from "../../src/fetchers"
+} from "../../../src/fetchers"
 import { NextSeo } from "next-seo"
 import {
   AddonAppstream,
   Appstream,
   pickScreenshotSize,
-} from "../../src/types/Appstream"
-import { Summary } from "../../src/types/Summary"
-import { AppStats } from "../../src/types/AppStats"
+} from "../../../src/types/Appstream"
+import { Summary } from "../../../src/types/Summary"
+import { AppStats } from "../../../src/types/AppStats"
 import { VerificationStatus } from "src/types/VerificationStatus"
 import {
   AppsIndex,
