@@ -160,6 +160,7 @@ export default function Home({
   topAppsByCategory,
   heroBannerData,
   appOfTheDayAppstream,
+  mobile,
 }: {
   recentlyUpdated: MeilisearchResponse<AppsIndex>
   recentlyAdded: MeilisearchResponse<AppsIndex>
@@ -174,6 +175,7 @@ export default function Home({
     appstream: DesktopAppstream
   }[]
   appOfTheDayAppstream: DesktopAppstream
+  mobile: MeilisearchResponse<AppsIndex>
 }) {
   const { t } = useTranslation()
 
@@ -307,6 +309,13 @@ export const getStaticProps: GetStaticProps = async ({
     locale,
   )
 
+  const mobile = await fetchCollection(
+    "mobile",
+    1,
+    APPS_IN_PREVIEW_COUNT,
+    locale,
+  )
+
   let topAppsByCategory: {
     category: Category
     apps: MeilisearchResponse<AppsIndex>
@@ -364,6 +373,7 @@ export const getStaticProps: GetStaticProps = async ({
       topAppsByCategory,
       heroBannerData,
       appOfTheDayAppstream,
+      mobile,
     },
     revalidate: 900,
   }

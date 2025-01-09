@@ -31,6 +31,7 @@ import type {
   GetEolRebaseAppidEolRebaseAppIdGetParams,
   GetEolRebaseEolRebaseGet200,
   GetKeywordKeywordGetParams,
+  GetMobileCollectionMobileGetParams,
   GetPlatformsPlatformsGet200,
   GetPopularLastMonthPopularLastMonthGetParams,
   GetRecentlyAddedCollectionRecentlyAddedGetParams,
@@ -2862,6 +2863,162 @@ export function useGetVerifiedCollectionVerifiedGet<
   },
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getGetVerifiedCollectionVerifiedGetQueryOptions(
+    params,
+    options,
+  )
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: DataTag<QueryKey, TData>
+  }
+
+  query.queryKey = queryOptions.queryKey
+
+  return query
+}
+
+/**
+ * @summary Get Mobile
+ */
+export const getMobileCollectionMobileGet = (
+  params?: GetMobileCollectionMobileGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`/collection/mobile`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getGetMobileCollectionMobileGetQueryKey = (
+  params?: GetMobileCollectionMobileGetParams,
+) => {
+  return [`/collection/mobile`, ...(params ? [params] : [])] as const
+}
+
+export const getGetMobileCollectionMobileGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMobileCollectionMobileGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetMobileCollectionMobileGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
+  > = ({ signal }) =>
+    getMobileCollectionMobileGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData> }
+}
+
+export type GetMobileCollectionMobileGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getMobileCollectionMobileGet>>
+>
+export type GetMobileCollectionMobileGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetMobileCollectionMobileGet<
+  TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetMobileCollectionMobileGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetMobileCollectionMobileGet<
+  TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMobileCollectionMobileGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+export function useGetMobileCollectionMobileGet<
+  TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMobileCollectionMobileGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+/**
+ * @summary Get Mobile
+ */
+
+export function useGetMobileCollectionMobileGet<
+  TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetMobileCollectionMobileGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+  const queryOptions = getGetMobileCollectionMobileGetQueryOptions(
     params,
     options,
   )
