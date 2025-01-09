@@ -5,7 +5,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Literal
 
 import gi
 import jwt
@@ -20,6 +20,9 @@ from gi.repository import AppStream
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 remove_desktop_re = re.compile(r"\.desktop$")
+
+mobile_min_size = 360
+mobile_max_size = 768
 
 
 class Hasher:
@@ -95,6 +98,46 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
 
         app["type"] = component.attrib.get("type", "generic")
         app["locales"] = {}
+
+        isMobileFriendly: list[bool] = []
+        requires = component.find("requires")
+        if requires is not None:
+            if display_lengths := requires.findall("display_length"):
+                for display_length in display_lengths:
+                    compare: Literal[
+                        "eq",
+                        "ne",
+                        "lt",
+                        "gt",
+                        "le",
+                        "ge",
+                    ] = display_length.attrib.get("compare") or "ge"
+
+                    isMobileFriendly.append(
+                        compare_requires_is_between_mobile_target(
+                            int(display_length.text),
+                            compare,
+                        )
+                    )
+
+        hasTouch = False
+        supports = component.find("supports")
+        if supports is not None:
+            if controls := supports.findall("control"):
+                for control in controls:
+                    if control.text == "touch":
+                        hasTouch = True
+
+        recommends = component.find("recommends")
+        if recommends is not None:
+            if controls := recommends.findall("control"):
+                for control in controls:
+                    if control.text == "touch":
+                        hasTouch = True
+
+        app["isMobileFriendly"] = (
+            all(isMobileFriendly) and any(isMobileFriendly) and hasTouch
+        )
 
         descriptions = component.findall("description")
         if len(descriptions):
@@ -427,6 +470,21 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
     return apps
+
+
+def compare_requires_is_between_mobile_target(
+    display_length: int,
+    compare: Literal["ge", "lt", "gt", "le", "eq", "ne"],
+):
+    if compare == "ge" and display_length <= mobile_max_size:
+        return True
+    if compare == "lt" and display_length > mobile_max_size:
+        return True
+    if compare == "gt" and display_length < mobile_min_size:
+        return True
+    if compare == "le" and display_length >= mobile_min_size:
+        return True
+    return False
 
 
 def get_clean_app_id(app_id: str):
