@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Backend for Flathub website"
 authors = ["Bartłomiej Piotrowski <bpiotrowski@gnome.org>"]
 license = "Apache-2.0"
+package-mode = false
 
 [tool.pyright]
 strict = ["app/**.py"]
