@@ -482,7 +482,8 @@
     "branding-good-primary-brand-colors": "Добрыя асноўныя колеры брэнда",
     "needed-to-pass-x": "Неабходна прайсці {{x}}",
     "hide-branding-preview": "Схаваць папярэдні прагляд брэндынгу",
-    "show-branding-preview": "Паказаць папярэдні прагляд брэндынгу"
+    "show-branding-preview": "Паказаць папярэдні прагляд брэндынгу",
+    "problems": ""
   },
   "proprietary-code-description": "Зыходны код не з'яўляецца агульнадаступным, таму яго немагчыма праверыць незалежна і ён можа быць небяспечным",
   "token-created": "Скапіруйце гэты токен і захавайце яго ў бяспечным месцы, напрыклад, у сховішчы сакрэтаў вашага пайплайна CI. Ён дае доступ для чытання і запісу да зборак вашай праграмы.",
@@ -591,5 +592,45 @@
   "can-listen-using-microphones-without-asking-permission": "Можа праслухоўваць мікрафон без дазволу карыстальніка",
   "can-access-the-contents-of-the-screen-or-other-windows": "Можа імець доступ да змесціва экрана ці іншых вокнаў",
   "developers-and-users-block": "Звяжыцеся з камандай і другімі удзельнікамі суполкі, каб задаць пытанне ці падзяліцца сваім вопытам",
-  "setup": "Кіраўніцтва па ўсталёўцы Flathub"
+  "setup": "Кіраўніцтва па ўсталёўцы Flathub",
+  "quality": {
+    "banner-preview": "",
+    "banner-preview-description": "",
+    "missing-brand-colors": ""
+  },
+  "mobile-apps": "",
+  "platform": {
+    "org-freedesktop-platform": "",
+    "org-kde-platform": "",
+    "org-gnome-platform": ""
+  },
+  "amount": "",
+  "zoom": "",
+  "transparent-safety": "",
+  "all-the-apps-you-want": "",
+  "get-apps": "",
+  "about-claim": "",
+  "tastefully-curated": "",
+  "total": "",
+  "flathub": "",
+  "mastodon": "",
+  "flathub-logo": "",
+  "integration": "",
+  "created": "",
+  "recipient": "",
+  "action-purchase": "",
+  "kind-purchase-app": "",
+  "kind-donate-app": "",
+  "users": "",
+  "positions": "",
+  "type": "",
+  "position-short": "",
+  "date": "",
+  "apps-by-tag": "",
+  "transparent": "",
+  "apps-for-you-where-you-are": "",
+  "mobile-apps-description": "",
+  "on-the-go": "",
+  "more-mobile-apps": "",
+  "action-donate": ""
 }
