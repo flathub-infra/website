@@ -118,6 +118,27 @@ export const VERIFIED_APPS_URL = (
   return `${BASE_URI}/collection/verified?${result.toString()}`
 }
 
+export const MOBILE_APPS_URL = (
+  page?: number,
+  per_page?: number,
+  locale?: string,
+): string => {
+  const result = new URLSearchParams()
+
+  if (page) {
+    result.append("page", page.toString())
+  }
+
+  if (per_page) {
+    result.append("per_page", per_page.toString())
+  }
+
+  if (locale) {
+    result.append("locale", locale)
+  }
+  return `${BASE_URI}/collection/mobile?${result.toString()}`
+}
+
 export const CATEGORY_URL = (
   category: keyof typeof Category,
   page?: number,

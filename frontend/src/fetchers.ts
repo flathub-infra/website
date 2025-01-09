@@ -20,6 +20,7 @@ import {
   ADDONS_URL,
   APP_OF_THE_DAY_URL,
   APPS_OF_THE_WEEK_URL,
+  MOBILE_APPS_URL,
 } from "./env"
 import { Summary } from "./types/Summary"
 import { AppStats } from "./types/AppStats"
@@ -112,7 +113,8 @@ export default async function fetchCollection(
     | "recently-updated"
     | "recently-added"
     | "verified"
-    | "trending",
+    | "trending"
+    | "mobile",
   page?: number,
   per_page?: number,
   locale?: string,
@@ -133,6 +135,9 @@ export default async function fetchCollection(
       break
     case "trending":
       collectionURL = TRENDING_LAST_TWO_WEEKS_URL(page, per_page, locale)
+      break
+    case "mobile":
+      collectionURL = MOBILE_APPS_URL(page, per_page, locale)
       break
     default:
       collectionURL = ""

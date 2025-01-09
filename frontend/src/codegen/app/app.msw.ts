@@ -489,6 +489,22 @@ export const getGetVerifiedCollectionVerifiedGetMockHandler = (
   })
 }
 
+export const getGetMobileCollectionMobileGetMockHandler = (
+  overrideResponse?:
+    | unknown
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<unknown> | unknown),
+) => {
+  return http.get("*/collection/mobile", async (info) => {
+    await delay(1000)
+    if (typeof overrideResponse === "function") {
+      await overrideResponse(info)
+    }
+    return new HttpResponse(null, { status: 200 })
+  })
+}
+
 export const getGetPopularLastMonthPopularLastMonthGetMockHandler = (
   overrideResponse?:
     | unknown
@@ -672,6 +688,7 @@ export const getAppMock = () => [
   getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler(),
   getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler(),
   getGetVerifiedCollectionVerifiedGetMockHandler(),
+  getGetMobileCollectionMobileGetMockHandler(),
   getGetPopularLastMonthPopularLastMonthGetMockHandler(),
   getGetTrendingLastTwoWeeksTrendingLastTwoWeeksGetMockHandler(),
   getGetStatsStatsGetMockHandler(),
