@@ -129,12 +129,8 @@
   "name": "Maze",
   "summary": "A simple maze game",
   "developer_name": "Sugar Labs Community",
-  "categories": [
-    "Game"
-  ],
-  "kudos": [
-    "HiDpiIcon"
-  ],
+  "categories": ["Game"],
+  "kudos": ["HiDpiIcon"],
   "project_license": "GPL-3.0-or-later",
   "launchable": {
     "value": "org.sugarlabs.Maze.desktop",
@@ -392,5 +388,6 @@
     "runtime": "org.gnome.Platform/x86_64/3.36",
     "sdk": "org.gnome.Sdk/x86_64/3.36"
   },
-  "is_free_license": true
+  "is_free_license": true,
+  "isMobileFriendly": false
 }
