@@ -45,6 +45,7 @@ client.index("apps").update_filterable_attributes(
         "arches",
         "icon",
         "keywords",
+        "isMobileFriendly",
     ]
 )
 
@@ -233,6 +234,25 @@ def get_by_verified(page: int | None, hits_per_page: int | None, locale: str):
                     "NOT icon IS NULL",
                 ],
                 "sort": ["verification_timestamp:desc"],
+                "hitsPerPage": hits_per_page or 250,
+                "page": page or 1,
+            },
+        ),
+    )
+
+
+def get_by_mobile(page: int | None, hits_per_page: int | None, locale: str):
+    return _translate_name_and_summary(
+        locale,
+        client.index("apps").search(
+            "",
+            {
+                "filter": [
+                    "isMobileFriendly = true",
+                    "type IN [console-application, desktop-application]",
+                    "NOT icon IS NULL",
+                ],
+                "sort": ["trending:desc"],
                 "hitsPerPage": hits_per_page or 250,
                 "page": page or 1,
             },

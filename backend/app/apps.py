@@ -67,6 +67,7 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         "id": utils.get_clean_app_id(app_id),
         "type": type,
         "name": app["name"],
+        "isMobileFriendly": app.get("isMobileFriendly", False),
         "summary": app["summary"],
         "translations": translations,
         "keywords": search_keywords,
