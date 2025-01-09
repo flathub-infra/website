@@ -1,15 +1,16 @@
 FROM ubuntu:latest AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
-        && add-apt-repository ppa:flatpak/stable
+    && add-apt-repository ppa:flatpak/stable
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3 python3-dev python3-pip python-is-python3 python3-venv build-essential libpq-dev libcairo2-dev libgirepository1.0-dev \
-        gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
+    python3 python3-dev python3-pip python-is-python3 python3-venv build-essential libpq-dev libcairo2-dev libgirepository1.0-dev \
+    gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak
 
 RUN python -m pip install --no-cache-dir --break-system-packages pipx && \
-    pipx install poetry
+    pipx install poetry && \
+    pipx inject poetry poetry-plugin-export
 
 COPY pyproject.toml poetry.lock /
 
@@ -24,12 +25,12 @@ ENV PATH="/venv/bin:$PATH"
 EXPOSE 8000
 
 RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
-        && add-apt-repository ppa:flatpak/stable
+    && add-apt-repository ppa:flatpak/stable
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
-        libgirepository-1.0-1 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
+    python3 python-is-python3 python3-venv ca-certificates libcairo2 libpq5 \
+    libgirepository-1.0-1 gir1.2-ostree-1.0 gir1.2-appstream-1.0 flatpak && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN flatpak --user remote-add flathub https://flathub.org/repo/flathub.flatpakrepo && \
