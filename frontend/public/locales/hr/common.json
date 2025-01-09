@@ -613,5 +613,17 @@
   "appname-is-safety-rating-1": "Aplikacija {{appName}} je sigurna",
   "addon-install-info": "Kako instalirati dodatke",
   "can-read-write-your-downloads": "Može čitati i pisati sve podatke u tvojoj mapi preuzimanja",
-  "no-permissions-description": "Aplikacija je potpuno izolirana"
+  "no-permissions-description": "Aplikacija je potpuno izolirana",
+  "millions-users": "<0>Dosegni milijune korisnika</0> – Flathub je dostupan za razne Linux distribucije, <2>lako se instalira</2> na ostale i ima više od milijun aktivnih korisnika",
+  "about-claim": "<0>Bez obzira jesi li korisnik u potrazi za aplikacijama ili programer koji želi doprijeti do više korisnika, <2>Flathub je najbolji izbor za aplikacije na Linuxu.</2></0>",
+  "all-the-apps-you-want": "<0>Sve aplikacije koje želiš</0> – od velikih poznatih imena do novih nezavisnih programera, Flathub ima tisuće aplikacija koje će zadovoljiti tvoje potrebe.",
+  "transparent-safety": "<0>Transparentna sigurnost</0> – Jasno vidi kada je aplikacija <3>provjerena</3> i da dolazi od njenog programera, koje dozvole zahtijeva te je li otvorenog koda i je li se smije mijenjati",
+  "tastefully-curated": "<0>Ručno odabrano</0> – Otkrij zanimljive, kvalitetne aplikacije na cijelom Flathubu uz pomoć naših suradnika koje prikazuju najbolje ponude",
+  "apps-for-you-where-you-are": "<0>Aplikacije za tebe gdjegod se nalaziš</0> – Svejedno je li koristiš Steam Deck, snažnu Linux radnu stanicu, Raspberry Pi ili rijetki Linux telefon; Flathub ima aplikacije za tebe",
+  "docs-guidance": "<0>Jasni dokumenti i smjernice</0> – Opsežna <2>dokumentacija</2>, tisuće javnih <5>manifesta aplikacija</5> i velika zajednica znači da uvijek možeš dobiti pomoć",
+  "integration": "<0>Izvorna integracija trgovine aplikacija</0> – Zaboravi preuzimanja s weba; Flathub isporučuje aplikacije i <3>automatska aktualiziranja</3> korisnicima u njihovom izvornom klijentu trgovine aplikacija, tamo gdje ih očekuju",
+  "invite-developer-description": "Upiši kod pozivnice programera kako bi ga pozvao/la da postane programer ove aplikacije. Kod mogu pronaći na kartici {{developersTab}} na stranici svog računa.",
+  "token-created": "Kopiraj ovaj token i spremi ga na sigurno mjesto, kao što je mjesto tajni u tvom sustavu kontinuirane integracije (CI pipeline). Omogućuje pristup za čitanje i pisanje međuverzijama tvoje aplikacije.",
+  "proprietary-explanation": "Ova aplikacija nije javno razvijena, tako da samo njeni programeri znaju kako radi. Može biti nesigurna na načine koje je teško prepoznati i može se neprimjetno promijeniti.",
+  "transparent": "<0>Neovisno i transparentno</0> – Mi smo zajednica otvorenog izvornog koda koja upravlja najboljim od onoga što ekosustav može ponuditi"
 }
