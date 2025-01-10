@@ -206,7 +206,7 @@ export default async function handler(
                 height: "420px",
                 borderRadius: isFullscreenApp ? "8px" : "0px",
               }}
-              src={screenshot.src}
+              src={screenshot.src.replace(/.webp$/, ".png")}
               alt=""
             />
           )}
