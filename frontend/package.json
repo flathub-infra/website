@@ -66,7 +66,7 @@
     "react-svg-worldmap": "2.0.0-alpha.16",
     "recharts": "^2.15.0",
     "sass": "^1.83.1",
-    "satori": "^0.12.0",
+    "satori": "^0.12.1",
     "sonner": "^1.7.1",
     "spdx-license-list": "^6.9.0",
     "tailwind-merge": "^2.6.0",

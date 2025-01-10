@@ -10894,7 +10894,7 @@ __metadata:
     recharts: "npm:^2.15.0"
     redis: "npm:^4.7.0"
     sass: "npm:^1.83.1"
-    satori: "npm:^0.12.0"
+    satori: "npm:^0.12.1"
     simple-git: "npm:^3.27.0"
     sonner: "npm:^1.7.1"
     spdx-license-list: "npm:^6.9.0"
@@ -15568,9 +15568,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"satori@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "satori@npm:0.12.0"
+"satori@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "satori@npm:0.12.1"
   dependencies:
     "@shuding/opentype.js": "npm:1.4.0-beta.0"
     css-background-parser: "npm:^0.1.0"
@@ -15583,7 +15583,7 @@ __metadata:
     parse-css-color: "npm:^0.2.1"
     postcss-value-parser: "npm:^4.2.0"
     yoga-wasm-web: "npm:^0.3.3"
-  checksum: 10c0/8ec7f76ac6ef5d01c357f31abf0f67a00ea682f4da329040b63c5cf1e3790da41c7e492ebf4a947f8ded6f329232459b6b945b4a54296b87bded21d76eb75439
+  checksum: 10c0/2cf067bc39308eb2c8be00997adcb57c1a541c6b76e839a8cdde084cf47aebc22bcae55785fba24b0d3136f0a9f32070d48401196be2f82d2ab19c5e6635b68f
   languageName: node
   linkType: hard
 
