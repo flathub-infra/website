@@ -17,8 +17,8 @@ export const getStaticProps: GetStaticProps = async ({
     redirect: {
       destination:
         locale && locale !== defaultLocale
-          ? `/${locale}/apps/collection/project-group/${params.projectgroup}/1`
-          : `/apps/collection/project-group/${params.projectgroup}/1`,
+          ? `/${locale}/apps/collection/project-group/${encodeURI(params.projectgroup)}/1`
+          : `/apps/collection/project-group/${encodeURI(params.projectgroup)}/1`,
       permanent: true,
     },
   }
