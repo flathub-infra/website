@@ -617,5 +617,6 @@
     "org-freedesktop-platform": "Platformë Freedesktop"
   },
   "apps-by-tag": "Aplikacione sipas etikete '{{tag}}'",
-  "app-listing-quality": "Ujdisni Google Listing & Ads"
+  "app-listing-quality": "Ujdisni Google Listing & Ads",
+  "mobile-apps": "Aplikacione Për Celular"
 }
