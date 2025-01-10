@@ -17,8 +17,8 @@ export const getStaticProps: GetStaticProps = async ({
     redirect: {
       destination:
         locale && locale !== defaultLocale
-          ? `/${locale}/apps/collection/developer/${params.developer}/1`
-          : `/apps/collection/developer/${params.developer}/1`,
+          ? `/${locale}/apps/collection/developer/${encodeURI(params.developer)}/1`
+          : `/apps/collection/developer/${encodeURI(params.developer)}/1`,
       permanent: true,
     },
   }
