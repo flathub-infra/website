@@ -69,7 +69,7 @@
     "satori": "^0.12.0",
     "sonner": "^1.7.1",
     "spdx-license-list": "^6.9.0",
-    "tailwind-merge": "^2.5.5",
+    "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "yaml": "^2.7.0",
     "yet-another-react-lightbox": "^3.21.7"
