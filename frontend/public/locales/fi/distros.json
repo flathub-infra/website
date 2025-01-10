@@ -74,7 +74,8 @@
     "introduction": "<0>Flatpak on asennettu oletusarvoisesti Red Hat Enterprise Linux Workstationin versioon 9 ja uudempiin. Aloita ottamalla käyttöön Flathub, joka on paras lähde ladata Flatpak-sovelluksia. Lataa ja asenna <2>Flathub-ohjelmistolähdetiedosto</2>.</0> <p>Asenna Flatpak Red Hat Enterprise Linux Workstationin versioon 8 tai vanhempiin suorittamalla päätteessä:</p>  <5></5> <7>Sen jälkeen voit <2>asentaa sovelluksia</2>!</7> <p>Yllä olevien linkkien tulisi toimia oletusarvoisessa Red Hat Enterprise Linux Workstation 9 -asennuksessa, mutta jos näin ei ole, voit lisätä Flathubin itse suorittamalla:</p> <11></11>"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Linux Mint 18.3 -versioon ja uudempiin — määritystä ei tarvita!</0> <2>Jos käytät vanhempaa versiota, <2>päivitä Linux Mint versioon 18.3</2>.</2>"
   },
   "opensuse": {
     "distroName": "openSUSE",
@@ -109,10 +110,12 @@
       "text": "<p>Flatpak-paketti on saatavilla Debian 10:een (Buster) ja uudempiin. Asenna se suorittamalla root-käyttäjänä:</p> <2></2>"
     },
     "step-3": {
-      "name": "Lisää Flathub-ohjelmistolähde"
+      "name": "Lisää Flathub-ohjelmistolähde",
+      "text": "<0>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön lataamalla ja asentamalla <2>Flathub-ohjelmistolähdetiedosto</2> tai suorita seuraava komento:</0> <2></2>"
     },
     "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa"
+      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
+      "text": "<p>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</p> <2></2> <p>Jos käytät KDE:tä, voit asentaa Plasman Discoverin Flatpak-taustaosan:</p> <6></6>"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
@@ -221,7 +224,8 @@
     },
     "step-3": {
       "name": "Käynnistä uudelleen"
-    }
+    },
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu Pop!_OS:n versioon 20.04 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "elementary_os": {
     "distroName": "elementary OS",
@@ -340,7 +344,8 @@
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
     },
     "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa"
+      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
+      "text": "<p>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</p> <2></2>"
     }
   },
   "mx_linux": {
@@ -383,7 +388,8 @@
     },
     "step-2": {
       "name": "Tarkista Flatpak-asetukset"
-    }
+    },
+    "introduction": "<0>Flatpak-tuki on sisäänrakennettu KDE neonin versioon 19 ja uudempiin — määritystä ei tarvita!</0> <p>Jos käytät vanhempaa versiota, seuraa alla olevaa ohjetta.</p>"
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
