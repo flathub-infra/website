@@ -113,7 +113,7 @@
   },
   "packageManager": "yarn@4.3.1",
   "resolutions": {
-    "react-is": "19.0.0-rc.1",
+    "react-is": "19.0.0",
     "@types/react": "19.0.4"
   }
 }
