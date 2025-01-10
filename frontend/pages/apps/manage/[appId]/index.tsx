@@ -83,7 +83,7 @@ export default function AppManagementPage({
 
   const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
     query: { enabled: !!app.id },
-    axios: { withCredentials: true },
+    fetch: { credentials: "include" },
   })
 
   const pages = [
@@ -99,7 +99,7 @@ export default function AppManagementPage({
     queryKey: ["invite-status", app.id],
     queryFn: () =>
       getInviteStatusInvitesAppIdGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!app.id,
   })

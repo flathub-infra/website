@@ -26,8 +26,8 @@ export default function TransactionPage({ stripePublicKey }) {
   const query = useGetTransactionByIdWalletTransactionsTxnGet(
     router.query.transaction_id as string,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!router.query.transaction_id,
@@ -38,8 +38,8 @@ export default function TransactionPage({ stripePublicKey }) {
   const queryStripe = useGetTxnStripedataWalletTransactionsTxnStripeGet(
     router.query.transaction_id as string,
     {
-      axios: {
-        withCredentials: true,
+      fetch: {
+        credentials: "include",
       },
       query: {
         enabled: !!router.query.transaction_id,

@@ -124,7 +124,7 @@ export default function AppPicks() {
           position: app.position,
         },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
 
@@ -199,7 +199,7 @@ export default function AppPicks() {
             recommendation_date: formatISO(date, { representation: "date" }),
           },
           {
-            withCredentials: true,
+            credentials: "include",
           },
         )
 

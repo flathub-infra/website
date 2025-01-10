@@ -37,7 +37,7 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       ),

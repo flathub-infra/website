@@ -204,7 +204,7 @@ const FailedByGuideline = () => {
     queryKey: ["failed-by-guideline"],
     queryFn: () =>
       getQualityModerationStatsQualityModerationFailedByGuidelineGet({
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!user.info?.permissions.some(
       (a) => a === Permission["quality-moderation"],

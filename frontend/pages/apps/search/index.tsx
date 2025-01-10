@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchSearchQuery } from "src/fetchers"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "src/components/search/SearchPanel"
+import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
 
 export default function Search({ locale }) {
   const { t } = useTranslation()
@@ -43,17 +44,15 @@ export default function Search({ locale }) {
   const search = useQuery({
     queryKey: ["search", q, selectedFilters],
     queryFn: async () => {
-      return fetchSearchQuery(q as string, locale, selectedFilters).then(
-        (res) => {
-          if (q.length > 0) {
-            trackSiteSearch({
-              keyword: q,
-              count: res.data.estimatedTotalHits,
-            })
-          }
-          return res
-        },
-      )
+      const fetch = await fetchSearchQuery(q as string, locale, selectedFilters)
+      const json = (await fetch.json()) as MeilisearchResponseLimited<AppsIndex>
+      if (q.length > 0) {
+        trackSiteSearch({
+          keyword: q,
+          count: json.estimatedTotalHits,
+        })
+      }
+      return json
     },
   })
 

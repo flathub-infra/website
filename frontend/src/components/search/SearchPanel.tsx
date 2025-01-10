@@ -9,7 +9,6 @@ import clsx from "clsx"
 import { SearchFilters } from "src/components/search/SearchFilters"
 import { UseQueryResult } from "@tanstack/react-query"
 import { AppsIndex, MeilisearchResponseLimited } from "src/meilisearch"
-import { AxiosResponse } from "axios"
 import { useTranslation, Trans } from "next-i18next"
 import { SearchResults } from "./SearchResults"
 import { Button } from "@/components/ui/button"
@@ -20,10 +19,7 @@ export const SearchPanel = ({
   setSelectedFilters,
   query,
 }: {
-  searchResult: UseQueryResult<
-    AxiosResponse<MeilisearchResponseLimited<AppsIndex>, any>,
-    unknown
-  >
+  searchResult: UseQueryResult<MeilisearchResponseLimited<AppsIndex>, unknown>
   selectedFilters: {
     filterType: string
     value: string
@@ -33,10 +29,7 @@ export const SearchPanel = ({
 }) => {
   const { t } = useTranslation()
 
-  if (
-    searchResult.isSuccess &&
-    searchResult.data.data.estimatedTotalHits === 0
-  ) {
+  if (searchResult.isSuccess && searchResult.data.estimatedTotalHits === 0) {
     return (
       <div>
         <h1 className="pb-8 text-2xl font-bold">
@@ -84,7 +77,7 @@ export const SearchPanel = ({
               )}
             >
               {t("number-of-results", {
-                number: searchResult.data?.data?.estimatedTotalHits ?? "000",
+                number: searchResult.data?.estimatedTotalHits ?? "000",
               })}
             </span>
           }

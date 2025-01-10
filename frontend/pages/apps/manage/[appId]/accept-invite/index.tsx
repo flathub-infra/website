@@ -32,7 +32,7 @@ export default function AcceptInvitePage({ app }) {
     queryKey: ["invite-status", app.id],
     queryFn: () =>
       getInviteStatusInvitesAppIdGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     enabled: !!app.id,
   })
@@ -41,7 +41,7 @@ export default function AcceptInvitePage({ app }) {
     mutationKey: ["accept-invite", app.id],
     mutationFn: () =>
       acceptInviteInvitesAppIdAcceptPost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -52,7 +52,7 @@ export default function AcceptInvitePage({ app }) {
     mutationKey: ["decline-invite", app.id],
     mutationFn: () =>
       declineInviteInvitesAppIdDeclinePost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)

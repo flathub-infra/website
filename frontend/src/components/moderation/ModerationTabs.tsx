@@ -57,7 +57,7 @@ const ModerationTabs: FunctionComponent = () => {
           offset,
         },
         {
-          withCredentials: true,
+          credentials: "include",
           signal,
         },
       )

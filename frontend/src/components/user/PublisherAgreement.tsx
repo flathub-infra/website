@@ -29,7 +29,7 @@ const PublisherAgreement: FunctionComponent<Props> = ({
     mutationKey: ["agree-to-publisher-agreement"],
     mutationFn: () =>
       doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost({
-        withCredentials: true,
+        credentials: "include",
       }),
 
     onSuccess: async () => {

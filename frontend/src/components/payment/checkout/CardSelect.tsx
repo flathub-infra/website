@@ -4,8 +4,8 @@ import { FunctionComponent, ReactElement, useState } from "react"
 import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
 import { handleStripeError } from "./stripe"
 import { useMutation, UseQueryResult } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
 import {
+  getWalletinfoWalletWalletinfoGetResponse,
   setPendingWalletTransactionsTxnSetpendingPost,
   setTransactionCardWalletTransactionsTxnSetcardPost,
 } from "src/codegen"
@@ -20,7 +20,7 @@ interface Props {
   clientSecret: string
   submit: () => void
   skip: () => void
-  walletQuery: UseQueryResult<AxiosResponse<WalletInfo, any>, Error>
+  walletQuery: UseQueryResult<getWalletinfoWalletWalletinfoGetResponse, Error>
 }
 
 const CardSelect: FunctionComponent<Props> = ({
@@ -46,10 +46,10 @@ const CardSelect: FunctionComponent<Props> = ({
       if (!useCard) return
 
       await setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
-        withCredentials: true,
+        credentials: "include",
       })
       return await setPendingWalletTransactionsTxnSetpendingPost(id, {
-        withCredentials: true,
+        credentials: "include",
       })
     },
     onSuccess: async () => {
@@ -67,7 +67,7 @@ const CardSelect: FunctionComponent<Props> = ({
         submit()
       }
     },
-    onError: (err: AxiosError) => {},
+    onError: (err: Error) => {},
   })
 
   let cardSection: ReactElement
