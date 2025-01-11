@@ -480,8 +480,8 @@ class StripeWallet(WalletBase):
                 xfer = pending_xfers.pop(0)
                 try:
                     print(
-                        f'Setting up transfer of {xfer["amount"]/100} '
-                        + f'({xfer["currency"]}) to {xfer["recipient"]}'
+                        f"Setting up transfer of {xfer['amount'] / 100} "
+                        + f"({xfer['currency']}) to {xfer['recipient']}"
                     )
                     stripe.Transfer.create(
                         amount=xfer["amount"],
