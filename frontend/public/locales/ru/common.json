@@ -499,11 +499,11 @@
   "moderation-build-id": "ID сборки",
   "flathub-apps-for-linux": "Flathub - Приложения для Linux",
   "token-name": "Имя токена",
-  "new-beta-token": "Новый бета токен",
+  "new-beta-token": "Новый beta-токен",
   "create-token": "Создать токен",
   "no-tokens-to-show": "Нет токенов для показа.",
   "upload-tokens": "Загрузить токены",
-  "new-stable-token": "Новый стабильный токен",
+  "new-stable-token": "Новый stable-токен",
   "build-x": "Собрано {{build-ago}}",
   "issued-to": "Выдано",
   "id": "ID",
@@ -625,5 +625,6 @@
   "action-purchase": "Купить",
   "kind-purchase-app": "Купить {{appName}}",
   "zoom": "Масштаб",
-  "apps-by-tag": "Приложения с меткой «{{tag}}»"
+  "apps-by-tag": "Приложения с меткой «{{tag}}»",
+  "mobile-apps": "Мобильные приложения"
 }
