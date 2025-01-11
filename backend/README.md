@@ -49,7 +49,7 @@ If you want to work on the code, you should setup a venv and install the depende
 ```bash
 poetry config virtualenvs.in-project true
 
-poetry install
+poetry install --no-root
 ```
 
 This should allow code completion and type checking to work, if you setup the interpreter in your IDE.
