@@ -1,6 +1,6 @@
 from typing import Any, Optional
 
-from fastapi import APIRouter, FastAPI, Path, Response
+from fastapi import APIRouter, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
 from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
@@ -22,6 +22,7 @@ def get_categories() -> list[str]:
 @router.get("/category/{category}", tags=["app"])
 def get_category(
     category: schemas.MainCategory,
+    filter_subcategories: list[str] = Query(None),
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -33,7 +34,9 @@ def get_category(
         response.status_code = 400
         return response
 
-    result = search.get_by_selected_categories([category], page, per_page, locale)
+    result = search.get_by_selected_categories(
+        [category], filter_subcategories, page, per_page, locale
+    )
 
     return result
 
@@ -42,6 +45,7 @@ def get_category(
 def get_subcategory(
     category: schemas.MainCategory,
     subcategory: str,
+    filter_subcategories: list[str] = Query(None),
     page: int | None = None,
     per_page: int | None = None,
     locale: str = "en",
@@ -54,7 +58,7 @@ def get_subcategory(
         return response
 
     result = search.get_by_selected_category_and_subcategory(
-        category, subcategory, page, per_page, locale
+        category, subcategory, filter_subcategories, page, per_page, locale
     )
 
     return result
