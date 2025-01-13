@@ -96,6 +96,7 @@ def delete_apps(app_id_list):
 
 def get_by_selected_categories(
     selected_categories: list[schemas.MainCategory],
+    filter_subcategories: list[str],
     page: int | None,
     hits_per_page: int | None,
     locale: str,
@@ -111,6 +112,9 @@ def get_by_selected_categories(
             {
                 "filter": [
                     category_list,
+                    f"sub_categories NOT IN {filter_subcategories}"
+                    if filter_subcategories is not None
+                    else "",
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
@@ -125,6 +129,7 @@ def get_by_selected_categories(
 def get_by_selected_category_and_subcategory(
     selected_category: schemas.MainCategory,
     selected_subcategory: str,
+    filter_subcategories: list[str],
     page: int | None,
     hits_per_page: int | None,
     locale: str,
@@ -137,6 +142,9 @@ def get_by_selected_category_and_subcategory(
                 "filter": [
                     f"main_categories = {selected_category.value}",
                     f"sub_categories = {selected_subcategory}",
+                    f"sub_categories NOT IN {filter_subcategories}"
+                    if filter_subcategories is not None
+                    else "",
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
