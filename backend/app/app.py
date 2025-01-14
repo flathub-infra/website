@@ -339,14 +339,24 @@ def get_trending_last_two_weeks(
     return result
 
 
+class StatsResultCategoryTotalsSubCategories(BaseModel):
+    sub_category: str
+    count: int
+
+
+class StatsResultCategoryTotals(BaseModel):
+    category: str
+    count: int
+    sub_categories: list[StatsResultCategoryTotalsSubCategories]
+
+
 class StatsResult(BaseModel):
+    totals: dict[str, int]
     countries: dict[str, int]
     downloads_per_day: dict[str, int]
     updates_per_day: dict[str, int]
     delta_downloads_per_day: dict[str, int]
-    downloads: int
-    number_of_apps: int
-    category_totals: dict[str, int]
+    category_totals: list[StatsResultCategoryTotals]
 
 
 @router.get("/stats", status_code=200, tags=["app"])

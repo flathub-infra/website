@@ -112,9 +112,11 @@ def get_by_selected_categories(
             {
                 "filter": [
                     category_list,
-                    f"sub_categories NOT IN {filter_subcategories}"
-                    if filter_subcategories is not None
-                    else "",
+                    (
+                        f"sub_categories NOT IN {filter_subcategories}"
+                        if filter_subcategories is not None
+                        else ""
+                    ),
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
@@ -142,9 +144,11 @@ def get_by_selected_category_and_subcategory(
                 "filter": [
                     f"main_categories = {selected_category.value}",
                     f"sub_categories = {selected_subcategory}",
-                    f"sub_categories NOT IN {filter_subcategories}"
-                    if filter_subcategories is not None
-                    else "",
+                    (
+                        f"sub_categories NOT IN {filter_subcategories}"
+                        if filter_subcategories is not None
+                        else ""
+                    ),
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
@@ -375,6 +379,21 @@ def search_apps_post(searchquery: SearchQuery, locale: str):
                     "is_free_license",
                     "type",
                     "arches",
+                ],
+            },
+        ),
+    )
+
+
+def get_sub_categories(category: str):
+    return (
+        client.index("apps").search(
+            "",
+            {
+                "limit": 1,
+                "filter": f"main_categories = '{category}'",
+                "facets": [
+                    "sub_categories",
                 ],
             },
         ),

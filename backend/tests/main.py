@@ -363,17 +363,19 @@ def test_stats(client):
     three_days_ago = today - datetime.timedelta(days=3)
     two_weeks_ago = today - datetime.timedelta(days=14)
     expected = {
-        "category_totals": {
-            "Game": 1,
-            "Network": 1,
-            "Office": 1,
+        "totals": {
+            "downloads": 4504,
+            "number_of_apps": 3,
         },
+        "category_totals": [
+            {"category": "Game", "count": 1, "sub_categories": []},
+            {"category": "Network", "count": 1, "sub_categories": []},
+            {"category": "Office", "count": 1, "sub_categories": []},
+        ],
         "countries": {"AD": 55, "BR": 87},
         "downloads_per_day": {},
         "delta_downloads_per_day": {},
         "updates_per_day": {},
-        "downloads": 4504,
-        "number_of_apps": 3,
     }
 
     expected["delta_downloads_per_day"][two_weeks_ago.isoformat()] = 15
