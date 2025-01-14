@@ -29,8 +29,8 @@ UserModeration.getLayout = function getLayout(page: ReactElement) {
 
 export default function UserModeration() {
   const rolesQuery = useRolesUsersRolesGet({
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 
@@ -64,8 +64,8 @@ export default function UserModeration() {
 
 const UserList = ({ role }: { role: string }) => {
   const query = useRoleUsersUsersRolesRoleNameGet(role as RoleName, {
-    axios: {
-      withCredentials: true,
+    fetch: {
+      credentials: "include",
     },
   })
 

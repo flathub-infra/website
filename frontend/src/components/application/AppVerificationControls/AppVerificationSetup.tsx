@@ -8,14 +8,10 @@ import LoginVerification from "./LoginVerification"
 import WebsiteVerification from "./WebsiteVerification"
 import InlineError from "src/components/InlineError"
 import { useQuery } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import {
-  AvailableMethods,
-  VerificationMethod,
-  VerificationStatus,
-} from "src/codegen/model"
+import { VerificationMethod, VerificationStatus } from "src/codegen/model"
 import {
   getAvailableMethodsVerificationAppIdAvailableMethodsGet,
+  getAvailableMethodsVerificationAppIdAvailableMethodsGetResponse,
   getVerificationStatusVerificationAppIdStatusGet,
   unverifyVerificationAppIdUnverifyPost,
 } from "src/codegen"
@@ -82,8 +78,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
   })
 
   const verificationAvailableMethods = useQuery<
-    AxiosResponse<AvailableMethods | undefined>,
-    AxiosError<{ detail: string }>
+    getAvailableMethodsVerificationAppIdAvailableMethodsGetResponse,
+    Error
   >({
     queryKey: ["verification-available-methods", app.id],
     queryFn: async () => {
@@ -91,7 +87,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         app.id,
         { new_app: isNewApp },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       )
     },
@@ -149,7 +145,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
                   setConfirmUnverify(false)
 
                   unverifyVerificationAppIdUnverifyPost(app.id, {
-                    withCredentials: true,
+                    credentials: "include",
                   }).then(() => {
                     query.refetch()
                   })

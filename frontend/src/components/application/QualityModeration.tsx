@@ -83,7 +83,7 @@ const ReviewButton = ({
   const requestReviewMutation = useMutation({
     mutationFn: () =>
       requestReviewForAppQualityModerationAppIdRequestReviewPost(app_id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: () => {
       buttonClicked?.()
@@ -171,7 +171,7 @@ export const QualityModeration = ({
     queryKey: ["/quality-moderation-app-status", { appId: app.id }],
     queryFn: ({ signal }) =>
       getQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
         signal: signal,
       }),
     enabled: !!requirement,

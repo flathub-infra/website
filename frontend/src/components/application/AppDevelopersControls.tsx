@@ -9,7 +9,6 @@ import { useRouter } from "next/router"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
 import { getUserData } from "src/asyncs/login"
-import { AxiosError } from "axios"
 import {
   getAppDevelopersInvitesAppIdDevelopersGet,
   inviteDeveloperInvitesAppIdInvitePost,
@@ -34,7 +33,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
     queryKey: ["developers", app.id],
     queryFn: () =>
       getAppDevelopersInvitesAppIdDevelopersGet(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
   })
 
@@ -42,7 +41,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
     mutationKey: ["leave-team-invite-app", app.id],
     mutationFn: () =>
       leaveTeamInvitesAppIdLeavePost(app.id, {
-        withCredentials: true,
+        credentials: "include",
       }),
     onSuccess: async () => {
       await getUserData(userDispatch)
@@ -196,7 +195,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         app.id,
         { invite_id: developer.id },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {
@@ -212,7 +211,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
         app.id,
         { developer_id: developer.id },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {
@@ -301,7 +300,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
         app.id,
         { invite_code: inviteCode },
         {
-          withCredentials: true,
+          credentials: "include",
         },
       ),
     onSuccess: async () => {
@@ -309,7 +308,7 @@ const InviteDialog: FunctionComponent<InviteDialogProps> = ({
       closeDialog()
       resetModal()
     },
-    onError: (e: AxiosError<{ detail: string }>) => {
+    onError: (e: Error) => {
       setError(e.response.data.detail.replaceAll("_", "-"))
     },
   })
