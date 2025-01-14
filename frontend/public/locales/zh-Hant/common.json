@@ -623,5 +623,6 @@
   "recipient": "收款者",
   "created": "已建立",
   "zoom": "縮放",
-  "apps-by-tag": "標籤為「{{tag}}」的應用程式"
+  "apps-by-tag": "標籤為「{{tag}}」的應用程式",
+  "mobile-apps": "行動應用程式"
 }

@@ -624,5 +624,6 @@
   "kind-donate-app": "Donaci al {{appName}}",
   "zoom": "Zomi",
   "action-donate": "Donaci",
-  "apps-by-tag": "Programoj de etikedo «{{tag}}»"
+  "apps-by-tag": "Programoj de etikedo «{{tag}}»",
+  "mobile-apps": "Poŝaparataj programoj"
 }

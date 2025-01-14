@@ -92,7 +92,7 @@
   "switch-language": "להחליף שפה",
   "expiry": "פקיעת תוקף",
   "checkout": "לתשלום",
-  "confirm-selection": "לאשר בחירה",
+  "confirm-selection": "אישור הבחירה",
   "kind-donation": "תרומה",
   "kind-purchase": "רכישה",
   "payment": "תשלום",
@@ -292,7 +292,7 @@
   "enable-app-vending": "הפעלת עמוד היישום",
   "status-unredeemed": "לא נוצל",
   "token-cancelled": "טוקן בוטל בהצלחה",
-  "create-tokens": "ליצור טוקנים",
+  "create-tokens": "יצירת אסימונים",
   "verification-instructions": "אמתו את מזהה היישום שלכם כדי להראות שההעלאה שלכם לFlathub מאושרת על ידי מפתח היישום. תצטרכו להוכיח שיש לכם שליטה על היישום בעזרת אתר בדומיין של היישום או על ידי בדיקת גישה לחשבון היישום באתר אירוח קוד מקור. תג האימות יוצג ליד שם היישום, שם המפרסם, והדרך שבה מזהה היישום אומת.",
   "website-verification-instruction": "צרו עמוד ב<1>{{webpage}}<1/> המכיל את הטוקן הבא: <3>{{token}}</3> אם העמוד כבר קיים, הוסיפו את הטוקן אליו.",
   "x-downloads": "{{x}} הורדות",
@@ -433,5 +433,14 @@
   "position-short": "מקום",
   "amount": "סכום",
   "total": "סך הכול",
-  "type": "סוג"
+  "type": "סוג",
+  "users": "משתמשים",
+  "create-token": "יצירת אסימון",
+  "scope-build": "יצירה וגישה לבניות ולמשימות",
+  "get-apps": "הורדת יישומים",
+  "mastodon": "מסטודון",
+  "date": "תאריך",
+  "scope-upload": "העלאת קבצים לבנייה",
+  "token-name": "שם האסימון",
+  "apps-by-tag": "יישומים לפי התגית ‚{{tag}}’"
 }
