@@ -326,7 +326,7 @@ def get_by_keyword(
 def search_apps(query: str, locale: str, free_software_only: bool = False):
     query = unquote(query)
 
-    filters = ["type in desktop-application, console-application"]
+    filters = ["type IN [desktop-application, console-application]"]
 
     if free_software_only:
         filters.append("is_free_license = true")
