@@ -15,7 +15,7 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
-import { Category, categoryToName } from "src/types/Category"
+import { categoryToName } from "src/types/Category"
 import ApplicationSection from "src/components/application/ApplicationSection"
 import { HeroBanner } from "src/components/application/HeroBanner"
 import { DesktopAppstream } from "src/types/Appstream"
@@ -27,25 +27,26 @@ import MultiToggle from "src/components/MultiToggle"
 import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { MainCategory } from "src/codegen"
 
 const categoryOrder = [
-  Category.Office,
-  Category.Graphics,
-  Category.AudioVideo,
-  Category.Education,
-  Category.Game,
-  Category.Network,
-  Category.Development,
-  Category.Science,
-  Category.System,
-  Category.Utility,
+  MainCategory.office,
+  MainCategory.graphics,
+  MainCategory.audiovideo,
+  MainCategory.education,
+  MainCategory.game,
+  MainCategory.network,
+  MainCategory.development,
+  MainCategory.science,
+  MainCategory.system,
+  MainCategory.utility,
 ]
 
 const CategorySection = ({
   topAppsByCategory,
 }: {
   topAppsByCategory: {
-    category: Category
+    category: MainCategory
     apps: MeilisearchResponse<AppsIndex>
   }[]
 }) => {
@@ -167,7 +168,7 @@ export default function Home({
   trending: MeilisearchResponse<AppsIndex>
   popular: MeilisearchResponse<AppsIndex>
   topAppsByCategory: {
-    category: Category
+    category: MainCategory
     apps: MeilisearchResponse<AppsIndex>
   }[]
   heroBannerData: {
@@ -317,12 +318,12 @@ export const getStaticProps: GetStaticProps = async ({
   )
 
   let topAppsByCategory: {
-    category: Category
+    category: MainCategory
     apps: MeilisearchResponse<AppsIndex>
   }[] = []
 
-  const categoryPromise = Object.keys(Category).map(
-    async (category: Category) => {
+  const categoryPromise = Object.keys(MainCategory).map(
+    async (category: MainCategory) => {
       return {
         category,
         apps: await fetchCategory(category, locale, 1, 6),

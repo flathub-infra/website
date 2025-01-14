@@ -1,4 +1,4 @@
-import { Category } from "./types/Category"
+import { MainCategory } from "./codegen"
 
 const BASE_URI: string = process.env.NEXT_PUBLIC_API_BASE_URI
 
@@ -140,7 +140,7 @@ export const MOBILE_APPS_URL = (
 }
 
 export const CATEGORY_URL = (
-  category: keyof typeof Category,
+  category: keyof typeof MainCategory,
   page?: number,
   per_page?: number,
   locale?: string,
@@ -162,7 +162,7 @@ export const CATEGORY_URL = (
 }
 
 export const SUBCATEGORY_URL = (
-  category: keyof typeof Category,
+  category: keyof typeof MainCategory,
   subcategory: string,
   page?: number,
   per_page?: number,

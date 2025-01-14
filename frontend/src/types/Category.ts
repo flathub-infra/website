@@ -1,40 +1,28 @@
 import { TFunction } from "i18next"
+import { MainCategory } from "src/codegen"
 
-export enum Category {
-  AudioVideo = "AudioVideo",
-  Development = "Development",
-  Education = "Education",
-  Game = "Game",
-  Graphics = "Graphics",
-  Network = "Network",
-  Office = "Office",
-  Science = "Science",
-  System = "System",
-  Utility = "Utility",
-}
-
-export function stringToCategory(category: string): Category | undefined {
+export function stringToCategory(category: string): MainCategory | undefined {
   switch (category.toLowerCase()) {
     case "audiovideo":
-      return Category.AudioVideo
+      return MainCategory.audiovideo
     case "development":
-      return Category.Development
+      return MainCategory.development
     case "education":
-      return Category.Education
+      return MainCategory.education
     case "game":
-      return Category.Game
+      return MainCategory.game
     case "graphics":
-      return Category.Graphics
+      return MainCategory.graphics
     case "network":
-      return Category.Network
+      return MainCategory.network
     case "office":
-      return Category.Office
+      return MainCategory.office
     case "science":
-      return Category.Science
+      return MainCategory.science
     case "system":
-      return Category.System
+      return MainCategory.system
     case "utility":
-      return Category.Utility
+      return MainCategory.utility
     default:
       return undefined
   }
@@ -51,30 +39,45 @@ export function tryParseCategory(
   }
 }
 
+export function tryParseSubCategory(
+  subcategory: string,
+  t: TFunction<"translation", undefined>,
+): string | undefined {
+  try {
+    return gameCategoryToName(subcategory as GameCategory, t)
+  } catch {
+    try {
+      return audioVideoCategoryToName(subcategory as AudioVideoCategory, t)
+    } catch {
+      return undefined
+    }
+  }
+}
+
 export function categoryToName(
-  category: Category,
+  category: MainCategory,
   t: TFunction<"translation", undefined>,
 ): string {
   switch (category) {
-    case Category.AudioVideo:
+    case MainCategory.audiovideo:
       return t("audio-and-video")
-    case Category.Development:
+    case MainCategory.development:
       return t("developer-tools")
-    case Category.Game:
+    case MainCategory.game:
       return t("games")
-    case Category.Graphics:
+    case MainCategory.graphics:
       return t("graphics-and-photography")
-    case Category.Network:
+    case MainCategory.network:
       return t("networking")
-    case Category.Office:
+    case MainCategory.office:
       return t("productivity")
-    case Category.Utility:
+    case MainCategory.utility:
       return t("utilities")
-    case Category.Science:
+    case MainCategory.science:
       return t("science")
-    case Category.Education:
+    case MainCategory.education:
       return t("education")
-    case Category.System:
+    case MainCategory.system:
       return t("system")
     default:
       assertUnreachable(category)
@@ -183,14 +186,14 @@ export function audioVideoCategoryToName(
 }
 
 export function subcategoryToName(
-  category: Category,
+  category: MainCategory,
   subcategory: string,
   t: TFunction<"translation", undefined>,
 ): string {
-  switch (category) {
-    case Category.Game:
+  switch (category.toLowerCase()) {
+    case MainCategory.game:
       return gameCategoryToName(subcategory as GameCategory, t)
-    case Category.AudioVideo:
+    case MainCategory.audiovideo:
       return audioVideoCategoryToName(subcategory as AudioVideoCategory, t)
     default:
       return subcategory
@@ -201,11 +204,11 @@ function assertUnreachable(_x: never): never {
   throw new Error("Didn't expect to get here")
 }
 
-export function getSubcategory(category: Category): string[] {
-  switch (category) {
-    case Category.Game:
+export function getSubcategory(category: MainCategory): string[] {
+  switch (category.toLowerCase()) {
+    case MainCategory.game:
       return Object.keys(GameCategory)
-    case Category.AudioVideo:
+    case MainCategory.audiovideo:
       return Object.keys(AudioVideoCategory)
   }
 }
