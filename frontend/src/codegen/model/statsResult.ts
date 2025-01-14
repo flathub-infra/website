@@ -8,14 +8,14 @@ import type { StatsResultCategoryTotals } from "./statsResultCategoryTotals"
 import type { StatsResultCountries } from "./statsResultCountries"
 import type { StatsResultDeltaDownloadsPerDay } from "./statsResultDeltaDownloadsPerDay"
 import type { StatsResultDownloadsPerDay } from "./statsResultDownloadsPerDay"
+import type { StatsResultTotals } from "./statsResultTotals"
 import type { StatsResultUpdatesPerDay } from "./statsResultUpdatesPerDay"
 
 export interface StatsResult {
-  category_totals: StatsResultCategoryTotals
+  category_totals: StatsResultCategoryTotals[]
   countries: StatsResultCountries
   delta_downloads_per_day: StatsResultDeltaDownloadsPerDay
-  downloads: number
   downloads_per_day: StatsResultDownloadsPerDay
-  number_of_apps: number
+  totals: StatsResultTotals
   updates_per_day: StatsResultUpdatesPerDay
 }

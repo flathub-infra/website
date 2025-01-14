@@ -9,7 +9,7 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
-import { Category, categoryToName } from "src/types/Category"
+import { Category, categoryToName, tryParseCategory } from "src/types/Category"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
@@ -20,7 +20,16 @@ import {
   getStatsStatsGet,
 } from "src/codegen"
 import { format } from "date-fns"
-import { LineChart, XAxis, YAxis, Tooltip, Line, BarChart, Bar } from "recharts"
+import {
+  LineChart,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Line,
+  BarChart,
+  Bar,
+  Treemap,
+} from "recharts"
 import {
   primaryStroke,
   axisStroke,
@@ -264,30 +273,35 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   const { t } = useTranslation()
   const { resolvedTheme } = useTheme()
 
-  let category_data: { category: string; value: number }[] = []
-  if (stats.category_totals) {
-    for (const [key, value] of Object.entries(stats.category_totals)) {
-      category_data.push({ category: key, value: value })
-    }
-  }
-
   const chartConfig = {
     category: {
       color: "hsl(var(--flathub-celestial-blue))",
     },
   } satisfies ChartConfig
 
+  let category_data = stats.category_totals.map((category) => ({
+    name: category.category,
+    value: category.count,
+    children: category.sub_categories.map((y) => ({
+      name: y.sub_category,
+      value: y.count,
+    })),
+  }))
+
   return (
     <>
       <h2 className="mb-6 mt-12 text-2xl font-bold">
         {t("category-distribution")}
       </h2>
-      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic mb-6">
         <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
           <BarChart
             accessibilityLayer
             layout="vertical"
-            data={category_data.map((x) => ({ ...x, name: x.category }))}
+            data={category_data.map((x) => ({
+              category: x.name,
+              value: x.value,
+            }))}
           >
             <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
             <YAxis
@@ -305,6 +319,17 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
             />
             <Bar dataKey="value" fill="var(--color-category)" />
           </BarChart>
+        </ChartContainer>
+      </div>
+      <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+        <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
+          <Treemap data={category_data} dataKey="value" nameKey={"name"}>
+            <Tooltip
+              cursor={false}
+              content={<FlathubTooltip />}
+              labelFormatter={(x) => tryParseCategory(x, t)}
+            />
+          </Treemap>
         </ChartContainer>
       </div>
     </>
@@ -405,7 +430,7 @@ const Statistics = ({
                 header: t("count-downloads"),
                 content: {
                   type: "text",
-                  text: stats.downloads?.toLocaleString(
+                  text: stats.totals.downloads?.toLocaleString(
                     getIntlLocale(i18n.language),
                   ),
                 },
@@ -419,7 +444,7 @@ const Statistics = ({
                 header: t("count-desktop-apps"),
                 content: {
                   type: "text",
-                  text: stats.number_of_apps?.toLocaleString(
+                  text: stats.totals.number_of_apps?.toLocaleString(
                     getIntlLocale(i18n.language),
                   ),
                 },

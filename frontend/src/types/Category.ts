@@ -40,6 +40,17 @@ export function stringToCategory(category: string): Category | undefined {
   }
 }
 
+export function tryParseCategory(
+  category: string,
+  t: TFunction<"translation", undefined>,
+): string | undefined {
+  try {
+    return categoryToName(stringToCategory(category), t)
+  } catch {
+    return undefined
+  }
+}
+
 export function categoryToName(
   category: Category,
   t: TFunction<"translation", undefined>,

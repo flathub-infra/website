@@ -4,5 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { StatsResultCategoryTotalsSubCategories } from "./statsResultCategoryTotalsSubCategories"
 
-export type StatsResultCategoryTotals = { [key: string]: number }
+export interface StatsResultCategoryTotals {
+  category: string
+  count: number
+  sub_categories: StatsResultCategoryTotalsSubCategories[]
+}
