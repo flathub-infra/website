@@ -27,6 +27,9 @@ import MultiToggle from "src/components/MultiToggle"
 import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import Image from "next/image"
+import LogoImage from "src/components/LogoImage"
+import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
 
 const categoryOrder = [
   Category.Office,
@@ -273,6 +276,61 @@ export default function Home({
           ]}
         />
 
+        <div className="flex flex-col lg:flex-row bg-gradient-to-r from-cyan-500 to-blue-500 p-12 rounded-xl gap-4">
+          <div className="flex flex-col gap-4 lg:w-1/3">
+            <MobileDevicesLogo />
+            <h3 className="text-4xl font-bold">{t("mobile-apps")}</h3>
+            <div>{t("mobile-apps-description")}</div>
+            <Button
+              asChild
+              variant="secondary"
+              size="xl"
+              className="rounded-full px-8 hidden lg:flex w-fit"
+              aria-label={t("more-mobile-apps")}
+              title={t("more-mobile-apps")}
+            >
+              <Link href="/apps/collection/mobile">
+                {t("more-mobile-apps")}
+              </Link>
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:w-2/3">
+            {mobile.hits.map((app) => (
+              <Link
+                key={app.id}
+                className="flex gap-4 text-primary-foreground rounded-xl hover:bg-flathub-arsenic/80 hover:shadow-md hover:shadow-primary/30 p-4"
+                href={`/apps/${app.app_id}`}
+              >
+                {app.icon && (
+                  <div className="relative m-2 flex w-[96px] h-[96px] min-w-[96px] self-center drop-shadow-md">
+                    <LogoImage
+                      iconUrl={app.icon}
+                      appName={app.name}
+                      quality={100}
+                    />
+                  </div>
+                )}
+                <div className="flex flex-col gap-1 justify-center">
+                  <div className="font-bold">{app.name}</div>
+                  <div>{app.summary}</div>
+                </div>
+              </Link>
+            ))}
+            <Button
+              asChild
+              variant="secondary"
+              size="xl"
+              className="rounded-full px-8 lg:hidden w-fit"
+              aria-label={t("more-mobile-apps")}
+              title={t("more-mobile-apps")}
+            >
+              <Link href="/apps/collection/mobile">
+                {t("more-mobile-apps")}
+              </Link>
+            </Button>
+          </div>
+        </div>
+
         <CategorySection topAppsByCategory={topAppsByCategory} />
       </div>
     </>
@@ -309,12 +367,7 @@ export const getStaticProps: GetStaticProps = async ({
     locale,
   )
 
-  const mobile = await fetchCollection(
-    "mobile",
-    1,
-    APPS_IN_PREVIEW_COUNT,
-    locale,
-  )
+  const mobile = await fetchCollection("mobile", 1, 6, locale)
 
   let topAppsByCategory: {
     category: Category
