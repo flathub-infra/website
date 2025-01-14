@@ -510,17 +510,17 @@
   "revoke-token": "انقض الرمز",
   "scopes": "أغراضه",
   "name": "الاسم",
-  "new-beta-token": "رمز بيتا جديد",
+  "new-beta-token": "رمز تجريبي جديد",
   "create-token": "أنشئ رمزًا",
   "scope-publish": "انشر التصريفة",
   "no-tokens-to-show": "لا رموز.",
   "revoke-token-description": "أتطلب نقض الرمز ‹{{name}}›؟",
   "revoke": "انقض",
-  "show-expired-tokens": "أظهر الرموز المنتهية",
+  "show-expired-tokens": "أظهِر الرموز المنتهية",
   "scope-upload": "حمِّل ملفات للتصريفة",
   "repo": "المستودع",
   "upload-tokens": "رموز التحميل",
-  "new-stable-token": "رمز إصدار مستقرٍّ جديد",
+  "new-stable-token": "رمز مستقرّ جديد",
   "expires": "تاريخ الانتهاء",
   "revoked": "منقوض",
   "build-x": "تاريخ إنشاء التصريفة {{build-ago}}",
@@ -626,5 +626,6 @@
   "amount": "الكمية",
   "total": "الإجمالي",
   "kind-donate-app": "تبرَّع لـ {{appName}}",
-  "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'"
+  "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'",
+  "mobile-apps": "تطبيقات الجوال"
 }

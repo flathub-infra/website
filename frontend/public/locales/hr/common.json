@@ -291,7 +291,7 @@
   "kids": "Djeca",
   "flos": "Free/Libre Open Source",
   "filters": "Filtri",
-  "not-verified": "Nepotvrđene",
+  "not-verified": "Nepotvrđeno",
   "moderation-appstream-changes": "Appstream promjene",
   "moderation-pending-reviews": "Neobavljene provjere",
   "moderation-key": "Ključ",
@@ -625,5 +625,6 @@
   "invite-developer-description": "Upiši kod pozivnice programera kako bi ga pozvao/la da postane programer ove aplikacije. Kod mogu pronaći na kartici {{developersTab}} na stranici svog računa.",
   "token-created": "Kopiraj ovaj token i spremi ga na sigurno mjesto, kao što je mjesto tajni u tvom sustavu kontinuirane integracije (CI pipeline). Omogućuje pristup za čitanje i pisanje međuverzijama tvoje aplikacije.",
   "proprietary-explanation": "Ova aplikacija nije javno razvijena, tako da samo njeni programeri znaju kako radi. Može biti nesigurna na načine koje je teško prepoznati i može se neprimjetno promijeniti.",
-  "transparent": "<0>Neovisno i transparentno</0> – Mi smo zajednica otvorenog izvornog koda koja upravlja najboljim od onoga što ekosustav može ponuditi"
+  "transparent": "<0>Neovisno i transparentno</0> – Mi smo zajednica otvorenog izvornog koda koja upravlja najboljim od onoga što ekosustav može ponuditi",
+  "mobile-apps": "Mobilne aplikacije"
 }
