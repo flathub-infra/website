@@ -8,7 +8,6 @@ import Breadcrumbs from "src/components/Breadcrumbs"
 import ApplicationCollection from "../../../../../../src/components/application/Collection"
 import { fetchSubcategory } from "../../../../../../src/fetchers"
 import {
-  Category,
   categoryToName,
   subcategoryToName,
 } from "../../../../../../src/types/Category"
@@ -17,6 +16,7 @@ import {
   MeilisearchResponse,
   mapAppsIndexToAppstreamListItem,
 } from "src/meilisearch"
+import { MainCategory } from "src/codegen"
 
 const ApplicationCategory = ({
   applications,
@@ -25,7 +25,7 @@ const ApplicationCategory = ({
 }) => {
   const { t } = useTranslation()
   const router = useRouter()
-  const category = router.query.category as Category
+  const category = router.query.category as MainCategory
   let categoryName = categoryToName(category, t)
   const subcategory = router.query.subcategory as string
   let subcategoryName = subcategoryToName(category, subcategory, t)
@@ -75,7 +75,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   }
 
   const applications = await fetchSubcategory(
-    params.category as keyof typeof Category,
+    params.category as keyof typeof MainCategory,
     params.subcategory as string,
     locale,
     params.page as unknown as number,

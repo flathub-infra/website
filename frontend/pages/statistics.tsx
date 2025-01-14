@@ -9,11 +9,15 @@ import ListBox from "../src/components/application/ListBox"
 import { i18n, useTranslation } from "next-i18next"
 import { useTheme } from "next-themes"
 import { getIntlLocale } from "../src/localize"
-import { Category, categoryToName, tryParseCategory } from "src/types/Category"
+import {
+  categoryToName,
+  tryParseCategory,
+  tryParseSubCategory,
+} from "src/types/Category"
 import { useRouter } from "next/router"
 import { useQuery } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
-import { Permission, StatsResult } from "src/codegen/model"
+import { MainCategory, Permission, StatsResult } from "src/codegen/model"
 import {
   getQualityModerationStatsQualityModerationFailedByGuidelineGet,
   getRuntimeListRuntimesGet,
@@ -307,13 +311,17 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
             <YAxis
               stroke={axisStroke(resolvedTheme)}
               dataKey="category"
-              tickFormatter={(x) => categoryToName(x as Category, t)}
+              tickFormatter={(x) =>
+                categoryToName(x.toLowerCase() as MainCategory, t)
+              }
               type="category"
               width={180}
               tickLine={false}
             />
             <Tooltip
-              labelFormatter={(x) => categoryToName(x as Category, t)}
+              labelFormatter={(x) =>
+                categoryToName(x.toLowerCase() as MainCategory, t)
+              }
               cursor={false}
               content={<FlathubTooltip />}
             />
@@ -327,7 +335,10 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
             <Tooltip
               cursor={false}
               content={<FlathubTooltip />}
-              labelFormatter={(x) => tryParseCategory(x, t)}
+              labelFormatter={(x) =>
+                tryParseSubCategory(x, t) ??
+                tryParseCategory(x.toLowerCase(), t)
+              }
             />
           </Treemap>
         </ChartContainer>

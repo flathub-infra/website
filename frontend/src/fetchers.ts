@@ -1,5 +1,4 @@
 import { Appstream } from "./types/Appstream"
-import { Category } from "./types/Category"
 
 import {
   POPULAR_LAST_MONTH_URL,
@@ -30,7 +29,12 @@ import {
   MeilisearchResponse,
   MeilisearchResponseLimited,
 } from "./meilisearch"
-import { AppOfTheDay, AppsOfTheWeek, VendingConfig } from "./codegen"
+import {
+  AppOfTheDay,
+  AppsOfTheWeek,
+  MainCategory,
+  VendingConfig,
+} from "./codegen"
 import axios from "axios"
 
 export async function fetchAppstream(
@@ -159,7 +163,7 @@ export default async function fetchCollection(
 }
 
 export async function fetchCategory(
-  category: keyof typeof Category,
+  category: keyof typeof MainCategory,
   locale: string,
   page?: number,
   per_page?: number,
@@ -175,7 +179,7 @@ export async function fetchCategory(
 }
 
 export async function fetchSubcategory(
-  category: keyof typeof Category,
+  category: keyof typeof MainCategory,
   subcategory: string,
   locale: string,
   page?: number,
