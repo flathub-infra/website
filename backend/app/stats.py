@@ -92,7 +92,7 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
     return app_stats_per_day
 
 
-def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
+def _get_stats(app_count: int):
     edate = datetime.date.today()
     sdate = FIRST_STATS_DATE
 
@@ -136,17 +136,44 @@ def _get_stats(app_count: int) -> dict[str, dict[str, int]]:
                         totals_country[country] = 0
                     totals_country[country] = totals_country[country] + downloads
 
-    totals = search.search_apps_post(search.SearchQuery(query="", filters=None), "en")
+    category_totals = get_category_totals()
 
     return {
+        "totals": {
+            "downloads": sum(downloads_per_day.values()),
+            "number_of_apps": app_count,
+        },
         "countries": totals_country,
         "downloads_per_day": downloads_per_day,
         "updates_per_day": updates_per_day,
         "delta_downloads_per_day": delta_downloads_per_day,
-        "downloads": sum(downloads_per_day.values()),
-        "number_of_apps": app_count,
-        "category_totals": totals["facetDistribution"]["main_categories"],
+        "category_totals": category_totals,
     }
+
+
+def get_category_totals():
+    categories = []
+    category_totals = search.search_apps_post(
+        search.SearchQuery(query="", filters=None), "en"
+    )
+
+    for category, count in category_totals["facetDistribution"][
+        "main_categories"
+    ].items():
+        categories.append(
+            {
+                "category": category,
+                "count": count,
+                "sub_categories": [
+                    {"sub_category": x, "count": y}
+                    for x, y in search.get_sub_categories(category)[0][
+                        "facetDistribution"
+                    ]["sub_categories"].items()
+                ],
+            }
+        )
+
+    return categories
 
 
 def _sort_key(
