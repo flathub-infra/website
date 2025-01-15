@@ -86,7 +86,7 @@
     "@storybook/addon-themes": "^8.4.7",
     "@storybook/nextjs": "^8.4.7",
     "@storybook/react": "^8.4.7",
-    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/typography": "^0.5.16",
     "@tanstack/eslint-plugin-query": "^5.62.16",
     "@tanstack/react-query-devtools": "^5.62.11",
     "@types/node": "^22.10.5",
