@@ -95,7 +95,7 @@
     "chromatic": "^11.24.0",
     "eslint": "^9.17.0",
     "eslint-config-next": "15.1.4",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.1",
     "msw": "^2.6.8",
     "msw-storybook-addon": "^2.0.4",
