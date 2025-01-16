@@ -19,7 +19,7 @@ const cardVariants = cva(
           "bg-flathub-white dark:bg-flathub-arsenic rounded-xl shadow-md hover:bg-flathub-lotion dark:hover:bg-flathub-arsenic/90",
         nested:
           "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg shadow-md hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/20",
-        flat: "rounded-xl hover:bg-flathub-gainsborow/20 dark:hover:bg-flathub-gainsborow/10",
+        flat: "rounded-xl hover:bg-flathub-white/50 dark:hover:bg-flathub-gainsborow/10",
       },
       size: {
         default: "p-4",
