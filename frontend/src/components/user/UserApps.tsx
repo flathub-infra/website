@@ -92,7 +92,7 @@ const UserApps: FunctionComponent<Props> = ({
         applications={queryDevApplications.data}
         customButtons={customButtons}
         onRefresh={variant === "dev" && queryRefreshDev.mutate}
-        inACard
+        variant="nested"
         showId
         link={link}
       />

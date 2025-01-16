@@ -87,7 +87,7 @@ export default function AppPurchasePage({
         >
           <ApplicationCard
             application={app}
-            inACard
+            variant="nested"
             className="col-span-1 lg:col-span-2 h-min mt-5"
           />
           <div className="col-span-1">

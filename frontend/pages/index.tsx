@@ -22,11 +22,14 @@ import { DesktopAppstream } from "src/types/Appstream"
 import clsx from "clsx"
 import { AppOfTheDay } from "src/components/application/AppOfTheDay"
 import { formatISO } from "date-fns"
-import { useEffect, useState } from "react"
+import { ReactElement, useEffect, useState } from "react"
 import MultiToggle from "src/components/MultiToggle"
 import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { MobileDevicesLogo } from "src/components/MobileDevicesLogo"
+import { ApplicationCard } from "src/components/application/ApplicationCard"
+import { cn } from "@/lib/utils"
 import { MainCategory } from "src/codegen"
 
 const categoryOrder = [
@@ -42,39 +45,112 @@ const categoryOrder = [
   MainCategory.utility,
 ]
 
+const MobileSection = ({
+  mobile,
+}: {
+  mobile: MeilisearchResponse<AppsIndex>
+}) => {
+  const { t } = useTranslation()
+
+  return (
+    <div
+      className={clsx(
+        "flex flex-col lg:flex-row",
+        "bg-gradient-to-r from-[#c6eaf8] to-[#c4f3c9] dark:from-[#2f3d9f] dark:to-[#682889]",
+        "p-4 pb-6 pt-9 md:p-12 md:pe-9 rounded-xl gap-4",
+      )}
+    >
+      <div className="flex flex-col gap-4 items-center lg:items-start justify-center lg:w-1/3">
+        <div className="w-full max-w-64 md:max-w-80">
+          <MobileDevicesLogo />
+        </div>
+        <h3 className="lg:pt-3 text-5xl md:text-6xl font-black">
+          {t("on-the-go")}
+        </h3>
+        <div>{t("mobile-apps-description")}</div>
+        <Button
+          asChild
+          variant="secondary"
+          size="xl"
+          className={cn(
+            "dark:bg-flathub-white/15 bg-flathub-black/10",
+            "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
+            "rounded-full px-8 hidden lg:flex w-fit",
+          )}
+          aria-label={t("more-mobile-apps")}
+          title={t("more-mobile-apps")}
+        >
+          <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
+        </Button>
+      </div>
+      <div className="pt-5 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-1.5 lg:w-2/3">
+        {mobile.hits.map(mapAppsIndexToAppstreamListItem).map((app) => (
+          <ApplicationCard
+            key={app.id}
+            size="sm"
+            variant="flat"
+            application={app}
+          />
+        ))}
+      </div>
+      <div className="flex justify-center lg:hidden ">
+        <Button
+          asChild
+          variant="secondary"
+          size="xl"
+          className={cn(
+            "dark:bg-flathub-white/15 bg-flathub-black/10",
+            "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
+            "rounded-full px-8 hidden lg:flex w-fit",
+          )}
+          aria-label={t("more-mobile-apps")}
+          title={t("more-mobile-apps")}
+        >
+          <Link href="/apps/collection/mobile">{t("more-mobile-apps")}</Link>
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 const CategorySection = ({
   topAppsByCategory,
+  mobileSection,
 }: {
   topAppsByCategory: {
     category: MainCategory
     apps: MeilisearchResponse<AppsIndex>
   }[]
+  mobileSection: ReactElement
 }) => {
   const { t } = useTranslation()
 
   return (
     <>
-      {topAppsByCategory.map((sectionData) => (
-        <ApplicationSection
-          type="withCustomHeader"
-          key={`categorySection${sectionData.category}`}
-          href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
-          applications={sectionData.apps.hits.map((app) =>
-            mapAppsIndexToAppstreamListItem(app),
-          )}
-          numberOfApps={6}
-          customHeader={
-            <>
-              <header className="mb-3 flex max-w-full flex-row content-center justify-between">
-                <h1 className="my-auto text-2xl font-bold">
-                  {categoryToName(sectionData.category, t)}
-                </h1>
-              </header>
-            </>
-          }
-          showMore={true}
-          moreText={t(`more-${sectionData.category.toLowerCase()}`)}
-        />
+      {topAppsByCategory.map((sectionData, i) => (
+        <>
+          {i === 3 && mobileSection}
+          <ApplicationSection
+            type="withCustomHeader"
+            key={`categorySection${sectionData.category}`}
+            href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
+            applications={sectionData.apps.hits.map((app) =>
+              mapAppsIndexToAppstreamListItem(app),
+            )}
+            numberOfApps={6}
+            customHeader={
+              <>
+                <header className="mb-3 flex max-w-full flex-row content-center justify-between">
+                  <h1 className="my-auto text-2xl font-bold">
+                    {categoryToName(sectionData.category, t)}
+                  </h1>
+                </header>
+              </>
+            }
+            showMore={true}
+            moreText={t(`more-${sectionData.category.toLowerCase()}`)}
+          />
+        </>
       ))}
     </>
   )
@@ -274,7 +350,10 @@ export default function Home({
           ]}
         />
 
-        <CategorySection topAppsByCategory={topAppsByCategory} />
+        <CategorySection
+          topAppsByCategory={topAppsByCategory}
+          mobileSection={<MobileSection mobile={mobile} />}
+        />
       </div>
     </>
   )
@@ -310,12 +389,7 @@ export const getStaticProps: GetStaticProps = async ({
     locale,
   )
 
-  const mobile = await fetchCollection(
-    "mobile",
-    1,
-    APPS_IN_PREVIEW_COUNT,
-    locale,
-  )
+  const mobile = await fetchCollection("mobile", 1, 6, locale)
 
   let topAppsByCategory: {
     category: MainCategory

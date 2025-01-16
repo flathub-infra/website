@@ -30,6 +30,6 @@ export const inACard: Story = {
       name: faker.commerce.product(),
       summary: faker.commerce.productDescription(),
     },
-    inACard: true,
+    variant: "nested",
   },
 }
