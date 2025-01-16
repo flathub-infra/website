@@ -263,7 +263,7 @@
   "browse": "Sirvi",
   "setup-flathub": "Võta Flathub kasutusele",
   "app-type": "Rakenduse tüüp",
-  "console-application": "Konsoolirakendus",
+  "console-application": "Käsurearakendus",
   "desktop-application": "Töölauarakendus",
   "app-id": "Rakenduse tunnus",
   "app-already-exists": "Sellise tunnusega rakendus on juba olemas.",

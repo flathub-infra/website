@@ -183,7 +183,7 @@
   "education": "Educatie",
   "submit": "Indienen",
   "token-cancelled": "Token succesvol geannuleerd",
-  "create-tokens": "Tokens aanmaken",
+  "create-tokens": "Tokens aan­maken",
   "token-redeem-placeholder": "Voer een eigendoms-token in",
   "open-user-menu": "Gebruikers­menu openen",
   "app-is-verified": "Deze app is geverifieerd",
@@ -469,7 +469,8 @@
     "branding-has-primary-brand-colors": "Heeft primaire merk­kleuren",
     "needed-to-pass-x": "Benodigd om te voldoen aan {{x}}",
     "hide-branding-preview": "Branding-voorvertoning verbergen",
-    "show-branding-preview": "Branding-voorvertoning tonen"
+    "show-branding-preview": "Branding-voorvertoning tonen",
+    "problems": "Als u ons vragen wilt stellen over specifieke problemen met de kwaliteits­richtlĳnen, kunt u gerust <2>een issue</2> openen."
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -505,7 +506,7 @@
   "revoke-token": "Token intrekken",
   "scopes": "Bereik",
   "name": "Naam",
-  "new-beta-token": "Nieuwe bèta-token",
+  "new-beta-token": "Nieuw bèta-token",
   "create-token": "Token aanmaken",
   "scope-publish": "Build publiceren",
   "no-tokens-to-show": "Geen tokens om weer te geven",
@@ -591,7 +592,7 @@
   "microphone-access": "Toegang tot microfoon",
   "screen-contents-access": "Toegang tot scherm­inhoud",
   "can-access-the-contents-of-the-screen-or-other-windows": "Heeft toegang tot de inhoud van het scherm of andere vensters",
-  "transparent-safety": "<0>Transparante veiligheid</0> — Zie duidelĳk wanneer een app <3>geverifieerd</3> is door de ontwikkelaar, welke rechten deze nodig heeft en of deze open source en controleerbaar is.",
+  "transparent-safety": "<0>Transparante veiligheid</0> — Zie duidelĳk wanneer een app <3>geverifieerd</3> is door de ontwikkelaar, welke rechten deze nodig heeft en of deze open source en controleerbaar is",
   "all-the-apps-you-want": "<0>Alle apps die u wenst</0> — Van de grote namen die u verwacht tot nieuwe indie-ontwikkelaars: Flathub heeft duizenden apps die aan uw behoeften voldoen.",
   "tastefully-curated": "<0>Smaakvol samen­gesteld</0> — Ontdek interessante, kwalitatieve apps op Flathub met onze personeels­selectie die het beste van het aanbod laat zien",
   "apps-for-you-where-you-are": "<0>Apps voor u waar u ook bent</0> — Of u nu op een Steam Deck, een krachtig Linux-desktop, een Raspberry Pi of zeldzame Linux-telefoon zit; Flathub heeft apps voor u",
@@ -608,7 +609,7 @@
   "type": "Type",
   "about-claim": "<0>Of u nu een gebruiker bent die op zoek is naar apps of een ontwikkelaar die meer gebruikers wilt bereiken, <2>Flathub is de beste keuze voor apps op Linux.</2></0>",
   "millions-users": "<0>Bereik miljoenen gebruikers</0> — Flathub wordt standaard geleverd op meerdere Linux-distributies, is <2>eenvoudig te installeren</2> op de rest en heeft meer dan een miljoen actieve gebruikers",
-  "docs-guidance": "<0>Duidelĳke documentatie en richtlĳnen</0> — Uitgebreide <2>documentatie</2>, duizenden openbare <5>app-manifesten</5> en een grote gemeen­schap zorgen ervoor dat u altĳd hulp kunt krijgen",
+  "docs-guidance": "<0>Duidelĳke documentatie en richtlĳnen</0> — Uitgebreide <2>documentatie</2>, duizenden openbare <5>app-manifesten</5> en een grote gemeen­schap zorgen ervoor dat u altĳd hulp kunt krĳgen",
   "integration": "<0>App-store-integratie</0> — Vergeet web­downloads; Flathub levert apps en <3>automatische updates</3> aan gebruikers in hun inheemse app-store, waar ze dat zouden verwachten",
   "recipient": "Ontvanger",
   "created": "Aangemaakt",
@@ -621,5 +622,8 @@
   "action-purchase": "Kopen",
   "kind-purchase-app": "{{appName}} kopen",
   "kind-donate-app": "Doneren aan {{appName}}",
-  "zoom": "Zoomen"
+  "zoom": "Zoomen",
+  "mobile-apps": "Mobiele apps",
+  "transparent": "<0>Onafhankelĳk en transparant</0> — Wĳ zĳn een grassroots-open-source-community die het beste beheert van wat het ecosysteem te bieden heeft",
+  "apps-by-tag": "Apps met tag ‘{{tag}}’"
 }
