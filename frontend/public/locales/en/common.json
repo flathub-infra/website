@@ -569,6 +569,10 @@
   "special-license": "Special License",
   "special-license-explanation": "This app is developed under the special license <1>{{ license }}</1>.",
   "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
+  "quality": {
+    "missing-brand-colors": "Missing brand colors",
+    "banner-preview-description": "To easily experiment with your banner, use <2>the banner preview</2>"
+  },
   "platform": {
     "org-kde-platform": "KDE Platform",
     "org-gnome-platform": "GNOME Platform",
