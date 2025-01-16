@@ -16,7 +16,7 @@ interface Props {
   totalHits?: number
   onRefresh?: () => void
   link?: (appid: string) => string
-  inACard?: boolean
+  variant?: "default" | "nested" | "flat"
   showId?: boolean
   customButtons?: JSX.Element
 }
@@ -64,7 +64,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   totalHits,
   onRefresh,
   link,
-  inACard,
+  variant = "default",
   showId = false,
   customButtons,
 }) => {
@@ -119,7 +119,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
             <ApplicationCard
               application={app}
               link={link}
-              inACard={inACard}
+              variant={variant}
               showId={showId}
             />
           </div>

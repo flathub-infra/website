@@ -16,6 +16,6 @@ export const Primary: Story = {
 
 export const InACard: Story = {
   args: {
-    inACard: true,
+    variant: "nested",
   },
 }
