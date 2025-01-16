@@ -43,7 +43,7 @@ export default function Details({
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
         <div className="flex flex-wrap">
           <div>
-            <Trans i18nKey={"common:banner-preview-description"}>
+            <Trans i18nKey={"common:quality.banner-preview-description"}>
               To easily experiment with your banner, use{" "}
               <a href="https://docs.flathub.org/banner-preview/">
                 the banner preview
@@ -53,7 +53,9 @@ export default function Details({
         </div>
 
         {!heroBannerData[0].appstream.branding && (
-          <Alert variant="destructive">{t("Missing brand colors")}</Alert>
+          <Alert variant="destructive">
+            {t("quality.missing-brand-colors")}
+          </Alert>
         )}
         <HeroBanner
           heroBannerData={heroBannerData}
