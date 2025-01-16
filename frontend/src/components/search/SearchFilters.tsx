@@ -18,7 +18,7 @@ const FilterFacette = ({
   onCheckedChange: (e: CheckedState) => void
 }) => {
   return (
-    <label className="items-top flex space-x-2 pt-1.5">
+    <label className="items-top flex gap-x-2 pt-1.5">
       <Checkbox checked={checked} onCheckedChange={onCheckedChange} />
       <span className="grid gap-1.5 leading-none">{`${label} (${count})`}</span>
     </label>
