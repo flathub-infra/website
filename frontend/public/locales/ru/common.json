@@ -626,5 +626,8 @@
   "kind-purchase-app": "Купить {{appName}}",
   "zoom": "Масштаб",
   "apps-by-tag": "Приложения с меткой «{{tag}}»",
-  "mobile-apps": "Мобильные приложения"
+  "mobile-apps": "Мобильные приложения",
+  "more-mobile-apps": "Больше мобильных приложений",
+  "mobile-apps-description": "Приложения для телефонов и планетов на Linux",
+  "on-the-go": "Всегда под рукой"
 }

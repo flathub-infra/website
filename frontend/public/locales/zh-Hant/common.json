@@ -624,5 +624,8 @@
   "created": "已建立",
   "zoom": "縮放",
   "apps-by-tag": "標籤為「{{tag}}」的應用程式",
-  "mobile-apps": "行動應用程式"
+  "mobile-apps": "行動應用程式",
+  "on-the-go": "隨時隨地",
+  "more-mobile-apps": "更多行動裝置應用程式",
+  "mobile-apps-description": "適用於您 Linux 手機與平板電腦的應用程式"
 }

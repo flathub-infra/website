@@ -625,5 +625,12 @@
   "action-purchase": "Купете",
   "kind-donate-app": "Допринесете за „{{appName}}“",
   "apps-by-tag": "Приложения с етикет „{{tag}}“",
-  "mobile-apps": "Мобилни"
+  "mobile-apps": "Мобилни",
+  "more-mobile-apps": "Категория „Мобилни“",
+  "mobile-apps-description": "Приложения за вашия телефон или таблет с Линукс",
+  "on-the-go": "В движение",
+  "quality": {
+    "banner-preview-description": "За да експериментирате с вашия банер, използвайте <2>предварителния преглед на банера</2>",
+    "missing-brand-colors": "Липсват основни цветове"
+  }
 }

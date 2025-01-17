@@ -490,7 +490,8 @@
     "branding-good-primary-brand-colors": "Hyvät tuotemerkin värit",
     "needed-to-pass-x": "Tulee läpäistä {{x}}",
     "hide-branding-preview": "Piilota tuotemerikin esikatselu",
-    "show-branding-preview": "Näytä tuotemerkin esikatselu"
+    "show-branding-preview": "Näytä tuotemerkin esikatselu",
+    "problems": "Jos haluat kysyä meiltä tietyistä laatuohjeisiin liittyvistä ongelmista, voit avata <2>kysymyksen</2>."
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa {{developersTab}}-välilehdeltä.",
@@ -619,5 +620,13 @@
     "org-gnome-platform": "GNOME-alusta",
     "org-freedesktop-platform": "Freedesktop-alusta"
   },
-  "created": "Luotu"
+  "created": "Luotu",
+  "mobile-apps": "Mobiilisovellukset",
+  "position-short": "Sijainti",
+  "positions": "Sijainnit",
+  "zoom": "Zoomaa",
+  "apps-by-tag": "Sovelluksia '{{tag}}' tägillä",
+  "mobile-apps-description": "Sovelluksiasi sinin Linux puhelimille ja tableteille",
+  "on-the-go": "Matkassa",
+  "more-mobile-apps": "Lisää mobiilisovelluksia"
 }

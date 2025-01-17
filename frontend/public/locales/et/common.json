@@ -625,5 +625,8 @@
   "recipient": "Saaja",
   "created": "Loodud",
   "apps-by-tag": "„{{tag}}“ sildiga märgitud rakendused",
-  "mobile-apps": "Mobiilirakendused"
+  "mobile-apps": "Mobiilirakendused",
+  "more-mobile-apps": "Veel nutiseadmete rakendusi",
+  "mobile-apps-description": "Rakendused sinu Linuxipõhiste telefonide ja tahvelarvutite jaoks",
+  "on-the-go": "Kui oled liikvel"
 }

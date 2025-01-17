@@ -618,5 +618,7 @@
   },
   "apps-by-tag": "Aplikacione sipas etikete '{{tag}}'",
   "app-listing-quality": "Ujdisni Google Listing & Ads",
-  "mobile-apps": "Aplikacione Për Celular"
+  "mobile-apps": "Aplikacione Për Celular",
+  "more-mobile-apps": "Më tepër aplikacione për celular",
+  "mobile-apps-description": "Aplikacione për telefona dhe tabletet tuaj Linux"
 }

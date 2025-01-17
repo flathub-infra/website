@@ -626,5 +626,8 @@
   "kind-donate-app": "Doar para {{appName}}",
   "total": "Total",
   "apps-by-tag": "Aplicativos por tag '{{tag}}'",
-  "mobile-apps": "Aplicativos móveis"
+  "mobile-apps": "Aplicativos móveis",
+  "mobile-apps-description": "Aplicativos para seus telefones e tablets Linux",
+  "on-the-go": "Em movimento",
+  "more-mobile-apps": "Mais aplicativos móveis"
 }
