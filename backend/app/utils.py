@@ -100,6 +100,8 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["locales"] = {}
 
         isMobileFriendly = False
+        hasTouch = False
+
         requires = component.find("requires")
         if requires is not None:
             if display_lengths := requires.findall("display_length"):
@@ -109,20 +111,13 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 ):
                     isMobileFriendly = True
 
-        hasTouch = False
-        supports = component.find("supports")
-        if supports is not None:
-            if controls := supports.findall("control"):
-                for control in controls:
-                    if control.text == "touch":
-                        hasTouch = True
-
-        recommends = component.find("recommends")
-        if recommends is not None:
-            if controls := recommends.findall("control"):
-                for control in controls:
-                    if control.text == "touch":
-                        hasTouch = True
+        for requirement in ("supports", "recommends"):
+            element = component.find(requirement)
+            if element is not None:
+                controls = element.findall("control")
+                if any(control.text == "touch" for control in controls):
+                    hasTouch = True
+                    break
 
         app["isMobileFriendly"] = isMobileFriendly and hasTouch
 
