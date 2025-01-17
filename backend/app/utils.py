@@ -5,7 +5,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta
-from typing import Any, Literal
+from typing import Any
 
 import gi
 import jwt
@@ -99,26 +99,15 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         app["type"] = component.attrib.get("type", "generic")
         app["locales"] = {}
 
-        isMobileFriendly: list[bool] = []
+        isMobileFriendly = False
         requires = component.find("requires")
         if requires is not None:
             if display_lengths := requires.findall("display_length"):
-                for display_length in display_lengths:
-                    compare: Literal[
-                        "eq",
-                        "ne",
-                        "lt",
-                        "gt",
-                        "le",
-                        "ge",
-                    ] = display_length.attrib.get("compare") or "ge"
-
-                    isMobileFriendly.append(
-                        compare_requires_is_between_mobile_target(
-                            int(display_length.text),
-                            compare,
-                        )
-                    )
+                if any(
+                    display_length_supports_mobile(display_length)
+                    for display_length in display_lengths
+                ):
+                    isMobileFriendly = True
 
         hasTouch = False
         supports = component.find("supports")
@@ -135,9 +124,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                     if control.text == "touch":
                         hasTouch = True
 
-        app["isMobileFriendly"] = (
-            all(isMobileFriendly) and any(isMobileFriendly) and hasTouch
-        )
+        app["isMobileFriendly"] = isMobileFriendly and hasTouch
 
         descriptions = component.findall("description")
         if len(descriptions):
@@ -472,18 +459,24 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
     return apps
 
 
-def compare_requires_is_between_mobile_target(
-    display_length: int,
-    compare: Literal["ge", "lt", "gt", "le", "eq", "ne"],
-):
-    if compare == "ge" and display_length <= mobile_max_size:
-        return True
-    if compare == "lt" and display_length > mobile_max_size:
-        return True
-    if compare == "gt" and display_length < mobile_min_size:
-        return True
-    if compare == "le" and display_length >= mobile_min_size:
-        return True
+def display_length_supports_mobile(display_length: etree.Element) -> bool:
+    conditions = {
+        "ge": lambda value: value <= mobile_min_size,
+        "gt": lambda value: value <= (mobile_min_size - 1),
+        "le": lambda value: mobile_max_size <= value,
+        "lt": lambda value: (mobile_max_size + 1) <= value,
+    }
+    compare = display_length.attrib.get("compare", "ge")
+    displaylen_value = display_length.text
+    if displaylen_value is None:
+        return False
+
+    try:
+        value = int(displaylen_value)
+        return conditions.get(compare, lambda x: False)(value)
+    except ValueError:
+        pass
+
     return False
 
 
