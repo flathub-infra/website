@@ -40,7 +40,7 @@ export default function Details({
         noindex={true}
       />
 
-      <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 flex flex-col gap-y-10 2xl:w-[1400px] 2xl:max-w-[1400px] pb-5">
         <div className="flex flex-wrap">
           <div>
             <Trans i18nKey={"common:quality.banner-preview-description"}>
@@ -57,19 +57,28 @@ export default function Details({
             {t("quality.missing-brand-colors")}
           </Alert>
         )}
-        <HeroBanner
-          heroBannerData={heroBannerData}
-          aboveTheFold={true}
-          autoplay={false}
-          forceTheme="light"
-        />
+      </div>
 
-        <HeroBanner
-          heroBannerData={heroBannerData}
-          aboveTheFold={true}
-          autoplay={false}
-          forceTheme="dark"
-        />
+      <div className="bg-flathub-lotion p-20">
+        <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+          <HeroBanner
+            heroBannerData={heroBannerData}
+            aboveTheFold={true}
+            autoplay={false}
+            forceTheme="light"
+          />
+        </div>
+      </div>
+
+      <div className="bg-flathub-dark-gunmetal p-20">
+        <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+          <HeroBanner
+            heroBannerData={heroBannerData}
+            aboveTheFold={true}
+            autoplay={false}
+            forceTheme="dark"
+          />
+        </div>
       </div>
     </>
   )
