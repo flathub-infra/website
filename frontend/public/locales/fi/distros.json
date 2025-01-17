@@ -27,6 +27,9 @@
     "step-2": {
       "name": "Käynnistä uudelleen",
       "text": "<0>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <2>asentaa sovelluksia</2>!</0>"
+    },
+    "step-1": {
+      "name": "Ota Flatpak käyttöön sovellus hallinan kautta"
     }
   },
   "endless_os": {
@@ -36,13 +39,16 @@
   "alt_linux": {
     "distroName": "ALT Linux",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<p>Asentaaksesi Flatpakin käyttäjärjestelmälle, joka on osa Alt perhettä, avaa terminaali sovellus ja suorita:</p> <2></2>"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde"
+      "name": "Lisää Flathub-ohjelmistolähde",
+      "text": "<p>Flathub on hyvä paikka hankkia Flatpak sovelluksia. Ottaaksesi sen käyttöön sinun Alt järjestelmälläsi, suorita:</p> <2></2>"
     },
     "step-3": {
-      "name": "Käynnistä uudelleen"
+      "name": "Käynnistä uudelleen",
+      "text": "<0>Käynnistä uudelleen laiteesi, jotta voit viimeistellä Flatpak asennuksesi. Nyt voit <1>asentaa sovelluksia</1>!</0>"
     }
   },
   "chrome_os": {

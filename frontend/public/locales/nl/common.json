@@ -310,9 +310,9 @@
   "distribution-flathub-setup": "Flathub-setup voor {{distribution}}",
   "find-your-distribution": "Uw distributie zoeken",
   "no-results-found": "Geen resultaten gevonden",
-  "console-application": "Console-app",
+  "console-application": "Opdrachtregel-app",
   "app-type": "App-type",
-  "desktop-application": "Grafische app",
+  "desktop-application": "Bureaublad-app",
   "new-app": "Nieuwe app",
   "community-repository": "Gemeenschaps-repository",
   "direct-upload": "Directe upload",
@@ -625,5 +625,8 @@
   "zoom": "Zoomen",
   "mobile-apps": "Mobiele apps",
   "transparent": "<0>Onafhankelĳk en transparant</0> — Wĳ zĳn een grassroots-open-source-community die het beste beheert van wat het ecosysteem te bieden heeft",
-  "apps-by-tag": "Apps met tag ‘{{tag}}’"
+  "apps-by-tag": "Apps met tag ‘{{tag}}’",
+  "more-mobile-apps": "Meer mobiele apps",
+  "mobile-apps-description": "Apps voor uw Linux-telefoons en -tablets",
+  "on-the-go": "Onderweg"
 }

@@ -311,7 +311,7 @@
   "find-your-distribution": "Знайти свій дистрибутив",
   "no-results-found": "Результатів не знайдено",
   "desktop-application": "Застосунок для комп'ютера",
-  "console-application": "Застосунок для консолі",
+  "console-application": "Застосунок командного рядка",
   "app-type": "Тип застосунку",
   "new-app": "Новий застосунок",
   "community-repository": "Репозиторій спільноти",
@@ -626,5 +626,8 @@
   "action-donate": "Підтримати",
   "created": "Створено",
   "mobile-apps": "Мобільні застосунки",
-  "apps-by-tag": "Застосунки за тегом '{{tag}}'"
+  "apps-by-tag": "Застосунки за тегом '{{tag}}'",
+  "on-the-go": "Завжди напохваті",
+  "mobile-apps-description": "Застосунки для телефонів та планшетів на базі Linux",
+  "more-mobile-apps": "Інші мобільні застосунки"
 }
