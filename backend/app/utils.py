@@ -108,6 +108,7 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
                 if any(
                     display_length_supports_mobile(display_length)
                     for display_length in display_lengths
+                    if display_length.attrib.get("side", "shortest") != "longest"
                 ):
                     isMobileFriendly = True
 
