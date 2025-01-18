@@ -339,7 +339,7 @@
   "learn-more": "بیش‌تر بدانید",
   "tv": "تلویزیون",
   "token-redeemed": "ژتون با موفّقیت بازخرید شد",
-  "console-application": "برنامهٔ متنی",
+  "console-application": "کارهٔ خط فرمانی",
   "community-repository": "مخزن اجتماع",
   "card": "کارتی",
   "upload-tokens": "ژتون‌های بارگذاری",
@@ -382,7 +382,7 @@
   "confirm-selection": "تأیید گزینش",
   "invite": "دعوت",
   "flos": "نرم‌افزار آزاد",
-  "desktop-application": "برنامهٔ میزکار",
+  "desktop-application": "کارهٔ میزکار",
   "x-downloads": "{{x}} بارگیری",
   "legacy-windowing-system-description": "از یک سامانهٔ پنجرهٔ قدیمی استفاده می‌کند",
   "can-read-all-data-on-file-system": "می‌تواند تمامی داده‌های سامانهٔ پرونده را بخواند",
@@ -594,5 +594,9 @@
   "token-creation-placeholder": "ورود سیاهه‌ای از نام‌ها در خط‌های مجزا. هرکدامشان ژتون مالکیت جدیدی را تعریف خواهند کرد.",
   "app-vending-settings-confirmed": "تنظیمات فروش کاره تأیید شد",
   "stripe-error-payment_intent_authentication_failure": "شکست در تأیید روش پرداختتان. لطفاً روشی پرداخت دیگری را گزیده و دوباره تلاش کنید.",
-  "apps-by-tag": "کاره‌ها با برچسب «{{tag}}»"
+  "apps-by-tag": "کاره‌ها با برچسب «{{tag}}»",
+  "mobile-apps": "کاره‌های همراه",
+  "mobile-apps-description": "کاره‌هایی برای رایانک‌ها و تلفن‌های گنو/لینوکسیتان",
+  "on-the-go": "در مسیر",
+  "more-mobile-apps": "کاره‌های همراه بیش‌تر"
 }
