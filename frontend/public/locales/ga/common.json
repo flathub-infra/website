@@ -628,5 +628,8 @@
     "org-freedesktop-platform": "Ardán Freedesk"
   },
   "apps-by-tag": "Aipeanna le clib '{{tag}}'",
-  "mobile-apps": "Aipeanna Soghluaiste"
+  "mobile-apps": "Aipeanna Soghluaiste",
+  "on-the-go": "Ar an dul",
+  "more-mobile-apps": "Tuilleadh aipeanna soghluaiste",
+  "mobile-apps-description": "Aipeanna le haghaidh do ghutháin agus táibléad Linux"
 }
