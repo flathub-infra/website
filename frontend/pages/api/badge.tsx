@@ -78,6 +78,21 @@ async function createNotoKRSemiBold() {
   }
 }
 
+async function createNotoGurmukhiSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansGurmukhi-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansGurmukhi-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
 async function createNotoHebrewSemiBold() {
   const fontPath = path.join(
     process.cwd(),
@@ -152,6 +167,9 @@ export default async function handler(
   const light = req.query.light === "" || false
   const asSvg = req.query.svg === "" || false
 
+  const flathubArray = getTranslationsForKey("flathub")
+  const flathub = flathubArray[locale as string]
+
   const getItOnArray = getTranslationsForKey("get-it-on")
   const getItOn = getItOnArray[locale as string].toUpperCase()
 
@@ -169,13 +187,13 @@ export default async function handler(
         borderRadius: "16px",
         alignItems: "center",
         gap: "16px",
-        paddingLeft: "32px",
-        paddingRight: "32px",
+        paddingLeft: "14px",
+        paddingRight: "14px",
       }}
     >
       <svg
-        width="36.885"
-        height="36"
+        width="55.885"
+        height="55"
         version="1.1"
         viewBox="0 0 66.885 64"
         xmlns="http://www.w3.org/2000/svg"
@@ -212,21 +230,22 @@ export default async function handler(
           display: "flex",
           flexDirection: "column",
           fontFamily: "Inter-SemiBold",
-          fontSize: "12px",
-          lineHeight: "16px",
+          fontSize: "16px",
+          lineHeight: "18px",
+          paddingTop: "6px",
         }}
       >
         {getItOn}
         <span
           style={{
             fontFamily: "Inter-SemiBold",
-            fontSize: "29px",
+            fontSize: "36px",
             fontStyle: "normal",
-            lineHeight: "30px",
+            lineHeight: "46px",
             letterSpacing: "0px",
           }}
         >
-          Flathub
+          {flathub}
         </span>
       </div>
     </div>,
@@ -241,6 +260,7 @@ export default async function handler(
         (await createNotoSemiBold()) as any,
         (await createNotoHebrewSemiBold()) as any,
         (await createNotoKRSemiBold()) as any,
+        (await createNotoGurmukhiSemiBold()) as any,
       ],
     },
   )
