@@ -309,7 +309,7 @@
   "app-eol": "Tämä sovellus ei ole enää saatavilla Flathubista",
   "distribution-flathub-setup": "{{distribution}} – Flathubin määritys",
   "find-your-distribution": "Löydä jakelusi",
-  "console-application": "Konsolisovellus",
+  "console-application": "Komentorivisovellus",
   "app-type": "Sovelluksen tyyppi",
   "desktop-application": "Työpöytäsovellus",
   "login-provider-verification-main-instruction-unknown-is-organization": "Vahvista oikeutesi käyttää sovellustunnistetta <1>{{id}}</1> kirjautumalla tilille <3>{{login_name}}</3> (jos <5>{{login_name}}</5> on organisaatio, kirjaudu tilillä jolla on käyttöoikeus kyseiseen organisaatioon) palvelussa <7>{{login_provider}}</7>.",
@@ -625,8 +625,8 @@
   "position-short": "Sijainti",
   "positions": "Sijainnit",
   "zoom": "Zoomaa",
-  "apps-by-tag": "Sovelluksia '{{tag}}' tägillä",
-  "mobile-apps-description": "Sovelluksiasi sinin Linux puhelimille ja tableteille",
+  "apps-by-tag": "Sovellukset '{{tag}}'-tunnisteella",
+  "mobile-apps-description": "Sovelluksia Linux-puhelimille ja -tableteille",
   "on-the-go": "Matkassa",
   "more-mobile-apps": "Lisää mobiilisovelluksia"
 }
