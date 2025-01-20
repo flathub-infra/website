@@ -68,7 +68,6 @@ jobs:
           tags: backend_backend
           load: true
           cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Build Docker backend-node image
         uses: docker/build-push-action@v6
@@ -77,7 +76,6 @@ jobs:
           tags: backend-node
           load: true
           cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Execute smoke tests
         run: |
