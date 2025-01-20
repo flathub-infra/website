@@ -10,13 +10,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker:
+  docker-amd64:
     runs-on: ubuntu-latest
     timeout-minutes: 80
     permissions:
       packages: write
     concurrency:
-      group: build_push_docker_frontend_prod
+      group: build_push_docker_frontend_prod_amd64
       cancel-in-progress: true
     steps:
       # 2024-11-16: default-avail: 21G, needs: 20 GB, post-cleanup-avail: 53G
@@ -44,23 +44,104 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push production image
+      - name: Build and push amd64
         uses: docker/build-push-action@v6
         with:
           context: frontend
           file: frontend/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          no-cache: true
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           build-args: |
             NEXT_PUBLIC_IS_PRODUCTION=true
             ENABLE_SENTRY=true
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             GITHUB_SHA=${{ github.sha }}
           tags: |
-            ghcr.io/flathub-infra/frontend:${{ github.sha }}
-            ghcr.io/flathub-infra/frontend:latest
+            ghcr.io/flathub-infra/frontend:${{ github.sha }}-amd64
+            ghcr.io/flathub-infra/frontend:amd64-latest
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  docker-arm64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    permissions:
+      packages: write
+    concurrency:
+      group: build_push_docker_frontend_prod_arm64
+      cancel-in-progress: true
+    steps:
+      # 2024-11-16: default-avail: 21G, needs: 20 GB, post-cleanup-avail: 53G
+      - name: Free up space
+        run: |
+          df -h|grep "/dev/root"
+          sudo rm -rf /opt/* /usr/local/.ghcup /swapfile
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /usr/share/dotnet /usr/share/swift
+          sudo rm -rf /usr/local/share/boost /usr/local/share/powershell
+          sudo rm -rf /usr/lib/google-cloud-sdk /usr/lib/jvm
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          df -h|grep "/dev/root"
+
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push arm64
+        uses: docker/build-push-action@v6
+        with:
+          context: frontend
+          file: frontend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/arm64
+          build-args: |
+            NEXT_PUBLIC_IS_PRODUCTION=true
+            ENABLE_SENTRY=true
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            GITHUB_SHA=${{ github.sha }}
+          tags: |
+            ghcr.io/flathub-infra/frontend:${{ github.sha }}-arm64
+            ghcr.io/flathub-infra/frontend:arm64-latest
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=ssh://git@github.com:${{ github.repository }}.git
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  create-manifest:
+    needs: [docker-amd64, docker-arm64]
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and push manifest
+        run: |
+          docker manifest create ghcr.io/flathub-infra/frontend:${{ github.sha }} \
+            ghcr.io/flathub-infra/frontend:${{ github.sha }}-amd64 \
+            ghcr.io/flathub-infra/frontend:${{ github.sha }}-arm64
+          docker manifest create ghcr.io/flathub-infra/frontend:latest \
+            ghcr.io/flathub-infra/frontend:amd64-latest \
+            ghcr.io/flathub-infra/frontend:arm64-latest
+          docker manifest push ghcr.io/flathub-infra/frontend:${{ github.sha }}
+          docker manifest push ghcr.io/flathub-infra/frontend:latest
