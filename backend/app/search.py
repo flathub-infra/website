@@ -16,38 +16,54 @@ class SearchQuery(BaseModel):
     filters: list[Filter] | None = None
 
 
+def _configure_meilisearch_index(client):
+    client.create_index("apps", {"primaryKey": "id"})
+    client.index("apps").update_sortable_attributes(
+        [
+            "installs_last_month",
+            "trending",
+            "added_at",
+            "updated_at",
+            "verification_timestamp",
+        ]
+    )
+    client.index("apps").update_searchable_attributes(
+        ["name", "keywords", "summary", "description", "id"]
+    )
+    client.index("apps").update_filterable_attributes(
+        [
+            "categories",
+            "main_categories",
+            "sub_categories",
+            "developer_name",
+            "verification_verified",
+            "is_free_license",
+            "runtime",
+            "type",
+            "arches",
+            "icon",
+            "keywords",
+            "isMobileFriendly",
+        ]
+    )
+
+
 client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_master_key
 )
-client.create_index("apps", {"primaryKey": "id"})
-client.index("apps").update_sortable_attributes(
-    [
-        "installs_last_month",
-        "trending",
-        "added_at",
-        "updated_at",
-        "verification_timestamp",
-    ]
-)
-client.index("apps").update_searchable_attributes(
-    ["name", "keywords", "summary", "description", "id"]
-)
-client.index("apps").update_filterable_attributes(
-    [
-        "categories",
-        "main_categories",
-        "sub_categories",
-        "developer_name",
-        "verification_verified",
-        "is_free_license",
-        "runtime",
-        "type",
-        "arches",
-        "icon",
-        "keywords",
-        "isMobileFriendly",
-    ]
-)
+
+# with how dependent we are on meilisearch, upgrading it without destroying order
+# of the applications is hopeless
+secondary_client = None
+if config.settings.meilisearch_secondary_url:
+    secondary_client = meilisearch.Client(
+        config.settings.meilisearch_secondary_url,
+        config.settings.meilisearch_secondary_master_key,
+    )
+
+_configure_meilisearch_index(client)
+if secondary_client:
+    _configure_meilisearch_index(secondary_client)
 
 
 def _translate_name_and_summary(locale: str, searchResults: dict):
@@ -86,6 +102,9 @@ def _translate_name_and_summary(locale: str, searchResults: dict):
 
 def create_or_update_apps(apps_to_update: list[dict]):
     client.index("apps").update_documents(apps_to_update)
+
+    if secondary_client:
+        secondary_client.index("apps").update_documents(apps_to_update)
 
 
 def delete_apps(app_id_list):
