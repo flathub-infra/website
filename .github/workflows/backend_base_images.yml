@@ -2,7 +2,7 @@ name: 🐋 Build backend base images
 
 on:
   schedule:
-    - cron: '0 0 * * 0'
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 jobs:
@@ -45,4 +45,4 @@ jobs:
             ghcr.io/flathub-infra/backend-base:latest
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
-          cache-to: type=gha,mode=max 
+          cache-to: type=gha,mode=max
