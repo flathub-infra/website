@@ -248,7 +248,8 @@
     "branding-has-primary-brand-colors": "Ka ngjyra parësore marke",
     "hide-branding-preview": "Fshih paraparje elementësh marke",
     "show-branding-preview": "Shfaq paraparje elementësh marke",
-    "problems": "Nëse do të donit të na pyesnit rreth problemesh specifike lidhur me udhëzime cilësie, mos ngurroni të hapni <2>një çështje</2>."
+    "problems": "Nëse do të donit të na pyesnit rreth problemesh specifike lidhur me udhëzime cilësie, mos ngurroni të hapni <2>një çështje</2>.",
+    "branding": "Aplikim marke"
   },
   "developers": "Zhvillues",
   "publish-your-app": "Publikoni Aplikacionin Tuaj",
@@ -620,5 +621,10 @@
   "app-listing-quality": "Ujdisni Google Listing & Ads",
   "mobile-apps": "Aplikacione Për Celular",
   "more-mobile-apps": "Më tepër aplikacione për celular",
-  "mobile-apps-description": "Aplikacione për telefona dhe tabletet tuaj Linux"
+  "mobile-apps-description": "Aplikacione për telefona dhe tabletet tuaj Linux",
+  "quality": {
+    "missing-brand-colors": "Mungojnë ngjyra marke",
+    "banner-preview-description": "Që të eksperimentoni kollaj me banderolën tuaj, përdorni <2>paraparjen e banderolës</2>"
+  },
+  "on-the-go": "Për pajisje celulare"
 }
