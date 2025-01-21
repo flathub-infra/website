@@ -75,6 +75,7 @@ const MobileSection = ({
           className={cn(
             "dark:bg-flathub-white/15 bg-flathub-black/10",
             "transition duration-300 hover:bg-flathub-black/20 dark:hover:bg-flathub-white/25",
+            "active:bg-flathub-black/40 dark:active:bg-flathub-white/50",
             "rounded-full px-8 hidden lg:flex w-fit",
           )}
           aria-label={t("more-mobile-apps")}
