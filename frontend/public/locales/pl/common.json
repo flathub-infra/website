@@ -625,5 +625,13 @@
   "kind-purchase-app": "Kup {{appName}}",
   "action-purchase": "Kup",
   "kind-donate-app": "Przekaż darowiznę {{appName}}",
-  "apps-by-tag": "Aplikacje według tagu '{{tag}}'"
+  "apps-by-tag": "Aplikacje według tagu '{{tag}}'",
+  "mobile-apps": "Aplikacje Mobilne",
+  "quality": {
+    "missing-brand-colors": "Brak kolorów marki",
+    "banner-preview-description": "Aby łatwo eksperymentować z twoim banerem, użyj <2>podglądu banera</2>"
+  },
+  "on-the-go": "W drodze",
+  "more-mobile-apps": "Więcej aplikacji mobilnych",
+  "mobile-apps-description": "Aplikacje dla twoich Linuksowych telefonów i tabletów"
 }

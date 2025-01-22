@@ -353,14 +353,16 @@
   "deepin": {
     "distroName": "Deepin",
     "step-3": {
-      "name": "Installier das Deepin Theme"
+      "name": "Installier das Deepin Theme",
+      "text": "<p>Um helle und dunkle Themen zu installieren, führe folgendes aus:</p> <2></2>"
     },
     "step-4": {
       "name": "Neustart",
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf Deepin zu installieren, führe folgendes in einem Terminal aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -425,16 +427,19 @@
   "kde_neon": {
     "distroName": "KDE neon",
     "step-1": {
-      "name": "Aktivier Flatpak"
+      "name": "Aktivier Flatpak",
+      "text": "Öffne Discover und klicke auf Einstellungen (linke untere Ecke)."
     },
     "step-2": {
-      "name": "Flatpak Einstellungen überprüfen"
+      "name": "Flatpak Einstellungen überprüfen",
+      "text": "<p>Überprüfe, dass im Abschnitt Flatpak das Häkchen gesetzt ist.</p><p>Hinweis: Damit wird die Flathub-App-Suche in Discover integriert. Wenn du die App-Suche auf Flathub beschränken willst, kannst du Flatpak als Standard markieren, indem du auf den Stern klickst.</p>"
     }
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": "<p>Um Flatpak auf GNU Guix zu installieren, führe das Folgende in einem Terminal aus:</p> <2></2>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",

@@ -563,7 +563,7 @@
   "press-description": "Wir freuen uns immer, Fragen zu beantworten und Interviews mit Journalisten und Tech-Autoren zu arrangieren",
   "you-may-or-may-not-be-able-to-contribute": "Beteiligung an diesem Projekt kann oder kann nicht möglich sein.",
   "special-license": "Besondere Lizenz",
-  "special-license-explanation": "Dieses App wird unter der besondere Lizenz <1>{{ license }}</1> entwickelt.",
+  "special-license-explanation": "Diese App wird unter der speziellen Lizenz <1>{{ license }}</1> entwickelt.",
   "new-description": "Neue Apps, die in den letzten Tagen auf Flathub veröffentlicht wurden.",
   "new-apps": "Neue Apps",
   "updated-description": "Apps, die in den letzten Tagen auf Flathub aktualisiert wurden.",
@@ -628,5 +628,9 @@
   "mobile-apps": "Mobile Apps",
   "on-the-go": "Unterwegs",
   "more-mobile-apps": "Mehr mobile Apps",
-  "mobile-apps-description": "Apps für deine Linux-Handys und Tablets"
+  "mobile-apps-description": "Apps für deine Linux-Handys und Tablets",
+  "quality": {
+    "missing-brand-colors": "Fehlende Markenfarben",
+    "banner-preview-description": "Verwende <2>die Bannervorschau</2>, um mit deinem Banner zu experimentieren"
+  }
 }
