@@ -17,11 +17,11 @@ import gi
 import stripe
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
-from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
 from .. import worker
 from ..config import settings
+from ..database import get_db
 from ..db import get_json_key
 from ..logins import login_state
 from ..models import (
@@ -215,14 +215,15 @@ def status(login=Depends(login_state)) -> VendingStatus:
         return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
-    account = StripeExpressAccount.by_user(db, login["user"])
-    if account is None:
-        return VendingStatus(
-            status="no-stripe-account",
-            can_take_payments=False,
-            needs_attention=False,
-            details_submitted=False,
-        )
+    with get_db("replica") as db:
+        account = StripeExpressAccount.by_user(db, login["user"])
+        if account is None:
+            return VendingStatus(
+                status="no-stripe-account",
+                can_take_payments=False,
+                needs_attention=False,
+                details_submitted=False,
+            )
 
     can_take_money = False
     try:
@@ -255,33 +256,34 @@ def start_onboarding(
         return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
-    account = StripeExpressAccount.by_user(db, login["user"])
+    with get_db("writer") as db:
+        account = StripeExpressAccount.by_user(db, login["user"])
 
-    try:
-        userid = login["user"].id
-        if account is None:
-            acc = stripe.Account.create(
-                idempotency_key=f"account-{userid}",
-                type="express",
-                capabilities={
-                    "card_payments": {"requested": True},
-                    "transfers": {"requested": True},
-                },
+        try:
+            userid = login["user"].id
+            if account is None:
+                acc = stripe.Account.create(
+                    idempotency_key=f"account-{userid}",
+                    type="express",
+                    capabilities={
+                        "card_payments": {"requested": True},
+                        "transfers": {"requested": True},
+                    },
+                )
+                account = StripeExpressAccount(user=userid, stripe_account=acc["id"])
+                db.add(account)
+                db.commit()
+            else:
+                acc = stripe.Account.retrieve(account.stripe_account)
+            link = stripe.AccountLink.create(
+                account=acc["id"],
+                refresh_url=data.return_url,
+                return_url=data.return_url,
+                type="account_onboarding",
             )
-            account = StripeExpressAccount(user=userid, stripe_account=acc["id"])
-            db.session.add(account)
-            db.session.commit()
-        else:
-            acc = stripe.Account.retrieve(account.stripe_account)
-        link = stripe.AccountLink.create(
-            account=acc["id"],
-            refresh_url=data.return_url,
-            return_url=data.return_url,
-            type="account_onboarding",
-        )
-        return VendingRedirect(status="ok", target_url=link["url"])
-    except Exception as error:
-        raise VendingError("stripe-account-create-failed") from error
+            return VendingRedirect(status="ok", target_url=link["url"])
+        except Exception as error:
+            raise VendingError("stripe-account-create-failed") from error
 
 
 @router.get("/status/dashboardlink", tags=["vending"])
@@ -295,15 +297,16 @@ def get_dashboard_link(login=Depends(login_state)) -> VendingRedirect:
         return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
-    account = StripeExpressAccount.by_user(db, login["user"])
-    if account is None:
-        raise VendingError("not-onboarded")
+    with get_db("replica") as db:
+        account = StripeExpressAccount.by_user(db, login["user"])
+        if account is None:
+            raise VendingError("not-onboarded")
 
-    try:
-        link = stripe.Account.create_login_link(account.stripe_account)
-        return VendingRedirect(status="ok", target_url=link["url"])
-    except Exception as error:
-        raise VendingError("stripe-link-create-failed") from error
+        try:
+            link = stripe.Account.create_login_link(account.stripe_account)
+            return VendingRedirect(status="ok", target_url=link["url"])
+        except Exception as error:
+            raise VendingError("stripe-link-create-failed") from error
 
 
 @router.get("/config", tags=["vending"])
@@ -348,15 +351,16 @@ def get_app_vending_setup(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, app_id)
-    if not vend:
-        return VendingSetup(
-            status="no-config",
-            currency="usd",
-            appshare=50,
-            recommended_donation=0,
-            minimum_payment=0,
-        )
+    with get_db("replica") as db:
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if not vend:
+            return VendingSetup(
+                status="no-config",
+                currency="usd",
+                appshare=50,
+                recommended_donation=0,
+                minimum_payment=0,
+            )
 
     return VendingSetup(
         status="ok",
@@ -393,42 +397,41 @@ def post_app_vending_setup(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    if app_id not in login["user"].dev_flatpaks(db):
-        raise VendingError(error="permission-denied")
+    with get_db("writer") as db:
+        if app_id not in login["user"].dev_flatpaks(db):
+            raise VendingError(error="permission-denied")
 
-    stripe_account = StripeExpressAccount.by_user(db, login["user"])
-    if not stripe_account:
-        raise VendingError(error="not-onboarded")
+        stripe_account = StripeExpressAccount.by_user(db, login["user"])
+        if not stripe_account:
+            raise VendingError(error="not-onboarded")
 
-    vend = ApplicationVendingConfig.by_appid(db, app_id)
-    if not vend and setup.recommended_donation > 0:
-        vend = ApplicationVendingConfig(
-            user=login["user"].id,
-            appid=app_id,
-            currency=setup.currency,
-            appshare=setup.appshare,
-            recommended_donation=setup.recommended_donation,
-            minimum_payment=setup.minimum_payment,
-        )
-    elif setup.recommended_donation > 0:
-        if vend.user != login["user"].id:
-            raise VendingError(error="user-mismatch")
-        vend.currency = setup.currency
-        vend.appshare = setup.appshare
-        vend.recommended_donation = setup.recommended_donation
-        vend.minimum_payment = setup.minimum_payment
-    try:
-        if setup.recommended_donation > 0:
-            db.session.add(vend)
-        elif vend:
-            db.session.delete(vend)
-        db.session.commit()
-    except Exception as base_exc:
-        raise VendingError(error="bad-values") from base_exc
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if not vend and setup.recommended_donation > 0:
+            vend = ApplicationVendingConfig(
+                user=login["user"].id,
+                appid=app_id,
+                currency=setup.currency,
+                appshare=setup.appshare,
+                recommended_donation=setup.recommended_donation,
+                minimum_payment=setup.minimum_payment,
+            )
+        elif setup.recommended_donation > 0:
+            if vend.user != login["user"].id:
+                raise VendingError(error="user-mismatch")
+            vend.currency = setup.currency
+            vend.appshare = setup.appshare
+            vend.recommended_donation = setup.recommended_donation
+            vend.minimum_payment = setup.minimum_payment
+        try:
+            if setup.recommended_donation > 0:
+                db.add(vend)
+            elif vend:
+                db.delete(vend)
+            db.commit()
+        except Exception as base_exc:
+            raise VendingError(error="bad-values") from base_exc
 
-    # Update the app metadata in the repository
     worker.republish_app.send(app_id)
-
     return get_app_vending_setup(app_id, login)
 
 
@@ -456,13 +459,14 @@ def post_app_vending_status(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, app_id)
-    if not vend:
-        raise VendingError(error="not-found")
-    if vend.currency != data.currency:
-        raise VendingError(error="bad-currency")
-    if data.amount < vend.minimum_payment:
-        raise VendingError(error="bad-value")
+    with get_db("replica") as db:
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if not vend:
+            raise VendingError(error="not-found")
+        if vend.currency != data.currency:
+            raise VendingError(error="bad-currency")
+        if data.amount < vend.minimum_payment:
+            raise VendingError(error="bad-value")
 
     try:
         shares = prices.compute_app_shares(
@@ -472,11 +476,12 @@ def post_app_vending_status(
         raise VendingError(error="bad-app-share") from val_err
 
     try:
-        txn = Transaction.create_from_split(
-            db, login["user"], vend.minimum_payment > 0, data.currency, shares
-        )
-        db.session.flush()
-        full_txn = Wallet().transaction(request, login["user"], txn.id)
+        with get_db("writer") as db:
+            txn = Transaction.create_from_split(
+                db, login["user"], vend.minimum_payment > 0, data.currency, shares
+            )
+            db.flush()
+            full_txn = Wallet().transaction(request, login["user"], txn.id)
     except WalletError:
         raise
     except Exception as base_exc:
@@ -525,21 +530,23 @@ def get_redeemable_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    if app_id not in login["user"].dev_flatpaks(db):
-        raise VendingError(error="permission-denied")
+    with get_db("replica") as db:
+        if app_id not in login["user"].dev_flatpaks(db):
+            raise VendingError(error="permission-denied")
 
     tokens = []
-    for token in RedeemableAppToken.by_appid(db, app_id, True):
-        tokens.append(
-            TokenModel(
-                id=str(token.id),
-                state=token.state,
-                name=token.name,
-                created=token.created,
-                changed=token.changed,
-                token=token.token,
+    with get_db("replica") as db:
+        for token in RedeemableAppToken.by_appid(db, app_id, True):
+            tokens.append(
+                TokenModel(
+                    id=str(token.id),
+                    state=token.state,
+                    name=token.name,
+                    created=token.created,
+                    changed=token.changed,
+                    token=token.token,
+                )
             )
-        )
 
     return TokenList(status="ok", total=len(tokens), tokens=tokens)
 
@@ -565,26 +572,29 @@ def create_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, app_id)
-    if not vend:
-        raise VendingError(error="invalid-appid")
-    if vend.user != login["user"].id:
-        raise VendingError(error="permission-denied")
+    with get_db("replica") as db:
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if not vend:
+            raise VendingError(error="invalid-appid")
+        if vend.user != login["user"].id:
+            raise VendingError(error="permission-denied")
 
     tokens = []
-    for name in data:
-        token = RedeemableAppToken.create(db, app_id, name)
-        tokens.append(
-            TokenModel(
-                id=str(token.id),
-                state=token.state,
-                name=token.name,
-                created=str(token.created),
-                changed=str(token.changed),
-                token=token.token,
+    with get_db("writer") as db:
+        for name in data:
+            token = RedeemableAppToken.create(db, app_id, name)
+            tokens.append(
+                TokenModel(
+                    id=str(token.id),
+                    state=token.state,
+                    name=token.name,
+                    created=str(token.created),
+                    changed=str(token.changed),
+                    token=token.token,
+                )
             )
-        )
-    db.session.commit()
+    with get_db("writer") as db:
+        db.commit()
     return tokens
 
 
@@ -612,25 +622,27 @@ def cancel_tokens(
     if not login["state"].logged_in():
         raise VendingError(error="not-logged-in")
 
-    vend = ApplicationVendingConfig.by_appid(db, app_id)
-    if not vend:
-        raise VendingError(error="invalid-appid")
-    if vend.user != login["user"].id:
-        raise VendingError(error="permission-denied")
+    with get_db("replica") as db:
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if not vend:
+            raise VendingError(error="invalid-appid")
+        if vend.user != login["user"].id:
+            raise VendingError(error="permission-denied")
 
     ret = []
-    for token_str in data:
-        token = RedeemableAppToken.by_appid_and_token(db, app_id, token_str)
-        if token is None:
-            ret.append(TokenCancellation(token=token_str, status="invalid"))
-        else:
-            try:
-                token.cancel(db)
-                db.session.commit()
-                ret.append(TokenCancellation(token=token_str, status="cancelled"))
-            except Exception as base_exc:
-                print(f"Failure cancelling {token_str} for {app_id}: {base_exc}")
-                ret.append(TokenCancellation(token=token_str, status="error"))
+    with get_db("writer") as db:
+        for token_str in data:
+            token = RedeemableAppToken.by_appid_and_token(db, app_id, token_str)
+            if token is None:
+                ret.append(TokenCancellation(token=token_str, status="invalid"))
+            else:
+                try:
+                    token.cancel(db)
+                    db.commit()
+                    ret.append(TokenCancellation(token=token_str, status="cancelled"))
+                except Exception as base_exc:
+                    print(f"Failure cancelling {token_str} for {app_id}: {base_exc}")
+                    ret.append(TokenCancellation(token=token_str, status="error"))
 
     return ret
 
@@ -661,13 +673,15 @@ def redeem_token(
     if not login["state"].logged_in():
         return RedemptionResult(status="failure", reason="not-logged-in")
 
-    dbtoken = RedeemableAppToken.by_appid_and_token(db, app_id, token)
-    if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
-        if dbtoken.redeem(db, login["user"]):
-            db.session.commit()
-            return RedemptionResult(status="success", reason="redeemed")
-        else:
-            return RedemptionResult(status="failure", reason="already-owned")
+    with get_db("replica") as db:
+        dbtoken = RedeemableAppToken.by_appid_and_token(db, app_id, token)
+        if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
+            if dbtoken.redeem(db, login["user"]):
+                with get_db("writer") as db:
+                    db.commit()
+                    return RedemptionResult(status="success", reason="redeemed")
+            else:
+                return RedemptionResult(status="failure", reason="already-owned")
 
     return RedemptionResult(status="failure", reason="invalid")
 
