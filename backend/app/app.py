@@ -2,10 +2,10 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, FastAPI, Path, Query, Response
 from fastapi.responses import ORJSONResponse
-from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
 from . import apps, db, models, schemas, search, stats, utils
+from .database import get_db
 
 router = APIRouter(default_response_class=ORJSONResponse)
 
@@ -190,20 +190,21 @@ def get_appstream(
     locale: str = "en",
 ):
     if value := db.get_json_key(f"apps:{app_id}"):
-        app = models.Apps.by_appid(sqldb, app_id)
+        with get_db("replica") as db_session:
+            app = models.Apps.by_appid(db_session, app_id)
 
-        if not app:
-            return value
+            if not app:
+                return value
 
-        if not (app and app.localization_json):
-            return value
+            if not (app and app.localization_json):
+                return value
 
-        if translation := app.localization_json.get(locale):
-            return get_translation(translation, value)
-        elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
-            return get_translation(translation, value)
-        else:
-            return value
+            if translation := app.localization_json.get(locale):
+                return get_translation(translation, value)
+            elif translation := app.localization_json.get(f"{locale.split('-')[0]}"):
+                return get_translation(translation, value)
+            else:
+                return value
 
     response.status_code = 404
     return None
@@ -218,7 +219,8 @@ def get_isFullscreenApp(
         examples=["org.gnome.Glade"],
     ),
 ) -> bool:
-    return models.Apps.get_fullscreen_app(sqldb, app_id)
+    with get_db("replica") as db_session:
+        return models.Apps.get_fullscreen_app(db_session, app_id)
 
 
 @router.post("/search", tags=["app"])
