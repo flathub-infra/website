@@ -9,12 +9,12 @@ import jwt
 import requests as req
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from fastapi_sqlalchemy import db as sqldb
 from github import Github
 from pydantic import BaseModel, field_validator
 from sqlalchemy import func, not_, or_
 
 from . import config, models, utils, worker
+from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
 from .login_info import moderator_only, moderator_or_app_author_only
@@ -131,26 +131,27 @@ def get_moderation_apps(
     is_new_submission = func.bool_or(models.ModerationRequest.is_new_submission).label(
         "is_new_submission"
     )
-    query = (
-        sqldb.session.query(
-            models.ModerationRequest.appid,
-            is_new_submission,
-            func.max(models.ModerationRequest.created_at).label("updated_at"),
-            func.array_agg(models.ModerationRequest.request_type.distinct()).label(
-                "request_types"
-            ),
+    with get_db("replica") as db:
+        query = (
+            db.session.query(
+                models.ModerationRequest.appid,
+                is_new_submission,
+                func.max(models.ModerationRequest.created_at).label("updated_at"),
+                func.array_agg(models.ModerationRequest.request_type.distinct()).label(
+                    "request_types"
+                ),
+            )
+            .filter(
+                (
+                    models.ModerationRequest.handled_at.is_(None)
+                    if show_handled is False
+                    else models.ModerationRequest.handled_at.isnot(None)
+                ),
+                models.ModerationRequest.is_outdated.is_(False),
+            )
+            .group_by(models.ModerationRequest.appid)
+            .order_by(func.max(models.ModerationRequest.created_at).desc())
         )
-        .filter(
-            (
-                models.ModerationRequest.handled_at.is_(None)
-                if show_handled is False
-                else models.ModerationRequest.handled_at.isnot(None)
-            ),
-            models.ModerationRequest.is_outdated.is_(False),
-        )
-        .group_by(models.ModerationRequest.appid)
-        .order_by(func.max(models.ModerationRequest.created_at).desc())
-    )
 
     if new_submissions is not None:
         query = query.having(is_new_submission == new_submissions)
@@ -184,11 +185,12 @@ def get_moderation_app(
     offset: int = 0,
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
-    query = (
-        sqldb.session.query(models.ModerationRequest, models.FlathubUser.display_name)
-        .filter_by(appid=app_id)
-        .order_by(models.ModerationRequest.created_at.desc())
-    )
+    with get_db("replica") as db:
+        query = (
+            db.session.query(models.ModerationRequest, models.FlathubUser.display_name)
+            .filter_by(appid=app_id)
+            .order_by(models.ModerationRequest.created_at.desc())
+        )
 
     # include_handled should include outdated+handled requests
     if include_handled:
@@ -313,7 +315,8 @@ def submit_review_request(
     if not isinstance(r.content, bytes):
         # If the summary file is not a binary file, something also went wrong
         raise HTTPException(status_code=500, detail="invalid_summary_file")
-    build_summary, _, _ = parse_summary(r.content, sqldb)
+    with get_db("replica") as db:
+        build_summary, _, _ = parse_summary(r.content, db)
 
     sentry_context = {"build_summary": build_summary}
 
@@ -365,10 +368,11 @@ def submit_review_request(
         if "current_values" not in locals():
             current_values = {}
 
-        if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
-            if not direct_upload_app.first_seen_at:
-                direct_upload_app.first_seen_at = datetime.utcnow()
-                sqldb.session.commit()
+        with get_db("writer") as db:
+            if direct_upload_app := models.DirectUploadApp.by_app_id(db, app_id):
+                if not direct_upload_app.first_seen_at:
+                    direct_upload_app.first_seen_at = datetime.utcnow()
+                    db.session.commit()
 
                 is_new_submission = True
                 current_values = {"direct upload": False}
@@ -435,18 +439,19 @@ def submit_review_request(
 
     # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
     # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
-    app_ids = set(request.appid for request in new_requests)
-    for app_id in app_ids:
-        sqldb.session.query(models.ModerationRequest).filter_by(
-            appid=app_id, is_outdated=False
-        ).update({"is_outdated": True})
+    with get_db("writer") as db:
+        app_ids = set(request.appid for request in new_requests)
+        for app_id in app_ids:
+            db.session.query(models.ModerationRequest).filter_by(
+                appid=app_id, is_outdated=False
+            ).update({"is_outdated": True})
 
-    if len(new_requests) == 0:
-        return ReviewRequestResponse(requires_review=False)
-    else:
-        for request in new_requests:
-            sqldb.session.add(request)
-        sqldb.session.commit()
+        if len(new_requests) == 0:
+            return ReviewRequestResponse(requires_review=False)
+        else:
+            for request in new_requests:
+                db.session.add(request)
+            db.session.commit()
 
         if config.settings.moderation_observe_only:
             return ReviewRequestResponse(requires_review=False)
@@ -513,33 +518,35 @@ def submit_review(
     """Approve or reject the moderation request with a comment. If all requests for a job are approved, the job is
     marked as successful in flat-manager."""
 
-    request = (
-        sqldb.session.query(models.ModerationRequest)
-        .filter_by(id=id)
-        .with_for_update()
-        .first()
-    )
+    with get_db("writer") as db:
+        request = (
+            db.session.query(models.ModerationRequest)
+            .filter_by(id=id)
+            .with_for_update()
+            .first()
+        )
 
-    if request is None:
-        raise HTTPException(status_code=404, detail="not_found")
-    elif request.handled_at is not None:
-        raise HTTPException(status_code=400, detail="already_handled")
+        if request is None:
+            raise HTTPException(status_code=404, detail="not_found")
+        elif request.handled_at is not None:
+            raise HTTPException(status_code=400, detail="already_handled")
 
-    request.is_approved = review.approve
-    request.handled_by = login.user.id
-    request.handled_at = func.now()
-    request.comment = review.comment
+        request.is_approved = review.approve
+        request.handled_by = login.user.id
+        request.handled_at = func.now()
+        request.comment = review.comment
 
-    sqldb.session.commit()
+        db.session.commit()
 
     if request.is_approved:
         # Check if all requests for the job are approved
-        remaining = (
-            sqldb.session.query(models.ModerationRequest)
-            .filter_by(job_id=request.job_id)
-            .filter(models.ModerationRequest.is_approved is None)
-            .count()
-        )
+        with get_db("replica") as db:
+            remaining = (
+                db.session.query(models.ModerationRequest)
+                .filter_by(job_id=request.job_id)
+                .filter(models.ModerationRequest.is_approved is None)
+                .count()
+            )
         if remaining == 0:
             # Tell flat-manager that the job is approved
             worker.review_check.send(request.job_id, "Passed", None, request.build_id)
@@ -559,9 +566,10 @@ def submit_review(
         category = EmailCategory.MODERATION_REJECTED
         subject = f"Change in build #{request.build_id} rejected"
 
-        if not models.DirectUploadApp.by_app_id(sqldb, request.appid):
-            inform_only_moderators = True
-            issue = create_github_build_rejection_issue(request)
+        with get_db("replica") as db:
+            if not models.DirectUploadApp.by_app_id(db, request.appid):
+                inform_only_moderators = True
+                issue = create_github_build_rejection_issue(request)
 
     if app_metadata := get_json_key(f"apps:{request.appid}"):
         app_name = app_metadata["name"]
