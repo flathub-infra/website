@@ -11,11 +11,11 @@ import type { DevelopersResponse, InviteStatus } from ".././model"
 export const getGetInviteStatusInvitesAppIdGetResponseMock = (
   overrideResponse: Partial<InviteStatus> = {},
 ): InviteStatus => ({
+  is_pending: faker.datatype.boolean(),
   is_direct_upload_app: faker.helpers.arrayElement([
     faker.datatype.boolean(),
     undefined,
   ]),
-  is_pending: faker.datatype.boolean(),
   ...overrideResponse,
 })
 
@@ -27,24 +27,24 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
     (_, i) => i + 1,
   ).map(() => ({
     id: faker.number.int({ min: undefined, max: undefined }),
+    is_self: faker.datatype.boolean(),
+    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     is_primary: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       undefined,
     ]),
-    is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   })),
   invites: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
     id: faker.number.int({ min: undefined, max: undefined }),
+    is_self: faker.datatype.boolean(),
+    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
     is_primary: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       undefined,
     ]),
-    is_self: faker.datatype.boolean(),
-    name: faker.helpers.arrayElement([faker.string.alpha(20), null]),
   })),
   ...overrideResponse,
 })

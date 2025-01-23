@@ -7,6 +7,6 @@
 import type { AuthInfoAvatar } from "./authInfoAvatar"
 
 export interface AuthInfo {
-  avatar?: AuthInfoAvatar
   login: string
+  avatar?: AuthInfoAvatar
 }

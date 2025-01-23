@@ -23,26 +23,16 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      appstream: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([{}, null]),
-        undefined,
-      ]),
       id: faker.string.alpha(20),
-      installs_last_7_days: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
-        undefined,
-      ]),
       quality_moderation_status: {
+        passes: faker.datatype.boolean(),
+        unrated: faker.number.int({ min: undefined, max: undefined }),
+        passed: faker.number.int({ min: undefined, max: undefined }),
+        not_passed: faker.number.int({ min: undefined, max: undefined }),
         last_updated: faker.helpers.arrayElement([
           `${faker.date.past().toISOString().split(".")[0]}Z`,
           null,
         ]),
-        not_passed: faker.number.int({ min: undefined, max: undefined }),
-        passed: faker.number.int({ min: undefined, max: undefined }),
-        passes: faker.datatype.boolean(),
         review_requested_at: faker.helpers.arrayElement([
           faker.helpers.arrayElement([
             `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -50,8 +40,18 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
           ]),
           undefined,
         ]),
-        unrated: faker.number.int({ min: undefined, max: undefined }),
       },
+      appstream: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([{}, null]),
+        undefined,
+      ]),
+      installs_last_7_days: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null,
+        ]),
+        undefined,
+      ]),
     })),
     pagination: {
       page: faker.number.int({ min: undefined, max: undefined }),
@@ -88,10 +88,10 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
       (_, i) => i + 1,
     ).map(() => ({
       app_id: faker.string.alpha(20),
-      lastTimeAppOfTheDay: faker.helpers.arrayElement([
-        faker.date.past().toISOString().split("T")[0],
-        null,
-      ]),
+      numberOfTimesAppOfTheWeek: faker.number.int({
+        min: undefined,
+        max: undefined,
+      }),
       lastTimeAppOfTheWeek: faker.helpers.arrayElement([
         faker.date.past().toISOString().split("T")[0],
         null,
@@ -100,10 +100,10 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
         min: undefined,
         max: undefined,
       }),
-      numberOfTimesAppOfTheWeek: faker.number.int({
-        min: undefined,
-        max: undefined,
-      }),
+      lastTimeAppOfTheDay: faker.helpers.arrayElement([
+        faker.date.past().toISOString().split("T")[0],
+        null,
+      ]),
     })),
     ...overrideResponse,
   })
@@ -126,26 +126,26 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      app_id: faker.string.alpha(20),
-      comment: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      guideline_id: faker.string.alpha(20),
       guideline: {
-        category: faker.string.alpha(20),
         id: faker.string.alpha(20),
+        url: faker.string.alpha(20),
         needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
+        category: faker.string.alpha(20),
         read_only: faker.helpers.arrayElement([
           faker.datatype.boolean(),
           undefined,
         ]),
-        url: faker.string.alpha(20),
       },
-      guideline_id: faker.string.alpha(20),
-      needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
-      passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+      app_id: faker.string.alpha(20),
       updated_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
       updated_by: faker.helpers.arrayElement([
         faker.number.int({ min: undefined, max: undefined }),
         null,
       ]),
+      passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+      comment: faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      needed_to_pass_since: `${faker.date.past().toISOString().split(".")[0]}Z`,
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
@@ -162,13 +162,14 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
   (
     overrideResponse: Partial<QualityModerationStatus> = {},
   ): QualityModerationStatus => ({
+    passes: faker.datatype.boolean(),
+    unrated: faker.number.int({ min: undefined, max: undefined }),
+    passed: faker.number.int({ min: undefined, max: undefined }),
+    not_passed: faker.number.int({ min: undefined, max: undefined }),
     last_updated: faker.helpers.arrayElement([
       `${faker.date.past().toISOString().split(".")[0]}Z`,
       null,
     ]),
-    not_passed: faker.number.int({ min: undefined, max: undefined }),
-    passed: faker.number.int({ min: undefined, max: undefined }),
-    passes: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -176,7 +177,6 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
       ]),
       undefined,
     ]),
-    unrated: faker.number.int({ min: undefined, max: undefined }),
     ...overrideResponse,
   })
 

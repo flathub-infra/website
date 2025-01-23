@@ -4,21 +4,21 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
-import type { UserResultConnectedAccountsItem } from "./userResultConnectedAccountsItem"
-import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
 import type { UserResultDisplayName } from "./userResultDisplayName"
+import type { UserResultDefaultAccount } from "./userResultDefaultAccount"
+import type { UserResultConnectedAccountsItem } from "./userResultConnectedAccountsItem"
+import type { UserResultAcceptedPublisherAgreementAt } from "./userResultAcceptedPublisherAgreementAt"
+import type { UserRoleResult } from "./userRoleResult"
 import type { UserResultGithubRepos } from "./userResultGithubRepos"
 import type { UserResultOwnedApps } from "./userResultOwnedApps"
-import type { UserRoleResult } from "./userRoleResult"
 
 export interface UserResult {
-  accepted_publisher_agreement_at: UserResultAcceptedPublisherAgreementAt
-  connected_accounts: UserResultConnectedAccountsItem[]
-  default_account: UserResultDefaultAccount
-  display_name: UserResultDisplayName
-  github_repos: UserResultGithubRepos
   id: number
-  owned_apps: UserResultOwnedApps
+  display_name: UserResultDisplayName
+  default_account: UserResultDefaultAccount
+  connected_accounts: UserResultConnectedAccountsItem[]
+  accepted_publisher_agreement_at: UserResultAcceptedPublisherAgreementAt
   roles: UserRoleResult[]
+  github_repos: UserResultGithubRepos
+  owned_apps: UserResultOwnedApps
 }

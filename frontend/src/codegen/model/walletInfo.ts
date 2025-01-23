@@ -7,6 +7,6 @@
 import type { PaymentCardInfo } from "./paymentCardInfo"
 
 export interface WalletInfo {
-  cards: PaymentCardInfo[]
   status: string
+  cards: PaymentCardInfo[]
 }

@@ -79,7 +79,7 @@ export const getStatusVendingStatusGetQueryOptions = <
     Awaited<ReturnType<typeof statusVendingStatusGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type StatusVendingStatusGetQueryResult = NonNullable<
@@ -108,7 +108,7 @@ export function useStatusVendingStatusGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
@@ -130,7 +130,9 @@ export function useStatusVendingStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<unknown>,
@@ -143,7 +145,9 @@ export function useStatusVendingStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Status
  */
@@ -160,11 +164,13 @@ export function useStatusVendingStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getStatusVendingStatusGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -188,23 +194,28 @@ export const startOnboardingVendingStatusOnboardingPost = (
 }
 
 export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof startOnboardingVendingStatusOnboardingPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
+    TData,
     TError,
     { data: VendingOnboardingRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
-  TError,
-  { data: VendingOnboardingRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["startOnboardingVendingStatusOnboardingPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
@@ -215,7 +226,12 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
     return startOnboardingVendingStatusOnboardingPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: VendingOnboardingRequest },
+    TContext
+  >
 }
 
 export type StartOnboardingVendingStatusOnboardingPostMutationResult =
@@ -231,18 +247,21 @@ export type StartOnboardingVendingStatusOnboardingPostMutationError =
  * @summary Start Onboarding
  */
 export const useStartOnboardingVendingStatusOnboardingPost = <
+  TData = Awaited<
+    ReturnType<typeof startOnboardingVendingStatusOnboardingPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
+    TData,
     TError,
     { data: VendingOnboardingRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
+  TData,
   TError,
   { data: VendingOnboardingRequest },
   TContext
@@ -298,7 +317,7 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions = <
     Awaited<ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetDashboardLinkVendingStatusDashboardlinkGetQueryResult =
@@ -333,7 +352,7 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
@@ -359,7 +378,9 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -374,7 +395,9 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Dashboard Link
  */
@@ -393,12 +416,14 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetDashboardLinkVendingStatusDashboardlinkGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -453,7 +478,7 @@ export const getGetGlobalVendingConfigVendingConfigGetQueryOptions = <
     Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetGlobalVendingConfigVendingConfigGetQueryResult = NonNullable<
@@ -483,7 +508,7 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
@@ -505,7 +530,9 @@ export function useGetGlobalVendingConfigVendingConfigGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<unknown>,
@@ -518,7 +545,9 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Global Vending Config
  */
@@ -535,12 +564,14 @@ export function useGetGlobalVendingConfigVendingConfigGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetGlobalVendingConfigVendingConfigGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -604,7 +635,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions = <
     Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetAppVendingSetupVendingappAppIdSetupGetQueryResult = NonNullable<
@@ -636,7 +667,9 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -660,7 +693,9 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -676,7 +711,9 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get App Vending Setup
  */
@@ -696,14 +733,16 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetAppVendingSetupVendingappAppIdSetupGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -732,23 +771,28 @@ export const postAppVendingSetupVendingappAppIdSetupPost = (
 }
 
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
+    TData,
     TError,
     { appId: string; data: VendingSetupRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
-  TError,
-  { appId: string; data: VendingSetupRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["postAppVendingSetupVendingappAppIdSetupPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
@@ -763,7 +807,12 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
     )
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; data: VendingSetupRequest },
+    TContext
+  >
 }
 
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationResult =
@@ -779,18 +828,21 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationError =
  * @summary Post App Vending Setup
  */
 export const usePostAppVendingSetupVendingappAppIdSetupPost = <
+  TData = Awaited<
+    ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
+    TData,
     TError,
     { appId: string; data: VendingSetupRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
+  TData,
   TError,
   { appId: string; data: VendingSetupRequest },
   TContext
@@ -818,23 +870,26 @@ export const postAppVendingStatusVendingappAppIdPost = (
 }
 
 export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
+    TData,
     TError,
     { appId: string; data: ProposedPayment },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
-  TError,
-  { appId: string; data: ProposedPayment },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["postAppVendingStatusVendingappAppIdPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
@@ -845,7 +900,12 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
     return postAppVendingStatusVendingappAppIdPost(appId, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; data: ProposedPayment },
+    TContext
+  >
 }
 
 export type PostAppVendingStatusVendingappAppIdPostMutationResult = NonNullable<
@@ -860,18 +920,19 @@ export type PostAppVendingStatusVendingappAppIdPostMutationError =
  * @summary Post App Vending Status
  */
 export const usePostAppVendingStatusVendingappAppIdPost = <
+  TData = Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
+    TData,
     TError,
     { appId: string; data: ProposedPayment },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
+  TData,
   TError,
   { appId: string; data: ProposedPayment },
   TContext
@@ -943,7 +1004,7 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions = <
     Awaited<ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRedeemableTokensVendingappAppIdTokensGetQueryResult =
@@ -980,7 +1041,9 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1008,7 +1071,9 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1026,7 +1091,9 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Redeemable Tokens
  */
@@ -1048,12 +1115,14 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetRedeemableTokensVendingappAppIdTokensGetQueryOptions(appId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1080,23 +1149,26 @@ export const createTokensVendingappAppIdTokensPost = (
 }
 
 export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
+    TData,
     TError,
     { appId: string; data: string[] },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
-  TError,
-  { appId: string; data: string[] },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["createTokensVendingappAppIdTokensPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
@@ -1107,7 +1179,12 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
     return createTokensVendingappAppIdTokensPost(appId, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; data: string[] },
+    TContext
+  >
 }
 
 export type CreateTokensVendingappAppIdTokensPostMutationResult = NonNullable<
@@ -1121,18 +1198,19 @@ export type CreateTokensVendingappAppIdTokensPostMutationError =
  * @summary Create Tokens
  */
 export const useCreateTokensVendingappAppIdTokensPost = <
+  TData = Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
+    TData,
     TError,
     { appId: string; data: string[] },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
+  TData,
   TError,
   { appId: string; data: string[] },
   TContext
@@ -1159,23 +1237,28 @@ export const cancelTokensVendingappAppIdTokensCancelPost = (
 }
 
 export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
+    TData,
     TError,
     { appId: string; data: string[] },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
-  TError,
-  { appId: string; data: string[] },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["cancelTokensVendingappAppIdTokensCancelPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
@@ -1190,7 +1273,12 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
     )
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; data: string[] },
+    TContext
+  >
 }
 
 export type CancelTokensVendingappAppIdTokensCancelPostMutationResult =
@@ -1205,18 +1293,21 @@ export type CancelTokensVendingappAppIdTokensCancelPostMutationError =
  * @summary Cancel Tokens
  */
 export const useCancelTokensVendingappAppIdTokensCancelPost = <
+  TData = Awaited<
+    ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
+    TData,
     TError,
     { appId: string; data: string[] },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
+  TData,
   TError,
   { appId: string; data: string[] },
   TContext
@@ -1245,23 +1336,29 @@ export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
 }
 
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TData = Awaited<
+      ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
-      >,
+      TData,
       TError,
       { appId: string; token: string },
       TContext
     >
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
-    TError,
-    { appId: string; token: string },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["redeemTokenVendingappAppIdTokensRedeemTokenPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1278,7 +1375,12 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      { appId: string; token: string },
+      TContext
+    >
   }
 
 export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationResult =
@@ -1293,18 +1395,21 @@ export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationError =
  * @summary Redeem Token
  */
 export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
+  TData = Awaited<
+    ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
+    TData,
     TError,
     { appId: string; token: string },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
+  TData,
   TError,
   { appId: string; token: string },
   TContext
@@ -1364,7 +1469,7 @@ export const getAppInfoVendingappAppIdInfoGetQueryOptions = <
     Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type AppInfoVendingappAppIdInfoGetQueryResult = NonNullable<
@@ -1396,7 +1501,9 @@ export function useAppInfoVendingappAppIdInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1420,7 +1527,9 @@ export function useAppInfoVendingappAppIdInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1436,7 +1545,9 @@ export function useAppInfoVendingappAppIdInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary App Info
  */
@@ -1456,14 +1567,16 @@ export function useAppInfoVendingappAppIdInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getAppInfoVendingappAppIdInfoGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey

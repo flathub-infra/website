@@ -7,6 +7,6 @@
 
 export interface AppOfTheWeek {
   app_id: string
-  isFullscreen: boolean
   position: number
+  isFullscreen: boolean
 }

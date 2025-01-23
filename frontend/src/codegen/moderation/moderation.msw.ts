@@ -23,9 +23,6 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
   ).map(() => ({
     appid: faker.string.alpha(20),
     is_new_submission: faker.datatype.boolean(),
-    request_types: faker.helpers.arrayElements(
-      Object.values(ModerationRequestType),
-    ),
     updated_at: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         `${faker.date.past().toISOString().split(".")[0]}Z`,
@@ -33,6 +30,9 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
       ]),
       undefined,
     ]),
+    request_types: faker.helpers.arrayElements(
+      Object.values(ModerationRequestType),
+    ),
   })),
   apps_count: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,
@@ -45,36 +45,19 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
-    app_id: faker.string.alpha(20),
-    build_id: faker.number.int({ min: undefined, max: undefined }),
-    comment: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      undefined,
-    ]),
-    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
-    handled_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        `${faker.date.past().toISOString().split(".")[0]}Z`,
-        null,
-      ]),
-      undefined,
-    ]),
-    handled_by: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      undefined,
-    ]),
     id: faker.number.int({ min: undefined, max: undefined }),
-    is_approved: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-      undefined,
-    ]),
-    is_new_submission: faker.datatype.boolean(),
-    is_outdated: faker.datatype.boolean(),
+    app_id: faker.string.alpha(20),
+    created_at: `${faker.date.past().toISOString().split(".")[0]}Z`,
+    build_id: faker.number.int({ min: undefined, max: undefined }),
     job_id: faker.number.int({ min: undefined, max: undefined }),
+    is_outdated: faker.datatype.boolean(),
+    request_type: faker.helpers.arrayElement(
+      Object.values(ModerationRequestType),
+    ),
     request_data: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         {
-          current_values: {
+          keys: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
               faker.string.alpha(20),
               Array.from(
@@ -85,7 +68,7 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
               null,
             ]),
           },
-          keys: {
+          current_values: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
               faker.string.alpha(20),
               Array.from(
@@ -101,9 +84,26 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       ]),
       undefined,
     ]),
-    request_type: faker.helpers.arrayElement(
-      Object.values(ModerationRequestType),
-    ),
+    is_new_submission: faker.datatype.boolean(),
+    handled_by: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
+    handled_at: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        `${faker.date.past().toISOString().split(".")[0]}Z`,
+        null,
+      ]),
+      undefined,
+    ]),
+    is_approved: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+      undefined,
+    ]),
+    comment: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
   })),
   requests_count: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse,

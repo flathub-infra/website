@@ -7,6 +7,6 @@
 import type { TokenCancellationStatus } from "./tokenCancellationStatus"
 
 export interface TokenCancellation {
-  status: TokenCancellationStatus
   token: string
+  status: TokenCancellationStatus
 }

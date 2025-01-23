@@ -10,8 +10,8 @@
 and also whether or not there are pending onboarding operations to complete
  */
 export interface VendingStatus {
-  can_take_payments: boolean
-  details_submitted: boolean
-  needs_attention: boolean
   status: string
+  can_take_payments: boolean
+  needs_attention: boolean
+  details_submitted: boolean
 }

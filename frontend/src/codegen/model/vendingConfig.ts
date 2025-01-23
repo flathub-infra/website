@@ -4,16 +4,16 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { VendingConfigPlatforms } from "./vendingConfigPlatforms"
 import type { VendingConfigStatus } from "./vendingConfigStatus"
+import type { VendingConfigPlatforms } from "./vendingConfigPlatforms"
 
 /**
  * Global vending environment configuration values
  */
 export interface VendingConfig {
-  fee_cost_percent: number
-  fee_fixed_cost: number
-  fee_prefer_percent: number
-  platforms: VendingConfigPlatforms
   status: VendingConfigStatus
+  platforms: VendingConfigPlatforms
+  fee_fixed_cost: number
+  fee_cost_percent: number
+  fee_prefer_percent: number
 }

@@ -83,7 +83,7 @@ export const getGetModerationAppsModerationAppsGetQueryOptions = <
     Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetModerationAppsModerationAppsGetQueryResult = NonNullable<
@@ -115,7 +115,9 @@ export function useGetModerationAppsModerationAppsGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -139,7 +141,9 @@ export function useGetModerationAppsModerationAppsGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -155,7 +159,9 @@ export function useGetModerationAppsModerationAppsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Moderation Apps
  */
@@ -175,14 +181,16 @@ export function useGetModerationAppsModerationAppsGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetModerationAppsModerationAppsGetQueryOptions(
     params,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -252,7 +260,7 @@ export const getGetModerationAppModerationAppsAppIdGetQueryOptions = <
     Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetModerationAppModerationAppsAppIdGetQueryResult = NonNullable<
@@ -285,7 +293,9 @@ export function useGetModerationAppModerationAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -310,7 +320,9 @@ export function useGetModerationAppModerationAppsAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -327,7 +339,9 @@ export function useGetModerationAppModerationAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Moderation App
  */
@@ -348,7 +362,9 @@ export function useGetModerationAppModerationAppsAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetModerationAppModerationAppsAppIdGetQueryOptions(
     appId,
     params,
@@ -356,7 +372,7 @@ export function useGetModerationAppModerationAppsAppIdGet<
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -375,25 +391,29 @@ export const submitReviewRequestModerationSubmitReviewRequestPost = (
 }
 
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TData = Awaited<
+      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-      >,
+      TData,
       TError,
       { data: ReviewRequest },
       TContext
     >
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<
-      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-    >,
-    TError,
-    { data: ReviewRequest },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["submitReviewRequestModerationSubmitReviewRequestPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -409,7 +429,12 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOpti
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      { data: ReviewRequest },
+      TContext
+    >
   }
 
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationResult =
@@ -427,26 +452,20 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
  * @summary Submit Review Request
  */
 export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
+  TData = Awaited<
+    ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-    >,
+    TData,
     TError,
     { data: ReviewRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<
-    ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
-  >,
-  TError,
-  { data: ReviewRequest },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { data: ReviewRequest }, TContext> => {
   const mutationOptions =
     getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions(
       options,
@@ -468,23 +487,28 @@ export const submitReviewModerationRequestsIdReviewPost = (
 }
 
 export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof submitReviewModerationRequestsIdReviewPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
+    TData,
     TError,
     { id: number; data: Review },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
-  TError,
-  { id: number; data: Review },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["submitReviewModerationRequestsIdReviewPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
@@ -495,7 +519,12 @@ export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
     return submitReviewModerationRequestsIdReviewPost(id, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { id: number; data: Review },
+    TContext
+  >
 }
 
 export type SubmitReviewModerationRequestsIdReviewPostMutationResult =
@@ -510,18 +539,21 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationError =
  * @summary Submit Review
  */
 export const useSubmitReviewModerationRequestsIdReviewPost = <
+  TData = Awaited<
+    ReturnType<typeof submitReviewModerationRequestsIdReviewPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
+    TData,
     TError,
     { id: number; data: Review },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
+  TData,
   TError,
   { id: number; data: Review },
   TContext

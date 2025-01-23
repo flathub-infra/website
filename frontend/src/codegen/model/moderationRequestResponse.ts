@@ -4,25 +4,25 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
-import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
-import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
-import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
-import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
 import type { ModerationRequestType } from "./moderationRequestType"
+import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
+import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
+import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
+import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
+import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
 
 export interface ModerationRequestResponse {
-  app_id: string
-  build_id: number
-  comment?: ModerationRequestResponseComment
-  created_at: string
-  handled_at?: ModerationRequestResponseHandledAt
-  handled_by?: ModerationRequestResponseHandledBy
   id: number
-  is_approved?: ModerationRequestResponseIsApproved
-  is_new_submission: boolean
-  is_outdated: boolean
+  app_id: string
+  created_at: string
+  build_id: number
   job_id: number
-  request_data?: ModerationRequestResponseRequestData
+  is_outdated: boolean
   request_type: ModerationRequestType
+  request_data?: ModerationRequestResponseRequestData
+  is_new_submission: boolean
+  handled_by?: ModerationRequestResponseHandledBy
+  handled_at?: ModerationRequestResponseHandledAt
+  is_approved?: ModerationRequestResponseIsApproved
+  comment?: ModerationRequestResponseComment
 }

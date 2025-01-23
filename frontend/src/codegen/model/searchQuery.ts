@@ -7,6 +7,6 @@
 import type { SearchQueryFilters } from "./searchQueryFilters"
 
 export interface SearchQuery {
-  filters?: SearchQueryFilters
   query: string
+  filters?: SearchQueryFilters
 }

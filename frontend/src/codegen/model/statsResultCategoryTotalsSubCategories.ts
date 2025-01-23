@@ -6,6 +6,6 @@
  */
 
 export interface StatsResultCategoryTotalsSubCategories {
-  count: number
   sub_category: string
+  count: number
 }

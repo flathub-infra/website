@@ -8,10 +8,10 @@ import type { QualityModerationStatusLastUpdated } from "./qualityModerationStat
 import type { QualityModerationStatusReviewRequestedAt } from "./qualityModerationStatusReviewRequestedAt"
 
 export interface QualityModerationStatus {
-  last_updated: QualityModerationStatusLastUpdated
-  not_passed: number
-  passed: number
   passes: boolean
-  review_requested_at?: QualityModerationStatusReviewRequestedAt
   unrated: number
+  passed: number
+  not_passed: number
+  last_updated: QualityModerationStatusLastUpdated
+  review_requested_at?: QualityModerationStatusReviewRequestedAt
 }

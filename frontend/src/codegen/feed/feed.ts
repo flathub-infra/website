@@ -69,7 +69,7 @@ export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions = <
     >,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryResult =
@@ -106,7 +106,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
@@ -134,7 +134,9 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -151,7 +153,9 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Recently Updated Apps Feed
  */
@@ -172,12 +176,14 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -224,7 +230,7 @@ export const getGetNewAppsFeedFeedNewGetQueryOptions = <
     Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetNewAppsFeedFeedNewGetQueryResult = NonNullable<
@@ -253,7 +259,7 @@ export function useGetNewAppsFeedFeedNewGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
@@ -275,7 +281,9 @@ export function useGetNewAppsFeedFeedNewGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -288,7 +296,9 @@ export function useGetNewAppsFeedFeedNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get New Apps Feed
  */
@@ -305,11 +315,13 @@ export function useGetNewAppsFeedFeedNewGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetNewAppsFeedFeedNewGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey

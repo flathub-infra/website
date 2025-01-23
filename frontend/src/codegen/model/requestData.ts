@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RequestDataCurrentValues } from "./requestDataCurrentValues"
 import type { RequestDataKeys } from "./requestDataKeys"
+import type { RequestDataCurrentValues } from "./requestDataCurrentValues"
 
 export interface RequestData {
-  current_values: RequestDataCurrentValues
   keys: RequestDataKeys
+  current_values: RequestDataCurrentValues
 }

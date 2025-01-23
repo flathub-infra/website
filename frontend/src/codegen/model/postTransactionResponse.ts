@@ -6,6 +6,6 @@
  */
 
 export interface PostTransactionResponse {
-  id: string
   status: string
+  id: string
 }

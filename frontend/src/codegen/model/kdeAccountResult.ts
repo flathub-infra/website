@@ -4,19 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 import type { KdeAccountResultAvatarUrl } from "./kdeAccountResultAvatarUrl"
 import type { KdeAccountResultDisplayName } from "./kdeAccountResultDisplayName"
 import type { KdeAccountResultEmail } from "./kdeAccountResultEmail"
 import type { KdeAccountResultLastUsed } from "./kdeAccountResultLastUsed"
-import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface KdeAccountResult {
+  provider: ConnectedAccountProvider
+  id: number
+  kde_userid: number
+  login: string
   avatar_url: KdeAccountResultAvatarUrl
   display_name: KdeAccountResultDisplayName
   email: KdeAccountResultEmail
-  id: number
-  kde_userid: number
   last_used: KdeAccountResultLastUsed
-  login: string
-  provider: ConnectedAccountProvider
 }

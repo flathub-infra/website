@@ -6,6 +6,6 @@
  */
 
 export interface RedemptionResult {
-  reason: string
   status: string
+  reason: string
 }

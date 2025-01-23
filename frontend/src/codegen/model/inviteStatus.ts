@@ -6,6 +6,6 @@
  */
 
 export interface InviteStatus {
-  is_direct_upload_app?: boolean
   is_pending: boolean
+  is_direct_upload_app?: boolean
 }

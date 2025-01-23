@@ -7,7 +7,7 @@
 import type { NascentTransactionSummaryKind } from "./nascentTransactionSummaryKind"
 
 export interface NascentTransactionSummary {
+  value: number
   currency: string
   kind: NascentTransactionSummaryKind
-  value: number
 }

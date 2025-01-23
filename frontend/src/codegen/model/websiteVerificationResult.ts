@@ -8,7 +8,7 @@ import type { WebsiteVerificationResultDetail } from "./websiteVerificationResul
 import type { WebsiteVerificationResultStatusCode } from "./websiteVerificationResultStatusCode"
 
 export interface WebsiteVerificationResult {
+  verified: boolean
   detail?: WebsiteVerificationResultDetail
   status_code?: WebsiteVerificationResultStatusCode
-  verified: boolean
 }

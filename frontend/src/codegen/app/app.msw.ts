@@ -66,27 +66,13 @@ export const getGetRuntimeListRuntimesGetResponseMock =
 export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
   faker.helpers.arrayElement([
     {
-      category_totals: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => ({
-        category: faker.string.alpha(20),
-        count: faker.number.int({ min: undefined, max: undefined }),
-        sub_categories: Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          count: faker.number.int({ min: undefined, max: undefined }),
-          sub_category: faker.string.alpha(20),
-        })),
-      })),
-      countries: {
+      totals: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
         }),
       },
-      delta_downloads_per_day: {
+      countries: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
@@ -98,18 +84,32 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
           max: undefined,
         }),
       },
-      totals: {
-        [faker.string.alphanumeric(5)]: faker.number.int({
-          min: undefined,
-          max: undefined,
-        }),
-      },
       updates_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int({
           min: undefined,
           max: undefined,
         }),
       },
+      delta_downloads_per_day: {
+        [faker.string.alphanumeric(5)]: faker.number.int({
+          min: undefined,
+          max: undefined,
+        }),
+      },
+      category_totals: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        category: faker.string.alpha(20),
+        count: faker.number.int({ min: undefined, max: undefined }),
+        sub_categories: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          sub_category: faker.string.alpha(20),
+          count: faker.number.int({ min: undefined, max: undefined }),
+        })),
+      })),
     },
     null,
   ])
@@ -117,14 +117,14 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
 export const getGetPlatformsPlatformsGetResponseMock =
   (): GetPlatformsPlatformsGet200 => ({
     [faker.string.alphanumeric(5)]: {
-      aliases: Array.from(
-        { length: faker.number.int({ min: 1, max: 10 }) },
-        (_, i) => i + 1,
-      ).map(() => faker.string.alpha(20)),
       depends: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined,
       ]),
+      aliases: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha(20)),
       keep: faker.number.int({ min: undefined, max: undefined }),
       stripe_account: faker.helpers.arrayElement([
         faker.helpers.arrayElement([faker.string.alpha(20), null]),

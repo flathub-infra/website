@@ -8,8 +8,8 @@ import type { OauthLoginResponseFailureErrorDescription } from "./oauthLoginResp
 import type { OauthLoginResponseFailureErrorUri } from "./oauthLoginResponseFailureErrorUri"
 
 export interface OauthLoginResponseFailure {
+  state: string
   error: string
   error_description?: OauthLoginResponseFailureErrorDescription
   error_uri?: OauthLoginResponseFailureErrorUri
-  state: string
 }

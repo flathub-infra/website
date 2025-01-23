@@ -88,7 +88,7 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions = <
     Awaited<ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryResult =
@@ -125,7 +125,9 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -153,7 +155,9 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -171,7 +175,9 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Storefront Info
  */
@@ -193,12 +199,14 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetStorefrontInfoPurchasesStorefrontInfoGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -282,7 +290,7 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOp
       >,
       TError,
       TData
-    > & { queryKey: DataTag<QueryKey, TData> }
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
   }
 
 export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryResult =
@@ -329,7 +337,9 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -363,7 +373,9 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -385,7 +397,9 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Is Free Software
  */
@@ -411,7 +425,9 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryOptions(
       params,
@@ -419,7 +435,7 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
     )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -440,23 +456,24 @@ export const getUpdateTokenPurchasesGenerateUpdateTokenPost = (
 }
 
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>
-      >,
-      TError,
-      void,
-      TContext
-    >
+  <
+    TData = Awaited<
+      ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>
+    >,
+    TError = AxiosError<unknown>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<TData, TError, void, TContext>
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
-    TError,
-    void,
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["getUpdateTokenPurchasesGenerateUpdateTokenPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -467,7 +484,12 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
       return getUpdateTokenPurchasesGenerateUpdateTokenPost(axiosOptions)
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      void,
+      TContext
+    >
   }
 
 export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationResult =
@@ -482,22 +504,15 @@ export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationError =
  * @summary Get Update Token
  */
 export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
+  TData = Awaited<
+    ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>
+  >,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
-    TError,
-    void,
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, void, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof getUpdateTokenPurchasesGenerateUpdateTokenPost>>,
-  TError,
-  void,
-  TContext
-> => {
+}): UseMutationResult<TData, TError, void, TContext> => {
   const mutationOptions =
     getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions(options)
 
@@ -522,23 +537,21 @@ export const checkPurchasesPurchasesCheckPurchasesPost = (
 }
 
 export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-    TError,
-    { data: string[] },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { data: string[] }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-  TError,
-  { data: string[] },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["checkPurchasesPurchasesCheckPurchasesPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
@@ -549,7 +562,12 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
     return checkPurchasesPurchasesCheckPurchasesPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: string[] },
+    TContext
+  >
 }
 
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationResult =
@@ -564,22 +582,13 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationError =
  * @summary Check Purchases
  */
 export const useCheckPurchasesPurchasesCheckPurchasesPost = <
+  TData = Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-    TError,
-    { data: string[] },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { data: string[] }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-  TError,
-  { data: string[] },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { data: string[] }, TContext> => {
   const mutationOptions =
     getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions(options)
 
@@ -602,25 +611,29 @@ export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (
 }
 
 export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TData = Awaited<
+      ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
-      >,
+      TData,
       TError,
       { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
       TContext
     >
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<
-      ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
-    >,
-    TError,
-    { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["getDownloadTokenPurchasesGenerateDownloadTokenPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -636,7 +649,12 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+      TContext
+    >
   }
 
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationResult =
@@ -654,22 +672,21 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationError =
  * @summary Get Download Token
  */
 export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
+  TData = Awaited<
+    ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
-    >,
+    TData,
     TError,
     { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<
-    ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
-  >,
+  TData,
   TError,
   { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
   TContext

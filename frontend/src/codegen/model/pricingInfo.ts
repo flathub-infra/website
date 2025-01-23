@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { PricingInfoMinimumPayment } from "./pricingInfoMinimumPayment"
 import type { PricingInfoRecommendedDonation } from "./pricingInfoRecommendedDonation"
+import type { PricingInfoMinimumPayment } from "./pricingInfoMinimumPayment"
 
 export interface PricingInfo {
-  minimum_payment?: PricingInfoMinimumPayment
   recommended_donation?: PricingInfoRecommendedDonation
+  minimum_payment?: PricingInfoMinimumPayment
 }

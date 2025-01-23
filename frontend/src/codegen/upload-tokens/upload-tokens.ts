@@ -90,7 +90,7 @@ export const getGetUploadTokensUploadTokensAppIdGetQueryOptions = <
     Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
@@ -123,7 +123,9 @@ export function useGetUploadTokensUploadTokensAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -148,7 +150,9 @@ export function useGetUploadTokensUploadTokensAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -165,7 +169,9 @@ export function useGetUploadTokensUploadTokensAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Upload Tokens
  */
@@ -186,7 +192,9 @@ export function useGetUploadTokensUploadTokensAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetUploadTokensUploadTokensAppIdGetQueryOptions(
     appId,
     params,
@@ -194,7 +202,7 @@ export function useGetUploadTokensUploadTokensAppIdGet<
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -214,23 +222,26 @@ export const createUploadTokenUploadTokensAppIdPost = (
 }
 
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
+    TData,
     TError,
     { appId: string; data: UploadTokenRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
-  TError,
-  { appId: string; data: UploadTokenRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["createUploadTokenUploadTokensAppIdPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
@@ -241,7 +252,12 @@ export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
     return createUploadTokenUploadTokensAppIdPost(appId, data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; data: UploadTokenRequest },
+    TContext
+  >
 }
 
 export type CreateUploadTokenUploadTokensAppIdPostMutationResult = NonNullable<
@@ -256,18 +272,19 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationError =
  * @summary Create Upload Token
  */
 export const useCreateUploadTokenUploadTokensAppIdPost = <
+  TData = Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
+    TData,
     TError,
     { appId: string; data: UploadTokenRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
+  TData,
   TError,
   { appId: string; data: UploadTokenRequest },
   TContext
@@ -288,23 +305,24 @@ export const revokeUploadTokenUploadTokensTokenIdRevokePost = (
 }
 
 export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
-      >,
-      TError,
-      { tokenId: number },
-      TContext
-    >
+  <
+    TData = Awaited<
+      ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<TData, TError, { tokenId: number }, TContext>
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
-    TError,
-    { tokenId: number },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["revokeUploadTokenUploadTokensTokenIdRevokePost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -320,7 +338,12 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions =
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      { tokenId: number },
+      TContext
+    >
   }
 
 export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationResult =
@@ -335,22 +358,15 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokePostMutationError =
  * @summary Revoke Upload Token
  */
 export const useRevokeUploadTokenUploadTokensTokenIdRevokePost = <
+  TData = Awaited<
+    ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
-    TError,
-    { tokenId: number },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { tokenId: number }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokePost>>,
-  TError,
-  { tokenId: number },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { tokenId: number }, TContext> => {
   const mutationOptions =
     getRevokeUploadTokenUploadTokensTokenIdRevokePostMutationOptions(options)
 

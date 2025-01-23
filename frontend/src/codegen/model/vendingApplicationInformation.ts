@@ -11,8 +11,8 @@ import type { VendingApplicationInformationKind } from "./vendingApplicationInfo
  */
 export interface VendingApplicationInformation {
   app_id: string
-  foss: boolean
-  foss_reason: string
   kind: VendingApplicationInformationKind
   kind_reason: string
+  foss: boolean
+  foss_reason: string
 }

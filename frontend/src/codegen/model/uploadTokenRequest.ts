@@ -7,6 +7,6 @@
 
 export interface UploadTokenRequest {
   comment: string
-  repos: string[]
   scopes: string[]
+  repos: string[]
 }

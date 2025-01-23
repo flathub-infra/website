@@ -4,21 +4,21 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { VerificationStatusDetail } from "./verificationStatusDetail"
-import type { VerificationStatusLoginIsOrganization } from "./verificationStatusLoginIsOrganization"
-import type { VerificationStatusLoginName } from "./verificationStatusLoginName"
-import type { VerificationStatusLoginProvider } from "./verificationStatusLoginProvider"
-import type { VerificationStatusMethod } from "./verificationStatusMethod"
 import type { VerificationStatusTimestamp } from "./verificationStatusTimestamp"
+import type { VerificationStatusMethod } from "./verificationStatusMethod"
 import type { VerificationStatusWebsite } from "./verificationStatusWebsite"
+import type { VerificationStatusLoginProvider } from "./verificationStatusLoginProvider"
+import type { VerificationStatusLoginName } from "./verificationStatusLoginName"
+import type { VerificationStatusLoginIsOrganization } from "./verificationStatusLoginIsOrganization"
+import type { VerificationStatusDetail } from "./verificationStatusDetail"
 
 export interface VerificationStatus {
-  detail?: VerificationStatusDetail
-  login_is_organization?: VerificationStatusLoginIsOrganization
-  login_name?: VerificationStatusLoginName
-  login_provider?: VerificationStatusLoginProvider
-  method?: VerificationStatusMethod
-  timestamp?: VerificationStatusTimestamp
   verified: boolean
+  timestamp?: VerificationStatusTimestamp
+  method?: VerificationStatusMethod
   website?: VerificationStatusWebsite
+  login_provider?: VerificationStatusLoginProvider
+  login_name?: VerificationStatusLoginName
+  login_is_organization?: VerificationStatusLoginIsOrganization
+  detail?: VerificationStatusDetail
 }

@@ -8,10 +8,10 @@ import type { TokenModelState } from "./tokenModelState"
 import type { TokenModelToken } from "./tokenModelToken"
 
 export interface TokenModel {
-  changed: string
-  created: string
   id: string
-  name: string
   state: TokenModelState
+  name: string
   token?: TokenModelToken
+  created: string
+  changed: string
 }

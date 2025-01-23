@@ -18,18 +18,18 @@ import type {
 export const getGetWalletinfoWalletWalletinfoGetResponseMock = (
   overrideResponse: Partial<WalletInfo> = {},
 ): WalletInfo => ({
+  status: faker.string.alpha(20),
   cards: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    id: faker.string.alpha(20),
     brand: faker.string.alpha(20),
     country: faker.string.alpha(20),
     exp_month: faker.number.int({ min: undefined, max: undefined }),
     exp_year: faker.number.int({ min: undefined, max: undefined }),
-    id: faker.string.alpha(20),
     last4: faker.string.alpha(20),
   })),
-  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 
@@ -39,20 +39,10 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
     ).map(() => ({
-      created: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null,
-        ]),
-        undefined,
-      ]),
-      currency: faker.string.alpha(20),
       id: faker.string.alpha(20),
+      value: faker.number.int({ min: undefined, max: undefined }),
+      currency: faker.string.alpha(20),
       kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
-      reason: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        undefined,
-      ]),
       status: faker.helpers.arrayElement([
         "new",
         "retry",
@@ -60,6 +50,17 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         "success",
         "cancelled",
       ] as const),
+      reason: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined,
+      ]),
+      created: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null,
+        ]),
+        undefined,
+      ]),
       updated: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.number.int({ min: undefined, max: undefined }),
@@ -67,28 +68,58 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         ]),
         undefined,
       ]),
-      value: faker.number.int({ min: undefined, max: undefined }),
     }))
 
 export const getCreateTransactionWalletTransactionsPostResponseMock = (
   overrideResponse: Partial<PostTransactionResponse> = {},
 ): PostTransactionResponse => ({
-  id: faker.string.alpha(20),
   status: faker.string.alpha(20),
+  id: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
   overrideResponse: Partial<Transaction> = {},
 ): Transaction => ({
+  summary: {
+    id: faker.string.alpha(20),
+    value: faker.number.int({ min: undefined, max: undefined }),
+    currency: faker.string.alpha(20),
+    kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
+    status: faker.helpers.arrayElement([
+      "new",
+      "retry",
+      "pending",
+      "success",
+      "cancelled",
+    ] as const),
+    reason: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
+    created: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+    updated: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        null,
+      ]),
+      undefined,
+    ]),
+  },
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
+        id: faker.string.alpha(20),
         brand: faker.string.alpha(20),
         country: faker.string.alpha(20),
         exp_month: faker.number.int({ min: undefined, max: undefined }),
         exp_year: faker.number.int({ min: undefined, max: undefined }),
-        id: faker.string.alpha(20),
         last4: faker.string.alpha(20),
       },
       null,
@@ -99,76 +130,45 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
   ).map(() => ({
+    recipient: faker.string.alpha(20),
     amount: faker.number.int({ min: undefined, max: undefined }),
     currency: faker.string.alpha(20),
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
-    recipient: faker.string.alpha(20),
   })),
   receipt: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  summary: {
-    created: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
-      undefined,
-    ]),
-    currency: faker.string.alpha(20),
-    id: faker.string.alpha(20),
-    kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
-    reason: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      undefined,
-    ]),
-    status: faker.helpers.arrayElement([
-      "new",
-      "retry",
-      "pending",
-      "success",
-      "cancelled",
-    ] as const),
-    updated: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        null,
-      ]),
-      undefined,
-    ]),
-    value: faker.number.int({ min: undefined, max: undefined }),
-  },
   ...overrideResponse,
 })
 
 export const getGetStripedataWalletStripedataGetResponseMock = (
   overrideResponse: Partial<StripeKeys> = {},
 ): StripeKeys => ({
-  public_key: faker.string.alpha(20),
   status: faker.string.alpha(20),
+  public_key: faker.string.alpha(20),
   ...overrideResponse,
 })
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   overrideResponse: Partial<TransactionStripeData> = {},
 ): TransactionStripeData => ({
+  status: faker.string.alpha(20),
+  client_secret: faker.string.alpha(20),
   card: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
+        id: faker.string.alpha(20),
         brand: faker.string.alpha(20),
         country: faker.string.alpha(20),
         exp_month: faker.number.int({ min: undefined, max: undefined }),
         exp_year: faker.number.int({ min: undefined, max: undefined }),
-        id: faker.string.alpha(20),
         last4: faker.string.alpha(20),
       },
       null,
     ]),
     undefined,
   ]),
-  client_secret: faker.string.alpha(20),
-  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 

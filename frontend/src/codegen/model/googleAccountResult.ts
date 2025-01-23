@@ -4,19 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 import type { GoogleAccountResultAvatarUrl } from "./googleAccountResultAvatarUrl"
 import type { GoogleAccountResultDisplayName } from "./googleAccountResultDisplayName"
 import type { GoogleAccountResultEmail } from "./googleAccountResultEmail"
 import type { GoogleAccountResultLastUsed } from "./googleAccountResultLastUsed"
-import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface GoogleAccountResult {
+  provider: ConnectedAccountProvider
+  id: number
+  google_userid: number
+  login: string
   avatar_url: GoogleAccountResultAvatarUrl
   display_name: GoogleAccountResultDisplayName
   email: GoogleAccountResultEmail
-  google_userid: number
-  id: number
   last_used: GoogleAccountResultLastUsed
-  login: string
-  provider: ConnectedAccountProvider
 }

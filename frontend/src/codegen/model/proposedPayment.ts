@@ -9,6 +9,6 @@
  * Proposed payment to be made for an application
  */
 export interface ProposedPayment {
-  amount: number
   currency: string
+  amount: number
 }

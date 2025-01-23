@@ -17,44 +17,22 @@ import type {
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
   overrideResponse: Partial<StorefrontInfo> = {},
 ): StorefrontInfo => ({
-  is_free_software: faker.helpers.arrayElement([
-    faker.datatype.boolean(),
-    undefined,
-  ]),
-  pricing: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        minimum_payment: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            null,
-          ]),
-          undefined,
-        ]),
-        recommended_donation: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.number.int({ min: undefined, max: undefined }),
-            null,
-          ]),
-          undefined,
-        ]),
-      },
-      null,
-    ]),
-    undefined,
-  ]),
   verification: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {
-        detail: faker.helpers.arrayElement([
+        verified: faker.datatype.boolean(),
+        timestamp: faker.helpers.arrayElement([
           faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
-        login_is_organization: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+        method: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.helpers.arrayElement(Object.values(VerificationMethod)),
+            null,
+          ]),
           undefined,
         ]),
-        login_name: faker.helpers.arrayElement([
+        website: faker.helpers.arrayElement([
           faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
@@ -65,25 +43,47 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
           ]),
           undefined,
         ]),
-        method: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.helpers.arrayElement(Object.values(VerificationMethod)),
-            null,
-          ]),
-          undefined,
-        ]),
-        timestamp: faker.helpers.arrayElement([
+        login_name: faker.helpers.arrayElement([
           faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
-        verified: faker.datatype.boolean(),
-        website: faker.helpers.arrayElement([
+        login_is_organization: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+          undefined,
+        ]),
+        detail: faker.helpers.arrayElement([
           faker.helpers.arrayElement([faker.string.alpha(20), null]),
           undefined,
         ]),
       },
       null,
     ]),
+    undefined,
+  ]),
+  pricing: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      {
+        recommended_donation: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            null,
+          ]),
+          undefined,
+        ]),
+        minimum_payment: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            faker.number.int({ min: undefined, max: undefined }),
+            null,
+          ]),
+          undefined,
+        ]),
+      },
+      null,
+    ]),
+    undefined,
+  ]),
+  is_free_software: faker.helpers.arrayElement([
+    faker.datatype.boolean(),
     undefined,
   ]),
   ...overrideResponse,
