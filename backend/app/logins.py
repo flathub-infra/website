@@ -949,10 +949,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
         invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
 
-    defaultAccountInfo = AuthInfo(
-        avatar=default_avatar_url,
-        login=default_login
-    )
+    defaultAccountInfo = AuthInfo(avatar=default_avatar_url, login=default_login)
 
     return UserInfo(
         displayname=default_display_name,
