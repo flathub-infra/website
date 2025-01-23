@@ -64,9 +64,9 @@ const MobileSection = ({
         <div className="w-full max-w-64 md:max-w-80">
           <MobileDevicesLogo />
         </div>
-        <h3 className="lg:pt-3 text-5xl md:text-6xl font-black">
+        <h1 className="lg:pt-3 text-5xl md:text-6xl font-black">
           {t("on-the-go")}
-        </h3>
+        </h1>
         <div>{t("mobile-apps-description")}</div>
         <Button
           asChild
