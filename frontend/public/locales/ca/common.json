@@ -261,7 +261,7 @@
   "probably-safe": "Probablement segur",
   "potentially-unsafe": "Potencialment insegur",
   "unsafe": "Insegur",
-  "no-permissions": "Sense permisos",
+  "no-permissions": "Cap permisos",
   "has-network-access": "Té accés a la xarxa",
   "uses-system-services": "Utilitza serveis del sistema",
   "can-access-system-devices": "Pot accedir a dispositius de sistema",
