@@ -6,11 +6,11 @@ from uuid import uuid4
 import gi
 import jwt
 from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
-from fastapi_sqlalchemy import db as sqldb
 from gi.repository import AppStream  # type: ignore
 from pydantic import BaseModel
 
 from . import config, logins, models, summary
+from .database import get_db
 from .db import get_json_key
 from .verification import VerificationStatus, get_verification_status, is_appid_runtime
 
@@ -67,12 +67,13 @@ def get_storefront_info(app_id: str) -> StorefrontInfo:
     if appstream is None:
         return result
 
-    if app := models.ApplicationVendingConfig.by_appid(sqldb, app_id):
-        result.pricing = PricingInfo()
-        if app.recommended_donation > 0:
-            result.pricing.recommended_donation = app.recommended_donation
-        if app.minimum_payment > 0:
-            result.pricing.minimum_payment = app.minimum_payment
+    with get_db("replica") as db:
+        if app := models.ApplicationVendingConfig.by_appid(db, app_id):
+            result.pricing = PricingInfo()
+            if app.recommended_donation > 0:
+                result.pricing.recommended_donation = app.recommended_donation
+            if app.minimum_payment > 0:
+                result.pricing.minimum_payment = app.minimum_payment
 
     # Determine whether the app is FOSS
     app_licence = appstream.get("project_license", "")
@@ -141,11 +142,12 @@ def _check_purchases(appids: list[str], user_id: int) -> None:
 
     canon_appids = list(set([canon_app_id(app_id) for app_id in appids]))
 
-    unowned = [
-        app_id
-        for app_id in canon_appids
-        if not models.UserOwnedApp.user_owns_app(sqldb, user_id, app_id)
-    ]
+    with get_db("replica") as db:
+        unowned = [
+            app_id
+            for app_id in canon_appids
+            if not models.UserOwnedApp.user_owns_app(db, user_id, app_id)
+        ]
 
     if len(unowned) != 0:
         raise HTTPException(
