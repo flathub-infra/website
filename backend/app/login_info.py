@@ -3,9 +3,9 @@ from enum import Enum
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request
-from fastapi_sqlalchemy import db
 
 from . import models
+from .database import get_db
 
 
 class LoginState(str, Enum):
@@ -59,8 +59,10 @@ def login_state(request: Request) -> LoginInformation:
     method_intermediate: int | None = None
 
     user_id = request.session.get("user-id", None)
+    user = None
     if user_id is not None:
-        user = db.session.get(models.FlathubUser, user_id)
+        with get_db("replica") as db:
+            user = db.session.get(models.FlathubUser, user_id)
     if user is not None and user.deleted:
         user = None
         del request.session["user-id"]
@@ -112,14 +114,15 @@ def moderator_only(login=Depends(logged_in)):
 def moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
     if (
         "moderation" not in login.user.permissions()
-        and app_id not in login.user.dev_flatpaks(db)
+        and app_id not in login.user.dev_flatpaks(get_db("replica"))
     ):
         raise HTTPException(status_code=403, detail="not_app_developer")
 
 
 def app_author_only(app_id: str, login=Depends(logged_in)):
-    if login.user and app_id in login.user.dev_flatpaks(db):
-        return login
+    with get_db("replica") as db:
+        if login.user and app_id in login.user.dev_flatpaks(db):
+            return login
 
     raise HTTPException(status_code=403, detail="not_app_author")
 
@@ -128,7 +131,8 @@ def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
     if login.user and "quality-moderation" in login.user.permissions():
         return login
 
-    if login.user and app_id in login.user.dev_flatpaks(db):
-        return login
+    with get_db("replica") as db:
+        if login.user and app_id in login.user.dev_flatpaks(db):
+            return login
 
     raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")
