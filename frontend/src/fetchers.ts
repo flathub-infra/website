@@ -167,8 +167,11 @@ export async function fetchCategory(
   locale: string,
   page?: number,
   per_page?: number,
+  exclude_subcategories?: string[],
 ): Promise<MeilisearchResponse<AppsIndex>> {
-  const appListRes = await fetch(CATEGORY_URL(category, page, per_page, locale))
+  const appListRes = await fetch(
+    CATEGORY_URL(category, page, per_page, locale, exclude_subcategories),
+  )
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 
   console.log(
@@ -184,9 +187,17 @@ export async function fetchSubcategory(
   locale: string,
   page?: number,
   per_page?: number,
+  exclude_subcategories?: string[],
 ): Promise<MeilisearchResponse<AppsIndex>> {
   const appListRes = await fetch(
-    SUBCATEGORY_URL(category, subcategory, page, per_page, locale),
+    SUBCATEGORY_URL(
+      category,
+      subcategory,
+      page,
+      per_page,
+      locale,
+      exclude_subcategories,
+    ),
   )
   const response: MeilisearchResponse<AppsIndex> = await appListRes.json()
 

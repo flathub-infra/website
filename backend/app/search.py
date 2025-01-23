@@ -96,13 +96,19 @@ def delete_apps(app_id_list):
 
 def get_by_selected_categories(
     selected_categories: list[schemas.MainCategory],
-    filter_subcategories: list[str],
+    exclude_subcategories: list[str],
     page: int | None,
     hits_per_page: int | None,
     locale: str,
 ):
     category_list = [
         f"categories = {category.value}" for category in selected_categories
+    ]
+
+    exclude_subcategories_list = [
+        f"sub_categories NOT IN [{exclude_subcategory}]"
+        for exclude_subcategory in exclude_subcategories
+        if exclude_subcategory is not None
     ]
 
     return _translate_name_and_summary(
@@ -112,11 +118,7 @@ def get_by_selected_categories(
             {
                 "filter": [
                     category_list,
-                    (
-                        f"sub_categories NOT IN {filter_subcategories}"
-                        if filter_subcategories is not None
-                        else ""
-                    ),
+                    exclude_subcategories_list,
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
@@ -131,11 +133,18 @@ def get_by_selected_categories(
 def get_by_selected_category_and_subcategory(
     selected_category: schemas.MainCategory,
     selected_subcategory: str,
-    filter_subcategories: list[str],
+    exclude_subcategories: list[str],
     page: int | None,
     hits_per_page: int | None,
     locale: str,
 ):
+
+    exclude_subcategories_list = [
+        f"sub_categories NOT IN [{exclude_subcategory}]"
+        for exclude_subcategory in exclude_subcategories
+        if exclude_subcategory is not None
+    ]
+
     return _translate_name_and_summary(
         locale,
         client.index("apps").search(
@@ -144,11 +153,7 @@ def get_by_selected_category_and_subcategory(
                 "filter": [
                     f"main_categories = {selected_category.value}",
                     f"sub_categories = {selected_subcategory}",
-                    (
-                        f"sub_categories NOT IN {filter_subcategories}"
-                        if filter_subcategories is not None
-                        else ""
-                    ),
+                    exclude_subcategories_list,
                     "type IN [console-application, desktop-application]",
                     "NOT icon IS NULL",
                 ],
