@@ -5,10 +5,10 @@ from enum import Enum
 import jwt
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
-from fastapi_sqlalchemy import db as sqldb
 from pydantic import BaseModel
 
 from . import config, models, utils, worker
+from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
 from .logins import login_state
@@ -89,26 +89,29 @@ def get_upload_tokens(
 
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    if app_id not in login.user.dev_flatpaks(sqldb):
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    with get_db("replica") as db:
+        if app_id not in login.user.dev_flatpaks(db):
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
-    tokens = (
-        sqldb.session.query(models.UploadToken, models.FlathubUser.display_name)
-        .join(models.FlathubUser)
-        .filter(models.UploadToken.app_id == app_id)
-    )
-
-    if not include_expired:
-        tokens = tokens.filter(
-            models.UploadToken.expires_at >= datetime.datetime.utcnow()
+    with get_db("replica") as db:
+        tokens = (
+            db.session.query(models.UploadToken, models.FlathubUser.display_name)
+            .join(models.FlathubUser)
+            .filter(models.UploadToken.app_id == app_id)
         )
 
-    tokens = tokens.order_by(models.UploadToken.issued_at.desc())
+        if not include_expired:
+            tokens = tokens.filter(
+                models.UploadToken.expires_at >= datetime.datetime.utcnow()
+            )
 
-    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
+        tokens = tokens.order_by(models.UploadToken.issued_at.desc())
+        token_list = [(t, display_name) for t, display_name in tokens]
+
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
 
     return TokensResponse(
-        tokens=[_token_response(t, display_name) for t, display_name in tokens],
+        tokens=[_token_response(t, display_name) for t, display_name in token_list],
         is_direct_upload_app=(direct_upload_app is not None),
     )
 
@@ -139,10 +142,13 @@ def create_upload_token(
 
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    if app_id not in login.user.dev_flatpaks(sqldb):
-        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    with get_db("replica") as db:
+        if app_id not in login.user.dev_flatpaks(db):
+            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
 
-    if direct_upload_app := models.DirectUploadApp.by_app_id(sqldb, app_id):
+    with get_db("replica") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
+    if direct_upload_app:
         if direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
 
@@ -180,8 +186,9 @@ def create_upload_token(
         issued_to=issued_to.id,
         expires_at=expires_at,
     )
-    sqldb.session.add(token)
-    sqldb.session.commit()
+    with get_db("writer") as db:
+        db.session.add(token)
+        db.session.commit()
 
     if app_metadata := get_json_key(f"apps:{app_id}"):
         app_name = app_metadata["name"]
@@ -243,15 +250,17 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     if not login.state.logged_in():
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    token = models.UploadToken.by_id(sqldb, token_id)
+    with get_db("replica") as db:
+        token = models.UploadToken.by_id(db, token_id)
     if token is None:
         raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
 
-    if token.app_id not in login.user.dev_flatpaks(sqldb):
-        raise HTTPException(
-            status_code=403,
-            detail=ErrorDetail.NOT_APP_DEVELOPER,
-        )
+    with get_db("replica") as db:
+        if token.app_id not in login.user.dev_flatpaks(db):
+            raise HTTPException(
+                status_code=403,
+                detail=ErrorDetail.NOT_APP_DEVELOPER,
+            )
 
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""
@@ -270,7 +279,9 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
         )
 
     token.revoked = True
-    sqldb.session.commit()
+    with get_db("writer") as db:
+        db.session.add(token)
+        db.session.commit()
 
 
 def register_to_app(app: FastAPI):
