@@ -18,7 +18,6 @@ from uuid import uuid4
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from fastapi_sqlalchemy import DBSessionMiddleware, db
 from github import Github
 from gitlab import Gitlab
 from pydantic import BaseModel
@@ -26,6 +25,7 @@ from sqlalchemy import func
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import apps, config, models, worker
+from .database import get_db
 from .emails import EmailCategory
 from .login_info import (
     LoginInformation,
@@ -118,14 +118,14 @@ def _refresh_token(
             detail=f"{method} login flow did not return a bearer token",
         )
 
-    account.token = login_result["access_token"]
-    if "refresh_token" in login_result:
-        account.refresh_token = login_result["refresh_token"]
-        account.token_expiry = datetime.now() + timedelta(
-            seconds=int(login_result.get("expires_in", "7200"))
-        )
-
-    db.session.commit()
+    with get_db() as sqldb:
+        account.token = login_result["access_token"]
+        if "refresh_token" in login_result:
+            account.refresh_token = login_result["refresh_token"]
+            account.token_expiry = datetime.now() + timedelta(
+                seconds=int(login_result.get("expires_in", "7200"))
+            )
+        sqldb.commit()
 
     return account.token
 
@@ -311,52 +311,53 @@ def start_oauth_flow(
 
     Examples of oauth flows include Github and Gitlab.
     """
-    if login["state"].logging_in():
-        # Already logging in to something
-        if login["method"] == method:
-            # Already logging into correct method, so assume something went squiffy
-            # and send them back with the same in-progress login
-            pass
-        else:
-            request.session.pop("user-id", None)
-            request.session.pop("active-login-flow", None)
-            request.session.pop("active-login-flow-intermediate", None)
-            flowtoken_model.housekeeping(db)
+    with get_db() as sqldb:
+        if login["state"].logging_in():
+            # Already logging in to something
+            if login["method"] == method:
+                # Already logging into correct method, so assume something went squiffy
+                # and send them back with the same in-progress login
+                pass
+            else:
+                request.session.pop("user-id", None)
+                request.session.pop("active-login-flow", None)
+                request.session.pop("active-login-flow-intermediate", None)
+                flowtoken_model.housekeeping(sqldb)
 
-    user = login["user"]
-    if user:
-        account = account_model.by_user(db, user)
-        if account is not None and account.token is not None:
-            return JSONResponse(
-                {"state": "error", "error": f"User already logged into {method}"},
-                status_code=400,
+        user = login["user"]
+        if user:
+            account = account_model.by_user(sqldb, user)
+            if account is not None and account.token is not None:
+                return JSONResponse(
+                    {"state": "error", "error": f"User already logged into {method}"},
+                    status_code=400,
+                )
+        # Okay, we're preparing a login, step one, do we already have an
+        # intermediate we're using?
+        flowtoken_model.housekeeping(sqldb)
+        intermediate = login["method_intermediate"]
+
+        if intermediate:
+            intermediate = sqldb.get(flowtoken_model, intermediate)
+
+        if not intermediate:
+            randomtoken = uuid4().hex
+            intermediate = flowtoken_model(
+                state=randomtoken,
+                created=datetime.now(),
             )
-    # Okay, we're preparing a login, step one, do we already have an
-    # intermediate we're using?
-    flowtoken_model.housekeeping(db)
-    intermediate = login["method_intermediate"]
-
-    if intermediate:
-        intermediate = db.session.get(flowtoken_model, intermediate)
-
-    if not intermediate:
-        randomtoken = uuid4().hex
-        intermediate = flowtoken_model(
-            state=randomtoken,
-            created=datetime.now(),
-        )
-        db.session.add(intermediate)
-        db.session.commit()
-    # Copy the oauth arguments so we can add our state to them
-    args = oauth_args.copy()
-    args["state"] = intermediate.state
-    args = urlencode(args)
-    request.session["active-login-flow"] = method
-    request.session["active-login-flow-intermediate"] = intermediate.id
-    return {
-        "state": "ok",
-        "redirect": f"{oauth_endpoint}?{args}",
-    }
+            sqldb.add(intermediate)
+            sqldb.commit()
+        # Copy the oauth arguments so we can add our state to them
+        args = oauth_args.copy()
+        args["state"] = intermediate.state
+        args = urlencode(args)
+        request.session["active-login-flow"] = method
+        request.session["active-login-flow-intermediate"] = intermediate.id
+        return {
+            "state": "ok",
+            "redirect": f"{oauth_endpoint}?{args}",
+        }
 
 
 @dataclass
@@ -682,155 +683,160 @@ def continue_oauth_flow(
             },
             status_code=400,
         )
-    flowtoken_model.housekeeping(db)
-    flowtokens = db.session.get(flowtoken_model, login.method_intermediate)
-    del request.session["active-login-flow"]
-    del request.session["active-login-flow-intermediate"]
 
-    if flowtokens is None:
-        return JSONResponse(
-            {
-                "state": "error",
-                "error": "Login token has expired, please try again",
+    with get_db() as sqldb:
+        flowtoken_model.housekeeping(sqldb)
+        flowtokens = sqldb.get(flowtoken_model, login.method_intermediate)
+        del request.session["active-login-flow"]
+        del request.session["active-login-flow-intermediate"]
+
+        if flowtokens is None:
+            return JSONResponse(
+                {
+                    "state": "error",
+                    "error": "Login token has expired, please try again",
+                },
+                status_code=400,
+            )
+
+        if flowtokens.state != data.state:
+            return JSONResponse(
+                {
+                    "state": "error",
+                    "error": f"{method} authentication flow token does not match",
+                },
+                status_code=400,
+            )
+
+        # Token is present and good, let's clean up the flowtokens
+        sqldb.delete(flowtokens)
+        if isinstance(data, OauthLoginResponseFailure):
+            # We are dealing with a login failure, we've cleared the flow out of
+            # the session cookie, and we're ready to clear from the database session
+            # so just return a 'successfully not logged in' return
+            sqldb.commit()
+            return {
+                "status": "ok",
+                "result": "flow_abandoned",
+            }
+        # And acquire the bearer info from the oauth provider
+        args = oauth_args.copy()
+        args["code"] = data.code
+        args = urlencode(args)
+        login_result = requests.post(
+            token_endpoint,
+            data=args,
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "application/json",
             },
-            status_code=400,
-        )
+        ).json()
 
-    if flowtokens.state != data.state:
-        return JSONResponse(
-            {
-                "state": "error",
-                "error": f"{method} authentication flow token does not match",
+        if "error" in login_result:
+            return JSONResponse(
+                {
+                    "state": "error",
+                    "error": (
+                        f"{method} login flow had an error: "
+                        + repr(
+                            login_result.get("error_description", login_result["error"])
+                        )
+                    ),
+                },
+                status_code=500,
+            )
+        if login_result["token_type"].lower() != "bearer":
+            return JSONResponse(
+                {
+                    "state": "error",
+                    "error": f"{method} login flow did not return a bearer token",
+                },
+                status_code=500,
+            )
+        # We now have a logged in user, so let's do our best to do something useful
+        provider_data = token_to_data(login_result)
+        # Do we have a provider's user noted with this ID already?
+        account = account_model.by_provider_id(sqldb, provider_data.id)
+        if account is None:
+            # We've never seen this provider's user before, if we're not already logged
+            # in then create a user
+            user = login.user
+            if user is None:
+                user = models.FlathubUser(display_name=provider_data.name)
+                sqldb.add(user)
+                sqldb.flush()
+            # Now we have a user, create the local account model for it
+            userid = {}
+            userid[f"{method}_userid"] = provider_data.id
+            account = account_model(
+                **userid,
+                token=login_result["access_token"],
+                last_used=datetime.now(),
+                user=user.id,
+                login=provider_data.login,
+                avatar_url=provider_data.avatar_url,
+                display_name=provider_data.name,
+                email=provider_data.email,
+            )
+            if "refresh_token" in login_result:
+                account.refresh_token = login_result["refresh_token"]
+                account.token_expiry = datetime.now() + timedelta(
+                    seconds=int(login_result.get("expires_in", "7200"))
+                )
+            sqldb.add(account)
+        else:
+            # The provider's user has been seen before, if we're logged in already and
+            # things don't match then abort now
+            user = login.user
+            if user is not None:
+                # Eventually we might do user-merge here?
+                sqldb.commit()
+                return JSONResponse(
+                    {"status": "error", "error": "error-already-logged-in"},
+                    status_code=500,
+                )
+            account.token = login_result["access_token"]
+            account.last_used = datetime.now()
+            account.login = provider_data.login
+            account.avatar_url = provider_data.avatar_url
+            account.display_name = provider_data.name
+            account.email = provider_data.email
+            if "refresh_token" in login_result:
+                account.refresh_token = login_result["refresh_token"]
+                account.token_expiry = datetime.now() + timedelta(
+                    seconds=int(login_result.get("expires_in", "7200"))
+                )
+            sqldb.add(account)
+        request.session["user-id"] = account.user
+
+        # The session is now ready
+        sqldb.commit()
+
+        # Let's find the set of repos the user has write access to in the flathub
+        # org since we have a functional token
+        postlogin_handler(login_result, account)
+
+        payload = {
+            "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
+            "creation_timestamp": datetime.now().timestamp(),
+            "userId": account.user,
+            "subject": "New login to Flathub account",
+            "previewText": "Flathub Login",
+            "messageInfo": {
+                "category": EmailCategory.SECURITY_LOGIN,
+                "provider": method,
+                "login": provider_data.login,
+                "time": datetime.now().isoformat(),
+                "ipAddress": request.client.host if request.client else "Unknown",
             },
-            status_code=400,
-        )
+        }
 
-    # Token is present and good, let's clean up the flowtokens
-    db.session.delete(flowtokens)
-    if isinstance(data, OauthLoginResponseFailure):
-        # We are dealing with a login failure, we've cleared the flow out of
-        # the session cookie, and we're ready to clear from the database session
-        # so just return a 'successfully not logged in' return
-        db.session.commit()
+        worker.send_email_new.send(payload)
+
         return {
             "status": "ok",
-            "result": "flow_abandoned",
+            "result": "logged_in",
         }
-    # And acquire the bearer info from the oauth provider
-    args = oauth_args.copy()
-    args["code"] = data.code
-    args = urlencode(args)
-    login_result = requests.post(
-        token_endpoint,
-        data=args,
-        headers={
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Accept": "application/json",
-        },
-    ).json()
-
-    if "error" in login_result:
-        return JSONResponse(
-            {
-                "state": "error",
-                "error": (
-                    f"{method} login flow had an error: "
-                    + repr(login_result.get("error_description", login_result["error"]))
-                ),
-            },
-            status_code=500,
-        )
-    if login_result["token_type"].lower() != "bearer":
-        return JSONResponse(
-            {
-                "state": "error",
-                "error": f"{method} login flow did not return a bearer token",
-            },
-            status_code=500,
-        )
-    # We now have a logged in user, so let's do our best to do something useful
-    provider_data = token_to_data(login_result)
-    # Do we have a provider's user noted with this ID already?
-    account = account_model.by_provider_id(db, provider_data.id)
-    if account is None:
-        # We've never seen this provider's user before, if we're not already logged
-        # in then create a user
-        user = login.user
-        if user is None:
-            user = models.FlathubUser(display_name=provider_data.name)
-            db.session.add(user)
-            db.session.flush()
-        # Now we have a user, create the local account model for it
-        userid = {}
-        userid[f"{method}_userid"] = provider_data.id
-        account = account_model(
-            **userid,
-            token=login_result["access_token"],
-            last_used=datetime.now(),
-            user=user.id,
-            login=provider_data.login,
-            avatar_url=provider_data.avatar_url,
-            display_name=provider_data.name,
-            email=provider_data.email,
-        )
-        if "refresh_token" in login_result:
-            account.refresh_token = login_result["refresh_token"]
-            account.token_expiry = datetime.now() + timedelta(
-                seconds=int(login_result.get("expires_in", "7200"))
-            )
-        db.session.add(account)
-    else:
-        # The provider's user has been seen before, if we're logged in already and
-        # things don't match then abort now
-        user = login.user
-        if user is not None:
-            # Eventually we might do user-merge here?
-            db.session.commit()
-            return JSONResponse(
-                {"status": "error", "error": "error-already-logged-in"}, status_code=500
-            )
-        account.token = login_result["access_token"]
-        account.last_used = datetime.now()
-        account.login = provider_data.login
-        account.avatar_url = provider_data.avatar_url
-        account.display_name = provider_data.name
-        account.email = provider_data.email
-        if "refresh_token" in login_result:
-            account.refresh_token = login_result["refresh_token"]
-            account.token_expiry = datetime.now() + timedelta(
-                seconds=int(login_result.get("expires_in", "7200"))
-            )
-        db.session.add(account)
-    request.session["user-id"] = account.user
-
-    # The session is now ready
-    db.session.commit()
-
-    # Let's find the set of repos the user has write access to in the flathub
-    # org since we have a functional token
-    postlogin_handler(login_result, account)
-
-    payload = {
-        "messageId": f"{account.user}/login/{datetime.now().isoformat()}",
-        "creation_timestamp": datetime.now().timestamp(),
-        "userId": account.user,
-        "subject": "New login to Flathub account",
-        "previewText": "Flathub Login",
-        "messageInfo": {
-            "category": EmailCategory.SECURITY_LOGIN,
-            "provider": method,
-            "login": provider_data.login,
-            "time": datetime.now().isoformat(),
-            "ipAddress": request.client.host if request.client else "Unknown",
-        },
-    }
-
-    worker.send_email_new.send(payload)
-
-    return {
-        "status": "ok",
-        "result": "logged_in",
-    }
 
 
 class AuthInfo(BaseModel):
@@ -871,75 +877,59 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     """
     Retrieve the current login's user information.  If the user is not logged in
     you will get a `204` return.  Otherwise you will receive JSON describing the
-    currently logged in user, for example:
-
-    ```
-    {
-        "displayname": "Mx Human Person",
-        "dev_flatpaks": [ "org.people.human.Appname" ],
-        "owned_flatpaks": [ "org.foo.bar.Appname" ],
-        "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
-    }
-    ```
-
-    If the user has an active github login, you'll also get their github login
-    name, and avatar.  If they have some other login, details for that login
-    will be provided.
-
-    dev_flatpaks is filtered against IDs available in AppStream
+    currently logged in user.
     """
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=204, detail="Not logged in")
 
-    user = login.user
+    # First check if we need to write the invite code
+    with get_db() as sqldb:
+        user = login.user
+        if user.invite_code is None:
+            chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
+            user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
+            sqldb.commit()
 
-    if user.invite_code is None:
-        # Confusing letter/number pairs removed.
-        # This doesn't have to be super secure, it doesn't grant access to
-        # anything, we just use a code instead of the user ID to avoid enumeration.
-        # 56 available chars * 12 = ~69 bits of entropy
-        chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
-        user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
-        db.session.commit()
+    # Now do all the read-only operations with replica
+    with get_db("replica") as sqldb:
+        default_account: models.ConnectedAccount = user.get_default_account(sqldb)  # type: ignore
 
-    default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
+        appstream = apps.get_appids()
+        dev_flatpaks = user.dev_flatpaks(sqldb)
+        permissions = user.permissions()
+        owned_flatpaks = {
+            app.app_id
+            for app in models.UserOwnedApp.all_owned_by_user(sqldb, user)
+            if app.app_id in appstream
+        }
+        invited_flatpaks = [
+            app.app_id
+            for _invite, app in models.DirectUploadAppInvite.by_developer(sqldb, user)
+        ]
 
-    appstream = apps.get_appids()
-    dev_flatpaks = user.dev_flatpaks(db)
-    permissions = user.permissions()
-    owned_flatpaks = {
-        app.app_id
-        for app in models.UserOwnedApp.all_owned_by_user(db, user)
-        if app.app_id in appstream
-    }
-    invited_flatpaks = [
-        app.app_id
-        for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
-    ]
+        auths = {}
+        for account in user.connected_accounts(sqldb):
+            auths[account.provider] = {}
+            if account.login:
+                auths[account.provider]["login"] = account.login
+            if account.avatar_url:
+                auths[account.provider]["avatar"] = account.avatar_url
 
-    auths = {}
-    for account in user.connected_accounts(db):
-        auths[account.provider] = {}
-        if account.login:
-            auths[account.provider]["login"] = account.login
-        if account.avatar_url:
-            auths[account.provider]["avatar"] = account.avatar_url
+        defaultAccountInfo = AuthInfo(
+            avatar=default_account.avatar_url, login=default_account.login
+        )
 
-    defaultAccountInfo = AuthInfo(
-        avatar=default_account.avatar_url, login=default_account.login
-    )
-
-    return UserInfo(
-        displayname=default_account.display_name if default_account else None,
-        dev_flatpaks=sorted(dev_flatpaks),
-        permissions=sorted(permissions),
-        owned_flatpaks=sorted(owned_flatpaks),
-        invited_flatpaks=sorted(invited_flatpaks),
-        invite_code=user.invite_code,
-        accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
-        default_account=defaultAccountInfo,
-        auths=auths,
-    )
+        return UserInfo(
+            displayname=default_account.display_name if default_account else None,
+            dev_flatpaks=sorted(dev_flatpaks),
+            permissions=sorted(permissions),
+            owned_flatpaks=sorted(owned_flatpaks),
+            invited_flatpaks=sorted(invited_flatpaks),
+            invite_code=user.invite_code,
+            accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
+            default_account=defaultAccountInfo,
+            auths=auths,
+        )
 
 
 class RefreshDevFlatpaksReturn(BaseModel):
@@ -950,19 +940,20 @@ class RefreshDevFlatpaksReturn(BaseModel):
 def do_refresh_dev_flatpaks(
     login=Depends(logged_in),
 ) -> RefreshDevFlatpaksReturn:
-    user = login.user
+    with get_db() as sqldb:
+        user = login.user
 
-    account = models.GithubAccount.by_user(db, user)
+        account = models.GithubAccount.by_user(sqldb, user)
 
-    # We need to have a github account to refresh dev flatpaks
-    if account is None:
-        raise HTTPException(status_code=401, detail="no_github_account")
+        # We need to have a github account to refresh dev flatpaks
+        if account is None:
+            raise HTTPException(status_code=401, detail="no_github_account")
 
-    refresh_repo_list(db, account.token, account.id)
-    db.session.commit()
+        refresh_repo_list(sqldb, account.token, account.id)
+        sqldb.commit()
 
-    dev_flatpaks = {appid for appid in user.dev_flatpaks(db)}
-    return RefreshDevFlatpaksReturn(dev_flatpaks=sorted(dev_flatpaks))
+        dev_flatpaks = {appid for appid in user.dev_flatpaks(sqldb)}
+        return RefreshDevFlatpaksReturn(dev_flatpaks=sorted(dev_flatpaks))
 
 
 @router.post("/logout", tags=["auth"])
@@ -1009,8 +1000,9 @@ def get_deleteuser(login: LoginStatusDep) -> GetDeleteUserResult:
         raise HTTPException(status_code=403, detail="Not logged in")
     user = login.user
 
-    token = models.FlathubUser.generate_token(db, user)
-    return GetDeleteUserResult(status="ok", token=token)
+    with get_db("replica") as sqldb:
+        token = models.FlathubUser.generate_token(sqldb, user)
+        return GetDeleteUserResult(status="ok", token=token)
 
 
 @router.post("/deleteuser", tags=["auth"])
@@ -1033,7 +1025,7 @@ def do_deleteuser(
         raise HTTPException(status_code=403, detail="Not logged in")
     user = login.user
 
-    ret = models.FlathubUser.delete_user(db, user, data.token)
+    ret = models.FlathubUser.delete_user(get_db(), user, data.token)
 
     if ret.status == "ok":
         request.session.clear()
@@ -1048,8 +1040,9 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    login.user.accepted_publisher_agreement_at = func.now()
-    db.session.commit()
+    with get_db() as sqldb:
+        login.user.accepted_publisher_agreement_at = func.now()
+        sqldb.commit()
 
 
 @router.post("/change-default-account", status_code=204, tags=["auth"])
@@ -1062,19 +1055,20 @@ def do_change_default_account(
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    account = login.user.get_connected_account(db, provider)
-    if account is None:
-        raise HTTPException(status_code=404, detail="Account not found")
+    with get_db() as sqldb:
+        account = login.user.get_connected_account(sqldb, provider)
+        if account is None:
+            raise HTTPException(status_code=404, detail="Account not found")
 
-    login.user.default_account = provider
-    db.session.commit()
+        login.user.default_account = provider
+        sqldb.commit()
 
 
 def register_to_app(app: FastAPI):
     """
     Register the login and authentication flows with the FastAPI application
 
-    This also enables session middleware and the database middleware
+    This also enables session middleware
     """
     app.add_middleware(
         SessionMiddleware,
@@ -1082,5 +1076,4 @@ def register_to_app(app: FastAPI):
         max_age=86400,
         https_only=True,
     )
-    app.add_middleware(DBSessionMiddleware, db_url=config.settings.database_url)
     app.include_router(router)
