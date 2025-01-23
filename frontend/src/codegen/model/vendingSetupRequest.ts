@@ -9,8 +9,8 @@
  * Configuration for a vended application
  */
 export interface VendingSetupRequest {
-  appshare: number
   currency: string
-  minimum_payment: number
+  appshare: number
   recommended_donation: number
+  minimum_payment: number
 }

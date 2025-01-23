@@ -72,7 +72,7 @@ export const getUsersUsersGetQueryOptions = <
     Awaited<ReturnType<typeof usersUsersGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type UsersUsersGetQueryResult = NonNullable<
@@ -99,7 +99,9 @@ export function useUsersUsersGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -119,7 +121,9 @@ export function useUsersUsersGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -131,7 +135,9 @@ export function useUsersUsersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Users
  */
@@ -147,11 +153,13 @@ export function useUsersUsersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getUsersUsersGetQueryOptions(params, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -198,7 +206,7 @@ export const getRolesUsersRolesGetQueryOptions = <
     Awaited<ReturnType<typeof rolesUsersRolesGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type RolesUsersRolesGetQueryResult = NonNullable<
@@ -227,7 +235,7 @@ export function useRolesUsersRolesGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
@@ -249,7 +257,9 @@ export function useRolesUsersRolesGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
   TError = AxiosError<unknown>,
@@ -262,7 +272,9 @@ export function useRolesUsersRolesGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Roles
  */
@@ -279,11 +291,13 @@ export function useRolesUsersRolesGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getRolesUsersRolesGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -340,7 +354,7 @@ export const getUserUsersUserIdGetQueryOptions = <
     Awaited<ReturnType<typeof userUsersUserIdGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type UserUsersUserIdGetQueryResult = NonNullable<
@@ -371,7 +385,9 @@ export function useUserUsersUserIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -395,7 +411,9 @@ export function useUserUsersUserIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -411,7 +429,9 @@ export function useUserUsersUserIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary User
  */
@@ -431,11 +451,13 @@ export function useUserUsersUserIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getUserUsersUserIdGetQueryOptions(userId, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -459,23 +481,26 @@ export const addUserRoleUsersUserIdRolePost = (
 }
 
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
+    TData,
     TError,
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
-  TError,
-  { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["addUserRoleUsersUserIdRolePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
@@ -486,7 +511,12 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
     return addUserRoleUsersUserIdRolePost(userId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+    TContext
+  >
 }
 
 export type AddUserRoleUsersUserIdRolePostMutationResult = NonNullable<
@@ -500,18 +530,19 @@ export type AddUserRoleUsersUserIdRolePostMutationError =
  * @summary Add User Role
  */
 export const useAddUserRoleUsersUserIdRolePost = <
+  TData = Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
+    TData,
     TError,
     { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
+  TData,
   TError,
   { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
   TContext
@@ -537,23 +568,26 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
 }
 
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
+  TData = Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+    TData,
     TError,
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
-  TError,
-  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["deleteUserRoleUsersUserIdRoleDelete"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
@@ -564,7 +598,12 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
     return deleteUserRoleUsersUserIdRoleDelete(userId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+    TContext
+  >
 }
 
 export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
@@ -578,18 +617,19 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationError =
  * @summary Delete User Role
  */
 export const useDeleteUserRoleUsersUserIdRoleDelete = <
+  TData = Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+    TData,
     TError,
     { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
+  TData,
   TError,
   { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
   TContext
@@ -652,7 +692,7 @@ export const getRoleUsersUsersRolesRoleNameGetQueryOptions = <
     Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type RoleUsersUsersRolesRoleNameGetQueryResult = NonNullable<
@@ -684,7 +724,9 @@ export function useRoleUsersUsersRolesRoleNameGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -708,7 +750,9 @@ export function useRoleUsersUsersRolesRoleNameGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -724,7 +768,9 @@ export function useRoleUsersUsersRolesRoleNameGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Role Users
  */
@@ -744,14 +790,16 @@ export function useRoleUsersUsersRolesRoleNameGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getRoleUsersUsersRolesRoleNameGetQueryOptions(
     roleName,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey

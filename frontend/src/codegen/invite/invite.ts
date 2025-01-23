@@ -78,7 +78,7 @@ export const getGetInviteStatusInvitesAppIdGetQueryOptions = <
     Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
@@ -110,7 +110,9 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -134,7 +136,9 @@ export function useGetInviteStatusInvitesAppIdGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -150,7 +154,9 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Invite Status
  */
@@ -170,14 +176,16 @@ export function useGetInviteStatusInvitesAppIdGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetInviteStatusInvitesAppIdGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -200,23 +208,26 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
 }
 
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
+    TData,
     TError,
     { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
-  TError,
-  { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["inviteDeveloperInvitesAppIdInvitePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
@@ -227,7 +238,12 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
     return inviteDeveloperInvitesAppIdInvitePost(appId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+    TContext
+  >
 }
 
 export type InviteDeveloperInvitesAppIdInvitePostMutationResult = NonNullable<
@@ -241,18 +257,19 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationError =
  * @summary Invite Developer
  */
 export const useInviteDeveloperInvitesAppIdInvitePost = <
+  TData = Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
+    TData,
     TError,
     { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
+  TData,
   TError,
   { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
   TContext
@@ -273,23 +290,21 @@ export const acceptInviteInvitesAppIdAcceptPost = (
 }
 
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["acceptInviteInvitesAppIdAcceptPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
@@ -300,7 +315,12 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
     return acceptInviteInvitesAppIdAcceptPost(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string },
+    TContext
+  >
 }
 
 export type AcceptInviteInvitesAppIdAcceptPostMutationResult = NonNullable<
@@ -314,22 +334,13 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationError =
  * @summary Accept Invite
  */
 export const useAcceptInviteInvitesAppIdAcceptPost = <
+  TData = Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
   const mutationOptions =
     getAcceptInviteInvitesAppIdAcceptPostMutationOptions(options)
 
@@ -346,23 +357,21 @@ export const declineInviteInvitesAppIdDeclinePost = (
 }
 
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["declineInviteInvitesAppIdDeclinePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
@@ -373,7 +382,12 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
     return declineInviteInvitesAppIdDeclinePost(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string },
+    TContext
+  >
 }
 
 export type DeclineInviteInvitesAppIdDeclinePostMutationResult = NonNullable<
@@ -387,22 +401,13 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationError =
  * @summary Decline Invite
  */
 export const useDeclineInviteInvitesAppIdDeclinePost = <
+  TData = Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
   const mutationOptions =
     getDeclineInviteInvitesAppIdDeclinePostMutationOptions(options)
 
@@ -419,23 +424,21 @@ export const leaveTeamInvitesAppIdLeavePost = (
 }
 
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["leaveTeamInvitesAppIdLeavePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
@@ -446,7 +449,12 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
     return leaveTeamInvitesAppIdLeavePost(appId, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string },
+    TContext
+  >
 }
 
 export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
@@ -460,22 +468,13 @@ export type LeaveTeamInvitesAppIdLeavePostMutationError =
  * @summary Leave Team
  */
 export const useLeaveTeamInvitesAppIdLeavePost = <
+  TData = Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-    TError,
-    { appId: string },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { appId: string }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-  TError,
-  { appId: string },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { appId: string }, TContext> => {
   const mutationOptions =
     getLeaveTeamInvitesAppIdLeavePostMutationOptions(options)
 
@@ -536,7 +535,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions = <
     Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
@@ -568,7 +567,9 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -592,7 +593,9 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -608,7 +611,9 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get App Developers
  */
@@ -628,14 +633,16 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetAppDevelopersInvitesAppIdDevelopersGetQueryOptions(
     appId,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -658,11 +665,15 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperPost = (
 }
 
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TData = Awaited<
+      ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
-      >,
+      TData,
       TError,
       {
         appId: string
@@ -671,16 +682,15 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
       TContext
     >
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
-    TError,
-    {
-      appId: string
-      params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams
-    },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["removeDeveloperInvitesAppIdRemoveDeveloperPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -700,7 +710,15 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationOptions =
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      {
+        appId: string
+        params: RemoveDeveloperInvitesAppIdRemoveDeveloperPostParams
+      },
+      TContext
+    >
   }
 
 export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationResult =
@@ -715,11 +733,14 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperPostMutationError =
  * @summary Remove Developer
  */
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
+  TData = Awaited<
+    ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
+    TData,
     TError,
     {
       appId: string
@@ -729,7 +750,7 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperPost = <
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperPost>>,
+  TData,
   TError,
   {
     appId: string
@@ -757,23 +778,26 @@ export const revokeInviteInvitesAppIdRevokePost = (
 }
 
 export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
+    TData,
     TError,
     { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
-  TError,
-  { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["revokeInviteInvitesAppIdRevokePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
@@ -784,7 +808,12 @@ export const getRevokeInviteInvitesAppIdRevokePostMutationOptions = <
     return revokeInviteInvitesAppIdRevokePost(appId, params, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
+    TContext
+  >
 }
 
 export type RevokeInviteInvitesAppIdRevokePostMutationResult = NonNullable<
@@ -798,18 +827,19 @@ export type RevokeInviteInvitesAppIdRevokePostMutationError =
  * @summary Revoke Invite
  */
 export const useRevokeInviteInvitesAppIdRevokePost = <
+  TData = Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
+    TData,
     TError,
     { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokePost>>,
+  TData,
   TError,
   { appId: string; params: RevokeInviteInvitesAppIdRevokePostParams },
   TContext

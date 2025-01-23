@@ -4,19 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 import type { GitlabAccountResultAvatarUrl } from "./gitlabAccountResultAvatarUrl"
 import type { GitlabAccountResultDisplayName } from "./gitlabAccountResultDisplayName"
 import type { GitlabAccountResultEmail } from "./gitlabAccountResultEmail"
 import type { GitlabAccountResultLastUsed } from "./gitlabAccountResultLastUsed"
-import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface GitlabAccountResult {
+  provider: ConnectedAccountProvider
+  id: number
+  gitlab_userid: number
+  login: string
   avatar_url: GitlabAccountResultAvatarUrl
   display_name: GitlabAccountResultDisplayName
   email: GitlabAccountResultEmail
-  gitlab_userid: number
-  id: number
   last_used: GitlabAccountResultLastUsed
-  login: string
-  provider: ConnectedAccountProvider
 }

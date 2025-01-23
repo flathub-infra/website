@@ -6,9 +6,9 @@
  */
 
 export interface Guideline {
-  category: string
   id: string
-  needed_to_pass_since: string
-  read_only?: boolean
   url: string
+  needed_to_pass_since: string
+  category: string
+  read_only?: boolean
 }

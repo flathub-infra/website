@@ -27,91 +27,11 @@ export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
 export const getGetUserinfoAuthUserinfoGetResponseMock = (
   overrideResponse: Partial<UserInfo> = {},
 ): UserInfo => ({
-  accepted_publisher_agreement_at: faker.helpers.arrayElement([
-    `${faker.date.past().toISOString().split(".")[0]}Z`,
-    null,
-  ]),
-  auths: {
-    github: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
-            undefined,
-          ]),
-          login: faker.string.alpha(20),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    gitlab: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
-            undefined,
-          ]),
-          login: faker.string.alpha(20),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    gnome: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
-            undefined,
-          ]),
-          login: faker.string.alpha(20),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-    kde: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
-            undefined,
-          ]),
-          login: faker.string.alpha(20),
-        },
-        null,
-      ]),
-      undefined,
-    ]),
-  },
-  default_account: {
-    avatar: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      undefined,
-    ]),
-    login: faker.string.alpha(20),
-  },
-  dev_flatpaks: faker.helpers.arrayElement([
-    Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
-    undefined,
-  ]),
   displayname: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  invite_code: faker.string.alpha(20),
-  invited_flatpaks: faker.helpers.arrayElement([
-    Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => faker.string.alpha(20)),
-    undefined,
-  ]),
-  owned_flatpaks: faker.helpers.arrayElement([
+  dev_flatpaks: faker.helpers.arrayElement([
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -122,6 +42,86 @@ export const getGetUserinfoAuthUserinfoGetResponseMock = (
     faker.helpers.arrayElements(Object.values(Permission)),
     undefined,
   ]),
+  owned_flatpaks: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha(20)),
+    undefined,
+  ]),
+  invited_flatpaks: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha(20)),
+    undefined,
+  ]),
+  invite_code: faker.string.alpha(20),
+  accepted_publisher_agreement_at: faker.helpers.arrayElement([
+    `${faker.date.past().toISOString().split(".")[0]}Z`,
+    null,
+  ]),
+  default_account: {
+    login: faker.string.alpha(20),
+    avatar: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
+      undefined,
+    ]),
+  },
+  auths: {
+    github: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          login: faker.string.alpha(20),
+          avatar: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            undefined,
+          ]),
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    gitlab: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          login: faker.string.alpha(20),
+          avatar: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            undefined,
+          ]),
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    gnome: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          login: faker.string.alpha(20),
+          avatar: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            undefined,
+          ]),
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+    kde: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        {
+          login: faker.string.alpha(20),
+          avatar: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            undefined,
+          ]),
+        },
+        null,
+      ]),
+      undefined,
+    ]),
+  },
   ...overrideResponse,
 })
 
@@ -146,11 +146,11 @@ export const getGetDeleteuserAuthDeleteuserGetResponseMock = (
 export const getDoDeleteuserAuthDeleteuserPostResponseMock = (
   overrideResponse: Partial<DeleteUserResult> = {},
 ): DeleteUserResult => ({
+  status: faker.string.alpha(20),
   message: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  status: faker.string.alpha(20),
   ...overrideResponse,
 })
 

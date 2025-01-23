@@ -83,7 +83,7 @@ export const getGetLoginMethodsAuthLoginGetQueryOptions = <
     Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetLoginMethodsAuthLoginGetQueryResult = NonNullable<
@@ -112,7 +112,7 @@ export function useGetLoginMethodsAuthLoginGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
@@ -134,7 +134,9 @@ export function useGetLoginMethodsAuthLoginGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
@@ -147,7 +149,9 @@ export function useGetLoginMethodsAuthLoginGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Login Methods
  */
@@ -164,11 +168,13 @@ export function useGetLoginMethodsAuthLoginGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetLoginMethodsAuthLoginGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -225,7 +231,7 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
     Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
@@ -254,7 +260,7 @@ export function useStartGithubFlowAuthLoginGithubGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
@@ -276,7 +282,9 @@ export function useStartGithubFlowAuthLoginGithubGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<unknown>,
@@ -289,7 +297,9 @@ export function useStartGithubFlowAuthLoginGithubGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Start Github Flow
  */
@@ -306,11 +316,13 @@ export function useStartGithubFlowAuthLoginGithubGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getStartGithubFlowAuthLoginGithubGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -357,23 +369,26 @@ export const continueGithubFlowAuthLoginGithubPost = (
 }
 
 export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
+    TData,
     TError,
     { data: ContinueGithubFlowAuthLoginGithubPostBody },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
-  TError,
-  { data: ContinueGithubFlowAuthLoginGithubPostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["continueGithubFlowAuthLoginGithubPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
@@ -384,7 +399,12 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
     return continueGithubFlowAuthLoginGithubPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ContinueGithubFlowAuthLoginGithubPostBody },
+    TContext
+  >
 }
 
 export type ContinueGithubFlowAuthLoginGithubPostMutationResult = NonNullable<
@@ -399,18 +419,19 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationError =
  * @summary Continue Github Flow
  */
 export const useContinueGithubFlowAuthLoginGithubPost = <
+  TData = Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
+    TData,
     TError,
     { data: ContinueGithubFlowAuthLoginGithubPostBody },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
+  TData,
   TError,
   { data: ContinueGithubFlowAuthLoginGithubPostBody },
   TContext
@@ -469,7 +490,7 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
     Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
@@ -498,7 +519,7 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
@@ -520,7 +541,9 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<unknown>,
@@ -533,7 +556,9 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Start Gitlab Flow
  */
@@ -550,11 +575,13 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getStartGitlabFlowAuthLoginGitlabGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -601,23 +628,26 @@ export const continueGitlabFlowAuthLoginGitlabPost = (
 }
 
 export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
+    TData,
     TError,
     { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
-  TError,
-  { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["continueGitlabFlowAuthLoginGitlabPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
@@ -628,7 +658,12 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
     return continueGitlabFlowAuthLoginGitlabPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+    TContext
+  >
 }
 
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationResult = NonNullable<
@@ -643,18 +678,19 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
  * @summary Continue Gitlab Flow
  */
 export const useContinueGitlabFlowAuthLoginGitlabPost = <
+  TData = Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
+    TData,
     TError,
     { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
+  TData,
   TError,
   { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
   TContext
@@ -713,7 +749,7 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
     Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
@@ -742,7 +778,7 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
@@ -764,7 +800,9 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<unknown>,
@@ -777,7 +815,9 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Start Gnome Flow
  */
@@ -794,11 +834,13 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getStartGnomeFlowAuthLoginGnomeGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -845,23 +887,26 @@ export const continueGnomeFlowAuthLoginGnomePost = (
 }
 
 export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
+    TData,
     TError,
     { data: ContinueGnomeFlowAuthLoginGnomePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
-  TError,
-  { data: ContinueGnomeFlowAuthLoginGnomePostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["continueGnomeFlowAuthLoginGnomePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
@@ -872,7 +917,12 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
     return continueGnomeFlowAuthLoginGnomePost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+    TContext
+  >
 }
 
 export type ContinueGnomeFlowAuthLoginGnomePostMutationResult = NonNullable<
@@ -887,18 +937,19 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
  * @summary Continue Gnome Flow
  */
 export const useContinueGnomeFlowAuthLoginGnomePost = <
+  TData = Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
+    TData,
     TError,
     { data: ContinueGnomeFlowAuthLoginGnomePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
+  TData,
   TError,
   { data: ContinueGnomeFlowAuthLoginGnomePostBody },
   TContext
@@ -947,7 +998,7 @@ export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
     Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
@@ -976,7 +1027,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
@@ -998,7 +1049,9 @@ export function useStartKdeFlowAuthLoginKdeGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<unknown>,
@@ -1011,7 +1064,9 @@ export function useStartKdeFlowAuthLoginKdeGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Start Kde Flow
  */
@@ -1028,11 +1083,13 @@ export function useStartKdeFlowAuthLoginKdeGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getStartKdeFlowAuthLoginKdeGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1055,23 +1112,26 @@ export const continueKdeFlowAuthLoginKdePost = (
 }
 
 export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
+    TData,
     TError,
     { data: ContinueKdeFlowAuthLoginKdePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
-  TError,
-  { data: ContinueKdeFlowAuthLoginKdePostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["continueKdeFlowAuthLoginKdePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
@@ -1082,7 +1142,12 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
     return continueKdeFlowAuthLoginKdePost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ContinueKdeFlowAuthLoginKdePostBody },
+    TContext
+  >
 }
 
 export type ContinueKdeFlowAuthLoginKdePostMutationResult = NonNullable<
@@ -1097,18 +1162,19 @@ export type ContinueKdeFlowAuthLoginKdePostMutationError =
  * @summary Continue Kde Flow
  */
 export const useContinueKdeFlowAuthLoginKdePost = <
+  TData = Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
+    TData,
     TError,
     { data: ContinueKdeFlowAuthLoginKdePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
+  TData,
   TError,
   { data: ContinueKdeFlowAuthLoginKdePostBody },
   TContext
@@ -1157,23 +1223,26 @@ export const continueGoogleFlowAuthLoginGooglePost = (
 }
 
 export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
+  TData = Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
+    TData,
     TError,
     { data: ContinueGoogleFlowAuthLoginGooglePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
-  TError,
-  { data: ContinueGoogleFlowAuthLoginGooglePostBody },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["continueGoogleFlowAuthLoginGooglePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
@@ -1184,7 +1253,12 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
     return continueGoogleFlowAuthLoginGooglePost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+    TContext
+  >
 }
 
 export type ContinueGoogleFlowAuthLoginGooglePostMutationResult = NonNullable<
@@ -1199,18 +1273,19 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
  * @summary Continue Google Flow
  */
 export const useContinueGoogleFlowAuthLoginGooglePost = <
+  TData = Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
+    TData,
     TError,
     { data: ContinueGoogleFlowAuthLoginGooglePostBody },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
+  TData,
   TError,
   { data: ContinueGoogleFlowAuthLoginGooglePostBody },
   TContext
@@ -1277,7 +1352,7 @@ export const getGetUserinfoAuthUserinfoGetQueryOptions = <
     Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
@@ -1306,7 +1381,7 @@ export function useGetUserinfoAuthUserinfoGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
@@ -1328,7 +1403,9 @@ export function useGetUserinfoAuthUserinfoGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
@@ -1341,7 +1418,9 @@ export function useGetUserinfoAuthUserinfoGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Userinfo
  */
@@ -1358,11 +1437,13 @@ export function useGetUserinfoAuthUserinfoGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetUserinfoAuthUserinfoGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1380,23 +1461,24 @@ export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (
 }
 
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>
-      >,
-      TError,
-      void,
-      TContext
-    >
+  <
+    TData = Awaited<
+      ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>
+    >,
+    TError = AxiosError<unknown>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<TData, TError, void, TContext>
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>>,
-    TError,
-    void,
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1407,7 +1489,12 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
       return doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost(axiosOptions)
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      void,
+      TContext
+    >
   }
 
 export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationResult =
@@ -1422,22 +1509,15 @@ export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationError =
  * @summary Do Refresh Dev Flatpaks
  */
 export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
+  TData = Awaited<
+    ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>
+  >,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>>,
-    TError,
-    void,
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, void, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost>>,
-  TError,
-  void,
-  TContext
-> => {
+}): UseMutationResult<TData, TError, void, TContext> => {
   const mutationOptions =
     getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions(options)
 
@@ -1455,23 +1535,21 @@ export const doLogoutAuthLogoutPost = (
 }
 
 export const getDoLogoutAuthLogoutPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
-    TError,
-    void,
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, void, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
-  TError,
-  void,
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["doLogoutAuthLogoutPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
@@ -1480,7 +1558,12 @@ export const getDoLogoutAuthLogoutPostMutationOptions = <
     return doLogoutAuthLogoutPost(axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    void,
+    TContext
+  >
 }
 
 export type DoLogoutAuthLogoutPostMutationResult = NonNullable<
@@ -1493,22 +1576,13 @@ export type DoLogoutAuthLogoutPostMutationError = AxiosError<unknown>
  * @summary Do Logout
  */
 export const useDoLogoutAuthLogoutPost = <
+  TData = Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
   TError = AxiosError<unknown>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
-    TError,
-    void,
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, void, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof doLogoutAuthLogoutPost>>,
-  TError,
-  void,
-  TContext
-> => {
+}): UseMutationResult<TData, TError, void, TContext> => {
   const mutationOptions = getDoLogoutAuthLogoutPostMutationOptions(options)
 
   return useMutation(mutationOptions)
@@ -1557,7 +1631,7 @@ export const getGetDeleteuserAuthDeleteuserGetQueryOptions = <
     Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetDeleteuserAuthDeleteuserGetQueryResult = NonNullable<
@@ -1586,7 +1660,7 @@ export function useGetDeleteuserAuthDeleteuserGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
@@ -1608,7 +1682,9 @@ export function useGetDeleteuserAuthDeleteuserGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<unknown>,
@@ -1621,7 +1697,9 @@ export function useGetDeleteuserAuthDeleteuserGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get Deleteuser
  */
@@ -1638,11 +1716,13 @@ export function useGetDeleteuserAuthDeleteuserGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetDeleteuserAuthDeleteuserGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -1671,23 +1751,26 @@ export const doDeleteuserAuthDeleteuserPost = (
 }
 
 export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+    TData,
     TError,
     { data: UserDeleteRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
-  TError,
-  { data: UserDeleteRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["doDeleteuserAuthDeleteuserPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
@@ -1698,7 +1781,12 @@ export const getDoDeleteuserAuthDeleteuserPostMutationOptions = <
     return doDeleteuserAuthDeleteuserPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UserDeleteRequest },
+    TContext
+  >
 }
 
 export type DoDeleteuserAuthDeleteuserPostMutationResult = NonNullable<
@@ -1712,22 +1800,18 @@ export type DoDeleteuserAuthDeleteuserPostMutationError =
  * @summary Do Deleteuser
  */
 export const useDoDeleteuserAuthDeleteuserPost = <
+  TData = Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
+    TData,
     TError,
     { data: UserDeleteRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserPost>>,
-  TError,
-  { data: UserDeleteRequest },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { data: UserDeleteRequest }, TContext> => {
   const mutationOptions =
     getDoDeleteuserAuthDeleteuserPostMutationOptions(options)
 
@@ -1743,29 +1827,28 @@ export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = (
 }
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions =
-  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
-    mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<
-          typeof doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost
-        >
-      >,
-      TError,
-      void,
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<
+  <
+    TData = Awaited<
       ReturnType<
         typeof doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost
       >
     >,
-    TError,
-    void,
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+    TError = AxiosError<unknown>,
+    TContext = unknown,
+  >(options?: {
+    mutation?: UseMutationOptions<TData, TError, void, TContext>
+    axios?: AxiosRequestConfig
+  }) => {
+    const mutationKey = [
+      "doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1780,7 +1863,12 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutat
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      void,
+      TContext
+    >
   }
 
 export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationResult =
@@ -1799,30 +1887,17 @@ export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationE
  * @summary Do Agree To Publisher Agreement
  */
 export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
-  TError = AxiosError<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<
-        typeof doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost
-      >
-    >,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<
+  TData = Awaited<
     ReturnType<
       typeof doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost
     >
   >,
-  TError,
-  void,
-  TContext
-> => {
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<TData, TError, void, TContext>
+  axios?: AxiosRequestConfig
+}): UseMutationResult<TData, TError, void, TContext> => {
   const mutationOptions =
     getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions(
       options,
@@ -1845,25 +1920,29 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
 }
 
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =
-  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+  <
+    TData = Awaited<
+      ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+    TContext = unknown,
+  >(options?: {
     mutation?: UseMutationOptions<
-      Awaited<
-        ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
-      >,
+      TData,
       TError,
       { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
       TContext
     >
     axios?: AxiosRequestConfig
-  }): UseMutationOptions<
-    Awaited<
-      ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
-    >,
-    TError,
-    { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
-    TContext
-  > => {
-    const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+  }) => {
+    const mutationKey = ["doChangeDefaultAccountAuthChangeDefaultAccountPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
 
     const mutationFn: MutationFunction<
       Awaited<
@@ -1879,7 +1958,12 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
       )
     }
 
-    return { mutationFn, ...mutationOptions }
+    return { mutationFn, ...mutationOptions } as UseMutationOptions<
+      TData,
+      TError,
+      { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
+      TContext
+    >
   }
 
 export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationResult =
@@ -1896,22 +1980,21 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationError =
  * @summary Do Change Default Account
  */
 export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
+  TData = Awaited<
+    ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<
-      ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
-    >,
+    TData,
     TError,
     { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<
-    ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
-  >,
+  TData,
   TError,
   { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
   TContext

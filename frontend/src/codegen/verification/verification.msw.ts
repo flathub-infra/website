@@ -25,15 +25,19 @@ import type {
 export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
   overrideResponse: Partial<VerificationStatus> = {},
 ): VerificationStatus => ({
-  detail: faker.helpers.arrayElement([
+  verified: faker.datatype.boolean(),
+  timestamp: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  login_is_organization: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+  method: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      faker.helpers.arrayElement(Object.values(VerificationMethod)),
+      null,
+    ]),
     undefined,
   ]),
-  login_name: faker.helpers.arrayElement([
+  website: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
@@ -44,19 +48,15 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
     ]),
     undefined,
   ]),
-  method: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.helpers.arrayElement(Object.values(VerificationMethod)),
-      null,
-    ]),
-    undefined,
-  ]),
-  timestamp: faker.helpers.arrayElement([
+  login_name: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
-  verified: faker.datatype.boolean(),
-  website: faker.helpers.arrayElement([
+  login_is_organization: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+    undefined,
+  ]),
+  detail: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.string.alpha(20), null]),
     undefined,
   ]),
@@ -65,40 +65,12 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseMock = (
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseMock =
   (overrideResponse: Partial<AvailableMethods> = {}): AvailableMethods => ({
-    detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.string.alpha(20), null]),
-      undefined,
-    ]),
     methods: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
           (_, i) => i + 1,
         ).map(() => ({
-          login_is_organization: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-            undefined,
-          ]),
-          login_name: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.string.alpha(20), null]),
-            undefined,
-          ]),
-          login_provider: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement(Object.values(LoginProvider)),
-              null,
-            ]),
-            undefined,
-          ]),
-          login_status: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement(
-                Object.values(AvailableLoginMethodStatus),
-              ),
-              null,
-            ]),
-            undefined,
-          ]),
           method: faker.helpers.arrayElement(
             Object.values(AvailableMethodType),
           ),
@@ -110,9 +82,37 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
             faker.helpers.arrayElement([faker.string.alpha(20), null]),
             undefined,
           ]),
+          login_provider: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.helpers.arrayElement(Object.values(LoginProvider)),
+              null,
+            ]),
+            undefined,
+          ]),
+          login_name: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.string.alpha(20), null]),
+            undefined,
+          ]),
+          login_is_organization: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+            undefined,
+          ]),
+          login_status: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.helpers.arrayElement(
+                Object.values(AvailableLoginMethodStatus),
+              ),
+              null,
+            ]),
+            undefined,
+          ]),
         })),
         null,
       ]),
+      undefined,
+    ]),
+    detail: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.string.alpha(20), null]),
       undefined,
     ]),
     ...overrideResponse,
@@ -144,6 +144,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
   (
     overrideResponse: Partial<WebsiteVerificationResult> = {},
   ): WebsiteVerificationResult => ({
+    verified: faker.datatype.boolean(),
     detail: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         faker.helpers.arrayElement(Object.values(ErrorDetail)),
@@ -158,7 +159,6 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       ]),
       undefined,
     ]),
-    verified: faker.datatype.boolean(),
     ...overrideResponse,
   })
 

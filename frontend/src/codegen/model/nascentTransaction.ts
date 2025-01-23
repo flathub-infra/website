@@ -4,10 +4,10 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TransactionRow } from "./transactionRow"
 import type { NascentTransactionSummary } from "./nascentTransactionSummary"
+import type { TransactionRow } from "./transactionRow"
 
 export interface NascentTransaction {
-  details: TransactionRow[]
   summary: NascentTransactionSummary
+  details: TransactionRow[]
 }

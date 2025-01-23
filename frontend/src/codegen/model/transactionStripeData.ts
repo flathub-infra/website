@@ -7,7 +7,7 @@
 import type { TransactionStripeDataCard } from "./transactionStripeDataCard"
 
 export interface TransactionStripeData {
-  card?: TransactionStripeDataCard
-  client_secret: string
   status: string
+  client_secret: string
+  card?: TransactionStripeDataCard
 }

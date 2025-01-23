@@ -79,7 +79,7 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions = <
     Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
@@ -111,7 +111,9 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -135,7 +137,9 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -151,7 +155,9 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get App Of The Day
  */
@@ -171,14 +177,16 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryOptions(
     date,
     options,
   )
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -244,7 +252,7 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions = <
     Awaited<ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
@@ -281,7 +289,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -309,7 +319,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
       >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -327,7 +339,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Get App Of The Week
  */
@@ -349,12 +363,14 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
     >
     axios?: AxiosRequestConfig
   },
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions =
     getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryOptions(date, options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey
@@ -374,23 +390,26 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
 }
 
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
+    TData,
     TError,
     { data: UpsertAppOfTheWeek },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
-  TError,
-  { data: UpsertAppOfTheWeek },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["setAppOfTheWeekAppPicksAppOfTheWeekPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
@@ -401,7 +420,12 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
     return setAppOfTheWeekAppPicksAppOfTheWeekPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: UpsertAppOfTheWeek },
+    TContext
+  >
 }
 
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationResult = NonNullable<
@@ -416,18 +440,19 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError =
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
+  TData = Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
+    TData,
     TError,
     { data: UpsertAppOfTheWeek },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
+  TData,
   TError,
   { data: UpsertAppOfTheWeek },
   TContext
@@ -449,23 +474,21 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
 }
 
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
+  TData = Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
-    TError,
-    { data: AppOfTheDay },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { data: AppOfTheDay }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
-  TError,
-  { data: AppOfTheDay },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["setAppOfTheDayAppPicksAppOfTheDayPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
@@ -476,7 +499,12 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
     return setAppOfTheDayAppPicksAppOfTheDayPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: AppOfTheDay },
+    TContext
+  >
 }
 
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
@@ -490,22 +518,13 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError =
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
+  TData = Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
-    TError,
-    { data: AppOfTheDay },
-    TContext
-  >
+  mutation?: UseMutationOptions<TData, TError, { data: AppOfTheDay }, TContext>
   axios?: AxiosRequestConfig
-}): UseMutationResult<
-  Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
-  TError,
-  { data: AppOfTheDay },
-  TContext
-> => {
+}): UseMutationResult<TData, TError, { data: AppOfTheDay }, TContext> => {
   const mutationOptions =
     getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions(options)
 

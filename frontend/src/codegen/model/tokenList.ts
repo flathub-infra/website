@@ -8,6 +8,6 @@ import type { TokenModel } from "./tokenModel"
 
 export interface TokenList {
   status: string
-  tokens: TokenModel[]
   total: number
+  tokens: TokenModel[]
 }

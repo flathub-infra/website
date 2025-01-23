@@ -6,6 +6,6 @@
  */
 
 export interface UserRoleResult {
-  hasRole: boolean
   name: string
+  hasRole: boolean
 }

@@ -10,9 +10,9 @@ import type { VendingSetupStatus } from "./vendingSetupStatus"
  * Configuration for a vended application
  */
 export interface VendingSetup {
-  appshare: number
-  currency: string
-  minimum_payment: number
-  recommended_donation: number
   status: VendingSetupStatus
+  currency: string
+  appshare: number
+  recommended_donation: number
+  minimum_payment: number
 }

@@ -7,13 +7,13 @@
 import type { TokenResponseIssuedTo } from "./tokenResponseIssuedTo"
 
 export interface TokenResponse {
-  app_id: string
-  comment: string
-  expires_at: number
   id: number
+  comment: string
+  app_id: string
+  scopes: string[]
+  repos: string[]
   issued_at: number
   issued_to: TokenResponseIssuedTo
-  repos: string[]
+  expires_at: number
   revoked: boolean
-  scopes: string[]
 }

@@ -7,7 +7,7 @@
 
 export interface UpsertAppOfTheWeek {
   app_id: string
-  position: number
   weekNumber: number
   year: number
+  position: number
 }

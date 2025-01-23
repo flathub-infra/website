@@ -4,11 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { StorefrontInfoPricing } from "./storefrontInfoPricing"
 import type { StorefrontInfoVerification } from "./storefrontInfoVerification"
+import type { StorefrontInfoPricing } from "./storefrontInfoPricing"
 
 export interface StorefrontInfo {
-  is_free_software?: boolean
-  pricing?: StorefrontInfoPricing
   verification?: StorefrontInfoVerification
+  pricing?: StorefrontInfoPricing
+  is_free_software?: boolean
 }

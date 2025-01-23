@@ -29,23 +29,28 @@ export const buildNotificationEmailsBuildNotificationPost = (
 }
 
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
+  TData = Awaited<
+    ReturnType<typeof buildNotificationEmailsBuildNotificationPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
+    TData,
     TError,
     { data: BuildNotificationRequest },
     TContext
   >
   axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
-  TError,
-  { data: BuildNotificationRequest },
-  TContext
-> => {
-  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {}
+}) => {
+  const mutationKey = ["buildNotificationEmailsBuildNotificationPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
@@ -56,7 +61,12 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
     return buildNotificationEmailsBuildNotificationPost(data, axiosOptions)
   }
 
-  return { mutationFn, ...mutationOptions }
+  return { mutationFn, ...mutationOptions } as UseMutationOptions<
+    TData,
+    TError,
+    { data: BuildNotificationRequest },
+    TContext
+  >
 }
 
 export type BuildNotificationEmailsBuildNotificationPostMutationResult =
@@ -72,18 +82,21 @@ export type BuildNotificationEmailsBuildNotificationPostMutationError =
  * @summary Build Notification
  */
 export const useBuildNotificationEmailsBuildNotificationPost = <
+  TData = Awaited<
+    ReturnType<typeof buildNotificationEmailsBuildNotificationPost>
+  >,
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
+    TData,
     TError,
     { data: BuildNotificationRequest },
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationResult<
-  Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
+  TData,
   TError,
   { data: BuildNotificationRequest },
   TContext

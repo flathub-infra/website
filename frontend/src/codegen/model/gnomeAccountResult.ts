@@ -4,19 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 import type { GnomeAccountResultAvatarUrl } from "./gnomeAccountResultAvatarUrl"
 import type { GnomeAccountResultDisplayName } from "./gnomeAccountResultDisplayName"
 import type { GnomeAccountResultEmail } from "./gnomeAccountResultEmail"
 import type { GnomeAccountResultLastUsed } from "./gnomeAccountResultLastUsed"
-import type { ConnectedAccountProvider } from "./connectedAccountProvider"
 
 export interface GnomeAccountResult {
+  provider: ConnectedAccountProvider
+  id: number
+  gnome_userid: number
+  login: string
   avatar_url: GnomeAccountResultAvatarUrl
   display_name: GnomeAccountResultDisplayName
   email: GnomeAccountResultEmail
-  gnome_userid: number
-  id: number
   last_used: GnomeAccountResultLastUsed
-  login: string
-  provider: ConnectedAccountProvider
 }

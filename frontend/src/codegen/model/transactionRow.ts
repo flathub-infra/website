@@ -7,8 +7,8 @@
 import type { TransactionRowKind } from "./transactionRowKind"
 
 export interface TransactionRow {
+  recipient: string
   amount: number
   currency: string
   kind: TransactionRowKind
-  recipient: string
 }

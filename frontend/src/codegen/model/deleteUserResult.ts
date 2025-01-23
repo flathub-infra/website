@@ -7,6 +7,6 @@
 import type { DeleteUserResultMessage } from "./deleteUserResultMessage"
 
 export interface DeleteUserResult {
-  message?: DeleteUserResultMessage
   status: string
+  message?: DeleteUserResultMessage
 }

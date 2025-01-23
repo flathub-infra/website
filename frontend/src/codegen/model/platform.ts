@@ -16,8 +16,8 @@ If no platform is specified for an application, it's worth getting the default
 platform and using that.
  */
 export interface Platform {
-  aliases: string[]
   depends?: PlatformDepends
+  aliases: string[]
   keep: number
   stripe_account?: PlatformStripeAccount
 }

@@ -6,6 +6,6 @@
  */
 
 export interface StripeKeys {
-  public_key: string
   status: string
+  public_key: string
 }

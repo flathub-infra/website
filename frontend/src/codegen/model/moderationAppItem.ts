@@ -4,12 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { ModerationRequestType } from "./moderationRequestType"
 import type { ModerationAppItemUpdatedAt } from "./moderationAppItemUpdatedAt"
+import type { ModerationRequestType } from "./moderationRequestType"
 
 export interface ModerationAppItem {
   appid: string
   is_new_submission: boolean
-  request_types: ModerationRequestType[]
   updated_at?: ModerationAppItemUpdatedAt
+  request_types: ModerationRequestType[]
 }

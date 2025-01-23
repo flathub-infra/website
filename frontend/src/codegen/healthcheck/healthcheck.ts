@@ -56,7 +56,7 @@ export const getHealthcheckStatusGetQueryOptions = <
     Awaited<ReturnType<typeof healthcheckStatusGet>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
 export type HealthcheckStatusGetQueryResult = NonNullable<
@@ -85,7 +85,7 @@ export function useHealthcheckStatusGet<
     >
   axios?: AxiosRequestConfig
 }): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData>
+  queryKey: DataTag<QueryKey, TData, TError>
 }
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
@@ -107,7 +107,9 @@ export function useHealthcheckStatusGet<
       "initialData"
     >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -120,7 +122,9 @@ export function useHealthcheckStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
 /**
  * @summary Healthcheck
  */
@@ -137,11 +141,13 @@ export function useHealthcheckStatusGet<
     >
   >
   axios?: AxiosRequestConfig
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
   const queryOptions = getHealthcheckStatusGetQueryOptions(options)
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
+    queryKey: DataTag<QueryKey, TData, TError>
   }
 
   query.queryKey = queryOptions.queryKey

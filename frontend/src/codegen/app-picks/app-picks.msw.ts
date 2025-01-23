@@ -24,8 +24,8 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetResponseMock = (
     (_, i) => i + 1,
   ).map(() => ({
     app_id: faker.string.alpha(20),
-    isFullscreen: faker.datatype.boolean(),
     position: faker.number.int({ min: undefined, max: undefined }),
+    isFullscreen: faker.datatype.boolean(),
   })),
   ...overrideResponse,
 })

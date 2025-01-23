@@ -4,19 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { TransactionSummaryCreated } from "./transactionSummaryCreated"
 import type { TransactionSummaryKind } from "./transactionSummaryKind"
-import type { TransactionSummaryReason } from "./transactionSummaryReason"
 import type { TransactionSummaryStatus } from "./transactionSummaryStatus"
+import type { TransactionSummaryReason } from "./transactionSummaryReason"
+import type { TransactionSummaryCreated } from "./transactionSummaryCreated"
 import type { TransactionSummaryUpdated } from "./transactionSummaryUpdated"
 
 export interface TransactionSummary {
-  created?: TransactionSummaryCreated
-  currency: string
   id: string
-  kind: TransactionSummaryKind
-  reason?: TransactionSummaryReason
-  status: TransactionSummaryStatus
-  updated?: TransactionSummaryUpdated
   value: number
+  currency: string
+  kind: TransactionSummaryKind
+  status: TransactionSummaryStatus
+  reason?: TransactionSummaryReason
+  created?: TransactionSummaryCreated
+  updated?: TransactionSummaryUpdated
 }

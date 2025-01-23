@@ -7,6 +7,6 @@
 import type { TokenResponse } from "./tokenResponse"
 
 export interface NewTokenResponse {
-  details: TokenResponse
   token: string
+  details: TokenResponse
 }
