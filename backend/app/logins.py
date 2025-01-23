@@ -336,8 +336,8 @@ def start_oauth_flow(
                     {"state": "error", "error": f"User already logged into {method}"},
                     status_code=400,
                 )
-    # Okay, we're preparing a login, step one, do we already have an
-    # intermediate we're using?
+
+    # Create new intermediate token within a single database session
     with get_db("writer") as db:
         flowtoken_model.housekeeping(db)
         intermediate = login["method_intermediate"]
@@ -352,13 +352,19 @@ def start_oauth_flow(
                 created=datetime.now(),
             )
             db.add(intermediate)
-            db.commit()
+            db.flush()  # Ensure the intermediate object is created in the database
+
+        # Get the state while the session is still open
+        state = intermediate.state
+        intermediate_id = intermediate.id
+        db.commit()
+
     # Copy the oauth arguments so we can add our state to them
     args = oauth_args.copy()
-    args["state"] = intermediate.state
+    args["state"] = state
     args = urlencode(args)
     request.session["active-login-flow"] = method
-    request.session["active-login-flow-intermediate"] = intermediate.id
+    request.session["active-login-flow-intermediate"] = intermediate_id
     return {
         "state": "ok",
         "redirect": f"{oauth_endpoint}?{args}",
