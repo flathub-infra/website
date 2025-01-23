@@ -53,7 +53,7 @@ const Pagination: FunctionComponent<Props> = ({
                   onClick={() => onClick(curr)}
                   className={clsx(
                     isActive &&
-                      `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`,
+                      `bg-secondary text-flathub-white dark:bg-secondary`,
                     "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
                   )}
                 >
@@ -72,9 +72,10 @@ const Pagination: FunctionComponent<Props> = ({
                   }}
                   aria-current={isActive ? "page" : undefined}
                   className={clsx(
-                    isActive &&
-                      `bg-flathub-celestial-blue text-flathub-white dark:bg-flathub-celestial-blue`,
-                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
+                    isActive && `bg-secondary text-accent-foreground`,
+                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer font-bold",
+                    "hover:bg-secondary/50 hover:text-accent-foreground",
+                    "text-muted-foreground",
                   )}
                 >
                   <span className="m-auto">{curr}</span>
