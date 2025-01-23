@@ -1098,5 +1098,5 @@ def register_to_app(app: FastAPI):
         max_age=86400,
         https_only=True,
     )
-    app.add_middleware(DBSessionMiddleware, db_url=config.settings.database_url)
+    app.add_middleware(DBSessionMiddleware)
     app.include_router(router)
