@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.responses import ORJSONResponse
-from fastapi_sqlalchemy import db as sqldb
 
 from . import models
+from .database import get_db
 from .login_info import moderator_only, modify_users_only, view_users_only
 
 router = APIRouter(prefix="/users", default_response_class=ORJSONResponse)
@@ -25,7 +25,8 @@ def users(
     """
     Return a list of all known users
     """
-    return models.FlathubUser.all(sqldb, page, page_size, filterString)
+    with get_db("replica") as db_session:
+        return models.FlathubUser.all(db_session, page, page_size, filterString)
 
 
 @router.get(
@@ -36,7 +37,8 @@ def roles(_admin=Depends(view_users_only)) -> list[str]:
     """
     Return a list of all known role names
     """
-    return [role.name for role in models.Role.all(sqldb)]
+    with get_db("replica") as db_session:
+        return [role.name for role in models.Role.all(db_session)]
 
 
 @router.get(
@@ -47,12 +49,13 @@ def user(user_id: int, _moderator=Depends(moderator_only)) -> models.UserResult:
     """
     Return the current user
     """
-    user = models.FlathubUser.by_id_result(sqldb, user_id)
+    with get_db("replica") as db_session:
+        user = models.FlathubUser.by_id_result(db_session, user_id)
 
-    if user is None:
-        raise HTTPException(status_code=404, detail="user not found")
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
 
-    return user
+        return user
 
 
 @router.post(
@@ -65,14 +68,15 @@ def add_user_role(
     """
     Add a role to a user
     """
-    user = models.FlathubUser.by_id(sqldb, user_id)
+    with get_db("writer") as db_session:
+        user = models.FlathubUser.by_id(db_session, user_id)
 
-    if user is None:
-        raise HTTPException(status_code=404, detail="user not found")
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
 
-    user.add_role(sqldb, role)
+        user.add_role(db_session, role)
 
-    return user.to_result(sqldb)
+        return user.to_result(db_session)
 
 
 @router.delete(
@@ -85,14 +89,15 @@ def delete_user_role(
     """
     Remove a role from a user
     """
-    user = models.FlathubUser.by_id(sqldb, user_id)
+    with get_db("writer") as db_session:
+        user = models.FlathubUser.by_id(db_session, user_id)
 
-    if user is None:
-        raise HTTPException(status_code=404, detail="user not found")
+        if user is None:
+            raise HTTPException(status_code=404, detail="user not found")
 
-    user.remove_role(sqldb, role)
+        user.remove_role(db_session, role)
 
-    return user.to_result(sqldb)
+        return user.to_result(db_session)
 
 
 @router.get(
@@ -105,6 +110,8 @@ def role_users(
     """
     Return all users with a specific role
     """
-    return [
-        user.to_result(sqldb) for user in models.Role.by_name_users(sqldb, role_name)
-    ]
+    with get_db("replica") as db_session:
+        return [
+            user.to_result(db_session)
+            for user in models.Role.by_name_users(db_session, role_name)
+        ]
