@@ -7,14 +7,13 @@ import gitlab
 import publicsuffixlist
 import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path
-from fastapi_sqlalchemy import DBSessionMiddleware
-from fastapi_sqlalchemy import db as sqldb
 from github import Github
 from github.GithubException import UnknownObjectException
 from pydantic import BaseModel
 from sqlalchemy.sql import func
 
 from . import config, models, utils, worker
+from .database import get_db
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
 from .upload_tokens import _jti
@@ -369,7 +368,8 @@ def _get_existing_verification(app_id: str) -> models.AppVerification | None:
         app_id = runtime_id
 
     # Get all verification rows for this app
-    verifications = models.AppVerification.all_by_app(sqldb, app_id)
+    with get_db("replica") as db:
+        verifications = models.AppVerification.all_by_app(db, app_id)
 
     # Manual unverification overrides any other verifications
     unverified = [
@@ -405,8 +405,11 @@ def _check_app_id(
                 status_code=403, detail=ErrorDetail.MUST_ACCEPT_PUBLISHER_AGREEMENT
             )
 
-        if models.DirectUploadApp.by_app_id(sqldb, app_id) is not None:
-            raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
+        with get_db("replica") as db:
+            if models.DirectUploadApp.by_app_id(db, app_id) is not None:
+                raise HTTPException(
+                    status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS
+                )
 
         if _is_github_app(app_id):
             raise HTTPException(status_code=400, detail=ErrorDetail.APP_ALREADY_EXISTS)
@@ -416,8 +419,11 @@ def _check_app_id(
             # submit an app, they should ask for manual verification.
             raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
     else:
-        if app_id not in login.user.dev_flatpaks(sqldb):
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+        with get_db("replica") as db:
+            if app_id not in login.user.dev_flatpaks(db):
+                raise HTTPException(
+                    status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER
+                )
 
     existing = _get_existing_verification(app_id)
 
@@ -430,8 +436,9 @@ def _check_app_id(
 
 
 def get_verified_apps():
-    verified = models.AppVerification.all_verified(sqldb)
-    return verified
+    with get_db("replica") as db:
+        verified = models.AppVerification.all_verified(db)
+        return verified
 
 
 @router.get(
@@ -540,7 +547,10 @@ def get_available_methods(
     methods = []
 
     if domain := _get_domain_name(app_id):
-        verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
+        with get_db("replica") as db:
+            verification = models.AppVerification.by_app_and_user(
+                db, app_id, login.user
+            )
         if (
             verification is not None
             and verification.method == "website"
@@ -573,7 +583,8 @@ def _verify_by_github(username: str, account) -> AvailableMethod:
         login_name=username,
     )
 
-    account = models.GithubAccount.by_user(sqldb, account)
+    with get_db("replica") as db:
+        account = models.GithubAccount.by_user(db, account)
 
     if account is None:
         result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
@@ -644,7 +655,8 @@ def _verify_by_gitlab(username: str, account, model, provider, url) -> Available
         login_name=username,
     )
 
-    account = model.by_user(sqldb, account)
+    with get_db("replica") as db:
+        account = model.by_user(db, account)
 
     if account is None:
         result.login_status = AvailableLoginMethodStatus.NOT_LOGGED_IN
@@ -755,12 +767,13 @@ def _check_login_provider_verification(
 
 def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
     direct_upload_app = models.DirectUploadApp(app_id=app_id)
-    sqldb.session.add(direct_upload_app)
-    sqldb.session.flush()
-    app_developer = models.DirectUploadAppDeveloper(
-        app_id=direct_upload_app.id, developer_id=user.id, is_primary=True
-    )
-    sqldb.session.add(app_developer)
+    with get_db("writer") as db:
+        db.session.add(direct_upload_app)
+        db.session.flush()
+        app_developer = models.DirectUploadAppDeveloper(
+            app_id=direct_upload_app.id, developer_id=user.id, is_primary=True
+        )
+        db.session.add(app_developer)
 
 
 @router.post(
@@ -809,12 +822,13 @@ def verify_by_login_provider(
         verified_timestamp=func.now(),
         login_is_organization=available_method.login_is_organization,
     )
-    sqldb.session.merge(verification)
+    with get_db("writer") as db:
+        db.session.merge(verification)
 
-    if new_app:
-        _create_direct_upload_app(login.user, app_id)
+        if new_app:
+            _create_direct_upload_app(login.user, app_id)
 
-    sqldb.session.commit()
+        db.session.commit()
 
     if not new_app:
         worker.republish_app.send(app_id)
@@ -866,7 +880,8 @@ def setup_website_verification(
     if domain is None:
         raise HTTPException(status_code=400, detail=ErrorDetail.INVALID_METHOD)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
+    with get_db("replica") as db:
+        verification = models.AppVerification.by_app_and_user(db, app_id, login.user)
 
     if (
         verification is None
@@ -880,8 +895,9 @@ def setup_website_verification(
             verified=False,
             token=str(uuid4()),
         )
-        sqldb.session.merge(verification)
-        sqldb.session.commit()
+        with get_db("writer") as db:
+            db.session.merge(verification)
+            db.session.commit()
 
     return WebsiteVerificationToken(domain=domain, token=verification.token)
 
@@ -908,7 +924,8 @@ def confirm_website_verification(
 
     _check_app_id(app_id, new_app, login)
 
-    verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
+    with get_db("replica") as db:
+        verification = models.AppVerification.by_app_and_user(db, app_id, login.user)
 
     if (
         verification is None
@@ -926,7 +943,9 @@ def confirm_website_verification(
         if new_app:
             _create_direct_upload_app(login.user, app_id)
 
-        sqldb.session.commit()
+        with get_db("writer") as db:
+            db.session.merge(verification)
+            db.session.commit()
 
         if not new_app:
             worker.republish_app.send(app_id)
@@ -953,11 +972,13 @@ def unverify(
     elif existing.method == "manual":
         raise HTTPException(status_code=403, detail=ErrorDetail.BLOCKED_BY_ADMINS)
     else:
-        verification = models.AppVerification.by_app_and_user(sqldb, app_id, login.user)
-
-        if verification is not None:
-            sqldb.session.delete(verification)
-            sqldb.session.commit()
+        with get_db("writer") as db:
+            verification = models.AppVerification.by_app_and_user(
+                db, app_id, login.user
+            )
+            if verification is not None:
+                db.session.delete(verification)
+                db.session.commit()
 
         worker.republish_app.send(app_id)
 
@@ -974,16 +995,18 @@ def switch_to_direct_upload(
         examples=["org.gnome.Glade"],
     ),
 ):
-    is_direct_upload = models.DirectUploadApp.by_app_id(sqldb, app_id) is not None
+    with get_db("replica") as db:
+        is_direct_upload = models.DirectUploadApp.by_app_id(db, app_id) is not None
 
     if is_direct_upload:
         return
 
     is_verified = _get_existing_verification(app_id)
     if is_verified and not is_direct_upload:
-        _create_direct_upload_app(login.user, app_id)
-        _archive_github_repo(app_id)
-        sqldb.session.commit()
+        with get_db("writer") as db:
+            _create_direct_upload_app(login.user, app_id)
+            _archive_github_repo(app_id)
+            db.session.commit()
 
 
 @router.post("/{app_id}/archive", status_code=204, tags=["verification"])
@@ -1003,7 +1026,8 @@ def archive(
             detail=ErrorDetail.FLAT_MANAGER_NOT_CONFIGURED,
         )
 
-    upload_tokens = models.UploadToken.by_app_id(sqldb, app_id)
+    with get_db("replica") as db:
+        upload_tokens = models.UploadToken.by_app_id(db, app_id)
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""
     )
@@ -1017,15 +1041,20 @@ def archive(
         if not response.ok:
             raise HTTPException(status_code=500)
         token.revoked = True
-        sqldb.session.commit()
+        with get_db("writer") as db:
+            db.session.merge(token)
+            db.session.commit()
 
-    direct_upload_app = models.DirectUploadApp.by_app_id(sqldb, app_id)
+    with get_db("replica") as db:
+        direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
     if direct_upload_app:
         if direct_upload_app.archived:
             return
 
         direct_upload_app.archived = True
-        sqldb.session.commit()
+        with get_db("writer") as db:
+            db.session.merge(direct_upload_app)
+            db.session.commit()
 
     if not direct_upload_app:
         gh_repo_changed = _archive_github_repo(app_id)
@@ -1041,5 +1070,4 @@ def register_to_app(app: FastAPI):
 
     This also enables session middleware and the database middleware
     """
-    app.add_middleware(DBSessionMiddleware, db_url=config.settings.database_url)
     app.include_router(router)
