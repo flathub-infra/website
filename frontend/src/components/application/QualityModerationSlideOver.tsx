@@ -42,6 +42,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import Link from "next/link"
 
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const { t } = useTranslation()
@@ -298,6 +299,16 @@ https://flathub.org/apps/details/${app.id}
         </div>
       )}
 
+      <Button className="w-fit" variant="outline" asChild>
+        <Link
+          target="_blank"
+          rel="noreferrer"
+          className="text-secondary-foreground"
+          href={`${app.id}/bannerpreview`}
+        >
+          {t("quality.banner-preview")}
+        </Link>
+      </Button>
       <div>
         <Trans i18nKey={"quality-guideline.problems"}>
           If you would like to ask us about specific quality guideline problems,

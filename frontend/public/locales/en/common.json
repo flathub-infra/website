@@ -574,6 +574,7 @@
   "you-may-or-may-not-be-able-to-contribute": "You may or may not be able to contribute to this app.",
   "quality": {
     "missing-brand-colors": "Missing brand colors",
+    "banner-preview": "Banner preview",
     "banner-preview-description": "To easily experiment with your banner, use <2>the banner preview</2>"
   },
   "platform": {

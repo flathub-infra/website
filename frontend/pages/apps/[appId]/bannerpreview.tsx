@@ -35,7 +35,7 @@ export default function Details({
   return (
     <>
       <NextSeo
-        title={`${app?.name} banner preview`}
+        title={`${app?.name} ${t("quality.banner-preview")}`}
         nofollow={true}
         noindex={true}
       />
@@ -43,6 +43,9 @@ export default function Details({
       <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 flex flex-col gap-y-10 2xl:w-[1400px] 2xl:max-w-[1400px] pb-5">
         <div className="flex flex-wrap">
           <div>
+            <h1 className="mt-2 mb-4 text-4xl font-extrabold">
+              {t("quality.banner-preview")}
+            </h1>
             <Trans i18nKey={"common:quality.banner-preview-description"}>
               To easily experiment with your banner, use{" "}
               <a href="https://docs.flathub.org/banner-preview/">
