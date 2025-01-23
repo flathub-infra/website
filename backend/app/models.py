@@ -2097,23 +2097,20 @@ class AppOfTheDay(Base):
     __table_args__ = (Index("appoftheday_unique", app_id, date, unique=True),)
 
     @classmethod
-    def by_date(cls, db, date: Date) -> Optional["AppOfTheDay"]:
-        return db.session.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
+    def by_date(cls, db, date):
+        return db.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
 
     @classmethod
-    def set_app_of_the_day(cls, db, app_id: str, date: Date) -> Optional["AppOfTheDay"]:
-        app = AppOfTheDay.by_date(db, date)
-        if app:
-            app.app_id = app_id
-        else:
-            app = AppOfTheDay(
-                app_id=app_id,
-                date=date,
-            )
-            db.session.add(app)
+    def set_app_of_the_day(cls, db, app_id: str, date: datetime.date):
+        app_of_the_day = db.query(AppOfTheDay).filter(AppOfTheDay.date == date).first()
 
-        db.session.commit()
-        return app
+        if app_of_the_day is None:
+            app_of_the_day = AppOfTheDay(app_id=app_id, date=date)
+            db.add(app_of_the_day)
+        else:
+            app_of_the_day.app_id = app_id
+
+        db.commit()
 
     @classmethod
     def by_appid_last_time_app_of_the_day(cls, db, app_id: str) -> Date:
@@ -2148,51 +2145,35 @@ class AppsOfTheWeek(Base):
     )
 
     @classmethod
-    def by_week(cls, db, weekNumber: int, year: int) -> list["AppsOfTheWeek"]:
+    def by_week(cls, db, week: int, year: int):
         return (
-            db.session.execute(
-                db.session.query(AppsOfTheWeek)
-                .filter_by(weekNumber=weekNumber, year=year)
-                .order_by(AppsOfTheWeek.position)
-                .statement
-            )
-            .scalars()
+            db.query(AppsOfTheWeek)
+            .filter(AppsOfTheWeek.week == week, AppsOfTheWeek.year == year)
             .all()
         )
 
     @classmethod
-    def upsert(
-        cls,
-        db,
-        app_id: str,
-        weekNumber: int,
-        year: int,
-        position: int,
-        user_id: int,
-    ) -> Optional["AppsOfTheWeek"]:
-        app = (
-            db.session.query(AppsOfTheWeek)
-            .filter(AppsOfTheWeek.position == position)
-            .filter(AppsOfTheWeek.weekNumber == weekNumber)
-            .filter(AppsOfTheWeek.year == year)
+    def upsert(cls, db, app_id: str, week: int, year: int, position: int, user_id: int):
+        app_of_the_week = (
+            db.query(AppsOfTheWeek)
+            .filter(
+                AppsOfTheWeek.week == week,
+                AppsOfTheWeek.year == year,
+                AppsOfTheWeek.position == position,
+            )
             .first()
         )
-        if app:
-            app.app_id = app_id
-            app.created_by = user_id
-            db.session.commit()
-            return app
-        else:
-            app = AppsOfTheWeek(
-                app_id=app_id,
-                weekNumber=weekNumber,
-                year=year,
-                created_by=user_id,
-                position=position,
+
+        if app_of_the_week is None:
+            app_of_the_week = AppsOfTheWeek(
+                app_id=app_id, week=week, year=year, position=position, user_id=user_id
             )
-            db.session.add(app)
-            db.session.commit()
-            return app
+            db.add(app_of_the_week)
+        else:
+            app_of_the_week.app_id = app_id
+            app_of_the_week.user_id = user_id
+
+        db.commit()
 
 
 class QualityModerationDashboardResponse(BaseModel):
