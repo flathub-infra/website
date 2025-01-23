@@ -31,12 +31,24 @@ ReplicaSessionLocal = sessionmaker(
 )
 
 
+class DBSession:
+    def __init__(self, session: Session):
+        self._session = session
+
+    def __getattr__(self, name):
+        return getattr(self._session, name)
+
+    @property
+    def session(self):
+        return self._session
+
+
 @contextmanager
 def get_db(db_type: Literal["writer", "replica"] = "replica"):
     SessionClass = WriterSessionLocal if db_type == "writer" else ReplicaSessionLocal
     db = SessionClass()
     try:
-        yield db
+        yield DBSession(db)
     finally:
         db.close()
 
