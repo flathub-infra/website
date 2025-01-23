@@ -118,7 +118,7 @@ def _refresh_token(
             detail=f"{method} login flow did not return a bearer token",
         )
 
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         account.token = login_result["access_token"]
         if "refresh_token" in login_result:
             account.refresh_token = login_result["refresh_token"]
@@ -311,18 +311,19 @@ def start_oauth_flow(
 
     Examples of oauth flows include Github and Gitlab.
     """
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
+        flowtoken_model.housekeeping(sqldb)
+
+    # Now do the read operations
+    with get_db("replica") as sqldb:
         if login["state"].logging_in():
             # Already logging in to something
             if login["method"] == method:
-                # Already logging into correct method, so assume something went squiffy
-                # and send them back with the same in-progress login
                 pass
             else:
                 request.session.pop("user-id", None)
                 request.session.pop("active-login-flow", None)
                 request.session.pop("active-login-flow-intermediate", None)
-                flowtoken_model.housekeeping(sqldb)
 
         user = login["user"]
         if user:
@@ -332,14 +333,12 @@ def start_oauth_flow(
                     {"state": "error", "error": f"User already logged into {method}"},
                     status_code=400,
                 )
-        # Okay, we're preparing a login, step one, do we already have an
-        # intermediate we're using?
-        flowtoken_model.housekeeping(sqldb)
-        intermediate = login["method_intermediate"]
 
+        intermediate = login["method_intermediate"]
         if intermediate:
             intermediate = sqldb.get(flowtoken_model, intermediate)
 
+    with get_db("writer") as sqldb:
         if not intermediate:
             randomtoken = uuid4().hex
             intermediate = flowtoken_model(
@@ -348,10 +347,12 @@ def start_oauth_flow(
             )
             sqldb.add(intermediate)
             sqldb.commit()
+
         # Copy the oauth arguments so we can add our state to them
         args = oauth_args.copy()
         args["state"] = intermediate.state
         args = urlencode(args)
+
         request.session["active-login-flow"] = method
         request.session["active-login-flow-intermediate"] = intermediate.id
         return {
@@ -684,7 +685,7 @@ def continue_oauth_flow(
             status_code=400,
         )
 
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         flowtoken_model.housekeeping(sqldb)
         flowtokens = sqldb.get(flowtoken_model, login.method_intermediate)
         del request.session["active-login-flow"]
@@ -883,7 +884,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
         raise HTTPException(status_code=204, detail="Not logged in")
 
     # First check if we need to write the invite code
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         user = login.user
         if user.invite_code is None:
             chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
@@ -940,7 +941,7 @@ class RefreshDevFlatpaksReturn(BaseModel):
 def do_refresh_dev_flatpaks(
     login=Depends(logged_in),
 ) -> RefreshDevFlatpaksReturn:
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         user = login.user
 
         account = models.GithubAccount.by_user(sqldb, user)
@@ -1040,7 +1041,7 @@ def do_agree_to_publisher_agreement(login: LoginStatusDep):
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         login.user.accepted_publisher_agreement_at = func.now()
         sqldb.commit()
 
@@ -1055,7 +1056,7 @@ def do_change_default_account(
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=403, detail="Not logged in")
 
-    with get_db() as sqldb:
+    with get_db("writer") as sqldb:
         account = login.user.get_connected_account(sqldb, provider)
         if account is None:
             raise HTTPException(status_code=404, detail="Account not found")
