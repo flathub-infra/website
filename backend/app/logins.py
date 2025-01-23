@@ -919,41 +919,49 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
         with get_db("writer") as db:
             db.commit()
 
-    default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
-
     appstream = apps.get_appids()
-    dev_flatpaks = user.dev_flatpaks(db)
-    permissions = user.permissions()
-    owned_flatpaks = {
-        app.app_id
-        for app in models.UserOwnedApp.all_owned_by_user(db, user)
-        if app.app_id in appstream
-    }
-    invited_flatpaks = [
-        app.app_id
-        for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
-    ]
 
-    auths = {}
-    for account in user.connected_accounts(db):
-        auths[account.provider] = {}
-        if account.login:
-            auths[account.provider]["login"] = account.login
-        if account.avatar_url:
-            auths[account.provider]["avatar"] = account.avatar_url
+    with get_db("replica") as db:
+        default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
+        dev_flatpaks = user.dev_flatpaks(db)
+        permissions = user.permissions()
+        owned_flatpaks = {
+            app.app_id
+            for app in models.UserOwnedApp.all_owned_by_user(db, user)
+            if app.app_id in appstream
+        }
+        invited_flatpaks = [
+            app.app_id
+            for _invite, app in models.DirectUploadAppInvite.by_developer(db, user)
+        ]
+
+        auths = {}
+        for account in user.connected_accounts(db):
+            auths[account.provider] = {}
+            if account.login:
+                auths[account.provider]["login"] = account.login
+            if account.avatar_url:
+                auths[account.provider]["avatar"] = account.avatar_url
+
+        default_display_name = default_account.display_name if default_account else None
+        default_avatar_url = default_account.avatar_url
+        default_login = default_account.login
+        invite_code = user.invite_code
+        accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
 
     defaultAccountInfo = AuthInfo(
-        avatar=default_account.avatar_url, login=default_account.login
+        avatar=default_avatar_url,
+        login=default_login
     )
 
     return UserInfo(
-        displayname=default_account.display_name if default_account else None,
+        displayname=default_display_name,
         dev_flatpaks=sorted(dev_flatpaks),
         permissions=sorted(permissions),
         owned_flatpaks=sorted(owned_flatpaks),
         invited_flatpaks=sorted(invited_flatpaks),
-        invite_code=user.invite_code,
-        accepted_publisher_agreement_at=user.accepted_publisher_agreement_at,
+        invite_code=invite_code,
+        accepted_publisher_agreement_at=accepted_publisher_agreement_at,
         default_account=defaultAccountInfo,
         auths=auths,
     )
