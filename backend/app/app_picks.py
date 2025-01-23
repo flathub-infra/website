@@ -2,10 +2,10 @@ import datetime
 
 from fastapi import APIRouter, Depends, FastAPI, Path
 from fastapi.responses import ORJSONResponse
-from fastapi_sqlalchemy import db
 from pydantic import BaseModel
 
 from . import models
+from .database import get_db
 from .login_info import quality_moderator_only
 
 router = APIRouter(prefix="/app-picks", default_response_class=ORJSONResponse)
@@ -29,12 +29,13 @@ def get_app_of_the_day(
         ],
     ),
 ) -> AppOfTheDay:
-    app_of_the_day = models.AppOfTheDay.by_date(db, date)
+    with get_db("replica") as db:
+        app_of_the_day = models.AppOfTheDay.by_date(db, date)
 
-    if app_of_the_day is None:
-        return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
+        if app_of_the_day is None:
+            return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
 
-    return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
+        return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
 
 
 class AppOfTheWeek(BaseModel):
@@ -57,20 +58,21 @@ def get_app_of_the_week(
     ),
 ) -> AppsOfTheWeek:
     """Returns apps of the week"""
-    apps_of_the_week = models.AppsOfTheWeek.by_week(
-        db, date.isocalendar().week, date.year
-    )
+    with get_db("replica") as db:
+        apps_of_the_week = models.AppsOfTheWeek.by_week(
+            db, date.isocalendar().week, date.year
+        )
 
-    return AppsOfTheWeek(
-        apps=[
-            AppOfTheWeek(
-                app_id=app.app_id,
-                position=app.position,
-                isFullscreen=models.Apps.get_fullscreen_app(db, app.app_id),
-            )
-            for app in apps_of_the_week
-        ]
-    )
+        return AppsOfTheWeek(
+            apps=[
+                AppOfTheWeek(
+                    app_id=app.app_id,
+                    position=app.position,
+                    isFullscreen=models.Apps.get_fullscreen_app(db, app.app_id),
+                )
+                for app in apps_of_the_week
+            ]
+        )
 
 
 class UpsertAppOfTheWeek(BaseModel):
@@ -86,9 +88,15 @@ def set_app_of_the_week(
     moderator=Depends(quality_moderator_only),
 ):
     """Sets an app of the week"""
-    models.AppsOfTheWeek.upsert(
-        db, body.app_id, body.weekNumber, body.year, body.position, moderator.user.id
-    )
+    with get_db("writer") as db:
+        models.AppsOfTheWeek.upsert(
+            db,
+            body.app_id,
+            body.weekNumber,
+            body.year,
+            body.position,
+            moderator.user.id,
+        )
 
 
 @router.post("/app-of-the-day", tags=["app-picks"])
@@ -97,4 +105,5 @@ def set_app_of_the_day(
     _moderator=Depends(quality_moderator_only),
 ):
     """Sets an app of the day"""
-    models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
+    with get_db("writer") as db:
+        models.AppOfTheDay.set_app_of_the_day(db, body.app_id, body.day)
