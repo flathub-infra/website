@@ -336,8 +336,8 @@ class FlathubUser(Base):
         # Mark the user as deleted
         user.deleted = True
         # Ensure the DB is updated
-        db.session.add(user)
-        db.session.commit()
+        db.add(user)
+        db.commit()
 
         # And we're done
         return DeleteUserResult(status="ok", message="deleted")
@@ -457,7 +457,7 @@ class flathubuser_role(Base):
         if not flathubuser_role.by_user_role(db, user, role):
             return
 
-        db.session.execute(
+        db.execute(
             delete(flathubuser_role).where(
                 and_(
                     flathubuser_role.flathubuser_id == user.id,
@@ -465,14 +465,14 @@ class flathubuser_role(Base):
                 )
             )
         )
-        db.session.commit()
+        db.commit()
 
     @staticmethod
     def delete_user(db, self):
         """
         Delete a user's role connection
         """
-        db.session.execute(
+        db.execute(
             delete(flathubuser_role).where(flathubuser_role.flathubuser_id == self.id)
         )
 
@@ -621,8 +621,6 @@ class GithubAccount(Base):
 
 FlathubUser.TABLES_FOR_DELETE.append(GithubAccount)
 
-DEFAULT_HOUSEKEEPING_MINUTES = 20
-
 
 class GithubFlowToken(Base):
     __tablename__ = "githubflowtoken"
@@ -632,18 +630,14 @@ class GithubFlowToken(Base):
     created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
-    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
-        """
-        Clear out any tokens which are more than the specified age.
-
-        The login flow will also discard flow tokens younger than this, so over-all
-        the flow tokens table should be kept pretty clean.
-        """
-        too_old = datetime.now() - timedelta(minutes=minutes)
-        db.session.execute(
-            delete(GithubFlowToken).where(GithubFlowToken.created < too_old)
+    def housekeeping(db):
+        """Clean up old flow tokens"""
+        db.execute(
+            delete(GithubFlowToken).where(
+                GithubFlowToken.created < datetime.now() - timedelta(minutes=15)
+            )
         )
-        db.session.flush()
+        db.commit()
 
 
 class GithubRepositoryResult(BaseModel):
@@ -692,18 +686,14 @@ class GitlabFlowToken(Base):
     created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
-    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
-        """
-        Clear out any tokens which are more than the specified age.
-
-        The login flow will also discard flow tokens younger than this, so over-all
-        the flow tokens table should be kept pretty clean.
-        """
-        too_old = datetime.now() - timedelta(minutes=minutes)
-        db.session.execute(
-            delete(GitlabFlowToken).where(GitlabFlowToken.created < too_old)
+    def housekeeping(db):
+        """Clean up old flow tokens"""
+        db.execute(
+            delete(GitlabFlowToken).where(
+                GitlabFlowToken.created < datetime.now() - timedelta(minutes=15)
+            )
         )
-        db.session.flush()
+        db.commit()
 
 
 class GitlabAccountResult(BaseModel):
@@ -786,18 +776,14 @@ class GnomeFlowToken(Base):
     created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
-    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
-        """
-        Clear out any tokens which are more than the specified age.
-
-        The login flow will also discard flow tokens younger than this, so over-all
-        the flow tokens table should be kept pretty clean.
-        """
-        too_old = datetime.now() - timedelta(minutes=minutes)
-        db.session.execute(
-            delete(GnomeFlowToken).where(GnomeFlowToken.created < too_old)
+    def housekeeping(db):
+        """Clean up old flow tokens"""
+        db.execute(
+            delete(GnomeFlowToken).where(
+                GnomeFlowToken.created < datetime.now() - timedelta(minutes=15)
+            )
         )
-        db.session.flush()
+        db.commit()
 
 
 class GnomeAccountResult(BaseModel):
@@ -880,18 +866,14 @@ class GoogleFlowToken(Base):
     created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
-    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
-        """
-        Clear out any tokens which are more than the specified age.
-
-        The login flow will also discard flow tokens younger than this, so over-all
-        the flow tokens table should be kept pretty clean.
-        """
-        too_old = datetime.now() - timedelta(minutes=minutes)
-        db.session.execute(
-            delete(GoogleFlowToken).where(GoogleFlowToken.created < too_old)
+    def housekeeping(db):
+        """Clean up old flow tokens"""
+        db.execute(
+            delete(GoogleFlowToken).where(
+                GoogleFlowToken.created < datetime.now() - timedelta(minutes=15)
+            )
         )
-        db.session.flush()
+        db.commit()
 
 
 class GoogleAccountResult(BaseModel):
@@ -974,16 +956,14 @@ class KdeFlowToken(Base):
     created = mapped_column(DateTime, nullable=False)
 
     @staticmethod
-    def housekeeping(db, minutes=DEFAULT_HOUSEKEEPING_MINUTES):
-        """
-        Clear out any tokens which are more than the specified age.
-
-        The login flow will also discard flow tokens younger than this, so over-all
-        the flow tokens table should be kept pretty clean.
-        """
-        too_old = datetime.now() - timedelta(minutes=minutes)
-        db.session.execute(delete(KdeFlowToken).where(KdeFlowToken.created < too_old))
-        db.session.flush()
+    def housekeeping(db):
+        """Clean up old flow tokens"""
+        db.execute(
+            delete(KdeFlowToken).where(
+                KdeFlowToken.created < datetime.now() - timedelta(minutes=15)
+            )
+        )
+        db.commit()
 
 
 class KdeAccountResult(BaseModel):
