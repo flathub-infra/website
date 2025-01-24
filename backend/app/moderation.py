@@ -192,8 +192,7 @@ def get_moderation_app(
         user = db.session.merge(login.user)
         if "moderation" not in user.permissions():
             # Check if user is app author
-            app = models.App.by_app_id(db, app_id)
-            if not app or app.developer_id != user.id:
+            if app_id not in user.dev_flatpaks(db):
                 raise HTTPException(status_code=403, detail="forbidden")
 
         query = (
