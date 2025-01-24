@@ -16,7 +16,6 @@ from . import (
     logins,
     moderation,
     purchases,
-    quality_moderation,
     update,
     upload_tokens,
     users,
@@ -24,7 +23,7 @@ from . import (
     verification,
     wallet,
 )
-from .routes import app_picks, compat, feed
+from .routes import app_picks, compat, feed, quality_moderation
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
