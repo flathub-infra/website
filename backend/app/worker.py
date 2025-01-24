@@ -6,8 +6,8 @@ from typing import Optional
 import dramatiq
 import dramatiq.brokers.redis
 import requests
-import sentry_dramatiq
 import sentry_sdk
+from sentry_sdk.integrations.dramatiq import DramatiqIntegration
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -32,7 +32,7 @@ if config.settings.sentry_dsn:
     sentry_sdk.init(
         dsn=config.settings.sentry_dsn,
         environment="production",
-        integrations=[sentry_dramatiq.DramatiqIntegration()],
+        integrations=[DramatiqIntegration()],
     )
 
 broker = dramatiq.brokers.redis.RedisBroker(
