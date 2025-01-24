@@ -17,7 +17,7 @@ from . import config, models, utils, worker
 from .database import get_db
 from .db import get_json_key
 from .emails import EmailCategory
-from .login_info import moderator_only, moderator_or_app_author_only
+from .login_info import moderator_only
 from .logins import LoginStatusDep
 from .summary import parse_summary
 
@@ -130,9 +130,9 @@ def get_moderation_apps(
     """Get a list of apps with unhandled moderation requests."""
 
     with get_db("replica") as db_session:
-        is_new_submission = func.bool_or(models.ModerationRequest.is_new_submission).label(
-            "is_new_submission"
-        )
+        is_new_submission = func.bool_or(
+            models.ModerationRequest.is_new_submission
+        ).label("is_new_submission")
         query = (
             db_session.session.query(
                 models.ModerationRequest.appid,
@@ -550,48 +550,65 @@ def submit_review(
         request.handled_at = func.now()
         request.comment = review.comment
 
+        # Store values we need after session close
+        job_id = request.job_id
+        build_id = request.build_id
+        is_approved = review.approve
+        appid = request.appid
+        build_log_url = request.build_log_url
+        request_type = request.request_type
+        request_data = request.request_data
+        is_new_submission = request.is_new_submission
+        comment = review.comment
+
         db.session.commit()
 
-    if request.is_approved:
+    if is_approved:
         # Check if all requests for the job are approved
         with get_db("replica") as db:
             remaining = (
                 db.session.query(models.ModerationRequest)
-                .filter_by(job_id=request.job_id)
-                .filter(models.ModerationRequest.is_approved is None)
+                .filter_by(job_id=job_id)
+                .filter(models.ModerationRequest.is_approved.is_(None))
                 .count()
             )
         if remaining == 0:
             # Tell flat-manager that the job is approved
-            worker.review_check.send(request.job_id, "Passed", None, request.build_id)
+            worker.review_check.send(job_id, "Passed", None, build_id)
     else:
         # If any request is rejected, the job is rejected
         worker.review_check.send(
-            request.job_id, "Failed", "The review was rejected by a moderator."
+            job_id, "Failed", "The review was rejected by a moderator."
         )
 
     inform_only_moderators = False
 
     issue = None
-    if request.is_approved:
+    if is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject = f"Change in build #{request.build_id} approved"
+        subject = f"Change in build #{build_id} approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
-        subject = f"Change in build #{request.build_id} rejected"
+        subject = f"Change in build #{build_id} rejected"
 
         with get_db("replica") as db:
-            if not models.DirectUploadApp.by_app_id(db, request.appid):
+            if not models.DirectUploadApp.by_app_id(db, appid):
                 inform_only_moderators = True
-                issue = create_github_build_rejection_issue(request)
+                with get_db("writer") as db:
+                    request = (
+                        db.session.query(models.ModerationRequest)
+                        .filter_by(id=id)
+                        .first()
+                    )
+                    issue = create_github_build_rejection_issue(request)
 
-    if app_metadata := get_json_key(f"apps:{request.appid}"):
+    if app_metadata := get_json_key(f"apps:{appid}"):
         app_name = app_metadata["name"]
     else:
         app_name = None
 
     payload = {
-        "messageId": f"{request.appid}/{request.build_id}/{'approved' if request.is_approved else 'rejected'}",
+        "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
         "creation_timestamp": datetime.now().timestamp(),
         "subject": subject,
         "previewText": subject,
@@ -599,21 +616,21 @@ def submit_review(
         "inform_only_moderators": inform_only_moderators,
         "messageInfo": {
             "category": category,
-            "appId": request.appid,
+            "appId": appid,
             "appName": app_name,
-            "buildId": request.build_id,
-            "buildLogUrl": request.build_log_url,
+            "buildId": build_id,
+            "buildLogUrl": build_log_url,
             "request": {
-                "requestType": request.request_type,
-                "requestData": json.loads(request.request_data),
-                "isNewSubmission": request.is_new_submission,
+                "requestType": request_type,
+                "requestData": json.loads(request_data),
+                "isNewSubmission": is_new_submission,
             },
-            "references": f"{request.appid}/{request.build_id}/held",
+            "references": f"{appid}/{build_id}/held",
         },
     }
 
-    if request.comment is not None:
-        payload["messageInfo"]["comment"] = request.comment
+    if comment is not None:
+        payload["messageInfo"]["comment"] = comment
 
     worker.send_email_new.send(payload)
 

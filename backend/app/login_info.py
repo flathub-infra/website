@@ -100,8 +100,13 @@ def quality_moderator_only(login=Depends(logged_in)):
 
 
 def view_users_only(login=Depends(logged_in)):
-    if "view-users" not in login.user.permissions():
-        raise HTTPException(status_code=403, detail="no_permission_to_view_users")
+    with get_db("replica") as db:
+        # Merge the user object with the current session to ensure it's attached
+        user = db.session.merge(login.user)
+        if "view-users" not in user.permissions():
+            raise HTTPException(status_code=403, detail="no_permission_to_view_users")
+        login.user = user  # Update the login info with the merged user
+        return login
 
 
 def modify_users_only(login=Depends(logged_in)):
