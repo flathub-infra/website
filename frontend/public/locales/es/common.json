@@ -629,5 +629,10 @@
   "mobile-apps": "Aplicaciones móviles",
   "on-the-go": "En movimiento",
   "mobile-apps-description": "Aplicaciones para sus teléfonos y tabletas Linux",
-  "more-mobile-apps": "Más aplicaciones móviles"
+  "more-mobile-apps": "Más aplicaciones móviles",
+  "quality": {
+    "missing-brand-colors": "",
+    "banner-preview-description": "",
+    "banner-preview": ""
+  }
 }
