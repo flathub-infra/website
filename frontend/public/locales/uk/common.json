@@ -629,5 +629,10 @@
   "apps-by-tag": "Застосунки за тегом '{{tag}}'",
   "on-the-go": "Завжди напохваті",
   "mobile-apps-description": "Застосунки для телефонів та планшетів на базі Linux",
-  "more-mobile-apps": "Інші мобільні застосунки"
+  "more-mobile-apps": "Інші мобільні застосунки",
+  "quality": {
+    "banner-preview-description": "",
+    "missing-brand-colors": "",
+    "banner-preview": ""
+  }
 }
