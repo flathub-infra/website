@@ -129,38 +129,41 @@ def get_moderation_apps(
 ) -> ModerationAppsResponse:
     """Get a list of apps with unhandled moderation requests."""
 
-    is_new_submission = func.bool_or(models.ModerationRequest.is_new_submission).label(
-        "is_new_submission"
-    )
-    query = (
-        db.session.query(
-            models.ModerationRequest.appid,
-            is_new_submission,
-            func.max(models.ModerationRequest.created_at).label("updated_at"),
-            func.array_agg(models.ModerationRequest.request_type.distinct()).label(
-                "request_types"
-            ),
+    with get_db("replica") as db_session:
+        is_new_submission = func.bool_or(models.ModerationRequest.is_new_submission).label(
+            "is_new_submission"
         )
-        .filter(
-            (
-                models.ModerationRequest.handled_at.is_(None)
-                if show_handled is False
-                else models.ModerationRequest.handled_at.isnot(None)
-            ),
-            models.ModerationRequest.is_outdated.is_(False),
+        query = (
+            db_session.session.query(
+                models.ModerationRequest.appid,
+                is_new_submission,
+                func.max(models.ModerationRequest.created_at).label("updated_at"),
+                func.array_agg(models.ModerationRequest.request_type.distinct()).label(
+                    "request_types"
+                ),
+            )
+            .filter(
+                (
+                    models.ModerationRequest.handled_at.is_(None)
+                    if show_handled is False
+                    else models.ModerationRequest.handled_at.isnot(None)
+                ),
+                models.ModerationRequest.is_outdated.is_(False),
+            )
+            .group_by(models.ModerationRequest.appid)
+            .order_by(func.max(models.ModerationRequest.created_at).desc())
         )
-        .group_by(models.ModerationRequest.appid)
-        .order_by(func.max(models.ModerationRequest.created_at).desc())
-    )
 
-    if new_submissions is not None:
-        query = query.having(is_new_submission == new_submissions)
+        if new_submissions is not None:
+            query = query.having(is_new_submission == new_submissions)
 
-    total = query.count()
-    query = query.offset(offset).limit(limit)
+        total = query.count()
+        query = query.offset(offset).limit(limit)
+
+        results = [ModerationAppItem(**row._asdict()) for row in query]
 
     return ModerationAppsResponse(
-        apps=[ModerationAppItem(**row._asdict()) for row in query],
+        apps=results,
         apps_count=total,
     )
 
@@ -211,35 +214,29 @@ def get_moderation_app(
         total = query.count()
         query = query.offset(offset).limit(limit)
 
-        # Execute the query within the session
-        results = [
-            (
-                row,
-                handled_by_name,
+        # Execute the query and process results within the session
+        results = []
+        for row, handled_by_name in query:
+            results.append(
+                ModerationRequestResponse(
+                    id=row.id,
+                    app_id=row.appid,
+                    request_type=row.request_type,
+                    request_data=json.loads(row.request_data),
+                    build_id=row.build_id,
+                    job_id=row.job_id,
+                    is_approved=row.is_approved,
+                    handled_by=handled_by_name,
+                    handled_at=row.handled_at if row.handled_at else None,
+                    comment=row.comment,
+                    is_outdated=row.is_outdated,
+                    is_new_submission=row.is_new_submission,
+                    created_at=row.created_at,
+                )
             )
-            for row, handled_by_name in query
-        ]
 
-    # Process results after session is closed
     return ModerationApp(
-        requests=[
-            ModerationRequestResponse(
-                id=row.id,
-                app_id=row.appid,
-                request_type=row.request_type,
-                request_data=json.loads(row.request_data),
-                build_id=row.build_id,
-                job_id=row.job_id,
-                is_approved=row.is_approved,
-                handled_by=handled_by_name,
-                handled_at=row.handled_at if row.handled_at else None,
-                comment=row.comment,
-                is_outdated=row.is_outdated,
-                is_new_submission=row.is_new_submission,
-                created_at=row.created_at,
-            )
-            for row, handled_by_name in results
-        ],
+        requests=results,
         requests_count=total,
     )
 
