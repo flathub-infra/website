@@ -192,25 +192,35 @@ def get_moderation_app(
             .order_by(models.ModerationRequest.created_at.desc())
         )
 
-    # include_handled should include outdated+handled requests
-    if include_handled:
-        if not include_outdated:
-            query = query.filter(
-                or_(
-                    models.ModerationRequest.handled_at.isnot(None),
-                    not_(models.ModerationRequest.is_outdated),
+        # include_handled should include outdated+handled requests
+        if include_handled:
+            if not include_outdated:
+                query = query.filter(
+                    or_(
+                        models.ModerationRequest.handled_at.isnot(None),
+                        not_(models.ModerationRequest.is_outdated),
+                    )
                 )
+        else:
+            query = query.filter_by(handled_at=None)
+            if not include_outdated:
+                query = query.filter_by(is_outdated=False)
+
+        query = query.join(models.FlathubUser, isouter=True)
+
+        total = query.count()
+        query = query.offset(offset).limit(limit)
+
+        # Execute the query within the session
+        results = [
+            (
+                row,
+                handled_by_name,
             )
-    else:
-        query = query.filter_by(handled_at=None)
-        if not include_outdated:
-            query = query.filter_by(is_outdated=False)
+            for row, handled_by_name in query
+        ]
 
-    query = query.join(models.FlathubUser, isouter=True)
-
-    total = query.count()
-    query = query.offset(offset).limit(limit)
-
+    # Process results after session is closed
     return ModerationApp(
         requests=[
             ModerationRequestResponse(
@@ -228,7 +238,7 @@ def get_moderation_app(
                 is_new_submission=row.is_new_submission,
                 created_at=row.created_at,
             )
-            for row, handled_by_name in query
+            for row, handled_by_name in results
         ],
         requests_count=total,
     )
