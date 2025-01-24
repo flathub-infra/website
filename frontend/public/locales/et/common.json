@@ -631,6 +631,7 @@
   "on-the-go": "Kui oled liikvel",
   "quality": {
     "missing-brand-colors": "Kaubamärgi värvid on puudu",
-    "banner-preview-description": "Et lihtsam oleks reklaampildi kujundust sättida, kasuta <2>reklaampildi eelvaadet</2>"
+    "banner-preview-description": "Et lihtsam oleks reklaampildi kujundust sättida, kasuta <2>reklaampildi eelvaadet</2>",
+    "banner-preview": ""
   }
 }
