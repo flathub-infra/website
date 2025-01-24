@@ -7,11 +7,11 @@ import requests
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from pydantic import BaseModel
 
-from . import config, models, utils, worker
-from .database import get_db
-from .db import get_json_key
-from .emails import EmailCategory
-from .logins import login_state
+from .. import config, models, utils, worker
+from ..database import get_db
+from ..db import get_json_key
+from ..emails import EmailCategory
+from ..logins import login_state
 
 router = APIRouter(prefix="/upload-tokens")
 
