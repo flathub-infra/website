@@ -624,5 +624,14 @@
   "positions": "Posisjoner",
   "apps-by-tag": "Apper med nøkkelord «{{tag}}»",
   "created": "Opprettet",
-  "kind-purchase-app": "Kjøp {{appName}}"
+  "kind-purchase-app": "Kjøp {{appName}}",
+  "quality": {
+    "missing-brand-colors": "",
+    "banner-preview": "",
+    "banner-preview-description": ""
+  },
+  "mobile-apps": "",
+  "on-the-go": "",
+  "more-mobile-apps": "",
+  "mobile-apps-description": ""
 }
