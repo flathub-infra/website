@@ -632,6 +632,7 @@
   "more-mobile-apps": "Mais aplicativos móveis",
   "quality": {
     "missing-brand-colors": "Faltando cores da marca",
-    "banner-preview-description": "Para experimentar facilmente com seu banner, use <2>a prévia do banner</2>"
+    "banner-preview-description": "Para experimentar facilmente com seu banner, use <2>a prévia do banner</2>",
+    "banner-preview": ""
   }
 }
