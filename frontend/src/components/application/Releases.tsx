@@ -59,7 +59,7 @@ const Releases: FunctionComponent<Props> = ({ latestRelease, summary }) => {
   })
 
   const latestReleaseTimestamp =
-    latestRelease.timestamp &&
+    !latestRelease.timestamp ||
     new Date(latestRelease.timestamp * 1000).getUTCFullYear() < 1990
       ? undefined
       : new Date(latestRelease.timestamp * 1000)
