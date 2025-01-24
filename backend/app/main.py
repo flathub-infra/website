@@ -9,7 +9,6 @@ from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from . import (
     app,
-    app_picks,
     config,
     db,
     emails,
@@ -25,7 +24,7 @@ from . import (
     verification,
     wallet,
 )
-from .routes import compat, feed
+from .routes import app_picks, compat, feed
 
 if config.settings.sentry_dsn:
     sentry_sdk.init(
