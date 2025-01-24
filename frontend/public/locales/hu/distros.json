@@ -1,1 +1,490 @@
-{}
+{
+  "chrome_os": {
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "introduction": "",
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-5": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "linux_mint": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "opensuse": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": ""
+  },
+  "kubuntu": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "openmandriva_lx": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "void_linux": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": ""
+  },
+  "fedora": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "clear_linux": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "ubuntu": {
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "solus": {
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "introduction": "",
+    "distroName": ""
+  },
+  "arch": {
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "manjaro": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "endless_os": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "alt_linux": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "debian": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": ""
+  },
+  "rocky_linux": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "centos": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "eurolinux": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "almalinux": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "gentoo": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "alpine": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "mageia": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "pop_os": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "introduction": "",
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "elementary_os": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "raspberry_pi_os": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "nixos": {
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "pureos": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "turkman_linux": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "ataraxia_linux": {
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "zorin_os": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "deepin": {
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "pardus": {
+    "distroName": "",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "mx_linux": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "endeavouros": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "kde_neon": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "introduction": ""
+  },
+  "gnu_guix": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "crystal_linux": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "introduction": "",
+    "distroName": "",
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "vanilla_os": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "salix": {
+    "distroName": "",
+    "introduction": ""
+  }
+}
