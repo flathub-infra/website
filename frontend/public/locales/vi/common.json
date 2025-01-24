@@ -456,7 +456,8 @@
     "branding-has-primary-brand-colors": "Có các màu sắc thương hiệu chủ đạo",
     "branding-good-primary-brand-colors": "Màu sắc thương hiệu chủ đạo tốt",
     "needed-to-pass-x": "Cần đạt {{x}}",
-    "app-icon-contrast": "Độ tương phản trên nền tối tốt"
+    "app-icon-contrast": "Độ tương phản trên nền tối tốt",
+    "problems": ""
   },
   "potentially-unsafe": "Có thể không an toàn",
   "invited-apps": "Lời mời",
@@ -615,5 +616,21 @@
   "flathub-logo": "Logo Flathub",
   "kind-purchase-app": "Mua {{appName}}",
   "recipient": "Người nhận",
-  "mastodon": "Mastodon"
+  "mastodon": "Mastodon",
+  "quality": {
+    "missing-brand-colors": "",
+    "banner-preview": "",
+    "banner-preview-description": ""
+  },
+  "created": "",
+  "positions": "",
+  "apps-by-tag": "",
+  "type": "",
+  "total": "",
+  "mobile-apps": "",
+  "position-short": "",
+  "on-the-go": "",
+  "more-mobile-apps": "",
+  "mobile-apps-description": "",
+  "amount": ""
 }
