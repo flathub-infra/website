@@ -55,7 +55,6 @@ router.add_middleware(
 )
 
 app.register_to_app(router)
-feed.register_to_app(router)
 update.register_to_app(router)
 
 emails.register_to_app(router)
@@ -69,10 +68,10 @@ purchases.register_to_app(router)
 invites.register_to_app(router)
 upload_tokens.register_to_app(router)
 
-compat.register_to_app(router)
-
-quality_moderation.register_to_app(router)
 app_picks.register_to_app(router)
+compat.register_to_app(router)
+feed.register_to_app(router)
+quality_moderation.register_to_app(router)
 
 users.register_to_app(router)
 
