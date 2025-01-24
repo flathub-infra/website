@@ -87,7 +87,8 @@
   "opensuse": {
     "distroName": "openSUSE",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     },
     "step-3": {
       "name": "Neustart",
@@ -116,7 +117,8 @@
       "text": "<p>Ein Flatpak Paket ist in Debian 10 (Buster) und neuer verfügbar. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": ""
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -206,7 +208,8 @@
   "alpine": {
     "distroName": "Alpine",
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": ""
     },
     "step-4": {
       "name": "Neustart",
@@ -259,7 +262,8 @@
   "elementary_os": {
     "distroName": "elementary OS",
     "step-1": {
-      "name": "Apps installieren"
+      "name": "Apps installieren",
+      "text": ""
     }
   },
   "raspberry_pi_os": {
@@ -273,7 +277,8 @@
       "text": "<p>Ein Flatpak Paket ist in Raspberry Pi OS (früher Raspbian) Stretch und neuer erhältlich. Um dieses zu installieren, führe folgendes als root aus:</p> <2></2>"
     },
     "step-2": {
-      "name": "Das Flathub-Repository hinzufügen"
+      "name": "Das Flathub-Repository hinzufügen",
+      "text": ""
     }
   },
   "clear_linux": {
@@ -306,11 +311,13 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": ""
   },
   "turkman_linux": {
     "distroName": "Turkman Linux",
@@ -376,10 +383,12 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     },
     "step-2": {
-      "name": "Installier das Software Flatpak Plugin"
+      "name": "Installier das Software Flatpak Plugin",
+      "text": ""
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
@@ -393,13 +402,15 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak durch den Software Manager aktivieren"
+      "name": "Flatpak durch den Software Manager aktivieren",
+      "text": ""
     }
   },
   "pisi_gnulinux": {
     "distroName": "Pisi GNU/Linux",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     },
     "step-3": {
       "name": "Neustart",
@@ -413,7 +424,8 @@
   "endeavouros": {
     "distroName": "EndeavourOS",
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     },
     "step-3": {
       "name": "Neustart",
@@ -433,7 +445,8 @@
     "step-2": {
       "name": "Flatpak Einstellungen überprüfen",
       "text": "<p>Überprüfe, dass im Abschnitt Flatpak das Häkchen gesetzt ist.</p><p>Hinweis: Damit wird die Flathub-App-Suche in Discover integriert. Wenn du die App-Suche auf Flathub beschränken willst, kannst du Flatpak als Standard markieren, indem du auf den Stern klickst.</p>"
-    }
+    },
+    "introduction": ""
   },
   "gnu_guix": {
     "distroName": "GNU Guix",
@@ -457,17 +470,21 @@
       "text": "<0>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <2>Apps installieren</2>!</0>"
     },
     "step-1": {
-      "name": "Flatpak installieren"
+      "name": "Flatpak installieren",
+      "text": ""
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<p>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</p> <2></2>"
-    }
+    },
+    "introduction": ""
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": ""
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": ""
   }
 }
