@@ -13,7 +13,7 @@ import requests
 from lxml import etree
 from pydantic import BaseModel
 
-from . import config
+from . import config, models
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -574,3 +574,7 @@ def create_flat_manager_token(use: str, scopes: list[str], **kwargs):
         base64.b64decode(config.settings.flat_manager_build_secret),
         algorithm="HS256",
     )
+
+
+def jti(token: "models.UploadToken") -> str:
+    return f"backend_{token.id}"

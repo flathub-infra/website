@@ -12,6 +12,7 @@ from ..database import get_db
 from ..db import get_json_key
 from ..emails import EmailCategory
 from ..logins import login_state
+from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
 
@@ -73,10 +74,6 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
         expires_at=int(token.expires_at.timestamp()),
         revoked=token.revoked,
     )
-
-
-def _jti(token: models.UploadToken) -> str:
-    return f"backend_{token.id}"
 
 
 @router.get("/{app_id}", status_code=200, tags=["upload-tokens"])
@@ -217,7 +214,7 @@ def create_upload_token(
     # Create the JWT
     encoded = jwt.encode(
         {
-            "jti": _jti(token),
+            "jti": jti(token),
             "sub": "build",
             "scope": request.scopes,
             "repos": request.repos,
@@ -270,7 +267,7 @@ def revoke_upload_token(token_id: int, login=Depends(login_state)):
     response = requests.post(
         config.settings.flat_manager_api + "/api/v1/tokens/revoke",
         headers={"Authorization": flat_manager_jwt},
-        json={"token_ids": [_jti(token)]},
+        json={"token_ids": [jti(token)]},
     )
     if not response.ok:
         raise HTTPException(
