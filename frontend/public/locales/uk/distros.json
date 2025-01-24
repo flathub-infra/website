@@ -77,108 +77,414 @@
     "introduction": "<0>Застосунки Flatpak можна встановити на ChromeOS за допомогою шару сумісності Crostini Linux. Ця функція доступна не для всіх пристроїв з ChromeOS, тому перед тим, як продовжити, переконайтеся, що ваш пристрій сумісний. Список сумісних пристроїв ведеться <2>тут</2>.</0>"
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": ""
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": ""
   },
   "opensuse": {
-    "distroName": "openSUSE"
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "arch": {
-    "distroName": "Arch"
+    "distroName": "Arch",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
   },
   "debian": {
-    "distroName": "Debian"
+    "distroName": "Debian",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    }
   },
   "rocky_linux": {
-    "distroName": "Rocky Linux"
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
   },
   "centos": {
-    "distroName": "CentOS"
+    "distroName": "CentOS",
+    "introduction": ""
   },
   "eurolinux": {
-    "distroName": "EuroLinux"
+    "distroName": "EuroLinux",
+    "introduction": ""
   },
   "almalinux": {
-    "distroName": "AlmaLinux"
+    "distroName": "AlmaLinux",
+    "introduction": ""
   },
   "gentoo": {
-    "distroName": "Gentoo"
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
   },
   "kubuntu": {
-    "distroName": "Kubuntu"
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
   },
   "solus": {
-    "distroName": "Solus"
+    "distroName": "Solus",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "alpine": {
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    }
   },
   "mageia": {
-    "distroName": "Mageia"
+    "distroName": "Mageia",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
   },
   "openmandriva_lx": {
-    "distroName": "OpenMandriva Lx"
+    "distroName": "OpenMandriva Lx",
+    "introduction": ""
   },
   "pop_os": {
-    "distroName": "Pop!_OS"
+    "distroName": "Pop!_OS",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "introduction": ""
   },
   "elementary_os": {
-    "distroName": "elementary OS"
+    "distroName": "elementary OS",
+    "step-1": {
+      "text": "",
+      "name": ""
+    }
   },
   "raspberry_pi_os": {
-    "distroName": "Raspberry Pi OS"
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
   },
   "clear_linux": {
-    "distroName": "Clear Linux"
+    "distroName": "Clear Linux",
+    "introduction": ""
   },
   "void_linux": {
-    "distroName": "Void Linux"
+    "distroName": "Void Linux",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
   },
   "nixos": {
-    "distroName": "NixOS"
+    "distroName": "NixOS",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "pureos": {
-    "distroName": "PureOS"
+    "distroName": "PureOS",
+    "introduction": ""
   },
   "turkman_linux": {
-    "distroName": "Turkman Linux"
+    "distroName": "Turkman Linux",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    }
   },
   "ataraxia_linux": {
-    "distroName": "Ataraxia Linux"
+    "distroName": "Ataraxia Linux",
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
   },
   "zorin_os": {
-    "distroName": "Zorin OS"
+    "distroName": "Zorin OS",
+    "introduction": ""
   },
   "deepin": {
-    "distroName": "Deepin"
+    "distroName": "Deepin",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    }
   },
   "pardus": {
-    "distroName": "Pardus"
+    "distroName": "Pardus",
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
   },
   "mx_linux": {
-    "distroName": "MX Linux"
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
   },
   "pisi_gnulinux": {
-    "distroName": "Pisi GNU/Linux"
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "endeavouros": {
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
   },
   "kde_neon": {
-    "distroName": "KDE neon"
+    "distroName": "KDE neon",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "introduction": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
   },
   "gnu_guix": {
-    "distroName": "GNU Guix"
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "crystal_linux": {
-    "distroName": "Crystal Linux"
+    "distroName": "Crystal Linux",
+    "introduction": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
   },
   "vanilla_os": {
-    "distroName": "Vanilla OS"
+    "distroName": "Vanilla OS",
+    "introduction": ""
   },
   "salix": {
-    "distroName": "Salix"
+    "distroName": "Salix",
+    "introduction": ""
   }
 }
