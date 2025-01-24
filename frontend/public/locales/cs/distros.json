@@ -109,5 +109,382 @@
       "name": "Restartujte",
       "text": "<0>Pro dokončení nastavení restartujte systém. Nyní stačí <2>nainstalovat aplikace</2>!</0>"
     }
+  },
+  "mageia": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "endeavouros": {
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "gnu_guix": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": ""
+  },
+  "crystal_linux": {
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "introduction": "",
+    "distroName": ""
+  },
+  "pardus": {
+    "distroName": "",
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "kubuntu": {
+    "step-4": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "turkman_linux": {
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "kde_neon": {
+    "introduction": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "alpine": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "almalinux": {
+    "introduction": "",
+    "distroName": ""
+  },
+  "deepin": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-4": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "pop_os": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "introduction": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": ""
+  },
+  "rocky_linux": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "debian": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-4": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "solus": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "centos": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "eurolinux": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "gentoo": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "elementary_os": {
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "raspberry_pi_os": {
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "clear_linux": {
+    "distroName": "",
+    "introduction": ""
+  },
+  "void_linux": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-2": {
+      "text": "",
+      "name": ""
+    },
+    "step-3": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "nixos": {
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "distroName": ""
+  },
+  "pureos": {
+    "introduction": "",
+    "distroName": ""
+  },
+  "ataraxia_linux": {
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "distroName": "",
+    "step-3": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "zorin_os": {
+    "introduction": "",
+    "distroName": ""
+  },
+  "mx_linux": {
+    "distroName": "",
+    "step-1": {
+      "name": "",
+      "text": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "",
+    "step-1": {
+      "text": "",
+      "name": ""
+    },
+    "step-2": {
+      "name": "",
+      "text": ""
+    },
+    "step-3": {
+      "text": "",
+      "name": ""
+    }
+  },
+  "vanilla_os": {
+    "introduction": "",
+    "distroName": ""
+  },
+  "salix": {
+    "introduction": "",
+    "distroName": ""
   }
 }
