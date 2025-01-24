@@ -623,5 +623,14 @@
     "org-gnome-platform": "Rencana kerja GNOME",
     "org-freedesktop-platform": "Rencana Kerja Freedesktop"
   },
-  "apps-by-tag": "Apk berdasar tag '{{tag}}'"
+  "apps-by-tag": "Apk berdasar tag '{{tag}}'",
+  "quality": {
+    "missing-brand-colors": "",
+    "banner-preview-description": "",
+    "banner-preview": ""
+  },
+  "mobile-apps": "",
+  "on-the-go": "",
+  "more-mobile-apps": "",
+  "mobile-apps-description": ""
 }
