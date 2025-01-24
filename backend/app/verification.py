@@ -16,7 +16,7 @@ from . import config, models, utils, worker
 from .database import get_db
 from .login_info import app_author_only, logged_in
 from .logins import LoginInformation, refresh_oauth_token
-from .upload_tokens import _jti
+from .utils import jti
 
 
 class ErrorDetail(str, Enum):
@@ -1035,7 +1035,7 @@ def archive(
         response = requests.post(
             config.settings.flat_manager_api + "/api/v1/tokens/revoke",
             headers={"Authorization": flat_manager_jwt},
-            json={"token_ids": [_jti(token)]},
+            json={"token_ids": [jti(token)]},
         )
 
         if not response.ok:
