@@ -624,15 +624,5 @@
   "action-purchase": "Zakoupit",
   "kind-donate-app": "Darovat na {{appName}}",
   "kind-purchase-app": "Zakoupit {{appName}}",
-  "zoom": "Přiblížit",
-  "quality": {
-    "banner-preview": "",
-    "missing-brand-colors": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps": "",
-  "apps-by-tag": "",
-  "on-the-go": "",
-  "more-mobile-apps": "",
-  "mobile-apps-description": ""
+  "zoom": "Přiblížit"
 }

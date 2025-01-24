@@ -628,10 +628,5 @@
   "apps-by-tag": "Sovellukset '{{tag}}'-tunnisteella",
   "mobile-apps-description": "Sovelluksia Linux-puhelimille ja -tableteille",
   "on-the-go": "Matkassa",
-  "more-mobile-apps": "Lisää mobiilisovelluksia",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  }
+  "more-mobile-apps": "Lisää mobiilisovelluksia"
 }

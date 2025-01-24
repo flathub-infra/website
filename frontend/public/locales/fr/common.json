@@ -491,9 +491,7 @@
     "request-a-review-question": "Voulez-vous requérir un examen ?",
     "hide-branding-preview": "Masquer l'aperçu de la marque",
     "needed-to-pass-x": "Nécessaire pour réussir {{x}}",
-    "branding-has-primary-brand-colors": "Possède les couleurs principales de la marque",
-    "branding-good-primary-brand-colors": "",
-    "problems": ""
+    "branding-has-primary-brand-colors": "Possède les couleurs principales de la marque"
   },
   "app-listing-quality": "Qualité du référencement de l'application",
   "issued-to": "Délivré à",
@@ -622,17 +620,5 @@
   "kind-purchase-app": "Acheter {{appName}}",
   "mastodon": "Mastodon",
   "positions": "Positions",
-  "apps-by-tag": "Applis par '{{tag}}'",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  },
-  "mobile-apps": "",
-  "recipient": "",
-  "more-mobile-apps": "",
-  "on-the-go": "",
-  "mobile-apps-description": "",
-  "position-short": "",
-  "switch-to-direct-upload": ""
+  "apps-by-tag": "Applis par '{{tag}}'"
 }

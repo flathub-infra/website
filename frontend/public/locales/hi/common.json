@@ -387,8 +387,7 @@
     "branding-good-primary-brand-colors": "अच्छे प्राथमिक ब्रांड रंग",
     "needed-to-pass-x": "{{x}} पास करने की आवश्यकता है",
     "hide-branding-preview": "ब्रांडिंग पूर्वावलोकन छिपाएं",
-    "show-branding-preview": "ब्रांडिंग पूर्वावलोकन दिखाएं",
-    "problems": ""
+    "show-branding-preview": "ब्रांडिंग पूर्वावलोकन दिखाएं"
   },
   "new-app": "नया ऐप",
   "new-community-repository": "नया सामुदायिक रिपॉजिटरी ऐप",
@@ -591,47 +590,5 @@
   "microphone-access": "माइक्रोफोन पहुंच",
   "can-listen-using-microphones-without-asking-permission": "बिना अनुमति के माइक्रोफोन का उपयोग करके सुन सकते हैं",
   "screen-contents-access": "स्क्रीन सामग्री तक पहुंच",
-  "can-access-the-contents-of-the-screen-or-other-windows": "स्क्रीन या अन्य विंडो की सामग्री तक पहुँच सकते हैं",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps": "",
-  "created": "",
-  "action-donate": "",
-  "get-apps": "",
-  "date": "",
-  "users": "",
-  "mastodon": "",
-  "action-purchase": "",
-  "transparent-safety": "",
-  "flathub-logo": "",
-  "tastefully-curated": "",
-  "kind-donate-app": "",
-  "platform": {
-    "org-kde-platform": "",
-    "org-gnome-platform": "",
-    "org-freedesktop-platform": ""
-  },
-  "zoom": "",
-  "apps-for-you-where-you-are": "",
-  "flathub": "",
-  "apps-by-tag": "",
-  "all-the-apps-you-want": "",
-  "integration": "",
-  "kind-purchase-app": "",
-  "positions": "",
-  "amount": "",
-  "position-short": "",
-  "about-claim": "",
-  "transparent": "",
-  "type": "",
-  "mobile-apps-description": "",
-  "more-mobile-apps": "",
-  "on-the-go": "",
-  "total": "",
-  "recipient": "",
-  "millions-users": "",
-  "docs-guidance": ""
+  "can-access-the-contents-of-the-screen-or-other-windows": "स्क्रीन या अन्य विंडो की सामग्री तक पहुँच सकते हैं"
 }

@@ -627,15 +627,5 @@
   "total": "الإجمالي",
   "kind-donate-app": "تبرَّع لـ {{appName}}",
   "apps-by-tag": "التطبيقات حسب وسم '{{tag}}'",
-  "mobile-apps": "تطبيقات الجوال",
-  "quality": {
-    "banner-preview": "",
-    "missing-brand-colors": "",
-    "banner-preview-description": ""
-  },
-  "slide": "",
-  "position-short": "",
-  "on-the-go": "",
-  "more-mobile-apps": "",
-  "mobile-apps-description": ""
+  "mobile-apps": "تطبيقات الجوال"
 }

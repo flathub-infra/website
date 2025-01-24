@@ -624,14 +624,5 @@
   "positions": "Helyek",
   "position-short": "Hely",
   "type": "Típus",
-  "apps-by-tag": "Alkalmazások „{{tag}}” címke szerint",
-  "quality": {
-    "banner-preview-description": "",
-    "banner-preview": "",
-    "missing-brand-colors": ""
-  },
-  "mobile-apps": "",
-  "on-the-go": "",
-  "mobile-apps-description": "",
-  "more-mobile-apps": ""
+  "apps-by-tag": "Alkalmazások „{{tag}}” címke szerint"
 }

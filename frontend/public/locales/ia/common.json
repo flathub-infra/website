@@ -112,8 +112,7 @@
     "app-icon-contrast": "Bon contrasto sur fundos obscur",
     "app-icon-footprint": "Non plenar troppo o troppo pauc le telas",
     "branding-has-primary-brand-colors": "Ha colores primari de marca",
-    "branding-good-primary-brand-colors": "Bon colores primari de marca",
-    "problems": ""
+    "branding-good-primary-brand-colors": "Bon colores primari de marca"
   },
   "since": "Desde",
   "downloads-per-country": "Discargamentos per pais",
@@ -612,26 +611,5 @@
   "positions": "Positiones",
   "type": "Typo",
   "position-short": "Pos.",
-  "created": "Create",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps": "",
-  "action-donate": "",
-  "action-purchase": "",
-  "kind-purchase-app": "",
-  "zoom": "",
-  "kind-donate-app": "",
-  "recipient": "",
-  "apps-by-tag": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-gnome-platform": "",
-    "org-kde-platform": ""
-  },
-  "mobile-apps-description": "",
-  "on-the-go": "",
-  "more-mobile-apps": ""
+  "created": "Create"
 }

@@ -437,8 +437,7 @@
     "branding-good-primary-brand-colors": "商标主色调良好",
     "needed-to-pass-x": "通过 {{x}} 需要",
     "hide-branding-preview": "隐藏商标预览",
-    "show-branding-preview": "显示商标预览",
-    "problems": ""
+    "show-branding-preview": "显示商标预览"
   },
   "user-data-subfolder-x": "用户数据子目录 {{folder}}",
   "desktop-folder": "桌面目录",
@@ -596,41 +595,5 @@
   "action-donate": "捐助",
   "carousel": "轮播",
   "flathub-logo": "Flathub 徽标",
-  "about-claim": "<0>无论您是寻找应用程序的用户，还是希望接触更多用户的开发人员，<2>Flathub 都是 Linux 上应用程序的最佳选择。</2></0>",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  },
-  "mobile-apps": "",
-  "kind-donate-app": "",
-  "type": "",
-  "zoom": "",
-  "apps-by-tag": "",
-  "apps-for-you-where-you-are": "",
-  "tastefully-curated": "",
-  "transparent": "",
-  "kind-purchase-app": "",
-  "created": "",
-  "total": "",
-  "positions": "",
-  "position-short": "",
-  "all-the-apps-you-want": "",
-  "recipient": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-gnome-platform": "",
-    "org-kde-platform": ""
-  },
-  "amount": "",
-  "slide": "",
-  "on-the-go": "",
-  "mobile-apps-description": "",
-  "more-mobile-apps": "",
-  "integration": "",
-  "transparent-safety": "",
-  "docs-guidance": "",
-  "millions-users": "",
-  "screen-contents-access": "",
-  "can-access-the-contents-of-the-screen-or-other-windows": ""
+  "about-claim": "<0>无论您是寻找应用程序的用户，还是希望接触更多用户的开发人员，<2>Flathub 都是 Linux 上应用程序的最佳选择。</2></0>"
 }

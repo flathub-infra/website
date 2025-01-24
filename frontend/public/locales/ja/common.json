@@ -407,9 +407,7 @@
     "request-review-description": "我々のチームがアプリの品質に問題がないか審査しています。数日経ってからもう一度ご確認ください。",
     "branding": "ブランディング",
     "branding-has-primary-brand-colors": "メインブランドカラーを持っている",
-    "needed-to-pass-x": "{{x}}に合格する必要あり",
-    "branding-good-primary-brand-colors": "",
-    "problems": ""
+    "needed-to-pass-x": "{{x}}に合格する必要あり"
   },
   "user-data-subfolder-x": "ユーザーデータサブフォルダー {{folder}}",
   "can-acquire-arbitrary-permissions": "任意の権限を取得可能",
@@ -592,45 +590,5 @@
   "get-apps": "アプリを入手",
   "about-claim": "<0>アプリを探がしているユーザーでも、より多くのユーザーにアプリを配布したい開発者でも、<2>FlathubはアプリをLinuxで使うのに最適です。</2></0>",
   "all-the-apps-you-want": "<0>使いたいアプリを全てここに</0> — 大手企業からインディー開発者まで、Flathubはあなたの目的に合わせたアプリがたくさんあります。",
-  "transparent-safety": "<0>透明化された安全性</0> — いつアプリが開発者から<3>認証</3>されたか、どんな許可が必要か、そしてそれがオープンソースで公開されているかどうかも明確に確認できます",
-  "quality": {
-    "banner-preview": "",
-    "missing-brand-colors": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps": "",
-  "platform": {
-    "org-freedesktop-platform": "",
-    "org-gnome-platform": "",
-    "org-kde-platform": ""
-  },
-  "kind-donate-app": "",
-  "positions": "",
-  "zoom": "",
-  "tastefully-curated": "",
-  "apps-for-you-where-you-are": "",
-  "transparent": "",
-  "kind-purchase-app": "",
-  "type": "",
-  "action-donate": "",
-  "position-short": "",
-  "action-purchase": "",
-  "not-onboarded": "",
-  "amount": "",
-  "apps-by-tag": "",
-  "redeem-token": "",
-  "status-unredeemed": "",
-  "token-failed": "",
-  "integration": "",
-  "total": "",
-  "rebase-onto-other-app": "",
-  "mobile-apps-description": "",
-  "token-redeemed": "",
-  "status-redeemed": "",
-  "created": "",
-  "recipient": "",
-  "on-the-go": "",
-  "more-mobile-apps": "",
-  "millions-users": "",
-  "docs-guidance": ""
+  "transparent-safety": "<0>透明化された安全性</0> — いつアプリが開発者から<3>認証</3>されたか、どんな許可が必要か、そしてそれがオープンソースで公開されているかどうかも明確に確認できます"
 }

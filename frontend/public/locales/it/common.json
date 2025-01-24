@@ -625,14 +625,5 @@
   "recipient": "Destinatario",
   "created": "Creato",
   "kind-purchase-app": "Acquista {{appName}}",
-  "apps-by-tag": "App per tag '{{tag}}'",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  },
-  "mobile-apps": "",
-  "mobile-apps-description": "",
-  "on-the-go": "",
-  "more-mobile-apps": ""
+  "apps-by-tag": "App per tag '{{tag}}'"
 }

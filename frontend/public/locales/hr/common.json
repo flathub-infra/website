@@ -626,13 +626,5 @@
   "token-created": "Kopiraj ovaj token i spremi ga na sigurno mjesto, kao što je mjesto tajni u tvom sustavu kontinuirane integracije (CI pipeline). Omogućuje pristup za čitanje i pisanje međuverzijama tvoje aplikacije.",
   "proprietary-explanation": "Ova aplikacija nije javno razvijena, tako da samo njeni programeri znaju kako radi. Može biti nesigurna na načine koje je teško prepoznati i može se neprimjetno promijeniti.",
   "transparent": "<0>Neovisno i transparentno</0> – Mi smo zajednica otvorenog izvornog koda koja upravlja najboljim od onoga što ekosustav može ponuditi",
-  "mobile-apps": "Mobilne aplikacije",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps-description": "",
-  "on-the-go": "",
-  "more-mobile-apps": ""
+  "mobile-apps": "Mobilne aplikacije"
 }

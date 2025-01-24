@@ -625,13 +625,5 @@
   "zoom": "Zomi",
   "action-donate": "Donaci",
   "apps-by-tag": "Programoj de etikedo «{{tag}}»",
-  "mobile-apps": "Poŝaparataj programoj",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  },
-  "more-mobile-apps": "",
-  "on-the-go": "",
-  "mobile-apps-description": ""
+  "mobile-apps": "Poŝaparataj programoj"
 }

@@ -396,8 +396,7 @@
     "branding-has-primary-brand-colors": "Possui cores primárias da marca",
     "branding-good-primary-brand-colors": "Boas cores primárias de marca",
     "needed-to-pass-x": "Necessário passar {{x}}",
-    "hide-branding-preview": "Ocultar visualização da marca",
-    "problems": ""
+    "hide-branding-preview": "Ocultar visualização da marca"
   },
   "user-data-subfolder-x": "Subpasta de dados do utilizador {{folder}}",
   "can-acquire-arbitrary-permissions": "Pode adquirir permissões arbitrárias",
@@ -624,15 +623,5 @@
   "type": "Tipo",
   "action-purchase": "Comprar",
   "positions": "Posições",
-  "recipient": "Destinatário",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview": "",
-    "banner-preview-description": ""
-  },
-  "mobile-apps": "",
-  "apps-by-tag": "",
-  "mobile-apps-description": "",
-  "on-the-go": "",
-  "more-mobile-apps": ""
+  "recipient": "Destinatário"
 }

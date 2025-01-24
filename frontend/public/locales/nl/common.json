@@ -628,10 +628,5 @@
   "apps-by-tag": "Apps met tag ‘{{tag}}’",
   "more-mobile-apps": "Meer mobiele apps",
   "mobile-apps-description": "Apps voor uw Linux-telefoons en -tablets",
-  "on-the-go": "Onderweg",
-  "quality": {
-    "missing-brand-colors": "",
-    "banner-preview-description": "",
-    "banner-preview": ""
-  }
+  "on-the-go": "Onderweg"
 }

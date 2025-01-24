@@ -624,14 +624,7 @@
   "mobile-apps-description": "Aplikacione për telefona dhe tabletet tuaj Linux",
   "quality": {
     "missing-brand-colors": "Mungojnë ngjyra marke",
-    "banner-preview-description": "Që të eksperimentoni kollaj me banderolën tuaj, përdorni <2>paraparjen e banderolës</2>",
-    "banner-preview": ""
+    "banner-preview-description": "Që të eksperimentoni kollaj me banderolën tuaj, përdorni <2>paraparjen e banderolës</2>"
   },
-  "on-the-go": "Për pajisje celulare",
-  "moderation-appstream": "",
-  "created": "",
-  "arcade": "",
-  "shooter": "",
-  "sequencer": "",
-  "runtime-distribution": ""
+  "on-the-go": "Për pajisje celulare"
 }
