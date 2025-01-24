@@ -634,6 +634,7 @@
   "mobile-apps-description": "Aipeanna le haghaidh do ghutháin agus táibléad Linux",
   "quality": {
     "missing-brand-colors": "Dathanna branda ar iarraidh",
-    "banner-preview-description": "Chun triail a bhaint as do bhratach go héasca, úsáid <2>réamhamharc na meirge</2>"
+    "banner-preview-description": "Chun triail a bhaint as do bhratach go héasca, úsáid <2>réamhamharc na meirge</2>",
+    "banner-preview": ""
   }
 }
