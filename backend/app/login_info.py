@@ -128,11 +128,13 @@ def app_author_only(app_id: str, login=Depends(logged_in)):
 
 
 def quality_moderator_or_app_author_only(app_id: str, login=Depends(logged_in)):
-    if login.user and "quality-moderation" in login.user.permissions():
-        return login
-
-    with get_db("replica") as db:
-        if login.user and app_id in login.user.dev_flatpaks(db):
-            return login
+    if login.user:
+        with get_db("replica") as db:
+            # Eagerly load roles and permissions
+            db.session.refresh(login.user)
+            if "quality-moderation" in login.user.permissions():
+                return login
+            if app_id in login.user.dev_flatpaks(db):
+                return login
 
     raise HTTPException(status_code=403, detail="not_quality_moderator_or_app_author")

@@ -907,24 +907,23 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
     if not login.user or not login.state.logged_in():
         raise HTTPException(status_code=204, detail="Not logged in")
 
-    user = login.user
-
-    if user.invite_code is None:
-        # Confusing letter/number pairs removed.
-        # This doesn't have to be super secure, it doesn't grant access to
-        # anything, we just use a code instead of the user ID to avoid enumeration.
-        # 56 available chars * 12 = ~69 bits of entropy
-        chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
-        user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
-        with get_db("writer") as db:
-            db.commit()
-
     appstream = apps.get_appids()
 
-    with get_db("replica") as db:
+    with get_db("writer") as db:
+        user = db.merge(login.user)  # Reattach user to current session
+        
+        if user.invite_code is None:
+            # Confusing letter/number pairs removed.
+            # This doesn't have to be super secure, it doesn't grant access to
+            # anything, we just use a code instead of the user ID to avoid enumeration.
+            # 56 available chars * 12 = ~69 bits of entropy
+            chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
+            user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
+            db.commit()
+
         default_account: models.ConnectedAccount = user.get_default_account(db)  # type: ignore
         dev_flatpaks = user.dev_flatpaks(db)
-        permissions = user.permissions()
+        permissions = user.permissions()  # Now called within session context
         owned_flatpaks = {
             app.app_id
             for app in models.UserOwnedApp.all_owned_by_user(db, user)
@@ -944,8 +943,8 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
                 auths[account.provider]["avatar"] = account.avatar_url
 
         default_display_name = default_account.display_name if default_account else None
-        default_avatar_url = default_account.avatar_url
-        default_login = default_account.login
+        default_avatar_url = default_account.avatar_url if default_account else None
+        default_login = default_account.login if default_account else None
         invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
 
