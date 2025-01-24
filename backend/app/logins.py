@@ -911,7 +911,7 @@ def get_userinfo(login: LoginStatusDep) -> UserInfo:
 
     with get_db("writer") as db:
         user = db.merge(login.user)  # Reattach user to current session
-        
+
         if user.invite_code is None:
             # Confusing letter/number pairs removed.
             # This doesn't have to be super secure, it doesn't grant access to
