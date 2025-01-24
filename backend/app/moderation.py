@@ -175,7 +175,7 @@ def get_moderation_apps(
     tags=["moderation"],
 )
 def get_moderation_app(
-    _login=Depends(moderator_or_app_author_only),
+    login: LoginStatusDep,
     app_id: str = Path(
         min_length=6,
         max_length=255,
@@ -189,6 +189,13 @@ def get_moderation_app(
 ) -> ModerationApp:
     """Get a list of moderation requests for an app."""
     with get_db("replica") as db:
+        user = db.session.merge(login.user)
+        if "moderation" not in user.permissions():
+            # Check if user is app author
+            app = models.App.by_app_id(db, app_id)
+            if not app or app.developer_id != user.id:
+                raise HTTPException(status_code=403, detail="forbidden")
+
         query = (
             db.session.query(models.ModerationRequest, models.FlathubUser.display_name)
             .filter_by(appid=app_id)

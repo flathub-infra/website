@@ -90,10 +90,13 @@ def logged_in(login: LoginStatusDep):
 
 
 def quality_moderator_only(login=Depends(logged_in)):
-    if "quality-moderation" not in login.user.permissions():
-        raise HTTPException(status_code=403, detail="not_quality_moderator")
-
-    return login
+    with get_db("replica") as db:
+        # Merge the user object with the current session to ensure it's attached
+        user = db.session.merge(login.user)
+        if "quality-moderation" not in user.permissions():
+            raise HTTPException(status_code=403, detail="not_quality_moderator")
+        login.user = user  # Update the login info with the merged user
+        return login
 
 
 def view_users_only(login=Depends(logged_in)):
